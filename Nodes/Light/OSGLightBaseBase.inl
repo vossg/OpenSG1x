@@ -134,6 +134,12 @@ SFNodePtr *LightBaseBase::getSFBeacon(void)
 	return &_sfBeacon;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *LightBaseBase::getSFOn(void)
+{
+	return &_sfOn;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &LightBaseBase::getAmbient(void)
@@ -205,6 +211,24 @@ OSG_SYSTEMLIB_DLLMAPPING
 void LightBaseBase::setBeacon( NodePtr value )
 {
 	_sfBeacon.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &LightBaseBase::getOn(void)
+{
+	return _sfOn.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &LightBaseBase::getOn(void) const
+{
+	return _sfOn.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void LightBaseBase::setOn( Bool value )
+{
+	_sfOn.setValue(value);
 }
 
 

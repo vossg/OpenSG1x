@@ -124,7 +124,24 @@ OSG::Action::ResultE PointLight::PLightDrawEnter(CNodePtr &cnode,
     }
     else
     {
-        return pSC->draw(pAction);
+        return pSC->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE PointLight::PLightDrawLeave(CNodePtr &cnode, 
+                                                 Action  *pAction)
+{
+    NodeCore   *pNC = cnode.getCPtr();
+    PointLight *pSC = dynamic_cast<PointLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "PLDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
     }
 }
 #endif
@@ -136,13 +153,23 @@ void PointLight::initMethod (void)
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								CNodePtr,  
 								PointLightPtr, 
-								Action *>(&PointLight::draw));
+								Action *>(&PointLight::drawEnter));
+
+	DrawAction::registerLeaveDefault( getClassType(), 
+		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+								CNodePtr,  
+								PointLightPtr, 
+								Action *>(&PointLight::drawLeave));
 
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                          PointLight::PLightDrawEnter));
+
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         PointLight::PLightDrawLeave));
 
 #endif
 }
@@ -228,20 +255,33 @@ void PointLight::dump(      UInt32     uiIndent,
 
 /** \brief Actions
  */
+    
+Action::ResultE PointLight::drawEnter(Action * action )
+{   
+    if ( ! getOn() )
+    	return Action::Continue;
+
+    DrawAction *da = (DrawAction *)action;
+    GLenum light = GL_LIGHT0 + da->getLightCount();
 	
-Action::ResultE PointLight::draw(Action * action )
-{
-	LightBase::draw( action );
+    LightBase::drawEnter( action );
 
-	Vec4f pos( _sfPosition.getValue() );
+    Vec4f pos( _sfPosition.getValue() );
 
-	pos[3] = 1;
-	glLightfv( GL_LIGHT0, GL_POSITION, pos.getValuesRef() );
-	glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
+    pos[3] = 1;
+    glLightfv( light, GL_POSITION, pos.getValuesRef() );
+    glLightf( light, GL_SPOT_CUTOFF, 180 );
 
-	glPopMatrix();
+    glPopMatrix();
 
-	return Action::Continue;
+    return Action::Continue;
 }
+    
+Action::ResultE PointLight::drawLeave(Action * action )
+{
+    if ( ! getOn() )
+    	return Action::Continue;
 
+    return LightBase::drawLeave( action );
+}
 

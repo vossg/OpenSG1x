@@ -37,4 +37,12 @@
 		visibility="external"
 	>
 	</Field>
+	<Field
+		name="on"
+		type="Bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+	>
+	</Field>
 </FieldContainer>

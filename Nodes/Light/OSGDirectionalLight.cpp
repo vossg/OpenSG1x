@@ -115,7 +115,23 @@ OSG::Action::ResultE DirectionalLight::DLightDrawEnter(CNodePtr &cnode,
     }
     else
     {
-        return pSC->draw(pAction);
+        return pSC->drawEnter(pAction);
+    }
+}
+OSG::Action::ResultE DirectionalLight::DLightDrawLeave(CNodePtr &cnode, 
+                                                       Action  *pAction)
+{
+    NodeCore         *pNC = cnode.getCPtr();
+    DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "DLDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
     }
 }
 #endif
@@ -127,13 +143,23 @@ void DirectionalLight::initMethod (void)
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 DirectionalLightPtr, 
-                                Action *>(&DirectionalLight::draw));
+                                Action *>(&DirectionalLight::drawEnter));
+
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                DirectionalLightPtr, 
+                                Action *>(&DirectionalLight::drawLeave));
 
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                          DirectionalLight::DLightDrawEnter));
+
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         DirectionalLight::DLightDrawLeave));
 
 #endif
 }
@@ -210,19 +236,33 @@ void DirectionalLight::dump(      UInt32     uiIndent,
 /** \brief Actions
  */
     
-Action::ResultE DirectionalLight::draw(Action * action )
-{
-    LightBase::draw( action );
+Action::ResultE DirectionalLight::drawEnter(Action * action )
+{   
+    if ( ! getOn() )
+    	return Action::Continue;
+
+    DrawAction *da = (DrawAction *)action;
+    GLenum light = GL_LIGHT0 + da->getLightCount();
+	
+    LightBase::drawEnter( action );
 
     Vec4f dir( _sfDirection.getValue() );
 
     dir[3] = 0;
-    glLightfv( GL_LIGHT0, GL_POSITION, dir.getValuesRef() );
-    glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, 180 );
+    glLightfv( light, GL_POSITION, dir.getValuesRef() );
+    glLightf( light, GL_SPOT_CUTOFF, 180 );
 
     glPopMatrix();
 
     return Action::Continue;
+}
+    
+Action::ResultE DirectionalLight::drawLeave(Action * action )
+{
+    if ( ! getOn() )
+    	return Action::Continue;
+
+    return LightBase::drawLeave( action );
 }
 
 

@@ -72,6 +72,7 @@
 #include <OSGColor4fFields.h>	// Diffuse type
 #include <OSGColor4fFields.h>	// Specular type
 #include <OSGNodeFields.h>	// Beacon type
+#include <OSGBoolFields.h>	// On type
 
 #include <OSGLightBaseFields.h>
 
@@ -110,13 +111,15 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
         AmbientFieldId = Inherited::NextFieldId,
         DiffuseFieldId = AmbientFieldId + 1,
         SpecularFieldId = DiffuseFieldId + 1,
-        BeaconFieldId = SpecularFieldId + 1
+        BeaconFieldId = SpecularFieldId + 1,
+        OnFieldId = BeaconFieldId + 1
     };
 
     static const osg::BitVector AmbientFieldMask;
     static const osg::BitVector DiffuseFieldMask;
     static const osg::BitVector SpecularFieldMask;
     static const osg::BitVector BeaconFieldMask;
+    static const osg::BitVector OnFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -163,6 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     inline SFColor4f	*getSFDiffuse(void);
     inline SFColor4f	*getSFSpecular(void);
     inline SFNodePtr	*getSFBeacon(void);
+    inline SFBool	*getSFOn(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -180,6 +184,9 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     inline       NodePtr	&getBeacon(void);
     inline const NodePtr	&getBeacon(void) const;
     inline       void	             setBeacon( NodePtr value );
+    inline       Bool	&getOn(void);
+    inline const Bool	&getOn(void) const;
+    inline       void	             setOn( Bool value );
 
 
     //!@}
@@ -226,6 +233,9 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBaseBase : public NodeCore
     /*! 
      */
     SFNodePtr	_sfBeacon;
+    /*! 
+     */
+    SFBool	_sfOn;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

@@ -122,7 +122,23 @@ OSG::Action::ResultE SpotLight::SLightDrawEnter(CNodePtr &cnode,
     }
     else
     {
-        return pSC->draw(pAction);
+        return pSC->drawEnter(pAction);
+    }
+}
+OSG::Action::ResultE SpotLight::SLightDrawLeave(CNodePtr &cnode, 
+                                                Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    SpotLight *pSC = dynamic_cast<SpotLight *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "PLDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
     }
 }
 #endif
@@ -134,13 +150,23 @@ void SpotLight::initMethod (void)
         osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
                                 CNodePtr,  
                                 SpotLightPtr, 
-                                Action *>(&SpotLight::draw));
+                                Action *>(&SpotLight::drawEnter));
+
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                SpotLightPtr, 
+                                Action *>(&SpotLight::drawLeave));
 
 #else
 
     DrawAction::registerEnterDefault(getClassType(), 
                                      Action::osgFunctionFunctor2(
                                          SpotLight::SLightDrawEnter));
+
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                         SpotLight::SLightDrawLeave));
 
 #endif
 }
@@ -214,22 +240,36 @@ void SpotLight::dump(      UInt32     uiIndent,
 
 /** \brief Actions
  */
-    
-Action::ResultE SpotLight::draw(Action * action )
-{
-    PointLight::draw( action );
+       
+Action::ResultE SpotLight::drawEnter(Action * action )
+{   
+    if ( ! getOn() )
+    	return Action::Continue;
+
+    DrawAction *da = (DrawAction *)action;
+    GLenum light = GL_LIGHT0 + da->getLightCount();
+	
+    PointLight::drawEnter( action );
 
     Vec4f dir( _sfDirection.getValue() );
 
     dir[3] = 0;
 
-    glLightfv( GL_LIGHT0, GL_SPOT_DIRECTION, dir.getValuesRef() );
-    glLightf( GL_LIGHT0, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
-    glLightf( GL_LIGHT0, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
+    glLightfv( light, GL_SPOT_DIRECTION, dir.getValuesRef() );
+    glLightf( light, GL_SPOT_CUTOFF, _sfSpotCutOff.getValue() );
+    glLightf( light, GL_SPOT_EXPONENT, _sfSpotExponent.getValue() );
 
     glPopMatrix();
 
     return Action::Continue;
+}
+    
+Action::ResultE SpotLight::drawLeave(Action * action )
+{
+    if ( ! getOn() )
+    	return Action::Continue;
+
+    return LightBase::drawLeave( action );
 }
 
 

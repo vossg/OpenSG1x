@@ -49,6 +49,7 @@
 
 #include <GL/gl.h>
 
+#include <OSGDrawAction.h>
 #include "OSGLightBase.h"
 
 OSG_USING_NAMESPACE
@@ -199,13 +200,20 @@ void LightBase::dump(      UInt32     uiIndent,
 /** \brief Actions
  */
     
-Action::ResultE LightBase::draw(Action * action )
+Action::ResultE LightBase::drawEnter(Action * action )
 {
-    glLightfv( GL_LIGHT0, GL_DIFFUSE,   
+    DrawAction *da = (DrawAction *)action;
+    GLenum light = GL_LIGHT0 + da->getLightCount();
+    
+    da->incLightCount();
+    
+    glEnable( light );
+    
+    glLightfv( light, GL_DIFFUSE,   
                                     _sfDiffuse.getValue().getValueRef() );
-    glLightfv( GL_LIGHT0, GL_AMBIENT,   
+    glLightfv( light, GL_AMBIENT,   
                                     _sfAmbient.getValue().getValueRef() );
-    glLightfv( GL_LIGHT0, GL_SPECULAR,   
+    glLightfv( light, GL_SPECULAR,   
                                     _sfSpecular.getValue().getValueRef() );
 
 
@@ -234,6 +242,19 @@ Action::ResultE LightBase::draw(Action * action )
         glMultMatrixf( tobeacon.getValues() );
     }
     
+    return Action::Continue;
+}
+    
+Action::ResultE LightBase::drawLeave(Action * action )
+{
+    DrawAction *da = (DrawAction *)action;
+     
+    da->decLightCount();
+
+    GLenum light = GL_LIGHT0 + da->getLightCount();
+   
+    glDisable( light );
+   
     return Action::Continue;
 }
 

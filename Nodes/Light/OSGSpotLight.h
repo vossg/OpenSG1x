@@ -139,6 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE SLightDrawEnter(CNodePtr &cnode, 
                                            Action   *pAction);
+    static Action::ResultE SLightDrawLeave(CNodePtr &cnode, 
+                                           Action   *pAction);
 #endif
     //-----------------------------------------------------------------------
     //   instance variables                                                  
@@ -156,7 +158,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     
     // ----------------------------- Actions --------------------------------
     
-    Action::ResultE draw(Action * action );
+    // execute the OpenGL commands to draw the light 
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   private:
 

@@ -163,9 +163,10 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
     
     /*! \ingroup ActionFunctions
      *  Draw action: execute the OpenGL commands to set the light's
-     *  parameters. Right now only into \c GL_LIGHT0!
+     *  parameters. 
      */
-    Action::ResultE draw(Action * action );
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   private:
 

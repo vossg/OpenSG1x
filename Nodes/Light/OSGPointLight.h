@@ -139,6 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE PLightDrawEnter(CNodePtr &cnode, 
                                            Action   *pAction);
+    static Action::ResultE PLightDrawLeave(CNodePtr &cnode, 
+                                           Action   *pAction);
 #endif
 
     //-----------------------------------------------------------------------
@@ -157,7 +159,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     
     // ------------------------------ Actions ----------------------------
     
-     Action::ResultE draw(Action * action );
+    // execute the OpenGL commands to draw the light 
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   private:
 

@@ -140,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE DLightDrawEnter(CNodePtr &cnode, 
                                            Action   *pAction);
+    static Action::ResultE DLightDrawLeave(CNodePtr &cnode, 
+                                           Action   *pAction);
 #endif
 
     //-----------------------------------------------------------------------
@@ -158,8 +160,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     
     // ----------------------------- Actions ---------------------------------
     
-    // execute the OpenGL commands to draw the geometry 
-    Action::ResultE draw(Action * action );
+    // execute the OpenGL commands to draw the light 
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   private:
 
