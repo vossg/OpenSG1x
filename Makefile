@@ -43,6 +43,12 @@ clean:
 	cd Builds/${OS_BASE}* && $(MAKE) clean
 
 
+ctags:
+	ctags -R --c-types=+c --totals -h +.inl --langmap=c++:.h.hpp.cpp.cxx.inl .
+
+etags:
+	etags -R --c-types=+c --totals -h +.inl --langmap=c++:.h.hpp.cpp.cxx.inl .
+
 # standard targets
 
 help: 
