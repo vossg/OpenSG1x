@@ -160,7 +160,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     /*--------------------------- gl objects --------------------------------*/
 
-    void handleGL( Window::GLObjectStatusE mode, UInt32 id );
+    void handleGL( Window* win, UInt32 id );
+    
+    void onCreate(const FieldContainer &source);
 
     /*------------------------------ Actions --------------------------------*/
 	

@@ -369,9 +369,7 @@ static pumpFunc TexCoordsFuncs[numFormats][4] = {
 #pragma set woff 1174
 #endif
 
-void GeoPumpFactory::masterGeoPump( 
-		DrawAction * act, 
-		Geometry * geo )
+void GeoPumpFactory::masterGeoPump( Window *win, Geometry * geo )
 {
 	// Setup: get all the data
 	
@@ -489,13 +487,13 @@ void GeoPumpFactory::masterGeoPump(
 }
 
 		
-void GeoPumpFactory::masterPartialGeoPump( DrawAction * act, Geometry * geo,
+void GeoPumpFactory::masterPartialGeoPump( Window *win, Geometry * geo,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert )	
 {
     	FWARNING(("GeoPumpFactory::masterPartialGeoPump: not implemented yet!\n"));
 }
 	
-void GeoPumpFactory::masterInterfacePump( DrawAction * act, 
+void GeoPumpFactory::masterInterfacePump( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
@@ -507,7 +505,7 @@ void GeoPumpFactory::masterInterfacePump( DrawAction * act,
     	FWARNING(("GeoPumpFactory::masterInterfacePump: not implemented yet!\n"));
 }
 	
-void GeoPumpFactory::masterPartialInterfacePump( DrawAction * act, 
+void GeoPumpFactory::masterPartialInterfacePump( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,

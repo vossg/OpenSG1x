@@ -93,36 +93,36 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 	// The simple pump type. Draws the whole geometry. Useful as it uses
 	// the minimal number of parameters.
 	
-	typedef void (*GeoPump)( DrawAction * act, Geometry * geo );	
+	typedef void (*GeoPump)( Window *win, Geometry * geo );	
 	
 	// The partial pump type. Draws a part of the geometry. 
 	
-	typedef void (*PartialGeoPump)( DrawAction * act, Geometry * geo,
+	typedef void (*PartialGeoPump)( Window *win, Geometry * geo,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
 	
 	// The interface pump type. Draws the whole geometry. More flexible
 	// than the GeoPump, as the interfaces can originate in different 
 	// objects.
 	
-	typedef void (*InterfacePump)( DrawAction * act, 
+	typedef void (*InterfacePump)( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoPTypeInterface *type, GeoPLengthInterface *len,
 	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
 	
-	// The partial pump type. Similar to the interface pump, but it
-	// can draw parts of the object.
+	// The partial interface pump type. Similar to the interface pump, but 
+	// it can draw parts of the object.
 	
-	typedef void (*PartialInterfacePump)( DrawAction * act, 
+	typedef void (*PartialInterfacePump)( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
 	    GeoTexCoordsInterface *texcoords3,
 	    GeoTexCoordsInterface *texcoords4,
-	    GeoPTypeInterface *type, GeoPLengthInterface*len,
+	    GeoPTypeInterface *type, GeoPLengthInterface *len,
 	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
 
@@ -142,13 +142,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
 	Index                getIndex( Geometry * geo );	
 
-	GeoPump              getGeoPump      ( Window * win, Index index );
+	GeoPump              getGeoPump      ( Window *win, Index index );
 
-	PartialGeoPump       getPartialGeoPump(Window * win, Index index );
+	PartialGeoPump       getPartialGeoPump(Window *win, Index index );
 
-	InterfacePump        getInterfacePump( Window * win, Index index );
+	InterfacePump        getInterfacePump( Window *win, Index index );
 
-	PartialInterfacePump getPartialInterfacePump( Window * win, 
+	PartialInterfacePump getPartialInterfacePump( Window *win, 
 	                                                Index index );
 	
 
@@ -230,12 +230,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 	// The pumps, in all their glory.
 	
 	// The master pump. Can render everything, but takes ages to do so.	
-	static void masterGeoPump( DrawAction * act, Geometry * geo );
+	static void masterGeoPump( Window *win, Geometry *geo );
 		
-	static void masterPartialGeoPump( DrawAction * act, Geometry * geo,
+	static void masterPartialGeoPump( Window *win, Geometry *geo,
 	    UInt32 primtype, UInt32 firstvert, UInt32 nvert );	
 	
-	static void masterInterfacePump( DrawAction * act, 
+	static void masterInterfacePump( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,
@@ -244,7 +244,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 	    GeoPTypeInterface *type, GeoPLengthInterface*len,
 	    GeoIndexInterface *ind, UInt16 *map, UInt16 nmap );	
 	
-	static void masterPartialInterfacePump( DrawAction * act, 
+	static void masterPartialInterfacePump( Window *win, 
 	    GeoPositionInterface *pos, GeoNormalInterface *norm,
 	    GeoColorInterface *col, GeoTexCoordsInterface *texcoords,
 	    GeoTexCoordsInterface *texcoords2,

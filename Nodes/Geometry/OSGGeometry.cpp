@@ -248,6 +248,35 @@ Geometry::~Geometry(void)
 {
 }
 
+/** \brief instance initialization
+ */
+
+void Geometry::onCreate( const FieldContainer & )
+{
+	// !!! this temporary is needed to work around compiler problems (sgi)
+	// CHECK CHECK
+	//	TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
+	GeometryPtr tmpPtr(*this);
+
+	beginEditCP( tmpPtr, Geometry::GLIdFieldMask );
+#ifndef OSG_NOFUNCTORS
+	setGLId( Window::registerGLObject( 
+						osgMethodFunctor2CPtr<
+										void,
+										Window*,
+										UInt32,
+										GeometryPtr
+										>( tmpPtr, &Geometry::handleGL ), 1 
+	)                         );
+#else
+	setGLId(Window::registerGLObject( 
+						osgMethodFunctor2CPtr(tmpPtr, 
+                                              &Geometry::handleGL), 
+                    1));
+#endif
+	endEditCP( tmpPtr, Geometry::GLIdFieldMask );
+}
+
 /*------------------------------ access -----------------------------------*/
 
 void Geometry::adjustVolume( Volume & volume )
@@ -279,43 +308,36 @@ GeometryPtr Geometry::getPtr(void) const
 
 // GL object handler
 // put the geometry into a display list
-void Geometry::handleGL( Window::GLObjectStatusE mode, UInt32 id )
+void Geometry::handleGL( Window* win, UInt32 id )
 {
-	if ( mode == Window::destroy )
-	{
-		glDeleteLists( id, 1 );
-	}
-	else if ( mode == Window::finaldestroy )
-	{
-		//SWARNING << "Last geometry user destroyed" << endl;
-	}
-	else if ( mode == Window::initialize )
+	Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+	
+	if ( mode == Window::initialize || mode == Window::needrefresh )
 	{		
- 		SWARNING 	<< "Geometry(" << this << ")::handleGL: initialize: " 
-			 		<< "not implemented yet!" << endl;		
-#if 0 // need to find out how to call the actual drawing from here... :(
-   	    	glNewList( id, GL_COMPILE );
+   	    glNewList( id, GL_COMPILE );
 		
 		GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
 		GeoPumpFactory::GeoPump p = 
-		    GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
+		    GeoPumpFactory::the().getGeoPump( win, ind );
 
 		// call the pump
 
 		if ( p )
-			p( action, this );
+			p( win, this );
 		else
 		{
 			SWARNING << "Geometry::handleGL: no Pump found for geometry " << this << endl;
 		}
 		
 		glEndList();
-#endif
 	}
-	else if ( mode == Window::needrefresh )
+	else if ( mode == Window::destroy )
 	{
-		SWARNING 	<< "Geometry(" << this << ")::handleGL: needrefresh: " 
-			 		<< "not implemented yet!" << endl;		
+		glDeleteLists( id, 1 );
+	}
+	else if ( mode == Window::finaldestroy )
+	{
+		//SWARNING << "Last geometry user destroyed" << endl;
 	}
 	else
 	{
@@ -388,17 +410,25 @@ Action::ResultE Geometry::doDraw(Action * action )
 	
 Action::ResultE Geometry::draw(DrawAction * action )
 {
-	GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
-	GeoPumpFactory::GeoPump p = 
-	    GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
-
-	// call the pump
-
-	if ( p )
-		p( action, this );
+	if ( getDlistCache() == true )
+	{
+		action->getWindow()->validateGLObject( getGLId() );
+		glCallList( getGLId() );
+	}
 	else
 	{
-		SWARNING << "draw: no Pump found for geometry " << this << endl;
+		GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
+		GeoPumpFactory::GeoPump p = 
+	    	GeoPumpFactory::the().getGeoPump( action->getWindow(), ind );
+
+		// call the pump
+
+		if ( p )
+			p( action->getWindow(), this );
+		else
+		{
+			SWARNING << "draw: no Pump found for geometry " << this << endl;
+		}
 	}
 	
 	return Action::Continue;
@@ -441,6 +471,8 @@ void Geometry::changed(BitVector whichField, ChangeMode from)
             _parents[i]->invalidateVolume();
         }            
     }
+	// invalidate the dlist cache
+	Window::refreshGLObject( getGLId() );
 }
 
     

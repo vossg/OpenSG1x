@@ -290,10 +290,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public NodeCore
     /*! 
      */
     SFMaterialPtr	_sfMaterial;
-    /*! (Not implemented yet) Flag to activate caching the geometry inside a display list.
+    /*! Flag to activate caching the geometry inside a display list.
      */
     SFBool	_sfDlistCache;
-    /*! (Not implemented yet) The dlist id, if used.
+    /*! The dlist id, if used.
      */
     SFInt32	_sfGLId;
 

@@ -113,7 +113,7 @@ const OSG::BitVector	GeometryBase::GLIdFieldMask =
 
 
 
-char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.9 2001/07/23 11:18:03 dirk Exp $";
+char GeometryBase::cvsid[] = "@(#)$Id: OSGGeometryBase.cpp,v 1.10 2001/07/29 20:00:45 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -262,7 +262,7 @@ GeometryBase::GeometryBase(void) :
 	_sfIndex	(), 
 	_mfIndexMapping	(), 
 	_sfMaterial	(), 
-	_sfDlistCache	(Bool(false)), 
+	_sfDlistCache	(Bool(true)), 
 	_sfGLId	(Int32(0)), 
 	Inherited() 
 {

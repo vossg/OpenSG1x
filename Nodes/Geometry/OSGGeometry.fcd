@@ -86,10 +86,10 @@
 		type="Bool"
 		cardinality="single"
 		visibility="external"
-		defaultValue="false"
+		defaultValue="true"
 		access="public"
 	>
-	(Not implemented yet) Flag to activate caching the geometry inside a display list.
+	Flag to activate caching the geometry inside a display list.
 	</Field>
 	<Field
 		name="GLId"
@@ -99,6 +99,6 @@
 		defaultValue="0"
 		access="protected"
 	>
-	(Not implemented yet) The dlist id, if used.
+	The dlist id, if used.
 	</Field>
 </FieldContainer>
