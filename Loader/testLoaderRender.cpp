@@ -57,6 +57,15 @@ int main (int argc, char **argv)
 {
     osgInit(argc, argv);
 
+    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
+
+    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
+
+    if(pGeoProto != NullFC)
+    {
+        pGeoProto->setDlistCache(false);
+    }
+
 	const char *fileName = (argc > 1) ? argv[1] : "test.raw";
 
 #ifdef __linux

@@ -538,10 +538,10 @@ void vectorMathTests(void)
 
     fprintf(stderr, "%f %f %f %f\n", v4f1[0], v4f1[1], v4f1[2], v4f1[3]);
     fprintf(stderr, "%f %f %f %f\n", 
-            v4f1.getValuesRef()[0], v4f1.getValuesRef()[1], 
-            v4f1.getValuesRef()[2], v4f1.getValuesRef()[3]);
+            v4f1.getValues()[0], v4f1.getValues()[1], 
+            v4f1.getValues()[2], v4f1.getValues()[3]);
 
-    v4f1.getValues(rX, rY, rZ, rW);
+    v4f1.getSeparateValues(rX, rY, rZ, rW);
 
     cout << v2f1 << " \n";
     cout << v3f1 << " \n";

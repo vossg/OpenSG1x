@@ -7,6 +7,10 @@
 
 int main(void)
 {
+    char memblock[2048];
+
+    OSG::MemoryHandle pMem = (OSG::MemoryHandle) memblock;
+
     fprintf(stderr, "TestStart\n");
 
     OSG::Vec2f  v2;
@@ -18,23 +22,23 @@ int main(void)
     OSG::Pnt3f p3;
     OSG::Pnt4f p4;
 
-    OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(NULL, v2);
-    OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(NULL, v3);
-    OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(NULL, v4);
-    OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(NULL, v4ub);
+    OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(pMem, v2);
+    OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(pMem, v3);
+    OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(pMem, v4);
+    OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(pMem, v4ub);
 
-    OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::Vec2f >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Vec3f >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Vec4f >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Vec4ub>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(NULL, p2);
-    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(NULL, p3);
-    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(NULL, p4);
+    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(pMem, p2);
+    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(pMem, p3);
+    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(pMem, p4);
 
-    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt2f>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt3f>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Pnt4f>::copyToBin(pMem, NULL, 0);
 
 
     OSG::Bool b;
@@ -55,53 +59,53 @@ int main(void)
     OSG::Real64  r64;
 
 
-    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(NULL, b);
+    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(pMem, b);
 
-    OSG::FieldDataTraits<OSG:: Int8>::copyToBin(NULL, i8);
-    OSG::FieldDataTraits<OSG::UInt8>::copyToBin(NULL, ui8);
+    OSG::FieldDataTraits<OSG:: Int8>::copyToBin(pMem, i8);
+    OSG::FieldDataTraits<OSG::UInt8>::copyToBin(pMem, ui8);
 
-    OSG::FieldDataTraits<OSG:: Int16>::copyToBin(NULL, i16);
-    OSG::FieldDataTraits<OSG::UInt16>::copyToBin(NULL, ui16);
+    OSG::FieldDataTraits<OSG:: Int16>::copyToBin(pMem, i16);
+    OSG::FieldDataTraits<OSG::UInt16>::copyToBin(pMem, ui16);
 
-    OSG::FieldDataTraits<OSG:: Int32>::copyToBin(NULL, i32);
-    OSG::FieldDataTraits<OSG::UInt32>::copyToBin(NULL, ui32);
+    OSG::FieldDataTraits<OSG:: Int32>::copyToBin(pMem, i32);
+    OSG::FieldDataTraits<OSG::UInt32>::copyToBin(pMem, ui32);
 
-    OSG::FieldDataTraits<OSG:: Int64>::copyToBin(NULL, i64);
-    OSG::FieldDataTraits<OSG::UInt64>::copyToBin(NULL, ui64);
+    OSG::FieldDataTraits<OSG:: Int64>::copyToBin(pMem, i64);
+    OSG::FieldDataTraits<OSG::UInt64>::copyToBin(pMem, ui64);
 
-    OSG::FieldDataTraits<OSG::Real32>::copyToBin(NULL, r32);
-    OSG::FieldDataTraits<OSG::Real64>::copyToBin(NULL, r64);
+    OSG::FieldDataTraits<OSG::Real32>::copyToBin(pMem, r32);
+    OSG::FieldDataTraits<OSG::Real64>::copyToBin(pMem, r64);
 
 
-    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits2<OSG::Bool>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG:: Int8>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::UInt8>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG:: Int8>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::UInt8>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG:: Int16>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::UInt16>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG:: Int16>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::UInt16>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG:: Int32>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::UInt32>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG:: Int32>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::UInt32>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG:: Int64>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::UInt64>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG:: Int64>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::UInt64>::copyToBin(pMem, NULL, 0);
 
-    OSG::FieldDataTraits<OSG::Real32>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Real64>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::Real32>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Real64>::copyToBin(pMem, NULL, 0);
 
     OSG::Matrix     mat;
     OSG::Quaternion quat;
 
-    OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(NULL, mat);
-    OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(NULL, quat);
+    OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(pMem, mat);
+    OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(pMem, quat);
 
 
-    OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits<OSG::Matrix    >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits<OSG::Quaternion>::copyToBin(pMem, NULL, 0);
 
 
-    OSG::String        str;
+    OSG::String        str("xxx");;
     OSG::Time          tim;
     OSG::Color3f       c3;
     OSG::Color4f       c4;
@@ -111,24 +115,24 @@ int main(void)
     OSG::BitVector     bv;
 
 
-    OSG::FieldDataTraits <OSG::String       >::copyToBin(NULL, str);
-    OSG::FieldDataTraits1<OSG::Time         >::copyToBin(NULL, tim);
-    OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(NULL, c3);
-    OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(NULL, c4);
-    OSG::FieldDataTraits <OSG::Color3ub     >::copyToBin(NULL, c3ub);
-    OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(NULL, c4ub);
-    OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(NULL, dv);
-    OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(NULL, bv);
+    OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, str);
+    OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, tim);
+    OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(pMem, c3);
+    OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(pMem, c4);
+    OSG::FieldDataTraits <OSG::Color3ub     >::copyToBin(pMem, c3ub);
+    OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(pMem, c4ub);
+    OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(pMem, dv);
+    OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(pMem, bv);
 
 
-    OSG::FieldDataTraits <OSG::String       >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits1<OSG::Time         >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits <OSG::Color3ub     >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(NULL, NULL, 0);
-    OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(NULL, NULL, 0);
+    OSG::FieldDataTraits <OSG::String       >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits1<OSG::Time         >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <OSG::Color3f      >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <OSG::Color4f      >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <OSG::Color3ub     >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <OSG::Color4ub     >::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits <OSG::DynamicVolume>::copyToBin(pMem, NULL, 0);
+    OSG::FieldDataTraits1<OSG::BitVector    >::copyToBin(pMem, NULL, 0);
 
     return 0;
 }

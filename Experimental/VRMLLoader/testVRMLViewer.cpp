@@ -790,7 +790,7 @@ OSG::Action::ResultE viewpointCheck(OSG::CNodePtr &, OSG::Action *action)
 
             if(pField != NULL)
             {
-                addRefCP(node);
+                OSG::addRefCP(node);
 
                 cameraBeacons.push_back(node);
             }
@@ -1491,7 +1491,7 @@ int main (int argc, char **argv)
         }
         OSG::endEditCP  (stdCamNode);
         
-        addRefCP               (stdCamNode);
+        OSG::addRefCP          (stdCamNode);
         cameraBeacons.push_back(stdCamNode);
         
         ///cam_trans = stdCamBeacon;

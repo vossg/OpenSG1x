@@ -85,6 +85,15 @@ int main (int argc, char **argv)
 
     osgInit(argc, argv);
 
+    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
+
+    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
+
+    if(pGeoProto != NullFC)
+    {
+        pGeoProto->setDlistCache(false);
+    }
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow("OpenSG");

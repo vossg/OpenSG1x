@@ -358,13 +358,13 @@ int main (int argc, char **argv)
 	index->addValue( 4 );
 	endEditCP(index);
 
-	GeoPLengthPtr lens = GeoPLength::create();	
+	GeoPLengthUI32Ptr lens = GeoPLengthUI32::create();	
 	beginEditCP(lens);
 	lens->addValue( 2 );
 	lens->addValue( 3 );
 	endEditCP(lens);
 	
-	GeoPTypePtr type = GeoPType::create();	
+	GeoPTypeUI8Ptr type = GeoPTypeUI8::create();	
 	beginEditCP(type);
 	type->addValue( GL_LINES );
 	type->addValue( GL_TRIANGLES );

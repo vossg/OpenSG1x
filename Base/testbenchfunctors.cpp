@@ -36,7 +36,7 @@ struct tms t_struct;
 // return current time 
 #define now()	( times( &t_struct), t_struct.tms_utime )
 // time difference in seconds
-#define delta(a,b)	( ( a - b ) / float(CLOCKS_PER_SEC) )
+#define delta(a,b)	( ( a - b ) / float(CLK_TCK) )
 
 #else /* use system time. Not a good idea, but better than nothing */
 
@@ -106,7 +106,7 @@ int main( int argc, char *argv[] )
 #ifdef WIN32
 	cerr << "Warning: using wallclock time, results might be skewed!" << endl;
 #endif
-	
+
 	repeats = 1000000;
 	lowtime = 10;
 	hightime = 12;
@@ -142,9 +142,11 @@ int main( int argc, char *argv[] )
 		stop = now();
 		dur = delta( stop, start );
 		
-		worksize = worksize * float( hightime + lowtime ) / 2 / float(dur);
+		worksize = worksize * float( hightime + lowtime ) / 2.0f / float(dur);
+
 		if ( worksize == lastworksize )
 			worksize += ( dur < lowtime ) ? 1 : -1;
+
 		lastworksize = worksize;
 	}
 	while ( dur < lowtime || dur > hightime );
