@@ -851,6 +851,22 @@ Int64 osgnextpower2(Int64 rValue)
     return result;
 }
 
+/*! \ingroup GrpBaseBaseMathFn
+ */
+
+template <> inline
+UInt64 osgnextpower2<UInt64>(UInt64 rValue)
+{
+    UInt64 result = 1;
+
+    while(result < rValue)
+    {
+        result <<= 1;
+    }
+
+    return result;
+}
+
 #ifdef SIZE_T_NEQ_UINT32
 
 /*! \ingroup GrpBaseBaseMathFn

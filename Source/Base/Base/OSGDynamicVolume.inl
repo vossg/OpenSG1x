@@ -73,7 +73,7 @@ Volume &DynamicVolume::getInstance(void)
 inline
 DynamicVolume::Type DynamicVolume::getType(void) const 
 {
-    return _type; 
+    return static_cast<Type>(_type); 
 }
 
 inline

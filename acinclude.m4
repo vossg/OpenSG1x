@@ -311,7 +311,14 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
 
     case "$build_os" in
        irix*)
-        ac_gdz_compiler_exe=$ac_gdz_compiler
+        case "$ac_gdz_compiler" in
+            CC)
+            ac_gdz_compiler_exe=$ac_gdz_compiler
+            ;;
+            CC64)
+            ac_gdz_compiler_exe=CC
+            ;;
+            esac
         ac_gdz_compiler_path=/usr/bin
         ;;
         *-pc-linux-gnu)
