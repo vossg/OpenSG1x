@@ -401,14 +401,16 @@ template <class propertyDesc> inline
 typename GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index)
 {
-    return _field.getValue( index );
+//CHECKCHECK do conversion constructor iff necessary
+    return StoredGenericType(_field.getValue( index ));
 }
 
 template <class propertyDesc> inline 
 typename GeoProperty<propertyDesc>::StoredGenericType
     GeoProperty<propertyDesc>::getValue(const UInt32 index) const
 {
-    return _field.getValue( index );
+//CHECKCHECK do conversion constructor iff necessary
+    return StoredGenericType(_field.getValue( index ));
 }
 
 template <class propertyDesc> inline 
