@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="Loader" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="Material" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=Loader - Win32 Debug
+CFG=Material - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "Loader.mak".
+!MESSAGE NMAKE /f "Material.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "Loader.mak" CFG="Loader - Win32 Debug"
+!MESSAGE NMAKE /f "Material.mak" CFG="Material - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "Loader - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "Loader - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "Material - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "Material - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=Loader - Win32 Debug
 CPP=xicl6.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "Loader - Win32 Release"
+!IF  "$(CFG)" == "Material - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "." /I "..\Base" /I "..\FieldContainer" /I "..\Field" /I "..\Nodes\Geometry" /I "..\Log" /I "..\Action" /I "..\Material" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -51,7 +51,7 @@ LIB32=xilink6.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "Loader - Win32 Debug"
+!ELSEIF  "$(CFG)" == "Material - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -64,8 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GR /ZI /Od /I "." /I "..\Base" /I "..\FieldContainer" /I "..\Field" /I "..\Nodes\Geometry" /I "..\Log" /I "..\Action" /I "..\Material" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
-# SUBTRACT CPP /u
+# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\Base" /I "..\Field" /I "..\FieldContainer" /I "..\Log" /I "..\State" /I "..\Action" /I "..\Action\DrawAction" /I "..\Nodes\Geometry" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -79,31 +78,43 @@ LIB32=xilink6.exe -lib
 
 # Begin Target
 
-# Name "Loader - Win32 Release"
-# Name "Loader - Win32 Debug"
+# Name "Material - Win32 Release"
+# Name "Material - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\OSGRAWSceneFileType.cpp
+SOURCE=.\OSGChunkMaterial.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGRAWSceneFileType.h
+SOURCE=.\OSGChunkMaterial.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGSceneFileHandler.cpp
+SOURCE=.\OSGChunkMaterial.inl
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGSceneFileHandler.h
+SOURCE=.\OSGMaterial.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGSceneFileType.cpp
+SOURCE=.\OSGMaterial.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\OSGSceneFileType.h
+SOURCE=.\OSGMaterial.inl
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSimpleMaterial.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSimpleMaterial.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGSimpleMaterial.inl
 # End Source File
 # End Target
 # End Project

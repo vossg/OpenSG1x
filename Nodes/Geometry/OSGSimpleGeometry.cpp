@@ -178,7 +178,7 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 	GeoPTypePtr			types = GeoPType::create();	
 	
 	UInt16 j;
-	Real32 delta = 2.0 * M_PI / sides;
+	Real32 delta = 2.0 * Pi / sides;
 	Real32 beta, x, y;
 
 	// calc the vertices
@@ -300,8 +300,8 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 	osgBeginEditCP(pnts);
 	osgBeginEditCP(norms);
 	
-  	ringDelta = 2.0 * M_PI / rings;
-  	sideDelta = 2.0 * M_PI / sides;
+  	ringDelta = 2.0 * Pi / rings;
+  	sideDelta = 2.0 * Pi / sides;
 
   	for (a = rings, theta = 0.0; a > 0; a--, theta += ringDelta) 
   	{

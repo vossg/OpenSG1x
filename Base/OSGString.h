@@ -48,7 +48,7 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
-#include <vector.h>
+#include <vector>
 
 OSG_BEGIN_NAMESPACE
 

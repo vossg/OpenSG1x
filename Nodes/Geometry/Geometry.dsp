@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I "..\..\Action\DrawAction" /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /I "..\..\Material" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409 /d "NDEBUG"
 # ADD RSC /l 0x409 /d "NDEBUG"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=xilink6.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GR /GX- /ZI /Od /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\Action\DrawAction" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GR /ZI /Od /I "..\..\Action\DrawAction" /I "." /I "..\..\Base" /I "..\..\Action" /I "..\..\FieldContainer" /I "..\..\Field" /I "..\..\Log" /I "..\..\Material" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE RSC /l 0x409 /d "_DEBUG"
 # ADD RSC /l 0x409 /d "_DEBUG"
 BSC32=bscmake.exe
@@ -80,6 +80,14 @@ LIB32=xilink6.exe -lib
 
 # Name "Geometry - Win32 Release"
 # Name "Geometry - Win32 Debug"
+# Begin Source File
+
+SOURCE=.\OSGFaceIterator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGFaceIterator.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\OSGGeometry.cpp
@@ -118,11 +126,27 @@ SOURCE=.\OSGGeoPumpFactory.inl
 # End Source File
 # Begin Source File
 
+SOURCE=.\OSGPrimitiveIterator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGPrimitiveIterator.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\OSGSimpleGeometry.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\OSGSimpleGeometry.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGTriangleIterator.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\OSGTriangleIterator.h
 # End Source File
 # End Target
 # End Project

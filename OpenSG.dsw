@@ -111,6 +111,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "Material"=.\Material\Material.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "Misc"=.\Nodes\Misc\Misc.dsp - Package Owner=<4>
 
 Package=<5>
@@ -190,6 +202,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name Loader
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name Material
     End Project Dependency
 }}}
 
