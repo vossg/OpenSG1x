@@ -49,7 +49,7 @@
 #include <OSGMFVecTypes.h>
 #include <OSGMFSysTypes.h>
 #include <OSGAttachment.h>
-
+#include <OSGAttachmentFieldDataType.h>
 
 OSG_BEGIN_NAMESPACE
 
