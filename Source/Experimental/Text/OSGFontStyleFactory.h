@@ -10,7 +10,7 @@ OSG_BEGIN_NAMESPACE
 
 class FontStyle;
 
-class FontStyleFactory
+class OSG_SYSTEMLIB_DLLMAPPING FontStyleFactory
 {
   private:
 

@@ -40,17 +40,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <OSGConfig.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-
-using namespace std;
-
-#ifndef OSG_COMPILEWINDOWGLUTLIB
-#define OSG_COMPILEWINDOWGLUTLIB
-#endif
-
-#include <OSGConfig.h>
 
 #include "OSGSharedFontStyle.h"
 
@@ -107,7 +101,7 @@ void SharedFontStyle::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCTemplate_cpp.h,v 1.15 2002/10/25 13:09:36 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEBASE_INLINE_CVSID;
 

@@ -15,7 +15,7 @@ enum IGlyphType
 
 OSG_BEGIN_NAMESPACE 
 
-class ImageFontGlyph : public virtual FontGlyph
+class OSG_SYSTEMLIB_DLLMAPPING ImageFontGlyph : public virtual FontGlyph
 {
     typedef FontGlyph Inherited;
 

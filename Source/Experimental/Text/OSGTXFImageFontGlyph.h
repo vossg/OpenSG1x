@@ -9,7 +9,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TXFImageFontGlyph :
+class OSG_SYSTEMLIB_DLLMAPPING TXFImageFontGlyph :
     public         ImageFontGlyph,
     public virtual TXFFontGlyph
 {

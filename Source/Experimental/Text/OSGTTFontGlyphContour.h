@@ -13,7 +13,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TTFontGlyphContour : public FontGlyphContour
+class OSG_SYSTEMLIB_DLLMAPPING TTFontGlyphContour : public FontGlyphContour
 {
     typedef FontGlyphContour Inherited;
 

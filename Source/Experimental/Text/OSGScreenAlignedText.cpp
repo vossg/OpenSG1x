@@ -44,10 +44,6 @@
 #include <stdio.h>
 #include <OSGGLEXT.h>
 
-#ifndef OSG_COMPILEWINDOWGLUTLIB
-#define OSG_COMPILEWINDOWGLUTLIB
-#endif
-
 #include <OSGConfig.h>
 
 #include <OSGConfig.h>

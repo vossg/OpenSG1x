@@ -3,10 +3,11 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <OSGSystemDef.h>
 
 OSG_BEGIN_NAMESPACE 
 
-class TXFGlyphInfo
+class OSG_SYSTEMLIB_DLLMAPPING TXFGlyphInfo
 {
   private:
 

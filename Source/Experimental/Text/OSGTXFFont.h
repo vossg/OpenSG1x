@@ -10,7 +10,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TXFFont : public virtual Font
+class OSG_SYSTEMLIB_DLLMAPPING TXFFont : public virtual Font
 {
     typedef Font Inherited;
 

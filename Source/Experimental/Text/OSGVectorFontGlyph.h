@@ -19,7 +19,7 @@ enum VGlyphType
 
 OSG_BEGIN_NAMESPACE 
 
-class   FontGlyphContour;
+class OSG_SYSTEMLIB_DLLMAPPING FontGlyphContour;
 
 class VectorFontGlyph : public virtual FontGlyph
 {

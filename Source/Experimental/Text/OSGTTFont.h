@@ -15,7 +15,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TTFont : public virtual Font
+class OSG_SYSTEMLIB_DLLMAPPING TTFont : public virtual Font
 {
     typedef Font Inherited;
 

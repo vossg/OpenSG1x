@@ -3,12 +3,13 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <OSGSystemDef.h>
 
 #include <vector>
 
 OSG_BEGIN_NAMESPACE 
 
-class FontGlyphContour
+class OSG_SYSTEMLIB_DLLMAPPING FontGlyphContour
 {
   private:
 

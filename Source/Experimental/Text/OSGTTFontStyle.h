@@ -16,7 +16,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TTFontStyle : public FontStyle
+class OSG_SYSTEMLIB_DLLMAPPING TTFontStyle : public FontStyle
 {
     typedef FontStyle Inherited;
 

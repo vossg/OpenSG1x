@@ -11,7 +11,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TTImageFontGlyph :
+class OSG_SYSTEMLIB_DLLMAPPING TTImageFontGlyph :
     public         ImageFontGlyph,
     public virtual TTFontGlyph
 {

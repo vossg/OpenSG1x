@@ -9,7 +9,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TXFFontStyle : public FontStyle
+class OSG_SYSTEMLIB_DLLMAPPING TXFFontStyle : public FontStyle
 {
 
     typedef FontStyle Inherited;

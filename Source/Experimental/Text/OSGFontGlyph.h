@@ -3,10 +3,11 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <OSGSystemDef.h>
 
 OSG_BEGIN_NAMESPACE 
 
-class   FontGlyph
+class OSG_SYSTEMLIB_DLLMAPPING FontGlyph
 {
   private:
 

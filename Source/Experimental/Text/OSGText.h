@@ -56,7 +56,7 @@ enum MeshCreationMode
     FILL_TEX_ALL_MCM  = 0x0004
 };
 
-class Text
+class OSG_SYSTEMLIB_DLLMAPPING Text
 {
   
   private:

@@ -3,6 +3,7 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <OSGSystemDef.h>
 
 #include <vector>
 #include <iostream>
@@ -14,7 +15,7 @@ class   VectorFontGlyph;
 class   ImageFontGlyph;
 class   TXFGlyphInfo;
 
-class   FontStyle
+class OSG_SYSTEMLIB_DLLMAPPING FontStyle
 {
   private:
 

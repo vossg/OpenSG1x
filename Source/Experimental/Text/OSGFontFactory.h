@@ -11,7 +11,7 @@ OSG_BEGIN_NAMESPACE
 
 class Font;
 
-class FontFactory
+class OSG_SYSTEMLIB_DLLMAPPING FontFactory
 {
   private:
 

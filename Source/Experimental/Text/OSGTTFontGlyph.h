@@ -16,7 +16,7 @@
 
 OSG_BEGIN_NAMESPACE 
 
-class TTFontGlyph : public virtual FontGlyph
+class OSG_SYSTEMLIB_DLLMAPPING TTFontGlyph : public virtual FontGlyph
 {
     typedef FontGlyph Inherited;
 

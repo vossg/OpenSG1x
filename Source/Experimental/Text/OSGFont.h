@@ -3,6 +3,7 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
+#include <OSGSystemDef.h>
 
 #include <string>
 #include <list>
@@ -12,7 +13,7 @@ OSG_BEGIN_NAMESPACE
 class Text;
 class FontStyle;
 
-class Font
+class OSG_SYSTEMLIB_DLLMAPPING Font
 {
   private:
 
