@@ -108,7 +108,7 @@ class OSG_BASE_DLLMAPPING FrustumVolume : public Volume
     inline  const   Plane * getPlanes       (void           ); 
     inline  const   Plane * getPlanes       (void           ) const; 
     virtual         void    getCenter       (Pnt3f &center  ) const;
-    virtual         float   getScalarVolume (void           ) const;
+    virtual         Real32  getScalarVolume (void           ) const;
     virtual         void    getBounds       ( Pnt3f &minPnt,
                                               Pnt3f &maxPnt ) const;
     

@@ -198,17 +198,70 @@ void FrustumVolume::setPlanes(const Matrix &objectClipMat)
 }
 
 /// Returns the center of a box
-void FrustumVolume::getCenter(Pnt3f &OSG_CHECK_ARG(center)) const
+void FrustumVolume::getCenter(Pnt3f &center) const
 {
-    // not implemented !!!
+    int i=0;
+    Pnt3f vertices[8];
+    Line lines[4];
+    _planeVec[5].intersect(_planeVec[3],lines[3]);
+    _planeVec[3].intersect(_planeVec[4],lines[2]);
+    _planeVec[4].intersect(_planeVec[2],lines[0]);
+    _planeVec[2].intersect(_planeVec[5],lines[1]);
+    
+    for (i=0; i<4; i++)
+    {
+        _planeVec[0].intersectInfinite(lines[i],vertices[i]);
+        _planeVec[1].intersectInfinite(lines[i],vertices[4+i]);
+    }    
+    
+    center=Pnt3f(0,0,0);
+    for (i=0; i<8; i++)
+    {        
+        center = center + (Vec3f)vertices[i];
+    }
+    center/=8;
     return;
 }
 
-/// Gives the volume of the box (0 for an empty box)
-float FrustumVolume::getScalarVolume() const
+/// Gives the volume of the frustum
+Real32 FrustumVolume::getScalarVolume() const
 {
-    return 0;
-    // not implemented !!!
+    const int faces[6][4]={{0,1,3,2},{4,5,7,6},{0,4,5,1},
+                           {2,6,7,3},{2,6,4,0},{1,5,7,3}};
+    int i=0;
+    
+    Pnt3f vertices[8];
+    Line lines[4];
+    _planeVec[5].intersect(_planeVec[3], lines[3]); 
+    _planeVec[3].intersect(_planeVec[4], lines[2]); 
+    _planeVec[4].intersect(_planeVec[2], lines[0]); 
+    _planeVec[2].intersect(_planeVec[5], lines[1]); 
+    
+    for (i=0; i<4; i++)
+    {
+        _planeVec[0].intersectInfinite(lines[i], vertices[i]);
+        _planeVec[1].intersectInfinite(lines[i], vertices[4+i]);
+    }
+    
+    Pnt3f center = Pnt3f(0, 0, 0);
+    for (i=0; i<8; i++)
+        center = center + (Vec3f)vertices[i];
+    center /= 8;
+    
+    Real32 volume = .0f;
+    for (i=0; i<6; i++)
+    {
+        Real32 height;
+        height=_planeVec[i].getNormal().dot(center) - 
+               _planeVec[i].getDistanceFromOrigin();
+        
+        Real32 area;
+        Vec3f main_diag = vertices[faces[i][0]] - vertices[faces[i][2]];
+        Vec3f sec_diag  = vertices[faces[i][1]] - vertices[faces[i][3]];
+        area=osgabs((main_diag.cross(sec_diag)).length() / 2.f);        
+        volume += osgabs((height*area)) / 3.f;
+    }
+    return volume;
 }
 
 /// Gives the boundaries of the volume

@@ -52,6 +52,7 @@
 #include "OSGBoxVolume.h"
 #include "OSGSphereVolume.h"
 #include "OSGCylinderVolume.h"
+#include "OSGFrustumVolume.h"
 
 OSG_USING_NAMESPACE
 
@@ -322,22 +323,84 @@ bool Line::intersect(const CylinderVolume &cyl, Real32 &enter, Real32 &exit) con
 
 /**Intersect the line with a frustum
 */
-bool Line::intersect(const FrustumVolume &cyl) const
+bool Line::intersect(const FrustumVolume &frustum) const
 {
     Real32 ent, ex;
-    return this->intersect(cyl, ent, ex);
+    return this->intersect(frustum, ent, ex);
 }
 
 
 /**Intersect the line with a frustum, returns points of intersection
-  based on GGems IV
+  based on Cyrus Beck Algorithm for clipping a line segment to a
+  convex volume.
 */
-bool Line::intersect(const FrustumVolume &OSG_CHECK_ARG(cyl  ), 
-                           Real32        &OSG_CHECK_ARG(enter), 
-                           Real32        &OSG_CHECK_ARG(exit )) const
+
+struct face
 {
-    // not implemented;
-    return false;
+    Pnt3f point;
+    Vec3f inner_vector;
+    Vec3f inner_normal;
+};
+
+bool Line::intersect(const FrustumVolume &frustum ,
+                           Real32        &enter   ,
+                           Real32        &exit     ) const
+{
+    const Real32 inf = 2 << 16;
+    Pnt3f enter_point = _pos + _dir * 0;
+    Pnt3f exit_point  = _pos + _dir * inf;
+
+    face faces[6];
+    const Plane * planes = frustum.getPlanes();
+
+    Line lines[2];
+    planes[3].intersect(planes[4], lines[0]); //ln[0] - intersection of right and top planes
+    planes[2].intersect(planes[5], lines[1]); //ln[1] - left and bottom
+
+    Pnt3f pointA,pointB;
+                    
+    if (!planes[0].intersectInfinite(lines[0],pointA))
+        cout << "This should never happen (A)!!!!";
+                    
+    if (!planes[1].intersectInfinite(lines[1],pointB))
+        cout << "This should never happen (B)!!!!";
+
+    faces[0].point = pointA; faces[0].inner_vector = pointB - pointA;
+    faces[1].point = pointB; faces[1].inner_vector = pointA - pointB;
+    faces[2].point = pointB; faces[2].inner_vector = pointA - pointB;
+    faces[3].point = pointA; faces[3].inner_vector = pointB - pointA;
+    faces[4].point = pointA; faces[4].inner_vector = pointB - pointA;
+    faces[5].point = pointB; faces[5].inner_vector = pointA - pointB;
+
+    for (int i=0; i<6; i++)
+    {
+        faces[i].inner_normal=planes[i].getNormal();
+        if (faces[i].inner_normal.dot(faces[i].inner_vector)<0)
+            faces[i].inner_normal=-faces[i].inner_normal;
+
+        Vec3f test_enp = enter_point - faces[i].point;
+        Vec3f test_exp = exit_point  - faces[i].point;
+
+        Real32 value_enp = test_enp.dot(faces[i].inner_normal);
+        Real32 value_exp = test_exp.dot(faces[i].inner_normal);
+
+        if (value_enp<0 && value_exp<0) return false;
+
+        if (value_enp>0 && value_exp<0) planes[i].intersect(*this, exit_point);
+        if (value_enp<0 && value_exp>0) planes[i].intersect(*this, enter_point);
+    }
+    
+    Real32 a;
+    
+    if ((a=(enter_point - _pos).dot(_dir))!=0)
+        enter = (enter_point - _pos).dot(enter_point - _pos)/a;
+    else enter=0;
+    
+    if ((a=(exit_point  - _pos).dot(_dir))!=0)    
+        exit  = (exit_point  - _pos).dot(exit_point  - _pos)/a;
+    else enter=0;              
+
+    return true;
 }
 
 /**Intersect the line with a box, returns points of intersection
@@ -427,7 +490,7 @@ bool Line::intersect(const BoxVolume &box,
 
     if ( enter > exit )
         return false;
-        
+
     return true;
 }
 
@@ -438,7 +501,7 @@ bool Line::intersect(const BoxVolume &box,
 
 /**Intersect the line with a box.
 */
-bool Line::intersect(      Real32     OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32     OSG_CHECK_ARG(angle),
                      const BoxVolume &OSG_CHECK_ARG(box  )) const
 {
     // TODO
@@ -448,7 +511,7 @@ bool Line::intersect(      Real32     OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a point.
 */
-bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
                      const Vec3f  &OSG_CHECK_ARG(point)) const
 {
     // TODO
@@ -458,9 +521,9 @@ bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
 
 /** Intersect the line with a line.
 */
-bool Line::intersect(      Real32  OSG_CHECK_ARG(angle), 
+bool Line::intersect(      Real32  OSG_CHECK_ARG(angle),
                      const Vec3f  &OSG_CHECK_ARG(v0),
-                     const Vec3f  &OSG_CHECK_ARG(v1), 
+                     const Vec3f  &OSG_CHECK_ARG(v1),
                            Vec3f  &OSG_CHECK_ARG(pt)) const
 {
     // TODO
