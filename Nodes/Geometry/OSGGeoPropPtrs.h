@@ -37,8 +37,8 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifndef _CLASSNAME_H_
-#define _CLASSNAME_H_
+#ifndef _OSGGEOPROPPTRS_H_
+#define _OSGGEOPROPPTRS_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,10 +47,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGGeoPropColors.h>
-#include <OSGGeoPropIndices.h>
-#include <OSGGeoPropNormals.h>
 #include <OSGGeoPropPositions.h>
+#include <OSGGeoPropColors.h>
+#include <OSGGeoPropNormals.h>
+#include <OSGGeoPropTexCoords.h>
+#include <OSGGeoPropIndices.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -62,16 +63,18 @@ OSG_BEGIN_NAMESPACE
 //   Types
 //---------------------------------------------------------------------------
 
-typedef GeoColor3f::PtrType    GeoColor3fPtr;
-typedef GeoColor3ub::PtrType   GeoColor3ubPtr;
-typedef GeoColor4ub::PtrType   GeoColor4ubPtr;
+typedef GeoPosition3f::PtrType  GeoPosition3fPtr;
 
-typedef GeoIndexUI32::PtrType  GeoIndexUI32Ptr;
+typedef GeoColor3f::PtrType     GeoColor3fPtr;
+typedef GeoColor3ub::PtrType    GeoColor3ubPtr;
+typedef GeoColor4ub::PtrType    GeoColor4ubPtr;
 
-typedef GeoNormal3f::PtrType   GeoNormal3fPtr;
+typedef GeoNormal3f::PtrType    GeoNormal3fPtr;
 
-typedef GeoPosition3f::PtrType GeoPosition3fPtr;
+typedef GeoTexCoords2f::PtrType GeoTexCoords2fPtr;
+
+typedef GeoIndexUI32::PtrType   GeoIndexUI32Ptr;
 
 OSG_END_NAMESPACE
 
-#endif /* _CLASSNAME_H_ */
+#endif /* _OSGGEOPROPPTRS_H_ */

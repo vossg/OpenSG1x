@@ -538,6 +538,39 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 #endif
 
 
+// TexCoords
+
+struct GeoTexCoordsPropertyDesc
+{
+	static const Char8 *getTypeName (void) { return "GeoTexCoords";         }
+	static const Char8 *getGroupName(void) { return "GeoTexCoords";         }
+	static const Char8 *getClassName(void) { return "GeoTexCoordsProperty"; }
+
+	static InitContainerF getInitMethod(void) { return NULL; }
+
+	typedef Attachment				Inherit;
+	typedef AttachmentPropertyDesc	InheritDesc;
+	typedef AttachmentPtr			InheritPtr;
+
+    typedef Vec2f					GenericType;
+};
+
+typedef AbstractGeoProperty<GeoTexCoordsPropertyDesc> GeoTexCoords;
+
+#ifndef OSG_COMPILEGEOPROPINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate AbstractGeoProperty<GeoTexCoordsPropertyDesc>::_type
+
+#else
+
+OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty, 
+                            GeoTexCoordsPropertyDesc,
+                            OSG_GEOMETRY_DLLTMPLMAPPING)
+
+#endif
+#endif
+
 //---------------------------------------------------------------------------
 //   Specialized Types
 //---------------------------------------------------------------------------
@@ -684,14 +717,5 @@ OSG_END_NAMESPACE
 
 #include <OSGGeoPropertyBase.inl>
 
+
 #endif /* _OSGGEOPROPERTYBASE_H_ */
-
-
-
-
-
-
-
-
-
-

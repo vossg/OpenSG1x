@@ -141,6 +141,32 @@ OSG_DLLEXPORT_DECL1(SField, GeoColorPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
 
 
 
+typedef GeoTexCoords::PtrType GeoTexCoordsPtr;
+
+template <>
+struct FieldDataTraits<GeoTexCoordsPtr> : public Traits
+{
+    enum                            { StringConvertable = 0x00   };
+
+    static Char8  *getSName  (void) { return "SFGeoTexCoordsPtr";    }
+    static Char8  *getMName  (void) { return "MFGeoTexCoordsPtr";    }
+};
+
+typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
+
+#ifndef OSG_COMPILEGEOPROPFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate SField<GeoTexCoordsPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(SField, GeoTexCoordsPtr, OSG_GEOMETRY_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+
 
 typedef GeoIndex::PtrType GeoIndexPtr;
 

@@ -128,8 +128,12 @@ OSG_FC_FIELD_IDM_DEF      (Geometry,
                            ColorsField)
 
 OSG_FC_FIELD_IDM_DEF      (Geometry, 
-                           GeoIndexField, 
+                           TexCoordsField, 
                            ColorPerVertexField)
+
+OSG_FC_FIELD_IDM_DEF      (Geometry, 
+                           GeoIndexField, 
+                           TexCoordsField)
 
 OSG_FC_FIELD_IDM_DEF      (Geometry, 
 						   MaterialField,
@@ -191,6 +195,14 @@ FieldDescription Geometry::_desc[] =
         OSG_FC_FIELD_IDM_DESC(ColorPerVertexField),
         false,
         (FieldAccessMethod) &Geometry::getSFColorPerVertex), 
+
+
+	FieldDescription(
+        SFGeoIndexPtr::getClassType(),
+        "texcoords", 
+        OSG_FC_FIELD_IDM_DESC(TexCoordsField),
+        false,
+        (FieldAccessMethod) &Geometry::getSFTexCoords), 
 
 
 	FieldDescription(
@@ -290,7 +302,7 @@ OSG_FIELD_CONTAINER_DEF(Geometry, GeometryPtr)
 
 Geometry::Geometry(void) :
 	Inherited(),
-    _types(), _lengths(), _positions(), _normals(), _colors(),
+    _types(), _lengths(), _positions(), _normals(), _colors(), _texcoords(),
 	_normalsPerVertex(), _colorsPerVertex(), _index(), _material()
 {
 }
@@ -299,7 +311,7 @@ Geometry::Geometry(const Geometry &source) :
     Inherited(source),
     _types(source._types), _lengths(source._lengths), 
 	_positions(source._positions), _normals(source._normals), 
-	_colors(source._colors),
+	_colors(source._colors), _texcoords(source._texcoords),
 	_normalsPerVertex(source._normalsPerVertex), 
 	_colorsPerVertex(source._colorsPerVertex), _index(source._index),
 	_material(source._material)
@@ -317,30 +329,20 @@ Geometry::~Geometry(void)
 
 void Geometry::adjustVolume( Volume & volume )
 {
-	if ( getPositions()->getTypeId() != GeoPosition3f::getStaticTypeId() )
-	{
-		SWARNING << "adjustVolume: only supporting 3f positions right now!" << endl;
-		return;
-	}	
-
-    GeoPosition3fPtr pos;
-
-#ifdef 	OSG_HAS_MEMBER_TEMPLATE_RETURNVALUES
-    pos = getPositions().dcast<GeoPosition3fPtr>();
-#else
-    getPositions().dcast(pos);
-#endif
+    GeoPositionPtr pos = getPositions();
 
 	if ( pos == NullFC )
 		return;				// Node has no points, no volume
 	
-	MFPnt3f *p = pos->getFieldPtr();
-	
 	volume.setValid();
+	volume.setEmpty();
 	
-	for ( MFPnt3f::iterator it = p->begin(); it != p->end(); it++ )
+	for ( int i = 0; i < pos->getSize(); i++ )
 	{
-		volume.extendBy( *it );
+		Vec3f p;
+		pos->getValue( p, i );
+		
+		volume.extendBy( p );
 	}
 }
 
@@ -388,6 +390,11 @@ SFGeoNormalPtr		*Geometry::getSFNormals( void )
 SFBool				*Geometry::getSFNormalPerVertex( void )
 {
 	return &_normalsPerVertex;
+}
+
+SFGeoTexCoordsPtr	*Geometry::getSFTexCoords( void )
+{
+	return &_texcoords;
 }
 
 SFGeoIndexPtr		*Geometry::getSFIndex( void )
@@ -467,25 +474,24 @@ void Geometry::dump(void) const
 	
 Action::ResultE Geometry::doDraw(Action * action )
 {
+	DrawAction *a = dynamic_cast<DrawAction*>(action);
+
 	if ( getMaterial() != NullFC )
-		getMaterial()->draw( this, action );
+		getMaterial()->draw( this, a );
 	else
-		draw( action );
+		draw( a );
 	return Action::Continue;
 }
 	
-Action::ResultE Geometry::draw(Action * action )
+Action::ResultE Geometry::draw(DrawAction * action )
 {
-	// find the pump
-	DrawAction *a = dynamic_cast<DrawAction*>(action);
-
 	GeoPumpFactory::Index ind = GeoPumpFactory::the().getIndex( this );
-	GeoPumpFactory::Pump p = GeoPumpFactory::the().getPump( a, ind );
+	GeoPumpFactory::Pump p = GeoPumpFactory::the().getPump( action, ind );
 
 	// call the pump
 
 	if ( p )
-		p( a, this );
+		p( action, this );
 	else
 	{
 		SWARNING << "draw: no Pump found for geometry " << this << endl;

@@ -173,7 +173,7 @@ void				Geometry::setNormalPerVertex( Bool npv )
 }
 		
 inline
-GeoColorPtr		Geometry::getColors( void ) const
+GeoColorPtr			Geometry::getColors( void ) const
 {
     return _colors.getValue();
 }
@@ -197,7 +197,19 @@ void				Geometry::setColorPerVertex( Bool npv )
 }
 		
 inline
-GeoIndexPtr		Geometry::getIndex( void ) const
+GeoTexCoordsPtr		Geometry::getTexCoords( void ) const
+{
+    return _texcoords.getValue();
+}
+
+inline
+void				Geometry::setTexCoords( GeoTexCoordsPtr texcoords )
+{
+    _texcoords.setValue( texcoords );
+}
+		
+inline
+GeoIndexPtr			Geometry::getIndex( void ) const
 {
     return _index.getValue();
 }

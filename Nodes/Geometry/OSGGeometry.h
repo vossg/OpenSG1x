@@ -112,7 +112,9 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     OSG_FC_FIELD_IDM_DECL      (ColorsField,          NormalPerVertexField)
     OSG_FC_FIELD_IDM_DECL      (ColorPerVertexField,  ColorsField         )
 
-    OSG_FC_FIELD_IDM_DECL      (GeoIndexField,        ColorPerVertexField )
+    OSG_FC_FIELD_IDM_DECL      (TexCoordsField,       ColorPerVertexField )
+
+    OSG_FC_FIELD_IDM_DECL      (GeoIndexField,        TexCoordsField )
 
     OSG_FC_FIELD_IDM_DECL      (MaterialField,        GeoIndexField       )
 
@@ -163,7 +165,10 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     inline void             setNormals( GeoNormalPtr normals ); 
     inline Bool             getNormalPerVertex( void ) const;
     inline void             setNormalPerVertex( Bool npv );
-    
+     
+    inline GeoTexCoordsPtr   getTexCoords( void ) const;
+    inline void             setTexCoords( GeoTexCoordsPtr texcoords );
+   
     // The single index for all attributes. 
     // This will probably move out into a derived class
     inline GeoIndexPtr      getIndex( void ) const;
@@ -172,7 +177,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 	inline MaterialPtr		getMaterial( void ) const;
 	inline void					setMaterial( MaterialPtr material );
     
-    // TODO: separate indices, texcoords, ...
+    // TODO: separate indices, multitexcoords, ...
     
     /** field access */
 
@@ -183,6 +188,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     SFBool              *getSFColorPerVertex( void );
     SFGeoNormalPtr      *getSFNormals( void );
     SFBool              *getSFNormalPerVertex( void );
+    SFGeoTexCoordsPtr   *getSFTexCoords( void );
     SFGeoIndexPtr       *getSFIndex( void );
 	SFMaterialPtr		*getSFMaterial( void );
 
@@ -221,7 +227,7 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
 	Action::ResultE doDraw(Action * action );
 	
 	// low-level OpenGL calls, ignoring materials	
-	Action::ResultE draw(Action * action );
+	Action::ResultE draw(DrawAction * action );
 
   protected:
 
@@ -309,6 +315,8 @@ class OSG_GEOMETRY_DLLMAPPING Geometry : public NodeCore
     SFGeoColorPtr    _colors;
     SFBool           _colorsPerVertex;
     
+    SFGeoTexCoordsPtr _texcoords;
+
     SFGeoIndexPtr    _index;
     
 	SFMaterialPtr _material;
@@ -339,4 +347,4 @@ OSG_END_NAMESPACE
 
 #include "OSGGeometry.inl"
 
-#endif /* _OSGTRANSFORM_H_ */
+#endif /* _OSGGEOMETRY_H_ */

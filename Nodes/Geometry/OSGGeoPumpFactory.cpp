@@ -153,15 +153,15 @@ GeoPumpFactory::~GeoPumpFactory(void)
 /*-------------------------- your_category---------------------------------*/
 
 
-GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * geo )
+GeoPumpFactory::Index GeoPumpFactory::getIndex( Geometry * )
 {
 	return 0;
 }
 	
 
 GeoPumpFactory::Pump GeoPumpFactory::getPump( 
-				DrawAction * act, 
-				GeoPumpFactory::Index index )
+				DrawAction * , 
+				GeoPumpFactory::Index  )
 {
 	return &masterPump;
 }
@@ -255,8 +255,8 @@ static pumpFunc ColorFuncs[numFormats][4] = {
 	  (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },		// GL_DOUBLE
 };
 
-/*
-static pumpFunc TexCoordFuncs[numFormats][4] = {
+
+static pumpFunc TexCoordsFuncs[numFormats][4] = {
 	{ NULL, NULL, NULL, NULL },							 // GL_BYTE
 	{ NULL, NULL, NULL, NULL },							 // GL_UNSIGNED_BYTE
 	{ (pumpFunc)glTexCoord1sv, (pumpFunc)glTexCoord2sv, 
@@ -273,7 +273,7 @@ static pumpFunc TexCoordFuncs[numFormats][4] = {
 	{ (pumpFunc)glTexCoord1dv, (pumpFunc)glTexCoord2dv, 
 	  (pumpFunc)glTexCoord3dv, (pumpFunc)glTexCoord4dv },// GL_DOUBLE
 };
-*/
+
 
 // TODO: Multitexture
 
@@ -363,7 +363,7 @@ void GeoPumpFactory::masterPump(
 	pumpGLSetup( Position, GeoPositionPtr, getPositions );
 	pumpGLSetup( Color, GeoColorPtr, getColors );
 	pumpGLSetup( Normal, GeoNormalPtr, getNormals );
-	// pumpGLSetup( texcoord );	// NIY
+	pumpGLSetup( TexCoords, GeoTexCoordsPtr, getTexCoords );
 	
 	if ( ! PositionData )
 	{
@@ -415,6 +415,11 @@ void GeoPumpFactory::masterPump(
 				{
 					NormalFunc( NormalData + NormalStride * vind );
 				}		
+				
+				if ( TexCoordsData  )
+				{
+					TexCoordsFunc( TexCoordsData + TexCoordsStride * vind );
+				}		
 					
 				PositionFunc( PositionData + PositionStride * vind );
 			}
@@ -428,6 +433,12 @@ void GeoPumpFactory::masterPump(
 				if ( NormalData && normalPerVertex )
 				{
 					NormalFunc( NormalData + NormalStride * PositionInd );
+				}		
+				
+				if ( TexCoordsData  )
+				{
+					TexCoordsFunc( TexCoordsData + TexCoordsStride * 
+													PositionInd );
 				}		
 					
 				PositionFunc( PositionData + PositionStride * PositionInd );

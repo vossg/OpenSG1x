@@ -75,6 +75,8 @@ template class OSG_GEOMETRY_DLLMAPPING
 
 template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoNormal3fPropertyDesc>;
 
+template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoTexCoord2fPropertyDesc>;
+
 template class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty<
     GeoIndexPropertyDesc>;
 
@@ -94,6 +96,8 @@ template class OSG_GEOMETRY_DLLMAPPING GeoProperty<GeoPLengthPropertyDesc>;
 #pragma instantiate AbstractGeoProperty<GeoNormalPropertyDesc    >::_type
 
 #pragma instantiate AbstractGeoProperty<GeoColorPropertyDesc     >::_type
+
+#pragma instantiate AbstractGeoProperty<GeoTexCoordsPropertyDesc >::_type
 
 #pragma instantiate AbstractGeoProperty<GeoIndexPropertyDesc     >::_type
 
@@ -118,6 +122,10 @@ OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            OSG_GEOMETRY_DLLTMPLMAPPING)
 
 OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
+                           GeoTexCoordPropertyDesc, 
+                           OSG_GEOMETRY_DLLTMPLMAPPING)
+
+OSG_ABSTR_FC_DLLEXPORT_DEF(AbstractGeoProperty,
                            GeoIndexPropertyDesc, 
                            OSG_GEOMETRY_DLLTMPLMAPPING)
 
@@ -132,8 +140,6 @@ OSG_FC_DLLEXPORT_DEF      (GeoProperty        ,
 #endif
 
 OSG_END_NAMESPACE
-
-OSG_USING_NAMESPACE
 
 
 ///---------------------------------------------------------------------------

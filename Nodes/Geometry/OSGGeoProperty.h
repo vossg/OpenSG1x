@@ -48,10 +48,12 @@
 
 #include <OSGGeoPropertyBase.h>
 
-#include <OSGGeoPropColors.h>
-#include <OSGGeoPropIndices.h>
-#include <OSGGeoPropNormals.h>
 #include <OSGGeoPropPositions.h>
+#include <OSGGeoPropColors.h>
+#include <OSGGeoPropNormals.h>
+#include <OSGGeoPropTexCoords.h>
+
+#include <OSGGeoPropIndices.h>
 
 #include <OSGGeoPropFields.h>
 #include <OSGGeoPropPtrs.h>

@@ -137,6 +137,22 @@ int main (int argc, char **argv)
 	cols->getFieldPtr()->addValue( Color4ub(   0, 255,   0, 255) );
 	osgEndEditCP(cols);
 
+
+	// Note: the object has texcoords, but no texture, so don't be suprised to 
+	// not see the texture. ;)
+	GeoTexCoords2f::PtrType texs = GeoTexCoords2f::create();
+	g1->setTexCoords( texs );
+	osgBeginEditCP(texs);
+	texs->addValue( Vec2f( 0, 0 ) );
+	texs->addValue( Vec2f( 1, 0 ) );
+	texs->addValue( Vec2f( 1, 1 ) );
+	texs->addValue( Vec2f( 0, 1 ) );
+	texs->addValue( Vec2f( 0, 0 ) );
+	texs->addValue( Vec2f( 2, 0 ) );
+	texs->addValue( Vec2f( 2, 2 ) );
+	texs->addValue( Vec2f( 0, 2 ) );
+	osgEndEditCP(texs);
+
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
 	g1->setIndex( index );
 	osgBeginEditCP(index);
@@ -168,7 +184,7 @@ int main (int argc, char **argv)
 
 	cerr << "Geometry type " << g1->getType().getId() << endl;
 	
-	dact = new DrawAction;
+	dact = DrawAction::create();
 	
 	glutMainLoop();
 
