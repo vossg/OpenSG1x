@@ -76,8 +76,8 @@ class OSG_BASE_DLLMAPPING Connection:public BinaryDataHandler
     virtual string                bind            ( const string &address )=0;
     virtual void                  accept          ( void                  )=0;
     virtual void                  connect         ( const string &address )=0;
-    virtual void                  wait            ( void                  )=0;
-    virtual void                  signal          ( void                  )=0;
+    virtual void                  wait            ( void                  );
+    virtual void                  signal          ( void                  );
     virtual UInt32                getChannelCount ( void                  )=0;
     virtual void                  selectChannel   ( void                  )=0;
     virtual const ConnectionType *getType         ( void                  )=0;

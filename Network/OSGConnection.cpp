@@ -41,6 +41,7 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #include "OSGConfig.h"
 #include "OSGConnection.h"
@@ -107,6 +108,16 @@ Connection::~Connection(void)
 {
 }
 
+
+void Connection::wait(void)
+{
+    assert(false);
+}
+
+void Connection::signal(void)
+{
+    assert(false);
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
