@@ -364,11 +364,18 @@
 
 
 /* name Intel compiler, which uses the EDG front end. */ 
-# if defined(__ICL)
+# if defined(__INTEL_COMPILER)
 #   ifdef _CPPUNWIND
 #   endif
 #   ifdef _MT
 #   endif
+
+# if __INTEL_COMPILER_VERSION >= 501
+# define OSG_BASE_SPEZ_IMPL_DLLMAPPING 
+# else
+# define OSG_BASE_SPEZ_HEAD_DLLMAPPING 
+# endif
+
 // Use windows internal types to define OpenSG base types
 # define OSG_WIN_TYPES
 // Use windows threads
@@ -429,6 +436,8 @@
 #   endif
 #   ifdef _MT
 #   endif
+
+# define OSG_SPEZ_IMPL_DLLMAPPING 
 // Use windows internal types to define OpenSG base types
 # define OSG_WIN_TYPES
 // compiler supports namespaces

@@ -49,30 +49,34 @@
 
 #if defined(WIN32) && defined(OSG_BUILD_DLL)
 #   ifdef OSG_COMPILEBASELIB
-#       define OSG_BASE_DLLMAPPING        __declspec(dllexport)
-#       define OSG_BASE_DLLTMPLMAPPING    __declspec(dllexport)
-#       if defined(_MSC_VER) && defined(__ICL)
-#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
-#           define OSG_ICL_BASE_DLLMAPPING 
+#       define OSG_BASE_DLLMAPPING                __declspec(dllexport)
+#       define OSG_BASE_DLLTMPLMAPPING            __declspec(dllexport)
+#       if defined(OSG_SPEZ_IMPL_DLL_MAPPING)
+#           define OSG_BASE_SPEZ_IMPL_DLLMAPPING  __declspec(dllexport)
+#       elif defined(OSG_SPEZ_HEAD_DLL_MAPPING)
+#           define OSG_BASE_SPEZ_HEAD_DLLMAPPING  __declspec(dllexport)
 #       else
-#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllexport)
-#           define OSG_ICL_BASE_DLLMAPPING __declspec(dllexport)
+#           define OSG_BASE_SPEZ_IMPL_DLLMAPPING
+#           define OSG_BASE_SPEZ_HEAD_DLLMAPPING
 #       endif
 #   else
-#       define OSG_BASE_DLLMAPPING        __declspec(dllimport)
-#       define OSG_BASE_DLLTMPLMAPPING    __declspec(dllimport)
-#       if defined(_MSC_VER) && defined(__ICL)
-#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
-#           define OSG_ICL_BASE_DLLMAPPING 
+#       define OSG_BASE_DLLMAPPING                __declspec(dllimport)
+#       define OSG_BASE_DLLTMPLMAPPING            __declspec(dllimport)
+#       if defined(OSG_SPEZ_IMPL_DLL_MAPPING)
+#           define OSG_BASE_SPEZ_IMPL_DLLMAPPING  __declspec(dllimport)
+#       elif defined(OSG_SPEZ_HEAD_DLL_MAPPING)
+#           define OSG_BASE_SPEZ_HEAD_DLLMAPPING  __declspec(dllimport)
 #       else
-#           define OSG_MS_BASE_DLLMAPPING  __declspec(dllimport)
-#           define OSG_ICL_BASE_DLLMAPPING __declspec(dllimport)
+#           define OSG_BASE_SPEZ_IMPL_DLLMAPPING
+#           define OSG_BASE_SPEZ_HEAD_DLLMAPPING
 #       endif
 #   endif
 #else
 #define OSG_BASE_DLLMAPPING
 #define OSG_BASE_DLLTMPLMAPPING
 #define OSG_MS_BASE_DLLMAPPING
+#define OSG_BASE_SPEZ_IMPL_DLLMAPPING 
+#define OSG_BASE_SPEZ_HEAD_DLLMAPPING
 #endif
 
 #endif /* _OSGBASE_H_ */

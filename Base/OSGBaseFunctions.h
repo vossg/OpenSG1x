@@ -82,6 +82,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgsqrt(const FloatTypeT &rVal);
 
 /*! \brief osgcos
@@ -89,6 +90,7 @@ FloatTypeT osgsqrt(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgcos(const FloatTypeT &rVal);
 
 /*! \brief osgsin
@@ -96,6 +98,7 @@ FloatTypeT osgcos(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgsin(const FloatTypeT &rVal);
 
 /*! \brief osgtan
@@ -103,6 +106,7 @@ FloatTypeT osgsin(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgtan(const FloatTypeT &rVal);
 
 /*! \brief osgacos
@@ -110,6 +114,7 @@ FloatTypeT osgtan(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgacos(const FloatTypeT &rVal);
 
 /*! \brief osgasin
@@ -117,6 +122,7 @@ FloatTypeT osgacos(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgasin(const FloatTypeT &rVal);
 
 /*! \brief osgatan
@@ -124,6 +130,7 @@ FloatTypeT osgasin(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgatan(const FloatTypeT &rVal);
 
 /*! \brief osgatan2
@@ -131,6 +138,7 @@ FloatTypeT osgatan(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgatan2(const FloatTypeT &rVal1, 
                     const FloatTypeT &rVal2);
 
@@ -139,6 +147,7 @@ FloatTypeT osgatan2(const FloatTypeT &rVal1,
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
 
 /*! \brief osgrad2degree
@@ -146,6 +155,7 @@ FloatTypeT osgdegree2rad(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgrad2degree(const FloatTypeT &rVal);
 
 /*! \brief deg2rad
@@ -167,6 +177,7 @@ FloatTypeT rad2deg(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgabs(const FloatTypeT &rVal);
 
 /*! \brief osgpow
@@ -174,6 +185,7 @@ FloatTypeT osgabs(const FloatTypeT &rVal);
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgpow(const FloatTypeT &rVal, 
                   const FloatTypeT &rExp);
 
@@ -182,6 +194,7 @@ FloatTypeT osgpow(const FloatTypeT &rVal,
  */
 
 template <class FloatTypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 FloatTypeT osgfloor(const FloatTypeT &rVal);
 
 /*! \brief osgMin
@@ -282,6 +295,7 @@ struct osgIF
  */
 
 template <class TypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 Bool osgispower2(TypeT rVal);
 
 /*! \brief osgnextpower2
@@ -289,6 +303,7 @@ Bool osgispower2(TypeT rVal);
  */
 
 template <class TypeT> inline
+OSG_BASE_SPEZ_HEAD_DLLMAPPING
 TypeT osgnextpower2(TypeT rVal);
 
 /*@}*/

@@ -339,7 +339,7 @@ then
 
 	 	    case "$ac_gdz_compiler" in
 			    icl*)
-					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" -nologo'
+					ac_gdz_compiler_exe='"$(CC_PATH)/'$ac_gdz_compiler_exe'" '
 
 					ac_gdz_compiler_exe_shared='"$(CC_PATH)/'$ac_gdz_linker_exe'" -dll -map -NODEFAULTLIB'
 

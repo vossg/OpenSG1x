@@ -68,7 +68,7 @@ OSG_BEGIN_NAMESPACE
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Bool osgispower2(UInt32 rValue)
 {
 	// find the lowest 1 bit
@@ -88,7 +88,7 @@ Bool osgispower2(UInt32 rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Bool osgispower2(Int32 rValue)
 {
 	// find the lowest 1 bit
@@ -109,7 +109,7 @@ Bool osgispower2(Int32 rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 UInt32 osgnextpower2(UInt32 rValue)
 {
 	UInt32 result = 1;
@@ -125,7 +125,7 @@ UInt32 osgnextpower2(UInt32 rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Int32 osgnextpower2(Int32 rValue)
 {
 	UInt32 result = 1;
@@ -146,6 +146,7 @@ Int32 osgnextpower2(Int32 rValue)
  */
 
 template <class TypeT> inline 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 TypeT osgabs(const TypeT &rValue)
 {
 	return (rValue > 0) ? rValue : -rValue;
@@ -184,7 +185,7 @@ FloatTypeT rad2deg(const FloatTypeT &rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgsqrt<Real32>(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -199,7 +200,7 @@ Real32 osgsqrt<Real32>(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgcos(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -210,7 +211,7 @@ Real32 osgcos(const Real32 &rVal)
 }
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgsin(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -225,7 +226,7 @@ Real32 osgsin(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgtan(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -240,7 +241,7 @@ Real32 osgtan(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgacos(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -255,7 +256,7 @@ Real32 osgacos(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgasin(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -270,7 +271,7 @@ Real32 osgasin(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgatan(const Real32 &rVal)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -285,7 +286,7 @@ Real32 osgatan(const Real32 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -304,7 +305,7 @@ Real32 osgatan2(const Real32 &rVal1, const Real32 &rVal2)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgdegree2rad(const Real32 &rValue)
 {
    return (rValue/360.f) * 2.f * 3.1415926535f;
@@ -315,7 +316,7 @@ Real32 osgdegree2rad(const Real32 &rValue)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgrad2degree(const Real32 &rValue)
 {
    return (rValue/(2.f * 3.1415926535f)) * 360.f;
@@ -326,7 +327,7 @@ Real32 osgrad2degree(const Real32 &rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgabs(const Real32 &rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -341,7 +342,7 @@ Real32 osgabs(const Real32 &rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -356,7 +357,7 @@ Real32 osgpow(const Real32 &rValue, const Real32 &rExp)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real32 osgfloor(const Real32 &rValue)
 {
 #ifdef OSG_HAS_FLOATMATH
@@ -398,7 +399,7 @@ TypeT osgMax(const TypeT &lVal, const TypeT &rVal)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgsqrt(const Real64 &rVal)
 {
     return sqrt(rVal);
@@ -409,7 +410,7 @@ Real64 osgsqrt(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgcos(const Real64 &rVal)
 {
     return cos(rVal);
@@ -420,7 +421,7 @@ Real64 osgcos(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgsin(const Real64 &rVal)
 {
     return sin(rVal);
@@ -431,7 +432,7 @@ Real64 osgsin(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgtan(const Real64 &rVal)
 {
     return tan(rVal);
@@ -442,7 +443,7 @@ Real64 osgtan(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgacos(const Real64 &rVal)
 {
     return acos(rVal);
@@ -453,7 +454,7 @@ Real64 osgacos(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgasin(const Real64 &rVal)
 {
     return asin(rVal);
@@ -464,7 +465,7 @@ Real64 osgasin(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgatan(const Real64 &rVal)
 {
     return atan(rVal);
@@ -475,7 +476,7 @@ Real64 osgatan(const Real64 &rVal)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
 {
     return atan2(rVal1, rVal2);
@@ -486,7 +487,7 @@ Real64 osgatan2(const Real64 &rVal1, const Real64 &rVal2)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgdegree2rad(const Real64 &rValue)
 {
    return (rValue/360) * 2 * 3.1415926535;
@@ -497,7 +498,7 @@ Real64 osgdegree2rad(const Real64 &rValue)
  */
 
 template <> inline
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgrad2degree(const Real64 &rValue)
 {
    return (rValue/(2 * 3.1415926535)) * 360;
@@ -508,7 +509,7 @@ Real64 osgrad2degree(const Real64 &rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgabs(const Real64 &rValue)
 {
     return fabs(rValue);
@@ -519,7 +520,7 @@ Real64 osgabs(const Real64 &rValue)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
 {
     return pow(rValue, rExp);
@@ -530,7 +531,7 @@ Real64 osgpow(const Real64 &rValue, const Real64 &rExp)
  */
 
 template <> inline 
-OSG_MS_BASE_DLLMAPPING 
+OSG_BASE_SPEZ_IMPL_DLLMAPPING
 Real64 osgfloor(const Real64 &rValue)
 {
     return floor(rValue);
