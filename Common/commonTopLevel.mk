@@ -342,8 +342,9 @@ endif
 		done;								\
 		for d in dbg opt;						\
 		do								\
-			BUILDLIBS=`find $$CURRDIR -follow -name "lib-$$d"	\
-                		 -exec find {} -name "*$$s" -print \;` ;	\
+			BUILDLIBS=`find $$CURRDIR -follow \( -name "lib-$$d" -o \
+                       -name "lib-$${d}lnk" \)	\
+                       -exec find {} -name "*$$s" -print \;` ;	\
 			cd $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR);		\
 			for t in $$BUILDLIBS;					\
 			do							\
@@ -354,7 +355,6 @@ endif
 		done;								\
 	done;									\
 	cd $$CURRDIR;
-	
 
 
 fcdToBase:
