@@ -1180,7 +1180,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
   if (pN && (indexPtr != NullFC))
     {
 
-      FNOTICE (( "Start geo opt: start/tri cost: %d/%d imp: %d tri/line/point: %d/%d/%d\n",
+      FNOTICE (( "GeoOpt: start/tri cost: %d/%d imp: %d tri/line/point: %d/%d/%d\n",
                  startCost, (triN * 3), indexMapSize, triN, lineN, pointN));
       
       inputT = getSystemTime();
@@ -1216,7 +1216,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
                            tI.getPositionIndex(2) );
         }
       
-      graph.verify();
+      graph.verify(true);
       if (triN != triCount) 
         {
           FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
@@ -1258,7 +1258,6 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
       // valid result
       if (bestCost && (bestCost < startCost))
         {
-          
           // check/create the indexPtr/lengthsPtr/geoTypePtr
           indexPtr->clear();
           
@@ -1289,6 +1288,7 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
           FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
           
           triCount = 0;
+          cost = 0;
           for (t = 0; t < typeN; t++) 
             {
               for (i = 0; i < triN; i++) 
@@ -1352,10 +1352,16 @@ Int32 osg::createOptimizedPrimitives(GeometryPtr geoPtr,
           
           FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
                      inputT, optimizeT, outputT  ));
-          
-          FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d \n",
-                     double ( double(bestCost) / double(startCost) * 100.0),
-                     iteration, bestCost, worstCost ));
+
+          if (cost != bestCost) {
+            FFATAL (( "cost != bestCost: %d/%d; we lost some nodes !\n",
+                      cost, bestCost ));
+          }
+          else {
+            FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d \n",
+                       double ( double(bestCost) / double(startCost) * 100.0),
+                       iteration, bestCost, worstCost ));
+          }
         }
       else 
         {

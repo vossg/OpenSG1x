@@ -91,16 +91,12 @@ bool NodeGraph::verify (bool printInfo )
 {
     bool retCode = true;
     int i, n = _nodeVec.size(); 
-    int nodeDegree[4];
+    vector<int> nodeDegree(5,0);
     int edgeCount = 0;
     map< int, int > connectionMap;
     map< int, int >::iterator connectionI;
-    unsigned connectionCount;
-    unsigned nonManifoldCount;
+    unsigned nonManifoldCount = 0;
 
-    for (i = 0; i < 4; i++)
-        nodeDegree[i] = 0;
-    
     for (i = 0; i < n; i++)
         if (_nodeVec[i].index == i)
         {
@@ -121,7 +117,7 @@ bool NodeGraph::verify (bool printInfo )
         }
         else
             if (_nodeVec[i].index == -1)
-                nodeDegree[3]++;
+                nodeDegree[4]++;
             else {
         FFATAL (( "Invalid node index %d for face %d\n",
                   _nodeVec[i].index, i ));
@@ -129,25 +125,17 @@ bool NodeGraph::verify (bool printInfo )
             }
 
     if (printInfo) {
-    FNOTICE (( "NodeDegree: %d %d %d %d\n",
-             nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3] ));
+      FNOTICE (( "NodeDegree: %d %d %d %d (%d)\n",
+                 nodeDegree[0], nodeDegree[1], nodeDegree[2], nodeDegree[3],
+                 nodeDegree[4] ));
 
-    FNOTICE (( "NonManifold: %d\n", nonManifoldCount ));
-    FNOTICE (( "EdgeCount: %d\n", edgeCount ));
-    n = _edgeMapVec.size();
-    for (i = 0; i < n; i++) {
-      connectionCount = _edgeMapVec[i].size();
-      edgeCount += connectionCount;
-      if (connectionMap.find(connectionCount) == connectionMap.end())
-        connectionMap[connectionCount] = 1;
-      else
-        connectionMap[connectionCount]++;
+      n = _edgeMapVec.size();
+      for (i = 0; i < n; i++) 
+        edgeCount += _edgeMapVec[i].size();
+
+      FNOTICE (( "NonManifold: %d\n", nonManifoldCount ));
+      FNOTICE (( "HalfEdgeCount: %d\n", edgeCount ));
     }
-    for ( connectionI = connectionMap.begin();
-          connectionI != connectionMap.end(); ++connectionI )
-      FNOTICE (( "Point connection %d; count: %d\n",
-                 connectionI->first, connectionI->second ));
-  } 
  
     return retCode;
 }
@@ -213,7 +201,7 @@ int NodeGraph::createPathVec (vector<Path> &pathVec,
         nodeLeft = 0;
     }
 
-    while(nodeLeft || (walkCase == FINISH)) {
+    while(nodeLeft || (walkCase == NEW) || (walkCase == FINISH)) {
         switch (walkCase) {
         case START:
             pathI++;
