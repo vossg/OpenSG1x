@@ -104,5 +104,3 @@ else
 $(error Unknown GNU make major version $(MAKEMAJOR) please contact info@opensg.org)
 endif
 
-$(warning --$(MAKEMAJOR)--$(MAKEMINOR)--$(MAKE_OLD_DOLLAR))
-
