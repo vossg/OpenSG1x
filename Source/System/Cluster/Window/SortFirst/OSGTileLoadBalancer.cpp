@@ -70,7 +70,7 @@ OSG_USING_NAMESPACE
 /*! Constructor
  */
 TileLoadBalancer::TileLoadBalancer(bool useFaceDistribution,
-                                   bool cutBestDirection=true):
+                                   bool cutBestDirection):
     _useFaceDistribution(useFaceDistribution),
     _cutBestDirection(cutBestDirection)
 {
