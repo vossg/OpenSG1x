@@ -1,4 +1,7 @@
 #!/bin/sh
+# you need a shell that understands (( ... ))
+# On irix sh==ksh, for Linux/Cygwin use bash
+# reason: windows takes ages to create processes, and we need a=$a+1 a lot
 
 # 
 # script to automatically check out and build the whole OpenSG system 
@@ -11,8 +14,11 @@
 
 cleanup ()
 {
-    write_html_tail $out_html.html
+    write_html_tail $out_html.Main.html
 
+    # LOCAL: copy the HTML logs to the destination location
+    $do_copy $out_html* $log_destination
+    
     ## rm -f $log_configure $log_make $log_errors
 }
 
@@ -20,8 +26,8 @@ errorexit ()
 {
     subsys=$1
     errfile=$2
-    
-    echo "<br><br>Errors found, dailybuild aborted!" >> $out_html.html
+
+    echo "<br><br>Errors found, dailybuild aborted!" >> $out_html.Main.html
     
     send_mail $subsys $errfile
     
@@ -63,7 +69,6 @@ Start: `date +%H:%M`<br><br>
 System: $system<br>
 Compiler: $compiler<br>
 Configuration: $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args<br>
-Basepath: $basedir<br>
 </p>
 EOF
 }
@@ -85,7 +90,7 @@ send_mail ()
     cat << EOF > $out_mail
 System: $system
 Compiler: $compiler
-Log: $out_html.html
+Log: http://www.opensg.org/dailybuild_logs/$link_html.Main.html
 
 Failed in $subsys.
 
@@ -128,7 +133,8 @@ tr.warning	{ background-color:#ff6600 }
 <body>
 <h1>OpenSG dailybuild $today $title on $host results</h1>
 <p>
-<a href=$out_html.html>Back to main log</a>
+<a href=http://www.opensg.org/dailybuild_logs/$link_html.Main.html>
+Back to main log</a>
 </p><p>
 System: $system<br>
 Compiler: $compiler<br>
@@ -139,7 +145,7 @@ EOF
 
     # ARGL: Linux/Cygwin bash/sh/ksh forget the array variables after the loop!!!
     # that's why we have to use the zsh for this script. What's going on here?
-    
+
     if test -s $errfile ;
     then
  	ind=1
@@ -156,14 +162,17 @@ EOF
 	    echo -n '<td class="log">'$err'</td></tr>' >> $file
 	    
 	    elist[$ind]=$line
-	    ind=`expr $ind + 1`    
+	    (( ind=$ind + 1 ))   
 	done
 	elist[$ind]=0
 
+	IFS=''
+	
     	echo "</table>" >> $file
     else
     	elist[1]=0
     fi
+
     if test -s $warnfile ;
     then
  	ind=1
@@ -182,9 +191,11 @@ EOF
 	    #echo A $ind $line
 	    wlist[$ind]=$line
 	    #echo B $ind $line ${wlist[$ind]}
-	    ind=`expr $ind + 1`    
+	    (( ind=$ind + 1 ))
 	    #echo C $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
 	done
+	IFS=''
+	
 	#echo D $ind ${wlist[0]} ${wlist[1]} ${wlist[2]} ${wlist[3]}
 	wlist[$ind]=0
 	
@@ -212,28 +223,28 @@ EOF
 	if test $ln -eq $acterrline ; 
 	then
 	    echo -n '<tr class="error">' >> $file
-	    acterr=`expr $acterr + 1`
+	    (( acterr=$acterr + 1 ))
 	    acterrline=${elist[$acterr]}
 	    if test $ln -eq $actwarnline ;
 	    then
-	    	actwarn=`expr $actwarn + 1`
+	    	(( actwarn=$actwarn + 1 ))
 	    	actwarnline=${elist[$actwarn]}
 	    fi
 	elif test $ln -eq $actwarnline ; 
 	then
 	    echo -n '<tr class="warning">' >> $file
-	    actwarn=`expr $actwarn + 1`
+	    (( actwarn=$actwarn + 1 ))
 	    actwarnline=${wlist[$actwarn]}
     	else
 	    echo -n '<tr class="normal">' >> $file
 	fi
- 	echo -n '<a name='$ln'></a><td class="line">'  >> $file
-	echo $ln '</td> <td class="log">' >> $file
-	echo $line | sed -e 's|\&nbsp;| |g' -e 's|&|&amp;|g' -e 's|<|\&lang;|g' \
-	    -e 's|>|\&rang;|g' >> $file
-	echo '</td> </tr>' >> $file
+ 	echo -n '<td class="line">'  >> $file
+	echo $ln '</td> <td class="log"><a name='$ln'>' >> $file
+	echo $line | sed -e 's|\&nbsp;| |g' -e 's|&|&amp;|g' -e 's|<|\&lt;|g' \
+	    >> $file
+	echo '</a></td></tr>' >> $file
    	
-	ln=`expr $ln + 1`
+	(( ln=$ln + 1 ))
     done	
  
     cat << EOF >> $file
@@ -274,15 +285,16 @@ checkerror ()
     if test \! -s $log_errors 
     then
 	rm -f $log_errors
-	echo "<a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.html
+	echo "<a href=$link_html.$title.html>$title</a> finished sucessfully.<br>" >> $out_html.Main.html
     else
- 	echo "<br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.html
+ 	echo "<br><font color=#b00000><a href=$link_html.$title.html>$title</a> had errors!</font><br>" >> $out_html.Main.html
 
 	IFS=':'
 	cat $log_errors | while read line err
 	do
-	    echo "<a href=$link_html.$title.html#$line>$line</a> : $err<br>" >> $out_html.html
+	    echo "<a href=$link_html.$title.html#$line>$line</a> : $err<br>" >> $out_html.Main.html
 	done
+	IFS=''
 
 	errorexit $title $log_errors
     fi
@@ -301,6 +313,9 @@ basedir=`pwd`
 
 scriptname=$0
 
+# LOCAL change to your local directory
+log_destination=/igd/a4/www/opensg/dailybuild_logs/
+
 log_cvs=$tmpdir/opensg.cvs
 log_configure=$tmpdir/opensg.configure
 log_make=$tmpdir/opensg.make
@@ -313,7 +328,6 @@ out_mail=$tmpdir/opensg.mail
 doc_flag=$tmpdir/opensg.doc_done
 
 system="Not set yet"
-compiler="Not set yet"
 host=`hostname`
 
 # Check out the sources
@@ -346,9 +360,9 @@ tif_args=""
 jpeg_args=""
 png_args=""
 par_jobs=1
-compiler=""
 config_shell=sh
 mail=echo
+do_copy=cp
 
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
@@ -364,7 +378,7 @@ case $system in
 	jpeg_args="--with-jpeg=/igd/a4/software/IRIX/"
  	png_args="--with-png=/igd/a4/software/IRIX/"
    	par_jobs=6
-	compiler=CC
+	compiler=${compiler:=CC}
 	mail=/usr/sbin/Mail
 	export PATH=/igd/a4/software/IRIX/bin/:$PATH
 	;;
@@ -374,7 +388,7 @@ case $system in
 	qt_args="--with-qt=/igd/a4/software/Linux/packages/qt-2.3"
     	glut_args="--with-glut=/usr"
     	par_jobs=2
-	compiler=g++
+	compiler=${compiler:=g++}
 	config_shell=bash
 	mail=/usr/bin/Mail
 	export PATH=/igd/a4/software/Linux/bin/:$PATH
@@ -384,10 +398,14 @@ case $system in
     	
 	qt_args="--with-qt=`pwd`/../packages/qt-2.3"
     	glut_args="--with-glut=`pwd`/../packages/glut_3.7"
+	tif_args="--with-tif=`pwd`/../packages/tiff-3.5.4"
     	par_jobs=2
-	compiler=icl45
+	compiler=${compiler:=icl50}
 	config_shell=bash
 	mail=`pwd`/../do_send_mail
+	# LOCAL: for the cygwins that don't have full NFS access
+	do_copy=rcp
+	log_destination="rubens:$log_destination"
 	export PATH=$PATH
 	;;
 	
@@ -408,8 +426,8 @@ build_id=`date '+%y%m%d%H%M'`.$system.$compiler
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
 
-rm -f $out_html.html
-write_html_head $out_html.html 
+rm -f $out_html.Main.html
+write_html_head $out_html.Main.html 
 
 
 checkerror "Cvs" $log_cvs
@@ -437,9 +455,11 @@ fi
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
-gmake 1>$log_make 2>&1
+gmake dbg 1>$log_make 2>&1
+checkerror "DebugLibs" $log_make
 
-checkerror "Libs" $log_make
+gmake opt 1>$log_make 2>&1
+checkerror "OptLibs" $log_make
 
 # locally install the libs
 
@@ -448,12 +468,15 @@ export LD_LIBRARY_PATH=`pwd`/lib/dbg
 
 checkerror "Install" $log_install
 
+
 # make and run the tests that have gold test results
 
 for i in *Test;
 do
     cd $i
-    gmake  1>$log_test.$i 2>&1
+    # keep going after errors to catch them all
+    gmake -k dbg 1>$log_test.$i 2>&1
+    gmake -k opt 1>>$log_test.$i 2>&1
     checkerror $i $log_test.$i
     # do we have testfiles?
     if test `\ls -1 test* 2>/dev/null | wc -l` -ne 0 ;
@@ -461,29 +484,28 @@ do
 	for j in test*;
 	do
     	    # find the gold file
- 	    echo -n "$j... " >> $out_html.html
+ 	    echo -n "$j... " >> $out_html.Main.html
    	    tloc=`find ../../.. -name $j.cpp | sed -e 's|[^/]*$||'`goldtests/$j.log
  	    if test "$tloc" != "goldtests/$j.log" -a -r $tloc
 	    then
 		$j > $log_test 2>&1
 		if test "`diff -q $log_test $tloc`" != "" ;
 		then
-	    	    echo " results differ:<br>" >> $out_html.html
-	    	    echo -n "<pre>" >> $out_html.html
-		    diff $log_test $tloc >> $out_html.html
-	    	    echo "</pre>" >> $out_html.html
+	    	    echo " results differ:<br>" >> $out_html.Main.html
+	    	    echo -n "<pre>" >> $out_html.Main.html
+		    diff $log_test $tloc >> $out_html.Main.html
+	    	    echo "</pre>" >> $out_html.Main.html
 		else
-	    	    echo " ok.<br>" >> $out_html.html
+	    	    echo " ok.<br>" >> $out_html.Main.html
 		fi
 	    else
-	    	echo " no gold test.<br>" >> $out_html.html    
+	    	echo " no gold test.<br>" >> $out_html.Main.html    
 	    fi 
 	done
     fi
     cd ..
     
 done
-
 
 if expr $has_doxygen > /dev/null 2>&1 = 1 ;
 then
@@ -496,6 +518,6 @@ fi
 
 # all done
 
-echo "<br>All done, all right. Have a nice day." >>  $out_html.html
+echo "<br>All done, all right. Have a nice day." >>  $out_html.Main.html
 
 cleanup
