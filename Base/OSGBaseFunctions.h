@@ -283,15 +283,13 @@ struct osgIF
  *  \ingroup BaseMathFunctions
  */
 
-template <class TypeT>
-OSG_BASE_DLLMAPPING Bool osgispower2(TypeT rVal);
+OSG_BASE_DLLMAPPING inline Bool osgispower2(UInt32 rVal);
 
 /*! \brief osgnextpower2
  *  \ingroup BaseMathFunctions
  */
 
-template <class TypeT>
-OSG_BASE_DLLMAPPING TypeT osgnextpower2(TypeT rVal);
+OSG_BASE_DLLMAPPING inline UInt32 osgnextpower2(UInt32 rVal);
 
 /*@}*/
 

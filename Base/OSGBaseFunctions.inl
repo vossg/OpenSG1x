@@ -63,18 +63,12 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 
-/*! @name UInt32 Specializations
- */
-
-/*@{*/
-
 /*! \brief osgispower2
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
 OSG_MS_BASE_DLLMAPPING 
-Bool osgispower2(UInt32 rValue)
+inline Bool osgispower2(UInt32 rValue)
 {
 	// find the lowest 1 bit
     while ( rValue && ! ( rValue & 1 ) )
@@ -93,9 +87,8 @@ Bool osgispower2(UInt32 rValue)
  *  \ingroup BaseMathFunctions
  */
 
-template <> inline 
 OSG_MS_BASE_DLLMAPPING 
-UInt32 osgnextpower2(UInt32 rValue)
+inline UInt32 osgnextpower2(UInt32 rValue)
 {
 	UInt32 result = 1;
 
@@ -105,7 +98,46 @@ UInt32 osgnextpower2(UInt32 rValue)
 	return result;
 }
 
+/*! @name Generic Versions
+ */
+
+/*@{*/
+
+/*! \brief osgabs
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline 
+OSG_MS_BASE_DLLMAPPING 
+TypeT osgabs(const TypeT &rValue)
+{
+	return (rValue>0)?rValue:-rValue;
+}
+
+/*! \brief deg2rad
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline 
+OSG_MS_BASE_DLLMAPPING 
+FloatTypeT deg2rad(const FloatTypeT &rValue)
+{
+   return osgdegree2rad( Real32(rValue) );
+}
+
+/*! \brief rad2deg
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class FloatTypeT> inline
+OSG_MS_BASE_DLLMAPPING 
+FloatTypeT rad2deg(const FloatTypeT &rValue)
+{
+   return osgrad2degree( Real32(rValue) );
+}
+
 /*@}*/
+
 
 /*! @name Real32 Specializations
  */
@@ -252,26 +284,6 @@ OSG_MS_BASE_DLLMAPPING
 Real32 osgrad2degree(const Real32 &rValue)
 {
    return (rValue/(2.f * 3.1415926535f)) * 360.f;
-}
-
-/*! \brief deg2rad
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline 
-Real32 deg2rad(const Real32 &rValue)
-{
-   return osgdegree2rad( rValue );
-}
-
-/*! \brief rad2deg
- *  \ingroup BaseMathFunctions
- */
-
-template <> inline
-Real32 rad2deg(const Real32 &rValue)
-{
-   return osgrad2degree( rValue );
 }
 
 /*! \brief osgabs
