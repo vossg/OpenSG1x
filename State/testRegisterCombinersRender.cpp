@@ -2,6 +2,7 @@
 
 #include <OSGLog.h>
 #include <OSGGLEXT.h>
+#include <OSGGLUT.h>
 
 #include <OSGWindow.h>
 #include <OSGGLUTWindow.h>
