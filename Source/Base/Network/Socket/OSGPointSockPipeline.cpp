@@ -196,14 +196,14 @@ void PointSockPipeline::readBuffer()
 
     // read buffer header
     len=_prev.recv(&_socketReadBuffer[0],sizeof(SocketBufferHeader));
-    printf("recv1 %d\n",len);
+    //printf("recv1 %d\n",len);
     if(len==0)
         throw ReadError("peek got 0 bytes!");
     // read remaining data
     size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
     len=_prev.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
                    size);
-    printf("recv2 %d\n",len);
+    //printf("recv2 %d\n",len);
     if(len==0)
         throw ReadError("read got 0 bytes!");
     readBufBegin()->setDataSize(size);
