@@ -455,7 +455,7 @@ void SimpleSceneManager::initialize(void)
         beginEditCP(sf);
         sf->setSize(25);
         sf->setColor(Color4f(0,1,0,0.7));
-        sf->addElement(RenderAction::statTravTime,      "Draw FPS: %r.3f");
+        sf->addElement(RenderAction::statDrawTime,      "Draw FPS: %r.3f");
         sf->addElement(DrawActionBase::statCullTestedNodes,
                            "%d Nodes culltested");
         sf->addElement(DrawActionBase::statCulledNodes,
