@@ -9,6 +9,21 @@ Statistics contains general facilities for recording and collecting
 statistical data like counts and times. It is mainly used for collecting 
 rendering statistics like the amount of time need for a frame or the number of 
 visible polygons, but it can be used for any kind of statistics.
+See \ref PageSystemStatistice for more details
+
+The \link osg::StatElem StatElem \endlink osg::StatElem is the basic unit that 
+keeps a single statistical value.
+
+*/
+
+/*! \page PageSystemStatistics Statistics 
+
+\latexonly Starter:NewChapter \endlatexonly
+
+Statistics contains general facilities for recording and collecting 
+statistical data like counts and times. It is mainly used for collecting 
+rendering statistics like the amount of time need for a frame or the number of 
+visible polygons, but it can be used for any kind of statistics.
 
 The statistics data is collected in the form of single StatElem structures 
 which are bundled in a StatCollector. Every StatElem element can have one of a 
@@ -30,18 +45,10 @@ The various StatElem object provide methods to access or change the value
 (e.g get/set increase/decrease)
 In addition, every StatElem holds a on-flag to activate/deactivate the
 statistic element.
-*/
-
-/*! \page PageSystemStatistics Statistics 
-
-\latexonly Starter:NewChapter \endlatexonly
 
 The main idea of the Statistics structure lies in high flexibility. Thus the
 set of variables that are statistically relevant is not fixed, new ones can be
 added by the application if necessary.
-
-The \link osg::StatElem StatElem \endlink osg::StatElem is the basic unit that 
-keeps a single statistical value.
 
 \image html stat-obj.png "Stat Elem/Desc/Collector relation"
 \image latex stat-obj.eps "Stat Elem/Desc/Collector relation" width=8cm
