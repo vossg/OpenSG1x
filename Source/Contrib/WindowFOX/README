@@ -1,0 +1,19 @@
+
+README for WindowFOX
+====================
+
+Name:                   WindowFOX
+License:                LGPL
+Maintainer:             Christoph Fünfzig <c.fuenfzig@cg.cs.tu-bs.de>
+Initial Author:         Christoph Fünfzig <c.fuenfzig@cg.cs.tu-bs.de>
+Additional Libraries:   FOX (http://www.fox-toolkit.org/)
+Added:                  2003/07/08
+Last modified:          2003/07/08
+Last tested:            2003/07/08
+
+Description:
+
+FOX is a nice little windowing toolkit that is free (LGPL) and portable (Unix,
+Windows). It's not as widely used as some other toolkits, but it has a pretty
+active community.
+
