@@ -52,6 +52,7 @@
 #include <OSGGroup.h>
 #include <OSGCamera.h>
 #include <OSGProxyGroup.h>
+#include <OSGMaterialGroup.h>
 #include <OSGRemoteAspect.h>
 #include <OSGImageComposer.h>
 
@@ -347,28 +348,44 @@ void SortLastWindow::dump(      UInt32    ,
 void SortLastWindow::collectDrawables(NodePtr       &node,
                                       DrawableListT &drawables)
 {
+    MaterialPtr mat;
     NodeCorePtr core  =node->getCore();
     if(core != NullFC)
     {
+        // handle material groups
+        MaterialGroupPtr matGrp = MaterialGroupPtr::dcast(core);
+        if(matGrp != NullFC)
+        {
+            mat = matGrp->getMaterial();
+            // ignore transparent material groups
+            if(mat != NullFC && mat->isTransparent())
+                return;
+        }
+
         // handle geometries
         GeometryPtr geo = GeometryPtr::dcast(core);
         if(geo != NullFC)
         {
-            DrawableInfo drawableInfo;
-            drawableInfo.node = node;
-            // get transformed volume
-            node->updateVolume();
-            DynamicVolume volume;
-            node->getWorldVolume(volume);
-            // get min,max
-            volume.getBounds(drawableInfo.bMin, drawableInfo.bMax);
-            // num of indices
-            drawableInfo.load = 0;
-            GeoIndicesPtr indicesPtr=geo->getIndices();
-            if(indicesPtr != NullFC)
-                drawableInfo.load=indicesPtr->getSize();
-            // put to list
-            drawables.push_back(drawableInfo);
+            mat = geo->getMaterial();
+            // ignore transparent materials
+            if(mat == NullFC || mat->isTransparent() == false)
+            {
+                DrawableInfo drawableInfo;
+                drawableInfo.node = node;
+                // get transformed volume
+                node->updateVolume();
+                DynamicVolume volume;
+                node->getWorldVolume(volume);
+                // get min,max
+                volume.getBounds(drawableInfo.bMin, drawableInfo.bMax);
+                // num of indices
+                drawableInfo.load = 0;
+                GeoIndicesPtr indicesPtr=geo->getIndices();
+                if(indicesPtr != NullFC)
+                    drawableInfo.load=indicesPtr->getSize();
+                // put to list
+                drawables.push_back(drawableInfo);
+            }
         }
 
         // handle poxy groups
@@ -505,11 +522,24 @@ void SortLastWindow::setupNodes(UInt32 groupId)
     if(!getGroupsChanged())
         return;
 
-    // client and no client rendering or
+    // client and no client rendering 
+    if( getServers().size() == groupId &&
+        !getComposer()->getClientRendering())         
+    {
+        for(nI = 0 ; nI < getGroupNodes().size() ; ++nI)
+        {
+            if(getGroupNodes()[nI]->getTravMask())
+            {
+                beginEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
+                getGroupNodes()[nI]->setTravMask(0);
+                endEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
+                getGroupNodes()[nI]->invalidateVolume();
+            }
+        }
+        return;
+    }
     // server but not usable, then invalidate all nodes
-    if( (getServers().size() == groupId &&
-         !getComposer()->getClientRendering())          ||
-        (getServers().size() > groupId &&
+    if( (getServers().size() > groupId &&
          getComposer()->getUsableServers() <= groupId) )
     {
         for(v = 0; v < getPort().size(); ++v)

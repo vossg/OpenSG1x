@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SepiaComposer"
+	parent="ImageComposer"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+</FieldContainer>
