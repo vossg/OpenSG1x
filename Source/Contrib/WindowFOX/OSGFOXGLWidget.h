@@ -20,7 +20,8 @@
 #include "fox/fx3d.h"
 
 #ifdef WIN32
-#pragma warning (error   : 698 47 373 171)
+#pragma warning (error   : 698 47 373)
+#pragma warning (default : 171)
 #pragma warning (default : 383)
 #endif
 

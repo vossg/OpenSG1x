@@ -62,7 +62,7 @@
 #include <qgl.h>
 
 #ifdef OSG_WIN32_ICL
-#pragma warning (error : 171)
+#pragma warning (default : 171)
 #endif
 
 #ifdef __sgi
