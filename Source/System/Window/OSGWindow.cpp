@@ -681,7 +681,7 @@ void (*Window::getFunctionByName(const Char8 *s))(void)
 
 // UGLY HACK: SGI/NVidia header don't define GLX_ARB_get_proc_address,
 // but they use __GLX_glx_h__ instead of GLX_H as an include guard.
-#elif defined(GLX_ARB_get_proc_address) // || defined(__GLX_glx_h__)
+#elif defined(GLX_ARB_get_proc_address) || defined(__GLX_glx_h__)
 
     return glXGetProcAddressARB((const GLubyte *) s);
 
