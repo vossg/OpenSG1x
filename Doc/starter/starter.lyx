@@ -1955,6 +1955,9 @@ Special Node Cores
 \layout Standard
 
 The NodeCores define the specific behaviour of the scenegraph nodes.
+ Note that to simplify naming them we use the NodeCore's name to mean the
+ Node + Core combination, i.e.
+ a Group node is a Node with a Group NodeCore.
 \layout Section
 
 Group
@@ -2150,7 +2153,7 @@ Using these properties it is already possible to define geometry (see fig.
 \layout Standard
 \align center 
 
-\begin_inset Figure size 476 236
+\begin_inset Figure size 476 225
 file geo_nonindexed.eps
 width 3 80
 flags 9
@@ -2198,7 +2201,7 @@ Indices are stored in the GeoIndices property, which only exists in the
 \layout Standard
 \align center 
 
-\begin_inset Figure size 476 236
+\begin_inset Figure size 476 225
 file geo_indexed.eps
 width 3 80
 flags 9
@@ -2245,7 +2248,7 @@ To get around that you need multiple indices per vertex to index the different
 \layout Standard
 \align center 
 
-\begin_inset Figure size 476 223
+\begin_inset Figure size 476 212
 file geo_multiindexed.eps
 width 3 80
 flags 9
@@ -2837,12 +2840,80 @@ Window
 \end_inset 
 
 
+\layout Standard
+
+Windows are the general connection between OpenSG and the windowing system
+ used by the application/platform.
+ OpenSG itself does not open its own windows, that has to be done by the
+ application.
+ Using GLUT it's pretty trivial, take a look at the tutorial examples on
+ how to do that.
+ For other window systems its a little more work, but the goal is to have
+ wrapper classes for the usual GUI toolkits like QT, Motif etc.
+ that simplify the task.
+ We have one for QT, the 
+\family typewriter 
+OSGQGLManagedWidget
+\family default 
+, and are interested in similar ones for other Window systems.
 \layout Section
 
 Window
+\layout Standard
+
+The Window is the connection to the used window system.
+ There are variants for the different supported window systems like X, WIN32,
+ GLUT and QT.
+ There needs to be an OpenSG window for each window system window used.
+ The OpenSG object handles the OpenGL context creation and activation/deactivati
+on, and needs to be informed about resizes.
+ It manages the OpenGL objects like display lists and texture objects and
+ is also responsible for OpenGL extension detection and functions.
+\layout Standard
+
+It doesn't do any input event handling or similar things, it's only for
+ output and keeping the Viewports that fill the window and keep all the
+ rendering parameters.
+ See sec.
+ 
+\begin_inset LatexCommand \ref{sec:simplescenemanager}
+
+\end_inset 
+
+ for an easy to use wrapper for setting these up.
+ 
 \layout Section
 
 Viewport
+\layout Standard
+
+A Viewport is a part of the window that is being rendered into.
+ It can cover the whole window, but doesn't have to.
+ The size of the viewport is defined by its left, right, bottom and top
+ coordinates, given in OpenGL conventions, i.e.
+ the bottom of the screen has the vertical coordinate 0.
+ 
+\layout Standard
+
+If the value is bigger than 1, it's a position in pixel.
+ That's independent of the window size, if the window is smaller parts of
+ the viewport will be cut, if it's bigger parts of the window will not be
+ covered.
+ If they are between 0 and 1 (inclusively) they are relative to the window
+ and are rescaled when the window is resized.
+ If they are -1 they use the extreme applicable value, i.e.
+ 0 for left and bottom, 1 for right and top.
+ For relative sizes the actual value used for right and top is 
+\family typewriter 
+value * size - 1
+\family default 
+.
+ This allows abutting viewports by using the same relative values for right
+ and left of the viewports that should fit.
+\layout Standard
+
+To define what is being rendered the viewport stores the root node of the
+ scene to be displayed, the camera to use and the background and foregrounds.
 \layout Section
 
 Camera
@@ -2851,15 +2922,210 @@ Camera
 \end_inset 
 
 
+\layout Standard
+
+The camera defines the parts of the scene that are actually being rendered.
+ The definition can be split in two parts: where in the scene the camera
+ is located and where it is pointing, and what the internal parameters of
+ the camera are.
+\layout Standard
+
+The position and orientation of the camera is defined by a node in the scenegrap
+h, the beacon, similarly to the definition used by the light sources.
+ The camera uses the OpenGL defaults for specifying the used coordinate
+ system, i.e.
+ the camera looks down the negative Z coordinate, X points to the right
+ and Y is up.
+ Thus to use a camera you need a veacon node in the scene to define its
+ position.
+ This can be an object you want to attach the camera to, but in general
+ you'll probably have a Transform node somewhere close to the root to handle
+ it.
+\layout Standard
+
+This gives full flexibility to use a simple matrix to define camera position
+ and orientation, but can be tedious to specify.
+ Many systems use a from-at-up convention to define camera parameters, i.e.
+ you specify a viewer position, a point that should be in the center of
+ the screen and the direction that should be up on the screen.
+ The 
+\family typewriter 
+MatrixLookAt
+\family default 
+ functions from 
+\family typewriter 
+OSGMatrixUtility.h
+\family default 
+ can convert these settings into a matrix that can directly be used to specify
+ the camera.
+\layout Standard
+
+The internal parameters of the camera can vary between different kinds of
+ cameras.
+ The only constant thing that a camera for OpenGL needs are the near and
+ far clip distances, which therefore are defined in the general Camera class.
+ The others are defined in the specific camera classes.
+\layout Subsection
+
+Perspective Camera
+\layout Standard
+
+The standard camera used for OpenGL rendering is the perspective camera.
+ The only additional attribute it has is the vertical field of view, in
+ radians.
+ The horizontal field of view is automatically adjusted to the window size
+ to create a square aspect ratio.
 \layout Section
 
 Background
+\layout Standard
+
+The background defines how the window is cleared before anything is rendered.
+ There are a couple of different backgrounds.There can be only one background
+ per viewport.
+\layout Subsection
+
+
+\family typewriter 
+SolidBackground
+\layout Standard
+
+The 
+\family typewriter 
+SolidBackground
+\family default 
+ is teh simplest variant, it just fills the background wiht a single given
+ in its 
+\family typewriter 
+color
+\family default 
+ field.
+\layout Subsection
+
+
+\family typewriter 
+GradientBackground
+\layout Standard
+
+The 
+\family typewriter 
+GradientBackground
+\family default 
+ fills the background with a color gradient.
+ To specify the gradient a color has to be associated with a vertical position
+ in the window (0 being at the bottom, 1 being at the top).
+ The 
+\family typewriter 
+addColor()
+\family default 
+ method should be used for that.
 \layout Section
 
 Foreground
+\layout Standard
+
+The foreground can be used to render something on top of the scenegraph
+ image.
+ There can be an arbitrary number of active foregrounds.
+ Right now the only foreground is the 
+\family typewriter 
+ImageForeground
+\family default 
+.
+\layout Subsection
+
+
+\family typewriter 
+ImageForeground
+\layout Standard
+
+The Image Foreground renders images on top of the scenegraph image.
+ The typical use is adding a logo to the image.
+ 
+\layout Standard
+
+The images have to be loaded as 
+\family typewriter 
+Image
+\family default 
+s, their position has to be defined as a 2D position in the 
+\begin_inset Formula \( [0,1]x[0,1] \)
+\end_inset 
+
+ range and gievn to the 
+\family typewriter 
+addImage()
+\family default 
+ function.
 \layout Section
 
 SimpleSceneManager
+\begin_inset LatexCommand \label{sec:simplescenemanager}
+
+\end_inset 
+
+
+\layout Standard
+
+The SimpleSceneManager is a utility class to simplify creating simple applicatio
+ns.
+ It manages a single window with a single viewport and a minimal scenegraph
+ with a beacon for the camera it manges and a headlight.
+ It keeps a Trackball to interactively manipulate the camera.
+\layout Standard
+
+It does not open a window itself, that is left to the user to keep the SSM
+ useful for arbitrary window systems.
+ The opened window has to be passed to the SSM by using 
+\family typewriter 
+setWindow()
+\family default 
+.
+ That's one half of the necessary initialisation.
+ Thus it also can't handle input itself, the application has to pass it
+ the user input events.
+ It's a lot simpler than it sounds, take a look at the tutorials to see
+ how it works.
+\layout Standard
+
+The other half of the necessary initialisation is telling tht SSM what by
+ draw by calling 
+\family typewriter 
+setRoot()
+\family default 
+.
+ That's it.
+ It might be useful to call 
+\family typewriter 
+showAll()
+\family default 
+ to position the camera at a sensible position, but that's not mandatory.
+\layout Standard
+
+The SSM can be used in conjunction with any window system, it has been integrate
+d into an easy to use QT widget called 
+\family typewriter 
+OSGQGLWidget
+\family default 
+.
+ See XXXX.cpp for an example on how to use it.
+\layout Standard
+
+As a littel bonus the SSM can display the 
+\begin_inset Quotes eld
+\end_inset 
+
+Powered by OpenSG
+\begin_inset Quotes erd
+\end_inset 
+
+ logo.
+ Just call 
+\family typewriter 
+useOpenSGLogo()
+\family default 
+ and you're done.
+ ;)
 \layout Chapter
 
 Loader
@@ -3352,7 +3618,178 @@ begin{appendix}
 Code Style
 \layout Standard
 
-To be included: A short but sufficient code style description.
+We have a pretty tightly specified code style.
+ The style has developed over the course of the project, and not all code
+ has been kept up-to-date with respect to the style.
+ That will be fixed over time.
+ 
+\layout Standard
+
+But we're not religious about all the details.
+ There are some basic rules that we would like code to be integrated into
+ OpenSG to follow.
+ See the TWiki for all the details.
+\layout Section
+
+Classes & Methods
+\layout Standard
+
+Classes should use nouns for names, methods should use the verb[adjective]noun
+ convention.
+ OpenSG uses a getValue()/setValue() convention for the data access interface,
+ it would be good to follow that.
+ Adding other interfaces is of course possible, but to reduce user surprise
+ the standard one would be good.
+\layout Section
+
+Indents & Formatting
+\layout Standard
+
+This is an area of long and hard struggles, and everybody has his/her own
+ comments.
+ There are some things we expect to keep the code somewhat readable.
+\layout Standard
+
+Don't use TABs for indenting, use spaces instead.
+ Everybody uses a different TAB size (the core team used to use 2, 4 and
+ 8, and it consists of only three people), and looking at code indenting
+ with a different tabsize is a pain.
+ Spaces work around all that.
+\layout Standard
+
+Use an indent size of 4.
+ That seems to be a good compromise for most people.
+\layout Standard
+
+Use ANSI styles braces i.e.
+ put the 
+\family typewriter 
+{
+\family default 
+ and 
+\family typewriter 
+}
+\family default 
+ on their own line, do not attach it to the 
+\family typewriter 
+if
+\family default 
+ or 
+\family typewriter 
+for
+\family default 
+.
+\layout Section
+
+General Commenting
+\layout Standard
+
+We use doxygen to turn code into documentation, because it is so flexible
+ and has nice output.
+\layout Standard
+
+Use the QT style for comments (
+\family typewriter 
+/*!
+\family default 
+), not the JavaDoc style.
+ The former lets you define comments without a brief comment, which is what
+ we want.
+ 
+\layout Standard
+
+Don't do brief comments, they clutter up the member list and very rarely
+ add more information than the method name.
+ Exception: classes.
+ Put a brief class comment at the top of the header to help people understand
+ what the class is about.
+ Do use full comments where necessary.
+ They're not always necessary for 
+\family typewriter 
+setValue()
+\family default 
+ style functions, though.
+ 
+\layout Standard
+
+Do comment the classes and data members, they are probably more important
+ than the methods.
+\layout Section
+
+Headers
+\layout Standard
+
+The general idea behind the header styling is to keep them clean and concise.
+ Many people use the headers as primary information sources, not the documentati
+on.
+ Cluttered up headers are really useless in that case.
+\layout Standard
+
+Generally there should only be one class per header/file, which is pretty
+ much standard for C++ people.
+ If you have minimal helper classes that don't have any use outside their
+ user class you can keep them in the same header.
+\layout Standard
+
+The order of sections in a class definition should be 
+\family typewriter 
+public:
+\family default 
+, 
+\family typewriter 
+protected:
+\family default 
+, 
+\family typewriter 
+private:
+\family default 
+, to give people the parts that they can actually access at the top of the
+ file.
+\layout Standard
+
+Don't put inline code into the headers, use a separate 
+\family typewriter 
+.inl
+\family default 
+ file for that.
+ 
+\layout Standard
+
+Don't document every method and member in the headers either.
+ Doing that makes the actual code get lost, comment them at the implementation
+ point instead.
+ Use groups (
+\family typewriter 
+/*! 
+\backslash 
+{ */
+\family default 
+) to group logically related methods into groups, don't bother to put a
+ comment in front of every method.
+\layout Section
+
+Code Files
+\layout Standard
+
+Put an extensive class comment right after the includes (or before???),
+ followed by the member documentation.
+ 
+\layout Standard
+
+The methods in the 
+\family typewriter 
+.cpp
+\family default 
+ should be in the same order that they are defined in in the header.
+\layout Standard
+
+Every nonstatic data member of a class must be initialized through the mem-initi
+alizer-list before the function body of the constructor is executed.
+ Everything else will lead to big pains in the long run.
+\layout Standard
+
+That's about it.
+ It isn't really that painful, is it?
 \layout Chapter
 
 fcdEdit description
@@ -3362,7 +3799,7 @@ fcdEdit description
 \layout Standard
 \align center 
 
-\begin_inset Figure size 595 483
+\begin_inset Figure size 595 482
 file fcdEdit-numbered.eps
 width 3 100
 flags 11
@@ -3373,7 +3810,7 @@ flags 11
 \end_float 
 \layout Enumerate
 
-Node name; don't include the OSG prefix
+Node name: don't include the OSG prefix
 \layout Enumerate
 
 System Component: needed to define the include convention, usually not used
@@ -3384,16 +3821,16 @@ Parent field container; don't include the OSG prefix
 \layout Enumerate
 
 Is Parent a System Component: needed to define include convention.
- has to be set when deriving from a system component.
+ Has to be set when deriving from a system component.
 \layout Enumerate
 
 Library: 
 \layout Enumerate
 
-PFTypes
+PFTypes: 
 \layout Enumerate
 
-Structure
+Structure: 
 \layout Enumerate
 
 Field list, shows all field description in a vertical list
