@@ -333,6 +333,11 @@ bool operator ==(const Plane &p1, const Plane &p2)
              (p1._normalVec == p2._normalVec));
 }
 
+ostream &operator << (ostream &outStream, const Plane &obj)
+{
+  return  outStream << obj.getNormal() << ":" << obj.getDistanceFromOrigin();
+}
+
 OSG_END_NAMESPACE
 
 /*-------------------------------------------------------------------------*\

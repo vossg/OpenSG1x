@@ -161,6 +161,8 @@ class OSG_BASE_DLLMAPPING Plane {
 
 };
 
+ostream &operator <<(ostream &os, const Plane &obj);
+
 OSG_END_NAMESPACE
 
 #include "OSGPlane.inl"
