@@ -1129,42 +1129,42 @@ dnl e13
 ])
 
 
-AC_DEFUN(AC_GDZ_WRITE_COMMON_MYRINET,
+AC_DEFUN(AC_GDZ_WRITE_COMMON_FREETYPE1,
 [
 dnl e14
 
-    ac_gdz_myrinet_lib_e14=
-    ac_gdz_myrinet_incdir_e14=
-    ac_gdz_myrinet_libdir_e14=
+    ac_gdz_freetype1_lib_e14=
+    ac_gdz_freetype1_incdir_e14=
+    ac_gdz_freetype1_libdir_e14=
 
-    if test "$with_myrinet" = yes; then
+    if test "$with_freetype1" = yes; then
         if test $build_os = cygwin; then
-           ac_gdz_myrinet_lib_e14='gm32.lib'
+           ac_gdz_freetype1_lib_e14='freetype.lib'
         else
-           ac_gdz_myrinet_lib_e14='-lgm'
+           ac_gdz_freetype1_lib_e14='-lfreetype'
         fi
-    elif test -n "$ac_gdz_myrinet_dir"; then
+    elif test -n "$ac_gdz_freetype1_dir"; then
         if test $build_os = cygwin; then
-           ac_gdz_myrinet_incdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/include`'"'
-           ac_gdz_myrinet_libdir_e14='"'`cygpath -w $ac_gdz_myrinet_dir/lib`'"'
-           ac_gdz_myrinet_lib_e14='gm32.lib'
+           ac_gdz_freetype1_incdir_e14='"'`cygpath -w $ac_gdz_freetype1_dir/include`'"'
+           ac_gdz_freetype1_libdir_e14='"'`cygpath -w $ac_gdz_freetype1_dir/lib`'"'
+           ac_gdz_freetype1_lib_e14='freetype.lib'
         else
-           ac_gdz_myrinet_incdir_e14=$ac_gdz_myrinet_dir/include
-           ac_gdz_myrinet_libdir_e14=$ac_gdz_myrinet_dir/lib
-           ac_gdz_myrinet_lib_e14='-lgm'
+           ac_gdz_freetype1_incdir_e14=$ac_gdz_freetype1_dir/include
+           ac_gdz_freetype1_libdir_e14=$ac_gdz_freetype1_dir/lib
+           ac_gdz_freetype1_lib_e14='-lfreetype'
         fi
     fi
 
-    ac_gdz_common_myrinet_in_e14=$ac_gdz_commonconf_dir/commonMYRINET.in
-    ac_gdz_common_myrinet_e14=$ac_gdz_commonpackage_dir/commonMYRINET.mk
+    ac_gdz_common_freetype1_in_e14=$ac_gdz_commonconf_dir/commonFREETYPE1.in
+    ac_gdz_common_freetype1_e14=$ac_gdz_commonpackage_dir/commonFREETYPE1.mk
 
-    AC_SUBST(ac_gdz_myrinet_incdir_e14)
-    AC_SUBST(ac_gdz_myrinet_libdir_e14)
-    AC_SUBST(ac_gdz_myrinet_lib_e14)
+    AC_SUBST(ac_gdz_freetype1_incdir_e14)
+    AC_SUBST(ac_gdz_freetype1_libdir_e14)
+    AC_SUBST(ac_gdz_freetype1_lib_e14)
    
     touch confdefs.h
 
-    AC_OUTPUT($ac_gdz_common_myrinet_e14:$ac_gdz_common_myrinet_in_e14)
+    AC_OUTPUT($ac_gdz_common_freetype1_e14:$ac_gdz_common_freetype1_in_e14)
 ])
 
 

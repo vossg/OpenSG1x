@@ -48,6 +48,8 @@ ac_gdz_conf_package_efence='0'
 ac_gdz_conf_package_efence_e1='0'
 ac_gdz_conf_package_myrinet='0'
 ac_gdz_conf_package_myrinet_e1='0'
+ac_gdz_conf_package_freetype1='0'
+ac_gdz_conf_package_freetype1_e1='0'
 
 ac_gdz_test_debug_libs=
 
@@ -260,6 +262,25 @@ else
 	ac_gdz_conf_package_myrinet='1'
 	ac_gdz_conf_package_myrinet_e1='1'
 	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_MYRINET'
+fi
+
+dnl ############# Freetype1 Settings #####################
+
+AC_ARG_WITH(freetype1,   [  --with-freetype1=DIR                 Use Freetype1 lib, if DIR is given use the file from the give directory],
+			,with_freetype1=no) 
+
+if test "$with_freetype1" = yes; then
+	ac_gdz_freetype1_dir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_FREETYPE1'
+	ac_gdz_conf_package_freetype1='1'
+	ac_gdz_conf_package_freetype1_e1='1'
+elif test "$with_freetype1" = no; then
+	ac_gdz_freetype1_dir=
+else
+	ac_gdz_freetype1_dir=$with_freetype1
+	ac_gdz_conf_package_freetype1='1'
+	ac_gdz_conf_package_freetype1_e1='1'
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_FREETYPE1'
 fi
 
 
@@ -714,6 +735,8 @@ AC_GDZ_WRITE_COMMON_GL()
 
 dnl disabled (files missing)
 dnl AC_GDZ_WRITE_COMMON_MYRINET()
+
+AC_GDZ_WRITE_COMMON_FREETYPE1()
 
 AC_GDZ_WRITE_OSG_CONFIG()
 
