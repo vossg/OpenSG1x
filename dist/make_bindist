@@ -1,9 +1,9 @@
 #!/bin/ksh
 
-# 
+#
 # script to create a binary distribution, Unix style
 #
-# This is an extremely optimistic script, it does no 
+# This is an extremely optimistic script, it does no
 # error checking whatever. Use with care!
 
 # Understood envvars:
@@ -24,7 +24,7 @@ var_expand()
 {
     src=$1
     dest=$2
-    
+
     sed -e "s/%VERSION%/$OSGVERSION/g"  \
         -e "s/%SYSTEM%/$system/g"       \
         -e "s/%DISTNAME%/$distname/g"   \
@@ -34,7 +34,7 @@ var_expand()
 
 echo $0 $*
 
-while test ${#*} -gt 0 
+while test ${#*} -gt 0
 do
 	case $1 in
                 --compiler)
@@ -83,21 +83,21 @@ fi
 if test ! -d $OSGPOOL
 then
     # Check out the sources
-    
+
     # little trick to get around the password input
     # not nice but works. Anyone got a better solution?
-    
+
     cvs_ok=`fgrep -l anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg $HOME/.cvspass`
     if test "x$cvs_ok" = x
     then
         echo ":pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg A" >> $HOME/.cvspass
     fi
-    
+
     # go where it's suppoosed to be
     cd `dirname $OSGPOOL`
-    
+
     # cvs needs to be in the path!
-    cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG 
+    cvs -d:pserver:anonymous@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG
 
     if test `basename $OSGPOOL` != OpenSG
     then
@@ -120,8 +120,8 @@ system=`CommonConf/config.guess`
 
 case $system in
 
-    mips-sgi-* )    
-    
+    mips-sgi-* )
+
     glut_dir="/igd/a4/software/IRIX"
     glut_lib="libglut.a"
     glut_args="--with-glut=$glut_dir"
@@ -136,9 +136,9 @@ case $system in
     export PATH=/igd/a4/software/IRIX/bin/:$PATH
     distname=sgi
     ;;
-    
-    *-linux-gnu )    
-        
+
+    *-linux-gnu )
+
     glut_dir="/usr"
     glut_lib="libglut.so.3"
     glut_args="--with-glut=$glut_dir"
@@ -152,20 +152,20 @@ case $system in
     compiler=${compiler:=g++}
     config_shell=bash
     export PATH=/igd/a4/software/Linux/bin/:$PATH
-    if test -r /etc/SuSE-release 
+    if test -r /etc/SuSE-release
     then
         VERSION=`tail -1 /etc/SuSE-release | sed -e 's/^[^0-9]*//'`
         distname=suse$VERSION
-    elif test -r /etc/redhat-release 
+    elif test -r /etc/redhat-release
     then
         VERSION=`sed -e 's/^[^0-9]*//' -e 's/[^0-9]*$//' < /etc/redhat-release`
         distname=redhat$VERSION
     else
-        distname=linux    
+        distname=linux
     fi
     ;;
 
-    *-pc-cygwin )   
+    *-pc-cygwin )
 
     if test ${#*} -eq 1
     then
@@ -194,14 +194,14 @@ case $system in
     ;;
 
 
-    hppa2.0w-hp* )	
-       
+    hppa2.0w-hp* )
+
         build_make=make
 	qt_args="--with-qt=/igd/a4/software/HP-UX"
         qt_dir=${qt_dir:="/igd/a4/software/HP-UX"}
         qt_lib=libqt.3
 	glut_args="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"
- 	glut_lib=        
+ 	glut_lib=
         tif_args="--with-tif=/igd/a4/software/HP-UX/"
 	jpeg_args="--with-jpeg=/igd/a4/software/HP-UX/"
  	png_args=""
@@ -212,13 +212,13 @@ case $system in
         # Move HP-toxic stuff out of the way
         Common/prep_hp
 	;;
-    
+
    *)
-    
+
     echo "Unknown system $system!"
     exit 1
     ;;
-    
+
 esac
 
 echo "System" $system
@@ -254,14 +254,14 @@ export OSGSUBPARJOBS=$par_jobs
 
 if test x$OSG_DIST_NO_REBUILD = x
 then
-    if $build_make opt 
+    if $build_make opt
     then
         echo "Opt Build succeeded"
     else
         echo "ERROR: Opt Build failed"
         exit
     fi
-    if $build_make dbg 
+    if $build_make dbg
     then
         echo "Dbg Build succeeded"
     else
@@ -274,7 +274,7 @@ fi
 
 if test x$OSG_DIST_NO_REINSTALL = x
 then
-    if $build_make dbg 
+    if $build_make dbg
     then
         echo "Install succeeded"
     else
@@ -289,20 +289,20 @@ fi
 
 case $system in
     # Windows is very different from the Unices. No, really. :)
-    *-pc-cygwin )           
+    *-pc-cygwin )
 
     cd $olddir
 
     if test x$OSG_DIST_NO_DISTASSEMBLY = x
     then
-    
+
         echo "Copying support"
         rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
         mkdir OpenSG-$OSGVERSION-$distname-$compiler$suffix
         cd OpenSG-$OSGVERSION-$distname-$compiler$suffix
 
         # support libs
-    
+
         mkdir tmp
         cd tmp
         unzip -o $OSGPOOL/dist/win/supportlibs.zip > /dev/null
@@ -329,12 +329,12 @@ case $system in
         then
             cp ${qt_dir}/lib/${qt_lib} lib
         fi
-        
+
         # copy OpenSG stuff
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/include/OpenSG ./include
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/opt/* lib
         cp -r $OSGPOOL/Builds/$system-$compiler$suffix/lib/dbg/* lib
-        
+
     else
         echo "OSG_DIST_NO_DISTASSEMBLY  set, skipping assembly"
 
@@ -363,17 +363,17 @@ case $system in
         fi
 
         cd ../..
- 
+
         # copy the SceneViewer
         cp Examples/SceneViewer/osgSceneViewer.exe .
- 
+
         rm -rf Examples
 
     else
         echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
 
         # copy the SceneViewer
-        
+
         if test -r Examples/SceneViewer/osgSceneViewer.exe
         then
             cp Examples/SceneViewer/osgSceneViewer.exe .
@@ -402,23 +402,23 @@ case $system in
         fi
 
         cd ../..
- 
+
         # copy the fcdEdit
         cp Tools/fcdEdit/fcdEdit.exe .
- 
+
         rm -rf Tools
 
     else
         echo "x$OSG_DIST_NO_FCDEDIT  set, skipping fcdEdit build"
 
         # copy the fcdEdit
-        
+
         if test -r Tools/fcdEdit/fcdEdit.exe
         then
             cp Tools/fcdEdit/fcdEdit.exe .
         fi
     fi
- 
+
     if test x$OSG_DIST_NO_TUTORIALBUILD = x
     then
         # do the tutorials
@@ -443,7 +443,7 @@ case $system in
         fi
     else
         echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
-        
+
         cd Tutorials
     fi
 
@@ -454,23 +454,23 @@ case $system in
     # cleanup the garbage
     rm -rf Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
            vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix*
-    
+
     cd ..
-    
+
     find . -name CVS | xargs rm -rf
-    
+
     var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
     var_expand $OSGPOOL/dist/README.tutorials README.txt
-    
+
     # Build the installer
 
     echo "Building Installer"
-    cd ../..
-    
+    #cd ../..
+
     echo `pwd`
     var_expand $OSGPOOL/dist/win/opensg_bindist.iss opensg_bindist.iss.raw
     perl -pi -e 's/\n/\r\n/;' < opensg_bindist.iss.raw > opensg_bindist.iss
-    
+
     "$innosetup" opensg_bindist.iss
 
     if ! test x$OSG_DIST_CLEANUP = x
@@ -479,7 +479,7 @@ case $system in
 
         echo "Removed OpenSG-$OSGVERSION-$distname-$compiler$suffix";
     fi
-    
+
     exit
     ;;
 esac
@@ -502,7 +502,7 @@ then
         echo "ERROR: SceneViewer Build failed"
         exit
     fi
-    
+
     cd $olddir
 else
     echo "OSG_DIST_NO_EXAMPLEBUILD  set, skipping example build"
@@ -579,7 +579,7 @@ rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .pr
 
 var_expand $OSGPOOL/dist/README.tutorials README
 
-if $build_make 
+if $build_make
 then
     echo "Tutorials succeeded"
 else
@@ -605,8 +605,8 @@ fi
 
 case $system in
     mips-sgi-* )
-    ;;  
-    *-pc-linux-gnu )    
+    ;;
+    *-pc-linux-gnu )
     ;;
 esac
 
@@ -684,7 +684,7 @@ then
     chmod 755 ../run_osgSceneViewer
 fi
 
-if $build_make 
+if $build_make
 then
     echo "Dbg Tutorials succeeded"
 else
@@ -698,9 +698,9 @@ cd ..
 # do system-specific stuff
 
 case $system in
-    mips-sgi-* )              
-    ;;  
-    *-pc-linux-gnu )    
+    mips-sgi-* )
+    ;;
+    *-pc-linux-gnu )
     ;;
 esac
 
