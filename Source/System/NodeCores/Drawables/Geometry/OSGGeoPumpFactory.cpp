@@ -329,7 +329,7 @@ class glextFuncInit
 
         void init(UInt32 (&extids)[numFormats][4], UInt32 extension)
         {
-            extids[_format - formatBase][_dim] =
+            extids[_format - formatBase][_dim - 1] =
                               Window::registerFunction(_name, extension);
         }
 
@@ -1511,8 +1511,8 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
                 if(TexCoords1Data && TexCoords1Index >= 0)
                 {
                     TexCoords1Func(GL_TEXTURE1_ARB,
-                                     TexCoords1Data + TexCoords1Stride *
-                                     vind[TexCoords1Index]);
+                                   TexCoords1Data + TexCoords1Stride *
+                                   vind[TexCoords1Index]);
                 }
 
                 if(TexCoords2Data && TexCoords2Index >= 0)
