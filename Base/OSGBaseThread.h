@@ -664,9 +664,9 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static BaseThread *getCurrent          (void);
+    static BaseThread *getCurrent(void);
 
-    static void        join                (BaseWinThreadBase *pThread);
+    static void        join      (BaseWinThreadBase *pThread);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  

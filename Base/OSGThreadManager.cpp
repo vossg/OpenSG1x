@@ -40,7 +40,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#define OSG_COMPILEMULTITHREADING
+#define OSG_COMPILEBASE
 
 #include <stdlib.h>
 #include <stdio.h>

@@ -664,7 +664,7 @@ void BaseWinThreadBase::threadFunc(void *pThreadArg)
         {
             ((BaseThread *) pArgs[2])->init();
 
-            ((WinThreadBase *) pArgs[2])->setPid();
+            ((BaseWinThreadBase *) pArgs[2])->setPid();
         }
 
         if(pArgs[0] != NULL)
@@ -699,7 +699,7 @@ BaseThread *BaseWinThreadBase::getCurrent(void)
 #endif
 }
         
-void BaseWinThreadBase::join(WinThreadBase *pThread)
+void BaseWinThreadBase::join(BaseWinThreadBase *pThread)
 {
 	if(pThread != NULL)
 		WaitForSingleObject(pThread->_pExternalHandle, INFINITE);
@@ -790,7 +790,7 @@ Bool BaseWinThreadBase::run(ThreadFuncF  fThreadFunc,
 
 		rc = CreateThread(NULL, 
 						  0,    
-                          (LPTHREAD_START_ROUTINE) ThreadBase::threadFunc, 
+                          (LPTHREAD_START_ROUTINE) BaseThreadBase::threadFunc, 
 				          _pThreadData, 
 						  0,    
 						  &tmp);
@@ -827,7 +827,7 @@ Bool BaseWinThreadBase::exists(void)
     Bool returnValue = false;
     DWORD   rc          = 0;
 
-    if(Thread::getCurrent() == this)
+    if(BaseThread::getCurrent() == this)
     {
         GetExitCodeThread(_pThreadHandle,
                           &rc);
@@ -846,7 +846,7 @@ Bool BaseWinThreadBase::exists(void)
 
 void BaseWinThreadBase::terminate(void)
 {
-    if(Thread::getCurrent() == this)
+    if(BaseThread::getCurrent() == this)
     {
         TerminateThread(_pThreadHandle, 0);
     }
@@ -858,7 +858,7 @@ void BaseWinThreadBase::terminate(void)
 
 void BaseWinThreadBase::kill(void)
 {
-    if(Thread::getCurrent() == this)
+    if(BaseThread::getCurrent() == this)
     {
         TerminateThread(_pThreadHandle, 0);
     }
