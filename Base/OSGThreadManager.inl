@@ -175,6 +175,8 @@ MPFieldT *MPFieldStore<MPFieldT>::getMPField(const Char8 *szName,
         }
         else
         {
+            PWARNING  << "could not find type named : " << szName << endl;
+
             returnValue = NULL;
         }
     }
@@ -249,7 +251,6 @@ MPFieldStore<MPFieldT>::MPFieldType *
     }
     else 
     {
-        PWARNING  << "could not find type named : " << szName << endl;
         return NULL;
     }
 }
