@@ -2080,6 +2080,9 @@ dnl e16
     ac_gdz_flexlexer_fix_in_e16=$ac_gdz_commonconf_dir/FlexLexer.h.in
     ac_gdz_flexlexer_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/FlexLexer.h
 
+    ac_gdz_stdlib_fix_in_e16=$ac_gdz_commonconf_dir/stdlib.h.in
+    ac_gdz_stdlib_fix_out_e16=$ac_gdz_package_sub_dir_out/Base/stdlib.h
+
 dnl    ac_gdz__fix_in_e16=$ac_gdz_commonconf_dir/.in
 dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
 
@@ -2095,7 +2098,8 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
               $ac_gdz_vector_fix_out_e16:$ac_gdz_vector_fix_in_e16
               $ac_gdz_stl_locale_fix_out_e16:$ac_gdz_stl_locale_fix_in_e16
               $ac_gdz_stl_ctype_fix_out_e16:$ac_gdz_stl_ctype_fix_in_e16
-              $ac_gdz_flexlexer_fix_out_e16:$ac_gdz_flexlexer_fix_in_e16)
+              $ac_gdz_flexlexer_fix_out_e16:$ac_gdz_flexlexer_fix_in_e16
+              $ac_gdz_stdlib_fix_out_e16:$ac_gdz_stdlib_fix_in_e16)
 ])
 
 AC_DEFUN(AC_GDZ_FIX_MS_INCLUDES,
