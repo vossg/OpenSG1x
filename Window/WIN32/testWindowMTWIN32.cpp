@@ -370,7 +370,7 @@ int main (int argc, char **argv)
     wndClass.style = CS_HREDRAW | CS_VREDRAW;
     wndClass.lpfnWndProc = WndProc;
     wndClass.hInstance = GetModuleHandle(NULL);
-    wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
+    // doesn't compile?!? wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
     wndClass.lpszClassName = "testWindowMTWIN32";
     if (!RegisterClass(&wndClass)) 
     {
