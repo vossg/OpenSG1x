@@ -110,7 +110,8 @@ DOC_PAGES  := 	Code/mainpage.dox \
 				../Source/System/Image/Image.dox \
 				../Source/System/RenderingBackend/RenderingBackend.dox \
 				../Source/System/Statistics/Statistics.dox\
-				Code/faq.dox 
+				Code/faq.dox \
+				Code/acknowledgements.dox 
 
 DOC_IMAGE_PATHES := Images
 
@@ -125,7 +126,7 @@ DOC_FILES := $(DOC_LIBS) $(DOC_PAGES)
 #			 ../Source/Base/StringConversion/StringConversion.dox	\
 #			 ../Source/Base/StringConversion
 
-#DOC_FILES := $(DOC_PAGES) $(DOCS_BASE) ../Source/System/NodeCores/Drawables/Geometry
+DOC_FILES := $(DOC_PAGES) 
 
 # level-dependent defines
 DOC_LEVEL ?= 1
@@ -177,7 +178,7 @@ dodoc:
 	$(MAKE) DOC_IMAGE_TYPE=html images
 
 #   do doxygen
-	$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
+	-$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
 
 #	@rm -f ../Common/dummyClasses.dox 
 
