@@ -354,7 +354,7 @@ int main (int argc, char **argv)
 	OSG::PerspectiveCameraPtr cam = OSG::PerspectiveCamera::create();
 
 	cam->setBeacon( b1n );
-	cam->setFov( deg2rad( 60 ) );
+	cam->setFov( OSG::deg2rad( 60 ) );
 	cam->setNear( 0.1 );
 	cam->setFar( 5000 );
 
