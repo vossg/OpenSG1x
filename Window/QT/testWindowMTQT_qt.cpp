@@ -99,7 +99,6 @@ Barrier         * drawBarrier = NULL;
 MyOSGQGLWidget  *glWidget[NUM_THREADS];
 QApplication    *a;
 
-DrawAction      *ract;
 NodePtr             root;
 NodePtr             file;
 ViewportPtr     vp;
@@ -234,6 +233,9 @@ void *drawThreadProc (void *arg)
 
     int predraw = 5; // draw some preliminary frames
     
+    DrawAction *ract = DrawAction::create();
+
+
     while ( ! my_widget->_stop )
     {
         my_win->frameInit();
@@ -354,7 +356,6 @@ int main( int argc, char **argv )
     
     // Action
     
-    ract = DrawAction::create();
 
     // QT init
 
@@ -415,7 +416,7 @@ int main( int argc, char **argv )
 
     drawBarrier = gThreadManager->getBarrier( "drawBarrier" );
 
-    glWidget[0]->paintGL();
+//    glWidget[0]->paintGL();
     
     retVal = a->exec();    // execute QT main loop
     
