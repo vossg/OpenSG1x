@@ -1285,7 +1285,7 @@ dnl e11
 
         case $build_os in
             cygwin*)
-                ac_gdz_png_lib_e11='png32.lib'
+                ac_gdz_png_lib_e11='png32.lib zlib.lib'
             ;;
             *)
                 ac_gdz_png_lib_e11='-lpng -lz'
