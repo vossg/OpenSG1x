@@ -164,7 +164,7 @@ void PerspectiveCamera::draw( DrawAction * action, const Viewport& port )
 }
 
 void PerspectiveCamera::getProjection( Matrix& result, 
-	const Viewport& port )
+	UInt32 width, UInt32 height )
 {
 	Real32 fov = getFov();
 
@@ -173,7 +173,7 @@ void PerspectiveCamera::getProjection( Matrix& result,
 		fov = osgdegree2rad( fov );
 
 	MatrixPerspective( result, fov / 2, 
-			port.getPixelWidth() / (float) port.getPixelHeight(), 
+			width / (float) height, 
 			getNear(), getFar() );
 }
 	

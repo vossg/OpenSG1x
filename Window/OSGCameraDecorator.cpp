@@ -71,7 +71,7 @@ The base class for the camera.
  *                           Class variables                               *
 \***************************************************************************/
 
-char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.1 2001/07/02 09:03:15 dirk Exp $";
+char CameraDecorator::cvsid[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.2 2001/08/07 17:22:17 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -150,19 +150,21 @@ void CameraDecorator::changed(BitVector, ChangeMode)
 /** get the separate elements needed for rendering */
 // this is simple, just copying data
 
-void CameraDecorator::getProjection( Matrix& result, const Viewport& port )
+void CameraDecorator::getProjection( Matrix& result, UInt32 width, 
+    	    	    	    	    UInt32 height )
 {
-	getCamera()->getProjection( result, port );
+	getCamera()->getProjection( result, width, height );
 }
 
-void CameraDecorator::getProjectionTranslation( Matrix& result, const Viewport& port )
+void CameraDecorator::getProjectionTranslation( Matrix& result, UInt32 width, 
+    	    	    	    	    UInt32 height )
 {
-	getCamera()->getProjectionTranslation( result, port );
+	getCamera()->getProjectionTranslation( result, width, height );
 }
 
-void CameraDecorator::getViewing( Matrix& result, const Viewport& port )
+void CameraDecorator::getViewing( Matrix& result, UInt32 width, UInt32 height )
 {
-	getCamera()->getViewing( result, port );
+	getCamera()->getViewing( result, width, height );
 }
 
 

@@ -105,7 +105,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
 
     /** get the separate elements needed for rendering */
 
-    virtual void getProjection( Matrix& result, const Viewport& port );
+    virtual void getProjection( Matrix& result, UInt32 width, UInt32 height );
 
     /*------------------------------ dump -----------------------------------*/
 

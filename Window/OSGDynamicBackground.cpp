@@ -77,7 +77,7 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
  *                           Class variables                               *
 \***************************************************************************/
 
-char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.4 2001/07/03 14:16:32 vossg Exp $";
+char DynamicBackground::cvsid[] = "@(#)$Id: OSGDynamicBackground.cpp,v 1.5 2001/08/07 17:22:17 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -245,7 +245,8 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 
-		action->getCamera()->getViewing( m, *viewport );
+		action->getCamera()->getViewing( m, viewport->getPixelWidth(),
+		    	    	    				viewport->getPixelHeight() );
 		m[3][0] = m[3][1] = m[3][2] = 0;
 		glLoadMatrixf( m.getValues() );		
 		float scale = ( action->getCamera()->getFar() + 
@@ -255,7 +256,8 @@ void DynamicBackground::clear(DrawAction *action, ViewportP viewport)
 		glMatrixMode(GL_PROJECTION);
 		glPushMatrix();
 
-		action->getCamera()->getProjection( m, *viewport );
+		action->getCamera()->getProjection( m, viewport->getPixelWidth(),
+		    	    	    				   viewport->getPixelHeight() );
 		glLoadMatrixf( m.getValues() );		
 		
 		Real32 r1, g1, b1, r2, g2, b2;
