@@ -1,0 +1,18 @@
+
+Empty Directories or What bugs me about CVS
+===========================================
+
+If you see a large number of empty directories in the OpenSG source tree
+you've found one of the problems of CVS. If you want to get rid of  them, just
+use the '-P' option to cvs checkout or cvs update.
+
+CVS allows you to go back to any old version of the tree. It mirrors the
+directory structure in the repository and thus to be able to access old files
+it needs the original directories. As a consequence, you can't remove
+directories. 
+
+You can use -P on checkout or update, or add it to your ~/.cvsrc file. That's
+the only thing we can do. Sorry for the confusion.
+
+
+The OpenSG Team
