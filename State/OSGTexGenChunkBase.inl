@@ -43,7 +43,7 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TextureChunk!
+ **     class TexGenChunk!
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
@@ -55,27 +55,27 @@ OSG_BEGIN_NAMESPACE
 
 //! access the type of the class
 inline
-OSG::FieldContainerType &TextureChunkBase::getClassType(void)
+OSG::FieldContainerType &TexGenChunkBase::getClassType(void)
 {
     return _type; 
 } 
 
 //! access the numerical type of the class
 inline
-OSG::UInt32 TextureChunkBase::getClassTypeId(void) 
+OSG::UInt32 TexGenChunkBase::getClassTypeId(void) 
 {
     return _type.getId(); 
 } 
 
 //! create a new instance of the class
 inline
-TextureChunkPtr TextureChunkBase::create(void) 
+TexGenChunkPtr TexGenChunkBase::create(void) 
 {
-    TextureChunkPtr fc; 
+    TexGenChunkPtr fc; 
 
     if(getClassType().getPrototype() != osg::NullFC) 
     {
-        fc = TextureChunkPtr::dcast(
+        fc = TexGenChunkPtr::dcast(
             getClassType().getPrototype()-> shallowCopy()); 
     }
     
@@ -84,9 +84,9 @@ TextureChunkPtr TextureChunkBase::create(void)
 
 //! create an empty new instance of the class, do not copy the prototype
 inline
-TextureChunkPtr TextureChunkBase::createEmpty(void) 
+TexGenChunkPtr TexGenChunkBase::createEmpty(void) 
 { 
-    TextureChunkPtr returnValue; 
+    TexGenChunkPtr returnValue; 
     
     newPtr(returnValue); 
 
@@ -97,297 +97,201 @@ TextureChunkPtr TextureChunkBase::createEmpty(void)
 /*------------------------------ get -----------------------------------*/
 
 inline
-SFImageP *TextureChunkBase::getSFImage(void)
+SFUInt32 *TexGenChunkBase::getSFGenFuncS(void)
 {
-    return &_sfImage;
+    return &_sfGenFuncS;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFInternalFormat(void)
+SFUInt32 *TexGenChunkBase::getSFGenFuncT(void)
 {
-    return &_sfInternalFormat;
+    return &_sfGenFuncT;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFExternalFormat(void)
+SFUInt32 *TexGenChunkBase::getSFGenFuncR(void)
 {
-    return &_sfExternalFormat;
+    return &_sfGenFuncR;
 }
 
 inline
-SFBool *TextureChunkBase::getSFScale(void)
+SFUInt32 *TexGenChunkBase::getSFGenFuncQ(void)
 {
-    return &_sfScale;
+    return &_sfGenFuncQ;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFFrame(void)
+SFVec4f *TexGenChunkBase::getSFGenFuncSPlane(void)
 {
-    return &_sfFrame;
+    return &_sfGenFuncSPlane;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFMinFilter(void)
+SFVec4f *TexGenChunkBase::getSFGenFuncTPlane(void)
 {
-    return &_sfMinFilter;
+    return &_sfGenFuncTPlane;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFMagFilter(void)
+SFVec4f *TexGenChunkBase::getSFGenFuncRPlane(void)
 {
-    return &_sfMagFilter;
+    return &_sfGenFuncRPlane;
 }
 
 inline
-SFUInt32 *TextureChunkBase::getSFWrapS(void)
+SFVec4f *TexGenChunkBase::getSFGenFuncQPlane(void)
 {
-    return &_sfWrapS;
-}
-
-inline
-SFUInt32 *TextureChunkBase::getSFWrapT(void)
-{
-    return &_sfWrapT;
-}
-
-inline
-SFUInt32 *TextureChunkBase::getSFWrapR(void)
-{
-    return &_sfWrapR;
-}
-
-inline
-SFUInt32 *TextureChunkBase::getSFEnvMode(void)
-{
-    return &_sfEnvMode;
-}
-
-inline
-SFUInt32 *TextureChunkBase::getSFGLId(void)
-{
-    return &_sfGLId;
+    return &_sfGenFuncQPlane;
 }
 
 
 inline
-ImageP &TextureChunkBase::getImage(void)
+UInt32 &TexGenChunkBase::getGenFuncS(void)
 {
-    return _sfImage.getValue();
+    return _sfGenFuncS.getValue();
 }
 
 inline
-const ImageP &TextureChunkBase::getImage(void) const
+const UInt32 &TexGenChunkBase::getGenFuncS(void) const
 {
-    return _sfImage.getValue();
+    return _sfGenFuncS.getValue();
 }
 
 inline
-void TextureChunkBase::setImage(const ImageP &value)
+void TexGenChunkBase::setGenFuncS(const UInt32 &value)
 {
-    _sfImage.setValue(value);
+    _sfGenFuncS.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getInternalFormat(void)
+UInt32 &TexGenChunkBase::getGenFuncT(void)
 {
-    return _sfInternalFormat.getValue();
+    return _sfGenFuncT.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getInternalFormat(void) const
+const UInt32 &TexGenChunkBase::getGenFuncT(void) const
 {
-    return _sfInternalFormat.getValue();
+    return _sfGenFuncT.getValue();
 }
 
 inline
-void TextureChunkBase::setInternalFormat(const UInt32 &value)
+void TexGenChunkBase::setGenFuncT(const UInt32 &value)
 {
-    _sfInternalFormat.setValue(value);
+    _sfGenFuncT.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getExternalFormat(void)
+UInt32 &TexGenChunkBase::getGenFuncR(void)
 {
-    return _sfExternalFormat.getValue();
+    return _sfGenFuncR.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getExternalFormat(void) const
+const UInt32 &TexGenChunkBase::getGenFuncR(void) const
 {
-    return _sfExternalFormat.getValue();
+    return _sfGenFuncR.getValue();
 }
 
 inline
-void TextureChunkBase::setExternalFormat(const UInt32 &value)
+void TexGenChunkBase::setGenFuncR(const UInt32 &value)
 {
-    _sfExternalFormat.setValue(value);
+    _sfGenFuncR.setValue(value);
 }
 
 inline
-bool &TextureChunkBase::getScale(void)
+UInt32 &TexGenChunkBase::getGenFuncQ(void)
 {
-    return _sfScale.getValue();
+    return _sfGenFuncQ.getValue();
 }
 
 inline
-const bool &TextureChunkBase::getScale(void) const
+const UInt32 &TexGenChunkBase::getGenFuncQ(void) const
 {
-    return _sfScale.getValue();
+    return _sfGenFuncQ.getValue();
 }
 
 inline
-void TextureChunkBase::setScale(const bool &value)
+void TexGenChunkBase::setGenFuncQ(const UInt32 &value)
 {
-    _sfScale.setValue(value);
+    _sfGenFuncQ.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getFrame(void)
+Vec4f &TexGenChunkBase::getGenFuncSPlane(void)
 {
-    return _sfFrame.getValue();
+    return _sfGenFuncSPlane.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getFrame(void) const
+const Vec4f &TexGenChunkBase::getGenFuncSPlane(void) const
 {
-    return _sfFrame.getValue();
+    return _sfGenFuncSPlane.getValue();
 }
 
 inline
-void TextureChunkBase::setFrame(const UInt32 &value)
+void TexGenChunkBase::setGenFuncSPlane(const Vec4f &value)
 {
-    _sfFrame.setValue(value);
+    _sfGenFuncSPlane.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getMinFilter(void)
+Vec4f &TexGenChunkBase::getGenFuncTPlane(void)
 {
-    return _sfMinFilter.getValue();
+    return _sfGenFuncTPlane.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getMinFilter(void) const
+const Vec4f &TexGenChunkBase::getGenFuncTPlane(void) const
 {
-    return _sfMinFilter.getValue();
+    return _sfGenFuncTPlane.getValue();
 }
 
 inline
-void TextureChunkBase::setMinFilter(const UInt32 &value)
+void TexGenChunkBase::setGenFuncTPlane(const Vec4f &value)
 {
-    _sfMinFilter.setValue(value);
+    _sfGenFuncTPlane.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getMagFilter(void)
+Vec4f &TexGenChunkBase::getGenFuncRPlane(void)
 {
-    return _sfMagFilter.getValue();
+    return _sfGenFuncRPlane.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getMagFilter(void) const
+const Vec4f &TexGenChunkBase::getGenFuncRPlane(void) const
 {
-    return _sfMagFilter.getValue();
+    return _sfGenFuncRPlane.getValue();
 }
 
 inline
-void TextureChunkBase::setMagFilter(const UInt32 &value)
+void TexGenChunkBase::setGenFuncRPlane(const Vec4f &value)
 {
-    _sfMagFilter.setValue(value);
+    _sfGenFuncRPlane.setValue(value);
 }
 
 inline
-UInt32 &TextureChunkBase::getWrapS(void)
+Vec4f &TexGenChunkBase::getGenFuncQPlane(void)
 {
-    return _sfWrapS.getValue();
+    return _sfGenFuncQPlane.getValue();
 }
 
 inline
-const UInt32 &TextureChunkBase::getWrapS(void) const
+const Vec4f &TexGenChunkBase::getGenFuncQPlane(void) const
 {
-    return _sfWrapS.getValue();
+    return _sfGenFuncQPlane.getValue();
 }
 
 inline
-void TextureChunkBase::setWrapS(const UInt32 &value)
+void TexGenChunkBase::setGenFuncQPlane(const Vec4f &value)
 {
-    _sfWrapS.setValue(value);
-}
-
-inline
-UInt32 &TextureChunkBase::getWrapT(void)
-{
-    return _sfWrapT.getValue();
-}
-
-inline
-const UInt32 &TextureChunkBase::getWrapT(void) const
-{
-    return _sfWrapT.getValue();
-}
-
-inline
-void TextureChunkBase::setWrapT(const UInt32 &value)
-{
-    _sfWrapT.setValue(value);
-}
-
-inline
-UInt32 &TextureChunkBase::getWrapR(void)
-{
-    return _sfWrapR.getValue();
-}
-
-inline
-const UInt32 &TextureChunkBase::getWrapR(void) const
-{
-    return _sfWrapR.getValue();
-}
-
-inline
-void TextureChunkBase::setWrapR(const UInt32 &value)
-{
-    _sfWrapR.setValue(value);
-}
-
-inline
-UInt32 &TextureChunkBase::getEnvMode(void)
-{
-    return _sfEnvMode.getValue();
-}
-
-inline
-const UInt32 &TextureChunkBase::getEnvMode(void) const
-{
-    return _sfEnvMode.getValue();
-}
-
-inline
-void TextureChunkBase::setEnvMode(const UInt32 &value)
-{
-    _sfEnvMode.setValue(value);
-}
-
-inline
-UInt32 &TextureChunkBase::getGLId(void)
-{
-    return _sfGLId.getValue();
-}
-
-inline
-const UInt32 &TextureChunkBase::getGLId(void) const
-{
-    return _sfGLId.getValue();
-}
-
-inline
-void TextureChunkBase::setGLId(const UInt32 &value)
-{
-    _sfGLId.setValue(value);
+    _sfGenFuncQPlane.setValue(value);
 }
 
 
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTextureChunkBase.inl,v 1.15 2002/06/10 22:10:47 dirk Exp $"
+#define OSGTEXGENCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTexGenChunkBase.inl,v 1.1 2002/06/10 22:10:47 dirk Exp $"
 

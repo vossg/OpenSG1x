@@ -1,5 +1,16 @@
-
 #include <OSGGLUT.h>
+
+#ifndef GL_ARB_multitexture
+#include <stdio.h>
+
+int main(int argc, char *argv[])
+{
+    fprintf(stderr,"%s: only works with multi-texture support!\n", argv[0]);
+    return 0;
+}
+
+#else
+
 #include <OSGLog.h>
 
 #include <OSGWindow.h>
@@ -19,11 +30,9 @@ OSG_USING_NAMESPACE
 
 TransformChunkPtr tchunk1, tchunk2;
 MaterialChunkPtr mchunk1, mchunk2;
-TextureChunkPtr xchunk1;
+TextureChunkPtr xchunk1, xchunk2;
 BlendChunkPtr blchunk;
-PolygonChunkPtr pchunk1,pchunk2;
-TextureTransformChunkPtr txchunk;
-LineChunkPtr lichunk1,lichunk2;
+TextureTransformChunkPtr txchunk,txchunk2;
 
 Image image;
 
@@ -42,13 +51,6 @@ display(void)
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    switch ( (int) ( t / 4000 ) % 3 )   
-    {
-    case 0:     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
-    case 1:     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
-    case 2:     glPolygonMode( GL_FRONT_AND_BACK, GL_POINT ); break;
-    }
-
     Matrix m;
     Quaternion q;
     q.setValueAsAxisDeg( 0,1,0, -t/20 );
@@ -57,37 +59,35 @@ display(void)
 
     tchunk1->activate( dact );
     mchunk1->activate( dact );
-    pchunk1->activate( dact );
-    lichunk1->activate( dact );
 
-    glCallList( dlid );
+//    glCallList( dlid );
 
     m.setIdentity();
     m.setTranslate( cos(t/1000), 0, sin(t/1000) );
     tchunk2->setMatrix( m );
 
 
-    pchunk2->changeFrom( dact, pchunk1.getCPtr() );
     tchunk2->changeFrom( dact, tchunk1.getCPtr() );
     mchunk2->changeFrom( dact, mchunk1.getCPtr() );
-    lichunk2->changeFrom( dact, lichunk1.getCPtr() );
     blchunk->activate( dact );
 
     glCallList( dlid );
 
     tchunk2->deactivate( dact );
     mchunk2->deactivate( dact );
-    pchunk2->deactivate( dact );
-    lichunk2->deactivate( dact );
     blchunk->deactivate( dact );
 
-    xchunk1->activate( dact );
-    txchunk->activate( dact );
+    xchunk1->activate( dact, 0 );
+    xchunk2->activate( dact, 1 );
+    txchunk->activate( dact, 0 );
+    txchunk2->activate( dact, 1 );
 
     glCallList( dlid2 );
 
-    xchunk1->deactivate( dact );
-    txchunk->deactivate( dact );
+    xchunk1->deactivate( dact, 0 );
+    xchunk2->deactivate( dact, 1 );
+    txchunk->deactivate( dact, 0 );
+    txchunk2->deactivate( dact, 1 );
 
     win->frameExit();
 
@@ -183,12 +183,16 @@ int main( int argc, char *argv[] )
     glNormal3f( 0, 1, 0 );
     glColor3f( 1, 1, 1 );
     glTexCoord2f( 0, 0 );
+    glMultiTexCoord2fARB( GL_TEXTURE1_ARB, 0, 0 );
     glVertex3f( -1.5, -1, -1.5 );
     glTexCoord2f( 2, 0 );
+    glMultiTexCoord2fARB( GL_TEXTURE1_ARB, 2, 0 );
     glVertex3f(  1.5, -1, -1.5 );
     glTexCoord2f( 2, 2 );
+    glMultiTexCoord2fARB( GL_TEXTURE1_ARB, 2, 2 );
     glVertex3f(  1.5, -1,  1.5 );
     glTexCoord2f( 0, 2 );
+    glMultiTexCoord2fARB( GL_TEXTURE1_ARB, 0, 2 );
     glVertex3f( -1.5, -1,  1.5 );
     glEnd();
     glEndList();
@@ -225,7 +229,7 @@ int main( int argc, char *argv[] )
            255,255,0,  255,255,0,  255,255,255, };
 //  UChar8 limgdata[] =
 //      {  0, 128, 64, 255 };
-    image.set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
+    image.set( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata );
 
     if ( argc > 1 )
         image.read( argv[1] );
@@ -249,6 +253,22 @@ int main( int argc, char *argv[] )
     xchunk1->setImage( &image );
     endEditCP(xchunk1);
 
+    UChar8 imgdata2[] =
+    {  255,0,0,  0,255,0,  0,0,255,  255,255,255 };
+
+
+    Image image2( Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata2 );
+
+    xchunk2 = TextureChunk::create();
+    beginEditCP(xchunk2);
+    xchunk2->setImage( &image2 );
+    xchunk2->setMinFilter( GL_LINEAR );
+    xchunk2->setMagFilter( GL_LINEAR );
+    xchunk2->setWrapS( GL_REPEAT );
+    xchunk2->setWrapT( GL_REPEAT );
+    xchunk2->setEnvMode( GL_MODULATE );
+    endEditCP(xchunk2);
+    
     // blend chunk
 
     blchunk = BlendChunk::create();
@@ -265,54 +285,17 @@ int main( int argc, char *argv[] )
     txchunk->setMatrix( Matrix(4,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1) );
     endEditCP(txchunk);
 
-    // polygon chunk
-
-    pchunk1 = PolygonChunk::create();
-    {
-    UInt32 stipple[32] = {
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff,
-        0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff
-        };
-
-    pchunk1->getMFStipple()->clear();
-    for ( int i = 0; i < 32; i++ )
-        pchunk1->getMFStipple()->push_back( stipple[i] );
-    }
-
-    pchunk2 = PolygonChunk::create();
-    {
-    UInt32 stipple[32] = {
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff,
-        0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        };
-
-    pchunk2->getMFStipple()->clear();
-    for ( int i = 0; i < 32; i++ )
-        pchunk2->getMFStipple()->push_back( stipple[i] );
-    }
-
-
-    lichunk1 = LineChunk::create();
-    lichunk1->setSmooth(true);
-    lichunk1->setStipplePattern(0xf0f0);
-
-    lichunk2 = LineChunk::create();
-    lichunk2->setStippleRepeat(5);
-    lichunk2->setStipplePattern(0xaaaa);
+    txchunk2 = TextureTransformChunk::create();
+    beginEditCP(txchunk2);
+    Quaternion q;
+    q.setValueAsAxisDeg(0,0,1, 45);
+    m.setTransform(q);
+    txchunk2->setMatrix(m);
+    endEditCP(txchunk2);
 
     glutMainLoop();
 
     return 0;
 }
+
+#endif

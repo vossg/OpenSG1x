@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TextureChunk
+ **     class CubeTextureChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGTEXTURECHUNKBASE_H_
-#define _OSGTEXTURECHUNKBASE_H_
+#ifndef _OSGCUBETEXTURECHUNKBASE_H_
+#define _OSGCUBETEXTURECHUNKBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -65,68 +65,47 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainer.h>
 
-#include <OSGStateChunk.h> // Parent
+#include <OSGTextureChunk.h> // Parent
 
-#include <OSGImagePFields.h> // Image type
-#include <OSGUInt32Fields.h> // InternalFormat type
-#include <OSGUInt32Fields.h> // ExternalFormat type
-#include <OSGBoolFields.h> // Scale type
-#include <OSGUInt32Fields.h> // Frame type
-#include <OSGUInt32Fields.h> // MinFilter type
-#include <OSGUInt32Fields.h> // MagFilter type
-#include <OSGUInt32Fields.h> // WrapS type
-#include <OSGUInt32Fields.h> // WrapT type
-#include <OSGUInt32Fields.h> // WrapR type
-#include <OSGUInt32Fields.h> // EnvMode type
-#include <OSGUInt32Fields.h> // GLId type
+#include <OSGImagePFields.h> // PosZImage type
+#include <OSGImagePFields.h> // PosXImage type
+#include <OSGImagePFields.h> // NegXImage type
+#include <OSGImagePFields.h> // PosYImage type
+#include <OSGImagePFields.h> // NegYImage type
 
-#include <OSGTextureChunkFields.h>
+#include <OSGCubeTextureChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class TextureChunk;
+class CubeTextureChunk;
 class BinaryDataHandler;
 
-//! \brief TextureChunk Base Class.
+//! \brief CubeTextureChunk Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
 {
   private:
 
-    typedef StateChunk Inherited;
+    typedef TextureChunk Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        ImageFieldId          = Inherited::NextFieldId,
-        InternalFormatFieldId = ImageFieldId          + 1,
-        ExternalFormatFieldId = InternalFormatFieldId + 1,
-        ScaleFieldId          = ExternalFormatFieldId + 1,
-        FrameFieldId          = ScaleFieldId          + 1,
-        MinFilterFieldId      = FrameFieldId          + 1,
-        MagFilterFieldId      = MinFilterFieldId      + 1,
-        WrapSFieldId          = MagFilterFieldId      + 1,
-        WrapTFieldId          = WrapSFieldId          + 1,
-        WrapRFieldId          = WrapTFieldId          + 1,
-        EnvModeFieldId        = WrapRFieldId          + 1,
-        GLIdFieldId           = EnvModeFieldId        + 1,
-        NextFieldId           = GLIdFieldId           + 1
+        PosZImageFieldId = Inherited::NextFieldId,
+        PosXImageFieldId = PosZImageFieldId + 1,
+        NegXImageFieldId = PosXImageFieldId + 1,
+        PosYImageFieldId = NegXImageFieldId + 1,
+        NegYImageFieldId = PosYImageFieldId + 1,
+        NextFieldId      = NegYImageFieldId + 1
     };
 
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector InternalFormatFieldMask;
-    static const osg::BitVector ExternalFormatFieldMask;
-    static const osg::BitVector ScaleFieldMask;
-    static const osg::BitVector FrameFieldMask;
-    static const osg::BitVector MinFilterFieldMask;
-    static const osg::BitVector MagFilterFieldMask;
-    static const osg::BitVector WrapSFieldMask;
-    static const osg::BitVector WrapTFieldMask;
-    static const osg::BitVector WrapRFieldMask;
-    static const osg::BitVector EnvModeFieldMask;
-    static const osg::BitVector GLIdFieldMask;
+    static const osg::BitVector PosZImageFieldMask;
+    static const osg::BitVector PosXImageFieldMask;
+    static const osg::BitVector NegXImageFieldMask;
+    static const osg::BitVector PosYImageFieldMask;
+    static const osg::BitVector NegYImageFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -151,61 +130,33 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFImage          (void);
-           SFUInt32            *getSFInternalFormat (void);
-           SFUInt32            *getSFExternalFormat (void);
-           SFBool              *getSFScale          (void);
-           SFUInt32            *getSFFrame          (void);
-           SFUInt32            *getSFMinFilter      (void);
-           SFUInt32            *getSFMagFilter      (void);
-           SFUInt32            *getSFWrapS          (void);
-           SFUInt32            *getSFWrapT          (void);
-           SFUInt32            *getSFWrapR          (void);
-           SFUInt32            *getSFEnvMode        (void);
-           SFUInt32            *getSFGLId           (void);
+           SFImageP            *getSFPosZImage      (void);
+           SFImageP            *getSFPosXImage      (void);
+           SFImageP            *getSFNegXImage      (void);
+           SFImageP            *getSFPosYImage      (void);
+           SFImageP            *getSFNegYImage      (void);
 
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
-           UInt32              &getInternalFormat (void);
-     const UInt32              &getInternalFormat (void) const;
-           UInt32              &getExternalFormat (void);
-     const UInt32              &getExternalFormat (void) const;
-           bool                &getScale          (void);
-     const bool                &getScale          (void) const;
-           UInt32              &getFrame          (void);
-     const UInt32              &getFrame          (void) const;
-           UInt32              &getMinFilter      (void);
-     const UInt32              &getMinFilter      (void) const;
-           UInt32              &getMagFilter      (void);
-     const UInt32              &getMagFilter      (void) const;
-           UInt32              &getWrapS          (void);
-     const UInt32              &getWrapS          (void) const;
-           UInt32              &getWrapT          (void);
-     const UInt32              &getWrapT          (void) const;
-           UInt32              &getWrapR          (void);
-     const UInt32              &getWrapR          (void) const;
-           UInt32              &getEnvMode        (void);
-     const UInt32              &getEnvMode        (void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
+           ImageP              &getPosZImage      (void);
+     const ImageP              &getPosZImage      (void) const;
+           ImageP              &getPosXImage      (void);
+     const ImageP              &getPosXImage      (void) const;
+           ImageP              &getNegXImage      (void);
+     const ImageP              &getNegXImage      (void) const;
+           ImageP              &getPosYImage      (void);
+     const ImageP              &getPosYImage      (void) const;
+           ImageP              &getNegYImage      (void);
+     const ImageP              &getNegYImage      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
-     void setInternalFormat ( const UInt32 &value );
-     void setExternalFormat ( const UInt32 &value );
-     void setScale          ( const bool &value );
-     void setFrame          ( const UInt32 &value );
-     void setMinFilter      ( const UInt32 &value );
-     void setMagFilter      ( const UInt32 &value );
-     void setWrapS          ( const UInt32 &value );
-     void setWrapT          ( const UInt32 &value );
-     void setWrapR          ( const UInt32 &value );
-     void setEnvMode        ( const UInt32 &value );
-     void setGLId           ( const UInt32 &value );
+     void setPosZImage      ( const ImageP &value );
+     void setPosXImage      ( const ImageP &value );
+     void setNegXImage      ( const ImageP &value );
+     void setPosYImage      ( const ImageP &value );
+     void setNegYImage      ( const ImageP &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,8 +183,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  TextureChunkPtr      create          (void); 
-    static  TextureChunkPtr      createEmpty     (void); 
+    static  CubeTextureChunkPtr      create          (void); 
+    static  CubeTextureChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -251,40 +202,33 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfImage;
-    SFUInt32            _sfInternalFormat;
-    SFUInt32            _sfExternalFormat;
-    SFBool              _sfScale;
-    SFUInt32            _sfFrame;
-    SFUInt32            _sfMinFilter;
-    SFUInt32            _sfMagFilter;
-    SFUInt32            _sfWrapS;
-    SFUInt32            _sfWrapT;
-    SFUInt32            _sfWrapR;
-    SFUInt32            _sfEnvMode;
-    SFUInt32            _sfGLId;
+    SFImageP            _sfPosZImage;
+    SFImageP            _sfPosXImage;
+    SFImageP            _sfNegXImage;
+    SFImageP            _sfPosYImage;
+    SFImageP            _sfNegYImage;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TextureChunkBase(void);
-    TextureChunkBase(const TextureChunkBase &source);
+    CubeTextureChunkBase(void);
+    CubeTextureChunkBase(const CubeTextureChunkBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureChunkBase(void); 
+    virtual ~CubeTextureChunkBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      TextureChunkBase *pOther,
+    void executeSyncImpl(      CubeTextureChunkBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -298,7 +242,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const TextureChunkBase &source);
+    void operator =(const CubeTextureChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -306,10 +250,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-typedef TextureChunkBase *TextureChunkBaseP;
+typedef CubeTextureChunkBase *CubeTextureChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.24 2002/06/10 22:10:47 dirk Exp $"
+#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunkBase.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
 
-#endif /* _OSGTEXTURECHUNKBASE_H_ */
+#endif /* _OSGCUBETEXTURECHUNKBASE_H_ */

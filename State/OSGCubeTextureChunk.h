@@ -36,58 +36,39 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTEXTURETRANSFORMCHUNK_H_
-#define _OSGTEXTURETRANSFORMCHUNK_H_
+#ifndef _OSGCUBETEXTURECHUNK_H_
+#define _OSGCUBETEXTURECHUNK_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
+#include <OSGWindow.h>
 
-#include <OSGTextureTransformChunkBase.h>
+#include <OSGCubeTextureChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief *put brief class description here* 
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformChunkBase
+class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
 {
   private:
 
-    typedef TextureTransformChunkBase Inherited;
+    typedef CubeTextureChunkBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name            Fieldcontainer Declaration                        */
+    /*! \name                Instance Functions                            */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    virtual const StateChunkClass *getClass(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
-    /*! \{                                                                 */
-
-    virtual void changed(BitVector whichField, 
-                         UInt32    origin    );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      State                                   */
-    /*! \{                                                                 */
-
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
-
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
-
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
-
-    /*! \}                                                                 */
-     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -95,24 +76,62 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       State                                  */
+    /*! \{                                                                 */
+
+    virtual void activate   (DrawActionBase * action, UInt32 index = 0);
+
+    virtual void changeFrom (DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0 );
+
+    virtual void deactivate (DrawActionBase * action, UInt32 index = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
+
+    virtual Real32 switchCost  (StateChunk * chunk);
+
+    virtual bool   operator <  (const StateChunk &other) const;
+
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Texture specific                              */
+    /*! \{                                                                 */
+
+    inline void imageContentChanged( void );
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in TextureTransformChunkBase.
+    // Variables should all be in CubeTextureChunkBase.
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Init                                   */
+    /*! \{                                                                 */
+
+    void onCreate(const CubeTextureChunk *source = NULL);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    TextureTransformChunk(void);
-    TextureTransformChunk(const TextureTransformChunk &source);
+    CubeTextureChunk(void);
+    CubeTextureChunk(const CubeTextureChunk &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureTransformChunk(void); 
+    virtual ~CubeTextureChunk(void); 
 
     /*! \}                                                                 */
     
@@ -120,25 +139,35 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
   private:
 
     friend class FieldContainer;
-    friend class TextureTransformChunkBase;
-
-    static void initMethod(void);
+    friend class CubeTextureChunkBase;
 
     // class. Used for indexing in State
     static StateChunkClass _class;
-   
+
+    // extension indices for used extensions;
+
+    static void initMethod(void);
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                         GL                                   */
+    /*! \{                                                                 */
+
+    void handleGL(Window *win, UInt32 id);
+
+    /*! \}                                                                 */
+
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const TextureTransformChunk &source);
+    void operator =(const CubeTextureChunk &source);
 };
 
-typedef TextureTransformChunk *TextureTransformChunkP;
+typedef CubeTextureChunk *CubeTextureChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureTransformChunkBase.inl>
-#include <OSGTextureTransformChunk.inl>
+#include <OSGCubeTextureChunkBase.inl>
+#include <OSGCubeTextureChunk.inl>
 
-#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.5 2002/06/10 22:10:47 dirk Exp $"
+#define OSGCUBETEXTURECHUNK_HEADER_CVSID "@(#)$Id: OSGCubeTextureChunk.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
 
-#endif /* _OSGTEXTURETRANSFORMCHUNK_H_ */
+#endif /* _OSGCUBETEXTURECHUNK_H_ */

@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -35,51 +37,19 @@
 \*---------------------------------------------------------------------------*/
 
 
-#include <stdlib.h>
-#include <stdio.h>
+#ifndef _OSGTESTCUBEMAPS_H_
+#define _OSGTESTCUBEMAPS_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
+#include <OSGCubeTextureChunk.h>
 
 OSG_BEGIN_NAMESPACE
 
-#ifndef GL_TEXTURE0_ARB
-#define GL_TEXTURE0_ARB 0x84C0
-#endif
-
-inline
-const StateChunkClass *TextureChunk::getClass( void ) const
-{
-    return &_class;
-}
-
-
-inline void TextureChunk::imageContentChanged( void )
-{
-    Window::refreshGLObject(getGLId());
-}
-
-
-inline bool TextureChunk::hasMultiTexture(Window *win)
-{
-    return win->hasExtension(_arbMultiTex);
-}
-
-//! call glActiveTexture via the extension mechanism
-inline void TextureChunk::activeTexture(Window *win, UInt16 texture)
-{
-    void (*ActiveTexture)(GLenum target) = 
-            (void (*)(GLenum target))
-            win->getFunction(_funcActiveTexture);
-    ActiveTexture(GL_TEXTURE0_ARB + texture);
-}
-
-//! call glActiveTexture via the extension mechanism, if MultiTextures
-//! are supported
-inline void TextureChunk::activateTexture(Window *win, UInt16 texture)
-{
-    if(hasMultiTexture(win))
-        activeTexture(win, texture);
-}
+OSG_SYSTEMLIB_DLLMAPPING void setTestCubeImages(CubeTextureChunkPtr chunk );
 
 OSG_END_NAMESPACE
 
+#endif /* _OSGTESTCUBEMAPS_H_ */

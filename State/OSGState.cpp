@@ -282,14 +282,14 @@ void State::activate(DrawActionBase *action)
     UInt32 cind;
 
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
-          ++it, ++cind,  ++ind )
+          ++it, ++cind )
     {
         if ( *it != NullFC )
         {
             (*it)->activate( action, UInt32(ind) );
         }
-        if ( ind >= StateChunkClass::getNumSlots( cind ) )
-            ind = -1;
+        if ( ++ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = 0;
     }
 }
 
@@ -302,7 +302,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
     UInt32 cind;
 
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
-          ++it, ++cind, ++ind )
+          ++it, ++cind )
     {
         StateChunkPtr o = old->getChunk( cind );
         StateChunkPtr n = *it;
@@ -317,13 +317,13 @@ void State::changeFrom(DrawActionBase *action, State *old)
         else if ( o != NullFC )
             o->deactivate( action, UInt32(ind) );
 
-        if ( ind >= StateChunkClass::getNumSlots( cind ) )
-            ind = -1;
+        if ( ++ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = 0;
     }
 
     ind = 0;
 
-    for(i = cind; i < old->getChunks().size(); ++i, ++ind)
+    for(i = cind; i < old->getChunks().size(); ++i)
     {
         StateChunkPtr o = old->getChunk(i);
 
@@ -332,9 +332,9 @@ void State::changeFrom(DrawActionBase *action, State *old)
             o->deactivate(action, UInt32(ind));
         }
 
-        if(ind >= StateChunkClass::getNumSlots(cind))
+        if(++ind >= StateChunkClass::getNumSlots(cind))
         {
-            ind = -1;
+            ind = 0;
         }
     }
 }
@@ -348,12 +348,12 @@ void State::deactivate ( DrawActionBase *action )
     UInt32 cind;
 
     for ( it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
-          ++it, ++cind,  ++ind )
+          ++it, ++cind )
     {
         if ( *it != NullFC )
             (*it)->deactivate( action, UInt32(ind) );
-        if ( ind >= StateChunkClass::getNumSlots( cind ) )
-            ind = -1;
+        if ( ++ind >= StateChunkClass::getNumSlots( cind ) )
+            ind = 0;
     }
 }
 

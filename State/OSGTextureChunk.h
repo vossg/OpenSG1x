@@ -6,7 +6,7 @@
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zghdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
@@ -49,6 +49,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+#define osgMaxTextures 4
+
 //! chunk for single texture attributes
 
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
@@ -57,19 +59,12 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "TextureChunk"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                Instance Functions                            */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    virtual const StateChunkClass *getClass(void) const;
 
-    virtual      bool               isTransparent(void) const;
+    virtual      bool              isTransparent(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -92,19 +87,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                       State                                  */
     /*! \{                                                                 */
 
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void activate   (DrawActionBase * action, UInt32 index = 0);
 
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
+    virtual void changeFrom (DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0);
 
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
+    virtual void deactivate (DrawActionBase * action, UInt32 index = 0);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Comparison                                 */
     /*! \{                                                                 */
 
-    virtual Real32 switchCost  ( StateChunk * chunk );
+    virtual Real32 switchCost  (StateChunk * chunk);
 
     virtual bool   operator <  (const StateChunk &other) const;
 
@@ -117,6 +112,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \{                                                                 */
 
     inline void imageContentChanged( void );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name             Multitexture handling                            */
+    /*! \{                                                                 */
+
+    static inline bool hasMultiTexture(Window *win);
+    static inline void activeTexture  (Window *win, UInt16 texture);
+    static inline void activateTexture(Window *win, UInt16 texture);
 
     /*! \}                                                                 */
 
@@ -145,6 +149,26 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     virtual ~TextureChunk(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                         GL                                   */
+    /*! \{                                                                 */
+
+    void handleTexture(Window *win, UInt32 id, GLenum bindtarget,
+                       GLenum paramtarget,
+                       GLenum imgtarget, 
+                       Window::GLObjectStatusE mode, Image *img);
+
+    /*! \}                                                                 */ 
+
+    // extension indices for used extensions;
+    static UInt32 _extTex3D;
+    static UInt32 _arbMultiTex;
+    
+    // extension indices for used fucntions;
+    static UInt32 _funcTexImage3D;
+    static UInt32 _funcTexSubImage3D;
+    static UInt32 _funcActiveTexture;
+    static UInt32 _arbCubeTex;
 
     /*==========================  PRIVATE  ================================*/
   private:
@@ -159,14 +183,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     // class. Used for indexing in State
     static StateChunkClass _class;
 
-    // extension indices for used extensions;
-    static UInt32 _extTex3D;
-    static UInt32 _arbMultiTex;
-    
-    // extension indices for used fucntions;
-    static UInt32 _funcTexImage3D;
-    static UInt32 _funcTexSubImage3D;
-
     static void initMethod( void );
 
     /*---------------------------------------------------------------------*/
@@ -174,8 +190,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \{                                                                 */
 
     void handleGL( Window *win, UInt32 id );
-
-    /*! \}                                                                 */
+    
+   /*! \}                                                                 */
 
     // prohibit default functions (move to 'public' if you need one)
 

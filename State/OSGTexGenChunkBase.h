@@ -45,14 +45,14 @@
  **           regenerated, which can become necessary at any time.          **
  **                                                                         **
  **     Do not change this file, changes should be done in the derived      **
- **     class TextureChunk
+ **     class TexGenChunk
  **                                                                         **
  *****************************************************************************
 \*****************************************************************************/
 
 
-#ifndef _OSGTEXTURECHUNKBASE_H_
-#define _OSGTEXTURECHUNKBASE_H_
+#ifndef _OSGTEXGENCHUNKBASE_H_
+#define _OSGTEXGENCHUNKBASE_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -67,29 +67,25 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGImagePFields.h> // Image type
-#include <OSGUInt32Fields.h> // InternalFormat type
-#include <OSGUInt32Fields.h> // ExternalFormat type
-#include <OSGBoolFields.h> // Scale type
-#include <OSGUInt32Fields.h> // Frame type
-#include <OSGUInt32Fields.h> // MinFilter type
-#include <OSGUInt32Fields.h> // MagFilter type
-#include <OSGUInt32Fields.h> // WrapS type
-#include <OSGUInt32Fields.h> // WrapT type
-#include <OSGUInt32Fields.h> // WrapR type
-#include <OSGUInt32Fields.h> // EnvMode type
-#include <OSGUInt32Fields.h> // GLId type
+#include <OSGUInt32Fields.h> // GenFuncS type
+#include <OSGUInt32Fields.h> // GenFuncT type
+#include <OSGUInt32Fields.h> // GenFuncR type
+#include <OSGUInt32Fields.h> // GenFuncQ type
+#include <OSGVec4fFields.h> // GenFuncSPlane type
+#include <OSGVec4fFields.h> // GenFuncTPlane type
+#include <OSGVec4fFields.h> // GenFuncRPlane type
+#include <OSGVec4fFields.h> // GenFuncQPlane type
 
-#include <OSGTextureChunkFields.h>
+#include <OSGTexGenChunkFields.h>
 
 OSG_BEGIN_NAMESPACE
 
-class TextureChunk;
+class TexGenChunk;
 class BinaryDataHandler;
 
-//! \brief TextureChunk Base Class.
+//! \brief TexGenChunk Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
+class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
 {
   private:
 
@@ -100,33 +96,25 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
     enum
     {
-        ImageFieldId          = Inherited::NextFieldId,
-        InternalFormatFieldId = ImageFieldId          + 1,
-        ExternalFormatFieldId = InternalFormatFieldId + 1,
-        ScaleFieldId          = ExternalFormatFieldId + 1,
-        FrameFieldId          = ScaleFieldId          + 1,
-        MinFilterFieldId      = FrameFieldId          + 1,
-        MagFilterFieldId      = MinFilterFieldId      + 1,
-        WrapSFieldId          = MagFilterFieldId      + 1,
-        WrapTFieldId          = WrapSFieldId          + 1,
-        WrapRFieldId          = WrapTFieldId          + 1,
-        EnvModeFieldId        = WrapRFieldId          + 1,
-        GLIdFieldId           = EnvModeFieldId        + 1,
-        NextFieldId           = GLIdFieldId           + 1
+        GenFuncSFieldId      = Inherited::NextFieldId,
+        GenFuncTFieldId      = GenFuncSFieldId      + 1,
+        GenFuncRFieldId      = GenFuncTFieldId      + 1,
+        GenFuncQFieldId      = GenFuncRFieldId      + 1,
+        GenFuncSPlaneFieldId = GenFuncQFieldId      + 1,
+        GenFuncTPlaneFieldId = GenFuncSPlaneFieldId + 1,
+        GenFuncRPlaneFieldId = GenFuncTPlaneFieldId + 1,
+        GenFuncQPlaneFieldId = GenFuncRPlaneFieldId + 1,
+        NextFieldId          = GenFuncQPlaneFieldId + 1
     };
 
-    static const osg::BitVector ImageFieldMask;
-    static const osg::BitVector InternalFormatFieldMask;
-    static const osg::BitVector ExternalFormatFieldMask;
-    static const osg::BitVector ScaleFieldMask;
-    static const osg::BitVector FrameFieldMask;
-    static const osg::BitVector MinFilterFieldMask;
-    static const osg::BitVector MagFilterFieldMask;
-    static const osg::BitVector WrapSFieldMask;
-    static const osg::BitVector WrapTFieldMask;
-    static const osg::BitVector WrapRFieldMask;
-    static const osg::BitVector EnvModeFieldMask;
-    static const osg::BitVector GLIdFieldMask;
+    static const osg::BitVector GenFuncSFieldMask;
+    static const osg::BitVector GenFuncTFieldMask;
+    static const osg::BitVector GenFuncRFieldMask;
+    static const osg::BitVector GenFuncQFieldMask;
+    static const osg::BitVector GenFuncSPlaneFieldMask;
+    static const osg::BitVector GenFuncTPlaneFieldMask;
+    static const osg::BitVector GenFuncRPlaneFieldMask;
+    static const osg::BitVector GenFuncQPlaneFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -151,61 +139,45 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImageP            *getSFImage          (void);
-           SFUInt32            *getSFInternalFormat (void);
-           SFUInt32            *getSFExternalFormat (void);
-           SFBool              *getSFScale          (void);
-           SFUInt32            *getSFFrame          (void);
-           SFUInt32            *getSFMinFilter      (void);
-           SFUInt32            *getSFMagFilter      (void);
-           SFUInt32            *getSFWrapS          (void);
-           SFUInt32            *getSFWrapT          (void);
-           SFUInt32            *getSFWrapR          (void);
-           SFUInt32            *getSFEnvMode        (void);
-           SFUInt32            *getSFGLId           (void);
+           SFUInt32            *getSFGenFuncS       (void);
+           SFUInt32            *getSFGenFuncT       (void);
+           SFUInt32            *getSFGenFuncR       (void);
+           SFUInt32            *getSFGenFuncQ       (void);
+           SFVec4f             *getSFGenFuncSPlane  (void);
+           SFVec4f             *getSFGenFuncTPlane  (void);
+           SFVec4f             *getSFGenFuncRPlane  (void);
+           SFVec4f             *getSFGenFuncQPlane  (void);
 
-           ImageP              &getImage          (void);
-     const ImageP              &getImage          (void) const;
-           UInt32              &getInternalFormat (void);
-     const UInt32              &getInternalFormat (void) const;
-           UInt32              &getExternalFormat (void);
-     const UInt32              &getExternalFormat (void) const;
-           bool                &getScale          (void);
-     const bool                &getScale          (void) const;
-           UInt32              &getFrame          (void);
-     const UInt32              &getFrame          (void) const;
-           UInt32              &getMinFilter      (void);
-     const UInt32              &getMinFilter      (void) const;
-           UInt32              &getMagFilter      (void);
-     const UInt32              &getMagFilter      (void) const;
-           UInt32              &getWrapS          (void);
-     const UInt32              &getWrapS          (void) const;
-           UInt32              &getWrapT          (void);
-     const UInt32              &getWrapT          (void) const;
-           UInt32              &getWrapR          (void);
-     const UInt32              &getWrapR          (void) const;
-           UInt32              &getEnvMode        (void);
-     const UInt32              &getEnvMode        (void) const;
-           UInt32              &getGLId           (void);
-     const UInt32              &getGLId           (void) const;
+           UInt32              &getGenFuncS       (void);
+     const UInt32              &getGenFuncS       (void) const;
+           UInt32              &getGenFuncT       (void);
+     const UInt32              &getGenFuncT       (void) const;
+           UInt32              &getGenFuncR       (void);
+     const UInt32              &getGenFuncR       (void) const;
+           UInt32              &getGenFuncQ       (void);
+     const UInt32              &getGenFuncQ       (void) const;
+           Vec4f               &getGenFuncSPlane  (void);
+     const Vec4f               &getGenFuncSPlane  (void) const;
+           Vec4f               &getGenFuncTPlane  (void);
+     const Vec4f               &getGenFuncTPlane  (void) const;
+           Vec4f               &getGenFuncRPlane  (void);
+     const Vec4f               &getGenFuncRPlane  (void) const;
+           Vec4f               &getGenFuncQPlane  (void);
+     const Vec4f               &getGenFuncQPlane  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setImage          ( const ImageP &value );
-     void setInternalFormat ( const UInt32 &value );
-     void setExternalFormat ( const UInt32 &value );
-     void setScale          ( const bool &value );
-     void setFrame          ( const UInt32 &value );
-     void setMinFilter      ( const UInt32 &value );
-     void setMagFilter      ( const UInt32 &value );
-     void setWrapS          ( const UInt32 &value );
-     void setWrapT          ( const UInt32 &value );
-     void setWrapR          ( const UInt32 &value );
-     void setEnvMode        ( const UInt32 &value );
-     void setGLId           ( const UInt32 &value );
+     void setGenFuncS       ( const UInt32 &value );
+     void setGenFuncT       ( const UInt32 &value );
+     void setGenFuncR       ( const UInt32 &value );
+     void setGenFuncQ       ( const UInt32 &value );
+     void setGenFuncSPlane  ( const Vec4f &value );
+     void setGenFuncTPlane  ( const Vec4f &value );
+     void setGenFuncRPlane  ( const Vec4f &value );
+     void setGenFuncQPlane  ( const Vec4f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,8 +204,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                   Construction                               */
     /*! \{                                                                 */
 
-    static  TextureChunkPtr      create          (void); 
-    static  TextureChunkPtr      createEmpty     (void); 
+    static  TexGenChunkPtr      create          (void); 
+    static  TexGenChunkPtr      createEmpty     (void); 
 
     /*! \}                                                                 */
 
@@ -251,40 +223,36 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFImageP            _sfImage;
-    SFUInt32            _sfInternalFormat;
-    SFUInt32            _sfExternalFormat;
-    SFBool              _sfScale;
-    SFUInt32            _sfFrame;
-    SFUInt32            _sfMinFilter;
-    SFUInt32            _sfMagFilter;
-    SFUInt32            _sfWrapS;
-    SFUInt32            _sfWrapT;
-    SFUInt32            _sfWrapR;
-    SFUInt32            _sfEnvMode;
-    SFUInt32            _sfGLId;
+    SFUInt32            _sfGenFuncS;
+    SFUInt32            _sfGenFuncT;
+    SFUInt32            _sfGenFuncR;
+    SFUInt32            _sfGenFuncQ;
+    SFVec4f             _sfGenFuncSPlane;
+    SFVec4f             _sfGenFuncTPlane;
+    SFVec4f             _sfGenFuncRPlane;
+    SFVec4f             _sfGenFuncQPlane;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TextureChunkBase(void);
-    TextureChunkBase(const TextureChunkBase &source);
+    TexGenChunkBase(void);
+    TexGenChunkBase(const TexGenChunkBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureChunkBase(void); 
+    virtual ~TexGenChunkBase(void); 
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    void executeSyncImpl(      TextureChunkBase *pOther,
+    void executeSyncImpl(      TexGenChunkBase *pOther,
                          const BitVector         &whichField);
 
     /*! \}                                                                 */
@@ -298,7 +266,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 
 
     // prohibit default functions (move to 'public' if you need one)
-    void operator =(const TextureChunkBase &source);
+    void operator =(const TexGenChunkBase &source);
 };
 
 //---------------------------------------------------------------------------
@@ -306,10 +274,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 //---------------------------------------------------------------------------
 
 
-typedef TextureChunkBase *TextureChunkBaseP;
+typedef TexGenChunkBase *TexGenChunkBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTextureChunkBase.h,v 1.24 2002/06/10 22:10:47 dirk Exp $"
+#define OSGTEXGENCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTexGenChunkBase.h,v 1.1 2002/06/10 22:10:47 dirk Exp $"
 
-#endif /* _OSGTEXTURECHUNKBASE_H_ */
+#endif /* _OSGTEXGENCHUNKBASE_H_ */

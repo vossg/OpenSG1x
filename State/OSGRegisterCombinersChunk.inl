@@ -34,52 +34,22 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
 
-#ifndef GL_TEXTURE0_ARB
-#define GL_TEXTURE0_ARB 0x84C0
-#endif
-
 inline
-const StateChunkClass *TextureChunk::getClass( void ) const
+const StateChunkClass *  RegisterCombinersChunk::getClass( void ) const
 {
     return &_class;
 }
 
 
-inline void TextureChunk::imageContentChanged( void )
-{
-    Window::refreshGLObject(getGLId());
-}
-
-
-inline bool TextureChunk::hasMultiTexture(Window *win)
-{
-    return win->hasExtension(_arbMultiTex);
-}
-
-//! call glActiveTexture via the extension mechanism
-inline void TextureChunk::activeTexture(Window *win, UInt16 texture)
-{
-    void (*ActiveTexture)(GLenum target) = 
-            (void (*)(GLenum target))
-            win->getFunction(_funcActiveTexture);
-    ActiveTexture(GL_TEXTURE0_ARB + texture);
-}
-
-//! call glActiveTexture via the extension mechanism, if MultiTextures
-//! are supported
-inline void TextureChunk::activateTexture(Window *win, UInt16 texture)
-{
-    if(hasMultiTexture(win))
-        activeTexture(win, texture);
-}
-
 OSG_END_NAMESPACE
+
+#define OSGREGISTERCOMBINERSCHUNK_INLINE_CVSID "@(#)$Id: OSGRegisterCombinersChunk.inl,v 1.1 2002/06/10 22:10:46 dirk Exp $"
 

@@ -36,58 +36,53 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGTEXTURETRANSFORMCHUNK_H_
-#define _OSGTEXTURETRANSFORMCHUNK_H_
+#ifndef _OSGREGISTERCOMBINERSCHUNK_H_
+#define _OSGREGISTERCOMBINERSCHUNK_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
+#include <OSGWindow.h>
+#include <OSGGL.h>
+#include <OSGGLEXT.h>
 
-#include <OSGTextureTransformChunkBase.h>
+#include <OSGRegisterCombinersChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
 
 /*! \brief *put brief class description here* 
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformChunkBase
+#define OSG_NUM_COMBINERS 8
+
+class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombinersChunkBase
 {
   private:
 
-    typedef TextureTransformChunkBase Inherited;
+    typedef RegisterCombinersChunkBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name            Fieldcontainer Declaration                        */
+    /*! \name                Instance Functions                            */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *  getClass( void ) const;
+    virtual const StateChunkClass *getClass(void) const;
+
+    virtual      bool              isTransparent(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField, 
-                         UInt32    origin    );
+    virtual void changed(BitVector  whichField, 
+                         UInt32 from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      State                                   */
-    /*! \{                                                                 */
-
-    virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
-
-    virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
-                             UInt32 index = 0 );
-
-    virtual void deactivate ( DrawActionBase * action, UInt32 index = 0 );
-
-    /*! \}                                                                 */
-     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -95,50 +90,126 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       State                                  */
+    /*! \{                                                                 */
+
+    virtual void activate   (DrawActionBase * action, UInt32 index = 0);
+
+    virtual void changeFrom (DrawActionBase * action, StateChunk * old,
+                             UInt32 index = 0);
+
+    virtual void deactivate (DrawActionBase * action, UInt32 index = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparison                                 */
+    /*! \{                                                                 */
+
+    virtual Real32 switchCost  (StateChunk * chunk);
+
+    virtual bool   operator <  (const StateChunk &other) const;
+
+    virtual bool   operator == (const StateChunk &other) const;
+    virtual bool   operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name            Register Combiner Specific                        */
+    /*! \{                                                                 */
+
+    void clearCombiners(void);
+
+    void clearCombiner(UInt16 which);
+
+    void setCombinerRGB(UInt16 which, 
+          GLenum ainput, GLenum amapping, GLenum acompusage, 
+          GLenum binput, GLenum bmapping, GLenum bcompusage, 
+          GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+          GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+          GLenum outputAB, GLenum outputCD, GLenum outputSum,
+          GLenum scale, GLenum bias, 
+          GLboolean dotAB, GLboolean dotCD, GLboolean muxSum);
+
+    void setCombinerAlpha(UInt16 which, 
+          GLenum ainput, GLenum amapping, GLenum acompusage, 
+          GLenum binput, GLenum bmapping, GLenum bcompusage, 
+          GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+          GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+          GLenum outputAB, GLenum outputCD, GLenum outputSum,
+          GLenum scale, GLenum bias, 
+          GLboolean muxSum);
+    
+    void setFinalCombiner(
+          GLenum ainput, GLenum amapping, GLenum acompusage, 
+          GLenum binput, GLenum bmapping, GLenum bcompusage, 
+          GLenum cinput, GLenum cmapping, GLenum ccompusage, 
+          GLenum dinput, GLenum dmapping, GLenum dcompusage, 
+          GLenum einput, GLenum emapping, GLenum ecompusage, 
+          GLenum finput, GLenum fmapping, GLenum fcompusage, 
+          GLenum ginput, GLenum gmapping, GLenum gcompusage);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in TextureTransformChunkBase.
+    // Variables should all be in RegisterCombinersChunkBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    TextureTransformChunk(void);
-    TextureTransformChunk(const TextureTransformChunk &source);
+    RegisterCombinersChunk(void);
+    RegisterCombinersChunk(const RegisterCombinersChunk &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureTransformChunk(void); 
+    virtual ~RegisterCombinersChunk(void); 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Helpers                                  */
+    /*! \{                                                                 */
+
+    void ensureSizes(void); 
+
+    /*! \}                                                                 */
+
+    // extension indices for used extensions;
+    static UInt32 _nvRegisterCombiners;
+    
+    // extension indices for used fucntions;
+    static UInt32 _funcCombinerParameterfv;
+    static UInt32 _funcCombinerInput;
+    static UInt32 _funcCombinerOutput;
+    static UInt32 _funcFinalCombinerInput;
     
     /*==========================  PRIVATE  ================================*/
   private:
 
     friend class FieldContainer;
-    friend class TextureTransformChunkBase;
+    friend class RegisterCombinersChunkBase;
 
     static void initMethod(void);
 
     // class. Used for indexing in State
     static StateChunkClass _class;
-   
+
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const TextureTransformChunk &source);
+    void operator =(const RegisterCombinersChunk &source);
 };
 
-typedef TextureTransformChunk *TextureTransformChunkP;
+typedef RegisterCombinersChunk *RegisterCombinersChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureTransformChunkBase.inl>
-#include <OSGTextureTransformChunk.inl>
+#include <OSGRegisterCombinersChunkBase.inl>
+#include <OSGRegisterCombinersChunk.inl>
 
-#define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: OSGTextureTransformChunk.h,v 1.5 2002/06/10 22:10:47 dirk Exp $"
+#define OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID "@(#)$Id: OSGRegisterCombinersChunk.h,v 1.1 2002/06/10 22:10:46 dirk Exp $"
 
-#endif /* _OSGTEXTURETRANSFORMCHUNK_H_ */
+#endif /* _OSGREGISTERCOMBINERSCHUNK_H_ */

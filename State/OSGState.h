@@ -101,7 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     bool          chunkPresent ( UInt32 id );
     bool          chunkPresent ( StateChunkPtr chunk );
 
-    void           addChunk     ( StateChunkPtr chunk, Int32 index = 0 );
+    void           addChunk     ( StateChunkPtr chunk, Int32 index = -1 );
 
     void           subChunk     ( StateChunkPtr chunk, Int32 index = -1 );
 
