@@ -316,17 +316,27 @@ header (#[^\n]*\n)
          
     /* sfboolValue ::= TRUE | FALSE; */
 
-<sfboolValue>TRUE {
+<sfboolValue>(T|t)(R|r)(U|u)(E|e) {
     BEGIN NODE;
     expectToken = 0;
 
     if(_pSkel != NULL)
-        _pSkel->addFieldValue(OSGScanParseSkel_text);
+        _pSkel->addFieldValue("TRUE");
 
     return TOK_SFBOOL;
 }
 
-<sfboolValue>FALSE {
+<sfboolValue>(F|f)(A|a)(L|l)(S|s)(E|e) {
+    BEGIN NODE;
+    expectToken = 0;
+
+    if(_pSkel != NULL)
+        _pSkel->addFieldValue("FALSE");
+
+    return TOK_SFBOOL;
+}
+
+ <sfboolValue>{IdFirstChar}{IdRestChar}* {
     BEGIN NODE;
     expectToken = 0;
 
