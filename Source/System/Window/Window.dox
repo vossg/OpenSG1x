@@ -473,6 +473,23 @@ blending is performed.
 Images have to be loaded as osg::Image instances, their position has to be
 defined as a 2D position in the [0,1]x[0,1] range.
 
+\subsection PageSystemPolygonForeground Polygon Foreground
+
+The PolygonForeground renders a single polygon on top of the viewport using a
+given Material. The main purpose of the PolygonForeground is using a texture
+instead of an image for rendering, but it's general enough for other things. 
+
+The polygon is specified using a set of 3D texture coordinates and a set of
+2D positions. Both have to contain the same number of entries. The positions
+can be interpreted in different ways. Values larger or equal to 0 are
+interpreted starting from the left/bottom border of the viewport, values less
+or equal to -1 are interpreted starting from the right/top border of the
+viewport, which -1 being the right/topmost pixel of the viewport. Whether
+these values are relative to the viewport size or represent absolute pixel
+values is determined by the normalizedX/normalizedY fields. If set to true,
+the calculated position is relative, with a 0 to 1 (or -2 to -1) range
+covering the whole viewport. Otherwise they are direct pixel positions.
+
 \subsection PageSystemWindowForegroundGrab Grab Foreground
 
 The osg::GrabForeground can be used to grab the rendered viewport into an
