@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRIsoSurface"
+	parent="Attachment"
+	library="VolRen"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Attachment for storing and handling Lookup-Tables for volume rendering.
+	<Field
+		name="isoValue"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="isoThickness"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="isoOpacity"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.5"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="alphaMode"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_GREATER"
+		defaultHeader="<OSGGL.h>"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="specularLighting"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	</Field>
+</FieldContainer>

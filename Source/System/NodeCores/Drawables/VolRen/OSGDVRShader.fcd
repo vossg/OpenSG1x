@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRShader"
+	parent="FieldContainer"
+	library="VolRen"
+	pointerfieldtypes="single"
+	structure="abstract"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Abstract shader class - not to be instantiated. Is intended to be stateless - NO FIELDS!!
+</FieldContainer>

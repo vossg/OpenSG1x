@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRClipGeometry"
+	parent="FieldContainer"
+	library="VolRen"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="geometryNode"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		defaultValue="NullFC"
+		access="public"
+	>
+	The node holding the clip objects geometry core
+	</Field>
+	<Field
+		name="beacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		defaultValue="NullFC"
+		access="public"
+	>
+	Pointer to the transform beacon for this clip object
+	</Field>
+</FieldContainer>

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRAppearance"
+	parent="ChunkMaterial"
+	library="VolRen"
+	pointerfieldtypes="single"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Appearance used for the OpenSG direct volume rendering module. It represents the volume data to be rendered as long as some other visual parameters like transfer function or normal for shading.
+</FieldContainer>

@@ -1,0 +1,9 @@
+ObjectFileName: 00_data64x64x64.raw
+TaggedFileName: ---
+Resolution:     64 64 64
+SliceThickness: 1.000000 1.000000 1.000000
+Format:         UCHAR
+NbrTags:        0
+ObjectType:     TEXTURE_VOLUME_OBJECT
+ObjectModel:    RGBA
+GridType:       EQUIDISTANT

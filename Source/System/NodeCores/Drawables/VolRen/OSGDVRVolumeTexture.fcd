@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRVolumeTexture"
+	parent="Attachment"
+	library="VolRen"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Attachment for storing and handling Volume-Textures for volume rendering. Here is the place of the voxel values.
+	<Field
+		name="image"
+		type="ImagePtr"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="NullFC"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="histogram"
+		type="Real32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="maxVal"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	the number of occurances of the most common histogram value
+	</Field>
+	<Field
+		name="sliceThickness"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1,1,1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="resolution"
+		type="Vec3f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="64, 64, 64"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="fileName"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	// FIXME: Since there are several clumps in OpenSG Image handling this node will do the filehandling itself.
+	</Field>
+</FieldContainer>

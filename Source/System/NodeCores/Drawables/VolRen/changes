@@ -1,0 +1,29 @@
+
+OSGDVRTextureVolume.cpp : 81
+
+dobule subref bugfix, was
+        subRefCP(getImage());
+        setImage(NullFC);
+
+OSGDVRTextureVolume.cpp : 
+
+refcount after loading fixed added 105 - 119
+
+OSGDVRMtexLUTShader.cpp
+
+added dynamic extension check as the defines don't work : 300, 384, 563
+
+moved extension function registration temporarily to the default
+constructor until this is solved for OpenSG in general
+
+OSGDVRSimpleLUTShader.cpp
+
+changed dynamic extension check to return if no combiners are there : 353
+
+moved extension function registration temporarily to the default
+constructor until this is solved for OpenSG in general
+
+OSGDVRIsoShader.cpp :
+
+moved extension function registration temporarily to the default
+constructor until this is solved for OpenSG in general

@@ -1,0 +1,66 @@
+
+            OpenSG VolRen Library
+            =====================            
+
+            contact: Manfred Weiler
+		     weiler@informatik.uni-stuttgart.de
+
+
+This directory contains a volume rendering library for OpenSG.
+
+
+Revision:
+
+Date:    10/07/2003
+Version: This is a 0.95 beta - try at your own risk.
+	 (The interfaces might still change occationally)
+
+
+Revision History:
+0.9 beta	10/10/2003	initial version
+0.95 beta	10/07/2003	more sophisticated shading modes
+                                exploiting in particular 
+                                ARB_fragment_program capability
+				support for volume clipping
+
+Compatibility:
+
+The current library requires the OpenSG-1.2.0 version.  However there
+is a known bug in the OpenSG-1.2.0 release which makes the
+DVRIsoShader crash when run in FragmentShader mode. It is due to an
+error in the deletion of the ProgramChunk. To fix this you might want
+to comment out the "destroyGLObject" call in the destructor of
+ProgramChunk.
+
+Previous versions of the OpenSG library a not longer supported due to
+an interface change in osg::Image.
+
+However we are not testing compatibility with the Snapshot every
+day so try it on your own risk.
+
+
+Build:
+
+The VolRen-Lib is fully integrated with the OpenSG build tree.  So in
+order to build just checkout the module VolRen in the OpenSG source
+tree and then configure, make should do.
+
+The designated position of the volume library is:
+
+	<osg-root>/Source/System/VolRen
+
+
+How to use:
+
+There are several test and demo programs demonstrating the use and
+the functionality of the volume rendering library:
+
+    testClipObjectsRender
+    testMtexLUTShaderRender
+    testSimpleVolumeNodeRender
+    testIsoShaderRender
+    testSimpleLUTShaderRender
+    testVolumeShadersRender
+
+The demos require the that the data file included in the distribution
+can be found in the current directory. So take care of that. 

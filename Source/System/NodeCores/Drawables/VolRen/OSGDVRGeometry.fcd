@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRGeometry"
+	parent="Geometry"
+	library="VolRen"
+	pointerfieldtypes="single"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+>
+Geometry used for the OpenSG direct volume rendering module. It represents the area in which the volume data is shown.
+</FieldContainer>

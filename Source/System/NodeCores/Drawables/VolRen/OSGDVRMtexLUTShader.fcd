@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="DVRMtexLUTShader"
+	parent="DVRSimpleLUTShader"
+	library="VolRen"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+Abstract shader class - not to be instantiated. Is intended to be stateless - NO FIELDS!!
+</FieldContainer>

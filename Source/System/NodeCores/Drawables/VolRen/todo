@@ -1,0 +1,3 @@
+
+- check extension defines as they are in OSGGLext.h so the will
+  never trigger
