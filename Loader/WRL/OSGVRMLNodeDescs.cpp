@@ -79,9 +79,10 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef WIN32
 OSG_FC_ST_TYPE_FUNCTIONS_INL_TMPL_DEF(GenericAttDesc,
                                       DynFieldAttachment)
-                           
+#endif                           
 
 OSG_DYNFIELD_FC_DLLEXPORT_DEF(DynFieldAttachment, 
                               GenericAttDesc, 

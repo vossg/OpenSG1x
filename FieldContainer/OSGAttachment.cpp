@@ -69,8 +69,10 @@ FieldDescription *NameAttachmentDesc::_desc[] =
 
 #endif
 
+#ifdef WIN32
 OSG_FC_TYPE_FUNCTIONS_INL_TMPL_DEF(NameAttachmentDesc,
                                    SimpleAttachment)
+#endif
 
 OSG_BEGIN_NAMESPACE
 
