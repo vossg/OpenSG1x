@@ -88,7 +88,7 @@ const Char8 *VRMLSceneFileType::getName(void) const
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
-NodePtr VRMLSceneFileType::read(std::istream &is) const
+NodePtr VRMLSceneFileType::read(std::istream &is, const Char8 *) const
 {
     if(_pVRMLLoader == NULL)
     {

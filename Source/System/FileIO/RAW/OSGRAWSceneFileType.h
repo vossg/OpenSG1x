@@ -81,8 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RAWSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr read(std::istream &is) const;
-    virtual NodePtr read(const Char8 *fileName) const;
+    virtual NodePtr read(std::istream &is,
+                         const Char8 *fileNameOrExtension) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

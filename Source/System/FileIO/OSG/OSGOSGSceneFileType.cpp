@@ -110,7 +110,7 @@ const Char8 *OSGSceneFileType::getName(void) const
 }
 
 
-NodePtr OSGSceneFileType::read(std::istream &is) const
+NodePtr OSGSceneFileType::read(std::istream &is, const Char8 *) const
 {
     if(_pFile == NULL)
         _pFile = new OSGLoader;
@@ -120,7 +120,8 @@ NodePtr OSGSceneFileType::read(std::istream &is) const
     return _pFile->getRootNode();
 }
 
-bool OSGSceneFileType::write(const NodePtr &root, std::ostream &os) const
+bool OSGSceneFileType::write(const NodePtr &root, std::ostream &os,
+                             const Char8 *) const
 {
     if(!os)
     {

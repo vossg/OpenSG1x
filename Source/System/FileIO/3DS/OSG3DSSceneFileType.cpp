@@ -71,7 +71,7 @@ A3DSSceneFileType  A3DSSceneFileType::_the         (_suffixA,
  * \param
  * \return
  */
-NodePtr A3DSSceneFileType::read(std::istream &is) const
+NodePtr A3DSSceneFileType::read(std::istream &is, const Char8 *) const
 {
     if(!is)
         return NullFC;
@@ -342,6 +342,6 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.3 2003/08/19 01:21:22 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSG3DSSceneFileType.cpp,v 1.4 2003/08/19 15:23:37 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSG3DSSCENEFILETYPE_HEADER_CVSID;
 }

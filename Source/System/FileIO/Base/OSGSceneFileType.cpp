@@ -144,7 +144,8 @@ UInt32 SceneFileType::getOverridePriority(void)
 
 //---------------------------------------------------------
 
-NodePtr SceneFileType::read(std::istream & OSG_CHECK_ARG(is)) const
+NodePtr SceneFileType::read(std::istream & OSG_CHECK_ARG(is),
+                            const Char8 * OSG_CHECK_ARG(fileNameOrExtension)) const
 {
     FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
     return NullFC;
@@ -159,7 +160,8 @@ NodePtr SceneFileType::readFile(const Char8 * OSG_CHECK_ARG(fileName)) const
 #endif
 
 bool SceneFileType::write(const NodePtr & OSG_CHECK_ARG(node),
-                          std::ostream & OSG_CHECK_ARG(os)) const
+                          std::ostream & OSG_CHECK_ARG(os),
+                          const Char8 * OSG_CHECK_ARG(fileNameOrExtension)) const
 {
     FWARNING (("STREAM INTERFACE NOT IMPLEMENTED!\n"));
     return false;

@@ -95,7 +95,7 @@ BINSceneFileType::~BINSceneFileType(void)
 
 /*! read filename
  */
-NodePtr BINSceneFileType::read(std::istream &is) const
+NodePtr BINSceneFileType::read(std::istream &is, const Char8 *) const
 {
     BINLoader loader(is);
     loader.read();
@@ -112,7 +112,7 @@ NodePtr BINSceneFileType::read(std::istream &is) const
 /*! write node and its subtree to the given fileName
  */
 bool BINSceneFileType::write(const NodePtr &node,
-                             std::ostream &os) const
+                             std::ostream &os, const Char8 *) const
 {
     BINWriter writer(os);
     return writer.write(node);

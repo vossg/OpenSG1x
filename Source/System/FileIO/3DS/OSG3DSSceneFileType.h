@@ -68,7 +68,7 @@ public:
 
     virtual const Char8 *getName(void) const;
 
-    virtual NodePtr read(std::istream &is) const;
+    virtual NodePtr read(std::istream &is, const Char8 *fileNameOrExtension) const;
 
 protected:
 
@@ -95,6 +95,6 @@ typedef A3DSSceneFileType* A3DSSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.3 2003/08/19 15:23:37 a-m-z Exp $"
+#define OSG3DSSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSG3DSSceneFileType.h,v 1.4 2003/08/22 14:25:21 a-m-z Exp $"
 
 #endif // _OSG3DSSCENEFILETYPE_H_

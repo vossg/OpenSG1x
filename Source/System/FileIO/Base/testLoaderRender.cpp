@@ -135,7 +135,7 @@ int main (int argc, char **argv)
     scene = SceneFileHandler::the().read(in, fileName);
     in.close();
 #else
-    scene = SceneFileHandler::the().read(fileName, 0);
+    scene = SceneFileHandler::the().read(fileName);
 #endif
 
     if(scene == NullFC)

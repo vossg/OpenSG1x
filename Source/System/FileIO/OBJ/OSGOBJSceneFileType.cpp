@@ -124,7 +124,7 @@ OBJSceneFileType  OBJSceneFileType::_the         (_suffixA,
 //s:
 //
 //------------------------------
-NodePtr OBJSceneFileType::read(std::istream &is) const
+NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
 {
   NodePtr rootPtr, nodePtr;
   std::string elem;

@@ -112,7 +112,7 @@ OFFSceneFileType OFFSceneFileType:: _the(_suffixA, sizeof(_suffixA), false, 10);
 //s:
 //
 //------------------------------
-NodePtr OFFSceneFileType::read(std::istream &is) const
+NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
 {
     typedef std::vector<int> Face;
 

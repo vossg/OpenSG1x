@@ -125,7 +125,7 @@ SceneFileHandler * SceneFileHandler::_the = NULL;
 //
 //------------------------------
 
-SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
+SceneFileType *SceneFileHandler::getFileType(const Char8 *fileNameOrExtension)
 {
           Int32                  i;
           Int32                  l;
@@ -135,61 +135,24 @@ SceneFileType *SceneFileHandler::getFileType(const Char8 *fileName)
           FileTypeMap::iterator  sI;
           std::ifstream          fin;
 
-    if(fileName)
+    if(fileNameOrExtension)
     {
-        l = strlen(fileName);
+        l = strlen(fileNameOrExtension);
 
         if(l == 0)
             return NULL;
 
         for(i = l - 1; i >= 0; i--)
         {
-            if(fileName[i] == separator)
-                break;
-        }
-
-        if(i >= 0)
-        {
-            suffix.set(&(fileName[i+1]));
-            suffix.toLower();
-
-            sI = _suffixTypeMap.find(suffix);
-
-            type = (sI == _suffixTypeMap.end()) ? 0 : sI->second->front();
-        }
-    }
-
-    return type;
-}
-
-SceneFileType *SceneFileHandler::getExtType(const Char8 *ext)
-{
-          Int32                  i;
-          Int32                  l;
-          IDString               suffix;
-    const Char8                  separator = '.';
-          SceneFileType         *type = NULL;
-          FileTypeMap::iterator  sI;
-          std::ifstream          fin;
-
-    if(ext)
-    {
-        l = strlen(ext);
-
-        if(l == 0)
-            return NULL;
-
-        for(i = l - 1; i >= 0; i--)
-        {
-            if(ext[i] == separator)
+            if(fileNameOrExtension[i] == separator)
                 break;
         }
 
         // it is also possible to give a complete filename as extension.
         if(i >= 0)
-            suffix.set(&(ext[i+1]));
+            suffix.set(&(fileNameOrExtension[i+1]));
         else
-            suffix.set(ext);
+            suffix.set(fileNameOrExtension);
 
         suffix.toLower();
 
@@ -227,13 +190,13 @@ Int32 SceneFileHandler::getSuffixList(std::list<const char *> & suffixList)
 #endif
 
 
-NodePtr SceneFileHandler::read(std::istream &is, const Char8* ext,
+NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtension,
                                       GraphOpSeq *graphOpSeq)
 {
-    SceneFileType *type = getExtType(ext);
+    SceneFileType *type = getFileType(fileNameOrExtension);
     NodePtr        scene = NullFC;
 
-    if(!ext)
+    if(!fileNameOrExtension)
     {
         SWARNING << "cannot read NULL extension" << std::endl;
         return NullFC;
@@ -244,7 +207,7 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* ext,
         SINFO << "try to read stream as " << type->getName() << std::endl;
 
         startReadProgressThread(is);
-        scene = type->read(is);
+        scene = type->read(is, fileNameOrExtension);
         stopReadProgressThread();
 
         if(scene != NullFC)
@@ -269,11 +232,11 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* ext,
 
 
 SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
-    std::istream &is, const Char8 *ext,
+    std::istream &is, const Char8 *fileNameOrExtension,
            GraphOpSeq *graphOpSeq)
 {
     std::vector<FieldContainerPtr> nodeVec;
-    NodePtr scene = read(is, ext);
+    NodePtr scene = read(is, fileNameOrExtension);
     if(scene == NullFC)
         return nodeVec;
 
@@ -318,7 +281,7 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
               << " as "         << type->getName() << std::endl;
 
         std::ifstream in(fullFilePath.c_str(), std::ios::binary);
-
+        
         if(in)
         {
             scene = read(in, fullFilePath.c_str(), graphOpSeq);
@@ -434,15 +397,16 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
 //s:
 //
 //------------------------------
-bool SceneFileHandler::write(const NodePtr &node, std::ostream &os, const Char8 *ext)
+bool SceneFileHandler::write(const NodePtr &node, std::ostream &os,
+                             const Char8 *fileNameOrExtension)
 {
     bool retCode = false;
-    SceneFileType *type = getExtType(ext);
+    SceneFileType *type = getFileType(fileNameOrExtension);
 
     if(type)
     {
         SINFO << "try to write stream as " << type->getName() << std::endl;
-        retCode = type->write(node, os);
+        retCode = type->write(node, os, fileNameOrExtension);
     }
     else
         SWARNING << "can't write stream unknown scene format" << std::endl;

@@ -39,6 +39,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <fstream>
+
 #include "OSGConfig.h"
 
 #include "OSGVRMLSceneFileType.h"
@@ -86,7 +88,7 @@ const Char8 *VRMLSceneFileType::getName(void) const
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
-NodePtr VRMLSceneFileType::read(std::istream &is) const
+NodePtr VRMLSceneFileType::read(std::istream &is, const Char8 *) const
 {
     if(_pVRMLLoader == NULL)
     {
@@ -104,21 +106,24 @@ NodePtr VRMLSceneFileType::read(std::istream &is) const
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-#ifndef OSG_DISABLE_DEPRECATED
-bool VRMLSceneFileType::writeFile(const NodePtr &root, const Char8 *name) const
+bool VRMLSceneFileType::write(const NodePtr &node, std::ostream &os,
+                              const Char8 *fileNameOrExtension) const
 {
-
+    // This is a hack but should be safer.
+    std::ofstream *osf = dynamic_cast<std::ofstream *>(&os);
+    if(osf != NULL)
+        osf->close();
+    
     VRMLWriteAction *pWriter = VRMLWriteAction::create();
 
-    pWriter->open(name);
+    pWriter->open(fileNameOrExtension);
 
-    pWriter->write(root);
+    pWriter->write(node);
 
     pWriter->close();
 
     return true;
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

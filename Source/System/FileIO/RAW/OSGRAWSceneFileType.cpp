@@ -120,7 +120,7 @@ const Char8            *RAWSceneFileType::_suffixA[] = {"raw"};
 #pragma set woff 1209
 #endif
 
-NodePtr RAWSceneFileType::read(std::istream &is) const
+NodePtr RAWSceneFileType::read(std::istream &is, const Char8 *) const
 {
     NodePtr root;
     GeometryPtr geo;
@@ -223,12 +223,6 @@ NodePtr RAWSceneFileType::read(std::istream &is) const
         SNOTICE << triCount << " triangle read " << std::endl;
 
     return root;
-}
-
-NodePtr RAWSceneFileType::read(const Char8 *) const
-{
-    FWARNING (("FILE INTERFACE NOT IMPLEMENTED!\n"));
-    return NullFC;
 }
 
 #ifdef __sgi
