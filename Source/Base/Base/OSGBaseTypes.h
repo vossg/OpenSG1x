@@ -58,6 +58,10 @@
 #include <string>
 #include <stdio.h>
 
+#if defined(OSG_LINUX_TYPES)
+#    include <inttypes.h>
+#endif
+
 OSG_BEGIN_NAMESPACE
 
 #if defined(OSG_SGI_TYPES)
@@ -170,49 +174,49 @@ typedef signed char   SChar8;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __int8_t     Int8;
+typedef int8_t     Int8;
 
 /*! \var typedef u_int8_t UInt8;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __uint8_t   UInt8;
+typedef uint8_t   UInt8;
 
 /*! \var typedef int16_t Int16;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __int16_t    Int16;
+typedef int16_t    Int16;
 
 /*! \var typedef u_int16_t UInt16;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __uint16_t  UInt16;
+typedef uint16_t  UInt16;
 
 /*! \var typedef int32_t Int32;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __int32_t    Int32;
+typedef int32_t    Int32;
 
 /*! \var typedef u_int32_t UInt32;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __uint32_t  UInt32;
+typedef uint32_t  UInt32;
 
 /*! \var typedef int64_t Int64;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __int64_t    Int64;
+typedef int64_t    Int64;
 
 /*! \var typedef u_int64_t UInt64;
  *  \ingroup GrpBaseBaseBaseTypes
  */
 
-typedef __uint64_t  UInt64;
+typedef uint64_t  UInt64;
 
 /*! \var typedef float Real32;
  *  \ingroup GrpBaseBaseBaseTypes
