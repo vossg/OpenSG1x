@@ -9,13 +9,6 @@
 cnvUnix2Win = "$(shell cygpath -w $(1))"
 
 ifeq ($(OS_BASE), cygwin)
-cnvSubDirUnix2Win = $(subst /,\,$(1))
-cnvSubDirsUnix2Win = $(foreach dir,$(1),"$(call cnvSubDirUnix2Win,$(dir))")
-else
-cnvSubDirsUnix2Win = $1
-endif
-
-ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)"$(OBJDIR)" $(OBJ_OPTION)"$(OBJDIR)\\" $(call cnvUnix2Win,$<)

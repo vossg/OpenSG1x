@@ -421,8 +421,8 @@ dnl e2
             ac_gdz_src_dir_win_e2=`cygpath -w $ac_gdz_src_dir`
             ac_gdz_win_pool_e2=${ac_gdz_project_praefix}POOL_WIN"     ?= "$ac_gdz_src_dir_win_e2
 
-            ac_gdz_package_sub_dir_win_e2=`cygpath -w $ac_gdz_package_sub_dir_out`
-            ac_gdz_win_build_base_e2="BUILD_BASE_WIN := \$(${ac_gdz_project_praefix}POOL_WIN)\\"$ac_gdz_package_sub_dir_win_e2
+            ac_gdz_package_sub_dir_win_e2=`cygpath -w $ac_gdz_build_dir_e2/$ac_gdz_package_sub_dir_out`
+            ac_gdz_win_build_base_e2="BUILD_BASE_WIN := "$ac_gdz_package_sub_dir_win_e2
         fi
 
         ac_gdz_build_dir_e2=$ac_gdz_build_dir
@@ -501,9 +501,15 @@ dnl e5
     ac_gdz_glut_libdir_e5=
 
     if [[ -n "$ac_gdz_glut_dir" ]]; then
-        ac_gdz_glut_lib_e5='-lglut'
-        ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
-        ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
+        if [[ $build_os = cygwin ]]; then
+            ac_gdz_glut_incdir_e5='"'`cygpath -w $ac_gdz_glut_dir/include`'"'
+            ac_gdz_glut_libdir_e5='"'`cygpath -w $ac_gdz_glut_dir/lib`'"'
+            ac_gdz_glut_lib_e5='glut32.lib'
+        else
+            ac_gdz_glut_incdir_e5=$ac_gdz_glut_dir/include
+            ac_gdz_glut_libdir_e5=$ac_gdz_glut_dir/lib
+            ac_gdz_glut_lib_e5='-lglut'
+        fi
     fi
 
     ac_gdz_common_glut_in_e5=$ac_gdz_commonconf_dir/commonGLUT.in

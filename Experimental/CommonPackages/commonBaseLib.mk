@@ -1,6 +1,7 @@
 
 SUB_DIR     := BaseLib
-PACKAGENAME := Base
+PACKAGENAME := BaseLib
+LIBNAME     := Base
 
 HAS_INCL    := 
 HAS_LIB     := 1

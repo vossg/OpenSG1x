@@ -82,6 +82,13 @@ $
 # Build lib directive
 #########################################################################
 
+ifeq ($(OS_BASE), cygwin)
+cnvSubDirUnix2Win = $(subst /,\,$(1))
+cnvSubDirsUnix2Win = $(foreach dir,$(1),"$(call cnvSubDirUnix2Win,$(dir))")
+else
+cnvSubDirUnix2Win  = $1
+cnvSubDirsUnix2Win = $1
+endif
 
 ifeq ($(OS_BASE), cygwin)
 buildLibPath      = $(LIBPATH_OPTION)"$(BUILD_BASE_WIN)\$(1)\$(LIBDIR)"
@@ -91,10 +98,13 @@ endif
 
 buildDepLibPath   = $(BUILD_BASE)/$(1)/$(LIBDIR)
 
-buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(PACKAGENAME)$(LIB_SUFFIX)
+buildLibName      = $(LIBLNK_OPTION)$(PROJ)$(1)$(LIB_SUFFIX)
 
-buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(PACKAGENAME)$(SO_SUFFIX)
-
+ifeq ($(OS_BASE), cygwin)
+buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(LIB_SUFFIX)
+else
+buildDepLibName   = $(SO_PRAEFIX)$(PROJ)$(1)$(SO_SUFFIX)
+endif
 
 #########################################################################
 # Define Objects
