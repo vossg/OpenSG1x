@@ -11,6 +11,7 @@
 #include <OSGAttachment.h>
 #include <OSGMFVecTypes.h>
 #include <OSGBaseFunctions.h>
+#include <OSGLog.h>
 #include "OSGGeometry.h"
 #include "OSGGeoProperty.h"
 
@@ -66,7 +67,7 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
 		p->getField().push_back( etype() );\
 	}\
 	SLOG << "Dim:" << p->getDimension() << " Format: " << p->getFormat() \
-		 << " FormatSize: " << p->getFormatSize \
+		 << " FormatSize: " << p->getFormatSize() \
 	     << " Stride:" << p->getStride() << " Size: " << p->getSize() << "," << p->size() \
 	     << " Data:" << p->getData() << endLog; \
 	name##::GenericType g;\
