@@ -16,6 +16,7 @@
 #include <OSGDrawAction.h>
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
+#include <OSGGLUTWindow.h>
 
 #include <OSGMaterialChunk.h>
 
@@ -28,6 +29,8 @@ OSG_USING_NAMESPACE
 
 
 DrawAction * dact;
+
+WindowPtr win;
 
 NodePtr plane,torus;
 ChunkMaterialPtr pm;
@@ -42,6 +45,8 @@ display(void)
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+
+    win->frameInit();
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -71,6 +76,8 @@ display(void)
     glPopMatrix();
 
     glPopMatrix();
+
+    win->frameExit();
 
     glutSwapBuffers();
 }
@@ -108,9 +115,6 @@ int main (int argc, char **argv)
     glLoadIdentity();
     gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
 
-    glEnable( GL_DEPTH_TEST );
-    glEnable( GL_LIGHTING );
-    glEnable( GL_LIGHT0 );
 
     // OSG
 
@@ -124,26 +128,53 @@ int main (int argc, char **argv)
 
     pm = ChunkMaterial::create();
 
+    beginEditCP(pm);
+    
     MaterialChunkPtr pmc = MaterialChunk::create();
+    beginEditCP(pmc);
     pmc->setDiffuse( Color4f( 1,0,0,0 ) );
     pmc->setAmbient( Color4f( 1,0,0,0 ) );
     pmc->setSpecular( Color4f( 1,1,1,0 ) );
     pmc->setShininess( 20 );
+    endEditCP(pmc);
 
     pm->addChunk( pmc );
+    endEditCP(pm);
 
     plane_geo->setMaterial( pm );
 
-
+    BlendChunkPtr bl = BlendChunk::create();
+    beginEditCP(bl);
+    bl->setSrcFactor(GL_SRC_ALPHA);
+    bl->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    endEditCP(bl);
+    
     tmat = SimpleMaterial::create();
 
+    beginEditCP(tmat);
     tmat->setDiffuse( Color3f( 0,1,0 ) );
     tmat->setAmbient( Color3f( 0,1,0 ) );
+    tmat->addChunk(bl );
+    endEditCP(tmat);
 
     torus_geo->setMaterial( tmat );
 
+    FLOG(("TorusMat is trans: %d\n", tmat->isTransparent() ));
 
+    // the window is needed for the chunks that access GLObjects
+
+    win = GLUTWindow::create();
+    win->frameInit(); // test for preliminary calls not messing up GLexts
+    win->init();
+
+    glEnable( GL_DEPTH_TEST );
+    glEnable( GL_LIGHTING );
+    glEnable( GL_LIGHT0 );
+    
     dact = DrawAction::create();
+    dact->setWindow( win.getCPtr() );
+
+    win->init();
 
     glutMainLoop();
 
