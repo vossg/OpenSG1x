@@ -47,10 +47,6 @@
 #endif
 #include <algorithm>
 
-#if defined(__hpux)
-#include <SC/osfcn.h>
-#endif
-
 #include <OSGConfig.h>
 #include <OSGLog.h>
 #include <OSGStreamSockConnection.h>
