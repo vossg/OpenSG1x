@@ -66,7 +66,7 @@
 #include "OSGDataElementDesc.h"
 //#include "OSGVRMLRouteTask.h"
 
-#define DEBUG_WRL
+//#define DEBUG_WRL
 
 OSG_USING_NAMESPACE
 
