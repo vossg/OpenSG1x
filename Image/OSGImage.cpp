@@ -662,6 +662,85 @@ Bool Image::scale(Int32 width, Int32 height, Int32 depth, Image *destination)
     return retCode;
 }
 
+
+//----------------------------
+// Function name: subImage
+//----------------------------
+//
+//Parameters:
+//p: Int32 offX, Int32 offY, Int32 offZ, Int32 destW, Int32 destH, Ind32 destD, Image *destination = 0
+//GlobalVars:
+//g:
+//Returns:
+//r:Bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: create a subImage according to given offset and size
+//SeeAlso:
+//s:
+//
+//------------------------------
+Bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
+		       Int32 destW, Int32 destH, Int32 destD,
+		       Image *destination)
+{
+    Image   *destImage = destination ? destination : new Image;
+    Bool    retCode = true;
+    
+    destImage->set(_pixelFormat, destW, destH, destD);
+    
+    UChar8  *src  = getData();
+    UChar8  *dest = destImage->getData();
+
+    FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d)\n",
+	    offX, offY, offZ, destW, destH, destD));
+    
+    // ensure destination data is zero
+    memset(dest, 0, _bpp);
+
+    // determine the area to actually copy
+    UInt32 xMin = offX;
+    UInt32 yMin = offY;
+    UInt32 zMin = offZ;
+
+    UInt32 xMax = osgMin(_width,  offX + destW);
+    UInt32 yMax = osgMin(_height, offY + destH);
+    UInt32 zMax = osgMin(_depth,  offZ + destD);
+
+    
+    // fill the destination buffer with the subdata
+    UInt32 destIdx = 0;
+    
+    for(UInt32 z = zMin; z < zMax; z++) {
+      for(UInt32 y = yMin; y < yMax; y++) {
+	for(UInt32 x = xMin; x < xMax; x++) {
+	  for(UInt32 i = 0; i < _bpp; i++) {
+	    dest[destIdx] = src[((z * _height + y) * _width + x) * _bpp + i];
+	    destIdx++;
+	  }
+	}
+	destIdx += destW - (xMax - xMin) * _bpp;
+      }
+      destIdx += (destH - (yMax - yMin)) * destW * _bpp;
+    }
+
+    
+    // rip the data from the local destImage if necessary
+    if(!destination)
+    {
+        delete[] _data;
+        _data = destImage->_data;
+        destImage->_data = 0;
+        delete destImage;
+    }
+
+    return retCode;
+}
+
+
 //----------------------------
 // Function name: scale
 //----------------------------
@@ -1055,6 +1134,7 @@ Bool Image::scaleData(UChar8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
 
     return true;
 }
+
 
 /***************************
 *instance methodes 

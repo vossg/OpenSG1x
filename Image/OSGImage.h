@@ -169,6 +169,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Image {
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                      SubImage                                */
+    /*! \{                                                                 */
+
+    Bool subImage ( Int32 offX, Int32 offY, Int32 offZ,
+		    Int32 destW, Int32 destH, Int32 destD,
+		    Image *destination = 0);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Mipmap                                  */
     /*! \{                                                                 */
 
