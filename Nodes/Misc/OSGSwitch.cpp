@@ -99,17 +99,46 @@ char Switch::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE Switch::SwitchDraw(CNodePtr &cnode, 
+                                        Action  *pAction)
+{
+    NodeCore  *pNC = cnode.getCPtr();
+    Switch    *pSC = dynamic_cast<Switch *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "SWDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->draw(pAction);
+    }
+}
+#endif
+
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
 void Switch::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
+
 	DrawAction::registerEnterDefault(
         getClassType(),
 		osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
 								  CNodePtr            ,
 								  SwitchPtr           ,
                                   Action *            >(&Switch::draw));
+
+#else
+
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Switch::SwitchDraw));
+
+#endif
 }
 
 /***************************************************************************\
