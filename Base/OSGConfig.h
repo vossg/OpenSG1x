@@ -313,13 +313,8 @@
 #   ifdef __EXCEPTIONS
 #   endif
 # ifndef __sun
-// atan2f function available
-# define OSG_HAS_ATANF2
-// general float math
-# define OSG_HAS_FLOATMATH
 // streams in std namespace
 # define OSG_STREAM_IN_STD_NAMESPACE
-
 # endif
 
 # if __GNUC__ >= 3 
@@ -345,18 +340,31 @@
 # define OSG_HAS_STD_NAMESPACE
 # endif
 
+
 #if defined __linux
 // Use gcc internal types to define OpenSG base types
 # define OSG_LINUX_TYPES
 // Use GLX 
 # define OSG_USE_GLX
 
-
 # if __GNUC__ >= 3 
 # define OSG_THROW_NOTHING() throw()
 #else
 # define OSG_THROW_NOTHING() 
 #endif
+
+// atan2f function available
+# define OSG_HAS_ATANF2
+
+// general float math
+# define OSG_HAS_FLOATMATH
+#endif
+
+#if defined darwin
+// Use gcc internal types to define OpenSG base types
+# define OSG_LINUX_TYPES
+# define OSG_NO_CONCEPT_CHECKS 
+# define OSG_THROW_NOTHING() 
 #endif
 
 
@@ -908,7 +916,7 @@ OSG_USING_STD_NAMESPACE
     OSG_FC_EXPORT_TYPE_DEF   (CLASSNAME, T1, DLLMAPPING)                     \
     OSG_FC_EXPORT_GETTYPE_DEF(CLASSNAME, T1, DLLMAPPING)     
 
-#elif defined (__linux) || defined(__sun)
+#elif defined (__linux) || defined(__sun) || defined (darwin)
 
 #define OSG_EXTERN_EXPORT
 

@@ -54,7 +54,7 @@ const UInt32 OSGDIRFLAG   = IFDIR;
 const UInt32 OSGREADFLAG  = IREAD;
 const UInt32 OSGWRITEFLAG = IWRITE;
 
-#elif defined(__linux)
+#elif defined(__linux) || defined(darwin)
 
 const UInt32 OSGDIRFLAG   = S_IFDIR;
 const UInt32 OSGREADFLAG  = S_IRUSR;
@@ -301,8 +301,3 @@ vector<Char8 *> *Directory::getEntries(const Char8 *szDirname)
 #define OSGFILESYSTEM_INLINE_CVSID "@(#)$Id: $"
 
 OSG_END_NAMESPACE
-
-
-
-
-
