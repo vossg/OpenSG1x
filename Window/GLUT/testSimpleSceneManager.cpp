@@ -58,11 +58,15 @@ key(unsigned char key, int , int )
     switch(key)
     {
     case 27:    exit(1);
-    case 'a':   mgr->setHighlight( scene );
+    case 'a':   mgr->setHighlight(scene);
                 break;
-    case 's':   mgr->setHighlight( NullFC );
+    case 's':   mgr->setHighlight(NullFC);
                 break;
     case 'l':   mgr->useOpenSGLogo();
+                break;
+    case 'f':   mgr->setNavigationMode(Navigator::FLY);
+                break;
+    case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
                 break;
     }
     glutPostRedisplay();
