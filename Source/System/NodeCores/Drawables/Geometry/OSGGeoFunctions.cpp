@@ -3325,16 +3325,9 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
     Geo ## TypeT ## Ptr Type = geo->get ## Type (); \
     if(Type != NullFC && Type->getParents().size() > 1) \
     { \
-        for(UInt32 i=0;i<Type->getParents().size();++i) \
-        { \
-            GeometryPtr parent = GeometryPtr::dcast(Type->getParents()[i]); \
-            if(parent != NullFC) \
-            { \
-                beginEditCP(parent, Geometry :: Type ## FieldMask); \
-                    parent->set ## Type (Geo ## TypeT ## Ptr::dcast(OSG::deepClone(Type))); \
-                endEditCP(parent, Geometry :: Type ## FieldMask); \
-            } \
-        } \
+        beginEditCP(geo, Geometry :: Type ## FieldMask); \
+            geo->set ## Type (Geo ## TypeT ## Ptr::dcast(OSG::deepClone(Type))); \
+        endEditCP(geo, Geometry :: Type ## FieldMask); \
     }
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
