@@ -165,8 +165,9 @@ void ScanParseSkel::scanFile(const Char8 *szFilename,
 
         OSGScanParseSkel_in = pInFile;
 
-        reset();
         OSGScanParseSkel_parse();
+
+        reset();
 
         fclose(pInFile);
 
