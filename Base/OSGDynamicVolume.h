@@ -193,6 +193,7 @@ public:
 
 };
 
+OSG_BASE_DLLMAPPING
 ostream &operator <<(ostream &outStream,
                      const DynamicVolume &vol);
 

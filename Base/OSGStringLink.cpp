@@ -29,6 +29,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#define OSG_COMPILEBASE
+
 #include "OSGConfig.h"
 
 #ifdef OSG_STREAM_IN_STD_NAMESPACE
