@@ -44,6 +44,7 @@ bool                  multiport=false;
 float                 ca=-1,cb=-1,cc=-1;
 bool                  doStereo=false;
 float                 eyedistance=1,zeroparallax=10;
+int                   serverx=-1,servery=-1;
 
 void showText(int x, int y, char *string)
 {
@@ -459,7 +460,10 @@ void init(vector<char *> &filenames)
     glGetIntegerv( GL_VIEWPORT, glvp );
     
 	beginEditCP(clusterWindow);
-    clusterWindow->setSize( glvp[2], glvp[3] );
+    if(serverx>0 && servery>0)
+        clusterWindow->setSize( serverx, servery );
+    else
+        clusterWindow->setSize( glvp[2], glvp[3] );
     clusterWindow->addPort( vp1 );
     if(multiport || doStereo)
         clusterWindow->addPort( vp2 );
@@ -553,6 +557,12 @@ int main(int argc,char **argv)
                     case 'v':
                         multiport=true;
                         break;
+                    case 'x':
+                        sscanf(argv[i]+2,"%d",&serverx);
+                        break;
+                    case 'y':
+                        sscanf(argv[i]+2,"%d",&servery);
+                        break;
                     case 'h':
                         cout << argv[0] 
                              << "-ffile -m -rrows -C -M"
@@ -567,7 +577,9 @@ int main(int argc,char **argv)
                              << "-e  eye distance" << endl
                              << "-z  zero parallax" << endl
                              << "-d  disable client rendering" << endl
-                             << "-v  use two viewports" << endl;
+                             << "-v  use two viewports" << endl
+                             << "-x  server x resolution" << endl
+                             << "-y  server y resolution" << endl;
                         return 0;
                 }
             }
