@@ -52,7 +52,7 @@ help:
 
 doc: userdoc
 
-alldocs: userdoc extdoc devdoc userstarter extstarter devstarter
+alldocs: userdoc devdoc userstarter devstarter
 
 userdoc:
 	cd Doc && make userdoc
