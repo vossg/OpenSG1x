@@ -336,7 +336,7 @@ void BasePThreadBase::setupBlockCond(void)
 
 void BasePThreadBase::init(void)
 {
-    if(bInitialized == true)
+    if(_bInitialized == true)
         return;
 
     setupThread    ();
