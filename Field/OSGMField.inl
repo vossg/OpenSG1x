@@ -48,195 +48,39 @@ OSG_BEGIN_NAMESPACE
 #define STD std
 #endif
 
-
-#if defined(FU) && !defined(__sun) && !defined(WIN32)  && !defined(__linux)
-
-/** \fn const char *OSGMFieldVector::getClassname(void)
- *  \brief Classname
+/*! \class osg::MField
  */
 
-/** \typedef OSGMFieldVector::Inherited
- *  \brief Parent type
- */
+/*! \typedef MField::Inherited
+    \brief Parent type
+*/
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*! \var StorageType MField::_values
+    \brief Value store
+*/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*! \typedef vector<FieldTypeT> MField::StorageType
+    \brief Storage type
+*/
 
-template<class _Tp, class _Alloc>
-char MFieldVector<_Tp, _Alloc>::cvsid[] = "@(#)$Id: $";
+/*! \typedef vector<FieldTypeT>::iterator MField::iterator
+    \brief Storage iterator
+*/
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*! \typedef vector<FieldTypeT>::const_iterator MField::const_iterator
+    \brief Const Storage iterator
+*/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*! \typedef vector<FieldTypeT>::reference MField::reference
+    \brief Value reference
+*/
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*! \typedef vector<FieldTypeT>::const_reference MField::const_reference
+    \brief Const value reference
+*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::MFieldVector(
-    const typename Inherited::allocator_type &__a) :
-
-    Inherited(__a)
-{
-}
-
-/** \brief Creates a vector with n copies of value.
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::MFieldVector(
-    typename Inherited::size_type  __n, 
-    _Tp                            __value,
-    const typename Inherited::allocator_type &__a) :
-
-    Inherited(__n, __value, __a)
-{
-}
-
-/** \brief Creates a vector with n elements.
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::MFieldVector(
-    typename Inherited::size_type __n) :
-
-    Inherited(__n)
-{
-}
-
-/** \brief Copy constructor. 
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::MFieldVector(const MFieldVector &__x) :
-    Inherited(__x)
-{
-}
-    
-#ifndef __STL_MEMBER_TEMPLATES
-
-/** \brief Creates a vector with a copy of a range. 
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::MFieldVector(
-    const _Tp                                *__first,
-    const _Tp                                *__last,
-    const typename Inherited::allocator_type &__a) :
-    
-    Inherited(__first, __last, __a)
-{
-}
-
-#endif /* __STL_MEMBER_TEMPLATES */
-
-
-/** \brief Destructor
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc>::~MFieldVector()
-{
-}
-
-/*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-
-/*-------------------------- your_category---------------------------------*/
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief Assignment
- */
-
-template<class _Tp, class _Alloc> inline
-MFieldVector<_Tp, _Alloc> &MFieldVector<_Tp, _Alloc>::operator =(
-    const MFieldVector<_Tp, _Alloc> &__x)
-{
-    if (this == &__x)
-        return *this;
-
-    // copy parts inherited from parent
-    *(static_cast<Inherited *>(this)) = __x;
-
-    return *this;
-}
-#endif
-
-
-/** \fn const char *MField::getClassname(void)
- *  \brief Classname
- */
-
-/** \typedef MField::Inherited
- *  \brief Parent type
- */
-
-/** \var FieldTypeT MField::_values
- *  \brief Value store
- */
-
-/** \typedef vector<FieldTypeT> MField::StorageType
- *  \brief Storage type
- */
-
-/** \typedef vector<FieldTypeT>::iterator MField::iterator
- *  \brief Storage iterator
- */
-
-/** \typedef vector<FieldTypeT>::const_iterator MField::const_iterator
- *  \brief Const Storage iterator
- */
-
-/** \typedef vector<FieldTypeT>::reference MField::reference
- *  \brief Value reference
- */
-
-/** \typedef vector<FieldTypeT>::const_reference MField::const_reference
- *  \brief Const value reference
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class FieldTypeT, Int32 fieldNameSpace>
-char MField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
-
-/** \brief Field type
- */
+/*-------------------------------------------------------------------------*/
+/*                             FieldType                                   */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
@@ -256,16 +100,9 @@ const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
     FieldType::MULTI_FIELD);
 #endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Get class type
- */
+/*-------------------------------------------------------------------------*/
+/*                            Class Get                                    */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
@@ -273,74 +110,43 @@ const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
     return _fieldType;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Create method used by the factory to create an instance
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-Field *MField<FieldTypeT, fieldNameSpace>::create(void) 
-{
-    return new MField<FieldTypeT, fieldNameSpace>(); 
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(void) :
-    Inherited(),
+     Inherited(),
     _values(0)
 {
 }
 
-/** \brief Constructor, reserves size elements
- */
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+MField<FieldTypeT, fieldNameSpace>::MField(const MField &obj) :
+     Inherited(obj),
+    _values   (obj._values)
+{
+}
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::MField(const UInt32 size)
+MField<FieldTypeT, fieldNameSpace>::MField(const UInt32 size) :
+    Inherited()
 {
     _values.resize(size);
 }
 
-/** \brief Constructor from a given field
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-MField<FieldTypeT, fieldNameSpace>::MField(const MField &obj) :
-    Inherited(obj),
-    _values(obj._values)
-{
-}
-
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::~MField(void)
 {
 }
 
-/*--------------------------------- access ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Get                                       */
 
-/** \brief Return a reference to the stored value at index index
- */
+//! Return a reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
@@ -348,8 +154,7 @@ FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(const UInt32 index)
     return _values[index];
 }
 
-/** \brief Return a const reference to the stored value at index index
- */
+//! Return a const reference to the stored value at index index
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(
@@ -358,8 +163,7 @@ const FieldTypeT &MField<FieldTypeT, fieldNameSpace>::getValue(
     return _values[index];
 }
 
-/** \brief Return a reference to the value store 
- */
+//! Return a reference to the value store 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -369,8 +173,7 @@ MField<FieldTypeT,
     return _values;
 }
 
-/** \brief Return a const reference to the value store 
- */
+//! Return a const reference to the value store 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const MField<FieldTypeT, fieldNameSpace>::StorageType &
@@ -379,9 +182,28 @@ const MField<FieldTypeT, fieldNameSpace>::StorageType &
     return _values;
 }
 
-/** \brief Copies the values from a given field iff the two fieldtypes are 
- *  the same.
- */
+//! Returns the size of the field
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
+{
+    return size();
+}
+
+//! Returns the type of the field
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldType &MField<FieldTypeT, fieldNameSpace>::getType(void) const
+{
+    return _fieldType;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
+
+/*! \brief Copies the values from a given field iff the two fieldtypes are 
+    the same.
+*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
@@ -392,18 +214,16 @@ void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
     }
 }
 
-/** \brief Set the value at the given index to values
- */
+//! Set the value at the given index to values
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value,
-                                        const UInt32      index)
+                                                  const UInt32      index)
 {
     _values[index] = value;
 }
 
-/** \brief Copies the values from a given value store
- */
+//! Copies the values from a given value store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValues(const StorageType &value)
@@ -411,8 +231,7 @@ void MField<FieldTypeT, fieldNameSpace>::setValues(const StorageType &value)
     _values = value;
 }
 
-/** \brief Copies the values from a given field
- */
+//! Copies the values from a given field
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::setValues(const Self &obj)
@@ -420,10 +239,10 @@ void MField<FieldTypeT, fieldNameSpace>::setValues(const Self &obj)
     _values = obj._values;
 }
 
-/*---------------------------- container interface --------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                  Add                                    */
 
-/** \brief Append the given value to the store
- */
+//! Append the given value to the store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::addValue(const FieldTypeT &value)
@@ -431,8 +250,10 @@ void MField<FieldTypeT, fieldNameSpace>::addValue(const FieldTypeT &value)
     _values.push_back(value);
 }
 
-/** \brief Return an iterator to the first element
- */
+/*-------------------------------------------------------------------------*/
+/*                             STL Interface                               */
+
+//! Return an iterator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -442,8 +263,7 @@ MField<FieldTypeT,
     return _values.begin();
 }
 
-/** \brief Return an iterator to the end of the store
- */
+//! Return an iterator to the end of the store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -453,9 +273,7 @@ MField<FieldTypeT,
     return _values.end();
 }
 
-    
-/** \brief Return a const iterator to the first element
- */
+//! Return a const iterator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -465,8 +283,7 @@ MField<FieldTypeT,
     return _values.begin();
 }
 
-/** \brief Return a const iterator to the end of the store
- */
+//! Return a const iterator to the end of the store
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -476,8 +293,7 @@ MField<FieldTypeT,
     return _values.end();
 }
 
-/** \brief Returns an interator to the first element
- */
+//! Returns an interator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -487,8 +303,7 @@ MField<FieldTypeT,
     return _values.front();
 }
 
-/** \brief Returns a const interator to the first element
- */
+//! Returns a const interator to the first element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -498,8 +313,7 @@ MField<FieldTypeT,
     return _values.front();
 }
 
-/** \brief Returns an interator to the last element
- */
+//! Returns an interator to the last element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -509,8 +323,7 @@ MField<FieldTypeT,
     return _values.back();
 }
 
-/** \brief Returns a const interator to the last element
- */
+//! Returns a const interator to the last element
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -520,8 +333,15 @@ MField<FieldTypeT,
     return _values.back();
 }
 
-/** \brief Inserts value at the given pos
- */
+//! Clears the value store
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::clear(void)
+{
+    _values.clear();
+}
+
+//! Inserts value at the given pos
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -532,8 +352,7 @@ MField<FieldTypeT,
     return _values.insert(pos, value);
 }
 
-/** \brief Removes values from the given pos
- */
+//! Removes values from the given pos
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -543,17 +362,8 @@ MField<FieldTypeT,
     return _values.erase(pos);
 }
 
-/** \brief Clears the value store
- */
 
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::clear(void)
-{
-    _values.clear();
-}
-
-/** \brief Returns an iterator to the given value if found otherwise end()
- */
+//! Returns an iterator to the given value if found otherwise end()
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -563,8 +373,7 @@ MField<FieldTypeT,
     return STD::find(_values.begin(), _values.end(), value);
 }
 
-/** \brief Returns a const iterator to the given value if found otherwise end()
- */
+//! Returns a const iterator to the given value if found otherwise end()
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, 
@@ -575,25 +384,7 @@ MField<FieldTypeT,
     return STD::find(_values.begin(), _values.end(), value);
 }
 
-/** \brief resizes the container to given size. Depends on the underlying
- *  stll container implementation
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::resize(size_t newsize)
-{
-    _values.resize(newsize);
-}
-
-/** \brief allocates memory for the given number of elements. Depends on the underlying
- *  stll container implementation
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void MField<FieldTypeT, fieldNameSpace>::reserve(size_t newsize)
-{
-    _values.reserve(newsize);
-}
+//! push back value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::push_back(const FieldTypeT &value)
@@ -601,29 +392,27 @@ void MField<FieldTypeT, fieldNameSpace>::push_back(const FieldTypeT &value)
     _values.push_back(value);
 }
 
-/** \brief Returns a reference to the value at the given index 
- */
+/*! \brief resizes the container to given size. Depends on the underlying
+    stll container implementation
+*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
+void MField<FieldTypeT, fieldNameSpace>::resize(size_t newsize)
 {
-    return _values[index];
+    _values.resize(newsize);
 }
 
-/** \brief Returns a const reference to the value at the given index 
- */
+/*! \brief allocates memory for the given number of elements. 
+    Depends on the underlying stl container implementation
+*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](
-    UInt32 index) const
+void MField<FieldTypeT, fieldNameSpace>::reserve(size_t newsize)
 {
-    return _values[index];
+    _values.reserve(newsize);
 }
 
-/*-------------------------- field information ------------------------------*/
-
-/** \brief Returns the size of the field
- */
+//! Returns the size of the field
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
@@ -631,17 +420,7 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
     return _values.size();
 }
 
-/** \brief Returns the size of the field
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
-{
-    return size();
-}
-
-/** \brief Returns true if the field does not hold any value
- */
+//! Returns true if the field does not hold any value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 Bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
@@ -649,19 +428,11 @@ Bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
     return _values.empty();
 }
 
-/** \brief Returns the type of the field
- */
+/*-------------------------------------------------------------------------*/
+/*                           String IO                                     */
 
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldType &MField<FieldTypeT, fieldNameSpace>::getType(void) const
-{
-    return _fieldType;
-}
 
-/*---------------------------- string io ------------------------------------*/
-
-/** \brief Sets the field value from a given string
- */
+//! Sets the field value from a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
@@ -678,35 +449,57 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
     addValue(tmpVal);
 }
 
-/** \brief Dump the field to a given string
- */
-
+//! Dump the field to a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &MField<FieldTypeT, fieldNameSpace>::getValueByStr(
-    string &stringVal) const
+string &MField<FieldTypeT, 
+               fieldNameSpace>::getValueByStr(string &stringVal) const
 {
     string tmpString;
 
     typedef osgIF< (MFieldTraits::StringConvertable &
                     Traits::FromStringConvertable),
-                    MFieldTraits,
-                    ErrorFromToString<FieldTypeT> >::_IRet Converter;
+                   MFieldTraits,
+                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
     for(UInt32 i = 0; i < getSize(); ++i)
     {
-        Converter::putToString( _values[i], tmpString );
+        Converter::putToString(_values[i], tmpString);
 
-        stringVal.append( tmpString );
+        stringVal.append(tmpString);
 
-        if( i < (getSize()-1) )
+        if(i < (getSize()-1))
         {
-            stringVal.append( ", " );
+            stringVal.append(", ");
         }
     }
 
     return stringVal;
 }
+
+
+/*-------------------------------------------------------------------------*/
+/*                           Index Operator                                */
+
+//! Returns a reference to the value at the given index 
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+FieldTypeT &MField<FieldTypeT, fieldNameSpace>::operator [](UInt32 index)
+{
+    return _values[index];
+}
+
+//! Returns a const reference to the value at the given index 
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldTypeT &MField<FieldTypeT, 
+                         fieldNameSpace>::operator [](UInt32 index) const
+{
+    return _values[index];
+}
+
+/*-------------------------------------------------------------------------*/
+/*                              MT Sync                                    */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
@@ -714,7 +507,8 @@ void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
     setValues(source);
 }
 
-/*---------------------------- To / From Bin --------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         Binary Interface                                */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
@@ -739,20 +533,21 @@ void MField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 {
     UInt32 n;
 
-    pMem.get(&n,sizeof(n));
+     pMem  .get   (&n, sizeof(UInt32));
     _values.clear ( );
     _values.resize(n);
 
     MFieldTraits::copyFromBin(   pMem, 
-                                 &(_values[0]),
+                              &(_values[0]),
                                  n);
 }
 
-/*--------------------------------- dump ------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
 
-/** \brief Dump property contents to stderr, should be changed to use a
- *  log stream instead
- */
+/*! \brief Dump property contents to stderr, should be changed to use a
+    log stream instead
+*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::dump(void) const
@@ -767,42 +562,17 @@ void MField<FieldTypeT, fieldNameSpace>::dump(void) const
     cout << endl;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Create                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+//! Create method used by the factory to create an instance
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+Field *MField<FieldTypeT, fieldNameSpace>::create(void) 
+{
+    return new MField<FieldTypeT, fieldNameSpace>(); 
+}
 
 OSG_END_NAMESPACE
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
+#define OSGMFIELD_INLINE_CVSID "@(#)$Id: $"

@@ -47,8 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup LightNodes
 //! Pointlight
+//! \ingroup LightNodes
 
 class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 {
@@ -56,25 +56,21 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "PointLight"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                     Access Fields                            */
     /*! \{                                                                 */
 
-    void setPosition(Real32 rX, Real32 rY, Real32 rZ);
-    inline void setPosition(const Pnt3f & pos);
-    void setAttenuation(Real32 rConstant,
-                        Real32 rLinear,
-                        Real32 rQuadratic);
+    void setPosition   (      Real32 rX,
+                              Real32 rY, 
+                              Real32 rZ        );
+    void setPosition   (const Pnt3f &pos       );
+
+    void setAttenuation(      Real32 rConstant ,
+                              Real32 rLinear   ,
+                              Real32 rQuadratic);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                        Access                                */
+    /*! \name                      Chunk                                   */
     /*! \{                                                                 */
 
     virtual void makeChunk(void);
@@ -85,20 +81,21 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name                      Dump                                    */
     /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef PointLightBase Inherited;
 
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE PLightDrawEnter(CNodePtr &cnode,
@@ -135,29 +132,23 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
     Action::ResultE renderLeave(Action * action);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
-
-    typedef PointLightBase Inherited;
 
     friend class FieldContainer;
     friend class PointLightBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
-    // prohibit default functions (move to 'public' if you need one)
-
+    /*! \brief prohibit default function (move to 'public' if needed) */
     void operator =(const PointLight &source);
 };
-
-typedef PointLight *PointLightP;
 
 OSG_END_NAMESPACE
 
 #include <OSGPointLight.inl>
 #include <OSGPointLightBase.inl>
+
+#define OSGPOINTLIGHT_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGPOINTLIGHT_H_ */

@@ -45,47 +45,56 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Bool field traits 
- */
+/*! \file OSGSysFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Sys Field Data Types  
+*/
+
+
+
+/*! \brief Bool field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits2<Bool> : 
     public FieldTraitsIntegralRecurseMapper<Bool>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFBool";      }
-    static Char8           *getMName(void)      { return "MFBool";      }
+    static Char8    *getSName     (void) { return "SFBool";      }
+    static Char8    *getMName     (void) { return "MFBool";      }
 
-    static Bool             getDefault(void)    { return false;         }
+    static Bool      getDefault   (void) { return false;         }
 
-    static Bool             getFromString(Bool         &outVal,
-                                          const Char8 *&inVal)
+    static Bool      getFromString(      Bool  &outVal,
+                                   const Char8 *&inVal)
     {
         if(inVal == NULL)
             return false;
 
         if(inVal[0] == 'T' || inVal[0] == 't')
         {
-            if(inVal[1] != 'R' && inVal[1] != 'r' )
+            if(inVal[1] != 'R' && inVal[1] != 'r')
             {
                 return false;
             }
 
-            if(inVal[2] != 'U' && inVal[2] != 'u' )
+            if(inVal[2] != 'U' && inVal[2] != 'u')
             {
                 return false;
             }
 
-            if(inVal[3] != 'E' && inVal[3] != 'e' )
+            if(inVal[3] != 'E' && inVal[3] != 'e')
             {
                 return false;
             }
@@ -94,22 +103,22 @@ struct FieldDataTraits2<Bool> :
         }
         else if(inVal[0] == 'F' || inVal[0] == 'f')
         {
-            if(inVal[1] != 'A' && inVal[1] != 'a' )
+            if(inVal[1] != 'A' && inVal[1] != 'a')
             {
                 return false;
             }
 
-            if(inVal[2] != 'L' && inVal[2] != 'l' )
+            if(inVal[2] != 'L' && inVal[2] != 'l')
             {
                 return false;
             }
 
-            if(inVal[3] != 'S' && inVal[3] != 's' )
+            if(inVal[3] != 'S' && inVal[3] != 's')
             {
                 return false;
             }
 
-            if(inVal[4] != 'E' && inVal[4] != 'e' )
+            if(inVal[4] != 'E' && inVal[4] != 'e')
             {
                 return false;
             }
@@ -124,392 +133,397 @@ struct FieldDataTraits2<Bool> :
         return outVal;
     }
 
-    static void             putToString(const Bool   &inVal,
-                                              string &outVal)
+    static void      putToString   (const Bool   &inVal,
+                                          string &outVal)
     {
-        if( inVal == true ){
-    outVal.assign( "TRUE" );
-      } else {
-    outVal.assign( "FALSE" );
-      }
+        if( inVal == true )
+        {
+            outVal.assign("TRUE");
+        } 
+        else
+        {
+            outVal.assign("FALSE");
+        }
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Int8 field traits 
- */
+/*! \brief Int8 field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)     { return _type;          }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFInt8";      }
-    static Char8           *getMName(void)      { return "MFInt8";      }
+    static Char8    *getSName     (void) { return "SFInt8";      }
+    static Char8    *getMName     (void) { return "MFInt8";      }
 
-    static Int8             getDefault(void)    { return 0;             }
+    static Int8      getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      Int8   &outVal,
-                                          const Char8 *&inVal)
+    static Bool      getFromString(      Int8   &outVal,
+                                   const Char8 *&inVal)
     {
         outVal = TypeConstants<Int8>::getFromString(inVal);
 
         return true;
     }
 
-    static void             putToString(const Int8   &inVal,
-                                              string &outVal)
+    static void      putToString  (const Int8   &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<Int8>::putToString(inVal) );
+        outVal.assign(TypeConstants<Int8>::putToString(inVal));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief UInt8 field traits 
- */
+/*! \brief UInt8 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields 
+*/
 
 template <>
 struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFUInt8";     }
-    static Char8           *getMName(void)      { return "MFUInt8";     }
+    static Char8    *getSName     (void) { return "SFUInt8";     }
+    static Char8    *getMName     (void) { return "MFUInt8";     }
 
-    static UInt8            getDefault(void)    { return 0;             }
+    static UInt8     getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      UInt8   &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      UInt8   &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt8>::getFromString(inVal);
 
         return true;
     }
 
-    static void             putToString(const UInt8  &inVal,
-                                              string &outVal)
+    static void      putToString  (const UInt8  &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<UInt8>::putToString(inVal) );
+        outVal.assign(TypeConstants<UInt8>::putToString(inVal));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Int16 field traits 
- */
+/*! \brief Int16 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields 
+*/
 
 template <>
 struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFInt16";     }
-    static Char8           *getMName(void)      { return "MFInt16";     }
+    static Char8    *getSName     (void) { return "SFInt16";     }
+    static Char8    *getMName     (void) { return "MFInt16";     }
 
-    static Int16            getDefault(void)    { return 0;             }
+    static Int16     getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      Int16  &outVal,
-                                          const Char8 *&inVal)
+    static Bool      getFromString(      Int16  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal = TypeConstants<Int16>::getFromString(inVal);
-
+        
         return true;
     }
 
-    static void             putToString(const Int16  &inVal,
-                                              string &outVal)
+    static void      putToString  (const Int16  &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<Int16>::putToString(inVal) ); 
+        outVal.assign(TypeConstants<Int16>::putToString(inVal)); 
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief UInt16 field traits 
- */
+/*! \brief UInt16 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<UInt16> : 
     public FieldTraitsIntegralRecurseMapper<UInt16>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFUInt16";    }
-    static Char8           *getMName(void)      { return "MFUInt16";    }
+    static Char8    *getSName     (void) { return "SFUInt16";    }
+    static Char8    *getMName     (void) { return "MFUInt16";    }
 
-    static UInt16           getDefault(void)    { return 0;             }
+    static UInt16    getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      UInt16  &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      UInt16  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt16>::getFromString(inVal);
-
+        
         return true;
     }
 
-    static void             putToString(const UInt16 &inVal,
-                                              string &outVal)
+    static void      putToString  (const UInt16 &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<UInt16>::putToString(inVal) );
+        outVal.assign(TypeConstants<UInt16>::putToString(inVal));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Int32 field traits 
- */
+/*! \brief Int32 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Int32> : 
     public FieldTraitsIntegralRecurseMapper<Int32>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFInt32";     }
-    static Char8           *getMName(void)      { return "MFInt32";     }
+    static Char8    *getSName     (void) { return "SFInt32";     }
+    static Char8    *getMName     (void) { return "MFInt32";     }
 
-    static Int32            getDefault(void)    { return 0;             }
+    static Int32     getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      Int32  &outVal,
-                                          const Char8 *&inVal)
+    static Bool      getFromString(      Int32  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal = TypeConstants<Int32>::getFromString(inVal);
-
+        
         return true;
     }
 
-    static void             putToString(const Int32  &inVal,
-                                              string &outVal)
+    static void      putToString  (const Int32  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Int32>::putToString(inVal) );
+        outVal.assign(TypeConstants<Int32>::putToString(inVal));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief UInt32 field traits 
- */
+/*! \brief UInt32 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<UInt32> : 
     public FieldTraitsIntegralRecurseMapper<UInt32>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFUInt32";    }
-    static Char8           *getMName(void)      { return "MFUInt32";    }
+    static Char8    *getSName     (void) { return "SFUInt32";    }
+    static Char8    *getMName     (void) { return "MFUInt32";    }
 
-    static UInt32           getDefault(void)    { return 0;             }
+    static UInt32    getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      UInt32  &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      UInt32  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt32>::getFromString(inVal);
-
+        
         return false;
     }
 
-    static void             putToString(const UInt32 &inVal,
-                                              string &outVal)
+    static void      putToString  (const UInt32 &inVal,
+                                         string &outVal)
     {
-         outVal.assign( TypeConstants<UInt32>::putToString(inVal) );
+        outVal.assign(TypeConstants<UInt32>::putToString(inVal));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Int64 field traits 
- */
+/*! \brief Int64 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Int64> : 
     public FieldTraitsIntegralRecurseMapper<Int64>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFInt64";     }
-    static Char8           *getMName(void)      { return "MFInt64";     }
+    static Char8    *getSName     (void) { return "SFInt64";     }
+    static Char8    *getMName     (void) { return "MFInt64";     }
 
-    static Int64            getDefault(void)    { return 0;             }
+    static Int64     getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      Int64   &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      Int64   &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<Int64>::getFromString(inVal);
-
+        
         return false;
     }
 
-    static void             putToString(const Int64  &inVal,
-                                              string &outVal)
+    static void      putToString  (const Int64  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Int64>::putToString(inVal) );
+        outVal.assign(TypeConstants<Int64>::putToString(inVal));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief UInt64 field traits 
- */
+/*! \brief UInt64 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<UInt64> : 
     public FieldTraitsIntegralRecurseMapper<UInt64>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFUInt64";    }
-    static Char8           *getMName(void)      { return "MFUInt64";    }
+    static Char8    *getSName     (void) { return "SFUInt64";    }
+    static Char8    *getMName     (void) { return "MFUInt64";    }
 
-    static UInt64           getDefault(void)    { return 0;             }
+    static UInt64    getDefault   (void) { return 0;             }
 
-    static Bool             getFromString(      UInt64  &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      UInt64  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<UInt64>::getFromString(inVal);
-
+        
         return false;
     }
 
-    static void             putToString(const UInt64 &inVal,
-                                              string &outVal)
+    static void      putToString  (const UInt64 &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<UInt64>::putToString(inVal) );
+        outVal.assign(TypeConstants<UInt64>::putToString(inVal));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Real32 field traits 
- */
+/*! \brief Real32 field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 
 template <>
 struct FieldDataTraits<Real32> : 
     public FieldTraitsIntegralRecurseMapper<Real32>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFReal32";    }
-    static Char8           *getMName(void)      { return "MFReal32";    }
+    static Char8    *getSName     (void) { return "SFReal32";    }
+    static Char8    *getMName     (void) { return "MFReal32";    }
 
-    static Real32           getDefault(void)    { return 0.f;           }
+    static Real32    getDefault   (void) { return 0.f;           }
 
-    static Bool             getFromString(      Real32  &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      Real32  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<Real32>::getFromString(inVal);
 
         return true;
     }
 
-    static void             putToString(const Real32 &inVal,
-                                              string &outVal)
+    static void      putToString  (const Real32 &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<Real32>::putToString(inVal) );
+        outVal.assign(TypeConstants<Real32>::putToString(inVal));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Real64 field traits 
- */
+/*! \brief Real64 field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Real64> : 
     public FieldTraitsIntegralRecurseMapper<Real64>
 {
-    static DataType         _type;
+    static DataType _type;
 
-    enum                    { StringConvertable = ToStringConvertable | 
-                                                  FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
 
-    static DataType        &getType (void)      { return _type;         }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8           *getSName(void)      { return "SFReal64";    }
-    static Char8           *getMName(void)      { return "MFReal64";    }
+    static Char8    *getSName     (void) { return "SFReal64";    }
+    static Char8    *getMName     (void) { return "MFReal64";    }
 
-    static Real64           getDefault(void)    { return 0.;            }
+    static Real64    getDefault   (void) { return 0.;            }
 
-    static Bool             getFromString(      Real64  &outVal,
-                                          const Char8  *&inVal)
+    static Bool      getFromString(      Real64  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal = TypeConstants<Real64>::getFromString(inVal);
-
+        
         return true;
     }
 
-    static void             putToString(const Real64 &inVal,
-                                              string &outVal)
+    static void      putToString  (const Real64 &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Real64>::putToString(inVal) );
+        outVal.assign(TypeConstants<Real64>::putToString(inVal));
     }
 };
 
 OSG_END_NAMESPACE
+
+#define OSGSYSFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_SYSFIELDDATATYPE_H_ */
 

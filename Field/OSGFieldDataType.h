@@ -48,18 +48,19 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \file OSGFieldDataType.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief OpenSG Field Data Types  
+/*! \file OSGFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Field Data Types  
 */
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Documentation dummy
- */
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 struct Traits
 {
@@ -81,12 +82,12 @@ struct FieldDataTraits1;
 template<class FieldTypeT>
 struct FieldDataTraits2;
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Base template to store the required information to instantiate
- *   fields
- */
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template<class FieldTypeT>
 struct FieldTraitsRecurseBase : public Traits
@@ -156,6 +157,13 @@ struct FieldTraitsRecurseBase : public Traits
     }
 };
 
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
+
 template <class FieldTypeT>
 struct FieldTraitsIntegralRecurseMapper : 
     public FieldTraitsRecurseBase<FieldTypeT>
@@ -197,6 +205,13 @@ struct FieldTraitsIntegralRecurseMapper :
         pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 };
+
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
@@ -287,6 +302,13 @@ struct FieldTraitsRecurseMapper : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
+
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
 {
@@ -374,6 +396,13 @@ struct FieldTraitsRecurseMapper1 : public FieldTraitsRecurseBase<FieldTypeT>
         MappedTrait::copyFromBin(pMem, pObjectStore, uiNumObjects);
     }
 };
+
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template <class FieldTypeT>
 struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
@@ -463,29 +492,36 @@ struct FieldTraitsRecurseMapper2 : public FieldTraitsRecurseBase<FieldTypeT>
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Base template to store the required information to instantiate
- *   fields
- */
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template <class FieldTypeT>
 struct FieldDataTraits : public FieldTraitsRecurseMapper<FieldTypeT>
 {
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Base template to store the required information to instantiate
- *   fields
- */
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template <class FieldTypeT>
 struct FieldDataTraits1 : public FieldTraitsRecurseMapper1<FieldTypeT>
 {
 };
+
+
+/*! \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief  
+*/
 
 template <class FieldTypeT>
 struct FieldDataTraits2 : public FieldTraitsRecurseMapper2<FieldTypeT>

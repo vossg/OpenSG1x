@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,54 +49,81 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGPOINTLIGHT_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGPOINTLIGHT_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
 /*! \class osg::PointLight
- * PointLight is a located lightsource. The position of the light source
- * (in the beacon's coordinate system) is defined by the \c position 
- * attribute. The influence of the light diminishes with distance, controlled
- * by the \c constantAttenuation, \c linearAttenuation and \c
- * quadraticAttenuation attributes.
- */
+    PointLight is a located lightsource. The position of the light source
+    (in the beacon's coordinate system) is defined by the \c position 
+    attribute. The influence of the light diminishes with distance, controlled
+    by the \c constantAttenuation, \c linearAttenuation and \c
+    quadraticAttenuation attributes.
+*/
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+void PointLight::setPosition(Real32 rX, Real32 rY, Real32 rZ)
+{
+    _sfPosition.getValue().setValues(rX, rY, rZ);
+}
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+void PointLight::setAttenuation(Real32 rConstant, 
+                                Real32 rLinear, 
+                                Real32 rQuadratic)
+{
+    _sfConstantAttenuation .setValue(rConstant );
+    _sfLinearAttenuation   .setValue(rLinear   );
+    _sfQuadraticAttenuation.setValue(rQuadratic);
+}
 
-char PointLight::cvsid[] = "@(#)$Id: $";
+/*-------------------------------------------------------------------------*/
+/*                             Chunk                                       */
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+void PointLight::makeChunk(void)
+{
+    Inherited::makeChunk();
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+    Vec4f pos(_sfPosition.getValue());
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+    pos[3] = 1;
+   
+    _pChunk->setPosition            (pos                      );
+    _pChunk->setConstantAttenuation (getConstantAttenuation ());
+    _pChunk->setLinearAttenuation   (getLinearAttenuation   ());
+    _pChunk->setQuadraticAttenuation(getQuadraticAttenuation());
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Changed                                     */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+void PointLight::changed(BitVector, ChangeMode)
+{
+}
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+void PointLight::dump(      UInt32    uiIndent, 
+                      const BitVector bvFlags) const
+{
+   Inherited::dump(uiIndent, bvFlags);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            No Functor Stuff                             */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE PointLight::PLightDrawEnter(CNodePtr &cnode, 
@@ -138,176 +161,65 @@ OSG::Action::ResultE PointLight::PLightDrawLeave(CNodePtr &cnode,
 }
 #endif
 
-void PointLight::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                PointLightPtr, 
-                                Action *>(&PointLight::drawEnter));
-
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                PointLightPtr, 
-                                Action *>(&PointLight::drawLeave));
-
-    RenderAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                PointLightPtr, 
-                                Action *>(&PointLight::renderEnter));
-
-    RenderAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                PointLightPtr, 
-                                Action *>(&PointLight::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                         PointLight::PLightDrawEnter));
-
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                         PointLight::PLightDrawLeave));
-
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 PointLight::PointLight(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 PointLight::PointLight(const PointLight &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 PointLight::~PointLight(void)
 {
 }
 
-void PointLight::makeChunk(void)
-{
-    Inherited::makeChunk();
+/*-------------------------------------------------------------------------*/
+/*                               Drawing                                   */
+
+Action::ResultE PointLight::drawEnter(Action *action)
+{   
+    if(getOn() == false)
+        return Action::Continue;
+
+    DrawAction *da    = dynamic_cast<DrawAction *>(action);
+    GLenum      light = GL_LIGHT0 + da->getLightCount();
+    
+    LightBase::drawEnter(action);
 
     Vec4f pos(_sfPosition.getValue());
 
     pos[3] = 1;
-   
-    _pChunk->setPosition            (pos                      );
-    _pChunk->setConstantAttenuation (getConstantAttenuation ());
-    _pChunk->setLinearAttenuation   (getLinearAttenuation   ());
-    _pChunk->setQuadraticAttenuation(getQuadraticAttenuation());
-}
 
-/*------------------------------- set ---------------------------------------*/
-
-void PointLight::setPosition(Real32 rX, Real32 rY, Real32 rZ)
-{
-    _sfPosition.getValue().setValues(rX, rY, rZ);
-}
-
-void PointLight::setAttenuation(Real32 rConstant, 
-                                Real32 rLinear, 
-                                Real32 rQuadratic)
-{
-    _sfConstantAttenuation.setValue(rConstant);
-    _sfLinearAttenuation.setValue(rLinear);
-    _sfQuadraticAttenuation.setValue(rQuadratic);
-}
-
-/** \brief react to field changes
- */
-
-void PointLight::changed(BitVector, ChangeMode)
-{
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void PointLight::dump(      UInt32    uiIndent, 
-                      const BitVector bvFlags) const
-{
-   Inherited::dump(uiIndent, bvFlags);
-}
-
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/** \brief Actions
- */
-    
-Action::ResultE PointLight::drawEnter(Action * action )
-{   
-    if ( ! getOn() )
-        return Action::Continue;
-
-    DrawAction *da = (DrawAction *)action;
-    GLenum light = GL_LIGHT0 + da->getLightCount();
-    
-    LightBase::drawEnter( action );
-
-    Vec4f pos( _sfPosition.getValue() );
-
-    pos[3] = 1;
-    glLightfv( light, GL_POSITION, pos.getValues() );
-    glLightf( light, GL_SPOT_CUTOFF, 180 );
+    glLightfv(light, GL_POSITION   , pos.getValues());
+    glLightf (light, GL_SPOT_CUTOFF, 180.f          );
 
     glPopMatrix();
 
     return Action::Continue;
 }
     
-Action::ResultE PointLight::drawLeave(Action * action )
+Action::ResultE PointLight::drawLeave(Action *action)
 {
-    if ( ! getOn() )
+    if(getOn() == false)
         return Action::Continue;
 
-    return LightBase::drawLeave( action );
+    return LightBase::drawLeave(action);
 }
 
-// generate drawtree
+/*-------------------------------------------------------------------------*/
+/*                             Rendering                                   */
+
 Action::ResultE PointLight::renderEnter(Action *action)
 {
-    if(! getOn())
+    if(getOn() == false)
         return Action::Continue;
 
     return LightBase::renderEnter(action);
@@ -315,8 +227,56 @@ Action::ResultE PointLight::renderEnter(Action *action)
 
 Action::ResultE PointLight::renderLeave(Action *action)
 {
-    if(! getOn())
+    if(getOn() == false)
         return Action::Continue;
 
     return LightBase::renderLeave(action);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Init                                      */
+
+void PointLight::initMethod (void)
+{
+#ifndef OSG_NOFUNCTORS
+
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  PointLightPtr, 
+                                  Action *>(&PointLight::drawEnter));
+
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  PointLightPtr, 
+                                  Action *>(&PointLight::drawLeave));
+
+    RenderAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  PointLightPtr, 
+                                  Action *>(&PointLight::renderEnter));
+
+    RenderAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  PointLightPtr, 
+                                  Action *>(&PointLight::renderLeave));
+
+#else
+
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(PointLight::PLightDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(PointLight::PLightDrawLeave));
+
+#endif
 }

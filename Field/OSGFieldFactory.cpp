@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -65,72 +61,34 @@ namespace
 #pragma reset woff 1174
 #endif
 
-/** \fn FieldFactory::FieldFactory(const FieldFactory &source)
- *  \brief Not implemented.
+/*! \class osg::FieldContainerFactory
  */
 
-/** \fn void FieldFactory::operator =(const FieldFactory &source)
- *  \brief Not implemented.
- */
+/*-------------------------------------------------------------------------*/
+/*                            Class Variable                               */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/** \brief Factory instance
- */
+//! Factory instance
 
 FieldFactory FieldFactory::_the;
 
-/** \brief Field type storage
- */
+//! Field type storage
 
 map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Destructor
- */
-
-FieldFactory::~FieldFactory(void )
+FieldFactory::~FieldFactory(void)
 {
     SINFO << "INFO: Destroy Singleton FieldFactory" << endl;
 }
 
-/*------------------------------ create ------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Create                                    */
 
-/** \brief Create a field of the given type
- */
+//! Create a field of the type given by the typeid
 
-Field * FieldFactory::createField(UInt32 typeId)
+Field *FieldFactory::createField(UInt32 typeId)
 {
     FieldType *pType = getFieldType(typeId);
 
@@ -146,10 +104,9 @@ Field * FieldFactory::createField(UInt32 typeId)
     }
 }
 
-/** \brief Create a field of the type given by the type name
- */
+//! Create a field of the type given by the type name
 
-Field * FieldFactory::createField(const Char8 *szName)
+Field *FieldFactory::createField(const Char8 *szName)
 {
     FieldType *pType          = getFieldType(szName);
 
@@ -164,12 +121,12 @@ Field * FieldFactory::createField(const Char8 *szName)
     }
 }
 
-/*---------------------------------- type -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
-/** \Brief Get numer of field types
- */
+//! Get the number of field types
 
-UInt32 FieldFactory::getNFieldTypes( void )
+UInt32 FieldFactory::getNFieldTypes(void)
 {
     if(_fieldTypeM != NULL) 
         return _fieldTypeM->size();
@@ -178,10 +135,9 @@ UInt32 FieldFactory::getNFieldTypes( void )
 }
     
 
-/** \Brief Get type by name
- */
+//! Get type by name
 
-FieldType * FieldFactory::getFieldType (const Char8 *szName)
+FieldType *FieldFactory::getFieldType(const Char8 *szName)
 {
     map<UInt32, FieldType *>::iterator  mIt;
     FieldType                          *returnValue = NULL;
@@ -205,8 +161,7 @@ FieldType * FieldFactory::getFieldType (const Char8 *szName)
     return returnValue;
 }
 
-/** \brief Get type by data type
- */
+//! Get type by typeid
 
 FieldType *FieldFactory::getFieldType(UInt32 typeId)
 {
@@ -227,11 +182,7 @@ FieldType *FieldFactory::getFieldType(UInt32 typeId)
     }
 }
 
-
-/*---------------------------------- name -----------------------------------*/
-
-/** \brief Get the name of the given data type
- */
+//! Get the name of the data type given by its id
 
 const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
@@ -240,35 +191,31 @@ const Char8 *FieldFactory::getFieldTypeName(UInt32 typeId)
     return pFieldType ? pFieldType->getCName() : NULL;
 }
 
-/*---------------------------------- instance -------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                 the                                     */
 
-/** \brief Returns a reference to the global factory
- */
+//! Returns a reference to the global factory
 
 FieldFactory &FieldFactory::the(void)
 {
     return _the;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 FieldFactory::FieldFactory(void)
 {
 }
 
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                 Add                                     */
 
 #ifdef OSG_WIN32_ICL
 #pragma warning (disable : 383)
 #endif
+
+//! Add given type to the factory
 
 void FieldFactory::addType(FieldType *pType)
 {
@@ -288,31 +235,6 @@ void FieldFactory::addType(FieldType *pType)
 #pragma warning (default : 383)
 #endif
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+
+
 

@@ -50,23 +50,42 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! *put brief class description here*
+//! LightBase
+//! \ingroup LightNodes
 
 class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
 {
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    typedef LightBaseBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
+    /*! \name                       Set                                    */
     /*! \{                                                                 */
 
-    static const char *getClassname(void) { return "LightBase"; };
+    void setAmbient (      Real32   rRed, 
+                           Real32   rGreen, 
+                           Real32   rBlue, 
+                           Real32   rAlpha);
+    void setDiffuse (      Real32   rRed, 
+                           Real32   rGreen, 
+                           Real32   rBlue, 
+                           Real32   rAlpha);
+    void setSpecular(      Real32   rRed, 
+                           Real32   rGreen, 
+                           Real32   rBlue, 
+                           Real32   rAlpha);
+    
+    void setAmbient (const Color4f &col);
+    void setDiffuse (const Color4f &col);
+    void setSpecular(const Color4f &col);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Chunk                                   */
+    /*! \{                                                                 */
+
+            LightChunkPtr getChunk (void);
+    virtual void          makeChunk(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -74,37 +93,23 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Volume                                  */
-    /*! \{                                                                 */
-
-    void setAmbient (Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
-    void setDiffuse (Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
-    void setSpecular(Real32 rRed, Real32 rGreen, Real32 rBlue, Real32 rAlpha);
-    inline void setAmbient (const Color4f &col);
-    inline void setDiffuse (const Color4f &col);
-    inline void setSpecular(const Color4f &col);
-
-            LightChunkPtr  getChunk (void);
-    virtual void            makeChunk(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name                      Dump                                    */
     /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    LightChunkPtr _pChunk;
+    typedef LightBaseBase  Inherited;
+
+            LightChunkPtr _pChunk;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -124,42 +129,33 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public LightBaseBase
     /*---------------------------------------------------------------------*/
     /*! \name                     Actions                                  */
     /*! \{                                                                 */
+   
+    // Draw action: execute the OpenGL commands to set the light's parameters.
+    Action::ResultE drawEnter  (Action *action);
+    Action::ResultE drawLeave  (Action *action);
 
-    /*! \ingroup ActionFunctions
-     *  Draw action: execute the OpenGL commands to set the light's
-     *  parameters.
-     */
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
-
-    /*! \ingroup ActionFunctions
-     *  generate draw tree
-     */
+    // generate draw tree
     Action::ResultE renderEnter(Action *action);
     Action::ResultE renderLeave(Action *action);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
 
     friend class FieldContainer;
     friend class LightBaseBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
-    // prohibit default functions (move to 'public' if you need one)
-
+    /*! \brief prohibit default function (move to 'public' if needed) */
     void operator =(const LightBase &source);
 };
-
-typedef LightBase *LightBaseP;
 
 OSG_END_NAMESPACE
 
 #include <OSGLightBase.inl>
 #include <OSGLightBaseBase.inl>
+
+#define OSGLIGHTBASE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGLIGHTBASE_H_ */

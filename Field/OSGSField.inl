@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -48,8 +44,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \fn const char *SField::getClassname(void)
- *  \brief Classname
+/*! \class osg::SField
  */
 
 /** \typedef SField::Inherited
@@ -60,20 +55,8 @@ OSG_BEGIN_NAMESPACE
  *  \brief Value store
  */
 
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-template <class FieldTypeT, Int32 fieldNameSpace>
-char SField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
-
-/** \brief Field type
- */
+/*-------------------------------------------------------------------------*/
+/*                             FieldType                                   */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
@@ -93,16 +76,8 @@ const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
     FieldType::SINGLE_FIELD);
 #endif
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Get class type
- */
+/*-------------------------------------------------------------------------*/
+/*                            Class Get                                    */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldType &SField<FieldTypeT, fieldNameSpace>::getClassType(void)
@@ -110,76 +85,43 @@ const FieldType &SField<FieldTypeT, fieldNameSpace>::getClassType(void)
     return _fieldType;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Create method used by the factory to create an instance
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-Field *SField<FieldTypeT, fieldNameSpace>::create(void) 
-{
-    return new SField<FieldTypeT, fieldNameSpace>(); 
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 SField<FieldTypeT, fieldNameSpace>::SField(void) :
     Inherited(),
-    _value()
+    _value   ()
 {
 }
-
-
-/** \brief Constructor from a give value
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-SField<FieldTypeT, fieldNameSpace>::SField(const FieldTypeT &value) :
-    Inherited(),
-    _value(value)
-{
-}
-
-/** \brief Constructor from a given field
- */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 SField<FieldTypeT, fieldNameSpace>::SField(const SField &obj) :
-    Inherited(obj),
-    _value(obj._value)
+     Inherited(obj       ),
+    _value    (obj._value)
 {
 }
 
-/** \brief Destructor
- */
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+SField<FieldTypeT, fieldNameSpace>::SField(const FieldTypeT &value) :
+     Inherited(),
+    _value    (value)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 SField<FieldTypeT, fieldNameSpace>::~SField(void)
 {
 }
 
-/*--------------------------------- access ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Get                                       */
 
-/** \brief Return a reference to the stored value
- */
+//! Return a reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void)
@@ -187,8 +129,7 @@ FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void)
     return _value;
 }
 
-/** \brief Return a const reference to the stored value
- */
+//! Return a const reference to the stored value
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 const FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void) const
@@ -196,8 +137,27 @@ const FieldTypeT &SField<FieldTypeT, fieldNameSpace>::getValue(void) const
     return _value;
 }
 
-/** \brief Copies the values from a given field iff the two fieldtypes match 
- */
+//! Returns the size of the field, allway 1
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 SField<FieldTypeT, fieldNameSpace>::getSize(void) const
+{
+    return 1;
+}
+
+//! Returns the type of the field
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+const FieldType &SField<FieldTypeT, fieldNameSpace>::getType(void) const
+{
+    return _fieldType;
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
+
+//! Copies the values from a given field iff the two fieldtypes match 
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
@@ -208,8 +168,7 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
     }
 }
 
-/** \brief Sets the stored value from a given one
- */
+//! Sets the stored value from a given one
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
@@ -217,8 +176,7 @@ void SField<FieldTypeT, fieldNameSpace>::setValue(const FieldTypeT &value)
     _value = value;
 }
 
-/** \brief Sets the stored value from a given field
- */
+//! \brief Sets the stored value from a given field
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, 
@@ -227,60 +185,40 @@ void SField<FieldTypeT,
     _value = obj._value;
 }
 
-/*------------------------- field information -------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                           String IO                                     */
 
-/** \brief Returns the size of the field, allway 1
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-UInt32 SField<FieldTypeT, fieldNameSpace>::size(void) const
-{
-    return 1;
-}
-
-/*---------------------------- field type -----------------------------------*/
-
-/** \brief Returns the type of the field
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-const FieldType &SField<FieldTypeT, fieldNameSpace>::getType(void) const
-{
-    return _fieldType;
-}
-
-/*----------------------------- string io -----------------------------------*/
-
-/** \brief Sets the field value from a given string
- */
+//! Sets the field value from a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     typedef osgIF< (SFieldTraits::StringConvertable &
                     Traits::FromStringConvertable), 
-                    SFieldTraits, 
-                    ErrorFromToString<FieldTypeT> >::_IRet Converter;
+                   SFieldTraits, 
+                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::getFromString(_value, str);
 }
 
-/** \brief Dump the field to a given string
- */
+//! Dump the field to a given string
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
-string &SField<FieldTypeT, fieldNameSpace>::getValueByStr(
-    string &stringVal) const
+string &SField<FieldTypeT, 
+               fieldNameSpace>::getValueByStr(string &stringVal) const
 {
     typedef osgIF< (SFieldTraits::StringConvertable &
                     Traits::ToStringConvertable), 
-                  SFieldTraits, 
-                  ErrorFromToString<FieldTypeT> >::_IRet Converter;
+                   SFieldTraits, 
+                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
     Converter::putToString(_value, stringVal);
     
     return stringVal;
 }
+
+/*-------------------------------------------------------------------------*/
+/*                              MT Sync                                    */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
@@ -288,19 +226,8 @@ void SField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
     setValue(source);
 }
 
-/** \brief Sets the stored value from a given one
- */
-
-template <class FieldTypeT, Int32 fieldNameSpace> inline
-void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
-{
-    if(this != &source)
-    {
-        _value = source._value;
-    }
-}
-
-/*---------------------------- To / From Bin --------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                         Binary Interface                                */
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 SField<FieldTypeT, fieldNameSpace>::getBinSize(void)
@@ -312,21 +239,36 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::copyToBin(BinaryDataHandler &pMem)
 {
     SFieldTraits::copyToBin( pMem, 
-                             _value);
+                            _value);
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::copyFromBin(BinaryDataHandler &pMem)
 {
     SFieldTraits::copyFromBin( pMem, 
-                               _value);
+                              _value);
 }
 
-/*--------------------------------- dump ------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              MT Sync                                    */
 
-/** \brief Dump property contents to stderr, should be changed to use a
- *  log stream instead
- */
+//! Sets the stored value from a given one
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
+{
+    if(this != &source)
+    {
+        _value = source._value;
+    }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Dump                                      */
+
+/*! \brief Dump property contents to stderr, should be changed to use a
+    log stream instead
+*/
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::dump(void) const
@@ -334,41 +276,17 @@ void SField<FieldTypeT, fieldNameSpace>::dump(void) const
 //    cerr << "Dump Field : " << _value << endl;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Create                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+//! Create method used by the factory to create an instance
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+Field *SField<FieldTypeT, fieldNameSpace>::create(void) 
+{
+    return new SField<FieldTypeT, fieldNameSpace>(); 
+}
 
 OSG_END_NAMESPACE
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
+#define OSGMFIELD_INLINE_CVSID "@(#)$Id: $"

@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,133 +49,63 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGLIGHTBASE_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGLIGHTBASE_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+/*! \defgroup LightNodes OpenSG Light Node Cores
+    \ingroup NodesLib
+ */
 
 /*! \class osg::LightBase
- *  \defgroup LightNodes
- *  \ingroup NodesLib
- *  LightBase is the base class for all the light source nodes.
- *  It contains the field for the general light source attributes 
- *  (AmbientColor, DiffuseColor, SpecularColor, Beacon). The Beacon 
- *  defines the reference coordinate system for the lightsource, while 
- *  the position in the graph defines the objects that are lit.
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char LightBase::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
-
-void LightBase::initMethod (void)
-{
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+    LightBase is the base class for all the light source nodes.
+    It contains the field for the general light source attributes 
+    (AmbientColor, DiffuseColor, SpecularColor, Beacon). The Beacon 
+    defines the reference coordinate system for the lightsource, while 
+    the position in the graph defines the objects that are lit.
+*/
 
 
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-LightBase::LightBase(void) :
-     Inherited(),
-    _pChunk   ()
-{
-}
-
-/** \brief Copy Constructor
- */
-
-LightBase::LightBase(const LightBase &source) :
-     Inherited(source),
-    _pChunk   (source._pChunk)
-{
-}
-
-/*--------------------------- set color terms ------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
 
 void LightBase::setAmbient(Real32 rRed, 
-                                Real32 rGreen, 
-                                Real32 rBlue, 
-                                Real32 rAlpha)
+                           Real32 rGreen, 
+                           Real32 rBlue, 
+                           Real32 rAlpha)
 {
     _sfAmbient.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 void LightBase::setDiffuse(Real32 rRed, 
-                                Real32 rGreen, 
-                                Real32 rBlue, 
-                                Real32 rAlpha)
+                           Real32 rGreen, 
+                           Real32 rBlue, 
+                           Real32 rAlpha)
 {
     _sfDiffuse.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
 void LightBase::setSpecular(Real32 rRed, 
-                                 Real32 rGreen, 
-                                 Real32 rBlue, 
-                                 Real32 rAlpha)
+                            Real32 rGreen, 
+                            Real32 rBlue, 
+                            Real32 rAlpha)
 {
     _sfSpecular.getValue().setValuesRGBA(rRed, rGreen, rBlue, rAlpha);
 }
 
-
-/** \brief Destructor
- */
-
-LightBase::~LightBase(void)
-{
-}
-
-
-/** \brief react to field changes
- */
-
-void LightBase::changed(BitVector, ChangeMode)
-{
-}
-
+/*-------------------------------------------------------------------------*/
+/*                             Chunk                                       */
 
 LightChunkPtr LightBase::getChunk(void)
 {
@@ -193,15 +119,21 @@ void LightBase::makeChunk(void)
         _pChunk = LightChunk::create();
     }
 
-    _pChunk->setAmbient (getAmbient());
-    _pChunk->setDiffuse (getDiffuse());
+    _pChunk->setAmbient (getAmbient ());
+    _pChunk->setDiffuse (getDiffuse ());
     _pChunk->setSpecular(getSpecular());
 }
 
-/*------------------------------- dump ----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                             Sync                                     */
 
-/** \brief output the instance for debug purposes
- */
+void LightBase::changed(BitVector, ChangeMode)
+{
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
 
 void LightBase::dump(      UInt32    uiIndent, 
                      const BitVector bvFlags) const
@@ -209,49 +141,65 @@ void LightBase::dump(      UInt32    uiIndent,
    Inherited::dump(uiIndent, bvFlags);
 }
 
-    
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/** \brief Actions
- */
-    
-Action::ResultE LightBase::drawEnter(Action * action )
+LightBase::LightBase(void) :
+     Inherited(),
+    _pChunk   ()
 {
-    DrawAction *da = (DrawAction *)action;
-    GLenum light = GL_LIGHT0 + da->getLightCount();
+}
+
+LightBase::LightBase(const LightBase &source) :
+     Inherited(source),
+    _pChunk   (source._pChunk)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+LightBase::~LightBase(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Drawing                                   */
+    
+Action::ResultE LightBase::drawEnter(Action *action)
+{
+    DrawAction *da    = dynamic_cast<DrawAction *>(action);
+    GLenum      light = GL_LIGHT0 + da->getLightCount();
     
     da->incLightCount();
     
-    glEnable( light );
+    glEnable (light);
     
-    glLightfv( light, GL_DIFFUSE,   
-                                    _sfDiffuse.getValue().getValueRef() );
-    glLightfv( light, GL_AMBIENT,   
-                                    _sfAmbient.getValue().getValueRef() );
-    glLightfv( light, GL_SPECULAR,   
-                                    _sfSpecular.getValue().getValueRef() );
+    glLightfv(light, GL_DIFFUSE , _sfDiffuse. getValue().getValueRef());
+    glLightfv(light, GL_AMBIENT , _sfAmbient. getValue().getValueRef());
+    glLightfv(light, GL_SPECULAR, _sfSpecular.getValue().getValueRef());
 
-    glLightf ( light, GL_CONSTANT_ATTENUATION,   
-                             _sfConstantAttenuation.getValue() );
-    glLightf ( light, GL_LINEAR_ATTENUATION,   
-                             _sfLinearAttenuation.getValue() );
-    glLightf ( light, GL_QUADRATIC_ATTENUATION,   
-                             _sfQuadraticAttenuation.getValue() );
+    glLightf( light, 
+              GL_CONSTANT_ATTENUATION, 
+             _sfConstantAttenuation.getValue() );
+    glLightf( light,
+              GL_LINEAR_ATTENUATION,   
+             _sfLinearAttenuation.getValue()   );
+    glLightf( light,
+              GL_QUADRATIC_ATTENUATION,   
+             _sfQuadraticAttenuation.getValue());
 
     // add the matrix to get into the beacon's coordinate system onto the stack
 
-    Matrix fromworld,tobeacon;
+    Matrix fromworld;
+    Matrix tobeacon;
 
-    action->getActNode()->getToWorld( fromworld );
+    action->getActNode()->getToWorld(fromworld);
     fromworld.invert();
 
     NodePtr beacon = getBeacon();
 
-    if ( beacon == NullFC )
+    if(beacon == NullFC)
     {
         SINFO << "draw: no beacon set!" << endl;
 
@@ -259,34 +207,35 @@ Action::ResultE LightBase::drawEnter(Action * action )
     }
     else
     {
-        getBeacon()->getToWorld( tobeacon );
+        getBeacon()->getToWorld(tobeacon);
     
-        tobeacon.mult( fromworld );
+        tobeacon.mult(fromworld);
     
         glPushMatrix();
-        glMultMatrixf( tobeacon.getValues() );
+        glMultMatrixf(tobeacon.getValues());
     }
     
     return Action::Continue;
 }
     
-Action::ResultE LightBase::drawLeave(Action * action )
+Action::ResultE LightBase::drawLeave(Action *action)
 {
-    DrawAction *da = (DrawAction *)action;
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
      
     da->decLightCount();
 
     GLenum light = GL_LIGHT0 + da->getLightCount();
    
-    glDisable( light );
+    glDisable(light);
    
     return Action::Continue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                             Rendering                                   */
+
 Action::ResultE LightBase::renderEnter(Action *action)
 {
-//    fprintf(stderr, "LightBase::renderEnter\n");
-
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
     pAction->dropLight(this);
@@ -296,12 +245,16 @@ Action::ResultE LightBase::renderEnter(Action *action)
 
 Action::ResultE LightBase::renderLeave(Action *OSG_CHECK_ARG(action))
 {
-//    fprintf(stderr, "LightBase::renderLeave\n");
     return Action::Continue;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                               Init                                      */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+//! initialize the static features of the class, e.g. action callbacks
+
+void LightBase::initMethod(void)
+{
+}
+
 

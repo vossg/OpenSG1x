@@ -53,9 +53,8 @@ OSG_BEGIN_NAMESPACE
 class Field;
 class FieldType;
 
-/*! \ingroup FieldLib
- *  \brief Factory for fields
- */
+//! Factory for fields
+//! \ingroup FieldLib
 
 class OSG_BASE_DLLMAPPING FieldFactory 
 {
@@ -86,8 +85,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
     static FieldType *getFieldType    (      UInt32  typeId);
     static FieldType *getFieldType    (const Char8  *szName);
 
-
-    const Char8      *getFieldTypeName(UInt32 typeId       );
+    const  Char8     *getFieldTypeName(UInt32 typeId       );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -114,8 +112,7 @@ class OSG_BASE_DLLMAPPING FieldFactory
     friend class Field;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
+    /*                             Member                                  */
 
     static FieldFactory              _the;
     
@@ -124,7 +121,6 @@ class OSG_BASE_DLLMAPPING FieldFactory
 
     static void addType(FieldType *pType);
 
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -132,15 +128,6 @@ class OSG_BASE_DLLMAPPING FieldFactory
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const FieldFactory &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/** \brief FieldFactoryP
- */
-
-typedef FieldFactory* FieldFactoryP;
 
 OSG_END_NAMESPACE
 

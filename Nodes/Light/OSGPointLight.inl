@@ -34,7 +34,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -42,16 +41,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-/*------------------------------ access -----------------------------------*/
-
-void PointLight::setPosition( const Pnt3f & pos )
+inline
+void PointLight::setPosition(const Pnt3f &pos)
 {
-    Inherited::setPosition( pos );
+    Inherited::setPosition(pos);
 }
-
-/*------------------------------ access -----------------------------------*/
-
 
 OSG_END_NAMESPACE
 
+#define OSGPOINTLIGHT_INLINE_CVSID "@(#)$Id: $"

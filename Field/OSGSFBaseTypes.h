@@ -42,34 +42,22 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBase.h>
 #include <OSGSField.h>
 #include <OSGBaseFieldDataType.h>
 
-/** \file OSGSFBaseTypes.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG base single fields
- *
- * <UL>
- * <LI> osg::SFString
- * <LI> osg::SFTime
- * <LI> osg::SFColor3f
- * <LI> osg::SFColor4f
- * <LI> osg::SFColor3ub
- * <LI> osg::SFColor4ub
- * <LI> osg::SFDynamicVolume
- * </UL>
- */
+/*! \file OSGSFBaseTypes.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG base single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFString
- */
+
+/*! \brief SFString
+    \ingroup SingleFields
+*/
 
 typedef SField<string> SFString;
 
@@ -85,8 +73,10 @@ OSG_DLLEXPORT_DECL1(SField, string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFTime
- */
+
+/*! \brief SFTime
+    \ingroup SingleFields
+*/
 
 typedef SField<Time, 1> SFTime;
 
@@ -102,8 +92,10 @@ OSG_DLLEXPORT_DECL2(SField,Time, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFColor3f
- */
+
+/*! \brief SFColor3f
+    \ingroup SingleFields
+*/
 
 typedef SField<Color3f> SFColor3f;
 
@@ -119,8 +111,10 @@ OSG_DLLEXPORT_DECL1(SField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFColor4f
- */
+
+/*! \brief SFColor4f
+    \ingroup SingleFields
+*/
 
 typedef SField<Color4f> SFColor4f;
 
@@ -136,8 +130,10 @@ OSG_DLLEXPORT_DECL1(SField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFColor3ub
- */
+
+/*! \brief SFColor3ub
+    \ingroup SingleFields
+*/
 
 typedef SField<Color3ub> SFColor3ub;
 
@@ -153,8 +149,10 @@ OSG_DLLEXPORT_DECL1(SField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFColor4ub
- */
+
+/*! \brief SFColor4ub
+    \ingroup SingleFields
+*/
 
 typedef SField<Color4ub> SFColor4ub;
 
@@ -170,8 +168,10 @@ OSG_DLLEXPORT_DECL1(SField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFDynamicVolume
- */
+
+/*! \brief SFDynamicVolume
+    \ingroup SingleFields
+*/
 
 typedef SField<DynamicVolume> SFDynamicVolume;
 
@@ -187,8 +187,10 @@ OSG_DLLEXPORT_DECL1(SField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFBitVector
- */
+
+/*! \brief SFBitVector
+    \ingroup SingleFields
+*/
 
 typedef SField<BitVector, 1>  SFBitVector;
 
@@ -204,8 +206,10 @@ OSG_DLLEXPORT_DECL2(SField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFPlane
- */
+
+/*! \brief SFPlane
+    \ingroup SingleFields
+*/
 
 typedef SField<Plane> SFPlane;
 
@@ -225,4 +229,4 @@ OSG_END_NAMESPACE
 
 #define OSGSFBASETYPES_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSGSFVECBASE_H_ */
+#endif /* _OSGSFBASETYPES_H_ */

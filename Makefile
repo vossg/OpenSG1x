@@ -16,8 +16,9 @@ DOC_PROJECT_NUMBER = $(shell cat VERSION)
 DOC_LIBS   ?= Base Field FieldContainer Image Loader Log Material 	\
               MultiThreading Nodes/OSGNodes.doxygen Nodes/Geometry 	\
 			  Nodes/Light 											\
-              Nodes/Misc State Window mainpage.doxygen              \
-			  Common/dummyClasses.doxygen
+              Nodes/Misc State Window 
+
+DOC_LIBS   := $(DOC_LIBS) mainpage.doxygen Common/dummyClasses.doxygen
 
 #DOC_LIBS   = Base
 
@@ -76,7 +77,9 @@ doc:
 
 	# do doxygen
 	$(DOC_ENV) doxygen Common/Doxygen_$(OS_BASE).cfg -d
-	@rm -f Common/dummyClasses.doxygen  
+
+
+#	@rm -f Common/dummyClasses.doxygen  
 
 
 fcdToBase:

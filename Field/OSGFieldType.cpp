@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -58,74 +54,52 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    char cvsid_cpp[] = "@(#)$Id: $";
-    char cvsid_hpp[] = OSGFIELDTYPE_HEADER_CVSID;
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELDTYPE_HEADER_CVSID;
 }
 
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
 
-/** \typedef Field * (*FieldType::CreateFieldMethod)(void)
- *  Field create method
+/*! \class osg::FieldType
  */
 
-/** \var FieldType::_createMethod
- *  \brief Field create method
+
+/*! \typedef Field *(*FieldType::CreateFieldMethod)(void)
+    \brief Field create method
  */
 
-/** \fn FieldType::FieldType(const FieldType &source)
- *  \brief Not implemented.
+/*! \var FieldType::_createMethod
+    \brief Field create method
  */
 
-/** \fn void FieldType::operator =(const FieldType &source)
- *  \brief Not implemented.
+/*! \var FieldType::_contentType
+    \brief Type stored within fields of this type
  */
 
-/** \var FieldType::Cardinality FieldType::SINGLE_FIELD
- *  \brief Single field
+/*! \var FieldType::_cardinality
+    \brief Cardinality of fields of this type
  */
 
-/** \var FieldType::Cardinality FieldType::MULTI_FIELD
- *  \brief Mulit field
+/*! \var FieldType::Cardinality FieldType::SINGLE_FIELD
+    \brief Single field
  */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! \var FieldType::Cardinality FieldType::MULTI_FIELD
+    \brief Mulit field
  */
+
+/*! \fn FieldType::FieldType(const FieldType &source)
+    Only declared public if MSVS is used
+ */
+
+/*! \fn void FieldType::operator =(const FieldType &source)
+    Only declared public if MSVS is used
+ */
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 FieldType::FieldType(const Char8             *szName,
                      const Char8             *szParentName,
@@ -142,16 +116,15 @@ FieldType::FieldType(const Char8             *szName,
 }
 
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 FieldType::~FieldType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
 
 const DataType &FieldType::getContentType(void) const
 {
@@ -162,41 +135,6 @@ FieldType::Cardinality FieldType::getCardinality(void) const
 {
     return _cardinality;
 }
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
 
 
 

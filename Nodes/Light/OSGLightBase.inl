@@ -42,26 +42,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-/*------------------------------ access -----------------------------------*/
-
-void LightBase::setAmbient( const Color4f &col )
+inline
+void LightBase::setAmbient(const Color4f &col)
 {
-    Inherited::setAmbient( col );
+    Inherited::setAmbient(col);
 }
 
-void LightBase::setDiffuse( const Color4f &col )
+inline
+void LightBase::setDiffuse(const Color4f &col)
 {
-    Inherited::setDiffuse( col );
+    Inherited::setDiffuse(col);
 }
 
-void LightBase::setSpecular( const Color4f &col )
+inline
+void LightBase::setSpecular(const Color4f &col)
 {
-    Inherited::setSpecular( col );
+    Inherited::setSpecular(col);
 }
-
-/*------------------------------ access -----------------------------------*/
-
 
 OSG_END_NAMESPACE
 
+#define OSGLIGHTBASE_INLINE_CVSID "@(#)$Id: $"

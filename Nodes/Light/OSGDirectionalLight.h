@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGDIRECTIONALLIGHT_H_
 #define _OSGDIRECTIONALLIGHT_H_
 #ifdef __sgi
@@ -48,8 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup LightNodes
 //! Directional light
+//! \ingroup LightNodes
 
 class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 {
@@ -57,18 +56,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "DirectionalLight"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                       Set                                    */
     /*! \{                                                                 */
 
-           void setDirection(Real32 rX, Real32 rY, Real32 rZ);
-    inline void setDirection( const Vec3f &direction);
+    void setDirection(      Real32  rX, 
+                            Real32  rY, 
+                            Real32  rZ);
+    void setDirection(const Vec3f  &direction);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -76,18 +70,18 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Volume                                  */
+    /*! \name                      Chunk                                   */
     /*! \{                                                                 */
 
     virtual void makeChunk(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name                      Dump                                    */
     /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
@@ -97,6 +91,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef DirectionalLightBase Inherited;
 
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE DLightDrawEnter(CNodePtr &cnode,
@@ -125,37 +121,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
     /*! \{                                                                 */
 
     // execute the OpenGL commands to draw the light
-    Action::ResultE drawEnter(Action * action );
-    Action::ResultE drawLeave(Action * action );
+    Action::ResultE drawEnter  (Action *action);
+    Action::ResultE drawLeave  (Action *action);
 
     // generate drawtree
-    Action::ResultE renderEnter(Action * action);
-    Action::ResultE renderLeave(Action * action);
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
-
-    typedef DirectionalLightBase Inherited;
 
     friend class FieldContainer;
     friend class DirectionalLightBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
-    // prohibit default functions (move to 'public' if you need one)
-
+    /*! \brief prohibit default function (move to 'public' if needed) */
     void operator =(const DirectionalLight &source);
 };
-
-typedef DirectionalLight *DirectionalLightP;
 
 OSG_END_NAMESPACE
 
 #include <OSGDirectionalLight.inl>
 #include <OSGDirectionalLightBase.inl>
 
+#define OSGDIRECTIONALLIGHT_HEADER_CVSID "@(#)$Id: $"
+
 #endif /* _OSGDIRECTIONALLIGHT_H_ */
+

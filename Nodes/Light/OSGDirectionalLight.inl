@@ -34,7 +34,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -42,13 +41,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-OSG_SYSTEMLIB_DLLMAPPING
-void DirectionalLight::setDirection( const Vec3f &value )
+inline
+void DirectionalLight::setDirection(const Vec3f &value)
 {
-    Inherited::setDirection( value );
+    Inherited::setDirection(value);
 }
-
 
 OSG_END_NAMESPACE
 
+#define OSGDIRECTIONALLIGHT_INLINE_CVSID "@(#)$Id: $"

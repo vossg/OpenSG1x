@@ -46,9 +46,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \ingroup baselib
- *  \brief Brief
- */
+//! Brief
+//! \ingroup baselib
 
 class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
 {
@@ -173,19 +172,11 @@ class OSG_DLLEXPORT CLASSNAME //: public PARENTCLASS
     typedef PARENTCLASS Inherited;
 
 
-    /* prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     CLASSNAME(const CLASSNAME &source);
-    /* prohibit default function (move to 'public' if needed) */
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const CLASSNAME &source);
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef CLASSNAME *CLASSNAMEP;
 
 OSG_END_NAMESPACE
 

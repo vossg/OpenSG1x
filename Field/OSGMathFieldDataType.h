@@ -48,125 +48,159 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Matrix field traits 
- */
+/*! \file OSGMathFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Math Field Data Types  
+*/
+
+/*! \brief Matrix field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields 
+*/
 
 template <>
 struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
+    enum             { StringConvertable = ToStringConvertable | 
+                                           FromStringConvertable    };
 
-    static DataType         &getType (void) { return _type;                  }
+    static DataType &getType      (void) { return _type;            }
 
-    static Char8            *getSName(void) { return "SFMatrix";             }
-    static Char8            *getMName(void) { return "MFMatrix";             }
+    static Char8    *getSName     (void) { return "SFMatrix";       }
+    static Char8    *getMName     (void) { return "MFMatrix";       }
 
-//    static Matrix        getDefault(void)    { return Matrix; }
+    static Matrix    getDefault   (void) { return Matrix();         }
 
-    static Bool              getFromString(      Matrix   &,
-                                           const Char8   *&)
+    static Bool      getFromString(      Matrix   &,
+                                   const Char8   *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void             putToString(const Matrix &inVal,
-                                              string &outVal)
+    static void      putToString  (const Matrix &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[2]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[3]) );
-      outVal.append( " " );
-      
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[4]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[5]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[6]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[7]) );
-      outVal.append( " " );
-      
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[8]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[9]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[10]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[11]) );
-      outVal.append( " " );
-      
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[12]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[13]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[14]) );
-      outVal.append( " " );
-      outVal.append( TypeConstants<Matrix::ValueType>::putToString((inVal.getValues())[15]) );
+        typedef TypeConstants<Matrix::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[4]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[5]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[6]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[7]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[8]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[9]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[10]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[11]));
+
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[12]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[13]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[14]));
+
+        outVal.append(" ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[15]));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Quaternion field traits 
- */
+/*! \brief Quaternion field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Quaternion> : 
     public FieldTraitsRecurseBase<Quaternion>
 {
-    static DataType              _type;
+    static DataType   _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
+    enum               { StringConvertable = ToStringConvertable | 
+                                           FromStringConvertable    };
 
-    static DataType        &getType (void) { return _type;                   }
+    static DataType   &getType      (void) { return _type;          }
 
-    static Char8           *getSName(void) { return "SFQuaternion";          }
-    static Char8           *getMName(void) { return "MFQuaternion";          }
+    static Char8      *getSName     (void) { return "SFQuaternion"; }
+    static Char8      *getMName     (void) { return "MFQuaternion"; }
 
-//    static Quaternion    getDefault(void)    { return Quaternion; }
+    static Quaternion  getDefault   (void) { return Quaternion();   }
 
-    static Bool             getFromString(      Quaternion  &outVal,
-                                          const Char8      *&inVal)
+    static Bool        getFromString(      Quaternion  &outVal,
+                                     const Char8      *&inVal)
     {
-
         // VRML requires axis and angle in radians
-
         outVal.setValueAsAxisRad(inVal);
+
         return true;
     }
 
-    static void             putToString(const Quaternion &inVal,
-                                              string     &outVal)
+    static void       putToString   (const Quaternion &inVal,
+                                           string     &outVal)
     {
-        Quaternion::VectorType::ValueType axisX;
-        Quaternion::VectorType::ValueType axisY;
-        Quaternion::VectorType::ValueType axisZ;
-        Quaternion::VectorType::ValueType angleRad;
-        inVal.getValueAsAxisRad( axisX, axisY, axisZ, angleRad );
-        outVal.assign( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisX) );
+        typedef Quaternion::VectorType::ValueType ValueType;
+
+        typedef TypeConstants<ValueType>          TypeConst;
+
+        ValueType axisX;
+        ValueType axisY;
+        ValueType axisZ;
+        ValueType angleRad;
+
+        inVal.getValueAsAxisRad(axisX, axisY, axisZ, angleRad);
+
+        outVal.assign(TypeConst::putToString(axisX));
+
         outVal.append( " " );
-        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisY) );
+        outVal.append(TypeConst::putToString(axisY));
+
         outVal.append( " " );
-        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(axisZ) );
+        outVal.append(TypeConst::putToString(axisZ) );
+
         outVal.append( " " );
-        outVal.append( TypeConstants<Quaternion::VectorType::ValueType>::putToString(angleRad) );
+        outVal.append(TypeConst::putToString(angleRad) );
     }
 };
 
 OSG_END_NAMESPACE
+
+#define OSGMATHFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_MATHFIELDDATATYPE_H_ */
 

@@ -50,21 +50,18 @@
 #include <OSGMField.h>
 #include <OSGMathFieldDataType.h>
 
-/** \file OSGMFMathTypes.h
- *  \ingroup FieldLib
- *  \ingroup MultiFields
- *  \brief OpenSG math multi fields
- *
- *  <UL>
- *  <LI> osg::MFMatrix
- *  <LI> osg::MFQuaternion
- *  </UL>
- */
+/*! \file OSGMFMathTypes.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG math multi fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFMatrix
- */
+
+/*! \brief MFMatrix
+    \ingroup MultiFields
+*/
 
 typedef MField<Matrix>     MFMatrix;
 
@@ -81,8 +78,9 @@ OSG_DLLEXPORT_DECL1(MField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/** \brief MFQuaternion
- */
+/*! \brief MFQuaternion
+    \ingroup MultiFields
+*/
 
 typedef MField<Quaternion> MFQuaternion;
 

@@ -42,30 +42,22 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBase.h>
 #include <OSGSField.h>
 #include <OSGMathFieldDataType.h>
 
-/** \file OSGSFMathTypes.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG math single fields
- *
- *  <UL>
- *  <LI> osg::SFMatrix
- *  <LI> osg::SFQuaternion
- *  </UL>
- */
+/*! \file OSGSFMathTypes.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG math single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
 
-/** \brief SFMatrix
- */
+/*! \brief SFMatrix
+    \ingroup SingleFields
+*/
 
 typedef SField<Matrix>     SFMatrix;
 
@@ -81,8 +73,10 @@ OSG_DLLEXPORT_DECL1(SField, Matrix, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFQuaternion
- */
+
+/*! \brief SFQuaternion
+    \ingroup SingleFields
+*/
 
 typedef SField<Quaternion> SFQuaternion;
 
@@ -100,7 +94,9 @@ OSG_DLLEXPORT_DECL1(SField, Quaternion, OSG_BASE_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGSFMATHBASE_H_ */
+#define OSGSFMATHTYPES_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGSFMATHTYPES_H_ */
 
 
 

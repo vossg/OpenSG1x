@@ -49,132 +49,83 @@
 
 OSG_USING_NAMESPACE
 
-/** \fn const char *Field::getClassname(void)
- *  \brief Classname
- */
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/** \fn void Field::pushValueByStr(const Char8 *str)
- * \brief Set value from string
- */
-
-/** \fn void Field::operator =(const Field &source)
- *  \brief Not implemented.
- */
-
-/** \fn const FieldType &Field::getType(void) const
- *  \brief Get field type
- */
-
-/** \fn UInt32 Field::size(void) const
- *  \brief Returns the size of the field, allway 1 for single fields.
- */
-
-/** \fn Cardinality Field::getCardinality(void) const
- *  \brief Returns the cardinality of the field
- */
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char Field::cvsid[] = "@(#)$Id: $";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
-
-Field::Field(void)
+namespace
 {
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGFIELD_HEADER_CVSID;
 }
 
-/** \brief Copy Constructor
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
+
+/*! \defgroup FieldLib FieldLib
+    \brief This lib contains all the stuff related to fields.
+*/
+
+/*! \class osg::Field
  */
 
-Field::Field(const Field &)
-{
-}
 
-/** \brief Destructor
- */
+/*! \fn const FieldType &Field::getType(void) const
+    \brief Get field type
+*/
+
+/*! \fn UInt32 Field::getSize(void) const
+    \brief Returns the size of the field, allway 1 for single fields.
+*/
+
+/*! \fn void Field::pushValueByStr(const Char8 *str)
+    \brief Set value from string
+*/
+
+/*! \fn string &Field::getValueByStr(string &str) const
+    \brief dump value to string
+*/
+
+/*! \fn void Field::setAbstrValue(const Field &obj)
+    \brief Set value from the given Field, if possible
+*/
+
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 Field::~Field(void)
 {
 }
 
-/*-------------------------- field information ------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                                Get                                      */
+
+//! Returns the content type of the field
 
 const DataType &Field::getContentType(void) const
 {
     return getType().getContentType();
 }
 
+//! Returns the cardinality of the field
+
 FieldType::Cardinality Field::getCardinality(void) const
 {
     return getType().getCardinality();
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+Field::Field(void)
+{
+}
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+Field::Field(const Field &)
+{
+}
+
+
 

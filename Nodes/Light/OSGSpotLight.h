@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGSPOTLIGHT_H_
 #define _OSGSPOTLIGHT_H_
 #ifdef __sgi
@@ -48,8 +47,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! \ingroup LightNodes
 //! Spotlight
+//! \ingroup LightNodes
 
 class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 {
@@ -57,19 +56,20 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                    Class Get                                 */
-    /*! \{                                                                 */
-
-    static const char *getClassname(void) { return "SpotLight"; };
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                        Set                                   */
     /*! \{                                                                 */
 
-    inline void    setSpotDirection(Real32 rX, Real32 rY, Real32 rZ);
-    inline void    setSpotCutOffDeg(Real32 angle);
-    inline Real32  getSpotCutOffDeg(void);
+    void setSpotDirection(Real32 rX, 
+                          Real32 rY, 
+                          Real32 rZ   );
+    void setSpotCutOffDeg(Real32 angle);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Get                                   */
+    /*! \{                                                                 */
+
+    Real32 getSpotCutOffDeg(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -77,27 +77,28 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField,
-                        ChangeMode from);
+                         ChangeMode from);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Volume                                 */
+    /*! \name                      Chunk                                   */
     /*! \{                                                                 */
 
     virtual void makeChunk(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Output                                  */
+    /*! \name                      Dump                                    */
     /*! \{                                                                 */
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
-
     /*=========================  PROTECTED  ===============================*/
   protected:
+
+    typedef SpotLightBase Inherited;
 
 #ifdef OSG_NOFUNCTORS
     static Action::ResultE SLightDrawEnter(CNodePtr &cnode,
@@ -134,29 +135,23 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
     Action::ResultE renderLeave(Action * action );
 
     /*! \}                                                                 */
-
     /*==========================  PRIVATE  ================================*/
   private:
-
-    typedef SpotLightBase Inherited;
 
     friend class FieldContainer;
     friend class SpotLightBase;
 
-    static char cvsid[];
-
     static void initMethod( void );
 
-    // prohibit default functions (move to 'public' if you need one)
-
+    /*! \brief prohibit default function (move to 'public' if needed) */
     void operator =(const SpotLight &source);
 };
-
-typedef SpotLight *SpotLightP;
 
 OSG_END_NAMESPACE
 
 #include <OSGSpotLight.inl>
 #include <OSGSpotLightBase.inl>
+
+#define OSGSPOTLIGHT_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSPOTLIGHT_H_ */

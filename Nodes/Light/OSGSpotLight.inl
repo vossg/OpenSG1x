@@ -42,29 +42,24 @@
 
 OSG_BEGIN_NAMESPACE
 
-
-/*------------------------------ access -----------------------------------*/
-
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SpotLight::setSpotDirection(Real32 rX, Real32 rY, Real32 rZ)
 {
     _sfDirection.getValue().setValues(rX, rY, rZ);
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 void SpotLight::setSpotCutOffDeg(Real32 angle)
 {
-    _sfSpotCutOff.setValue( osgdegree2rad(angle) );
+    _sfSpotCutOff.setValue(osgdegree2rad(angle));
 }
 
-OSG_SYSTEMLIB_DLLMAPPING
+inline
 Real32 SpotLight::getSpotCutOffDeg(void)
 {
-    return osgrad2degree( _sfSpotCutOff.getValue() );
+    return osgrad2degree(_sfSpotCutOff.getValue());
 }
-
-/*------------------------------ access -----------------------------------*/
-
 
 OSG_END_NAMESPACE
 
+#define OSGSPOTLIGHT_INLINE_CVSID "@(#)$Id: $"

@@ -42,10 +42,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGException.h>
@@ -56,10 +52,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/* Data handler for copyToBin, copyFromBin implemented in SField and SField
- *
- * @author Marcus Roth, jbehr, Fri Sep 14 09:53:26 CEST 2001
- */
+//! Data handler for fields copyToBin, copyFromBin 
+//! \ingroup FieldLib
 
 class OSG_BASE_DLLMAPPING BinaryDataHandler 
 {
@@ -119,17 +113,18 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    class MemoryBlock 
+    struct MemoryBlock 
     {
-    public:
-        MemoryBlock              (MemoryHandle m, UInt32 s, UInt32 ds=0);
-        MemoryHandle getMem      (void                                 );
-        UInt32       getSize     (void                                 );
-        UInt32       getDataSize (void                                 );
-        void         setDataSize (UInt32 dataSize                      );
-        void         setSize     (UInt32 dataSize                      );
-        void         setMem      (MemoryHandle m                       );
-    private:
+      public:
+        MemoryBlock             (MemoryHandle m, UInt32 s, UInt32 ds = 0);
+        MemoryHandle getMem     (void                                   );
+        UInt32       getSize    (void                                   );
+        UInt32       getDataSize(void                                   );
+        void         setDataSize(UInt32 dataSize                        );
+        void         setSize    (UInt32 dataSize                        );
+        void         setMem     (MemoryHandle m                         );
+
+      private:
         MemoryHandle  _mem;
         UInt32        _size;
         UInt32        _dataSize;
@@ -143,24 +138,24 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-            BuffersT::iterator readBufBegin(void                           ); 
-            BuffersT::iterator readBufEnd  (void                           ); 
-            void               readBufAdd  (MemoryHandle   mem   , 
-                                            UInt32         size  ,
-                                            UInt32         dataSize=0      );
-            void               readBufClear(void                           );
+            BuffersT::iterator readBufBegin(void                             );
+            BuffersT::iterator readBufEnd  (void                             );
+            void               readBufAdd  (MemoryHandle   mem, 
+                                            UInt32         size,
+                                            UInt32         dataSize = 0      );
+            void               readBufClear(void                             );
 
-            BuffersT::iterator writeBufBegin(void                          ); 
-            BuffersT::iterator writeBufEnd  (void                          ); 
-            void               writeBufAdd  (MemoryHandle  mem   , 
-                                            UInt32         size  ,
-                                            UInt32         dataSize=0      );
+            BuffersT::iterator writeBufBegin(void                            );
+            BuffersT::iterator writeBufEnd  (void                            );
+            void               writeBufAdd  (MemoryHandle  mem, 
+                                            UInt32         size,
+                                            UInt32         dataSize = 0      );
             void               writeBufClear(void);
 
-    virtual void               read       (MemoryHandle   OSG_CHECK_ARG(mem),
+    virtual void               read       (MemoryHandle   OSG_CHECK_ARG(src),
                                            UInt32         OSG_CHECK_ARG(size));
     virtual void               readBuffer (void                              );
-    virtual void               write      (MemoryHandle   mem   , UInt32 size);
+    virtual void               write      (MemoryHandle   src,    UInt32 size);
     virtual void               writeBuffer(void                              );
 
     /*! \}                                                                 */
@@ -168,8 +163,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
   private:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Class Specific                             */
-    /*! \{                                                                 */
+    /*                          Class Specific                             */
 
     BuffersT           _readBuffers;
     BuffersT           _writeBuffers;
@@ -186,20 +180,13 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void pullBuffer(void);
     void freeMem   (void);
 
-    // prohibit default functions (move to 'public' if you need one)
+    /*!\brief prohibit default function (move to 'public' if needed) */
     BinaryDataHandler(const BinaryDataHandler &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const BinaryDataHandler &source);
 
-    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-// class pointer
-
-typedef BinaryDataHandler *BinaryDataHandlerP;
 
 OSG_END_NAMESPACE
 

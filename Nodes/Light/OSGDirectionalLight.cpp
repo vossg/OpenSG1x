@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -53,56 +49,71 @@
 
 OSG_USING_NAMESPACE
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_hpp[] = OSGDIRECTIONALLIGHT_HEADER_CVSID;
+    static Char8 cvsid_inl[] = OSGDIRECTIONALLIGHT_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 /*! \class osg::DirectionalLight
  *  DirectionalLight is an infinitely distant lightsource. Its only
  *  attribute is the light's direction.
  */
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                                Set                                      */
 
-char DirectionalLight::cvsid[] = "@(#)$Id: $";
+void DirectionalLight::setDirection(Real32 rX, Real32 rY, Real32 rZ)
+{
+    _sfDirection.getValue().setValues(rX, rY, rZ);
+}
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                             Changed                                     */
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+void DirectionalLight::changed(BitVector, ChangeMode)
+{
+}
 
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                             Chunk                                       */
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
+void DirectionalLight::makeChunk(void)
+{
+    Inherited::makeChunk();
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+    Vec4f dir(_sfDirection.getValue());
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+    dir[3] = 0;
+   
+    _pChunk->setPosition(dir);
+}
 
-/** \brief initialize the static features of the class, e.g. action callbacks
- */
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
+
+void DirectionalLight::dump(      UInt32    uiIndent, 
+                            const BitVector bvFlags) const
+{
+   Inherited::dump(uiIndent, bvFlags);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            No Functor Stuff                             */
 
 #ifdef OSG_NOFUNCTORS
 OSG::Action::ResultE DirectionalLight::DLightDrawEnter(CNodePtr &cnode, 
-                                                       Action  *pAction)
+                                                       Action   *pAction)
 {
     NodeCore         *pNC = cnode.getCPtr();
     DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
@@ -118,7 +129,7 @@ OSG::Action::ResultE DirectionalLight::DLightDrawEnter(CNodePtr &cnode,
     }
 }
 OSG::Action::ResultE DirectionalLight::DLightDrawLeave(CNodePtr &cnode, 
-                                                       Action  *pAction)
+                                                       Action   *pAction)
 {
     NodeCore         *pNC = cnode.getCPtr();
     DirectionalLight *pSC = dynamic_cast<DirectionalLight *>(pNC);
@@ -135,164 +146,66 @@ OSG::Action::ResultE DirectionalLight::DLightDrawLeave(CNodePtr &cnode,
 }
 #endif
 
-void DirectionalLight::initMethod (void)
-{
-#ifndef OSG_NOFUNCTORS
-
-    DrawAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                DirectionalLightPtr, 
-                                Action *>(&DirectionalLight::drawEnter));
-
-    DrawAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                DirectionalLightPtr, 
-                                Action *>(&DirectionalLight::drawLeave));
-
-    RenderAction::registerEnterDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                DirectionalLightPtr, 
-                                Action *>(&DirectionalLight::renderEnter));
-
-    RenderAction::registerLeaveDefault( getClassType(), 
-        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
-                                CNodePtr,  
-                                DirectionalLightPtr, 
-                                Action *>(&DirectionalLight::renderLeave));
-
-#else
-
-    DrawAction::registerEnterDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                         DirectionalLight::DLightDrawEnter));
-
-    DrawAction::registerLeaveDefault(getClassType(), 
-                                     Action::osgFunctionFunctor2(
-                                         DirectionalLight::DLightDrawLeave));
-
-#endif
-}
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- */
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
 
 DirectionalLight::DirectionalLight(void) :
     Inherited()
 {
 }
 
-/** \brief Copy Constructor
- */
-
 DirectionalLight::DirectionalLight(const DirectionalLight &source) :
     Inherited(source)
 {
 }
 
-/** \brief Destructor
- */
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
 
 DirectionalLight::~DirectionalLight(void)
 {
 }
 
-/*------------------------------- set ---------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Drawing                                   */
 
-void DirectionalLight::setDirection(Real32 rX, 
-                                    Real32 rY, 
-                                    Real32 rZ)
-{
-    _sfDirection.getValue().setValues(rX, rY, rZ);
-}
-
-
-/** \brief react to field changes
- */
-
-void DirectionalLight::changed(BitVector, ChangeMode)
-{
-}
-
-void DirectionalLight::makeChunk(void)
-{
-    Inherited::makeChunk();
-
-    Vec4f dir(_sfDirection.getValue());
-
-    dir[3] = 0;
-   
-    _pChunk->setPosition(dir);
-}
-
-/*------------------------------- dump ----------------------------------*/
-
-/** \brief output the instance for debug purposes
- */
-
-void DirectionalLight::dump(      UInt32    uiIndent, 
-                            const BitVector bvFlags) const
-{
-   Inherited::dump(uiIndent, bvFlags);
-}
-
-    
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/** \brief Actions
- */
-    
-Action::ResultE DirectionalLight::drawEnter(Action * action )
+Action::ResultE DirectionalLight::drawEnter(Action *action)
 {   
-    if ( ! getOn() )
+    if(getOn() == false)
         return Action::Continue;
 
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
     GLenum light = GL_LIGHT0 + da->getLightCount();
     
-    LightBase::drawEnter( action );
+    LightBase::drawEnter(action);
 
-    Vec4f dir( _sfDirection.getValue() );
+    Vec4f dir(_sfDirection.getValue());
 
     dir[3] = 0;
-    glLightfv( light, GL_POSITION, dir.getValues() );
-    glLightf( light, GL_SPOT_CUTOFF, 180 );
+    
+    glLightfv(light, GL_POSITION   , dir.getValues());
+    glLightf (light, GL_SPOT_CUTOFF, 180.f          );
 
     glPopMatrix();
 
     return Action::Continue;
 }
     
-Action::ResultE DirectionalLight::drawLeave(Action * action )
+Action::ResultE DirectionalLight::drawLeave(Action *action)
 {
-    if ( ! getOn() )
+    if(getOn() == false)
         return Action::Continue;
 
-    return LightBase::drawLeave( action );
+    return LightBase::drawLeave(action);
 }
 
-// generate drawtree
+/*-------------------------------------------------------------------------*/
+/*                             Rendering                                   */
+
 Action::ResultE DirectionalLight::renderEnter(Action *action)
 {
-    if(! getOn())
+    if(getOn() == false)
         return Action::Continue;
 
     return LightBase::renderEnter(action);
@@ -300,13 +213,56 @@ Action::ResultE DirectionalLight::renderEnter(Action *action)
 
 Action::ResultE DirectionalLight::renderLeave(Action *action)
 {
-    if(! getOn())
+    if(getOn() == false)
         return Action::Continue;
 
     return LightBase::renderLeave(action);
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                               Init                                      */
 
+void DirectionalLight::initMethod (void)
+{
+#ifndef OSG_NOFUNCTORS
+
+    DrawAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  DirectionalLightPtr, 
+                                  Action *>(&DirectionalLight::drawEnter));
+
+    DrawAction::registerLeaveDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  DirectionalLightPtr, 
+                                  Action *>(&DirectionalLight::drawLeave));
+
+    RenderAction::registerEnterDefault( 
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  DirectionalLightPtr, 
+                                  Action *>(&DirectionalLight::renderEnter));
+
+    RenderAction::registerLeaveDefault(
+        getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                  CNodePtr,  
+                                  DirectionalLightPtr, 
+                                  Action *>(&DirectionalLight::renderLeave));
+
+#else
+
+    DrawAction::registerEnterDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(DirectionalLight::DLightDrawEnter));
+
+    DrawAction::registerLeaveDefault(
+        getClassType(), 
+        Action::osgFunctionFunctor2(DirectionalLight::DLightDrawLeave));
+
+#endif
+}

@@ -52,9 +52,8 @@ OSG_BEGIN_NAMESPACE
 
 class Field;
 
-/*! \ingroup FieldLib
- *  \brief FieldType
- */
+//! FieldType
+//! \ingroup FieldLib
 
 class OSG_BASE_DLLMAPPING FieldType : public DataType
 {
@@ -89,33 +88,6 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     /*! \}                                                                 */
 
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
-    /** Did I mentioned before that I love this ********* Microsoft Compiler.
-        This piece of software really drives me nuts ;-(. The latest joke is,
-        that I have to make the following two functions public to initialize
-        the field type. I simply cannot write
-        
-        \code
-        template <class FieldTypeT>
-        FieldType SFSysTypes<FieldTypeT>::_fieldType(
-            SimpleFieldDataTraits<FieldTypeT>::getFieldType(), 
-            SimpleFieldDataTraits<FieldTypeT>::getName(), 
-            create);
-        \endcode
-
-        no, I have to code the following
-
-        \code
-        template <class FieldTypeT>
-        FieldType SFSysTypes<FieldTypeT>::_fieldType = FieldType(
-            SimpleFieldDataTraits<FieldTypeT>::getFieldType(), 
-            SimpleFieldDataTraits<FieldTypeT>::getName(), 
-            create);
-        \endcode
-
-        And to make it really complete, I do not have to implement them since
-        the compiler never generates code where these functions are called.(GV)
-    */
-
     FieldType(const FieldType &source);
     FieldType &operator =(const FieldType &obj);
 #endif
@@ -131,20 +103,18 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef DataType Inherited;
+
     /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
+    /*                             Member                                  */
 
           Cardinality        _cardinality;
 
     const DataType          &_contentType;
     const CreateFieldMethod  _createMethod;
 
-    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
-
-    typedef DataType Inherited;
 
     friend class FieldFactory;
 
@@ -155,15 +125,6 @@ class OSG_BASE_DLLMAPPING FieldType : public DataType
     FieldType &operator =(const FieldType &obj);
 #endif
 };
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-/** \brief FieldTypeP
- */
-
-typedef FieldType* FieldTypeP;
 
 OSG_END_NAMESPACE
 

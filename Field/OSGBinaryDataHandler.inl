@@ -34,27 +34,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 OSG_BEGIN_NAMESPACE
-
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
 
 inline
 BinaryDataHandler::ReadError::ReadError(const string &reson) : 
@@ -70,92 +50,64 @@ BinaryDataHandler::WriteError::WriteError(const string &reson) :
     _what += "BinaryDataHandler WriteError: " + reson;
 }
 
-
-/** \brief store 8 bit
- **/
-
 inline 
 void BinaryDataHandler::putUInt8(const UInt8 &value)
 {
-    put(&value,sizeof(value));
+    put(&value, sizeof(UInt8));
 }
-
-/** \brief store 32 bit
- *  \bug network order?
- **/
 
 inline 
 void BinaryDataHandler::putUInt32(const UInt32 &value)
 {
-    put(&value,sizeof(value));
+    put(&value, sizeof(UInt32));
 }
 
 inline 
 void BinaryDataHandler::putString(const string &value)
 {
-    UInt32 len;
+    UInt32 len = strlen(value.c_str()) + 1;
 
-    len=strlen(value.c_str())+1;
     putUInt32(len);
-    put(value.c_str(),len);
+    put      (value.c_str(), len);
 }
 
 inline 
 void BinaryDataHandler::getUInt8(UInt8 &value)
 {
-    get(&value,sizeof(value));
+    get(&value, sizeof(UInt8));
 }
 
 inline 
 void BinaryDataHandler::getUInt32(UInt32 &value)
 {
-    get(&value,sizeof(value));
+    get(&value, sizeof(UInt32));
 }
 
 inline 
 void BinaryDataHandler::getString(string &value)
 {
-    UInt32 len;
-    char *str;
+    UInt32  len;
+    Char8  *str = NULL;
 
     getUInt32(len);
-    str=new char[len];
-    get(str,len);
-    value=str;
-    delete str;
+
+    str = new Char8[len];
+
+    get(str, len);
+
+    value = str;
+
+    delete [] str;
 }
 
-inline
-BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufBegin( void )
-{
-    return _readBuffers.begin();
-}
-
-inline
-BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufEnd( void )
-{
-    return _readBuffers.end();
-}
-
-inline
-BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufBegin( void )
-{
-    return _writeBuffers.begin();
-}
-
-inline
-BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufEnd( void )
-{
-    return _writeBuffers.end();
-}
 
 inline
 BinaryDataHandler::MemoryBlock::MemoryBlock(MemoryHandle m,
                                             UInt32       s,
                                             UInt32       ds) : 
-    _mem     ( m ),
-    _size    ( s ),
-    _dataSize( ds )
+    _mem     (m ),
+    _size    (s ),
+    _dataSize(ds)
 {
 }
 
@@ -195,41 +147,29 @@ void BinaryDataHandler::MemoryBlock::setMem(MemoryHandle mem)
     _mem=mem;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufBegin(void)
+{
+    return _readBuffers.begin();
+}
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::readBufEnd(void)
+{
+    return _readBuffers.end();
+}
 
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufBegin(void)
+{
+    return _writeBuffers.begin();
+}
 
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/*--------------------------- type information-----------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------ access -----------------------------------*/
-
-/*------------------------------- size ----------------------------------*/
-
-/*------------------------------- dump ----------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+inline
+BinaryDataHandler::BuffersT::iterator BinaryDataHandler::writeBufEnd(void)
+{
+    return _writeBuffers.end();
+}
 
 OSG_END_NAMESPACE
 

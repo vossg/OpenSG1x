@@ -51,11 +51,18 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief  base field traits 
- */
+/*! \file OSGBaseFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Base Field Data Types  
+*/
+
+/*! \brief Color3f field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> : 
@@ -87,13 +94,20 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3f> :
     {
         typedef TypeConstants<Color3f::ValueType> TypeConst;
 
-        outVal.assign(TypeConst::putToString(inVal.red()));
+        outVal.assign(TypeConst::putToString(inVal.red()  ));
         outVal.append(" ");
         outVal.append(TypeConst::putToString(inVal.green()));
         outVal.append(" ");
-        outVal.append(TypeConst::putToString(inVal.blue()));
+        outVal.append(TypeConst::putToString(inVal.blue() ));
     }
 };
+
+
+/*! \brief Color4f field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> : 
@@ -110,7 +124,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 
     static Char8    *getMName     (void) { return "MFColor4f";   }
 
-    static Color4f   getDefault   (void){ return Color4f();     }
+    static Color4f   getDefault   (void){ return Color4f();      }
  
     static Bool      getFromString(      Color4f  &outVal,
                                    const Char8   *&inVal)
@@ -124,7 +138,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
                                          string  &outVal)
     {
         outVal.assign( 
-            TypeConstants<Color4f::ValueType>::putToString(inVal.red()));
+            TypeConstants<Color4f::ValueType>::putToString(inVal.red()  ));
 
         outVal.append("  ");
         outVal.append(
@@ -132,13 +146,20 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color4f> :
 
         outVal.append("  ");
         outVal.append(
-            TypeConstants<Color4f::ValueType>::putToString(inVal.blue()));
+            TypeConstants<Color4f::ValueType>::putToString(inVal.blue() ));
         
         outVal.append("  ");
         outVal.append(
             TypeConstants<Color4f::ValueType>::putToString(inVal.alpha()));
     }
 };
+
+
+/*! \brief Color3ub field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> : 
@@ -168,7 +189,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
                                          string   &outVal)
     {
         outVal.assign(
-            TypeConstants<Color3ub::ValueType>::putToString(inVal.red()));
+            TypeConstants<Color3ub::ValueType>::putToString(inVal.red()  ));
 
         outVal.append("  ");
         outVal.append(
@@ -176,16 +197,16 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Color3ub> :
 
         outVal.append("  ");
         outVal.append(
-            TypeConstants<Color3ub::ValueType>::putToString(inVal.blue()));
+            TypeConstants<Color3ub::ValueType>::putToString(inVal.blue() ));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Color4ub field traits 
- */
+/*! \brief Color4ub field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
@@ -215,7 +236,7 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
                                          string   &outVal )
     {
         outVal.assign(
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.red()));
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.red()  ));
 
         outVal.append("  ");
         outVal.append(
@@ -223,7 +244,7 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 
         outVal.append("  ");
         outVal.append( 
-            TypeConstants<Color4ub::ValueType>::putToString(inVal.blue()));
+            TypeConstants<Color4ub::ValueType>::putToString(inVal.blue() ));
 
         outVal.append("  ");
         outVal.append( 
@@ -231,6 +252,12 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
     }
 };
 
+
+/*! \brief string field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<string> : 
@@ -292,14 +319,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
                           const string              &oObject)
     {
         UInt32 size = 0;
+
         if(oObject.empty())
         {
-            pMem.put(&size, sizeof(size));
+            pMem.put(&size, sizeof(UInt32));
         }
         else
         {
             size = oObject.length() + 1;
-            pMem.put(&size          , sizeof(size));
+            pMem.put(&size          , sizeof(UInt32));
             pMem.put(oObject.c_str(), size);
         }
     }
@@ -317,10 +345,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
     static void copyFromBin(BinaryDataHandler &pMem, 
                             string            &oObject)
     {
-        UInt32 size;
-        Char8 *str;
+        UInt32  size;
+        Char8  *str;
 
-        pMem.get(&size, sizeof(size));
+        pMem.get(&size, sizeof(UInt32));
 
         if(size == 0)
         {
@@ -334,7 +362,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
             str = new Char8[size];
 
             pMem   .get   (str, size);
-            oObject.assign(str     );
+            oObject.assign(str      );
 
             delete [] str;
         }
@@ -350,6 +378,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<string> :
         }
     }
 };
+
+
+/*! \brief Time field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> : 
@@ -379,9 +414,16 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<Time> :
     static void      putToString(const Time   &inVal,
                                        string &outVal)
     {
-        outVal.assign(TypeConstants<Real64>::putToString(inVal));
+        outVal.assign(TypeConstants<Time>::putToString(inVal));
     }
 };
+
+
+/*! \brief DynamicVolume field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> : 
@@ -440,7 +482,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
             outVal.setVolumeType(DynamicVolume::SPHERE_VOLUME);
 
             SphereVolume &sVol = 
-                dynamic_cast<SphereVolume&>(outVal.getInstance());
+                dynamic_cast<SphereVolume &>(outVal.getInstance());
 
             sVol.setCenter(Pnt3f(valStore[0], valStore[1], valStore[2]));
             sVol.setRadius(valStore[3]);
@@ -451,7 +493,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
 
-            BoxVolume &bVol = dynamic_cast<BoxVolume&>(outVal.getInstance());
+            BoxVolume &bVol = dynamic_cast<BoxVolume &>(outVal.getInstance());
 
             bVol.setBounds(valStore[0], valStore[1], valStore[2],
                            valStore[3], valStore[4], valStore[5]);
@@ -460,9 +502,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         }
         else
         {
-            outVal.setVolumeType( DynamicVolume::BOX_VOLUME );
-            BoxVolume &bVol = dynamic_cast<BoxVolume&>( outVal.getInstance() );
-            bVol.setBounds( 0,0,0, 0,0,0 );
+            outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
+
+            BoxVolume &bVol = dynamic_cast<BoxVolume &>(outVal.getInstance());
+
+            bVol.setBounds(0.,0.,0., 0.,0.,0.);
+
             return false;
         }
     }
@@ -477,7 +522,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         switch(inVal.getType())
         {
             case DynamicVolume::BOX_VOLUME : 
-
+            
                 inVal.getBounds(min, max);
 
                 outVal.append( 
@@ -540,10 +585,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         outVal.append(" ]");
     }
 
-    static UInt32 getBinSize(const DynamicVolume  &oObject)
+    static UInt32 getBinSize(const DynamicVolume &oObject)
     {
         DynamicVolume::Type type = oObject.getType();
-        UInt32              size = sizeof(type);
+        UInt32              size = sizeof(DynamicVolume::Type);
 
         switch(type)
         {
@@ -552,7 +597,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                 break;
 
             case DynamicVolume::SPHERE_VOLUME :
-                size += sizeof(Pnt3f) + sizeof(float);
+                size += sizeof(Pnt3f) + sizeof(Real32);
                 break;
 
             default :
@@ -569,7 +614,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
         for(UInt32 i = 0; i < uiNumObjects; ++i)
         {
-            size += getBinSize(pObjectStore, uiNumObjects);
+            size += getBinSize(pObjectStore[uiNumObjects]);
         }
 
         return size;
@@ -580,14 +625,14 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     {
         DynamicVolume::Type type = oObject.getType();
 
-        pMem.put(&type, sizeof(type));
+        pMem.put(&type, sizeof(DynamicVolume::Type));
 
         switch(type)
         {
             case DynamicVolume::BOX_VOLUME : 
             {
                 const BoxVolume &bVol = 
-                    dynamic_cast<const BoxVolume&>(oObject.getInstance());
+                    dynamic_cast<const BoxVolume &>(oObject.getInstance());
 
                 pMem.put(&bVol.getMin(), sizeof(Pnt3f));
                 pMem.put(&bVol.getMax(), sizeof(Pnt3f));
@@ -597,12 +642,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
             case DynamicVolume::SPHERE_VOLUME :
             {
                 const SphereVolume &sVol = 
-                    dynamic_cast<const SphereVolume&>(oObject.getInstance());
+                    dynamic_cast<const SphereVolume &>(oObject.getInstance());
 
-                float radius = sVol.getRadius();
+                Real32 radius = sVol.getRadius();
 
                 pMem.put(&sVol.getCenter(), sizeof(Pnt3f ));
-                pMem.put(&radius,           sizeof(radius));
+                pMem.put(&radius,           sizeof(Real32));
 
                 break;
             }
@@ -627,7 +672,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     {
         DynamicVolume::Type type;
 
-        pMem.get(&type, sizeof(type));
+        pMem.get(&type, sizeof(DynamicVolume::Type));
 
         oObject.setVolumeType(type);
 
@@ -653,10 +698,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                     dynamic_cast<SphereVolume&>(oObject.getInstance());
 
                 Pnt3f center;
-                float radius;
+                Real32 radius;
 
-                pMem.get(&center, sizeof(Pnt3f));
-                pMem.get(&radius, sizeof(float));
+                pMem.get(&center, sizeof(Pnt3f ));
+                pMem.get(&radius, sizeof(Real32));
 
                 sVol.setCenter(center);
                 sVol.setRadius(radius);
@@ -680,6 +725,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     }
 };
 
+/*! \brief BitVector field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> : 
     public FieldTraitsRecurseBase<BitVector>
@@ -698,6 +749,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<BitVector> :
 };
 
 
+/*! \brief Plane field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
 template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> : 
     public FieldTraitsRecurseBase<Plane>
@@ -713,43 +770,43 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Plane> :
 
     static Char8    *getMName     (void) { return "MFPlane";      }
 
-    static Plane     getDefault   (void) { return Plane(); }
+    static Plane     getDefault   (void) { return Plane();        }
 
     static Bool      getFromString(      Plane  &,
-                                   const Char8         *&)
+                                   const Char8 *&)
     {
         // TO_BE_DONE
         return false;
     }
 
-    static void      putToString(const Plane  &inVal,
-                                       string &outVal)
+    static void      putToString  (const Plane  &inVal,
+                                         string &outVal)
     {
         Vec3f  normal = inVal.getNormal();
         Real32 dist   = inVal.getDistanceFromOrigin();
 
         outVal.assign(
-            TypeConstants<Vec3f::ValueType>::
-                putToString( normal.getValues()[0]));
+            TypeConstants<Vec3f::ValueType>::putToString(
+                normal.getValues()[0]));
 
         outVal.append("  ");
         outVal.append(
-            TypeConstants<Vec3f::ValueType>::
-                putToString( normal.getValues()[1]));
+            TypeConstants<Vec3f::ValueType>::putToString(
+                normal.getValues()[1]));
 
         outVal.append("  ");
         outVal.append(
-            TypeConstants<Vec3f::ValueType>::
-                putToString( normal.getValues()[2]));
+            TypeConstants<Vec3f::ValueType>::putToString(
+                normal.getValues()[2]));
 
         outVal.append("  ");
         outVal.append(TypeConstants<Real32>::putToString(dist));
     }
 };
 
-
 OSG_END_NAMESPACE
 
 #define OSGBASEFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
-#endif /* _OSG_VECFIELDDATATYPE_H_ */
+#endif /* _OSG_BASEFIELDDATATYPE_H_ */
+

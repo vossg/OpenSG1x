@@ -50,26 +50,18 @@
 #include <OSGSField.h>
 #include <OSGVecFieldDataType.h>
 
-/** \file OSGSFVecTypes.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG vector and point single fields
- * 
- *  <UL>
- *  <LI> osg::SFVec2f
- *  <LI> osg::SFVec3f
- *  <LI> osg::SFVec4f
- *  <LI> osg::SFPnt2f
- *  <LI> osg::SFPnt3f
- *  <LI> osg::SFPnt3d
- *  <LI> osg::SFPnt4f
- *  </UL>
- */
+/*! \file OSGSFVecTypes.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG vector and point single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief SFVec2f
- */
+
+/*! \brief SFVec2f
+    \ingroup SingleFields
+*/
 
 typedef SField<Vec2f> SFVec2f;
 
@@ -85,8 +77,10 @@ OSG_DLLEXPORT_DECL1(SField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFVec3f
- */
+
+/*! \brief SFVec3f
+    \ingroup SingleFields
+*/
 
 typedef SField<Vec3f> SFVec3f;
 
@@ -102,8 +96,9 @@ OSG_DLLEXPORT_DECL1(SField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFVec4f
- */
+/*! \brief SFVec4f
+    \ingroup SingleFields
+*/
 
 typedef SField<Vec4f> SFVec4f;
 
@@ -119,8 +114,10 @@ OSG_DLLEXPORT_DECL1(SField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFPnt2f
- */
+
+/*! \brief SFPnt2f
+    \ingroup SingleFields
+*/
 
 typedef SField<Pnt2f> SFPnt2f;
 
@@ -136,8 +133,10 @@ OSG_DLLEXPORT_DECL1(SField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFPnt3f
- */
+
+/*! \brief SFPnt3f
+    \ingroup SingleFields
+*/
 
 typedef SField<Pnt3f> SFPnt3f;
 
@@ -154,8 +153,9 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/** \brief SFPnt3d
- */
+/*! \brief SFPnt3d
+    \ingroup SingleFields
+*/
 
 typedef SField<Pnt3d> SFPnt3d;
 
@@ -171,8 +171,10 @@ OSG_DLLEXPORT_DECL1(SField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFPnt4f
- */
+
+/*! \brief SFPnt4f
+    \ingroup SingleFields
+*/
 
 typedef SField<Pnt4f> SFPnt4f;
 
@@ -189,6 +191,8 @@ OSG_DLLEXPORT_DECL1(SField, Pnt4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGSFVECTYPES_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSFVECBASE_H_ */
 

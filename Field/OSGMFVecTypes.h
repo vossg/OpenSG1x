@@ -50,27 +50,18 @@
 #include <OSGMField.h>
 #include <OSGVecFieldDataType.h>
 
-/** \file OSGMFVecTypes.h
- *  \ingroup FieldLib
- *  \ingroup MultiFields
- *  \brief OpenSG vector and point multi fields
- * 
- *  <UL>
- *  <LI> osg::MFVec2f
- *  <LI> osg::MFVec3f
- *  <LI> osg::MFVec4f
- *  <LI> osg::MFVec4ub
- *  <LI> osg::MFPnt2f
- *  <LI> osg::MFPnt3f
- *  <LI> osg::MFPnt3d
- *  <LI> osg::MFPnt4f
- *  </UL>
+/*! \file OSGMFVecTypes.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG vector and point multi fields
  */
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFVec2f
- */
+
+/*! \brief MFVec2f
+    \ingroup MultiFields
+*/
 
 typedef MField<Vec2f> MFVec2f;
 
@@ -86,8 +77,10 @@ OSG_DLLEXPORT_DECL1(MField, Vec2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFVec3f
- */
+
+/*! \brief MFVec3f
+    \ingroup MultiFields
+*/
 
 typedef MField<Vec3f> MFVec3f;
 
@@ -103,8 +96,10 @@ OSG_DLLEXPORT_DECL1(MField, Vec3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFVec4f
- */
+
+/*! \brief MFVec4f
+    \ingroup MultiFields
+*/
 
 typedef MField<Vec4f> MFVec4f;
 
@@ -120,8 +115,10 @@ OSG_DLLEXPORT_DECL1(MField, Vec4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFVec4ub
- */
+
+/*! \brief MFVec4ub
+    \ingroup MultiFields
+*/
 
 typedef MField<Vec4ub> MFVec4ub;
 
@@ -137,8 +134,10 @@ OSG_DLLEXPORT_DECL1(MField, Vec4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPnt2f
- */
+
+/*! \brief MFPnt2f
+    \ingroup MultiFields
+*/
 
 typedef MField<Pnt2f> MFPnt2f;
 
@@ -154,8 +153,10 @@ OSG_DLLEXPORT_DECL1(MField, Pnt2f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPnt3f
- */
+
+/*! \brief MFPnt3f
+    \ingroup MultiFields
+*/
 
 typedef MField<Pnt3f> MFPnt3f;
 
@@ -172,8 +173,9 @@ OSG_DLLEXPORT_DECL1(MField, Pnt3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/** \brief MFPnt3d
- */
+/*! \brief MFPnt3d
+    \ingroup MultiFields
+*/
 
 typedef MField<Pnt3d> MFPnt3d;
 
@@ -189,8 +191,10 @@ OSG_DLLEXPORT_DECL1(MField, Pnt3d, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPnt4f
- */
+
+/*! \brief MFPnt4f
+    \ingroup MultiFields
+*/
 
 typedef MField<Pnt4f> MFPnt4f;
 

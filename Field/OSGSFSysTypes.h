@@ -43,39 +43,22 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGBase.h>
 #include <OSGSField.h>
 #include <OSGSysFieldDataType.h>
 
-/** \file OSGSFSysTypes.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG system single fields
- *
- *  <UL>
- *  <LI> osg::SFBool
- *  <LI> osg::SFInt8
- *  <LI> osg::SFUInt8
- *  <LI> osg::SFInt16
- *  <LI> osg::SFUInt16
- *  <LI> osg::SFInt32
- *  <LI> osg::SFUInt32
- *  <LI> osg::SFInt64
- *  <LI> osg::SFUInt64
- *  <LI> osg::SFReal32
- *  <LI> osg::SFReal64
- *  </UL>
- */
+/*! \file OSGSFSysTypes.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \brief OpenSG system single fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
 
-/** \brief SFBool
- */
+/*! \brief SFBool
+    \ingroup SingleFields
+*/
 
 typedef SField<Bool, 2>   SFBool;
 
@@ -91,8 +74,10 @@ OSG_DLLEXPORT_DECL2(SField, Bool, 2, OSG_BASE_DLLTMPLMAPPING);
 #endif
 #endif
 
-/** \brief SFInt8
- */
+
+/*! \brief SFInt8
+    \ingroup SingleFields
+*/
 
 typedef SField<Int8>   SFInt8;
 
@@ -108,8 +93,10 @@ OSG_DLLEXPORT_DECL1(SField, Int8, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFUInt8
- */
+
+/*! \brief SFUInt8
+    \ingroup SingleFields
+*/
 
 typedef SField<UInt8>  SFUInt8;
 
@@ -125,8 +112,10 @@ OSG_DLLEXPORT_DECL1(SField, UInt8, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFInt16
- */
+
+/*! \brief SFInt16
+    \ingroup SingleFields
+*/
 
 typedef SField<Int16>  SFInt16;
 
@@ -142,8 +131,10 @@ OSG_DLLEXPORT_DECL1(SField, Int16, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFUInt16
- */
+
+/*! \brief SFUInt16
+    \ingroup SingleFields
+*/
 
 typedef SField<UInt16> SFUInt16;
 
@@ -159,8 +150,11 @@ OSG_DLLEXPORT_DECL1(SField, UInt16, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFInt32
- */
+
+/*! \brief SFInt32
+    \ingroup SingleFields
+*/
+
 typedef SField<Int32>  SFInt32;
 
 #ifndef OSG_COMPILEFIELDINST
@@ -175,8 +169,10 @@ OSG_DLLEXPORT_DECL1(SField, Int32, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFUInt32
- */
+
+/*! \brief SFUInt32
+    \ingroup SingleFields
+*/
 
 typedef SField<UInt32> SFUInt32;
 
@@ -192,8 +188,11 @@ OSG_DLLEXPORT_DECL1(SField, UInt32, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFInt64
- */
+
+/*! \brief SFInt64
+    \ingroup SingleFields
+*/
+
 typedef SField<Int64>  SFInt64;
 
 #ifndef OSG_COMPILEFIELDINST
@@ -208,8 +207,10 @@ OSG_DLLEXPORT_DECL1(SField, Int64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFUInt64
- */
+
+/*! \brief SFUInt64
+    \ingroup SingleFields
+*/
 
 typedef SField<UInt64> SFUInt64;
 
@@ -225,8 +226,10 @@ OSG_DLLEXPORT_DECL1(SField, UInt64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFReal32
- */
+
+/*! \brief SFReal32
+    \ingroup SingleFields
+*/
 
 typedef SField<Real32> SFReal32;
 
@@ -242,8 +245,10 @@ OSG_DLLEXPORT_DECL1(SField, Real32, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief SFReal64
- */
+
+/*! \brief SFReal64
+    \ingroup SingleFields
+*/
 
 typedef SField<Real64> SFReal64;
 
@@ -260,6 +265,8 @@ OSG_DLLEXPORT_DECL1(SField, Real64, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 OSG_END_NAMESPACE
+
+#define OSGSFSYSTYPES_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSFSYSTYPES_H_ */
 

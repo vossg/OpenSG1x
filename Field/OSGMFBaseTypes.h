@@ -50,24 +50,17 @@
 #include <OSGMField.h>
 #include <OSGBaseFieldDataType.h>
 
-/** \file OSGMFBaseTypes.h
- *  \ingroup FieldLib
- *  \ingroup MultiFields
- *  \brief OpenSG base multi fields
- *
- * <UL>
- * <LI> osg::MFString
- * <LI> osg::MFTime
- * <LI> osg::MFColor3f
- * <LI> osg::MFColor4f
- * <LI> osg::MFVolume
- * </UL>
- */
+/*! \file OSGMFBaseTypes.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG base multi fields
+*/
 
 OSG_BEGIN_NAMESPACE
 
-/** \brief MFString
- */
+/*! \brief MFString
+    \ingroup MultiFields
+*/
 
 typedef MField<string> MFString;
 
@@ -83,8 +76,10 @@ OSG_DLLEXPORT_DECL1(MField, string, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFTime
- */
+
+/*! \brief MFTime
+    \ingroup MultiFields
+*/
 
 typedef MField<Time, 1> MFTime;
 
@@ -100,8 +95,10 @@ OSG_DLLEXPORT_DECL2(MField, Time, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFColor3f
- */
+
+/*! \brief MFColor3f
+    \ingroup MultiFields
+*/
 
 typedef MField<Color3f> MFColor3f;
 
@@ -117,8 +114,10 @@ OSG_DLLEXPORT_DECL1(MField, Color3f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFColor4f
- */
+
+/*! \brief MFColor4f
+    \ingroup MultiFields
+*/
 
 typedef MField<Color4f> MFColor4f;
 
@@ -134,8 +133,10 @@ OSG_DLLEXPORT_DECL1(MField, Color4f, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFColor3ub
- */
+
+/*! \brief MFColor3ub
+    \ingroup MultiFields
+*/
 
 typedef MField<Color3ub> MFColor3ub;
 
@@ -151,8 +152,10 @@ OSG_DLLEXPORT_DECL1(MField, Color3ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFColor4ub
- */
+
+/*! \brief MFColor4ub
+    \ingroup MultiFields
+*/
 
 typedef MField<Color4ub> MFColor4ub;
 
@@ -169,8 +172,9 @@ OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
 
-/** \brief MFVolume
- */
+/*! \brief MFVolume
+    \ingroup MultiFields
+*/
 
 typedef MField<DynamicVolume> MFVolume;
 
@@ -186,8 +190,10 @@ OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFBitVector
- */
+
+/*! \brief MFBitVector
+    \ingroup MultiFields
+*/
 
 typedef MField<BitVector, 1>  MFBitVector;
 
@@ -203,8 +209,10 @@ OSG_DLLEXPORT_DECL2(MField, BitVector, 1, OSG_BASE_DLLTMPLMAPPING)
 #endif
 #endif
 
-/** \brief MFPlane
- */
+
+/*! \brief MFPlane
+    \ingroup MultiFields
+*/
 
 typedef MField<Plane> MFPlane;
 

@@ -48,54 +48,67 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \file OSGVecFieldDataType.h
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+    \brief OpenSG Vec Field Data Types  
+*/
+
+/*! \brief VecStorage field traits recurse base
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
+
 template<class ValueTypeT>
 struct FieldTraitsRecurseVecStoreBase : public Traits
 {
-    enum                         { bHasParent        = 0x00 };
+    enum                     { bHasParent = 0x00 };
 
-    static UInt32 getBinSize(const ValueTypeT &)
+    static UInt32 getBinSize (const ValueTypeT &)
     {
         return sizeof(ValueTypeT);
     }
 
-    static UInt32 getBinSize(const ValueTypeT *,
-                                   UInt32      uiNumObjects)
+    static UInt32 getBinSize (const ValueTypeT *,
+                                    UInt32      uiNumObjects)
     {
         return sizeof(ValueTypeT) * uiNumObjects;
     }
 
-    static void copyToBin(      BinaryDataHandler &pMem, 
-                          const ValueTypeT        &oObject)
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const ValueTypeT        &oObject)
     {
         pMem.put(&oObject, getBinSize(oObject));
     }
 
-    static void copyToBin(      BinaryDataHandler &pMem, 
-                          const ValueTypeT        *pObjectStore,
-                                UInt32             uiNumObjects)
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const ValueTypeT        *pObjectStore,
+                                    UInt32             uiNumObjects)
     {
         pMem.put(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 
-    static void copyFromBin(BinaryDataHandler &pMem, 
-                            ValueTypeT        &oObject)
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    ValueTypeT        &oObject)
     {
         pMem.get(&oObject, getBinSize(oObject));
     }
 
-    static void copyFromBin(BinaryDataHandler &pMem, 
-                            ValueTypeT        *pObjectStore,
-                            UInt32             uiNumObjects)
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    ValueTypeT        *pObjectStore,
+                                    UInt32             uiNumObjects)
     {
         pMem.get(&pObjectStore[0], getBinSize(pObjectStore, uiNumObjects));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief VecStorage4 field traits 
- */
+/*! \brief VecStorage2 field traits recurse base
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore2Base : 
@@ -104,11 +117,11 @@ struct FieldTraitsRecurseVecStore2Base :
     enum { bHasParent = 0x00 };
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief VecStorage4 field traits 
- */
+/*! \brief VecStorage3 field traits recurse base
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore3Base : 
@@ -117,11 +130,11 @@ struct FieldTraitsRecurseVecStore3Base :
     enum { bHasParent = 0x00 };
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief VecStorage4 field traits 
- */
+/*! \brief VecStorage4 field traits recurse base
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template<class ValueTypeT>
 struct FieldTraitsRecurseVecStore4Base : 
@@ -130,26 +143,27 @@ struct FieldTraitsRecurseVecStore4Base :
     enum { bHasParent = 0x00 };
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Vec2f field traits 
- */
+/*! \brief Vec2f field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 {
-    static DataType                _type;
+    static DataType _type;
 
-    enum                           { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
-    enum                           { bHasParent        = 0x01                };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFVec2f"; }
-    static Char8    *getMName     (void) { return "MFVec2f"; }
-    static Vec2f     getDefault   (void) { return Vec2f();   }
+    static Char8    *getSName     (void) { return "SFVec2f";     }
+    static Char8    *getMName     (void) { return "MFVec2f";     }
+
+    static Vec2f     getDefault   (void) { return Vec2f();       }
 
     static Bool      getFromString(      Vec2f  &outVal,
                                    const Char8 *&inVal)
@@ -159,79 +173,83 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
         return true;
     }
 
-    static void   putToString(const Vec2f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Vec2f  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec2f::ValueType>::putToString((inVal.getValues())[1]) );
+        typedef TypeConstants<Vec2f::ValueType> TypeConst;
+        
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Vec3f field traits 
- */
+/*! \brief Vec3f field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
-    enum                         { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
-    static Char8    *getSName     (void) { return "SFVec3f"; }
-    static Char8    *getMName     (void) { return "MFVec3f"; }
+    static DataType &getType      (void) { return _type;         }
 
-    static Vec3f     getDefault   (void) { return Vec3f();   }
+    static Char8    *getSName     (void) { return "SFVec3f";     }
+    static Char8    *getMName     (void) { return "MFVec3f";     }
+
+    static Vec3f     getDefault   (void) { return Vec3f();       }
 
     static Bool      getFromString(      Vec3f  &outVal,
                                    const Char8 *&inVal)
     {
         outVal.setValue(inVal);
-
+        
         return true;
     }
 
-    static void   putToString(const Vec3f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Vec3f  &inVal,
+                                         string &outVal)
     {
-       outVal.assign( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec3f::ValueType>::putToString((inVal.getValues())[2]) );
+        typedef TypeConstants<Vec3f::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Vec4f field traits 
- */
+/*! \brief Vec4f field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                       FromStringConvertable };
-    enum                         { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFVec4f"; }
+    static Char8    *getSName     (void) { return "SFVec4f";     }
+    static Char8    *getMName     (void) { return "MFVec4f";     }
 
-    static Char8    *getMName     (void) { return "MFVec4f"; }
-
-    static Vec4f     getDefault   (void) { return Vec4f();   }
+    static Vec4f     getDefault   (void) { return Vec4f();       }
 
     static Bool      getFromString(      Vec4f  &outVal,
                                    const Char8 *&inVal)
@@ -241,83 +259,87 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
         return true;
     }
 
-    static void   putToString(const Vec4f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Vec4f  &inVal,
+                                         string &outVal)
     {
-      outVal.assign( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[2]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4f::ValueType>::putToString((inVal.getValues())[3]) );
+        typedef TypeConstants<Vec4f::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Vec4ub field traits 
- */
+/*! \brief Vec4ub field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields 
+*/
 
 template <>
 struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 {
-    static DataType             _type;
-    enum                        { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable };
-    enum                        { bHasParent        = 0x01                  };
+    static DataType _type;
 
-    static DataType &getType      (void) { return _type;      }
-    static Char8    *getSName     (void) { return "SFVec4ub"; }
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static Char8    *getMName     (void) { return "MFVec4ub"; }
+    static DataType &getType      (void) { return _type;         }
 
-    static Vec4ub    getDefault   (void) { return Vec4ub();   }
+    static Char8    *getSName     (void) { return "SFVec4ub";    }
+    static Char8    *getMName     (void) { return "MFVec4ub";    }
+
+    static Vec4ub    getDefault   (void) { return Vec4ub();      }
 
     static Bool      getFromString(      Vec4ub  &outVal,
                                    const Char8  *&inVal)
     {
         outVal.setValue(inVal);
-
+        
         return true;
     }
 
-    static void   putToString(const Vec4ub &inVal,
-                                    string &outVal)
+    static void      putToString  (const Vec4ub &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[2]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Vec4ub::ValueType>::putToString((inVal.getValues())[3]) );
+        typedef TypeConstants<Vec4ub::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Pnt2f field traits 
- */
+/*! \brief Pnt2f field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 {
-    static DataType              _type;
+    static DataType _type;
 
-    enum                         { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable  };
-    enum                         { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFPnt2f"; }
+    static Char8    *getSName     (void) { return "SFPnt2f";     }
+    static Char8    *getMName     (void) { return "MFPnt2f";     }
 
-    static Char8    *getMName     (void) { return "MFPnt2f"; }
-
-    static Pnt2f     getDefault   (void) { return Pnt2f();   }
+    static Pnt2f     getDefault   (void) { return Pnt2f();       }
 
     static Bool      getFromString(      Pnt2f  &outVal,
                                    const Char8 *&inVal)
@@ -327,37 +349,38 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
         return true;
     }
 
-    static void   putToString(const Pnt2f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Pnt2f  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[0]) ); 
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt2f::ValueType>::putToString((inVal.getValues())[1]) );
+        typedef TypeConstants<Pnt2f::ValueType> TypeConst;
+        
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0])); 
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Pnt3f field traits 
- */
+/*! \brief Pnt3f field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 {
-    static DataType             _type;
+    static DataType _type;
 
-    enum                        { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable };
-    enum                        { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFPnt3f"; }
+    static Char8    *getSName     (void) { return "SFPnt3f";     }
+    static Char8    *getMName     (void) { return "MFPnt3f";     }
 
-    static Char8    *getMName     (void) { return "MFPnt3f"; }
-
-    static Pnt3f     getDefault   (void) { return Pnt3f();   }
+    static Pnt3f     getDefault   (void) { return Pnt3f();       }
 
     static Bool      getFromString(      Pnt3f  &outVal,
                                    const Char8 *&inVal)
@@ -366,40 +389,41 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
         return false;
     }
 
-    static void   putToString(const Pnt3f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Pnt3f  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt3f::ValueType>::putToString((inVal.getValues())[2]) );
+        typedef TypeConstants<Pnt3f::ValueType> TypeConst;
+        
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Pnt3d field traits 
- */
+/*! \brief Pnt3d field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
 {
-    static DataType             _type;
+    static DataType _type;
 
-    enum                        { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable };
-    enum                        { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFPnt3d"; }
+    static Char8    *getSName     (void) { return "SFPnt3d";     }
+    static Char8    *getMName     (void) { return "MFPnt3d";     }
 
-    static Char8    *getMName     (void) { return "MFPnt3d"; }
-
-    static Pnt3d     getDefault   (void) { return Pnt3d();   }
+    static Pnt3d     getDefault   (void) { return Pnt3d();       }
 
     static Bool      getFromString(      Pnt3d  &outVal,
                                    const Char8 *&inVal)
@@ -408,39 +432,41 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore3Base<Pnt3d>
         return false;
     }
 
-    static void   putToString(const Pnt3d  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Pnt3d  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt3d::ValueType>::putToString((inVal.getValues())[2]) );
+        typedef TypeConstants<Pnt3d::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
     }
 };
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief Pnt4f field traits 
- */
+/*! \brief Pnt4f field traits
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
 struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 {
-    static DataType             _type;
+    static DataType _type;
 
-    enum                        { StringConvertable = ToStringConvertable | 
-                                                      FromStringConvertable };
-    enum                        { bHasParent        = 0x01                  };
+    enum             { StringConvertable = ToStringConvertable   | 
+                                           FromStringConvertable };
+    enum             { bHasParent        = 0x01                  };
 
-    static DataType &getType      (void) { return _type;     }
+    static DataType &getType      (void) { return _type;         }
 
-    static Char8    *getSName     (void) { return "SFPnt4f"; }
+    static Char8    *getSName     (void) { return "SFPnt4f";     }
 
-    static Char8    *getMName     (void) { return "MFPnt4f"; }
+    static Char8    *getMName     (void) { return "MFPnt4f";     }
 
-    static Pnt4f     getDefault   (void) { return Pnt4f();   }
+    static Pnt4f     getDefault   (void) { return Pnt4f();       }
 
     static Bool      getFromString(      Pnt4f  &outVal,
                                    const Char8 *&inVal)
@@ -449,20 +475,24 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
         return false;
     }
 
-    static void   putToString(const Pnt4f  &inVal,
-                                    string &outVal)
+    static void      putToString  (const Pnt4f  &inVal,
+                                         string &outVal)
     {
-        outVal.assign( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[0]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[1]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[2]) );
-      outVal.append( "  " );
-      outVal.append( TypeConstants<Pnt4f::ValueType>::putToString((inVal.getValues())[3]) );
+        typedef TypeConstants<Pnt4f::ValueType> TypeConst;
+
+        outVal.assign(TypeConst::putToString((inVal.getValues())[0]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[1]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[2]));
+        outVal.append("  ");
+        outVal.append(TypeConst::putToString((inVal.getValues())[3]));
     }
 };
 
 OSG_END_NAMESPACE
+
+#define OSGVECFIELDDATATYPE_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
 
