@@ -1,5 +1,7 @@
 # Add our directory to the System Lib
 
+if test $enable_qt = yes; then
+
 ac_gdz_packages="${ac_gdz_packages} QTWidget" 
 ac_gdz_package_order="${ac_gdz_package_order} QTWidgetLib"
 
@@ -11,3 +13,5 @@ ac_gdz_package_link_dep_QTWidget="Window@WINDOWSYSTEM@Lib  SystemLib BaseLib Win
 ac_gdz_package_testinc_dep_QTWidget="WindowSystem/GLUT GLUT"
 ac_gdz_package_testlink_dep_QTWidget="WindowGLUTLib QT GLUT GL TIF JPG PNG MNG"
 ac_gdz_package_def_QTWidget="OSG_COMPILEQTWIDGETLIB"
+
+fi
