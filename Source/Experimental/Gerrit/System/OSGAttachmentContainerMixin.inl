@@ -102,6 +102,7 @@ DataElementDesc DescHolderT<
 
 #endif
 
+#ifndef OSG_WIN32_CL
 template <class AttachmentDescT>
 typename AttachmentContainerMixin<AttachmentDescT>::ObjectType
     AttachmentContainerMixin<AttachmentDescT>::_type(
@@ -112,6 +113,19 @@ typename AttachmentContainerMixin<AttachmentDescT>::ObjectType
         NULL, // Init
         Desc::descInserter,
         true);
+#else
+template <class AttachmentDescT>
+typename AttachmentContainerMixin<AttachmentDescT>::ObjectType
+    AttachmentContainerMixin<AttachmentDescT>::_type = 
+        AttachmentContainerMixin<AttachmentDescT>::ObjectType(
+            Desc::getTypeName      (),
+            Desc::getTypeParentName(),
+            Desc::getTypeGroupName (),
+            NULL,
+            NULL, // Init
+            Desc::descInserter,
+            true);
+#endif
 
 /***************************************************************************\
  *                               Types                                     *

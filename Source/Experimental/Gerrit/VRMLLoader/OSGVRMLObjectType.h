@@ -133,10 +133,12 @@ class OSG_VRML_DLLMAPPING VRMLObjectType : public ReflexiveContainerType
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+#ifndef OSG_WIN32_CL
     //! prohibit default function (move to 'public' if needed) 
     VRMLObjectType(const VRMLObjectType &source);
     //! prohibit default function (move to 'public' if needed) 
     void operator =(const VRMLObjectType &source);
+#endif
 
   protected:
 
@@ -172,6 +174,13 @@ class OSG_VRML_DLLMAPPING VRMLObjectType : public ReflexiveContainerType
     void terminate    (void);
 
   public :
+
+#ifdef OSG_WIN32_CL
+    //! prohibit default function (move to 'public' if needed) 
+    VRMLObjectType(const VRMLObjectType &source);
+    //! prohibit default function (move to 'public' if needed) 
+    void operator =(const VRMLObjectType &source);
+#endif
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
