@@ -327,11 +327,12 @@ class PointInterface : public StorageInterfaceT
         }
         else
         {
-            for(UInt32 i = 0; i < VectorT::_iSize; i++)
+            UInt32 i;
+            for(i = 0; i < VectorT::_iSize; i++)
             {
                 Self::_values[i] = vec.getValues()[i];
             }
-            for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+            for(i = VectorT::_iSize; i < Self::_iSize; i++)
             {
                 Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
             }
@@ -572,11 +573,12 @@ class VectorInterface :
         }
         else
         {
-            for(UInt32 i = 0; i < VectorT::_iSize; i++)
+            UInt32 i;
+            for(i = 0; i < VectorT::_iSize; i++)
             {
                 Self::_values[i] = vec.getValues()[i];
             }
-            for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+            for(i = VectorT::_iSize; i < Self::_iSize; i++)
             {
                 Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
             }
