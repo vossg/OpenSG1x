@@ -4,7 +4,6 @@
 
 #include <OSGFontStylePFields.h>
 
-#define OSG_
 #include <OSGSFieldTypeScanTypeDef.inl>
 #include <OSGMFieldTypeScanTypeDef.inl>
 
