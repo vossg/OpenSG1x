@@ -1,6 +1,6 @@
 
 // Headers
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGGLUTWindow.h>

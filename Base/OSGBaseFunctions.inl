@@ -367,7 +367,7 @@ TypeT osgabs(const TypeT rValue)
 template <> inline
 Real32 osgabs<Real32>(const Real32 rValue)
 {
-#ifdef OSG_HAS_FLOATMATH
+#if defined(OSG_HAS_FLOATMATH) && !defined(OSG_NO_FABSF)
     return fabsf(rValue);
 #else
     return (Real32) fabs((Real32) rValue);
@@ -864,9 +864,9 @@ template<class VecPntT> inline
 UInt32 getMaxIndexAbs3(const VecPntT &v)
 {
     return 
-        fabsf(v[0]) > fabsf(v[1]) ?
-            (fabsf(v[0]) > fabsf(v[2]) ? 0 : 2) : 
-            (fabsf(v[1]) > fabsf(v[2]) ? 1 : 2);
+        osgabs(v[0]) > osgabs(v[1]) ?
+            (osgabs(v[0]) > osgabs(v[2]) ? 0 : 2) : 
+            (osgabs(v[1]) > osgabs(v[2]) ? 1 : 2);
 }
 
 inline

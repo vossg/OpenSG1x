@@ -57,7 +57,7 @@ OSG_BEGIN_NAMESPACE
 #pragma set woff 1375
 #endif
 
-#if defined(__linux) || defined(__hpux)
+#if defined(__linux) || defined(__hpux) || defined(darwin)
 #    if __GNUC__ >= 3
 #        define OSG_STL_DEFAULT_ALLOCATOR(TP) = allocator<TP>
 #    elif defined (__ICL)

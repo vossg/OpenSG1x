@@ -43,7 +43,7 @@
 
 #include "OSGConfig.h"
 
-#include "new.h"
+#include "new"
 
 // Class declarations
 #include "OSGDynamicVolume.h"

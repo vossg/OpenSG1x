@@ -370,10 +370,15 @@
 // Use gcc internal types to define OpenSG base types
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS 
-# define OSG_THROW_NOTHING() 
+# if __GNUC__ >= 3
+# define OSG_THROW_NOTHING() throw()
+#else
+# define OSG_THROW_NOTHING()
+#endif
 # define SIZE_T_NEQ_UINT32
 # define OSG_NOGLSUBDIR
 # define OSG_NOGLUTSUBDIR
+# define OSG_NO_FABSF
 #endif
 
 
