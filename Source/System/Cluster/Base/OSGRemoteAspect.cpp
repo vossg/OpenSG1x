@@ -703,6 +703,19 @@ void RemoteAspect::registerChanged(const FieldContainerType &type,
     _changedFunctors[type.getId()] = func;
 }
 
+/*! add a new field filter. The given fieldmaks will not be transfered
+ */
+void RemoteAspect::addFieldFilter( UInt32 typeId,BitVector mask)
+{
+    _fieldFilter[typeId] |= mask;
+}
+
+/*! remove the filter for the given type and mask
+ */
+void RemoteAspect::subFieldFilter( UInt32 typeId,BitVector mask)
+{
+    _fieldFilter[typeId] &= ~mask;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                          statistics                                     */

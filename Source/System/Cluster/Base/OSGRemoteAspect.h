@@ -116,6 +116,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
                             const Functor &func            );
     void registerChanged  ( const FieldContainerType &type, 
                             const Functor &func            );
+    void addFieldFilter   ( UInt32 typeId,BitVector mask   );
+    void subFieldFilter   ( UInt32 typeId,BitVector mask   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
