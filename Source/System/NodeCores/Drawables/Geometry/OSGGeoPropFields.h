@@ -78,11 +78,11 @@ struct FieldDataTraits<GeoPositionsPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
+    typedef FieldDataTraits<GeoPositionsPtr>  Self;
+    static  DataType                         _type;
 
-    static DataType _type;
-
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -135,10 +135,11 @@ struct FieldDataTraits<GeoNormalsPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
-    static DataType _type;
+    typedef FieldDataTraits<GeoNormalsPtr>  Self;
+    static  DataType                       _type;
 
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -193,10 +194,11 @@ struct FieldDataTraits<GeoColorsPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
-    static DataType _type;
+    typedef FieldDataTraits<GeoColorsPtr>  Self;
+    static  DataType                      _type;
 
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -250,10 +252,11 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
-    static DataType _type;
+    typedef FieldDataTraits<GeoTexCoordsPtr>  Self;
+    static  DataType                         _type;
 
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -306,11 +309,12 @@ struct FieldDataTraits<GeoIndicesPtr> :
     /*---------------------------------------------------------------------*/
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
+    
+    typedef FieldDataTraits<GeoIndicesPtr>  Self;
+    static  DataType                       _type;
 
-    static DataType _type;
-
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -364,11 +368,11 @@ struct FieldDataTraits<GeoPTypesPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
+    typedef FieldDataTraits<GeoPTypesPtr>  Self;
+    static  DataType                      _type;
 
-    static DataType _type;
-
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -422,11 +426,11 @@ struct FieldDataTraits<GeoPLengthsPtr> :
     /*! \name                    Struct Specific                           */
     /*! \{                                                                 */
 
+    typedef FieldDataTraits<GeoPLengthsPtr>  Self;
+    static  DataType                        _type;
 
-    static DataType _type;
-
-    enum           { StringConvertable = ToStringConvertable };
-    enum           { bHasParent        = 0x01                };
+    enum           { StringConvertable = Self::ToStringConvertable };
+    enum           { bHasParent        = 0x01                      };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -64,10 +64,19 @@ template <>
 struct FieldDataTraits<AttachmentContainerPtr> : 
     public FieldTraitsRecurseMapper<AttachmentContainerPtr, true>
 {
-    static DataType                  _type;
+    typedef FieldDataTraits<AttachmentContainerPtr> Self;
 
-    enum                            { StringConvertable = ToStringConvertable};
-    enum                            { bHasParent        = 0x01               };
+    static  DataType                                _type;
+
+    enum                            
+    {
+        StringConvertable = Self::ToStringConvertable
+    };
+
+    enum                            
+    { 
+        bHasParent        = 0x01
+    };
 
     static DataType &getType (void) { return _type;                          }
 

@@ -65,10 +65,18 @@ template <>
 struct FieldDataTraits<NodePtr> : 
     public FieldTraitsRecurseMapper<NodePtr, true>
 {
-    static DataType                  _type;
+    typedef FieldDataTraits<NodePtr>  Self;
+    static  DataType                 _type;
 
-    enum                            { StringConvertable = ToStringConvertable};
-    enum                            { bHasParent        = 0x01               };
+    enum                            
+    {
+        StringConvertable = Self::ToStringConvertable
+    };
+    
+    enum
+    {
+        bHasParent        = 0x01
+    };
 
     static DataType &getType (void) { return _type;                          }
     static char     *getSName(void) { return "SFNodePtr";                    }
