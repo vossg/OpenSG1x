@@ -499,6 +499,11 @@
 # define OSG_NEED_BOOL_MFIELD_SPEZ
 # endif
 
+// vc 8.0
+# if _MSC_VER >= 1400
+# define OSG_STDEXCEPTION_NAMESPACE std
+# endif
+
 # endif // defined(_MSC_VER) && !defined(__ICL)
 
 /*-------------------------------------------------------------------------*/
