@@ -73,11 +73,15 @@ class AVCodecEncoder
 
     ~AVCodecEncoder();
 
-    int               width()   const { return stream->codec.width; }
-    int               height()  const { return stream->codec.height; }
-    unsigned char*    rgb()     const { return rgbframe->data[0]; }
-    AVCodecContext*   context() const { return &stream->codec; }
-
+    int               width()   const { return _stream->codec.width; }
+    int               height()  const { return _stream->codec.height; }
+    unsigned char*    rgb()     const { return _rgbframe->data[0]; }
+    AVCodecContext*   context() const { return &_stream->codec; }
+    unsigned int      codecid() const { return _stream->codec.codec_id; }
+    unsigned int      fps()     const { return _stream->codec.frame_rate; }
+    bool              flip()    const { return _flip_before_encode; }
+    unsigned int      bitrate() const { return _stream->codec.bit_rate; }
+    
     void              setRgb(unsigned char* rgb);
     void              setBitrate(int bitrate);
 
@@ -90,19 +94,19 @@ class AVCodecEncoder
 
   private:
 
-    AVFormatContext*  format_ctx;
-    AVOutputFormat*   format_out;
-    AVStream*         stream;
+    AVFormatContext*  _format_ctx;
+    AVOutputFormat*   _format_out;
+    AVStream*         _stream;
 
-    AVFrame*          yuvframe;
-    AVFrame*          rgbframe;
+    AVFrame*          _yuvframe;
+    AVFrame*          _rgbframe;
 
-    unsigned char*    video_outbuf;
-    unsigned int      video_outbuf_size;
-    unsigned int      frame_count;
-    double            video_pts;
+    unsigned char*    _video_outbuf;
+    unsigned int      _video_outbuf_size;
+    unsigned int      _frame_count;
+    double            _video_pts;
 
-    bool              flip_before_encode;
+    bool              _flip_before_encode;
 
 }; // class AVVideoEncoder
 

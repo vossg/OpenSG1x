@@ -119,7 +119,7 @@ void AVCodecGrabForeground::dump(      UInt32    ,
 /*! Grab the image and write it to the file. The name needs to be set.
 */
 
-void AVCodecGrabForeground::draw(DrawActionBase *action, Viewport *port)
+void AVCodecGrabForeground::draw(DrawActionBase *, Viewport *port)
 {
     if(getActive() == false)
         return;

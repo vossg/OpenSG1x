@@ -80,16 +80,16 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
     const unsigned int& bitrate, const unsigned int& fps, 
     const CodecID& codecid, const bool& flip ) :
 
-    format_ctx(0),
-    format_out(0),
-    stream(0),
-    yuvframe(0),
-    rgbframe(0),
-    video_outbuf(0),
-    video_outbuf_size(0),
-    frame_count(0),
-    video_pts(0),
-    flip_before_encode(flip)
+    _format_ctx(0),
+    _format_out(0),
+    _stream(0),
+    _yuvframe(0),
+    _rgbframe(0),
+    _video_outbuf(0),
+    _video_outbuf_size(0),
+    _frame_count(0),
+    _video_pts(0),
+    _flip_before_encode(flip)
 {
 
   // init avcodec && avformat
@@ -105,12 +105,13 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
   if ( codecid == CODEC_ID_FFV1 )
   {
     printf(" >>> CODEC_ID_FFV1 <<< \n");
-    format_out= guess_format("avi", NULL, NULL);
-    format_out->video_codec= codecid;
+    _format_out= guess_format("avi", NULL, NULL);
+    _format_out->video_codec= codecid;
+    _format_out->audio_codec= CODEC_ID_NONE;
   }
 
   // check search output formats for given codecid */
-  if ( codecid != CODEC_ID_NONE && !format_out )
+  if ( codecid != CODEC_ID_NONE && !_format_out )
   {
     printf(" >>> search for codec <<< \n");
     extern AVOutputFormat* first_oformat;
@@ -118,27 +119,27 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
     {
       if ( f->video_codec == codecid )
       {
-        format_out= f;
+        _format_out= f;
         break;
       }
     }
   }
 
   // auto detect the output format from the name
-  if ( !format_out )
+  if ( !_format_out )
   {
     printf(" >>> guess codec via filename <<< \n");
-    format_out = guess_format(NULL, filename, NULL);
+    _format_out = guess_format(NULL, filename, NULL);
   }
 
   // fallback
-  if (!format_out)
+  if (!_format_out)
   {
     printf("Could not deduce output format from file extension: using MPEG.\n");
-    format_out = guess_format("mpeg", NULL, NULL);
+    _format_out = guess_format("mpeg", NULL, NULL);
   }
 
-  if (!format_out)
+  if (!_format_out)
     throw AVCodecException("couldnt find suitable output format\n");
 
 
@@ -146,31 +147,31 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
 // allocate the context for the output
 //
 
-  format_ctx= (AVFormatContext*)av_mallocz(sizeof(AVFormatContext));
-  if (!format_ctx)
+  _format_ctx= (AVFormatContext*)av_mallocz(sizeof(AVFormatContext));
+  if (!_format_ctx)
     throw AVCodecException("memory error while allformat_ctxating formatcontext\n");
 
-  format_ctx->oformat= format_out;
-  snprintf(format_ctx->filename, sizeof(format_ctx->filename), "%s", filename);
+  _format_ctx->oformat= _format_out;
+  snprintf(_format_ctx->filename, sizeof(_format_ctx->filename), "%s", filename);
 
 //
 // create the resulting stream
 //
-  if (format_out->video_codec != CODEC_ID_NONE)
+  if (_format_out->video_codec != CODEC_ID_NONE)
   {
-    stream= av_new_stream(format_ctx, 0);
-    if (!stream)
+    _stream= av_new_stream(_format_ctx, 0);
+    if (!_stream)
       throw AVCodecException("couldnt allformat_ctx stream\n");
 
-    AVCodecContext* c= &stream->codec;
-    c->codec_id= format_out->video_codec;
+    AVCodecContext* c= &_stream->codec;
+    c->codec_id= _format_out->video_codec;
     c->codec_type= CODEC_TYPE_VIDEO;
 
     switch ( c->codec_id)
     {
       case CODEC_ID_FFV1:
         c->strict_std_compliance= -1;
-        //c->codec_tag= ('1' << 24) + ('V' << 16) + ('F' << 8) + ('F');
+        c->codec_tag= ('F' | ('F' << 8) | ('V' << 16) | ('1' << 24));
         break;
 
       case CODEC_ID_HUFFYUV:
@@ -183,53 +184,53 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
     c->height= height;
     c->frame_rate= fps;
     c->frame_rate_base= 1;
-    c->gop_size = 0;
+    c->gop_size = 12;
   }
 
   /* set the output parameters (must be done even if no
      parameters). */
-  if (av_set_parameters(format_ctx, NULL) < 0)
+  if (av_set_parameters(_format_ctx, NULL) < 0)
     throw AVCodecException("invalid output format parameters\n");
 
 
   // setup all buffers and structures
-  if (stream)
+  if (_stream)
     initCodec();
 
-  dump_format(format_ctx, 0, filename, 1);
+  dump_format(_format_ctx, 0, filename, 1);
 
   /* open the output file, if needed */
-  if (!(format_out->flags & AVFMT_NOFILE))
+  if (!(_format_out->flags & AVFMT_NOFILE))
   {
-    if (url_fopen(&format_ctx->pb, filename, URL_WRONLY) < 0)
+    if (url_fopen(&_format_ctx->pb, filename, URL_WRONLY) < 0)
       throw AVCodecException((std::string("couldnt open") + std::string(filename) + std::string("\n")).c_str());
   }
 
   /* write the stream header, if any */
-  av_write_header(format_ctx);
+  av_write_header(_format_ctx);
 }
 
 AVCodecEncoder::~AVCodecEncoder()
 {
-  av_write_trailer(format_ctx);
+  av_write_trailer(_format_ctx);
 
+  if (!(_format_out->flags & AVFMT_NOFILE)) {
+    url_fclose(&_format_ctx->pb);
+  }
+  
   /* close each codec */
-  avcodec_close(&stream->codec);
-  av_free(yuvframe->data[0]);
-  av_free(yuvframe);
-  av_free(rgbframe);
-  av_free(video_outbuf);
+  avcodec_close(&_stream->codec);
+  av_free(_yuvframe->data[0]);
+  av_free(_yuvframe);
+  av_free(_rgbframe);
+  av_free(_video_outbuf);
 
   /* free the streams */
-  for(int i = 0; i < format_ctx->nb_streams; i++) {
-      av_freep(&format_ctx->streams[i]);
+  for(int i = 0; i < _format_ctx->nb_streams; i++) {
+      av_freep(&_format_ctx->streams[i]);
   }
 
-  if (!(format_out->flags & AVFMT_NOFILE)) {
-    url_fclose(&format_ctx->pb);
-  }
-
-  av_free(format_ctx);
+  av_free(_format_ctx);
 }
 
 AVFrame* AVCodecEncoder::allocFrame(int pix_format_out, int width, int height)
@@ -256,7 +257,7 @@ AVFrame* AVCodecEncoder::allocFrame(int pix_format_out, int width, int height)
 void AVCodecEncoder::initCodec()
 {
   AVCodec *codec;
-  AVCodecContext* c= &stream->codec;
+  AVCodecContext* c= &_stream->codec;
 
   /* find the video encoder */
   if (c->codec_id == CODEC_ID_FFV1)
@@ -273,20 +274,20 @@ void AVCodecEncoder::initCodec()
   if (avcodec_open(c, codec) < 0)
     throw AVCodecException("couldnt open codec\n");
 
-  video_outbuf= NULL;
-  if (!(format_ctx->oformat->flags & AVFMT_RAWPICTURE))
+  _video_outbuf= NULL;
+  if (!(_format_ctx->oformat->flags & AVFMT_RAWPICTURE))
   {
-    video_outbuf_size= 200000;
-    video_outbuf= (unsigned char*)av_malloc(video_outbuf_size);
+    _video_outbuf_size= 200000;
+    _video_outbuf= (unsigned char*)av_malloc(_video_outbuf_size);
   }
 
   /* allformat_ctxate the encoded raw picture */
-  yuvframe= allocFrame(c->pix_fmt, c->width, c->height);
-  if (!yuvframe)
+  _yuvframe= allocFrame(c->pix_fmt, c->width, c->height);
+  if (!_yuvframe)
     throw AVCodecException("couldnt allformat_ctxate yuv-picture\n");
 
-  rgbframe= avcodec_alloc_frame();
-  if (!rgbframe)
+  _rgbframe= avcodec_alloc_frame();
+  if (!_rgbframe)
     throw AVCodecException("coudlnt allformat_ctxate rgb-picture\n");
 
   return;
@@ -297,70 +298,70 @@ void AVCodecEncoder::writeFrame()
 {
 
   // calculate time
-  if (stream)
-    video_pts = (double)stream->pts.val * format_ctx->pts_num / format_ctx->pts_den;
+  if (_stream)
+    _video_pts = (double)_stream->pts.val * _format_ctx->pts_num / _format_ctx->pts_den;
   else
-    video_pts = 0.0;
+    _video_pts = 0.0;
 
-  if (!stream) return;
+  if (!_stream) return;
 
   // convert rgb to yuv420
-  img_convert( (AVPicture*)(yuvframe), stream->codec.pix_fmt,
-               (AVPicture*)(rgbframe), PIX_FMT_RGB24,
-                stream->codec.width, stream->codec.height);
+  img_convert( (AVPicture*)(_yuvframe), _stream->codec.pix_fmt,
+               (AVPicture*)(_rgbframe), PIX_FMT_RGB24,
+                _stream->codec.width, _stream->codec.height);
 
   // flip yuv-buffer horizontal -> opengl has other order
   // why not the rgb-buffer? yuv has smaller size
   //
   // TODO: check pix_format_out and do the right thing, its not
   // alway yuf420 ...
-  if ( flip_before_encode )
+  if ( _flip_before_encode )
   {
     unsigned char* s;
     unsigned char* d;
 
     static unsigned char  b[24000];
 
-    for (s= yuvframe->data[0], d= yuvframe->data[1]-yuvframe->linesize[0];
-        s < d; s+= yuvframe->linesize[0], d-= yuvframe->linesize[0])
+    for (s= _yuvframe->data[0], d= _yuvframe->data[1]-_yuvframe->linesize[0];
+        s < d; s+= _yuvframe->linesize[0], d-= _yuvframe->linesize[0])
     {
-       memcpy(b, s, yuvframe->linesize[0]);
-       memcpy(s, d, yuvframe->linesize[0]);
-       memcpy(d, b, yuvframe->linesize[0]);
+       memcpy(b, s, _yuvframe->linesize[0]);
+       memcpy(s, d, _yuvframe->linesize[0]);
+       memcpy(d, b, _yuvframe->linesize[0]);
     }
 
-    for (s= yuvframe->data[1], d= yuvframe->data[2]-yuvframe->linesize[2];
-         s < d; s+= yuvframe->linesize[1], d-= yuvframe->linesize[1])
+    for (s= _yuvframe->data[1], d= _yuvframe->data[2]-_yuvframe->linesize[2];
+         s < d; s+= _yuvframe->linesize[1], d-= _yuvframe->linesize[1])
     {
-       memcpy(b, s, yuvframe->linesize[1]);
-       memcpy(s, d, yuvframe->linesize[1]);
-       memcpy(d, b, yuvframe->linesize[1]);
+       memcpy(b, s, _yuvframe->linesize[1]);
+       memcpy(s, d, _yuvframe->linesize[1]);
+       memcpy(d, b, _yuvframe->linesize[1]);
     }
 
-    for (s= yuvframe->data[2], d= yuvframe->data[2]+(yuvframe->data[2]-yuvframe->data[1]-yuvframe->linesize[2]);
-         s < d; s+= yuvframe->linesize[2], d-= yuvframe->linesize[2])
+    for (s= _yuvframe->data[2], d= _yuvframe->data[2]+(_yuvframe->data[2]-_yuvframe->data[1]-_yuvframe->linesize[2]);
+         s < d; s+= _yuvframe->linesize[2], d-= _yuvframe->linesize[2])
     {
-       memcpy(b, s, yuvframe->linesize[2]);
-       memcpy(s, d, yuvframe->linesize[2]);
-       memcpy(d, b, yuvframe->linesize[2]);
+       memcpy(b, s, _yuvframe->linesize[2]);
+       memcpy(s, d, _yuvframe->linesize[2]);
+       memcpy(d, b, _yuvframe->linesize[2]);
     }
 
   }
 
   int out_size, ret;
 
-  if (format_ctx->oformat->flags & AVFMT_RAWPICTURE)
-    ret= av_write_frame(format_ctx, stream->index, (unsigned char*)yuvframe, sizeof(AVPicture));
+  if (_format_ctx->oformat->flags & AVFMT_RAWPICTURE)
+    ret= av_write_frame(_format_ctx, _stream->index, (unsigned char*)_yuvframe, sizeof(AVPicture));
   else
   {
-    out_size= avcodec_encode_video(&stream->codec, video_outbuf, video_outbuf_size, yuvframe);
-    ret= av_write_frame(format_ctx, 0, video_outbuf, out_size);
+    out_size= avcodec_encode_video(&_stream->codec, _video_outbuf, _video_outbuf_size, _yuvframe);
+    ret= av_write_frame(_format_ctx, 0, _video_outbuf, out_size);
   }
 
   if (ret != 0)
     throw AVCodecException("error while writing frame\n");
 
-  frame_count++;
+  _frame_count++;
 
   return;
 }
@@ -369,14 +370,14 @@ void AVCodecEncoder::writeFrame()
 \* --------------------------------------------------------------- */
 void AVCodecEncoder::setRgb(unsigned char* rgb)
 {
-  avpicture_fill((AVPicture*)rgbframe, rgb, PIX_FMT_RGB24, width(), height());
+  avpicture_fill((AVPicture*)_rgbframe, rgb, PIX_FMT_RGB24, width(), height());
   return;
 }
 
 
 void AVCodecEncoder::setBitrate(int bitrate)
 {
-  stream->codec.bit_rate= bitrate * 1000;
+  _stream->codec.bit_rate= bitrate * 1000;
   return;
 }
 /* --------------------------------------------------------------- *\
