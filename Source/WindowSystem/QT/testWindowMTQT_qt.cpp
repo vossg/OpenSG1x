@@ -150,6 +150,8 @@ void MyOSGQGLWidget::mousePressEvent ( QMouseEvent *me )
         case RightButton:
             tball.setAutoPositionNeg(true);
             break;
+        default:
+            break;
     }
     _mouseb |= me->button();    
     _lastx = me->x();
@@ -165,6 +167,8 @@ void MyOSGQGLWidget::mouseReleaseEvent ( QMouseEvent *me )
             break;
         case RightButton:
             tball.setAutoPositionNeg(false);
+            break;
+        default:
             break;
     }
     _mouseb &= me->button();
