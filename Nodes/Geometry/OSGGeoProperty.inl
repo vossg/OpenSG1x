@@ -460,6 +460,178 @@ inline UInt8 *GeoProperty<GeoPropertyDesc>::getData(void)
 }
 
 
+// generic access to properties
+
+// defaults, works for most types with same dimension as generic type
+
+template <class propertyDesc> 
+inline typename propertyDesc::GenericType
+GeoProperty<propertyDesc>::getValue( const UInt32 index )
+{
+	return _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline typename propertyDesc::GenericType
+GeoProperty<propertyDesc>::getValue( const UInt32 index ) const
+{
+	return _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::getValue( 
+		typename propertyDesc::GenericType & val,
+		const UInt32 index )
+{
+	val = _field.getValue( index );
+}
+
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::getValue( 
+		typename propertyDesc::GenericType & val,
+		const UInt32 index ) const
+{
+	val = _field.getValue( index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::setValue(
+		const typename propertyDesc::GenericType & value,
+		const UInt32 index)
+{
+	_field.setValue( value, index );
+}
+
+template <class propertyDesc> 
+inline void GeoProperty<propertyDesc>::addValue( 
+		const typename propertyDesc::GenericType & value)
+{
+	_field.addValue( value );
+}
+
+
+// special cases, mostly conversions between dimensions
+
+// Colors: Unsigned byte needs to be mapped to [0..1]
+
+// Color3ub
+
+template<>
+inline Color3f
+GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) 
+{
+	const Color3ub &val = _field.getValue( index );
+	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline Color3f
+GeoProperty<GeoColor3ubPropertyDesc>::getValue( const UInt32 index ) const
+{
+	const Color3ub &val = _field.getValue( index );
+	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor3ubPropertyDesc>::getValue( 
+	Color3f & res, 
+	const UInt32 index ) 
+{
+	const Color3ub &val = _field.getValue( index );
+	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor3ubPropertyDesc>::getValue( 
+	Color3f & res, 
+	const UInt32 index ) const
+{
+	const Color3ub &val = _field.getValue( index );
+	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor3ubPropertyDesc>::setValue( const Color3f & val,
+	const UInt32 index ) 
+{
+	_field.setValue( 
+			Color3ub( val.red() * 255., val.green() * 255., val.blue() * 255.), 
+			index );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor3ubPropertyDesc>::addValue( const Color3f & val ) 
+{
+	_field.addValue( 
+			Color3ub( val.red() * 255., val.green() * 255., val.blue() * 255.) 
+			);
+}
+
+// Color4ub
+
+template<>
+inline Color3f
+GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) 
+{
+	const Color4ub &val = _field.getValue( index );
+	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline Color3f
+GeoProperty<GeoColor4ubPropertyDesc>::getValue( const UInt32 index ) const
+{
+	const Color4ub &val = _field.getValue( index );
+	return Color3f( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor4ubPropertyDesc>::getValue( 
+	Color3f & res, 
+	const UInt32 index ) 
+{
+	const Color4ub &val = _field.getValue( index );
+	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor4ubPropertyDesc>::getValue( 
+	Color3f & res, 
+	const UInt32 index ) const
+{
+	const Color4ub &val = _field.getValue( index );
+	res.setValuesRGB( val.red()/255., val.green()/255., val.blue()/255. );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor4ubPropertyDesc>::setValue( const Color3f & val,
+	const UInt32 index ) 
+{
+	_field.setValue( 
+			Color4ub( val.red() * 255., val.green() * 255., val.blue() * 255., 255), 
+			index );
+}
+
+template<>
+inline void
+GeoProperty<GeoColor4ubPropertyDesc>::addValue( const Color3f & val ) 
+{
+	_field.addValue( 
+			Color4ub( val.red() * 255., val.green() * 255., val.blue() * 255., 255) 
+			);
+}
+
+
+
+
 /*------------------------------- dump ----------------------------------*/
 
 template <class GeoPropertyDesc> inline

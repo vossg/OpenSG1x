@@ -48,8 +48,9 @@
 #include <GL/gl.h>
 
 #include <OSGGeometryBase.h>
-#include <OSGMFVecTypes.h>
+#include <OSGMFBaseTypes.h>
 #include <OSGMFSysTypes.h>
+#include <OSGMFVecTypes.h>
 #include <OSGAttachment.h>
 
 OSG_BEGIN_NAMESPACE
@@ -120,6 +121,27 @@ class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty :
 	virtual UInt32	getDimension (void) = 0;
 	virtual UInt32	getSize      (void) = 0;
 	virtual UInt8	*getData     (void) = 0;
+	
+	// generic access to make using different types easier
+
+	virtual typename GeoPropertyDesc::GenericType 
+					getValue( const UInt32 index ) = 0;
+					
+	virtual typename GeoPropertyDesc::GenericType 
+					getValue( const UInt32 index ) const = 0;
+
+	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index ) = 0;
+
+	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index ) const = 0;
+					
+	virtual void 	setValue(
+						const typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index ) = 0;
+	
+	virtual void 	addValue(
+						const typename GeoPropertyDesc::GenericType & val ) = 0;
 	
     /*------------------------------ dump -----------------------------------*/
 
@@ -198,7 +220,6 @@ class OSG_GEOMETRY_DLLMAPPING AbstractGeoProperty :
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
 };
 
 //---------------------------------------------------------------------------
@@ -284,7 +305,31 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 	virtual UInt32	getSize      (void);		
 	virtual UInt8	*getData     (void);
 
+	// cast operator to allow using a geoProperty just like its only field
+	
 	typename GeoPropertyDesc::FieldType& operator->() { return _field; }
+
+	
+	// generic access to make using different types easier
+
+	virtual typename GeoPropertyDesc::GenericType 
+					getValue( const UInt32 index );
+					
+	virtual typename GeoPropertyDesc::GenericType 
+					getValue( const UInt32 index ) const;
+
+	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index );
+
+	virtual void	getValue( typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index ) const;
+					
+	virtual void 	setValue(
+						const typename GeoPropertyDesc::GenericType & val,
+						const UInt32 index );
+	
+	virtual void 	addValue(
+						const typename GeoPropertyDesc::GenericType & val );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -384,7 +429,7 @@ class OSG_GEOMETRY_DLLMAPPING GeoProperty : public GeoPropertyDesc::Inherit
 //   Specialized Types
 //---------------------------------------------------------------------------
 
-// For the properties not group together like type or length
+// For the properties not grouped together like type or length
 
 struct OSG_GEOMETRY_DLLMAPPING AttachmentPropertyDesc
 {
@@ -406,6 +451,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoPositionPropertyDesc
 	typedef Attachment             Inherit;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef AttachmentPtr          InheritPtr;
+	
+	typedef Pnt3f					GenericType;
 };
 
 typedef AbstractGeoProperty<GeoPositionPropertyDesc> GeoPosition;
@@ -421,7 +468,7 @@ struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoPositionPtr> : public Traits
     static Char8 *getSName (void)  { return "SFGeoPositionPtr"; }
     static Char8 *getMName (void)  { return "MFGeoPositionPtr"; }
 
-//  static String getDefault(void) { return OSGString();        }
+//  static String getDefault(void) { return String();        }
 };
 
 typedef SField<GeoPositionPtr> SFGeoPositionPtr;
@@ -447,6 +494,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoPosition3fPropertyDesc
 	typedef GeoPositionPtr          InheritPtr;
     typedef GeoPositionPropertyDesc InheritDesc;
 	typedef MFPnt3f                 FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
 };
 
 typedef GeoProperty<GeoPosition3fPropertyDesc> GeoPosition3f;
@@ -467,6 +516,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoNormalPropertyDesc
 	typedef Attachment             Inherit;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef AttachmentPtr          InheritPtr;
+	
+	typedef Vec3f					GenericType;
 };
 
 typedef AbstractGeoProperty<GeoNormalPropertyDesc> GeoNormal;
@@ -482,7 +533,7 @@ struct OSG_GEOMETRY_DLLMAPPING FieldDataTraits<GeoNormalPtr> : public Traits
     static Char8  *getSName  (void) { return "SFGeoNormalPtr"; }
     static Char8  *getMName  (void) { return "MFGeoNormalPtr"; }
 
-//  static String  getDefault(void) { return OSGString();      }
+//  static String  getDefault(void) { return String();      }
 };
 
 typedef SField<GeoNormalPtr> SFGeoNormalPtr;
@@ -508,6 +559,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoNormal3fPropertyDesc
 	typedef GeoNormalPtr          InheritPtr;
     typedef GeoNormalPropertyDesc InheritDesc;
 	typedef MFVec3f               FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
 };
 
 typedef GeoProperty<GeoNormal3fPropertyDesc> GeoNormal3f;
@@ -528,6 +581,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoColorPropertyDesc
 	typedef Attachment             Inherit;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef AttachmentPtr          InheritPtr;
+	
+	typedef Color3f					GenericType;
 };
 
 typedef AbstractGeoProperty<GeoColorPropertyDesc> GeoColor;
@@ -567,12 +622,44 @@ struct OSG_GEOMETRY_DLLMAPPING GeoColor3fPropertyDesc
 	typedef GeoColor             Inherit;
 	typedef GeoColorPtr          InheritPtr;
     typedef GeoColorPropertyDesc InheritDesc;
-	typedef MFVec3f              FieldType;
+	typedef MFColor3f              FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
 };
 
 typedef GeoProperty<GeoColor3fPropertyDesc> GeoColor3f;
 
 typedef GeoColor3f::PtrType GeoColor3fPtr;
+
+
+// Color 3ub
+
+
+struct OSG_GEOMETRY_DLLMAPPING GeoColor3ubPropertyDesc
+{
+	static const Char8 *getTypeName  (void) { return "GeoColor3ub";         }
+	static const Char8 *getClassName (void) { return "GeoColor3ubProperty"; }
+	static const Char8 *getFieldName (void) { return "Colors";              }
+	static const Char8 *getGroupName (void) { return "GeoColor";            }
+
+	static InitContainerF getInitMethod(void) { return NULL; }
+
+	static UInt32 getFormat    (void)   { return GL_UNSIGNED_BYTE; }
+	static UInt32 getFormatSize(void)   { return sizeof(GLubyte);  }
+	static UInt32 getDimension (void)   { return 3;                }
+	static UInt32 getStride    (void)   { return 0;                }
+
+	typedef GeoColor             Inherit;
+	typedef GeoColorPtr          InheritPtr;
+    typedef GeoColorPropertyDesc InheritDesc;
+	typedef MFColor3ub             FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
+};
+
+typedef GeoProperty<GeoColor3ubPropertyDesc> GeoColor3ub;
+
+typedef GeoColor3ub::PtrType GeoColor3ubPtr;
 
 
 // Color 4ub
@@ -595,7 +682,9 @@ struct OSG_GEOMETRY_DLLMAPPING GeoColor4ubPropertyDesc
 	typedef GeoColor             Inherit;
 	typedef GeoColorPtr          InheritPtr;
     typedef GeoColorPropertyDesc InheritDesc;
-	typedef MFVec4ub             FieldType;
+	typedef MFColor4ub             FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
 };
 
 typedef GeoProperty<GeoColor4ubPropertyDesc> GeoColor4ub;
@@ -616,6 +705,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoIndexPropertyDesc
 	typedef Attachment             Inherit;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef AttachmentPtr          InheritPtr;
+	
+	typedef UInt32					GenericType;
 };
 
 typedef AbstractGeoProperty<GeoIndexPropertyDesc> GeoIndex;
@@ -656,6 +747,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoIndexUI32PropertyDesc
 	typedef GeoIndexPtr          InheritPtr;
     typedef GeoIndexPropertyDesc InheritDesc;
 	typedef MFUInt32             FieldType;
+	
+	typedef InheritDesc::GenericType	GenericType;
 };
 
 typedef GeoProperty<GeoIndexUI32PropertyDesc> GeoIndexUI32;
@@ -690,6 +783,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoPTypePropertyDesc
 	typedef AttachmentPtr          InheritPtr;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef MFUInt8                FieldType;
+	
+	typedef UInt8					GenericType;
 };
 
 typedef GeoProperty<GeoPTypePropertyDesc> GeoPType;
@@ -736,6 +831,8 @@ struct OSG_GEOMETRY_DLLMAPPING GeoPLengthPropertyDesc
 	typedef AttachmentPtr          InheritPtr;
 	typedef AttachmentPropertyDesc InheritDesc;
 	typedef MFUInt32               FieldType;
+	
+	typedef UInt32					GenericType;
 };
 
 typedef GeoProperty<GeoPLengthPropertyDesc> GeoPLength;
