@@ -98,7 +98,8 @@ int main(int argc,char **argv)
     char           *connectionType="StreamSock";
     bool           fullscreen     =true;
     std::string    address        ="";
-    int width=-1,height=300,x=0,y=0;
+    int            width=-1,height=300,x=0,y=0;
+    bool           doStereo=false;
 
     for(int i=1;i<argc;i++)
     {
@@ -108,6 +109,9 @@ int main(int argc,char **argv)
             {
                 case 'm':
                     connectionType="Multicast";
+                    break;
+                case 's':
+                    doStereo=true;
                     break;
                 case 'w':
                     fullscreen=false;
@@ -130,12 +134,14 @@ int main(int argc,char **argv)
                 case 'h':
                     std::cout << argv[0] 
                               << "-m "
+                              << "-s "
                               << "-w "
                               << "-e "
                               << "-gw,h,x,y "
                               << "-aAddress "
                               << std::endl;
                     std::cout << "-m        use multicast" << std::endl;
+                    std::cout << "-s        enable stereo" << std::endl;
                     std::cout << "-w        no fullscreen" << std::endl;
                     std::cout << "-e        exit after closed connection" 
                               << std::endl;
@@ -152,7 +158,15 @@ int main(int argc,char **argv)
     {
         osgInit(argc, argv);
         glutInit(&argc, argv);
-        glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+        if(doStereo)
+            glutInitDisplayMode( GLUT_STEREO | 
+                                 GLUT_RGB | 
+                                 GLUT_DEPTH | 
+                                 GLUT_DOUBLE);
+        else
+            glutInitDisplayMode( GLUT_RGB | 
+                                 GLUT_DEPTH | 
+                                 GLUT_DOUBLE);
         glutInitWindowPosition(x,y);
         if(width>0)
             glutInitWindowSize(width,height);
