@@ -396,7 +396,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
     // Get the positions property
     if(geo->getPositions() == NullFC)
     {
-        FFATAL(("Geo without positions in calcVertexNormals()\n"));
+        FINFO(("Geo without positions in calcVertexNormals()\n"));
         return;
     }
     else
@@ -406,7 +406,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
 
     if(positions->size() < 3)
     {
-        FFATAL(("Geo with less than 3 positions in calcVertexNormals()\n"));
+        FINFO(("Geo with less than 3 positions in calcVertexNormals()\n"));
         return;
     }
 
@@ -436,7 +436,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
     // HACK but without indices it crashes.
     if(ip == NullFC || ip->size() == 0)
     {
-        FFATAL(("Geo without indices in calcVertexNormals()\n"));
+        FINFO(("Geo without indices in calcVertexNormals()\n"));
         return;
     }
 
@@ -1048,7 +1048,7 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
 
     if(!pN)
     {
-        FWARNING(("No points in OSG::setIndexFromVRMLData()\n"));
+        FINFO(("No points in OSG::setIndexFromVRMLData()\n"));
         return 0;
     }
     else
@@ -1778,7 +1778,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     // can't eval what combination was meant
     if ( srcTexIndex < 0 || srcTexIndex > 3 || 
         (dstAttribTan == -1 && dstAttribBin == -1)) {
-        FFATAL(("Index set not supported in calcVertexNormals()\n"));
+        FFATAL(("Index set not supported in calcVertexTangents()\n"));
         return;
     }
     
@@ -1786,7 +1786,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         
     // HACK but without indices it crashes
     if (ip == NullFC || ip->size() == 0) {
-        FFATAL(("Geo without indices in calcVertexNormals()\n"));
+        FFATAL(("Geo without indices in calcVertexTangents()\n"));
         return;
     }
     
@@ -1794,7 +1794,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     
     // Get the positions property
     if (positions == NullFC) {
-        FFATAL(("Geo without positions in calcVertexNormals()\n"));
+        FFATAL(("Geo without positions in calcVertexTangents()\n"));
         return;
     }
 
@@ -2102,8 +2102,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
     if(pN && (indexPtr != NullFC))
     {
-        FNOTICE((
-                                "GeoOpt: start/tri cost: %d/%d imp: %d tri/line/point: %d/%d/%d\n",
+        FDEBUG(("GeoOpt: start/tri cost: %d/%d imp: %d tri/line/point: %d/%d/%d\n",
                     startCost, (triN * 3), indexMapSize, triN, lineN, pointN));
 
         inputT = getSystemTime();
@@ -2131,7 +2130,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
                 invalidTriCount += graph.setNode(triCount++, v[0], v[1], v[2]) ? 0 : 1;
             }
 
-            FNOTICE(("Multi-index dic entry: %d/%d\n", indexDic.entryCount(),
+            FDEBUG(("Multi-index dic entry: %d/%d\n", indexDic.entryCount(),
                                     (triN * 3)));
         }
         else
@@ -2149,7 +2148,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
         if(invalidTriCount)
         {
-            FWARNING(("%d invalid tri during halfegde construction found\n",
+            FNOTICE(("%d invalid tri during halfegde construction found\n",
                                      invalidTriCount));
         }
 
@@ -2290,12 +2289,12 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
             if(cost != bestCost)
             {
-                FFATAL(("cost != bestCost: %d/%d; we lost some nodes !\n",
+                FWARNING(("cost != bestCost: %d/%d; we lost some nodes !\n",
                                            cost, bestCost));
             }
             else
             {
-                FNOTICE(("OptResult: %2g%%, Sampling (%di): cost %d/%d \n",
+                FINFO(("OptResult: %2g%%, Sampling (%di): cost %d/%d \n",
                                             double(double(bestCost) / double(
                                                 startCost) * 100.0
                                     ), iteration, bestCost, worstCost));
@@ -2303,8 +2302,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         }
         else
         {
-            FNOTICE((
-                                        "startCost (%d) <= bestCost (%d), triCost(%d); keep geo data\n",
+            FINFO(("startCost (%d) <= bestCost (%d), triCost(%d); keep geo data\n",
                             startCost, bestCost, (triN * 3)));
         }
     }
@@ -2363,7 +2361,7 @@ void OSG_APIENTRY gluTessEndCB()
 //Error handler: Called by the GLU Tesselator to signal errors
 void OSG_APIENTRY gluTessErrorCB(GLenum errNo)
 {
-    FFATAL(("gluTesselator Error: %s\n", gluErrorString(errNo)));
+    FWARNING(("gluTesselator Error: %s\n", gluErrorString(errNo)));
 }
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
@@ -2403,7 +2401,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
 
   if(geoPtr == NullFC)
   {
-      FFATAL(("Invalid geoPtr in createSharedIndex()\n"));
+      FINFO(("Invalid geoPtr in createConvexPrimitives()\n"));
       return;
   }
 
@@ -2430,19 +2428,19 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   // determine whether the geometry is indexed
   indexPtr =  GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
   indexed = (indexPtr == NullFC) ?  false : true;
-  FINFO(("Indexed: %d\n",indexed));
+  FDEBUG(("Indexed: %d\n",indexed));
 
   // skip geometry if it is empty or not indexed
   if(!indexed)
   {
-      FNOTICE(("Skipping nonindexed geometry in createConvexPrimitives()\n"));
+      FINFO(("Skipping nonindexed geometry in createConvexPrimitives()\n"));
       return;
   }
   else
   {
       if(geoPtr->getIndices()->size() == 0)
       {
-          FNOTICE(("Skipping empty geometry in createConvexPrimitives()\n")); 
+          FINFO(("Skipping empty geometry in createConvexPrimitives()\n")); 
           return;
       }
   }
@@ -2508,7 +2506,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   primI = geoPtr->beginPrimitives();
   for(;primI != geoPtr->endPrimitives(); ++primI)
   {
-      FINFO(("Primitive index: %d\n", primI.getIndex()));
+      FDEBUG(("Primitive index: %d\n", primI.getIndex()));
       
       // if the primitive is not of type GL_POLYGON just copy its contents
       if(primI.getType() != GL_POLYGON)
@@ -2516,7 +2514,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
           FDEBUG(("Not a GL_POLYGON. Copying properties\n"));
           if(!indexed)
           {
-              FFATAL(("Nonindexed geometries are not implemented!\n"));
+              FWARNING(("createConvexPrimitives(): Nonindexed geometries are not implemented!\n"));
           }
           else
           {
@@ -2539,7 +2537,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
       // Process GL_POLYGONs i.e. tesselate them
       else
       {
-          FINFO(("Tesselating GL_POLYGON (PrimitiveIndex: %d, Vertices %d)\n",
+          FDEBUG(("Tesselating GL_POLYGON (PrimitiveIndex: %d, Vertices %d)\n",
                  primI.getIndex(), primI.getLength()));
 
           inIndexV.clear();  
@@ -2611,7 +2609,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
           
           if(!indexed)
           {
-              FFATAL(("Nonindexed geometries are not impled\n"));
+              FWARNING(("createConvexPrimitives(): Nonindexed geometries are not implemented!\n"));
           }
           else
           {
@@ -2707,12 +2705,12 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
         }
         else
         {
-            FFATAL(("Invalid geoPtr->getPositions() in createSharedIndex()\n"));
+            FNOTICE(("Invalid geoPtr->getPositions() in createSharedIndex()\n"));
         }
     }
     else
     {
-        FFATAL(("Invalid geoPtr in createSharedIndex()\n"));
+        FNOTICE(("Invalid geoPtr in createSharedIndex()\n"));
     }
 
     if(indexPtr != NullFC)
@@ -2774,7 +2772,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                         }
                         else
                         {
-                            FFATAL(("Invalid slaveProp %d\n", (mapMask & propMask)
+                            FWARNING(("Invalid slaveProp %d\n", (mapMask & propMask)
                                                        ));
                         }
                     }
@@ -2847,11 +2845,11 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
             }
             else
             {
-                FFATAL(("Invalid masterProp %p, mask: %d, block: %d\n",
+                FWARNING(("Invalid masterProp %p, mask: %d, block: %d\n",
                                            masterProp, propMask, indexBlock));
             }
 
-            FNOTICE(("Create sharedIndex: %d/%d pass; "
+            FINFO(("Create sharedIndex: %d/%d pass; "
                      "data/index remap: %d/%d \n",
                             indexBlock, int(propMask), dataRemapCount, 
                             indexRemapCount));
@@ -2973,7 +2971,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
         }
         else
         {
-            FFATAL(("No valid finalMask in createSingleIndex()\n"));
+            FWARNING(("No valid finalMask in createSingleIndex()\n"));
         }
     }
 
@@ -3012,7 +3010,7 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
 
     if(geoPtr == OSG::NullFC)
     {
-        FWARNING(("No geo in calcPrimitiveCount\n"));
+        FINFO(("No geo in calcPrimitiveCount\n"));
     }
     else
     {
@@ -3047,7 +3045,7 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
 
                 if(pos == OSG::NullFC)
                 {
-                    FWARNING(("calcPrimitiveCount: no Points!\n"));
+                    FINFO(("calcPrimitiveCount: no Points!\n"));
                     return 0;
                 }
 
@@ -3087,7 +3085,7 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
                 triangle += len - 2;
                 break;
             default:
-                FWARNING(("Invalid geoType: %d\n", type));
+                FWARNING(("calcPrimitiveCount(): Invalid geoType: %d\n", type));
                 break;
             }
 
