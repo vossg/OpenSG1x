@@ -3,9 +3,12 @@
 
 #include <OSGConfig.h>
 
+#ifdef FREETYPE1_LIB
+
 #include "OSGVectorFontGlyph.h"
 #include "OSGTTFontGlyph.h"
-#include "freetype1/freetype/freetype.h.h"
+
+#include "freetype1/freetype/freetype.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -70,6 +73,7 @@ typedef TTVectorFontGlyph* TTVectorFontGlyphP;
 
 OSG_END_NAMESPACE
 
+#endif // FREETYPE1_LIB
 
 #endif // TTVECTORGLYPH_CLASS_DECLARATION
 

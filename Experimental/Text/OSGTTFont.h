@@ -3,8 +3,10 @@
 
 #include <OSGConfig.h>
 
+#ifdef FREETYPE1_LIB
+
 #include "OSGFont.h"
-#include "freetype1/freetype/freetype.h.h"
+#include "freetype1/freetype/freetype.h"
 
 
 
@@ -56,5 +58,6 @@ OSG_END_NAMESPACE
 
 typedef osg::TTFont* TTFontP;
 
+#endif // FREETYPE1_LIB
 
 #endif // TTFONT_CLASS_DECLARATION

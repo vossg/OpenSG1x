@@ -13,7 +13,7 @@
 
 
 // Application declarations
-#include "freetype1/freetype/freetype.h.h"
+#include "freetype1/freetype/freetype.h"
 
 // Class declarations
 #include "OSGTXFImageFontGlyph.h"

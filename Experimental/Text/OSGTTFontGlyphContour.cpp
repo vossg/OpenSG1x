@@ -4,7 +4,7 @@
 #ifdef FREETYPE1_LIB
 
 // Application declarations
-#include "freetype1/freetype/freetype.h.h"
+#include "freetype1/freetype/freetype.h"
 
 
 // Class declarations

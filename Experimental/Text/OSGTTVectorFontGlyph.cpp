@@ -11,7 +11,7 @@
 
 
 // Application declarations
-#include "freetype1/freetype/freetype.h.h"
+#include "freetype1/freetype/freetype.h"
 #include "OSGTTFontGlyphContour.h"
 
 // Class declarations
