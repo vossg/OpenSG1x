@@ -47,4 +47,13 @@ The base class for all windows.
 	>
 	Broadcastport used for server search
 	</Field>
+	<Field
+		name="broadcastAddress"
+		type="string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Broadcast address used for server search
+	</Field>
 </FieldContainer>

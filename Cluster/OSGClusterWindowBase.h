@@ -90,17 +90,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
     enum
     {
-        ServersFieldId        = Inherited::NextFieldId,
-        ConnectionTypeFieldId = ServersFieldId        + 1,
-        ClientWindowFieldId   = ConnectionTypeFieldId + 1,
-        ServicePortFieldId    = ClientWindowFieldId   + 1,
-        NextFieldId           = ServicePortFieldId    + 1
+        ServersFieldId          = Inherited::NextFieldId,
+        ConnectionTypeFieldId   = ServersFieldId          + 1,
+        ClientWindowFieldId     = ConnectionTypeFieldId   + 1,
+        ServicePortFieldId      = ClientWindowFieldId     + 1,
+        BroadcastAddressFieldId = ServicePortFieldId      + 1,
+        NextFieldId             = BroadcastAddressFieldId + 1
     };
 
     static const osg::BitVector ServersFieldMask;
     static const osg::BitVector ConnectionTypeFieldMask;
     static const osg::BitVector ClientWindowFieldMask;
     static const osg::BitVector ServicePortFieldMask;
+    static const osg::BitVector BroadcastAddressFieldMask;
 
 
     /*---------------------------------------------------------------------*/
@@ -125,30 +127,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFServers        (void);
-           SFString            *getSFConnectionType (void);
-           SFWindowPtr         *getSFClientWindow   (void);
-           SFUInt32            *getSFServicePort    (void);
+           MFString            *getMFServers         (void);
+           SFString            *getSFConnectionType  (void);
+           SFWindowPtr         *getSFClientWindow    (void);
+           SFUInt32            *getSFServicePort     (void);
+           SFString            *getSFBroadcastAddress(void);
 
-           string              &getConnectionType (void);
-     const string              &getConnectionType (void) const;
-           WindowPtr           &getClientWindow   (void);
-     const WindowPtr           &getClientWindow   (void) const;
-           UInt32              &getServicePort    (void);
-     const UInt32              &getServicePort    (void) const;
-           string              &getServers        (const UInt32 index);
-           MFString            &getServers        (void);
-     const MFString            &getServers        (void) const;
+           string              &getConnectionType  (void);
+     const string              &getConnectionType  (void) const;
+           WindowPtr           &getClientWindow    (void);
+     const WindowPtr           &getClientWindow    (void) const;
+           UInt32              &getServicePort     (void);
+     const UInt32              &getServicePort     (void) const;
+           string              &getBroadcastAddress(void);
+     const string              &getBroadcastAddress(void) const;
+           string              &getServers         (const UInt32 index);
+           MFString            &getServers         (void);
+     const MFString            &getServers         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setConnectionType ( const string &value );
-     void setClientWindow   ( const WindowPtr &value );
-     void setServicePort    ( const UInt32 &value );
-
+     void setConnectionType  ( const string &value );
+     void setClientWindow    ( const WindowPtr &value );
+     void setServicePort     ( const UInt32 &value );
+     void setBroadcastAddress( const string &value );
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
@@ -197,6 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     SFString            _sfConnectionType;
     SFWindowPtr         _sfClientWindow;
     SFUInt32            _sfServicePort;
+    SFString            _sfBroadcastAddress;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

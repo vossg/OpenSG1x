@@ -76,6 +76,8 @@ const OSG::BitVector  ClusterWindowBase::ClientWindowFieldMask =
 const OSG::BitVector  ClusterWindowBase::ServicePortFieldMask = 
     (1 << ClusterWindowBase::ServicePortFieldId);
 
+const osg::BitVector ClusterWindowBase::BroadcastAddressFieldMask=
+    (1 << ClusterWindowBase::BroadcastAddressFieldId);
 
 
 // Field descriptions
@@ -116,7 +118,13 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      "servicePort", 
                      ServicePortFieldId, ServicePortFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getSFServicePort)
+                     (FieldAccessMethod) &ClusterWindowBase::getSFServicePort),
+
+    new FieldDescription(SFString::getClassType(), 
+                     "broadcastAddress", 
+                     BroadcastAddressFieldId, BroadcastAddressFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFBroadcastAddress)
 };
 
 //! ClusterWindow type
@@ -179,6 +187,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfConnectionType         (), 
     _sfClientWindow           (), 
     _sfServicePort            (UInt32(8437)), 
+    _sfBroadcastAddress       (),
     Inherited() 
 {
 }
@@ -194,6 +203,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfConnectionType         (source._sfConnectionType         ), 
     _sfClientWindow           (source._sfClientWindow           ), 
     _sfServicePort            (source._sfServicePort            ), 
+    _sfBroadcastAddress       (source._sfBroadcastAddress       ),
     Inherited                 (source)
 {
 }
@@ -232,6 +242,10 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfServicePort.getBinSize();
     }
 
+    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    {
+        returnValue += _sfBroadcastAddress.getBinSize();
+    }
 
     return returnValue;
 }
@@ -259,6 +273,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
     {
         _sfServicePort.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    {
+        _sfBroadcastAddress.copyToBin(pMem);
     }
 
 
@@ -289,13 +308,15 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfServicePort.copyFromBin(pMem);
     }
 
-
+    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    {
+        _sfBroadcastAddress.copyFromBin(pMem);
+    }
 }
 
 void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
                                         const BitVector         &whichField)
 {
-
     Inherited::executeSyncImpl(pOther, whichField);
 
     if(FieldBits::NoField != (ServersFieldMask & whichField))
@@ -310,7 +331,8 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
         _sfServicePort.syncWith(pOther->_sfServicePort);
 
-
+    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+        _sfBroadcastAddress.syncWith(pOther->_sfBroadcastAddress);
 }
 
 

@@ -120,6 +120,12 @@ SFUInt32 *ClusterWindowBase::getSFServicePort(void)
     return &_sfServicePort;
 }
 
+inline
+SFString *ClusterWindowBase::getSFBroadcastAddress(void)
+{
+    return &_sfBroadcastAddress;
+}
+
 
 inline
 string &ClusterWindowBase::getConnectionType(void)
@@ -175,6 +181,23 @@ void ClusterWindowBase::setServicePort(const UInt32 &value)
     _sfServicePort.setValue(value);
 }
 
+inline
+string &ClusterWindowBase::getBroadcastAddress(void)
+{
+    return _sfBroadcastAddress.getValue();
+}
+
+inline
+const string &ClusterWindowBase::getBroadcastAddress(void) const
+{
+    return _sfBroadcastAddress.getValue();
+}
+
+inline
+void ClusterWindowBase::setBroadcastAddress(const string &value)
+{
+    _sfBroadcastAddress.setValue(value);
+}
 
 inline
 string &ClusterWindowBase::getServers(const UInt32 index)

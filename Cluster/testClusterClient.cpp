@@ -49,6 +49,8 @@ vector<Quaternion>    animOri;
 vector<Vec3f     >    animPos;
 string                animName="animation.txt";
 Real32                animTime=0;
+string                broadcastAddress;
+bool                  broadcastAddressValid = false;
 
 void loadAnim()
 {
@@ -533,8 +535,17 @@ void init(vector<char *> &filenames)
     else
         clusterWindow->setSize( glvp[2], glvp[3] );
     clusterWindow->addPort( vp1 );
+
     if(multiport || doStereo)
         clusterWindow->addPort( vp2 );
+
+    if(broadcastAddressValid == true)
+    {
+        clusterWindow->setBroadcastAddress(broadcastAddress);
+
+        fprintf(stderr, "tcclient use ba %s\n", broadcastAddress.c_str());
+    }
+
 	endEditCP(clusterWindow);
 
     // tball
@@ -589,6 +600,10 @@ int main(int argc,char **argv)
             {
                 switch(argv[i][1])
                 {
+                    case 'b':
+                        broadcastAddress.assign(argv[i]+2);
+                        broadcastAddressValid = true;
+                        break;
                     case 'f':
                         filenames.push_back(argv[i]+2);
                         break;

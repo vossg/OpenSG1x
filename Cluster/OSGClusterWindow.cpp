@@ -204,9 +204,20 @@ void ClusterWindow::init( void )
                     msg.clear();
                     msg.putString(*s);
                     msg.putString(getConnectionType());
-                    serviceSock.sendTo(
-                        msg,SocketAddress(SocketAddress::BROADCAST,
-                                          getServicePort()));
+                    
+                    if(_sfBroadcastAddress.getValue().size() != 0)
+                    {
+                        serviceSock.sendTo(
+                            msg,SocketAddress(
+                                _sfBroadcastAddress.getValue().c_str(),
+                                getServicePort()));
+                    }
+                    else
+                    {
+                        serviceSock.sendTo(
+                            msg,SocketAddress(SocketAddress::BROADCAST,
+                                              getServicePort()));
+                    }
                 }
                 while(serviceSock.waitReadable(2)==false);
                 serviceSock.recv(msg);
