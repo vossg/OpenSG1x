@@ -111,106 +111,105 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
 {
     TextureChunkPtr tex = getTexture();
     
-    if( tex != NullFC )
-    {
-        GLboolean light = glIsEnabled(GL_LIGHTING);
-        if (light)  
-            glDisable(GL_LIGHTING);
-    
-        GLint fill[2];
-        glGetIntegerv(GL_POLYGON_MODE, fill);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
-        glClear(GL_DEPTH_BUFFER_BIT);
-    
-        GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
-        glDisable(GL_DEPTH_TEST);
-    
-        GLint depthFunc;
-        glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
-        glDepthFunc(GL_ALWAYS);
-    
-        glEnable(GL_TEXTURE_2D);
-        glDepthMask(GL_FALSE);
-    
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glLoadIdentity();
-    
-        glMatrixMode(GL_PROJECTION);
-        glPushMatrix();
-    
-        glLoadIdentity();
-        glOrtho(0, 1, 0, 1, 0, 1);
-    
-        tex->activate(action);
-    
-        if(tex->isTransparent())
-        {
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glEnable(GL_BLEND);
-        }
-        
-        if(getTexCoords().getSize() < 4)
-        {
-            // set some default texture coordinates.
-            glBegin(GL_QUADS);
-                glTexCoord2f(0.0f, 0.0f);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glTexCoord2f(1.0f, 0.0f);
-                glVertex3f(1.0f, 0.0f, 0.0f);
-                glTexCoord2f(1.0f, 1.0f);
-                glVertex3f(1.0f, 1.0f, 0.0f);
-                glTexCoord2f(0.0f, 1.0f);
-                glVertex3f(0.0f, 1.0f, 0.0f);
-            glEnd();
-        }
-        else
-        {
-            glBegin(GL_QUADS);
-                glTexCoord2f(getTexCoords()[0].getValues()[0],
-                             getTexCoords()[0].getValues()[1]);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[3].getValues()[0],
-                             getTexCoords()[3].getValues()[1]);
-                glVertex3f(1.0f, 0.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[2].getValues()[0],
-                             getTexCoords()[2].getValues()[1]);
-                glVertex3f(1.0f, 1.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[1].getValues()[0],
-                             getTexCoords()[1].getValues()[1]);
-                glVertex3f(0.0f, 1.0f, 0.0f);
-            glEnd();
-        }
-        
-        if(tex->isTransparent())
-        {
-            glDisable(GL_BLEND);
-        }
-        tex->deactivate(action);
-    
-        glDepthMask(GL_TRUE);
-        if(depth)    
-            glEnable(GL_DEPTH_TEST);
-        glDepthFunc(depthFunc);
-    
-        glPolygonMode(GL_FRONT, fill[0]);
-        glPolygonMode(GL_BACK , fill[1]);
-        if(light)  
-            glEnable(GL_LIGHTING);
-        glColor3f(1.0f, 1.0f, 1.0f);
-
-        glDisable(GL_TEXTURE_2D);
-    
-        glPopMatrix();
-        glMatrixMode(GL_MODELVIEW);
-        glPopMatrix();
-    }
-    else
+    if(tex == NullFC)
     {
         glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        return;
     }
+
+    GLboolean light = glIsEnabled(GL_LIGHTING);
+    if (light == GL_TRUE)  
+        glDisable(GL_LIGHTING);
+
+    GLint fill[2];
+    glGetIntegerv(GL_POLYGON_MODE, fill);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
+
+    GLint depthFunc;
+    glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
+    glDepthFunc(GL_ALWAYS);
+
+    glDepthMask(GL_FALSE);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+
+    glLoadIdentity();
+    glOrtho(0, 1, 0, 1, 0, 1);
+
+    tex->activate(action);
+
+    if(tex->isTransparent())
+    {
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_BLEND);
+    }
+    
+    if(getTexCoords().getSize() < 4)
+    {
+        // set some default texture coordinates.
+        glBegin(GL_QUADS);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(1.0f, 1.0f, 0.0f);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(0.0f, 1.0f, 0.0f);
+        glEnd();
+    }
+    else
+    {
+        glBegin(GL_QUADS);
+            glTexCoord2f(getTexCoords()[0].getValues()[0],
+                         getTexCoords()[0].getValues()[1]);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glTexCoord2f(getTexCoords()[3].getValues()[0],
+                         getTexCoords()[3].getValues()[1]);
+            glVertex3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(getTexCoords()[2].getValues()[0],
+                         getTexCoords()[2].getValues()[1]);
+            glVertex3f(1.0f, 1.0f, 0.0f);
+            glTexCoord2f(getTexCoords()[1].getValues()[0],
+                         getTexCoords()[1].getValues()[1]);
+            glVertex3f(0.0f, 1.0f, 0.0f);
+        glEnd();
+    }
+    
+    if(tex->isTransparent())
+    {
+        glDisable(GL_BLEND);
+    }
+    
+    tex->deactivate(action);
+
+    glClear(GL_DEPTH_BUFFER_BIT);
+    
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    
+    glDepthMask(GL_TRUE);
+    if(depth)    
+        glEnable(GL_DEPTH_TEST);
+    glDepthFunc(depthFunc);
+
+    glPolygonMode(GL_FRONT, fill[0]);
+    glPolygonMode(GL_BACK , fill[1]);
+    if(light)  
+        glEnable(GL_LIGHTING);
+    glColor3f(1.0f, 1.0f, 1.0f);
 }
 
 void TextureBackground::dump(UInt32,
@@ -233,7 +232,7 @@ void TextureBackground::dump(UInt32,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.2 2004/01/25 13:41:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.3 2004/02/03 15:31:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 
