@@ -285,6 +285,16 @@ Bool DrawAction::operator != (const DrawAction &other) const
 \*-------------------------------------------------------------------------*/
 
 
+vector<DrawAction::Functor>* DrawAction::getDefaultEnterFunctors( void )
+{
+	return _defaultEnterFunctors;
+}
+
+vector<DrawAction::Functor>* DrawAction::getDefaultLeaveFunctors( void )
+{
+	return _defaultLeaveFunctors;
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/

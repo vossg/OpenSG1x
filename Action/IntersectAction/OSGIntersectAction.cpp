@@ -84,7 +84,7 @@ The intersect action class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.4 2001/02/13 15:39:20 dirk Exp $";
+char IntersectAction::cvsid[] = "@(#)$Id: OSGIntersectAction.cpp,v 1.5 2001/04/15 01:47:12 dirk Exp $";
 
 IntersectAction * IntersectAction::_prototype = NULL;
 
@@ -328,6 +328,16 @@ Bool IntersectAction::operator != (const IntersectAction &other) const
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
+
+vector<IntersectAction::Functor>* IntersectAction::getDefaultEnterFunctors( void )
+{
+	return _defaultEnterFunctors;
+}
+
+vector<IntersectAction::Functor>* IntersectAction::getDefaultLeaveFunctors( void )
+{
+	return _defaultLeaveFunctors;
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

@@ -214,6 +214,11 @@ class OSG_INTERSECTACTION_DLLMAPPING IntersectAction : public Action
 
 	virtual Action::ResultE start( void );	
 
+	// access default functors
+
+	virtual vector<Functor>* getDefaultEnterFunctors( void );
+	virtual vector<Functor>* getDefaultLeaveFunctors( void );
+
   private:
 
     //-----------------------------------------------------------------------

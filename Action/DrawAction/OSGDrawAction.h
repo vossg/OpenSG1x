@@ -194,6 +194,11 @@ class OSG_DRAWACTION_DLLMAPPING DrawAction : public Action
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
+	// access default functors
+
+	virtual vector<Functor>* getDefaultEnterFunctors( void );
+	virtual vector<Functor>* getDefaultLeaveFunctors( void );
+
   private:
 
     //-----------------------------------------------------------------------
