@@ -137,8 +137,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
 
     /*------------------------- your_operators ------------------------------*/
 
-    void push_matrix(const Matrix &matrix);
-    void pop_matrix (void);
+    void          push_matrix(const Matrix &matrix);
+    void          pop_matrix (      void          );
+
+    const Matrix &top_matrix (      void          );
 
     /*------------------------- assignment ----------------------------------*/
 
@@ -184,6 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public DrawActionBase
     UInt32               _uiMatrixId;
 
     MatrixStore          _currMatrix;
+    Matrix               _camInverse;
+    Matrix               _accMatrix;
 
     vector<MatrixStore>  _vMatrixStack;
 

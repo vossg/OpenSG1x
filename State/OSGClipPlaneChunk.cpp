@@ -48,6 +48,7 @@
 #include <OSGConfig.h>
 
 #include <OSGDrawActionBase.h>
+#include <OSGRenderAction.h>
 #include <OSGCamera.h>
 
 #include "OSGClipPlaneChunk.h"
@@ -126,13 +127,29 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
 {
 //    SWARNING << "ClipPlaneChunk::activate(idx:" << idx << ") : " << this << endl;
 
-    Matrix beaconMat = action->getActNode()->getToWorld();
-    Matrix cameraMat = action->getCamera()->getBeacon()->getToWorld();
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+    Matrix beaconMat;
+
+    if(ra != NULL)
+    {
+        beaconMat = ra->top_matrix();
+    }
+    else
+    {
+        beaconMat = action->getActNode()->getToWorld();
+    }
+
+
+    Matrix cameraMat = action->getCameraToWorld();
+
     cameraMat.invert();
+
 //    SWARNING << "cameraMat:" << endl << cameraMat << endl;
 
-    if (getBeacon() != NullFC) {
-	beaconMat = getBeacon()->getToWorld();
+    if(getBeacon() != NullFC) 
+    {
+        getBeacon()->getToWorld(beaconMat);
 //	SWARNING << "beaconMat:" << endl << beaconMat << endl;
     }
     else
@@ -147,20 +164,20 @@ void ClipPlaneChunk::activate ( DrawActionBase *action, UInt32 idx)
     if ( _sfEnable.getValue() != GL_FALSE )
     {
         GLdouble glEq[4];
-	Vec4f   & eq = _sfEquation.getValue();
-	glEq[0] = eq[0];
-	glEq[1] = eq[1];
-	glEq[2] = eq[2];
-	glEq[3] = eq[3];
-
-	glMatrixMode(GL_MODELVIEW_MATRIX);
-	glPushMatrix();
-	glLoadMatrixf(cameraMat.getValues());
-	
+        Vec4f   & eq = _sfEquation.getValue();
+        glEq[0] = eq[0];
+        glEq[1] = eq[1];
+        glEq[2] = eq[2];
+        glEq[3] = eq[3];
+        
+        glMatrixMode(GL_MODELVIEW_MATRIX);
+        glPushMatrix();
+        glLoadMatrixf(cameraMat.getValues());
+        
         glClipPlane( GL_CLIP_PLANE0 + idx, glEq );
         glEnable( GL_CLIP_PLANE0 + idx );
-
-	glPopMatrix();
+        
+        glPopMatrix();
 	
 //	SWARNING << " - ENABLED plane" << endl;
     }
@@ -180,13 +197,29 @@ void ClipPlaneChunk::changeFrom( DrawActionBase *action, StateChunk * old_chunk,
     if ( old == this )
         return;
 
-    Matrix beaconMat = action->getActNode()->getToWorld();
-    Matrix cameraMat = action->getCamera()->getBeacon()->getToWorld();
+
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+    Matrix beaconMat;
+
+    if(ra != NULL)
+    {
+        beaconMat = ra->top_matrix();
+    }
+    else
+    {
+        beaconMat = action->getActNode()->getToWorld();
+    }
+
+
+    Matrix cameraMat = action->getCameraToWorld();
+
     cameraMat.invert();
 //    SWARNING << "cameraMat:" << endl << cameraMat << endl;
 
-    if (getBeacon() != NullFC) {
-	beaconMat = getBeacon()->getToWorld();
+    if (getBeacon() != NullFC) 
+    {
+        getBeacon()->getToWorld(beaconMat);
 //	SWARNING << "beaconMat:" << endl << beaconMat << endl;
     }
     else
@@ -308,7 +341,7 @@ bool ClipPlaneChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunk.cpp,v 1.1 2002/07/17 13:39:37 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneChunk.cpp,v 1.2 2002/08/26 07:38:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANECHUNKBASE_INLINE_CVSID;
 

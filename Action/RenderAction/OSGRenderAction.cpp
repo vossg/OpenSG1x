@@ -580,7 +580,9 @@ void RenderAction::dropLight(LightBase *pLight)
 
         Matrix fromworld,tobeacon;
         
-        getActNode()->getToWorld(fromworld);
+//        getActNode()->getToWorld(fromworld);
+
+        fromworld = _currMatrix.second;
         fromworld.invert();
 
         NodePtr beacon = pLight->getBeacon();
@@ -591,7 +593,7 @@ void RenderAction::dropLight(LightBase *pLight)
         }
         else
         {
-            beacon->getToWorld( tobeacon );
+            beacon->getToWorld(tobeacon);
     
             tobeacon.mult(fromworld);
             
@@ -768,6 +770,8 @@ Action::ResultE RenderAction::start(void)
             _camera->getViewing(_currMatrix.second, 
                                 _viewport->getPixelWidth (),
                                 _viewport->getPixelHeight());
+
+            _camInverse.invertFrom(_currMatrix.second);
 
             glMatrixMode(GL_MODELVIEW);
         }
@@ -953,6 +957,14 @@ void RenderAction::pop_matrix(void)
                 _currMatrix.second[i][3]);
     }
 #endif
+}
+
+const Matrix &RenderAction::top_matrix(void)
+{
+    _accMatrix = _camInverse;
+    _accMatrix.mult(_currMatrix.second);
+
+    return _accMatrix;
 }
 
 /*-------------------------- assignment -----------------------------------*/

@@ -182,7 +182,9 @@ void Billboard::adjustVolume( Volume & volume )
     volume.extendBy( center + dia );
 }
 
-void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
+void Billboard::calcMatrix(      DrawActionBase *pAction, 
+                           const Matrix         &mToWorld,
+                                 Matrix         &mResult)
 {
     Pnt3f eyepos(0.f, 0.f, 0.f);
     Pnt3f objpos(0.f, 0.f, 0.f);
@@ -192,12 +194,14 @@ void Billboard::calcMatrix(DrawActionBase *pAction, Matrix &mResult)
 
     Quaternion q1;
 
-    Matrix mCamToWorld = pAction->getCamera()->getBeacon()->getToWorld();
-    Matrix mToWorld    = pAction->getActNode()->getToWorld();
+    Matrix mCamToWorld = pAction->getCameraToWorld();
 
     mResult.invertFrom(mToWorld);
     
     mToWorld.mult(n);
+
+//    cerr << "XXXXX" << endl;
+//    cerr << mCamToWorld << endl << endl;
 
     if(getAxisOfRotation() == Vec3f::Null)
     {
@@ -334,7 +338,11 @@ Action::ResultE Billboard::drawEnter(Action *action)
 
     Matrix mMat;
 
-    calcMatrix(da, mMat);
+//    cerr << "BB::draw" << endl;
+
+    calcMatrix(da,     
+               da->getActNode()->getToWorld(),
+               mMat);
 
     // should use the chunk, but it's not updated yet
     glPushMatrix ();
@@ -375,7 +383,9 @@ Action::ResultE Billboard::renderEnter(Action *action)
 
     Matrix mMat;
 
-    calcMatrix(pAction, mMat);
+//    cerr << "BB::render" << endl;
+
+    calcMatrix(pAction, pAction->top_matrix(), mMat);
 
     pAction->push_matrix(mMat);
 

@@ -121,7 +121,8 @@ DrawActionBase::DrawActionBase(void) :
     _frustumCulling(true ),
     _volumeDrawing (false),
     _autoFrustum   (true ),
-    _frustum       (     )
+    _frustum       (     ),
+    _mCameraToWorld(     )
 {
 }
 
@@ -137,7 +138,8 @@ DrawActionBase::DrawActionBase(const DrawActionBase &source) :
     _frustumCulling(source._frustumCulling ),
     _volumeDrawing (source._volumeDrawing  ),
     _autoFrustum   (source._autoFrustum    ),
-    _frustum       (source._frustum        )
+    _frustum       (source._frustum        ),
+    _mCameraToWorld(source._mCameraToWorld )
 {
 }
 
@@ -161,6 +163,16 @@ Action::ResultE DrawActionBase::start(void)
         getCamera()->getFrustum( _frustum, *getViewport() );
 //_frustum.dump();
     }
+
+    if(_camera != NULL && _camera->getBeacon() != NullFC)
+    {
+        _mCameraToWorld = _camera->getBeacon()->getToWorld();
+    }
+
+//    cerr << "DA::start" << endl;
+
+//    cerr << _mCameraToWorld << endl << endl;
+    
 
     if(_statistics == NULL)
     {

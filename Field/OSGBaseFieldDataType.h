@@ -638,11 +638,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             outVal.setVolumeType(DynamicVolume::SPHERE_VOLUME);
 
-            SphereVolume &sVol = 
-                dynamic_cast<SphereVolume &>(outVal.getInstance());
+            SphereVolume *pSVol = 
+                    dynamic_cast<SphereVolume *>(&(outVal.getInstance()));
 
-            sVol.setCenter(Pnt3f(valStore[0], valStore[1], valStore[2]));
-            sVol.setRadius(valStore[3]);
+            pSVol->setCenter(Pnt3f(valStore[0], valStore[1], valStore[2]));
+            pSVol->setRadius(valStore[3]);
 
             return true;
         }
@@ -650,10 +650,11 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
 
-            BoxVolume &bVol = dynamic_cast<BoxVolume &>(outVal.getInstance());
+            BoxVolume *pBVol = 
+                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
 
-            bVol.setBounds(valStore[0], valStore[1], valStore[2],
-                           valStore[3], valStore[4], valStore[5]);
+            pBVol->setBounds(valStore[0], valStore[1], valStore[2],
+                             valStore[3], valStore[4], valStore[5]);
 
             return true;
         }
@@ -661,9 +662,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
         {
             outVal.setVolumeType(DynamicVolume::BOX_VOLUME);
 
-            BoxVolume &bVol = dynamic_cast<BoxVolume &>(outVal.getInstance());
+            BoxVolume *pBVol = 
+                dynamic_cast<BoxVolume *>(&(outVal.getInstance()));
 
-            bVol.setBounds(0.,0.,0., 0.,0.,0.);
+            pBVol->setBounds(0.,0.,0., 0.,0.,0.);
 
             return false;
         }

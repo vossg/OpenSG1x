@@ -96,6 +96,12 @@ Camera *DrawActionBase::getCamera(void) const
 {
     return _camera;
 }
+
+inline
+const Matrix &DrawActionBase::getCameraToWorld(void)
+{
+    return _mCameraToWorld;
+}
     
 inline
 Background *DrawActionBase::getBackground(void) const

@@ -987,8 +987,19 @@ struct drawViewDirQuads : public ParticlesDrawer
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
-        action->getCamera()->getBeacon()->getToWorld(camera);
-        action->getActNode()->getToWorld(toworld);
+        camera = action->getCameraToWorld();
+
+        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        
+        if(ra != NULL)
+        {
+            toworld = ra->top_matrix();
+        }
+        else
+        {
+            action->getActNode()->getToWorld(toworld);
+        }
+
         // normalize them, we don't want to neutralize scales in toworld
         toworld[0].normalize();
         toworld[1].normalize();
@@ -1072,8 +1083,20 @@ struct drawViewDirQuads : public ParticlesDrawer
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
-        action->getCamera()->getBeacon()->getToWorld(camera);
-        action->getActNode()->getToWorld(toworld);
+
+        camera = action->getCameraToWorld();
+
+        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        
+        if(ra != NULL)
+        {
+            toworld = ra->top_matrix();
+        }
+        else
+        {
+            action->getActNode()->getToWorld(toworld);
+        }
+
         // normalize them, we don't want to neutralize scales in toworld
         toworld[0].normalize();
         toworld[1].normalize();
@@ -1160,8 +1183,20 @@ struct drawViewerQuads : public ParticlesDrawer
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
-        action->getCamera()->getBeacon()->getToWorld(camera);
-        action->getActNode()->getToWorld(toworld);
+
+        camera = action->getCameraToWorld();
+
+        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        
+        if(ra != NULL)
+        {
+            toworld = ra->top_matrix();
+        }
+        else
+        {
+            action->getActNode()->getToWorld(toworld);
+        }
+
         // normalize them, we don't want to neutralize scales in toworld
         toworld[0].normalize();
         toworld[1].normalize();
@@ -1269,8 +1304,20 @@ struct drawViewerQuads : public ParticlesDrawer
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
-        action->getCamera()->getBeacon()->getToWorld(camera);
-        action->getActNode()->getToWorld(toworld);
+
+        camera = action->getCameraToWorld();
+
+        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        
+        if(ra != NULL)
+        {
+            toworld = ra->top_matrix();
+        }
+        else
+        {
+            action->getActNode()->getToWorld(toworld);
+        }
+
         // normalize them, we don't want to neutralize scales in toworld
         toworld[0].normalize();
         toworld[1].normalize();
@@ -1888,8 +1935,20 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
  
     // get ModelView matrix to define the direction vectors
     Matrix camera,toworld;
-    action->getCamera()->getBeacon()->getToWorld(camera);
-    action->getActNode()->getToWorld(toworld);
+
+    camera = action->getCameraToWorld();
+    
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    
+    if(ra != NULL)
+    {
+        toworld = ra->top_matrix();
+    }
+    else
+    {
+        action->getActNode()->getToWorld(toworld);
+    }
+    
     toworld.invert();
     camera.multLeft(toworld);
 
@@ -2076,9 +2135,25 @@ Action::ResultE Particles::doDraw(DrawActionBase * action)
                 getBsp().build(this);
             }
             Matrix modelview,toworld;
+
+            modelview = action->getCameraToWorld();
+    
+            RenderAction *ra = dynamic_cast<RenderAction *>(action);
+            
+            if(ra != NULL)
+            {
+                toworld = ra->top_matrix();
+            }
+            else
+            {
+                action->getActNode()->getToWorld(toworld);
+            }
+            
+/*
             action->getCamera()->getBeacon()->getToWorld(
                                                 modelview);
             action->getActNode()->getToWorld(toworld);
+            */
 
             toworld.invert();
             modelview.mult(toworld);
@@ -2302,7 +2377,7 @@ ParticlesDrawer *Particles::findDrawer(void)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.25 2002/08/24 13:52:59 a-m-z Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGParticles.cpp,v 1.26 2002/08/26 07:38:54 vossg Exp $";
     static char cvsid_hpp[] = OSGPARTICLES_HEADER_CVSID;
     static char cvsid_inl[] = OSGPARTICLES_INLINE_CVSID;
 }

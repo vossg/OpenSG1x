@@ -217,8 +217,19 @@ Action::ResultE Slices::doDraw(DrawActionBase *action)
 //  StatCollector *coll = action->getStatistics();
 //  StatIntElem   *el   = 0;
 
-  action->getCamera()->getBeacon()->getToWorld(camera);
-  action->getActNode()->getToWorld(toworld);
+  RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+  camera = action->getCameraToWorld();
+
+  if(ra != NULL)
+  {
+      toworld = ra->top_matrix();
+  }
+  else
+  {
+      action->getActNode()->getToWorld(toworld);
+  }
+
   // normalize them, we don't want to neutralize scales in toworld
   toworld[0].normalize();
   toworld[1].normalize();
@@ -537,7 +548,7 @@ void Slices::drawSlices ( const Vec3f &planeNormal,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.4 2002/08/07 08:27:35 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSlices.cpp,v 1.5 2002/08/26 07:38:54 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSLICESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSLICESBASE_INLINE_CVSID;
 

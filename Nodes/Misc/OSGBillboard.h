@@ -122,7 +122,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
 
     /*! \}                                                                 */
 
-    void calcMatrix(DrawActionBase *pAction, Matrix &mResult);
+    void calcMatrix(      DrawActionBase *pAction, 
+                    const Matrix         &mToWorld,
+                          Matrix         &mResult);
 
     /*==========================  PRIVATE  ================================*/
   private:

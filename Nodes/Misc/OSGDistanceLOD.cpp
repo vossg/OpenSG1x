@@ -106,6 +106,7 @@ DistanceLOD::~DistanceLOD(void)
 Action::ResultE DistanceLOD::draw(Action *action)
 {
     DrawActionBase *da        = dynamic_cast<DrawActionBase *>(action);
+    RenderAction   *ra        = dynamic_cast<RenderAction   *>(action);
 
     UInt32          numLevels = action->getNNodes();
     UInt32          numRanges = getMFRange()->size();
@@ -117,10 +118,16 @@ Action::ResultE DistanceLOD::draw(Action *action)
     Pnt3f            eyepos(0.f, 0.f, 0.f);
     Pnt3f            objpos;
 
-    da->getCamera()->getBeacon()->getToWorld().mult(eyepos);
+    da->getCameraToWorld().mult(eyepos);
 
-    da->getActNode()            ->getToWorld().mult(getCenter(), 
-                                                    objpos);
+    if(ra != NULL)
+    {
+        ra->top_matrix()              .mult(getCenter(), objpos);
+    }
+    else
+    {
+        da->getActNode()->getToWorld().mult(getCenter(), objpos);
+    }
         
     Real32 dist = osgsqrt((eyepos[0] - objpos[0])*(eyepos[0] - objpos[0]) +
                           (eyepos[1] - objpos[1])*(eyepos[1] - objpos[1]) +
@@ -197,7 +204,7 @@ void DistanceLOD::initMethod (void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.23 2002/08/08 17:37:20 jbehr Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.24 2002/08/26 07:38:54 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDISTANCELOD_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDISTANCELOD_INLINE_CVSID;
 }

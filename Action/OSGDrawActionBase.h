@@ -113,20 +113,21 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 
     // rendering state handling
        
-    Viewport      *getViewport  (void                  ) const;    
-    void           setViewport  (Viewport   *viewport  );
+          Viewport      *getViewport     (void                  ) const;    
+          void           setViewport     (Viewport   *viewport  );
     
-    Camera        *getCamera    (void                  ) const;    
-    void           setCamera    (Camera     *cam       );
+          Camera        *getCamera       (void                  ) const;    
+          void           setCamera       (Camera     *cam       );
+    const Matrix        &getCameraToWorld(void);
+
+          Background    *getBackground   (void                  ) const;
+          void           setBackground   (Background *background);
     
-    Background    *getBackground(void                  ) const;
-    void           setBackground(Background *background);
+          Window        *getWindow       (void                  ) const;
+          void           setWindow       (Window * window       );
     
-    Window        *getWindow    (void                  ) const;
-    void           setWindow    (Window * window       );
-    
-    StatCollector *getStatistics(void                  ) const;
-    void           setStatistics(StatCollector * stat  );
+          StatCollector *getStatistics   (void                  ) const;
+          void           setStatistics   (StatCollector * stat  );
 
     // frustum culling functions
     // these are just temporary, sooner or later they'll move into a 
@@ -200,6 +201,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     bool          _volumeDrawing;
     bool          _autoFrustum;
     FrustumVolume _frustum;
+    Matrix        _mCameraToWorld;
     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
