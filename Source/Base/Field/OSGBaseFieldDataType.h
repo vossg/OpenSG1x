@@ -756,7 +756,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     static UInt32 getBinSize(const DynamicVolume &oObject)
     {
         UInt32  type = oObject.getType();
-        UInt32  size = sizeof(DynamicVolume::Type);
+        UInt32  size = sizeof(DynamicVolume::Type) + sizeof(UInt16);
 
         switch(type)
         {
@@ -803,6 +803,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                     dynamic_cast<const BoxVolume *>(
                         &(oObject.getInstance()));
 
+                UInt16 state = pBVol->getState();
+                
+                pMem.putValue(state);
+
                 pMem.putValues(&(pBVol->getMin()[0]), 3);
                 pMem.putValues(&(pBVol->getMax()[0]), 3);
 
@@ -815,6 +819,10 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                         &(oObject.getInstance()));
 
                 Real32 radius = pSVol->getRadius();
+
+                UInt16 state = pSVol->getState();
+                
+                pMem.putValue(state);
 
                 pMem.putValues(&(pSVol->getCenter()[0]), 3);
                 pMem.putValue (radius);
@@ -855,10 +863,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
                     dynamic_cast<BoxVolume *>(&(oObject.getInstance()));
 
                 Pnt3f min,max;
+                UInt16 state;
 
+                pMem.getValue (state       );
                 pMem.getValues(&(min[0]), 3);
                 pMem.getValues(&(max[0]), 3);
 
+                pBVol->setState (state   );
                 pBVol->setBounds(min, max);
 
                 break;
@@ -870,10 +881,13 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
 
                 Pnt3f center;
                 Real32 radius;
+                UInt16 state;
 
+                pMem.getValue(state);
                 pMem.getValues(&(center[0]), 3);
                 pMem.getValue (radius);
 
+                pSVol->setState (state );
                 pSVol->setCenter(center);
                 pSVol->setRadius(radius);
                 
