@@ -41,6 +41,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <set>
+
 #include "OSGConfig.h"
 
 #include <OSGLog.h>
@@ -65,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.29 2001/10/10 10:42:55 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.30 2001/10/12 22:34:10 dirk Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -74,11 +76,11 @@ static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.29 2001/10/10 10:42:55 v
 
 
 /*! \ingroup Geometry
-	\param geo	the geometry to work on
+    \param geo  the geometry to work on
 
 calcVertexNormals calculates the normals for the geometry's vertices. It
 does this simply by accumulating the face normals of all triangles that
-use the vertex and renormalizing. 
+use the vertex and renormalizing.
 
 */
 
@@ -98,20 +100,20 @@ faster; but not well tested code
   vector<Vec3f> normalVec;
 
   if (geo != NullFC) {
-    
+
     // get the pos bag and pos count
     positionPtr = geo->getPositions();
     pN = (positionPtr != NullFC) ? positionPtr->getSize() : 0;
-    
+
     FNOTICE (("Create %d normal \n", pN ));
-    
+
     if (pN) {
 
       // init the normal bag
       normalVec.resize(pN);
-      for (i = 0; i < pN; ++i) 
+      for (i = 0; i < pN; ++i)
         normalVec[i].setValues(0,0,0);
-      
+
       // fill the normal bag
       for (tI = geo->beginTriangles(); tI != geo->endTriangles(); ++tI) {
 
@@ -119,30 +121,30 @@ faster; but not well tested code
           skipN++;
         }
         else {
-          
+
           // get the tri points
           p0 = tI.getPositionIndex(0);
           p1 = tI.getPositionIndex(1);
           p2 = tI.getPositionIndex(2);
           // get the points
-          // TODO; use assign 
+          // TODO; use assign
           Vec3f vec0(tI.getPosition(0));
           Vec3f vec1(tI.getPosition(1));
           Vec3f vec2(tI.getPosition(2));
-          
+
           // calc the face normal
           vec0 -= vec1;
           vec1 -= vec2;
           vec0.crossThis(vec1);
           vec0.normalize();
-         
+
           // add the normal
           normalVec[p0] += vec0;
           normalVec[p1] += vec0;
           normalVec[p2] += vec0;
         }
       }
-      
+
       // get/create/resize the normal bag
       normalPtr = geo->getNormals();
       if (normalPtr == NullFC) {
@@ -153,7 +155,7 @@ faster; but not well tested code
         }
         endEditCP(geo);
       }
-      
+
       // get/create/resize the normal bag
       normalPtr = geo->getNormals();
       if (normalPtr == NullFC) {
@@ -164,27 +166,27 @@ faster; but not well tested code
         }
         endEditCP(geo);
       }
-      
+
       // normalize and copy the result
       beginEditCP (normalPtr);
       {
         // resize the bag
         normalPtr->resize(pN);
-        
+
         // normalize and copy the result
         for (i = 0; i < pN; ++i) {
           if (normalize)
             normalVec[i].normalize();
           normalPtr->setValue( normalVec[i], i );
-        }  
+        }
       }
       endEditCP (normalPtr);
-    
+
       // adapting the indexMapping
       pi = geo->calcMappingIndex ( Geometry::MapPosition );
       ni = geo->calcMappingIndex ( Geometry::MapNormal   );
       if ((geo->getIndexMapping().size() > 1) && (pi >= 0) && (pi != ni)) {
-        
+
         geo->getIndexMapping(ni) &= ~Geometry::MapNormal;
         if (geo->getIndexMapping(ni) == 0) {
           FFATAL (("Should delete normal entry; do impl !!!\n" ));
@@ -193,7 +195,7 @@ faster; but not well tested code
         else {
           FNOTICE (("Keep mindex mapping after createVertexNormal()\n"));
         }
-        
+
         geo->getIndexMapping(pi) |= Geometry::MapNormal;
       }
       else {
@@ -206,82 +208,121 @@ faster; but not well tested code
     if (skipN) {
       FNOTICE (( "Skip %d invalid triangles in createVertexNormal()\n",
                  skipN));
-    } 
+    }
   }
   else {
     FFATAL (("No valid geometry; can not create normal\n"));
   }
-  
+
 }
- 
+
 */
 
 {
-	GeoNormalsPtr norms;
-    int          i;
+    GeoNormalsPtr   norms;
+    int             i;
+    set<UInt32>     used_indices;
 
-	if ( geo->getNormals() == NullFC )
-	{
-		norms = GeoNormals3f::create();
-	}
-	else
-		norms = geo->getNormals();
-	
-	beginEditCP(norms);
+    if(geo->getNormals() == NullFC)
+    {
+        norms = GeoNormals3f::create();
+    }
+    else
+    {
+        norms = geo->getNormals();
+    }
 
-	norms->resize( geo->getPositions()->getSize() );
+    beginEditCP(norms);
 
-	for ( i = 0; i < geo->getPositions()->getSize(); i++ )
-	{
-		norms->setValue( Vec3f( 0,0,0 ), i );
-	}
+    norms->resize( geo->getPositions()->getSize() );
 
-	for ( TriangleIterator t = geo->beginTriangles(); t != geo->endTriangles(); ++t )
-	{
-		Plane p( t.getPosition(0), t.getPosition(1), t.getPosition(2) );
-		
-		norms->setValue( norms->getValue( t.getPositionIndex(0) ) + p.getNormal(), 
-						 t.getPositionIndex(0) ); 
-		norms->setValue( norms->getValue( t.getPositionIndex(1) ) + p.getNormal(), 
-						 t.getPositionIndex(1) ); 
-		norms->setValue( norms->getValue( t.getPositionIndex(2) ) + p.getNormal(), 
-						 t.getPositionIndex(2) ); 
-	}
+    // problem: not all of the points of the property might be used by this
+    // geometry. If the property has more than 1 users, be careful.
+    if( 1 /* cannot check that yet, be conservative*/)
+    {
+        for ( TriangleIterator t = geo->beginTriangles(); t != geo->endTriangles(); ++t )
+        {
+            used_indices.insert(t.getPositionIndex(0));
+            used_indices.insert(t.getPositionIndex(1));
+            used_indices.insert(t.getPositionIndex(2));
+        }
+        set<UInt32>::iterator end = used_indices.end();
+        for(set<UInt32>::iterator i = used_indices.begin(); i != end; ++i )
+        {
+            norms->setValue( Vec3f( 0,0,0 ), *i );
+        }
+    }
+    else // just one user, can clear all
+    {
+        for ( i = 0; i < geo->getPositions()->getSize(); i++ )
+        {
+            norms->setValue( Vec3f( 0,0,0 ), i );
+        }
+    }
 
-	for ( i = 0; i < geo->getPositions()->getSize(); i++ )
-	{
-		Vec3f n = norms->getValue( i );
-		n.normalize();
-		norms->setValue( n, i );
-	}
+    for ( TriangleIterator t = geo->beginTriangles(); 
+          t != geo->endTriangles(); ++t )
+    {
+        Plane p( t.getPosition(0), t.getPosition(1), t.getPosition(2) );
 
-	endEditCP(norms);
-	
-	beginEditCP(geo);
+        norms->setValue( norms->getValue( t.getPositionIndex(0) ) +
+                         p.getNormal(),
+                         t.getPositionIndex(0) );
+        norms->setValue( norms->getValue( t.getPositionIndex(1) ) +
+                         p.getNormal(),
+                         t.getPositionIndex(1) );
+        norms->setValue( norms->getValue( t.getPositionIndex(2) ) +
+                         p.getNormal(),
+                         t.getPositionIndex(2) );
+    }
+
+    if( 1 /* cannot check that yet, be conservative*/)
+    {
+        set<UInt32>::iterator end = used_indices.end();
+        for(set<UInt32>::iterator i = used_indices.begin(); i != end; ++i )
+        {
+            Vec3f n = norms->getValue( *i );
+            n.normalize();
+            norms->setValue( n, *i );
+        }
+    }
+    else // just one user, can clear all
+    {
+        for ( i = 0; i < geo->getPositions()->getSize(); i++ )
+        {
+            Vec3f n = norms->getValue( i );
+            n.normalize();
+            norms->setValue( n, i );
+        }
+    }
+
+    endEditCP(norms);
+
+    beginEditCP(geo);
     {
         geo->setNormals( norms );
-    
+
         MFUInt16 &im = geo->getIndexMapping();
         if ( im.size() > 0 )
         {
             Int16 pi,ni;
             pi = geo->calcMappingIndex( Geometry::MapPosition );
             ni = geo->calcMappingIndex( Geometry::MapNormal );
-        
+
             if ( ni )
                 im.setValue( im.getValue(ni) & ~ Geometry::MapNormal, ni );
             if ( pi >= 0 )
                 im.setValue( im.getValue(pi) |   Geometry::MapNormal, pi );
-        }    
+        }
     }
-	endEditCP( geo );
+    endEditCP( geo );
 
 }
 
 
 /*! \ingroup Geometry
-	\param geo		the geometry to work on
-	\param length	the length of the normal vectors
+    \param geo      the geometry to work on
+    \param length   the length of the normal vectors
 
 getNormals creates a geometry that consists of the normals of \a geo
 as lines. Every line starts of the position the normals is associated
@@ -289,40 +330,40 @@ with (vertex for vertex normals, center of face for face normals) and
 has the length \a length.
 
 */
-OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo, 
+OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
                                                  Real32      length)
 {
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
-	GeoPositions3f::PtrType pnts = GeoPositions3f::create();
-	GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
-	GeoPTypesPtr type = GeoPTypesUI8::create();	
-	GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
+    GeoPositions3f::PtrType pnts = GeoPositions3f::create();
+    GeoIndicesUI32Ptr index = GeoIndicesUI32::create();
+    GeoPTypesPtr type = GeoPTypesUI8::create();
+    GeoPLengthsPtr lens = GeoPLengthsUI32::create();
 
-	// calculate
-	beginEditCP(pnts);
+    // calculate
+    beginEditCP(pnts);
 
-	PrimitiveIterator pi(geo);
-	
-	if ( 1 /* no easy way to check right now */ )
-	{
-		for ( pi  = geo->beginPrimitives(); 
-			  pi != geo->endPrimitives(); ++pi )
-		{
-			for ( UInt16 k = 0; k < pi.getLength(); k++ )
-			{
-				pnts->addValue( pi.getPosition( k ) );
-				pnts->addValue( pi.getPosition( k ) + 
+    PrimitiveIterator pi(geo);
+
+    if ( 1 /* no easy way to check right now */ )
+    {
+        for ( pi  = geo->beginPrimitives();
+              pi != geo->endPrimitives(); ++pi )
+        {
+            for ( UInt16 k = 0; k < pi.getLength(); k++ )
+            {
+                pnts->addValue( pi.getPosition( k ) );
+                pnts->addValue( pi.getPosition( k ) +
                                 length * pi.getNormal( k ) );
-			}	
-		}
-	}
-	else
-	{
-		Pnt3f center(0,0,0);
-		
-		for ( pi  = geo->beginPrimitives(); 
-			  pi != geo->endPrimitives(); ++pi )
+            }
+        }
+    }
+    else
+    {
+        Pnt3f center(0,0,0);
+
+        for ( pi  = geo->beginPrimitives();
+              pi != geo->endPrimitives(); ++pi )
       {
         for ( UInt16 k = 0; k < pi.getLength(); k++ )
           {
@@ -333,50 +374,50 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getNormals(GeometryPtr geo,
         pnts->addValue( center );
         pnts->addValue( center +  length * pi.getNormal( 0 ) );
       }
-	}
-  
-	endEditCP(pnts);
-	
-	// create the geometry
-	beginEditCP(index);
-	for ( UInt32 i = 0; i < pnts->getSize(); i++ )
-		index->addValue( i );
-	endEditCP(index);
-  
-	beginEditCP(type);
-	type->addValue( GL_LINES );
-	endEditCP(type);
+    }
 
-	beginEditCP(lens);
-	lens->addValue( index->getSize() );
-	endEditCP(lens);
-	
-	beginEditCP(g);
-	g->setTypes( type );
-	g->setLengths( lens );
-	g->setIndices( index );
-	g->setPositions( pnts );
-	endEditCP(g);
-	
-	beginEditCP(p);
-	p->setCore(g);
-	endEditCP(p);
-	
-	return p;
+    endEditCP(pnts);
+
+    // create the geometry
+    beginEditCP(index);
+    for ( UInt32 i = 0; i < pnts->getSize(); i++ )
+        index->addValue( i );
+    endEditCP(index);
+
+    beginEditCP(type);
+    type->addValue( GL_LINES );
+    endEditCP(type);
+
+    beginEditCP(lens);
+    lens->addValue( index->getSize() );
+    endEditCP(lens);
+
+    beginEditCP(g);
+    g->setTypes( type );
+    g->setLengths( lens );
+    g->setIndices( index );
+    g->setPositions( pnts );
+    endEditCP(g);
+
+    beginEditCP(p);
+    p->setCore(g);
+    endEditCP(p);
+
+    return p;
 }
 
 
 
-/*! \brief create the geometry index form the given FaceSet (VRML style) data 
+/*! \brief create the geometry index form the given FaceSet (VRML style) data
  *  \ingroup Geometry
  */
-OSG_SYSTEMLIB_DLLMAPPING 
-Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr, 
+OSG_SYSTEMLIB_DLLMAPPING
+Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                                   vector<Int32> & coordIndex,
                                   vector<Int32> & normalIndex,
                                   vector<Int32> & colorIndex,
                                   vector<Int32> & texCoordIndex,
-                                  Bool convex, 
+                                  Bool convex,
                                   Bool ccw,
                                   Bool normalPerVertex,
                                   Bool colorPerVertex,
@@ -385,23 +426,23 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
 {
   /** define the bag type */
   typedef vector<Int32>* IndexBagP;
-  
+
   /** defines the Index Types */
   enum IndexType { UNKNOWN_IT = 0,
                    EMPTY_IT,
-                   VERTEX_COORD_IT, VERTEX_IT, VERTEX_DUP_IT, 
+                   VERTEX_COORD_IT, VERTEX_IT, VERTEX_DUP_IT,
                    VERTEX_CREATE_IT,
                    PRIMITIVE_IT, PRIMITIVE_INDEX_IT,
                    PRIMITIVE_CREATE_IT
   };
-  
+
   /** holds the Index types as str, mainly for log/debug outputs */
   static const char *indexTypeStr[] = {
     "UNKNOWN_IT", "EMPTY_IT",
     "VERTEX_COORD_IT", "VERTEX_IT", "VERTEX_DUP_IT", "VERTEX_CREATE_IT",
     "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT", "PRIMITIVE_CREATE_IT"
   };
-  
+
   osg::GeoPositionsPtr posPtr;
   osg::GeoNormalsPtr normalPtr;
   osg::GeoColorsPtr colorPtr;
@@ -409,7 +450,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   osg::GeoPLengthsPtr lensPtr;
   osg::GeoPTypesPtr geoTypePtr;
   osg::GeoIndicesPtr indexPtr;
-  
+
   Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0;
   Int32 pType = 0, localPType;
   Int32 maxPType = (faceSet ? 5 : 3);
@@ -427,41 +468,41 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   Int16 indexMap[4], indexMapID[4];
   IndexBagP indexBag[4] = { &coordIndex, &normalIndex,
                             &colorIndex, &texCoordIndex };
-  
-  //----------------------------------------------------------------------   
+
+  //----------------------------------------------------------------------
   // init
   coordIT = VERTEX_IT;
   indexMap[0] = Geometry::MapPosition;
-  
+
   //----------------------------------------------------------------------
   // get the property pointer and element count
   posPtr = geoPtr->getPositions();
   pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
-  
+
   normalPtr = geoPtr->getNormals();
   nN = ((normalPtr == osg::NullFC) ? 0 : normalPtr->getSize());
-  
+
   colorPtr = geoPtr->getColors();
   cN = ((colorPtr == osg::NullFC) ? 0 : colorPtr->getSize());
-  
+
   texCoordsPtr = geoPtr->getTexCoords();
   tN = ((texCoordsPtr == osg::NullFC) ? 0 : texCoordsPtr->getSize());
-  
+
   FDEBUG (( "vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN ));
-  
+
   //----------------------------------------------------------------------
   // check the vertex index and count the primitives
   primitiveN = index = 0;
   for (pType = 0; pType < 6; pType++)
     primitiveTypeCount[pType] = 0;
-  
+
   if (!pN) {
     FWARNING (("No points in osg::setIndexFromVRMLData()"));
   }
   else {
     piN = coordIndex.size();
     for ( i = 0; i <= piN; i++) {
-      if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) || 
+      if ( ((i == piN) && vN && (coordIndex[i - 1] >= 0)) ||
            ((index = coordIndex[i]) < 0 ) && vN && i < piN) {
         primitiveTypeCount [ (vN > maxPType) ? maxPType : vN]++;
         primitiveN++;
@@ -476,7 +517,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
       }
     }
   }
-  
+
   //----------------------------------------------------------------------
   // check the normal index
   normalIT = UNKNOWN_IT;
@@ -487,7 +528,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
       // normal per vertex
       if (niN >= piN) {
         // valid normal index number
-        for (i = 0; i < piN; i++) 
+        for (i = 0; i < piN; i++)
           // check if normal index equals the coord index
           if (normalIndex[i] != coordIndex[i]) {
             normalIT = VERTEX_IT;
@@ -526,14 +567,14 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     }
   else {
     /* not yet !!!
-    if (createNormal) 
+    if (createNormal)
       if (normalPerVertex)
         normalIT = VERTEX_CREATE_IT;
       else
         normalIT = PRIMITIVE_CREATE_IT;
     else
     */
-    normalIT = EMPTY_IT;    
+    normalIT = EMPTY_IT;
   }
 
   //----------------------------------------------------------------------
@@ -546,7 +587,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
       // color per vertex
       if (ciN >= piN) {
         // valid color index number
-        for (i = 0; i < piN; i++) 
+        for (i = 0; i < piN; i++)
           // check if color index equals the coord index
           if (colorIndex[i] != coordIndex[i]) {
             colorIT = VERTEX_IT;
@@ -585,16 +626,16 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
     }
   else
     colorIT = EMPTY_IT;
-  
+
   //----------------------------------------------------------------------
   // check the texture index
   textureIT = UNKNOWN_IT;
   tiN = texCoordIndex.size();
-  if (tN) 
+  if (tN)
     // have texture elemnts
     if (tiN >= piN) {
       // valid texture index number
-      for (i = 0; i < piN; i++) 
+      for (i = 0; i < piN; i++)
         // check if texture index equals the coord index
         if (texCoordIndex[i] != coordIndex[i]) {
           textureIT = VERTEX_IT;
@@ -613,35 +654,35 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                     texCoordIndex.size(), piN));
         texCoordIndex.clear();
       }
-    }     
+    }
   else
     textureIT = EMPTY_IT;
-  
+
   if (faceSet) {
     FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
               primitiveN,
-              primitiveTypeCount[0], 
-              primitiveTypeCount[1], 
+              primitiveTypeCount[0],
+              primitiveTypeCount[1],
               primitiveTypeCount[2],
-              primitiveTypeCount[3], 
-              primitiveTypeCount[4], 
+              primitiveTypeCount[3],
+              primitiveTypeCount[4],
               primitiveTypeCount[5] ));
   }
   else {
     FDEBUG (( "primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n",
               primitiveN,
-              primitiveTypeCount[0], 
-              primitiveTypeCount[1], 
+              primitiveTypeCount[0],
+              primitiveTypeCount[1],
               primitiveTypeCount[2],
               primitiveTypeCount[3] ));
   }
-  
-  FDEBUG (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n", 
+
+  FDEBUG (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n",
             indexTypeStr[coordIT],
-            indexTypeStr[colorIT], 
+            indexTypeStr[colorIT],
             indexTypeStr[normalIT],
             indexTypeStr[textureIT] ));
-  
+
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
     indexPtr = geoPtr->getIndices();
@@ -649,13 +690,13 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
         indexPtr = osg::GeoIndicesUI32::create();
     else
         indexPtr->clear();
-  
+
     lensPtr = geoPtr->getLengths();
     if (lensPtr == osg::NullFC)
         lensPtr = osg::GeoPLengthsUI32::create();
     else
         lensPtr->clear();
-  
+
     geoTypePtr = geoPtr->getTypes();
     if (geoTypePtr == osg::NullFC)
         geoTypePtr = osg::GeoPTypesUI8::create();
@@ -687,46 +728,46 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
         break;
       }
     }
-    
+
     //----------------------------------------------------------------------
-    // set lens/geoType/index/mapping the index mapping  
+    // set lens/geoType/index/mapping the index mapping
     osg::beginEditCP(geoPtr);
     {
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
         geoPtr->setIndices(indexPtr);
         geoPtr->getIndexMapping().clear();
-        // check for multiindex mapping 
-        if (indexMap[1]) 
+        // check for multiindex mapping
+        if (indexMap[1])
             for (i = 0; ((i <= 3) && indexMap[i]); i++)
                 geoPtr->getIndexMapping().addValue( indexMap[i] );
     }
     osg::endEditCP(geoPtr);
-  
+
     //----------------------------------------------------------------------
     // create index face/line data
     osg::beginEditCP (indexPtr);
     for (pType = minPType; pType <= maxPType; pType++) {
-      
+
       // check for the pType count
       if (primitiveTypeCount[pType]) {
-        
+
         // calc len/sysPType
-        if (faceSet) 
+        if (faceSet)
           if (pType < 5) {
-            len = primitiveTypeCount[pType] * pType;          
+            len = primitiveTypeCount[pType] * pType;
             sysPType = (pType == 3) ? GL_TRIANGLES : GL_QUADS;
           }
           else
             sysPType = 0;
         else
           if (pType == 2) {
-            len = primitiveTypeCount[pType] * pType;          
+            len = primitiveTypeCount[pType] * pType;
             sysPType = GL_LINES;
           }
           else
             sysPType = 0;
-        
+
         // set len/sysPType
         if (sysPType) {
           osg::beginEditCP(lensPtr);
@@ -734,18 +775,18 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
             lensPtr->addValue(len);
           }
           osg::endEditCP (lensPtr);
-          
+
           osg::beginEditCP (geoTypePtr);
           {
             geoTypePtr->addValue( sysPType );
           }
-          osg::endEditCP (geoTypePtr);        
+          osg::endEditCP (geoTypePtr);
         }
-        
+
         primitiveN = 0;
         beginIndex = endIndex = -1;
         for ( i = 0; i <= piN; i++) {
-          if ( ( (i == piN) && (coordIndex[i - 1] >= 0) ) || 
+          if ( ( (i == piN) && (coordIndex[i - 1] >= 0) ) ||
                ( (i <  piN) && (coordIndex[i    ] <  0) ) ) {
 
             len = i - beginIndex;
@@ -759,7 +800,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
               step = -1;
             }
             localPType = (len > maxPType) ? maxPType : len;
-            if ((beginIndex >= 0) && (localPType == pType)) { 
+            if ((beginIndex >= 0) && (localPType == pType)) {
               if (len >= maxPType) {
                 sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
                 osg::beginEditCP(lensPtr);
@@ -771,15 +812,15 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                 {
                   geoTypePtr->addValue( sysPType );
                 }
-                osg::beginEditCP (geoTypePtr);      
+                osg::beginEditCP (geoTypePtr);
               }
-              
+
               // add index data
               for (pi = beginIndex; pi != endIndex; pi += step) {
-                indexPtr->addValue(coordIndex[pi]); 
+                indexPtr->addValue(coordIndex[pi]);
                 for (mapi = 1; (mapi <= 3) && (indexMap[mapi]); mapi++) {
                   for (typei = 1; typei <= 3; typei++) {
-                    if (indexMap[mapi] & indexMapID[typei]) {      
+                    if (indexMap[mapi] & indexMapID[typei]) {
                       switch (indexType[typei]) {
                       case UNKNOWN_IT:
                       case EMPTY_IT:
@@ -795,75 +836,75 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
                         break;
                       case PRIMITIVE_INDEX_IT:
                         index = (*indexBag[typei])[primitiveN];
-                        break;                     
+                        break;
                       }
                       indexPtr->addValue(index);
                     }
                   }
                 }
               }
-              
+
               triCount += len - 2;
               primitiveN++;
             }
             beginIndex = endIndex = -1;
           }
-          else 
+          else
             if (beginIndex < 0)
               beginIndex = i;
         }
       }
     }
     osg::endEditCP (indexPtr);
-    
+
     return triCount;
 }
 
-/*! \brief optimize the geo by creating strips and fans, 
+/*! \brief optimize the geo by creating strips and fans,
  *  creates new index values but does not touch the property values
- *  returns the number of points to be tranformed 
+ *  returns the number of points to be tranformed
  *  \ingroup Geometry
  */
 Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
                                        UInt32 iteration,
-                                       Bool createStrips, 
+                                       Bool createStrips,
                                        Bool createFans,
                                        UInt32 minFanEdgeCount,
                                        Bool colorCode)
 {
   NodeGraph graph;
-	vector<NodeGraph::Path> pathVec[2];	
+    vector<NodeGraph::Path> pathVec[2];
   TriangleIterator tI;
   GeoPositionsPtr posPtr;
-  Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0; 
+  Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0;
   Int32 i, j, n, pN, triCount;
-	Bool multiIndex;
-	vector<int> primitive;
-	GeoPLengthsPtr lensPtr;
+    Bool multiIndex;
+    vector<int> primitive;
+    GeoPLengthsPtr lensPtr;
   GeoPTypesPtr geoTypePtr;
   GeoIndicesPtr indexPtr;
-	Time time, inputT, optimizeT, outputT;
+    Time time, inputT, optimizeT, outputT;
   UInt32 triN, lineN, pointN;
   Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
   Int32 t,typeN = sizeof(typeVec)/sizeof(Int32);
 
-	if (geoPtr != NullFC) {
-		posPtr = geoPtr->getPositions();
-  	pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
+    if (geoPtr != NullFC) {
+        posPtr = geoPtr->getPositions();
+    pN = ((posPtr == osg::NullFC) ? 0 : posPtr->getSize());
     multiIndex =  (geoPtr->getIndexMapping().size() > 1);
     calcPrimitiveCount(geoPtr,triN,lineN,pointN);
-	}
-  
-	if (pN && !multiIndex) {
-    
-		FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n", 
+    }
+
+    if (pN && !multiIndex) {
+
+        FNOTICE (( "Start Geometry optimisation: tri/line/point: %d/%d/%d\n",
                triN, lineN, pointN));
-    
-		inputT = getSystemTime();
-		graph.init(pN,triN,8);
-    
-		if (!multiIndex) {
-			triCount = 0;
+
+        inputT = getSystemTime();
+        graph.init(pN,triN,8);
+
+        if (!multiIndex) {
+            triCount = 0;
       for (tI = geoPtr->beginTriangles(); tI != geoPtr->endTriangles(); ++tI){
         graph.setNode( triCount,
                        tI.getPositionIndex(0),
@@ -872,43 +913,43 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
         triCount++;
       }
     }
-    
+
     graph.verify();
     if (triN != triCount) {
       FFATAL (("Triangle count missmatch (%d/%d)\n", triN, triCount));
       return 0;
     }
-    
+
     pathVec[1].resize(triN);
     if (iteration > 1)
       pathVec[0].resize(triN);
-    
+
     //----------------------------------------------------------------------
-    // create surface path vector with sampling    
+    // create surface path vector with sampling
     FDEBUG (("Start path.createPathVec() \n"));
     time = getSystemTime();
     inputT = time - inputT;
-    optimizeT = time;	
+    optimizeT = time;
     bestCost = triN * 3 + 1;
     worstCost = 0;
     for (i = 0; i < iteration; i++) {
       cost = graph.createPathVec(pathVec[!best]);
-			if (cost) {
-      	if (cost < bestCost) {
-        	bestCost = cost;
-        	best = !best;
-      	}
-      	if (cost > worstCost)
-        	worstCost = cost;
-			}
-			else {
-				bestCost = worstCost = 0;
-				break;
-			}
+            if (cost) {
+        if (cost < bestCost) {
+            bestCost = cost;
+            best = !best;
+        }
+        if (cost > worstCost)
+            worstCost = cost;
+            }
+            else {
+                bestCost = worstCost = 0;
+                break;
+            }
     }
-    
+
     // valid result
-		if (bestCost) {
+        if (bestCost) {
 
       //----------------------------------------------------------------------
       // check/create the indexPtr/lengthsPtr/geoTypePtr
@@ -917,19 +958,19 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
         indexPtr = osg::GeoIndicesUI32::create();
       else
         indexPtr->clear();
-      
+
       lensPtr = geoPtr->getLengths();
       if (lensPtr == osg::NullFC)
         lensPtr = osg::GeoPLengthsUI32::create();
       else
         lensPtr->clear();
-    
+
       geoTypePtr = geoPtr->getTypes();
       if (geoTypePtr == osg::NullFC)
       geoTypePtr = osg::GeoPTypesUI8::create();
       else
         geoTypePtr->clear();
-      
+
       //----------------------------------------------------------------------
       // set lens/geoType/index/mapping the index mapping
       osg::beginEditCP(geoPtr);
@@ -939,20 +980,20 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
         geoPtr->setIndices(indexPtr);
       }
       osg::endEditCP(geoPtr);
-      
+
       time = getSystemTime();
       optimizeT = time - optimizeT;
       outputT = time;
-      
+
       FDEBUG (("Start graph.getPrimitive() loop (triN: %d)\n", triN));
-      
+
       triCount = 0;
-      for (t = 0; t < typeN; t++) { 
+      for (t = 0; t < typeN; t++) {
         for (i = 0; i < triN; i++) {
           if (pathVec[best][i].type == typeVec[t]) {
-            cost += n = graph.getPrimitive(pathVec[best][i],primitive);	
+            cost += n = graph.getPrimitive(pathVec[best][i],primitive);
             if (n) {
-              if (typeVec[t] == GL_TRIANGLES) 
+              if (typeVec[t] == GL_TRIANGLES)
                 triCount += (n / 3);
               else {
                 osg::beginEditCP(lensPtr);
@@ -967,9 +1008,9 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
                 osg::endEditCP (geoTypePtr);
               }
               for (j = 0; j < n; j++)
-                indexPtr->addValue( primitive[j]);	
+                indexPtr->addValue( primitive[j]);
             }
-            else 
+            else
               break;
           }
         }
@@ -983,34 +1024,34 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
           {
             geoTypePtr->addValue( GL_TRIANGLES );
           }
-          osg::endEditCP (geoTypePtr);          
+          osg::endEditCP (geoTypePtr);
           triCount = 0;
         }
       }
-      
+
       time = getSystemTime();
       outputT = time - outputT;
-      
+
       FNOTICE (( "Graph in/opt/out timing: %g/%g/%g \n",
                  inputT, optimizeT, outputT  ));
-      
+
       FNOTICE (( "OptResult: %2g%%, Sampling (%di): cost %d/%d\n",
                  double ( double(bestCost) / double(triN * 3) * 100.0),
                  iteration, bestCost, worstCost ));
     }
   }
 
-  return bestCost; 
+  return bestCost;
 }
-  
-/*! \brief return the number of triangle/line/point elem 
+
+/*! \brief return the number of triangle/line/point elem
  *  \ingroup Geometry
  */
 UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
-                                 UInt32 &triangle, 
-                                 UInt32 &line, 
+                                 UInt32 &triangle,
+                                 UInt32 &line,
                                  UInt32 &point)
-{	
+{
   GeoPTypesUI8Ptr geoTypePtr;
   GeoPLengthsUI32Ptr lensPtr;
   GeoPTypesUI8Ptr::ObjectType::StoredFieldType::iterator typeI, endTypeI;
@@ -1035,7 +1076,7 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
     else {
       typeI = geoTypePtr->getField().begin();
       lenI = lensPtr->getField().begin();
-      endTypeI = geoTypePtr->getField().end();   
+      endTypeI = geoTypePtr->getField().end();
       while ( typeI != endTypeI  ) {
         type = *typeI;
         len = *lenI;
@@ -1085,143 +1126,143 @@ UInt32 osg::calcPrimitiveCount ( GeometryPtr geoPtr,
 
 
 
-OSG_SYSTEMLIB_DLLMAPPING 
+OSG_SYSTEMLIB_DLLMAPPING
 void osg::calcFaceNormals( GeometryPtr geo )
 {
   GeoIndicesPtr newIndex = GeoIndicesUI32::create();
   GeoNormalsPtr newNormals = GeoNormals3f::create();
   Vec3f normal;
-  
+
   FaceIterator faceIter = geo->beginFaces();
   GeoIndicesPtr oldIndex = geo->getIndices();
-  
+
   if( oldIndex != NullFC )
     {
       //Indexed
       if( geo->getIndexMapping().getSize() > 0 )
-	{
-	  //MULTI INDEXED
-	  beginEditCP(newIndex);
-	  MFUInt16 &oldIndexMap = geo->getIndexMapping();
-	  UInt32 oldIMSize = oldIndexMap.getSize();
-	  for( UInt32 i=0; i<oldIndex->getSize()/oldIMSize; ++i )
-	    {
-	      for( UInt32 k=0; k<oldIMSize; ++k )
-		{
-		  newIndex->addValue( oldIndex->getValue(i*oldIMSize+k) );
-		}
-	      newIndex->addValue(0);  //placeholder for normal index
-	    }
-	  
-	  beginEditCP(newNormals);
-	  for( UInt32 faceCnt=0; faceIter != geo->endFaces(); ++faceIter, ++faceCnt )
-	    {
-	      if( faceIter.getLength() == 3 )
-		{
-		  //Face is a Triangle
-		  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-		  normal.normalize();
-		}
-	      else
-		{
-		  //Face must be a Quad then
-		  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-		  if( normal.length() == 0 )
-		    {
-		      //Quad is degenerate, choose different points for normal
-		      normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
-		    }
-		  normal.normalize();
-		}
-	      newNormals->addValue( normal ); //put the normal into the storage
-	      UInt32 base;
-	      switch( faceIter.getType() )
-		{
-		case GL_TRIANGLE_STRIP:
-		  base = faceIter.getIndexIndex(2);   //get last point's position in index field
-		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
-		  break;
-		case GL_TRIANGLE_FAN:
-		  base = faceIter.getIndexIndex(2);   //get last point's position in index field
-		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
-		  break;
-		case GL_QUAD_STRIP:
-		  base = faceIter.getIndexIndex(3);    //get last point's position in index field
-		  newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
-		  break;
-		default:
-		  for( UInt32 i=0; i<faceIter.getLength(); ++i )
-		    {
-		      base = faceIter.getIndexIndex(i);
-		      newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
-			}
-		  break;
-		}
-	    }
-	  endEditCP(newNormals);
-	  endEditCP(newIndex);
-	  
-	  beginEditCP(geo);
-	  Int16 ni;
-	  ni = geo->calcMappingIndex( Geometry::MapNormal );
-	  if ( ni!=-1 )
-	    {
-	      oldIndexMap.setValue( oldIndexMap.getValue(ni) & ~ Geometry::MapNormal, ni );
-	    }
+    {
+      //MULTI INDEXED
+      beginEditCP(newIndex);
+      MFUInt16 &oldIndexMap = geo->getIndexMapping();
+      UInt32 oldIMSize = oldIndexMap.getSize();
+      for( UInt32 i=0; i<oldIndex->getSize()/oldIMSize; ++i )
+        {
+          for( UInt32 k=0; k<oldIMSize; ++k )
+        {
+          newIndex->addValue( oldIndex->getValue(i*oldIMSize+k) );
+        }
+          newIndex->addValue(0);  //placeholder for normal index
+        }
+
+      beginEditCP(newNormals);
+      for( UInt32 faceCnt=0; faceIter != geo->endFaces(); ++faceIter, ++faceCnt )
+        {
+          if( faceIter.getLength() == 3 )
+        {
+          //Face is a Triangle
+          normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+          normal.normalize();
+        }
+          else
+        {
+          //Face must be a Quad then
+          normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+          if( normal.length() == 0 )
+            {
+              //Quad is degenerate, choose different points for normal
+              normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
+            }
+          normal.normalize();
+        }
+          newNormals->addValue( normal ); //put the normal into the storage
+          UInt32 base;
+          switch( faceIter.getType() )
+        {
+        case GL_TRIANGLE_STRIP:
+          base = faceIter.getIndexIndex(2);   //get last point's position in index field
+          newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+          break;
+        case GL_TRIANGLE_FAN:
+          base = faceIter.getIndexIndex(2);   //get last point's position in index field
+          newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+          break;
+        case GL_QUAD_STRIP:
+          base = faceIter.getIndexIndex(3);    //get last point's position in index field
+          newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+          break;
+        default:
+          for( UInt32 i=0; i<faceIter.getLength(); ++i )
+            {
+              base = faceIter.getIndexIndex(i);
+              newIndex->setValue( faceCnt, base+(base/oldIMSize)+oldIMSize );
+            }
+          break;
+        }
+        }
+      endEditCP(newNormals);
+      endEditCP(newIndex);
+
+      beginEditCP(geo);
+      Int16 ni;
+      ni = geo->calcMappingIndex( Geometry::MapNormal );
+      if ( ni!=-1 )
+        {
+          oldIndexMap.setValue( oldIndexMap.getValue(ni) & ~ Geometry::MapNormal, ni );
+        }
       oldIndexMap.addValue( Geometry::MapNormal );
-	  geo->setNormals( newNormals );
-	  geo->setIndices( newIndex );
-	  endEditCP(geo);
-	  return;
-	}
-    } 
+      geo->setNormals( newNormals );
+      geo->setIndices( newIndex );
+      endEditCP(geo);
+      return;
+    }
+    }
   //SINGLE INDEXED or NON INDEXED
   //UInt32 pointCnt = 0;
   newNormals->resize( geo->getPositions()->getSize() );
   for( ;faceIter!=geo->endFaces(); ++faceIter )
     {
       if( faceIter.getLength() == 3 )
-	{
-	  //Face is a Triangle
-	  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-	  normal.normalize();  
-	}
+    {
+      //Face is a Triangle
+      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+      normal.normalize();
+    }
       else
-	{
-	  //Face must be a Quad then	
-	  normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
-	  if( normal.length() == 0 )
-	    {
-	      //Quad is degenerate, choose different points for normal
-	      normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
-	    }
-	  normal.normalize();
-	  
-	}
+    {
+      //Face must be a Quad then
+      normal = (faceIter.getPosition(1)-faceIter.getPosition(0)).cross( faceIter.getPosition(2)-faceIter.getPosition(0) );
+      if( normal.length() == 0 )
+        {
+          //Quad is degenerate, choose different points for normal
+          normal = (faceIter.getPosition(1)-faceIter.getPosition(2)).cross( faceIter.getPosition(3)-faceIter.getPosition(2) );
+        }
+      normal.normalize();
+
+    }
       switch( faceIter.getType() )
-	{
-	case GL_TRIANGLE_STRIP:
-	  newNormals->setValue( normal, faceIter.getPositionIndex(2) );
-	  break;
-	case GL_TRIANGLE_FAN:
-	  newNormals->setValue( normal, faceIter.getPositionIndex(2) );
-	  break;
-	case GL_QUAD_STRIP:
-	  newNormals->setValue( normal, faceIter.getPositionIndex(3) );
-	  break;
-	default:
-	  for( UInt32 i=0; i<faceIter.getLength(); ++i )
-	    {
-	      newNormals->setValue( normal, faceIter.getPositionIndex(i) );
-	    }
-	  break;
-	}
+    {
+    case GL_TRIANGLE_STRIP:
+      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+      break;
+    case GL_TRIANGLE_FAN:
+      newNormals->setValue( normal, faceIter.getPositionIndex(2) );
+      break;
+    case GL_QUAD_STRIP:
+      newNormals->setValue( normal, faceIter.getPositionIndex(3) );
+      break;
+    default:
+      for( UInt32 i=0; i<faceIter.getLength(); ++i )
+        {
+          newNormals->setValue( normal, faceIter.getPositionIndex(i) );
+        }
+      break;
+    }
       beginEditCP( geo );
       geo->setNormals( newNormals );
-	  endEditCP( geo );
+      endEditCP( geo );
     }
 }
- 
+
 
 
 
@@ -1231,16 +1272,16 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
   NodePtr  p = Node::create();
   GeometryPtr g = Geometry::create();
   GeoPositions3f::PtrType pnts = GeoPositions3f::create();
-  GeoIndicesUI32Ptr index = GeoIndicesUI32::create();	
-  GeoPTypesPtr type = GeoPTypesUI8::create();	
-  GeoPLengthsPtr lens = GeoPLengthsUI32::create();	
+  GeoIndicesUI32Ptr index = GeoIndicesUI32::create();
+  GeoPTypesPtr type = GeoPTypesUI8::create();
+  GeoPLengthsPtr lens = GeoPLengthsUI32::create();
 
   // calculate
   beginEditCP(pnts);
-  
+
   FaceIterator faceIter = geo->beginFaces();
   Pnt3f center;
-  
+
   beginEditCP(pnts);
   for( ; faceIter != geo->endFaces(); ++faceIter )
     {
@@ -1248,97 +1289,97 @@ OSG_SYSTEMLIB_DLLMAPPING NodePtr osg::getFaceNormals(GeometryPtr geo, Real32 len
       center[1] = 0;
       center[2] = 0;
       for( UInt16 i=0; i<faceIter.getLength(); ++i )
-	{
-	  center[0] += faceIter.getPosition( i )[0]/faceIter.getLength();
-	  center[1] += faceIter.getPosition( i )[1]/faceIter.getLength();
-	  center[2] += faceIter.getPosition( i )[2]/faceIter.getLength();
-	}
+    {
+      center[0] += faceIter.getPosition( i )[0]/faceIter.getLength();
+      center[1] += faceIter.getPosition( i )[1]/faceIter.getLength();
+      center[2] += faceIter.getPosition( i )[2]/faceIter.getLength();
+    }
       pnts->addValue( center );
       switch( faceIter.getType() )
-	{
-	case GL_TRIANGLE_STRIP:
-	  pnts->addValue( center + length * faceIter.getNormal(2) );
-	  break;
-	case GL_TRIANGLE_FAN:
-	  pnts->addValue( center + length * faceIter.getNormal(2) );
-	  break;
-	case GL_QUAD_STRIP:
-	  pnts->addValue( center + length * faceIter.getNormal(3) );
-	  break;
-	default:
-	  pnts->addValue( center + length * faceIter.getNormal(0) );  //does not matter which points normal
-	  break;
-	}
+    {
+    case GL_TRIANGLE_STRIP:
+      pnts->addValue( center + length * faceIter.getNormal(2) );
+      break;
+    case GL_TRIANGLE_FAN:
+      pnts->addValue( center + length * faceIter.getNormal(2) );
+      break;
+    case GL_QUAD_STRIP:
+      pnts->addValue( center + length * faceIter.getNormal(3) );
+      break;
+    default:
+      pnts->addValue( center + length * faceIter.getNormal(0) );  //does not matter which points normal
+      break;
+    }
     }
   endEditCP(pnts);
-  
+
   beginEditCP(index);
   for ( UInt32 i = 0; i < pnts->getSize(); i++ )
     index->addValue( i );
   endEditCP(index);
-  
+
   beginEditCP(type);
   type->addValue( GL_LINES );
   endEditCP(type);
-  
+
   beginEditCP(lens);
   lens->addValue( index->getSize() );
   endEditCP(lens);
-  
+
   beginEditCP(g);
   g->setTypes( type );
   g->setLengths( lens );
   g->setIndices( index );
   g->setPositions( pnts );
   endEditCP(g);
-	
+
   beginEditCP(p);
   p->setCore(g);
   endEditCP(p);
-  
+
   return p;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::mergeGeometries(vector<NodePtr> &nodes, 
+void osg::mergeGeometries(vector<NodePtr> &nodes,
                           vector<NodePtr> &results)
 {
-	FFATAL(( "Merge Geometries: Not implemented yet!\n"));
+    FFATAL(( "Merge Geometries: Not implemented yet!\n"));
     results.clear();
-    
+
     for ( vector<NodePtr>::iterator n = nodes.begin();
-    	  n != nodes.end(); ++n )
+          n != nodes.end(); ++n )
     {
-    	GeometryPtr actnode = GeometryPtr::dcast((*n)->getCore());
-	
-	if ( actnode == NullFC )
-	{
-	    FWARNING(( "mergeGeometries: core of 0x%p is not a geometry!\n",
-	    	    	n->getCPtr() ));
-	    continue;
-	}
-	
-	vector<NodePtr>::iterator r;
-	for ( r = nodes.begin(); r != nodes.end(); ++r )
-	{
-   	    GeometryPtr res = GeometryPtr::dcast((*r)->getCore());
-	    
-    	    if ( res->isMergeable( actnode ) )
-	    {
-	    	res->merge( actnode );
-	    }
-	}
-	
-    	if ( r == nodes.end() )
-	{
-	    // need a new one
-	    NodePtr node = Node::create();
-	    
-	    beginEditCP( node );
-	    node->setCore( actnode->clone() );
-	    endEditCP( node );
-	    
-	    results.push_back( node );
-	}
+        GeometryPtr actnode = GeometryPtr::dcast((*n)->getCore());
+
+    if ( actnode == NullFC )
+    {
+        FWARNING(( "mergeGeometries: core of 0x%p is not a geometry!\n",
+                    n->getCPtr() ));
+        continue;
+    }
+
+    vector<NodePtr>::iterator r;
+    for ( r = nodes.begin(); r != nodes.end(); ++r )
+    {
+        GeometryPtr res = GeometryPtr::dcast((*r)->getCore());
+
+            if ( res->isMergeable( actnode ) )
+        {
+            res->merge( actnode );
+        }
+    }
+
+        if ( r == nodes.end() )
+    {
+        // need a new one
+        NodePtr node = Node::create();
+
+        beginEditCP( node );
+        node->setCore( actnode->clone() );
+        endEditCP( node );
+
+        results.push_back( node );
+    }
     }
 }
