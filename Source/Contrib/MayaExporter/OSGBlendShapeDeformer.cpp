@@ -43,8 +43,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OSG_COMPILEMYLIB
-
 #include <OSGConfig.h>
 
 #include "OSGBlendShapeDeformer.h"
@@ -83,7 +81,7 @@ void BlendShapeDeformer::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void BlendShapeDeformer::dump(      UInt32    , 
+void BlendShapeDeformer::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump BlendShapeDeformer NI" << std::endl;

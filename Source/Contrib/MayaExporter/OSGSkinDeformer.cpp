@@ -43,8 +43,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OSG_COMPILEMYLIB
-
 #include <OSGConfig.h>
 
 #include "OSGSkinDeformer.h"
@@ -89,7 +87,7 @@ void SkinDeformer::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void SkinDeformer::dump(      UInt32    , 
+void SkinDeformer::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump SkinDeformer NI" << std::endl;

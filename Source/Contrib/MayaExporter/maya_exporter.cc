@@ -89,7 +89,7 @@ private:
     osg::NodePtr translate_transform(const MDagPath & dagPath);
     osg::SkinDeformerPtr translate_skincluster(const MObject & o);
     void translate_blendshape(const MObject & o);
-    
+
     osg::NodePtr get_osg_node(const MDagPath & dagPath);
     void add_osg_node(const MDagPath & dagPath, osg::NodePtr osg_node);
 
@@ -97,7 +97,7 @@ private:
 };
 
 bool operator <  (const MDagPath & a, const MDagPath & b) {
-    return string(a.fullPathName().asChar()) < string(b.fullPathName().asChar());
+    return std::string(a.fullPathName().asChar()) < std::string(b.fullPathName().asChar());
 }
 
 osg::NodePtr OpenSG_exporter::get_osg_node(const MDagPath & dagPath) {
@@ -132,7 +132,7 @@ MStatus OpenSG_exporter::export_all (const MString & filename) {
     if (status == MStatus::kFailure)
         return status;
 
-    osg::NodePtr osg_root_node = osg::Node::create();  
+    osg::NodePtr osg_root_node = osg::Node::create();
     osg::TransformPtr osg_trans = osg::Transform::create();
     osg::beginEditCP(osg_root_node, osg::Node::CoreFieldMask );
     {
@@ -189,14 +189,14 @@ MStatus OpenSG_exporter::export_all (const MString & filename) {
 
             // Give the node a name.
             osg::NamePtr osg_name = osg::Name::create();
-            beginEditCP(osg_name);
-            beginEditCP(osg_node,osg::Node::AttachmentsFieldMask);
+            osg::beginEditCP(osg_name);
+            osg::beginEditCP(osg_node,osg::Node::AttachmentsFieldMask);
             {
                 osg_name->getFieldPtr()->getValue().assign(dagPath.partialPathName().asChar());
                 osg_node->addAttachment(osg_name);
             }
-            endEditCP(osg_node,osg::Node::AttachmentsFieldMask);
-            endEditCP(osg_name);
+            osg::endEditCP(osg_node,osg::Node::AttachmentsFieldMask);
+            osg::endEditCP(osg_name);
 
             // Add to our mapping of DAG paths to OpenSG nodes.
             add_osg_node(dagPath, osg_node);
@@ -275,7 +275,7 @@ void OpenSG_exporter::translate_blendshape (const MObject & o) {
     MFloatArray weights(numWeights);
     for (unsigned int t = 0; t < numWeights; t++) {
         weights[t] = blendshape.weight(weight_indices[t]);
-    } 
+    }
 
     for (unsigned int i = 0; i < base_objects.length(); i++) {
         MObject base = base_objects[i];
@@ -343,7 +343,7 @@ void OpenSG_exporter::translate_blendshape (const MObject & o) {
                         osg_blendshape->getTargetIndices().push_back(t);
                         osg_blendshape->getTargetVertices().push_back(target);
                     }
-                } 
+                }
 
                 for (unsigned int n = 0; n < normals.length(); n++) {
                     osg::Vec3f base = deform_geo->getNormals()->getValue(n);
@@ -354,7 +354,7 @@ void OpenSG_exporter::translate_blendshape (const MObject & o) {
                         osg_blendshape->getNormalTargetIndices().push_back(t);
                         osg_blendshape->getTargetNormals().push_back(target);
                     }
-                } 
+                }
 
                 // Set default target weight.
                 osg_blendshape->getWeight().push_back(weights[t]);
@@ -365,11 +365,11 @@ void OpenSG_exporter::translate_blendshape (const MObject & o) {
 
             // Give the deformer a name.
             osg::NamePtr osg_name = osg::Name::create();
-            beginEditCP(osg_name);
+            osg::beginEditCP(osg_name);
             {
                 osg_name->getFieldPtr()->getValue().assign(blendshape.name().asChar());
             }
-            endEditCP(osg_name);
+            osg::endEditCP(osg_name);
             osg_blendshape->addAttachment(osg_name);
         }
         osg::endEditCP(osg_blendshape);
@@ -442,7 +442,7 @@ osg::SkinDeformerPtr OpenSG_exporter::translate_skincluster(const MObject & o) {
         }
 
         osg::SkinDeformerPtr osg_skin = osg::SkinDeformer::create();
-        beginEditCP(osg_skin);
+        osg::beginEditCP(osg_skin);
         {
             osg_skin->setGeometry(child);
             for (unsigned int i = 0; i < infl_count; i++) {
@@ -536,25 +536,25 @@ osg::SkinDeformerPtr OpenSG_exporter::translate_skincluster(const MObject & o) {
                 }
             }
         }
-        endEditCP(osg_skin);
+        osg::endEditCP(osg_skin);
         MGlobal::displayInfo(skin.name() + ": " + (double)osg_skin->getVertexIndices().size() + " vertex ops, " +
                              (double)osg_skin->getNormalIndices().size() + " normal ops");
 
         // Give the deformer a name.
         osg::NamePtr osg_name = osg::Name::create();
-        beginEditCP(osg_name);
+        osg::beginEditCP(osg_name);
         {
             osg_name->getFieldPtr()->getValue().assign(skin.name().asChar());
         }
-        endEditCP(osg_name);
+        osg::endEditCP(osg_name);
         osg_skin->addAttachment(osg_name);
 
         // Attach this skin deformer to the geometry so it will be saved with the scene and we can find it later.
-        beginEditCP(deform_geo);
+        osg::beginEditCP(deform_geo);
         {
             deform_geo->getDeformers().push_back(osg_skin);
         }
-        endEditCP(deform_geo);
+        osg::endEditCP(deform_geo);
 
         // There should be only one output geometry for skinCluster nodes, so just return the first one.
         return osg_skin;
@@ -622,8 +622,8 @@ osg::NodePtr OpenSG_exporter::translate_transform(const MDagPath & dagPath) {
     if (!sp.isEquivalent(rp))
         MGlobal::displayWarning(fnTransform.name() + ": scale pivot does not equal rotate pivot. Using rotate pivot");
     center[0] = rp[0]; center[1] = rp[1]; center[2] = rp[2];
-#endif    
-#if 1    
+#endif
+#if 1
     osg::ComponentTransformPtr osg_transform = osg::ComponentTransform::create();
 #else
     osg::TransformPtr osg_transform = osg::Transform::create();
@@ -762,7 +762,7 @@ osg::NodePtr OpenSG_exporter::translate_mesh(const MDagPath & dagPath) {
 
         osg::DeformableGeometryPtr osg_geo = osg::DeformableGeometry::create();
         osg::GeoPTypesPtr osg_primitive_types = osg::GeoPTypesUI8::create();
-        osg::GeoPLengthsPtr osg_lengths = osg::GeoPLengthsUI32::create(); 
+        osg::GeoPLengthsPtr osg_lengths = osg::GeoPLengthsUI32::create();
         osg::GeoIndicesUI32Ptr osg_indices = osg::GeoIndicesUI32::create();
 
         // For each polygon.
@@ -804,7 +804,7 @@ osg::NodePtr OpenSG_exporter::translate_mesh(const MDagPath & dagPath) {
                     osg_indices->addValue(normal_index);
                     if (have_uvs)
                         osg_indices->addValue(uv_index);
-                }                
+                }
             }
             osg::endEditCP(osg_indices, osg::GeoIndicesUI32::GeoPropDataFieldMask);
         }
@@ -883,7 +883,7 @@ MObject OpenSG_exporter::find_shader (const MObject& setNode) {
     MPlug shaderPlug = fnNode.findPlug("surfaceShader");
 
     MStatus status;
-    if (!shaderPlug.isNull()) {			
+    if (!shaderPlug.isNull()) {
         MPlugArray connectedPlugs;
         shaderPlug.connectedTo(connectedPlugs, true, false, &status);
         if (status != MStatus::kSuccess) {
@@ -897,7 +897,7 @@ MObject OpenSG_exporter::find_shader (const MObject& setNode) {
             return connectedPlugs[0].node();
         }
     }
-	
+
     return MObject::kNullObj;
 }
 
@@ -983,15 +983,14 @@ osg::MaterialPtr OpenSG_exporter::get_osg_material (const MDagPath& mesh, const 
     return osg_mat;
 }
 
-MStatus initializePlugin (MObject obj) {
+OSG_CONTRIBLIB_DLLMAPPING MStatus initializePlugin (MObject obj) {
     osg::osgInit(0, 0);
     MFnPlugin plugin(obj, "Michael Babcock", "0.1", "Any");
     return plugin.registerFileTranslator("OpenSG", "", OpenSG_exporter::creator, "", "", false);
 }
 
-MStatus uninitializePlugin (MObject obj) {
+OSG_CONTRIBLIB_DLLMAPPING MStatus uninitializePlugin (MObject obj) {
     osg::osgExit();
     MFnPlugin plugin(obj);
     return plugin.deregisterFileTranslator("OpenSG");
 }
-

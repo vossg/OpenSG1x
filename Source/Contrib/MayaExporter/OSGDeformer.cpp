@@ -43,8 +43,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OSG_COMPILEMYLIB
-
 #include <OSGConfig.h>
 
 #include "OSGDeformer.h"
@@ -82,7 +80,7 @@ void Deformer::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void Deformer::dump(      UInt32    , 
+void Deformer::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump Deformer NI" << std::endl;

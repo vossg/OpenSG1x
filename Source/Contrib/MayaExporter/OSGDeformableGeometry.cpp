@@ -43,8 +43,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define OSG_COMPILEMYLIB
-
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
@@ -84,19 +82,19 @@ void DeformableGeometry::initMethod (void)
                                           DeformableGeometryPtr,
                                           CNodePtr,
                                           Action *>(&MaterialDrawable::drawActionHandler));
-                                                                                                                                                            
+
     IntersectAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           DeformableGeometryPtr,
                                           CNodePtr,
                                           Action *>(&Geometry::intersect));
-                                                                                                                                                            
+
     RenderAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           DeformableGeometryPtr,
                                           CNodePtr,
                                           Action *>(&MaterialDrawable::renderActionHandler));
-                                                                                                                                                            
+
 
 }
 
@@ -116,7 +114,7 @@ void DeformableGeometry::changed(BitVector whichField, UInt32 origin)
     Inherited::changed(whichField, origin);
 }
 
-void DeformableGeometry::dump(      UInt32    , 
+void DeformableGeometry::dump(      UInt32    ,
                          const BitVector ) const
 {
     SLOG << "Dump DeformableGeometry NI" << std::endl;
