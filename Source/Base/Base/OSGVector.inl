@@ -696,6 +696,16 @@ void PointInterface<ValueTypeT,
     }
 }
 
+//! Set value from a given array, be sure to match sizes
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, 
+                    StorageInterfaceT>::setValue(ValueTypeT *pVals)
+{
+    setValue(static_cast<const ValueTypeT *>(pVals));
+}
+
 /*! \brief Extract values from given string, where both (const and not const)
     must be present, otherwise \b the \b compiler \b strikes \b back :-) (GV)
 */

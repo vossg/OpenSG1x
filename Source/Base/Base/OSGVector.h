@@ -397,6 +397,7 @@ class PointInterface : public StorageInterfaceT
     }
 
     void setValue(const ValueTypeT     *pVals   );
+    void setValue(      ValueTypeT     *pVals   );
     void setValue(const Char8          *szString);
     void setValue(      Char8          *szString);
 
