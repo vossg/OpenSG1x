@@ -86,7 +86,7 @@ is just too expensive and rarely useful.
  *                           Class variables                               *
 \***************************************************************************/
 
-char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.6 2001/02/13 15:54:16 dirk Exp $";
+char FaceIterator::cvsid[] = "@(#)$Id: OSGFaceIterator.cpp,v 1.7 2001/05/23 08:12:46 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -177,9 +177,7 @@ void FaceIterator::operator++ ()
 {
 	// already at end?
 	if ( _primIt.isAtEnd() )
-	{
 		return;
-	}
 	
 	++_faceIndex;
 
@@ -188,8 +186,7 @@ void FaceIterator::operator++ ()
 	{
 		++_primIt;
 		
-		if ( ! _primIt.isAtEnd() )
-			startPrim();
+		startPrim();
 		
 		return;
 	}
@@ -225,13 +222,12 @@ void FaceIterator::operator++ ()
 							_facePntIndex[2] = _actPrimIndex++;
 							_facePntIndex[3] = _actPrimIndex++;
 							break;
-	default:			SWARNING << "FaceIterator::++: encountered " 
-								  << "unknown primitive type " 
-								  << _primIt.getType()
-								  << ", ignoring!" << endl;
-						if ( ! _primIt.isAtEnd() )
+	default:				SWARNING << "FaceIterator::++: encountered " 
+									  << "unknown primitive type " 
+									  << _primIt.getType()
+									  << ", ignoring!" << endl;
 							startPrim();
-						break;
+							break;
 	}			
 }
 
@@ -242,73 +238,67 @@ Also skips non-polygonal primitives (lines, points).
 
 void FaceIterator::startPrim( void )
 {
+	// already at end?
+	if ( _primIt.isAtEnd() )
+		return;
+
 	_facePntIndex[0] = 0;
 	_facePntIndex[1] = 1;
 	_facePntIndex[2] = 2;
 	_facePntIndex[3] = -1;
 	_actPrimIndex = 3;
 	
-	switch ( _primIt.getType() )
+	// loop until you find a useful primitive or run out
+	while ( ! _primIt.isAtEnd() )
 	{
-	case GL_POINTS: 	// non-polygon types: ignored
-	case GL_LINES:
-	case GL_LINE_STRIP: 
-	case GL_LINE_LOOP:	++_primIt;
-						if ( ! _primIt.isAtEnd() )
-							startPrim();
-						break;
-	case GL_TRIANGLES: 
-	case GL_TRIANGLE_STRIP:
-	case GL_TRIANGLE_FAN:	if ( _primIt.getLength() < 3 )
-						{
-							++_primIt;
-							if ( ! _primIt.isAtEnd() )
-								startPrim();
+		switch ( _primIt.getType() )
+		{
+		case GL_POINTS: 	// non-polygon types: ignored
+		case GL_LINES:
+		case GL_LINE_STRIP: 
+		case GL_LINE_LOOP:	
 							break;
-						}
-						break;
-	case GL_POLYGON:	switch ( _primIt.getLength() )
-						{
-						case 0: case 1: case 2:
-							++_primIt;
-							if ( ! _primIt.isAtEnd() )
-								startPrim();
+		case GL_TRIANGLES: 
+		case GL_TRIANGLE_STRIP:
+		case GL_TRIANGLE_FAN:	
+								if ( _primIt.getLength() >= 3 )
+									return;
+								break;
+		case GL_POLYGON:		switch ( _primIt.getLength() )
+								{
+								case 0: 
+								case 1: 
+								case 2: 
+											break;
+								case 4:
+											_facePntIndex[3] = _actPrimIndex++;	
+											return;
+								default:
+											return;
+								}
+								break;
+		case GL_QUADS:			if ( _primIt.getLength() >= 4 )
+								{
+									_facePntIndex[3] = _actPrimIndex++;						
+									return;
+								}
+								break;
+		case GL_QUAD_STRIP:		if ( _primIt.getLength() >= 4 )
+								{
+									_facePntIndex[3] = _facePntIndex[2];						
+									_facePntIndex[2] = _actPrimIndex++;						
+									return;
+								}
+								break;
+		default:			SWARNING << "FaceIterator::startPrim: encountered " 
+									  << "unknown primitive type " 
+									  << _primIt.getType()
+									  << ", ignoring!" << endl;
 							break;
-						case 4:
-							_facePntIndex[3] = _actPrimIndex++;	
-							break;
-						default:
-							break;
-						}
-						break;
-	case GL_QUADS:		if ( _primIt.getLength() < 4 )
-						{
-							++_primIt;
-							if ( ! _primIt.isAtEnd() )
-								startPrim();
-							break;
-						}
-						_facePntIndex[3] = _actPrimIndex++;						
-						break;
-	case GL_QUAD_STRIP:	if ( _primIt.getLength() < 4 )
-						{
-							++_primIt;
-							if ( ! _primIt.isAtEnd() )
-								startPrim();
-							break;
-						}
-						_facePntIndex[3] = _facePntIndex[2];						
-						_facePntIndex[2] = _actPrimIndex++;						
-						break;
-	default:			SWARNING << "FaceIterator::startPrim: encountered " 
-								  << "unknown primitive type " 
-								  << _primIt.getType()
-								  << ", ignoring!" << endl;
-						++_primIt;
-						if ( ! _primIt.isAtEnd() )
-							startPrim();
-						break;
-	}			
+		}	
+		
+		++_primIt;
+	}		
 }
 
 void FaceIterator::seek( Int32 index )
