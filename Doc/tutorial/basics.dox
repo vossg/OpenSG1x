@@ -7,9 +7,9 @@ using namespace OSG;
 \page TutorialBasics Basics
 \latexonly Starter:NewChapter \endlatexonly
 
-If you have read this online tutorial right from the beginning, you are able to install OpenSG, you know a few things about GLUT, the 
-Simple Scene Manager und you have compiled and executed your first program. Well that is good, but you need to know a bit more
-before you write your first real application for yourself. In this chapter I will show you the basic things of OpenSG, that is: 
+If you have read this online tutorial right from the beginning, you are able to install OpenSG, you know a few things about GLUT as well as the 
+Simple Scene Manager and you have compiled and executed your first program. Well that is good, but you need to know a bit more
+before you write your first real application. In this chapter I will show you the basic things of OpenSG, that is: 
 <UL>
     <LI>math using OpenSG classes</LI>
     <LI>creating new nodes and cores</LI>
@@ -226,7 +226,7 @@ m.mult(a, result);
 
 // ATTENTION: remember matrix multiplication when you did it manually? We are 
 // multiplying a 4x4 matrix with a 3x1 vector. Actually that should not work... 
-// but in OpenSG it does, not because of a false implementationm, but with 
+// but in OpenSG it does, not because of a false implementation, but with 
 // respect to the fact that the fourth row is rarely used as it is (0,0,0,1)
 // in most cases. This is why OpenSG assumes that you actually multiply a 4x3 
 // matrix with a 3x1 vector... and that is ok!
@@ -602,7 +602,7 @@ derived to all children only, but never are they passed to neighbours.
 </I>
 
 Because we really need that kind of core to do anything other than boring, I have introduced the transform core here. A detailed discussed about
-this and most other cores can be found at Chapter (xxx).
+this and most other cores can be found in the next Chapter (\ref NodeCores).
 
 \section TutorialBasicTutorial Tutorial - it's moving!
 
@@ -1448,4 +1448,5 @@ the application should loat the three specified files. Also check if the file wa
 
 What would happen if we swap the "setTranslate" and the "setRotate" commands? After you found out: why did it happen that way?
 
+Next Chapter: \ref NodeCores
 */

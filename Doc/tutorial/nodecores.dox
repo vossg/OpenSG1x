@@ -15,14 +15,93 @@ we will use all the cores introduced here.
 The geometry core is of course one of the most important cores of all of them, but because of it's importance, the geometry core is not introduced
 here, but in the next chapter which is about geometry only!
 
-\subsection TutorialNodeCoresTransform Transform Core
+\section TutorialNodeCoresTransform Transform Core
 
 The transform core was already briefly introduced in the last Chapter (\ref TutorialBasicCoresTransform), but now we will have a more deeper
-look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method. So the
-key for correct transformations lies withing the Matrix itself. Let us imagine a little, more complex scene using more than jsut one transformation
-like we did before. The most popular example is the modell of a solor system. To make it a bit easier, we only want a sun and one planet
-with one moon. The sun is stationary and the planet is orbiting in a circle around the sun whereas the moon is doing the same around the planet. 
-We also don't want to pay any attention to real sizes and distances. 
+look at it. However, about the transform class itself is not much left to say, as the most important method is the "setMatrix()" method, which let us
+use any matrix as a transformation matrix. In order to create the transformation that you want, you need only to create the apropiate matrix. 
 
+Let us imagine a more complex scene using more than just one transformation like we did before. A very common example is the model of a solor 
+system. To make it a bit easier, we only want a sun and one planet with one moon. The sun should be stationary and the planet is orbiting in a 
+circle around the sun whereas the moon is doing the same around the planet. We also don't want to pay any attention to real sizes and distances. 
+There is not only one way to solve this problem. We will have a closer look at two variants: One possibility is to have a deep graph, where the 
+planet is attached to the sun whereas the moon is attached to the planet with each having a transformation describing the rotation around their 
+parent object. That is the moon is moving in a circle around the planet which also is moving in a circile around the sun. Figure (xxx) is 
+illustrating what I mean. The other way is to have a transformation describing the complete movement, so all geometry nodes are located directly 
+below the root node. This approach is not as intuitive than the other is, but it might be faster to compute. Figure (xxx) is illustrating this 
+variant. 
+
+Well, first we create our objects we will need
+
+\code
+
+NodePtr createScenegraph(){
+	
+	//create all the stuff we need
+	NodePtr root = Node::create();
+	beginEditCP(root, Node::CoreFieldMask);
+		root->setCore(Group::create());
+	endEditCP(root, Node::CoreFieldMask);
+	
+	NodePtr sun = makeSphere(3, 6);
+	NodePtr planet = makeSphere(3, 3);
+	NodePtr moon = makeSphere(2,1);
+	
+	NodePtr planetTransformNode = Node::create();
+	NodePtr moonTransformNode = Node::create();
+	
+	TransformPtr planetTransform = Transform::create();
+	TransformPtr moonTransform = Transform::create();
+	
+	// Now we need to fill it with live
+	// We want to have the planet some distance away from the sun, 
+	// but initial with no rotation. The same aplies to the moon
+	Matrix m,n;
+	
+	m.setIdentity();
+	n.setIdentity();
+	
+	m.setTranslate(10,0,0);
+	n.setTranslate(3,0,0);
+	
+	beginEditCP(planetTransform, Transform::MatrixFieldMask);
+		planetTransform->setMatrix(m);
+	endEditCP(planetTransform, Transform::MatrixFieldMask);
+	
+	beginEditCP(moonTransform, Transform::MatrixFieldMask);
+		moonTransform->setMatrix(n);
+	endEditCP(moonTransform, Transform::MatrixFieldMask);
+	
+	//Insert the cores into the apropiate nodes and add the geometry
+	beginEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+		planetTransformNode->setCore(planetTransform);
+		planetTransformNode->addChild(planet);
+	endEditCP(planetTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+	
+	beginEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+		moonTransformNode->setCore(moonTransform);
+		planetTransformNode->addChild(moon);
+	endEditCP(moonTransformNode, Node::CoreFieldMask | Node::ChildrenFieldMask);
+	
+	//add the planet to the sun
+	beginEditCP(root, Node::ChildrenFieldMask);
+		root->addChild(planetTransformNode);
+	endEditCP(root, Node::ChildrenFieldMask);
+	
+	//add the moon to the planet
+	beginEditCP(planet, Node::ChildrenFieldMask);
+		planet->addChild();
+	endEditCP(planet, Node::ChildrenFieldMask);
+	
+	//now we are done
+	return root;
+}
+
+\endcode
+
+\subsection TutorialNodeCoresTransformMatrix Matrix-Magic
+
+Here you will find many possibilities how to create and manipulate matrices. I also presented some basic operations on metrices here: \ref
+BasicMathWorkWithMarices. These will not be repeated here.
 
 */
