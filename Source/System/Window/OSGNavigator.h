@@ -111,17 +111,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    ~Navigator();
+    virtual ~Navigator();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Notificators                              */
     /*! \{                                                                 */
 
-    void buttonPress  (Int16 button, Int16 x, Int16 y);
-    void buttonRelease(Int16 button, Int16 x, Int16 y);
-    void keyPress     (Int16 key   , Int16 x, Int16 y);
-    void moveTo       (              Int16 x, Int16 y);
+    virtual void buttonPress  (Int16 button, Int16 x, Int16 y);
+    virtual void buttonRelease(Int16 button, Int16 x, Int16 y);
+    virtual void keyPress     (Int16 key   , Int16 x, Int16 y);
+    virtual void moveTo       (              Int16 x, Int16 y);
 
     void updateCameraTransformation();
 
