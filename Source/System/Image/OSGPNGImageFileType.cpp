@@ -187,6 +187,28 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
     channels = png_get_channels(png_ptr, info_ptr);
     color_type = png_get_color_type(png_ptr, info_ptr);
 
+    // Convert paletted images to RGB
+    if (color_type == PNG_COLOR_TYPE_PALETTE)
+    {
+      png_set_palette_to_rgb(png_ptr);
+      channels = 3;
+    }
+
+    // Convert < 8 bit to 8 bit
+    if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
+      png_set_gray_1_2_4_to_8(png_ptr);
+    
+    // Add a full alpha channel if there is transparency
+    // information in a tRNS chunk
+    if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
+    {
+      png_set_tRNS_to_alpha(png_ptr);
+      ++channels;
+    }                                                                                
+    // Convert 16 bit to 8 bit
+    if (bit_depth == 16)
+      png_set_strip_16(png_ptr);
+
     switch(channels)
     {
     case 1:
@@ -205,23 +227,6 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
 
     if(image->set(pixelFormat, width, height))
     {
-        // Convert paletted images to RGB
-        if(color_type == PNG_COLOR_TYPE_PALETTE && bit_depth <= 8)
-            png_set_expand(png_ptr);
-
-        // Convert < 8 bit to 8 bit
-        if(color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-            png_set_expand(png_ptr);
-
-        // Add a full alpha channel if there is transparency
-        // information in a tRNS chunk
-        if(png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
-            png_set_expand(png_ptr);
-
-        // Convert 16 bit to 8 bit
-        if(bit_depth == 16)
-            png_set_strip_16(png_ptr);
-
         // Calculate the row pointers
         row_pointers = new png_bytep[height];
         wc = width * channels;
