@@ -1,5 +1,5 @@
 # Add our directory to the WindowQTLib
 
-if test $enable_qt = yes; then
-ac_gdz_package_dirs_WindowQT="${ac_gdz_package_dirs_WindowQT} Experimental/QTWidgets@"
-fi
+#if test $enable_qt = yes; then
+#ac_gdz_package_dirs_WindowQT="${ac_gdz_package_dirs_WindowQT} Experimental/QTWidgets@"
+#fi
