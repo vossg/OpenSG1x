@@ -114,11 +114,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
     friend class PhongMaterialBase;
 
     static void initMethod(void);
+    
+    static UInt32 _arbFragmentProgram;
 
     MaterialChunkPtr        _materialChunk;
     BlendChunkPtr           _blendChunk;
     VertexProgramChunkPtr   _vpChunk;
     FragmentProgramChunkPtr _fpChunk;
+    bool                    _initialized;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PhongMaterial &source);
@@ -131,6 +134,6 @@ OSG_END_NAMESPACE
 #include <OSGPhongMaterialBase.inl>
 #include <OSGPhongMaterial.inl>
 
-#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.1 2003/10/02 15:03:47 a-m-z Exp $"
+#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.2 2003/10/03 14:43:32 a-m-z Exp $"
 
 #endif /* _OSGPHONGMATERIAL_H_ */

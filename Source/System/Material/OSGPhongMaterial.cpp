@@ -162,6 +162,8 @@ static std::string _phong_fp_prg =
  *                           Class variables                               *
 \***************************************************************************/
 
+UInt32 PhongMaterial::_arbFragmentProgram;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -186,7 +188,8 @@ PhongMaterial::PhongMaterial(void) :
     _materialChunk(NullFC),
     _blendChunk(NullFC),
     _vpChunk(NullFC),
-    _fpChunk(NullFC)
+    _fpChunk(NullFC),
+    _initialized(false)
 {
 }
 
@@ -195,8 +198,10 @@ PhongMaterial::PhongMaterial(const PhongMaterial &source) :
     _materialChunk(source._materialChunk),
     _blendChunk(source._blendChunk),
     _vpChunk(source._vpChunk),
-    _fpChunk(source._fpChunk)
+    _fpChunk(source._fpChunk),
+    _initialized(source._initialized)
 {
+    _arbFragmentProgram = Window::registerExtension("GL_ARB_fragment_program");
 }
 
 PhongMaterial::~PhongMaterial(void)
@@ -206,37 +211,35 @@ PhongMaterial::~PhongMaterial(void)
 
 void PhongMaterial::prepareLocalChunks(void)
 {
-    if(_materialChunk == NullFC)
-    {
-        _materialChunk = MaterialChunk::create();
-        // so everybody can set the attributes using the ChunkMaterial class
-        // iterating over the chunks.
-        addChunk(_materialChunk);
-    }
-
-    if(_blendChunk == NullFC)
-    {
-        _blendChunk = BlendChunk::create();
-        beginEditCP(_blendChunk);
-            _blendChunk->setSrcFactor (GL_SRC_ALPHA);
-            _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
-        endEditCP  (_blendChunk);
-        // can't do a addChunk(_blendChunk) cause we only want to add it to the state
-        // if it is really transparent.
-        addRefCP(_blendChunk);
-    }
+    if(_initialized)
+        return;
     
-    if(_vpChunk == NullFC)
+    _initialized = true;
+
+    _materialChunk = MaterialChunk::create();
+    // so everybody can set the attributes using the ChunkMaterial class
+    // iterating over the chunks.
+    addChunk(_materialChunk);
+
+    _blendChunk = BlendChunk::create();
+    beginEditCP(_blendChunk);
+        _blendChunk->setSrcFactor (GL_SRC_ALPHA);
+        _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    endEditCP  (_blendChunk);
+    // can't do a addChunk(_blendChunk) cause we only want to add it to the state
+    // if it is really transparent.
+    addRefCP(_blendChunk);
+
+    // phong shading without a fragment shader looks quite black ;-)
+    // all cards with a fragment shader should also have a vertex shader.
+    if(Window::hasCommonExtension(_arbFragmentProgram))
     {
         _vpChunk = VertexProgramChunk::create();
         addChunk(_vpChunk);
         beginEditCP(_vpChunk);
             _vpChunk->setProgram(_phong_vp_prg);
         endEditCP(_vpChunk);
-    }
-    
-    if(_fpChunk == NullFC)
-    {
+        
         _fpChunk = FragmentProgramChunk::create();
         addChunk(_fpChunk);
         beginEditCP(_fpChunk);
@@ -372,7 +375,7 @@ void PhongMaterial::rebuildState(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.1 2003/10/02 15:03:47 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.2 2003/10/03 14:43:32 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 

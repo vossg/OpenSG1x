@@ -67,6 +67,9 @@ int main(int argc, char **argv)
 
     // OSG init
     osgInit(argc,argv);
+    
+    // just to simulate a card without fragment shader.
+    //OSG::Window::ignoreExtensions("GL_ARB_fragment_program");
 
     // GLUT init
     int winid = setupGLUT(&argc, argv);
