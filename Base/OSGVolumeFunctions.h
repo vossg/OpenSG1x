@@ -73,15 +73,15 @@ class FrustumVolume;
 
 // Intersect implementation maxtrix: 
 //   Func:   Function implementation
-//   Temp:   Template implementation
+//   Inline: Inline implementation
 //
 //           |Box     |Sphere  |Cylinder|Frustum |Volume
 //   --------+--------+--------+--------+--------+------
 //   Box     |Func    |Func    |Func    |Func    |Func
-//   Sphere  |Temp    |Func    |Func    |Func    |Func
-//   Cylinder|Temp    |Temp    |Func    |Func    |Func
-//   Frustum |Temp    |Temp    |Temp    |Func    |Func
-//   Volume  |Temp    |Temp    |Temp    |Temp    |Func
+//   Sphere  |Inline  |Func    |Func    |Func    |Func
+//   Cylinder|Inline  |Inline  |Func    |Func    |Func
+//   Frustum |Inline  |Inline  |Inline  |Func    |Func
+//   Volume  |Inline  |Inline  |Inline  |Inline  |Func
 
 /*! \brief intersect Volume / Volume
  *  \ingroup VolumeIntersectFunction

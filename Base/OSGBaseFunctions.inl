@@ -268,6 +268,28 @@ Real32 osgfloor(const Real32 &rValue)
 #endif
 }
 
+/*! \brief osgMin
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+OSG_BASE_DLLMAPPING TypeT osgMin ( const TypeT &lVal,
+																	 const TypeT &rVal)
+{
+	return ((lVal < rVal) ? lVal : rVal);
+}
+
+/*! \brief osgMax
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> inline
+OSG_BASE_DLLMAPPING TypeT osgMax ( const TypeT &lVal,
+																	 const TypeT &rVal)
+{
+	return ((lVal > rVal) ? lVal : rVal);
+}
+
 /*@}*/
 
 /*! @name Real64 Specializations

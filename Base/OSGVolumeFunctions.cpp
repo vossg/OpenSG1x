@@ -259,8 +259,6 @@ OSG_BASE_DLLMAPPING void extend ( Volume &srcVol,
 OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol, 
 																	const BoxVolume &vol)
 {
-	Real32 minx,miny,minz,maxx,maxy,maxz;
-
 	if ( (! srcVol.isValid() && ! srcVol.isEmpty()) || 
 			 srcVol.isInfinite() || srcVol.isStatic() )
 		return;
@@ -278,26 +276,13 @@ OSG_BASE_DLLMAPPING void extend ( BoxVolume &srcVol,
 	else
 		if (vol.isEmpty())
 			return;
-			
-	if (vol.getMin().x() < srcVol.getMin().x())
-		minx = vol.getMin().x();
 
-	if (vol.getMax().x() > srcVol.getMax().x())
-		maxx = vol.getMax().x();
-
-	if (vol.getMin().y() < srcVol.getMin().y())
-		miny = vol.getMin().y();
-
-	if (vol.getMax().y() > srcVol.getMax().y())
-		maxy = vol.getMax().y();
-
-	if (vol.getMin().z() < srcVol.getMin().z())
-		minz = vol.getMin().z();
-
-	if (vol.getMax().z() > srcVol.getMax().z())
-		maxz = vol.getMax().z();				 	
-
-	srcVol.setBounds(minx,miny,minz,maxx,maxy,maxz);
+	srcVol.setBounds ( osgMin(vol.getMin().x(),srcVol.getMin().x()),
+										 osgMax(vol.getMax().x(),srcVol.getMax().x()),
+										 osgMin(vol.getMin().y(),srcVol.getMin().y()),
+										 osgMax(vol.getMax().y(),srcVol.getMax().y()),
+										 osgMin(vol.getMin().z(),srcVol.getMin().z()),
+										 osgMax(vol.getMax().z(),srcVol.getMax().z()));
 
 	if (vol.isInfinite())
 		srcVol.setInfinite(true);

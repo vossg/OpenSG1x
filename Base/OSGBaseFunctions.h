@@ -168,6 +168,22 @@ OSG_BASE_DLLMAPPING FloatTypeT osgpow(const FloatTypeT &rVal,
 template <class FloatTypeT> 
 OSG_BASE_DLLMAPPING FloatTypeT osgfloor(const FloatTypeT &rVal);
 
+/*! \brief osgMin
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> 
+OSG_BASE_DLLMAPPING TypeT osgMin ( const TypeT &lVal,
+																	 const TypeT &rVal);
+
+/*! \brief osgMax
+ *  \ingroup BaseMathFunctions
+ */
+
+template <class TypeT> 
+OSG_BASE_DLLMAPPING TypeT osgMax ( const TypeT &lVal,
+																	 const TypeT &rVal);
+
 /*! \brief osgMax
  *  \ingroup BaseMathFunctions
  */
