@@ -36,17 +36,22 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGATTACHMENT_H_
-#define _OSGATTACHMENT_H_
-#ifdef __sgi
-#pragma once
-#endif
+#ifndef _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
+#define _OSGATTACHMENTCONTAINERPTRDEPIMPL_H_
 
-#include <OSGAttachmentPtrImpl.h>
+OSG_BEGIN_NAMESPACE
 
-#include <OSGAttachmentImpl.h>
-#include <OSGAttachmentImpl.inl>
+template <class InTypeT> inline
+AttachmentContainerPtr AttachmentContainerPtr::dcast(const InTypeT oIn)
+{
+    return AttachmentContainerPtr(
+        (dynamic_cast<const AttachmentContainer *>(oIn.getCPtr())),
+        oIn.getContainerSize(),
+        oIn.getParentFieldPos());
+}
 
-#include <OSGAttachmentPtrDepImpl.inl>
 
-#endif /* _OSGATTACHMENT_H_ */
+OSG_END_NAMESPACE
+
+#endif /* _OSGATTACHMENTCONTAINERPTRDEPIMPL_INL_ */
+

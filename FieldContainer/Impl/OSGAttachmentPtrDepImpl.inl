@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -34,27 +36,21 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
-#include <stdlib.h>
-#include <stdio.h>
-
-#include "OSGConfig.h"
+#ifndef _OSGATTACHMENTPTRDEPIMPL_H_
+#define _OSGATTACHMENTPTRDEPIMPL_H_
 
 OSG_BEGIN_NAMESPACE
 
-OSG_ABSTR_FIELD_CONTAINER_INL_DEF(AttachmentContainer, AttachmentContainerPtr)
-
-inline
-AttachmentPtr AttachmentContainer::findAttachment(
-    const FieldContainerType &type,
-          UInt16             binding)
+template <class InTypeT> inline
+AttachmentPtr AttachmentPtr::dcast(const InTypeT oIn)
 {
-    return findAttachment(type.getGroupId(), binding);
+    return AttachmentPtr(
+        (dynamic_cast<const Attachment *>(oIn.getCPtr())),
+        oIn.getContainerSize(),
+        oIn.getParentFieldPos());
 }
 
 OSG_END_NAMESPACE
 
-#define OSGATTACHMENTCONTAINER_INLINE_CVSID "@(#)$Id: $"
+#endif /* _OSGATTACHMENTPTRDEPIMPL_INL_ */
+

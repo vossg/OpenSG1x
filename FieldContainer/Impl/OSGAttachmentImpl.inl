@@ -34,6 +34,9 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+#ifndef _OSGATTACHMENTIMPL_INL_
+#define _OSGATTACHMENTIMPL_INL_
+
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -470,4 +473,4 @@ OSG_END_NAMESPACE
 
 #define OSGATTACHMENT_INLINE_CVSID "@(#)$Id: $"
 
-
+#endif /* _OSGATTACHMENTIMPL_INL_ */

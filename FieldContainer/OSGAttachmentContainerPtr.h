@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,139 +36,17 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGATTACHMENTCONTAINERPTR_H_
-#define _OSGATTACHMENTCONTAINERPTR_H_
+#ifndef _OSGATTACHMENTCONTAINER_H_
+#define _OSGATTACHMENTCONTAINER_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-#include <OSGFieldContainerPtr.h>
+#include <OSGAttachmentContainerPtrImpl.h>
 
-OSG_BEGIN_NAMESPACE
+#include <OSGAttachmentContainerImpl.h>
+#include <OSGAttachmentContainerImpl.inl>
 
-class AttachmentContainer;
+#include <OSGAttachmentContainerPtrDepImpl.inl>
 
-//! Pointer to an attachment container
-//! \ingroup FieldContainerLib
-
-#ifdef __sgi
-#pragma set woff 1375,1424
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 444 )
-#endif
-
-class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr : 
-    public FieldContainerPtr
-{
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    typedef AttachmentContainer    StoredObjectType;
-    typedef AttachmentContainerPtr ObjectType;
-
-    typedef FieldContainerPtr   Inherited;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                      dcast                                   */
-    /*! \{                                                                 */
-
-    template <class InTypeT> inline
-    static AttachmentContainerPtr dcast(const InTypeT oIn)
-    {
-        return AttachmentContainerPtr(
-            (dynamic_cast<const AttachmentContainer *>(oIn.getCPtr())),
-             oIn.getContainerSize(),
-             oIn.getParentFieldPos());
-    }
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    AttachmentContainerPtr(void);
-    AttachmentContainerPtr(const AttachmentContainerPtr &source);
-    AttachmentContainerPtr(const NullFieldContainerPtr  &source);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    ~AttachmentContainerPtr(void); 
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Container Access                             */
-    /*! \{                                                                 */
-
-    AttachmentContainer *operator->(void);
-    AttachmentContainer *operator->(void) const;
-
-    AttachmentContainer &operator *(void);
-    AttachmentContainer &operator *(void) const;
-
-    AttachmentContainer *getCPtr   (void);
-    AttachmentContainer *getCPtr   (void) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    void operator =(const AttachmentContainerPtr  &source);
-    void operator =(const NullFieldContainerPtr   &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name             Container Constructors                           */
-    /*! \{                                                                 */
-    /*! \brief Container Constructor, used to work around MS Bugs,  
-        use them only if you really now what you are doing ;-)             */
-
-    explicit AttachmentContainerPtr(const AttachmentContainer &source);
-    explicit AttachmentContainerPtr(const AttachmentContainer *source);
-    
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name             Internal Constructors                            */
-    /*! \{                                                                 */
-
-    AttachmentContainerPtr(const AttachmentContainer *source,
-                           const UInt16               uiSize,
-                           const UInt16               uiParentPos);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    friend class FieldContainer;
-};
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( default : 444 )
-#endif
-
-#ifdef __sgi
-#pragma reset woff 1375,1424
-#endif
-
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
-OSG_SYSTEMLIB_DLLMAPPING
-ostream &operator <<(      ostream                &os,
-                     const AttachmentContainerPtr &fc);
-OSG_END_NAMESPACE
-
-#define OSGATTACHMENTCONTAINERPTR_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGATTACHMENTCONTAINERPTR_H_ */
+#endif /* _OSGATTACHMENTCONTAINER_H_ */

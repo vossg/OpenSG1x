@@ -2,7 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *                     Copyright 2000,2001 by OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
+ *                                                                           *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -40,164 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMatrix.h>
-#include <OSGFieldContainer.h>
-#include <OSGAttachmentContainerPtr.h>
-#include <OSGSFAttachmentMap.h>
-#include <OSGAttachmentPtr.h>
+#include <OSGAttachmentContainerPtrImpl.h>
 
-OSG_BEGIN_NAMESPACE
+#include <OSGAttachmentContainerImpl.h>
+#include <OSGAttachmentContainerImpl.inl>
 
-class BinaryDataHandler;
-
-//! AttachmentContainer provides the functionality to store
-//! attachments for derived FieldContainer classes.
-//! \ingroup FieldContainerLib
-
-class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainer : public FieldContainer 
-{
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    typedef FieldContainer Inherited;
-
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    enum 
-    { 
-        AttachmentsFieldId = Inherited::NextFieldId, 
-        NextFieldId        = AttachmentsFieldId + 1
-    };
-
-    static const BitVector AttachmentsFieldMask;
-
-
-    /*---------------------------------------------------------------------*/
-    /*! \name        General Fieldcontainer Declaration                    */
-    /*! \{                                                                 */
-
-    OSG_ABSTR_FIELD_CONTAINER_DECL(AttachmentContainerPtr)
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Handle Attachments                        */
-    /*! \{                                                                 */
-
-    void          addAttachment (const AttachmentPtr &fieldContainerP, 
-                                       UInt16         binding        = 0);
-
-    void          subAttachment (const AttachmentPtr &fieldContainerP,
-                                       UInt16         binding        = 0);
-
-    AttachmentPtr findAttachment(      UInt32         groupId,
-                                       UInt16         binding        = 0);
-
-    AttachmentPtr findAttachment(const FieldContainerType &type,
-                                       UInt16              binding   = 0);
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                                                              */
-    /*! \{                        Field Access                             */
-
-    SFAttachmentMap *getSFAttachments(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Changed                               */
-    /*! \{                                                                 */
-
-    virtual void changed(BitVector  whichField, 
-                         UInt32     origin    );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Binary Access                              */
-    /*! \{                                                                 */
-
-    virtual UInt32  getBinSize (const BitVector         &whichField);
-
-    virtual void    copyToBin  (      BinaryDataHandler &pMem, 
-                                const BitVector         &whichField);
-    virtual void    copyFromBin(      BinaryDataHandler &pMem, 
-                                const BitVector         &whichField);
-    
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
-
-    virtual void dump(      UInt32    uiIndent = 0, 
-                      const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                  Type information                            */
-    /*! \{                                                                 */
-
-    static FieldDescription   *_desc[];
-    static FieldContainerType  _type;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Fields                                  */
-    /*! \{                                                                 */
-
-    SFAttachmentMap _attachmentMap;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    AttachmentContainer(void);
-    AttachmentContainer(const AttachmentContainer &source);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~AttachmentContainer (void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Sync                                     */
-    /*! \{                                                                 */
-
-    virtual void executeSync    (      FieldContainer      &other,
-                                 const BitVector           &whichField);
-
-            void executeSyncImpl(      AttachmentContainer *pOther,
-                                 const BitVector           &whichField);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Pointer                                  */
-    /*! \{                                                                 */
-
-    AttachmentContainerPtr getPtr(void);
-
-    /*! \}                                                                 */
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    friend class FieldContainer;
-    friend class FieldContainerType;
-
-    /*!\brief prohibit default functions (move to 'public' if needed) */
-    void operator =(const AttachmentContainer &source);
-};
-
-OSG_END_NAMESPACE
-
-#include <OSGAttachmentContainer.inl>
-
-#define OSGATTACHMENTCONTAINER_HEADER_CVSID "@(#)$Id: $"
+#include <OSGAttachmentContainerPtrDepImpl.inl>
 
 #endif /* _OSGATTACHMENTCONTAINER_H_ */
+

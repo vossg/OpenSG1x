@@ -41,7 +41,6 @@
 
 #include "OSGConfig.h"
 
-#include "OSGAttachment.h"
 #include "OSGAttachmentPtr.h"
 #include "OSGThread.h"
 

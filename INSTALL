@@ -21,13 +21,20 @@ depend on it. Other useful libraries are tif, jpg, png and qt. The library
 works with any QT >= 2, but the SceneViewer example needs 3.0, so it is
 recommended to use 3.0.
 
-To tell configure what libraries to use and, if necessary, where to find them
-use the --with-<lib>{=<dir>} options. Call ./configure --help to see all the
-options which are available.
+To tell configure what libraries to use --enable-<lib> and, if necessary, 
+where to find them use the --with-<lib>{libdir|includedir}=<dir> options. 
+Call ./configure --help to see all the options available.
 
 A typical configure call would look like this:
 
-./configure --with-glut=/usr --with-jpg --with-png --with-qt=/somewhere/qt-3.0
+./configure --enable-glut --with-glut=/usr/local --enable-jpg --enable-png \
+    --enable-qt --with-qt=/somewhere/qt-3.0
+
+on IRIX you might go for something like this:
+
+./configure --enable-glut --with-glut=/usr/local                 \
+    --with-glutlibdir=/usr/local/lib32 --enable-jpg --enable-png \
+    --enable-qt --with-qt=/somewhere/qt-3.0
 
 
 configure creates a subdirectory in Builds, whose name
@@ -112,6 +119,7 @@ IRIX
 ====
 
 Compiler : > MIPS Pro 7.3.*
+             use --with-compiler=CC
 Make     : > gmake 3.79.1
 glut     : 3.7
 
@@ -132,7 +140,9 @@ SuSe 7.1: out of the box
 Windows
 =======
 
-Compiler : Intel C++ > 4.5 + latest patchset
+Compiler : Intel C++ > 5.0 + latest patchset
+           use --with-compiler={icl|icl50|icl60}
+           where icl == icl50
 Cygwin   : any quite current version should work
 gmake    : > 3.79.1
 glut     : 3.7
@@ -146,7 +156,11 @@ IDE      : MSVC 6, the *.dsw/*.dsp file in VSBuild are setup to build
            README there
 
 MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
-                  compiler. Two current problems :
+                  compiler. 
+
+                  use --with-compiler=cl.net
+
+                  Two current problems :
 
                   - OpenSG must be configured using --enable-win-localstorage
                   - The dependendies do not work as I haven't figured out
@@ -160,7 +174,7 @@ MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
 INCLUDE/LIB : As these env vars are the MS way to pass default directories
               to the compiler they must be setup correctly. As there are to 
               many compiler/include dir/lib dir configurations we rely on them
-              being set as wanted.
+              being set as wantedcorrectly.
 
 MS SDK : last time I checked there were some problems using the MS SDK
          headers in combination with intels c++ compiler. In case you
@@ -178,6 +192,7 @@ MacOSX
 =======
 
 Compiler : tested with gcc-934.3 (ProjectBuilder 1.1.1 installed)
+           use --with-compiler={c++|g++|c++3|g++3}
 gmake    : > 3.79.1
 QT       : does not work yet
 
