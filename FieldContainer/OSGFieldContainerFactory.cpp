@@ -603,7 +603,7 @@ UInt32 FieldContainerFactory::registerType(FieldContainerType *pType)
     if(_pMapLock != NULL)
         _pMapLock->aquire();
 
-    if(returnValue != 0)
+    if(pType->getId() != 0)
     {
         _pUnitTypesStore->push_back(pType);
     }
