@@ -241,6 +241,7 @@ int main (int argc, char **argv)
 
 	dact = DrawAction::create();
 	dact->setWindow( win.getCPtr() );
+	dact->setFrustumCulling( false );
 
 	glutMainLoop();
 	
