@@ -2537,7 +2537,7 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
     Real64  thresh;     
     Real64  b[JacobiRank]; 
     Real64  z[JacobiRank]; 
-    Int32   p, q, i, j;
+    UInt32  p, q, i, j;
     Real64  a[JacobiRank][JacobiRank];
     
     // initializations
