@@ -145,19 +145,20 @@ int main(int argc, char **argv)
 					   "FPS"
 					   );
 	statfg->addElement(RenderAction::statDrawTime,
-					   STATISTICS_LINE_CHART,
-					   Vec2f(-1.0,0.0),
-					   Vec2f(0.4,0.2),
-					   highColor,
-					   lowColor,
-					   currentColor,
-					   0.0,
-					   0.0,
-					   STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
-					   | STATISTICS_SMOOTH | STATISTICS_ENABLE_POINTS,
-					   100,
-					   "FPS"
-					   );
+                     STATISTICS_LINE_CHART,
+                     Vec2f(-1.0,0.0),
+                     Vec2f(0.4,0.2),
+                     highColor,
+                     lowColor,
+                     currentColor,
+                     0.0,
+                     0.0,
+                     STATISTICS_INVERT | STATISTICS_OVERFLOW_RESIZE
+                     | STATISTICS_SMOOTH | STATISTICS_ENABLE_POINTS
+                     | STATISTICS_MAX_TEXT | STATISTICS_MIN_TEXT
+                     100,
+                     "FPS"
+                     );
 
 	statfg->addElement(RenderAction::statDrawTime,
 					   STATISTICS_CHART,

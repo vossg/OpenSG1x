@@ -213,9 +213,9 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport * port)
             UInt32 py = (UInt32)(port->getPixelHeight() * pos[1]);
             glScissor(px-1,py-1,pw+2,ph+2);
           
-            cout << pos << endl;
-            cout << size << endl;
-            cout << px << "/" << py << "/" << pw << "/" << ph << endl;
+            //cout << pos << endl;
+            //cout << size << endl;
+            //cout << px << "/" << py << "/" << pw << "/" << ph << endl;
 
             // enable GL_POINT_SMOOTH
             glEnable(GL_POINT_SMOOTH);
@@ -390,7 +390,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
 
-  cout << "Analog value: " << value << endl;
+  //cout << "Analog value: " << value << endl;
 
     // process this value according to the flags
     processValue(value, ID);
@@ -603,7 +603,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID,
     Real32 value  =  el->getValue();
     processValue(value, ID);
 
-    cout << "Chart value: " << value << endl;
+    //cout << "Chart value: " << value << endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -757,7 +757,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID,
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
 
-  cout << "Bar value: " << value << endl;
+  //cout << "Bar value: " << value << endl;
 
     processValue(value, ID);
 	processOnlyValue(vsave, ID);
@@ -911,19 +911,26 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 
     if( getTextEnabled() )
         {
-            textHeight=0.2;
-			textWidth = 0.25;
+            /*textHeight=0.2;
+		textWidth = 0.25;
+		*/
+            textHeight=0.1;
+		textWidth = 0.1;
         }
 
     /* Height of the current quad */
     Real32 currHeight  =  0.0;
   
+    /* Flags for check whether points should be drawn or not */
+    UInt32 flags = getFlags()[ID];
 
     /* Get the current value and process it */
     Real32 value  =  el->getValue();
+    Real32 realValue = (flags & STATISTICS_INVERT) ? 1.f/value : value;
+
     processValue(value, ID);
   
-    cout << "LineChart value: " << value << endl;
+    //cout << "LineChart value: " << value << endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -976,9 +983,6 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
   
     /* loop over all entries in the cycle buffer */
   
-    /* Flags for check whether points should be drawn or not */
-    UInt32 flags = getFlags()[ID];
-
 
     value = _history[ID][_historyID[ID]];
   
@@ -1046,15 +1050,14 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
     // draw some text ------------
 	if(getTextEnabled()){
                 // create some Strings to be drawn
-        string minstr = real2String(minV, "%.0f");
-        string maxstr = real2String(maxV, "%.0f");
-        string valstr = getDescription()[ID] + " " + real2String(value);
+        string valstr = getDescription()[ID] + " " + real2String(realValue);
 
 		// set color to draw the text with
         glColor4f( 1.0 - c[0], 1.0 - c[1], 1.0-c[2], 1.0);
 
         // scale and translate the text
-        Real32 ratio = ((Real32) port->getPixelHeight()) / ((Real32) port->getPixelWidth());
+        Real32 ratio = ((Real32) port->getPixelHeight()) / 
+          ((Real32) port->getPixelWidth());
         
 		// bottom: Current Value
 		glPushMatrix();
@@ -1064,18 +1067,26 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
 		glPopMatrix();
 
 		//draw: min value
-		glPushMatrix();
+    if (flags & STATISTICS_MAX_TEXT) 
+    {
+      string minstr = real2String(minV, "%.0f");    
+      glPushMatrix();
 		  glTranslatef(0.0, 0.22, 0.0);
 		  glScalef(0.12*ratio, 0.12, 1.0);
-          drawString(base, minstr);
-		glPopMatrix();
+      drawString(base, minstr);
+      glPopMatrix();
+    }
 
 		//draw: maximum value
-		glPushMatrix();
+    if (flags & STATISTICS_MIN_TEXT)
+    {
+      string maxstr = real2String(maxV, "%.0f");
+      glPushMatrix();
 		  glTranslatef(0.0, 1.0, 0.0);
 		  glScalef(0.12*ratio, 0.12, 1.0);
-          drawString(base, maxstr, STATISTICS_LEFT, STATISTICS_TOP);
-		glPopMatrix();
+      drawString(base, maxstr, STATISTICS_LEFT, STATISTICS_TOP);
+      glPopMatrix();
+    }
 
      
     }
@@ -1098,7 +1109,7 @@ void GraphicStatisticsForeground::drawText(UInt32 ID,
   Real32 value  =  el->getValue();
   processOnlyValue(value, ID);
 
-  cout << "TextChart value: " << value << endl;
+  //cout << "TextChart value: " << value << endl;
 
   /* get value, calculate minimum value and maximun value and
    convert into a string*/
@@ -1336,7 +1347,7 @@ void GraphicStatisticsForeground::drawString(DrawActionBase* base,
             Real32 textHeight=0.0;
             Real32 foo = 0.0;
             // calculate the height of the text
-            for(int i=0; i<n; i++)
+            for(int i = 0; i < n; i += 4)
                 {
                     foo = positions[i+3][1] - positions[i][1];
                     if(foo>textHeight) textHeight = foo;
@@ -1380,12 +1391,14 @@ void GraphicStatisticsForeground::drawString(DrawActionBase* base,
 string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 {
     char buff[100];
+
     if ( format==0 )
-        sprintf(buff,"%.2f", value);
+      sprintf(buff,"%.2f", value);
     else
-        sprintf(buff,format, value); 
+      sprintf(buff,format, value); 
 
     string Result(buff);
+
     return Result;
     
 }
@@ -1411,7 +1424,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.2 2002/07/19 01:04:42 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.3 2002/07/19 15:06:16 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

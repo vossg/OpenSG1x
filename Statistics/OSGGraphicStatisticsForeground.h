@@ -68,7 +68,8 @@ OSG_BEGIN_NAMESPACE
 #define STATISTICS_INVERT 0x4
 #define STATISTICS_SMOOTH 0x8 
 #define STATISTICS_ENABLE_POINTS 0x10
-
+#define STATISTICS_MAX_TEXT 0x20
+#define STATISTICS_MIN_TEXT 0x40
 
 // Alignments for the text:
 #define STATISTICS_LEFT   0
@@ -217,6 +218,6 @@ OSG_END_NAMESPACE
 #include <OSGGraphicStatisticsForegroundBase.inl>
 #include <OSGGraphicStatisticsForeground.inl>
 
-#define OSGGRAPHICSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.h,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.h,v 1.2 2002/07/19 15:06:16 jbehr Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUND_H_ */
