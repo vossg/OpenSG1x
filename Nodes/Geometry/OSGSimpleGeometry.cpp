@@ -75,7 +75,7 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
     if(_defaultMaterial == NullFC)
     {
         _defaultMaterial = SimpleMaterial::create();
-	addRefCP(_defaultMaterial);
+
         beginEditCP(_defaultMaterial);
         _defaultMaterial->setDiffuse(Color3f(.7,.7,.5));
         _defaultMaterial->setAmbient(Color3f(0.1,0.1,0.1));
@@ -83,7 +83,7 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultMaterial(void)
         _defaultMaterial->setShininess(20);
         endEditCP  (_defaultMaterial);
 
-		addRefCP(_defaultMaterial);
+        addRefCP(_defaultMaterial);
     }
     
     return _defaultMaterial;
@@ -96,13 +96,13 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr OSG::getDefaultUnlitMaterial(void)
     if(_defaultUnlitMaterial == NullFC)
     {
         _defaultUnlitMaterial = SimpleMaterial::create();
-	addRefCP(_defaultUnlitMaterial);
+
         beginEditCP(_defaultUnlitMaterial);
         _defaultUnlitMaterial->setDiffuse(Color3f(1,1,.5));
         _defaultUnlitMaterial->setLit(false);
         endEditCP  (_defaultUnlitMaterial);
 
-		addRefCP(_defaultUnlitMaterial);
+        addRefCP(_defaultUnlitMaterial);
 	}
     
     return _defaultUnlitMaterial;
