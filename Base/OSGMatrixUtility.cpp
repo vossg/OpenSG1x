@@ -101,7 +101,7 @@ OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
                                            Real32 rNear, 
                                            Real32 rFar)
 {
-	Real32	ct = osgtan( osgdegree2rad(rFovy) );
+	Real32	ct = osgtan( rFovy );
 
 	if ( rNear > rFar )
 	{

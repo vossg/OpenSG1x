@@ -90,7 +90,7 @@ OSG_BASE_DLLMAPPING Bool MatrixFrustum(Matrix &result,
                                        Real32  rFar);
 
 
-/** fovy is vertical fov/2 in degrees, aspect is width/height */
+/** fovy is vertical fov/2 in radians, aspect is width/height */
 
 OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result, 
                                            Real32  rFovy, 
@@ -99,7 +99,7 @@ OSG_BASE_DLLMAPPING Bool MatrixPerspective(Matrix &result,
                                            Real32  rFar);
 
 
-/** fovy is vertical fov/2 in degrees, aspect is width/height, ... */
+/** fovy is vertical fov/2 in radians, aspect is width/height, ... */
 
 OSG_BASE_DLLMAPPING Bool MatrixStereoPerspective(Matrix &projection, 
                                                  Matrix &projtrans, 

@@ -235,7 +235,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
     }
 }
 
-/** \brief Construtor from axis and angle in degrees
+/** \brief Construtor from axis and angle in radians
  */
 
 template <class ValueTypeT> inline
@@ -244,7 +244,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(ValueTypeT x,
                                            ValueTypeT z,
                                            ValueTypeT w)
 {
-    setValueAsAxisDeg(x, y, z, w);
+    setValueAsAxisRad(x, y, z, w);
 }
 
 /** \brief Constructor from matrix
@@ -257,7 +257,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
     setValue(matrix);
 }
 
-/** \brief Constructor from 3D rotation axis vector and angle in degrees
+/** \brief Constructor from 3D rotation axis vector and angle in radians
  */
 
 template <class ValueTypeT> inline
@@ -265,7 +265,7 @@ QuaternionBase<ValueTypeT>::QuaternionBase(
     const VectorType &axis, 
     const ValueTypeT  angle)
 {
-    setValueAsAxisDeg(axis, angle);
+    setValueAsAxisRad(axis, angle);
 }
 
 /** \brief Constructor defined by the from and to vector
@@ -309,7 +309,7 @@ void QuaternionBase<ValueTypeT>::setIdentity(void)
 }
 
 /** \brief Sets value of rotation from array interpreted as axis and angle
- *  given in degrees
+ *  given in radians
  */
 
 template <class ValueTypeT> inline
@@ -318,6 +318,11 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(
 {
     setValueAsAxisRad(valsP[0], valsP[1], valsP[2], valsP[3]);
 }
+
+
+/** \brief Sets value of rotation from array interpreted as axis and angle
+ *  given in degrees
+ */
 
 template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(
@@ -352,7 +357,21 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(const ValueTypeT x,
                                                     const ValueTypeT z, 
                                                     const ValueTypeT w)
 {
-  setValueAsAxisDeg(x,y,z,osgrad2degree(w));
+    ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
+
+    if(rTmp > Eps)
+    {
+        rTmp = osgsin(w / 2.0f) / rTmp;
+
+        _quat[0] = x * rTmp;
+        _quat[1] = y * rTmp;
+        _quat[2] = z * rTmp;
+        _quat[3] = osgcos(w / 2.0f);
+    }
+    else
+    {
+        setIdentity();
+    }
 }
 
 /** \brief Sets value of rotation from 4 individual components interpreted as
@@ -365,21 +384,7 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(const ValueTypeT x,
                                                     const ValueTypeT z, 
                                                     const ValueTypeT w)
 {
-    ValueTypeT rTmp = osgsqrt(x * x + y * y + z * z);
-
-    if(rTmp > Eps)
-    {
-        rTmp = osgsin(osgdegree2rad(w) / 2.0f) / rTmp;
-
-        _quat[0] = x * rTmp;
-        _quat[1] = y * rTmp;
-        _quat[2] = z * rTmp;
-        _quat[3] = osgcos(osgdegree2rad(w) / 2.0f);
-    }
-    else
-    {
-        setIdentity();
-    }
+    setValueAsAxisRad(x,y,z,osgdegree2rad(w));
 }
 
 /** \brief Sets value of rotation from 4 individual components interpreted as
