@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
  *  \ingroup Geometry
  */
 OSG_SYSTEMLIB_DLLMAPPING
-void calcVertexNormals( GeometryPtr geo );
+void calcVertexNormals(GeometryPtr geo, Real32 creaseAngle);
 
 /*! \brief create a geometry that shows the normals of the geometry
  *  \ingroup Geometry

@@ -1280,14 +1280,15 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
           Field            *pField = NULL;
     const FieldDescription *pDesc  = NULL;
 
-    MFInt32 *pCoordIndex           = NULL;
-    MFInt32 *pNormalIndex          = NULL;
-    MFInt32 *pColorIndex           = NULL;
-    MFInt32 *pTexCoordIndex        = NULL;
-    SFBool  *pConvex               = NULL;
-    SFBool  *pCcw                  = NULL;
-    SFBool  *pNormalPerVertex      = NULL;
-    SFBool  *pColorPerVertex       = NULL;
+    MFInt32  *pCoordIndex           = NULL;
+    MFInt32  *pNormalIndex          = NULL;
+    MFInt32  *pColorIndex           = NULL;
+    MFInt32  *pTexCoordIndex        = NULL;
+    SFBool   *pConvex               = NULL;
+    SFBool   *pCcw                  = NULL;
+    SFBool   *pNormalPerVertex      = NULL;
+    SFBool   *pColorPerVertex       = NULL;
+    SFReal32 *pCreaseAngle          = NULL;
 
     Inherited::getFieldAndDesc(pFC, 
                                "coordIndex", 
@@ -1371,6 +1372,16 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
         pColorPerVertex = static_cast<SFBool *>(pField);
     }
 
+    Inherited::getFieldAndDesc(pFC, 
+                               "creaseAngle", 
+                               pField,
+                               pDesc);
+
+    if(pField != NULL)
+    {
+        pCreaseAngle = static_cast<SFReal32 *>(pField);
+    }
+
     if(_bIsFaceSet == true)
     {
         if(pCoordIndex      != NULL &&
@@ -1380,7 +1391,8 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
            pConvex          != NULL &&
            pCcw             != NULL &&
            pNormalPerVertex != NULL &&
-           pColorPerVertex  != NULL)
+           pColorPerVertex  != NULL &&
+           pCreaseAngle     != NULL)
         {
             indentLog(getIndent(), PINFO);
             PINFO << "Geo create faceset " << &(*pNode) << endl;
@@ -1403,7 +1415,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                 indentLog(getIndent(), PINFO);
                 PINFO << "Geo create normals " << &(*pNode) << endl;
 
-                OSG::calcVertexNormals(pGeo);
+                OSG::calcVertexNormals(pGeo, pCreaseAngle->getValue());
             }
 
             if(0 != (_uiOptions & VRMLFile::StripeGeometry) ) 

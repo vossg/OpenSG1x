@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.30 2001/10/12 22:34:10 dirk Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.31 2001/10/13 14:33:10 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -85,7 +85,7 @@ use the vertex and renormalizing.
 */
 
 OSG_SYSTEMLIB_DLLMAPPING
-void osg::calcVertexNormals( GeometryPtr geo )
+void osg::calcVertexNormals(GeometryPtr geo, Real32 creaseAngle)
 /*
 
 faster; but not well tested code
