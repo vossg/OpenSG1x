@@ -42,31 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGMField.h>
-#include <OSGNodeFieldDataType.h>
+#include <OSGMFNodePtrImpl.h>
+#include <OSGNode.h>
+#include <OSGMFNodePtrDepImpl.h>
 
-/*! \file OSGMFNodePtr.h
-    \ingroup FieldLib
-    \ingroup MultiFields
-    \brief OpenSG field container multi fields
-*/
-
-OSG_BEGIN_NAMESPACE
-
-/*! \brief MFNodePtr
-    \ingroup MultiFields
-*/
-
-typedef MField<NodePtr> MFNodePtr;
-
-#ifndef OSG_COMPILECONTAINERFIELDINST
-OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
-
-OSG_END_NAMESPACE
-
-#define OSGMFNODEPTR_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGMFNODEPTR_H_ */
-

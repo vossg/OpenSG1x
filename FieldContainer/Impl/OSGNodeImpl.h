@@ -49,8 +49,10 @@
 
 #include <OSGAttachmentContainer.h>
 #include <OSGSFNodeCorePtr.h>
-#include <OSGSFNodePtr.h>
-#include <OSGMFNodePtr.h>
+#include <OSGSFNodePtrImpl.h>
+#include <OSGSFNodePtrDepImpl.h>
+#include <OSGMFNodePtrImpl.h>
+#include <OSGMFNodePtrDepImpl.h>
 
 OSG_BEGIN_NAMESPACE
 

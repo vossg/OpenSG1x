@@ -36,16 +36,16 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSFNODEPTR_H_
-#define _OSGSFNODEPTR_H_
-#ifdef __sgi
-#pragma once
+#ifndef _OSGMFNODEPTRDEPIMPL_H_
+#define _OSGMFNODEPTRDEPIMPL_H_
+
+OSG_BEGIN_NAMESPACE
+
+#ifndef OSG_COMPILECONTAINERFIELDINST
+OSG_DLLEXPORT_DECL1(MField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
-#include <OSGSFNodePtrImpl.h>
-#include <OSGNode.h>
-#include <OSGSFNodePtrDepImpl.h>
+OSG_END_NAMESPACE
 
-#endif
-
+#endif /* _OSGMFNODEPTRDEPIMPL_H_ */
 

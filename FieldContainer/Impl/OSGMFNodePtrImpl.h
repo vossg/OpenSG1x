@@ -36,16 +36,33 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSFNODEPTR_H_
-#define _OSGSFNODEPTR_H_
+#ifndef _OSGMFNODEPTRIMPL_H_
+#define _OSGMFNODEPTRIMPL_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGSFNodePtrImpl.h>
-#include <OSGNode.h>
-#include <OSGSFNodePtrDepImpl.h>
+#include <OSGSystemDef.h>
+#include <OSGMField.h>
+#include <OSGNodeFieldDataType.h>
 
-#endif
+/*! \file OSGMFNodePtr.h
+    \ingroup FieldLib
+    \ingroup MultiFields
+    \brief OpenSG field container multi fields
+*/
 
+OSG_BEGIN_NAMESPACE
+
+/*! \brief MFNodePtr
+    \ingroup MultiFields
+*/
+
+typedef MField<NodePtr> MFNodePtr;
+
+OSG_END_NAMESPACE
+
+#define OSGMFNODEPTR_HEADER_CVSID "@(#)$Id: $"
+
+#endif /* _OSGMFNODEPTRIMPL_H_ */
 
