@@ -152,13 +152,6 @@ SFGLenum *PhongMaterialBase::getSFColorMaterial(void)
     return &_sfColorMaterial;
 }
 
-//! Get the PhongMaterial::_sfCameraPos field.
-inline
-SFVec3f *PhongMaterialBase::getSFCameraPos(void)
-{
-    return &_sfCameraPos;
-}
-
 
 //! Get the value of the PhongMaterial::_sfAmbient field.
 inline
@@ -326,27 +319,6 @@ inline
 void PhongMaterialBase::setColorMaterial(const GLenum &value)
 {
     _sfColorMaterial.setValue(value);
-}
-
-//! Get the value of the PhongMaterial::_sfCameraPos field.
-inline
-Vec3f &PhongMaterialBase::getCameraPos(void)
-{
-    return _sfCameraPos.getValue();
-}
-
-//! Get the value of the PhongMaterial::_sfCameraPos field.
-inline
-const Vec3f &PhongMaterialBase::getCameraPos(void) const
-{
-    return _sfCameraPos.getValue();
-}
-
-//! Set the value of the PhongMaterial::_sfCameraPos field.
-inline
-void PhongMaterialBase::setCameraPos(const Vec3f &value)
-{
-    _sfCameraPos.setValue(value);
 }
 
 

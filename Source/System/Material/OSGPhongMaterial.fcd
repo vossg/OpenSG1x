@@ -84,13 +84,4 @@
 		access="public"
 	>
 	</Field>
-	<Field
-		name="cameraPos"
-		type="Vec3f"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	camera position
-	</Field>
 </FieldContainer>

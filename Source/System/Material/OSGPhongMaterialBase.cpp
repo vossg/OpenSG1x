@@ -89,9 +89,6 @@ const OSG::BitVector  PhongMaterialBase::LitFieldMask =
 const OSG::BitVector  PhongMaterialBase::ColorMaterialFieldMask = 
     (TypeTraits<BitVector>::One << PhongMaterialBase::ColorMaterialFieldId);
 
-const OSG::BitVector  PhongMaterialBase::CameraPosFieldMask = 
-    (TypeTraits<BitVector>::One << PhongMaterialBase::CameraPosFieldId);
-
 const OSG::BitVector PhongMaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -122,9 +119,6 @@ const OSG::BitVector PhongMaterialBase::MTInfluenceMask =
 */
 /*! \var GLenum          PhongMaterialBase::_sfColorMaterial
     
-*/
-/*! \var Vec3f           PhongMaterialBase::_sfCameraPos
-    camera position
 */
 
 //! PhongMaterial description
@@ -170,12 +164,7 @@ FieldDescription *PhongMaterialBase::_desc[] =
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFColorMaterial),
-    new FieldDescription(SFVec3f::getClassType(), 
-                     "cameraPos", 
-                     CameraPosFieldId, CameraPosFieldMask,
-                     false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFCameraPos)
+                     (FieldAccessMethod) &PhongMaterialBase::getSFColorMaterial)
 };
 
 
@@ -239,7 +228,6 @@ PhongMaterialBase::PhongMaterialBase(void) :
     _sfTransparency           (Real32(0)), 
     _sfLit                    (bool(true)), 
     _sfColorMaterial          (GLenum(GL_DIFFUSE)), 
-    _sfCameraPos              (), 
     Inherited() 
 {
 }
@@ -257,7 +245,6 @@ PhongMaterialBase::PhongMaterialBase(const PhongMaterialBase &source) :
     _sfTransparency           (source._sfTransparency           ), 
     _sfLit                    (source._sfLit                    ), 
     _sfColorMaterial          (source._sfColorMaterial          ), 
-    _sfCameraPos              (source._sfCameraPos              ), 
     Inherited                 (source)
 {
 }
@@ -314,11 +301,6 @@ UInt32 PhongMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColorMaterial.getBinSize();
     }
 
-    if(FieldBits::NoField != (CameraPosFieldMask & whichField))
-    {
-        returnValue += _sfCameraPos.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -366,11 +348,6 @@ void PhongMaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
     {
         _sfColorMaterial.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (CameraPosFieldMask & whichField))
-    {
-        _sfCameraPos.copyToBin(pMem);
     }
 
 
@@ -421,11 +398,6 @@ void PhongMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColorMaterial.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (CameraPosFieldMask & whichField))
-    {
-        _sfCameraPos.copyFromBin(pMem);
-    }
-
 
 }
 
@@ -458,9 +430,6 @@ void PhongMaterialBase::executeSyncImpl(      PhongMaterialBase *pOther,
 
     if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
         _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
-
-    if(FieldBits::NoField != (CameraPosFieldMask & whichField))
-        _sfCameraPos.syncWith(pOther->_sfCameraPos);
 
 
 }

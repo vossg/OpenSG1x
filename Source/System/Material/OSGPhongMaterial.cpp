@@ -47,9 +47,7 @@
 
 #include <OSGGeometry.h>
 #include <OSGCamera.h>
-
-//#include <OSGFragmentProgramChunk.h>
-//#include <OSGRegisterCombinersChunk.h>
+#include <OSGWindow.h>
 
 #include "OSGPhongMaterial.h"
 
@@ -59,99 +57,106 @@ OSG_USING_NAMESPACE
 
 */
 
-static std::string _vp_prg =
+// works only with one point light!
+static std::string _phong_vp_prg =
 "!!ARBvp1.0\n"
 "OPTION ARB_position_invariant;\n"
 "\n"
+"PARAM lightPos  = state.light[0].position;\n"
+"# using now -m[3] for camera position.\n"
+"#PARAM cameraPos = program.local[0];\n"
 "PARAM m[4]={state.matrix.modelview};\n"
-"PARAM mvp[4]={state.matrix.mvp};\n"
 "PARAM mvinv[4]={state.matrix.modelview.invtrans};\n"
-"PARAM MA=state.material.ambient;\n"
-"PARAM MD=state.material.diffuse;\n"
-"PARAM ME=state.material.emission;\n"
-"PARAM MS=state.material.specular;\n"
-"PARAM MSh=state.material.shininess;\n"
-"PARAM AmbientColor0=state.lightprod[0].ambient;\n"
-"PARAM DiffuseColor0=state.lightprod[0].diffuse;\n"
-"PARAM SpecularColor0=state.lightprod[0].specular;\n"
-"PARAM Attenuation0=state.light[0].attenuation;\n"
-"PARAM SceneColor=state.lightmodel.scenecolor;\n"
-"PARAM LP0=state.light[0].position;\n"
-"PARAM CamPos=program.local[0];\n"
-"PARAM two={2.0,2.0,2.0,2.0};\n"
-"PARAM one={1.0,1.0,1.0,1.0};\n"
-"PARAM zero={0.0,0.0,0.0,0.0};\n"
 "\n"
-"ATTRIB iPos=vertex.position;\n"
-"ATTRIB iNormal=vertex.normal;\n"
-"ATTRIB iTex0=vertex.texcoord[0];\n"
+"TEMP EyeCamPos, EyeNormal, EyeVertex;\n"
 "\n"
-"OUTPUT oColor=result.color;\n"
-"OUTPUT oTex0=result.texcoord[0];\n"
+"#Vertex position in eye space...\n"
+"DP4    EyeVertex.x, m[0], vertex.position;\n"
+"DP4    EyeVertex.y, m[1], vertex.position;\n"
+"DP4    EyeVertex.z, m[2], vertex.position;\n"
 "\n"
-"TEMP r0, r1, r2, r3, EyeVertex, Len, att, ViewVector, r4, EyeCam;\n"
-"\n"
-"#Transform the vertex to eye space.\n"
-"DP4	EyeVertex.x, m[0], iPos;\n"
-"DP4	EyeVertex.y, m[1], iPos;\n"
-"DP4	EyeVertex.z, m[2], iPos;\n"
+"#Transform the camera pos to eye space.\n"
+"DP4    EyeCamPos.x, m[0], -m[3];\n"
+"DP4    EyeCamPos.y, m[1], -m[3];\n"
+"DP4    EyeCamPos.z, m[2], -m[3];\n"
 "\n"
 "#Transform the normal to eye space.\n"
-"DP3	r0.x, mvinv[0], iNormal;\n"
-"DP3	r0.y, mvinv[1], iNormal;\n"
-"DP3	r0.z, mvinv[2], iNormal;\n"
+"DP3    EyeNormal.x, mvinv[0], vertex.normal;\n"
+"DP3    EyeNormal.y, mvinv[1], vertex.normal;\n"
+"DP3    EyeNormal.z, mvinv[2], vertex.normal;\n"
 "\n"
-"#Transform Campos to eyespace\n"
-"DP4 EyeCam.x, m[0], CamPos;\n"
-"DP4 EyeCam.y, m[1], CamPos;\n"
-"DP4 EyeCam.z, m[2], CamPos;\n"
+"#Normalize\n"
+"DP3 EyeNormal.w, EyeNormal, EyeNormal;\n"
+"RSQ EyeNormal.w, EyeNormal.w;\n"
+"MUL EyeNormal, EyeNormal, EyeNormal.w;\n"
 "\n"
-"#Compute the view vector\n"
-"SUB ViewVector, EyeCam, EyeVertex;\n"
-"#Normalize.\n"
-"DP3 ViewVector.w, ViewVector, ViewVector;\n"
-"RSQ ViewVector.w, ViewVector.w;\n"
-"MUL ViewVector, ViewVector, ViewVector.w;\n"
-"\n"
-"#Renormalize the normal.\n"
-"DP3 r0.w, r0, r0;\n"
-"RSQ r0.w, r0.w;\n"
-"MUL r0, r0, r0.w;\n"
-"\n"
-"#Compute lighting by light 0\n"
-"#NOTE: The LIT instruction accelerates per-vertex lighting by computing lighting\n"
-"#      coefficients for ambient, diffuse, and specular light contributions.\n"
-"SUB	Len, LP0, EyeVertex;\n"
-"DP3	Len.w, Len, Len;\n"
-"RSQ	r1.w, Len.w;\n"
-"MUL	r1, Len, r1.w;			# r1 = normalized light vector\n"
-"DP3	r2.x, r0, r1;			# r2.x = normal dot lvec\n"
-"DP3 r3, r1, r0;\n"
-"MUL r3, r3, two;\n"
-"MAD r3, r3, r0, -r1;\n"
-"DP3 r2.y, r3, ViewVector;\n"
-"MOV	r2.w, MSh.x;\n"
-"LIT	r2, r2;\n"
-"\n"
-"#Attenuation\n"
-"MAD att, Attenuation0.z, Len.w, Attenuation0.x;\n"
-"RSQ Len.w, Len.w;\n"
-"RCP Len.w, Len.w;\n"
-"MAD att, Len.w, Attenuation0.y, att.x;\n"
-"RCP att, att.x;\n"
-"\n"
-"#Sum it up!\n"
-"MUL	r0.xyz, DiffuseColor0, r2.y;\n"
-"MAD r2, SpecularColor0, r2.z, AmbientColor0;\n"
-"ADD r0, r0, r2;\n"
-"MUL r0, r0, att.x;\n"
-"ADD r0, r0, SceneColor;\n"
-"ADD oColor.xyz, r0, ME;\n"
-"MOV oColor.w, MD.w;			# MOV transparency\n"
-"\n"
-"#Tex coord 0\n"
-"MOV	oTex0, iTex0;\n"
+"MOV    result.texcoord[0], vertex.texcoord[0];\n"
+"SUB    result.texcoord[1], state.light[0].position, EyeVertex;\n"
+"SUB    result.texcoord[2], EyeCamPos, EyeVertex;\n"
+"MOV result.texcoord[3], EyeNormal;\n"
 "END\n";
+
+static std::string _phong_fp_prg =
+"!!ARBfp1.0\n"
+"TEMP lightVec, viewVec, reflVec, normal, attenuation, Len, finalCol, lightContrib, tex;\n"
+"PARAM two = {2.0, 2.0, 2.0, 2.0};\n"
+"PARAM m_one = {-1.0, -1.0, -1.0, -1.0};\n"
+"\n"
+"TEX        tex, fragment.texcoord[0], texture[0], 2D;\n"
+"\n"
+"#Normalize normal, lightvec and viewvec.\n"
+"DP3        Len.w, fragment.texcoord[1], fragment.texcoord[1];\n"
+"RSQ        lightVec.w, Len.w;\n"
+"MUL        lightVec.xyz, fragment.texcoord[1], lightVec.w;\n"
+"\n"
+"DP3        viewVec.w, fragment.texcoord[2], fragment.texcoord[2];\n"
+"RSQ        viewVec.w, viewVec.w;\n"
+"MUL        viewVec.xyz, fragment.texcoord[2], viewVec.w;\n"
+"\n"
+"DP3        normal.w, fragment.texcoord[3], fragment.texcoord[3];\n"
+"RSQ        normal.w, normal.w;\n"
+"MUL        normal.xyz, fragment.texcoord[3], normal.w;\n"
+"\n"
+"#Calculate attenuation.\n"
+"MAD        attenuation, state.light[0].attenuation.z, Len.w, state.light[0].attenuation.x;\n"
+"RCP        Len, lightVec.w;\n"
+"MAD        attenuation, Len.w, state.light[0].attenuation.y, attenuation.x;\n"
+"RCP        attenuation.x, attenuation.x;\n"
+"\n"
+"#Diffuse\n"
+"DP3_SAT    lightContrib.x, normal, lightVec;\n"
+"\n"
+"#Specular\n"
+"# Phong:\n"
+"DP3        reflVec, lightVec, normal;\n"
+"MUL        reflVec, reflVec, two;\n"
+"MAD        reflVec, reflVec, normal, -lightVec;\n"
+"\n"
+"DP3_SAT    lightContrib.y, reflVec, viewVec;\n"
+"\n"
+"# Blinn:\n"
+"#    ADD        reflVec, lightVec, viewVec;    # reflVec == Half-angle.\n"
+"#    DP3        reflVec.w, reflVec, reflVec;\n"
+"#    RSQ        reflVec.w, reflVec.w;\n"
+"#    MUL        reflVec.xyz, reflVec, reflVec.w;\n"
+"#    DP3        lightContrib.y, reflVec, normal;\n"
+"\n"
+"MOV        lightContrib.w, state.material.shininess.x;\n"
+"\n"
+"#Accelerates lighting computations\n"
+"LIT_SAT    lightContrib, lightContrib;\n"
+"\n"
+"MAD        finalCol, lightContrib.y, state.lightprod[0].diffuse, state.lightprod[0].ambient;\n"
+"\n"
+"# Enable this line for textured models\n"
+"#    MUL        finalCol, finalCol, tex;    # Texture?\n"
+"\n"
+"MAD        finalCol, lightContrib.z, state.lightprod[0].specular, finalCol;\n"
+"MAD        finalCol, finalCol, attenuation.x, state.material.emission;\n"
+"ADD        result.color.xyz, finalCol, state.lightmodel.scenecolor;\n"
+"MOV        result.color.w, state.material.diffuse.w;\n"
+"END\n";
+
 
 /***************************************************************************\
  *                           Class variables                               *
@@ -180,7 +185,8 @@ PhongMaterial::PhongMaterial(void) :
     Inherited(),
     _materialChunk(NullFC),
     _blendChunk(NullFC),
-    _vpChunk(NullFC)
+    _vpChunk(NullFC),
+    _fpChunk(NullFC)
 {
 }
 
@@ -188,7 +194,8 @@ PhongMaterial::PhongMaterial(const PhongMaterial &source) :
     Inherited(source),
     _materialChunk(source._materialChunk),
     _blendChunk(source._blendChunk),
-    _vpChunk(source._vpChunk)
+    _vpChunk(source._vpChunk),
+    _fpChunk(source._fpChunk)
 {
 }
 
@@ -224,9 +231,17 @@ void PhongMaterial::prepareLocalChunks(void)
         _vpChunk = VertexProgramChunk::create();
         addChunk(_vpChunk);
         beginEditCP(_vpChunk);
-            _vpChunk->setProgram(_vp_prg);
-            _vpChunk->addParameter("camPos", 0, Vec4f(0, 0, 0, 0));
+            _vpChunk->setProgram(_phong_vp_prg);
         endEditCP(_vpChunk);
+    }
+    
+    if(_fpChunk == NullFC)
+    {
+        _fpChunk = FragmentProgramChunk::create();
+        addChunk(_fpChunk);
+        beginEditCP(_fpChunk);
+            _fpChunk->setProgram(_phong_fp_prg);
+        endEditCP(_fpChunk);
     }
 }
 
@@ -242,20 +257,6 @@ void PhongMaterial::dump(      UInt32    ,
 {
     SLOG << "Dump PhongMaterial NI" << std::endl;
 }
-
-#if 0
-void PhongMaterial::draw(Geometry* geo, DrawActionBase *action)
-{
-    Inherited::draw(geo, action);
-    CameraPtr cam = action->getCamera();
-    NodePtr beacon = cam->getBeacon();
-    Matrix m = beacon->getToWorld();
-    beginEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldId);
-        _vpChunk->setParameter("camPos", Vec4f(m[3][0], m[3][1], m[3][2], 0));
-    endEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldId);
-    printf("PhongMaterial::draw (%f %f %f)\n", m[3][0], m[3][1], m[3][2]);
-}
-#endif
 
 StatePtr PhongMaterial::makeState(void)
 {
@@ -294,12 +295,6 @@ StatePtr PhongMaterial::makeState(void)
     
     if(isTransparent())
         state->addChunk(_blendChunk);
-    
-    beginEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldMask);
-        const Vec3f &cpos = getCameraPos();
-        Vec4f pos(cpos[0], cpos[1], cpos[2], 0);
-        _vpChunk->setParameter((Int16) 0 /*"camPos"*/, pos);
-    endEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldMask);
 
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
@@ -356,12 +351,6 @@ void PhongMaterial::rebuildState(void)
     if(isTransparent())
         _pState->addChunk(_blendChunk);
 
-    beginEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldMask);
-        const Vec3f &cpos = getCameraPos();
-        Vec4f pos(cpos[0], cpos[1], cpos[2], 0);
-        _vpChunk->setParameter((Int16) 0 /*"camPos"*/, pos);
-    endEditCP(_vpChunk, VertexProgramChunk::ParamValuesFieldMask);
-    
     for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
                                   i != _mfChunks.end(); 
                                 ++i)
@@ -383,7 +372,7 @@ void PhongMaterial::rebuildState(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id:$";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhongMaterial.cpp,v 1.1 2003/10/02 15:03:47 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIAL_INLINE_CVSID;
 

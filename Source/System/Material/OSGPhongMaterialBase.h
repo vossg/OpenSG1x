@@ -73,7 +73,6 @@
 #include <OSGReal32Fields.h> // Transparency type
 #include <OSGBoolFields.h> // Lit type
 #include <OSGGLenumFields.h> // ColorMaterial type
-#include <OSGVec3fFields.h> // CameraPos type
 
 #include <OSGPhongMaterialFields.h>
 
@@ -103,8 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
         TransparencyFieldId  = EmissionFieldId      + 1,
         LitFieldId           = TransparencyFieldId  + 1,
         ColorMaterialFieldId = LitFieldId           + 1,
-        CameraPosFieldId     = ColorMaterialFieldId + 1,
-        NextFieldId          = CameraPosFieldId     + 1
+        NextFieldId          = ColorMaterialFieldId + 1
     };
 
     static const OSG::BitVector AmbientFieldMask;
@@ -115,7 +113,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
     static const OSG::BitVector TransparencyFieldMask;
     static const OSG::BitVector LitFieldMask;
     static const OSG::BitVector ColorMaterialFieldMask;
-    static const OSG::BitVector CameraPosFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -150,7 +147,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
            SFReal32            *getSFTransparency   (void);
            SFBool              *getSFLit            (void);
            SFGLenum            *getSFColorMaterial  (void);
-           SFVec3f             *getSFCameraPos      (void);
 
            Color3f             &getAmbient        (void);
      const Color3f             &getAmbient        (void) const;
@@ -168,8 +164,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
      const bool                &getLit            (void) const;
            GLenum              &getColorMaterial  (void);
      const GLenum              &getColorMaterial  (void) const;
-           Vec3f               &getCameraPos      (void);
-     const Vec3f               &getCameraPos      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -184,7 +178,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
      void setTransparency   ( const Real32 &value );
      void setLit            ( const bool &value );
      void setColorMaterial  ( const GLenum &value );
-     void setCameraPos      ( const Vec3f &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -238,7 +231,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
     SFReal32            _sfTransparency;
     SFBool              _sfLit;
     SFGLenum            _sfColorMaterial;
-    SFVec3f             _sfCameraPos;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

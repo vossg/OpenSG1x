@@ -42,7 +42,6 @@ GeometryPtr geo;
 PhongMaterialPtr pmat;
 SimpleMaterialPtr smat;
 
-// ------------------- switches ----------------------
 bool moveLight = true;
 
 // forward declaration so we can have the interesting stuff upfront
@@ -55,6 +54,7 @@ int main(int argc, char **argv)
     std::cout << "*      OpenSG - material with phong shading               *" << std::endl;
     std::cout << "***********************************************************" << std::endl;
     std::cout << "\nKeys:   'q' exit" << std::endl;
+    std::cout << "        'w' wireframe" << std::endl;
     std::cout << "        'l' animate light" << std::endl;
     std::cout << "        'p' phong shading" << std::endl;
     std::cout << "        'g' gouraud shading" << std::endl;
@@ -80,9 +80,8 @@ int main(int argc, char **argv)
         pmat->setAmbient(Color3f(0.1, 0.1, 0.1));
         pmat->setDiffuse(Color3f(0.397194,0.175152, 0.0699518));
         pmat->setSpecular(Color3f(0.8, 0.8, 0.8));
-        pmat->setShininess(20);
+        pmat->setShininess(128);
         pmat->setTransparency(0.0);
-        pmat->setCameraPos(Vec3f(0, 0, 0));
     endEditCP(pmat);
 
     smat = SimpleMaterial::create();
@@ -91,15 +90,16 @@ int main(int argc, char **argv)
         smat->setAmbient(Color3f(0.1, 0.1, 0.1));
         smat->setDiffuse(Color3f(0.397194,0.175152, 0.0699518));
         smat->setSpecular(Color3f(0.8, 0.8, 0.8));
-        smat->setShininess(20);
+        smat->setShininess(128);
         smat->setTransparency(0.0);
     endEditCP(smat);
     
     // create root node
     scene = Node::create();
     
-    // create torus
-    geo = makeTorusGeo(.8, 1.8, 128, 128);
+    // create geometry
+    //geo = makeTorusGeo(0.25, 0.5, 32, 32);
+    geo = makePlaneGeo(1.0, 1.0, 1, 1);
     beginEditCP(geo, Geometry::MaterialFieldMask);
         geo->setMaterial(pmat);
     endEditCP(geo, Geometry::MaterialFieldMask);
@@ -117,23 +117,22 @@ int main(int argc, char **argv)
         tnode->setCore(tr);
     endEditCP(tr);
     
-    //---------------------------------------------------
     NodePtr plight = Node::create();
     pl = PointLight::create();
     beginEditCP(plight);
         plight->setCore( pl );
     endEditCP(plight);
     
-    // set props of light source
+    // set attributes of light source
     beginEditCP(pl);
         pl->setAmbient( 1, 1, 1, 1 );
         pl->setDiffuse( 1, 1, 1, 1 );
         pl->setSpecular( 1, 1, 1, 1 );
-        pl->setPosition(0,0,-2);
+        pl->setPosition(0,0,10);
         pl->setBeacon( tnode );
     endEditCP(pl);
     
-    // add light and torus to scene
+    // add light and geometry to scene
     GroupPtr gr = Group::create();
     beginEditCP(scene);
         scene->setCore( gr );
@@ -156,7 +155,6 @@ int main(int argc, char **argv)
     endEditCP  (gbkgnd, GradientBackground::LineFieldMask);
 
     // Viewport
-
     if(!mgr->getWindow()->getPort().empty())
     {
         ViewportPtr vp = mgr->getWindow()->getPort()[0];
@@ -167,6 +165,7 @@ int main(int argc, char **argv)
     
     // show the whole scene
     mgr->showAll();
+    mgr->getNavigator()->setFrom(Pnt3f(0.0, 0.0, 1.0));
 
     // no headlight
     mgr->turnHeadlightOff();
@@ -187,25 +186,16 @@ void display(void)
     if(moveLight)
     {
         Real32 time = glutGet(GLUT_ELAPSED_TIME);
-        Real32 lightRadius = 10;
+        Real32 lightRadius = 1;
 
-        Vec3f t(lightRadius*sin(time / 1000), 0,
-                lightRadius*cos(time / 1000));
+        Vec3f t(lightRadius*sin(time / 1000), lightRadius*cos(time / 1000), 5.0);
         
         // Change position of light source
-        beginEditCP(pl);
+        beginEditCP(pl, PointLight::PositionFieldMask);
             pl->setPosition(t);
-        endEditCP(pl);
+        endEditCP(pl, PointLight::PositionFieldMask);
     }
-    
-    NodePtr beacon = mgr->getCamera()->getBeacon();
-    Matrix m = beacon->getToWorld();
-    
-    beginEditCP(pmat, PhongMaterial::CameraPosFieldMask);
-        pmat->setCameraPos(Vec3f(m[3][0], m[3][1], m[3][2]));
-    endEditCP(pmat, PhongMaterial::CameraPosFieldMask);
-    //printf("Camera position (%f %f %f)\n", m[3][0], m[3][1], m[3][2]);
-  
+
     // render scene
     mgr->redraw();
     // all done, swap    
@@ -240,6 +230,7 @@ void motion(int x, int y)
 // react to keys
 void keyboard(unsigned char k, int /*x*/, int /*y*/)
 {
+    static bool wireframe = false;
     Pnt3f lpos;
     Vec3f t;
     Real32 step = 1.0;
@@ -251,6 +242,14 @@ void keyboard(unsigned char k, int /*x*/, int /*y*/)
         case 'q':
             exit(1);
         
+        case 'w': // wireframe
+            wireframe ^= 1;
+            if(wireframe)
+                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+            else
+                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+        break;
+            
         case 'l':
             moveLight ^= 1;
         break;

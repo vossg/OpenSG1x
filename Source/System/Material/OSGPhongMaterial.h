@@ -46,6 +46,7 @@
 #include <OSGMaterialChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGVertexProgramChunk.h>
+#include <OSGFragmentProgramChunk.h>
 
 #include <OSGPhongMaterialBase.h>
 
@@ -78,9 +79,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
 
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
-
-    //virtual void       draw          (Geometry* geo,
-    //                                  DrawActionBase * action );
 
     virtual StatePtr makeState(void);
     virtual void rebuildState(void);
@@ -120,6 +118,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterial : public PhongMaterialBase
     MaterialChunkPtr        _materialChunk;
     BlendChunkPtr           _blendChunk;
     VertexProgramChunkPtr   _vpChunk;
+    FragmentProgramChunkPtr _fpChunk;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const PhongMaterial &source);
@@ -132,6 +131,6 @@ OSG_END_NAMESPACE
 #include <OSGPhongMaterialBase.inl>
 #include <OSGPhongMaterial.inl>
 
-#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.20 2003/03/15 23:10:09 dirk Exp $"
+#define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.1 2003/10/02 15:03:47 a-m-z Exp $"
 
 #endif /* _OSGPHONGMATERIAL_H_ */
