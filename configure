@@ -4228,8 +4228,11 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
             cygwin*)
 
                 case "$ac_gdz_compiler" in
-                    cl.net*)
+                    cl.net)
                     ac_gdz_stlport_lib_e18='stlport_vc7$(STL_PORTDEBUG).lib'
+                    ;;
+                    cl.net2003)
+                    ac_gdz_stlport_lib_e18='stlport_vc71$(STL_PORTDEBUG).lib'
                     ;;
                     icl*)
                     echo "ERROR stlport support only on windows vs7 right now"
@@ -8261,8 +8264,11 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
             cygwin*)
 
                 case "$ac_gdz_compiler" in
-                    cl.net*)
+                    cl.net)
                     ac_gdz_stlport_lib_e15='stlport_vc7.lib'
+                    ;;
+                    cl.net2003)
+                    ac_gdz_stlport_lib_e15='stlport_vc71.lib'
                     ;;
                     icl*)
                     echo "ERROR stlport support only on windows vs7 right now"
