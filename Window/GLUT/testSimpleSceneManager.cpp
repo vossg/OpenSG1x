@@ -21,6 +21,8 @@ OSG_USING_NAMESPACE
 
 SimpleSceneManager *mgr;
 
+NodePtr scene;
+
 // Standard GLUT callback functions
 void display( void )
 {
@@ -50,6 +52,20 @@ mouse(int button, int state, int x, int y)
     glutPostRedisplay();
 }
 
+void
+key(unsigned char key, int x, int y)
+{
+    switch(key)
+    {
+    case 27:    exit(1);
+    case 'a':   mgr->setHighlight( scene );
+                break;
+    case 's':   mgr->setHighlight( NullFC );
+                break;
+    }
+    glutPostRedisplay();
+}
+
 // Initialize GLUT & OpenSG and set up the scene
 int main (int argc, char **argv)
 {
@@ -64,6 +80,7 @@ int main (int argc, char **argv)
     glutDisplayFunc(display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
+    glutKeyboardFunc(key);
 
     // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
@@ -72,7 +89,7 @@ int main (int argc, char **argv)
 
     // create the scene
 
-    NodePtr scene = makeTorus( .5, 2, 16, 16 );
+    scene = makeTorus( .5, 2, 16, 16 );
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
