@@ -96,17 +96,18 @@ void WebInterface::handleRequests()
             (this->*hI->second)(_body,path,param);
         else
             _body << "<html>Invalid path</html>";
+        _accepted.setDelay(false);
         // finish request
         pbuf = _body.rdbuf();
         size = pbuf->in_avail();
-        buffer = new char[ 32000 ];
+        buffer = new char[ 1460 ];
         pos = 0;
-        while(size > 32000)
+        while(size > 1460)
         {
-            memcpy(buffer,pbuf->str().c_str()+pos,32000);
-            _accepted.send(buffer,32000);
-            size -= 32000;
-            pos  += 32000;
+            memcpy(buffer,pbuf->str().c_str()+pos,1460);
+            _accepted.send(buffer,1460);
+            size -= 1460;
+            pos  += 1460;
         }
         if(size)
         {
