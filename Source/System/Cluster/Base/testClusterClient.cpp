@@ -1,3 +1,6 @@
+// #define SORTLAST
+// #define FRAMEINTERLEAVE
+
 #include <OSGGLUT.h>
 #include <OSGGLU.h>
 #include <OSGConfig.h>
@@ -23,6 +26,12 @@
 #include <OSGDrawAction.h>
 #include <OSGMultiDisplayWindow.h>
 #include <OSGSortFirstWindow.h>
+#ifdef SORTLAST
+#include <OSGSortLastWindow.h>
+#endif
+#ifdef FRAMEINTERLEAVE
+#include <OSGFrameInterleaveWindow.h>
+#endif
 #include <OSGShearedStereoCameraDecorator.h>
 
 OSG_USING_NAMESPACE
@@ -38,6 +47,12 @@ ClusterWindowPtr         clusterWindow;
 RenderAction            *ract,*ract1,*ract2;
 GLUTWindowPtr            clientWindow;
 SortFirstWindowPtr       sortfirst;
+#ifdef SORTLAST
+SortLastWindowPtr        sortlast;
+#endif
+#ifdef FRAMEINTERLEAVE
+FrameInterleaveWindowPtr frameinterleave;
+#endif
 MultiDisplayWindowPtr    multidisplay;
 bool                     animate=false;
 bool                     multiport=false;
@@ -49,8 +64,9 @@ std::vector<Quaternion>  animOri;
 std::vector<Vec3f     >  animPos;
 std::string              animName="animation.txt";
 Real32                   animTime=0;
-std::string              broadcastAddress;
-bool                     broadcastAddressValid = false;
+std::string              serviceAddress;
+bool                     serviceAddressValid = false;
+UInt32                   interleave=0;
 
 void loadAnim()
 {
@@ -489,6 +505,7 @@ void init(std::vector<char *> &filenames)
     // Solid Background
     OSG::SolidBackgroundPtr bkgnd = OSG::SolidBackground::create();
     beginEditCP(bkgnd);
+//    bkgnd->setColor( OSG::Color3f(.8,.8,.8) );
     bkgnd->setColor( OSG::Color3f(0,0,0) );
     endEditCP(bkgnd);
 
@@ -563,11 +580,11 @@ void init(std::vector<char *> &filenames)
     if(multiport || doStereo)
         clusterWindow->addPort( vp2 );
 
-    if(broadcastAddressValid == true)
+    if(serviceAddressValid == true)
     {
-        clusterWindow->setBroadcastAddress(broadcastAddress);
+        clusterWindow->setServiceAddress(serviceAddress);
 
-        fprintf(stderr, "tcclient use ba %s\n", broadcastAddress.c_str());
+        fprintf(stderr, "tcclient use ba %s\n", serviceAddress.c_str());
     }
 
 	endEditCP(clusterWindow);
@@ -602,6 +619,10 @@ int main(int argc,char **argv)
     int rows=1;
     char type='M';
     bool clientRendering=true;
+    bool compose=false;
+    int subtilesize=32;
+    UInt32 balanceType=0;
+    bool sortPipe=false;
     
     try
     {
@@ -625,8 +646,8 @@ int main(int argc,char **argv)
                 switch(argv[i][1])
                 {
                     case 'b':
-                        broadcastAddress.assign(argv[i]+2);
-                        broadcastAddressValid = true;
+                        serviceAddress.assign(argv[i]+2);
+                        serviceAddressValid = true;
                         break;
                     case 'f':
                         filenames.push_back(argv[i]+2);
@@ -637,8 +658,14 @@ int main(int argc,char **argv)
                     case 'r':
                         rows=atoi(argv[i]+2);
                         break;
+                    case 't':
+                        subtilesize=atoi(argv[i]+2);
+                        break;
+                    case 'i':
+                        interleave=atoi(argv[i]+2);
+                        break;
                     case 'C':
-                        type='C';
+                        compose=true;
                         break;
                     case 'F':
                         type='F';
@@ -646,8 +673,27 @@ int main(int argc,char **argv)
                     case 'P':
                         type='P';
                         break;
+                    case 'L':
+                    {
+                        type='L';
+                        int lpos=2;
+                        while(argv[i][lpos])
+                        {
+                            if(argv[i][lpos] == 'v')
+                                balanceType=1;
+                            if(argv[i][lpos] == 'p')
+                                balanceType=2;
+                            if(argv[i][lpos] == 's')
+                                sortPipe=true;
+                            ++lpos;
+                        }
+                        break;
+                    }
                     case 'M':
                         type='M';
+                        break;
+                    case 'I':
+                        type='I';
                         break;
                     case 's':
                         doStereo=true;
@@ -685,9 +731,12 @@ int main(int argc,char **argv)
                                   << std::endl;
                         std::cout << "-m  use multicast" << std::endl
                                   << "-M  multi display" << std::endl
+                                  << "-I  frame interleave" << std::endl
                                   << "-r  number of display rows" << std::endl
-                                  << "-C  sort-first and compose" << std::endl
+                                  << "-C  compose" << std::endl
                                   << "-F  sort-first" << std::endl
+                                  << "-L  sort-last static balance" << std::endl
+                                  << "-Lv sort-last view dependent" << std::endl
                                   << "-h  this msg" << std::endl
                                   << "-s  stereo" << std::endl
                                   << "-e  eye distance" << std::endl
@@ -695,7 +744,8 @@ int main(int argc,char **argv)
                                   << "-d  disable client rendering"<<std::endl
                                   << "-v  use two viewports" << std::endl
                                   << "-x  server x resolution" << std::endl
-                                  << "-y  server y resolution" << std::endl;
+                                  << "-y  server y resolution" << std::endl
+                                  << "-t  subtile size for img composition" << std::endl;
                         return 0;
                 }
             }
@@ -736,20 +786,37 @@ int main(int argc,char **argv)
                 multidisplay=MultiDisplayWindow::create();
                 clusterWindow=multidisplay;
                 break;
-            case 'C':
-                sortfirst=SortFirstWindow::create();
-                beginEditCP(sortfirst);
-                sortfirst->setCompose(true);
-                endEditCP(sortfirst);
-                clusterWindow=sortfirst;
-                break;
             case 'F':
                 sortfirst=SortFirstWindow::create();
                 beginEditCP(sortfirst);
-                sortfirst->setCompose(false);
+                if(compose)
+                    sortfirst->setCompose(true);
+                else
+                    sortfirst->setCompose(false);
                 endEditCP(sortfirst);
                 clusterWindow=sortfirst;
                 break;
+#ifdef SORTLAST
+            case 'L':
+                sortlast=SortLastWindow::create();
+                beginEditCP(sortlast);
+                sortlast->setSubtileSize(subtilesize);
+                sortlast->setBalanceType(balanceType);
+                sortlast->setSortPipe(sortPipe);
+                endEditCP(sortlast);
+                clusterWindow=sortlast;
+                break;
+#endif
+#ifdef FRAMEINTERLEAVE
+            case 'I':
+                frameinterleave=FrameInterleaveWindow::create();
+                clusterWindow=frameinterleave;
+                if(compose)
+                    frameinterleave->setCompose(true);
+                else
+                    frameinterleave->setCompose(false);
+                break;
+#endif
             case 'P':
                 sortfirst=SortFirstWindow::create();
                 beginEditCP(sortfirst);
@@ -778,11 +845,14 @@ int main(int argc,char **argv)
                         rows);
                     break;
             }
+            clusterWindow->setInterleave(interleave);
         }
         endEditCP(clusterWindow);
 
         // create client window
         clientWindow=GLUTWindow::create();
+//        glutReshapeWindow(800,600);
+        glutReshapeWindow(300,300);
         clientWindow->setId(winid);
         clientWindow->init();
 
