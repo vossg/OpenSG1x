@@ -791,6 +791,11 @@ UInt32 RemoteAspect::getStoreSize(void)
     return _clStore.size();
 }
 
+RemoteAspect::clStoreMap &RemoteAspect::getStore(void)
+{
+    return _clStore;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                          statistics                                     */
 

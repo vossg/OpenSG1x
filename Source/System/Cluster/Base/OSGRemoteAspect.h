@@ -123,6 +123,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     static void storeChangeList     (ChangeList *cl  );
     static UInt32 getStoreSize      (void            );
 
+    typedef std::map<UInt32, UInt32> clStoreMap;
+    typedef clStoreMap::iterator clStoreIt;
+    static clStoreMap &getStore     (void            );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Statistics                                 */
@@ -171,9 +175,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     std::vector<Functor>              _destroyedFunctors;
     std::vector<Functor>              _changedFunctors;
     StatCollector                    *_statistics;
-    
+
     static std::map<UInt32, UInt32>   _clStore;
-    typedef std::map<UInt32, UInt32>::iterator clStoreIt;
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
