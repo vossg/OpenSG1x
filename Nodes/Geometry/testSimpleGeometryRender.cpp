@@ -34,8 +34,9 @@
 OSG_USING_NAMESPACE
 
 DrawAction * dact;
+WindowPtr win;
 
-const int nobjects = 7;
+const int nobjects = 8;
 NodePtr  objects[nobjects];
 NodePtr  normalobjects[nobjects];
 
@@ -49,6 +50,8 @@ display(void)
 {
     float a = glutGet( GLUT_ELAPSED_TIME );
 
+    win->frameInit();
+    
     if ( autowire )
         switch ( (int) ( a / 2000 ) % 3 )   
         {
@@ -72,6 +75,8 @@ display(void)
     glPopMatrix();
 
     glutSwapBuffers();
+
+    win->frameExit();
 }
 
 void key( unsigned char key, int, int )
@@ -225,7 +230,7 @@ int main (int argc, char **argv)
     GeometryPtr::dcast(objects[2]->getCore())->setMaterial( mat );
     cerr << "Torus Node: " << hex << objects[2] << endl;
 
-    objects[3] = makeSphere( 1, 2 );
+    objects[3] = makeSphere( 3, 1 );
     GeometryPtr::dcast(objects[3]->getCore())->setMaterial( mat );
     cerr << "Sphere Node: " << hex << objects[3] << endl;
 
@@ -240,7 +245,11 @@ int main (int argc, char **argv)
 
     objects[6] = makeBox( 4, 3, 2, 4, 3, 2 );
     GeometryPtr::dcast(objects[6]->getCore())->setMaterial( mat );
-    cerr << "Box Node: " << hex << objects[0] << endl;
+    cerr << "Box Node: " << hex << objects[6] << endl;
+
+    objects[7] = makeLatLongSphere( 16, 32, 1 );
+    GeometryPtr::dcast(objects[7]->getCore())->setMaterial( mat );
+    cerr << "LatLongSphere Node: " << hex << objects[7] << endl;
     
     // try the vertex normal calc
     //OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());
@@ -266,7 +275,7 @@ int main (int argc, char **argv)
     // 
     // The action
 
-    WindowPtr win = GLUTWindow::create();
+    win = GLUTWindow::create();
 
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
