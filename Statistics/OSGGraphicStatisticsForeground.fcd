@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="GraphicStatisticsForeground"
-	parent="Foreground"
+	parent="StatisticsForeground"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"
@@ -11,23 +11,6 @@
 	decoratable="false"
 >
 Background is the base class for all background clearing.
-	<Field
-		name="elementIDs"
-		type="Int32"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	The StatElemDesc IDs to use. If not set, use all in the descriptor.
-	</Field>
-	<Field
-		name="collector"
-		type="StatCollector"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	</Field>
 	<Field
 		name="displayType"
 		type="UInt32"

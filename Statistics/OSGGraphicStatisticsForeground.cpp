@@ -213,7 +213,10 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport * port)
             UInt32 py = (UInt32)(port->getPixelHeight() * pos[1]);
             glScissor(px-1,py-1,pw+2,ph+2);
           
-          
+            cout << pos << endl;
+            cout << size << endl;
+            cout << px << "/" << py << "/" << pw << "/" << ph << endl;
+
             // enable GL_POINT_SMOOTH
             glEnable(GL_POINT_SMOOTH);
       
@@ -386,6 +389,8 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 ID,
     // get the current value to be digitised
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
+
+  cout << "Analog value: " << value << endl;
 
     // process this value according to the flags
     processValue(value, ID);
@@ -598,6 +603,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 ID,
     Real32 value  =  el->getValue();
     processValue(value, ID);
 
+    cout << "Chart value: " << value << endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -750,6 +756,8 @@ void GraphicStatisticsForeground::drawBar(UInt32 ID,
 
     Real32 value  =  el->getValue();
 	Real32 vsave = value;
+
+  cout << "Bar value: " << value << endl;
 
     processValue(value, ID);
 	processOnlyValue(vsave, ID);
@@ -915,6 +923,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 ID,
     Real32 value  =  el->getValue();
     processValue(value, ID);
   
+    cout << "LineChart value: " << value << endl;
 
     /* calculate minimum value and maximun value */
     Real32 minV  =  getMinValue()[ID];
@@ -1088,6 +1097,8 @@ void GraphicStatisticsForeground::drawText(UInt32 ID,
   /* Get the current value and process it */
   Real32 value  =  el->getValue();
   processOnlyValue(value, ID);
+
+  cout << "TextChart value: " << value << endl;
 
   /* get value, calculate minimum value and maximun value and
    convert into a string*/
@@ -1400,7 +1411,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.1 2002/07/18 16:09:33 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.2 2002/07/19 01:04:42 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

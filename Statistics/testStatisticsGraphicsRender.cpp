@@ -130,7 +130,8 @@ int main(int argc, char **argv)
 					   "FPS"
 					   );
 	statfg->addElement(RenderAction::statDrawTime,
-					   STATISTICS_BAR,
+                     //STATISTICS_BAR,
+					   STATISTICS_ANALOG,                     
 					   Vec2f(0.0,-1.0),
 					   Vec2f(0.4,0.2),
 					   highColor,

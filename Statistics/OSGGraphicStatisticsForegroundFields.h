@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGForegroundFields.h>
+#include <OSGStatisticsForegroundFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -68,7 +68,7 @@ class GraphicStatisticsForeground;
 
 //! GraphicStatisticsForegroundPtr
 
-typedef FCPtr<ForegroundPtr, GraphicStatisticsForeground> GraphicStatisticsForegroundPtr;
+typedef FCPtr<StatisticsForegroundPtr, GraphicStatisticsForeground> GraphicStatisticsForegroundPtr;
 
 /*! \brief GraphicStatisticsForegroundPtr field traits 
     \ingroup FieldLib
@@ -111,6 +111,6 @@ OSG_DLLEXPORT_DECL1(MField, GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMP
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundFields.h,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundFields.h,v 1.2 2002/07/19 01:04:42 jbehr Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_H_ */

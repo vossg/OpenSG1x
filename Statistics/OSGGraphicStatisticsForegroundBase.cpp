@@ -64,12 +64,6 @@
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  GraphicStatisticsForegroundBase::ElementIDsFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::ElementIDsFieldId);
-
-const OSG::BitVector  GraphicStatisticsForegroundBase::CollectorFieldMask = 
-    (1 << GraphicStatisticsForegroundBase::CollectorFieldId);
-
 const OSG::BitVector  GraphicStatisticsForegroundBase::DisplayTypeFieldMask = 
     (1 << GraphicStatisticsForegroundBase::DisplayTypeFieldId);
 
@@ -119,12 +113,6 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask =
 
 // Field descriptions
 
-/*! \var Int32           GraphicStatisticsForegroundBase::_mfElementIDs
-    The StatElemDesc IDs to use. If not set, use all in the descriptor.
-*/
-/*! \var StatCollector   GraphicStatisticsForegroundBase::_sfCollector
-    
-*/
 /*! \var UInt32          GraphicStatisticsForegroundBase::_mfDisplayType
     type[i] sets the graphical representation of this statistics data
 */
@@ -175,16 +163,6 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask =
 
 FieldDescription *GraphicStatisticsForegroundBase::_desc[] = 
 {
-    new FieldDescription(MFInt32::getClassType(), 
-                     "elementIDs", 
-                     ElementIDsFieldId, ElementIDsFieldMask,
-                     false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFElementIDs),
-    new FieldDescription(SFStatCollector::getClassType(), 
-                     "collector", 
-                     CollectorFieldId, CollectorFieldMask,
-                     false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFCollector),
     new FieldDescription(MFUInt32::getClassType(), 
                      "displayType", 
                      DisplayTypeFieldId, DisplayTypeFieldMask,
@@ -266,7 +244,7 @@ FieldDescription *GraphicStatisticsForegroundBase::_desc[] =
 
 FieldContainerType GraphicStatisticsForegroundBase::_type(
     "GraphicStatisticsForeground",
-    "Foreground",
+    "StatisticsForeground",
     NULL,
     (PrototypeCreateF) &GraphicStatisticsForegroundBase::createEmpty,
     GraphicStatisticsForeground::initMethod,
@@ -318,8 +296,6 @@ void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
 #endif
 
 GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(void) :
-    _mfElementIDs             (), 
-    _sfCollector              (), 
     _mfDisplayType            (), 
     _mfSize                   (), 
     _mfPos                    (), 
@@ -346,8 +322,6 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(void) :
 //! Copy Constructor
 
 GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(const GraphicStatisticsForegroundBase &source) :
-    _mfElementIDs             (source._mfElementIDs             ), 
-    _sfCollector              (source._sfCollector              ), 
     _mfDisplayType            (source._mfDisplayType            ), 
     _mfSize                   (source._mfSize                   ), 
     _mfPos                    (source._mfPos                    ), 
@@ -380,16 +354,6 @@ GraphicStatisticsForegroundBase::~GraphicStatisticsForegroundBase(void)
 UInt32 GraphicStatisticsForegroundBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (ElementIDsFieldMask & whichField))
-    {
-        returnValue += _mfElementIDs.getBinSize();
-    }
-
-    if(FieldBits::NoField != (CollectorFieldMask & whichField))
-    {
-        returnValue += _sfCollector.getBinSize();
-    }
 
     if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
     {
@@ -475,16 +439,6 @@ void GraphicStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (ElementIDsFieldMask & whichField))
-    {
-        _mfElementIDs.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (CollectorFieldMask & whichField))
-    {
-        _sfCollector.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
     {
         _mfDisplayType.copyToBin(pMem);
@@ -567,16 +521,6 @@ void GraphicStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (ElementIDsFieldMask & whichField))
-    {
-        _mfElementIDs.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (CollectorFieldMask & whichField))
-    {
-        _sfCollector.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
     {
@@ -662,12 +606,6 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (ElementIDsFieldMask & whichField))
-        _mfElementIDs.syncWith(pOther->_mfElementIDs);
-
-    if(FieldBits::NoField != (CollectorFieldMask & whichField))
-        _sfCollector.syncWith(pOther->_sfCollector);
-
     if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
         _mfDisplayType.syncWith(pOther->_mfDisplayType);
 
@@ -723,7 +661,7 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
 
 OSG_BEGIN_NAMESPACE
 
-DataType FieldDataTraits<GraphicStatisticsForegroundPtr>::_type("GraphicStatisticsForegroundPtr", "ForegroundPtr");
+DataType FieldDataTraits<GraphicStatisticsForegroundPtr>::_type("GraphicStatisticsForegroundPtr", "StatisticsForegroundPtr");
 
 
 OSG_DLLEXPORT_SFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -745,7 +683,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.1 2002/07/18 16:09:33 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.2 2002/07/19 01:04:42 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

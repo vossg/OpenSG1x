@@ -63,10 +63,8 @@
 
 #include <OSGBaseTypes.h>
 
-#include <OSGForeground.h> // Parent
+#include <OSGStatisticsForeground.h> // Parent
 
-#include <OSGInt32Fields.h> // ElementIDs type
-#include <OSGStatCollectorFields.h> // Collector type
 #include <OSGUInt32Fields.h> // DisplayType type
 #include <OSGVec2fFields.h> // Size type
 #include <OSGVec2fFields.h> // Pos type
@@ -92,20 +90,18 @@ class BinaryDataHandler;
 
 //! \brief GraphicStatisticsForeground Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foreground
+class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public StatisticsForeground
 {
   private:
 
-    typedef Foreground Inherited;
+    typedef StatisticsForeground Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
 
     enum
     {
-        ElementIDsFieldId        = Inherited::NextFieldId,
-        CollectorFieldId         = ElementIDsFieldId        + 1,
-        DisplayTypeFieldId       = CollectorFieldId         + 1,
+        DisplayTypeFieldId       = Inherited::NextFieldId,
         SizeFieldId              = DisplayTypeFieldId       + 1,
         PosFieldId               = SizeFieldId              + 1,
         ColorMaxFieldId          = PosFieldId               + 1,
@@ -123,8 +119,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
         NextFieldId              = BorderEnabledFieldId     + 1
     };
 
-    static const osg::BitVector ElementIDsFieldMask;
-    static const osg::BitVector CollectorFieldMask;
     static const osg::BitVector DisplayTypeFieldMask;
     static const osg::BitVector SizeFieldMask;
     static const osg::BitVector PosFieldMask;
@@ -164,8 +158,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFInt32             *getMFElementIDs     (void);
-           SFStatCollector     *getSFCollector      (void);
            MFString            *getMFDescription    (void);
            SFReal32            *getSFLineWidth      (void);
            SFColor3f           *getSFColorBackground(void);
@@ -173,8 +165,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
            SFBool              *getSFBackgroundEnabled(void);
            SFBool              *getSFBorderEnabled  (void);
 
-           StatCollector       &getCollector      (void);
-     const StatCollector       &getCollector      (void) const;
            Real32              &getLineWidth      (void);
      const Real32              &getLineWidth      (void) const;
            Color3f             &getColorBackground(void);
@@ -185,9 +175,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
      const bool                &getBackgroundEnabled(void) const;
            bool                &getBorderEnabled  (void);
      const bool                &getBorderEnabled  (void) const;
-           Int32               &getElementIDs     (const UInt32 index);
-           MFInt32             &getElementIDs     (void);
-     const MFInt32             &getElementIDs     (void) const;
            string              &getDescription    (const UInt32 index);
            MFString            &getDescription    (void);
      const MFString            &getDescription    (void) const;
@@ -197,7 +184,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setCollector      ( const StatCollector &value );
      void setLineWidth      ( const Real32 &value );
      void setColorBackground( const Color3f &value );
      void setTextEnabled    ( const bool &value );
@@ -248,8 +234,6 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Foregrou
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    MFInt32             _mfElementIDs;
-    SFStatCollector     _sfCollector;
     MFUInt32            _mfDisplayType;
     MFVec2f             _mfSize;
     MFVec2f             _mfPos;
@@ -361,6 +345,6 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.2 2002/07/19 01:04:42 jbehr Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

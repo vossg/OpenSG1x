@@ -97,18 +97,6 @@ GraphicStatisticsForegroundPtr GraphicStatisticsForegroundBase::createEmpty(void
 /*------------------------------ get -----------------------------------*/
 
 inline
-MFInt32 *GraphicStatisticsForegroundBase::getMFElementIDs(void)
-{
-    return &_mfElementIDs;
-}
-
-inline
-SFStatCollector *GraphicStatisticsForegroundBase::getSFCollector(void)
-{
-    return &_sfCollector;
-}
-
-inline
 MFUInt32 *GraphicStatisticsForegroundBase::getMFDisplayType(void)
 {
     return &_mfDisplayType;
@@ -200,24 +188,6 @@ SFBool *GraphicStatisticsForegroundBase::getSFBorderEnabled(void)
 
 
 inline
-StatCollector &GraphicStatisticsForegroundBase::getCollector(void)
-{
-    return _sfCollector.getValue();
-}
-
-inline
-const StatCollector &GraphicStatisticsForegroundBase::getCollector(void) const
-{
-    return _sfCollector.getValue();
-}
-
-inline
-void GraphicStatisticsForegroundBase::setCollector(const StatCollector &value)
-{
-    _sfCollector.setValue(value);
-}
-
-inline
 Real32 &GraphicStatisticsForegroundBase::getLineWidth(void)
 {
     return _sfLineWidth.getValue();
@@ -307,24 +277,6 @@ void GraphicStatisticsForegroundBase::setBorderEnabled(const bool &value)
     _sfBorderEnabled.setValue(value);
 }
 
-
-inline
-Int32 &GraphicStatisticsForegroundBase::getElementIDs(const UInt32 index)
-{
-    return _mfElementIDs[index];
-}
-
-inline
-MFInt32 &GraphicStatisticsForegroundBase::getElementIDs(void)
-{
-    return _mfElementIDs;
-}
-
-inline
-const MFInt32 &GraphicStatisticsForegroundBase::getElementIDs(void) const
-{
-    return _mfElementIDs;
-}
 
 inline
 UInt32 &GraphicStatisticsForegroundBase::getDisplayType(const UInt32 index)
@@ -508,5 +460,5 @@ const MFString &GraphicStatisticsForegroundBase::getDescription(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.2 2002/07/19 01:04:42 jbehr Exp $"
 
