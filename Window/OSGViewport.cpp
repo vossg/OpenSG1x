@@ -243,9 +243,15 @@ Int32 Viewport::getPixelLeft( void ) const
 
 Int32 Viewport::getPixelRight( void ) const
 {
+	// >1: pixel
 	if ( getRight() > 1 )
 		return getRight();
 
+	// ==1: full screen
+	if ( getRight() == 1 )
+		return getParent()->getWidth() * getRight();
+	
+	// <1: partial screen, use 1 less to not overlap other windows
 	return getParent()->getWidth() * getRight() - 1;
 }
 
@@ -259,9 +265,15 @@ Int32 Viewport::getPixelBottom( void ) const
 
 Int32 Viewport::getPixelTop( void ) const
 {
+	// >1: pixel
 	if ( getTop() > 1 )
 		return getTop();
 
+	// ==1: full screen
+	if ( getTop() == 1 )
+		return getParent()->getHeight() * getTop();
+	
+	// <1: partial screen, use 1 less to not overlap other windows
 	return getParent()->getHeight() * getTop() - 1;
 }
 
