@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.19 2001/08/09 13:43:21 jbehr Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.20 2001/08/10 03:52:33 vossg Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -266,12 +266,14 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   };
   
   /** holds the Index types as str, mainly for log/debug outputs */
+#ifdef OSG_DEBUG
   static const char *indexTypeStr[] = {
     "UNKNOWN_IT", "EMPTY_IT",
     "VERTEX_COORD_IT", "VERTEX_IT", "VERTEX_DUP_IT", "VERTEX_CREATE_IT",
     "PRIMTIVE_IT", "PRIMITIVE_INDEX_IT", "PRIMITIVE_CREATE_IT"
   };
-  
+#endif
+
   osg::GeoPositionPtr posPtr;
   osg::GeoNormalPtr normalPtr;
   osg::GeoColorPtr colorPtr;
@@ -697,7 +699,7 @@ Int32 osg::createOptimizedPrimitives ( GeometryPtr geoPtr,
   TriangleIterator tI;
   GeoPositionPtr posPtr;
   Int32 cost = 0, bestCost = 0, worstCost = 0, best = 0; 
-  Int32 i, j, n, pN, primN, triCount, sysPType;
+  Int32 i, j, n, pN, triCount;
 	Bool multiIndex;
 	vector<int> primitive;
 	GeoPLengthPtr lensPtr;
@@ -1037,7 +1039,7 @@ void osg::calcFaceNormals( GeometryPtr geo )
 	}
     } 
   //SINGLE INDEXED or NON INDEXED
-  UInt32 pointCnt = 0;
+  //UInt32 pointCnt = 0;
   newNormals->resize( geo->getPositions()->getSize() );
   for( ;faceIter!=geo->endFaces(); ++faceIter )
     {
