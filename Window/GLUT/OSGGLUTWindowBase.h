@@ -95,6 +95,7 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
 
     static const osg::BitVector IdFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -221,6 +222,6 @@ typedef GLUTWindowBase *GLUTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.1 2002/02/05 20:39:33 dirk Exp $"
+#define OSGGLUTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGGLUTWindowBase.h,v 1.2 2002/03/19 18:01:40 dirk Exp $"
 
 #endif /* _OSGGLUTWINDOWBASE_H_ */

@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGLUTWindowBase.cpp,v 1.2 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGLUTWindowBase.cpp,v 1.3 2002/03/19 18:01:40 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGLUTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGLUTWINDOWBASE_INLINE_CVSID;
 
@@ -109,6 +109,7 @@ const OSG::BitVector  GLUTWindowBase::IdFieldMask =
 /*! \var Int32           GLUTWindowBase::_sfId
     
 */
+
 //! GLUTWindow description
 
 FieldDescription *GLUTWindowBase::_desc[] = 
@@ -253,4 +254,5 @@ void GLUTWindowBase::executeSyncImpl(      GLUTWindowBase *pOther,
 
 
 }
+
 

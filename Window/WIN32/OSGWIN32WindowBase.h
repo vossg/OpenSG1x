@@ -104,6 +104,7 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
     static const osg::BitVector HglrcFieldMask;
     static const osg::BitVector PaintstructFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -245,6 +246,6 @@ typedef WIN32WindowBase *WIN32WindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.2 2002/02/07 08:51:14 dirk Exp $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: OSGWIN32WindowBase.h,v 1.3 2002/03/19 18:01:41 dirk Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */

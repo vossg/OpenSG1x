@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.5 2002/02/11 03:46:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGWIN32WindowBase.cpp,v 1.6 2002/03/19 18:01:41 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
@@ -127,6 +127,7 @@ const OSG::BitVector  WIN32WindowBase::PaintstructFieldMask =
 /*! \var PAINTSTRUCT     WIN32WindowBase::_sfPaintstruct
     
 */
+
 //! WIN32Window description
 
 FieldDescription *WIN32WindowBase::_desc[] = 
@@ -212,6 +213,7 @@ WIN32WindowBase::WIN32WindowBase(void) :
     _sfHwnd                   (HWND(0)), 
     _sfHdc                    (HDC(0)), 
     _sfHglrc                  (HGLRC(0)), 
+    _sfPaintstruct            (), 
     Inherited() 
 {
 }
@@ -345,4 +347,5 @@ void WIN32WindowBase::executeSyncImpl(      WIN32WindowBase *pOther,
 
 
 }
+
 

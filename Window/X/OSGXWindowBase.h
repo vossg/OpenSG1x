@@ -101,6 +101,7 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
     static const osg::BitVector WindowFieldMask;
     static const osg::BitVector ContextFieldMask;
 
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -237,6 +238,6 @@ typedef XWindowBase *XWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.2 2002/02/04 16:42:37 dirk Exp $"
+#define OSGXWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGXWindowBase.h,v 1.3 2002/03/19 18:01:41 dirk Exp $"
 
 #endif /* _OSGXWINDOWBASE_H_ */

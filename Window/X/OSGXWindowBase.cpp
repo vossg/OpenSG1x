@@ -88,7 +88,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.2 2002/02/11 05:09:42 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGXWindowBase.cpp,v 1.3 2002/03/19 18:01:41 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 
@@ -121,6 +121,7 @@ const OSG::BitVector  XWindowBase::ContextFieldMask =
 /*! \var GLXContext      XWindowBase::_sfContext
     
 */
+
 //! XWindow description
 
 FieldDescription *XWindowBase::_desc[] = 
@@ -315,4 +316,5 @@ void XWindowBase::executeSyncImpl(      XWindowBase *pOther,
 
 
 }
+
 
