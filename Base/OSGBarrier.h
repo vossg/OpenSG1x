@@ -57,14 +57,24 @@ OSG_BEGIN_NAMESPACE
 //  Forward References
 //---------------------------------------------------------------------------
 
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
-#if defined (OSG_USE_PTHREADS)
-class OSGPThreadBarrierBase
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+class OSGBarrierCommonBase 
 {
   public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -78,29 +88,19 @@ class OSGPThreadBarrierBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGPThreadBarrierBase"; };
-
+    static const char *getClassname(void) { return "OSGBarrierCommonBase"; }
+ 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGPThreadBarrierBase(void); 
-
     /*------------------------- your_category -------------------------------*/
 
-
     /*------------------------- your_operators ------------------------------*/
-    
-    void enter(OSGUInt32 numWaitFor);
 
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    bool operator < (const OSGPThreadBarrierBase &other);
-    
-	//bool operator == (const OSGPThreadBarrierBase &other);
-	//bool operator != (const OSGPThreadBarrierBase &other);
 
   protected:
 
@@ -116,6 +116,8 @@ class OSGPThreadBarrierBase
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
+    static OSGUInt32 _barrierCount;
+
     //-----------------------------------------------------------------------
     //   class functions                                                     
     //-----------------------------------------------------------------------
@@ -124,11 +126,22 @@ class OSGPThreadBarrierBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
+    OSGChar8  *_szName;
+    OSGUInt32  _barrierId;
+    OSGInt32   _refCount;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGPThreadBarrierBase(const char *szName, OSGUInt32 barrierId);
+    OSGBarrierCommonBase(void);
+	OSGBarrierCommonBase(const OSGChar8 *szName);
+    virtual ~OSGBarrierCommonBase(void); 
+
+    void    addRef(void);
+    void    subRef(void);
+
+    OSGBool inUse (void);
 
   private:
 
@@ -160,15 +173,127 @@ class OSGPThreadBarrierBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGPThreadBarrierBase *create(const char *szName, 
-                                         OSGUInt32   barrierId);
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	// prohibit default functions (move to 'public' if you need one)
+
+    OSGBarrierCommonBase(const OSGBarrierCommonBase &source);
+    void operator =(const OSGBarrierCommonBase &source);
+};
+
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+#if defined (OSG_USE_PTHREADS)
+class OSGPThreadBarrierBase : public OSGBarrierCommonBase
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static const char *getClassname(void) { return "OSGPThreadBarrierBase"; };
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    /*------------------------- your_category -------------------------------*/
+
+    /*------------------------- your_operators ------------------------------*/
+    
+    void enter(OSGUInt32 numWaitFor);
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    char           *_szName;
-    OSGUInt32       _barrierId;
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	OSGPThreadBarrierBase(const OSGChar8 *szName);
+    virtual ~OSGPThreadBarrierBase(void); 
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    typedef OSGBarrierCommonBase Inherited;
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    friend class OSGThreadManager;
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static OSGPThreadBarrierBase *create (const OSGChar8  *szName);
+
+    static void                   destroy(OSGPThreadBarrierBase *barrierP);
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
 
     pthread_mutex_t _lockOne;
     pthread_mutex_t _lockTwo;
@@ -179,7 +304,8 @@ class OSGPThreadBarrierBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    bool init(void);
+    OSGBool init    (void);
+    void    shutdown(void);
 
     OSGPThreadBarrierBase(const OSGPThreadBarrierBase &source);
     void operator =(const OSGPThreadBarrierBase &source);
@@ -204,7 +330,7 @@ class OSGBarrier : public OSGPThreadBarrierBase
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_SPROC)
-class OSGSprocBarrierBase
+class OSGSprocBarrierBase : public OSGBarrierCommonBase
 {
   public:
 
@@ -226,10 +352,7 @@ class OSGSprocBarrierBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGSprocBarrierBase(void); 
-
     /*------------------------- your_category -------------------------------*/
-
 
     /*------------------------- your_operators ------------------------------*/
     
@@ -238,11 +361,6 @@ class OSGSprocBarrierBase
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    bool operator < (const OSGSprocBarrierBase &other);
-    
-	//bool operator == (const OSGSprocBarrierBase &other);
-	//bool operator != (const OSGSprocBarrierBase &other);
 
   protected:
 
@@ -270,7 +388,8 @@ class OSGSprocBarrierBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGSprocBarrierBase(const char *szName, OSGUInt32 barrierId);
+	OSGSprocBarrierBase(const OSGChar8 *szName);
+    virtual ~OSGSprocBarrierBase(void); 
 
   private:
 
@@ -281,6 +400,8 @@ class OSGSprocBarrierBase
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef OSGBarrierCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -302,23 +423,22 @@ class OSGSprocBarrierBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGSprocBarrierBase *create(const char *szName, 
-                                       OSGUInt32   barrierId);
+    static OSGSprocBarrierBase *create (const OSGChar8  *szName);
+
+    static void                 destroy(OSGSprocBarrierBase *barrierP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-    char           *_szName;
-    OSGUInt32       _barrierId;
-
-    barrier_t *     _barrierP;
+    barrier_t      *_barrierP;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    bool init(void);
+    OSGBool init    (void);
+    void    shutdown(void);
 
     OSGSprocBarrierBase(const OSGSprocBarrierBase &source);
     void operator =(const OSGSprocBarrierBase &source);
@@ -343,7 +463,7 @@ class OSGBarrier : public OSGSprocBarrierBase
 //---------------------------------------------------------------------------
 
 #if defined (OSG_USE_WINTHREADS)
-class OSGWinThreadBarrierBase
+class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
 {
   public:
 
@@ -359,16 +479,13 @@ class OSGWinThreadBarrierBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname(void) { return "OSGWinThreadBarrierBase"; };
+    static const char *getClassname(void) { return "OSGWinThreadBarrierBase";};
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGWinThreadBarrierBase(void); 
-
     /*------------------------- your_category -------------------------------*/
-
 
     /*------------------------- your_operators ------------------------------*/
     
@@ -377,11 +494,6 @@ class OSGWinThreadBarrierBase
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    bool operator < (const OSGWinThreadBarrierBase &other);
-    
-	//bool operator == (const OSGWinThreadBarrierBase &other);
-	//bool operator != (const OSGWinThreadBarrierBase &other);
 
   protected:
 
@@ -409,7 +521,8 @@ class OSGWinThreadBarrierBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGWinThreadBarrierBase(const char *szName, OSGUInt32 barrierId);
+	OSGWinThreadBarrierBase(const OSGChar8 *szName);
+    virtual ~OSGWinThreadBarrierBase(void); 
 
   private:
 
@@ -420,6 +533,8 @@ class OSGWinThreadBarrierBase
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef OSGBarrierCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -441,15 +556,13 @@ class OSGWinThreadBarrierBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static OSGWinThreadBarrierBase *create(const char *szName, 
-							               OSGUInt32   barrierId);
+    static OSGWinThreadBarrierBase *create (const OSGChar8  *szName);
+
+    static void                     destroy(OSGWinThreadBarrierBase *barrierP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-
-    char           *_szName;
-    OSGUInt32       _barrierId;
 
 	OSGUInt32       _count;
 	OSGHandle       _mutex1;
@@ -460,7 +573,8 @@ class OSGWinThreadBarrierBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    bool init(void);
+    OSGBool init    (void);
+    void    shutdown(void);
 
     OSGWinThreadBarrierBase(const OSGWinThreadBarrierBase &source);
     void operator =(const OSGWinThreadBarrierBase &source);

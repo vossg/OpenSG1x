@@ -113,6 +113,7 @@ char OSGChangeList::cvsid[] = "@(#)$Id: $";
  */
 
 OSGChangeList::OSGChangeList(void) :
+    Inherited(),
     _bReadOnly(false),
     _aspectId(OSGThread::getAspect()),
     _listMode(OSGPublic),

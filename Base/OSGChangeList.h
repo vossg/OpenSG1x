@@ -39,6 +39,7 @@
 #include <vector>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGMemoryObject.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -63,7 +64,7 @@ class OSGField;
  *  detailed
  */
 
-class OSGChangeList
+class OSGChangeList : public OSGMemoryObject
 {
   public:
 
@@ -185,6 +186,8 @@ class OSGChangeList
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef OSGMemoryObject Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

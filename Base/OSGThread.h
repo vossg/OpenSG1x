@@ -65,6 +65,148 @@ OSG_BEGIN_NAMESPACE
 class OSGChangeList;
 class OSGThread;
 
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \ingroup baselib
+ *  \brief Brief
+ *
+ *  detailed
+ */
+
+class OSGThreadCommonBase 
+{
+  public:
+
+    //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    static const char *getClassname(void) { return "OSGThreadCommonBase"; }
+ 
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    /*------------------------- your_category -------------------------------*/
+
+    OSGChangeList *getChangeList(void);
+
+    /*------------------------- your_operators ------------------------------*/
+
+    /*------------------------- assignment ----------------------------------*/
+
+    /*------------------------- comparison ----------------------------------*/
+
+  protected:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    static OSGUInt32 _threadCount;
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    OSGChar8      *_szName;
+
+    OSGUInt32      _threadId;
+    OSGInt32       _refCount;
+
+    OSGUInt32      _aspectId;
+    OSGChangeList *_changeListP;
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+    OSGThreadCommonBase(void);
+	OSGThreadCommonBase(const OSGChar8 *szName);
+    virtual ~OSGThreadCommonBase(void); 
+
+    void    addRef(void);
+    void    subRef(void);
+
+    OSGBool inUse (void);
+
+    void setAspect    (OSGUInt32      aspectId);
+    void setChangeList(OSGChangeList *changeListP);
+
+  private:
+
+    //-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   friend classes                                                      
+    //-----------------------------------------------------------------------
+
+    friend class OSGThreadManager;
+
+    //-----------------------------------------------------------------------
+    //   friend functions                                                    
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+	static char cvsid[];
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+	// prohibit default functions (move to 'public' if you need one)
+
+    OSGThreadCommonBase(const OSGThreadCommonBase &source);
+    void operator =(const OSGThreadCommonBase &source);
+};
+
+
+
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -76,7 +218,7 @@ class OSGThread;
  *
  *  
  */
-class OSGPThreadBase
+class OSGPThreadBase : public OSGThreadCommonBase
 {
   public:
 
@@ -88,9 +230,7 @@ class OSGPThreadBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef void *(*OSGPThreadFuncF)(void *threadArgP);
-
-    typedef         OSGPThreadFuncF OSGThreadFuncF;
+    typedef void *(*OSGThreadFuncF)(void *threadArgP);
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -98,25 +238,21 @@ class OSGPThreadBase
 
     static const char     *getClassname(void) { return "OSGPThreadBase"; };
 
-    static void            setAspect(OSGUInt32 aspect);
-
-    static OSGUInt32       getAspect(void);
-
-    static OSGThread      *getCurrent(void);
-        
+    static OSGUInt32       getAspect           (void);
+    static OSGThread      *getCurrent          (void);
     static OSGChangeList  *getCurrentChangeList(void);
 
-    static void            join(OSGPThreadBase *threadP);
+    static void            join                (OSGPThreadBase *threadP);
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGPThreadBase(void); 
-
     /*------------------------- your_category -------------------------------*/
 
-    OSGBool run(OSGThreadFuncF threadFunc, void *threadArgP);
+    OSGBool run(OSGThreadFuncF threadFunc, 
+                OSGUInt32      aspectId,
+                void          *threadArgP);
 
     void print(void);
 
@@ -126,11 +262,6 @@ class OSGPThreadBase
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    OSGBool operator < (const OSGPThreadBase &other);
-    
-	//bool operator == (const OSGPThreadBase &other);
-	//bool operator != (const OSGPThreadBase &other);
 
   protected:
 
@@ -158,7 +289,8 @@ class OSGPThreadBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGPThreadBase(const char *szName, OSGUInt32 threadId);
+	OSGPThreadBase(const OSGChar8 *szName);
+    virtual ~OSGPThreadBase(void); 
   
   private:
 
@@ -169,6 +301,8 @@ class OSGPThreadBase
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef OSGThreadCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -189,15 +323,15 @@ class OSGPThreadBase
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     static pthread_key_t  _aspectKey;
     static pthread_key_t  _threadKey;
-    static pthread_key_t  _changelistKey;
+    static pthread_key_t  _changeListKey;
 #endif
 
 #if defined(OSG_ASPECT_USE_PTHREADSELF) || \
     defined(OSG_ASPECT_USE_CUSTOMSELF)
 
 #ifdef OSG_COMPILETIME_NUM_ASPECTS
-    static OSGUInt16       _aspectsA[OSG_NUM_ASPECTS];
-    static OSGThread      *_threadsA[OSG_NUM_ASPECTS];
+    static OSGUInt16       _aspectsA    [OSG_NUM_ASPECTS];
+    static OSGThread      *_threadsA    [OSG_NUM_ASPECTS];
     static OSGChangeList  *_changelistsA[OSG_NUM_ASPECTS];
 #endif
 #ifdef OSG_RUNTIME_NUM_ASPECTS
@@ -213,10 +347,12 @@ class OSGPThreadBase
     //-----------------------------------------------------------------------
 
     static void *threadFunc(void *threadArgP);
+    static void        init(OSGThread *thisP);
 
-    static void  createAspect     (void);
-    static void  createThreadP    (void);
-    static void  createChangeListP(void);
+
+    static OSGPThreadBase  *create (const OSGChar8 *szName);
+    static void             destroy(OSGPThreadBase *threadP);
+
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     static void  freeAspect     (void *aspectP);
@@ -224,26 +360,20 @@ class OSGPThreadBase
     static void  freeChangeListP(void *changelistP);
 #endif
 
-    static void setCurrent      (OSGThread *threadP);
-
-    static void             init(OSGThread *thisP);
-
-    static OSGPThreadBase  *create(const char *szName, OSGUInt32 threadId);
-
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
     void      *_threadDataA[3];
-
-    char      *_szName;
-    OSGUInt32  _threadId;
-
 	pthread_t *_threadDescP;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+    void  setupAspect     (void);
+    void  setupThreadP    (void);
+    void  setupChangeListP(void);
 
     OSGPThreadBase(const OSGPThreadBase &source);
     void operator =(const OSGPThreadBase &source);
@@ -266,7 +396,7 @@ typedef OSGPThreadBase OSGThreadBase;
  *  
  */
 
-class OSGSprocBase
+class OSGSprocBase : public OSGThreadCommonBase
 {
   public:
 
@@ -278,9 +408,7 @@ class OSGSprocBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef void *(*OSGSprocFuncF)(void *threadArgP);
-
-    typedef         OSGSprocFuncF OSGThreadFuncF;
+    typedef void *(*OSGThreadFuncF)(void *threadArgP);
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -289,9 +417,7 @@ class OSGSprocBase
     static const char    *getClassname(void) { return "OSGSprocBase"; };
 
     static OSGUInt32      getAspect(void);
-
     static OSGThread     *getCurrent(void);
-        
     static OSGChangeList *getCurrentChangeList(void);
 
     static void           join(OSGSprocBase *threadP);
@@ -300,15 +426,12 @@ class OSGSprocBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    virtual ~OSGSprocBase(void); 
-
     /*------------------------- your_category -------------------------------*/
 
-    OSGBool run(OSGSprocFuncF  gThreadFunc, 
+    OSGBool run(OSGThreadFuncF gThreadFunc, 
                 OSGUInt32      aspectId,
                 void          *threadArgP);
 
-    OSGChangeList *getChangeList(void);
 
     void print(void);
 
@@ -318,11 +441,6 @@ class OSGSprocBase
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
-
-    OSGBool operator < (const OSGSprocBase &other);
-    
-	//bool operator == (const OSGSprocBase &other);
-	//bool operator != (const OSGSprocBase &other);
 
   protected:
 
@@ -350,7 +468,8 @@ class OSGSprocBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGSprocBase(const char *szName, OSGUInt32 threadId);
+	OSGSprocBase(const OSGChar8 *szName);
+    virtual ~OSGSprocBase(void); 
   
   private:
 
@@ -362,13 +481,15 @@ class OSGSprocBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef struct ProcessData
-    {
-        OSGUInt32      aspectId;
-        OSGThread     *threadP;
-        OSGChangeList *changelistP;
+    typedef OSGThreadCommonBase Inherited;
 
-    } ProcessData;
+    typedef struct OSGProcessData
+    {
+        OSGUInt32      _aspectId;
+        OSGThread     *_threadP;
+        OSGChangeList *_changelistP;
+
+    } OSGProcessData;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -390,26 +511,17 @@ class OSGSprocBase
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static void setCurrent         (OSGThread *threadP);
-
     static void          threadFunc(void *threadArgP);
-
     static void          init      (OSGThread *thisP);
 
-    static OSGSprocBase *create    (const char *szName, OSGUInt32 threadId);
+    static OSGSprocBase *create    (const OSGChar8 *szName);
+    static void          destroy   (OSGSprocBase *threadP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
     void      *_threadDataA[3];
-
-    char      *_szName;
-    OSGUInt32  _threadId;    
-
-    OSGUInt32      _aspectId;
-    OSGChangeList *_changeListP;
-
     pid_t      _pid;
 
     //-----------------------------------------------------------------------
@@ -418,7 +530,9 @@ class OSGSprocBase
 
     void setPid(void);
 
-    void setAspectInternal(OSGUInt32 aspect);
+    void setAspectInternal      (OSGUInt32  aspect);
+    void setCurrentInternal     (OSGThread *threadP);
+    void setupChangeListInternal(void);
 
     OSGSprocBase(const OSGSprocBase &source);
     void operator =(const OSGSprocBase &source);
@@ -440,7 +554,7 @@ typedef OSGSprocBase OSGThreadBase;
  *  
  */
 
-class OSGWinThreadBase
+class OSGWinThreadBase : public OSGThreadCommonBase
 {
   public:
 
@@ -475,8 +589,6 @@ class OSGWinThreadBase
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
-
-    virtual ~OSGWinThreadBase(void); 
 
     /*------------------------- your_category -------------------------------*/
 
@@ -522,7 +634,8 @@ class OSGWinThreadBase
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	OSGWinThreadBase(const char *szName, OSGUInt32 threadId);
+	OSGWinThreadBase(const OSGChar8 *szName);
+    virtual ~OSGWinThreadBase(void); 
   
   private:
 
@@ -533,6 +646,8 @@ class OSGWinThreadBase
     //-----------------------------------------------------------------------
     //   types                                                               
     //-----------------------------------------------------------------------
+
+    typedef OSGThreadCommonBase Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -553,7 +668,7 @@ class OSGWinThreadBase
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
 	static OSGUInt32 _aspectKey;
 	static OSGUInt32 _threadKey;
-	static OSGUInt32 _changelistKey;
+	static OSGUInt32 _changeListKey;
 #endif
 #if defined(OSG_ASPECT_USE_DECLSPEC)
 	static __declspec (thread) OSGUInt32      _aspectKey;
@@ -581,17 +696,15 @@ class OSGWinThreadBase
 
     static void              init      (OSGThread *thisP);
 
-    static OSGWinThreadBase *create    (const char *szName, 
-                                        OSGUInt32 threadId);
+    static OSGWinThreadBase *create    (const char *szName);
+
+    static void              destroy   (OSGWinThreadBase *threadP);
 
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
     void *_threadDataA[3];
-
-    char      *_szName;
-    OSGUInt32  _threadId;    
 
 	OSGHandle  _threadHandle;
 	OSGHandle  _externalHandle;

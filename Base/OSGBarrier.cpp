@@ -50,6 +50,106 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+OSGUInt32 OSGBarrierCommonBase::_barrierCount = 0;
+
+char OSGBarrierCommonBase::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGBarrierCommonBase::OSGBarrierCommonBase(const OSGChar8 *szName):
+    _szName(NULL),
+    _barrierId(_barrierCount++),
+    _refCount(0)
+{
+    if(szName != NULL)
+    {
+        stringDup(szName, _szName);
+    }
+    else
+    {
+        _szName = new OSGChar8[16];
+        sprintf(_szName, "OSGBarrier_%d", _barrierId);
+    }
+}
+
+/** \brief Destructor
+ */
+
+OSGBarrierCommonBase::~OSGBarrierCommonBase(void)
+{
+    delete [] _szName;
+}
+
+void OSGBarrierCommonBase::addRef(void)
+{
+    _refCount++;
+}
+
+void OSGBarrierCommonBase::subRef(void)
+{
+    _refCount--;
+}
+
+OSGBool OSGBarrierCommonBase::inUse(void)
+{
+    return _refCount <= 0;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
 #if defined (OSG_USE_PTHREADS)
 
 /***************************************************************************\
@@ -78,12 +178,11 @@ char OSGPThreadBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const char *szName, 
-                                                     OSGUInt32   barrierId)
+OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const OSGChar8 *szName)
 {
     OSGPThreadBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGPThreadBarrierBase(szName, barrierId);
+    returnValue = new OSGPThreadBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -94,6 +193,14 @@ OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const char *szName,
     return returnValue;
 }
 
+void OSGPThreadBarrierBase::destroy(OSGPThreadBarrierBase *barrierP)
+{
+    if(barrierP != NULL)
+    {
+        barrierP->shutdown();
+        delete barrierP;
+    }
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -104,11 +211,6 @@ OSGPThreadBarrierBase *OSGPThreadBarrierBase::create(const char *szName,
 \*-------------------------------------------------------------------------*/
 
 /*------------- constructors & destructors --------------------------------*/
-
-OSGPThreadBarrierBase::~OSGPThreadBarrierBase(void)
-{
-    delete [] _szName;
-}
 
 /*------------------------------ access -----------------------------------*/
 
@@ -123,25 +225,19 @@ void OSGPThreadBarrierBase::enter(OSGUInt32 numWaitFor)
         
     pthread_mutex_lock(&(_lockOne));
 
-    fprintf(stderr, "entered barrier\n");
-    
     _count++;
 
     if(_count < numWaitFor)
     {
         /* not enough threads are waiting => wait */
-        fprintf(stderr, "wait for cond\n");
         pthread_cond_wait(&(_wakeupCondition), &(_lockOne));
-        fprintf(stderr, "after cond\n");
     }
     else
     {
         /* ok, enough threads are waiting
            => wake up all waiting threads 
         */
-        fprintf(stderr, "before broadcast\n");
         pthread_cond_broadcast(&(_wakeupCondition));
-        fprintf(stderr, "after broadcast\n");               
         
     }
 
@@ -163,44 +259,30 @@ void OSGPThreadBarrierBase::enter(OSGUInt32 numWaitFor)
 
 /*-------------------------- comparison -----------------------------------*/
 
-/*
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-*/
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
     /// Constructor used by the create function
-OSGPThreadBarrierBase::OSGPThreadBarrierBase(const char *szName, 
-                                             OSGUInt32   barrierId) :
-    _szName     (NULL),
-    _barrierId(barrierId),
+OSGPThreadBarrierBase::OSGPThreadBarrierBase(const char *szName) :
+    Inherited(szName),
+
     _lockOne         (),
     _lockTwo         (),
     _wakeupCondition (),
     _count           (0)    
 {
-    stringDup(szName, _szName);
+}
+
+OSGPThreadBarrierBase::~OSGPThreadBarrierBase(void)
+{
 }
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGPThreadBarrierBase::init(void)
+OSGBool OSGPThreadBarrierBase::init(void)
 {
     pthread_cond_init (&(_wakeupCondition), NULL);
     pthread_mutex_init(&(_lockOne),         NULL);
@@ -209,6 +291,13 @@ bool OSGPThreadBarrierBase::init(void)
     _count = 0;
 
     return true;
+}
+
+void OSGPThreadBarrierBase::shutdown(void)
+{
+    pthread_cond_destroy (&(_wakeupCondition));
+    pthread_mutex_destroy(&(_lockOne));
+    pthread_mutex_destroy(&(_lockTwo));
 }
 
 #endif /* OSG_USE_PTHREADS */
@@ -241,12 +330,11 @@ char OSGSprocBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocBarrierBase *OSGSprocBarrierBase::create(const char *szName, 
-                                                 OSGUInt32   barrierId)
+OSGSprocBarrierBase *OSGSprocBarrierBase::create(const OSGChar8  *szName)
 {
     OSGSprocBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGSprocBarrierBase(szName, barrierId);
+    returnValue = new OSGSprocBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -255,6 +343,15 @@ OSGSprocBarrierBase *OSGSprocBarrierBase::create(const char *szName,
     }
     
     return returnValue;
+}
+
+void OSGSprocBarrierBase::destroy(OSGSprocBarrierBase *barrierP)
+{
+    if(barrierP != NULL)
+    {
+        barrierP->shutdown();
+        delete barrierP;
+    }
 }
 
 /***************************************************************************\
@@ -267,14 +364,6 @@ OSGSprocBarrierBase *OSGSprocBarrierBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGSprocBarrierBase::~OSGSprocBarrierBase(void)
-{
-    delete [] _szName;
-
-    if(_barrierP != NULL)
-        free_barrier(_barrierP);
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
@@ -283,51 +372,36 @@ OSGSprocBarrierBase::~OSGSprocBarrierBase(void)
 
 void OSGSprocBarrierBase::enter(OSGUInt32 numWaitFor)
 {
-    fprintf(stderr, "Enter\n");
     if(_barrierP != NULL)
         barrier(_barrierP, numWaitFor);
-    fprintf(stderr, "Leave\n");
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
 
-/*
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-*/
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
 /// Constructor used by the create function
-OSGSprocBarrierBase::OSGSprocBarrierBase(const char *szName, 
-                                         OSGUInt32   barrierId) :
-    _szName     (NULL),
-    _barrierId(barrierId),
+OSGSprocBarrierBase::OSGSprocBarrierBase(const OSGChar8  *szName) :
+    Inherited(szName),
+
     _barrierP(NULL)
 {
-    stringDup(szName, _szName);
 }
+
+OSGSprocBarrierBase::~OSGSprocBarrierBase(void)
+{
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGSprocBarrierBase::init(void)
+OSGBool OSGSprocBarrierBase::init(void)
 {
     OSGThreadManager *pThreadManager = OSGThreadManager::the();
 
@@ -345,6 +419,13 @@ bool OSGSprocBarrierBase::init(void)
     init_barrier(_barrierP);
 
     return true;
+
+}
+
+void OSGSprocBarrierBase::shutdown(void)
+{
+    if(_barrierP != NULL)
+        free_barrier(_barrierP);   
 }
 
 #endif /* OSG_USE_SPROC */
@@ -379,12 +460,12 @@ char OSGWinThreadBarrierBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(const char *szName, 
-											             OSGUInt32   barrierId)
+OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(
+    const OSGChar8  *szName)
 {
     OSGWinThreadBarrierBase *returnValue = NULL;
 
-    returnValue = new OSGWinThreadBarrierBase(szName, barrierId);
+    returnValue = new OSGWinThreadBarrierBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -393,6 +474,15 @@ OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(const char *szName,
     }
     
     return returnValue;
+}
+
+void OSGWinThreadBarrierBase::destroy(OSGWinThreadBarrierBase *barrierP)
+{
+    if(barrierP != NULL)
+    {
+        barrierP->shutdown();
+        delete [] barrierP;
+    }
 }
 
 /***************************************************************************\
@@ -405,11 +495,6 @@ OSGWinThreadBarrierBase *OSGWinThreadBarrierBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
-{
-    delete [] _szName;
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
@@ -418,14 +503,10 @@ OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
 
 void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
 {
-    fprintf(stderr, "Enter\n");
-
     if (numWaitFor <= 1)
         return;
         
     WaitForSingleObject(_mutex1, INFINITE);
-
-    fprintf(stderr, "entered barrier\n");
 
 	ReleaseMutex(_mutex1);
     
@@ -434,18 +515,14 @@ void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
     if(_count < numWaitFor)
     {
         /* not enough threads are waiting => wait */
-        fprintf(stderr, "wait for cond\n");
         WaitForSingleObject(_conditionEvent, INFINITE);
-        fprintf(stderr, "after cond\n");
     }
     else
     {
         /* ok, enough threads are waiting
            => wake up all waiting threads 
         */
-        fprintf(stderr, "before broadcast\n");
         SetEvent(_conditionEvent);
-        fprintf(stderr, "after broadcast\n");               
         
     }
 
@@ -459,39 +536,20 @@ void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
     }
 
 	ReleaseMutex(_mutex2);
-
-    fprintf(stderr, "Leave\n");
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
 /*-------------------------- comparison -----------------------------------*/
 
-/*
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-*/
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
 /// Constructor used by the create function
-OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const char *szName, 
-											     OSGUInt32   barrierId) :
-    _szName     (NULL),
-    _barrierId(barrierId),
+OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const OSGChar8  *szName) :
+    Inherited(szName),
+
 	_count(0),
 	_mutex1(NULL),
 	_mutex2(NULL),
@@ -501,16 +559,27 @@ OSGWinThreadBarrierBase::OSGWinThreadBarrierBase(const char *szName,
     stringDup(szName, _szName);
 }
 
+OSGWinThreadBarrierBase::~OSGWinThreadBarrierBase(void)
+{
+    delete [] _szName;
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGWinThreadBarrierBase::init(void)
+OSGBool OSGWinThreadBarrierBase::init(void)
 {
+    OSGChar8 *pTmp;
+
+    pTmp = new OSGChar8[strlen(_szName) + 5];
+
+    sprintf(pTmp, "%sWE", _szName);
+
 	_conditionEvent = CreateEvent(NULL,
 								  TRUE,
 								  FALSE,
-								  "WriteEvent"); 
+								  pTmp); 
 
     if(_conditionEvent == NULL) 
 	{
@@ -518,27 +587,51 @@ bool OSGWinThreadBarrierBase::init(void)
 		return false;
     }
 
+    sprintf(pTmp, "%sM1", _szName);
+
 	_mutex1 = CreateMutex(NULL,   // no security attributes
 		 				  FALSE,  // initially not owned
-						  "xx");  // name of mutex
+						  pTmp);  // name of mutex
 	
 	if(_mutex1 == NULL) 
 	{
+        CloseHandle(_conditionEvent);
+
 		fprintf(stderr, "Create mutex1 failed\n");
 		return false;
     }
 
+
+    sprintf(pTmp, "%sM2", _szName);
+
 	_mutex2 = CreateMutex(NULL,   // no security attributes
 		 				  FALSE,  // initially not owned
-						  "xx");  // name of mutex
+						  pTmp);  // name of mutex
 	
 	if(_mutex2 == NULL) 
 	{
+        CloseHandle(_conditionEvent);
+        CloseHandle(_mutex1);
+
 		fprintf(stderr, "Create mutex2 failed\n");
 		return false;
     }
 
+    delete [] pTmp;
+
     return true;
+}
+
+void OSGWinThreadBarrierBase::shutdown(void)
+{
+    if(_conditionEvent != NULL)
+        CloseHandle(_conditionEvent);
+
+    if(_mutex1 != NULL)
+        CloseHandle(_mutex1);
+
+    if(_mutex2 != NULL)
+        CloseHandle(_mutex2);
 }
 
 #endif /* OSG_USE_WINTHREADS */

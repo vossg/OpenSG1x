@@ -51,6 +51,114 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+OSGUInt32 OSGLockCommonBase::_lockCount = 0;
+
+char OSGLockCommonBase::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGLockCommonBase::OSGLockCommonBase(void) :
+    _szName(NULL),
+    _lockId(_lockCount++),
+    _refCount(0)
+{
+}
+
+OSGLockCommonBase::OSGLockCommonBase(const OSGChar8 *szName):
+    _szName(NULL),
+    _lockId(_lockCount++),
+    _refCount(0)
+{
+    if(szName != NULL)
+    {
+        stringDup(szName, _szName);
+    }
+    else
+    {
+        _szName = new OSGChar8[16];
+        sprintf(_szName, "OSGLock_%d", _lockId);
+    }
+}
+
+/** \brief Destructor
+ */
+
+OSGLockCommonBase::~OSGLockCommonBase(void)
+{
+    delete [] _szName;
+}
+
+void OSGLockCommonBase::addRef(void)
+{
+    _refCount++;
+}
+
+void OSGLockCommonBase::subRef(void)
+{
+    _refCount--;
+}
+
+OSGBool OSGLockCommonBase::inUse(void)
+{
+    return _refCount <= 0;
+}
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+
 #if defined (OSG_USE_PTHREADS)
 
 /***************************************************************************\
@@ -79,12 +187,11 @@ char OSGPThreadLockBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadLockBase *OSGPThreadLockBase::create(const char *szName, 
-                                               OSGUInt32   lockId)
+OSGPThreadLockBase *OSGPThreadLockBase::create(const OSGChar8 *szName)
 {
     OSGPThreadLockBase *returnValue = NULL;
 
-    returnValue = new OSGPThreadLockBase(szName, lockId);
+    returnValue = new OSGPThreadLockBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -93,6 +200,15 @@ OSGPThreadLockBase *OSGPThreadLockBase::create(const char *szName,
     }
     
     return returnValue;
+}
+
+void OSGPThreadLockBase::destroy(OSGPThreadLockBase *lockP)
+{
+    if(lockP != NULL)
+    {
+        lockP->shutdown();
+        delete lockP;
+    }
 }
 
 /***************************************************************************\
@@ -105,11 +221,6 @@ OSGPThreadLockBase *OSGPThreadLockBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGPThreadLockBase::~OSGPThreadLockBase(void)
-{
-    delete [] _szName;
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
@@ -118,74 +229,54 @@ OSGPThreadLockBase::~OSGPThreadLockBase(void)
 
 void OSGPThreadLockBase::aquire(void)
 {
-//    fprintf(stderr, "aquire try Lock \n");
     pthread_mutex_lock  (&(_lowLevelLock));         
-//    fprintf(stderr, "aquire got Lock \n");
 }
 
 void OSGPThreadLockBase::release(void)
 {
-//    fprintf(stderr, "release Lock \n");
     pthread_mutex_unlock(&(_lowLevelLock));               
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-#if 0
-CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-}
-
 /*-------------------------- comparison -----------------------------------*/
-
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-#endif
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadLockBase::OSGPThreadLockBase(const char *szName, OSGUInt32 lockId):
-    _szName(NULL),
-    _lockId(lockId),
+OSGPThreadLockBase::OSGPThreadLockBase(void):
+    Inherited(),
     _lowLevelLock()
 {
-    stringDup(szName, _szName);
+}
+
+OSGPThreadLockBase::OSGPThreadLockBase(const OSGChar8 *szName) :
+    Inherited(szName),
+    _lowLevelLock()
+{
+}
+
+OSGPThreadLockBase::~OSGPThreadLockBase(void)
+{
 }
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGPThreadLockBase::init(void)
+OSGBool OSGPThreadLockBase::init(void)
 {
     pthread_mutex_init(&(_lowLevelLock), NULL);
 
     return true;
 }
+
+void OSGPThreadLockBase::shutdown(void)
+{
+    pthread_mutex_destroy(&(_lowLevelLock));
+}
+
 #endif /* OSG_USE_PTHREADS */
 
 
@@ -219,12 +310,11 @@ char OSGSprocLockBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocLockBase *OSGSprocLockBase::create(const char *szName, 
-                                           OSGUInt32   lockId)
+OSGSprocLockBase *OSGSprocLockBase::create(const OSGChar8 *szName)
 {
     OSGSprocLockBase *returnValue = NULL;
 
-    returnValue = new OSGSprocLockBase(szName, lockId);
+    returnValue = new OSGSprocLockBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -233,6 +323,16 @@ OSGSprocLockBase *OSGSprocLockBase::create(const char *szName,
     }
     
     return returnValue;
+}
+
+void OSGSprocLockBase::destroy(OSGSprocLockBase *lockP)
+{
+    if(lockP != NULL)
+    {
+        lockP->shutdown();
+
+        delete lockP;
+    }
 }
 
 /***************************************************************************\
@@ -245,20 +345,6 @@ OSGSprocLockBase *OSGSprocLockBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGSprocLockBase::~OSGSprocLockBase(void)
-{
-    OSGThreadManager *pThreadManager = OSGThreadManager::the();
-
-    delete [] _szName;
-
-    if(pThreadManager == NULL)
-        return;
-
-    if(pThreadManager->getArena() == NULL && _lowLevelLock != NULL)
-        usfreelock(_lowLevelLock, pThreadManager->getArena());
-
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
@@ -267,74 +353,45 @@ OSGSprocLockBase::~OSGSprocLockBase(void)
 
 void OSGSprocLockBase::aquire(void)
 {
-//    fprintf(stderr, "aquire try Lock \n");
-    
     if(_lowLevelLock != NULL)
         ussetlock(_lowLevelLock);
-    
-//    fprintf(stderr, "aquire got Lock \n");
 }
 
 void OSGSprocLockBase::release(void)
 {
-//    fprintf(stderr, "release Lock \n");
-
     if(_lowLevelLock != NULL)
         usunsetlock(_lowLevelLock);
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-#if 0
-CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-}
-
 /*-------------------------- comparison -----------------------------------*/
-
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-#endif
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocLockBase::OSGSprocLockBase(const char *szName, OSGUInt32 lockId):
-    _szName(NULL),
-    _lockId(lockId),
+OSGSprocLockBase::OSGSprocLockBase(void):
+    Inherited(),
     _lowLevelLock(NULL)
 {
-    stringDup(szName, _szName);
+}
+
+OSGSprocLockBase::OSGSprocLockBase(const OSGChar8 *szName):
+    Inherited(szName),
+    _lowLevelLock(NULL)
+{
+}
+
+OSGSprocLockBase::~OSGSprocLockBase(void)
+{
 }
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGSprocLockBase::init(void)
+OSGBool OSGSprocLockBase::init(void)
 {
     OSGThreadManager *pThreadManager = OSGThreadManager::the();
 
@@ -352,6 +409,24 @@ bool OSGSprocLockBase::init(void)
     usinitlock(_lowLevelLock);
 
     return true;
+}
+
+void OSGSprocLockBase::shutdown(void)
+{
+    OSGThreadManager *pThreadManager = OSGThreadManager::the();
+
+    if(pThreadManager == NULL)
+        return;
+
+    if(pThreadManager->getArena() == NULL)
+        return;
+
+    if(_lowLevelLock != NULL)
+    {
+        usfreelock(_lowLevelLock, pThreadManager->getArena());
+
+        _lowLevelLock = NULL;
+    }
 }
 
 #endif /* OSG_USE_SPROC */
@@ -387,12 +462,11 @@ char OSGWinThreadLockBase::cvsid[] = "@(#)$Id: $";
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-OSGWinThreadLockBase *OSGWinThreadLockBase::create(const char *szName, 
-                                                   OSGUInt32   lockId)
+OSGWinThreadLockBase *OSGWinThreadLockBase::create(const OSGChar8  *szName)
 {
     OSGWinThreadLockBase *returnValue = NULL;
 
-    returnValue = new OSGWinThreadLockBase(szName, lockId);
+    returnValue = new OSGWinThreadLockBase(szName);
 
     if(returnValue->init() == false)
     {
@@ -401,6 +475,15 @@ OSGWinThreadLockBase *OSGWinThreadLockBase::create(const char *szName,
     }
     
     return returnValue;
+}
+
+void OSGWinThreadLockBase::destroy(OSGWinThreadLockBase *lockP)
+{
+    if(lockP != NULL)
+    {
+        lockP->shutdown();
+        delete lockP();
+    }
 }
 
 /***************************************************************************\
@@ -413,11 +496,6 @@ OSGWinThreadLockBase *OSGWinThreadLockBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGWinThreadLockBase::~OSGWinThreadLockBase(void)
-{
-	delete [] _szName;
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
@@ -426,87 +504,209 @@ OSGWinThreadLockBase::~OSGWinThreadLockBase(void)
 
 void OSGWinThreadLockBase::aquire(void)
 {
-//    fprintf(stderr, "aquire try Lock \n");
-    
     WaitForSingleObject(_mutex, INFINITE);
-
-//    fprintf(stderr, "aquire got Lock \n");
 }
 
 void OSGWinThreadLockBase::release(void)
 {
-//    fprintf(stderr, "release Lock \n");
-
 	ReleaseMutex(_mutex);
 }
 
 /*-------------------------- assignment -----------------------------------*/
 
-#if 0
-CLASSNAME& CLASSNAME::operator = (const CLASSNAME &source)
-{
-	if (this == &source)
-		return *this;
-
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = source;
-
-	// free mem alloced by members of 'this'
-
-	// alloc new mem for members
-
-	// copy 
-}
-
 /*-------------------------- comparison -----------------------------------*/
-
-bool CLASSNAME::operator < (const CLASSNAME &other)
-{
-    return this < &other;
-}
-
-bool CLASSNAME::operator == (const CLASSNAME &other)
-{
-}
-
-bool CLASSNAME::operator != (const CLASSNAME &other)
-{
-	return ! (*this == other);
-}
-#endif
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGWinThreadLockBase::OSGWinThreadLockBase(const char *szName, OSGUInt32 lockId):
-    _szName(NULL),
-    _lockId(lockId),
+OSGWinThreadLockBase::OOSGWinThreadLockBase(void) :
+    Inherited(),
 	_mutex(NULL)
 {
-    stringDup(szName, _szName);
+}
+
+OSGWinThreadLockBase::OSGWinThreadLockBase(const OSGChar8 *szName) :
+    Inherited(szName),
+	_mutex(NULL)
+{
+}
+
+OSGWinThreadLockBase::~OSGWinThreadLockBase(void)
+{
 }
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGWinThreadLockBase::init(void)
-{
-	_mutex = CreateMutex(NULL,   // no security attributes
-						 FALSE,  // initially not owned
-						 "xx");  // name of mutex
+OSGBool OSGWinThreadLockBase::init(void)
+{    
+	_mutex = CreateMutex(NULL,      // no security attributes
+						 FALSE,     // initially not owned
+						 _szName);  // name of mutex
 	
 	if(_mutex == NULL) 
 	{
-		fprintf(stderr, "Create mutex failed\n");
 		return false;
     }
 
     return true;
 }
 
+void OSGWinThreadBase::shutdown(void)
+{
+    if(_mutex != NULL)
+    {
+        closeHandle(_mutex);
+    }
+}
+
 #endif /* OSG_USE_WINTHREADS */
+
+
+
+
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+char OSGLockPool::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+OSGLockPool *OSGLockPool::create(const OSGChar8 *szName)
+{
+    OSGLockPool *returnValue = NULL;
+
+    returnValue = new OSGLockPool(szName);
+
+    if(returnValue->init() == false)
+    {
+        delete returnValue;
+        returnValue = NULL;
+    }
+    
+    return returnValue;
+}
+
+void OSGLockPool::destroy(OSGLockPool *lockP)
+{
+    if(lockP != NULL)
+    {
+        lockP->shutdown();
+
+        delete lockP;
+    }
+}
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+void OSGLockPool::aquire(void *keyP)
+{
+    fprintf(stderr, "A Key : %04x, Lock %04x\n", 
+            keyP, (((OSGUInt32) keyP) & uiLockPoolMask) >> 7);
+
+    _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].aquire();
+}
+void OSGLockPool::release(void *keyP)
+{
+    fprintf(stderr, "R Key : %04x, Lock %04x\n", keyP, 
+            (((OSGUInt32) keyP) & uiLockPoolMask) >> 7);
+
+    _locksA[(((OSGUInt32) keyP) & uiLockPoolMask) >> 7].release();
+}
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGLockPool::OSGLockPool(const OSGChar8 *szName) :
+    Inherited(szName)
+{
+}
+
+/** \brief Destructor
+ */
+
+OSGLockPool::~OSGLockPool(void)
+{
+}
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+OSGBool OSGLockPool::init(void)
+{
+    OSGBool   returnValue = true;
+    OSGChar8 *pTmp;
+
+    pTmp = new OSGChar8[strlen(_szName) + 6];
+
+    for(OSGUInt32 i = 0; i < uiLockPoolSize; i++)
+    {
+#ifdef OSG_DEBUG_LOCK_STAT
+        _lockStatA[i] = 0;
+#endif
+        sprintf(pTmp, "%s%d\n", _szName, i);
+
+        stringDup(pTmp, _locksA[i]._szName);
+
+        returnValue &= _locksA[i].init();
+    }
+
+    delete [] pTmp;
+        
+    return returnValue;
+}
+
+void OSGLockPool::shutdown(void)
+{
+    for(OSGUInt32 i = 0; i < uiLockPoolSize; i++)
+    {
+        _locksA[i].shutdown();
+    }
+}
 
 ///---------------------------------------------------------------------------
 ///  FUNCTION: 

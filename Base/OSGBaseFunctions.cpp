@@ -144,6 +144,7 @@ OSGBool OSG::osgExit(void)
         }
     }
 
+    OSGThreadManager::the()->shutdown();
     OSGAspect::exit();
 
     return returnValue;

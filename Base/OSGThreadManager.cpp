@@ -96,6 +96,31 @@ void OSGThreadManager::setLockCreateFunc(OSGCreateLockF create)
     _createLockF = create;
 }
 
+void OSGThreadManager::setLockPoolCreateFunc(OSGCreateLockPoolF create)
+{
+    _createLockPoolF = create;
+}
+
+void OSGThreadManager::setThreadDestroyFunc(OSGDestroyThreadF destroy)
+{
+    _destroyThreadF = destroy;
+}
+
+void OSGThreadManager::setBarrierDestroyFunc(OSGDestroyBarrierF destroy)
+{
+    _destroyBarrierF = destroy;
+}
+
+void OSGThreadManager::setLockDestroyFunc(OSGDestroyLockF destroy)
+{
+    _destroyLockF = destroy;
+}
+
+void OSGThreadManager::setLockPoolDestroyFunc(OSGDestroyLockPoolF destroy)
+{
+    _destroyLockPoolF = destroy;
+}
+
 OSGThreadManager *OSGThreadManager::the(void)
 {
     return &_threadManagerP;
@@ -171,56 +196,13 @@ usptr_t *OSGThreadManager::getArena(void)
 
 /*------------- constructors & destructors --------------------------------*/
 
-
-OSGThreadManager::~OSGThreadManager(void)
-{
-    OSGThreadMapIt gTIt  = _threadMapM.begin();
-    OSGLockMapIt   gLIt  = _lockMapM.begin();
-    OSGBarrierMapIt gBIt = _barrierMapM.begin();
-
-    while(gTIt != _threadMapM.end())
-    {
-		// must cast it because of the MS compiler
-        delete [] (char *) (*gTIt).first;
-        delete    (*gTIt).second;
-
-        gTIt++;
-    }
-
-    _threadMapM.clear();
-
-    while(gLIt != _lockMapM.end())
-    {
-        delete [] (char *) (*gLIt).first;
-        delete    (*gLIt).second;
-        
-        gLIt++;
-    }
-    
-    _lockMapM.clear();
-
-    while(gBIt != _barrierMapM.end())
-    {
-        delete [] (char *) (*gBIt).first;
-        delete    (*gBIt).second;
-        
-        gBIt++;
-    }
-
-    _barrierMapM.clear();
-
-    _threadStoreV.clear();
-    _lockStoreV.clear();
-    _barrierStoreV.clear();
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
-OSGThread *OSGThreadManager::createThread(const char *szName)
+OSGThread *OSGThreadManager::getThread(const OSGChar8 *szName)
 {
     OSGThread *returnValue = NULL;
 
@@ -228,44 +210,45 @@ OSGThread *OSGThreadManager::createThread(const char *szName)
     {
         if(szName == NULL)
         {
-            char *szTmpName = new char[11];
-            
-            sprintf(szTmpName, "Thread%d", _threadStoreV.size());
-            
-            OSGThreadMapIt gIt = _threadMapM.find(szTmpName);
-        
-            if(gIt == _threadMapM.end())
+            returnValue = _createThreadF(szName);
+
+            if(returnValue != NULL)
             {
-                returnValue = _createThreadF(szTmpName, _threadStoreV.size());
-                
-                _threadStoreV.push_back (returnValue);
-                _threadMapM[szTmpName] = returnValue;
+                _tableLockP->aquire();
+            
+                _threadMapM[returnValue->_szName] = returnValue;
+
+                _tableLockP->release();
             }
-            else
-                (*gIt).second->print();
         }
         else
         {
+            _tableLockP->aquire();
+
             OSGThreadMapIt gIt = _threadMapM.find(szName);
         
             if(gIt == _threadMapM.end())
             {
-                char *szTmpName = NULL;
+                returnValue = _createThreadF(szName);
 
-                stringDup(szName, szTmpName);
-
-                returnValue = _createThreadF(szName, _threadStoreV.size());
-                
-                _threadStoreV.push_back (returnValue);
-                _threadMapM[szTmpName] = returnValue;
+                if(returnValue != NULL)
+                {
+                    _threadMapM[returnValue->_szName] = returnValue;
+                }
             }
+            else
+            {
+                returnValue = (*gIt).second;
+            }
+
+            _tableLockP->release();
         }
     }
 
     return returnValue;
 }
 
-OSGBarrier *OSGThreadManager::createBarrier(const char *szName)
+OSGBarrier *OSGThreadManager::getBarrier(const OSGChar8 *szName)
 {
     OSGBarrier *returnValue = NULL;
 
@@ -273,43 +256,48 @@ OSGBarrier *OSGThreadManager::createBarrier(const char *szName)
     {
         if(szName == NULL)
         {
-            char *szTmpName = new char[11];
-            
-            sprintf(szTmpName, "Barrier%d", _barrierStoreV.size());
-            
-            OSGBarrierMapIt gIt = _barrierMapM.find(szTmpName);
-        
-            if(gIt == _barrierMapM.end())
+            returnValue = _createBarrierF(szName);
+
+            if(returnValue != NULL)
             {
-                returnValue = _createBarrierF(szTmpName, 
-                                              _barrierStoreV.size());
+                _tableLockP->aquire();
                 
-                _barrierStoreV.push_back (returnValue);
-                _barrierMapM[szTmpName] = returnValue;
+                _barrierMapM[returnValue->_szName] = returnValue;
+                
+                _tableLockP->release();
             }
         }
         else
         {
+            _tableLockP->aquire();
+
             OSGBarrierMapIt gIt = _barrierMapM.find(szName);
         
             if(gIt == _barrierMapM.end())
             {
-                char *szTmpName = NULL;
+                returnValue = _createBarrierF(szName);
 
-                stringDup(szName, szTmpName);
-
-                returnValue = _createBarrierF(szName, _barrierStoreV.size());
-                
-                _barrierStoreV.push_back (returnValue);
-                _barrierMapM[szTmpName] = returnValue;
+                if(returnValue != NULL)
+                {
+                    _barrierMapM[returnValue->_szName] = returnValue;
+                }
             }
+            else
+            {
+                returnValue = (*gIt).second;
+            }
+
+            _tableLockP->release();
         }
     }
+
+    if(returnValue != NULL)
+        returnValue->addRef();
 
     return returnValue;
 }
 
-OSGLock *OSGThreadManager::createLock(const char *szName)
+OSGLock *OSGThreadManager::getLock(const OSGChar8 *szName)
 {
     OSGLock *returnValue = NULL;
 
@@ -317,70 +305,138 @@ OSGLock *OSGThreadManager::createLock(const char *szName)
     {
         if(szName == NULL)
         {
-            char *szTmpName = new char[11];
-            
-            sprintf(szTmpName, "Lock%d", _lockStoreV.size());
-            
-            OSGLockMapIt gIt = _lockMapM.find(szTmpName);
-        
-            if(gIt == _lockMapM.end())
+            returnValue = _createLockF(szName);
+
+            if(returnValue != NULL)
             {
-                returnValue = _createLockF(szTmpName, _lockStoreV.size());
-                
-                _lockStoreV.push_back (returnValue);
-                _lockMapM[szTmpName] = returnValue;
+                _tableLockP->aquire();
+
+                _lockMapM[returnValue->_szName] = returnValue;
+
+                _tableLockP->release();
             }
         }
         else
         {
-            OSGLockMapIt gIt = _lockMapM.find(szName);
+            _tableLockP->aquire();
+
+            OSGLockMapIt gIt = _lockMapM.find(szName);           
         
             if(gIt == _lockMapM.end())
             {
-                char *szTmpName = NULL;
+                returnValue = _createLockF(szName);
 
-                stringDup(szName, szTmpName);
-
-                returnValue = _createLockF(szName, _lockStoreV.size());
-                
-                _lockStoreV.push_back (returnValue);
-                _lockMapM[szTmpName] = returnValue;
+                if(returnValue != NULL)
+                {
+                    _lockMapM[returnValue->_szName] = returnValue;
+                }
             }
+            else
+            {
+                returnValue = (*gIt).second;
+            }
+
+            _tableLockP->release();
         }
     }
+
+    if(returnValue != NULL)
+        returnValue->addRef();
 
     return returnValue;
 }
 
-void OSGThreadManager::destroyBarrier(OSGBarrier *barrierP)
+OSGLockPool *OSGThreadManager::getLockPool(const OSGChar8 *szName)
+{
+    OSGLockPool *returnValue = NULL;
+
+    if(_createLockPoolF != NULL)
+    {
+        if(szName == NULL)
+        {
+            returnValue = _createLockPoolF(szName);
+
+            if(returnValue != NULL)
+            {
+                _tableLockP->aquire();
+            
+                _lockPoolMapM[returnValue->_szName] = returnValue;
+                
+                _tableLockP->release();
+            }
+        }
+        else
+        {
+            _tableLockP->aquire();
+
+            OSGLockPoolMapIt gIt = _lockPoolMapM.find(szName);
+        
+            if(gIt == _lockPoolMapM.end())
+            {
+                returnValue = _createLockPoolF(szName);
+
+                if(returnValue != NULL)
+                {
+                    _lockPoolMapM[returnValue->_szName] = returnValue;
+                }
+            }
+            else
+            {
+                returnValue = (*gIt).second;
+            }
+
+            _tableLockP->release();
+        }
+    }
+
+    if(returnValue != NULL)
+        returnValue->addRef();
+
+    return returnValue;
+}
+
+void OSGThreadManager::freeBarrier(OSGBarrier *barrierP)
 {
     if(barrierP != NULL)
     {
-        OSGBarrierMapIt gIt = _barrierMapM.find(barrierP->_szName);
+        _tableLockP->aquire();
 
-        if(gIt != _barrierMapM.end())
-        {
-            delete [] (char *) (*gIt).first;
-            delete    (*gIt).second;
+        barrierP->subRef();
 
-            _barrierMapM.erase(gIt);
-        }
+        if(barrierP->inUse() == false)
+            removeBarrier(barrierP);
+
+        _tableLockP->release();
     }
 }
 
-void OSGThreadManager::destroyLock(OSGLock *lockP)
+void OSGThreadManager::freeLock(OSGLock *lockP)
 {
     if(lockP != NULL)
     {
-        OSGLockMapIt gIt = _lockMapM.find(lockP->_szName);
+        _tableLockP->aquire();
 
-        if(gIt != _lockMapM.end())
-        {
-            delete [] (char *) (*gIt).first;
-            delete    (*gIt).second;
+        lockP->subRef();
 
-            _lockMapM.erase(gIt);
-        }
+        if(lockP->inUse())
+           removeLock(lockP);
+
+        _tableLockP->release();
+    }
+}
+
+void OSGThreadManager::freeLockPool(OSGLockPool *lockPoolP)
+{
+    if(lockPoolP != NULL)
+    {
+        _tableLockP->aquire();
+
+        lockPoolP->subRef();
+        
+        if(lockPoolP->inUse())
+            removeLockPool(lockPoolP);
+
+        _tableLockP->release();
     }
 }
 
@@ -391,11 +447,15 @@ OSGThread  *OSGThreadManager::findThread (const char *szName)
     if(szName != NULL)
     {
         OSGThreadMapIt gIt;
+
+        _tableLockP->aquire();
     
         gIt = _threadMapM.find(szName);
 
         if(gIt != _threadMapM.end())
             returnValue = (*gIt).second;
+
+        _tableLockP->release();
     }
 
     return returnValue;
@@ -408,28 +468,57 @@ OSGBarrier *OSGThreadManager::findBarrier(const char *szName)
     if(szName != NULL)
     {
         OSGBarrierMapIt gIt;
+
+        _tableLockP->aquire();
     
         gIt = _barrierMapM.find(szName);
 
         if(gIt != _barrierMapM.end())
             returnValue = (*gIt).second;
+
+        _tableLockP->release();
     }
 
     return returnValue;
 }
 
-OSGLock *OSGThreadManager::findLock   (const char *szName)
+OSGLock *OSGThreadManager::findLock(const char *szName)
 {
     OSGLock *returnValue = NULL;
 
     if(szName != NULL)
     {
         OSGLockMapIt gIt;
-    
+
+        _tableLockP->aquire();
+
         gIt = _lockMapM.find(szName);
 
         if(gIt != _lockMapM.end())
             returnValue = (*gIt).second;
+
+        _tableLockP->release();
+    }
+
+    return returnValue;
+}
+
+OSGLockPool *OSGThreadManager::findLockPool(const char *szName)
+{
+    OSGLockPool *returnValue = NULL;
+
+    if(szName != NULL)
+    {
+        OSGLockPoolMapIt gIt;
+
+        _tableLockP->aquire();
+    
+        gIt = _lockPoolMapM.find(szName);
+
+        if(gIt != _lockPoolMapM.end())
+            returnValue = (*gIt).second;
+
+        _tableLockP->release();
     }
 
     return returnValue;
@@ -449,9 +538,70 @@ OSGLock *OSGThreadManager::findLock   (const char *szName)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-bool OSGThreadManager::init(void)
+void OSGThreadManager::removeBarrier(OSGBarrier *barrierP)
 {
-    SDEBUG << "init" << endl;
+    OSGBarrierMapIt gIt = _barrierMapM.find(barrierP->_szName);
+
+    if(gIt != _barrierMapM.end())
+    {
+        _barrierMapM.erase(gIt);
+    }
+
+    if(_destroyBarrierF != NULL)
+    {
+        _destroyBarrierF(barrierP);
+    }
+    else
+    {
+        delete barrierP;
+    }
+        
+}
+
+void OSGThreadManager::removeLock(OSGLock *lockP)
+{
+    OSGLockMapIt gIt = _lockMapM.find(lockP->_szName);
+    
+    if(gIt != _lockMapM.end())
+    {
+        _lockMapM.erase(gIt);
+    }
+
+    if(_destroyLockF != NULL)
+    {
+        _destroyLockF(lockP);
+    }
+    else
+    {
+        delete lockP;
+    }    
+}
+
+void OSGThreadManager::removeLockPool(OSGLockPool *lockPoolP)
+{
+    OSGLockPoolMapIt gIt = _lockPoolMapM.find(lockPoolP->_szName);
+    
+    if(gIt != _lockPoolMapM.end())
+    {
+        _lockPoolMapM.erase(gIt);
+    }
+
+    if(_destroyLockPoolF != NULL)
+    {
+        _destroyLockPoolF(lockPoolP);
+    }
+    else
+    {
+        delete lockPoolP;
+    }
+        
+}
+
+OSGBool OSGThreadManager::init(void)
+{
+    OSGBool returnValue = true;
+
+    SINFO << "ThreadManager init" << endl;
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     int rc; 
@@ -462,8 +612,8 @@ bool OSGThreadManager::init(void)
     rc = pthread_key_create(&(OSGThread::_threadKey), 
                             OSGThread::freeThreadP);
 
-    rc = pthread_key_create(&(OSGThread::_changelistKey), 
-                            OSGThread::freeChangelistP);
+    rc = pthread_key_create(&(OSGThread::_changeListKey), 
+                            OSGThread::freeChangeListP);
 #endif
 
 #ifdef OSG_ASPECT_USE_PTHREADSELF
@@ -484,7 +634,7 @@ bool OSGThreadManager::init(void)
 #if defined (OSG_ASPECT_USE_LOCALSTORAGE)		
 	OSGThread::_aspectKey     = TlsAlloc();
 	OSGThread::_threadKey     = TlsAlloc();
-	OSGThread::_changelistKey = TlsAlloc();
+	OSGThread::_changeListKey = TlsAlloc();
 
 	if (OSGThread::_aspectKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
@@ -492,7 +642,7 @@ bool OSGThreadManager::init(void)
 	if (OSGThread::_threadKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
 
-	if (OSGThread::_changelistKey == 0xFFFFFFFF) 
+	if (OSGThread::_changeListKey == 0xFFFFFFFF) 
 		fprintf(stderr, "Local alloc failed\n");
 #endif
 
@@ -506,33 +656,158 @@ bool OSGThreadManager::init(void)
 
     if(_arenaP == NULL)
     {
-        SFATAL << "Could not initialize arena " << errno << endl;
+        SFATAL << "OSGTM : could not initialize arena " << errno << endl;
+        returnValue = false;
     }
-
-    SDEBUG << "Got arena " << _arenaP << endl;
+    else
+    {
+        SINFO << "OSGTM : got arena " << _arenaP << endl;
+    }
 #endif
 
-    OSGThread *pApp = createThread("OSGApp");
+    _tableLockP = _createLockF("OSGTMTableLock");
+    
+    if(_tableLockP == NULL)
+    {
+        SFATAL << "OSGTM : could not get table lock" << endl;
 
+        returnValue = false;
+    }
+    else
+    {
+        SINFO << "OSGTM : got table lock " << _tableLockP << endl;
+    }
+
+    OSGThread *pApp = getThread("OSGApp");
     OSGThread::init(pApp);
 
-    return true;
+    if(pApp == NULL)
+    {
+        SFATAL << "OSGTM : could not get application thread " << endl;
+
+        returnValue = false;
+    }
+    else
+    {
+        SINFO << "OSGTM : got application thread " << pApp << endl;
+    }
+
+    return returnValue;
+}
+
+void OSGThreadManager::shutdown(void)
+{
+    _tableLockP->aquire();
+
+    OSGThreadMapIt   gTIt  = _threadMapM.begin();
+    OSGLockMapIt     gLIt  = _lockMapM.begin();
+    OSGLockPoolMapIt gLPIt = _lockPoolMapM.begin();
+    OSGBarrierMapIt  gBIt  = _barrierMapM.begin();
+
+    while(gTIt != _threadMapM.end())
+    {
+        if(_destroyThreadF != NULL)
+        {
+            _destroyThreadF((*gTIt).second);
+        }
+        else
+        {
+            delete    (*gTIt).second;
+        }
+
+        gTIt++;
+    }
+
+    _threadMapM.clear();
+
+    while(gLIt != _lockMapM.end())
+    {
+        if(_destroyLockF != NULL)
+        {
+            _destroyLockF((*gLIt).second);
+        }
+        else
+        {
+            delete    (*gLIt).second;
+        }
+        
+        gLIt++;
+    }
+    
+    _lockMapM.clear();
+
+    while(gLPIt != _lockPoolMapM.end())
+    {
+        if(_destroyLockPoolF != NULL)
+        {
+            _destroyLockPoolF((*gLPIt).second);
+        }
+        else
+        {
+            delete    (*gLPIt).second;
+        }
+        
+        gLPIt++;
+    }
+    
+    _lockPoolMapM.clear();
+
+    while(gBIt != _barrierMapM.end())
+    {
+        if(_destroyBarrierF != NULL)
+        {
+            _destroyBarrierF((*gBIt).second);
+        }
+        else
+        {
+            delete    (*gBIt).second;
+        }
+        
+        gBIt++;
+    }
+
+    _barrierMapM.clear();
+
+    _tableLockP->release();
+
+    if(_destroyLockF != NULL)
+    {
+        _destroyLockF(_tableLockP);
+    }
+    else
+    {
+        delete _tableLockP;
+    }
 }
 
 OSGThreadManager::OSGThreadManager(void) :
-    _createThreadF ((OSGCreateThreadF)  OSGThread::create),
-    _createBarrierF((OSGCreateBarrierF) OSGBarrier::create),
-    _createLockF   ((OSGCreateLockF)    OSGLock::create),
-    _threadStoreV(),
-    _threadMapM(),
-    _lockStoreV(),
-    _lockMapM(),
-    _barrierStoreV(),
-    _barrierMapM()
+    _createThreadF   ((OSGCreateThreadF)   OSGThread::create),
+    _createBarrierF  ((OSGCreateBarrierF)  OSGBarrier::create),
+    _createLockF     ((OSGCreateLockF)     OSGLock::create),
+    _createLockPoolF ((OSGCreateLockPoolF) OSGLockPool::create),
+
+    _destroyThreadF  ((OSGDestroyThreadF)   OSGThread::destroy),
+    _destroyBarrierF ((OSGDestroyBarrierF)  OSGBarrier::destroy),
+    _destroyLockF    ((OSGDestroyLockF)     OSGLock::destroy),
+    _destroyLockPoolF((OSGDestroyLockPoolF) OSGLockPool::destroy),
+
+    _threadMapM    (),
+
+    _lockMapM      (),
+
+    _lockPoolMapM  (),
+
+    _barrierMapM   (),
+
+    _tableLockP    (NULL)
 {
 #if defined(_OSG_USE_SPROC_)
     _arenaP = NULL;
 #endif
+}
+
+OSGThreadManager::~OSGThreadManager(void)
+{
 }
 
 

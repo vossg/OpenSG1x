@@ -59,6 +59,135 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+OSGUInt32 OSGThreadCommonBase::_threadCount = 0;
+
+char OSGThreadCommonBase::cvsid[] = "@(#)$Id: $";
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*------------- constructors & destructors --------------------------------*/
+
+/*------------------------------ access -----------------------------------*/
+
+/*---------------------------- properties ---------------------------------*/
+
+/*-------------------------- your_category---------------------------------*/
+
+/*-------------------------- assignment -----------------------------------*/
+
+/*-------------------------- comparison -----------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/** \brief Constructor
+ */
+
+OSGThreadCommonBase::OSGThreadCommonBase(const OSGChar8 *szName):
+    _szName(NULL),
+    _threadId(_threadCount++),
+    _refCount(0),
+    _aspectId(0),
+    _changeListP(NULL)
+{
+    if(szName != NULL)
+    {
+        stringDup(szName, _szName);
+    }
+    else
+    {
+        _szName = new OSGChar8[16];
+        sprintf(_szName, "OSGThread_%d", _threadId);
+    }
+}
+
+/** \brief Destructor
+ */
+
+OSGThreadCommonBase::~OSGThreadCommonBase(void)
+{
+    delete [] _szName;
+
+    if(_changeListP != NULL)
+        _changeListP->subRef();
+}
+
+void OSGThreadCommonBase::addRef(void)
+{
+    _refCount++;
+}
+
+void OSGThreadCommonBase::subRef(void)
+{
+    _refCount--;
+}
+
+OSGBool OSGThreadCommonBase::inUse(void)
+{
+    return _refCount <= 0;
+}
+
+void OSGThreadCommonBase::setAspect(OSGUInt32 aspectId)
+{
+    _aspectId = aspectId;
+}
+
+void OSGThreadCommonBase::setChangeList(OSGChangeList *changeListP)
+{
+    if(_changeListP != NULL)
+        _changeListP->subRef();
+
+    _changeListP = changeListP;
+
+    if(_changeListP != NULL)
+        _changeListP->addRef();
+}
+
+OSGChangeList *OSGThreadCommonBase::getChangeList(void)
+{
+    return _changeListP;
+}
+
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+
+
+
 #if defined (OSG_USE_PTHREADS)
 
 #ifdef OSG_ASPECT_USE_CUSTOMSELF
@@ -87,28 +216,6 @@ char OSGPThreadBase::cvsid[] = "@(#)$Id: $";
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void OSGPThreadBase::setAspect(OSGUInt32 aspect)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    OSGUInt32 *uintP;
-
-    uintP  = (OSGUInt32 *) pthread_getspecific(_aspectKey);
-
-    *uintP = aspect;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _aspectsA[threadId & 0x00FF] = aspect;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _aspectsA[threadId] = aspect;
-#endif
-}
 
 OSGUInt32 OSGPThreadBase::getAspect(void)
 {
@@ -161,7 +268,7 @@ OSGChangeList *OSGPThreadBase::getCurrentChangeList(void)
 #ifdef OSG_ASPECT_USE_PTHREADKEY
     OSGChangeList **cListP;
 
-    cListP = (OSGChangeList *) pthread_getspecific(_changelistKey);
+    cListP = (OSGChangeList **) pthread_getspecific(_changeListKey);
 
     return *cListP;
 #endif
@@ -199,19 +306,19 @@ void OSGPThreadBase::join(OSGPThreadBase *threadP)
 #ifdef OSG_ASPECT_USE_PTHREADKEY
 pthread_key_t OSGPThreadBase::_aspectKey;
 pthread_key_t OSGPThreadBase::_threadKey;
-pthread_key_t OSGPThreadBase::_changelistKey;
+pthread_key_t OSGPThreadBase::_changeListKey;
 #endif
 
 #if defined(OSG_ASPECT_USE_PTHREADSELF) || \
     defined(OSG_ASPECT_USE_CUSTOMSELF)
 #ifdef OSG_COMPILETIME_NUM_ASPECTS
-OSGUInt16      OSGPThreadBase::_aspectsA[OSG_NUM_ASPECTS];
-OSGThread     *OSGPThreadBase::_threadsA[OSG_NUM_ASPECTS];
+OSGUInt16      OSGPThreadBase::_aspectsA    [OSG_NUM_ASPECTS];
+OSGThread     *OSGPThreadBase::_threadsA    [OSG_NUM_ASPECTS];
 OSGChangeList *OSGPThreadBase::_changelistsA[OSG_NUM_ASPECTS];
 #endif
 #ifdef OSG_RUNTIME_NUM_ASPECTS
-OSGUInt16      *OSGPThreadBase::_aspectsA = NULL;
-OSGThread     **OSGPThreadBase::_threadsA = NULL;
+OSGUInt16      *OSGPThreadBase::_aspectsA     = NULL;
+OSGThread     **OSGPThreadBase::_threadsA     = NULL;
 OSGChangeList **OSGPThreadBase::_changelistsA = NULL;
 #endif
 #endif
@@ -222,86 +329,37 @@ void *OSGPThreadBase::threadFunc(void *threadArgP)
 
     if(argsP != NULL)
     {
-        init((OSGThread *) argsP[2]);
-
-        if(argsP[0] != NULL)
+        if(argsP[2] != NULL)
         {
-            OSGThreadFuncF threadFuncF = (OSGThreadFuncF) argsP[0];
+            init((OSGThread *) argsP[2]);
 
-            threadFuncF(argsP[1]);
+            if(argsP[0] != NULL)
+            {
+                OSGThreadFuncF threadFuncF = (OSGThreadFuncF) argsP[0];
+                
+                threadFuncF(argsP[1]);
+            }
         }
     }    
 
     return NULL;
 }
 
-void OSGPThreadBase::createAspect(void)
+void OSGPThreadBase::init(OSGThread *thisP)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    OSGUInt32 *uintP = new OSGUInt32;
-
-    *uintP = 0;
-
-    pthread_setspecific(_aspectKey, (void *) uintP);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _aspectsA[threadId & 0x00FF] = 0;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _aspectsA[threadId] = 0;
-#endif
+    thisP->setupAspect     ();        
+    thisP->setupThreadP    ();        
+    thisP->setupChangeListP();        
 }
 
-void OSGPThreadBase::createThreadP(void)
+OSGPThreadBase *OSGPThreadBase::create(const char *szName)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    OSGThread **threadP = new OSGThread *;
-
-    *threadP = 0;
-
-    pthread_setspecific(_threadKey, (void *) threadP);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _threadsA[threadId & 0x00FF] = NULL;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _threadsA[threadId] = NULL;
-#endif
+    return new OSGPThreadBase(szName);
 }
 
-void OSGPThreadBase::createChangeListP(void)
+void OSGPThreadBase::destroy(OSGPThreadBase *threadP)
 {
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    OSGChangeList **changelistP = new OSGChangeList *;
-
-    *changelistP = new OSGChangeList;
-
-    pthread_setspecific(_changelistKey, (void *) changelistP);  
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _changelistsA[threadId & 0x00FF] = new OSGChangeList;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _changelistsA[threadId] = new OSGChangeList;
-#endif
+    delete threadP;
 }
 
 #ifdef OSG_ASPECT_USE_PTHREADKEY
@@ -315,7 +373,7 @@ void OSGPThreadBase::freeAspect(void *aspectP)
 
 void OSGPThreadBase::freeThreadP(void *threadP)
 {
-    OSGThread *tP = (OSGThread *) threadP;
+    OSGThread **tP = (OSGThread **) threadP;
 
     if(tP != NULL)
         delete tP;    
@@ -323,49 +381,13 @@ void OSGPThreadBase::freeThreadP(void *threadP)
 
 void OSGPThreadBase::freeChangeListP(void *changelistP)
 {
-    OSGChangeList *clP = (OSGChangeList *) changelistP;
+    OSGChangeList **clP = (OSGChangeList **) changelistP;
 
     if(clP != NULL)
         delete clP;
 }
 #endif
 
-void OSGPThreadBase::setCurrent(OSGThread *threadP)
-{
-#ifdef OSG_ASPECT_USE_PTHREADKEY
-    OSGThread **threadPP;
-
-    threadPP = (OSGThread **) pthread_getspecific(_threadKey);
-
-    *threadPP = threadP;
-#endif
-
-#ifdef OSG_ASPECT_USE_PTHREADSELF
-    pthread_t threadId = pthread_self(); 
-
-    _threadsA[threadId & 0x00FF] = threadP;
-#endif
-
-#ifdef OSG_ASPECT_USE_CUSTOMSELF
-    pthread_t threadId = gThreadSelf(); 
-
-    _threadsA[threadId] = threadP;
-#endif
-}
-
-void OSGPThreadBase::init(OSGThread *thisP)
-{
-    createAspect();        
-    createThreadP();        
-    setCurrent(thisP);
-    createChangeListP();        
-}
-
-OSGPThreadBase *OSGPThreadBase::create(const char *szName, 
-                                       OSGUInt32 threadId)
-{
-    return new OSGPThreadBase(szName, threadId);
-}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -377,21 +399,25 @@ OSGPThreadBase *OSGPThreadBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGPThreadBase::~OSGPThreadBase(void)
-{
-    delete [] _szName;
-
-    delete    _threadDescP;
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
-OSGBool OSGPThreadBase::run(OSGThreadFuncF threadFunc, void *threadArgP)
+OSGBool OSGPThreadBase::run(OSGThreadFuncF threadFunc, 
+                            OSGUInt32      aspectId,
+                            void          *threadArgP)
 {
+    OSGBool  returnValue = true;
+    OSGInt32 rc          = 0;
+
+    if(aspectId >= OSGThreadManager::getNumAspects())
+    {
+        SFATAL << "OSGPTB : invalid aspect id" << endl;
+        return false;
+    }
+
     if(threadFunc != NULL)
     {
         if(_threadDescP == NULL)
@@ -401,11 +427,27 @@ OSGBool OSGPThreadBase::run(OSGThreadFuncF threadFunc, void *threadArgP)
         _threadDataA[1] =          threadArgP;
         _threadDataA[2] = (void *) this;
 
-		pthread_create(_threadDescP, 
-                        NULL,
-                        OSGPThreadBase::threadFunc,
-                        (void *) &_threadDataA);
+        Inherited::setAspect(aspectId);
+
+		rc = pthread_create(_threadDescP, 
+                            NULL,
+                            OSGPThreadBase::threadFunc,
+                            (void *) &_threadDataA);
+
+        if(rc != 0)
+        {
+            SFATAL << "OSGPTB : pthread_create failed" << endl;
+            returnValue = false;
+        }
+        
     }
+    else
+    {
+        SFATAL << "OSGPTB : no thread function given";
+        returnValue = false;
+    }
+
+    return true;
 }
 
 void OSGPThreadBase::print(void)
@@ -421,21 +463,137 @@ void OSGPThreadBase::print(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadBase::OSGPThreadBase(const char *szName, OSGUInt32 threadId) :
-    _szName(NULL),
-    _threadId(threadId),
+OSGPThreadBase::OSGPThreadBase(const char *szName) :
+    Inherited(szName),
+
     _threadDescP(NULL)
 {
-    stringDup(szName, _szName);
-
     _threadDataA[0] = NULL;
     _threadDataA[1] = NULL;
     _threadDataA[2] = NULL;
 }
 
+OSGPThreadBase::~OSGPThreadBase(void)
+{
+    delete    _threadDescP;
+}
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
+
+void OSGPThreadBase::setupAspect(void)
+{
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    OSGUInt32 *uintP = new OSGUInt32;
+
+    *uintP = Inherited::_aspectId;
+
+    pthread_setspecific(_aspectKey, (void *) uintP);  
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    pthread_t threadId = pthread_self(); 
+
+    _aspectsA[threadId & 0x00FF] = Inherited::_aspectId;
+#endif
+
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+    pthread_t threadId = gThreadSelf(); 
+
+    _aspectsA[threadId] = Inherited::_aspectId;
+#endif
+}
+
+void OSGPThreadBase::setupThreadP(void)
+{
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    OSGThread **threadP = new OSGThread *;
+
+    *threadP = (OSGThread *) this;
+
+    pthread_setspecific(_threadKey, (void *) threadP);  
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    pthread_t threadId = pthread_self(); 
+
+    fprintf(stderr, "PSelf(%d) : %d\n", Inherited::_aspectId, threadId);
+
+    _threadsA[threadId & 0x00FF] = (OSGThread *) this;
+#endif
+
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+    pthread_t threadId = gThreadSelf(); 
+
+    _threadsA[threadId] = (OSGThread *) this;
+#endif
+}
+
+void OSGPThreadBase::setupChangeListP(void)
+{
+#ifdef OSG_ASPECT_USE_PTHREADKEY
+    OSGChangeList **changeListPP = new OSGChangeList *;
+
+    if(Inherited::_changeListP == NULL)
+    {
+        *changeListPP = new OSGChangeList;
+
+        Inherited::setChangeList(*changeListPP);
+    }
+    else
+    {
+        *changeListPP = Inherited::_changeListP;
+        
+        (*changeListPP)->clearAll();
+    }
+
+    (*changeListPP)->setAspect(Inherited::_aspectId);
+    pthread_setspecific(_changeListKey, (void *) changeListPP);  
+#endif
+
+#ifdef OSG_ASPECT_USE_PTHREADSELF
+    OSGChangeList *changeListP;
+    pthread_t      threadId = pthread_self(); 
+
+    if(Inherited::_changeListP == NULL)
+    {
+        changeListP = new OSGChangeList;
+
+        Inherited::setChangeList(changeListP);
+    }
+    else
+    {
+        changeListP = Inherited::_changeListP;
+        
+        changeListP->clearAll();
+    }
+
+    changeListP->setAspect(Inherited::_aspectId);
+    _changelistsA[threadId & 0x00FF] = changeListP;
+#endif
+
+#ifdef OSG_ASPECT_USE_CUSTOMSELF
+    OSGChangeList *changeListP;
+    pthread_t      threadId = gThreadSelf(); 
+
+    if(Inherited::_changeListP == NULL)
+    {
+        changeListP = new OSGChangeList;
+
+        Inherited::setChangeList(changeListP);
+    }
+    else
+    {
+        changeListP = Inherited::_changeListP;
+        
+        changeListP->clearAll();
+    }
+
+    changeListP->setAspect(Inherited::_aspectId);
+    _changelistsA[threadId] = changeListP;
+#endif
+}
 
 #endif /* OSG_USE_PTHREADS */
 
@@ -462,17 +620,17 @@ char OSGSprocBase::cvsid[] = "@(#)$Id: $";
 
 OSGUInt32 OSGSprocBase::getAspect(void)
 {
-    return ((ProcessData *) PRDA->usr_prda.fill)->aspectId;
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_aspectId;
 }
 
 OSGThread *OSGSprocBase::getCurrent(void)
 {
-    return ((ProcessData *) PRDA->usr_prda.fill)->threadP;
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_threadP;
 }
 
 OSGChangeList *OSGSprocBase::getCurrentChangeList(void)
 {
-    return ((ProcessData *) PRDA->usr_prda.fill)->changelistP;
+    return ((OSGProcessData *) PRDA->usr_prda.fill)->_changelistP;
 }
 
 void OSGSprocBase::join(OSGSprocBase *threadP)
@@ -489,54 +647,43 @@ void OSGSprocBase::join(OSGSprocBase *threadP)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-void OSGSprocBase::setCurrent(OSGThread *threadP)
-{
-    ((ProcessData *) PRDA->usr_prda.fill)->threadP     = threadP;
-}
-
 void OSGSprocBase::threadFunc(void *threadArgP)
 {
     void **argsP = (void **) threadArgP;
 
     if(argsP != NULL)
     {
-        init((OSGThread *) argsP[2]);
-
         if(argsP[2] != NULL)
+        {
+            init((OSGThread *) argsP[2]);
+
             ((OSGThread *) argsP[2])->setPid();
 
-        if(argsP[0] != NULL)
-        {
-            OSGSprocFuncF threadFuncF = (OSGSprocFuncF) argsP[0];
+            if(argsP[0] != NULL)
+            {
+                OSGThreadFuncF threadFuncF = (OSGThreadFuncF) argsP[0];
 
-            threadFuncF(argsP[1]);
+                threadFuncF(argsP[1]);
+            }
         }
     }    
 }
 
 void OSGSprocBase::init(OSGThread *thisP)
 {
-    ((ProcessData *) PRDA->usr_prda.fill)->aspectId    = thisP->_aspectId;
-    ((ProcessData *) PRDA->usr_prda.fill)->threadP     = thisP;
-
-    if(thisP->_changeListP == NULL)
-    {
-        thisP->_changeListP = new OSGChangeList();
-
-        ((ProcessData *) PRDA->usr_prda.fill)->changelistP = 
-            thisP->_changeListP;
-    }
-    else
-    {
-        thisP->_changeListP->clearAll();
-        thisP->_changeListP->setAspect(thisP->_aspectId);
-    }
+    thisP->setAspectInternal      (thisP->_aspectId);
+    thisP->setCurrentInternal     (thisP);
+    thisP->setupChangeListInternal();
 }
 
-OSGSprocBase *OSGSprocBase::create(const char *szName, 
-                                   OSGUInt32 threadId)
+OSGSprocBase *OSGSprocBase::create(const char *szName)
 {
-    return new OSGSprocBase(szName, threadId);
+    return new OSGSprocBase(szName);
+}
+
+void OSGSprocBase::destroy(OSGSprocBase *threadP)
+{
+    delete threadP;
 }
 
 /***************************************************************************\
@@ -549,27 +696,22 @@ OSGSprocBase *OSGSprocBase::create(const char *szName,
 
 /*------------- constructors & destructors --------------------------------*/
 
-OSGSprocBase::~OSGSprocBase(void)
-{
-    delete [] _szName;
-}
-
 /*------------------------------ access -----------------------------------*/
 
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
 
-OSGBool OSGSprocBase::run(OSGSprocFuncF  threadFunc, 
+OSGBool OSGSprocBase::run(OSGThreadFuncF threadFunc, 
                           OSGUInt32      aspectId,
                           void          *threadArgP)
 {
-    OSGBool returnValue = true;
-    int     rc          = 0;
+    OSGBool  returnValue = true;
+    OSGInt32 rc          = 0;
 
     if(aspectId >= OSGThreadManager::getNumAspects())
     {
-        SWARNING << "invalid aspect id" << endl;
+        SFATAL << "OSGSPB : invalid aspect id" << endl;
         return false;
     }
 
@@ -579,23 +721,23 @@ OSGBool OSGSprocBase::run(OSGSprocFuncF  threadFunc,
         _threadDataA[1] =          threadArgP;
         _threadDataA[2] = (void *) this;
 
-        _aspectId = aspectId;
+        Inherited::setAspect(aspectId);
 
 		rc = sproc(OSGSprocBase::threadFunc, PR_SALL, (void *) _threadDataA);
 
         if(rc == -1)
         {
-            SFATAL << "run thread failed" << endl;
+            SFATAL << "OSGSPB : sproc thread failed" << endl;
             returnValue = false;
         }
     }
+    else
+    {
+        SFATAL << "OSGSPB : no thread function given";
+        returnValue = false;
+    }
 
     return returnValue;
-}
-
-OSGChangeList *OSGSprocBase::getChangeList(void)
-{
-    return _changeListP;
 }
 
 void OSGSprocBase::print(void)
@@ -611,18 +753,18 @@ void OSGSprocBase::print(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocBase::OSGSprocBase(const char *szName, OSGUInt32 threadId) :    
-    _szName(NULL),
-    _threadId(threadId),
-    _aspectId(0),
-    _changeListP(NULL),
+OSGSprocBase::OSGSprocBase(const char *szName) :    
+    Inherited(szName),
+
     _pid(NULL)
 {
-    stringDup(szName, _szName);
-    
     _threadDataA[0] = NULL;
     _threadDataA[1] = NULL;
     _threadDataA[2] = NULL;    
+}
+
+OSGSprocBase::~OSGSprocBase(void)
+{
 }
 
 /*-------------------------------------------------------------------------*\
@@ -636,7 +778,33 @@ void OSGSprocBase::setPid(void)
 
 void OSGSprocBase::setAspectInternal(OSGUInt32 aspect)
 {
-    ((ProcessData *) PRDA->usr_prda.fill)->aspectId = aspect;
+    ((OSGProcessData *) PRDA->usr_prda.fill)->_aspectId = aspect;
+}
+
+void OSGSprocBase::setCurrentInternal(OSGThread *threadP)
+{
+    ((OSGProcessData *) PRDA->usr_prda.fill)->_threadP  = threadP;
+}
+
+void OSGSprocBase::setupChangeListInternal(void)
+{
+    if(Inherited::_changeListP == NULL)
+    {
+        ((OSGProcessData *) PRDA->usr_prda.fill)->_changelistP = 
+            new OSGChangeList();
+
+        Inherited::setChangeList(
+            ((OSGProcessData *) PRDA->usr_prda.fill)->_changelistP);
+    }
+    else
+    {
+        ((OSGProcessData *) PRDA->usr_prda.fill)->_changelistP = 
+            Inherited::_changeListP;
+
+        Inherited::_changeListP->clearAll();
+    }
+
+    Inherited::_changeListP->setAspect(Inherited::_aspectId);
 }
 
 #endif /* OSG_USE_SPROC */
@@ -648,7 +816,7 @@ void OSGSprocBase::setAspectInternal(OSGUInt32 aspect)
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
 OSGUInt32 OSGWinThreadBase::_aspectKey = 0;
 OSGUInt32 OSGWinThreadBase::_threadKey = 0;
-OSGUInt32 OSGWinThreadBase::_changelistKey = 0;
+OSGUInt32 OSGWinThreadBase::_changeListKey = 0;
 #endif
 
 #if defined(OSG_ASPECT_USE_DECLSPEC)
@@ -704,7 +872,7 @@ OSGChangeList *OSGWinThreadBase::getCurrentChangeList(void)
 #ifdef OSG_ASPECT_USE_LOCALSTORAGE
     OSGChangeList **cListP;
 
-    cListP = (OSGChangeList **) TlsGetValue(_changelistKey);
+    cListP = (OSGChangeList **) TlsGetValue(_changeListKey);
 
     return *cListP;
 #endif
@@ -721,7 +889,6 @@ void OSGWinThreadBase::join(OSGWinThreadBase *threadP)
 
 OSGWinThreadBase::~OSGWinThreadBase(void)
 {
-	delete [] _szName;
 }
 
 OSGBool OSGWinThreadBase::run(OSGWinThreadFuncF threadFunc, void *threadArgP)
@@ -762,15 +929,13 @@ void OSGWinThreadBase::print(void)
 	fprintf(stderr, "OSGWinThreadBase -%s-%d-\n", _szName, _threadId);
 }
 
-OSGWinThreadBase::OSGWinThreadBase(const char *szName, OSGUInt32 threadId) :
-	_szName(NULL),
-	_threadId(threadId),
+OSGWinThreadBase::OSGWinThreadBase(const char *szName) :
+    Inherited(szName),
+
 	_threadHandle(NULL),
 	_externalHandle(NULL),
 	_nativeThreadId(0)
 {
-    stringDup(szName, _szName);
-
     _threadDataA[0] = NULL;
     _threadDataA[1] = NULL;
     _threadDataA[2] = NULL;
@@ -842,7 +1007,7 @@ void OSGWinThreadBase::createChangeListP(void)
 
 	*cListP = new OSGChangeList;
 
-	TlsSetValue(_changelistKey, cListP);
+	TlsSetValue(_changeListKey, cListP);
 #endif
 
 #if defined (OSG_ASPECT_USE_DECLSPEC)
@@ -873,7 +1038,7 @@ void OSGWinThreadBase::freeChangeListP(void *changelistP)
 {
     OSGChangeList *cListP;
 
-    cListP = (OSGChangeList *) TlsGetValue(_changelistKey);
+    cListP = (OSGChangeList *) TlsGetValue(_changeListKey);
 
 	delete cListP;
 }
@@ -893,10 +1058,14 @@ void OSGWinThreadBase::setCurrent(OSGThread *threadP)
 #endif
 }
 
-OSGWinThreadBase *OSGWinThreadBase::create(const char *szName, 
-                                           OSGUInt32 threadId)
+OSGWinThreadBase *OSGWinThreadBase::create(const char *szName)
 {
 	return new OSGWinThreadBase(szName, threadId);
+}
+
+void OSGWinThreadBase::destroy(OSGWinThreadBase *threadP)
+{
+    delete threadP;
 }
 
 void OSGWinThreadBase::setPid(void)
