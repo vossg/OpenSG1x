@@ -256,15 +256,15 @@ UInt32 FieldContainerType::addDescription(const FieldDescription &desc)
         else
         {
             SWARNING << "ERROR: Double field description "
-                        << "in " << _szName.str() << "from "
-                        << desc.getCName()
-                        << desc.getTypeId() << endl;
+                        << "in " << _szName.str() << " from "
+                        << desc.getCName() << " (id:"
+                        << desc.getTypeId() << ")" << endl;
         }
     }
     else
     {
         SWARNING << "ERROR: Invalid field description "
-                    << "in " << _szName.str() << "from "
+                    << "in " << _szName.str() << " from "
                     << desc.getTypeId() << endl;
     }
 
@@ -532,9 +532,9 @@ bool FieldContainerType::initFields(void)
             else
             {
                 SWARNING << "ERROR: Double field description "
-                            << "in " << _szName.str() << "from "
-                            << _pDesc[i]->getCName()
-                            << _pDesc[i]->getTypeId() << endl;
+                            << "in " << _szName.str() << " from "
+                            << _pDesc[i]->getCName() << " (id:"
+                            << _pDesc[i]->getTypeId() << ")" << endl;
 
                 _bInitialized = false;
             }

@@ -151,8 +151,8 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
     static char     *getSName(void) { return "SFFieldContainerPtr"; }
     static char     *getMName(void) { return "MFFieldContainerPtr"; }
     
-    static bool      getFromString(FieldContainerPtr& outVal,
-                                   const Char8     *& inVal  )
+    static bool      getFromString(FieldContainerPtr& OSG_CHECK_ARG(outVal),
+                                   const Char8     *& OSG_CHECK_ARG(inVal ) )
     {
         //TO_BE_DONE
         return false;
