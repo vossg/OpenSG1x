@@ -219,7 +219,7 @@ int main(int argc,char **argv)
         else
             client();
     }
-    catch(exception &e)
+    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
         cout << e.what() << endl;
     }
