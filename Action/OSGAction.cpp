@@ -295,6 +295,9 @@ Action::ResultE Action::recurse( NodePtr node  )
     if ( node == NullFC )
         return Continue;
 
+    if(node->getActive() == false)
+        return Continue;
+
     NodeCorePtr core = node->getCore();
     
     if ( core == NullFC )

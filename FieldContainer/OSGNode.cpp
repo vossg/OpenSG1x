@@ -69,6 +69,7 @@ namespace
  */
 
 const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
+const BitVector Node::ActiveFieldMask      = (1 << Node::ActiveFieldId     );
 const BitVector Node::ParentFieldMask      = (1 << Node::ParentFieldId     );
 const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
 const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
@@ -80,6 +81,12 @@ FieldDescription *Node::_desc[] =
                          OSG_FC_FIELD_IDM_DESC(VolumeField),
                          false,
                          (FieldAccessMethod) &Node::getSFVolume),
+
+    new FieldDescription(SFBool::getClassType(),
+                         "active",
+                         OSG_FC_FIELD_IDM_DESC(ActiveField),
+                         false,
+                         (FieldAccessMethod) &Node::getSFActive),
 
     new FieldDescription(SFNodePtr::getClassType(),
                          "parent",
@@ -125,26 +132,26 @@ void Node::setCore(const NodeCorePtr &core)
 
     addRefCP(core);
 
-    if(_core.getValue() != NullFC)
+    if(_sfCore.getValue() != NullFC)
     {
-        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        beginEditCP(_sfCore.getValue(), NodeCore::ParentsFieldMask);
         {
-            _core.getValue()->subParent(thisP);
+            _sfCore.getValue()->subParent(thisP);
         }
-        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+        endEditCP  (_sfCore.getValue(), NodeCore::ParentsFieldMask);
 
-        subRefCP(_core.getValue());
+        subRefCP(_sfCore.getValue());
     }
 
-    _core.setValue(core);
+    _sfCore.setValue(core);
 
-    if(_core.getValue() != NullFC)
+    if(_sfCore.getValue() != NullFC)
     {
-        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        beginEditCP(_sfCore.getValue(), NodeCore::ParentsFieldMask);
         {
-            _core.getValue()->addParent(thisP);
+            _sfCore.getValue()->addParent(thisP);
         }
-        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+        endEditCP  (_sfCore.getValue(), NodeCore::ParentsFieldMask);
     }
 
     // TODO Check if required (GV)
@@ -160,8 +167,8 @@ void Node::setCore(const NodeCorePtr &core)
 
 void Node::unlink(void)
 {
-    MFNodePtr::iterator vChildIt = _children.begin();
-    MFNodePtr::iterator endChild = _children.end  ();
+    MFNodePtr::iterator vChildIt = _mfChildren.begin();
+    MFNodePtr::iterator endChild = _mfChildren.end  ();
 
     while(vChildIt != endChild)
     {
@@ -172,7 +179,7 @@ void Node::unlink(void)
         ++vChildIt;
     }
 
-    _children.clear();
+    _mfChildren.clear();
 
     if(getCore() != NullFC)
     {
@@ -184,8 +191,8 @@ void Node::unlink(void)
 
 void Node::unlinkSubTree(void)
 {
-    MFNodePtr::iterator vChildIt = _children.begin();
-    MFNodePtr::iterator endChild = _children.end  ();
+    MFNodePtr::iterator vChildIt = _mfChildren.begin();
+    MFNodePtr::iterator endChild = _mfChildren.end  ();
 
     while(vChildIt != endChild)
     {
@@ -197,7 +204,7 @@ void Node::unlinkSubTree(void)
         ++vChildIt;
     }
 
-    _children.clear();
+    _mfChildren.clear();
 
     if(getCore() != NullFC)
     {
@@ -227,7 +234,7 @@ void Node::addChild(const NodePtr &childP)
             childP->getParent()->subChild(childP);
         }
 
-        _children.addValue(childP);
+        _mfChildren.addValue(childP);
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -244,7 +251,7 @@ void Node::addChild(const NodePtr &childP)
 
 void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 {
-    MFNodePtr::iterator childIt = _children.begin();
+    MFNodePtr::iterator childIt = _mfChildren.begin();
 
     if(childP != NullFC)
     {
@@ -259,7 +266,7 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 
         childIt += childIndex;
 
-        _children.insert(childIt, childP);
+        _mfChildren.insert(childIt, childP);
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -276,19 +283,19 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
 
 void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 {
-    if(childP != NullFC && childIndex < _children.size())
+    if(childP != NullFC && childIndex < _mfChildren.size())
     {
         // do the ref early, to prevent destroys on getParent(a)->addChild(a)
         addRefCP(childP);
 
         // remove the current child
-        beginEditCP(_children.getValue(childIndex), Node::ParentFieldMask);
+        beginEditCP(_mfChildren.getValue(childIndex), Node::ParentFieldMask);
         {
-            _children.getValue(childIndex)->setParent(NullNode);
+            _mfChildren.getValue(childIndex)->setParent(NullNode);
         }
-        endEditCP  (_children.getValue(childIndex), Node::ParentFieldMask);
+        endEditCP  (_mfChildren.getValue(childIndex), Node::ParentFieldMask);
 
-        subRefCP(_children.getValue(childIndex));
+        subRefCP(_mfChildren.getValue(childIndex));
 
         // already somebody else's child?
         if(childP->getParent() != NullNode)
@@ -297,7 +304,7 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         }
 
         // set the new child
-        _children.getValue(childIndex) = childP;
+        _mfChildren.getValue(childIndex) = childP;
 
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -317,11 +324,11 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
 bool Node::replaceChildBy(const NodePtr &childP,
                           const NodePtr &newChildP)
 {
-    MFNodePtr::iterator childIt = _children.find(childP);
+    MFNodePtr::iterator childIt = _mfChildren.find(childP);
 
     if(newChildP != NullFC)
     {
-        if(childIt != _children.end())
+        if(childIt != _mfChildren.end())
         {
             // do the ref early, to prevent destroys on 
             // getParent(a)->addChild(a)
@@ -366,13 +373,13 @@ Int32 Node::findChild(const NodePtr &childP) const
 {
     UInt32 index;
 
-    for(index = 0; index < _children.size(); index++)
+    for(index = 0; index < _mfChildren.size(); index++)
     {
-        if( _children[index] == childP)
+        if( _mfChildren[index] == childP)
             break;
     }
 
-    if(index < _children.size())
+    if(index < _mfChildren.size())
         return index;
     else
         return -1;
@@ -380,9 +387,9 @@ Int32 Node::findChild(const NodePtr &childP) const
 
 void Node::subChild(const NodePtr &childP)
 {
-    MFNodePtr::iterator childIt = _children.find(childP);
+    MFNodePtr::iterator childIt = _mfChildren.find(childP);
 
-    if(childIt != _children.end())
+    if(childIt != _mfChildren.end())
     {
         beginEditCP(childP, Node::ParentFieldMask);
         {
@@ -392,7 +399,7 @@ void Node::subChild(const NodePtr &childP)
 
         subRefCP(childP);
 
-        _children.erase(childIt);
+        _mfChildren.erase(childIt);
     }
     else
     {
@@ -408,11 +415,11 @@ void Node::subChild(const NodePtr &childP)
 
 void Node::subChild(UInt32 childIndex)
 {
-    MFNodePtr::iterator childIt = _children.begin();
+    MFNodePtr::iterator childIt = _mfChildren.begin();
 
     childIt += childIndex;
 
-    if(childIt != _children.end())
+    if(childIt != _mfChildren.end())
     {
         beginEditCP(*childIt, Node::ParentFieldMask);
         {
@@ -422,7 +429,7 @@ void Node::subChild(UInt32 childIndex)
 
         subRefCP(*childIt);
 
-        _children.erase(childIt);
+        _mfChildren.erase(childIt);
     }
 
     // TODO check if required (GV)
@@ -433,30 +440,50 @@ void Node::subChild(UInt32 childIndex)
 
 NodePtr Node::getChild(UInt32 childIndex)
 {
-    return _children.getValue(childIndex);
+    return _mfChildren.getValue(childIndex);
 }
 
+
+bool &Node::getActive(void)
+{
+    return _sfActive.getValue();
+}
+
+const bool &Node::getActive(void) const
+{
+    return _sfActive.getValue();
+}
+
+void  Node::setActive(bool val)
+{
+    _sfActive.setValue(val);
+}
 /*-------------------------------------------------------------------------*/
 /*                          Access Fields                                  */
 
 SFDynamicVolume *Node::getSFVolume(void)
 {
-    return &_volume;
+    return &_sfVolume;
+}
+
+SFBool *Node::getSFActive(void)
+{
+    return &_sfActive;
 }
 
 SFNodePtr *Node::getSFParent(void)
 {
-    return &_parent;
+    return &_sfParent;
 }
 
 SFNodeCorePtr *Node::getSFCore(void)
 {
-    return &_core;
+    return &_sfCore;
 }
 
 MFNodePtr *Node::getMFChildren(void)
 {
-    return &_children;
+    return &_mfChildren;
 }
 
 NodePtr Node::clone(void)
@@ -514,18 +541,18 @@ void Node::getWorldVolume(DynamicVolume &result)
 
 void Node::updateVolume(void)
 {
-    Volume &vol = _volume.getValue().getInstance();
+    Volume &vol = _sfVolume.getValue().getInstance();
 
     if(vol.isValid() == true)
         return;             // still valid, nothing to do
 
     MFNodePtr::iterator it;
 
-    beginEdit(VolumeFieldMask, _volume);
+    beginEdit(VolumeFieldMask, _sfVolume);
 
     vol.setEmpty();
 
-    for(it = _children.begin(); it != _children.end(); ++it)
+    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
     {
         (*it)->updateVolume();
         vol.extendBy((*it)->getVolume());
@@ -535,20 +562,20 @@ void Node::updateVolume(void)
     if(getCore() != NullFC)
         getCore()->adjustVolume(vol);
 
-    endEdit(VolumeFieldMask, _volume);
+    endEdit(VolumeFieldMask, _sfVolume);
 }
 
 void Node::invalidateVolume(void)
 {
-    Volume &vol=_volume.getValue().getInstance();
+    Volume &vol=_sfVolume.getValue().getInstance();
     
     if(vol.isValid() == true && vol.isStatic() == false)
     {
-        beginEdit(VolumeFieldMask, _volume);
+        beginEdit(VolumeFieldMask, _sfVolume);
 
         vol.setValid(false);
 
-        endEdit(VolumeFieldMask, _volume);
+        endEdit(VolumeFieldMask, _sfVolume);
 
         if(getParent() != NullFC)
         {
@@ -578,22 +605,22 @@ UInt32 Node::getBinSize(const BitVector &whichField)
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        returnValue += _volume       .getBinSize();
+        returnValue += _sfVolume       .getBinSize();
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        returnValue += _parent       .getBinSize();
+        returnValue += _sfParent       .getBinSize();
     }
 
     if(FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        returnValue += _children     .getBinSize();
+        returnValue += _mfChildren     .getBinSize();
     }
 
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        returnValue += _core         .getBinSize();
+        returnValue += _sfCore         .getBinSize();
     }
 
     return returnValue;
@@ -606,22 +633,22 @@ void Node::copyToBin(      BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        _volume.copyToBin(pMem);
+        _sfVolume.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        _parent.copyToBin(pMem);
+        _sfParent.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        _children.copyToBin(pMem);
+        _mfChildren.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        _core.copyToBin(pMem);
+        _sfCore.copyToBin(pMem);
     }
 }
 
@@ -632,22 +659,22 @@ void Node::copyFromBin(      BinaryDataHandler &pMem,
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        _volume.copyFromBin(pMem);
+        _sfVolume.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        _parent.copyFromBin(pMem);
+        _sfParent.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        _children.copyFromBin(pMem);
+        _mfChildren.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        _core.copyFromBin(pMem);
+        _sfCore.copyFromBin(pMem);
     }
 }
 
@@ -661,12 +688,12 @@ void Node::dump(      UInt32    uiIndent,
 
     indentLog(uiIndent, PLOG);
 
-    PLOG << "Node : " << _children.size() << " children | "
+    PLOG << "Node : " << _mfChildren.size() << " children | "
          << _attachmentMap.getValue().size() << " attachments | "
          << "Parent : ";
 
-    if(_parent.getValue() != NullFC)
-        PLOG << &(*(_parent.getValue())) << " | ";
+    if(_sfParent.getValue() != NullFC)
+        PLOG << &(*(_sfParent.getValue())) << " | ";
     else
         PLOG << "NULL | ";
 
@@ -676,9 +703,9 @@ void Node::dump(      UInt32    uiIndent,
 
     PLOG << "[" << endl;
 
-    if(_core.getValue() != NullFC)
+    if(_sfCore.getValue() != NullFC)
     {
-        _core.getValue()->dump(uiIndent + 4, bvFlags);
+        _sfCore.getValue()->dump(uiIndent + 4, bvFlags);
     }
     else
     {
@@ -695,9 +722,9 @@ void Node::dump(      UInt32    uiIndent,
 
     PLOG << "{" << endl;
 
-    for(i = 0; i < _children.size(); i++)
+    for(i = 0; i < _mfChildren.size(); i++)
     {
-        _children[i]->dump(uiIndent + 4, bvFlags);
+        _mfChildren[i]->dump(uiIndent + 4, bvFlags);
         PLOG << endl;
     }
 
@@ -755,18 +782,20 @@ void Node::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 Node::Node(void) :
-     Inherited(),
-    _parent   (),
-    _children (),
-    _core     ()
+     Inherited  (),
+    _sfParent   (),
+    _sfActive   (true),
+    _mfChildren (),
+    _sfCore     ()
 {
 }
 
 Node::Node(const Node &source) :
-     Inherited(source),
-    _parent   (),
-    _children (),
-    _core     ()
+     Inherited  (source),
+    _sfParent   (),
+    _sfActive   (source._sfActive),
+    _mfChildren (),
+    _sfCore     ()
 {
 }
 
@@ -775,21 +804,21 @@ Node::Node(const Node &source) :
 
 Node::~Node(void)
 {
-    if(_core.getValue() != NullFC)
+    if(_sfCore.getValue() != NullFC)
     {
         NodePtr thisP = getPtr();
 
-        beginEditCP(_core.getValue(), NodeCore::ParentsFieldMask);
+        beginEditCP(_sfCore.getValue(), NodeCore::ParentsFieldMask);
         {
-            _core.getValue()->subParent(thisP);
+            _sfCore.getValue()->subParent(thisP);
         }
-        endEditCP  (_core.getValue(), NodeCore::ParentsFieldMask);
+        endEditCP  (_sfCore.getValue(), NodeCore::ParentsFieldMask);
 
-        subRefCP(_core.getValue());
+        subRefCP(_sfCore.getValue());
     }
 
-    MFNodePtr::iterator       vChildIt    = _children.begin();
-    MFNodePtr::const_iterator endChildren = _children.end  ();
+    MFNodePtr::iterator       vChildIt    = _mfChildren.begin();
+    MFNodePtr::const_iterator endChildren = _mfChildren.end  ();
 
     while(vChildIt != endChildren)
     {
@@ -810,7 +839,7 @@ Node::~Node(void)
 
 void Node::setParent(const NodePtr &parent)
 {
-    _parent.setValue(parent);
+    _sfParent.setValue(parent);
 }
 
 void Node::onCreate(void)
@@ -847,22 +876,22 @@ void Node::executeSyncImpl(      Node      *pOther,
 
     if (FieldBits::NoField != (VolumeFieldMask & whichField))
     {
-        _volume.syncWith(pOther->_volume);
+        _sfVolume.syncWith(pOther->_sfVolume);
     }
 
     if (FieldBits::NoField != (ParentFieldMask & whichField))
     {
-        _parent.syncWith(pOther->_parent);
+        _sfParent.syncWith(pOther->_sfParent);
     }
 
     if (FieldBits::NoField != (ChildrenFieldMask & whichField))
     {
-        _children.syncWith(pOther->_children);
+        _mfChildren.syncWith(pOther->_mfChildren);
     }
 
     if (FieldBits::NoField != (CoreFieldMask & whichField))
     {
-        _core.syncWith(pOther->_core);
+        _sfCore.syncWith(pOther->_sfCore);
     }
 }
 
@@ -888,7 +917,8 @@ NodePtr OSG::cloneTree(NodePtr pRootNode)
 
         beginEditCP(returnValue);
         {
-            returnValue->setCore(pRootNode->getCore());
+            returnValue->setActive(pRootNode->getActive());
+            returnValue->setCore  (pRootNode->getCore());
             
             for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
             {

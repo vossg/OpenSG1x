@@ -49,7 +49,7 @@ OSG_FIELD_CONTAINER_INL_DEF(Node, NodePtr)
 inline
 const DynamicVolume &Node::getVolume(void) const
 {
-    return _volume.getValue();
+    return _sfVolume.getValue();
 }
 
 inline
@@ -58,31 +58,31 @@ DynamicVolume &Node::getVolume(bool update)
     if(update == true)
         updateVolume();
 
-    return _volume.getValue();
+    return _sfVolume.getValue();
 }
 
 inline
 NodeCorePtr Node::getCore(void)
 {
-    return _core.getValue();
+    return _sfCore.getValue();
 }
 
 inline
 NodeCorePtr Node::getCore(void) const
 {
-    return _core.getValue();
+    return _sfCore.getValue();
 }
 
 inline
 NodePtr Node::getParent(void)
 {
-    return _parent.getValue();
+    return _sfParent.getValue();
 }
 
 inline
 UInt32 Node::getNChildren(void) const
 {
-    return _children.size();
+    return _mfChildren.size();
 }
  
 OSG_END_NAMESPACE

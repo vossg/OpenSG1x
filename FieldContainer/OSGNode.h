@@ -76,13 +76,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     enum 
     { 
         VolumeFieldId      = Inherited::NextFieldId, 
-        ParentFieldId      = VolumeFieldId         + 1,
+        ActiveFieldId      = VolumeFieldId         + 1,
+        ParentFieldId      = ActiveFieldId         + 1,
         ChildrenFieldId    = ParentFieldId         + 1,
         CoreFieldId        = ChildrenFieldId       + 1,
         NextFieldId        = CoreFieldId           + 1
     };
 
     static const BitVector VolumeFieldMask;
+    static const BitVector ActiveFieldMask;
     static const BitVector ParentFieldMask;
     static const BitVector ChildrenFieldMask;
     static const BitVector CoreFieldMask;
@@ -147,6 +149,16 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                       Active                                 */
+    /*! \{                                                                 */
+
+          bool &getActive(void     );
+    const bool &getActive(void     ) const;
+
+          void  setActive(bool val);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                       Children                               */
     /*! \{                                                                 */
 
@@ -158,7 +170,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
 
     SFDynamicVolume *getSFVolume  (void);
-
+    SFBool          *getSFActive  (void);
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
     MFNodePtr       *getMFChildren(void);
@@ -236,12 +248,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFDynamicVolume _volume;
+    SFDynamicVolume _sfVolume;
+    
+    SFBool          _sfActive;
+    
+    SFNodePtr       _sfParent;
+    MFNodePtr       _mfChildren;
 
-    SFNodePtr       _parent;
-    MFNodePtr       _children;
-
-    SFNodeCorePtr   _core;
+    SFNodeCorePtr   _sfCore;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
