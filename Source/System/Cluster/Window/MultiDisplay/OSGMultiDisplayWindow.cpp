@@ -113,11 +113,6 @@ void MultiDisplayWindow::dump(      UInt32    ,
 void MultiDisplayWindow::serverInit( WindowPtr ,
                                      UInt32 )
 {
-/*
-    getNetwork()->connect(id,
-                          getServers().size(),
-                          getConnectionType());
-*/
 }
 
 /*! render server window
@@ -254,7 +249,8 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
  */
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
-    Connection *connection=getNetwork()->getMainConnection();
+    Connection *connection;
+
     // clear command buffers
     UInt8 pixel[3];
     glReadPixels(0,0,
@@ -262,10 +258,16 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
                  GL_RGB,GL_UNSIGNED_BYTE,
                  pixel);
     glFinish();
-    // tell client that we are finish
-    connection->signal();
-    // wait for swap
-    connection->wait();
+
+    connection=getNetwork()->getMainConnection();
+    
+    if(!getInterleave())
+    {
+        // tell client that we are finish
+        connection->signal();
+        // wait for swap
+        connection->wait();
+    }
     Inherited::serverSwap(window,id);
 }
 
@@ -276,11 +278,6 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
  */
 void MultiDisplayWindow::clientInit( void )
 {
-    /*
-    getNetwork()->connect(getServers().size(),
-                          getServers().size(),
-                          getConnectionType());
-    */
     ViewportPtr cvp;
     if(getClientWindow() == NullFC ||
        getPort().size()==0)
@@ -307,10 +304,13 @@ void MultiDisplayWindow::clientSwap( void )
 {
     Connection *connection=getNetwork()->getMainConnection();
 
-    // wait for all servers to finish
-    connection->wait();
-    // initiate swap
-    connection->signal();
+    if(!getInterleave())
+    {
+        // wait for all servers to finish
+        connection->wait();
+        // initiate swap
+        connection->signal();
+    }
     // show client window 
     Inherited::clientSwap();
 }
