@@ -4,6 +4,8 @@
 
 MAINDOC = starter.ps
 
+# all the images need to be converted to eps
+
 FIGS = 	$(wildcard *.fig) 
 GIFS = 	$(wildcard *.gif) 
 JPGS = 	$(wildcard *.jpg) 
@@ -22,7 +24,12 @@ PS = 	$(patsubst %.fig,%.eps,${FIGS})	\
 
 .PHONY: clean Clean
 
-default: ${PS} ${MAINDOC}
+# default: make the document and remove the temporary files
+default: doc clean
+
+doc: images ${MAINDOC}
+
+images: ${PS}
 
 clean:
 	rm -f ${PS}

@@ -1,6 +1,18 @@
 #LyX 1.1 created this file. For more info see http://www.lyx.org/
 \lyxformat 218
 \textclass book
+\begin_preamble
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+% \usepackage{a4}
+\usepackage{babel}
+\setlength\parskip{\medskipamount}
+\setlength\parindent{0pt}
+\usepackage{color}
+\usepackage{graphics}
+\usepackage{graphicx}
+\usepackage{setspace}
+\end_preamble
 \language english
 \inputencoding auto
 \fontscheme default
@@ -23,16 +35,223 @@
 \papersides 2
 \paperpagestyle default
 
-\layout Title
+\layout LaTeX
 
-OpenSG 
-\layout Title
 
-Starter Guide
+\lang american
+% Create Title Page 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+singlespacing
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+begin{titlepage}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+thispagestyle{empty}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+vspace*{
+\backslash 
+fill}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+begin{figure*}[htb] 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+begin{center} 
+\layout LaTeX
+
+
+\lang american
+% This breaks Postscript page numbers, include only when necessary
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+includegraphics[height=3.5cm]{opensg_logo.eps} 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+end{center}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+end{figure*}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+begin{center} 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+vspace*{2cm}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+textbf{
+\backslash 
+Large OpenSG  }
+\backslash 
+
+\backslash 
+[0.5
+\backslash 
+baselineskip] 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+textbf{
+\backslash 
+Large Starter Guide}
+\backslash 
+
+\backslash 
+[2
+\backslash 
+baselineskip] 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+textbf{
+\backslash 
+Large Version 1.0}
+\backslash 
+
+\backslash 
+[2
+\backslash 
+baselineskip] 
+\layout LaTeX
+
+
+\lang american
+Written by 
+\backslash 
+
+\backslash 
+[
+\backslash 
+baselineskip] 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+textbf{
+\backslash 
+large Dirk Reiners 
+\backslash 
+
+\backslash 
+ Johannes Behr 
+\backslash 
+
+\backslash 
+ Gerrit Voss} 
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+end{center}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+vspace*{
+\backslash 
+fill}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+end{titlepage}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+setcounter{page}{1}
+\layout LaTeX
+
+
+\lang american
+
+\backslash 
+onehalfspacing
+\layout LaTeX
+
 \layout Standard
 
 
+\lang american
+
 \begin_inset LatexCommand \tableofcontents{}
+
+\end_inset 
+
+
+\layout Standard
+
+
+\lang american
+
+\begin_inset LatexCommand \listoffigures{}
 
 \end_inset 
 
@@ -1867,8 +2086,8 @@ Using these properties it is already possible to define geometry (see fig.
 \layout Standard
 \align center 
 
-\begin_inset Figure size 153 113
-file tobe.eps
+\begin_inset Figure size 525 261
+file geo_nonindexed.eps
 flags 9
 
 \end_inset 
@@ -1914,8 +2133,8 @@ Indices are stored in the GeoIndices property, which only exists in the
 \layout Standard
 \align center 
 
-\begin_inset Figure size 153 113
-file tobe.eps
+\begin_inset Figure size 525 261
+file geo_indexed.eps
 flags 9
 
 \end_inset 
@@ -1945,7 +2164,7 @@ Sometimes vertices need different additional attributes, even though they
 
 To get around that you need multiple indices per vertex to index the different
  attributes.
- Adding an idnex for every attribute would blow up the geometry significantly
+ Adding an index for every attribute would blow up the geometry significantly
  and not neccessarily make it easier to use.
  We decided to use another way: interleaved indices (see fig.
  
@@ -1960,8 +2179,8 @@ To get around that you need multiple indices per vertex to index the different
 \layout Standard
 \align center 
 
-\begin_inset Figure size 153 113
-file tobe.eps
+\begin_inset Figure size 525 246
+file geo_multiindexed.eps
 flags 9
 
 \end_inset 
@@ -2355,7 +2574,11 @@ Usage
 
 Actions use the same syntax for creating are actions that fieldcontainers
  use, as they also use a prototype for that.
- Thus you need to call ActionType::create to get a new one.
+ Thus you need to call 
+\family typewriter 
+ActionType::create
+\family default 
+ to get a new one.
  They are not fieldcontainers, though, so simple pointers are ok.
 \layout Standard
 
@@ -2363,7 +2586,67 @@ To execute an action on a graph you apply it to the graph (
 \family typewriter 
 action->apply(graph);
 \family default 
-)
+) or to a list of nodes (
+\family typewriter 
+action->apply(vector<NodePtr>::iterator begin, vector<NodePtr>::iterator
+ end);
+\family default 
+).
+\layout Section
+
+DrawAction
+\layout Standard
+
+The DrawAction is a simple traversal that directly calls OpenGL.
+ It was the first attempt at rendering and has been superseded by the 
+\family typewriter 
+RenderAction
+\family default 
+, so use that instead.
+\layout Section
+
+RenderAction
+\layout Standard
+
+The RenderAction is the primary means of transforming the scenegraph into
+ an image.
+ It does view volume culling and state sorting by building a draw tree.
+ it also handles transparent objects by rendering them last and back to
+ front sorted.
+ Put simple it does what a decent scenegraph needs to do.
+ 
+\layout Standard
+
+To use it just create one and pass it to the Window (see sec.
+ 
+\begin_inset LatexCommand \ref{sec:window}
+
+\end_inset 
+
+).
+\layout Standard
+
+It is possible to turn the view volume culling off using the 
+\family typewriter 
+setFrustumCulling
+\family default 
+() method.
+ For debugging it is possible to turn the frustum update off (
+\family typewriter 
+setAutoFrustum(
+\family default 
+)) and to make the system render the tested bounding volumes (
+\family typewriter 
+setVolumeDraw()
+\family default 
+).
+\layout Section
+
+IntersectAction
+\layout Standard
+
+The IntersectAction is used for sending rays into the scene and retrieving
+ the first hit object.
 \layout Section
 
 Simple Traversal
@@ -2372,13 +2655,6 @@ Simple Traversal
 \end_inset 
 
 
-\layout Standard
-
-
-\shape italic 
-Need to write it.
- A simple functions that takes a functor and passes it every node, and another
- one that takes a function and a data pointer.
 \layout Section
 
 Write our own action handler
@@ -2407,6 +2683,11 @@ If you really need to do your own action take a look at the IntersectAction,
 \layout Chapter
 
 Window
+\begin_inset LatexCommand \label{sec:window}
+
+\end_inset 
+
+
 \layout Section
 
 Window
