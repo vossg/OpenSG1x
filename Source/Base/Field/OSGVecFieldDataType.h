@@ -256,6 +256,8 @@ struct FieldDataTraits<Vec3ub> : public FieldTraitsRecurseVecStore2Base<Vec3ub>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -305,6 +307,10 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore2Base<Vec4ub>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -405,6 +411,8 @@ struct FieldDataTraits<Vec3b> : public FieldTraitsRecurseVecStore2Base<Vec3b>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -454,6 +462,10 @@ struct FieldDataTraits<Vec4b> : public FieldTraitsRecurseVecStore2Base<Vec4b>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -554,6 +566,8 @@ struct FieldDataTraits<Vec3us> : public FieldTraitsRecurseVecStore2Base<Vec3us>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -603,6 +617,10 @@ struct FieldDataTraits<Vec4us> : public FieldTraitsRecurseVecStore2Base<Vec4us>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -703,6 +721,8 @@ struct FieldDataTraits<Vec3s> : public FieldTraitsRecurseVecStore2Base<Vec3s>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -752,6 +772,10 @@ struct FieldDataTraits<Vec4s> : public FieldTraitsRecurseVecStore2Base<Vec4s>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -852,6 +876,8 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore2Base<Vec3f>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -901,6 +927,10 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore2Base<Vec4f>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1001,6 +1031,8 @@ struct FieldDataTraits<Vec3d> : public FieldTraitsRecurseVecStore2Base<Vec3d>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1050,6 +1082,10 @@ struct FieldDataTraits<Vec4d> : public FieldTraitsRecurseVecStore2Base<Vec4d>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1150,6 +1186,8 @@ struct FieldDataTraits<Vec3ld> : public FieldTraitsRecurseVecStore2Base<Vec3ld>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1199,6 +1237,10 @@ struct FieldDataTraits<Vec4ld> : public FieldTraitsRecurseVecStore2Base<Vec4ld>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1299,6 +1341,8 @@ struct FieldDataTraits<Pnt3ub> : public FieldTraitsRecurseVecStore2Base<Pnt3ub>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1348,6 +1392,10 @@ struct FieldDataTraits<Pnt4ub> : public FieldTraitsRecurseVecStore2Base<Pnt4ub>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1448,6 +1496,8 @@ struct FieldDataTraits<Pnt3b> : public FieldTraitsRecurseVecStore2Base<Pnt3b>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1497,6 +1547,10 @@ struct FieldDataTraits<Pnt4b> : public FieldTraitsRecurseVecStore2Base<Pnt4b>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1597,6 +1651,8 @@ struct FieldDataTraits<Pnt3us> : public FieldTraitsRecurseVecStore2Base<Pnt3us>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1646,6 +1702,10 @@ struct FieldDataTraits<Pnt4us> : public FieldTraitsRecurseVecStore2Base<Pnt4us>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1746,6 +1806,8 @@ struct FieldDataTraits<Pnt3s> : public FieldTraitsRecurseVecStore2Base<Pnt3s>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1795,6 +1857,10 @@ struct FieldDataTraits<Pnt4s> : public FieldTraitsRecurseVecStore2Base<Pnt4s>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -1895,6 +1961,8 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore2Base<Pnt3f>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -1944,6 +2012,10 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore2Base<Pnt4f>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -2044,6 +2116,8 @@ struct FieldDataTraits<Pnt3d> : public FieldTraitsRecurseVecStore2Base<Pnt3d>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -2093,6 +2167,10 @@ struct FieldDataTraits<Pnt4d> : public FieldTraitsRecurseVecStore2Base<Pnt4d>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
     }
 };
 
@@ -2193,6 +2271,8 @@ struct FieldDataTraits<Pnt3ld> : public FieldTraitsRecurseVecStore2Base<Pnt3ld>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
     }
 };
 
@@ -2242,7 +2322,11 @@ struct FieldDataTraits<Pnt4ld> : public FieldTraitsRecurseVecStore2Base<Pnt4ld>
         outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
         outStr.append("  ");
         outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
-    }
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append("  ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
+   }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
