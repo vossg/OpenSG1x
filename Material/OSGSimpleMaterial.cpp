@@ -96,25 +96,25 @@ OSG_FC_LAST_FIELD_IDM_DEF(SimpleMaterial, TransparencyField)
 const SimpleMaterialPtr SimpleMaterial::NullPtr;
 
 
-char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.3 2001/01/18 11:06:16 vossg Exp $";
+char SimpleMaterial::cvsid[] = "@(#)$Id: OSGSimpleMaterial.cpp,v 1.4 2001/01/23 15:23:43 vossg Exp $";
 
 
 FieldDescription SimpleMaterial::_desc[] = 
 {
 	FieldDescription(
-        SFVec3f::getClassType(),
+        SFColor3f::getClassType(),
         "ambient", 
         OSG_FC_FIELD_IDM_DESC(AmbientField),
         false,
         (FieldAccessMethod) &SimpleMaterial::getSFAmbient),
 	FieldDescription(
-        SFVec3f::getClassType(),
+        SFColor3f::getClassType(),
         "diffuse", 
         OSG_FC_FIELD_IDM_DESC(DiffuseField),
         false,
         (FieldAccessMethod) &SimpleMaterial::getSFDiffuse),
 	FieldDescription(
-        SFVec3f::getClassType(),
+        SFColor3f::getClassType(),
         "specular", 
         OSG_FC_FIELD_IDM_DESC(SpecularField),
         false,
@@ -126,7 +126,7 @@ FieldDescription SimpleMaterial::_desc[] =
         false,
         (FieldAccessMethod) &SimpleMaterial::getSFShininess),
 	FieldDescription(
-        SFVec3f::getClassType(),
+        SFColor3f::getClassType(),
         "emission", 
         OSG_FC_FIELD_IDM_DESC(EmissionField),
         false,
@@ -182,8 +182,11 @@ OSG_FIELD_CONTAINER_DEF(SimpleMaterial, SimpleMaterialPtr)
 
 SimpleMaterial::SimpleMaterial(void) :
 	Inherited(),
-	_ambient( Vec3f(0,0,0,1) ), _diffuse( Vec3f(0,0,0,1) ), 
-	_specular( Vec3f(0,0,0,1) ), _shininess( 1 ), _emission( Vec3f(0,0,0,1) ),
+	_ambient( Color3f(0,0,0) ), 
+    _diffuse( Color3f(0,0,0) ), 
+	_specular( Color3f(0,0,0) ), 
+    _shininess( 1 ), 
+    _emission( Color3f(0,0,0) ),
 	_transparency( 0 )
 {
 	_materialChunk = MaterialChunk::create();
@@ -215,17 +218,17 @@ SimpleMaterial::~SimpleMaterial(void)
 
 /* field access */
 
-SFVec3f		*SimpleMaterial::getSFAmbient( void )
+SFColor3f		*SimpleMaterial::getSFAmbient( void )
 {
 	return &_ambient;
 }
 
-SFVec3f		*SimpleMaterial::getSFDiffuse( void )
+SFColor3f		*SimpleMaterial::getSFDiffuse( void )
 {
 	return &_diffuse;
 }
 
-SFVec3f		*SimpleMaterial::getSFSpecular( void )
+SFColor3f		*SimpleMaterial::getSFSpecular( void )
 {
 	return &_specular;
 }
@@ -235,7 +238,7 @@ SFReal32		*SimpleMaterial::getSFShininess( void )
 	return &_shininess;
 }
 
-SFVec3f		*SimpleMaterial::getSFEmission( void )
+SFColor3f		*SimpleMaterial::getSFEmission( void )
 {
 	return &_emission;
 }
@@ -248,49 +251,49 @@ SFReal32		*SimpleMaterial::getSFTransparency( void )
 
 /* value access */
 
-Vec3f	&SimpleMaterial::getAmbient  ( void )
+Color3f	&SimpleMaterial::getAmbient  ( void )
 {
 	return _ambient.getValue();
 }
 
-const Vec3f &SimpleMaterial::getAmbient  ( void ) const
+const Color3f &SimpleMaterial::getAmbient  ( void ) const
 {
 	return _ambient.getValue();
 }
 
-void	SimpleMaterial::setAmbient  ( const Vec3f & color )
+void	SimpleMaterial::setAmbient  ( const Color3f & color )
 {
 	_ambient.setValue( color );
 }
 
 
-Vec3f	&SimpleMaterial::getDiffuse  ( void )
+Color3f	&SimpleMaterial::getDiffuse  ( void )
 {
 	return _diffuse.getValue();
 }
 
-const Vec3f &SimpleMaterial::getDiffuse  ( void ) const
+const Color3f &SimpleMaterial::getDiffuse  ( void ) const
 {
 	return _diffuse.getValue();
 }
 
-void	SimpleMaterial::setDiffuse  ( const Vec3f & color )
+void	SimpleMaterial::setDiffuse  ( const Color3f & color )
 {
 	_diffuse.setValue( color );
 }
 
 
-Vec3f	&SimpleMaterial::getSpecular  ( void )
+Color3f	&SimpleMaterial::getSpecular  ( void )
 {
 	return _specular.getValue();
 }
 
-const Vec3f &SimpleMaterial::getSpecular  ( void ) const
+const Color3f &SimpleMaterial::getSpecular  ( void ) const
 {
 	return _specular.getValue();
 }
 
-void	SimpleMaterial::setSpecular  ( const Vec3f & color )
+void	SimpleMaterial::setSpecular  ( const Color3f & color )
 {
 	_specular.setValue( color );
 }
@@ -312,17 +315,17 @@ void	SimpleMaterial::setShininess  ( const Real32 color )
 }
 
 
-Vec3f	&SimpleMaterial::getEmission  ( void )
+Color3f	&SimpleMaterial::getEmission  ( void )
 {
 	return _emission.getValue();
 }
 
-const Vec3f &SimpleMaterial::getEmission  ( void ) const
+const Color3f &SimpleMaterial::getEmission  ( void ) const
 {
 	return _emission.getValue();
 }
 
-void	SimpleMaterial::setEmission ( const Vec3f & color )
+void	SimpleMaterial::setEmission ( const Color3f & color )
 {
 	_emission.setValue( color );
 }
@@ -351,20 +354,20 @@ void SimpleMaterial::draw( Geometry* geo, Action * action )
 {
 	StatePtr state = State::create();
 	
-	Vec3f v3;
-	Vec4f v4;
+	Color3f v3;
+	Color4f v4;
 	float alpha = 1.f - getTransparency();
 	
 	osgBeginEditCP( _materialChunk );
 	
-	v3 = getAmbient(); v4.setValues( v3[0], v3[1], v3[2], alpha ); 
+	v3 = getAmbient(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setAmbient( v4 );
-	v3 = getDiffuse(); v4.setValues( v3[0], v3[1], v3[2], alpha ); 
+	v3 = getDiffuse(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setDiffuse( v4 );
-	v3 = getSpecular(); v4.setValues( v3[0], v3[1], v3[2], alpha ); 
+	v3 = getSpecular(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setSpecular( v4 );
 	_materialChunk->setShininess( getShininess() );
-	v3 = getEmission(); v4.setValues( v3[0], v3[1], v3[2], alpha ); 
+	v3 = getEmission(); v4.setValuesRGBA( v3[0], v3[1], v3[2], alpha ); 
 	_materialChunk->setEmission( v4 );
 	
 	osgEndEditCP( _materialChunk );

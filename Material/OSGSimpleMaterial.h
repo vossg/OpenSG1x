@@ -36,7 +36,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include "OSGSFVecTypes.h"
+#include "OSGSFBaseTypes.h"
 #include "OSGChunkMaterial.h"
 
 OSG_BEGIN_NAMESPACE
@@ -69,7 +69,7 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
 {
   private:
 
-	typedef ChunkMaterial Inherited;
+    typedef ChunkMaterial Inherited;
 
   public:
 
@@ -120,72 +120,72 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     /*------------------------- your_category -------------------------------*/
 
 
-	/** sets up the OpenGL and calls the Geometry's draw method.
-	    Not sure that's the best idea. Alternative: Functor */
-	
-	virtual void draw( Geometry* geo, Action * action );
+    /** sets up the OpenGL and calls the Geometry's draw method.
+        Not sure that's the best idea. Alternative: Functor */
+    
+    virtual void draw( Geometry* geo, Action * action );
 
     /*----------------------------- access ----------------------------------*/
-	
-	// Ambient Color
+    
+    // Ambient Color
        
-			SFVec3f 	*getSFAmbient( void );
-			Vec3f		&getAmbient  ( void );
-	const	Vec3f		&getAmbient  ( void ) const;
-	void				 setAmbient  ( const Vec3f & color );
-	
-	// Diffuse Color
+            SFColor3f   *getSFAmbient( void );
+            Color3f     &getAmbient  ( void );
+    const   Color3f     &getAmbient  ( void ) const;
+    void                 setAmbient  ( const Color3f & color );
+    
+    // Diffuse Color
        
-			SFVec3f 	*getSFDiffuse( void );
-			Vec3f		&getDiffuse  ( void );
-	const	Vec3f		&getDiffuse  ( void ) const;
-	void				 setDiffuse  ( const Vec3f & color );
-	
-	// Specular Color
+            SFColor3f   *getSFDiffuse( void );
+            Color3f     &getDiffuse  ( void );
+    const   Color3f     &getDiffuse  ( void ) const;
+    void                 setDiffuse  ( const Color3f & color );
+    
+    // Specular Color
        
-			SFVec3f 	*getSFSpecular( void );
-			Vec3f		&getSpecular  ( void );
-	const	Vec3f		&getSpecular  ( void ) const;
-	void				 setSpecular  ( const Vec3f & color );
-	
-	// Shininess 
+            SFColor3f   *getSFSpecular( void );
+            Color3f     &getSpecular  ( void );
+    const   Color3f     &getSpecular  ( void ) const;
+    void                 setSpecular  ( const Color3f & color );
+    
+    // Shininess 
        
-			SFReal32 	*getSFShininess( void );
-			Real32		 getShininess  ( void );
-			Real32		 getShininess  ( void ) const;
-	void				 setShininess  ( const Real32 color );
-	
-	// Emission Color
+            SFReal32    *getSFShininess( void );
+            Real32       getShininess  ( void );
+            Real32       getShininess  ( void ) const;
+    void                 setShininess  ( const Real32 color );
+    
+    // Emission Color
        
-			SFVec3f 	*getSFEmission( void );
-			Vec3f		&getEmission  ( void );
-	const	Vec3f		&getEmission  ( void ) const;
-	void				 setEmission  ( const Vec3f & color );
-	
-	// Transparency 
+            SFColor3f   *getSFEmission( void );
+            Color3f     &getEmission  ( void );
+    const   Color3f     &getEmission  ( void ) const;
+    void                 setEmission  ( const Color3f & color );
+    
+    // Transparency 
        
-			SFReal32 	*getSFTransparency( void );
-			Real32		 getTransparency  ( void );
-			Real32		 getTransparency  ( void ) const;
-	void				 setTransparency  ( const Real32 color );
+            SFReal32    *getSFTransparency( void );
+            Real32       getTransparency  ( void );
+            Real32       getTransparency  ( void ) const;
+    void                 setTransparency  ( const Real32 color );
 
-	
+    
     /*------------------------- assignment ----------------------------------*/
 
     /*------------------------- comparison ----------------------------------*/
 
 #if 0
-	// defines an ordering for materials.
+    // defines an ordering for materials.
     virtual Bool operator < (const SimpleMaterial &other) const;
     
-	virtual Bool operator == (const SimpleMaterial &other) const;
-	virtual Bool operator != (const SimpleMaterial &other) const;
+    virtual Bool operator == (const SimpleMaterial &other) const;
+    virtual Bool operator != (const SimpleMaterial &other) const;
 #endif
 
     /*------------------------- debug ----------------------------------*/
 
-	void print( void );
-	
+    void print( void );
+    
   protected:
 
     //-----------------------------------------------------------------------
@@ -207,7 +207,7 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	 
+     
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -231,8 +231,8 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     //   friend classes                                                      
     //-----------------------------------------------------------------------
 
-	friend class FieldContainer;
-	
+    friend class FieldContainer;
+    
     //-----------------------------------------------------------------------
     //   friend functions                                                    
     //-----------------------------------------------------------------------
@@ -241,10 +241,10 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
-	static FieldDescription   _desc[];
-	static FieldContainerType _type;
+    static FieldDescription   _desc[];
+    static FieldContainerType _type;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -253,25 +253,25 @@ class OSG_MATERIAL_DLLMAPPING SimpleMaterial : public ChunkMaterial
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-	
-	SFVec3f 	_ambient;
-	SFVec3f 	_diffuse;
-	SFVec3f 	_specular;
-	SFReal32 	_shininess;
-	SFVec3f 	_emission;
-	SFReal32 	_transparency;
-	
-	// this chunk is used for rendering the material
-	
-	MaterialChunkPtr	_materialChunk;
-	
+    
+    SFColor3f   _ambient;
+    SFColor3f   _diffuse;
+    SFColor3f   _specular;
+    SFReal32    _shininess;
+    SFColor3f   _emission;
+    SFReal32    _transparency;
+    
+    // this chunk is used for rendering the material
+    
+    MaterialChunkPtr    _materialChunk;
+    
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-	// prohibit default functions (move to 'public' if you need one)
+    // prohibit default functions (move to 'public' if you need one)
 
-	SimpleMaterial & operator =(const SimpleMaterial &source);
+    SimpleMaterial & operator =(const SimpleMaterial &source);
 };
 
 //---------------------------------------------------------------------------
