@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!ELEMENT Actor (StateElem*,ExtraHeader*)>
+  <!ATTLIST Actor name               CDATA #REQUIRED>
+  <!ATTLIST Actor parentName         CDATA #DEFAULT "ActorBase">
+  <!ATTLIST Actor parentHeader       CDATA #DEFAULT "OSGActorBase.h">
+  <!ATTLIST Actor parentHeaderPrefix CDATA #DEFAULT "">
+  <!ATTLIST Actor libName            CDATA #DEFAULT "System">
+  <!ATTLIST Actor headerPrefix       CDATA #DEFAULT "">
+  <!ATTLIST Actor enterStore (empty|simple|single|multi) #DEFAULT "empty">
+  <!ATTLIST Actor leaveStore (empty|simple|single|multi) #DEFAULT "empty">
+  <!ATTLIST Actor acceptStateAwareIter   (true|false) #DEFAULT "true">
+  <!ATTLIST Actor acceptStateUnawareIter (true|false) #DEFAULT "true">
+  <!ATTLIST Actor useLocalIncludes       (true|false) #DEFAULT "false">
+<!ELEMENT StateElem (EMPTY)>
+  <!ATTLIST StateElem name         CDATA #REQUIRED>
+  <!ATTLIST StateElem type         CDATA #REQUIRED>
+  <!ATTLIST StateElem typeHeader   CDATA #IMPLIED>
+  <!ATTLIST StateElem defaultValue CDATA #DEFAULT "">
+  <!ATTLIST StateElem access     (public|protected) #DEFAULT "public">
+  <!ATTLIST StateElem ordered    (true|false)       #DEFAULT "false">
+<!ELEMENT ExtraHeader (#CDATA)>

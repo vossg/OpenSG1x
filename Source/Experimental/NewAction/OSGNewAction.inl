@@ -1,0 +1,6 @@
+
+OSG_BEGIN_NAMESPACE
+
+OSG_END_NAMESPACE
+
+#define OSGNEWACTION_INLINE_CVSID "@(#)$Id: OSGNewAction.inl,v 1.1 2003/10/10 13:51:06 neumannc Exp $"

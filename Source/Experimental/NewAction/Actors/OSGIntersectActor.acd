@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<Actor name="IntersectActor"
+       parentName="ActorBase"
+       parentHeader="OSGActorBase.h"
+       parentHeaderPrefix=""
+       libName="System"
+       headerPrefix=""
+       enterStore="multi"
+       leaveStore="empty"
+       acceptStateAwareIter="true"
+       acceptStateUnawareIter="false"
+       useLocalIncludes="false">
+       <StateElem name="Line" 
+                  type="Line" 
+                  typeHeader="OSGLine.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="true">
+       </StateElem>
+       <StateElem name="MaxDist"
+                  type="Real32"
+                  typeHeader="OSGBaseTypes.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="false">
+       </StateElem>
+       <StateElem name="ScaleFactor"
+                  type="Real32"
+                  typeHeader="OSGBaseTypes.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="true">
+       </StateElem>
+       <StateElem name="HitDist"
+                  type="Real32"
+                  typeHeader="OSGBaseTypes.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="false">
+       </StateElem>
+       <StateElem name="HitObject"
+                  type="NodePtr"
+                  typeHeader="OSGNodePtr.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="false">
+       </StateElem>
+       <StateElem name="HitTriangle"
+                  type="Int32"
+                  typeHeader="OSGBaseTypes.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="false">
+       </StateElem>
+       <StateElem name="Hit"
+                  type="bool"
+                  typeHeader="OSGBaseTypes.h"
+                  defaultValue=""
+                  access="public"
+                  ordered="false">
+       </StateElem>       
+</Actor>
