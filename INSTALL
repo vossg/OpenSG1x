@@ -82,7 +82,7 @@ prefix/bin.
 One useful variant is to install into the system-dependent directory in
 Builds by using BUILD as the prefix (i.e. call configure with --prefix=BUILD).
 When running make install everything will be installed in 
-Builds/<system>/{include,lib,bin}, allowing parallel development of multiple
+Builds/<system>/{include,lib,bin}, allowing parallel development on multiple
 platforms.
 
 To run OpenSG programs, make sure that the directory where the libraries are
@@ -134,21 +134,28 @@ glut     : 3.7
 Linux
 =====
 
-Compiler : > gcc 2.95.>=3
+Compiler :   gcc 2.95.>=3
+             gcc 3.x
              Intel icc 5.0x and 6.0
 
 Standard systems:
 RH 7.0: needs patches gcc/RHBA-2000-132, glibc/RHBA-2000-079
 RH 7.1: out of the box
 RH 7.2: out of the box, including all updates available
-SuSe 7.1: out of the box
-
+SuSe >=7.1: out of the box
 
 Windows
 =======
 
-Compiler : Intel C++ > 5.0 + latest patchset
-           use --with-compiler={icl|icl50|icl60}
+IDE      : MSVC 6, the *.dsw/*.dsp file in VSBuild are setup to build
+           the debug libs using intels c++ compiler, please check the
+           README there
+
+           MSVC 7, similar to 6, but you don't need the Intel compiler,
+           see the README in VSBuild/VS7
+
+Compiler : Intel C++ > 5.0 + latest patchset or VS7
+           use --with-compiler={icl|icl50|icl60|cl.net}
            where icl == icl50
 Cygwin   : any quite current version should work
 gmake    : > 3.79.1
@@ -157,11 +164,7 @@ autoconf : > 2.13 (only needed when you want to work on the configure scripts)
 STL      : The current default is the original Microsoft 
            implementation. Since there where some problems using
            other implementations and the MSVC runtime libraries.
-
-IDE      : MSVC 6, the *.dsw/*.dsp file in VSBuild are setup to build
-           the debug libs using intels c++ compiler, please check the
-           README there
-
+           
 MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
                   compiler. 
 
@@ -178,6 +181,10 @@ MSVC7(aka .Net) : Ok, we finally got OpenSG running using Microsfts VC7
                   case of troubles (vossg@camtech.ntu.edu.sg) as this is 
                   still some kind of experimental
 
+                  You might have to add the Common7/IDE directory to your path if
+                  the mspdb70.dll is not found, e.g.
+                  export PATH="/cygdrive/e/Program Files/Microsoft Visual Studio .NET/Common7/IDE:$PATH"
+
 MSVC.Net + icl : Without patches to the VC7 headers, icl60 throws some
                  errors within winbase.h and the stl implementation. 
                  Looks similar to the sdk problem, or I am missing some
@@ -186,7 +193,11 @@ MSVC.Net + icl : Without patches to the VC7 headers, icl60 throws some
 INCLUDE/LIB : As these env vars are the MS way to pass default directories
               to the compiler they must be setup correctly. As there are to 
               many compiler/include dir/lib dir configurations we rely on them
-              being set as wantedcorrectly.
+              being set as wanted correctly.
+              A typical setup would be:
+              export "INCLUDE=e:\Program Files\Microsoft Visual Studio .NET\Vc7\PlatformSDK\include;$INCLUDE"
+              export "LIB=e:\Program Files\Microsoft Visual Studio .NET\Vc7\PlatformSDK\lib;$LIB"
+            
 
 MS SDK : last time I checked there were some problems using the MS SDK
          headers in combination with intels c++ compiler. In case you
