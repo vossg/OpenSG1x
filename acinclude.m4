@@ -1107,6 +1107,11 @@ dnl e8
                 ac_gdz_gl_lib_e8=''
                 ac_gdz_gl_incdir_e8=/System/Library/Frameworks/OpenGL.framework/Headers
             ;;
+            hpux*)
+                ac_gdz_gl_incdir_e8='/opt/graphics/OpenGL/include'
+                ac_gdz_gl_libdir_e8='/opt/graphics/OpenGL/lib'
+                ac_gdz_gl_lib_e8=''
+            ;;
             *)
                 ac_gdz_gl_lib_e8=''
             ;;
