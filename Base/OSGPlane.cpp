@@ -36,6 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
 #include "math.h"
 
 #include "OSGConfig.h"
@@ -55,6 +59,25 @@
 
 OSG_USING_NAMESPACE
 
+/***************************************************************************\
+ *                               Types                                     *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------- constructor ----------------------------------*/
+
 /// Default Constructor
 Plane::Plane(void)
 : _normalVec(0, 0, 0), _distance(0)
@@ -70,14 +93,15 @@ Plane::Plane(const Plane &obj)
   Orientation is computed by taking (p1 - p0) x (p2 - p0) and
   pointing the normal in that direction.
 */
-Plane::Plane(const Vec3f &p0, const Vec3f &p1, const Vec3f &p2)
+Plane::Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2)
 {
 	Vec3f vec1(p1 - p0), vec2(p2 - p0);
 
-	vec1.cross(vec2);
-	_distance = fabs(vec1.dot(p0));
+	vec1.crossThis(vec2);
+	_distance = vec1.dot(p0);
 
 	_normalVec.setValues(vec1[0], vec1[1], vec1[2]);
+	_normalVec.normalize();
 }
 
 /**
@@ -86,16 +110,19 @@ Plane::Plane(const Vec3f &p0, const Vec3f &p1, const Vec3f &p2)
 */
 Plane::Plane(const Vec3f &normal, float distance)
 : _normalVec(normal), _distance(distance)
-{}
+{	
+	_normalVec.normalize();
+}
 
 /**
   Construct a plane given normal and a point to pass through
   Orientation is given by the normal vector n.
 */
-Plane::Plane(const Vec3f &normal, const Vec3f &point)
+Plane::Plane(const Vec3f &normal, const Pnt3f &point)
 : _normalVec(normal)
 {
-	_distance = fabs(normal.dot(point));
+	_normalVec.normalize();
+	_distance = _normalVec.dot(point);
 }
 
 /// Offset a plane by a given distance.
@@ -104,31 +131,51 @@ void Plane::offset(float d)
 	_distance += d;
 }
 
+
+/*-------------------------- intersection ---------------------------------*/
+
 /**
   Intersect line and plane, returning true if there is an intersection
   false if line is parallel to plane
 */
-Bool Plane::intersect(const Line &line, Vec3f &point) const
+Bool Plane::intersect(const Line &line, Pnt3f &point) const
 {
-	Bool retCode = false;
+	Real32 t;
 	
-	float condition = _normalVec.dot(line.getDirection());
+	if ( intersect( line, t ) ) 
+	{ 
+		point = line.getPosition() + t * line.getDirection(); 
+		return true; 
+	} 
+	else 
+		return false; 
+}
+
+/**
+  Intersect line and plane, returning true if there is an intersection
+  false if line is parallel to plane. t is the distance along the line.
+*/
+Bool Plane::intersect(const Line &line, Real32 &t) const
+{
+	Real32 a;
 	
-	if (condition != 0.0){
-		point = (_normalVec.dot((_normalVec * _distance) - line.getPosition()) /
-						 _normalVec.dot(line.getDirection()))
-			* line.getDirection() + line.getPosition();
-		retCode = true;
+	if ( ( a = _normalVec.dot(line.getDirection()) ) != 0.0)
+	{
+		t = _normalVec.dot(Pnt3f(_normalVec * _distance) -  line.getPosition()
+						  ) / a;
+		
+		if ( t >= 0 )				
+			return true;
 	}
-	else {
-		if (_normalVec.dot(line.getPosition()) == 0){
-			point = line.getPosition();
-			retCode = true;
+	else 
+	{
+		if ( _normalVec.dot(line.getPosition()) - _distance == 0)
+		{
+			t = 0;
+			return true;
 		}
-		else 
-			retCode = false;
 	}
-	return retCode;
+	return false;
 }
 
 /// Transforms the plane by the given matrix
@@ -143,21 +190,28 @@ void Plane::set(const Vec3f &normal, float distance)
 {
 	_normalVec = normal;
 	_distance = distance;
-	if (_distance < 0) {
-		_distance *= -1;
-		_normalVec.negate();
-	}
 }
 
 /**
   Returns true if the given point is within the half-space
   defined by the plane
 */
-Bool Plane::isInHalfSpace( const Vec3f &point ) const
+Bool Plane::isInHalfSpace( const Pnt3f &point ) const
 {
-	float scalar = _normalVec.dot(point - _normalVec * _distance);
+	float scalar = _normalVec.dot(point) - _distance;
 
 	return scalar >= 0 ? true : false;
+}
+
+
+/**
+  Returns true if the given point is on the plane
+*/
+Bool Plane::isOnPlane(const Pnt3f &point) const
+{
+	float scalar = _normalVec.dot(point) - _distance;
+
+	return osgabs(scalar) < Eps ? true : false;
 }
 
 OSG_BEGIN_NAMESPACE
@@ -166,7 +220,31 @@ OSG_BEGIN_NAMESPACE
 Bool operator ==(const Plane &p1, const Plane &p2)
 {
 	return ((p1._distance == p2._distance) &&
-	        (p1._normalVec == p2._normalVec));
+	         (p1._normalVec == p2._normalVec));
 }
 
 OSG_END_NAMESPACE
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  public                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  protected                                                              -
+\*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/

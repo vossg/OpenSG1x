@@ -38,22 +38,38 @@
 
 #ifndef OSGPLANE_CLASS_DECLARATION
 #define OSGPLANE_CLASS_DECLARATION
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
 
 #include "OSGVector.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 
+//---------------------------------------------------------------------------
+//   Types
+//---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+//  Forward References
+//---------------------------------------------------------------------------
+
 class Line;
-class Matrix;
 
 #ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class Plane;
 Bool operator ==(const Plane &p1, const Plane &p2);
 Bool operator !=(const Plane &p1, const Plane &p2);
 #endif
+
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
 
 /** Oriented plane in 3D space defined by normal and distance.
 
@@ -66,7 +82,7 @@ of the plane in the direction of the plane normal.
 
 The 4 coefficients of the plane equation of an Plane can be
 obtained easily as the 3 coordinates of the plane normal and the
-distance, in that order.
+distance, in that order. The normal is normalized.
 
 node: Plane is all p such that normalVec . p - distance = 0
 
@@ -76,18 +92,33 @@ node: Plane is all p such that normalVec . p - distance = 0
 
 class OSG_BASE_DLLMAPPING Plane {
 
-	/// Normal to the plane
-	Vec3f _normalVec;
-
-	/// Distance from origin to plane: distance * normalVec is on the plane
-	float _distance;
-
 public:
 
-	/// Default Constructor
+	//-----------------------------------------------------------------------
+    //   enums                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   types                                                               
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class variables                                                     
+    //-----------------------------------------------------------------------
+
+    //-----------------------------------------------------------------------
+    //   class functions                                                     
+    //-----------------------------------------------------------------------
+
+
+	/*-------------------------- constructor ----------------------------------*/
+
+	/** Default Constructor
+	*/
 	Plane(void);
 
-	/// Copy Constructor
+	/** Copy Constructor
+	*/
 	Plane(const Plane &obj);
 
 	/**
@@ -95,7 +126,7 @@ public:
 	  Orientation is computed by taking (p1 - p0) x (p2 - p0) and
 	  pointing the normal in that direction.
 	*/
-	Plane(const Vec3f &p0, const Vec3f &p1, const Vec3f &p2);
+	Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2);
 
 	/**
 	  Construct a plane given normal and distance from origin along normal.
@@ -107,28 +138,50 @@ public:
 	  Construct a plane given normal and a point to pass through
 	  Orientation is given by the normal vector n.
 	*/
-	Plane(const Vec3f &n, const Vec3f &p);
+	Plane(const Vec3f &n, const Pnt3f &p);
 
-	/// Offset a plane by a given distance.
+
+	/** Offset a plane by a given distance.
+	*/
 	void offset(float d);
+
+	/*-------------------------- intersection ---------------------------------*/
 
 	/**
 	  Intersect line and plane, returning true if there is an intersection
 	  false if line is parallel to plane
 	*/
-	Bool intersect(const Line &l, Vec3f &intersection) const;
+	Bool intersect(const Line &l, Pnt3f &intersection) const;
 
-	/// Transforms the plane by the given matrix
+	/**
+	  Intersect line and plane, returning true if there is an intersection
+	  false if line is parallel to plane. t is the distance along
+	  the line
+	*/
+	Bool intersect(const Line &l, Real32 &t) const;
+
+	/** Transforms the plane by the given matrix
+	*/
 	void transform(const Matrix &matrix);
 
 	/**
 	  Returns true if the given point is within the half-space
 	  defined by the plane
 	*/
-	Bool isInHalfSpace(const Vec3f &point) const;
+	Bool isInHalfSpace(const Pnt3f &point) const;
+
+	/**
+	  Returns true if the given point is on the plane
+	*/
+	Bool isOnPlane(const Pnt3f &point) const;
+
+
+	/*------------------------- set values -------------------------------*/
 
 	/// set the plane param
 	void set(const Vec3f &normal, float distance);
+
+	/*------------------------------ access -----------------------------------*/
 
 	/// Accessors for normal
 	inline const Vec3f &getNormal(void) const { return _normalVec; }
@@ -136,12 +189,31 @@ public:
 	/// Accessors for distance
 	inline float getDistanceFromOrigin(void) const { return _distance; }
 
+	/*-------------------------- comparison -----------------------------------*/
+
 	/// Equality comparison operators
 	friend Bool operator ==(const Plane &p1, const Plane &p2);
 
 	/// Inequality comparison operators
 	inline friend Bool operator !=(const Plane &p1, const Plane &p2)
 	{ return !(p1 == p2); }
+
+	//-----------------------------------------------------------------------
+    //   instance variables                                                  
+    //-----------------------------------------------------------------------
+
+	//-----------------------------------------------------------------------
+    //   instance functions                                                  
+    //-----------------------------------------------------------------------
+
+private:
+
+
+	/// Normal to the plane
+	Vec3f _normalVec;
+
+	/// Distance from origin to plane: distance * normalVec is on the plane
+	float _distance;
 
 };
 
