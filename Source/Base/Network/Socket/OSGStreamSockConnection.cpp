@@ -54,7 +54,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::StreamSockConnection
- *  \ingroup ClusterLib
+ *  \ingroup GrpBaseNetwork
  *  \brief Stream socket connection
  *  \author Marcus Roth
  *

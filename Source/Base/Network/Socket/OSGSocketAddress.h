@@ -49,16 +49,14 @@
 #include <arpa/inet.h>
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 #include <string>
 #include "OSGConfig.h"
 #include "OSGBase.h"
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_BASE_DLLMAPPING SocketAddress {
+class OSG_BASE_DLLMAPPING SocketAddress 
+{
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -73,15 +71,13 @@ class OSG_BASE_DLLMAPPING SocketAddress {
     typedef struct socketaddr SocketAddrT;
 #endif
 
-    static const char *getClassname(void) { return "Address"; }
- 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    SocketAddress(const char *host,int port=0);
-    SocketAddress(Type type=ANY,int port=0);
-    SocketAddress(const SocketAddress &source);
+    SocketAddress(const char           *host   ,int port=0);
+    SocketAddress(      Type           type=ANY,int port=0);
+    SocketAddress(const SocketAddress &source             );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -95,13 +91,13 @@ class OSG_BASE_DLLMAPPING SocketAddress {
     /*! \name                   Get/Set                                    */
     /*! \{                                                                 */
 
-    sockaddr    *getSockAddr    (                       ) const;
-    int          getSockAddrSize(                       ) const;
+    sockaddr    *getSockAddr    (      void             ) const;
+    int          getSockAddrSize(      void             ) const;
     void         setPort        (      int          port);
     void         setHost        (const std::string &host);
-    int          getPort        (                       ) const;
-    std::string  getHost        (                       ) const;
-    std::string  getHostByName  (                       ) const;
+    int          getPort        (      void             ) const;
+    std::string  getHost        (      void             ) const;
+    std::string  getHostByName  (      void             ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -110,13 +106,13 @@ class OSG_BASE_DLLMAPPING SocketAddress {
 
     bool operator == (const SocketAddress &other) const;
     bool operator != (const SocketAddress &other) const;
-    bool operator < (const SocketAddress &other) const;
+    bool operator <  (const SocketAddress &other) const;
 
     /*! \}                                                                 */
     /*==========================  PROTECTED ===============================*/
   protected:
     /*---------------------------------------------------------------------*/
-    /*! \name                   member                                     */
+    /*! \name                 static element                               */
     /*! \{                                                                 */
 
     struct sockaddr_in _sockaddr;

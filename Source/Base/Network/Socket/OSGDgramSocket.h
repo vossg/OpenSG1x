@@ -67,23 +67,43 @@ class OSG_BASE_DLLMAPPING DgramSocket:public Socket
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Socket functionaliy                        */
+    /*! \name                   open                                       */
     /*! \{                                                                 */
 
-    virtual void open     (                                              );
-    int          sendTo   (const void *buf,int size,
-                           const SocketAddress &to                       );
-    int          recvFrom (void *buf,int size,SocketAddress &from        );
-    int          peekFrom (void *buf,int size,SocketAddress &from        );
-    void         join     (const SocketAddress &group,
-                           const SocketAddress &interf
-                           =SocketAddress(SocketAddress::ANY));
-    void         leave    (const SocketAddress &group,
-                           const SocketAddress &interf
-                           =SocketAddress(SocketAddress::ANY));
-    void         setTTL   (unsigned char ttl);
-    int          sendTo   (NetworkMessage &msg,const SocketAddress &to   );
-    int          recvFrom (NetworkMessage &msg,SocketAddress &from       );
+    virtual void open(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   read, write                                */
+    /*! \{                                                                 */
+
+    int recvFrom(      void           *buf ,
+                       int             size,
+                       SocketAddress  &from );
+    int peekFrom(      void           *buf ,
+                       int             size,
+                       SocketAddress  &from );
+    int recvFrom(      NetworkMessage &msg ,
+                       SocketAddress  &from );
+    int sendTo  (const void           *buf ,
+                       int             size,
+                 const SocketAddress  &to   );
+    int sendTo  (      NetworkMessage &msg ,
+                 const SocketAddress  &to   );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                multicast                                     */
+    /*! \{                                                                 */
+
+    void join  (const SocketAddress &group,
+                const SocketAddress &interf=
+                      SocketAddress(SocketAddress::ANY));
+    void leave (const SocketAddress &group,
+                const SocketAddress &interf=
+                      SocketAddress(SocketAddress::ANY));
+    void setTTL(      unsigned char ttl                );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   assignment                                 */
@@ -100,9 +120,12 @@ class OSG_BASE_DLLMAPPING DgramSocket:public Socket
   private:
 
     typedef Socket Inherited;
+
 	static char cvsid[];
 };
 
 OSG_END_NAMESPACE
+
+#define OSG_DGRAMSOCKET_HEADER_CVSID "@(#)$Id: $"
 
 #endif

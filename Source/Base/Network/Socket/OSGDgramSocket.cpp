@@ -66,12 +66,11 @@
 #include <OSGDgramSocket.h>
 #include <OSGNetworkMessage.h>
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \class osg::DgramSocket
  *  \ingroup GrpBaseNetwork
  *  \brief Datagramm socket handler
- *  \author Marcus Roth
  *
  * This class is a handler to packet oriented socket.
  * <EM>open</EM> will assing a udp socket and <EM>close</EM>
@@ -79,7 +78,6 @@ OSG_BEGIN_NAMESPACE
  * Messages send with DgramSockets can be lost or the order in
  * which they arrive can be changed.
  *
- * Example:
  * <PRE>
  * char buffer[100];
  * DgramSocket s;
@@ -91,70 +89,31 @@ OSG_BEGIN_NAMESPACE
  * </PRE>
  **/
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                            constructor destructor                       */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-char DgramSocket::cvsid[] = "@(#)$Id:$";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
- *
- * Use open to assign a system socket. No system socket is assigned by
- * the constructor.
- *
- * \see DgramSocket::open
- **/
+/*! Constructor. Use open to assign a system socket. No system socket is
+    assigned by the constructor.
+    \see DgramSocket::open
+ */
 DgramSocket::DgramSocket():
     Socket()
 {
 }
 
-/** \brief Copy constructor
+/*! Copy constructor
  */
 DgramSocket::DgramSocket(const DgramSocket &source):
     Socket(source)
 {
 }
 
-/** \brief Assign a socket
- *
- * <CODE>Open</CODE> assignes a system socket to the StreamSocket. 
- *
- * \see Socket::close 
+/*-------------------------------------------------------------------------*/
+/*                        open                                             */
+
+/*! Assign a socket. <CODE>Open</CODE> assignes a system socket to the
+    DgramSocket. 
+    \see Socket::close 
  */
 void DgramSocket::open()
 {
@@ -175,17 +134,13 @@ void DgramSocket::open()
     setTTL(1);
 }
 
-/** \brief read the given number of bytes 
- *
- * Read size bytes into the buffer. Wait until size Bytes are available
- * data maight be lossed, if size is smaller then the incomming package.
- * This situation will not be treated as an error.
- *
- * \param buf   Pointer to the data buffer.
- * \param size  Maximum count of bytes to read.
- * \param from  Will be overwritten with the address of the sender
- *
- * \see Socket::recvAvailable Socket::recv
+/*-------------------------------------------------------------------------*/
+/*                        read, write                                      */
+
+/*! Read size bytes into the buffer. Wait until size Bytes are available
+    data maight be lossed, if size is smaller then the incomming package.
+    This situation will not be treated as an error.
+    \see Socket::recvAvailable Socket::recv
  */
 int DgramSocket::recvFrom(void *buf,int size,SocketAddress &from)
 {
@@ -198,14 +153,14 @@ int DgramSocket::recvFrom(void *buf,int size,SocketAddress &from)
                  0,
                  from.getSockAddr(),
                  &addrLen);
-    if(len<0)
+    if(len < 0)
     {
 #if defined WIN32
-        if(getError()==WSAECONNRESET)
+        if(getError() == WSAECONNRESET)
         {
             throw SocketConnReset("recvfrom");
         }
-        if(getError()==WSAEMSGSIZE)
+        if(getError() == WSAEMSGSIZE)
         {
             len=size;
         }
@@ -216,19 +171,12 @@ int DgramSocket::recvFrom(void *buf,int size,SocketAddress &from)
     return len;
 }
 
-/** \brief peek the given number of bytes 
- *
- * Read size bytes into the buffer. Wait until size Bytes are available
- * On Dgram sockets data maight be lossed, if size is smaller then the
- * incomming package. This situation will not be treated as an error.
- * The read bytes will not be removed from the in buffer. A call to
- * recv after peek will result in the same data.
- *
- * \param buf   Pointer to the data buffer.
- * \param size  Maximum count of bytes to read.
- * \param from  Will be overwritten with the address of the sender
- *
- * \see recv Socket::recv
+/*! Read size bytes into the buffer. Wait until size Bytes are available
+    On Dgram sockets data maight be lossed, if size is smaller then the
+    incomming package. This situation will not be treated as an error.
+    The read bytes will not be removed from the in buffer. A call to
+    recv after peek will result in the same data.
+    \see recv Socket::recv
  */
 int DgramSocket::peekFrom(void *buf,int size,SocketAddress &from)
 {
@@ -241,14 +189,14 @@ int DgramSocket::peekFrom(void *buf,int size,SocketAddress &from)
                  MSG_PEEK,
                  from.getSockAddr(),
                  &addrLen);
-    if(len==-1)
+    if(len == -1)
     {
 #if defined WIN32
-        if(getError()==WSAECONNRESET)
+        if(getError() == WSAECONNRESET)
         {
             throw SocketConnReset("recvfrom");
         }
-        if(getError()==WSAEMSGSIZE)
+        if(getError() == WSAEMSGSIZE)
         {
             len=size;
         }
@@ -259,16 +207,21 @@ int DgramSocket::peekFrom(void *buf,int size,SocketAddress &from)
     return len;
 }
 
-/** \brief Write the given number of bytes to the socket
- *
- * Write size bytes to the socket. This method maight block, if the
- * output buffer is full.
- *
- * \param buf   Pointer to the data buffer.
- * \param size  number of bytes to write
- * \param to    destination address
- *
- * \see recv Socket::send
+/*! Receive a NetworkMessage. Workes like recv, but buffer and size is
+    taken from the NetworkMessage
+    \see Socket::recv
+ */
+int DgramSocket::recvFrom(NetworkMessage &msg,SocketAddress &from)
+{
+    NetworkMessage::Header hdr;
+    peek(&hdr,sizeof(hdr));
+    msg.setSize(ntohl(hdr.size));
+    return recvFrom(msg.getBuffer(),msg.getSize(),from);
+}
+
+/*! Write size bytes to the socket. This method maight block, if the
+    output buffer is full.
+    \see recv Socket::send
  */
 int DgramSocket::sendTo(const void *buf,int size,const SocketAddress &to)
 {
@@ -287,13 +240,22 @@ int DgramSocket::sendTo(const void *buf,int size,const SocketAddress &to)
     return len;
 }
 
-/** \brief Join to a multicast group
- *
- * The socket will receive all messages from the given multicast address
- * It is possible to join more then on goup.
- *
- * \param group   Multicast group 
- * \param interf  Which network interface to use. (Default AnySocketAddress)
+/*! Send a NetworkMessage to an address. Workes like send, but buffer
+    and size is taken from the NetworkMessage.
+    \see Socket::send
+ */
+int DgramSocket::sendTo(NetworkMessage &msg,const SocketAddress &to)
+{
+    NetworkMessage::Header &hdr=msg.getHeader();
+    hdr.size=htonl(msg.getSize());
+    return sendTo(msg.getBuffer(),msg.getSize(),to);
+}
+
+/*-------------------------------------------------------------------------*/
+/*                        multicast                                        */
+
+/*! The socket will receive all messages from the given multicast address
+    It is possible to join more then on goup.
  */
 void DgramSocket::join(const SocketAddress &group,const SocketAddress &interf)
 {
@@ -301,11 +263,11 @@ void DgramSocket::join(const SocketAddress &group,const SocketAddress &interf)
     int rc;
 
     // group to join
-    joinAddr.imr_multiaddr.s_addr
-    = ((sockaddr_in*)group.getSockAddr())->sin_addr.s_addr;
+    joinAddr.imr_multiaddr.s_addr =
+        ((sockaddr_in*)group.getSockAddr())->sin_addr.s_addr;
     // interface that joins. (equal to bind address)
-    joinAddr.imr_interface
-    = ((struct sockaddr_in*)interf.getSockAddr())->sin_addr;
+    joinAddr.imr_interface =
+        ((struct sockaddr_in*)interf.getSockAddr())->sin_addr;
     rc=setsockopt(_sd,
                   IPPROTO_IP,
                   IP_ADD_MEMBERSHIP,
@@ -317,12 +279,7 @@ void DgramSocket::join(const SocketAddress &group,const SocketAddress &interf)
     }
 }
 
-/** \brief Leave a multicast group
- *
- * Don't receive messages from the given group.
- *
- * \param group   Multicast group 
- * \param interf  Which network interface to use. (Default AnySocketAddress)
+/*! Leave a multicast group. Don't receive messages from the given group.
  */
 void DgramSocket::leave(const SocketAddress &group,const SocketAddress &interf)
 {
@@ -330,11 +287,11 @@ void DgramSocket::leave(const SocketAddress &group,const SocketAddress &interf)
     int rc;
 
     // group to join
-    joinAddr.imr_multiaddr.s_addr
-    = ((sockaddr_in*)group.getSockAddr())->sin_addr.s_addr;
+    joinAddr.imr_multiaddr.s_addr =
+        ((sockaddr_in*)group.getSockAddr())->sin_addr.s_addr;
     // interface that joins. (equal to bind address)
-    joinAddr.imr_interface
-    = ((sockaddr_in*)interf.getSockAddr())->sin_addr;
+    joinAddr.imr_interface =
+        ((sockaddr_in*)interf.getSockAddr())->sin_addr;
     rc=setsockopt(_sd,
                   IPPROTO_IP,
                   IP_DROP_MEMBERSHIP,
@@ -346,59 +303,24 @@ void DgramSocket::leave(const SocketAddress &group,const SocketAddress &interf)
     }
 }
 
-/** \brief Set TTL for broadcast and multicast
- *
- * Defines how many routers a package will pass until it is deleted.
- * 0 = local host, 1 = local network, ...
- *
- * \param ttl     time to live
+/*! Set TTL for broadcast and multicast. Defines how many routers a
+    package will pass until it is deleted. 0 = local host, 
+    1 = local network, ...
  */
 void DgramSocket::setTTL(unsigned char ttl)
 {
     int rc=setsockopt(_sd, IPPROTO_IP,IP_MULTICAST_TTL,
                       (SocketOptT*)&ttl,sizeof(ttl));
-    if(rc<0)
+    if(rc < 0)
     {
         throw SocketError("setsockopt(IPPROTO_IP,IP_MULTICAST_TTL)");
     }
 }
 
-/** \brief Send a NetworkMessage to an address
- *
- * Workes like send, but buffer and size is taken from the NetworkMessage
- *
- * \param msg   Reference to the NetworkMessage
- * \param to    Destination address
- *
- * \see Socket::send
- */
-int DgramSocket::sendTo(NetworkMessage &msg,const SocketAddress &to)
-{
-    NetworkMessage::Header &hdr=msg.getHeader();
-    hdr.size=htonl(msg.getSize());
-    return sendTo(msg.getBuffer(),msg.getSize(),to);
-}
+/*-------------------------------------------------------------------------*/
+/*                        assignment                                       */
 
-/** \brief Receive a NetworkMessage
- *
- * Workes like recv, but buffer and size is taken from the NetworkMessage
- *
- * \param msg   Reference to the NetworkMessage
- * \param to    Source address
- *
- * \see Socket::recv
- */
-int DgramSocket::recvFrom(NetworkMessage &msg,SocketAddress &from)
-{
-    NetworkMessage::Header hdr;
-    peek(&hdr,sizeof(hdr));
-    msg.setSize(ntohl(hdr.size));
-    return recvFrom(msg.getBuffer(),msg.getSize(),from);
-}
-
-/*-------------------------- assignment -----------------------------------*/
-
-/** \brief assignment
+/*! assignment
  */
 const DgramSocket & DgramSocket::operator =(const DgramSocket &source)
 {
@@ -406,4 +328,19 @@ const DgramSocket & DgramSocket::operator =(const DgramSocket &source)
     return *this;
 }
 
-OSG_END_NAMESPACE
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSG_DGRAMSOCKET_HEADER_CVSID;
+}

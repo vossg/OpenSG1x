@@ -72,10 +72,10 @@ class OSG_BASE_DLLMAPPING StreamSocket:public Socket
     /*! \name                   Socket functionaliy                        */
     /*! \{                                                                 */
 
-    virtual void open();
-    StreamSocket acceptFrom(SocketAddress &address);
-    StreamSocket accept();
-    void         setDelay(bool value);
+    virtual void         open      (void                  );
+            StreamSocket acceptFrom(SocketAddress &address);
+            StreamSocket accept    (void                  );
+            void         setDelay  (bool           value  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -93,9 +93,10 @@ class OSG_BASE_DLLMAPPING StreamSocket:public Socket
   private:
 
     typedef Socket Inherited;
-	static char cvsid[];
 };
 
 OSG_END_NAMESPACE
+
+#define OSG_STREAMSOCKET_HEADER_CVSID "@(#)$Id: $"
 
 #endif

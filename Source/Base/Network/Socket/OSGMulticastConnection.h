@@ -78,24 +78,14 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
+    /*! \name               communication functions                        */
     /*! \{                                                                 */
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
-    /*! \{                                                                 */
-
-    std::string           bind           (const std::string &address);
-    void                  accept         (void                      );
-    void                  connect        (const std::string &address);
-    UInt32                getChannelCount(void                      );
-    void                  selectChannel  (void                      );
+          std::string     bind           (const std::string &address);
+          void            accept         (void                      );
+          void            connect        (const std::string &address);
+          UInt32          getChannelCount(void                      );
+          void            selectChannel  (void                      );
     const ConnectionType *getType        (void                      );
 
     /*! \}                                                                 */
@@ -104,30 +94,6 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \{                                                                 */
 
     static Connection *create(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   your_operators                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Comparison                                */
-    /*! \{                                                                 */
-
-    //OSGbool operator < (const MulticastConnection &other) const;
-	//OSGbool operator == (const MulticastConnection &other) const;
-	//OSGbool operator != (const MulticastConnection &other) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Dump                                  */
-    /*! \{                                                                 */
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -176,8 +142,8 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \name                  read/write                                  */
     /*! \{                                                                 */
 
-    virtual void      readBuffer  ( void                        );
-    virtual void      writeBuffer ( void                        );
+    virtual void readBuffer (void);
+    virtual void writeBuffer(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -214,7 +180,23 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Private members                            */
+    /*! \{                                                                 */
 
+    BaseThread           *_aliveThread;
+    bool                 _stopAliveThread;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Alive thread handling                        */
+    /*! \{                                                                 */
+
+           void startAliveThread(void     );
+           void stopAliveThread (void     );
+    static void aliveProc       (void *arg);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Variable                             */
     /*! \{                                                                 */
@@ -222,30 +204,15 @@ class OSG_BASE_DLLMAPPING MulticastConnection : public Connection
     static ConnectionType _type;
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Alive thread handling                        */
-    /*! \{                                                                 */
-    BaseThread *_aliveThread;
-    bool _stopAliveThread;
-    void startAliveThread();
-    void stopAliveThread();
-    static void aliveProc(void *arg);
-    /*! \}                                                                 */
 
     typedef Connection Inherited;
 
 	/*!\brief prohibit default function (move to 'public' if needed) */
-
     MulticastConnection(const MulticastConnection &source);
     void operator =(const MulticastConnection &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 // class pointer
-
 typedef MulticastConnection *MulticastConnectionP;
 
 OSG_END_NAMESPACE

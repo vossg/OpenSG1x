@@ -51,7 +51,6 @@ OSG_USING_NAMESPACE
 /** \class osg::Connection
  *  \ingroup GrpBaseNetwork
  *  \brief Abstract 1 to n connection
- *  \author Marcus Roth
  *
  * Connection defines an interface for a reliable 1 to n connection.
  * It implements a BinaryDataHandler which is used for reading and
@@ -68,25 +67,10 @@ OSG_USING_NAMESPACE
  * of programms.
  **/
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                            constructor destructor                       */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! Constructor
  */
 
 Connection::Connection(int zeroCopyThreshold):
@@ -94,24 +78,25 @@ Connection::Connection(int zeroCopyThreshold):
 {
 }
 
-/** \brief Destructor
+/*! Destructor
  */
 
 Connection::~Connection(void)
 {
 }
 
+/*-------------------------------------------------------------------------*/
+/*                            connection functionallity                    */
 
-/** wait for signal
- *
- **/
+/*! wait for signal
+ */
 void Connection::wait(void)
 {
     UInt32 tag;
     UInt32 i;
 
     // wait for signals on all channels
-    for(i=0;i<getChannelCount();++i)
+    for(i=0 ; i<getChannelCount() ; ++i)
     {
         // read sync tag;
         do
@@ -119,13 +104,12 @@ void Connection::wait(void)
             selectChannel();
             getValue(tag);
         } 
-        while(tag!=0x12345678);
+        while(tag != 0x12345678);
     }
 }
 
-/** send signal
- *
- **/
+/*! send signal
+ */
 void Connection::signal(void)
 {
     UInt32 tag=0x12345678;

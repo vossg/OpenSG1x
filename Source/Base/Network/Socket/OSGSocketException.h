@@ -56,7 +56,8 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_BASE_DLLMAPPING SocketException : public Exception 
 {
-public:
+    /*==========================  PUBLIC  =================================*/
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -68,7 +69,8 @@ public:
 
 class OSG_BASE_DLLMAPPING SocketError : public SocketException 
 {
-public:
+    /*==========================  PUBLIC  =================================*/
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -80,7 +82,8 @@ public:
 
 class OSG_BASE_DLLMAPPING SocketHostError : public SocketException 
 {
-public:
+    /*==========================  PUBLIC  =================================*/
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -92,7 +95,8 @@ public:
 
 class OSG_BASE_DLLMAPPING SocketInUse : public SocketError
 {
-public:
+    /*==========================  PUBLIC  =================================*/
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -104,7 +108,8 @@ public:
 
 class OSG_BASE_DLLMAPPING SocketConnReset : public SocketError
 {
-public:
+    /*==========================  PUBLIC  =================================*/
+  public:
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -116,10 +121,6 @@ public:
 
 OSG_END_NAMESPACE
 
+#define OSG_SOCKETEXCEPTION_HEADER_CVSID "@(#)$Id: $"
+
 #endif
-
-
-
-
-
-

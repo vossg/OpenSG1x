@@ -52,7 +52,6 @@ OSG_USING_NAMESPACE
 /** \class osg::BinaryMessage
  *  \ingroup GrpBaseNetwork
  *  \brief Little-, Big endian independent message buffer
- *  \author Marcus Roth
  *
  * Little-, Big endian independent message buffer.
  * 
@@ -92,7 +91,7 @@ BinaryMessage::BinaryMessage(void):
     clear();
 }
 
-/** \brief Copy constructor
+/*! Copy constructor
  */
 BinaryMessage::BinaryMessage(const BinaryMessage &source):
     NetworkMessage(source),
@@ -104,7 +103,7 @@ BinaryMessage::BinaryMessage(const BinaryMessage &source):
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/** \brief Destructor
+/*! Destructor
  */
 BinaryMessage::~BinaryMessage(void)
 {
@@ -136,12 +135,8 @@ BinaryMessage& BinaryMessage::operator = (const BinaryMessage &source)
 /*-------------------------------------------------------------------------*/
 /*                             Misc                                        */
 
-/** \brief Set message size 
- *
- * Set message size. This is called by the socket to get enough space
- * to read a message.
- *
- * \param size   New message size
+/*! Set message size. This is called by the socket to get enough space
+    to read a message.
  */
 void BinaryMessage::setSize(UInt32 size)
 {
@@ -149,16 +144,14 @@ void BinaryMessage::setSize(UInt32 size)
     reset();
 }
 
-/** \brief Clear message buffer
+/*! Clear message buffer
  */
 void BinaryMessage::clear(void)
 {
     _buffer.resize(sizeof(Header));
 }
 
-/** \brief Reset buffer for reading
- *
- * Reset readpointer to the beginn of the buffer
+/*! Reset readpointer to the beginn of the buffer
  */
 void BinaryMessage::reset(void)
 {
@@ -168,18 +161,14 @@ void BinaryMessage::reset(void)
 /*-------------------------------------------------------------------------*/
 /*                             Get                                         */
 
-/** \brief Get message size
- *
- * \return message size in bytes
+/*! Get message size in bytes
  */
 UInt32 BinaryMessage::getSize(void) 
 {
     return _buffer.size();
 }
 
-/** \brief Get buffer address
- *
- * \return pointer to the begin of the buffer
+/*! Get buffer address
  */
 MemoryHandle BinaryMessage::getBuffer(void)
 {

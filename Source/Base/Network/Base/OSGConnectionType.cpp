@@ -51,8 +51,7 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::ConnectionType
- *  \ingroup GrpBaseNetwork
- *  \author Marcus Roth
+ *  \Brief stores connection names and createion methodes
  *
  * A connection type describes a network connection and provides an
  * interface for dynamic connection creation.
@@ -61,10 +60,8 @@ OSG_USING_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-/*! Constructor
- *
- * \param createFunction  Pointer to the create function
- * \param name            Name of the connection
+/*! Constructor. A new connection with the given name is registered.
+    To create a new connection, the given function is called.
  */
 ConnectionType::ConnectionType(      CreateFunction  createFunction, 
                                const std::string    &name          ) :
@@ -86,9 +83,7 @@ ConnectionType::ConnectionType(const ConnectionType &source):
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor
- *
- * Unregister the connection from the factory
+/*! Destructor. Unregister the connection from the factory
  */
 ConnectionType::~ConnectionType(void)
 {
@@ -115,7 +110,6 @@ ConnectionType& ConnectionType::operator = (const ConnectionType &source)
 
 /*! less
  */
-
 bool ConnectionType::operator < (const ConnectionType &other) const
 {
     return _name < other._name;
@@ -123,7 +117,6 @@ bool ConnectionType::operator < (const ConnectionType &other) const
 
 /*! equal
  */
-
 bool ConnectionType::operator == (const ConnectionType &other) const
 {
     return _name == other._name;
@@ -131,7 +124,6 @@ bool ConnectionType::operator == (const ConnectionType &other) const
 
 /*! unequal
  */
-
 bool ConnectionType::operator != (const ConnectionType &other) const
 {
     return ! (*this == other);
@@ -143,7 +135,6 @@ bool ConnectionType::operator != (const ConnectionType &other) const
 
 /*! get conneciton name
  */
-
 std::string ConnectionType::getName(void) const
 {
     return _name;
@@ -151,18 +142,16 @@ std::string ConnectionType::getName(void) const
 
 /*! get conneciton create function
  */
-
 ConnectionType::CreateFunction ConnectionType::getCreateFunction(void) const
 {
     return _createFunction;
 }
 
 /*-------------------------------------------------------------------------*/
-/*                             your_category                               */
+/*                             creation                                    */
 
 /*! create Connection
  */
-
 Connection *ConnectionType::create(void)
 {
     return _createFunction();

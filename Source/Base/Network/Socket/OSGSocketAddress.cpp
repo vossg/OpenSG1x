@@ -63,7 +63,6 @@ OSG_USING_NAMESPACE
 /** \class osg::SocketAddress
  *  \ingroup GrpBaseNetwork
  *  \brief Network address
- *  \author Marcus Roth
  *
  * The class SocketAddress holds an ip-address and a socket port number.
  * It is used to connect, and sendTo Sockets.
@@ -77,14 +76,10 @@ OSG_USING_NAMESPACE
  * </PRE>
  **/
 
-/*------------- constructors & destructors --------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                       constructors & destructors                        */
 
-/** \brief Constructor
- *
- * Create a socket address for the given port and host.
- *
- * \param host  Host as hostname or as number 111.222.333.444.
- * \param port  Port id
+/*! Constructor. Create a socket address for the given port and host.
  */
 SocketAddress::SocketAddress(const char *host,int port)
 {
@@ -95,58 +90,49 @@ SocketAddress::SocketAddress(const char *host,int port)
     setPort(port);
 }
 
-/** \brief Constructor
- *
- * Create a socket with predefined type. E.g. ANY is used to bind
- * a socket to all interfaces. BROADCAST chreates a broadcast
- * address
- *
- * \param type  ANY or BROADCAST
- * \param port  Port id
+/*! Constructor. Create a socket with predefined type. E.g. ANY is 
+    used to bind a socket to all interfaces. BROADCAST chreates a broadcast
+    address
  */
 SocketAddress::SocketAddress(SocketAddress::Type type,int port)
 {
     _sockaddr.sin_family = AF_INET;
     switch(type)
     {
-        case ANY:
-            _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-            break;
-        case BROADCAST:
-            _sockaddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+        case ANY:       _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+                        break;
+        case BROADCAST: _sockaddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
 //            setHost(std::string("192.168.0.255"));
-            break;
-        default:
-            _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+                        break;
+        default:        _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     }
     setPort(port);
 }
 
-/** \brief copy Constructor
+/*! copy Constructor
  */
 SocketAddress::SocketAddress(const SocketAddress &source)
 {
     _sockaddr = source._sockaddr;
 }
 
-/** \brief Destructor
+/*! Destructor
  */
 SocketAddress::~SocketAddress()
 {
 }
 
-/** \brief set the port number
- *
- * \param port  Port number as an int
+/*-------------------------------------------------------------------------*/
+/*                              get, set                                   */
+
+/*! Set the port number
  */
 void SocketAddress::setPort(int port)
 {
     _sockaddr.sin_port = htons( port );
 }
 
-/** \brief set host name
- *
- * \param host   Host as name or number
+/*! Set host name
  */
 void SocketAddress::setHost(const std::string &host)
 {
@@ -177,18 +163,14 @@ void SocketAddress::setHost(const std::string &host)
     }
 }
 
-/** \brief Get host as number std::string
- *
- * \result   Host as number e.g. 133.33.44.55
+/*! Get host as number std::string
  */
-std::string SocketAddress::getHost() const
+std::string SocketAddress::getHost(void) const
 {
     return std::string(inet_ntoa(_sockaddr.sin_addr));
 }
 
-/** \brief Get host as name
- *
- * \result   Hostname if found. Otherwise number std::string.
+/*! Get host as name. If not found, return as number
  */
 std::string SocketAddress::getHostByName() const
 {
@@ -210,39 +192,32 @@ std::string SocketAddress::getHostByName() const
     return result;
 }
 
-/** \brief Get a pointer to the sockaddr struct
- *
- * \result   sockaddr struct
+/*! Get a pointer to the sockaddr struct
  */
-sockaddr *SocketAddress::getSockAddr() const
+sockaddr *SocketAddress::getSockAddr(void) const
 {
     return const_cast<struct sockaddr *>(
         reinterpret_cast<const struct sockaddr *>(&_sockaddr));
 }
 
-/** \brief Get the size of the sockaddr struct
- *
- * \result   size of sockaddr
+/*! Get the size of the sockaddr struct
  */
-int SocketAddress::getSockAddrSize() const
+int SocketAddress::getSockAddrSize(void) const
 {
     return sizeof(struct sockaddr_in);
 }
 
-/** \brief Get port number
- *
- * \result   port as int
+/*! Get port number
  */
-int SocketAddress::getPort() const
+int SocketAddress::getPort(void) const
 {
     return ntohs(_sockaddr.sin_port);
 }
 
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              Comparision                                */
 
-/*-------------------------- comparison -----------------------------------*/
-
-/** \brief compare equal
+/*! compare equal
  */
 bool SocketAddress::operator == (const SocketAddress &other) const
 {
@@ -250,14 +225,14 @@ bool SocketAddress::operator == (const SocketAddress &other) const
            _sockaddr.sin_port        == other._sockaddr.sin_port;
 }
 
-/** \brief compare not equal
+/*! compare not equal
  */
 bool SocketAddress::operator != (const SocketAddress &other) const
 {
     return ! (*this == other);
 }
 
-/** \brief compare less
+/*! compare less
  */
 bool SocketAddress::operator < (const SocketAddress &other) const
 {
@@ -267,20 +242,6 @@ bool SocketAddress::operator < (const SocketAddress &other) const
         _sockaddr.sin_port        <  other._sockaddr.sin_port
     );
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -86,7 +86,7 @@ class OSG_BASE_DLLMAPPING ConnectionType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name                   creation                                   */
     /*! \{                                                                 */
 
     Connection *create(void);

@@ -4,8 +4,7 @@
  *                                                                           *
  *                   Copyright (C) 2000-2002 by OpenSG Forum                 *
  *                                                                           *
- *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de,         *
- *            mroth@igd.fhg.de                                               *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\

@@ -166,8 +166,6 @@ inline void BinaryMessage::getReal32(Real32  &value)
     getInt32(*((Int32*)(&value)));
 }
 
-
-
 inline UInt32 BinaryMessage::getUInt32(void)
 {
     UInt32 value;

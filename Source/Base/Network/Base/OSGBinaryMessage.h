@@ -60,15 +60,15 @@ class OSG_BASE_DLLMAPPING BinaryMessage : public NetworkMessage
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    BinaryMessage(void);
-    BinaryMessage(const BinaryMessage &source);
+    BinaryMessage                  (      void                 );
+    BinaryMessage                  (const BinaryMessage &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~BinaryMessage(void);
+    virtual ~BinaryMessage         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -84,45 +84,45 @@ class OSG_BASE_DLLMAPPING BinaryMessage : public NetworkMessage
     /*! \{                                                                 */
 
     virtual void setSize           (UInt32 size);
-    void clear                     (void);
-    void reset                     (void);
+            void clear             (void       );
+            void reset             (void       );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               write message                                  */
     /*! \{                                                                 */
 
-    void putUInt32(const      UInt32  value);
-    void putInt32 (const      Int32   value);
-    void putUInt16(const      UInt16  value);
-    void putInt16 (const      Int16   value);
-    void putUInt8 (const      UInt8   value);
-    void putInt8  (const      Int8    value);
-    void putString(const std::string &value);
-    void putReal32(const      Real32  value);
+    void putUInt32           (const UInt32       value);
+    void putInt32            (const Int32        value);
+    void putUInt16           (const UInt16       value);
+    void putInt16            (const Int16        value);
+    void putUInt8            (const UInt8        value);
+    void putInt8             (const Int8         value);
+    void putString           (const std::string &value);
+    void putReal32           (const Real32       value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               read message                                   */
     /*! \{                                                                 */
 
-    void getUInt32(     UInt32 &value);
-    void getInt32 (     Int32  &value);
-    void getUInt16(     UInt16 &value);
-    void getInt16 (     Int16  &value);
-    void getUInt8 (     UInt8  &value);
-    void getInt8  (     Int8   &value);
-    void getString(std::string &value);
-    void getReal32(     Real32 &value);
+    void        getUInt32           (UInt32      &value);
+    void        getInt32            (Int32       &value);
+    void        getUInt16           (UInt16      &value);
+    void        getInt16            (Int16       &value);
+    void        getUInt8            (UInt8       &value);
+    void        getInt8             (Int8        &value);
+    void        getString           (std::string &value);
+    void        getReal32           (Real32      &value);
 
-         UInt32 getUInt32(void);
-         Int32  getInt32 (void);
-         UInt16 getUInt16(void);
-         Int16  getInt16 (void);
-         UInt8  getUInt8 (void);
-         Int8   getInt8  (void);
-    std::string getString(void);
-         Real32 getReal32(void);
+    UInt32      getUInt32           (void              );
+    Int32       getInt32            (void              );
+    UInt16      getUInt16           (void              );
+    Int16       getInt16            (void              );
+    UInt8       getUInt8            (void              );
+    Int8        getInt8             (void              );
+    std::string getString           (void              );
+    Real32      getReal32           (void              );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

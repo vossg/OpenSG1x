@@ -63,12 +63,11 @@
 #include <OSGSocketAddress.h>
 #include <OSGStreamSocket.h>
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \class osg::StreamSocket
  *  \ingroup GrpBaseNetwork
  *  \brief Stream socket handler
- *  \author Marcus Roth
  *
  * This class is a Handler to connection oriented sockets. A call to
  * <EM>open</EM> will assing a stream socket and <EM>close</EM>
@@ -97,26 +96,12 @@ OSG_BEGIN_NAMESPACE
  * </PRE>
  **/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                            constructor destructor                       */
 
-char StreamSocket::cvsid[] = "@(#)$Id:$";
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/** \brief Constructor
- *
- * Use open to assign a system socket. No system socket is assigned by
- * the constructor.
- *
- * \see StreamSocket::open
+/*! Constructor. Use open to assign a system socket. No system socket is assigned by
+    the constructor.
+    \see StreamSocket::open
  */
 StreamSocket::StreamSocket():
     Socket()
@@ -130,32 +115,26 @@ StreamSocket::StreamSocket(const StreamSocket &source):
 {
 }
 
-/** \brief Assign a socket
- *
- * <CODE>Open</CODE> assignes a system socket to the StreamSocket. 
- *
- * \see Socket::close 
+/*-------------------------------------------------------------------------*/
+/*                           Socket functionaliy                           */
+
+/*! Assign a socket. <CODE>Open</CODE> assignes a system socket to the
+    StreamSocket. 
+    \see Socket::close 
  */
 void StreamSocket::open()
 {
     _sd = ::socket(AF_INET, SOCK_STREAM, 0);
-    if(_sd<0)
+    if(_sd < 0)
     {
         throw SocketError("socket()");
     }
 }
 
-/** \brief Accept incomming connection
- *
- * Accept incomming connection. Use the returned StreamSocket to 
- * communicate over the accepted communication. If the new StreamSocket
- * is no longer used, you have to close it.
- *
- * \param address   After accepting, address contains the remote address.
- *
- * \return New StreamSocket for client communication
- *
- * \see Socket::close StreamSocket::accept
+/*! Accept incomming connection. Use the returned StreamSocket to 
+    communicate over the accepted communication. If the new StreamSocket
+    is no longer used, you have to close it. A new StreamSocket is 
+    returned to communicate with the accepted client.
  */
 StreamSocket StreamSocket::acceptFrom(SocketAddress &address)
 {
@@ -166,22 +145,16 @@ StreamSocket StreamSocket::acceptFrom(SocketAddress &address)
     client._sd=::accept(_sd,
                         address.getSockAddr(),
                         &len);
-    if(client._sd<0)
+    if(client._sd < 0)
     {
         throw SocketError("accept()");
     }
     return client;
 }
 
-/** \brief Accept incomming connection
- *
- * Accept incomming connection. Use the returned StreamSocket to 
- * communicate over the accepted communication. If the new StreamSocket
- * is no longer used, you have to close it.
- *
- * \return New StreamSocket for client communication
- *
- * \see Socket::close StreamSocket::acceptFrom
+/*! Accept incomming connection. Use the returned StreamSocket to 
+    communicate over the accepted communication. If the new StreamSocket
+    is no longer used, you have to close it.
  */
 StreamSocket StreamSocket::accept()
 {
@@ -189,13 +162,9 @@ StreamSocket StreamSocket::accept()
     return acceptFrom(addr);
 }
 
-/** \brief Set delay behavior
- *
- * A Stream socket doesen't send data immediately. Only if the internal
- * buffer contains enough data, an immediate write is forced. If
- * delay is set to false, then data is written always immediately.
- *
- * \param value  true = delay, false = no delay. true is the default
+/*! A Stream socket doesen't send data immediately. Only if the internal
+    buffer contains enough data, an immediate write is forced. If
+    delay is set to false, then data is written always immediately.
  */
 void StreamSocket::setDelay(bool value)
 {
@@ -203,15 +172,16 @@ void StreamSocket::setDelay(bool value)
     on=!value;
     rc=setsockopt(_sd, IPPROTO_TCP, TCP_NODELAY, 
                   (SocketOptT*)&on, sizeof(on));
-    if(rc<0)
+    if(rc < 0)
     {
         throw SocketError("setsockopt(,SOCK_STREAM,TCP_NODELAY)");
     }
 }
 
-/*-------------------------- assignment -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              assignment                                 */
 
-/** \brief assignment
+/*! assignment
  */
 const StreamSocket & StreamSocket::operator =(const StreamSocket &source)
 {
@@ -219,13 +189,19 @@ const StreamSocket & StreamSocket::operator =(const StreamSocket &source)
     return *this;
 }
 
-/*-------------------------- comparison -----------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-OSG_END_NAMESPACE
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
-
-
-
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSG_STREAMSOCKET_HEADER_CVSID;
+}

@@ -42,28 +42,13 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include "OSGBase.h"
 #include "OSGSocketException.h"
 #include "OSGSocketAddress.h"
 
 OSG_BEGIN_NAMESPACE
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
 class NetworkMessage;
-
-//---------------------------------------------------------------------------
-//   Types
-//---------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-//  Class
-//---------------------------------------------------------------------------
 
 class OSG_BASE_DLLMAPPING Socket
 {
@@ -73,7 +58,7 @@ class OSG_BASE_DLLMAPPING Socket
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    Socket();
+    Socket(void);
     Socket(const Socket &source);
 
     /*! \}                                                                 */
@@ -85,31 +70,43 @@ class OSG_BASE_DLLMAPPING Socket
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                 Socket access                                */
+    /*! \name                 open, close, connect                         */
     /*! \{                                                                 */
 
-    virtual void  open              (                                   )=0;
-    void          close             (      void                         );
-    int           recv              (      void *buf,int size           );
-    int           recvAvailable     (      void *buf,int size           );
-    int           peek              (      void *buf,int size           );
-    int           send              (const void *buf,int size           );
-    void          bind              (const SocketAddress &address=
-                                     SocketAddress(SocketAddress::ANY)  );
-    void          listen            (int maxPending=10                  );
-    void          connect           (const SocketAddress &address       );
-    void          setReusePort      (bool value                         );
-    void          setBlocking       (bool value                         );
-    SocketAddress getAddress        (void                               );
-    void          setReadBufferSize (int size                           );
-    void          setWriteBufferSize(int size                           );
-    int           getReadBufferSize (void                               );
-    int           getWriteBufferSize(void                               );
-    int           getAvailable      (void                               );
-    bool          waitReadable      (double duration                    );
-    bool          waitWritable      (double duration                    );
-    int           send              (NetworkMessage &msg                 );
-    int           recv              (NetworkMessage &msg                 );
+    virtual void open   (      void                       )=0;
+            void close  (      void                       );
+            void bind   (const SocketAddress &address=
+                         SocketAddress(SocketAddress::ANY));
+            void listen (      int maxPending=10          );
+            void connect(const SocketAddress &address     );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 read, write                                  */
+    /*! \{                                                                 */
+
+    int recv         (      void           *buf,int size);
+    int recvAvailable(      void           *buf,int size);
+    int recv         (      NetworkMessage &msg         );
+    int peek         (      void           *buf,int size);
+    int send         (const void           *buf,int size);
+    int send         (      NetworkMessage &msg         );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 state access                                 */
+    /*! \{                                                                 */
+
+    void          setReusePort      (bool   value   );
+    void          setBlocking       (bool   value   );
+    SocketAddress getAddress        (void           );
+    void          setReadBufferSize (int    size    );
+    void          setWriteBufferSize(int    size    );
+    int           getReadBufferSize (void           );
+    int           getWriteBufferSize(void           );
+    int           getAvailable      (void           );
+    bool          waitReadable      (double duration);
+    bool          waitWritable      (double duration);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -123,25 +120,27 @@ class OSG_BASE_DLLMAPPING Socket
     /*! \name                      Error information                       */
     /*! \{                                                                 */
 
-    static int         getError();
-    static int         getHostError();
-    static std::string getErrorStr();
-    static std::string getHostErrorStr();
+    static int         getError       (void);
+    static int         getHostError   (void);
+    static std::string getErrorStr    (void);
+    static std::string getHostErrorStr(void);
 
-    /*! \}                                                                 */
+    /*! \}      
+                                                           */
+    /*==========================  PROTECTED ===============================*/
   protected:
 
-    /** Socket option type 
-     *  Used to hide the different interface implementations
-     **/
+    /*! Socket option type. Used to hide the different interface 
+        implementations
+     */
 #if defined WIN32
     typedef char FAR  SocketOptT;
 #else
     typedef void      SocketOptT;
 #endif
 
-    /** Socket length type 
-     *  Used to hide the different interface implementations
+    /*! Socket length type. Used to hide the different interface 
+        implementations
      **/
 #if defined __linux
     typedef socklen_t SocketLenT;
@@ -149,14 +148,25 @@ class OSG_BASE_DLLMAPPING Socket
     typedef int       SocketLenT;
 #endif
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                   member                                     */
+    /*! \{                                                                 */
+
     int _sd;
 
+    /*! \}                                                                 */
+    /*==========================  PRIVATE =================================*/
   private:
 
     friend class SocketSelection;
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static member                               */
+    /*! \{                                                                 */
+
     static int  initialized;
 
+    /*! \}                                                                 */
 };
 
 OSG_END_NAMESPACE

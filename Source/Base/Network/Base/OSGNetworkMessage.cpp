@@ -51,7 +51,6 @@ OSG_USING_NAMESPACE
 /** \class osg::NetworkMessage
  *  \ingroup GrpBaseNetwork
  *  \brief Abstract socket message buffer
- *  \author Marcus Roth
  *
  * This is the base class for socket messages. It provides an Interface
  * for transmission of data buffers.
@@ -92,9 +91,8 @@ NetworkMessage& NetworkMessage::operator = (const NetworkMessage &)
     return *this;
 }
 
-/** \brief Get message header
- *
- * \return Address to the message header
+/*! Get message header. A pointer to the first byte of the message is
+    returned
  */
 NetworkMessage::Header &NetworkMessage::getHeader (void)
 {

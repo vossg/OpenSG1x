@@ -55,7 +55,6 @@ ConnectionFactory *ConnectionFactory::_the=NULL;
 
 /** \class osg::ConnectionFactory
  *  \ingroup GrpBaseNetwork
- *  \author Marcus Roth
  *
  * The ConnectionFactory knows all types of connections by name. 
  * A new connection object could be crated by calling 
@@ -101,22 +100,20 @@ ConnectionFactory::~ConnectionFactory(void)
 
 /*! create connection by name
  */
-
 Connection *ConnectionFactory::create(const std::string &name)
 {
     TypeMap::iterator i=_map.find(name);
-    if(i==_map.end())
+    if(i == _map.end())
        return NULL;
     else
         return i->second->create();
 }
 
-/*! get factory 
+/*! get singelton factory 
  */
-
 ConnectionFactory &ConnectionFactory::the(void)
 {
-    if(_the==NULL)
+    if(_the == NULL)
         _the=new ConnectionFactory();
     return *_the;
 }
@@ -126,7 +123,6 @@ ConnectionFactory &ConnectionFactory::the(void)
 
 /*! add new type
  */
-
 void ConnectionFactory::addType(ConnectionType *type)
 {
     _map[type->getName()]=type;
@@ -135,13 +131,13 @@ void ConnectionFactory::addType(ConnectionType *type)
 
 /*! remove type
  */
-
 void ConnectionFactory::subType(ConnectionType *type)
 {
     TypeMap::iterator i=_map.find(type->getName());
-    if(i!=_map.end() && i->second==type)
+    if(i != _map.end() && i->second == type)
         _map.erase(i);
-    SINFO << "Connection type " << type->getName() << " removed" << std::endl;
+    SINFO << "Connection type " << type->getName() 
+          << " removed" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

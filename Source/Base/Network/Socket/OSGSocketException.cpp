@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
@@ -48,15 +44,14 @@
 #include <OSGSocket.h>
 #include <OSGSocketException.h>
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 /** \class osg::SocketException
  *  \ingroup GrpBaseNetwork
  *  \brief Base class for socket exceptions
- *  \author Marcus Roth
  **/
 
-/** \brief Constructor
+/*! Constructor
  */
 SocketException::SocketException():
     Exception()
@@ -67,10 +62,9 @@ SocketException::SocketException():
 /** \class osg::SocketError
  *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by socket error return codes
- *  \author Marcus Roth
  **/
 
-/** \brief Constructor
+/*! Constructor
  */
 SocketError::SocketError(const char *function):SocketException()
 {
@@ -83,10 +77,9 @@ SocketError::SocketError(const char *function):SocketException()
 /** \class osg::SocketHostError
  *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by host name resolution
- *  \author Marcus Roth
  **/
 
-/** \brief Constructor
+/*! Constructor
  */
 SocketHostError::SocketHostError(const char *function):SocketException()
 {
@@ -99,10 +92,9 @@ SocketHostError::SocketHostError(const char *function):SocketException()
 /** \class osg::SocketInUse
  *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by reusage of ports
- *  \author Marcus Roth
  **/
 
-/** \brief Constructor
+/*! Constructor
  */
 SocketInUse::SocketInUse(const char *function):
     SocketError(function)
@@ -112,19 +104,28 @@ SocketInUse::SocketInUse(const char *function):
 /** \class osg::SocketConnReset
  *  \ingroup GrpBaseNetwork
  *  \brief Execption caused by connection reset of remote endpoint
- *  \author Marcus Roth
  **/
 
-/** \brief Constructor
+/*! Constructor
  */
 SocketConnReset::SocketConnReset(const char *function):
     SocketError(function)
 {
 }
-OSG_END_NAMESPACE
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
 
-
-
+namespace
+{
+    static Char8 cvsid_cpp       [] = "@(#)$Id: $";
+    static Char8 cvsid_hpp       [] = OSG_SOCKETEXCEPTION_HEADER_CVSID;
+}

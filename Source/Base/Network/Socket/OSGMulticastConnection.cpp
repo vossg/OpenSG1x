@@ -36,9 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -56,9 +53,8 @@
 OSG_USING_NAMESPACE
 
 /** \class osg::MulticastConnection
- *  \ingroup ClusterLib
+ *  \ingroup GrpBaseNetwork
  *  \brief Stream socket connection
- *  \author Marcus Roth
  *
  * The StreamSockConnection implements the Connection interface. It
  * uses UDP to establish a reliable multicast connection.
@@ -90,28 +86,10 @@ OSG_USING_NAMESPACE
  *
  **/
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
+/*-------------------------------------------------------------------------*/
+/*                            constructor destructor                       */
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-ConnectionType MulticastConnection::_type(&MulticastConnection::create,
-                                          "Multicast");
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
-
-/** \brief Constructor
+/*! Constructor
  */
 
 MulticastConnection::MulticastConnection(int ) :
@@ -131,7 +109,7 @@ MulticastConnection::MulticastConnection(int ) :
 
     // create read buffers
     _udpReadBuffers.resize( MULTICAST_BUFFER_COUNT );
-    for(i=0;i<(_udpReadBuffers.size()-1);i++)
+    for(i=0 ; i < (_udpReadBuffers.size() - 1) ; i++)
     {
         _udpReadBuffers[i].resize(MULTICAST_BUFFER_SIZE);
         readBufAdd(&_udpReadBuffers[i][sizeof(UDPHeader)],
@@ -141,7 +119,7 @@ MulticastConnection::MulticastConnection(int ) :
 
     // create write buffers
     _udpWriteBuffers.resize( MULTICAST_BUFFER_COUNT );
-    for(i=0;i<(_udpWriteBuffers.size()-1);i++)
+    for(i=0 ; i < (_udpWriteBuffers.size() - 1) ; i++)
     {
         _udpWriteBuffers[i].resize(MULTICAST_BUFFER_SIZE);
         writeBufAdd(&_udpWriteBuffers[i][sizeof(UDPHeader)],
@@ -155,12 +133,10 @@ MulticastConnection::MulticastConnection(int ) :
     _aliveSocket.bind();
 
     startAliveThread();
-
 }
 
-/** \brief Destructor
+/*! Destructor
  */
-
 MulticastConnection::~MulticastConnection(void)
 {
     stopAliveThread();
@@ -181,23 +157,20 @@ MulticastConnection::~MulticastConnection(void)
     }
 }
 
-/** \brief create conneciton
- */
+/*-------------------------------------------------------------------------*/
+/*                           communication functions                       */
 
+/*! Create conneciton
+ */
 Connection *MulticastConnection::create(void)
 {
     return new MulticastConnection();
 }
 
-/** Bind connection to the givven address
- *
- * Describes, on which port the connection will accept incomming
- * connecitons. If the address string contains no id, then
- * a random id will be choosen. If group is empty, then 224.11.12.50 is used.
- *
- * \param address    string with group:Port:id
- *
- * \return port:id
+/*! Bind connection to the givven address. Describes, on which port the
+    connection will accept incomming connecitons. If the address string
+    contains no id, then a random id will be choosen. If group is empty,
+    then 224.11.12.50 is used.
  **/
 std::string MulticastConnection::bind(const std::string &address)
 {
@@ -219,7 +192,7 @@ std::string MulticastConnection::bind(const std::string &address)
     _inSocket=_groupSocket;
     _socket.bind(SocketAddress(SocketAddress::ANY,0));
 
-    if(member==0)
+    if(member == 0)
     {
         member=(UInt32)(getSystemTime()*(1<<30));
         member&=0x7fff0000;
@@ -231,9 +204,9 @@ std::string MulticastConnection::bind(const std::string &address)
     return bound;
 }
 
-/** Wait for incommint connections on the given address
- **/
-void MulticastConnection::accept( void )
+/*! Wait for incommint connections on the given address
+ */
+void MulticastConnection::accept(void)
 {
     UDPBuffer connect;
     SocketAddress destination;
@@ -280,10 +253,7 @@ void MulticastConnection::accept( void )
          << ":" << destination.getPort() << std::endl;
 }
 
-/** connect a connection at the given address
- *
- * \param address    Host:Port:Id
- *
+/*! Connect to a connection at the given address
  **/
 void MulticastConnection::connect(const std::string &address)
 {
@@ -297,7 +267,7 @@ void MulticastConnection::connect(const std::string &address)
 
     interpreteAddress(address,group,port,member);
     _destination=SocketAddress(group.c_str(),port);
-    if(member==0)
+    if(member == 0)
     {
         SFATAL << "Connect to member and no member is given" << std::endl;
         return;
@@ -334,20 +304,17 @@ void MulticastConnection::connect(const std::string &address)
          << ":" << member << std::endl;
 }
 
-/** get number of links
- *
+/*! get number of links
  **/
 UInt32 MulticastConnection::getChannelCount(void)
 {
     return _channelAddress.size();
 }
 
-/** select channel for read
- *
- * A connection can have n links from which data can be read. So we
- * need to select one channel for exclusive read. 
- *
- **/
+/*! Select channel for read. A connection can have n links from which
+    data can be read. So we need to select one channel for exclusive
+    read. 
+ */
 void MulticastConnection::selectChannel()
 {
     UDPHeader header;
@@ -363,13 +330,13 @@ void MulticastConnection::selectChannel()
         }
         size=_inSocket.peekFrom(&header,sizeof(header),from);
         // wait for data or ack request of unread data
-        if(size>=sizeof(header))
+        if(size >= sizeof(header))
         {
             if(header.type == CLOSED)
             {
                 throw ReadError("Connection closed");
             }
-            for(UInt32 i=0;i<_channelAddress.size();i++)
+            for(UInt32 i=0 ; i<_channelAddress.size() ; i++)
             {
                 if(_channelAddress[i]==from &&
                    ( header.type == DATA ||
@@ -385,28 +352,20 @@ void MulticastConnection::selectChannel()
     }
 }
 
-/** \brief Get type of connection
- *
- * \return ConnectionType pointer
- **/
+/*! Get type of connection
+ */
 const ConnectionType *MulticastConnection::getType()
 {
     return &_type;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                        protected read, write                            */
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-/** \brief Write buffer
- * 
- * A simple reliable UDP package protocoll is used.
- * 
- * - write all packages as fast as possible
- * - wait some time for acknolages
- * - if unacknolaged packages, then retransmit and go to 2
- **/
+/*! Write buffer. A simple reliable UDP package protocoll is used.
+    1. write all packages as fast as possible, 2. wait some time for
+    acknolages. If unacknolaged packages, then retransmit and go to 2
+ */
 void MulticastConnection::readBuffer()
 {
     UDPBuffersT::iterator currentBuffer=_udpReadBuffers.begin(); 
@@ -497,14 +456,9 @@ void MulticastConnection::readBuffer()
     }
 }    
 
-/** \brief Write buffer
- *
- * A simple reliable UDP package protocoll is used.
- * - read data
- * - if acknolage request, the acknolage already read data 
- *
- * \see writeBuffer
- **/
+/*! Write buffer. A simple reliable UDP package protocoll is used.
+    read data, if acknolage request, the acknolage already read data 
+ */
 void MulticastConnection::writeBuffer(void)
 {
     std::vector<int>            send;
@@ -616,16 +570,13 @@ void MulticastConnection::writeBuffer(void)
     }
 }
 
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                        Alive thread handling                            */
 
-/** \brief Start alive thread
- *
- * To enable the receiver to detect a canceled sender, we need an 
- * alive signal avery n seconds. Then the receiver is able to set 
- * it's timeout to n+1 
- **/
+/*! Start alive thread. To enable the receiver to detect a canceled sender,
+    we need an alive signal avery n seconds. Then the receiver is able to
+    set it's timeout to n+1 
+ */
 void MulticastConnection::startAliveThread()
 {
     stopAliveThread();
@@ -634,8 +585,8 @@ void MulticastConnection::startAliveThread()
     _aliveThread->runFunction( aliveProc, (void *) (this) );
 }
 
-/** \brief Stop alive thread
- **/
+/*! Stop alive thread
+ */
 void MulticastConnection::stopAliveThread()
 {
     char tag;
@@ -656,10 +607,8 @@ void MulticastConnection::stopAliveThread()
     }
 }
 
-/** \brief Start alive thread
- *
- * Send an alive package after _aliveTime 
- **/
+/*! Start alive thread. Send an alive package after _aliveTime 
+ */
 void MulticastConnection::aliveProc(void *arg) 
 { 
     MulticastConnection *connection=static_cast<MulticastConnection *>(arg);
@@ -687,12 +636,9 @@ void MulticastConnection::aliveProc(void *arg)
     }
 }
 
-/** nterprete address
- *
- *  multicastgroup:port:client
- *
- **/
-
+/*! Interprete address. Format is multicastgroup:port:client. Client
+    is unique / host.
+ */
 void MulticastConnection::interpreteAddress(const std::string &address,
                                                   std::string &group,
                                                   UInt32      &port,
@@ -739,6 +685,13 @@ void MulticastConnection::interpreteAddress(const std::string &address,
         }
     }
 }
+
+
+/*-------------------------------------------------------------------------*/
+/*                              class vatiables                            */
+
+ConnectionType MulticastConnection::_type(&MulticastConnection::create,
+                                          "Multicast");
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
