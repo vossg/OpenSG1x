@@ -90,6 +90,7 @@ Int32 setIndexFromVRMLData ( GeometryPtr geo,
  *  returns the number of points to be transformed 
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING 
 Int32 createOptimizedPrimitives ( GeometryPtr geo,
                                   UInt32 iteration = 1,
                                   Bool createStrips = true, 
@@ -100,12 +101,14 @@ Int32 createOptimizedPrimitives ( GeometryPtr geo,
 /*! \brief return the number of triangle/line/point elem 
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING 
 UInt32 calcPrimitiveCount ( GeometryPtr geo,
                             UInt32 &triangle, UInt32 &line, UInt32 &point);
 
 /*! \brief merge the given geometries into a minimal number of nodes
  *  \ingroup Geometry
  */
+OSG_SYSTEMLIB_DLLMAPPING 
 void mergeGeometries( vector<NodePtr> & nodes, vector<NodePtr> & results );
 
 
