@@ -15,6 +15,7 @@
 # OSG_DIST_NO_TUTORIALBUILD
 # OSG_DIST_REMOVE_BUILDDIR
 # OSG_DIST_NO_FCDEDIT
+# OSG_DIST_CLEANUP
 
 
 # Little function to expand variables in text files
@@ -222,6 +223,8 @@ esac
 echo "System" $system
 echo "Dist" $distname
 
+# Add QT to PATH for moc and uic
+export PATH=$qt_dir/bin:$PATH
 
 # configure it
 
