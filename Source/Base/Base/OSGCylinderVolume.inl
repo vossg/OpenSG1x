@@ -46,48 +46,42 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! Default Constructor
-*/
+
 inline
-CylinderVolume::CylinderVolume(void) : Volume()
+CylinderVolume::CylinderVolume(void) : 
+    Volume()
 {
-    ;
 }
 
-inline
-CylinderVolume::CylinderVolume(const Pnt3f &p, const Vec3f &d,
-        float r) : Volume(),    _axisPos(p), _axisDir(d), _radius(r) { setEmpty(false);}
 
 inline
-CylinderVolume::CylinderVolume(const CylinderVolume &c): Volume(c)
-, _axisPos(c._axisPos), _axisDir(c._axisDir), _radius(c._radius) {;}
+CylinderVolume::CylinderVolume(const Pnt3f  &p, 
+                               const Vec3f  &d,
+                                     Real32  r) : 
+     Volume ( ),    
+    _axisPos(p), 
+    _axisDir(d), 
+    _radius (r) 
+{ 
+    setEmpty(false);
+}
+
+
+inline
+CylinderVolume::CylinderVolume(const CylinderVolume &c): 
+     Volume (c         ),
+    _axisPos(c._axisPos), 
+    _axisDir(c._axisDir), 
+    _radius (c._radius )
+{
+}
+
 
 inline
 CylinderVolume::~CylinderVolume(void)
 {
-    ;
 }
 
-inline
-void CylinderVolume::setValue(const Pnt3f &p, const Vec3f &d, float r)
-{
-    _axisPos = p;
-    _axisDir = d;
-    _radius = r;
-}
-
-inline
-void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d)
-{
-    _axisPos = p;
-    _axisDir = d;
-}
-
-inline
-void CylinderVolume::setRadius(float r)
-{
-    _radius = r;
-}
 
 inline
 void CylinderVolume::getAxis(Pnt3f &apos, Vec3f &adir) const
@@ -96,36 +90,51 @@ void CylinderVolume::getAxis(Pnt3f &apos, Vec3f &adir) const
     apos = _axisPos;
 }
 
+
 inline
-float CylinderVolume::getRadius(void) const
+Real32 CylinderVolume::getRadius(void) const
 {
     return _radius;
 }
 
+
 inline
-void CylinderVolume::extendBy(const Volume &volume)
+void CylinderVolume::setValue(const Pnt3f &p, const Vec3f &d, Real32 r)
 {
-  OSG::extend(*this,volume);
+    _axisPos = p;
+    _axisDir = d;
+    _radius = r;
 }
+
+
+inline
+void CylinderVolume::setAxis(const Pnt3f &p, const Vec3f &d)
+{
+    _axisPos = p;
+    _axisDir = d;
+}
+
+
+inline
+void CylinderVolume::setRadius(Real32 r)
+{
+    _radius = r;
+}
+
 
 inline
 void CylinderVolume::extendBy(const CylinderVolume &volume)
 {
-    OSG::extend(*this,volume);
+    OSG::extend(*this, volume);
 }
 
-inline
-bool CylinderVolume::intersect (const Volume &volume) const
-{
-  return OSG::intersect(*this,volume);
-}
 
 inline
 bool CylinderVolume::intersect(const CylinderVolume &volume) const
 {
-  return OSG::intersect(*this,volume);
+  return OSG::intersect(*this, volume);
 }
 
 OSG_END_NAMESPACE
 
-#endif //CYLINDERVOLUME_CLASS_DECLARATION
+#endif // _OSGCYLINDERVOLUME_INL_

@@ -51,68 +51,72 @@ OSG_BEGIN_NAMESPACE
 
 // # Sphere ###########################################################
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const SphereVolume &sphere,
-                                            const BoxVolume &box )
+inline 
+bool intersect(const SphereVolume &sphere, const BoxVolume &box)
 {
-    return intersect(box,sphere);
+    return intersect(box, sphere);
 }
+
 
 // # Cylinder ########################################################
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const CylinderVolume &cylinder,
-                                            const BoxVolume &box)
+inline
+bool intersect(const CylinderVolume &cylinder, const BoxVolume &box)
 {
-    return intersect(box,cylinder);
+    return intersect(box, cylinder);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const CylinderVolume &cylinder,
-                                            const SphereVolume &sphere)
+inline
+bool intersect(const CylinderVolume &cylinder, const SphereVolume &sphere)
 {
-    return intersect(sphere,cylinder);
+    return intersect(sphere, cylinder);
 }
+
 
 // # Frustum ########################################################
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const FrustumVolume &frustum,
-                                            const BoxVolume &box)
+
+inline
+bool intersect(const FrustumVolume &frustum, const BoxVolume      &box)
 {
-    return intersect(box,frustum);
+    return intersect(box, frustum);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const FrustumVolume &frustum,
-                                            const SphereVolume &sphere)
+inline
+bool intersect(const FrustumVolume &frustum, const SphereVolume   &sphere)
 {
     return intersect(sphere,frustum);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const FrustumVolume &frustum,
-                                            const CylinderVolume &cylinder)
+inline 
+bool intersect(const FrustumVolume &frustum, const CylinderVolume &cylinder)
 {
     return intersect(cylinder,frustum);
 }
 
+
 // # Volume ########################################################
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
-                                            const BoxVolume &vol)
+inline 
+bool intersect(const Volume &srcVol, const BoxVolume      &vol)
 {
     return intersect(vol,srcVol);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
-                                            const SphereVolume &vol)
+inline 
+bool intersect(const Volume &srcVol, const SphereVolume   &vol)
 {
     return intersect(vol,srcVol);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
-                                            const CylinderVolume &vol)
+inline 
+bool intersect(const Volume &srcVol, const CylinderVolume &vol)
 {
     return intersect(vol,srcVol);
 }
 
-inline OSG_BASE_DLLMAPPING bool intersect ( const Volume &srcVol,
-                                            const FrustumVolume &vol)
+inline 
+bool intersect(const Volume &srcVol, const FrustumVolume  &vol)
 {
     return intersect(vol,srcVol);
 }

@@ -57,12 +57,13 @@ template <class ValueTypeT> class QuaternionBase;
 //! the following applies : M=(V0 V1 V2 V3), M[Column][Row], M[0] = V0
 //! M[0][0] = V0[0]
 //! M.getValues() returns M transposed (as it returns the raw storage)
-//! \ingroup BaseMathMatrices
+//! \ingroup BaseBaseMath
 
 template<class ValueTypeT>
 class TransformationMatrix
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -196,7 +197,7 @@ class TransformationMatrix
     void setValue          (const VectorType           *pMat               );
 
 #ifndef WIN32
-    void setValue           (const VectorType3f        *pMat               );
+    void setValue          (const VectorType3f         *pMat               );
 #endif
 
     void setValue           (const Char8               *string,
@@ -387,6 +388,7 @@ class TransformationMatrix
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -405,19 +407,19 @@ class TransformationMatrix
                           const TransformationMatrix &gColMat, 
                                 UInt32                iColumn) const;
 
-    ValueTypeT det2      (const ValueTypeT a1, 
-                          const ValueTypeT a2,
-                          const ValueTypeT b1, 
-                          const ValueTypeT b2                ) const;
-    ValueTypeT det3      (const ValueTypeT a1, 
-                          const ValueTypeT a2, 
-                          const ValueTypeT a3,
-                          const ValueTypeT b1, 
-                          const ValueTypeT b2, 
-                          const ValueTypeT b3,
-                          const ValueTypeT c1, 
-                          const ValueTypeT c2, 
-                          const ValueTypeT c3                ) const;
+    ValueTypeT det2      (const ValueTypeT            a1, 
+                          const ValueTypeT            a2,
+                          const ValueTypeT            b1, 
+                          const ValueTypeT            b2     ) const;
+    ValueTypeT det3      (const ValueTypeT            a1, 
+                          const ValueTypeT            a2, 
+                          const ValueTypeT            a3,
+                          const ValueTypeT            b1, 
+                          const ValueTypeT            b2, 
+                          const ValueTypeT            b3,
+                          const ValueTypeT            c1, 
+                          const ValueTypeT            c2, 
+                          const ValueTypeT            c3     ) const;
 
 #ifdef __sgi
 #pragma set woff 1424
@@ -434,10 +436,10 @@ class TransformationMatrix
 #ifdef __sgi
 #pragma reset woff 1424
 #endif
-
     
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     static TransformationMatrix _identityMatrix;
@@ -445,21 +447,21 @@ class TransformationMatrix
 
 /*! \var typedef TransformationMatrix<Real32> Matrix;
     \brief Matrix
-    \ingroup BaseMathMatrices
+    \ingroup BaseBaseMath
 */
 
 typedef TransformationMatrix<Real32> Matrix;
 
 /*! \var typedef TransformationMatrix<Real32> Matrix4f;
     \brief Matrix4f
-    \ingroup BaseMathMatrices
+    \ingroup BaseBaseMath
 */
 
 typedef TransformationMatrix<Real32> Matrix4f;
 
 template<class ValueTypeT> 
-std::ostream &operator <<(        std::ostream                     &os,
-                          const   TransformationMatrix<ValueTypeT> &obj);
+std::ostream &operator <<(      std::ostream                     &os,
+                          const TransformationMatrix<ValueTypeT> &obj);
 
 OSG_END_NAMESPACE
 

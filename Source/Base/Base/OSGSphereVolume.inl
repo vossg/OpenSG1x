@@ -47,65 +47,80 @@ OSG_BEGIN_NAMESPACE
 
 /*-------------------------- constructor ----------------------------------*/
 inline
-SphereVolume::SphereVolume(void) : Volume(), _radius(0) {;}
+SphereVolume::SphereVolume(void) : 
+     Volume(             ),
+    _center(0.f, 0.f, 0.f),
+    _radius(0            ) 
+{
+}
 
 inline
-SphereVolume::SphereVolume(const SphereVolume &obj)
- : Volume(),    _center(obj._center), _radius(obj._radius) { setEmpty(false);}
-
-inline
-SphereVolume::SphereVolume(const Pnt3f &c, float r)
-: Volume(), _center(c), _radius(r) { setEmpty(false);}
-
-inline
-SphereVolume::~SphereVolume() {;}
-
-/*------------------------------ feature ----------------------------------*/
-
-/// Change the center and radius
-inline
-void SphereVolume::setValue(const Pnt3f &c, float r)
+SphereVolume::SphereVolume(const SphereVolume &obj) :
+     Volume(           ),    
+    _center(obj._center), 
+    _radius(obj._radius) 
 {
     setEmpty(false);
-    _center = c;
-    _radius = r;
+}
+
+inline
+SphereVolume::SphereVolume(const Pnt3f &c, Real32 r) :
+     Volume( ), 
+    _center(c), 
+    _radius(r)
+{
+    setEmpty(false);
+}
+
+inline
+SphereVolume::~SphereVolume() 
+{
 }
 
 /*------------------------- set values -------------------------------*/
 
-/// set just the center
+/*! Change the center and radius */
+
+inline
+void SphereVolume::setValue(const Pnt3f &c, Real32 r)
+{
+    setEmpty(false);
+
+    _center = c;
+    _radius = r;
+}
+
+
+/*! set just the center */
+
 inline
 void SphereVolume::setCenter(const Pnt3f &c)
 {
     _center = c;
 }
 
-/// set just the radius
+/*! set just the radius */
+
 inline
-void SphereVolume::setRadius(float r)
+void SphereVolume::setRadius(Real32 r)
 {
     _radius = r;
 }
 
 /*------------------------- get values -------------------------------*/
 
-/// Returns the center
-inline
-void SphereVolume::getCenter(Pnt3f &center) const
-{
-    center = _center;
-}
+/*! Returns the center */
 
-/// Returns the center
 inline
-const Pnt3f& SphereVolume::getCenter( void ) const
+const Pnt3f& SphereVolume::getCenter(void) const
 {
     return _center;
 }
 
-/// Returns the radius
+/*! Returns the radius */
+
 inline
-float SphereVolume::getRadius() const
+Real32 SphereVolume::getRadius(void) const
 {
     return _radius;
 }
@@ -113,29 +128,17 @@ float SphereVolume::getRadius() const
 /*-------------------------- extending ------------------------------------*/
 
 inline
-void SphereVolume::extendBy (const Volume &volume)
-{
-    osg::extend(*this,volume);
-}
-
-inline
 void SphereVolume::extendBy(const SphereVolume &volume)
 {
-  osg::extend(*this,volume);
+    OSG::extend(*this, volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/
 
 inline
-bool SphereVolume::intersect (const Volume &volume) const
-{
-  return osg::intersect(*this,volume);
-}
-
-inline
 bool SphereVolume::intersect(const SphereVolume &volume) const
 {
-  return osg::intersect(*this,volume);
+    return OSG::intersect(*this, volume);
 }
 
 OSG_END_NAMESPACE

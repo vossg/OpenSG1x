@@ -82,7 +82,7 @@ template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>
     QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
                                       const QuaternionBase &rot1,
-                                      const ValueTypeT      t)
+                                      const ValueTypeT      t   )
 {
     QuaternionBase returnValue;
 
@@ -104,22 +104,23 @@ QuaternionBase<ValueTypeT>::QuaternionBase(void)
     _quat[3] = TypeConstants<ValueTypeT>::getOneElement();
 }
 
+
 template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>::QuaternionBase(const QuaternionBase &source)
 {
-    UInt32 i;
-
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _quat[i] = source._quat[i];
     }
 }
+
 
 template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>::QuaternionBase(const MatrixType &matrix)
 {
     setValue(matrix);
 }
+
 
 template <class ValueTypeT> inline
 QuaternionBase<ValueTypeT>::QuaternionBase(const VectorType &axis,
@@ -171,7 +172,6 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisRad(
     setValueAsAxisRad(valsP[0], valsP[1], valsP[2], valsP[3]);
 }
 
-
 /*! \brief Sets value of rotation from array interpreted as axis and angle
     given in degrees
 */
@@ -182,7 +182,6 @@ void QuaternionBase<ValueTypeT>::setValueAsAxisDeg(
 {
     setValueAsAxisDeg(valsP[0], valsP[1], valsP[2], valsP[3]);
 }
-
 
 //! Sets value of rotation from array of 4 components of a quaternion
 
@@ -848,10 +847,9 @@ template <class ValueTypeT> inline
 bool QuaternionBase<ValueTypeT>::equals(const QuaternionBase &rot,
                                         const ValueTypeT tolerance) const
 {
-    UInt32 i;
-    bool   returnValue = true;
+    bool returnValue = true;
 
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         returnValue &= ( (    _quat[i] - rot._quat[i] <= tolerance) &&
                          (rot._quat[i] -     _quat[i] <= tolerance));
@@ -892,12 +890,10 @@ template <class ValueTypeT> inline
 const QuaternionBase<ValueTypeT> &
     QuaternionBase<ValueTypeT>::operator =(const QuaternionBase &source)
 {
-    UInt32 i;
-
     if (this == &source)
         return *this;
 
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _quat[i] = source._quat[i];
     }
@@ -929,7 +925,7 @@ template <class ValueTypeT> inline
 void QuaternionBase<ValueTypeT>::slerp(const QuaternionBase &rot0,
                                        const QuaternionBase &rot1,
                                              QuaternionBase &result,
-                                       const ValueTypeT      t)
+                                       const ValueTypeT      t     )
 {
     ValueTypeT rot1q[4];
 

@@ -52,12 +52,13 @@ OSG_BEGIN_NAMESPACE
 
 class TypeBase;
 
-//! TypeFactory
-//! \ingroup TypeLib
+/*! \ingroup BaseBaseTypeSystem
+ */
 
 class OSG_BASE_DLLMAPPING TypeFactory
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -71,7 +72,7 @@ class OSG_BASE_DLLMAPPING TypeFactory
     /*! \name                  Type Info                                   */
     /*! \{                                                                 */
 
-    UInt32    registerType  (      TypeBase *pType      );
+    UInt32    registerType  (      TypeBase *pType          );
 
     UInt32    findTypeId    (const Char8    *szName,
                              const UInt32    uiNameSpace = 0);
@@ -81,32 +82,49 @@ class OSG_BASE_DLLMAPPING TypeFactory
                              const UInt32    uiNameSpace = 0);
 
 
-    UInt32    getNumTypes   (      void                );
+    UInt32    getNumTypes   (      void                     );
 
-    void      writeTypeGraph(const Char8    *szFilename);
+    void      writeTypeGraph(const Char8    *szFilename     );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Types                                   */
+    /*! \{                                                                 */
 
     typedef std::map   <IDStringLink, UInt32>  TypeNameMap;
 
     typedef TypeNameMap::iterator              TypeNameMapIt;
     typedef TypeNameMap::const_iterator        TypeNameMapConstIt;
 
+
     typedef std::vector<TypeBase           *>  TypeStore;
 
     typedef TypeStore::iterator                TypeStoreIt;
     typedef TypeStore::const_iterator          TypeStoreConstIt;
 
+
     typedef std::vector<TypeNameMap        *>  TypeMapsStore;
 
+    /*! \{                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Static Variables                             */
+    /*! \{                                                                 */
 
     static TypeFactory   *_the;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Members                                 */
+    /*! \{                                                                 */
 
            TypeMapsStore  _vTypeNameMaps;
            TypeStore      _vTypeStore;
 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -122,7 +140,7 @@ class OSG_BASE_DLLMAPPING TypeFactory
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                     Helpen                                   */
+    /*! \name                     Helper                                   */
     /*! \{                                                                 */
 
     static void writeTypeDot(FILE     *pOut,
@@ -130,11 +148,8 @@ class OSG_BASE_DLLMAPPING TypeFactory
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
-  private:
 
-//    friend class TypeBase;
-//    friend class FieldFactory;
-//    friend class FieldContainerFactory;
+  private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     TypeFactory(const TypeFactory &source);

@@ -37,12 +37,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-// System declarations
-
-#ifdef WIN32
-//#include <iosfwd>
-#endif
-
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
@@ -58,54 +52,41 @@
 
 #include "OSGBoxVolume.h"
 
-// Application declarations
-
-
-// Class declarations
-
 OSG_USING_NAMESPACE
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+//! Returns the center of a box
 
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------------------------ feature ----------------------------------*/
-
-/// Returns the center of a box
 void BoxVolume::getCenter(Pnt3f &center) const
 {
-    if (isEmpty())
+    if(isEmpty() == true)
     {
         center.setValues(0.0f, 0.0f, 0.0f);
     }
     else
     {
-        center = _min + ( _max - _min ) * .5f;
+        center = _min + (_max - _min) * .5f;
     }
 }
 
-/// Gives the volume of the box (0 for an empty box)
+//! Gives the volume of the box (0 for an empty box)
+
 Real32 BoxVolume::getScalarVolume() const
 {
-    return isEmpty() ? 0.0f : (_max[0] - _min[0]) *
-                              (_max[1] - _min[1]) *
-                              (_max[2] - _min[2]);
+    return (isEmpty() == true) ? 0.0f : (_max[0] - _min[0]) *
+                                        (_max[1] - _min[1]) *
+                                        (_max[2] - _min[2]);
 }
 
-/// set method
+
+void BoxVolume::getBounds(Pnt3f &min, Pnt3f &max) const
+{
+    min = _min;
+    max = _max;
+}
+
+
+//! set method
 void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
                                          const Vec3f &size)
 {
@@ -121,118 +102,149 @@ void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
     Volume::setInfinite(true);
 }
 
+
 /*-------------------------- extending ------------------------------------*/
 
-/// Extends Box3f (if necessary) to contain given 3D point
+//! Extends Box3f (if necessary) to contain given 3D point
+
 void BoxVolume::extendBy(const Pnt3f &pt)
 {
-    if ( isUntouchable() )
+    if(isUntouchable() == true)
         return;
 
-    if ( isEmpty() )
+    if(isEmpty() == true)
     {
         _min[0] = _max[0] = pt[0];
         _min[1] = _max[1] = pt[1];
         _min[2] = _max[2] = pt[2];
 
-        setEmpty( false );
+        setEmpty(false);
+
         return;
     }
 
-    if (pt[0] < _min[0])
+    if(pt[0] < _min[0])
+    {
         _min[0] = pt[0];
+    }
     else
-        if (pt[0] > _max[0])
+    {
+        if(pt[0] > _max[0])
             _max[0] = pt[0];
+    }
 
-    if (pt[1] < _min[1])
+    if(pt[1] < _min[1])
+    {
         _min[1] = pt[1];
+    }
     else
-        if (pt[1] > _max[1])
+    {
+        if(pt[1] > _max[1])
             _max[1] = pt[1];
+    }
 
-    if (pt[2] < _min[2])
+    if(pt[2] < _min[2])
+    {
         _min[2] = pt[2];
+    }
     else
-        if (pt[2] > _max[2])
+    {
+        if(pt[2] > _max[2])
             _max[2] = pt[2];
+    }
+}
+
+
+void BoxVolume::extendBy(const Volume &volume)
+{
+    osg::extend(*this,volume);
 }
 
 /*-------------------------- intersection ---------------------------------*/
 
-/// Returns true if intersection of given point and Box3f is not empty
+//! Returns true if intersection of given point and Box3f is not empty
+
 bool BoxVolume::intersect(const Pnt3f &pt) const
 {
-    return (!isEmpty() &&
+    return 
+        (!isEmpty()      &&
         (_min[0] < pt[0] && _max[0] > pt[0]) &&
         (_min[1] < pt[1] && _max[1] > pt[1]) &&
         (_min[2] < pt[2] && _max[2] > pt[2]));
 }
 
+/*! intersect the box with the given Line */
 
-/** intersect the box with the given Line */
-bool BoxVolume::intersect (const Line &line) const
+bool BoxVolume::intersect(const Line &line) const
 {
+    Real32 enter;
+    Real32 exit;
 
-    Real32 enter, exit;
-    bool erg;
-
-    erg = line.intersect(*this, enter, exit);
-
-    return erg;
+    return line.intersect(*this, enter, exit);
 }
 
 
 
-/** intersect the box with the given Line */
-//min und max sind der Eintritts- und Austrittspunkt der Linie
-bool BoxVolume::intersect ( const Line &line, Real32 &min, Real32 &max  ) const
+/*! intersect the box with the given Line */
+
+bool BoxVolume::intersect(const Line &line, Real32 &min, Real32 &max) const
 {
-    bool erg;
+    return line.intersect(*this, min, max);
+}
 
-    erg = line.intersect(*this, min, max);
 
-    return erg;
+bool BoxVolume::intersect(const Volume &volume) const
+{
+    return OSG::intersect(*this, volume);
+}
+
+
+bool BoxVolume::intersect(const BoxVolume &volume) const
+{
+    return OSG::intersect(*this, volume);
 }
 
 
 bool BoxVolume::isOnSurface (const Pnt3f &point) const
 {
-    if ( ( ( osgabs( point[0] - _min[0] ) < Eps ||
-             osgabs( point[0] - _max[0] ) < Eps
-           ) &&
-           ( point[1] >= _min[1] && point[1] <= _max[1] &&
-             point[2] >= _min[2] && point[2] <= _max[2]
-           )
-         ) ||
-         ( ( osgabs( point[1] - _min[1] ) < Eps ||
-             osgabs( point[1] - _max[1] ) < Eps
-           ) &&
-           ( point[0] >= _min[0] && point[0] <= _max[1] &&
-             point[2] >= _min[2] && point[2] <= _max[2]
-           )
-         ) ||
-         ( ( osgabs( point[2] - _min[2] ) < Eps ||
-             osgabs( point[2] - _max[2] ) < Eps
-           ) &&
-           ( point[1] >= _min[1] && point[1] <= _max[1] &&
-             point[0] >= _min[0] && point[0] <= _max[0]
-           )
-         )
-        )
-        return true;
+    if(((osgabs(point[0] - _min[0]) < Eps           ||
+         osgabs(point[0] - _max[0]) < Eps             ) &&
+        (point[1] >= _min[1] && point[1] <= _max[1] &&
+         point[2] >= _min[2] && point[2] <= _max[2]   )   ) ||
 
-    return false;
+       ((osgabs(point[1] - _min[1]) < Eps           ||
+         osgabs(point[1] - _max[1]) < Eps             ) &&
+        (point[0] >= _min[0] && point[0] <= _max[1] &&
+         point[2] >= _min[2] && point[2] <= _max[2]   )   ) ||
+
+       ((osgabs(point[2] - _min[2]) < Eps           ||
+         osgabs(point[2] - _max[2]) < Eps             ) &&
+        (point[1] >= _min[1] && point[1] <= _max[1] &&
+         point[0] >= _min[0] && point[0] <= _max[0]   )   )   )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
-/// Transforms Box3f by matrix, enlarging Box3f to contain result
+//! Transforms Box3f by matrix, enlarging Box3f to contain result
+
 void BoxVolume::transform(const Matrix &m)
 {
-    float xmin, ymin, zmin, xmax, ymax, zmax;
-    float a, b;
+    Real32 xmin;
+    Real32 ymin;
+    Real32 zmin;
+    Real32 xmax;
+    Real32 ymax;
+    Real32 zmax;
+    Real32 a;
+    Real32 b;
 
-    if (isEmpty())
+    if(isEmpty() == true)
         return;
 
     xmin = xmax = m[3][0];
@@ -242,14 +254,17 @@ void BoxVolume::transform(const Matrix &m)
     //
     // calculate xmin and xmax of new tranformed BBox
     //
+
     a = _max[0] * m[0][0];
     b = _min[0] * m[0][0];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         xmax += a;
         xmin += b;
     }
-    else {
+    else
+    {
         xmax += b;
         xmin += a;
     }
@@ -257,23 +272,27 @@ void BoxVolume::transform(const Matrix &m)
     a = _max[1] * m[1][0];
     b = _min[1] * m[1][0];
 
-    if (a >= b) {
+    if(a >= b) 
+    {
         xmax += a;
         xmin += b;
     }
-    else {
+    else
+    {
         xmax += b;
         xmin += a;
     }
-
+    
     a = _max[2] * m[2][0];
     b = _min[2] * m[2][0];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         xmax += a;
         xmin += b;
     }
-    else {
+    else
+    {
         xmax += b;
         xmin += a;
     }
@@ -281,14 +300,17 @@ void BoxVolume::transform(const Matrix &m)
     //
     // calculate ymin and ymax of new tranformed BBox
     //
+
     a = _max[0] * m[0][1];
     b = _min[0] * m[0][1];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         ymax += a;
         ymin += b;
     }
-    else {
+    else
+    {
         ymax += b;
         ymin += a;
     }
@@ -296,11 +318,13 @@ void BoxVolume::transform(const Matrix &m)
     a = _max[1] * m[1][1];
     b = _min[1] * m[1][1];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         ymax += a;
         ymin += b;
     }
-    else {
+    else
+    {
         ymax += b;
         ymin += a;
     }
@@ -308,11 +332,13 @@ void BoxVolume::transform(const Matrix &m)
     a = _max[2] * m[2][1];
     b = _min[2] * m[2][1];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         ymax += a;
         ymin += b;
     }
-    else {
+    else
+    {
         ymax += b;
         ymin += a;
     }
@@ -320,14 +346,17 @@ void BoxVolume::transform(const Matrix &m)
     //
     // calculate zmin and zmax of new tranformed BBox
     //
+
     a = _max[0] * m[0][2];
     b = _min[0] * m[0][2];
 
-    if (a >= b) {
+    if(a >= b) 
+    {
         zmax += a;
         zmin += b;
     }
-    else {
+    else
+    {
         zmax += b;
         zmin += a;
     }
@@ -335,11 +364,13 @@ void BoxVolume::transform(const Matrix &m)
     a = _max[1] * m[1][2];
     b = _min[1] * m[1][2];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         zmax += a;
         zmin += b;
     }
-    else {
+    else
+    {
         zmax += b;
         zmin += a;
     }
@@ -347,11 +378,13 @@ void BoxVolume::transform(const Matrix &m)
     a = _max[2] * m[2][2];
     b = _min[2] * m[2][2];
 
-    if (a >= b) {
+    if(a >= b)
+    {
         zmax += a;
         zmin += b;
     }
-    else {
+    else
+    {
         zmax += b;
         zmin += a;
     }
@@ -360,17 +393,22 @@ void BoxVolume::transform(const Matrix &m)
     _max.setValues(xmax, ymax, zmax);
 }
 
-/// Assignment operator
+//! Assignment operator
+
 const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 {
-    _min = b1._min;
-    _max = b1._max;
+    if(&b1 == this)
+        return *this;
+
+    _min   = b1._min;
+    _max   = b1._max;
     _state = b1._state;
 
     return *this;
 }
 
-/// print the volume */
+//! print the volume 
+
 void BoxVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                      const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
@@ -380,7 +418,8 @@ void BoxVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 OSG_BEGIN_NAMESPACE
 
-/// Equality comparisons
+//! Equality comparisons
+
 bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
 {
     return ((b1._min[0] == b2._min[0]) &&
@@ -388,7 +427,7 @@ bool operator ==(const BoxVolume &b1, const BoxVolume &b2)
             (b1._min[2] == b2._min[2]) &&
             (b1._max[0] == b2._max[0]) &&
             (b1._max[1] == b2._max[1]) &&
-            (b2._max[2] == b2._max[2]));
+            (b2._max[2] == b2._max[2])   );
 }
 
 

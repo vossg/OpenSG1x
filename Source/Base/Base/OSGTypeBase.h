@@ -48,12 +48,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! TypeBase
-//! \ingroup TypeLib
+/*! \ingroup BaseBaseTypeSystem
+ */
 
 class OSG_BASE_DLLMAPPING TypeBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -103,7 +104,12 @@ class OSG_BASE_DLLMAPPING TypeBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Members                                 */
+    /*! \{                                                                 */
 
     UInt32    _uiTypeId;
     UInt32    _uiTypeRootId;
@@ -113,9 +119,16 @@ class OSG_BASE_DLLMAPPING TypeBase
     IDString  _szName;
     IDString  _szParentName;
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
     TypeBase(const TypeBase &source);
 
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */

@@ -47,14 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! Memory, simple reference counted memory object. Parent of
-//! everything that should be shared, but must not be thread safe.
-//! \ingroup BaseLib
+/*! \brief Memory, simple reference counted memory object. Parent of
+           everything that should be shared, but must not be thread safe.
+    \ingroup BaseBase
+ */
 
 class OSG_BASE_DLLMAPPING MemoryObject
 {
 
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -74,6 +76,7 @@ class OSG_BASE_DLLMAPPING MemoryObject
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*---------------------------------------------------------------------*/
@@ -85,9 +88,10 @@ class OSG_BASE_DLLMAPPING MemoryObject
 
     /*! \}                                                                 */
    /*==========================  PRIVATE  ================================*/
+
   private:
 
-    Int32  _refCount;
+    Int32 _refCount;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const MemoryObject &source);

@@ -57,21 +57,17 @@ OSG_USING_NAMESPACE
 /*! \class osg::MPType
  */
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
 MPType::MPType(const Char8 *szName, 
                const Char8 *szParentName) :
     Inherited(szName, szParentName)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPType::~MPType(void)
 {
 }
+
 
 
 
@@ -84,16 +80,13 @@ MPType::~MPType(void)
 
 UInt32 MPThreadType::_uiThreadCount = 0;
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 MPThreadType::MPThreadType(const Char8          *szName, 
                            const Char8          *szParentName,
                                  CreateThreadF   fCreateThread,
                                  InitThreadingF  fInitThreading) :
      Inherited    (szName, szParentName),
-
-    _fCreateThread(fCreateThread)
+    _fCreateThread(fCreateThread       )
 {
     ThreadManager::the()->registerThreadType(this);
 
@@ -101,15 +94,11 @@ MPThreadType::MPThreadType(const Char8          *szName,
         fInitThreading();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPThreadType::~MPThreadType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Construction                                 */
 
 BaseThread *MPThreadType::create(const Char8 *szName)
 {
@@ -134,6 +123,7 @@ BaseThread *MPThreadType::create(const Char8 *szName)
 
 
 
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -143,27 +133,21 @@ BaseThread *MPThreadType::create(const Char8 *szName)
 
 UInt32 MPBarrierType::_uiBarrierCount = 0;
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 MPBarrierType::MPBarrierType(const Char8          *szName, 
                              const Char8          *szParentName,
                                    CreateBarrierF  fCreateBarrier) :
      Inherited     (szName, szParentName),
-    _fCreateBarrier(fCreateBarrier)
+    _fCreateBarrier(fCreateBarrier      )
 {
     ThreadManager::the()->registerBarrierType(this);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPBarrierType::~MPBarrierType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Construction                                 */
 
 Barrier *MPBarrierType::create(const Char8 *szName)
 {
@@ -177,6 +161,7 @@ Barrier *MPBarrierType::create(const Char8 *szName)
 
 
 
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -186,27 +171,21 @@ Barrier *MPBarrierType::create(const Char8 *szName)
 
 UInt32 MPLockType::_uiLockCount = 0;
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 MPLockType::MPLockType(const Char8       *szName, 
                        const Char8       *szParentName,
                              CreateLockF  fCreateLock) :
-    Inherited(szName, szParentName),
-    _fCreateLock(fCreateLock)
+     Inherited(szName, szParentName),
+    _fCreateLock(fCreateLock       )
 {
     ThreadManager::the()->registerLockType(this);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPLockType::~MPLockType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Construction                                 */
 
 Lock *MPLockType::create(const Char8 *szName)
 {
@@ -220,6 +199,7 @@ Lock *MPLockType::create(const Char8 *szName)
 
 
 
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -229,29 +209,23 @@ Lock *MPLockType::create(const Char8 *szName)
 
 UInt32 MPLockPoolType::_uiLockPoolCount = 0;
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 MPLockPoolType::MPLockPoolType(
     const Char8           *szName, 
     const Char8           *szParentName,
           CreateLockPoolF  fCreateLockPool) :
 
-    Inherited(szName, szParentName),
-    _fCreateLockPool(fCreateLockPool)
+     Inherited      (szName, szParentName),
+    _fCreateLockPool(fCreateLockPool     )
 {
     ThreadManager::the()->registerLockPoolType(this);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPLockPoolType::~MPLockPoolType(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Construction                                 */
 
 LockPool *MPLockPoolType::create(const Char8 *szName)
 {
@@ -265,6 +239,7 @@ LockPool *MPLockPoolType::create(const Char8 *szName)
 
 
 
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -274,55 +249,51 @@ LockPool *MPLockPoolType::create(const Char8 *szName)
 
 MPType MPBase::_type("OSGMPBase", NULL);
 
-/*-------------------------------------------------------------------------*/
-/*                            Class Get                                    */
 
 const MPType &MPBase::getStaticType(void)
 {
     return _type;
 }
 
+
 UInt32 MPBase::getStaticTypeId(void)
 {
     return 0;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Get                                      */
 
 MPType &MPBase::getType(void)
 {
     return _type;
 }
 
+
 const MPType &MPBase::getType(void) const
 {
     return _type;
 }
+
 
 UInt32 MPBase::getTypeId(void)
 {
     return getType().getId();
 }
 
+
 const Char8 *MPBase::getCName(void) const
 {
     return _szName;
 }
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 MPBase::MPBase(const Char8 *szName) :
-     Inherited(),
+     Inherited(    ),
     
     _szName   (NULL)
 {
     stringDup(szName, _szName);
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 MPBase::~MPBase(void)
 {

@@ -37,8 +37,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef DYNAMICVOLUME_CLASS_DECLARATION
-#define DYNAMICVOLUME_CLASS_DECLARATION
+#ifndef _OSGDYNAMICVOLUME_H_
+#define _OSGDYNAMICVOLUME_H_
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -47,95 +47,78 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** 3D base volume.
+/*! 3D dynamic volume.
+  \ingroup BaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
-    enum Type { BOX_VOLUME, SPHERE_VOLUME };
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    Type _type;
-    UChar8 _volumeMem [32];
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*==========================  PUBLIC  =================================*/
-  public:
+    enum Type 
+    { 
+        BOX_VOLUME, 
+        SPHERE_VOLUME 
+    };
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DynamicVolume (Type type = BOX_VOLUME );
-    DynamicVolume (const DynamicVolume &obj);
+    DynamicVolume(      Type           type = BOX_VOLUME);
+    DynamicVolume(const DynamicVolume &obj              );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
-    virtual ~DynamicVolume (void) {;}
+
+    virtual ~DynamicVolume(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Specific                            */
     /*! \{                                                                 */
 
-    const Volume & getInstance (void) const
-        // { return *((OSG::Volume*)(_volumeMem)); }
-        { return *(reinterpret_cast<const OSG::Volume*>(_volumeMem)); }
+    const Volume &getInstance  (void     ) const;
+          Volume &getInstance  (void     );
 
-    Volume & getInstance (void)
-        // { return *((OSG::Volume*)(_volumeMem)); }
-        { return *(reinterpret_cast<OSG::Volume*>(_volumeMem)); }
 
-    /** */
-    Type getType (void) const { return _type; }
-
-    /** */
-    void setVolumeType (Type type);
-
-    /** */
-    void morphToType (Type type);
-
-    /** */
-    DynamicVolume & operator = (const DynamicVolume &source);
-
+          Type    getType      (void     ) const;
+          void    setVolumeType(Type type);
+          void    morphToType  (Type type);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    virtual void  getCenter       (Pnt3f &center)           const ;
-    virtual float getScalarVolume (void)                    const ;
-    virtual void  getBounds       (Pnt3f &min, Pnt3f &max ) const ;
+    virtual void   getCenter      (Pnt3f &center           ) const;
+    virtual Real32 getScalarVolume(void                    ) const;
+    virtual void   getBounds      (Pnt3f &min,   Pnt3f &max) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Extend                                 */
     /*! \{                                                                 */
 
-    virtual void extendBy (const Pnt3f &pt) ;
-    virtual void extendBy (const Volume &volume) ;
+    virtual void extendBy(const Pnt3f  &pt    );
+    virtual void extendBy(const Volume &volume);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Intersection                              */
     /*! \{                                                                 */
 
-    virtual bool intersect   (const Pnt3f &point)            const ;
-    virtual bool intersect   (const Line &line )             const ;
-    virtual bool intersect   (const Line &line,
-                              Real32 &enter, Real32 &exit  ) const ;
-    virtual bool intersect   (const Volume &volume)          const ;
-    virtual bool isOnSurface (const Pnt3f &point)            const ;
+    virtual bool intersect  (const Pnt3f  &point ) const;
+    virtual bool intersect  (const Line   &line  ) const;
+    virtual bool intersect  (const Line   &line,
+                                   Real32 &enter, 
+                                   Real32 &exit  ) const;
+    virtual bool intersect  (const Volume &volume) const;
+    virtual bool isOnSurface(const Pnt3f  &point ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -157,9 +140,21 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
     /*! \name                       Operators                              */
     /*! \{                                                                 */
 
-    bool operator ==(const DynamicVolume &other) const;
+    bool           operator ==(const DynamicVolume &other ) const;
+
+    DynamicVolume &operator = (const DynamicVolume &source);
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    Type   _type;
+    UChar8 _volumeMem[32];
 };
 
 OSG_BASE_DLLMAPPING
@@ -172,4 +167,4 @@ OSG_END_NAMESPACE
 
 #include "OSGDynamicVolume.inl"
 
-#endif // OSGDYNAMICVOLUME_CLASS_DECLARATION
+#endif // _OSGDYNAMICVOLUME_H_

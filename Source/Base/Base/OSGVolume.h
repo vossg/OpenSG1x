@@ -36,8 +36,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef OSGVOLUME_CLASS_DECLARATION
-#define OSGVOLUME_CLASS_DECLARATION
+#ifndef _OSGVOLUME_H_
+#define _OSGVOLUME_H_
 
 #include <OSGBaseTypes.h>
 #include <OSGBaseFunctions.h>
@@ -49,120 +49,82 @@
 
 OSG_BEGIN_NAMESPACE
 
-/* 3D base volume.
- *
- *
- * @author jbehr, Wed Feb 16 20:04:15 2000
+/*! \ingroup BaseBaseVolume
  */
 
-class OSG_BASE_DLLMAPPING Volume {
-
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-
-    enum State
-    {
-        OSGVALID    = 1,
-        OSGEMPTY    = 2,
-        OSGSTATIC   = 4,
-        OSGINFINITE = 8
-    };
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-
-    UInt16 _state;
-
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-
-    Volume (void ) : _state( OSGVALID | OSGEMPTY) {;}
-
-    Volume (const Volume &obj) : _state(obj._state) {;}
-
-    /*! \}                                                                 */
+class OSG_BASE_DLLMAPPING Volume 
+{
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                 */
     /*! \{                                                                 */
 
-    virtual ~Volume (void) {;}
+    virtual ~Volume(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     State                                    */
     /*! \{                                                                 */
 
-    inline void setValid      (const bool value = true);
+    void setValid     (const bool value = true);
+    bool isValid      (      void             ) const;
 
-    inline bool isValid       (void)                  const;
+    void setEmpty     (const bool value = true);
+    bool isEmpty      (      void             ) const;
 
-    inline void setEmpty      (const bool value = true);
+    void setStatic    (const bool value = true);
+    bool isStatic     (      void             ) const;
 
-    inline bool isEmpty       (void)                  const;
+    void setInfinite  (const bool value = true);
+    bool isInfinite   (      void             ) const;
 
-    inline void setStatic     (const bool value = true);
-
-    inline bool isStatic      (void)                  const;
-
-    inline void setInfinite   (const bool value = true);
-
-    inline bool isInfinite    (void)                  const;
-
-    inline bool isUntouchable (void)                  const;
+    bool isUntouchable(void)                  const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Get Values                                 */
     /*! \{                                                                 */
 
-    virtual void   getCenter       (Pnt3f &center)            const = 0;
+    virtual void  getCenter      (Pnt3f &center         ) const = 0;
 
-    virtual float  getScalarVolume (void)                     const = 0;
+    virtual float getScalarVolume(void                  ) const = 0;
 
-    virtual void   getBounds       ( Pnt3f &min, Pnt3f &max ) const = 0;
+    virtual void  getBounds      (Pnt3f &min, Pnt3f &max) const = 0;
 
-    inline  Pnt3f  getMin          (void) const;
-
-    inline  Pnt3f  getMax          (void) const;
+            Pnt3f getMin         (void                  ) const;
+            Pnt3f getMax         (void                  ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Extending                                  */
     /*! \{                                                                 */
 
-    virtual void extendBy (const Pnt3f &pt)      = 0;
-
-    virtual void extendBy (const Volume &volume) = 0;
+    virtual void extendBy(const Pnt3f  &pt    ) = 0;
+    virtual void extendBy(const Volume &volume) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Intersection                                */
     /*! \{                                                                 */
 
-    virtual bool intersect   (const Pnt3f &point)            const = 0;
+    virtual bool intersect  (const Pnt3f  &point ) const = 0;
+    virtual bool intersect  (const Line   &line  ) const = 0;
+    virtual bool intersect  (const Line   &line,
+                                   Real32 &enter, 
+                                   Real32 &exit  ) const = 0;
+    virtual bool intersect  (const Volume &volume) const = 0;
 
-    virtual bool intersect   (const Line &line )             const = 0;
-
-    virtual bool intersect   (const Line &line,
-                              Real32 &enter, Real32 &exit  ) const = 0;
-
-    virtual bool intersect   (const Volume &volume)          const = 0;
-
-    virtual bool isOnSurface (const Pnt3f &point)            const = 0;
+    virtual bool isOnSurface(const Pnt3f  &point ) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Transformation                             */
     /*! \{                                                                 */
 
-    virtual void transform (const Matrix &matrix) = 0;
+    virtual void transform(const Matrix &matrix) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -176,6 +138,34 @@ class OSG_BASE_DLLMAPPING Volume {
 
     bool operator ==(const Volume &other) const;
     bool operator !=(const Volume &other) const;
+
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
+    UInt16 _state;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    Volume (void ) : _state( OSGVALID | OSGEMPTY) {;}
+
+    Volume (const Volume &obj) : _state(obj._state) {;}
+
+    /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+
+  private:
+
+    enum State
+    {
+        OSGVALID    = 1,
+        OSGEMPTY    = 2,
+        OSGSTATIC   = 4,
+        OSGINFINITE = 8
+    };
 };
 
 typedef Volume* VolumeP;
@@ -183,9 +173,8 @@ typedef Volume* VolumeP;
 //! helper functions to dump a volume. Useful for debuggers.
 OSG_BASE_DLLMAPPING void  volDump( Volume * vol );
 
-
 OSG_END_NAMESPACE
 
 #include <OSGVolume.inl>
 
-#endif // VOLUME_CLASS_DECLARATION
+#endif // _OSGVOLUME_H_

@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGVOLUME_INL_
 #define _OSGVOLUME_INL_
 
@@ -51,118 +50,146 @@
 OSG_BEGIN_NAMESPACE
 
 
+inline
+Volume::~Volume(void)
+{
+}
+
 /*-------------------------- state -----------------------------------------*/
 
-/** set the volume to contain nothing */
-OSG_BASE_DLLMAPPING
-void Volume::setValid (const bool value)
+/*! set the volume to be valid */
+
+inline
+void Volume::setValid(const bool value)
 {
-    if ( ! isStatic() )
+    if(!isStatic())
     {
-        if (value)
-          _state |= OSGVALID;
+        if(value == true)
+            _state |=  OSGVALID;
         else
-          _state &= ~OSGVALID;
+            _state &= ~OSGVALID;
     }
 }
 
-/**  Checks if the volume is valid */
-OSG_BASE_DLLMAPPING
-bool Volume::isValid (void) const
+/*!  Checks if the volume is valid */
+
+inline
+bool Volume::isValid(void) const
 {
-    return ( _state & OSGVALID ) ? true : false;
+    return (_state & OSGVALID) ? true : false;
 }
 
-/** set the volume to contain nothing */
-OSG_BASE_DLLMAPPING
-void Volume::setEmpty (const bool value)
+/*! set the volume to contain nothing */
+
+inline
+void Volume::setEmpty(const bool value)
 {
-    if (value)
+    if(value == true)
     {
-        _state |= OSGEMPTY;
-        _state |= OSGVALID;
+        _state |=  OSGEMPTY;
+        _state |=  OSGVALID;
         _state &= ~OSGINFINITE;
     }
     else
+    {
         _state &= ~OSGEMPTY;
+    }
 }
 
-/**  Checks if the volume is empty */
-OSG_BASE_DLLMAPPING
-bool Volume::isEmpty (void) const
+/*! Checks if the volume is empty */
+
+inline
+bool Volume::isEmpty(void) const
 {
-    return ( _state & OSGEMPTY ) ? true : false;
+    return (_state & OSGEMPTY) ? true : false;
 }
 
-/** set the volume to contain nothing */
-OSG_BASE_DLLMAPPING
-void Volume::setStatic (const bool value)
+/** set the volume to be static */
+
+inline
+void Volume::setStatic(const bool value)
 {
-    if (value)
+    if(value == true)
         _state |= OSGSTATIC;
     else
         _state &= ~OSGSTATIC;
 }
 
 /**  Checks if the volume is static */
-OSG_BASE_DLLMAPPING
-bool Volume::isStatic (void) const
+
+inline
+bool Volume::isStatic(void) const
 {
-    return ( _state & OSGSTATIC ) ? true : false;
+    return (_state & OSGSTATIC) ? true : false;
 }
 
-/** set the volume to contain nothing */
-OSG_BASE_DLLMAPPING
-void Volume::setInfinite (const bool value)
+/** set the volume to be infinite */
+
+inline
+void Volume::setInfinite(const bool value)
 {
-    if (value)
+    if(value == true)
     {
-        _state |= OSGINFINITE;
-        _state |= OSGVALID;
+        _state |=  OSGINFINITE;
+        _state |=  OSGVALID;
         _state &= ~OSGEMPTY;
     }
     else
+    {
         _state &= ~OSGINFINITE;
+    }
 }
 
 /**  Checks if the volume is infinite */
-OSG_BASE_DLLMAPPING
-bool Volume::isInfinite (void) const
+
+inline
+bool Volume::isInfinite(void) const
 {
-    return ( _state & OSGINFINITE ) ? true : false;
+    return (_state & OSGINFINITE) ? true : false;
 }
 
 
-/**  Checks if the volume is intouchable, i.e. it's values should not be 
-     changed. Mainly used internally to speed up early outs in extendBy(). */
-OSG_BASE_DLLMAPPING
-bool Volume::isUntouchable (void) const
+/*! Checks if the volume is untouchable, i.e. it's values should not be 
+    changed. Mainly used internally to speed up early outs in extendBy(). 
+*/
+
+inline
+bool Volume::isUntouchable(void) const
 {
-    // return ! isValid() || isInfinite() || isStatic();
     return (_state & (OSGINFINITE | OSGVALID | OSGSTATIC)) != OSGVALID;
 }
 
 
-/**  Return the lowest point of the volume. Just a convience wrapper for
-     getBounds() */
-OSG_BASE_DLLMAPPING
+/*!  Return the lowest point of the volume. Just a convience wrapper for
+     getBounds()
+*/
+
+inline
 Pnt3f Volume::getMin(void) const
 {
-    Pnt3f pmin,pmax;
+    Pnt3f pmin; 
+    Pnt3f pmax;
+
     getBounds(pmin, pmax);
+
     return pmin;
 }
 
-/**  Return the highest point of the volume. Just a convience wrapper for
-     getBounds() */
-OSG_BASE_DLLMAPPING
+/*!  Return the highest point of the volume. Just a convience wrapper for
+     getBounds() 
+*/
+
+inline
 Pnt3f Volume::getMax(void) const
 {
-    Pnt3f pmin,pmax;
+    Pnt3f pmin;
+    Pnt3f pmax;
+
     getBounds(pmin, pmax);
+
     return pmax;
 }
 
 OSG_END_NAMESPACE
 
-#endif // VOLUME_CLASS_DECLARATION
+#endif // _OSGVOLUME_INL_

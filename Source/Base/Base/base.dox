@@ -16,6 +16,30 @@ using namespace OSG;
     \brief ToDo
 */
 
+/*! \defgroup BaseBaseMath Math
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseBaseVolume Volume
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseBaseMultiThreading Multithreading
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
+/*! \defgroup BaseBaseTypeSystem TypeSystem
+    \ingroup BaseBase
+
+    \brief ToDo
+*/
+
 /*! \defgroup BaseField Field
     \ingroup Base
 

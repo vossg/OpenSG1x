@@ -54,116 +54,209 @@
 OSG_USING_NAMESPACE
 
 
-/***************************************************************************\
- *                               Types                                     *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
-
-/***************************************************************************\
- *                           Class methods                                 *
-\***************************************************************************/
-
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
 /*-------------------------- constructor ----------------------------------*/
 
-DynamicVolume::DynamicVolume ( Type type)
+DynamicVolume::DynamicVolume(Type type) :
+    Volume()
 {
     setVolumeType(type);
 }
 
-DynamicVolume::DynamicVolume(const DynamicVolume &obj)
-    : Volume(obj),
-    _type(obj._type)
+DynamicVolume::DynamicVolume(const DynamicVolume &obj) :
+     Volume(obj      ),
+    _type  (obj._type)
 {
-    switch ( _type ) {
-    case BOX_VOLUME:
-        new (_volumeMem) BoxVolume(*((OSG::BoxVolume*)(obj._volumeMem)));
-        break;
-    case SPHERE_VOLUME:
-        new (_volumeMem) SphereVolume(*((OSG::SphereVolume*)(obj._volumeMem)));
-        break;
+    switch(_type) 
+    {
+        case BOX_VOLUME:
+            new (_volumeMem) 
+                BoxVolume   (*((OSG::BoxVolume    *)(obj._volumeMem)));
+            break;
+
+        case SPHERE_VOLUME:
+            new (_volumeMem) 
+                SphereVolume(*((OSG::SphereVolume *)(obj._volumeMem)));
+            break;
     }
 }
 
-/*------------------------------ feature ----------------------------------*/
-
-void DynamicVolume::setVolumeType ( Type type )
+void DynamicVolume::setVolumeType(Type type)
 {
     _type = type;
 
-    switch (type) {
-    case BOX_VOLUME:
-        new (_volumeMem) BoxVolume;
-        break;
-    case SPHERE_VOLUME:
-        new (_volumeMem) SphereVolume;
-        break;
+    switch(type)
+    {
+        case BOX_VOLUME:
+            new (_volumeMem) BoxVolume;
+            break;
+        case SPHERE_VOLUME:
+            new (_volumeMem) SphereVolume;
+            break;
     }
 }
 
 void DynamicVolume::morphToType ( Type type )
 {
-    Pnt3f min,max;
-    Vec3f vec;
-    BoxVolume *bv;
+    Pnt3f         min;
+    Pnt3f         max;
+    Vec3f         vec;
+    BoxVolume    *bv;
     SphereVolume *sv;
 
-    if (type == _type)
-        return;
-    else
-        switch (getType()) {
-        case BOX_VOLUME:
-            getBounds(min,max);
-            bv = new (_volumeMem) BoxVolume;
-            bv->setBounds(min,max);
-            break;
-        case SPHERE_VOLUME:
-            getBounds(min,max);
-            sv = new (_volumeMem) SphereVolume;
-            vec.setValues(max.x(),max.y(),max.z());
-            vec -= Vec3f(min.x(),min.y(),min.z());
-            sv->setValue(vec,vec.length()/2);
-            break;
-        }
-}
-
-DynamicVolume & DynamicVolume::operator = (const DynamicVolume &source)
-{
-    _type = source._type;
-
-    switch ( _type )
+    if(type == _type)
     {
-    case BOX_VOLUME:
-        new (_volumeMem)BoxVolume( *((OSG::BoxVolume*)(source._volumeMem)));
-        break;
-    case SPHERE_VOLUME:
-        new (_volumeMem)SphereVolume(*((OSG::SphereVolume*)
-            (source._volumeMem)));
-        break;
+        return;
     }
+    else
+    {
+        switch(getType()) 
+        {
+            case BOX_VOLUME:
 
-    return *this;
+                getBounds(min, max);
+
+                bv = new (_volumeMem) BoxVolume;
+
+                bv->setBounds(min,max);
+
+                break;
+
+            case SPHERE_VOLUME:
+
+                getBounds(min, max);
+
+                sv = new (_volumeMem) SphereVolume;
+
+                vec.setValues(max.x(), max.y(), max.z());
+
+                vec -= Vec3f(min.x(), min.y(), min.z());
+
+                sv->setValue(vec, vec.length()/2);
+
+                break;
+        }
+    }
 }
 
-/// print the volume */
+/*! gives the center of the volume */
+
+void DynamicVolume::getCenter(Pnt3f &center) const
+{
+    getInstance().getCenter(center);
+}
+
+
+/*! gives the scalar volume of the volume */
+
+Real32 DynamicVolume::getScalarVolume(void) const
+{
+    return getInstance().getScalarVolume();
+}
+
+
+/*! gives the boundaries of the volume */
+
+void DynamicVolume::getBounds(Pnt3f &min, Pnt3f &max) const
+{
+    getInstance().getBounds(min,max);
+}
+
+
+/*! extends (if necessary) to contain the given 3D point */
+
+void DynamicVolume::extendBy(const Pnt3f &pt)
+{
+    getInstance().extendBy(pt);
+}
+
+
+/*! extend the volume by the given volume */
+
+void DynamicVolume::extendBy(const Volume &volume)
+{
+    getInstance().extendBy(volume);
+}
+
+
+/*! Returns true if intersection of given point and Volume is not empty */
+
+bool DynamicVolume::intersect(const Pnt3f &point) const
+{
+    return getInstance().intersect(point);
+}
+
+/*! intersect the volume with the given Line */
+
+bool DynamicVolume::intersect(const Line &line ) const
+{
+    return getInstance().intersect(line);
+}
+
+/*! intersect the volume with the given Line */
+
+bool DynamicVolume::intersect(const Line   &line,
+                                    Real32 &enter, 
+                                    Real32 &exit ) const
+{
+    return getInstance().intersect(line, enter, exit);
+}
+
+/*! intersect the volume with another volume */
+
+bool DynamicVolume::intersect(const Volume &volume) const
+{
+    return getInstance().intersect(volume);
+}
+
+/*! check if the point is on the volume's surface */
+
+bool DynamicVolume::isOnSurface(const Pnt3f &point) const
+{
+    return getInstance().isOnSurface(point);
+}
+
+/*! transform the volume bye the given matrix */
+
+void DynamicVolume::transform(const Matrix &matrix)
+{
+    getInstance().transform(matrix);
+}
+
+/*! print the volume */
+
 void DynamicVolume::dump(UInt32 uiIndent, const BitVector bvFlags) const
 {
     PLOG << "Dyn:";
-
+    
     getInstance().dump(uiIndent, bvFlags);
 }
 
-bool DynamicVolume::operator ==(
-    const DynamicVolume &OSG_CHECK_ARG(other)) const
+
+bool 
+    DynamicVolume::operator ==(const DynamicVolume &OSG_CHECK_ARG(other)) const
 {
     return false; 
+}
+
+
+DynamicVolume &DynamicVolume::operator =(const DynamicVolume &source)
+{
+    _type = source._type;
+
+    switch(_type)
+    {
+        case BOX_VOLUME:
+            new (_volumeMem)
+                BoxVolume   (*((OSG::BoxVolume    *)(source._volumeMem)));
+            break;
+
+        case SPHERE_VOLUME:
+            new (_volumeMem)
+                SphereVolume(*((OSG::SphereVolume *)(source._volumeMem)));
+            break;
+    }
+
+    return *this;
 }
 
 /***************************************************************************\

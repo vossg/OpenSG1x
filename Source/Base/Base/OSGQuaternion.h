@@ -50,13 +50,14 @@
 
 OSG_BEGIN_NAMESPACE
 
-//! QuaternionBase, that's the way how to define rotations.
-//! \ingroup BaseMathQuaternions
+/*! \ingroup BaseBaseMath
+ */
 
 template <class ValueTypeT>
 class QuaternionBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
@@ -83,6 +84,7 @@ class QuaternionBase
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
+
                 QuaternionBase(      void                               );
                 QuaternionBase(const QuaternionBase &source             );
     explicit    QuaternionBase(const MatrixType     &matrix             );
@@ -145,32 +147,32 @@ class QuaternionBase
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    const ValueTypeT *getValues             (void               ) const;
+    const ValueTypeT *getValues        (void               ) const;
 
-          void        getValueAsAxisDeg     (ValueTypeT &x,
-                                             ValueTypeT &y,
-                                             ValueTypeT &z,
-                                             ValueTypeT &w      ) const;
-          void        getValueAsAxisRad     (ValueTypeT &x,
-                                             ValueTypeT &y,
-                                             ValueTypeT &z,
-                                             ValueTypeT &w      ) const;
-          void        getValueAsQuat        (ValueTypeT &x,
-                                             ValueTypeT &y,
-                                             ValueTypeT &z,
-                                             ValueTypeT &w      ) const;
-    
-          void       getValueAsAxisRad      (VectorType &axis, 
-                                             ValueTypeT &radians) const;
-          void       getValueAsAxisDeg      (VectorType &axis, 
-                                             ValueTypeT &radians) const;
-          void       getValue               (MatrixType &matrix ) const;
-          void       getValuesOnly          (MatrixType &matrix ) const;
+          void        getValueAsAxisDeg(ValueTypeT &x,
+                                        ValueTypeT &y,
+                                        ValueTypeT &z,
+                                        ValueTypeT &w      ) const;
+          void        getValueAsAxisRad(ValueTypeT &x,
+                                        ValueTypeT &y,
+                                        ValueTypeT &z,
+                                        ValueTypeT &w      ) const;
+          void        getValueAsQuat   (ValueTypeT &x,
+                                        ValueTypeT &y,
+                                        ValueTypeT &z,
+                                        ValueTypeT &w      ) const;
 
-          ValueTypeT x                      (void               ) const;
-          ValueTypeT y                      (void               ) const;
-          ValueTypeT z                      (void               ) const;
-          ValueTypeT w                      (void               ) const;
+          void       getValueAsAxisRad (VectorType &axis, 
+                                        ValueTypeT &radians) const;
+          void       getValueAsAxisDeg (VectorType &axis, 
+                                        ValueTypeT &radians) const;
+          void       getValue          (MatrixType &matrix ) const;
+          void       getValuesOnly     (MatrixType &matrix ) const;
+
+          ValueTypeT x                 (void               ) const;
+          ValueTypeT y                 (void               ) const;
+          ValueTypeT z                 (void               ) const;
+          ValueTypeT w                 (void               ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -230,6 +232,7 @@ class QuaternionBase
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     static void slerp(const QuaternionBase &rot0,
@@ -241,6 +244,7 @@ class QuaternionBase
                       const ValueTypeT rVal2[4]);
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     enum ElementIndices
@@ -262,7 +266,7 @@ std::ostream &operator <<(      std::ostream               &os,
 
 /*! \var typedef QuaternionBase<Real32> Quaternion;
     \brief Quaternion
-    \ingroup BaseMathQuaternions
+    \ingroup BaseBaseMath
  */
 
 typedef QuaternionBase<Real32> Quaternion;

@@ -66,22 +66,12 @@ TypeBase::TypeBase(const Char8 *szName,
     _uiTypeId = TypeFactory::the()->registerType(this);
 }
 
-TypeBase::TypeBase(const TypeBase &source) :
-    _uiTypeId    (source._uiTypeId),
-    _uiTypeRootId(source._uiTypeRootId),
-    _pParent     (source._pParent),
-    _szName      (source._szName),
-    _szParentName(source._szParentName)
-{
-}
-
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
 TypeBase::~TypeBase(void)
 {
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
@@ -91,30 +81,36 @@ UInt32 TypeBase::getId(void) const
     return _uiTypeId; 
 }
 
+
 const IDString &TypeBase::getName(void) const
 {
     return _szName;
 }
+
 
 const Char8 *TypeBase::getCName(void) const 
 {
     return _szName.str(); 
 }
 
-const IDString &TypeBase::getParentName (void) const
+
+const IDString &TypeBase::getParentName(void) const
 {
     return _szParentName;
 }
+
 
 const Char8  *TypeBase::getCParentName(void) const
 {
     return _szParentName.str();
 }
 
+
 UInt32 TypeBase::getNameSpace(void) const
 {
     return 0;
 }
+
 
 /*-------------------------------------------------------------------------*/
 /*                                Is                                       */
@@ -132,9 +128,23 @@ bool TypeBase::operator ==(const TypeBase &other) const
     return _uiTypeId == other._uiTypeId;
 }
 
+
 bool TypeBase::operator !=(const TypeBase &other) const
 {
     return ! (*this == other);
+}
+
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+TypeBase::TypeBase(const TypeBase &source) :
+    _uiTypeId    (source._uiTypeId),
+    _uiTypeRootId(source._uiTypeRootId),
+    _pParent     (source._pParent),
+    _szName      (source._szName),
+    _szParentName(source._szParentName)
+{
 }
 
 

@@ -37,9 +37,8 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef CYLINDERVOLUME_CLASS_DECLARATION
-#define CYLINDERVOLUME_CLASS_DECLARATION
+#ifndef _OSGCYLINDERVOLUME_H_
+#define _OSGCYLINDERVOLUME_H_
 
 #include "OSGLine.h"
 #include "OSGVolume.h"
@@ -47,85 +46,92 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** 3D cylinder in space defined by axis and radius.
+/*! 3D cylinder in space defined by axis and radius.
 
-This class is used within other classes in ase. It contains data to
-represent a cylinder by an axis and a radius. The height of the
-cylinder is defined by the length of the axis, i.e. its apex is at
-_axisPos + _axisDir.
+  This class is used within other classes in ase. It contains data to
+  represent a cylinder by an axis and a radius. The height of the
+  cylinder is defined by the length of the axis, i.e. its apex is at
+  _axisPos + _axisDir.
 
+  \ingroup BaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    inline CylinderVolume(void);
+    CylinderVolume(void);
 
-    inline CylinderVolume(const Pnt3f &p, const Vec3f &d, float r);
-
-    inline CylinderVolume(const CylinderVolume &c);
+    CylinderVolume(const Pnt3f          &p, 
+                   const Vec3f          &d, 
+                         Real32          r);
+    CylinderVolume(const CylinderVolume &c);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    inline ~CylinderVolume(void); // {;}
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Set                                   */
-    /*! \{                                                                 */
-
-    inline void setValue  (const Pnt3f &p, const Vec3f &d, float r);
-    inline void setAxis   (const Pnt3f &p, const Vec3f &d);
-    inline void setRadius (float r);
+    ~CylinderVolume(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
     /*! \{                                                                 */
     
-    inline  void   getAxis        (Pnt3f &apos, Vec3f &adir) const;
-    inline  float  getRadius      (void                    ) const;
-    virtual void   getCenter      (Pnt3f &center           ) const;
-    virtual Real32 getScalarVolume(void                    ) const;
-    virtual void   getBounds      (Pnt3f &min, Pnt3f &max  ) const;
+            void   getAxis        (Pnt3f &apos,  Vec3f &adir) const;
+            Real32 getRadius      (void                     ) const;
+
+    virtual void   getCenter      (Pnt3f &center            ) const;
+    virtual Real32 getScalarVolume(void                     ) const;
+    virtual void   getBounds      (Pnt3f &min,   Pnt3f &max ) const;
     
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Set                                   */
+    /*! \{                                                                 */
+
+     void setValue (const Pnt3f &p, const Vec3f &d, Real32 r);
+     void setAxis  (const Pnt3f &p, const Vec3f &d          );
+     void setRadius(      Real32 r                          );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Extend                                */
     /*! \{                                                                 */
 
-    virtual void extendBy (const Pnt3f &pt);
-    inline  void extendBy (const Volume &volume);
-    inline  void extendBy (const CylinderVolume &obj);
+    virtual void extendBy(const Pnt3f          &pt    );
+    virtual void extendBy(const Volume         &volume);
+
+            void extendBy(const CylinderVolume &obj   );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Intersect                             */
     /*! \{                                                                 */
 
-    virtual bool intersect   (const Pnt3f &point) const;
-    bool intersect           (const Line &line) const;
-    virtual bool intersect   (const Line &line,
-                              Real32 &enter, Real32 &exit  ) const;
+    virtual bool intersect  (const Pnt3f          &point ) const;
+    virtual bool intersect  (const Line           &line  ) const;
+    virtual bool intersect  (const Line           &line,
+                                   Real32         &enter, 
+                                   Real32         &exit  ) const;
 
-    virtual bool intersect   (const Volume &volume) const;
-    virtual bool intersect   (const CylinderVolume &volume) const;
-    virtual bool isOnSurface (const Pnt3f &point) const;
+    virtual bool intersect  (const Volume         &volume) const;
+            bool intersect  (const CylinderVolume &volume) const;
+    virtual bool isOnSurface(const Pnt3f          &point ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Transform                             */
     /*! \{                                                                 */
 
-    virtual void transform (const Matrix &mat);
+    virtual void transform(const Matrix &mat);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -136,11 +142,17 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
                       const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
+
     /*==========================  PRIVATE  ================================*/
+
   private:
-    Pnt3f _axisPos;
-    Vec3f _axisDir;
-    float _radius;
+
+    Pnt3f  _axisPos;
+    Vec3f  _axisDir;
+    Real32 _radius;
 
 };
 
@@ -148,4 +160,4 @@ OSG_END_NAMESPACE
 
 #include <OSGCylinderVolume.inl>
 
-#endif //CYLINDERVOLUME_CLASS_DECLARATION
+#endif // _OSGCYLINDERVOLUME_H_

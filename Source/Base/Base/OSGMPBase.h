@@ -69,12 +69,13 @@ typedef void        (*InitThreadingF) (void);
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPType
-//! \ingroup BaseThreading
+/*! \ingroup BaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING MPType : public TypeBase
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -93,11 +94,13 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef TypeBase Inherited;
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -113,12 +116,13 @@ class OSG_BASE_DLLMAPPING MPType : public TypeBase
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPThreadType
-//! \ingroup BaseThreading
+/*! \ingroup BaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING MPThreadType : public MPType
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -146,6 +150,7 @@ class OSG_BASE_DLLMAPPING MPThreadType : public MPType
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MPType Inherited;
@@ -154,12 +159,12 @@ class OSG_BASE_DLLMAPPING MPThreadType : public MPType
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
  
-    static UInt32 _uiThreadCount;
-
-    CreateThreadF _fCreateThread;
+    static UInt32        _uiThreadCount;
+           CreateThreadF _fCreateThread;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -175,12 +180,13 @@ class OSG_BASE_DLLMAPPING MPThreadType : public MPType
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPBarrierType
-//! \ingroup BaseThreading
+/*! \ingroup BaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -207,6 +213,7 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MPType Inherited;
@@ -220,6 +227,7 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -235,12 +243,13 @@ class OSG_BASE_DLLMAPPING MPBarrierType : public MPType
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPLockType
-//! \ingroup BaseThreading
+/*! \ingroup BaseBaseMultiThreading
+ */
 
 class OSG_BASE_DLLMAPPING MPLockType : public MPType
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -276,10 +285,11 @@ class OSG_BASE_DLLMAPPING MPLockType : public MPType
     /*! \{                                                                 */
 
     static UInt32       _uiLockCount;
-           CreateLockF      _fCreateLock;
+           CreateLockF  _fCreateLock;
     
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -295,12 +305,12 @@ class OSG_BASE_DLLMAPPING MPLockType : public MPType
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPLockPoolType
-//! \ingroup BaseThreading
+//! \ingroup BaseBaseMultiThreading
 
 class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
 {
     /*==========================  PUBLIC  =================================*/
+
   public :
 
     /*---------------------------------------------------------------------*/
@@ -327,6 +337,7 @@ class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
     
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MPType Inherited;
@@ -340,6 +351,7 @@ class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -355,8 +367,7 @@ class OSG_BASE_DLLMAPPING MPLockPoolType : public MPType
 //  Class
 //---------------------------------------------------------------------------
 
-//! MPBase
-//! \ingroup BaseThreading
+//! \ingroup BaseBaseMultiThreading
 
 class OSG_BASE_DLLMAPPING MPBase : public MemoryObject
 {
@@ -382,6 +393,7 @@ class OSG_BASE_DLLMAPPING MPBase : public MemoryObject
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     typedef MemoryObject Inherited;
@@ -409,6 +421,7 @@ class OSG_BASE_DLLMAPPING MPBase : public MemoryObject
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */

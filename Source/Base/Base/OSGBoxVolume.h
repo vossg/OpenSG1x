@@ -37,110 +37,127 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-#ifndef BOX3F_CLASS_DECLARATION
-#define BOX3F_CLASS_DECLARATION
+#ifndef _OSGBOXVOLUME_H_
+#define _OSGBOXVOLUME_H_
 
 #include "OSGConfig.h"
 #include "OSGVolume.h"
 
 OSG_BEGIN_NAMESPACE
 
-#ifdef WIN32 // Workaround for a bug in Visual C++ 6.0
 class BoxVolume;
-OSG_BASE_DLLMAPPING bool          operator ==(const BoxVolume &b1, 
-                                              const BoxVolume &b2);
-OSG_BASE_DLLMAPPING bool          operator !=(const BoxVolume &b1, 
-                                              const BoxVolume &b2);
-OSG_BASE_DLLMAPPING std::ostream &operator <<(      std::ostream &os, 
-                                              const BoxVolume    &obj);
-#endif
 
-/** 3D box defined by min and max point.
+OSG_BASE_DLLMAPPING
+bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
 
-This box class is used by other classes in ase for data exchange
-and storage. It provides representation of the defining corners of a
-box in 3D space.
+inline
+bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
 
-@author jbehr, Mon Dec 22 11:32:31 1997
 
+/*! 3D box defined by min and max point.
+
+    This box class is used by other classes in ase for data exchange
+    and storage. It provides representation of the defining corners of a
+    box in 3D space.
+
+  \ingroup BaseBaseVolume  
 */
 
 class OSG_BASE_DLLMAPPING BoxVolume : public Volume
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    inline BoxVolume();
-    inline BoxVolume ( float xmin, float ymin, float zmin,
-                       float xmax, float ymax, float zmax) ;
-    inline BoxVolume(const Pnt3f &min, const Pnt3f &max);
-    inline BoxVolume(const BoxVolume &obj);
+    BoxVolume(void);
+
+    BoxVolume(Real32 xmin, Real32 ymin, Real32 zmin,
+              Real32 xmax, Real32 ymax, Real32 zmax);
+
+    BoxVolume(const Pnt3f     &min,
+              const Pnt3f     &max);
+    BoxVolume(const BoxVolume &obj);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
     
-    inline ~BoxVolume();
+    ~BoxVolume();
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
     
-    inline const Pnt3f &getMin() const;    
-    inline const Pnt3f &getMax() const;
+            const Pnt3f  &getMin         (void           ) const;    
+            const Pnt3f  &getMax         (void           ) const;
 
-            void     getCenter(Pnt3f &center) const;
+    virtual       void    getCenter      (Pnt3f  &center ) const;
 
-    virtual Real32   getScalarVolume (void) const;
-    inline  void     getBounds(float &xmin, float &ymin, float &zmin,
-                               float &xmax, float &ymax, float &zmax ) const;
+    virtual       Real32  getScalarVolume(void           ) const;
+
+    virtual       void    getBounds      (Pnt3f  &min, 
+                                          Pnt3f  &max    ) const;
+
+
+                  void    getBounds      (Real32 &xmin, 
+                                          Real32 &ymin, 
+                                          Real32 &zmin,
+                                          Real32 &xmax,
+                                          Real32 &ymax, 
+                                          Real32 &zmax   ) const;
     
-    inline  void     getBounds(Pnt3f &min, Pnt3f &max) const;
-    inline  void     getOrigin(float &originX, float &originY, 
-                               float &originZ) const;
-    inline  void     getSize  (float &sizeX, float &sizeY, 
-                               float &sizeZ) const;
-    inline  void     getSize  (Vec3f &vec) const;    
+
+                  void    getOrigin      (Real32 &originX, 
+                                          Real32 &originY, 
+                                          Real32 &originZ) const;
+                  void    getSize        (Real32 &sizeX, 
+                                          Real32 &sizeY, 
+                                          Real32 &sizeZ  ) const;
+                  void    getSize        (Vec3f  &vec    ) const;    
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    inline void setBounds(float w, float h, float d);
-    inline void setBounds(float xmin, float ymin, float zmin,
-                          float xmax, float ymax, float zmax);
-    inline void setBounds(const Pnt3f &min, const Pnt3f &max);
+    void setBounds(      Real32  w,         Real32  h,    Real32 d   );
+    void setBounds(      Real32  xmin,      Real32  ymin, Real32 zmin,
+                         Real32  xmax,      Real32  ymax, Real32 zmax);
+    void setBounds(const Pnt3f  &min, const Pnt3f  &max              );
 
-    void setBoundsByCenterAndSize(const Pnt3f &center, const Vec3f &size);
+    void setBoundsByCenterAndSize   ( const Pnt3f &center, 
+                                      const Vec3f &size              );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Extend                                  */
     /*! \{                                                                 */
 
-    virtual void extendBy (const Pnt3f &pt);
-    inline  void extendBy (const Volume &volume);
-    inline  void extendBy (const BoxVolume &bb);
+    virtual void extendBy(const Pnt3f     &pt    );
+    virtual void extendBy(const Volume    &volume);
+            void extendBy(const BoxVolume &bb    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Intersect                               */
     /*! \{                                                                 */
 
-    bool intersect (const Pnt3f &point) const;
-    bool intersect (const Line &line) const;
-    bool intersect (const Line &line,Real32 &min, Real32 &max) const;
-    inline bool intersect (const Volume &volume) const;
-    inline bool intersect(const BoxVolume &bb) const;
-    virtual bool isOnSurface (const Pnt3f &point) const;
+    virtual bool intersect  (const Pnt3f     &point ) const;
+    virtual bool intersect  (const Line      &line  ) const;
+    virtual bool intersect  (const Line      &line,
+                                   Real32    &min, 
+                                   Real32    &max   ) const;
+    virtual bool intersect  (const Volume    &volume) const;
+
+            bool intersect  (const BoxVolume &bb    ) const;
+
+    virtual bool isOnSurface(const Pnt3f     &point ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,12 +171,10 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \name                      Operators                               */
     /*! \{                                                                 */
 
-    friend OSG_BASE_DLLMAPPING  
-                  bool        operator ==(const BoxVolume &b1, const BoxVolume &b2);
+    friend 
+    bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
   
-    inline friend bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
-
-    const BoxVolume   &operator  =(const BoxVolume &b1);
+    const BoxVolume &operator =(const BoxVolume &b1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -170,9 +185,14 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+
+  protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
+
     Pnt3f _min;
     Pnt3f _max;
 };
@@ -181,4 +201,4 @@ OSG_END_NAMESPACE
 
 #include <OSGBoxVolume.inl>
 
-#endif // BOX_CLASS_DECLARATION
+#endif // _OSGBOXVOLUME_H_

@@ -101,9 +101,7 @@ const TransformationMatrix<ValueTypeT> &
 template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(void)
 {
-    UInt32 i;
-
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
     }
@@ -113,9 +111,7 @@ template<class ValueTypeT> inline
 TransformationMatrix<ValueTypeT>::TransformationMatrix(
     const TransformationMatrix &source)
 {
-    UInt32 i;
-
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i] = source._matrix[i];
     }
@@ -187,9 +183,7 @@ TransformationMatrix<ValueTypeT>::~TransformationMatrix(void)
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::setIdentity(void)
 {
-    UInt32 i;
-
-    for(i = 0; i < 4; i++)
+    for(UInt32 i = 0; i < 4; i++)
     {
         _matrix[i].setNull();
         _matrix[i][i] = TypeConstants<ValueType>::getOneElement();
@@ -507,127 +501,6 @@ void TransformationMatrix<ValueTypeT>::setRotate(const QuaternionType &q)
     q.getValuesOnly(*this);
 }
 
-
-/*! Composes the matrix based on a translation, rotation, scale,
-   orientation for scale, and center.  The "center" is the
-   center point for scaling and rotation.  The "scaleOrientation"
-   chooses the primary axes for the scale.
-*/
-
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::setTransform(
-    const VectorType3f   &translation,
-    const QuaternionType &rotation,
-    const VectorType3f   &scaleFactor,
-    const QuaternionType &scaleOrientation,
-    const VectorType3f   &center)
-{
-    Matrix tmpMat1;
-    Matrix tmpMat2;
-
-    // Concatenate the translations t and c
-    VectorType3f tg(translation);
-    tg += center;
-
-    // Concatenate the rotations r and so
-    QuaternionType rg(rotation);
-    rg *= scaleOrientation;
-
-    // Calculate the inverse of so
-    QuaternionType soi(scaleOrientation);
-    soi.invert();
-
-    // Calculate the 3x3 rotation matrix
-    rg. getValue(tmpMat1);
-    soi.getValue(tmpMat2);
-
-    // Calculate the resulting transformation matrix
-
-    tmpMat1[0][0] *= scaleFactor[0];
-    tmpMat1[0][1] *= scaleFactor[0];
-    tmpMat1[0][2] *= scaleFactor[0];
-
-    tmpMat1[1][0] *= scaleFactor[1];
-    tmpMat1[1][1] *= scaleFactor[1];
-    tmpMat1[1][2] *= scaleFactor[1];
-
-    tmpMat1[2][0] *= scaleFactor[2];
-    tmpMat1[2][1] *= scaleFactor[2];
-    tmpMat1[2][2] *= scaleFactor[2];
-
-    _matrix[0][0] =
-        tmpMat2[0][0] * tmpMat1[0][0] +
-        tmpMat2[0][1] * tmpMat1[1][0] +
-        tmpMat2[0][2] * tmpMat1[2][0];
-
-    _matrix[0][1] =
-        tmpMat2[0][0] * tmpMat1[0][1] +
-        tmpMat2[0][1] * tmpMat1[1][1] +
-        tmpMat2[0][2] * tmpMat1[2][1];
-
-    _matrix[0][2] =
-        tmpMat2[0][0] * tmpMat1[0][2] +
-        tmpMat2[0][1] * tmpMat1[1][2] +
-        tmpMat2[0][2] * tmpMat1[2][2];
-
-    _matrix[0][3] = 0.0;
-
-
-    _matrix[1][0] =
-        tmpMat2[1][0] * tmpMat1[0][0] +
-        tmpMat2[1][1] * tmpMat1[1][0] +
-        tmpMat2[1][2] * tmpMat1[2][0];
-
-    _matrix[1][1] =
-        tmpMat2[1][0] * tmpMat1[0][1] +
-        tmpMat2[1][1] * tmpMat1[1][1] +
-        tmpMat2[1][2] * tmpMat1[2][1];
-
-    _matrix[1][2] =
-        tmpMat2[1][0] * tmpMat1[0][2] +
-        tmpMat2[1][1] * tmpMat1[1][2] +
-        tmpMat2[1][2] * tmpMat1[2][2];
-
-    _matrix[1][3] = 0.0;
-
-
-    _matrix[2][0] =
-        tmpMat2[2][0] * tmpMat1[0][0] +
-        tmpMat2[2][1] * tmpMat1[1][0] +
-        tmpMat2[2][2] * tmpMat1[2][0];
-
-    _matrix[2][1] =
-        tmpMat2[2][0] * tmpMat1[0][1] +
-        tmpMat2[2][1] * tmpMat1[1][1] +
-        tmpMat2[2][2] * tmpMat1[2][1];
-
-    _matrix[2][2] =
-        tmpMat2[2][0] * tmpMat1[0][2] +
-        tmpMat2[2][1] * tmpMat1[1][2] +
-        tmpMat2[2][2] * tmpMat1[2][2];
-
-    _matrix[2][3] = 0.0;
-
-
-    _matrix[3][0] =
-        _matrix[0][0] * -center[0] +
-        _matrix[1][0] * -center[1] +
-        _matrix[2][0] * -center[2] + tg[0];
-
-    _matrix[3][1] =
-        _matrix[0][1] * -center[0] +
-        _matrix[1][1] * -center[1] +
-        _matrix[2][1] * -center[2] + tg[1];
-
-    _matrix[3][2] =
-        _matrix[0][2] * -center[0] +
-        _matrix[1][2] * -center[1] +
-        _matrix[2][2] * -center[2] + tg[2];
-
-    _matrix[3][3] = 1.0;
-
-}
-
 //! Composes the matrix based on a translation
 
 template<class ValueTypeT> inline
@@ -781,6 +654,126 @@ void TransformationMatrix<ValueTypeT>::setTransform(const VectorType3f   &t,
     _matrix[3][3] = 1.0;
 }
 
+/*! Composes the matrix based on a translation, rotation, scale,
+   orientation for scale, and center.  The "center" is the
+   center point for scaling and rotation.  The "scaleOrientation"
+   chooses the primary axes for the scale.
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::setTransform(
+    const VectorType3f   &translation,
+    const QuaternionType &rotation,
+    const VectorType3f   &scaleFactor,
+    const QuaternionType &scaleOrientation,
+    const VectorType3f   &center)
+{
+    Matrix tmpMat1;
+    Matrix tmpMat2;
+
+    // Concatenate the translations t and c
+    VectorType3f tg(translation);
+    tg += center;
+
+    // Concatenate the rotations r and so
+    QuaternionType rg(rotation);
+    rg *= scaleOrientation;
+
+    // Calculate the inverse of so
+    QuaternionType soi(scaleOrientation);
+    soi.invert();
+
+    // Calculate the 3x3 rotation matrix
+    rg. getValue(tmpMat1);
+    soi.getValue(tmpMat2);
+
+    // Calculate the resulting transformation matrix
+
+    tmpMat1[0][0] *= scaleFactor[0];
+    tmpMat1[0][1] *= scaleFactor[0];
+    tmpMat1[0][2] *= scaleFactor[0];
+
+    tmpMat1[1][0] *= scaleFactor[1];
+    tmpMat1[1][1] *= scaleFactor[1];
+    tmpMat1[1][2] *= scaleFactor[1];
+
+    tmpMat1[2][0] *= scaleFactor[2];
+    tmpMat1[2][1] *= scaleFactor[2];
+    tmpMat1[2][2] *= scaleFactor[2];
+
+    _matrix[0][0] =
+        tmpMat2[0][0] * tmpMat1[0][0] +
+        tmpMat2[0][1] * tmpMat1[1][0] +
+        tmpMat2[0][2] * tmpMat1[2][0];
+
+    _matrix[0][1] =
+        tmpMat2[0][0] * tmpMat1[0][1] +
+        tmpMat2[0][1] * tmpMat1[1][1] +
+        tmpMat2[0][2] * tmpMat1[2][1];
+
+    _matrix[0][2] =
+        tmpMat2[0][0] * tmpMat1[0][2] +
+        tmpMat2[0][1] * tmpMat1[1][2] +
+        tmpMat2[0][2] * tmpMat1[2][2];
+
+    _matrix[0][3] = 0.0;
+
+
+    _matrix[1][0] =
+        tmpMat2[1][0] * tmpMat1[0][0] +
+        tmpMat2[1][1] * tmpMat1[1][0] +
+        tmpMat2[1][2] * tmpMat1[2][0];
+
+    _matrix[1][1] =
+        tmpMat2[1][0] * tmpMat1[0][1] +
+        tmpMat2[1][1] * tmpMat1[1][1] +
+        tmpMat2[1][2] * tmpMat1[2][1];
+
+    _matrix[1][2] =
+        tmpMat2[1][0] * tmpMat1[0][2] +
+        tmpMat2[1][1] * tmpMat1[1][2] +
+        tmpMat2[1][2] * tmpMat1[2][2];
+
+    _matrix[1][3] = 0.0;
+
+
+    _matrix[2][0] =
+        tmpMat2[2][0] * tmpMat1[0][0] +
+        tmpMat2[2][1] * tmpMat1[1][0] +
+        tmpMat2[2][2] * tmpMat1[2][0];
+
+    _matrix[2][1] =
+        tmpMat2[2][0] * tmpMat1[0][1] +
+        tmpMat2[2][1] * tmpMat1[1][1] +
+        tmpMat2[2][2] * tmpMat1[2][1];
+
+    _matrix[2][2] =
+        tmpMat2[2][0] * tmpMat1[0][2] +
+        tmpMat2[2][1] * tmpMat1[1][2] +
+        tmpMat2[2][2] * tmpMat1[2][2];
+
+    _matrix[2][3] = 0.0;
+
+
+    _matrix[3][0] =
+        _matrix[0][0] * -center[0] +
+        _matrix[1][0] * -center[1] +
+        _matrix[2][0] * -center[2] + tg[0];
+
+    _matrix[3][1] =
+        _matrix[0][1] * -center[0] +
+        _matrix[1][1] * -center[1] +
+        _matrix[2][1] * -center[2] + tg[1];
+
+    _matrix[3][2] =
+        _matrix[0][2] * -center[0] +
+        _matrix[1][2] * -center[1] +
+        _matrix[2][2] * -center[2] + tg[2];
+
+    _matrix[3][3] = 1.0;
+
+}
+
 /*-------------------------------------------------------------------------*/
 /*                           Get Transform                                 */
 
@@ -799,7 +792,7 @@ void TransformationMatrix<ValueTypeT>::getTransform(
           QuaternionType &rotation,
           VectorType3f   &scaleFactor,
           QuaternionType &scaleOrientation,
-    const VectorType3f   &center) const
+    const VectorType3f   &center          ) const
 {
 	TransformationMatrix m;
     TransformationMatrix c;
@@ -1892,6 +1885,32 @@ void TransformationMatrix<ValueTypeT>::add(const TransformationMatrix &matrix)
     _matrix[3][3] += matrix._matrix[3][3];
 }
 
+//! Scales the elements of this matrix
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::scale(ValueTypeT s)
+{
+    _matrix[0][0] *= s;
+    _matrix[0][1] *= s;
+    _matrix[0][2] *= s;
+    _matrix[0][3] *= s;
+
+    _matrix[1][0] *= s;
+    _matrix[1][1] *= s;
+    _matrix[1][2] *= s;
+    _matrix[1][3] *= s;
+
+    _matrix[2][0] *= s;
+    _matrix[2][1] *= s;
+    _matrix[2][2] *= s;
+    _matrix[2][3] *= s;
+
+    _matrix[3][0] *= s;
+    _matrix[3][1] *= s;
+    _matrix[3][2] *= s;
+    _matrix[3][3] *= s;
+}
+
 //! Adds a scaled version of the given matrix to this matrix
 
 template<class ValueTypeT> inline
@@ -1944,32 +1963,6 @@ void TransformationMatrix<ValueTypeT>::negate(void)
     _matrix[3][1] *= -1.0;
     _matrix[3][2] *= -1.0;
     _matrix[3][3] *= -1.0;
-}
-
-//! Scales the elements of this matrix
-
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::scale(ValueTypeT s)
-{
-    _matrix[0][0] *= s;
-    _matrix[0][1] *= s;
-    _matrix[0][2] *= s;
-    _matrix[0][3] *= s;
-
-    _matrix[1][0] *= s;
-    _matrix[1][1] *= s;
-    _matrix[1][2] *= s;
-    _matrix[1][3] *= s;
-
-    _matrix[2][0] *= s;
-    _matrix[2][1] *= s;
-    _matrix[2][2] *= s;
-    _matrix[2][3] *= s;
-
-    _matrix[3][0] *= s;
-    _matrix[3][1] *= s;
-    _matrix[3][2] *= s;
-    _matrix[3][3] *= s;
 }
 
 //! Returns the 1-norm of _matrix matrix

@@ -36,7 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
 #ifndef _OSGSPHEREVOLUME_H_
 #define _OSGSPHEREVOLUME_H_
 
@@ -46,92 +45,81 @@ OSG_BEGIN_NAMESPACE
 
 class Line;
 
-/** Sphere in 3D space defined by center and radius.
-
-
-@author jbehr, dorfmuel, Mon Dec 22 11:32:31 1997
-
+/*! Sphere in 3D space defined by center and radius.
+  \ingroup BaseBaseVolume  
 */
 
-class OSG_BASE_DLLMAPPING SphereVolume : public Volume {
+class OSG_BASE_DLLMAPPING SphereVolume : public Volume 
+{
 
     /*==========================  PUBLIC  =================================*/
-public:
+
+  public:
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Constructor                               */
     /*! \{                                                                 */
 
     SphereVolume(void);
+
     SphereVolume(const SphereVolume &obj);
-    SphereVolume(const Pnt3f &c, float r);
+    SphereVolume(const Pnt3f        &c, 
+                       Real32        r  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Destructor                                */
     /*! \{                                                                 */
 
-    ~SphereVolume();
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Feature                                  */
-    /*! \{                                                                 */
-
-    inline void setValue(const Pnt3f &c, float r);
+    ~SphereVolume(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Set Values                                */
     /*! \{                                                                 */
 
-    inline void setCenter(const Pnt3f &c);
-
-    inline void setRadius(float r);
+    void setValue (const Pnt3f &c, 
+                         Real32 r);
+    void setCenter(const Pnt3f &c);
+    void setRadius(      Real32 r);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Get Values                                */
     /*! \{                                                                 */
 
-    inline  void  getCenter       (Pnt3f &center)            const;
+            const Pnt3f& getCenter      (void         ) const;
+                  Real32 getRadius      (void         ) const;
 
-    inline  const Pnt3f& getCenter( void )                   const;
-
-    inline  float getRadius()                                const;
-
-    virtual float getScalarVolume (void )                    const;
-
-    virtual void  getBounds       ( Pnt3f &min, Pnt3f &max ) const;
+    virtual       void   getCenter      (Pnt3f &center) const;
+    virtual       Real32 getScalarVolume(void         ) const;
+    virtual       void   getBounds      (Pnt3f &min,  
+                                         Pnt3f &max   ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Extending                                  */
     /*! \{                                                                 */
 
-    virtual void extendBy (const Pnt3f &pt);
-
-    inline  void extendBy (const Volume &volume);
-
-    inline  void extendBy (const SphereVolume &bb);
+    virtual void extendBy(const Pnt3f        &pt    );
+    virtual void extendBy(const Volume       &volume);
+            void extendBy(const SphereVolume &bb    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                 Intersection                                 */
     /*! \{                                                                 */
 
-    virtual bool intersect   (const Pnt3f &point)             const;
+    virtual bool intersect  (const Pnt3f        &point ) const;
+    virtual bool intersect  (const Line         &line  ) const;
+    virtual bool intersect  (const Line         &line,
+                                   Real32       &enter, 
+                                   Real32       &exit  ) const;
 
-            bool intersect   (const Line &line)               const;
+    virtual bool intersect  (const Volume       &volume) const;
+            bool intersect  (const SphereVolume &sphere) const;
 
-    virtual bool intersect   ( const Line &line,
-                               Real32 &enter, Real32 &exit  ) const;
-
-    inline  bool intersect   (const Volume &volume)           const;
-
-    inline  bool intersect   (const SphereVolume &sphere)     const;
-
-    virtual bool isOnSurface (const Pnt3f &point)             const;
+    virtual bool isOnSurface(const Pnt3f        &point ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -149,11 +137,11 @@ public:
                       const BitVector bvFlags  = 0) const;
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
+
   private:
 
-    Pnt3f _center;
-
-    float _radius;
+    Pnt3f  _center;
+    Real32 _radius;
 
 };
 

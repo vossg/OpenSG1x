@@ -51,15 +51,11 @@
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
-//  Class
+//  VecStorage2
 //---------------------------------------------------------------------------
 
 /*! \class VecStorage2
  */
-
-/*! \enum VecStorage2::VectorSizeE
-    \brief To be able to use the storage size
-*/
 
 /*! \var VecStorage2::VectorSizeE VecStorage2::_iSize
     \brief Storage size.
@@ -74,8 +70,6 @@ template <class ValueTypeT>
 const UInt32 VecStorage2<ValueTypeT>::_iSize;
 #endif
 	
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 template <class ValueTypeT> inline
 VecStorage2<ValueTypeT>::VecStorage2(void)
@@ -86,16 +80,12 @@ VecStorage2<ValueTypeT>::VecStorage2(void)
     }
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 template <class ValueTypeT> inline
 VecStorage2<ValueTypeT>::~VecStorage2(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                               Access                                    */
 
 template <class ValueTypeT> inline
 void VecStorage2<ValueTypeT>::setValues(const ValueTypeT rVal1,
@@ -105,6 +95,7 @@ void VecStorage2<ValueTypeT>::setValues(const ValueTypeT rVal1,
     _values[1] = rVal2;
 }
 
+
 template <class ValueTypeT> inline
 void VecStorage2<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
                                                 ValueTypeT &rVal2) const
@@ -113,11 +104,13 @@ void VecStorage2<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
     rVal2 = _values[1];
 }
 
+
 template <class ValueTypeT> inline
 ValueTypeT VecStorage2<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
+
 
 template <class ValueTypeT> inline
 ValueTypeT VecStorage2<ValueTypeT>::y(void) const
@@ -127,16 +120,13 @@ ValueTypeT VecStorage2<ValueTypeT>::y(void) const
 
 
 
+
 //---------------------------------------------------------------------------
-//  Class
+//  VecStorage3
 //---------------------------------------------------------------------------
 
 /*! \class VecStorage3
  */
-
-/*! \enum VecStorage3::VectorSizeE
-    \brief To be able to use the storage size
-*/
 
 /*! \var VecStorage3::VectorSizeE VecStorage3::_iSize
     \brief Storage size.
@@ -151,8 +141,6 @@ template <class ValueTypeT>
 const UInt32 VecStorage3<ValueTypeT>::_iSize;
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 template <class ValueTypeT> inline
 VecStorage3<ValueTypeT>::VecStorage3(void)
@@ -163,16 +151,12 @@ VecStorage3<ValueTypeT>::VecStorage3(void)
     }
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 template <class ValueTypeT> inline
 VecStorage3<ValueTypeT>::~VecStorage3(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                               Access                                    */
 
 template <class ValueTypeT> inline
 void VecStorage3<ValueTypeT>::setValues(const ValueTypeT rVal1,
@@ -184,6 +168,7 @@ void VecStorage3<ValueTypeT>::setValues(const ValueTypeT rVal1,
     _values[2] = rVal3;
 }
 
+
 template <class ValueTypeT> inline
 void VecStorage3<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
                                                 ValueTypeT &rVal2,
@@ -194,17 +179,20 @@ void VecStorage3<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
     rVal3 = _values[2];
 }
 
+
 template <class ValueTypeT> inline
 ValueTypeT VecStorage3<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
 
+
 template <class ValueTypeT> inline
 ValueTypeT VecStorage3<ValueTypeT>::y(void) const
 {
     return _values[1];
 }
+
 
 template <class ValueTypeT> inline
 ValueTypeT VecStorage3<ValueTypeT>::z(void) const
@@ -214,16 +202,13 @@ ValueTypeT VecStorage3<ValueTypeT>::z(void) const
 
 
 
+
 //---------------------------------------------------------------------------
-//  Class
+//  VecStorage4
 //---------------------------------------------------------------------------
 
 /*! \class VecStorage4
  */
-
-/*! \enum VecStorage4::VectorSizeE
-    \brief To be able to use the storage size
-*/
 
 /*! \var VecStorage4::VectorSizeE VecStorage4::_iSize
     \brief Storage size.
@@ -238,8 +223,6 @@ template <class ValueTypeT> inline
 const UInt32 VecStorage4<ValueTypeT>::_iSize;
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 template <class ValueTypeT> inline
 VecStorage4<ValueTypeT>::VecStorage4(void)
@@ -250,16 +233,12 @@ VecStorage4<ValueTypeT>::VecStorage4(void)
     }
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
 
 template <class ValueTypeT> inline
 VecStorage4<ValueTypeT>::~VecStorage4(void)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                                Access                                   */
 
 template <class ValueTypeT> inline
 void VecStorage4<ValueTypeT>::setValues(const ValueTypeT rVal1,
@@ -273,6 +252,7 @@ void VecStorage4<ValueTypeT>::setValues(const ValueTypeT rVal1,
     _values[3] = rVal4;
 }
 
+
 template <class ValueTypeT> inline
 void VecStorage4<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
                                                 ValueTypeT &rVal2,
@@ -285,11 +265,13 @@ void VecStorage4<ValueTypeT>::getSeparateValues(ValueTypeT &rVal1,
     rVal4 = _values[3];
 }
 
+
 template <class ValueTypeT> inline
 ValueTypeT VecStorage4<ValueTypeT>::x(void) const
 {
     return _values[0];
 }
+
 
 template <class ValueTypeT> inline
 ValueTypeT VecStorage4<ValueTypeT>::y(void) const
@@ -297,11 +279,13 @@ ValueTypeT VecStorage4<ValueTypeT>::y(void) const
     return _values[1];
 }
 
+
 template <class ValueTypeT> inline
 ValueTypeT VecStorage4<ValueTypeT>::z(void) const
 {
     return _values[2];
 }
+
 
 template <class ValueTypeT> inline
 ValueTypeT VecStorage4<ValueTypeT>::w(void) const
@@ -330,6 +314,10 @@ ValueTypeT VecStorage4<ValueTypeT>::w(void) const
     \brief Parent type
 */
 
+/*! \typedef PointInterface::Self
+    \brief Own type
+*/
+
 #ifndef darwin
 template <class ValueTypeT,
           class StorageInterfaceT>
@@ -337,20 +325,12 @@ const PointInterface<ValueTypeT, StorageInterfaceT>
     PointInterface<ValueTypeT, StorageInterfaceT>::Null;
 #endif
 
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(void) : 
     Inherited()
 {
-//    UInt32 i;
-
-//    for(i = 0; i < Self::_iSize; i++)
-//    {
-//        Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-//    }
 }
 
 /*! \brief Constructor which takes a const value array.
@@ -364,18 +344,16 @@ PointInterface<ValueTypeT,
                StorageInterfaceT>::PointInterface(const ValueTypeT *pVals) : 
     Inherited()
 {
-    UInt32 i;
-
     if(pVals == NULL)
     {
-        for(i = 0; i < Self::_iSize; i++)
+        for(UInt32 i = 0; i < Self::_iSize; i++)
         {
             Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
     {
-        for(i = 0; i < Self::_iSize; i++)
+        for(UInt32 i = 0; i < Self::_iSize; i++)
         {
             Self::_values[i] = pVals[i];
         }
@@ -393,23 +371,78 @@ PointInterface<ValueTypeT,
                StorageInterfaceT>::PointInterface(ValueTypeT *pVals) : 
     Inherited()
 {
-    UInt32 i;
-
     if(pVals == NULL)
     {
-        for(i = 0; i < Self::_iSize; i++)
+        for(UInt32 i = 0; i < Self::_iSize; i++)
         {
             Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
     }
     else
     {
-        for(i = 0; i < Self::_iSize; i++)
+        for(UInt32 i = 0; i < Self::_iSize; i++)
         {
             Self::_values[i] = pVals[i];
         }
     }
 }
+
+/*! \brief Constructor which take a lot of types as it's argument :-).
+  
+  The argument type must provide a _iSize enum entry, a *getValueRef(void)
+  function and the value types must be convertable to the current one.
+  The main problem is that through the constructor
+  VecBase(const ValueTypeT *pVals); and the following cast
+  operator const ValueTypeT * (void); you are able to to the
+  following :
+  \code
+  void foo(void)
+  {
+      ClassWithValueTypeT_*_Cast v2f;
+      Vec4f v4f(v2f);
+  }
+  \endcode
+  This will at least give you some array read out of bounds erros;
+  So this constructor make the things a little bit more save, but you
+  will get nasty error messages from the compiler if the argument does
+  not satisfy the requirements given above.
+*/
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
+template <class ValueTypeT,
+          class StorageInterfaceT> 
+template <class VectorT> inline
+PointInterface<ValueTypeT, 
+               StorageInterfaceT>::PointInterface(const VectorT &vec) : 
+                   Inherited()
+{
+    if(Self::_iSize <= VectorT::_iSize)
+    {
+        for(UInt32 i = 0; i < Self::_iSize; i++)
+        {
+            Self::_values[i] = vec.getValues()[i];
+        }
+    }
+    else
+    {
+        for(UInt32 i = 0; i < VectorT::_iSize; i++)
+        {
+            Self::_values[i] = vec.getValues()[i];
+        }
+        for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+        {
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        }
+    }
+}
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
+
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
@@ -418,13 +451,12 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 
     Inherited()
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = source._values[i];
     }
 }
+
 
 /*
 template <class    ValueTypeT,
@@ -443,6 +475,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>::PointInterface(
 }
 */
 
+
 #ifdef __sgi
 #pragma set woff 1209
 #endif
@@ -456,8 +489,6 @@ PointInterface<ValueTypeT,
                                                   const ValueTypeT rVal2) : 
     Inherited()
 {
-    UInt32 i;
-
     Self::_values[0] = rVal1;
 
     if(Self::_iSize == 2)
@@ -468,7 +499,7 @@ PointInterface<ValueTypeT,
     {
         Self::_values[1] = rVal2;
 
-        for(i = 2; i < Self::_iSize; i++)
+        for(UInt32 i = 2; i < Self::_iSize; i++)
         {
             Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
@@ -491,8 +522,6 @@ PointInterface<ValueTypeT,
                                                   const ValueTypeT rVal3) : 
     Inherited()
 {
-    UInt32 i;
-
     Self::_values[0] = rVal1;
 
     if(Self::_iSize == 2)
@@ -509,7 +538,7 @@ PointInterface<ValueTypeT,
         Self::_values[1] = rVal2;
         Self::_values[2] = rVal3;
 
-        for(i = 3; i < Self::_iSize; i++)
+        for(UInt32 i = 3; i < Self::_iSize; i++)
         {
             Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
@@ -533,8 +562,6 @@ PointInterface<ValueTypeT,
                                                   const ValueTypeT rVal4) : 
     Inherited()
 {
-    UInt32 i;
-
     Self::_values[0] = rVal1;
 
     if(Self::_iSize == 2)
@@ -558,7 +585,7 @@ PointInterface<ValueTypeT,
         Self::_values[2] = rVal3;
         Self::_values[3] = rVal4;
 
-        for(i = 4; i < Self::_iSize; i++)
+        for(UInt32 i = 4; i < Self::_iSize; i++)
         {
             Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
         }
@@ -585,13 +612,12 @@ template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, StorageInterfaceT>::setNull(void)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
 }
+
 
 /*
 template <class    ValueTypeT,
@@ -603,19 +629,63 @@ void PointInterface<ValueTypeT, StorageInterfaceT>::setValue(
 }
 */
 
+
 template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, 
                     StorageInterfaceT>::setValue(const PointInterface &vec)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = vec._values[i];
     }
 }
 
+/*! \brief Set function which take a lot of types as it's argument :-).
+  
+  The argument type must provide a _iSize enum entry, a *getValues(void)
+  function and the value types must be convertable to the current one.
+  The main problem is that through the set function
+  void setValue(const ValueTypeT *pVals); and the following cast
+  operator const ValueTypeT * (void); you are able to to the
+  following :
+  \code
+  void foo(void)
+  {
+      ClassWithValueTypeT_*_Cast v2f;
+      Vec4f v4f;
+  
+      v4f.setValue(v2f);
+  }
+  \endcode
+  This will at least give you some array read out of bounds erros;
+  So this function make the things a little bit more save, but you
+  will get nasty error messages from the compiler if the argument does
+  not satisfy the requirements given above.
+*/
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
+template <class ValueTypeT,
+          class StorageInterfaceT> 
+template <class VectorT> inline
+void PointInterface<ValueTypeT, 
+                    StorageInterfaceT>::setValue(const VectorT &vec)
+{
+    for(UInt32   i = 0;
+                 i < (Self::_iSize < VectorT::_iSize ? 
+                      Self::_iSize : VectorT::_iSize);
+               ++i)
+    {
+        Self::_values[i] = vec.getValues()[i];
+    }
+}
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 //! Set value from a given array, be sure to match sizes
 
@@ -624,9 +694,7 @@ template <class ValueTypeT,
 void PointInterface<ValueTypeT, 
                     StorageInterfaceT>::setValue(const ValueTypeT *pVals)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = pVals[i];
     }
@@ -742,10 +810,9 @@ template <class ValueTypeT,
 bool PointInterface<ValueTypeT, 
                     StorageInterfaceT>::isZero(void) const
 {
-    UInt32 i;
-    bool   returnValue = true;
+    bool returnValue = true;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         returnValue &= ((Self::_values[i] <=  Eps) &&
                         (Self::_values[i] >= -Eps));
@@ -760,9 +827,7 @@ template <class ValueTypeT,
           class StorageInterfaceT> inline
 void PointInterface<ValueTypeT, StorageInterfaceT>::negate(void)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = -Self::_values[i];
     }
@@ -776,10 +841,9 @@ bool PointInterface<ValueTypeT, StorageInterfaceT>::equals(
     const PointInterface &vec,
     const ValueTypeT       tolerance) const
 {
-    UInt32 i;
-    bool   returnValue = true;
+    bool returnValue = true;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         returnValue &= 
             ( (Self::_values[i] - vec  ._values[i] <= tolerance) &&
@@ -814,29 +878,6 @@ const typename PointInterface<ValueTypeT,
 }
 
 
-//! Returns the distance between the two points, squared
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
-typename PointInterface<ValueTypeT, 
-                        StorageInterfaceT>::RealReturnType 
-PointInterface<ValueTypeT, StorageInterfaceT>::dist2(const PointInterface &vec) 
-    const
-{
-    UInt32 i;
-    RealReturnType   returnValue = 0;
-    RealReturnType   tmp;
-
-    for(i = 0; i < Self::_iSize; i++)
-    {
-        tmp = Self::_values[i] - vec._values[i];
-        
-        returnValue += tmp * tmp;
-    }
-
-    return returnValue;
-}
-
 //! Returns the distance between the two points
 
 template <class ValueTypeT,
@@ -849,6 +890,28 @@ PointInterface<ValueTypeT, StorageInterfaceT>::dist(const PointInterface &vec)
     return osgsqrt(dist2(vec));
 }
 
+//! Returns the distance between the two points, squared
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename PointInterface<ValueTypeT, 
+                        StorageInterfaceT>::RealReturnType 
+PointInterface<ValueTypeT, StorageInterfaceT>::dist2(const PointInterface &vec) 
+    const
+{
+    RealReturnType returnValue = 0;
+    RealReturnType tmp;
+
+    for(UInt32 i = 0; i < Self::_iSize; i++)
+    {
+        tmp = Self::_values[i] - vec._values[i];
+        
+        returnValue += tmp * tmp;
+    }
+
+    return returnValue;
+}
+
 //! Returns the maximum value of the vector
 
 template <class ValueTypeT,
@@ -858,10 +921,9 @@ typename PointInterface<ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>::maxValue(void) 
     const
 {
-    UInt32 i;
-    RealReturnType   returnValue = TypeConstants<RealReturnType>::getMin();
+    RealReturnType returnValue = TypeConstants<RealReturnType>::getMin();
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         if(Self::_values[i] > returnValue)
             returnValue = Self::_values[i];
@@ -880,9 +942,7 @@ template <class ValueTypeT,
 void PointInterface<ValueTypeT, 
                     StorageInterfaceT>::operator *=(const ValueTypeT  val)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] *= val;
     }
@@ -895,44 +955,9 @@ template <class ValueTypeT,
 void PointInterface<ValueTypeT, 
                     StorageInterfaceT>::operator /=(const ValueTypeT  val)
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] /= val;
-    }
-}
-
-
-//! Component wise vector addition
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
-void PointInterface<ValueTypeT, StorageInterfaceT>::operator +=(
-    const typename PointInterface<ValueTypeT, 
-                                  StorageInterfaceT>::VecInterface &vec)
-{
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
-    {
-        Self::_values[i] += vec._values[i];
-    }
-}
-
-//! Component wise vector substraction
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
-void PointInterface<ValueTypeT, StorageInterfaceT>::operator -=(
-    const typename PointInterface<ValueTypeT, 
-                                  StorageInterfaceT>::VecInterface &vec)
-{
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
-    {
-        Self::_values[i] -= vec._values[i];
     }
 }
 
@@ -945,11 +970,9 @@ typename PointInterface<ValueTypeT, StorageInterfaceT>::VecInterface
     PointInterface<ValueTypeT, StorageInterfaceT>::operator -(
         const PointInterface &vec) const
 {
-    UInt32 i;
-
     VecInterface returnValue(*this);
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         returnValue[i] -= vec[i];
     }
@@ -967,9 +990,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 {
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] + vec[i];
     }
@@ -987,9 +1008,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 {
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] - vec[i];
     }
@@ -1007,9 +1026,7 @@ PointInterface <ValueTypeT, StorageInterfaceT>
 {
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] * rVal;
     }
@@ -1024,16 +1041,40 @@ template <class ValueTypeT,
 PointInterface<ValueTypeT, StorageInterfaceT>
     PointInterface<ValueTypeT, StorageInterfaceT>::operator -(void)
 {
-    UInt32 i;
-
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         returnValue._values[i] = - Self::_values[i];
     }
 
     return returnValue;
+}
+
+//! Component wise vector addition
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator +=(
+    const VecInterface &vec)
+{
+    for(UInt32 i = 0; i < Self::_iSize; i++)
+    {
+        Self::_values[i] += vec._values[i];
+    }
+}
+
+//! Component wise vector substraction
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+void PointInterface<ValueTypeT, StorageInterfaceT>::operator -=(
+    const VecInterface &vec)
+{
+    for(UInt32 i = 0; i < Self::_iSize; i++)
+    {
+        Self::_values[i] -= vec._values[i];
+    }
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1083,12 +1124,10 @@ PointInterface<ValueTypeT, StorageInterfaceT> &
     PointInterface<ValueTypeT, StorageInterfaceT>::operator =(
         const PointInterface &source)
 {
-    UInt32 i;
-
     if(this == &source)
         return *this;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = source._values[i];
     }
@@ -1104,10 +1143,9 @@ template <class ValueTypeT,
 bool PointInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const PointInterface &other) const
 {
-    UInt32 i;
     bool ret = true;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         if(Self::_values[i] >= other._values[i])
         {
@@ -1153,9 +1191,7 @@ PointInterface<ValueTypeT, StorageInterfaceT>
 {
     PointInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = vec[i] * val;
     }
@@ -1171,10 +1207,7 @@ std::ostream &operator <<(        std::ostream                 &os,
                           const   PointInterface<ValueTypeT,
                                             StorageInterfaceT> &obj)
 {
-
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         os << obj[i];
 
@@ -1184,6 +1217,7 @@ std::ostream &operator <<(        std::ostream                 &os,
 
     return os;
 }
+
 
 
 
@@ -1219,9 +1253,7 @@ template <class ValueTypeT,
 VectorInterface<ValueTypeT, StorageInterfaceT>::VectorInterface(void) : 
     Inherited()
 {
-    UInt32 i;
-
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
     }
@@ -1253,6 +1285,62 @@ VectorInterface<ValueTypeT,
     Inherited(pVals)
 {
 }
+
+/*! \brief Constructor which take a lot of types as it's argument :-).
+  
+  The argument type must provide a _iSize enum entry, a *getValueRef(void)
+  function and the value types must be convertable to the current one.
+  The main problem is that through the constructor
+  VecBase(const ValueTypeT *pVals); and the following cast
+  operator const ValueTypeT * (void); you are able to to the
+  following :
+  \code
+  void foo(void)
+  {
+      ClassWithValueTypeT_*_Cast v2f;
+      Vec4f v4f(v2f);
+  }
+  \endcode
+  This will at least give you some array read out of bounds erros;
+  So this constructor make the things a little bit more save, but you
+  will get nasty error messages from the compiler if the argument does
+  not satisfy the requirements given above.
+*/
+
+#ifdef __sgi
+#pragma set woff 1209
+#endif
+
+template <class ValueTypeT,
+          class StorageInterfaceT> 
+template <class VectorT          > inline
+VectorInterface<ValueTypeT, 
+                StorageInterfaceT>::VectorInterface(const VectorT &vec) : 
+                    Inherited()
+{
+    if(Self::_iSize <= VectorT::_iSize)
+    {
+        for(UInt32 i = 0; i < Self::_iSize; i++)
+        {
+            Self::_values[i] = vec.getValues()[i];
+        }
+    }
+    else
+    {
+        for(UInt32 i = 0; i < VectorT::_iSize; i++)
+        {
+            Self::_values[i] = vec.getValues()[i];
+        }
+        for(UInt32 i = VectorT::_iSize; i < Self::_iSize; i++)
+        {
+            Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
+        }
+    }
+}
+
+#ifdef __sgi
+#pragma reset woff 1209
+#endif
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
@@ -1334,11 +1422,9 @@ template <class ValueTypeT,
 typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     VectorInterface<ValueTypeT, StorageInterfaceT>::length(void) const
 {
-    UInt32 i;
-
     RealReturnType rTmpVal = Self::_values[0] * Self::_values[0];
 
-    for(i = 1; i < Self::_iSize; i++)
+    for(UInt32 i = 1; i < Self::_iSize; i++)
     {
         rTmpVal += Self::_values[i] * Self::_values[i];
     }
@@ -1352,8 +1438,6 @@ template <class ValueTypeT,
           class StorageInterfaceT> inline
 void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
 {
-    UInt32 i;
-
     ValueTypeT rLength = length();
 
     if(osgabs(rLength) < Eps)
@@ -1365,7 +1449,7 @@ void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
         rLength = TypeConstants<ValueTypeT>::getOneElement() / rLength;
     }
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         Self::_values[i] *= rLength;
     }
@@ -1462,11 +1546,9 @@ template <class ValueTypeT,
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot(
     const VectorInterface &vec) const
 {
-    UInt32 i;
-
     ValueTypeT rTmpVal = Self::_values[0] * vec._values[0];
 
-    for(i = 1; i < Self::_iSize; i++)
+    for(UInt32 i = 1; i < Self::_iSize; i++)
     {
         rTmpVal += Self::_values[i] * vec._values[i];
     }
@@ -1487,11 +1569,9 @@ template <class ValueTypeT,
 ValueTypeT VectorInterface<ValueTypeT, StorageInterfaceT>::dot (
         const PntInterface &pnt) const
 {
-    UInt32 i;
-
     ValueTypeT rTmpVal = Self::_values[0] * pnt[0];
 
-    for(i = 1; i < Self::_iSize; i++)
+    for(UInt32 i = 1; i < Self::_iSize; i++)
     {
         rTmpVal += Self::_values[i] * pnt[i];
     }
@@ -1579,24 +1659,24 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
 
 template <class ValueTypeT,
           class StorageInterfaceT> inline
-typename VectorInterface<ValueTypeT, 
-                         StorageInterfaceT>::PntInterface &
-    VectorInterface<ValueTypeT, 
-                    StorageInterfaceT>::addToZero(void)
-{
-    return *(static_cast<PntInterface *>(this));
-}
-
-//! Returns the corrosponding point by adding it to zero
-
-template <class ValueTypeT,
-          class StorageInterfaceT> inline
 const typename VectorInterface<ValueTypeT, 
                                StorageInterfaceT>::PntInterface &
     VectorInterface<ValueTypeT, 
                     StorageInterfaceT>::addToZero(void) const
 {
     return *(static_cast<const PntInterface *>(this));
+}
+
+//! Returns the corrosponding point by adding it to zero
+
+template <class ValueTypeT,
+          class StorageInterfaceT> inline
+typename VectorInterface<ValueTypeT, 
+                         StorageInterfaceT>::PntInterface &
+    VectorInterface<ValueTypeT, 
+                    StorageInterfaceT>::addToZero(void)
+{
+    return *(static_cast<PntInterface *>(this));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1612,9 +1692,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 {
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] - vec[i];
     }
@@ -1632,9 +1710,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 {
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] + vec[i];
     }
@@ -1653,9 +1729,7 @@ VectorInterface <ValueTypeT, StorageInterfaceT>
 {
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = Self::_values[i] * rVal;
     }
@@ -1670,11 +1744,9 @@ template <class ValueTypeT,
 VectorInterface<ValueTypeT, StorageInterfaceT>
     VectorInterface<ValueTypeT, StorageInterfaceT>::operator -(void) const
 {
-    UInt32 i;
-
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         returnValue._values[i] = - Self::_values[i];
     }
@@ -1707,10 +1779,9 @@ template <class ValueTypeT,
 bool VectorInterface<ValueTypeT, StorageInterfaceT>::operator < (
     const VectorInterface &other) const
 {
-    UInt32 i;
-    bool   ret = true;
+    bool ret = true;
 
-    for(i = 0; i < Self::_iSize; i++)
+    for(UInt32 i = 0; i < Self::_iSize; i++)
     {
         if(Self::_values[i] > other._values[i])
         {
@@ -1759,9 +1830,7 @@ VectorInterface<ValueTypeT, StorageInterfaceT>
 {
     VectorInterface<ValueTypeT, StorageInterfaceT> returnValue;
 
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         returnValue[i] = vec[i] * val;
     }
@@ -1777,9 +1846,7 @@ std::ostream &operator <<(        std::ostream                  &os,
                           const   VectorInterface<ValueTypeT,
                                              StorageInterfaceT> &obj)
 {
-    UInt32 i;
-
-    for(i = 0; i < StorageInterfaceT::_iSize; i++)
+    for(UInt32 i = 0; i < StorageInterfaceT::_iSize; i++)
     {
         os << obj[i];
 

@@ -138,6 +138,7 @@ UInt32 TypeFactory::registerType(TypeBase *pType)
     return returnValue;
 }
 
+
 UInt32 TypeFactory::findTypeId(const Char8 *szName,
                                const UInt32 uiNameSpace)
 {
@@ -159,6 +160,7 @@ UInt32 TypeFactory::findTypeId(const Char8 *szName,
 	return uiTypeId;
 }
 
+
 TypeBase *TypeFactory::findType(UInt32 uiTypeId)
 {
     if(uiTypeId < _vTypeStore.size())
@@ -171,18 +173,21 @@ TypeBase *TypeFactory::findType(UInt32 uiTypeId)
     }
 }
 
-TypeBase *TypeFactory::findType(const Char8    *szName,
-                                const UInt32    uiNameSpace)
+
+TypeBase *TypeFactory::findType(const Char8  *szName,
+                                const UInt32  uiNameSpace)
 {
     UInt32 uiTypeId = findTypeId(szName, uiNameSpace);
 
     return findType(uiTypeId);
 }
 
+
 UInt32 TypeFactory::getNumTypes(void)
 {
     return _vTypeStore.size();
 }
+
 
 void TypeFactory::writeTypeGraph(const Char8 *szFilename)
 {
@@ -206,7 +211,6 @@ void TypeFactory::writeTypeGraph(const Char8 *szFilename)
     fprintf(pOut, "    size=\"8,60\";\n");
     fprintf(pOut, "    page=\"8.2677,11.69\";\n");
     fprintf(pOut, "    radio=auto;\n");
-
 
     for(UInt32 i = 1; i < _vTypeStore.size(); i++)
     {
@@ -258,6 +262,7 @@ void TypeFactory::writeTypeDot(FILE     *pOut,
                 pTypeBase->getCName());
     }
 }
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

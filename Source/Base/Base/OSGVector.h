@@ -63,12 +63,13 @@ class PointInterface;
 
 //! Vector storage holding 2 elements, for details about how vectors,
 //! points and matrices are actually build see \ref vecpointmat.
-//! \ingroup BaseMathVectors
+//! \ingroup BaseBaseMath
 
 template <class ValueTypeT>
 class VecStorage2
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     static const UInt32 _iSize = 2;
@@ -102,11 +103,13 @@ class VecStorage2
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     ValueTypeT _values[_iSize];
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -124,12 +127,13 @@ class VecStorage2
 
 //! Vector storage holding 3 elements, for details about how vectors,
 //! points and matrices are actually build see \ref vecpointmat.
-//! \ingroup BaseMathVectors
+//! \ingroup BaseBaseMath
 
 template <class ValueTypeT>
 class VecStorage3
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     static const UInt32 _iSize = 3;
@@ -166,11 +170,13 @@ class VecStorage3
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     ValueTypeT _values[_iSize];
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -188,12 +194,13 @@ class VecStorage3
 
 //! Vector storage holding 4 elements, for details about how vectors,
 //! points and matrices are actually build see \ref vecpointmat.
-//! \ingroup BaseMathVectors
+//! \ingroup BaseBaseMath
 
 template <class ValueTypeT>
 class VecStorage4
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     static const UInt32 _iSize = 4;
@@ -233,11 +240,13 @@ class VecStorage4
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     ValueTypeT _values[_iSize];
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 
     /*!\brief prohibit default function (move to 'public' if needed) */
@@ -255,7 +264,7 @@ class VecStorage4
 
 //! Point Interface, for details about how vectors, points and matrices
 //! are actually build see \ref vecpointmat.
-//! \ingroup BaseMathVectors
+//! \ingroup BaseBaseMath
 
 #ifdef __sgi
 #pragma set woff 1375
@@ -265,6 +274,7 @@ template<class ValueTypeT, class StorageInterfaceT>
 class PointInterface : public StorageInterfaceT
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef          StorageInterfaceT                         Inherited;
@@ -286,74 +296,18 @@ class PointInterface : public StorageInterfaceT
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    PointInterface(void);
+             PointInterface(      void                  );
 
-    explicit PointInterface(const ValueTypeT *pVals);
-    explicit PointInterface(      ValueTypeT *pVals);
-
-    /*! \brief Constructor which take a lot of types as it's argument :-).
-     
-       The argument type must provide a _iSize enum entry, a *getValueRef(void)
-       function and the value types must be convertable to the current one.
-       The main problem is that through the constructor
-       VecBase(const ValueTypeT *pVals); and the following cast
-       operator const ValueTypeT * (void); you are able to to the
-       following :
-       \code
-       void foo(void)
-       {
-           ClassWithValueTypeT_*_Cast v2f;
-           Vec4f v4f(v2f);
-       }
-       \endcode
-       This will at least give you some array read out of bounds erros;
-       So this constructor make the things a little bit more save, but you
-       will get nasty error messages from the compiler if the argument does
-       not satisfy the requirements given above.
-     
-       Thanks to that ****** MS Compiler the code must be included within
-       the header file, but at least it seems work ;-) (GV)
-    */
-
-#ifdef __sgi
-#pragma set woff 1209
-#endif
+    explicit PointInterface(const ValueTypeT     *pVals );
+    explicit PointInterface(      ValueTypeT     *pVals );
 
     template<class VectorT> 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
-             PointInterface(const VectorT &vec) : 
-#else
-    explicit PointInterface(const VectorT &vec) : 
+#ifndef OSG_MICROSOFT_COMPILER_HACKS
+    explicit 
 #endif
-        Inherited()
-    {
-        UInt32 i;
-        
-        if(Self::_iSize <= VectorT::_iSize)
-        {
-            for(i = 0; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-        }
-        else
-        {
-            for(i = 0; i < VectorT::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-            for(i = VectorT::_iSize; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-            }
-        }
-    }
+             PointInterface(const VectorT        &vec   ); 
 
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
-
-    PointInterface(const PointInterface &source);
+             PointInterface(const PointInterface &source);
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
@@ -396,63 +350,17 @@ class PointInterface : public StorageInterfaceT
        so I do not implement this one, any problems with that (GV)
     */
 
-    void setValue(const ValueTypeT &rVal1);
+    void setValue(const ValueTypeT     &rVal1);
 #endif
 
-    void setValue(const PointInterface &vec);
-
-    /*! \brief Set function which take a lot of types as it's argument :-).
-     
-       The argument type must provide a _iSize enum entry, a *getValues(void)
-       function and the value types must be convertable to the current one.
-       The main problem is that through the set function
-       void setValue(const ValueTypeT *pVals); and the following cast
-       operator const ValueTypeT * (void); you are able to to the
-       following :
-       \code
-       void foo(void)
-       {
-           ClassWithValueTypeT_*_Cast v2f;
-           Vec4f v4f;
-     
-           v4f.setValue(v2f);
-       }
-       \endcode
-       This will at least give you some array read out of bounds erros;
-       So this function make the things a little bit more save, but you
-       will get nasty error messages from the compiler if the argument does
-       not satisfy the requirements given above.
-     
-       Thanks to that ****** MS Compiler the code must be included within
-       the header file, but at least it seems to work ;-) (GV)
-    */
-
-#ifdef __sgi
-#pragma set woff 1209
-#endif
+    void setValue(const PointInterface &vec     );
 
     template<class VectorT>
-    void setValue(const VectorT &vec)
-    {
-        UInt32 i;
-        
-        for(i = 0;
-            i < (Self::_iSize < VectorT::_iSize ? 
-                                              Self::_iSize : VectorT::_iSize);
-            i++)
-        {
-            Self::_values[i] = vec.getValues()[i];
-        }
-    }
+    void setValue(const VectorT        &vec     );
 
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
-
-    void setValue(const ValueTypeT *pVals);
-
-    void setValue(const Char8      *szString);
-    void setValue(      Char8      *szString);
+    void setValue(const ValueTypeT     *pVals   );
+    void setValue(const Char8          *szString);
+    void setValue(      Char8          *szString);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -467,28 +375,28 @@ class PointInterface : public StorageInterfaceT
     /*! \name                   Common Math                                */
     /*! \{                                                                 */
 
-          bool            isZero  (void                           ) const;
+          bool            isZero  (      void                     ) const;
 
-          void            negate  (void                           );
+          void            negate  (      void                     );
 
           bool            equals  (const PointInterface &vec,
                                    const ValueTypeT      tolerance) const;
 
-          VecInterface   &subZero (void                           );
-    const VecInterface   &subZero (void                           ) const;
+          VecInterface   &subZero (      void                     );
+    const VecInterface   &subZero (      void                     ) const;
 
           RealReturnType  dist    (const PointInterface &vec      ) const;
           RealReturnType  dist2   (const PointInterface &vec      ) const;
 
-          RealReturnType  maxValue(void                           ) const;
+          RealReturnType  maxValue(      void                     ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Math                                    */
     /*! \{                                                                 */
 
-    void            operator *=(const ValueTypeT      val);
-    void            operator /=(const ValueTypeT      val);
+    void            operator *=(const ValueTypeT      val );
+    void            operator /=(const ValueTypeT      val );
 
     VecInterface    operator - (const PointInterface &vec ) const;
 
@@ -498,8 +406,7 @@ class PointInterface : public StorageInterfaceT
 
     PointInterface  operator * (const ValueTypeT      rVal) const;
 
-    PointInterface  operator - (void);
-
+    PointInterface  operator - (      void                );
 
     void            operator +=(const VecInterface   &vec );
     void            operator -=(const VecInterface   &vec );
@@ -539,9 +446,11 @@ class PointInterface : public StorageInterfaceT
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 };
 
@@ -559,19 +468,23 @@ std::ostream &operator <<(        std::ostream                 &os,
                           const   PointInterface<ValueTypeT,
                                             StorageInterfaceT> &obj);
 
+
+
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
 
 //! Vector Interface, for details about how vectors, points and matrices
 //! are actually build see \ref vecpointmat.
-//! \ingroup BaseMathVectors
+//! \ingroup BaseBaseMath
 
 template<class ValueTypeT, class StorageInterfaceT>
 class VectorInterface :
     public PointInterface<ValueTypeT, StorageInterfaceT>
 {
     /*==========================  PUBLIC  =================================*/
+
   public:
 
     typedef          PointInterface<ValueTypeT,
@@ -592,73 +505,18 @@ class VectorInterface :
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VectorInterface(void);
+             VectorInterface(      void                   );
 
-    explicit VectorInterface(const ValueTypeT *pVals);
-    explicit VectorInterface(      ValueTypeT *pVals);
-
-    /*! \brief Constructor which take a lot of types as it's argument :-).
-     
-       The argument type must provide a _iSize enum entry, a *getValueRef(void)
-       function and the value types must be convertable to the current one.
-       The main problem is that through the constructor
-       VecBase(const ValueTypeT *pVals); and the following cast
-       operator const ValueTypeT * (void); you are able to to the
-       following :
-       \code
-       void foo(void)
-       {
-           ClassWithValueTypeT_*_Cast v2f;
-           Vec4f v4f(v2f);
-       }
-       \endcode
-       This will at least give you some array read out of bounds erros;
-       So this constructor make the things a little bit more save, but you
-       will get nasty error messages from the compiler if the argument does
-       not satisfy the requirements given above.
-     
-       Thanks to that ****** MS Compiler the code must be included within
-       the header file, but at least it seems work ;-) (GV)
-    */
-
-#ifdef __sgi
-#pragma set woff 1209
-#endif
+    explicit VectorInterface(const ValueTypeT      *pVals );
+    explicit VectorInterface(      ValueTypeT      *pVals );
 
     template<class VectorT> 
-#ifdef OSG_MICROSOFT_COMPILER_HACKS
-             VectorInterface(const VectorT &vec) : Inherited()
-#else
-    explicit VectorInterface(const VectorT &vec) : Inherited()
+#ifndef OSG_MICROSOFT_COMPILER_HACKS
+    explicit 
 #endif
-    {
-        UInt32 i;
-        
-        if(Self::_iSize <= VectorT::_iSize)
-        {
-            for(i = 0; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-        }
-        else
-        {
-            for(i = 0; i < VectorT::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-            for(i = VectorT::_iSize; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = TypeConstants<ValueTypeT>::getZeroElement();
-            }
-        }
-    }
+             VectorInterface(const VectorT         &vec   );
 
-#ifdef __sgi
-#pragma reset woff 1209
-#endif
-
-    VectorInterface(const VectorInterface &source);
+             VectorInterface(const VectorInterface &source);
 
 #if 0
     /* Constructor which takes one value, remaining entries will be zero;
@@ -666,7 +524,7 @@ class VectorInterface :
        so I do not implement this one, any problems with that (GV)
     */
 
-    VectorInterface(const ValueTypeT rVal1);
+             VectorInterface(const ValueTypeT       rVal1 );
 #endif
 
     /* Found so far no way to move these constructors to the memory
@@ -693,9 +551,9 @@ class VectorInterface :
     /*! \name                   Common Math                                */
     /*! \{                                                                 */
 
-    RealReturnType  length       (void)                         const;
+    RealReturnType  length       (      void                  ) const;
 
-    void            normalize    (void);
+    void            normalize    (      void                  );
 
     VectorInterface cross        (const VectorInterface &vec  ) const;
     VectorInterface operator %   (const VectorInterface &vec  ) const;
@@ -729,7 +587,7 @@ class VectorInterface :
 
     VectorInterface operator * (const ValueTypeT       rVal) const;
 
-    VectorInterface operator - (void)                        const;
+    VectorInterface operator - (      void                 ) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -750,9 +608,11 @@ class VectorInterface :
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
+
   protected:
 
     /*==========================  PRIVATE  ================================*/
+
   private:
 };
 
@@ -776,83 +636,83 @@ std::ostream &operator <<(        std::ostream                  &os,
 
 /*! \var typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
     \brief Vec2f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef VectorInterface<Real32, VecStorage2<Real32> > Vec2f;
 
 /*! \var typedef Vec2f *Vec2fP;
     \brief Vec2fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Vec2f *Vec2fP;
 
 /*! \var typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
     \brief Vec3f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef VectorInterface<Real32, VecStorage3<Real32> > Vec3f;
 
 /*! \var typedef Vec3f *Vec3fP;
     \brief Vec3fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 typedef Vec3f *Vec3fP;
 
 /*! \var typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
     \brief Vec4f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef VectorInterface<Real32, VecStorage4<Real32> > Vec4f;
 
 /*! \var typedef Vec4f *Vec4fP;
     \brief Vec4fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Vec4f *Vec4fP;
 
 /*! \var typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
     \brief Vec2s
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef VectorInterface<UInt16, VecStorage2<UInt16> > Vec2s;
 
 /*! \var typedef Vec2s *Vec2sP;
     \brief Vec2sP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Vec2s *Vec2sP;
 
 /*! \var typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
     \brief Vec4ub
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef VectorInterface<UInt8, VecStorage4<UInt8> > Vec4ub;
 
 /*! \var typedef Vec4ub *Vec4ubP;
     \brief Vec4ubP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 typedef Vec4ub *Vec4ubP;
 
 
 /*! \var typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
     \brief Vec2f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real32, VecStorage2<Real32> > Pnt2f;
 
 /*! \var typedef Pnt2f *Pnt2fP;
     \brief Vec2fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt2f *Pnt2fP;
@@ -860,14 +720,14 @@ typedef Pnt2f *Pnt2fP;
 
 /*! \var typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
     \brief Pnt2d
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real64, VecStorage2<Real64> > Pnt2d;
 
 /*! \var typedef Pnt2d *Pnt2dP;
     \brief Vec2dP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt2d *Pnt2dP;
@@ -875,70 +735,70 @@ typedef Pnt2d *Pnt2dP;
 
 /*! \var typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
     \brief Vec3f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real32, VecStorage3<Real32> > Pnt3f;
 
 /*! \var typedef Pnt3f *Pnt3fP;
     \brief Vec3fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt3f *Pnt3fP;
 
 /*! \var typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
     \brief Vec3d
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real64, VecStorage3<Real64> > Pnt3d;
 
 /*! \var typedef Pnt3d *Pnt3dP;
     \brief Vec3dP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt3d *Pnt3dP;
 
 /*! \var typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
     \brief Vec4f
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real32, VecStorage4<Real32> > Pnt4f;
 
 /*! \var typedef Pnt4f *Pnt4fP;
     \brief Vec4fP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt4f *Pnt4fP;
 
 /*! \var typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
     \brief Pnt4d
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<Real64, VecStorage4<Real64> > Pnt4d;
 
 /*! \var typedef Pnt4d *Pnt4dP;
     \brief Vec4dP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Pnt4d *Pnt4dP;
 
 /*! \var typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
     \brief Vec2s
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef PointInterface<UInt16, VecStorage2<UInt16> > Pnt2s;
 
 /*! \var typedef Vec2s *Vec2sP;
     \brief Vec2sP
-    \ingroup BaseMathVectors
+    \ingroup BaseBaseMath
 */
 
 typedef Vec2s *Vec2sP;

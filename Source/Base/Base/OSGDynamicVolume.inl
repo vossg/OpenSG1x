@@ -49,84 +49,35 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** gives the center of the volume */
+
 inline
-void DynamicVolume::getCenter (Pnt3f &center) const
+DynamicVolume::~DynamicVolume(void)
 {
-    getInstance().getCenter(center);
 }
 
-/** gives the scalar volume of the volume */
+
 inline
-float DynamicVolume::getScalarVolume (void) const
-{
-    return getInstance().getScalarVolume();
+const Volume &DynamicVolume::getInstance(void) const
+{ 
+    return *(reinterpret_cast<const OSG::Volume *>(_volumeMem)); 
 }
 
-/** gives the boundaries of the volume */
+
 inline
-void DynamicVolume::getBounds( Pnt3f &min, Pnt3f &max ) const
-{
-    getInstance().getBounds(min,max);
+Volume &DynamicVolume::getInstance(void)
+{ 
+    return *(reinterpret_cast<OSG::Volume *>(_volumeMem)); 
 }
 
-/** extends (if necessary) to contain the given 3D point */
+
 inline
-void DynamicVolume::extendBy (const Pnt3f &pt)
+DynamicVolume::Type DynamicVolume::getType(void) const 
 {
-    getInstance().extendBy(pt);
+    return _type; 
 }
 
-/** extend the volume by the given volume */
-inline
-void DynamicVolume::extendBy (const Volume &volume)
-{
-    getInstance().extendBy(volume);
-}
-
-/** Returns true if intersection of given point and Volume is not empty */
-inline
-bool DynamicVolume::intersect (const Pnt3f &point) const
-{
-    return getInstance().intersect(point);
-}
-
-/** intersect the volume with the given Line */
-inline
-bool DynamicVolume::intersect (const Line &line ) const
-{
-    return getInstance().intersect(line);
-}
-
-/** intersect the volume with the given Line */
-inline
-bool DynamicVolume::intersect ( const Line &line,
-                                                Real32 &enter, Real32 &exit  ) const
-{
-    return getInstance().intersect(line,enter,exit);
-}
-
-/** intersect the volume with another volume */
-inline
-bool DynamicVolume::intersect (const Volume &volume) const
-{
-    return getInstance().intersect(volume);
-}
-
-/** check if the point is on the volume's surface */
-inline
-bool DynamicVolume::isOnSurface (const Pnt3f &point) const
-{
-    return getInstance().isOnSurface(point);
-}
-
-/** transform the volume bye the given matrix*/
-inline
-void DynamicVolume::transform (const Matrix &matrix)
-{
-    getInstance().transform(matrix);
-}
 
 OSG_END_NAMESPACE
 
-#endif // DYNAMICVOLUME_CLASS_DECLARATION
+#endif // _OSGDYNAMICVOLUME_H_
+
