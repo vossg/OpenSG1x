@@ -267,8 +267,8 @@ class OSG_BASE_DLLMAPPING ThreadManager
     friend class Lock;
     friend class LockPool;
 
-    friend bool osgInit(Int32 argc, Char8 **argv);
-    friend bool osgExit(void                    );
+    friend OSG_BASE_DLLMAPPING bool osgInit(Int32 argc, Char8 **argv);
+    friend OSG_BASE_DLLMAPPING bool osgExit(void                    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
