@@ -36,7 +36,7 @@
 #include "OSGPerspectiveCamera.h"
 #include "OSGSolidBackground.h"
 
-#include "OSGGrabFileForeground.h"
+#include "OSGFileGrabForeground.h"
 
 #include "OSGTrackball.h"
 
@@ -54,7 +54,7 @@ PerspectiveCameraPtr cam;
 ViewportPtr vp;
 WindowPtr win;
 
-GrabFileForegroundPtr fgnd;
+FileGrabForegroundPtr fgnd;
 
 TransformPtr cam_trans;
 
@@ -331,7 +331,7 @@ int main (int argc, char **argv)
     SolidBackgroundPtr bkgnd = SolidBackground::create();
 
     // Foreground
-    fgnd = GrabFileForeground::create();
+    fgnd = FileGrabForeground::create();
 
     fgnd->setName("test.%03d.ppm");
     fgnd->setIncrement(true);

@@ -41,7 +41,7 @@
 #include "OSGSkyBackground.h"
 #include "OSGSolidBackground.h"
 
-#include <OSGOSGWriter.h>
+//#include <OSGOSGWriter.h>
 
 #include "OSGTrackball.h"
 
