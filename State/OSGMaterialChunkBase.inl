@@ -162,6 +162,18 @@ SFReal32 *MaterialChunkBase::getSFShininess(void)
 	return &_sfShininess;
 }
 
+OSG_SYSTEMLIB_DLLMAPPING
+SFBool *MaterialChunkBase::getSFLit(void)
+{
+	return &_sfLit;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFUInt32 *MaterialChunkBase::getSFColorMaterial(void)
+{
+	return &_sfColorMaterial;
+}
+
 
 OSG_SYSTEMLIB_DLLMAPPING
 Color4f &MaterialChunkBase::getDiffuse(void)
@@ -251,6 +263,42 @@ OSG_SYSTEMLIB_DLLMAPPING
 void MaterialChunkBase::setShininess( const Real32 &value )
 {
 	_sfShininess.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+Bool &MaterialChunkBase::getLit(void)
+{
+	return _sfLit.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const Bool &MaterialChunkBase::getLit(void) const
+{
+	return _sfLit.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void MaterialChunkBase::setLit( const Bool &value )
+{
+	_sfLit.setValue(value);
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+UInt32 &MaterialChunkBase::getColorMaterial(void)
+{
+	return _sfColorMaterial.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+const UInt32 &MaterialChunkBase::getColorMaterial(void) const
+{
+	return _sfColorMaterial.getValue();
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+void MaterialChunkBase::setColorMaterial( const UInt32 &value )
+{
+	_sfColorMaterial.setValue(value);
 }
 
 

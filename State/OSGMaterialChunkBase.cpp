@@ -66,6 +66,7 @@
 #include "OSGMaterialChunkBase.h"
 #include "OSGMaterialChunk.h"
 
+#include <GL/gl.h>	// ColorMaterial default header
 
 OSG_USING_NAMESPACE
 
@@ -93,9 +94,15 @@ const OSG::BitVector	MaterialChunkBase::EmissionFieldMask =
 const OSG::BitVector	MaterialChunkBase::ShininessFieldMask = 
     (1 << MaterialChunkBase::ShininessFieldId);
 
+const OSG::BitVector	MaterialChunkBase::LitFieldMask = 
+    (1 << MaterialChunkBase::LitFieldId);
+
+const OSG::BitVector	MaterialChunkBase::ColorMaterialFieldMask = 
+    (1 << MaterialChunkBase::ColorMaterialFieldId);
 
 
-char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+
+char MaterialChunkBase::cvsid[] = "@(#)$Id: OSGMaterialChunkBase.cpp,v 1.10 2001/09/04 12:57:52 dirk Exp $";
 
 /** \brief Group field description
  */
@@ -126,7 +133,17 @@ FieldDescription *MaterialChunkBase::_desc[] =
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFShininess)
+                     (FieldAccessMethod) &MaterialChunkBase::getSFShininess),
+    new FieldDescription(SFBool::getClassType(), 
+                     "lit", 
+                     LitFieldId, LitFieldMask,
+                     false,
+                     (FieldAccessMethod) &MaterialChunkBase::getSFLit),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "colorMaterial", 
+                     ColorMaterialFieldId, ColorMaterialFieldMask,
+                     false,
+                     (FieldAccessMethod) &MaterialChunkBase::getSFColorMaterial)
 };
 
 /** \brief MaterialChunk type
@@ -210,6 +227,8 @@ MaterialChunkBase::MaterialChunkBase(void) :
 	_sfSpecular	(Color4f(.5,.5,.5,0)), 
 	_sfEmission	(Color4f(0,0,0,0)), 
 	_sfShininess	(Real32(10)), 
+	_sfLit	(Bool(true)), 
+	_sfColorMaterial	(UInt32(GL_DIFFUSE)), 
 	Inherited() 
 {
 }
@@ -223,6 +242,8 @@ MaterialChunkBase::MaterialChunkBase(const MaterialChunkBase &source) :
 	_sfSpecular		(source._sfSpecular), 
 	_sfEmission		(source._sfEmission), 
 	_sfShininess		(source._sfShininess), 
+	_sfLit		(source._sfLit), 
+	_sfColorMaterial		(source._sfColorMaterial), 
 	Inherited        (source)
 {
 }
@@ -265,6 +286,16 @@ UInt32 MaterialChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShininess.getBinSize();
     }
 
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        returnValue += _sfLit.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        returnValue += _sfColorMaterial.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -299,6 +330,16 @@ MemoryHandle MaterialChunkBase::copyToBin(      MemoryHandle  pMem,
         pMem = _sfShininess.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        pMem = _sfLit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        pMem = _sfColorMaterial.copyToBin(pMem);
+    }
+
 
     return pMem;
 }
@@ -331,6 +372,16 @@ MemoryHandle MaterialChunkBase::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
     {
         pMem = _sfShininess.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        pMem = _sfLit.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        pMem = _sfColorMaterial.copyFromBin(pMem);
     }
 
 
@@ -373,6 +424,16 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
     if(FieldBits::NoField != (ShininessFieldMask & whichField))
     {
         _sfShininess.syncWith(pOther->_sfShininess);
+    }
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+    {
+        _sfLit.syncWith(pOther->_sfLit);
+    }
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+    {
+        _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
     }
 
 

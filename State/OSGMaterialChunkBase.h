@@ -73,6 +73,8 @@
 #include <OSGColor4fFields.h>	// Specular type
 #include <OSGColor4fFields.h>	// Emission type
 #include <OSGReal32Fields.h>	// Shininess type
+#include <OSGBoolFields.h>	// Lit type
+#include <OSGUInt32Fields.h>	// ColorMaterial type
 
 #include <OSGMaterialChunkFields.h>
 
@@ -113,7 +115,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
         SpecularFieldId = AmbientFieldId + 1,
         EmissionFieldId = SpecularFieldId + 1,
         ShininessFieldId = EmissionFieldId + 1,
-        NextFieldId = ShininessFieldId + 1
+        LitFieldId = ShininessFieldId + 1,
+        ColorMaterialFieldId = LitFieldId + 1,
+        NextFieldId = ColorMaterialFieldId + 1
 
     };
 
@@ -122,6 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     static const osg::BitVector SpecularFieldMask;
     static const osg::BitVector EmissionFieldMask;
     static const osg::BitVector ShininessFieldMask;
+    static const osg::BitVector LitFieldMask;
+    static const osg::BitVector ColorMaterialFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -173,6 +179,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     inline SFColor4f	*getSFSpecular(void);
     inline SFColor4f	*getSFEmission(void);
     inline SFReal32	*getSFShininess(void);
+    inline SFBool	*getSFLit(void);
+    inline SFUInt32	*getSFColorMaterial(void);
 
     /*----------------------------- access ----------------------------------*/
 
@@ -193,6 +201,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     inline       Real32	&getShininess(void);
     inline const Real32	&getShininess(void) const;
     inline       void	         setShininess( const Real32 &value );
+    inline       Bool	&getLit(void);
+    inline const Bool	&getLit(void) const;
+    inline       void	         setLit( const Bool &value );
+    inline       UInt32	&getColorMaterial(void);
+    inline const UInt32	&getColorMaterial(void) const;
+    inline       void	         setColorMaterial( const UInt32 &value );
 
 
     //!@}
@@ -242,6 +256,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! 
      */
     SFReal32	_sfShininess;
+    /*! 
+     */
+    SFBool	_sfLit;
+    /*! 
+     */
+    SFUInt32	_sfColorMaterial;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
