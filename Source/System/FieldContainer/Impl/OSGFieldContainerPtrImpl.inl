@@ -1124,16 +1124,22 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
 }
 
 // CPEditor definition
-
-CPEditor::CPEditor(void) : _fc(NullFC), _mask(0)
-{}
+inline
+CPEditor::CPEditor(void) : 
+    _fc  (NullFC), 
+    _mask(      0)
+{
+}
     
-CPEditor::CPEditor(const FieldContainerPtr fc, const BitVector mask)
-    : _fc(fc), _mask(mask)
+inline
+CPEditor::CPEditor(const FieldContainerPtr fc, const BitVector mask) :
+    _fc  (fc  ), 
+    _mask(mask)
 {
     beginEditCP(fc, mask);
 }
     
+inline
 CPEditor::~CPEditor()
 {
     if(_fc != NullFC)
