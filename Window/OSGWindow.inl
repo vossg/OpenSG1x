@@ -112,12 +112,20 @@ inline void* Window::getFunctionNoCheck( UInt32 id )
     return _extFunctions[ id ];
 }
 
-/** check the status of the indicated object 
-\warning No error checks are done on the passed index!
+/** pack the id and the status into one UInt32 
 */
-inline Window::GLObjectStatusE Window::getGLObjectStatus ( UInt32 id )
+inline UInt32 Window::packIdStatus(UInt32 id, GLObjectStatusE status)
 {
-    return (GLObjectStatusE)_mfGlObjectStatus[ id ];
+    return (id << statusShift) | status;
+}
+
+/** unpack the id and the status from one UInt32 
+*/
+inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id, 
+                                                GLObjectStatusE &status)
+{
+    id = idstatus >> statusShift;
+    status = static_cast<GLObjectStatusE>(idstatus & statusMask);
 }
 
 

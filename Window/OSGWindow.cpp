@@ -100,8 +100,6 @@ The Window base class.
 
 char Window::cvsid[] = "@(#)$Id: $";
 
-const WindowPtr Window::NullWindow(NullFC);
-
 /** global window list, need by static refreshGLObject */
 
 vector<WindowPtr>         Window::_allWindows;
@@ -157,21 +155,21 @@ void Window::initMethod (void)
 Window::Window(void) :
     Inherited()
 {
-    // reserve index 0, illegal for most OpenGL functions
-    if ( _glObjects.empty() )
-        _glObjects.push_back( NULL );   
+    // only called for prototypes, no need to init them
 }
 
 /** \brief Copy Constructor
  */
 
 Window::Window(const Window &source) :
-    Inherited(source)
-{
-//    // mark all flags as notused, i.e. have to initialize on use
-//    for ( vector<UInt32>::iterator it = _mfGlObjectStatus.begin();
-//            it != _mfGlObjectStatus.end(); ++it )
-//        *it = notused;
+    Inherited(source), 
+    _lastValidate(source._lastValidate.size(),0),
+    _extensions(),
+    _availExtensions(),
+    _extFunctions()
+{       
+    // mark all GL objects as not yet initialized
+    doInitRegisterGLObject(1, _glObjects.size() - 1);
 }
 
 /** \brief Destructor
@@ -188,11 +186,11 @@ Window::~Window(void)
 
 void Window::onCreate( const Window * )
 {
-    _allWindows.push_back( WindowPtr(*this ) );
-    
-    // mark all GL objects as not yet initialized
-    for(UInt32 i = 1; i < _glObjects.size(); ++i)
-        doInitRegisterGLObject(i);
+    // Don't add the prototype instances to the list
+    if (GlobalSystemState != Running)
+        return;
+        
+    _allWindows.push_back(WindowPtr(this)); 
 }
 
 /** \brief instance deletion
@@ -202,13 +200,10 @@ void Window::onDestroy(void)
 {
     vector<WindowPtr>::iterator it;
 
-    it = find( _allWindows.begin(), _allWindows.end(), WindowPtr( this ) );
+    it = find(_allWindows.begin(), _allWindows.end(), WindowPtr(this));
     
-    if(it == _allWindows.end()) 
-    {
-        FWARNING(("Window::onDestroy: couldn't find window %p!\n", this ));
-    }
-    else
+    // prototype windowa re not added to the list, so they might not be found.
+    if(it != _allWindows.end()) 
         _allWindows.erase( it );
 }
 
@@ -254,7 +249,7 @@ void Window::replacePort(UInt32 portIndex, const ViewportPtr &portP)
 {
     if(portP != NullFC)
     {
-        _mfPort.getValue(portIndex)->setParent(NullWindow);
+        _mfPort.getValue(portIndex)->setParent(NullFC);
         _mfPort.getValue(portIndex) = portP;
 // CHECK CHECK
 //        _mfPort.getValue(portIndex)->setParent(
@@ -273,7 +268,7 @@ void Window::replacePortBy(const ViewportPtr &portP,
     {
         if(portIt != _mfPort.end())
         {
-            (*portIt)->setParent(NullWindow);
+            (*portIt)->setParent(NullFC);
             (*portIt) = newportP;
 // CHECK CHECK
 //            (*portIt)->setParent(
@@ -290,7 +285,7 @@ void Window::subPort(const ViewportPtr &portP)
 
     if(portIt != _mfPort.end())
     {
-        (*portIt)->setParent(NullWindow);
+        (*portIt)->setParent(NullFC);
 
         _mfPort.erase(portIt);
     }
@@ -305,38 +300,36 @@ void Window::subPort(UInt32  portIndex)
 
     if(portIt != _mfPort.end())
     {
-        (*portIt)->setParent(NullWindow);
+        (*portIt)->setParent(NullFC);
 
         _mfPort.erase(portIt);
     }
 }
 
-UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
+
+// GL object handling
+
+UInt32 Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
 {
     UInt32    id, i; 
     GLObject *pGLObject;
 
+    // reserve index 0, illegal for most OpenGL functions
+    if(_glObjects.empty())
+        _glObjects.push_back( NULL );   
+
     id        = _glObjects.size();
-    i         = 0;
-    pGLObject = new GLObject( functor );
+    pGLObject = new GLObject(functor);
     
     // does the requested block fit into the capacity?
     
-    if (  ( _glObjects.capacity() >= id+num ) || ( !id )  )
+    if(_glObjects.capacity() >= id + num)
     {
-        while ( i < num ) 
-        {
-            _glObjects.push_back( pGLObject );
-
-            i = i + 1;
-        }       
-
-        for(i = id; i < id + num; ++i)
-        {
-           initRegisterGLObject(i);
-        }
+        _glObjects.insert(_glObjects.end(), num, pGLObject );
         
-        return( id );
+        initRegisterGLObject(id, num);
+       
+        return id;
     }
     
     // doesn't fit, try to find a block in the middle
@@ -344,32 +337,30 @@ UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
     UInt32 cnt = 0;        
 
     // start searching at 1, id 0 is reserved for GL
-    for ( i = 1; i < _glObjects.size(); i++ )
+    for(i = 1; i < _glObjects.size(); ++i)
     {       
-        if ( !_glObjects[i] ) 
+        if(!_glObjects[i]) 
         {
-            if ( cnt == 0 )
+            if(cnt == 0)
             {
                 id = i;
-                cnt = cnt + 1;
             }
 
-            if ( cnt == num ) 
+            ++cnt;
+
+            if(cnt == num) 
             {
                 // block of unused entries found ...
                         
-                while ( i >= id ) 
+                while(i >= id) 
                 {
                     _glObjects[i] = pGLObject;
                     i = i - 1;
                 } 
                 
-                for(i = id; i < id + num; ++i)
-                {
-                    initRegisterGLObject(i);
-                }
+                initRegisterGLObject(id, num);
                    
-                return ( id );
+                return id;
             }
         }
         else
@@ -394,225 +385,162 @@ UInt32 Window::registerGLObject ( GLObjectFunctor functor, UInt32 num )
         _glObjects.push_back( pGLObject );
     }
                 
-    for(i = id; i < id + num; ++i)
-    {
-        initRegisterGLObject(i);
-    }
+     initRegisterGLObject(id, num);
     
-    return ( id );
+    return id;
 }
 
 void Window::validateGLObject ( UInt32 id )
 {
-    UInt32 s;
-
     if ( id == 0 )
     {
         SWARNING << "Window::validateGLObject: id is 0!" << endl;
             return;
     }
     
-    s = _mfGlObjectStatus.size();
-    while ( s <= id ) 
-    {
-        _mfGlObjectStatus.push_back( notused );
-        s = s + 1;
-    }
-    
     GLObject *obj = _glObjects[id];
     
-    if(_mfGlObjectLastReinitialize.size() > id &&
-       _mfGlObjectLastReinitialize[id] == 0)
+    if(id >= _lastValidate.size()) // can happen if multi-threading
     {
-        _mfGlObjectStatus[id] = initialize;
+        _lastValidate.insert(_lastValidate.end(), 
+                             id + 1 - _lastValidate.size(),
+                             0);
+    }
+    
+    FDEBUG(("Window 0x%p (event %d,ri:%d,rf:%d): "
+            "Validating object %d: last reinit:%d, last validate:"
+            "%d last refresh: %d => %s\n", 
+            this, getGlObjectEventCounter(), 
+            _mfGlObjectLastReinitialize.size(),
+            _mfGlObjectLastRefresh.size(),
+            id, 
+            (_mfGlObjectLastReinitialize.size() > id)?
+                _mfGlObjectLastReinitialize[id]:-1,
+            _lastValidate[id],
+            (_mfGlObjectLastRefresh.size() > id)?
+                _mfGlObjectLastRefresh[id]:-1,
+            (_mfGlObjectLastReinitialize[id] == 0)?"init":
+            ((_mfGlObjectLastReinitialize[id] > _lastValidate[id])?"reinit":
+            ((_mfGlObjectLastRefresh[id] > _lastValidate[id])?"refresh":
+            "up-to-date"))
+          ));
+    
+    if(_mfGlObjectLastReinitialize[id] == 0)
+    {
         obj->incRefCounter();
-        obj->getFunctor().call( this, id );
-        _mfGlObjectStatus[id] = initialized;
+        obj->getFunctor().call(this, packIdStatus(id, initialize));
         _mfGlObjectLastReinitialize[id] = 1;
-        obj->setLastValidate(getGlObjectInvalidateCounter());
+        _lastValidate[id] = getGlObjectEventCounter();
     }
-    else if(_mfGlObjectLastReinitialize.size() > id &&
-       _mfGlObjectLastReinitialize[id] > obj->getLastValidate())
+    else if(_mfGlObjectLastReinitialize[id] > _lastValidate[id])
     {
-        _mfGlObjectStatus[id] = reinitialize;
-        obj->getFunctor().call( this, id );
-        _mfGlObjectStatus[id] = initialized;
-        obj->setLastValidate(getGlObjectInvalidateCounter());
+        obj->getFunctor().call(this, packIdStatus(id, reinitialize));
+        _lastValidate[id] = getGlObjectEventCounter();
     }
-    else if(_mfGlObjectLastRefresh.size() > id &&
-            _mfGlObjectLastRefresh[id] > obj->getLastValidate())
+    else if(_mfGlObjectLastRefresh[id] > _lastValidate[id])
     {
-        _mfGlObjectStatus[id] = needrefresh;
-        obj->getFunctor().call( this, id );
-        _mfGlObjectStatus[id] = initialized;
-        obj->setLastValidate(getGlObjectInvalidateCounter());
+        obj->getFunctor().call(this, packIdStatus(id, needrefresh));
+        _lastValidate[id] = getGlObjectEventCounter();
     }
 }
 
 void Window::refreshGLObject( UInt32 id )
 {
-    vector<WindowPtr>::iterator it;
-
-    for ( it = _allWindows.begin(); it != _allWindows.end(); it++ )
-    {
-        (*it)->doRefreshGLObject( id );
-    }
-}
-
-void Window::doRefreshGLObject( UInt32 id )
-{
     if ( id == 0 )
     {
         SWARNING << "Window::refreshGLObject: id is 0!" << endl;
-            return;
-    }
-    
-    if ( id >= _mfGlObjectStatus.size() )
-    {
-        // this can happen if an object is refreshed before it is rendered.
-
-        for(UInt32 s = _mfGlObjectStatus.size(); s <= id; s++)
-            _mfGlObjectStatus.push_back( notused );
-    }
-    
-    switch ( _mfGlObjectStatus[id] ) 
-    {
-    case notused:    // not used yet, no need to refresh
-    case destroy:
-    case finaldestroy:  // object is being destroyed, ignore refresh
-    case reinitialize:  // object is being reinitialized, ignore refresh
-        break;
-    case initialize:    // can't happen, internal temporal state
-        SWARNING << "Window::refreshGLObject: id " << id
-                 << " in state initialize ?!?!" << endl;
-        return;
-    case needrefresh:// already needing refresh
-    case initialized:
-        {
-        WindowPtr win = WindowPtr(*this);
-        beginEditCP(win, GlObjectStatusFieldMask|
-                         GlObjectLastRefreshFieldMask);
-                         
-        _mfGlObjectStatus[id] = needrefresh;
-        
-        UInt32 s = _mfGlObjectLastRefresh.size();
-        while ( s <= id ) 
-        {
-            _mfGlObjectLastRefresh.push_back(0);
-            s = s + 1;
-        }
-
-        UInt32 lastinv = getGlObjectInvalidateCounter() + 1;
-        _mfGlObjectLastRefresh[id] = lastinv;
-        setGlObjectInvalidateCounter(lastinv);
-        
-        endEditCP  (win, GlObjectStatusFieldMask|
-                         GlObjectLastRefreshFieldMask);
-        }
-        break;
-    default:
-        SWARNING << "Window::refreshGLObject: id " << id
-                 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
         return;
     }
-}
 
-void Window::reinitializeGLObject( UInt32 id )
-{
     vector<WindowPtr>::iterator it;
 
-    for ( it = _allWindows.begin(); it != _allWindows.end(); it++ )
+    for ( it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
-        (*it)->doReinitializeGLObject( id );
+        beginEditCP(*it, GlObjectEventCounterFieldMask|
+                         GlObjectLastRefreshFieldMask);
+
+        UInt32 lastinv = (*it)->getGlObjectEventCounter() + 1;
+        MFUInt32 &field = (*it)->_mfGlObjectLastRefresh;
+        if(field.size() < id)
+            field.getValues().insert(field.end(), id - field.size() + 1, 0 );
+        field[id] = lastinv;
+        (*it)->setGlObjectEventCounter(lastinv);
+
+        endEditCP  (*it, GlObjectEventCounterFieldMask|
+                         GlObjectLastRefreshFieldMask);
     }
 }
 
-void Window::doReinitializeGLObject( UInt32 id )
+void Window::reinitializeGLObject(UInt32 id)
 {
     if ( id == 0 )
     {
         SWARNING << "Window::reinitializeGLObject: id is 0!" << endl;
-            return;
-    }
-    
-    if ( id >= _mfGlObjectStatus.size() )
-    {
-        // this can happen if an object is reinitialized before it is rendered.
-
-        for(UInt32 s = _mfGlObjectStatus.size(); s <= id; s++)
-            _mfGlObjectStatus.push_back( notused );
-    }
-    
-    switch ( _mfGlObjectStatus[id] ) 
-    {
-    case destroy:
-    case finaldestroy:  // object is being destroyed, ignore refresh
-        break;
-    case initialize:    // can't happen, internal temporal state
-        SWARNING << "Window::reinitializeGLObject: id " << id
-                 << " in state initialize ?!?!" << endl;
-        return;
-    case needrefresh: // already needing refresh, switch to reinitialize
-    case reinitialize:// already needing reinitialize
-    case initialized:
-    case notused: 
-        {
-        WindowPtr win = WindowPtr(*this);
-        beginEditCP(win, GlObjectStatusFieldMask|
-                         GlObjectLastReinitializeFieldMask);
-                         
-        _mfGlObjectStatus[id] = reinitialize;
-        
-        UInt32 s = _mfGlObjectLastReinitialize.size();
-        while ( s <= id ) 
-        {
-            _mfGlObjectLastReinitialize.push_back(0);
-            s = s + 1;
-        }
-        
-        UInt32 lastinv = getGlObjectInvalidateCounter() + 1;
-        _mfGlObjectLastReinitialize[id] = lastinv;
-        setGlObjectInvalidateCounter(lastinv);
-        
-        endEditCP  (win, GlObjectStatusFieldMask|
-                         GlObjectLastReinitializeFieldMask);
-        }
-        break;
-    default:
-        SWARNING << "Window::reinitializeGLObject: id " << id
-                 << " in state " << _mfGlObjectStatus[id] << "?!?!" << endl;
         return;
     }
-}
 
-
-void Window::initRegisterGLObject( UInt32 id )
-{
     vector<WindowPtr>::iterator it;
 
-    for ( it = _allWindows.begin(); it != _allWindows.end(); it++ )
+    for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
-        (*it)->doInitRegisterGLObject( id );
+        beginEditCP(*it, GlObjectEventCounterFieldMask|
+                         GlObjectLastReinitializeFieldMask);
+
+        UInt32 lastinv = (*it)->getGlObjectEventCounter() + 1;
+        MFUInt32 &field = (*it)->_mfGlObjectLastReinitialize;
+        if(field.size() < id)
+            field.getValues().insert(field.end(), id - field.size() + 1, 0 );
+        field[id] = lastinv;
+        (*it)->setGlObjectEventCounter(lastinv);
+
+        endEditCP  (*it, GlObjectEventCounterFieldMask|
+                         GlObjectLastReinitializeFieldMask);
     }
 }
 
-void Window::doInitRegisterGLObject( UInt32 id )
+
+void Window::initRegisterGLObject(UInt32 id, UInt32 num)
 {
     if ( id == 0 )
     {
         SWARNING << "Window::initRegisterGLObject: id is 0!" << endl;
-            return;
+        return;
     }
 
-    UInt32 s = _mfGlObjectLastReinitialize.size();
-    while ( s <= id ) 
+    vector<WindowPtr>::iterator it;
+
+    for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
-        _mfGlObjectLastReinitialize.push_back(0);
-        s = s + 1;
+        (*it)->doInitRegisterGLObject(id, num);
     }
 }
 
-void Window::destroyGLObject ( UInt32 id, UInt32 num )
+void Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
+{
+    WindowPtr win(this);
+    
+    beginEditCP(win, GlObjectLastReinitializeFieldMask|
+                     GlObjectLastRefreshFieldMask);
+
+    if(_mfGlObjectLastReinitialize.size() < id + num)
+    {
+        _mfGlObjectLastReinitialize.resize(id + num);
+        _mfGlObjectLastRefresh.resize(id + num);
+        _lastValidate.resize(id + num);
+    }
+
+    for(UInt32 i = id; i < id + num; ++i)
+    {
+        _mfGlObjectLastReinitialize.setValue(0, i);
+        _mfGlObjectLastRefresh.setValue(0, i);
+        _lastValidate[i] = 0;
+   }
+
+    endEditCP  (win, GlObjectLastReinitializeFieldMask|
+                     GlObjectLastRefreshFieldMask);
+}
+
+void Window::destroyGLObject(UInt32 id, UInt32 num)
 {
     _glObjectDestroyList.push_back( id );
     _glObjectDestroyList.push_back( num );
@@ -631,60 +559,64 @@ void Window::dumpExtensions ( void )
 
 void Window::frameInit( void )
 {
-    // Only check after we got them from OpenGL
-    if(!_extensions.empty())
+    // get extensions and split them
+    if(_extensions.empty())
     {
-        // any new extension registered ? 
-        while ( _registeredExtensions.size() > _availExtensions.size() )
-        {                           
-            /* perform a binary search over the retrieved extension strings.
-               Push back the result as an availability flag for the extension
-               requested by the application */         
-            _availExtensions.push_back( binary_search( 
-                           _extensions.begin(),
-                           _extensions.end(),
-                           IDString(_registeredExtensions[
-                                _availExtensions.size()]) ) );
-        }
-
-        while ( _registeredFunctions.size() > _extFunctions.size() )
-        {   
-            const Char8 *s = _registeredFunctions[_extFunctions.size()].str();
-            void *func     = (void*)getFunctionByName(s);
-
-            _extFunctions.push_back(func);
-        }
+        IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
+        s.tokenize( _extensions );
+        sort( _extensions.begin(), _extensions.end() );
+        
+        // if we don't have any extensions, add something anyway
+        if(_extensions.empty())
+            _availExtensions.resize(_registeredExtensions.size(), false);
     }
-    else
-    {
-        // Just to make sure the hasExtension finds something
-        _availExtensions.resize(_registeredExtensions.size(), false);
+    
+    // any new extension registered ? 
+    while(_registeredExtensions.size() > _availExtensions.size())
+    {                           
+        /* perform a binary search over the retrieved extension strings.
+           Push back the result as an availability flag for the extension
+           requested by the application */         
+        _availExtensions.push_back( binary_search( 
+                       _extensions.begin(),
+                       _extensions.end(),
+                       IDString(_registeredExtensions[
+                            _availExtensions.size()]) ) );
+    }
+
+    // any new functions registered ? 
+    while(_registeredFunctions.size() > _extFunctions.size())
+    {   
+        const Char8 *s    = _registeredFunctions[_extFunctions.size()].str();
+        void        *func = (void*)getFunctionByName(s);
+
+        _extFunctions.push_back(func);
     }
 }
 
-void Window::frameExit( void )
+// NOTE: this is not quite threadsafe and doesn't work in a cluster environment
+// FIXME!!!
+
+void Window::frameExit(void)
 {   
-    if ( _glObjectDestroyList.size() > 0 )
+    if(_glObjectDestroyList.size() > 0)
     {
-        UInt32 i;
+        UInt32 i, n;
         i = _glObjectDestroyList[ _glObjectDestroyList.size()-2 ] ;
+        n = _glObjectDestroyList[ _glObjectDestroyList.size()-1 ] ;
 
         UInt32 rc = _glObjects[ i ]->getRefCounter();
 
-        if ( _mfGlObjectStatus[ i ] == initialized ) 
-        {           
-        
-            _mfGlObjectStatus[ i ] = destroy;
-            _glObjects[ i ]->getFunctor().call( this, i );          
+        if(getGlObjectLastReinitialize().getValue(i) != 0) 
+        {                  
+            _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
 
             if ( ! ( rc = _glObjects[ i ]->decRefCounter() )  )
             {           
                 // call functor with the final-flag
-                _mfGlObjectStatus[ i ] = finaldestroy;
-                _glObjects[ i ]->getFunctor().call( this, i );
+                _glObjects[i]->getFunctor().call( this, 
+                                                packIdStatus(i, finaldestroy));
             }
-
-            _mfGlObjectStatus[ i ] = notused;           
         }
 
         // if the GLObject is removed from each GL-Context, free GLObject-IDs.
@@ -692,7 +624,7 @@ void Window::frameExit( void )
         if ( ! rc )
         {
             delete _glObjects[ i ];
-            for ( UInt32 j = 0; j < (*(_glObjectDestroyList.end()-1)) ; j++)
+            for ( UInt32 j = 0; j < n ; j++)
             {
                 _glObjects[i+j] = NULL;
             }   
@@ -702,18 +634,13 @@ void Window::frameExit( void )
     }
 }
 
-void Window::setupGL ( void )
+void Window::setupGL( void )
 {   
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
     glPixelStorei( GL_PACK_ALIGNMENT, 1 );
     
     glDepthFunc( GL_LEQUAL );
     glEnable( GL_DEPTH_TEST );
-
-    // get extensions and split it
-    IDString s((const Char8 *) glGetString(GL_EXTENSIONS));
-    s.tokenize( _extensions );
-    sort( _extensions.begin(), _extensions.end() );
 }
 
 /*---------------------------- properties ---------------------------------*/
@@ -827,12 +754,9 @@ Window& Window::operator = (const Window &source)
     setWidth( source.getWidth() );
     setHeight( source.getHeight() );
     _mfPort.setValues( source._mfPort.getValues() );
-    _mfGlObjectStatus.setValues( source._mfGlObjectStatus.getValues() );
     
-    // mark all flags as notused, i.e. have to initialize on use
-    for ( vector<UInt32>::iterator it = _mfGlObjectStatus.begin();
-            it != _mfGlObjectStatus.end(); ++it )
-        *it = notused;
+    // mark all GL objects as not yet initialized
+    doInitRegisterGLObject(1, _glObjects.size() - 1);
     
     return *this;
 }

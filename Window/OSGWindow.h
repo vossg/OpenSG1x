@@ -72,6 +72,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
         finaldestroy 
     };
 
+    // max status value = 7, 3 bit shift is enough 
+    enum { statusShift = 3, statusMask = 7 }; 
+    
     typedef ArgsCollector<UInt32>                      GLObjectFunctorArgs;
 
     typedef TypedVoidFunctor2Base<PtrCallArg<Window> , 
@@ -144,6 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static void     refreshGLObject     (UInt32 id);
     static void     reinitializeGLObject(UInt32 id);
     static void     destroyGLObject     (UInt32 id, UInt32 num);
+    static inline void unpackIdStatus   (UInt32 idstatus, UInt32 &id, 
+                                                GLObjectStatusE &status);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,11 +314,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name                GL object handling                            */
     /*! \{                                                                 */
 
-    static void initRegisterGLObject  (UInt32 id);
+    static        void   initRegisterGLObject  (UInt32 id, UInt32 num);
 
-           void doRefreshGLObject     (UInt32 id);
-           void doReinitializeGLObject(UInt32 id);
-           void doInitRegisterGLObject(UInt32 id);
+    static inline UInt32 packIdStatus          (UInt32 id, 
+                                                GLObjectStatusE status);
+
+                  void   doInitRegisterGLObject(UInt32 id, UInt32 num);
 
     /*! \}                                                                 */
 
@@ -348,6 +354,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name        GL Object / Extension variables                       */
     /*! \{                                                                 */
 
+    //! contains the last validate counter for the object
+    vector<UInt32>                    _lastValidate;
+  
     //! contains the split glGetString(GL_EXTENSIONS)
     vector<IDString>                  _extensions;
 

@@ -178,7 +178,6 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
     //SDEBUG << "Projection matrix: " << m << endl;
 
     glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
     glLoadMatrixf( m.getValues() );
 
     // set the viewing
@@ -188,7 +187,6 @@ void Camera::setup(      DrawActionBase *OSG_CHECK_ARG(action),
     //SDEBUG << "Viewing matrix: " << m << endl;
     
     glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
     glLoadMatrixf( m.getValues() );
 }
 
@@ -207,7 +205,6 @@ void Camera::setupProjection(      DrawActionBase *OSG_CHECK_ARG(action),
     //SDEBUG << "Projection matrix: " << m << endl;
 
     glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
     glLoadMatrixf( m.getValues() );
 }
 

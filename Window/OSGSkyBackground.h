@@ -111,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
     /*! \name                   Draw Helper                                */
     /*! \{                                                                 */
 
-    void drawFace(DrawActionBase *action, TextureChunkPtr tex, 
+    void drawFace(DrawActionBase *action, 
+                  TextureChunkPtr tex, StateChunk *&oldtex, 
                   const Pnt3f &p1, const Pnt3f &p2, 
                   const Pnt3f &p3, const Pnt3f &p4);
 
@@ -137,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGSkyBackground.inl>
 #include <OSGSkyBackgroundBase.inl>
 
-#define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: OSGSkyBackground.h,v 1.1 2002/01/08 23:33:36 dirk Exp $"
+#define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: OSGSkyBackground.h,v 1.2 2002/03/19 18:15:49 dirk Exp $"
 
 #endif /* _OSGSKYBACKGROUND_H_ */

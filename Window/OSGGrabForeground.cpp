@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.2 2002/02/26 06:10:15 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGGrabForeground.cpp,v 1.3 2002/03/19 18:15:49 dirk Exp $";
     static char cvsid_hpp[] = OSGGRABFOREGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGGRABFOREGROUND_INLINE_CVSID;
 }
@@ -126,15 +126,30 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
     
     if(i == NULL)       // No image, no grab.
         return;
-    
-    if(i->getWidth()  != port->getPixelWidth() ||
-       i->getHeight() != port->getPixelHeight() )
+
+    // If image is smaller than 2x2, resize it to vp size
+    // the 2x2 is because you can't create 0x0 images
+    if(i->getWidth() <= 1 || i->getHeight() <= 1)
     {
         i->set(i->getPixelFormat(), port->getPixelWidth(), 
                                     port->getPixelHeight());
     }
     
-    glReadPixels(0, 0, i->getWidth(), i->getHeight(), i->getPixelFormat(),
+    UInt32 w = osgMin(i->getWidth(),  port->getPixelWidth());
+    UInt32 h = osgMin(i->getHeight(), port->getPixelHeight());
+    
+    bool storeChanged = false;    
+    if(i->getWidth() != port->getPixelWidth() )
+    {
+        glPixelStorei(GL_PACK_ROW_LENGTH, i->getWidth());
+        storeChanged = true;
+    }
+    
+    glReadPixels(port->getPixelLeft(), port->getPixelBottom(), 
+                 w, h, i->getPixelFormat(),
                  GL_UNSIGNED_BYTE, i->getData());
+
+    if(storeChanged)
+        glPixelStorei(GL_PACK_ROW_LENGTH, 0);
 }
 

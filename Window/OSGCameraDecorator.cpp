@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.7 2002/02/18 06:29:20 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGCameraDecorator.cpp,v 1.8 2002/03/19 18:15:49 dirk Exp $";
     static char cvsid_hpp[] = OSGCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGCAMERADECORATOR_INLINE_CVSID;
 }
@@ -112,3 +112,41 @@ void CameraDecorator::dump(      UInt32    ,
     SLOG << "Dump CameraDecorator NI" << endl;
 }
 
+
+/*-------------------------- your_category---------------------------------*/
+
+
+/** draw the camera's geometry (if any). Usually there is none. */
+void CameraDecorator::draw(      DrawAction *action, 
+                           const Viewport   &port  )
+{
+    getDecoratee()->draw(action, port);
+}
+
+/** get the separate elements needed for rendering */
+
+void CameraDecorator::getProjection(Matrix &result,
+                                    UInt32  width ,
+                                    UInt32  height)
+{
+    getDecoratee()->getProjection(result, width, height);
+}
+
+void CameraDecorator::getProjectionTranslation(Matrix &result, 
+                                               UInt32  width , 
+                                               UInt32  height)
+{
+    getDecoratee()->getProjectionTranslation(result, width, height);
+}
+
+void CameraDecorator::getViewing(Matrix &result, 
+                                 UInt32  width , 
+                                 UInt32  height)
+{
+    getDecoratee()->getViewing(result, width, height);
+}
+
+void CameraDecorator::getFrustum( FrustumVolume& result, const Viewport& p )
+{
+    getDecoratee()->getFrustum(result, p);
+}

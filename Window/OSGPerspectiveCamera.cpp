@@ -167,6 +167,12 @@ void PerspectiveCamera::getProjection( Matrix& result,
 {
     Real32 fov = getFov();
 
+    if(fov < 0)
+    {
+        result.setIdentity();
+        return;
+    }
+    
     // try to be nice to people giving degrees...
     if ( fov > Pi )
         fov = osgdegree2rad( fov );

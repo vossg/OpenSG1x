@@ -289,8 +289,10 @@ void Viewport::render( RenderAction * action )
 //  getCamera()->setup( action, *this );
 //  getBackground()->clear( action, this );
 
-    
-
+/*
+fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(), 
+                getRoot().getCPtr());
+*/
     action->apply( getRoot() );
 
     for(UInt16 i=0; i < getForegrounds().getSize(); i++)

@@ -52,7 +52,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.3 2002/02/04 20:14:12 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.4 2002/03/19 18:15:49 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 
@@ -186,6 +186,14 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
 /*! Notifies for mouse motion
  */
 
+template <typename t>
+t osgsgn(t val)
+{
+    if(val < 0) return -1;
+    if(val > 0) return  1;
+    return 0;
+}
+
 void Navigator::moveTo(Int16 x, Int16 y)
 {
     _moved=true;
@@ -216,7 +224,8 @@ void Navigator::moveTo(Int16 x, Int16 y)
                     } break;        
                 case TRANSLATING_Z:
                     {
-                        Real32 distance=(toY-fromY);
+                        Real32 distance=osgsgn(toY-fromY)*
+                                        100.f * osgpow(osgabs(toY-fromY),2.f);
                         _trackball.translateZ(distance * _rMotionFactor);
                     } break;
             }

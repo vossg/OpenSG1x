@@ -59,7 +59,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.1 2002/02/22 17:08:05 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGProjectionCameraDecorator.cpp,v 1.2 2002/03/19 18:15:49 dirk Exp $";
     static char cvsid_hpp[] = OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID;
     static char cvsid_inl[] = OSGPROJECTIONCAMERADECORATOR_INLINE_CVSID;
 }
@@ -246,11 +246,64 @@ void ProjectionCameraDecorator::getProjectionTranslation(Matrix &result,
     getUser()->getToWorld(user);
     
     cam.invert();
+    cam.mult(user);
     
+    Vec3f dir(getNormal().getNormal()),
+          up (getBottom().getNormal()),
+          right;
+    Vec3f pos(cam[3]);
+    
+    Real32 eyeFac;
+    
+    if(getLeftEye())
+    {
+        eyeFac=-.5;
+    }
+    else
+    {
+        eyeFac=+.5;
+    }
+    
+    pos += Vec3f(cam[0]) * eyeFac * getEyeSeparation();
+    
+    right = up.cross(dir);
+    up = dir.cross(right);
+    
+    result.setIdentity();
+    result.setValue(right, up, dir, pos);
+    result.invert();
+
+    result.mult(cam);
+#if 0
+static bool hack = true;
     Quaternion q( getNormal().getNormal(), Vec3f(0,0,1));    
  
-    q.getValue(result);   
-    result.mult(cam);
-    result.mult(user);    
+    Vec3f v;
+    Real32 a;
+    q.getValueAsAxisDeg(v,a);
+   
+    // HACKKK
+    if(hack && a > 50)
+    {
+        q.getValue(result);   
+        
+        Real32 ang1 = 54.44;
+        Real32 ang2 = 6.27;
+        
+        if(v[1] < 0)    ang1 = -ang1;
+        
+        Quaternion q1,q2;
+        Matrix m1,m2;
+        
+        q1.setValueAsAxisDeg(0,1,0,ang1);
+        q2.setValueAsAxisDeg(1,0,0,ang2);
+        
+        q1.getValue(m1);
+        q2.getValue(m2);
+        
+        result = m2;
+        result.mult(m1);
+    } 
+#endif 
 }                                       
 

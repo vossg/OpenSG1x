@@ -54,37 +54,31 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGConfig.h>
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-OSG_BEGIN_NAMESPACE
+#include <OSGCameraFields.h>
 
-//---------------------------------------------------------------------------
-//  Forward References
-//---------------------------------------------------------------------------
+OSG_BEGIN_NAMESPACE
 
 class MatrixCamera;
-/** \brief MatrixCameraPtr
- */
+
+//! MatrixCameraPtr
+
 typedef FCPtr<CameraPtr, MatrixCamera> MatrixCameraPtr;
 
-OSG_END_NAMESPACE
-
-OSG_BEGIN_NAMESPACE
-/** \ingroup FieldLib MatrixCamera
- *  \brief MatrixCameraPtr field traits 
- */
+/*! \brief MatrixCameraPtr field traits 
+    \ingroup FieldLib
+    \ingroup SingleFields
+    \ingroup MultiFields
+*/
 
 template <>
-struct FieldDataTraits<OSG::MatrixCameraPtr> : 
-    public FieldTraitsRecurseMapper<OSG::MatrixCameraPtr>
+struct FieldDataTraits<MatrixCameraPtr> : 
+    public FieldTraitsRecurseMapper<MatrixCameraPtr>
 {
     static DataType             _type;                       
 
@@ -96,47 +90,43 @@ struct FieldDataTraits<OSG::MatrixCameraPtr> :
     static char     *getSName(void) { return "SFMatrixCameraPtr"; }
     static char     *getMName(void) { return "MFMatrixCameraPtr"; }
 };
-OSG_END_NAMESPACE
 
-OSG_BEGIN_NAMESPACE
-/** \brief SFMatrixCameraPtr
- */
-typedef OSG::SField<MatrixCameraPtr> SFMatrixCameraPtr;
-OSG_END_NAMESPACE
+//! SFMatrixCameraPtr
+//! \ingroup SingleFields
+
+typedef SField<MatrixCameraPtr> SFMatrixCameraPtr;
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
-OSG_BEGIN_NAMESPACE
 #if defined(__sgi)
 
-#pragma do_not_instantiate OSG::SField<OSG::MatrixCameraPtr>::_fieldType
+#pragma do_not_instantiate SField<MatrixCameraPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(SField, OSG::MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(SField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
-OSG_END_NAMESPACE
 #endif
 
-OSG_BEGIN_NAMESPACE
-/** \brief MFMatrixCameraPtr
- */
-typedef OSG::MField<MatrixCameraPtr> MFMatrixCameraPtr;
-OSG_END_NAMESPACE
+//! MFMatrixCameraPtr
+//! \ingroup MultiFields
+
+typedef MField<MatrixCameraPtr> MFMatrixCameraPtr;
 
 #ifndef OSG_COMPILEMATRIXCAMERAINST
-OSG_BEGIN_NAMESPACE
 #if defined(__sgi)
 
-#pragma do_not_instantiate OSG::MField<OSG::MatrixCameraPtr>::_fieldType
+#pragma do_not_instantiate MField<MatrixCameraPtr>::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DECL1(MField, OSG::MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DECL1(MField, MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
+#endif
+
 OSG_END_NAMESPACE
-#endif
 
+#define OSGMATRIXCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGMatrixCameraFields.h,v 1.2 2002/03/19 18:15:49 dirk Exp $"
 
 #endif /* _OSGMATRIXCAMERAFIELDS_H_ */

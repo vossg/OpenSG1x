@@ -62,7 +62,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.7 2002/02/26 06:10:15 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSkyBackground.cpp,v 1.8 2002/03/19 18:15:49 dirk Exp $";
     static char cvsid_hpp[] = OSGSKYBACKGROUND_HEADER_CVSID;
     static char cvsid_inl[] = OSGSKYBACKGROUND_INLINE_CVSID;
 }
@@ -121,14 +121,22 @@ void SkyBackground::dump(      UInt32    ,
 
 /*-------------------------- drawing ---------------------------------*/
 
-void SkyBackground::drawFace(DrawActionBase *action, TextureChunkPtr tex, 
+void SkyBackground::drawFace(DrawActionBase *action, 
+                             TextureChunkPtr tex, StateChunk* &oldtex, 
                              const Pnt3f &p1, const Pnt3f &p2, 
                              const Pnt3f &p3, const Pnt3f &p4)
 {
     
     if(tex != NullFC)
     {
-        tex->activate(action);
+        if(oldtex != NULL)
+        {
+            tex->changeFrom(action, oldtex);
+        }
+        else
+        {
+            tex->activate(action);
+        }
         
         if(tex->isTransparent())
         {
@@ -152,15 +160,13 @@ void SkyBackground::drawFace(DrawActionBase *action, TextureChunkPtr tex,
             glDisable(GL_BLEND);
         }
         
-        tex->deactivate(action);
+        oldtex = tex.getCPtr();
     }
    
 }
 
 void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
-    Matrix m;
-
     bool light = glIsEnabled(GL_LIGHTING);
     if (light)  glDisable(GL_LIGHTING);
 
@@ -175,8 +181,14 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
+    Matrix m,pt;
     action->getCamera()->getViewing( m, viewport->getPixelWidth(),
                                         viewport->getPixelHeight() );
+    action->getCamera()->getProjectionTranslation( pt, 
+                                        viewport->getPixelWidth(),
+                                        viewport->getPixelHeight() );
+    m.multLeft(pt);
+    
     m[3][0] = m[3][1] = m[3][2] = 0;
     glLoadMatrixf( m.getValues() );         
     Real32 viewscale = (m[0].length() + m[1].length() + m[2].length()) / 3.f;
@@ -326,37 +338,47 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     }
     
     // now draw the textures, if set
+    StateChunk *tchunk = NULL;
     
-    drawFace(action, getBackTexture(),   Pnt3f( 0.5, -0.5,  0.5),
+    drawFace(action, getBackTexture(),   tchunk,
+                                         Pnt3f( 0.5, -0.5,  0.5),
                                          Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(-0.5,  0.5,  0.5),
                                          Pnt3f( 0.5,  0.5,  0.5));
     
-    drawFace(action, getFrontTexture(),  Pnt3f(-0.5, -0.5, -0.5),
+    drawFace(action, getFrontTexture(),  tchunk,
+                                         Pnt3f(-0.5, -0.5, -0.5),
                                          Pnt3f( 0.5, -0.5, -0.5),
                                          Pnt3f( 0.5,  0.5, -0.5),
                                          Pnt3f(-0.5,  0.5, -0.5));
     
-    drawFace(action, getBottomTexture(), Pnt3f(-0.5, -0.5,  0.5),
+    drawFace(action, getBottomTexture(), tchunk,
+                                         Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f( 0.5, -0.5,  0.5),
                                          Pnt3f( 0.5, -0.5, -0.5),
                                          Pnt3f(-0.5, -0.5, -0.5));
     
-    drawFace(action, getTopTexture(),    Pnt3f(-0.5,  0.5, -0.5),
+    drawFace(action, getTopTexture(),    tchunk,
+                                         Pnt3f(-0.5,  0.5, -0.5),
                                          Pnt3f( 0.5,  0.5, -0.5),
                                          Pnt3f( 0.5,  0.5,  0.5),
                                          Pnt3f(-0.5,  0.5,  0.5));
     
-    drawFace(action, getLeftTexture(),   Pnt3f(-0.5, -0.5,  0.5),
+    drawFace(action, getLeftTexture(),   tchunk,
+                                         Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(-0.5, -0.5, -0.5),
                                          Pnt3f(-0.5,  0.5, -0.5),
                                          Pnt3f(-0.5,  0.5,  0.5));
     
-    drawFace(action, getRightTexture(),  Pnt3f( 0.5, -0.5, -0.5),
+    drawFace(action, getRightTexture(),  tchunk,
+                                         Pnt3f( 0.5, -0.5, -0.5),
                                          Pnt3f( 0.5, -0.5,  0.5),
                                          Pnt3f( 0.5,  0.5,  0.5),
                                          Pnt3f( 0.5,  0.5, -0.5));
-     
+    
+    if(tchunk != NULL)
+        tchunk->deactivate(action);
+    
     glClear( GL_DEPTH_BUFFER_BIT );
 
     glPopMatrix();

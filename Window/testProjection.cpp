@@ -67,9 +67,11 @@ void keyboard(unsigned char k, int, int)
     switch(k)
     {
     case 27:    exit(1);
-    case 'z':   ed /= 1.1;
+    case 'z':   ed = ed ? ed / 1.1 : 1;
                 break;
-    case 'x':   ed *= 1.1;
+    case 'x':   ed = ed ? ed * 1.1 : 1;
+                break;         
+    case 'm':   ed = 0;
                 break;         
     }
     
@@ -124,7 +126,12 @@ int main(int argc, char **argv)
     }
     else
     {
-        scene = makeTorus(.5, 3, 16, 16);
+        scene = makeBox(2,2,2, 1,1,1);
+        GeometryPtr geo = GeometryPtr::dcast(scene->getCore());
+        beginEditCP(geo);
+        geo->setMaterial(getDefaultUnlitMaterial());
+        endEditCP(geo);
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     }
     
     // create the SimpleSceneManager helper
@@ -137,15 +144,6 @@ int main(int argc, char **argv)
     
     // now crete the second vp for stereo
     ViewportPtr vp = pwin->getPort(0);
-    
-    PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(vp->getCamera());
-    beginEditCP(cam);
-    cam->setFov(deg2rad(90));
-    endEditCP  (cam);
-
-    Navigator *nav = mgr->getNavigator();
-    nav->setCenter(Pnt3f(0,0,0));
-    nav->setDistance(1.5);
     
     // create the decorators and the second viewport
     Pnt4f vppos[6] = {  Pnt4f(.25,.33,.50,.66),  // front
@@ -185,6 +183,7 @@ int main(int argc, char **argv)
     tnode->setCore(usertrans);
     endEditCP  (tnode);
     
+    PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(vp->getCamera());
     beginEditCP(cam->getBeacon());
     cam->getBeacon()->addChild(tnode);
     endEditCP  (cam->getBeacon());
@@ -232,6 +231,15 @@ int main(int argc, char **argv)
     
     // show the whole scene
     mgr->showAll();
+
+    Navigator *nav = mgr->getNavigator();
+    nav->setCenter(Pnt3f(0,0,0));
+    nav->setDistance(2);
+    
+    beginEditCP(cam);
+    cam->setNear(0.1);
+    cam->setFar (2000);
+    endEditCP  (cam);
     
     // GLUT main loop
     glutMainLoop();

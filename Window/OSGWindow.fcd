@@ -43,30 +43,22 @@ The base class for all windows.
 	>
 	</Field>
 	<Field
-		name="glObjectStatus"
-		type="UInt32"
-		cardinality="multi"
-		visibility="internal"
-		access="public"
-	>
-	The GL object's status in this window.
-	</Field>
-	<Field
-		name="glObjectInvalidateCounter"
+		name="glObjectEventCounter"
 		type="UInt32"
 		cardinality="single"
 		visibility="internal"
 		defaultValue="1"
-		access="public"
+		access="protected"
 	>
-	Counter for GL object invalidations. Needed for multi-aspect updates.
+	Counter for GL object events. Needed for multi-aspect updates.
+        Is used in glObjectLastRefresh and glObjectLastReinitialize.
 	</Field>
 	<Field
 		name="glObjectLastRefresh"
 		type="UInt32"
 		cardinality="multi"
 		visibility="internal"
-		access="public"
+		access="protected"
 	>
 	indicates the last refresh for the GL object
 	</Field>
@@ -75,7 +67,7 @@ The base class for all windows.
 		type="UInt32"
 		cardinality="multi"
 		visibility="internal"
-		access="public"
+		access="protected"
 	>
 	indicates the last reinit for the GL object
 	</Field>

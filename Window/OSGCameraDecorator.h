@@ -69,6 +69,28 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecorator : public CameraDecoratorBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                      your_category                           */
+    /*! \{                                                                 */
+
+    /** draw the camera's geometry (if any). Usually there is none. */
+    virtual void draw (DrawAction *action, const Viewport& port);
+
+    /** get the separate elements needed for rendering */
+
+    virtual void getProjection           (Matrix        &result, 
+                                          UInt32 width, UInt32 height);
+
+    virtual void getProjectionTranslation(Matrix        &result, 
+                                          UInt32 width, UInt32 height);
+
+    virtual void getViewing              (Matrix        &result, 
+                                          UInt32 width, UInt32 height);
+
+    virtual void getFrustum              (FrustumVolume &result,
+                                          const Viewport& port);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -117,6 +139,6 @@ OSG_END_NAMESPACE
 #include <OSGCameraDecorator.inl>
 #include <OSGCameraDecoratorBase.inl>
 
-#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.7 2002/02/18 06:29:20 dirk Exp $"
+#define OSGCAMERADECORATOR_HEADER_CVSID "@(#)$Id: OSGCameraDecorator.h,v 1.8 2002/03/19 18:15:49 dirk Exp $"
 
 #endif /* _OSGCAMERADECORATOR_H_ */
