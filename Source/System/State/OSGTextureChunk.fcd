@@ -133,6 +133,7 @@
 		cardinality="single"
 		visibility="internal"
 		access="public"
+		defaultValue="0"
 	>
 	</Field>
 </FieldContainer>

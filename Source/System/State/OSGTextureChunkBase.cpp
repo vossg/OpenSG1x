@@ -294,7 +294,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfWrapR                  (UInt32(GL_REPEAT)), 
     _sfEnvMode                (UInt32(GL_REPLACE)), 
     _sfEnvColor               (Color4f(0,0,0,0)), 
-    _sfGLId                   (), 
+    _sfGLId                   (UInt32(0)), 
     Inherited() 
 {
 }

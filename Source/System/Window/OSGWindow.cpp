@@ -618,9 +618,11 @@ void OSG::Window::frameInit( void )
 void OSG::Window::frameExit(void)
 {   
     std::list<DestroyEntry>::iterator st,en,del;
-    
-    for(st = _glObjectDestroyList.begin(), en = _glObjectDestroyList.end();
-        st != en; st++)
+
+    st = _glObjectDestroyList.begin();
+    en = _glObjectDestroyList.end  ();
+
+    while(st != en)
     {
         UInt32 i = st->first, n = st->second;
 
@@ -631,8 +633,11 @@ void OSG::Window::frameExit(void)
             FDEBUG(("Window::frameExit: objects %d (%d) already destroyed?!?\n",
                     i, n));
             del = st;
-            st  = --st;
+
+            ++st;
+
             _glObjectDestroyList.erase(del);
+
             continue;
         }
            
@@ -660,9 +665,16 @@ void OSG::Window::frameExit(void)
             {
                 _glObjects[i+j] = NULL;
             }   
+
             del = st;
-            st  = --st;
+
+            ++st;
+
             _glObjectDestroyList.erase(del);
+        }
+        else
+        {
+            ++st;
         }
     }
 }
