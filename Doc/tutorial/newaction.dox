@@ -1,0 +1,308 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page TutorialNewAction New Actions
+\latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="underscore.png" style="border-width:0px">
+
+Chapter Overview
+<HR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref TutorialNewActionWhatAreThey <BR>
+    >\ref TutorialNewActionHowToUse <BR>
+    >\ref TutorialNewActionActorDetails <BR>
+    >\ref TutorialNewActionActionDetails <BR>
+    >\ref TutorialNewActionCreatingActors <BR>
+
+    >\ref TutorialNewActionGlossary <BR>
+</td></tr></table>
+<HR>
+
+This chapter deals with fairly advanced topics, if you simply want to use the
+new actions it is probably sufficient to read \ref TutorialNewActionWhatAreThey
+and \ref TutorialNewActionHowToUse
+
+
+\section TutorialNewActionWhatAreThey What are NewActions
+
+The new actions, just like the current ones, are tools which can perform various
+actions on the graph. The most common case is that the graph is traversed and an
+operation is performed when a node is entered. Sometimes it is also required to
+perform an operation when a node is left, i.e. after all its children have been
+traversed.
+The new actions make a distinction between the operations to perform, these are
+encapsulated in so called actors, and the traversal control, this is inside the
+classes with names ending in Action, like DepthFirstAction and PriorityAction.
+
+
+\section TutorialNewActionHowToUse How to use NewActions
+
+First up you need to decide what operations you want to perfrom and then create
+the actors that will do them, e.g. for an intersection test you would create
+an instance of IntersectActor with code like this:
+
+\code
+    IntersectActor *pIntersectActor = IntersectActor::create();
+\endcode
+
+Please note, that instances are created like those of scene graph elements with
+a call to <tt>::create()</tt>, but since actors are no FieldContainers normal
+pointers are sufficient.
+
+Next you need an action instance and add the actor to it. Please read the
+documentation of the actors you intend to add, if they have any special requirements.
+Some of them might only work with particular actions or they must be added in a
+specific order. The code to create an DepthFirstAction instance and add the actor
+looks like this:
+
+\code
+    DepthFirstAction *pDepthFirstAction = DepthFirstAction::create();
+
+    pDepthFirstAction->addActor(pIntersectActor);
+\endcode
+
+The IntersectActor needs some setup before it can be used, e.g. you need to set
+the ray (which is of type OSG::Line) that should be tested against your scene:
+
+\code
+    // Ray from origin along positive x-axis
+    pIntersectActor->setRay(Line(Pnt3f(0.0, 0.0, 0.0), Vec3f(1.0, 0.0, 0.0)));
+\endcode
+
+For a detailed description of the IntersectActor, please look at its documentation
+generated from the source.
+
+The final step is applying the action to your graph. Just pass the root node to
+the apply method:
+
+\code
+    pDepthFirstAction->apply(pRootNode);
+\endcode
+
+Here it is assumed that pRootNode is a NodePtr that points to the scene root.
+The traversal will now run and afterwards you can get the results from the
+IntersectActor:
+
+\code
+    // did the ray hit an object in the scene ?
+    if(pIntersectActor->getHit())
+    {
+        std::cout << "An object was hit." << std::endl;
+    }
+    else
+    {
+        std::cout << "Nothing was hit." << std::endl;
+    }
+\endcode
+
+Note that there is more information you can retrieve from the IntersectActor,
+at least in the case where an object was hit.
+
+
+\section TutorialNewActionActorDetails Details on actors
+
+\subsection TutorialNewActionActorDetailsTypes The different types of actors
+
+All actors are ultimately derived from the class OSG::ActorBase, but there is
+an additional layer of abstract classes, ExtendActorBase and BasicActorBase.
+These base classes give the actors a certain grouping and indicate their capabilities.
+\ref TutorialNewActionActorDetailsExtendActorBase are the most flexible ones, the name indicates
+that they can add so called extra children to the traversal, more details follow below.
+BasicActorBase (see \ref TutorialNewActionActorDetailsBasicActorBase) is probably the
+base class for most actors, they lack the capability to add extra children, but
+are otherwise as powerful as those derived from ExtendActorBase.
+
+\subsection TutorialNewActionActorDetailsOperations How actors do their work
+
+All actors have a <tt>::enterNode(const NodePtr &pNode)</tt> and a
+<tt>::leaveNode(const NodePtr &pNode)</tt> method that is called when the actions
+enter or leave a node. The return value from enterNode/leaveNode has the follwing
+meaning:
+
+\li \c Continue    Everything ok.
+\li \c Skip        Skip all children.
+\li \c Break       Skip all children and remaining actors for this node.
+\li \c Quit        Stop the traversal alltogether.
+
+Additionally before the actual traversal starts the
+<tt>::start(void)</tt> and after it ends the <tt>::stop(void)</tt> methods are
+called. Usually initialization and cleanup tasks are performed there. The node
+that is currently traversed is passed as a parameter to \c enterNode and \c leaveNode,
+and is also available via the <tt>::getNode(void)</tt> method.
+
+\subsection TutorialNewActionActorDetailsChildrenExtraChildren Children and extra children
+
+The children of the current node can be accessed via the
+<tt>::getChild(UInt32 childIndex)</tt> method and are just the children
+the node has in the scene graph. Children may be excluded from the traversal
+with the <tt>::setActive(UInt32 childIndex)</tt> method and they may be assigned
+priorities (via <tt>setPriority(UInt32 childIndex, PrirityType prio)</tt>)
+that affects their traversal order (if the action honors this).
+The so called extra children do not have a direct relation to the scene graph,
+they may be added by ExtendActorBase derived actors and are treated as if they
+were children of the current node, without changing the graph. Arbitrary nodes
+may be added to the set of extra children, even the node itself or its regular
+children.
+
+\subsection TutorialNewActionActorDetailsExtendActorBase Actors derived from ExtendActorBase
+
+As was already mentioned above these are the most flexible actors available, as they
+are the only ones that may add extra children. All "extend actors" are called before
+any of the other actors. This makes sure that any "basic actor" and "priority actor"
+will have access to the complete list of children including the extra children.
+This is important when using actors that perform culling operations, for
+otherwise some of the extra children might not be tested, because they were added
+after the culling actor already finished.
+
+\subsection TutorialNewActionActorDetailsBasicActorBase Actors derived from BasicActorBase
+
+Being able to add extra children is generally not necessary for an actor, hence
+most are derived from BasicActorBase. One popular example is the IntersectActor
+from the examples above. "Basic actors" have the advantage of seeing the
+complete set of children of a node, hence they are ideal for culling operations.
+
+
+\section TutorialNewActionActionDetails Details on the Actions
+
+\subsection TutorialNewActionActionDetailsDepthFirstAction DepthFirstAction
+
+This action traverses the scenegraph in depth first order and thus most closely
+matches the behaviour of the old actions. Calls to both
+<tt>::enterNode(const NodePtr &pNode)</tt> and
+<tt>::leaveNode(const NodePtr &pNode)</tt> will be issued if necessary, that is
+if there is an actor that returns true from <tt>::getEnterNodeFlag()</tt> and
+<tt>::getLeaveNodeFlag()</tt> respectively.
+
+\subsection TutorialNewActionActionDetailsDepthFirstStateAction DepthFirstStateAction
+
+This action with the somewhat strange name also traverses the scenegraph in
+depth first order, but it uses a different scheme for managing the actors state.
+Unless an actor's documentation states any restrictions it should not really
+matter which of the two DepthFirstActions you choose.
+
+\subsection TutorialNewActionActionDetailsPriorityAction PriorityAction
+
+PriorityAction does not traverse the scenegraph in any predetermined order, it
+rather relies upon actors assigning a priority value to a nodes children and
+then visits the node with highest priority next. This forms the basis for
+techniques such as front-to-back rendering wich is important for occlusion
+culling. It also speeds up the IntersectActor as now objects close to the ray's
+origin are tested first, meaning that the closest intersected geometry can be
+determined faster.
+
+
+\section TutorialNewActionCreatingActors Creating Actors
+
+Finally here is the description of the necessary steps to build an actor.
+
+\subsection TutorialNewActionCreatingActorsCodeOrganisation Actor code organisation
+
+The predefined actors live in the directory "Source/Experimental/NewAction/Actors"
+and usually consist of seven files each. The .acd file contains an xml description
+of the actor and its state elements. The OSG[ActorName]Base.{cpp,h,inl} files
+contain the auto generated code and the OSG[ActorName].{cpp,h,inl} can be
+used for special customization or extensions.
+
+\subsection TutorialNewActionCreatingActorsDetailsState Details on Actor state
+
+Actor state is basically just the collective name for all the member variables of
+an actor. As the actions deal with the traversal of the scenegraph there are some
+aspects that need special consideration. In a scenegraph a lot of information
+is stored hierarchically, i.e. it is accumulated along the path from the root
+down to a specific node. Examples for this type of data are the transformation
+matrices or whether a light source illuminates a certain node.
+The current actions accumulate this data when entering a node and undo the
+change upon leaving the corresponding node. The RenderAction for example holds
+a matrix stack and when it encounters a Transform node core it multiplies the
+matrix onto this stack (like the OpenGL matrix stack) when the node is left,
+after all children where traversed, the matrix is popped off the stack.
+This scheme works seemlessly with depth first traversals, but it encounters
+problems when it comes to a priority controlled traversal. A priority traversal
+may "jump" between different paths inside the graph and hence must keep copies
+of the accumulated state for each path that still has nodes in it. To reduce
+the amount of copied data there is the destinction between "hierarchical" and
+"conventional" state of an actor. One caveat to look out for is that hierarchical
+state can not be used to determine extrema, such as the closest/farthest object
+in the scene, because when the traversal ends the initial state is restored.
+That does not mean that it is impossible to do such things, but you will probably
+need a second "conventional" state element that holds the "current best" value.
+
+\subsection TutorialNewActionCreatingActorsDetailsFunctorStore Details on Functor Storage
+
+In order to allow for user extensions the functionallity of the actors is mainly
+not inside the actor itself, but usually inside the NodeCore. The node cores
+<tt>initMethod</tt> registers a functor with the actor, that is to be called
+when a node with a node core of the corresponding type is encountered.
+To allow for best possible performance there is a choice of how flexible the
+actor's functor storage has to be:
+<BR><tt>EmptyFunctorStore</tt>
+This is the trivial functor store that does not store any functors at all. It
+can be used to indicate that an actor does not require to act upon entering or
+leaving a node. Alternatively, if you have an actor with fixed functionality
+you can code it inside the <tt>::enterNode</tt> or <tt>::leaveNode</tt> method
+(do not do this inside the OSG[ActorName]Base.{cpp,h,inl} files, though) and
+safe the overhead of calling a functor.
+<BR><tt>SimpleFunctorStore</tt>
+Only one functor is stored, that is called for all types of node cores. It's a
+bit more flexible than the above variant, as you can change the functor at
+runtime, but results in similar behaviour.
+<BR><tt>SingleFunctorStore</tt>
+Here also only one functor is stored, but along with a node cores type. The
+functor will only be called for cores of this type, for all other cores a default
+functor may be set. Note that only an exactly matching core type is accepted, i.e.
+for a derived node core a functor registered for the base class will not be called.
+If you consider using this functor store, you might think about using the
+MultiFunctorStore right away, as it is better equipped for future
+extensions.
+<BR><tt>MultiFunctorStore</tt>
+The most versatile functor store available. Each functor that is registered
+has an associated node core type and will only be called for a matching type.
+Note that only an exactly matching core type is accepted, i.e.
+for a derived node core a functor registered for the base class will not be
+called. However, you can register the same functor for more than one type. There
+is also the possibility to register a default functor, which is used whenever
+no specific one is registered.
+
+
+\subsection TutorialNewActionCreatingActorsActorEdit The actorEdit tool
+
+The actorEdit tool comes in two variants, a command line only version that can
+create the C++ code files from an .acd file and the GUI version that allows
+additionally for easy creation of these files.
+
+On the left window pane you can enter data for the actor as a whole, like its
+name, parent class (either another actor or one of ExtendActorBase or
+BasicActorBase), functor storages, library and if the actor itself or its
+parent are part of OpenSG.
+The right window pane is for the actors state elements; click "New" to create
+one then fill in at least the name and type fields. Please read
+\ref TutorialNewActionCreatingActorsDetailsState so you can decide if you need
+to tick the "Hierarchical State" checkbox. To save the information to an .acd
+file, use the "Save" or "Save As" buttons; to generate the C++ code use the
+"Write ActorBase Code" and "Write Actor Code" buttons.
+Remember that changes should only be done in the non-base files, as the base
+files may be regenerated automatically at any time, thus overwriting changes.
+
+
+\section TutorialNewActionGlossary Glossary
+
+\subsection TutorialNewActionGlossaryActor Actor
+An object that specifies an operation performed during the traversal.
+
+\subsection TutorialNewActionGlossaryChildren Children
+The children of a node in the scene graph. These can be excluded from the traversal
+and may be assigned priorities to control the order they are traversed in.
+
+\subsection TutorialNewActionGlossaryExtraChildren ExtraChildren
+Extra children describes nodes that are traversed as if they were children of
+the current node. This does not change the scene graph, but affects the traversal
+order. Only actors derived from ExtendActorBase may add extra children.
+
+\subsection TutorialNewActionGlossaryHierarchicalState Hierarchical State
+A subset of an actors state that is accumulated along a path in the scenegraph.
+When the graph is not depth first traversed these state elements are copied
+and restored accordingly.
+
+
+*/

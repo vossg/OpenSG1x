@@ -18,7 +18,7 @@ DOCS_BASE  := ../Source/Base/Base 				\
 			  ../Source/Base/Functors			\
 			  ../Source/Base/Network/Base 		\
 			  ../Source/Base/Network/Socket		\
-			  ../Source/Base/StringConversion  
+			  ../Source/Base/StringConversion
 
 DOCS_SYS   := ../Source/System/Action  										\
               ../Source/System/Action/DrawAction                            \
@@ -56,12 +56,14 @@ DOCS_SYS   := ../Source/System/Action  										\
               ../Source/System/Statistics									\
               ../Source/System/Window
 
+DOCS_EXP   := ../Source/Experimental/NewAction
+
 DOCS_X     := ../Source/WindowSystem/X
 DOCS_W32   := ../Source/WindowSystem/WIN32
 DOCS_GLUT  := ../Source/WindowSystem/GLUT
 DOCS_QT    := ../Source/WindowSystem/QT
 
-DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) 										\
+DOC_LIBS   ?= $(DOCS_BASE) $(DOCS_SYS) $(DOCS_EXP)							\
 			  $(DOCS_X) $(DOCS_W32) $(DOCS_GLUT) $(DOCS_QT) $(DOCS_PAGES)
 
 # defines for starter guide generation
@@ -84,12 +86,13 @@ DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/multithreading.dox \
 				tutorial/clustering.dox \
 				tutorial/modelling.dox \
+                tutorial/newaction.dox \
 				tutorial/solutions.dox \
 				tutorial/qt.dox \
 				tutorial/doxypages.dox \
 				Code/acknowledgements.dox \
-				Code/faq.dox 
-                                
+				Code/faq.dox
+
 DOC_OLD_PAGES  := 	        Code/mainpage.dox \
 				$(DOC_INTRO) \
 				Code/scenegraph.dox \
@@ -154,11 +157,11 @@ DOC_LEVEL_PREDEF ?= ""
 DOC_LEVEL_ENABLED ?= ""
 
 
-DOC_ENV := DOC_PROJECT_NAME="$(DOC_PROJECT_NAME)" DOCDIR=$(DOCDIR) 
+DOC_ENV := DOC_PROJECT_NAME="$(DOC_PROJECT_NAME)" DOCDIR=$(DOCDIR)
 DOC_ENV += DOC_PROJECT_NUMBER=$(DOC_PROJECT_NUMBER) DOC_FILES="$(DOC_FILES)"
 DOC_ENV += OSGPOOL="$(OSGPOOL)"  DOC_LATEX="$(DOC_LATEX)" DOC_DOT="$(DOC_DOT)"
 DOC_ENV += OSG_USE_DOC_LEVEL="$(DOC_LEVEL)" DOC_LEVEL_PREDEF="$(DOC_LEVEL_PREDEF)"
-DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)" 
+DOC_ENV += DOC_LEVEL_ENABLED="$(DOC_LEVEL_ENABLED)"
 DOC_ENV += DOC_IMAGE_PATHES="$(DOC_IMAGE_PATHES)"
 
 DOXYGEN := doxygen
@@ -184,7 +187,7 @@ alldocs: userstarter devdoc
 # Doc targets
 
 .PHONY: dodoc dostarter
-dodoc: 
+dodoc:
 #   find all headers and create dummy classes
 	@rm -f ../Common/dummyClasses.list
 	@touch ../Common/dummyClasses.list
@@ -196,7 +199,7 @@ dodoc:
 	@cat ../Common/dummyClasses.list | xargs perl ../Common/makeDummyClasses  \
 				> ../Common/dummyClasses.dox
 
-#   @rm -f ../Common/dummyClasses.list       						
+#   @rm -f ../Common/dummyClasses.list
 
 #   find all images and convert them (if necessary)
 	$(MAKE) DOC_IMAGE_TYPE=html images2
@@ -204,7 +207,7 @@ dodoc:
 #   do doxygen
 	$(DOC_ENV) $(DOXYGEN) ../Common/Doxygen_$(BUILD_ENV).cfg -d
 
-#	@rm -f ../Common/dummyClasses.dox 
+#	@rm -f ../Common/dummyClasses.dox
 
 userdoc:
 	$(MAKE) DOC_LEVEL=1 DOC_LEVEL_NAME=user DOC_LEVEL_NAME=user \
@@ -265,52 +268,52 @@ images2:
 
 
 Images/%.eps: Images/%.gif
-	convert -compress none $< PS:$@ 
+	convert -compress none $< PS:$@
 
 Images/%.eps: Images/%.tif
-	convert -compress none $< PS:$@ 
+	convert -compress none $< PS:$@
 
 Images/%.eps: Images/%.jpg
-	convert -compress none $< PS:$@ 
+	convert -compress none $< PS:$@
 #  jpeg2ps gives better results, but is not usually available
-#  jpeg2ps -q $< > $@ 
+#  jpeg2ps -q $< > $@
 
 Images/%.eps: Images/%.png
-	convert -compress none $< PS:$@ 
+	convert -compress none $< PS:$@
 
 Images/%.eps: Images/%.fig
-	(cd Images && fig2dev -L eps $(notdir $<) $(notdir $@) ) 
+	(cd Images && fig2dev -L eps $(notdir $<) $(notdir $@) )
 
 Images/%.eps: Images/%.gpl
 	gnuplot $<
 
 Images/%.eps: Images/%.ps
-	cp $< $@ 
+	cp $< $@
 	touch $@
 
 Images/%.eps: Images/%.eps.gz
-	gzip -dc $< > $@ 
+	gzip -dc $< > $@
 	touch $@
 
 Images/%.png: Images/%.fig
-	(cd Images && fig2dev -L png $(notdir $<) $(notdir $@) ) 
+	(cd Images && fig2dev -L png $(notdir $<) $(notdir $@) )
 
 
 Images/%.png: Images/%.jpg
-	convert  $< $@ 
+	convert  $< $@
 
 Images/%.png: Images/%.tif
-	convert  $< $@ 
+	convert  $< $@
 
 Images/%.png: Images/%.eps.gz
-	gzip -dc $< | convert - $@ 
+	gzip -dc $< | convert - $@
 
 
 
 help:
 	@echo "Targets supported on this level:"
 	@echo "================================"
-	@echo 
+	@echo
 	@echo "userdoc      create the HMTL version of the user-level docs"
 	@echo "userstarter  create the PS/PDF version of the user-level docs"
 	@echo "devdoc       create the HMTL version of the developer-level docs"
