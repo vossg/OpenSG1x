@@ -1456,9 +1456,6 @@ Additionally you have to add "<OpenSG/OSGBINWriter.h>"  to your list of files to
 
 \section TutorialBasicExercises Exercises
 
-Beginning with this chapter you will find some exercises at the end of each. It might be adviseable to try to solve these exercises as you can
-learn best by doing it yourself! The Solutions can be found at the last pages.
-
 \subsection TutorialBasicExercises1 Ex. Transformations
 
 Please recall the second tutorial (\ref TutorialBasicTutorial2). We translated the roof with the following transformation Matrix

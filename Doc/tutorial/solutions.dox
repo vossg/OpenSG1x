@@ -8,8 +8,47 @@ OSG_USING_NAMESPACE;
 
 Chapter Overview
 <HR>
-    
+		\ref SolIntroductionEx1 <BR>
+		\ref SolIntroductionEx2 <BR>
+		\ref SolBasicEx1 <BR>
+		\ref SolBasicEx2 <BR> 
+		\ref SolNodecores2 <BR>
 <HR>
+
+\section SolIntroductionEx1 Chapter Introduction - Exercise 1
+Solution to \ref TutorialIntroductionExercises1
+
+The appropiate configure command has to be executed  in your OpenSG folder
+<PRE>
+	./configure --enable-glut --enable-jpg --enable-tif --enable-png
+</PRE>
+if you are compiling an a PowerPC architecture you might need to add
+<PRE>
+	--with-compiler=g++
+</PRE>
+
+After configure has finished you need to call
+<PRE>
+	make opt
+</PRE>
+if you omit opt, you will build the debug version. If any errors occur during compilation check if you have installed all corresponding devel packages
+for the image libraries (and read again the installation section - maybe you missed something)
+
+\section SolIntroductionEx2 Chapter Introduction - Exercise 2
+Solution to \ref TutorialIntroductionExercises2
+
+Check the Makefile : the first line (without comments) says
+<PRE>
+LIBTYPE ?= dbg
+</PRE>
+adjust this to 'opt', if you compiled the optimized version.
+
+Enter the directory <I>your_opensg_folder/Tutorials</I> and call
+<PRE>
+	make
+</PRE>
+Before you execute the compiled binaries you should make sure if you have adjusted your library path (see \ref TutorialInstallation) unless you
+installed a rpm package or the window binaries (where this is done automatically)
 
 \section SolBasicEx1 Chapter Basics - Exercise 1 
 Solution to \ref TutorialBasicExercises1
@@ -22,7 +61,7 @@ The same is with the setRotate command. The matrix is the same in both ways.
 \section SolBasicEx2 Chapter Basics - Exercise 2
 Solution to \ref TutorialBasicExercises2
 
-You need to alter the createScenegrapg method in the following way
+You need to alter the createScenegraph method in the following way
 
 \code
 

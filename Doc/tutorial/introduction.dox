@@ -357,9 +357,12 @@ and
 
 \section TutorialExercises Exercises
 
-1. Compile OpenSG for your platform. GLUT, tif, png and jpg support have to be enabled \n
+\subsection TutorialIntroductionExercises1 Ex. Compile OpenSG
+1. Compile the optimized (not debug) version of OpenSG for your platform. GLUT, tif, png and jpg support have to be enabled. 
+
+\subsection TutorialIntroductionExercises2 Ex. Compile Tutorials
 2. Compile all tutorials found in the "OpenSG/Tutorials" folder. Please notice that these tutorials are not related to
-the tutorials I will present throughout theses pages!\n
+the tutorials I will present throughout theses pages! Execute some (or all) of the tutorials, after compilation has finised
 
 Next Chapter : \ref FirstApp
 */
