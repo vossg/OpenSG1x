@@ -308,19 +308,21 @@ void Geometry::onCreate( const FieldContainer & )
 void Geometry::adjustVolume( Volume & volume )
 {
     GeoPositionsPtr pos = getPositions();
-
-    if ( pos == NullFC )
-        return;                 // Node has no points, no volume
     
     volume.setValid();
     volume.setEmpty();
-    
-    for (UInt32 i = 0; i < pos->getSize(); i++)
+
+    if ( pos == NullFC )
+        return;                 // Node has no points, no volume
+
+    PrimitiveIterator it;
+
+    for(it = this->beginPrimitives(); it != this->endPrimitives(); ++it)
     {
-        Vec3f p;
-        pos->getValue( p, i );
-        
-        volume.extendBy( p );
+        for(UInt32 v=0; v < it.getLength(); ++v)
+        {
+            volume.extendBy(it.getPosition(v));
+        }
     }
 }
 
