@@ -142,7 +142,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 }
 
 OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box, 
-																		 const CylinderVolume &cylinder)
+																 const CylinderVolume &cylinder)
 {
 
   Bool retCode;
@@ -228,7 +228,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
 
 
 OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box, 
-																		 const FrustumVolume &frustum)
+                                     const FrustumVolume &frustum)
 {
   int i;
   const Pnt3f &min = box.getMin();
@@ -246,50 +246,50 @@ OSG_BASE_DLLMAPPING Bool intersect ( const BoxVolume &box,
   for (i=0; i<6; i++){
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*min.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*min.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*max.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*max.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*min.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*min.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*max.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*max.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*min.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*min.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*max.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*max.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*min.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*min.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*max.z()+
-       frust[i].getDistanceFromOrigin()>0)
+       frust[i].getNormal().z()*max.z()-
+       frust[i].getDistanceFromOrigin()<0)
       continue;
 
 
@@ -417,7 +417,7 @@ OSG_BASE_DLLMAPPING Bool intersect ( const SphereVolume &sphere,
 	for (i=0;i<6;i++){
 	  if (frust[i].getNormal().x()*sphere.getCenter().x() +
 	      frust[i].getNormal().y()*sphere.getCenter().y() +
-	      frust[i].getNormal().z()*sphere.getCenter().z() + 
+	      frust[i].getNormal().z()*sphere.getCenter().z() - 
 	      frust[i].getDistanceFromOrigin()<=-sphere.getRadius())
 	    return false;
 	}	
@@ -508,49 +508,49 @@ OSG_BASE_DLLMAPPING Bool intersect ( const CylinderVolume &cylinder,
   for (i=0; i<6; i++){
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*min.z()+
+       frust[i].getNormal().z()*min.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*max.z()+
+       frust[i].getNormal().z()*max.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*min.z()+
+       frust[i].getNormal().z()*min.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*min.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*max.z()+
+       frust[i].getNormal().z()*max.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*min.z()+
+       frust[i].getNormal().z()*min.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*min.y()+
-       frust[i].getNormal().z()*max.z()+
+       frust[i].getNormal().z()*max.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*min.z()+
+       frust[i].getNormal().z()*min.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
     if(frust[i].getNormal().x()*max.x()+
        frust[i].getNormal().y()*max.y()+
-       frust[i].getNormal().z()*max.z()+
+       frust[i].getNormal().z()*max.z()-
        frust[i].getDistanceFromOrigin()>0)
       continue;
 
