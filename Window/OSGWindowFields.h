@@ -72,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 class Window;
 /** \brief WindowPtr
  */
-typedef FCPtr<FieldContainerPtr, Window> WindowPtr;
+typedef FCPtr<AttachmentContainerPtr, Window> WindowPtr;
 
 /** \ingroup FieldLib Window
  *  \brief WindowPtr field traits 

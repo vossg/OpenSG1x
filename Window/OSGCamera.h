@@ -124,13 +124,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     /** get the separate elements needed for rendering */
 
     virtual void getProjection           (Matrix        &result, 
-                                          const Viewport& port);
+                                          UInt32 width, UInt32 height);
 
     virtual void getProjectionTranslation(Matrix        &result, 
-                                          const Viewport& port);
+                                          UInt32 width, UInt32 height);
 
     virtual void getViewing              (Matrix        &result, 
-                                          const Viewport& port);
+                                          UInt32 width, UInt32 height);
 
     virtual void getFrustum              (FrustumVolume &result,
                                           const Viewport& port);

@@ -72,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 class Viewport;
 /** \brief ViewportPtr
  */
-typedef FCPtr<FieldContainerPtr, Viewport> ViewportPtr;
+typedef FCPtr<AttachmentContainerPtr, Viewport> ViewportPtr;
 
 /** \ingroup FieldLib Viewport
  *  \brief ViewportPtr field traits 

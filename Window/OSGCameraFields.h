@@ -72,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 class Camera;
 /** \brief CameraPtr
  */
-typedef FCPtr<FieldContainerPtr, Camera> CameraPtr;
+typedef FCPtr<AttachmentContainerPtr, Camera> CameraPtr;
 
 /** \ingroup FieldLib Camera
  *  \brief CameraPtr field traits 

@@ -233,6 +233,7 @@ void Viewport::draw( DrawAction * action )
 	if ( ! full )
 		glEnable( GL_SCISSOR_TEST );
 
+	action->setViewport( this );
 	action->setCamera( getCamera().getCPtr() );
 	action->setBackground( getBackground().getCPtr() );
 	

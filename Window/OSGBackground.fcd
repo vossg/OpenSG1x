@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Background"
-	parent="FieldContainer"
+	parent="AttachmentContainer"
 	library="System"
 	structure="abstract"
 	pointerfieldtypes="both"

@@ -170,7 +170,7 @@ void Camera::setup( DrawAction * action, const Viewport& port )
 
 	// set the projection
 
-	getProjection( m, port );
+	getProjection( m, port.getPixelWidth(), port.getPixelHeight() );
 
 	//SDEBUG << "Projection matrix: " << m << endl;
 
@@ -180,7 +180,7 @@ void Camera::setup( DrawAction * action, const Viewport& port )
 	
 	// set the viewing
 
-	getViewing( m, port );
+	getViewing( m, port.getPixelWidth(), port.getPixelHeight() );
 
 	//SDEBUG << "Viewing matrix: " << m << endl;
 	
@@ -196,18 +196,19 @@ void Camera::draw( DrawAction * action, const Viewport& port )
 
 /** get the separate elements needed for rendering */
 
-void Camera::getProjection( Matrix& result, const Viewport& port )
+void Camera::getProjection( Matrix& result, UInt32 width, UInt32 height )
 {
 	SFATAL << "Camera::getProjection: NIY" << endl;
 	abort();
 }
 
-void Camera::getProjectionTranslation( Matrix& result, const Viewport& port )
+void Camera::getProjectionTranslation( Matrix& result, UInt32 width, 
+    	    UInt32 height )
 {
 	result.setIdentity();
 }
 
-void Camera::getViewing( Matrix& result, const Viewport& port )
+void Camera::getViewing( Matrix& result, UInt32 width, UInt32 height )
 {
 	if ( getBeacon() == NullNode )
 	{
@@ -221,17 +222,24 @@ void Camera::getViewing( Matrix& result, const Viewport& port )
 
 void Camera::getFrustum( FrustumVolume& result, const Viewport& port )
 {
-	SFATAL << "Camera::getFrustum: NIY" << endl;
-	abort();
+    Matrix mv,prt,pr;
+	
+	getProjection( pr, port.getPixelWidth(), port.getPixelHeight() );
+	getViewing   ( mv, port.getPixelWidth(), port.getPixelHeight() );
+
+    pr.mult( mv );
+	
+    result.setPlanes( pr );
 }
 
 Bool Camera::calcViewRay( Line & line, Int32 x, Int32 y, const Viewport& port)
 {
 	Matrix proj, projtrans, view;
 
-	getProjection( proj, port );
-	getProjectionTranslation( projtrans, port );
-	getViewing( view, port );
+	getProjection( proj, port.getPixelWidth(), port.getPixelHeight() );
+	getProjectionTranslation( projtrans, port.getPixelWidth(), 
+	    	    	    	    port.getPixelHeight() );
+	getViewing( view, port.getPixelWidth(), port.getPixelHeight() );
 	
 	Matrix wctocc = proj;
 	wctocc.mult( projtrans );

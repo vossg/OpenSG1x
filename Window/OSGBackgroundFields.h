@@ -72,7 +72,7 @@ OSG_BEGIN_NAMESPACE
 class Background;
 /** \brief BackgroundPtr
  */
-typedef FCPtr<FieldContainerPtr, Background> BackgroundPtr;
+typedef FCPtr<AttachmentContainerPtr, Background> BackgroundPtr;
 
 /** \ingroup FieldLib Background
  *  \brief BackgroundPtr field traits 
