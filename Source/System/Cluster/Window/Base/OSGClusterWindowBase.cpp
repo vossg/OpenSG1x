@@ -65,20 +65,29 @@
 OSG_USING_NAMESPACE
 
 const OSG::BitVector  ClusterWindowBase::ServersFieldMask = 
-    (1 << ClusterWindowBase::ServersFieldId);
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ServersFieldId);
 
 const OSG::BitVector  ClusterWindowBase::ConnectionTypeFieldMask = 
-    (1 << ClusterWindowBase::ConnectionTypeFieldId);
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ConnectionTypeFieldId);
 
 const OSG::BitVector  ClusterWindowBase::ClientWindowFieldMask = 
-    (1 << ClusterWindowBase::ClientWindowFieldId);
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ClientWindowFieldId);
 
 const OSG::BitVector  ClusterWindowBase::ServicePortFieldMask = 
-    (1 << ClusterWindowBase::ServicePortFieldId);
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ServicePortFieldId);
 
-const OSG::BitVector  ClusterWindowBase::BroadcastAddressFieldMask = 
-    (1 << ClusterWindowBase::BroadcastAddressFieldId);
+const OSG::BitVector  ClusterWindowBase::ServiceAddressFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ServiceAddressFieldId);
 
+const OSG::BitVector  ClusterWindowBase::InterleaveFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::InterleaveFieldId);
+
+const OSG::BitVector  ClusterWindowBase::FrameCountFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::FrameCountFieldId);
+
+const OSG::BitVector ClusterWindowBase::MTInfluenceMask = 
+    (Inherited::MTInfluenceMask) | 
+    (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
 // Field descriptions
@@ -95,8 +104,14 @@ const OSG::BitVector  ClusterWindowBase::BroadcastAddressFieldMask =
 /*! \var UInt32          ClusterWindowBase::_sfServicePort
     Broadcastport used for server search
 */
-/*! \var std::string     ClusterWindowBase::_sfBroadcastAddress
-    Broadcast address used for server search
+/*! \var std::string     ClusterWindowBase::_sfServiceAddress
+    Broadcast or Multicast address used for server search
+*/
+/*! \var UInt32          ClusterWindowBase::_sfInterleave
+    
+*/
+/*! \var UInt32          ClusterWindowBase::_sfFrameCount
+    
 */
 
 //! ClusterWindow description
@@ -124,10 +139,20 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      false,
                      (FieldAccessMethod) &ClusterWindowBase::getSFServicePort),
     new FieldDescription(SFString::getClassType(), 
-                     "broadcastAddress", 
-                     BroadcastAddressFieldId, BroadcastAddressFieldMask,
+                     "serviceAddress", 
+                     ServiceAddressFieldId, ServiceAddressFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getSFBroadcastAddress)
+                     (FieldAccessMethod) &ClusterWindowBase::getSFServiceAddress),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "interleave", 
+                     InterleaveFieldId, InterleaveFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFInterleave),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "frameCount", 
+                     FrameCountFieldId, FrameCountFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFFrameCount)
 };
 
 
@@ -187,7 +212,9 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfConnectionType         (), 
     _sfClientWindow           (), 
     _sfServicePort            (UInt32(8437)), 
-    _sfBroadcastAddress       (), 
+    _sfServiceAddress         (std::string("224.245.211.234")), 
+    _sfInterleave             (UInt32(0)), 
+    _sfFrameCount             (UInt32(0)), 
     Inherited() 
 {
 }
@@ -201,7 +228,9 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfConnectionType         (source._sfConnectionType         ), 
     _sfClientWindow           (source._sfClientWindow           ), 
     _sfServicePort            (source._sfServicePort            ), 
-    _sfBroadcastAddress       (source._sfBroadcastAddress       ), 
+    _sfServiceAddress         (source._sfServiceAddress         ), 
+    _sfInterleave             (source._sfInterleave             ), 
+    _sfFrameCount             (source._sfFrameCount             ), 
     Inherited                 (source)
 {
 }
@@ -238,9 +267,19 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfServicePort.getBinSize();
     }
 
-    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
     {
-        returnValue += _sfBroadcastAddress.getBinSize();
+        returnValue += _sfServiceAddress.getBinSize();
+    }
+
+    if(FieldBits::NoField != (InterleaveFieldMask & whichField))
+    {
+        returnValue += _sfInterleave.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+    {
+        returnValue += _sfFrameCount.getBinSize();
     }
 
 
@@ -272,9 +311,19 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
         _sfServicePort.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
     {
-        _sfBroadcastAddress.copyToBin(pMem);
+        _sfServiceAddress.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (InterleaveFieldMask & whichField))
+    {
+        _sfInterleave.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+    {
+        _sfFrameCount.copyToBin(pMem);
     }
 
 
@@ -305,9 +354,19 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfServicePort.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
+    if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
     {
-        _sfBroadcastAddress.copyFromBin(pMem);
+        _sfServiceAddress.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (InterleaveFieldMask & whichField))
+    {
+        _sfInterleave.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+    {
+        _sfFrameCount.copyFromBin(pMem);
     }
 
 
@@ -331,8 +390,14 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
         _sfServicePort.syncWith(pOther->_sfServicePort);
 
-    if(FieldBits::NoField != (BroadcastAddressFieldMask & whichField))
-        _sfBroadcastAddress.syncWith(pOther->_sfBroadcastAddress);
+    if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
+        _sfServiceAddress.syncWith(pOther->_sfServiceAddress);
+
+    if(FieldBits::NoField != (InterleaveFieldMask & whichField))
+        _sfInterleave.syncWith(pOther->_sfInterleave);
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+        _sfFrameCount.syncWith(pOther->_sfFrameCount);
 
 
 }

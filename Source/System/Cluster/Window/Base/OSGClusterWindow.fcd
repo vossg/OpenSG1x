@@ -8,6 +8,7 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
 >
 The base class for all windows.
 	<Field
@@ -48,12 +49,31 @@ The base class for all windows.
 	Broadcastport used for server search
 	</Field>
 	<Field
-		name="broadcastAddress"
+		name="serviceAddress"
 		type="std::string"
 		cardinality="single"
 		visibility="external"
+		defaultValue="224.245.211.234"
 		access="public"
 	>
-	Broadcast address used for server search
+	Broadcast or Multicast address used for server search
+	</Field>
+	<Field
+		name="interleave"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="frameCount"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
 	</Field>
 </FieldContainer>

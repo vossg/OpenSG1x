@@ -69,7 +69,9 @@
 #include <OSGStringFields.h> // ConnectionType type
 #include <OSGWindowFields.h> // ClientWindow type
 #include <OSGUInt32Fields.h> // ServicePort type
-#include <OSGStringFields.h> // BroadcastAddress type
+#include <OSGStringFields.h> // ServiceAddress type
+#include <OSGUInt32Fields.h> // Interleave type
+#include <OSGUInt32Fields.h> // FrameCount type
 
 #include <OSGClusterWindowFields.h>
 
@@ -91,20 +93,26 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 
     enum
     {
-        ServersFieldId          = Inherited::NextFieldId,
-        ConnectionTypeFieldId   = ServersFieldId          + 1,
-        ClientWindowFieldId     = ConnectionTypeFieldId   + 1,
-        ServicePortFieldId      = ClientWindowFieldId     + 1,
-        BroadcastAddressFieldId = ServicePortFieldId      + 1,
-        NextFieldId             = BroadcastAddressFieldId + 1
+        ServersFieldId        = Inherited::NextFieldId,
+        ConnectionTypeFieldId = ServersFieldId        + 1,
+        ClientWindowFieldId   = ConnectionTypeFieldId + 1,
+        ServicePortFieldId    = ClientWindowFieldId   + 1,
+        ServiceAddressFieldId = ServicePortFieldId    + 1,
+        InterleaveFieldId     = ServiceAddressFieldId + 1,
+        FrameCountFieldId     = InterleaveFieldId     + 1,
+        NextFieldId           = FrameCountFieldId     + 1
     };
 
     static const OSG::BitVector ServersFieldMask;
     static const OSG::BitVector ConnectionTypeFieldMask;
     static const OSG::BitVector ClientWindowFieldMask;
     static const OSG::BitVector ServicePortFieldMask;
-    static const OSG::BitVector BroadcastAddressFieldMask;
+    static const OSG::BitVector ServiceAddressFieldMask;
+    static const OSG::BitVector InterleaveFieldMask;
+    static const OSG::BitVector FrameCountFieldMask;
 
+
+    static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -132,7 +140,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            SFString            *getSFConnectionType (void);
            SFWindowPtr         *getSFClientWindow   (void);
            SFUInt32            *getSFServicePort    (void);
-           SFString            *getSFBroadcastAddress(void);
+           SFString            *getSFServiceAddress (void);
+           SFUInt32            *getSFInterleave     (void);
+           SFUInt32            *getSFFrameCount     (void);
 
            std::string         &getConnectionType (void);
      const std::string         &getConnectionType (void) const;
@@ -140,8 +150,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      const WindowPtr           &getClientWindow   (void) const;
            UInt32              &getServicePort    (void);
      const UInt32              &getServicePort    (void) const;
-           std::string         &getBroadcastAddress(void);
-     const std::string         &getBroadcastAddress(void) const;
+           std::string         &getServiceAddress (void);
+     const std::string         &getServiceAddress (void) const;
+           UInt32              &getInterleave     (void);
+     const UInt32              &getInterleave     (void) const;
+           UInt32              &getFrameCount     (void);
+     const UInt32              &getFrameCount     (void) const;
            std::string         &getServers        (const UInt32 index);
            MFString            &getServers        (void);
      const MFString            &getServers        (void) const;
@@ -154,7 +168,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      void setConnectionType ( const std::string &value );
      void setClientWindow   ( const WindowPtr &value );
      void setServicePort    ( const UInt32 &value );
-     void setBroadcastAddress( const std::string &value );
+     void setServiceAddress ( const std::string &value );
+     void setInterleave     ( const UInt32 &value );
+     void setFrameCount     ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -204,7 +220,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     SFString            _sfConnectionType;
     SFWindowPtr         _sfClientWindow;
     SFUInt32            _sfServicePort;
-    SFString            _sfBroadcastAddress;
+    SFString            _sfServiceAddress;
+    SFUInt32            _sfInterleave;
+    SFUInt32            _sfFrameCount;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

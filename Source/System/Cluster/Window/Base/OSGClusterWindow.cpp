@@ -150,19 +150,23 @@ void ClusterWindow::init( void )
                     msg.putString(*s);
                     msg.putString(getConnectionType());
                     
-                    if(_sfBroadcastAddress.getValue().size() != 0)
+                    if(_sfServiceAddress.getValue().size() != 0)
                     {
+                        SINFO << "send request to:" << 
+                            _sfServiceAddress.getValue()
+                              << std::endl;
                         serviceSock.sendTo(
                             msg,SocketAddress(
-                                _sfBroadcastAddress.getValue().c_str(),
+                                _sfServiceAddress.getValue().c_str(),
                                 getServicePort()));
                     }
-                    else
-                    {
-                        serviceSock.sendTo(
-                            msg,SocketAddress(SocketAddress::BROADCAST,
-                                              getServicePort()));
-                    }
+                    SINFO << "send request to:" 
+                          << SocketAddress(SocketAddress::BROADCAST,
+                                           getServicePort()).getHost().c_str()
+                          << std::endl;
+                    serviceSock.sendTo(
+                        msg,SocketAddress(SocketAddress::BROADCAST,
+                                          getServicePort()));
                 }
                 while(serviceSock.waitReadable(2)==false);
                 serviceSock.recv(msg);
@@ -207,6 +211,10 @@ void ClusterWindow::init( void )
     {
         SLOG << "Run clustering in network order mode" << std::endl;
     }
+    // send alive all 2 seconds
+    connection->setSendAliveInterval(2);
+    // never request alive
+    connection->setReadAliveTimeout(-1);
 }
 
 void ClusterWindow::render( RenderAction *action )
@@ -244,6 +252,7 @@ void ClusterWindow::renderAllViewports( RenderAction *action )
 
 void ClusterWindow::frameInit(void)
 {
+    ClusterWindowPtr ptr(this);
     Connection   *connection  =getNetwork()->getMainConnection();
     RemoteAspect *remoteAspect=getNetwork()->getAspect();
 
@@ -251,6 +260,9 @@ void ClusterWindow::frameInit(void)
     {
         if(_firstFrame)
         {
+            beginEditCP(ptr,ClusterWindow::FrameCountFieldMask);
+            setFrameCount(0);
+            endEditCP(ptr,ClusterWindow::FrameCountFieldMask);
             // send sync
             remoteAspect->sendSync(*connection);
             ChangeList cl;
@@ -262,7 +274,7 @@ void ClusterWindow::frameInit(void)
             // last chance to modifie before sync
             clientPreSync();
             // send sync
-            getNetwork()->getAspect()->sendSync(*connection);
+            remoteAspect->sendSync(*connection);
             cl.merge(*Thread::getCurrentChangeList());
             Thread::getCurrentChangeList()->clearAll();
             Thread::getCurrentChangeList()->merge(cl);
@@ -270,6 +282,9 @@ void ClusterWindow::frameInit(void)
         }
         else
         {
+            beginEditCP(ptr,ClusterWindow::FrameCountFieldMask);
+            getFrameCount()++;
+            endEditCP(ptr,ClusterWindow::FrameCountFieldMask);
             clientPreSync();
             remoteAspect->sendSync(*connection);
         }
@@ -428,6 +443,7 @@ ClusterWindow::~ClusterWindow(void)
 {
     if(_network)
         subRefP(_network);
+    _network=NULL;
 }
 
 /*-------------------------------------------------------------------------*/

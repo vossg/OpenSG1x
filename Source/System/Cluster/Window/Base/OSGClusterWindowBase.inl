@@ -124,11 +124,25 @@ SFUInt32 *ClusterWindowBase::getSFServicePort(void)
     return &_sfServicePort;
 }
 
-//! Get the ClusterWindow::_sfBroadcastAddress field.
+//! Get the ClusterWindow::_sfServiceAddress field.
 inline
-SFString *ClusterWindowBase::getSFBroadcastAddress(void)
+SFString *ClusterWindowBase::getSFServiceAddress(void)
 {
-    return &_sfBroadcastAddress;
+    return &_sfServiceAddress;
+}
+
+//! Get the ClusterWindow::_sfInterleave field.
+inline
+SFUInt32 *ClusterWindowBase::getSFInterleave(void)
+{
+    return &_sfInterleave;
+}
+
+//! Get the ClusterWindow::_sfFrameCount field.
+inline
+SFUInt32 *ClusterWindowBase::getSFFrameCount(void)
+{
+    return &_sfFrameCount;
 }
 
 
@@ -195,25 +209,67 @@ void ClusterWindowBase::setServicePort(const UInt32 &value)
     _sfServicePort.setValue(value);
 }
 
-//! Get the value of the ClusterWindow::_sfBroadcastAddress field.
+//! Get the value of the ClusterWindow::_sfServiceAddress field.
 inline
-std::string &ClusterWindowBase::getBroadcastAddress(void)
+std::string &ClusterWindowBase::getServiceAddress(void)
 {
-    return _sfBroadcastAddress.getValue();
+    return _sfServiceAddress.getValue();
 }
 
-//! Get the value of the ClusterWindow::_sfBroadcastAddress field.
+//! Get the value of the ClusterWindow::_sfServiceAddress field.
 inline
-const std::string &ClusterWindowBase::getBroadcastAddress(void) const
+const std::string &ClusterWindowBase::getServiceAddress(void) const
 {
-    return _sfBroadcastAddress.getValue();
+    return _sfServiceAddress.getValue();
 }
 
-//! Set the value of the ClusterWindow::_sfBroadcastAddress field.
+//! Set the value of the ClusterWindow::_sfServiceAddress field.
 inline
-void ClusterWindowBase::setBroadcastAddress(const std::string &value)
+void ClusterWindowBase::setServiceAddress(const std::string &value)
 {
-    _sfBroadcastAddress.setValue(value);
+    _sfServiceAddress.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfInterleave field.
+inline
+UInt32 &ClusterWindowBase::getInterleave(void)
+{
+    return _sfInterleave.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfInterleave field.
+inline
+const UInt32 &ClusterWindowBase::getInterleave(void) const
+{
+    return _sfInterleave.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfInterleave field.
+inline
+void ClusterWindowBase::setInterleave(const UInt32 &value)
+{
+    _sfInterleave.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfFrameCount field.
+inline
+UInt32 &ClusterWindowBase::getFrameCount(void)
+{
+    return _sfFrameCount.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfFrameCount field.
+inline
+const UInt32 &ClusterWindowBase::getFrameCount(void) const
+{
+    return _sfFrameCount.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfFrameCount field.
+inline
+void ClusterWindowBase::setFrameCount(const UInt32 &value)
+{
+    _sfFrameCount.setValue(value);
 }
 
 
