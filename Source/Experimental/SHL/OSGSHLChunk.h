@@ -50,8 +50,6 @@
 
 #include <OSGSHLChunkBase.h>
 
-#include <Cg/cgGL.h>
-
 OSG_BEGIN_NAMESPACE
 
 /*! \brief SHLChunk class. See \ref
@@ -222,6 +220,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.1 2004/05/07 16:04:31 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.2 2004/05/08 09:16:31 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
