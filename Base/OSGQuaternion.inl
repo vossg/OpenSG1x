@@ -807,7 +807,7 @@ void QuaternionBase<ValueTypeT>::multVec(const VectorType &src,
 
     getValue(mat);
 
-    mat.transform(src, dst);
+    mat.mult(src, dst);
 }
 
 /*! \brief Keep the axis the same. Multiply the angle of rotation by

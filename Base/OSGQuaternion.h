@@ -256,7 +256,7 @@ class OSG_BASE_DLLMAPPING QuaternionBase
            ValueTypeT     _quat[4];
 };
 
-template <class ValueTypeT> inline
+template <class ValueTypeT> 
 ostream &operator <<(ostream &os, const QuaternionBase<ValueTypeT> &obj);
 
 /*! \var typedef QuaternionBase<Real32> Quaternion;
