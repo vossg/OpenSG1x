@@ -18,27 +18,29 @@ typedef CoredNodePtr<Group> GroupNodePtr;
 typedef CoredNodePtr<Geometry> GeometryNodePtr;
 
 NodePtr createScenegraph(){
-	//create the torus geometry (core and geometry)
-	GeometryNodePtr torus = GeometryNodePtr::create();
-	torus = makeTorusGeo(0.5,2,8,12);
-	
-	//create box
-	GeometryNodePtr box = GeometryNodePtr::create();
-	box = makeBoxGeo(0.5,0.5,0.5,1,1,1);
-	
-	//create the group node and core
-	GroupNodePtr root = GroupNodePtr::create();
-	root = Group::create();
-	
-	//add the torus and box to the group node
-	root.node()->addChild(torus);
-	root.node()->addChild(box);
-	
-	addRefCP(torus.node());
-	addRefCP(box.node());
-	addRefCP(root.node());
-	
-	return root.node();
+    //create the torus geometry (core and geometry)
+    GeometryNodePtr torus = GeometryNodePtr::create();
+    torus = makeTorusGeo(0.5,2,8,12);
+    
+    //create box
+    GeometryNodePtr box = GeometryNodePtr::create();
+    box = makeBoxGeo(0.5,0.5,0.5,1,1,1);
+    
+    //create the group node and core
+    GroupNodePtr root = GroupNodePtr::create();
+    root = Group::create();
+    
+    //add the torus and box to the group node
+    beginEditCP(root.node());
+        root.node()->addChild(torus);
+        root.node()->addChild(box);
+    endEditCP(root.node());
+    
+    addRefCP(torus.node());
+    addRefCP(box.node());
+    addRefCP(root.node());
+    
+    return root.node();
 }
 
 int main(int argc, char **argv)
@@ -50,12 +52,12 @@ int main(int argc, char **argv)
     GLUTWindowPtr gwin= GLUTWindow::create();
     gwin->setId(winid);
     gwin->init();
-	
+    
     scene = createScenegraph();
 
     mgr = new SimpleSceneManager;
     mgr->setWindow(gwin );
-	mgr->setRoot  (scene);
+    mgr->setRoot  (scene);
     mgr->showAll();
     
     glutMainLoop();
