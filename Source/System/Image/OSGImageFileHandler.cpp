@@ -50,9 +50,6 @@
 
 #include "OSGImageFileHandler.h"
 
-#ifdef _WIN32
-#define strcasecmp stricmp
-#endif
 
 OSG_USING_NAMESPACE
 
@@ -107,7 +104,7 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
         // check mime type
         for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
         {
-            if(!strcasecmp(sI->second->getMimeType(), mimeType))
+            if(!stringcasecmp(sI->second->getMimeType(), mimeType))
             {
                 type = sI->second;
                 break;
