@@ -91,6 +91,13 @@ static char cvsid[] = "@(#)$Id: $";
 OSG_GEOMETRY_DLLMAPPING
 NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 {
+	if ( ! hor || ! vert )
+	{
+		SWARNING << "makePlane: illegal parameters hor=" << hor << ", vert="
+				 << vert << endl;
+		return NullNode;
+	}
+	
 	GeoPosition3fPtr    pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
@@ -172,6 +179,15 @@ NodePtr OSG::makePlane( Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert )
 
 NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 {
+	if ( height <= 0 || radius <= 0 || sides < 3 )
+	{
+		SWARNING << "makeCone: illegal parameters height=" << height 
+				 << ", radius=" << radius 
+				 << ", sides=" << sides 
+				 << endl;
+		return NullNode;
+	}
+	
 	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
@@ -282,6 +298,16 @@ NodePtr OSG::makeCone( Real32 height, Real32 radius, UInt16 sides )
 
 NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UInt16 rings )
 {
+	if ( innerRadius <= 0 || outerRadius <= 0 || sides < 3 || rings < 3 )
+	{
+		SWARNING << "makeTorus: illegal parameters innerRadius=" << innerRadius 
+				 << ", outerRadius=" << outerRadius 
+				 << ", sides=" << sides 
+				 << ", rings=" << rings 
+				 << endl;
+		return NullNode;
+	}
+	
 	GeoPosition3fPtr		pnts  = GeoPosition3f::create();
 	GeoNormal3fPtr		norms = GeoNormal3f::create();
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
@@ -452,6 +478,14 @@ void subdivideTriangle( Vec3f &v1,
 
 NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 {	
+	if ( depth < 1 || radius <= 0 )
+	{
+		SWARNING << "makeSphere: illegal parameters depth=" << depth 
+				 << ", radius=" << radius 
+				 << endl;
+		return NullNode;
+	}
+	
 	#define X .525731112119133606
 	#define Z .850650808352039932	
 
