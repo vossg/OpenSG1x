@@ -114,7 +114,7 @@ StatElemDesc<StatIntElem > RenderAction::statNMatrices("NMatrices",
 "number of matrix changes");
 StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries", 
 "number of Geometry nodes");
-StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries", 
+StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries",
 "number of transformed Geometry nodes");
 
 /***************************************************************************\
@@ -558,7 +558,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         {
             std::vector<DrawTreeNode *>::iterator treesIt = it->second.begin();
             std::vector<DrawTreeNode *>::iterator treesEnd= it->second.end();
-            
+
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
             
@@ -632,7 +632,7 @@ bool RenderAction::isVisible( Node* node )
     getStatistics()->getElem(statCulledNodes)->inc();
 
 // fprintf(stderr,"%p: node 0x%p invis\n", Thread::getCurrent(), node);
-// _frustum.dump();            
+// _frustum.dump();
     return false;
 }
 
@@ -759,6 +759,11 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 void RenderAction::setSortTrans(bool bVal)
 {
     _bSortTrans = bVal;
+}
+
+void RenderAction::setZWriteTrans(bool bVal)
+{
+    _bZWriteTrans = bVal;
 }
 
 // initialisation
