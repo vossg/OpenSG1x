@@ -44,7 +44,7 @@ class NamedNodeFinder
   
     NamedNodeFinder(void) : _name(), _found() {}
 
-    NodePtr operator() (NodePtr root, string name)
+    NodePtr operator() (NodePtr root, std::string name)
     {
         _name=&name;
         _found=NullFC;
@@ -56,7 +56,7 @@ class NamedNodeFinder
         return _found;
     }
  
-    static NodePtr find(NodePtr root, string name)
+    static NodePtr find(NodePtr root, std::string name)
     {
         NamedNodeFinder f;      
         
@@ -77,7 +77,7 @@ class NamedNodeFinder
     }
  
     NodePtr  _found;
-    string  *_name;
+    std::string  *_name;
 };
 
 // Initialize GLUT & OpenSG and set up the scene
