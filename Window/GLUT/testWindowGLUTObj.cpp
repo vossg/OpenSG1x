@@ -67,8 +67,10 @@ int lastx=0, lasty=0;
 UInt32 glid2 = -1;
 UInt32 glid = -1;
 
-void dlist( Window::GLObjectStatusE mode, UInt32 id )
+void dlist( Window *win, UInt32 id )
 {
+	Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+	
 	if ( mode == Window::destroy )
 	{
 		glDeleteLists( id, 1 );
@@ -90,8 +92,10 @@ void dlist( Window::GLObjectStatusE mode, UInt32 id )
 }
 
 
-void dlist2( Window::GLObjectStatusE mode, UInt32 id )
+void dlist2( Window *win, UInt32 id )
 {
+	Window::GLObjectStatusE mode = win->getGLObjectStatus( id );
+	
 	if ( mode == Window::destroy )
 	{
 		glDeleteLists( id, 1 );
