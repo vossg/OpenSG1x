@@ -43,10 +43,10 @@ Clean: clean
 	lyx -e ps $<
 
 %.eps: %.gif
-	convert $< PS2:$@ 
+	convert -compress none $< PS2:$@ 
 
 %.eps: %.tif
-	convert $< PS2:$@ 
+	convert -compress none $< PS2:$@ 
 
 %.eps: %.jpg
 	jpeg2ps -q $< > $@ 
