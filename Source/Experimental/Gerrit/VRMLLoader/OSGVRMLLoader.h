@@ -77,13 +77,13 @@ class DataElementDesc;
 //! VRMLLoader
 //! \ingroup VRMLLoader
 
-class OSG_VRML_DLLMAPPING VRMLLoader : 
+class OSG_VRML_DLLMAPPING VRMLLoader :
     public ScanParseFieldTypeMapper<ScanParseSkel>
 {
   private:
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     typedef ScanParseFieldTypeMapper<ScanParseSkel> Inherited;
@@ -93,7 +93,7 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
   public:
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     typedef std::stack <      VRMLNode          *> NodeStack;
@@ -105,64 +105,64 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
     typedef std::map   <IDStringLink, VRMLNode  *> NameNodeMap;
 
     //-----------------------------------------------------------------------
-    //   constants                                                           
+    //   constants
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
   private:
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   friend classes                                                      
+    //   friend classes
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   friend functions                                                    
+    //   friend functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class variables                                                     
+    //   class variables
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
+    //   instance variables
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
-    //! prohibit default function (move to 'public' if needed) 
+    //! prohibit default function (move to 'public' if needed)
     VRMLLoader(const VRMLLoader &source);
-    //! prohibit default function (move to 'public' if needed) 
+    //! prohibit default function (move to 'public' if needed)
     void operator =(const VRMLLoader &source);
 
   protected:
 
     //-----------------------------------------------------------------------
-    //   enums                                                               
+    //   enums
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   types                                                               
+    //   types
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   class variables                                                     
+    //   class variables
     //-----------------------------------------------------------------------
 
     static UInt32  _uiIndent;
@@ -171,7 +171,7 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
     static Char8  *_szIndents;
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     static void incIndent(void                   );
@@ -179,7 +179,7 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
     static void doIndent (std::ostream &outstream);
 
     //-----------------------------------------------------------------------
-    //   instance variables                                                  
+    //   instance variables
     //-----------------------------------------------------------------------
 
           ResultStore       _vResultStore;
@@ -197,7 +197,7 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
           NameNodeMap      *_pNameNodeMap;
 
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
     void initFieldTypeMapper(void              );
@@ -208,26 +208,26 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
   public :
 
     //-----------------------------------------------------------------------
-    //   class functions                                                     
+    //   class functions
     //-----------------------------------------------------------------------
 
     //-----------------------------------------------------------------------
-    //   instance functions                                                  
+    //   instance functions
     //-----------------------------------------------------------------------
 
     VRMLLoader(void);
 
-    virtual ~VRMLLoader(void); 
+    virtual ~VRMLLoader(void);
 
     /*------------------------- your_operators ------------------------------*/
 
     virtual void      beginNode              (const Char8 *szNodeTypename,
                                               const Char8 *szNodename);
-    
+
     virtual void      endNode                (void);
 
     virtual void      beginScript            (const Char8 *szNodename);
-    
+
     virtual void      endScript              (void);
 
     virtual void      use                    (const Char8 *szName);
@@ -252,16 +252,14 @@ class OSG_VRML_DLLMAPPING VRMLLoader :
 
     /*------------------------------ scan -----------------------------------*/
 
-    virtual void scanFile(const Char8 *szFilename, UInt32 uiOptions);
+    virtual void scanStream(std::istream &is);
 
-    virtual void scanFile(const Char8  *szFilename, 
-                                UInt32  uiAddOptions, 
-                                UInt32  uiSubOptions);
+    virtual void scanFile(const Char8 *szFilename);
 
     /*---------------------------- result -----------------------------------*/
 
     ResultStore &getResultStore(void);
-    
+
     VRMLNode    *getFileTree   (void);
 
     NameNodeMap *getNameNodeMap(void);

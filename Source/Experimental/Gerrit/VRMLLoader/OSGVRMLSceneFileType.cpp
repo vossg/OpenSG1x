@@ -88,16 +88,15 @@ const Char8 *VRMLSceneFileType::getName(void) const
 /*-------------------------------------------------------------------------*/
 /*                               Read                                      */
 
-NodePtr VRMLSceneFileType::read(const Char8  *fileName,
-                                      UInt32  uiReplaceOptions) const
+NodePtr VRMLSceneFileType::read(std::istream &is) const
 {
     if(_pVRMLLoader == NULL)
     {
         _pVRMLLoader      = new VRMLLoader     ();
-        _pVRMLToOSGAction = new VRMLToOSGAction(); 
+        _pVRMLToOSGAction = new VRMLToOSGAction();
     }
 
-    _pVRMLLoader->scanFile(fileName, uiReplaceOptions);
+    _pVRMLLoader->scanStream(is);
 
     _pVRMLToOSGAction->setNameNodeMap     (_pVRMLLoader->getNameNodeMap());
 
@@ -105,90 +104,12 @@ NodePtr VRMLSceneFileType::read(const Char8  *fileName,
     _pVRMLToOSGAction->apply              (_pVRMLLoader->getFileTree()   );
 
     return  _pVRMLToOSGAction->getRoot();
-}
-
-NodePtr VRMLSceneFileType::read(const Char8  *fileName,
-                                      UInt32  uiAddOptions,
-                                      UInt32  uiSubOptions) const
-{
-    if(_pVRMLLoader == NULL)
-    {
-        _pVRMLLoader      = new VRMLLoader     ();
-        _pVRMLToOSGAction = new VRMLToOSGAction(); 
-    }
-
-    _pVRMLLoader->scanFile(fileName, 
-                           uiAddOptions & ~uiSubOptions);
-
-    _pVRMLToOSGAction->setNameNodeMap     (_pVRMLLoader->getNameNodeMap());
-
-    _pVRMLToOSGAction->setDataTransferMode(VRMLToOSGAction::SwapData     );
-    _pVRMLToOSGAction->apply              (_pVRMLLoader->getFileTree()   );
-
-    return  _pVRMLToOSGAction->getRoot();
-}
-
-VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiReplaceOptions)const
-{
-    FCPtrStore fcVec;
-
-    if(_pVRMLLoader == NULL)
-    {
-        _pVRMLLoader      = new VRMLLoader     ();
-        _pVRMLToOSGAction = new VRMLToOSGAction(); 
-    }
-
-    _pVRMLLoader->scanFile(fileName, uiReplaceOptions);
-
-    _pVRMLToOSGAction->setNameNodeMap     (_pVRMLLoader->getNameNodeMap());
-
-    _pVRMLToOSGAction->setDataTransferMode(VRMLToOSGAction::SwapData     );
-    _pVRMLToOSGAction->apply              (_pVRMLLoader->getFileTree()   );
-
-
-    NodePtr nodePtr = _pVRMLToOSGAction->getRoot();
-
-    if(nodePtr != NullFC)
-        fcVec.push_back(nodePtr);
-
-    return fcVec;
-}
-
-VRMLSceneFileType::FCPtrStore VRMLSceneFileType::readTopNodes(
-    const Char8  *fileName,
-          UInt32  uiAddOptions,
-          UInt32  uiSubOptions)const
-{
-    FCPtrStore fcVec;
-
-    if(_pVRMLLoader == NULL)
-    {
-        _pVRMLLoader      = new VRMLLoader     ();
-        _pVRMLToOSGAction = new VRMLToOSGAction(); 
-    }
-
-    _pVRMLLoader->scanFile(fileName, 
-                           uiAddOptions & ~uiSubOptions);
-
-    _pVRMLToOSGAction->setNameNodeMap     (_pVRMLLoader->getNameNodeMap());
-
-    _pVRMLToOSGAction->setDataTransferMode(VRMLToOSGAction::SwapData     );
-    _pVRMLToOSGAction->apply              (_pVRMLLoader->getFileTree()   );
-
-    NodePtr    nodePtr = _pVRMLToOSGAction->getRoot();
-
-    if(nodePtr != NullFC)
-        fcVec.push_back(nodePtr);
-
-    return fcVec;
 }
 
 /*-------------------------------------------------------------------------*/
 /*                               Write                                     */
 
-bool VRMLSceneFileType::write(const NodePtr, const Char8 *) const
+bool VRMLSceneFileType::write(const NodePtr &, const Char8 *) const
 {
     return false;
 }

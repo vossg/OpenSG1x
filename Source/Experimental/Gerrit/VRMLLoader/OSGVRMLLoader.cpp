@@ -135,10 +135,10 @@ void VRMLLoader::doIndent(std::ostream &outstream)
         outstream << "-";
     }
 #endif
-    
+
     outstream << _szIndents[_uiIndentIndex] << "\r";
-    
-#if 0 
+
+#if 0
    for(UInt32 j = _uiIndent; j < _uiMaxIndent + 2; j++)
     {
         outstream << " ";
@@ -169,7 +169,7 @@ void VRMLLoader::doIndent(std::ostream &outstream)
 
 void VRMLLoader::initFieldTypeMapper(void)
 {
-    fprintf(stderr, "XXXX : %u %u \n\n", 
+    fprintf(stderr, "XXXX : %u %u \n\n",
             SFBool::getClassType().getId(),
             ScanParseSkel::OSGsfBool);
 
@@ -303,8 +303,8 @@ void VRMLLoader::insertNamedNode(VRMLNode *pNode)
     else
     {
         doIndent(PLOG);
-        PLOG << "Error could not add node named " 
-             << pNode->getCName() 
+        PLOG << "Error could not add node named "
+             << pNode->getCName()
              << " a second time "
              << std::endl;
     }
@@ -333,7 +333,7 @@ VRMLLoader::VRMLLoader(void) :
     _pNameNodeMap     (NULL)
 {
     Self::setReferenceHeader("#VRML V2.0");
-    
+
     initFieldTypeMapper();
 }
 
@@ -350,7 +350,7 @@ void VRMLLoader::beginNode(const Char8 *szNodeTypename,
 #ifdef DEBUG_WRL
     doIndent(PLOG);
     PLOG << "Begin node : " << szNodeTypename << " | ";
-    
+
     if(szNodename == NULL)
     {
         PLOG << "NULL" << std::endl;
@@ -369,11 +369,11 @@ void VRMLLoader::beginNode(const Char8 *szNodeTypename,
     incIndent();
 
 
-    VRMLNode *pNewNode = 
+    VRMLNode *pNewNode =
         VRMLObjectFactory::the()->createNode(szNodeTypename);
 
     setNodeValue(pNewNode);
-    
+
     _pCurrentNode = pNewNode;
 
     _sNodeStack.push(_pCurrentNode);
@@ -394,8 +394,8 @@ void VRMLLoader::beginNode(const Char8 *szNodeTypename,
     }
     else
     {
-        PWARNING << "Could not create node with type " 
-                 << szNodeTypename 
+        PWARNING << "Could not create node with type "
+                 << szNodeTypename
                  << std::endl;
     }
 }
@@ -415,7 +415,7 @@ void VRMLLoader::endNode(void)
 
     if(_sNodeStack.size() != 0)
     {
-        _pCurrentNode = _sNodeStack.top(); 
+        _pCurrentNode = _sNodeStack.top();
     }
     else
     {
@@ -470,10 +470,10 @@ void VRMLLoader::beginField(const Char8 *szFieldname,
 
 #ifdef DEBUG_WRL
     doIndent(PLOG);
-    PLOG << "BeginField : " 
-         << szFieldname 
-         << " " 
-         << _pCurrentField 
+    PLOG << "BeginField : "
+         << szFieldname
+         << " "
+         << _pCurrentField
          << " | ";
 #endif
 
@@ -484,15 +484,15 @@ void VRMLLoader::beginField(const Char8 *szFieldname,
         _pCurrentField     =
             (Field *) _pCurrentNode->getElement(szFieldname);
 
-        _pCurrentFieldDesc = 
+        _pCurrentFieldDesc =
             _pCurrentNode->getType().findElementDesc(szFieldname);
 
 #ifdef DEBUG_WRL
         PLOG << "BF : "
              << szFieldname
-             << " " 
-             << _pCurrentField 
-             << " " 
+             << " "
+             << _pCurrentField
+             << " "
              << _pCurrentFieldDesc
              << std::endl;
 #endif
@@ -531,7 +531,7 @@ void VRMLLoader::endField(void)
 
     if(_sFieldStack.size() != 0)
     {
-        _pCurrentField = _sFieldStack.top(); 
+        _pCurrentField = _sFieldStack.top();
     }
     else
     {
@@ -545,7 +545,7 @@ void VRMLLoader::endField(void)
     }
 
     _sElementDescStack.pop();
-    
+
     if(_sElementDescStack.size() != 0)
     {
         _pCurrentFieldDesc = _sElementDescStack.top();
@@ -586,10 +586,10 @@ UInt32 VRMLLoader::getFieldType(const Char8 *szFieldname)
 #ifdef DEBUG_WRL
         doIndent(PLOG);
         PLOG << "Get field "
-             << szFieldname 
-             << " " 
-             << pField 
-             << " " 
+             << szFieldname
+             << " "
+             << pField
+             << " "
              << std::endl;
 #else
         doIndent(PLOG);
@@ -598,13 +598,13 @@ UInt32 VRMLLoader::getFieldType(const Char8 *szFieldname)
         if(pField != NULL)
         {
             returnValue = pField->getType().getId();
-        }    
+        }
     }
 
     return returnValue;
 }
 
-void VRMLLoader::scanFile(const Char8 *szFilename, UInt32 uiOptions)
+void VRMLLoader::scanStream(std::istream &is)
 {
     _vResultStore     .clear();
     _pFileTree         = NULL;
@@ -629,16 +629,36 @@ void VRMLLoader::scanFile(const Char8 *szFilename, UInt32 uiOptions)
         _sElementDescStack.pop();
     }
 
-    Inherited::scanFile(szFilename, uiOptions);
+    Inherited::scanStream(is);
 }
 
-void VRMLLoader::scanFile(const Char8  *szFilename, 
-                          UInt32  uiAddOptions, 
-                          UInt32  uiSubOptions)
+void VRMLLoader::scanFile(const Char8 *szFilename)
 {
-    fprintf(stderr, "scanFile(name, add, sub) NOT IMPLEMENTEN\n");
-}
+    _vResultStore     .clear();
+    _pFileTree         = NULL;
 
+    _pCurrentNode      = NULL;
+
+    _pCurrentField     = NULL;
+    _pCurrentFieldDesc = NULL;
+
+    while(_sNodeStack.empty() == false)
+    {
+        _sNodeStack.pop();
+    }
+
+    while(_sFieldStack.empty() == false)
+    {
+        _sFieldStack.pop();
+    }
+
+    while(_sElementDescStack.empty() == false)
+    {
+        _sElementDescStack.pop();
+    }
+
+    Inherited::scanFile(szFilename);
+}
 
 VRMLLoader::ResultStore &VRMLLoader::getResultStore(void)
 {
@@ -650,10 +670,10 @@ VRMLNode *VRMLLoader::getFileTree(void)
     if(_pFileTree == NULL)
     {
         VRMLGroup *pGroup = VRMLGroup::create();
-        
+
         ResultStore::iterator resIt  = _vResultStore.begin();
         ResultStore::iterator resEnd = _vResultStore.end  ();
-        
+
         while(resIt != resEnd)
         {
             pGroup->addChild((*resIt));
@@ -684,7 +704,7 @@ VRMLLoader::NameNodeMap *VRMLLoader::getNameNodeMap(void)
 #pragma warning( disable : 177 )
 #endif
 
-namespace 
+namespace
 {
     static Char8 cvsid_cpp[] = "@(#)$Id: $";
     static Char8 cvsid_hpp[] = OSGVRMLLOADER_HEADER_CVSID;

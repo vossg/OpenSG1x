@@ -80,33 +80,20 @@ class OSG_VRML_DLLMAPPING VRMLSceneFileType : public SceneFileType
     /*! \{                                                                 */
 
     virtual const Char8 *getName(void) const;
- 
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
-    virtual NodePtr    read        (const Char8  *fileName, 
-                                          UInt32  uiReplaceOptions) const;
-
-    virtual NodePtr    read        (const Char8  *fileName, 
-                                          UInt32  uiAddOptions,
-                                          UInt32  uiSubOptions    ) const;
-
-    
-    virtual FCPtrStore readTopNodes(const Char8  *fileName,
-                                          UInt32  uiReplaceOptions) const;
-
-    virtual FCPtrStore readTopNodes(const Char8  *fileName,
-                                          UInt32  uiAddOptions,
-                                          UInt32  uiSubOptions    ) const;
+    virtual NodePtr    read        (std::istream &is) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
     /*! \{                                                                 */
 
-    virtual bool write(const NodePtr  node, 
+    virtual bool write(const NodePtr &node,
                        const Char8   *fileName) const;
 
     /*! \}                                                                 */
@@ -119,16 +106,16 @@ class OSG_VRML_DLLMAPPING VRMLSceneFileType : public SceneFileType
 
     static const Char8             *_suffixA[];
     static       VRMLSceneFileType  _the;
-    
+
     static       VRMLLoader        *_pVRMLLoader;
-    static       VRMLToOSGAction   *_pVRMLToOSGAction; 
+    static       VRMLToOSGAction   *_pVRMLToOSGAction;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLSceneFileType(const Char8  *suffixArray[], 
+    VRMLSceneFileType(const Char8  *suffixArray[],
                             UInt16  suffixByteCount,
                             bool    override,
                             UInt32  overridePriority);
