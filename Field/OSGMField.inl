@@ -445,14 +445,23 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     FieldTypeT  tmpVal;
 
+    clear();
+
     typedef typename osgIF< (MFieldTraits::StringConvertable &
                              Traits::FromStringConvertable), 
                             MFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
-    Converter::getFromString(tmpVal, str);
-    
-    addValue(tmpVal);
+    Int32 pos = -1;
+    string parseLine(str);
+
+    do {
+	pos = pos + 1;
+        const Char8 * subString = parseLine.c_str() + pos;
+        Converter::getFromString(tmpVal, subString);
+        addValue(tmpVal);
+
+    } while (-1 != (pos = parseLine.find(',', pos)));
 }
 
 //! Dump the field to a given string
@@ -461,13 +470,13 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 string &MField<FieldTypeT, 
                fieldNameSpace>::getValueByStr(string &stringVal) const
 {
-    string tmpString;
-
-    typedef typename osgIF< (MFieldTraits::StringConvertable &
-                             Traits::FromStringConvertable),
-                            MFieldTraits,
-                            ErrorFromToString<FieldTypeT> >::_IRet Converter;
-
+    string tmpString;    
+    typedef osgIF< (MFieldTraits::StringConvertable &
+                    Traits::ToStringConvertable),
+                   MFieldTraits,
+                   ErrorFromToString<FieldTypeT> >::_IRet Converter;
+    
+    stringVal.erase();
     for(UInt32 i = 0; i < getSize(); ++i)
     {
         Converter::putToString(_values[i], tmpString);
