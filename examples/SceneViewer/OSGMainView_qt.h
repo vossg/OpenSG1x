@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Wed Nov 7 19:37:35 2001
+** Created: Wed Jul 17 20:26:29 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -19,6 +19,7 @@ class QAction;
 class QActionGroup;
 class QToolBar;
 class QPopupMenu;
+class QCheckBox;
 class QTabWidget;
 
 class OSGMainView : public QMainWindow
@@ -30,6 +31,7 @@ public:
     ~OSGMainView();
 
     QTabWidget* tabView;
+    QCheckBox* CheckBox2;
     QMenuBar *menubar;
     QPopupMenu *fileMenu;
     QPopupMenu *helpMenu;
@@ -62,6 +64,7 @@ public slots:
     virtual void helpContents();
     virtual void helpIndex();
     virtual void createView();
+    virtual void setStatistics( bool val );
 
 protected:
     QHBoxLayout* OSGMainViewLayout;

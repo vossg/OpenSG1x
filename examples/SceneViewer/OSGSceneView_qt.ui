@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>771</width>
-            <height>744</height>
+            <width>667</width>
+            <height>537</height>
         </rect>
     </property>
     <property name="caption">
@@ -157,48 +157,30 @@
                                 <property name="text">
                                     <string>Value</string>
                                 </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
-                                </property>
                             </column>
                             <row>
                                 <property name="text">
                                     <string>Node Type Name</string>
-                                </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Node Name</string>
                                 </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
-                                </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core Type Name</string>
-                                </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core Name</string>
                                 </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
-                                </property>
                             </row>
                             <row>
                                 <property name="text">
                                     <string>Core USEed count</string>
-                                </property>
-                                <property name="pixmap">
-                                    <pixmap></pixmap>
                                 </property>
                             </row>
                             <property name="name">
@@ -315,24 +297,26 @@
     <variable>QPopupMenu *treePopupMenu;</variable>
     <variable>osg::NodePtr rootNode;</variable>
     <variable>std::list&lt;QWidget *&gt; viewList;</variable>
+    <variable>bool statState;</variable>
 </variables>
 <slots>
-    <slot>addListItem(osg::NodePtr node, QListViewItem * parentItem)</slot>
+    <slot>addListItem( osg::NodePtr node, QListViewItem * parentItem )</slot>
     <slot>init()</slot>
     <slot>destroyView()</slot>
-    <slot>setRootNode(osg::NodePtr root)</slot>
-    <slot>setActiveNode(osg::NodePtr node)</slot>
-    <slot>setActiveNodeFromListItem(QListViewItem * item)</slot>
-    <slot>createView(osg::NodePtr node)</slot>
-    <slot>updateAllViews(void)</slot>
-    <slot>closeAllViews(void)</slot>
-    <slot>deleteNode(osg::NodePtr node)</slot>
-    <slot>popupTreeMenu(QListViewItem * parentItem)</slot>
-    <slot>menuHandler(int id)</slot>
-    <slot>insertFromFile(osg::NodePtr parent)</slot>
-    <slot>exportToFile(osg::NodePtr node)</slot>
+    <slot>setRootNode( osg::NodePtr root )</slot>
+    <slot>setActiveNode( osg::NodePtr node )</slot>
+    <slot>setActiveNodeFromListItem( QListViewItem * item )</slot>
+    <slot>createView( osg::NodePtr node )</slot>
+    <slot>setStatistics( bool val )</slot>
+    <slot>updateAllViews( void )</slot>
+    <slot>closeAllViews( void )</slot>
+    <slot>deleteNode( osg::NodePtr node )</slot>
+    <slot>popupTreeMenu( QListViewItem * parentItem )</slot>
+    <slot>menuHandler( int id )</slot>
+    <slot>insertFromFile( osg::NodePtr parent )</slot>
+    <slot>exportToFile( osg::NodePtr node )</slot>
     <slot>rebuild()</slot>
-    <slot>removeView(QWidget * object)</slot>
+    <slot>removeView( QWidget * object )</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

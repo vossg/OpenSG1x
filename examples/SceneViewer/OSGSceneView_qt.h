@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Wed Nov 7 19:37:42 2001
+** Created: Fri Aug 2 12:12:16 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -43,22 +43,23 @@ public:
 
 
 public slots:
-    virtual void addListItem(osg::NodePtr node, QListViewItem * parentItem);
+    virtual void addListItem( osg::NodePtr node, QListViewItem * parentItem );
     virtual void init();
     virtual void destroyView();
-    virtual void setRootNode(osg::NodePtr root);
-    virtual void setActiveNode(osg::NodePtr node);
-    virtual void setActiveNodeFromListItem(QListViewItem * item);
-    virtual void createView(osg::NodePtr node);
-    virtual void updateAllViews(void);
-    virtual void closeAllViews(void);
-    virtual void deleteNode(osg::NodePtr node);
-    virtual void popupTreeMenu(QListViewItem * parentItem);
-    virtual void menuHandler(int id);
-    virtual void insertFromFile(osg::NodePtr parent);
-    virtual void exportToFile(osg::NodePtr node);
+    virtual void setRootNode( osg::NodePtr root );
+    virtual void setActiveNode( osg::NodePtr node );
+    virtual void setActiveNodeFromListItem( QListViewItem * item );
+    virtual void createView( osg::NodePtr node );
+    virtual void setStatistics( bool val );
+    virtual void updateAllViews( void );
+    virtual void closeAllViews( void );
+    virtual void deleteNode( osg::NodePtr node );
+    virtual void popupTreeMenu( QListViewItem * parentItem );
+    virtual void menuHandler( int id );
+    virtual void insertFromFile( osg::NodePtr parent );
+    virtual void exportToFile( osg::NodePtr node );
     virtual void rebuild();
-    virtual void removeView(QWidget * object);
+    virtual void removeView( QWidget * object );
 
 protected:
     QHBoxLayout* OSGSceneViewLayout;
@@ -73,6 +74,7 @@ protected:
     QPopupMenu *treePopupMenu;
     osg::NodePtr rootNode;
     std::list<QWidget *> viewList;
+    bool statState;
 };
 
 #endif // OSGSCENEVIEW_H

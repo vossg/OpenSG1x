@@ -302,6 +302,7 @@ void OSGSceneView::createView( osg::NodePtr node )
     {
       widget = new osg::OSGQGLManagedWidget(0,"OSG View");    
       widget->getManager().setRoot( node );
+      widget->getManager().setStatistics( statState );
       widget->getManager().showAll();
       widget->getManager().useOpenSGLogo();
 			widget->getManager().setHighlight(activeNode);
@@ -310,6 +311,21 @@ void OSGSceneView::createView( osg::NodePtr node )
                 this,   SLOT   ( removeView (QWidget *) ) );
       widget->show();
     }  
+}
+
+//////////////////////////////////////////////////////////////////
+// setStatistics: change statistics settings                    //
+//////////////////////////////////////////////////////////////////
+void OSGSceneView::setStatistics(bool val)
+{
+  std::list<QWidget*>::iterator wI;
+  osg::OSGQGLManagedWidget *w;
+  
+  statState = val;
+  
+  for (wI = viewList.begin(); wI != viewList.end(); ++wI)
+    if ((w = dynamic_cast<osg::OSGQGLManagedWidget*>(*wI)))
+      w->getManager().setStatistics(val);
 }
 
 //////////////////////////////////////////////////////////////////

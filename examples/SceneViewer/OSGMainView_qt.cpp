@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Wed Nov 7 19:37:49 2001
+** Created: Wed Jul 17 20:26:29 2002
 **      by:  The User Interface Compiler (uic)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -15,6 +15,7 @@
 #include <OpenSG/OSGNodeCore.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qapplication.h>
+#include <qcheckbox.h>
 #include <qmessagebox.h>
 #include <qstring.h>
 #include <qtabwidget.h>
@@ -481,13 +482,8 @@ static const char* const image4_data[] = {
 "QtQt.d#r#s#s#t#p.T.T.T#u#u.z#e#e#v.o.kQtQtQt"};
 
 static const char* const image5_data[] = { 
-"22 22 448 2",
-"e9 c None",
+"22 22 444 2",
 "e5 c None",
-"e6 c #c6c6c6",
-"e7 c #c6c6c6",
-"e4 c #c6c6c6",
-"e8 c #c6c6c6",
 ".v c #002ba1",
 ".w c #002ca0",
 ".Z c #003fd7",
@@ -920,6 +916,7 @@ static const char* const image5_data[] = {
 "e. c #c5801f",
 ".V c #c5d9f7",
 "eb c #c67f1d",
+"e4 c #c6c6c6",
 "e# c #c8821f",
 "#z c #c8def7",
 "ea c #ca811f",
@@ -950,8 +947,8 @@ static const char* const image5_data[] = {
 "dYdZd0d1d2d3d4d5d6d7d8d9e.e#eaebecedeeefegeh",
 "eiejekelemeneoepeqereseteuevewexeyezeAeBeCeD",
 "eEeFeGeHeIeJeKeLeMeNeOePeQeReSeTeUeVeWeXeYeZ",
-"e0e1e2e3e4e4e4e5e4e4e4e5e5e5e5e5e5e6e7e5e5e6",
-"e5e5e5e5e8e8e8e5e8e8e8e5e9e5e5e5e5e6e7e5e5e6"};
+"e0e1e2e3e4e4e4e5e4e4e4e5e5e5e5e5e5e4e4e5e5e4",
+"e5e5e5e5e4e4e4e5e4e4e4e5e5e5e5e5e5e4e4e5e5e4"};
 
 
 /* 
@@ -972,12 +969,10 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     if ( !name )
 	setName( "OSGMainView" );
     resize( 715, 553 ); 
-    setCaption( trUtf8( "OpenSG Scene Viewer", "" ) );
+    setCaption( trUtf8( "OpenSG Scene Viewer" ) );
     setIcon( image0 );
     setCentralWidget( new QWidget( this, "qt_central_widget" ) );
-    OSGMainViewLayout = new QHBoxLayout( centralWidget() ); 
-    OSGMainViewLayout->setSpacing( 6 );
-    OSGMainViewLayout->setMargin( 11 );
+    OSGMainViewLayout = new QHBoxLayout( centralWidget(), 11, 6, "OSGMainViewLayout"); 
 
     tabView = new QTabWidget( centralWidget(), "tabView" );
     OSGMainViewLayout->addWidget( tabView );
@@ -985,55 +980,55 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     // actions
     fileNewAction = new QAction( this, "fileNewAction" );
     fileNewAction->setIconSet( QIconSet( image1 ) );
-    fileNewAction->setText( trUtf8( "New", "" ) );
-    fileNewAction->setMenuText( trUtf8( "&New", "" ) );
+    fileNewAction->setText( trUtf8( "New" ) );
+    fileNewAction->setMenuText( trUtf8( "&New" ) );
     fileNewAction->setAccel( 4194382 );
     fileOpenAction = new QAction( this, "fileOpenAction" );
     fileOpenAction->setIconSet( QIconSet( image2 ) );
-    fileOpenAction->setText( trUtf8( "Open", "" ) );
-    fileOpenAction->setMenuText( trUtf8( "&Open...", "" ) );
+    fileOpenAction->setText( trUtf8( "Open" ) );
+    fileOpenAction->setMenuText( trUtf8( "&Open..." ) );
     fileOpenAction->setAccel( 4194383 );
     fileSaveAction = new QAction( this, "fileSaveAction" );
     fileSaveAction->setIconSet( QIconSet( image3 ) );
-    fileSaveAction->setText( trUtf8( "Save", "" ) );
-    fileSaveAction->setMenuText( trUtf8( "&Save", "" ) );
+    fileSaveAction->setText( trUtf8( "Save" ) );
+    fileSaveAction->setMenuText( trUtf8( "&Save" ) );
     fileSaveAction->setAccel( 4194387 );
     fileSaveAsAction = new QAction( this, "fileSaveAsAction" );
-    fileSaveAsAction->setText( trUtf8( "Save As", "" ) );
-    fileSaveAsAction->setMenuText( trUtf8( "Save &As...", "" ) );
+    fileSaveAsAction->setText( trUtf8( "Save As" ) );
+    fileSaveAsAction->setMenuText( trUtf8( "Save &As..." ) );
     fileSaveAsAction->setAccel( 0 );
     filePrintAction = new QAction( this, "filePrintAction" );
     filePrintAction->setIconSet( QIconSet( image4 ) );
-    filePrintAction->setText( trUtf8( "Print", "" ) );
-    filePrintAction->setMenuText( trUtf8( "&Print...", "" ) );
+    filePrintAction->setText( trUtf8( "Print" ) );
+    filePrintAction->setMenuText( trUtf8( "&Print..." ) );
     filePrintAction->setAccel( 4194384 );
     fileExitAction = new QAction( this, "fileExitAction" );
-    fileExitAction->setText( trUtf8( "Exit", "" ) );
-    fileExitAction->setMenuText( trUtf8( "E&xit", "" ) );
+    fileExitAction->setText( trUtf8( "Exit" ) );
+    fileExitAction->setMenuText( trUtf8( "E&xit" ) );
     fileExitAction->setAccel( 0 );
     helpContentsAction = new QAction( this, "helpContentsAction" );
-    helpContentsAction->setText( trUtf8( "Contents", "" ) );
-    helpContentsAction->setMenuText( trUtf8( "&Contents...", "" ) );
+    helpContentsAction->setText( trUtf8( "Contents" ) );
+    helpContentsAction->setMenuText( trUtf8( "&Contents..." ) );
     helpContentsAction->setAccel( 0 );
     helpIndexAction = new QAction( this, "helpIndexAction" );
-    helpIndexAction->setText( trUtf8( "Index", "" ) );
-    helpIndexAction->setMenuText( trUtf8( "&Index...", "" ) );
+    helpIndexAction->setText( trUtf8( "Index" ) );
+    helpIndexAction->setMenuText( trUtf8( "&Index..." ) );
     helpIndexAction->setAccel( 0 );
     helpAboutAction = new QAction( this, "helpAboutAction" );
-    helpAboutAction->setText( trUtf8( "About", "" ) );
-    helpAboutAction->setMenuText( trUtf8( "&About...", "" ) );
+    helpAboutAction->setText( trUtf8( "About" ) );
+    helpAboutAction->setMenuText( trUtf8( "&About..." ) );
     helpAboutAction->setAccel( 0 );
     createViewAction = new QAction( this, "createViewAction" );
     createViewAction->setIconSet( QIconSet( image5 ) );
-    createViewAction->setText( trUtf8( "Create View", "" ) );
+    createViewAction->setText( trUtf8( "Create View" ) );
     fileInsertAction = new QAction( this, "fileInsertAction" );
-    fileInsertAction->setText( trUtf8( "Insert", "" ) );
+    fileInsertAction->setText( trUtf8( "Insert" ) );
 
 
     // toolbars
     toolBar = new QToolBar( "", this, DockTop ); 
 
-    toolBar->setLabel( trUtf8( "Tools", "" ) );
+    toolBar->setLabel( trUtf8( "Tools" ) );
     fileNewAction->addTo( toolBar );
     fileOpenAction->addTo( toolBar );
     fileSaveAction->addTo( toolBar );
@@ -1041,8 +1036,11 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     filePrintAction->addTo( toolBar );
     Toolbar = new QToolBar( "", this, DockTop ); 
 
-    Toolbar->setLabel( trUtf8( "Toolbar", "" ) );
+    Toolbar->setLabel( trUtf8( "Toolbar" ) );
     createViewAction->addTo( Toolbar );
+
+    CheckBox2 = new QCheckBox( Toolbar, "CheckBox2" );
+    CheckBox2->setText( trUtf8( "Stats " ) );
 
 
     // menubar
@@ -1058,14 +1056,14 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     filePrintAction->addTo( fileMenu );
     fileMenu->insertSeparator();
     fileExitAction->addTo( fileMenu );
-    menubar->insertItem( trUtf8( "&File", "" ), fileMenu );
+    menubar->insertItem( trUtf8( "&File" ), fileMenu );
 
     helpMenu = new QPopupMenu( this ); 
     helpContentsAction->addTo( helpMenu );
     helpIndexAction->addTo( helpMenu );
     helpMenu->insertSeparator();
     helpAboutAction->addTo( helpMenu );
-    menubar->insertItem( trUtf8( "&Help", "" ), helpMenu );
+    menubar->insertItem( trUtf8( "&Help" ), helpMenu );
 
 
 
@@ -1081,6 +1079,7 @@ OSGMainView::OSGMainView( QWidget* parent,  const char* name, WFlags fl )
     connect( helpAboutAction, SIGNAL( activated() ), this, SLOT( helpAbout() ) );
     connect( createViewAction, SIGNAL( activated() ), this, SLOT( createView() ) );
     connect( fileInsertAction, SIGNAL( activated() ), this, SLOT( fileInsert() ) );
+    connect( CheckBox2, SIGNAL( toggled(bool) ), this, SLOT( setStatistics(bool) ) );
     init();
 }
 

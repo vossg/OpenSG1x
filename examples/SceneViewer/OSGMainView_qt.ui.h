@@ -143,3 +143,9 @@ void OSGMainView::createView()
 {
   sceneView->createView(root);
 }
+
+
+void OSGMainView::setStatistics( bool  val)
+{
+  sceneView->setStatistics(val);
+}
