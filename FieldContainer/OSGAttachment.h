@@ -343,7 +343,7 @@ typedef FCPtr           <AttachmentPtr,  Name> NamePtr;
 #if defined(__sgi)
 
 #pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_type
-#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_desc
+//#pragma do_not_instantiate SimpleAttachment<NameAttachmentDesc>::_desc
 
 #else
 
