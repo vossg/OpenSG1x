@@ -85,8 +85,8 @@ public:
   void getParameterInterval( double &minpar, double &maxpar ); //returns minimal and maximal parameter value
 
   //I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::ifstream &infile );
-  int write( std::ofstream &outfile );
+  int read( std::istream &infile );
+  int write( std::ostream &outfile );
 
   //some REAL functionality
   vec2d compute( double t, int &error ); // compute curve at parameter value t

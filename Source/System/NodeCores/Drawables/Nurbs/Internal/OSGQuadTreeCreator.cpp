@@ -289,7 +289,7 @@ double QuadTreeCreator::computeBilinearNorm( DCTPFace *face ) {
 }
 
                                             
-int QuadTreeCreator::writeMesh( std::ofstream& of ) {
+int QuadTreeCreator::writeMesh( std::ostream& of ) {
         return qtm->write( of );
 }
 

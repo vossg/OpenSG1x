@@ -71,7 +71,7 @@ int BezierCurve3D::setControlPointVector( const vec3dvector& cps )
 }
 
 //I/O facilities - FIXME: read( char *fname ), etc. missing
-int BezierCurve3D::read( std::ifstream &infile )
+int BezierCurve3D::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -99,7 +99,7 @@ int BezierCurve3D::read( std::ifstream &infile )
 
 }
 
-int BezierCurve3D::write( std::ofstream &outfile )
+int BezierCurve3D::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );

@@ -80,8 +80,8 @@ public:
         void Initialize( DirectedGraph<vec2d, unsigned char >& gg, bool
         usedelaunaytri );
         int getNextEdge( const int nodeid, const int previd /*const double& in_angle*/  );
-        int writeTriangles( std::ofstream &of );
-        void writeInvalidTriangles( std::ofstream &of );
+        int writeTriangles( std::ostream &of );
+        void writeInvalidTriangles( std::ostream &of );
         int Traverse( void );
         int triangulatePolygon( ivector& nodes, bool bConvex );
         int getADirectedEdge( void );

@@ -458,8 +458,8 @@ public:
         int buildSurfaceGraph( DirectedGraph< vec2d, unsigned char> *pGraph, std::vector< vec3d > *pvclSewed = NULL );
 		void getTrimmingLoops( std::vector< std::vector< vec2d > > &rvvclTrimmingLoops );
 #endif
-        int writeSurfaceGraph( std::ofstream &of );
-        void writeInvalidSurfaceGraph( std::ofstream &of );
+        int writeSurfaceGraph( std::ostream &of );
+        void writeInvalidSurfaceGraph( std::ostream &of );
 
 		inline void UseMaxLeght( const bool cbUse ) { m_bMaxLength = cbUse; }
 

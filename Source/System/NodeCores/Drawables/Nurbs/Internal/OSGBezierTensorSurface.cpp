@@ -74,7 +74,7 @@ int BezierTensorSurface::setControlPointMatrix( const vec3dmatrix& cps )
 }
 
 //I/O facilities - FIXME: read( char *fname ), etc. missing
-int BezierTensorSurface::read( std::ifstream &infile )
+int BezierTensorSurface::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -111,7 +111,7 @@ int BezierTensorSurface::read( std::ifstream &infile )
 
 }
 
-int BezierTensorSurface::write( std::ofstream &outfile )
+int BezierTensorSurface::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );

@@ -136,7 +136,7 @@ void BSplineCurve2D::getParameterInterval( double &minpar, double &maxpar )
 }
 
 //I/O facilities - FIXME: read( char *fname ), etc. missing
-int BSplineCurve2D::read( std::ifstream &infile )
+int BSplineCurve2D::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -172,7 +172,7 @@ int BSplineCurve2D::read( std::ifstream &infile )
 
 }
 
-int BSplineCurve2D::write( std::ofstream &outfile )
+int BSplineCurve2D::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );

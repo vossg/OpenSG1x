@@ -69,7 +69,7 @@ int BezierCurve2D::setControlPointVector( const vec2dvector& cps )
 }
 
 //I/O facilities - FIXME: read( char *fname ), etc. missing
-int BezierCurve2D::read( std::ifstream &infile )
+int BezierCurve2D::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -97,7 +97,7 @@ int BezierCurve2D::read( std::ifstream &infile )
 
 }
 
-int BezierCurve2D::write( std::ofstream &outfile )
+int BezierCurve2D::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );

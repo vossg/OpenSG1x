@@ -88,7 +88,7 @@ public:
                           const dvector& intervals_u,
                           const dvector& intervals_v ); //sets starting leaves
     int createQuadTree( void );//well... go figure
-    int writeMesh( std::ofstream& of );//bah!
+    int writeMesh( std::ostream& of );//bah!
     void resetMesh( void );
 };
 

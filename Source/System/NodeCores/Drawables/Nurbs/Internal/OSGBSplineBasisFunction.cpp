@@ -105,7 +105,7 @@ void BSplineBasisFunction::getParameterInterval( double &minpar, double &maxpar 
 }
 
 //I/O support - FIXME: read( char *fname ) outta be supported , etc
-int BSplineBasisFunction::read( std::ifstream &infile )
+int BSplineBasisFunction::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -138,7 +138,7 @@ int BSplineBasisFunction::read( std::ifstream &infile )
    
 }
 
-int BSplineBasisFunction::write( std::ofstream &outfile )
+int BSplineBasisFunction::write( std::ostream &outfile )
 {
 
   //FIXME: ya outta do some f***n' ERRORTESTIN'!!!!

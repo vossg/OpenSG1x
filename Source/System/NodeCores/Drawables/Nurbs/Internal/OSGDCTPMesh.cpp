@@ -505,7 +505,7 @@ DCTPFace* DCTPMesh::AddQuad( vec3d v1, vec3d v2, vec3d v3, vec3d v4, double norm
   return nf;
 }
 
-int DCTPMesh::read( std::ifstream & infile )
+int DCTPMesh::read( std::istream & infile )
 {
   std::vector < DCTPVertex* > invertices;
   std::vector < DCTPEdge* > inedges; 
@@ -666,7 +666,7 @@ void DCTPMesh::dump( char *fname )
   out.close();
 }
 
-int DCTPMesh::write( std::ofstream & outfile )
+int DCTPMesh::write( std::ostream & outfile )
 {
 
   outfile.precision( DCTP_PRECISION );
@@ -763,7 +763,7 @@ int DCTPMesh::write( std::ofstream & outfile )
   return 0;
 }
 
-void DCTPMesh::writeInvalid(std::ofstream &outfile ) 
+void DCTPMesh::writeInvalid(std::ostream &outfile ) 
 {
   outfile << " VERTICES: 0" << std::endl;
 }
@@ -1212,7 +1212,7 @@ void DCTPMesh::SplitOneFace( DCTPFace *f, DCTPEdge *edge, DCTPVertex *nv)
 } //end SplitOneFace
 #endif
 
-int DCTPMesh::write_trisoup( std::ofstream &outfile )
+int DCTPMesh::write_trisoup( std::ostream &outfile )
 {
   outfile.precision( DCTP_PRECISION );
   outfile << ff_const_1 << std::endl;
@@ -1234,7 +1234,7 @@ int DCTPMesh::write_trisoup( std::ofstream &outfile )
   return 0;
 }
 
-int DCTPMesh::read_trisoup( std::ifstream &infile )
+int DCTPMesh::read_trisoup( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -1258,7 +1258,7 @@ int DCTPMesh::read_trisoup( std::ifstream &infile )
   return 0;
 }
 
-int DCTPMesh::write_quadsoup( std::ofstream &outfile )
+int DCTPMesh::write_quadsoup( std::ostream &outfile )
 {
   outfile.precision( DCTP_PRECISION );
   outfile << ff_const_2 << std::endl;
@@ -1282,7 +1282,7 @@ int DCTPMesh::write_quadsoup( std::ofstream &outfile )
   return 0;
 }
 
-int DCTPMesh::read_quadsoup( std::ifstream &infile )
+int DCTPMesh::read_quadsoup( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];

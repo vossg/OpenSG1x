@@ -78,7 +78,7 @@ void dumpcontrolpoints( BezierCurve2D & fasz )
 
 }
 
-void plotbezier( BezierCurve2D & fasz, std::ofstream & out )
+void plotbezier( BezierCurve2D & fasz, std::ostream & out )
 {
 
   for( double t = 0.0; t <= 1.0; t += 0.001 ) {
@@ -2330,7 +2330,7 @@ void ParSpaceTrimmer::getTrimmingLoops( std::vector< std::vector< vec2d > > &rvv
 }
 #endif
 
-int ParSpaceTrimmer::writeSurfaceGraph( std::ofstream &of )
+int ParSpaceTrimmer::writeSurfaceGraph( std::ostream &of )
 {
 	DirectedGraph< vec2d, unsigned char > sg; //surface_graph
 	int err = buildSurfaceGraph( &sg );
@@ -2338,7 +2338,7 @@ int ParSpaceTrimmer::writeSurfaceGraph( std::ofstream &of )
 	return 0;
 }
 
-void ParSpaceTrimmer::writeInvalidSurfaceGraph( std::ofstream &of )
+void ParSpaceTrimmer::writeInvalidSurfaceGraph( std::ostream &of )
 {
   DirectedGraph< vec2d, unsigned char > sg;
   sg.writeInvalid( of );

@@ -94,9 +94,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
     void removeCurves( void );
 
     SurfacePtr clone( void );
-    void readfromtso( std::ifstream &infile, bool useTextures = false );
-    void writetotso( std::ofstream &outfile );
-    UInt32 writetoobj( std::ofstream &outfile, UInt32 offset );
+    void readfromtso( std::istream &infile, bool useTextures = false );
+    void writetotso( std::ostream &outfile );
+    UInt32 writetoobj( std::ostream &outfile, UInt32 offset );
 
     Real64 getDesiredError( Pnt3f viewPos, Real64 halfPixelSize );
 

@@ -56,7 +56,7 @@ OSG_USING_NAMESPACE
  #endif
 #endif
 
-void writeout( std::ofstream &outData, vec2d &k1, vec2d& k2 )
+void writeout( std::ostream &outData, vec2d &k1, vec2d& k2 )
 {
   outData.precision( DCTP_PRECISION );
   outData << k1.x << " " << k1.y << std::endl;
@@ -417,7 +417,7 @@ int GraphTraverser::Traverse( void ) {
 	return 0;
 }
 
-int GraphTraverser::writeTriangles( std::ofstream &of ) {
+int GraphTraverser::writeTriangles( std::ostream &of ) {
 
 //  std::cerr << " we have " << polys.size() << " triangles..." << std::endl;
 //  std::cerr << " and we have " << globalverts.size() << " vertices..." << std::endl;
@@ -448,7 +448,7 @@ int GraphTraverser::writeTriangles( std::ofstream &of ) {
     return 0;
 }
 
-void GraphTraverser::writeInvalidTriangles( std::ofstream &of )
+void GraphTraverser::writeInvalidTriangles( std::ostream &of )
 {
   of << "VERTICES 0" << std::endl;
   of << "TRIANGLES 0" << std::endl;

@@ -1769,7 +1769,7 @@ SurfacePtr Surface::clone( void )
  *  \param infile ifstream to read surface data from.
  */
 //#pragma optimize("",off)
-void Surface::readfromtso( std::ifstream &infile, bool useTextures )
+void Surface::readfromtso( std::istream &infile, bool useTextures )
 {
     Int32 err = 0;
     BSplineTrimmedSurface *cl_trimmed_surface = new BSplineTrimmedSurface;
@@ -1939,7 +1939,7 @@ void Surface::readfromtso( std::ifstream &infile, bool useTextures )
 //#pragma optimize("",on)
 
 
-void Surface::writetotso( std::ofstream &outfile )
+void Surface::writetotso( std::ostream &outfile )
 {
     _trimmedSurface->write( outfile );
 }
@@ -1950,7 +1950,7 @@ void Surface::writetotso( std::ofstream &outfile )
  *
  *  \param outfile ifstream to read surface data from.
  */
-UInt32 Surface::writetoobj( std::ofstream &outfile, UInt32 offset )
+UInt32 Surface::writetoobj( std::ostream &outfile, UInt32 offset )
 {
     unsigned int uicnt;
 //     std::cerr << "current offset:" << g_current_obj_offset << std::endl;

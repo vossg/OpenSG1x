@@ -188,7 +188,7 @@ void BSplineTensorSurface::getParameterInterval_V( double &minpar, double &maxpa
  * \return zero on success, a negative value on failure.
  *
  */
-int BSplineTensorSurface::read( std::ifstream &infile )
+int BSplineTensorSurface::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -244,7 +244,7 @@ int BSplineTensorSurface::read( std::ifstream &infile )
  *
  */
 
-int BSplineTensorSurface::write( std::ofstream &outfile )
+int BSplineTensorSurface::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );
@@ -920,7 +920,7 @@ int BSplineTensorSurface::midPointSubDivision( std::vector< std::vector< BSpline
 	}
 
 /*#ifdef _DEBUG
-	std::ofstream	cl_write;
+	std::ostream	cl_write;
 
 	cl_write.open( "subdiv.txt" );
 
@@ -1078,7 +1078,7 @@ int BSplineTensorSurface::midPointSubDivisionU( std::vector< BSplineTensorSurfac
 	}
 
 /*#ifdef _DEBUG
-	std::ofstream	cl_write;
+	std::ostream	cl_write;
 
 	cl_write.open( "subdiv.txt" );
 
@@ -1163,7 +1163,7 @@ int BSplineTensorSurface::midPointSubDivisionV( std::vector< BSplineTensorSurfac
 	}
 
 /*#ifdef _DEBUG
-	std::ofstream	cl_write;
+	std::ostream	cl_write;
 
 	cl_write.open( "subdiv.txt" );
 
@@ -1236,7 +1236,7 @@ int BSplineTensorSurface::subDivisionU( std::vector< BSplineTensorSurface > &rvc
 	}
 
 /*#ifdef _DEBUG
-	std::ofstream	cl_write;
+	std::ostream	cl_write;
 
 	cl_write.open( "subdiv.txt" );
 
@@ -1322,7 +1322,7 @@ int BSplineTensorSurface::subDivisionV( std::vector< BSplineTensorSurface > &rvc
 	}
 
 /*#ifdef _DEBUG
-	std::ofstream	cl_write;
+	std::ostream	cl_write;
 
 	cl_write.open( "subdiv.txt" );
 

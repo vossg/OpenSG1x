@@ -111,9 +111,9 @@ public:
   int FindEdge( int from, int to );
 
   //I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::ifstream &infile );
-  int write( std::ofstream &outfile );
-  void writeInvalid( std::ofstream &outfile );
+  int read( std::istream &infile );
+  int write( std::ostream &outfile );
+  void writeInvalid( std::ostream &outfile );
   bool isInvalid( void );
 
 

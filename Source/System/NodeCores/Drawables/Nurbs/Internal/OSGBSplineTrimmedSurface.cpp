@@ -55,7 +55,7 @@ OSG_USING_NAMESPACE
   const char BSplineTrimmedSurface::ff_const_3[]="CURVESPERLOOP";
 
 // I/O facilities - FIXME: read( char *fname ), etc. missing
-int BSplineTrimmedSurface::read( std::ifstream &infile )
+int BSplineTrimmedSurface::read( std::istream &infile )
 {
   //FIXME: maybe we need more checks!!!
   char txtbuffer[ 256 ];
@@ -163,7 +163,7 @@ void BSplineTrimmedSurface::normalize( void )
   }
 }
 
-int BSplineTrimmedSurface::write( std::ofstream &outfile )
+int BSplineTrimmedSurface::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
 	unsigned int i;

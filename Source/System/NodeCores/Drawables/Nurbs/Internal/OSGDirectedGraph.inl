@@ -206,7 +206,7 @@ int DirectedGraph<T0, T1>::changeEdgeDirection( int edgeindex )
 }
 
 template <typename T0, typename T1>
-int DirectedGraph<T0, T1>::read( std::ifstream &infile )
+int DirectedGraph<T0, T1>::read( std::istream &infile )
 {
 
   //FIXME: maybe we need more checks!!!
@@ -261,7 +261,7 @@ int DirectedGraph<T0, T1>::read( std::ifstream &infile )
 }
 
 template <typename T0, typename T1>
-int DirectedGraph<T0, T1>::write( std::ofstream &outfile )
+int DirectedGraph<T0, T1>::write( std::ostream &outfile )
 {
   //FIXME: maybe we need more checks!!!
   outfile.precision( DCTP_PRECISION );
@@ -296,7 +296,7 @@ int DirectedGraph<T0, T1>::write( std::ofstream &outfile )
 }
 
 template <typename T0, typename T1>
-void DirectedGraph<T0, T1>::writeInvalid( std::ofstream &outfile )
+void DirectedGraph<T0, T1>::writeInvalid( std::ostream &outfile )
 {
   outfile << ff_const_1 << std::endl;
   outfile << ff_const_2 << " 0" << std::endl;

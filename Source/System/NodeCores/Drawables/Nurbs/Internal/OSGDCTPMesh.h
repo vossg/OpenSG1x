@@ -84,10 +84,10 @@ public:
 #endif
   int MoveVertex( DCTPVertex *vert, vec3d &newpos );
   void dump( char *fname );
-  int write( std::ofstream &);
-  void writeInvalid( std::ofstream &);
+  int write( std::ostream &);
+  void writeInvalid( std::ostream &);
   bool isInvalid( void ); // whether the current mesh is invalid
-  int read( std::ifstream &infile );
+  int read( std::istream &infile );
 #ifdef OSG_INTEGER_MESH
   int directEdge( vec3i& from, vec3i& into );
 #else
@@ -96,10 +96,10 @@ public:
   DCTPVertex *findVertex( const vec3d& v );
   DCTPEdge *findEdge( const vec3d &vc1, const vec3d &vc2 );
   DCTPEdge *findEdge( DCTPVertex *v1, DCTPVertex *v2 );
-  int write_trisoup( std::ofstream &outfile );
-  int write_quadsoup( std::ofstream &outfile );
-  int read_trisoup( std::ifstream &infile );  
-  int read_quadsoup( std::ifstream &infile );  
+  int write_trisoup( std::ostream &outfile );
+  int write_quadsoup( std::ostream &outfile );
+  int read_trisoup( std::istream &infile );  
+  int read_quadsoup( std::istream &infile );  
   unsigned long getNumOfVertices( void );
   unsigned long getNumOfFaces( void );
   void reinit( void );

@@ -66,8 +66,8 @@ public:
   ~BSplineTrimmedSurface() {} 
 
   // I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::ifstream &infile );
-  int write( std::ofstream &outfile );
+  int read( std::istream &infile );
+  int write( std::ostream &outfile );
   void normalize( void );
    
   BSplineTensorSurface& getSurface( void ) { return surf; }
