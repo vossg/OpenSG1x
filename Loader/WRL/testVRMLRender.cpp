@@ -97,7 +97,7 @@ void reshape( int w, int h )
     win->resize( w, h );
 }
 
-void loadMesh(const char *szFilename, OSG::NodePtr dlight)
+void loadMesh(const char */*szFilename*/, OSG::NodePtr /*dlight*/)
 {
     // Mesh
 
@@ -382,7 +382,7 @@ OSG::Action::ResultE calcVNormal( OSG::CNodePtr &, OSG::Action * action )
     return OSG::Action::Continue;
 }
 
-void key(unsigned char key, int x, int y)
+void key(unsigned char key, int , int)
 {
     switch ( key )
     {

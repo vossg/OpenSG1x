@@ -273,7 +273,7 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
 
 
 string OSGWriter::SharedFCInfoHelper::buildName(
-                                            FieldContainerPtr fcptr,
+                                            FieldContainerPtr ,
                                             UInt32 num)
 {
     string temp;

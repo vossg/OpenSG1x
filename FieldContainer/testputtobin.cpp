@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <vector>
 #include <OSGGeometry.h>
-#include <OSGGeoPropInterfaceFields.h>
 #include <OSGSFFieldContainerTypes.h>
 #include <OSGBinaryDataHandler.h>
 #include <OSGFieldContainerFactory.h>
