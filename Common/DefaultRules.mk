@@ -177,12 +177,20 @@ $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS)
 	done
 
 Test: $(TEST_TARGETS_IN)
-	@echo Test
+	@echo Tests done
 
 $(LIB_TESTQT_TARGET)
 
 ifeq ($(IN_TEST_DIR),1)
 $(LIB_TESTQTTARGET_DEPS): $(LIB_TESTQTTARGET_CPP)
+
+list: 
+	@echo "\n\n\tavailable test cases :"
+	@echo "\t======================\n"
+	@for file in $(TEST_TARGETS_LIST); do	\
+		echo "\t\tgmake $$file";         	\
+	done
+	@echo "\n\n"
 endif
 
 #########################################################################

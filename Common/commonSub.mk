@@ -22,7 +22,7 @@ OBJ_SUFFIX := $(strip $(OBJ_SUFFIX))
 
 NONBUILDTARGETS    = depend commonclean dbgclean optclean clean commonClean	\
 					 dbgClean optClean Clean commonDepClean dbgDepClean		\
-					 optDepClean DepClean LibClean Tests
+					 optDepClean DepClean LibClean Tests list
 
 ifeq ($(MAKECMDGOALS),)
 SUB_JOB := build
@@ -253,7 +253,8 @@ endif
 # Define Test Targets
 #########################################################################
 
-TEST_TARGETS_IN := $(basename $(TEST_SOURCES))
+TEST_TARGETS_IN   := $(basename $(TEST_SOURCES))
+TEST_TARGETS_LIST := $(basename $(TEST_SOURCES))
 
 ifneq ($(FILTEREDCMDGOALS),)
 FILTEREDCMDGOALS := $(basename $(FILTEREDCMDGOALS))
@@ -302,6 +303,7 @@ REQUIRED_PACKAGES += $(LIB_REQUIRED_INCPACKAGES_FILES) \
 					 $(LIB_REQUIRED_LNKPACKAGES_FILES)
 
 ifeq ($(IN_TEST_DIR),1)
+REQUIRED_PACKAGES += $(LIB_REQUIRED_TESTINCPACKAGES_FILES)
 REQUIRED_PACKAGES += $(LIB_REQUIRED_TESTLNKPACKAGES_FILES)
 endif
 
