@@ -71,7 +71,7 @@ void MyThread::workProc(void)
         osgsleep(100);
     }
 
-    fprintf(stderr, "Leave WorkProc\n");
+//  fprintf(stderr, "Leave WorkProc\n");
 }
 
 MyThread *MyThread::get(Char8 *szName)
