@@ -1,0 +1,46 @@
+
+ **
+ ** OpenSG actorEdit README
+ **
+
+actorEdit is a small tool that is used to generate c++ code from an actor
+description file (.acd). It is quite similar to fcdEdit for FieldContainers,
+in case you are familiar with that.
+
+There are two programs here actually. actorEdit is the commandline only version
+that writes the c++ code files from a given description file.
+The following options are accepted:
+
+ -a         write the actor code file.
+            This is a quite minimal file to which you can make your own
+            modifications.
+
+ -b         write the actor base code file.
+            This generates the files ending in Base.{cpp, h, inl} which contain
+            most of the generated code. Changes here will be lost, when the file
+            is regenerated, which could become necessary at any time.
+
+ -f         force overwrite of actor code files.
+            Normally actor code files are not overwritten, but instead a
+            message asks you to remove the files first. With this option the
+            actor code files are always written, any modifications to these
+            files will be lost.
+            (Note that actor base code files are always overwritten).
+
+ -p path    write the generated files to path instead of the current directory.
+            (Note that there is no sanity checking performed on the path,
+            so please be careful with your input).
+
+ -h         print a short help message.
+
+The second program is actorEditGui and presents the user with a QT graphical
+user interface. It allows to generate actor description files in relative
+comfort and can also generate the c++ code files.
+
+ **
+ ** Dependencies
+ **
+
+actorEdit requires the OpenSG Base library libOSGBase.so or dll.
+actorEditGui also requires the System and WindowQT library, the latter depending
+on QT, of course.

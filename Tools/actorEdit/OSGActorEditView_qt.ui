@@ -1,0 +1,726 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>ActorEditView</class>
+<widget class="QDialog">
+    <property name="name">
+        <cstring>ActorEditView</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>901</width>
+            <height>679</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>OpenSG Actor Editor</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>11</number>
+        </property>
+        <property name="spacing">
+            <number>6</number>
+        </property>
+        <widget class="QLayoutWidget" row="1" column="0">
+            <property name="name">
+                <cstring>ButtonLayout</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <property name="margin">
+                    <number>6</number>
+                </property>
+                <property name="spacing">
+                    <number>6</number>
+                </property>
+                <widget class="QPushButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>SavePushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Save</string>
+                    </property>
+                </widget>
+                <spacer row="0" column="4">
+                    <property name="name">
+                        <cstring>Spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton" row="0" column="5">
+                    <property name="name">
+                        <cstring>AboutPushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>About</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>NewPushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>New</string>
+                    </property>
+                </widget>
+                <spacer row="0" column="2">
+                    <property name="name">
+                        <cstring>Spacer1_3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <spacer row="1" column="4">
+                    <property name="name">
+                        <cstring>Spacer1_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton" row="1" column="0">
+                    <property name="name">
+                        <cstring>LoadPushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Load</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="1">
+                    <property name="name">
+                        <cstring>SaveAsPushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Save As</string>
+                    </property>
+                </widget>
+                <spacer row="1" column="2">
+                    <property name="name">
+                        <cstring>Spacer1_3_2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>20</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton" row="1" column="3">
+                    <property name="name">
+                        <cstring>WriteActorCodePushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Write Actor Code</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="1" column="5">
+                    <property name="name">
+                        <cstring>ExitPushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Exit</string>
+                    </property>
+                </widget>
+                <widget class="QPushButton" row="0" column="3">
+                    <property name="name">
+                        <cstring>WriteActorBaseCodePushButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Write Actor Base Code</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QSplitter" row="0" column="0">
+            <property name="name">
+                <cstring>Splitter2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>ActorGroupBox</cstring>
+                </property>
+                <property name="title">
+                    <string>Actor</string>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>11</number>
+                    </property>
+                    <property name="spacing">
+                        <number>6</number>
+                    </property>
+                    <widget class="QLabel" row="0" column="0">
+                        <property name="name">
+                            <cstring>NameLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Name:</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="1" column="0">
+                        <property name="name">
+                            <cstring>ParentLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Parent:</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="2" column="0">
+                        <property name="name">
+                            <cstring>EnterFunctorStoreLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Enter Functor Store:</string>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="3" column="0">
+                        <property name="name">
+                            <cstring>LeaveFunctorStoreLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Leave Functor Store:</string>
+                        </property>
+                    </widget>
+                    <widget class="QComboBox" row="2" column="1">
+                        <item>
+                            <property name="text">
+                                <string>Empty</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Simple</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Single</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Multi</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>EnterFunctorStoreCombo</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QComboBox" row="3" column="1">
+                        <item>
+                            <property name="text">
+                                <string>Empty</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Simple</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Single</string>
+                            </property>
+                        </item>
+                        <item>
+                            <property name="text">
+                                <string>Multi</string>
+                            </property>
+                        </item>
+                        <property name="name">
+                            <cstring>LeaveFunctorStoreCombo</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="1" column="1">
+                        <property name="name">
+                            <cstring>ParentLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="0" column="1">
+                        <property name="name">
+                            <cstring>NameLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLineEdit" row="4" column="1">
+                        <property name="name">
+                            <cstring>LibraryLineEdit</cstring>
+                        </property>
+                    </widget>
+                    <widget class="QLabel" row="4" column="0">
+                        <property name="name">
+                            <cstring>LibraryLabel</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Library:</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="5" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>UseLocalIncludesCheckBox</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Use Local Includes?</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="6" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>SystemComponentCheckBox</cstring>
+                        </property>
+                        <property name="text">
+                            <string>System Component?</string>
+                        </property>
+                    </widget>
+                    <widget class="QCheckBox" row="7" column="0" rowspan="1" colspan="2">
+                        <property name="name">
+                            <cstring>ParentSystemComponentCheckBox</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Parent System Component?</string>
+                        </property>
+                    </widget>
+                </grid>
+            </widget>
+            <widget class="QGroupBox">
+                <property name="name">
+                    <cstring>StateGroupBox</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="title">
+                    <string>State</string>
+                </property>
+                <grid>
+                    <property name="name">
+                        <cstring>unnamed</cstring>
+                    </property>
+                    <property name="margin">
+                        <number>11</number>
+                    </property>
+                    <property name="spacing">
+                        <number>6</number>
+                    </property>
+                    <widget class="QPushButton" row="1" column="0">
+                        <property name="name">
+                            <cstring>SENewPushButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>New</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="1" column="1">
+                        <property name="name">
+                            <cstring>SEDeletePushButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Delete</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="1" column="2">
+                        <property name="name">
+                            <cstring>SEUpPushButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Up</string>
+                        </property>
+                    </widget>
+                    <widget class="QPushButton" row="1" column="3">
+                        <property name="name">
+                            <cstring>SEDownPushButton</cstring>
+                        </property>
+                        <property name="text">
+                            <string>Down</string>
+                        </property>
+                    </widget>
+                    <widget class="QFrame" row="0" column="0" rowspan="1" colspan="4">
+                        <property name="name">
+                            <cstring>SEFrame</cstring>
+                        </property>
+                        <property name="enabled">
+                            <bool>true</bool>
+                        </property>
+                        <property name="frameShape">
+                            <enum>StyledPanel</enum>
+                        </property>
+                        <property name="frameShadow">
+                            <enum>Raised</enum>
+                        </property>
+                        <grid>
+                            <property name="name">
+                                <cstring>unnamed</cstring>
+                            </property>
+                            <property name="margin">
+                                <number>11</number>
+                            </property>
+                            <property name="spacing">
+                                <number>6</number>
+                            </property>
+                            <widget class="QLineEdit" row="1" column="1">
+                                <property name="name">
+                                    <cstring>SENameLineEdit</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="3" column="0">
+                                <property name="name">
+                                    <cstring>SEAccesssLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Access:</string>
+                                </property>
+                            </widget>
+                            <widget class="QComboBox" row="3" column="1">
+                                <item>
+                                    <property name="text">
+                                        <string>public</string>
+                                    </property>
+                                </item>
+                                <item>
+                                    <property name="text">
+                                        <string>protected</string>
+                                    </property>
+                                </item>
+                                <property name="name">
+                                    <cstring>SEAccessCombo</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QListBox" row="0" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>StateElemListBox</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="6" column="0">
+                                <property name="name">
+                                    <cstring>SEDefaultValueLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Default Value:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="2" column="0">
+                                <property name="name">
+                                    <cstring>SETypeLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Type:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="2" column="1">
+                                <property name="name">
+                                    <cstring>SETypeLineEdit</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="6" column="1">
+                                <property name="name">
+                                    <cstring>SEDefaultValueLineEdit</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="5" column="0">
+                                <property name="name">
+                                    <cstring>SEHeaderLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Header:</string>
+                                </property>
+                            </widget>
+                            <widget class="QLineEdit" row="5" column="1">
+                                <property name="name">
+                                    <cstring>SEHeaderLineEdit</cstring>
+                                </property>
+                            </widget>
+                            <widget class="QCheckBox" row="4" column="0" rowspan="1" colspan="2">
+                                <property name="name">
+                                    <cstring>SEHierarchicalCheckBox</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Hierarchical State</string>
+                                </property>
+                            </widget>
+                            <widget class="QLabel" row="1" column="0">
+                                <property name="name">
+                                    <cstring>SENameLabel</cstring>
+                                </property>
+                                <property name="text">
+                                    <string>Name:</string>
+                                </property>
+                            </widget>
+                        </grid>
+                    </widget>
+                </grid>
+            </widget>
+        </widget>
+    </grid>
+</widget>
+<connections>
+    <connection>
+        <sender>NameLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>actorNameChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>ParentLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>parentNameChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>EnterFunctorStoreCombo</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>enterFunctorStoreChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>LeaveFunctorStoreCombo</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>leaveFunctorStoreChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>NewPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>newButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>LoadPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>loadButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SavePushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>saveButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SaveAsPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>saveAsButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>WriteActorBaseCodePushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>writeActorBaseCodeButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>WriteActorCodePushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>writeActorCodeButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>AboutPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>aboutButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>ExitPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>exitButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>LibraryLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>libraryNameChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>UseLocalIncludesCheckBox</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>useLocalIncludesChanged(bool)</slot>
+    </connection>
+    <connection>
+        <sender>SENameLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seNameChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SETypeLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seTypeChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SEAccessCombo</sender>
+        <signal>activated(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seAccessChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SEHierarchicalCheckBox</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seHierarchicalChanged(bool)</slot>
+    </connection>
+    <connection>
+        <sender>SEHeaderLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seHeaderChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SEDefaultValueLineEdit</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seDefaultValueChanged(const QString&amp;)</slot>
+    </connection>
+    <connection>
+        <sender>SENewPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seNewButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SEDeletePushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seDeleteButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SEUpPushButton</sender>
+        <signal>clicked()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seUpButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>SEDownPushButton</sender>
+        <signal>pressed()</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seDownButtonClicked()</slot>
+    </connection>
+    <connection>
+        <sender>StateElemListBox</sender>
+        <signal>highlighted(int)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>seHighlightChanged(int)</slot>
+    </connection>
+    <connection>
+        <sender>SystemComponentCheckBox</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>systemComponentChanged(bool)</slot>
+    </connection>
+    <connection>
+        <sender>ParentSystemComponentCheckBox</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>ActorEditView</receiver>
+        <slot>parentSystemComponentChanged(bool)</slot>
+    </connection>
+</connections>
+<tabstops>
+    <tabstop>NewPushButton</tabstop>
+    <tabstop>LoadPushButton</tabstop>
+    <tabstop>SavePushButton</tabstop>
+    <tabstop>SaveAsPushButton</tabstop>
+    <tabstop>WriteActorBaseCodePushButton</tabstop>
+    <tabstop>WriteActorCodePushButton</tabstop>
+    <tabstop>AboutPushButton</tabstop>
+    <tabstop>ExitPushButton</tabstop>
+    <tabstop>NameLineEdit</tabstop>
+    <tabstop>ParentLineEdit</tabstop>
+    <tabstop>EnterFunctorStoreCombo</tabstop>
+    <tabstop>LeaveFunctorStoreCombo</tabstop>
+    <tabstop>UseLocalIncludesCheckBox</tabstop>
+    <tabstop>SystemComponentCheckBox</tabstop>
+    <tabstop>LibraryLineEdit</tabstop>
+    <tabstop>StateElemListBox</tabstop>
+    <tabstop>SENameLineEdit</tabstop>
+    <tabstop>SETypeLineEdit</tabstop>
+    <tabstop>SEAccessCombo</tabstop>
+    <tabstop>SEHierarchicalCheckBox</tabstop>
+    <tabstop>SEHeaderLineEdit</tabstop>
+    <tabstop>SEDefaultValueLineEdit</tabstop>
+    <tabstop>SENewPushButton</tabstop>
+    <tabstop>SEDeletePushButton</tabstop>
+    <tabstop>SEUpPushButton</tabstop>
+    <tabstop>SEDownPushButton</tabstop>
+</tabstops>
+<includes>
+    <include location="local" impldecl="in implementation">OSGActorEditView_qt.ui.h</include>
+</includes>
+<slots>
+    <slot access="protected" specifier="pure virtual">actorNameChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">newButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">parentNameChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">enterFunctorStoreChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">leaveFunctorStoreChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">libraryNameChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">aboutButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">loadButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">exitButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">saveAsButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">saveButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">writeActorBaseCodeButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">writeActorCodeButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">useLocalIncludesChanged( bool )</slot>
+    <slot access="protected" specifier="pure virtual">seNameChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">seDownButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">seAccessChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">seDefaultValueChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">seDeleteButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">seHeaderChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">seHierarchicalChanged( bool )</slot>
+    <slot access="protected" specifier="pure virtual">seNewButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">seTypeChanged( const QString &amp; )</slot>
+    <slot access="protected" specifier="pure virtual">seUpButtonClicked( void )</slot>
+    <slot access="protected" specifier="pure virtual">seHighlightChanged( int )</slot>
+    <slot access="protected" specifier="pure virtual">systemComponentChanged( bool )</slot>
+    <slot access="protected" specifier="pure virtual">parentSystemComponentChanged(bool)</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!ELEMENT Actor (Name, ParentName, EnterFunctorStore, LeaveFunctorStore, UseLocalIncludes, SystemComponent, ParentSystemComponent, Library, StateElements)>
+<!ELEMENT Name                  (#CDATA)>
+<!ELEMENT ParentName            (#CDATA)>
+<!ELEMENT EnterFunctorStore     (#CDATA)>
+<!ELEMENT LeaveFunctorStore     (#CDATA)>
+<!ELEMENT UseLocalIncludes      (#CDATA)>
+<!ELEMENT SystemComponent       (#CDATA)>
+<!ELEMENT ParentSystemComponent (#CDATA)>
+<!ELEMENT Library               (#CDATA)>
+<!ELEMENT StateElements         (StateElement*)>
+<!ELEMENT StateElement          (Name, Type, Access, Hierarchical, Header, DefaultValue)>
+<!ELEMENT Type                  (#CDATA)>
+<!ELEMENT Access                (#CDATA)>
+<!ELEMENT Hierarchical          (#CDATA)>
+<!ELEMENT Header                (#CDATA)>
+<!ELEMENT DefaultValue          (#CDATA)>
