@@ -49,12 +49,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief State chunk for cubic textures. See \ref PageSystemCubeTextureChunk 
+    for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
 {
-  private:
-
-    typedef CubeTextureChunkBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -62,19 +62,19 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *getClass(void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Output                                   */
+    /*---------------------------------------------------------------------*/ 
+    /*! \name                     Output                                   */ 
     /*! \{                                                                 */
 
     virtual void dump(      UInt32     uiIndent = 0, 
@@ -156,6 +156,8 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
 
     friend class FieldContainer;
     friend class CubeTextureChunkBase;
+
+    typedef CubeTextureChunkBase Inherited;
 
 
     /*---------------------------------------------------------------------*/

@@ -96,24 +96,28 @@ LineChunkPtr LineChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the LineChunk::_sfWidth field.
 inline
 SFReal32 *LineChunkBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
 
+//! Get the LineChunk::_sfStippleRepeat field.
 inline
 SFInt32 *LineChunkBase::getSFStippleRepeat(void)
 {
     return &_sfStippleRepeat;
 }
 
+//! Get the LineChunk::_sfStipplePattern field.
 inline
 SFUInt16 *LineChunkBase::getSFStipplePattern(void)
 {
     return &_sfStipplePattern;
 }
 
+//! Get the LineChunk::_sfSmooth field.
 inline
 SFBool *LineChunkBase::getSFSmooth(void)
 {
@@ -121,72 +125,84 @@ SFBool *LineChunkBase::getSFSmooth(void)
 }
 
 
+//! Get the value of the LineChunk::_sfWidth field.
 inline
 Real32 &LineChunkBase::getWidth(void)
 {
     return _sfWidth.getValue();
 }
 
+//! Get the value of the LineChunk::_sfWidth field.
 inline
 const Real32 &LineChunkBase::getWidth(void) const
 {
     return _sfWidth.getValue();
 }
 
+//! Set the value of the LineChunk::_sfWidth field.
 inline
 void LineChunkBase::setWidth(const Real32 &value)
 {
     _sfWidth.setValue(value);
 }
 
+//! Get the value of the LineChunk::_sfStippleRepeat field.
 inline
 Int32 &LineChunkBase::getStippleRepeat(void)
 {
     return _sfStippleRepeat.getValue();
 }
 
+//! Get the value of the LineChunk::_sfStippleRepeat field.
 inline
 const Int32 &LineChunkBase::getStippleRepeat(void) const
 {
     return _sfStippleRepeat.getValue();
 }
 
+//! Set the value of the LineChunk::_sfStippleRepeat field.
 inline
 void LineChunkBase::setStippleRepeat(const Int32 &value)
 {
     _sfStippleRepeat.setValue(value);
 }
 
+//! Get the value of the LineChunk::_sfStipplePattern field.
 inline
 UInt16 &LineChunkBase::getStipplePattern(void)
 {
     return _sfStipplePattern.getValue();
 }
 
+//! Get the value of the LineChunk::_sfStipplePattern field.
 inline
 const UInt16 &LineChunkBase::getStipplePattern(void) const
 {
     return _sfStipplePattern.getValue();
 }
 
+//! Set the value of the LineChunk::_sfStipplePattern field.
 inline
 void LineChunkBase::setStipplePattern(const UInt16 &value)
 {
     _sfStipplePattern.setValue(value);
 }
 
+//! Get the value of the LineChunk::_sfSmooth field.
 inline
 bool &LineChunkBase::getSmooth(void)
 {
     return _sfSmooth.getValue();
 }
 
+//! Get the value of the LineChunk::_sfSmooth field.
 inline
 const bool &LineChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
 
+//! Set the value of the LineChunk::_sfSmooth field.
 inline
 void LineChunkBase::setSmooth(const bool &value)
 {

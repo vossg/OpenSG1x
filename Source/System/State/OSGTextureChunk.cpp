@@ -63,7 +63,16 @@ OSG_USING_NAMESPACE
 /*! \class osg::TextureChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemMaterialChunk for details.
+See \ref PageSystemTextureChunk for a description.
+
+This chunk wraps glTexImage[123]D (osg::TextureChunk::_sfImage, 
+osg::TextureChunk::_sfInternalFormat, osg::TextureChunk::_sfExternalFormat),
+glTexParameter (osg::TextureChunk::_sfMinFilter,
+osg::TextureChunk::_sfMagFilter, osg::TextureChunk::_sfWrapS, 
+osg::TextureChunk::_sfWrapT, osg::TextureChunk::_sfWrapR), glTexEnv 
+(osg::TextureChunk::_sfEnvMode, osg::TextureChunk::_sfEnvColor). The two
+parameters osg::TextureChunk::_sfScale and osg::TextureChunk::_sfFrame specify
+details about the texture.
 
 */
 

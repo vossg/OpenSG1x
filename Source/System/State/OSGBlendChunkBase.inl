@@ -96,36 +96,42 @@ BlendChunkPtr BlendChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the BlendChunk::_sfSrcFactor field.
 inline
 SFUInt32 *BlendChunkBase::getSFSrcFactor(void)
 {
     return &_sfSrcFactor;
 }
 
+//! Get the BlendChunk::_sfDestFactor field.
 inline
 SFUInt32 *BlendChunkBase::getSFDestFactor(void)
 {
     return &_sfDestFactor;
 }
 
+//! Get the BlendChunk::_sfEquation field.
 inline
 SFUInt32 *BlendChunkBase::getSFEquation(void)
 {
     return &_sfEquation;
 }
 
+//! Get the BlendChunk::_sfColor field.
 inline
 SFColor4f *BlendChunkBase::getSFColor(void)
 {
     return &_sfColor;
 }
 
+//! Get the BlendChunk::_sfAlphaFunc field.
 inline
 SFUInt32 *BlendChunkBase::getSFAlphaFunc(void)
 {
     return &_sfAlphaFunc;
 }
 
+//! Get the BlendChunk::_sfAlphaValue field.
 inline
 SFReal32 *BlendChunkBase::getSFAlphaValue(void)
 {
@@ -133,108 +139,126 @@ SFReal32 *BlendChunkBase::getSFAlphaValue(void)
 }
 
 
+//! Get the value of the BlendChunk::_sfSrcFactor field.
 inline
 UInt32 &BlendChunkBase::getSrcFactor(void)
 {
     return _sfSrcFactor.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfSrcFactor field.
 inline
 const UInt32 &BlendChunkBase::getSrcFactor(void) const
 {
     return _sfSrcFactor.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfSrcFactor field.
 inline
 void BlendChunkBase::setSrcFactor(const UInt32 &value)
 {
     _sfSrcFactor.setValue(value);
 }
 
+//! Get the value of the BlendChunk::_sfDestFactor field.
 inline
 UInt32 &BlendChunkBase::getDestFactor(void)
 {
     return _sfDestFactor.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfDestFactor field.
 inline
 const UInt32 &BlendChunkBase::getDestFactor(void) const
 {
     return _sfDestFactor.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfDestFactor field.
 inline
 void BlendChunkBase::setDestFactor(const UInt32 &value)
 {
     _sfDestFactor.setValue(value);
 }
 
+//! Get the value of the BlendChunk::_sfEquation field.
 inline
 UInt32 &BlendChunkBase::getEquation(void)
 {
     return _sfEquation.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfEquation field.
 inline
 const UInt32 &BlendChunkBase::getEquation(void) const
 {
     return _sfEquation.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfEquation field.
 inline
 void BlendChunkBase::setEquation(const UInt32 &value)
 {
     _sfEquation.setValue(value);
 }
 
+//! Get the value of the BlendChunk::_sfColor field.
 inline
 Color4f &BlendChunkBase::getColor(void)
 {
     return _sfColor.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfColor field.
 inline
 const Color4f &BlendChunkBase::getColor(void) const
 {
     return _sfColor.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfColor field.
 inline
 void BlendChunkBase::setColor(const Color4f &value)
 {
     _sfColor.setValue(value);
 }
 
+//! Get the value of the BlendChunk::_sfAlphaFunc field.
 inline
 UInt32 &BlendChunkBase::getAlphaFunc(void)
 {
     return _sfAlphaFunc.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfAlphaFunc field.
 inline
 const UInt32 &BlendChunkBase::getAlphaFunc(void) const
 {
     return _sfAlphaFunc.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfAlphaFunc field.
 inline
 void BlendChunkBase::setAlphaFunc(const UInt32 &value)
 {
     _sfAlphaFunc.setValue(value);
 }
 
+//! Get the value of the BlendChunk::_sfAlphaValue field.
 inline
 Real32 &BlendChunkBase::getAlphaValue(void)
 {
     return _sfAlphaValue.getValue();
 }
 
+//! Get the value of the BlendChunk::_sfAlphaValue field.
 inline
 const Real32 &BlendChunkBase::getAlphaValue(void) const
 {
     return _sfAlphaValue.getValue();
 }
 
+//! Set the value of the BlendChunk::_sfAlphaValue field.
 inline
 void BlendChunkBase::setAlphaValue(const Real32 &value)
 {

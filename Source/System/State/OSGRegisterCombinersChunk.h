@@ -51,6 +51,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief State chunk for register combiners. See \ref
+    PageSystemRegisterCombinersChunk for a description.
+*/
+
 #define OSG_NUM_COMBINERS 8
 
 class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombinersChunkBase
@@ -66,15 +70,15 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunk : public RegisterCombiners
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const  StateChunkClass * getClass    (void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

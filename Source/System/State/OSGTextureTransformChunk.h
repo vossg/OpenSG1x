@@ -48,12 +48,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief State chunk for texture coordinate transformations. See 
+    \ref PageSystemTextureTransformChunk for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformChunkBase
 {
-  private:
-
-    typedef TextureTransformChunkBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -61,15 +61,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const  StateChunkClass * getClass    (void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -138,6 +138,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
 
     friend class FieldContainer;
     friend class TextureTransformChunkBase;
+
+    typedef TextureTransformChunkBase Inherited;
 
     static void initMethod(void);
     

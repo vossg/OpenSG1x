@@ -56,6 +56,8 @@
 		visibility="external"
 		defaultValue="true"
 	>
+        Switch for using this material in lighting calculation. 
+        If not set the diffuse color is used as is.
 	</Field>
 	<Field
 		name="colorMaterial"
@@ -65,5 +67,6 @@
 		defaultValue="GL_DIFFUSE"
 		defaultHeader="<OSGGL.h>"
 	>
+        The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 	</Field>
 </FieldContainer>

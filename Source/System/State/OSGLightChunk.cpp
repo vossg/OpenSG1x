@@ -59,7 +59,15 @@ OSG_USING_NAMESPACE
 /*! \class osg::LightChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemLightChunk for details.
+See \ref PageSystemLightChunk for a description.
+
+This chunk wraps glLight() (osg::LightChunk::_sfAmbient,
+osg::LightChunk::_sfDiffuse, osg::LightChunk::_sfSpecular,
+osg::LightChunk::_sfEmission, osg::LightChunk::_sfPosition,
+osg::LightChunk::_sfDirection, osg::LightChunk::_sfExponent,
+osg::LightChunk::_sfCutoff, osg::LightChunk::_sfConstantAttenuation,
+osg::LightChunk::_sfLinearAttenuation,
+osg::LightChunk::_sfQuadraticAttenuation).
 
 */
 

@@ -52,6 +52,10 @@ OSG_BEGIN_NAMESPACE
 
 #define osgMaxTextures 4
 
+/*! \brief State chunk for textures. See \ref PageSystemTextureChunk 
+    for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 {
     /*==========================  PUBLIC  =================================*/
@@ -61,15 +65,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const  StateChunkClass * getClass    (void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

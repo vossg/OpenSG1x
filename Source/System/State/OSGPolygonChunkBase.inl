@@ -96,66 +96,77 @@ PolygonChunkPtr PolygonChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the PolygonChunk::_sfCullFace field.
 inline
 SFInt32 *PolygonChunkBase::getSFCullFace(void)
 {
     return &_sfCullFace;
 }
 
+//! Get the PolygonChunk::_sfFrontFace field.
 inline
 SFInt32 *PolygonChunkBase::getSFFrontFace(void)
 {
     return &_sfFrontFace;
 }
 
+//! Get the PolygonChunk::_sfFrontMode field.
 inline
 SFInt32 *PolygonChunkBase::getSFFrontMode(void)
 {
     return &_sfFrontMode;
 }
 
+//! Get the PolygonChunk::_sfBackMode field.
 inline
 SFInt32 *PolygonChunkBase::getSFBackMode(void)
 {
     return &_sfBackMode;
 }
 
+//! Get the PolygonChunk::_sfSmooth field.
 inline
 SFBool *PolygonChunkBase::getSFSmooth(void)
 {
     return &_sfSmooth;
 }
 
+//! Get the PolygonChunk::_sfOffsetFactor field.
 inline
 SFReal32 *PolygonChunkBase::getSFOffsetFactor(void)
 {
     return &_sfOffsetFactor;
 }
 
+//! Get the PolygonChunk::_sfOffsetBias field.
 inline
 SFReal32 *PolygonChunkBase::getSFOffsetBias(void)
 {
     return &_sfOffsetBias;
 }
 
+//! Get the PolygonChunk::_sfOffsetPoint field.
 inline
 SFBool *PolygonChunkBase::getSFOffsetPoint(void)
 {
     return &_sfOffsetPoint;
 }
 
+//! Get the PolygonChunk::_sfOffsetLine field.
 inline
 SFBool *PolygonChunkBase::getSFOffsetLine(void)
 {
     return &_sfOffsetLine;
 }
 
+//! Get the PolygonChunk::_sfOffsetFill field.
 inline
 SFBool *PolygonChunkBase::getSFOffsetFill(void)
 {
     return &_sfOffsetFill;
 }
 
+//! Get the PolygonChunk::_mfStipple field.
 inline
 MFInt32 *PolygonChunkBase::getMFStipple(void)
 {
@@ -163,180 +174,210 @@ MFInt32 *PolygonChunkBase::getMFStipple(void)
 }
 
 
+//! Get the value of the PolygonChunk::_sfCullFace field.
 inline
 Int32 &PolygonChunkBase::getCullFace(void)
 {
     return _sfCullFace.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfCullFace field.
 inline
 const Int32 &PolygonChunkBase::getCullFace(void) const
 {
     return _sfCullFace.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfCullFace field.
 inline
 void PolygonChunkBase::setCullFace(const Int32 &value)
 {
     _sfCullFace.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfFrontFace field.
 inline
 Int32 &PolygonChunkBase::getFrontFace(void)
 {
     return _sfFrontFace.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfFrontFace field.
 inline
 const Int32 &PolygonChunkBase::getFrontFace(void) const
 {
     return _sfFrontFace.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfFrontFace field.
 inline
 void PolygonChunkBase::setFrontFace(const Int32 &value)
 {
     _sfFrontFace.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfFrontMode field.
 inline
 Int32 &PolygonChunkBase::getFrontMode(void)
 {
     return _sfFrontMode.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfFrontMode field.
 inline
 const Int32 &PolygonChunkBase::getFrontMode(void) const
 {
     return _sfFrontMode.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfFrontMode field.
 inline
 void PolygonChunkBase::setFrontMode(const Int32 &value)
 {
     _sfFrontMode.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfBackMode field.
 inline
 Int32 &PolygonChunkBase::getBackMode(void)
 {
     return _sfBackMode.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfBackMode field.
 inline
 const Int32 &PolygonChunkBase::getBackMode(void) const
 {
     return _sfBackMode.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfBackMode field.
 inline
 void PolygonChunkBase::setBackMode(const Int32 &value)
 {
     _sfBackMode.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfSmooth field.
 inline
 bool &PolygonChunkBase::getSmooth(void)
 {
     return _sfSmooth.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfSmooth field.
 inline
 const bool &PolygonChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfSmooth field.
 inline
 void PolygonChunkBase::setSmooth(const bool &value)
 {
     _sfSmooth.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetFactor field.
 inline
 Real32 &PolygonChunkBase::getOffsetFactor(void)
 {
     return _sfOffsetFactor.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetFactor field.
 inline
 const Real32 &PolygonChunkBase::getOffsetFactor(void) const
 {
     return _sfOffsetFactor.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfOffsetFactor field.
 inline
 void PolygonChunkBase::setOffsetFactor(const Real32 &value)
 {
     _sfOffsetFactor.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetBias field.
 inline
 Real32 &PolygonChunkBase::getOffsetBias(void)
 {
     return _sfOffsetBias.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetBias field.
 inline
 const Real32 &PolygonChunkBase::getOffsetBias(void) const
 {
     return _sfOffsetBias.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfOffsetBias field.
 inline
 void PolygonChunkBase::setOffsetBias(const Real32 &value)
 {
     _sfOffsetBias.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetPoint field.
 inline
 bool &PolygonChunkBase::getOffsetPoint(void)
 {
     return _sfOffsetPoint.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetPoint field.
 inline
 const bool &PolygonChunkBase::getOffsetPoint(void) const
 {
     return _sfOffsetPoint.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfOffsetPoint field.
 inline
 void PolygonChunkBase::setOffsetPoint(const bool &value)
 {
     _sfOffsetPoint.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetLine field.
 inline
 bool &PolygonChunkBase::getOffsetLine(void)
 {
     return _sfOffsetLine.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetLine field.
 inline
 const bool &PolygonChunkBase::getOffsetLine(void) const
 {
     return _sfOffsetLine.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfOffsetLine field.
 inline
 void PolygonChunkBase::setOffsetLine(const bool &value)
 {
     _sfOffsetLine.setValue(value);
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetFill field.
 inline
 bool &PolygonChunkBase::getOffsetFill(void)
 {
     return _sfOffsetFill.getValue();
 }
 
+//! Get the value of the PolygonChunk::_sfOffsetFill field.
 inline
 const bool &PolygonChunkBase::getOffsetFill(void) const
 {
     return _sfOffsetFill.getValue();
 }
 
+//! Set the value of the PolygonChunk::_sfOffsetFill field.
 inline
 void PolygonChunkBase::setOffsetFill(const bool &value)
 {
@@ -344,18 +385,21 @@ void PolygonChunkBase::setOffsetFill(const bool &value)
 }
 
 
+//! Get the value of the  index element the PolygonChunk::_mfStipple field.
 inline
-Int32 &PolygonChunkBase::getStipple(const UInt32 index)
+Int32 &PolygonChunk::getStipple(const UInt32 index)
 {
     return _mfStipple[index];
 }
 
+//! Get the PolygonChunk::_mfStipple field.
 inline
 MFInt32 &PolygonChunkBase::getStipple(void)
 {
     return _mfStipple;
 }
 
+//! Get the PolygonChunk::_mfStipple field.
 inline
 const MFInt32 &PolygonChunkBase::getStipple(void) const
 {

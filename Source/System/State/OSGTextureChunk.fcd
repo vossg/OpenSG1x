@@ -38,7 +38,9 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	The external texture format - overwrites external format of image when set.
+	The external texture format - overwrites 
+        external format of image when set to a value not equal to 
+        GL_NONE (which is the default).
 	</Field>
 	<Field
 		name="scale"
@@ -48,6 +50,11 @@
 		defaultValue="true"
 		access="public"
 	>
+        Specifies whether the image should be scaled to the next power of two,
+        thus filling the whole texture coordinate range, or if it should be put
+        in the lower left corner, leaving the rest of the texture undefined.
+        This is mainly used for rapidly changing non power of two textures, to
+        get around the scaling overhead.
 	</Field>
 	<Field
 		name="frame"
@@ -57,6 +64,10 @@
 		defaultValue="0"
 		access="public"
 	>
+        Select the frame of the image to be used. See osg::Image about details
+        concerning multi-frame images.
+        \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap
+        creation is slow right now. \endhint
 	</Field>
 	<Field
 		name="minFilter"
@@ -67,6 +78,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        The minimisation filter, default GL_LINEAR_MIPMAP_LINEAR.
 	</Field>
 	<Field
 		name="magFilter"
@@ -77,6 +89,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        The magnification filter, default GL_LINEAR.
 	</Field>
 	<Field
 		name="wrapS"
@@ -87,6 +100,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        Texture coordinate S wrapping, default GL_REPEAT.
 	</Field>
 	<Field
 		name="wrapT"
@@ -97,6 +111,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        Texture coordinate T wrapping, default GL_REPEAT.
 	</Field>
 	<Field
 		name="wrapR"
@@ -107,6 +122,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        Texture coordinate R wrapping, default GL_REPEAT.
 	</Field>
 	<Field
 		name="envMode"
@@ -117,6 +133,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
+        Texture environment mode, default GL_REPLACE
 	</Field>
 	<Field
 		name="envColor"
@@ -126,6 +143,7 @@
 		defaultValue="0,0,0,0"
 		access="public"
 	>
+        Texture environment color default transparent black.
 	</Field>
 	<Field
 		name="GLId"
@@ -135,5 +153,6 @@
 		access="public"
 		defaultValue="0"
 	>
+        The OpenGL texture id for this texture.
 	</Field>
 </FieldContainer>

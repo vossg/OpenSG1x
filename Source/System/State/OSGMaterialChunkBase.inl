@@ -96,42 +96,49 @@ MaterialChunkPtr MaterialChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the MaterialChunk::_sfDiffuse field.
 inline
 SFColor4f *MaterialChunkBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
 
+//! Get the MaterialChunk::_sfAmbient field.
 inline
 SFColor4f *MaterialChunkBase::getSFAmbient(void)
 {
     return &_sfAmbient;
 }
 
+//! Get the MaterialChunk::_sfSpecular field.
 inline
 SFColor4f *MaterialChunkBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
 
+//! Get the MaterialChunk::_sfEmission field.
 inline
 SFColor4f *MaterialChunkBase::getSFEmission(void)
 {
     return &_sfEmission;
 }
 
+//! Get the MaterialChunk::_sfShininess field.
 inline
 SFReal32 *MaterialChunkBase::getSFShininess(void)
 {
     return &_sfShininess;
 }
 
+//! Get the MaterialChunk::_sfLit field.
 inline
 SFBool *MaterialChunkBase::getSFLit(void)
 {
     return &_sfLit;
 }
 
+//! Get the MaterialChunk::_sfColorMaterial field.
 inline
 SFUInt32 *MaterialChunkBase::getSFColorMaterial(void)
 {
@@ -139,126 +146,147 @@ SFUInt32 *MaterialChunkBase::getSFColorMaterial(void)
 }
 
 
+//! Get the value of the MaterialChunk::_sfDiffuse field.
 inline
 Color4f &MaterialChunkBase::getDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfDiffuse field.
 inline
 const Color4f &MaterialChunkBase::getDiffuse(void) const
 {
     return _sfDiffuse.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfDiffuse field.
 inline
 void MaterialChunkBase::setDiffuse(const Color4f &value)
 {
     _sfDiffuse.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfAmbient field.
 inline
 Color4f &MaterialChunkBase::getAmbient(void)
 {
     return _sfAmbient.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfAmbient field.
 inline
 const Color4f &MaterialChunkBase::getAmbient(void) const
 {
     return _sfAmbient.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfAmbient field.
 inline
 void MaterialChunkBase::setAmbient(const Color4f &value)
 {
     _sfAmbient.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfSpecular field.
 inline
 Color4f &MaterialChunkBase::getSpecular(void)
 {
     return _sfSpecular.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfSpecular field.
 inline
 const Color4f &MaterialChunkBase::getSpecular(void) const
 {
     return _sfSpecular.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfSpecular field.
 inline
 void MaterialChunkBase::setSpecular(const Color4f &value)
 {
     _sfSpecular.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfEmission field.
 inline
 Color4f &MaterialChunkBase::getEmission(void)
 {
     return _sfEmission.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfEmission field.
 inline
 const Color4f &MaterialChunkBase::getEmission(void) const
 {
     return _sfEmission.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfEmission field.
 inline
 void MaterialChunkBase::setEmission(const Color4f &value)
 {
     _sfEmission.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfShininess field.
 inline
 Real32 &MaterialChunkBase::getShininess(void)
 {
     return _sfShininess.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfShininess field.
 inline
 const Real32 &MaterialChunkBase::getShininess(void) const
 {
     return _sfShininess.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfShininess field.
 inline
 void MaterialChunkBase::setShininess(const Real32 &value)
 {
     _sfShininess.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfLit field.
 inline
 bool &MaterialChunkBase::getLit(void)
 {
     return _sfLit.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfLit field.
 inline
 const bool &MaterialChunkBase::getLit(void) const
 {
     return _sfLit.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfLit field.
 inline
 void MaterialChunkBase::setLit(const bool &value)
 {
     _sfLit.setValue(value);
 }
 
+//! Get the value of the MaterialChunk::_sfColorMaterial field.
 inline
 UInt32 &MaterialChunkBase::getColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
 
+//! Get the value of the MaterialChunk::_sfColorMaterial field.
 inline
 const UInt32 &MaterialChunkBase::getColorMaterial(void) const
 {
     return _sfColorMaterial.getValue();
 }
 
+//! Set the value of the MaterialChunk::_sfColorMaterial field.
 inline
 void MaterialChunkBase::setColorMaterial(const UInt32 &value)
 {

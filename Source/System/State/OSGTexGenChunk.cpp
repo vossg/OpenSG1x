@@ -63,7 +63,16 @@ OSG_USING_NAMESPACE
 /*! \class osg::TexGenChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemTexGenChunk for details.
+See \ref PageSystemTexGenChunk for a description.
+
+This chunk wraps glTexGen(). All 4 coordinates are wrapped in a single chunk
+by using separate gen funcs for each variable (osg::TexGenChunk::_sfGenFuncS, 
+osg::TexGenChunk::_sfGenFuncT, osg::TexGenChunk::_sfGenFuncR, 
+osg::TexGenChunk::_sfGenFuncQ). The default for each of these is GL_NONE, or
+off. The optional plane parameters are stored in
+osg::TexGenChunk::_sfGenFuncSPlane, 
+osg::TexGenChunk::_sfGenFuncTPlane, osg::TexGenChunk::_sfGenFuncRPlane and
+osg::TexGenChunk::_sfGenFuncQPlane.
 
 */
 

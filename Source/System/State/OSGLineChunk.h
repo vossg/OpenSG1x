@@ -48,6 +48,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief State chunk for line-specific attributes. See \ref
+    PageSystemLineChunk for a description. 
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
 {
   private:
@@ -61,15 +65,15 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunk : public LineChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const  StateChunkClass * getClass    (void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

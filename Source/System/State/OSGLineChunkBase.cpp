@@ -82,16 +82,16 @@ const OSG::BitVector  LineChunkBase::SmoothFieldMask =
 // Field descriptions
 
 /*! \var Real32          LineChunkBase::_sfWidth
-    
+    The line's width, in pixel.
 */
 /*! \var Int32           LineChunkBase::_sfStippleRepeat
-    
+    Repetition factor for sitppling.
 */
 /*! \var UInt16          LineChunkBase::_sfStipplePattern
-    Defines the stipple pattern.
+    Defines the stipple pattern. 1 bits are drawn, 0 bits are ignored,          starting with the most significant bit.
 */
 /*! \var bool            LineChunkBase::_sfSmooth
-    Defines if polygon antialiasing is used.
+    Defines if line antialiasing is used.
 */
 
 //! LineChunk description

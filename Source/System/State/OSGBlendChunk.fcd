@@ -62,7 +62,8 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.
+	The alphaFunc defines how fragments which do not fulfill a certain condition are handled. 
+        See glAlphaFunc() for details. GL_NONE is used to disable alpha comparison.
 	</Field>
 	<Field
 		name="alphaValue"

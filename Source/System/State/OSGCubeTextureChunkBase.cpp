@@ -84,19 +84,19 @@ const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask =
 // Field descriptions
 
 /*! \var ImageP          CubeTextureChunkBase::_sfPosZImage
-    
+    The image for the positive Z direction for the cube tetxure.
 */
 /*! \var ImageP          CubeTextureChunkBase::_sfPosXImage
-    
+    The image for the positive X direction for the cube tetxure.
 */
 /*! \var ImageP          CubeTextureChunkBase::_sfNegXImage
-    
+    The image for the negative X direction for the cube tetxure.
 */
 /*! \var ImageP          CubeTextureChunkBase::_sfPosYImage
-    
+    The image for the positive Y direction for the cube tetxure.
 */
 /*! \var ImageP          CubeTextureChunkBase::_sfNegYImage
-    
+    The image for the negative Y direction for the cube tetxure.
 */
 
 //! CubeTextureChunk description
@@ -183,11 +183,11 @@ void CubeTextureChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 CubeTextureChunkBase::CubeTextureChunkBase(void) :
-    _sfPosZImage              (NULL), 
-    _sfPosXImage              (NULL), 
-    _sfNegXImage              (NULL), 
-    _sfPosYImage              (NULL), 
-    _sfNegYImage              (NULL), 
+    _sfPosZImage              (ImageP(NULL)), 
+    _sfPosXImage              (ImageP(NULL)), 
+    _sfNegXImage              (ImageP(NULL)), 
+    _sfPosYImage              (ImageP(NULL)), 
+    _sfNegYImage              (ImageP(NULL)), 
     Inherited() 
 {
 }

@@ -96,60 +96,70 @@ LightChunkPtr LightChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the LightChunk::_sfDiffuse field.
 inline
 SFColor4f *LightChunkBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
 
+//! Get the LightChunk::_sfAmbient field.
 inline
 SFColor4f *LightChunkBase::getSFAmbient(void)
 {
     return &_sfAmbient;
 }
 
+//! Get the LightChunk::_sfSpecular field.
 inline
 SFColor4f *LightChunkBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
 
+//! Get the LightChunk::_sfPosition field.
 inline
 SFVec4f *LightChunkBase::getSFPosition(void)
 {
     return &_sfPosition;
 }
 
+//! Get the LightChunk::_sfDirection field.
 inline
 SFVec3f *LightChunkBase::getSFDirection(void)
 {
     return &_sfDirection;
 }
 
+//! Get the LightChunk::_sfExponent field.
 inline
 SFReal32 *LightChunkBase::getSFExponent(void)
 {
     return &_sfExponent;
 }
 
+//! Get the LightChunk::_sfCutoff field.
 inline
 SFReal32 *LightChunkBase::getSFCutoff(void)
 {
     return &_sfCutoff;
 }
 
+//! Get the LightChunk::_sfConstantAttenuation field.
 inline
 SFReal32 *LightChunkBase::getSFConstantAttenuation(void)
 {
     return &_sfConstantAttenuation;
 }
 
+//! Get the LightChunk::_sfLinearAttenuation field.
 inline
 SFReal32 *LightChunkBase::getSFLinearAttenuation(void)
 {
     return &_sfLinearAttenuation;
 }
 
+//! Get the LightChunk::_sfQuadraticAttenuation field.
 inline
 SFReal32 *LightChunkBase::getSFQuadraticAttenuation(void)
 {
@@ -157,180 +167,210 @@ SFReal32 *LightChunkBase::getSFQuadraticAttenuation(void)
 }
 
 
+//! Get the value of the LightChunk::_sfDiffuse field.
 inline
 Color4f &LightChunkBase::getDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
 
+//! Get the value of the LightChunk::_sfDiffuse field.
 inline
 const Color4f &LightChunkBase::getDiffuse(void) const
 {
     return _sfDiffuse.getValue();
 }
 
+//! Set the value of the LightChunk::_sfDiffuse field.
 inline
 void LightChunkBase::setDiffuse(const Color4f &value)
 {
     _sfDiffuse.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfAmbient field.
 inline
 Color4f &LightChunkBase::getAmbient(void)
 {
     return _sfAmbient.getValue();
 }
 
+//! Get the value of the LightChunk::_sfAmbient field.
 inline
 const Color4f &LightChunkBase::getAmbient(void) const
 {
     return _sfAmbient.getValue();
 }
 
+//! Set the value of the LightChunk::_sfAmbient field.
 inline
 void LightChunkBase::setAmbient(const Color4f &value)
 {
     _sfAmbient.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfSpecular field.
 inline
 Color4f &LightChunkBase::getSpecular(void)
 {
     return _sfSpecular.getValue();
 }
 
+//! Get the value of the LightChunk::_sfSpecular field.
 inline
 const Color4f &LightChunkBase::getSpecular(void) const
 {
     return _sfSpecular.getValue();
 }
 
+//! Set the value of the LightChunk::_sfSpecular field.
 inline
 void LightChunkBase::setSpecular(const Color4f &value)
 {
     _sfSpecular.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfPosition field.
 inline
 Vec4f &LightChunkBase::getPosition(void)
 {
     return _sfPosition.getValue();
 }
 
+//! Get the value of the LightChunk::_sfPosition field.
 inline
 const Vec4f &LightChunkBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
 
+//! Set the value of the LightChunk::_sfPosition field.
 inline
 void LightChunkBase::setPosition(const Vec4f &value)
 {
     _sfPosition.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfDirection field.
 inline
 Vec3f &LightChunkBase::getDirection(void)
 {
     return _sfDirection.getValue();
 }
 
+//! Get the value of the LightChunk::_sfDirection field.
 inline
 const Vec3f &LightChunkBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
 
+//! Set the value of the LightChunk::_sfDirection field.
 inline
 void LightChunkBase::setDirection(const Vec3f &value)
 {
     _sfDirection.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfExponent field.
 inline
 Real32 &LightChunkBase::getExponent(void)
 {
     return _sfExponent.getValue();
 }
 
+//! Get the value of the LightChunk::_sfExponent field.
 inline
 const Real32 &LightChunkBase::getExponent(void) const
 {
     return _sfExponent.getValue();
 }
 
+//! Set the value of the LightChunk::_sfExponent field.
 inline
 void LightChunkBase::setExponent(const Real32 &value)
 {
     _sfExponent.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfCutoff field.
 inline
 Real32 &LightChunkBase::getCutoff(void)
 {
     return _sfCutoff.getValue();
 }
 
+//! Get the value of the LightChunk::_sfCutoff field.
 inline
 const Real32 &LightChunkBase::getCutoff(void) const
 {
     return _sfCutoff.getValue();
 }
 
+//! Set the value of the LightChunk::_sfCutoff field.
 inline
 void LightChunkBase::setCutoff(const Real32 &value)
 {
     _sfCutoff.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfConstantAttenuation field.
 inline
 Real32 &LightChunkBase::getConstantAttenuation(void)
 {
     return _sfConstantAttenuation.getValue();
 }
 
+//! Get the value of the LightChunk::_sfConstantAttenuation field.
 inline
 const Real32 &LightChunkBase::getConstantAttenuation(void) const
 {
     return _sfConstantAttenuation.getValue();
 }
 
+//! Set the value of the LightChunk::_sfConstantAttenuation field.
 inline
 void LightChunkBase::setConstantAttenuation(const Real32 &value)
 {
     _sfConstantAttenuation.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfLinearAttenuation field.
 inline
 Real32 &LightChunkBase::getLinearAttenuation(void)
 {
     return _sfLinearAttenuation.getValue();
 }
 
+//! Get the value of the LightChunk::_sfLinearAttenuation field.
 inline
 const Real32 &LightChunkBase::getLinearAttenuation(void) const
 {
     return _sfLinearAttenuation.getValue();
 }
 
+//! Set the value of the LightChunk::_sfLinearAttenuation field.
 inline
 void LightChunkBase::setLinearAttenuation(const Real32 &value)
 {
     _sfLinearAttenuation.setValue(value);
 }
 
+//! Get the value of the LightChunk::_sfQuadraticAttenuation field.
 inline
 Real32 &LightChunkBase::getQuadraticAttenuation(void)
 {
     return _sfQuadraticAttenuation.getValue();
 }
 
+//! Get the value of the LightChunk::_sfQuadraticAttenuation field.
 inline
 const Real32 &LightChunkBase::getQuadraticAttenuation(void) const
 {
     return _sfQuadraticAttenuation.getValue();
 }
 
+//! Set the value of the LightChunk::_sfQuadraticAttenuation field.
 inline
 void LightChunkBase::setQuadraticAttenuation(const Real32 &value)
 {

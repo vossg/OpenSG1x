@@ -103,7 +103,7 @@ const OSG::BitVector  BlendChunkBase::AlphaValueFieldMask =
     This is the constant color used by blend modes *_CONSTANT_*.
 */
 /*! \var UInt32          BlendChunkBase::_sfAlphaFunc
-    The alphaFunc defines how fragments which do not fulfill a certain condition are handled. See glAlphaFunc() for details.
+    The alphaFunc defines how fragments which do not fulfill a certain condition are handled.          See glAlphaFunc() for details. GL_NONE is used to disable alpha comparison.
 */
 /*! \var Real32          BlendChunkBase::_sfAlphaValue
     The value used in alpha comparison.

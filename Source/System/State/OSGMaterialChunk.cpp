@@ -60,6 +60,12 @@ OSG_USING_NAMESPACE
 
 See \ref PageSystemMaterialChunk for details.
 
+This chunk wraps glMaterial() (osg::MaterialChunk::_sfDiffuse,
+osg::MaterialChunk::_sfSpecular, osg::MaterialChunk::_sfEmission,
+osg::MaterialChunk::_sfShininess, osg::MaterialChunk::_sfAmbient),
+glEnable(GL_LIGHTING)(osg::MaterialChunk::_sfLit) and glColorMaterial()
+(osg::MaterialChunk::_sfColorMaterial).
+
 */
 
 /***************************************************************************\

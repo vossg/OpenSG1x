@@ -53,16 +53,6 @@
 
 #include "OSGClipPlaneChunk.h"
 
-
-
-#define	MAT16DUMP(m)	#m << " =\n"<<setiosflags(ios::right|ios::fixed|ios::showpoint)<<setprecision(3)\
-   <<"[ "<<setw(9)<<m[0]<<", "<<setw(9)<<m[4]<<", "<<setw(9)<<m[8] <<", "<<setw(9)<<m[12]<<"\n"\
-   <<"  "<<setw(9)<<m[1]<<", "<<setw(9)<<m[5]<<", "<<setw(9)<<m[9] <<", "<<setw(9)<<m[13]<<"\n"\
-   <<"  "<<setw(9)<<m[2]<<", "<<setw(9)<<m[6]<<", "<<setw(9)<<m[10]<<", "<<setw(9)<<m[14]<<"\n"\
-   <<"  "<<setw(9)<<m[3]<<", "<<setw(9)<<m[7]<<", "<<setw(9)<<m[11]<<", "<<setw(9)<<m[15]<<" ]"\
-   << setprecision(6) << resetiosflags(ios::right | ios::fixed | ios::showpoint)
-
-
 OSG_USING_NAMESPACE
 
 /***************************************************************************\
@@ -72,7 +62,11 @@ OSG_USING_NAMESPACE
 /*! \class osg::ClipPlaneChunk
     \ingroup GrpSystemState
     
-See \ref PageSystemClipPlaneChunk for details.
+See \ref PageSystemClipPlaneChunk for a description.
+
+This chunk wraps glCLipPlane() (osg::ClipPlaneChunk::_sfEquation) and
+glEnable(GL_CLIP_PLANEi) (osg::ClipPlaneChunk::_sfEnable). The coordinate
+system the plane is in is defined by osg::ClipPlaneChunk::_sfBeacon.
 
 */
 
@@ -80,7 +74,7 @@ See \ref PageSystemClipPlaneChunk for details.
  *                           Class variables                               *
 \***************************************************************************/
    
-StateChunkClass ClipPlaneChunk::_class("ClipPlane", 4);
+StateChunkClass ClipPlaneChunk::_class("ClipPlane", 6);
 
 /***************************************************************************\
  *                           Instance methods                              *

@@ -56,7 +56,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::StateChunk
     \ingroup GrpSystemState
     
-The state chunk base class. See \ref PageSystemStateChunk for the conceptual background. 
+See \ref PageSystemState for the conceptual background. 
 
 */
 
@@ -67,7 +67,7 @@ The state chunk base class. See \ref PageSystemStateChunk for the conceptual bac
 /*! \class osg::StateChunkClass
     \ingroup GrpSystemState
 
-The classification class for StateChunks. See \ref PageSystemStateChunkClass for the
+See \ref StateChunkClass for the
 conceptual background.
 
 */
@@ -151,10 +151,10 @@ const Char8 *StateChunkClass::getName(UInt32 index)
 
 Int32 StateChunkClass::getNumSlots(UInt32 index)
 {
-    if(index >=(*_numslots).size())
+    if(index >= (*_numslots).size())
         return -1;
 
-    return(*_numslots)[index];
+    return (*_numslots)[index];
 }
 
 /*! \var osg::StateChunkClass::iterator
@@ -235,11 +235,20 @@ void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 /*------------------------------ State ------------------------------------*/
 
+/*! Activate the chunk, i.e. set the OpenGl state covered by the chunk which is
+    different from the default state to the given state.
+*/
+
 void StateChunk::activate(DrawActionBase *OSG_CHECK_ARG(action), 
                           UInt32          OSG_CHECK_ARG(index ))
 {
     FWARNING(("StateChunk::activate called!\n"));
 }
+
+/*! Change from an old chunk of the same type to this chunk. Note that in
+    general no type checking is done, make sure to use this on a legal 
+    combination of chunks!
+*/
 
 void StateChunk::changeFrom(DrawActionBase *action, 
                             StateChunk     *old, 
@@ -249,11 +258,19 @@ void StateChunk::changeFrom(DrawActionBase *action,
     activate(action, index);
 }
 
+/*! Deactivate the chunk, i.e. set the OpenGl state covered by the chunk which is
+    different from the default state to the default state.
+*/
+
 void StateChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), 
                             UInt32          OSG_CHECK_ARG(index))
 {
     FWARNING(("StateChunk::deactivate called!\n"));
 }
+
+/*! Check if the chunk is transparent, i.e. needs to be rendered after the
+    opaque objects.
+*/
 
 bool StateChunk::isTransparent(void) const
 {
@@ -269,6 +286,10 @@ const StateChunkClass *StateChunk::getClass(void) const
 
 /*-------------------------- Comparison -----------------------------------*/
 
+/*! Calculate how expensive it is to switch from one instance of the chunk
+    class to another. In most cases not implemented yet, will return 0.
+*/
+
 Real32 StateChunk::switchCost(StateChunk *OSG_CHECK_ARG(chunk))
 {
     return 0;
@@ -278,6 +299,9 @@ bool StateChunk::operator <(const StateChunk &other) const
 {
     return this < &other;
 }
+
+/*! Compare two chunks. In most cases not implemented yet, will return false.
+*/
 
 bool StateChunk::operator ==(const StateChunk &OSG_CHECK_ARG(other)) const
 {

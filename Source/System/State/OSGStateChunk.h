@@ -51,7 +51,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief The classification class for StateChunks */
+/*! \brief The classification class for StateChunks, see \ref StateChunkClass
+    for a description. 
+*/
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
 {
@@ -94,7 +96,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
     static std::vector<UInt32>* _numslots;
 };
 
-/*! \brief The abstract base class for StateChunks */
+/*! \brief The abstract base class for StateChunks, see \ref StateChunk
+    for a description. 
+ */
 
 class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
 {

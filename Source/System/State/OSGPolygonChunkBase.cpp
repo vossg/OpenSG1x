@@ -110,37 +110,37 @@ const OSG::BitVector  PolygonChunkBase::StippleFieldMask =
 // Field descriptions
 
 /*! \var Int32           PolygonChunkBase::_sfCullFace
-    Defines which side of the polygon is invisible.
+    Defines which side of the polygon is invisible. Set to GL_NONE to not cull anything.
 */
 /*! \var Int32           PolygonChunkBase::_sfFrontFace
-    Defines which side of the polygon is considered the front side.
+    Defines which side of the polygon is considered the front side,          defaults to GL_CCW.
 */
 /*! \var Int32           PolygonChunkBase::_sfFrontMode
-    Defines if polygon front sides are rendered filled, outlined or as points.
+    Defines if polygon front sides are rendered filled (default), outlined or as points.
 */
 /*! \var Int32           PolygonChunkBase::_sfBackMode
-    Defines if polygon front sides are rendered filled, outlined or as points.
+    Defines if polygon front sides are rendered filled (default), outlined or as points.
 */
 /*! \var bool            PolygonChunkBase::_sfSmooth
     Defines if polygon antialiasing is used.
 */
 /*! \var Real32          PolygonChunkBase::_sfOffsetFactor
-    Defines the polygon offset factor.
+    Defines the offset factor.
 */
 /*! \var Real32          PolygonChunkBase::_sfOffsetBias
-    Defines the polygon offset bias.
+    Defines the offset bias.
 */
 /*! \var bool            PolygonChunkBase::_sfOffsetPoint
-    
+    Enables offsetting for points.
 */
 /*! \var bool            PolygonChunkBase::_sfOffsetLine
-    
+    Enables offsetting for lines.
 */
 /*! \var bool            PolygonChunkBase::_sfOffsetFill
-    
+    Enables offsetting for polygons.
 */
 /*! \var Int32           PolygonChunkBase::_mfStipple
-    Defines the stipple pattern. Is only valid and used if it contains 32 elements.
+    Defines the stipple pattern. Is only valid and used if it contains          32 elements.
 */
 
 //! PolygonChunk description

@@ -59,7 +59,9 @@ OSG_USING_NAMESPACE
 /*! \class osg::TransformChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemTransformChunk for details.
+See \ref PageSystemTransformChunk for a description.
+
+This chunk wraps glMultMatrix() for the GL_MODELVIEW matrix mode.
 
 */
 

@@ -122,37 +122,37 @@ const OSG::BitVector  TextureChunkBase::GLIdFieldMask =
     The internal texture format.
 */
 /*! \var UInt32          TextureChunkBase::_sfExternalFormat
-    The external texture format - overwrites external format of image when set.
+    The external texture format - overwrites          external format of image when set to a value not equal to          GL_NONE (which is the default).
 */
 /*! \var bool            TextureChunkBase::_sfScale
-    
+    Specifies whether the image should be scaled to the next power of two,         thus filling the whole texture coordinate range, or if it should be put         in the lower left corner, leaving the rest of the texture undefined.         This is mainly used for rapidly changing non power of two textures, to         get around the scaling overhead.
 */
 /*! \var UInt32          TextureChunkBase::_sfFrame
-    
+    Select the frame of the image to be used. See osg::Image about details         concerning multi-frame images.         \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         creation is slow right now. \endhint
 */
 /*! \var UInt32          TextureChunkBase::_sfMinFilter
-    
+    The minimisation filter, default GL_LINEAR_MIPMAP_LINEAR.
 */
 /*! \var UInt32          TextureChunkBase::_sfMagFilter
-    
+    The magnification filter, default GL_LINEAR.
 */
 /*! \var UInt32          TextureChunkBase::_sfWrapS
-    
+    Texture coordinate S wrapping, default GL_REPEAT.
 */
 /*! \var UInt32          TextureChunkBase::_sfWrapT
-    
+    Texture coordinate T wrapping, default GL_REPEAT.
 */
 /*! \var UInt32          TextureChunkBase::_sfWrapR
-    
+    Texture coordinate R wrapping, default GL_REPEAT.
 */
 /*! \var UInt32          TextureChunkBase::_sfEnvMode
-    
+    Texture environment mode, default GL_REPLACE
 */
 /*! \var Color4f         TextureChunkBase::_sfEnvColor
-    
+    Texture environment color default transparent black.
 */
 /*! \var UInt32          TextureChunkBase::_sfGLId
-    
+    The OpenGL texture id for this texture.
 */
 
 //! TextureChunk description

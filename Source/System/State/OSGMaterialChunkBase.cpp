@@ -106,10 +106,10 @@ const OSG::BitVector  MaterialChunkBase::ColorMaterialFieldMask =
     
 */
 /*! \var bool            MaterialChunkBase::_sfLit
-    
+    Switch for using this material in lighting calculation.          If not set the diffuse color is used as is.
 */
 /*! \var UInt32          MaterialChunkBase::_sfColorMaterial
-    
+    The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 */
 
 //! MaterialChunk description

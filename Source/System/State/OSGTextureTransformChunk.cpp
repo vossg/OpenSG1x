@@ -61,7 +61,10 @@ OSG_USING_NAMESPACE
 /*! \class osg::TextureTransformChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemMaterialChunk for details.
+See \ref PageSystemTextureTransformChunk for a description.
+
+This chunk wraps glLoadMatrix() for the GL_TEXTURE matrix mode. It is derived
+from the osg::TransformChunk and uses its matrix.
 
 */
 
@@ -69,7 +72,7 @@ See \ref PageSystemMaterialChunk for details.
  *                           Class variables                               *
 \***************************************************************************/
 
-StateChunkClass TextureTransformChunk::_class("TextureTransform", 4);
+StateChunkClass TextureTransformChunk::_class("TextureTransform", osgMaxTextures);
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -49,12 +49,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief State chunk for texture coordinate generation. See \ref 
+    PageSystemTexGenChunk for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING TexGenChunk : public TexGenChunkBase
 {
-  private:
-
-    typedef TexGenChunkBase Inherited;
-
     /*==========================  PUBLIC  =================================*/
   public:
 
@@ -62,15 +62,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunk : public TexGenChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const  StateChunkClass * getClass    (void) const;
+    inline virtual const StateChunkClass * getClass         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static        UInt32            getStaticClassId (void);
+    inline static  const StateChunkClass * getStaticClass   (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -139,6 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunk : public TexGenChunkBase
 
     friend class FieldContainer;
     friend class TexGenChunkBase;
+
+    typedef TexGenChunkBase Inherited;
 
     // class. Used for indexing in State
     static StateChunkClass _class;

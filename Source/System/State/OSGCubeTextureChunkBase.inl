@@ -96,30 +96,35 @@ CubeTextureChunkPtr CubeTextureChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the CubeTextureChunk::_sfPosZImage field.
 inline
 SFImageP *CubeTextureChunkBase::getSFPosZImage(void)
 {
     return &_sfPosZImage;
 }
 
+//! Get the CubeTextureChunk::_sfPosXImage field.
 inline
 SFImageP *CubeTextureChunkBase::getSFPosXImage(void)
 {
     return &_sfPosXImage;
 }
 
+//! Get the CubeTextureChunk::_sfNegXImage field.
 inline
 SFImageP *CubeTextureChunkBase::getSFNegXImage(void)
 {
     return &_sfNegXImage;
 }
 
+//! Get the CubeTextureChunk::_sfPosYImage field.
 inline
 SFImageP *CubeTextureChunkBase::getSFPosYImage(void)
 {
     return &_sfPosYImage;
 }
 
+//! Get the CubeTextureChunk::_sfNegYImage field.
 inline
 SFImageP *CubeTextureChunkBase::getSFNegYImage(void)
 {
@@ -127,90 +132,105 @@ SFImageP *CubeTextureChunkBase::getSFNegYImage(void)
 }
 
 
+//! Get the value of the CubeTextureChunk::_sfPosZImage field.
 inline
 ImageP &CubeTextureChunkBase::getPosZImage(void)
 {
     return _sfPosZImage.getValue();
 }
 
+//! Get the value of the CubeTextureChunk::_sfPosZImage field.
 inline
 const ImageP &CubeTextureChunkBase::getPosZImage(void) const
 {
     return _sfPosZImage.getValue();
 }
 
+//! Set the value of the CubeTextureChunk::_sfPosZImage field.
 inline
 void CubeTextureChunkBase::setPosZImage(const ImageP &value)
 {
     _sfPosZImage.setValue(value);
 }
 
+//! Get the value of the CubeTextureChunk::_sfPosXImage field.
 inline
 ImageP &CubeTextureChunkBase::getPosXImage(void)
 {
     return _sfPosXImage.getValue();
 }
 
+//! Get the value of the CubeTextureChunk::_sfPosXImage field.
 inline
 const ImageP &CubeTextureChunkBase::getPosXImage(void) const
 {
     return _sfPosXImage.getValue();
 }
 
+//! Set the value of the CubeTextureChunk::_sfPosXImage field.
 inline
 void CubeTextureChunkBase::setPosXImage(const ImageP &value)
 {
     _sfPosXImage.setValue(value);
 }
 
+//! Get the value of the CubeTextureChunk::_sfNegXImage field.
 inline
 ImageP &CubeTextureChunkBase::getNegXImage(void)
 {
     return _sfNegXImage.getValue();
 }
 
+//! Get the value of the CubeTextureChunk::_sfNegXImage field.
 inline
 const ImageP &CubeTextureChunkBase::getNegXImage(void) const
 {
     return _sfNegXImage.getValue();
 }
 
+//! Set the value of the CubeTextureChunk::_sfNegXImage field.
 inline
 void CubeTextureChunkBase::setNegXImage(const ImageP &value)
 {
     _sfNegXImage.setValue(value);
 }
 
+//! Get the value of the CubeTextureChunk::_sfPosYImage field.
 inline
 ImageP &CubeTextureChunkBase::getPosYImage(void)
 {
     return _sfPosYImage.getValue();
 }
 
+//! Get the value of the CubeTextureChunk::_sfPosYImage field.
 inline
 const ImageP &CubeTextureChunkBase::getPosYImage(void) const
 {
     return _sfPosYImage.getValue();
 }
 
+//! Set the value of the CubeTextureChunk::_sfPosYImage field.
 inline
 void CubeTextureChunkBase::setPosYImage(const ImageP &value)
 {
     _sfPosYImage.setValue(value);
 }
 
+//! Get the value of the CubeTextureChunk::_sfNegYImage field.
 inline
 ImageP &CubeTextureChunkBase::getNegYImage(void)
 {
     return _sfNegYImage.getValue();
 }
 
+//! Get the value of the CubeTextureChunk::_sfNegYImage field.
 inline
 const ImageP &CubeTextureChunkBase::getNegYImage(void) const
 {
     return _sfNegYImage.getValue();
 }
 
+//! Set the value of the CubeTextureChunk::_sfNegYImage field.
 inline
 void CubeTextureChunkBase::setNegYImage(const ImageP &value)
 {

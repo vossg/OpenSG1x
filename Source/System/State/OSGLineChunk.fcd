@@ -18,6 +18,7 @@ The line chunk contains the parameters that are specific set for lines.
 		defaultValue="1"
 		access="public"
 	>
+        The line's width, in pixel.
 	</Field>
 	<Field
 		name="stippleRepeat"
@@ -27,6 +28,7 @@ The line chunk contains the parameters that are specific set for lines.
 		defaultValue="1"
 		access="public"
 	>
+        Repetition factor for sitppling.
 	</Field>
 	<Field
 		name="stipplePattern"
@@ -36,7 +38,8 @@ The line chunk contains the parameters that are specific set for lines.
 		defaultValue="0xffff"
 		access="public"
 	>
-	Defines the stipple pattern.
+	Defines the stipple pattern. 1 bits are drawn, 0 bits are ignored, 
+        starting with the most significant bit.
 	</Field>
 	<Field
 		name="smooth"
@@ -47,6 +50,6 @@ The line chunk contains the parameters that are specific set for lines.
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	Defines if polygon antialiasing is used.
+	Defines if line antialiasing is used.
 	</Field>
 </FieldContainer>

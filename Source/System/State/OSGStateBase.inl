@@ -96,6 +96,7 @@ StatePtr StateBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the State::_mfChunks field.
 inline
 MFStateChunkPtr *StateBase::getMFChunks(void)
 {
@@ -104,18 +105,21 @@ MFStateChunkPtr *StateBase::getMFChunks(void)
 
 
 
+//! Get the value of the  index element the State::_mfChunks field.
 inline
-StateChunkPtr &StateBase::getChunks(const UInt32 index)
+StateChunkPtr &State::getChunks(const UInt32 index)
 {
     return _mfChunks[index];
 }
 
+//! Get the State::_mfChunks field.
 inline
 MFStateChunkPtr &StateBase::getChunks(void)
 {
     return _mfChunks;
 }
 
+//! Get the State::_mfChunks field.
 inline
 const MFStateChunkPtr &StateBase::getChunks(void) const
 {

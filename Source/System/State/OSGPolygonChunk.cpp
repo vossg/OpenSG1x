@@ -59,8 +59,19 @@ OSG_USING_NAMESPACE
 /*! \class osg::PolygonChunk
     \ingroup GrpSystemState
 
-See \ref PageSystemBlendChunk for details.
+See \ref PageSystemPolygonChunk for details.
 
+The parameters of the following functions are wrapped here: glCullFace()
+(osg::PolygonChunk::_sfCullFace), glFrontFace()
+(osg::PolygonChunk::_sfFrontFace), glPolygonMode() 
+(osg::PolygonChunk::_sfFrontMode, osg::PolygonChunk::_sfBackMode),
+glEnable(GL_POLYGON_SMOOTH) (osg::PolygonChunk::_sfSmooth), glPolygonOffset()
+(osg::PolygonChunk::_sfOffsetFactor, osg::PolygonChunk::_sfOffsetBias),
+glEnable(GL_POLYGON_OFFSET_POINT) (osg::PolygonChunk::_sfOffsetPoint),
+glEnable(GL_POLYGON_OFFSET_LINE) (osg::PolygonChunk::_sfOffsetLine),
+glEnable(GL_POLYGON_OFFSET_FILL) (osg::PolygonChunk::_sfOffsetFill),
+glStipplePattern() and glEnable(GL_POLYGON_STIPPLE)
+(osg::PolygonChunk::_sfStipple).
 */
 
 /***************************************************************************\

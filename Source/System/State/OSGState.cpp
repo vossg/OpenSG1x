@@ -161,7 +161,8 @@ void State::activate(DrawActionBase *action)
 }
 
 
-/*! Switch to this state from the given old State. 
+/*! Switch to this state from the given old State. The chunks will try to 
+    optimize the transition.
 */
 
 void State::changeFrom(DrawActionBase *action, State *old)
@@ -426,6 +427,11 @@ void State::clearChunks(void)
 
 /*-------------------------- comparison -----------------------------------*/
 
+
+/*! Calculate the switch cost for the whole state, which is the sum of the
+switch cost of all its chunks. Right now it's always 0.
+*/
+
 Real32 State::switchCost(State *OSG_CHECK_ARG(state))
 {
     return 0;
@@ -435,6 +441,9 @@ bool State::operator < (const State &other) const
 {
     return this < &other;
 }
+
+/*! Compare the two states. Not implemented yet, always false.
+*/
 
 bool State::operator == (const State &OSG_CHECK_ARG(other)) const
 {

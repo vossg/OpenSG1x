@@ -96,78 +96,91 @@ TextureChunkPtr TextureChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the TextureChunk::_sfImage field.
 inline
 SFImageP *TextureChunkBase::getSFImage(void)
 {
     return &_sfImage;
 }
 
+//! Get the TextureChunk::_sfInternalFormat field.
 inline
 SFUInt32 *TextureChunkBase::getSFInternalFormat(void)
 {
     return &_sfInternalFormat;
 }
 
+//! Get the TextureChunk::_sfExternalFormat field.
 inline
 SFUInt32 *TextureChunkBase::getSFExternalFormat(void)
 {
     return &_sfExternalFormat;
 }
 
+//! Get the TextureChunk::_sfScale field.
 inline
 SFBool *TextureChunkBase::getSFScale(void)
 {
     return &_sfScale;
 }
 
+//! Get the TextureChunk::_sfFrame field.
 inline
 SFUInt32 *TextureChunkBase::getSFFrame(void)
 {
     return &_sfFrame;
 }
 
+//! Get the TextureChunk::_sfMinFilter field.
 inline
 SFUInt32 *TextureChunkBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
 
+//! Get the TextureChunk::_sfMagFilter field.
 inline
 SFUInt32 *TextureChunkBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
 
+//! Get the TextureChunk::_sfWrapS field.
 inline
 SFUInt32 *TextureChunkBase::getSFWrapS(void)
 {
     return &_sfWrapS;
 }
 
+//! Get the TextureChunk::_sfWrapT field.
 inline
 SFUInt32 *TextureChunkBase::getSFWrapT(void)
 {
     return &_sfWrapT;
 }
 
+//! Get the TextureChunk::_sfWrapR field.
 inline
 SFUInt32 *TextureChunkBase::getSFWrapR(void)
 {
     return &_sfWrapR;
 }
 
+//! Get the TextureChunk::_sfEnvMode field.
 inline
 SFUInt32 *TextureChunkBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
 
+//! Get the TextureChunk::_sfEnvColor field.
 inline
 SFColor4f *TextureChunkBase::getSFEnvColor(void)
 {
     return &_sfEnvColor;
 }
 
+//! Get the TextureChunk::_sfGLId field.
 inline
 SFUInt32 *TextureChunkBase::getSFGLId(void)
 {
@@ -175,234 +188,273 @@ SFUInt32 *TextureChunkBase::getSFGLId(void)
 }
 
 
+//! Get the value of the TextureChunk::_sfImage field.
 inline
 ImageP &TextureChunkBase::getImage(void)
 {
     return _sfImage.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfImage field.
 inline
 const ImageP &TextureChunkBase::getImage(void) const
 {
     return _sfImage.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfImage field.
 inline
 void TextureChunkBase::setImage(const ImageP &value)
 {
     _sfImage.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfInternalFormat field.
 inline
 UInt32 &TextureChunkBase::getInternalFormat(void)
 {
     return _sfInternalFormat.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfInternalFormat field.
 inline
 const UInt32 &TextureChunkBase::getInternalFormat(void) const
 {
     return _sfInternalFormat.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfInternalFormat field.
 inline
 void TextureChunkBase::setInternalFormat(const UInt32 &value)
 {
     _sfInternalFormat.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfExternalFormat field.
 inline
 UInt32 &TextureChunkBase::getExternalFormat(void)
 {
     return _sfExternalFormat.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfExternalFormat field.
 inline
 const UInt32 &TextureChunkBase::getExternalFormat(void) const
 {
     return _sfExternalFormat.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfExternalFormat field.
 inline
 void TextureChunkBase::setExternalFormat(const UInt32 &value)
 {
     _sfExternalFormat.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfScale field.
 inline
 bool &TextureChunkBase::getScale(void)
 {
     return _sfScale.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfScale field.
 inline
 const bool &TextureChunkBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfScale field.
 inline
 void TextureChunkBase::setScale(const bool &value)
 {
     _sfScale.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfFrame field.
 inline
 UInt32 &TextureChunkBase::getFrame(void)
 {
     return _sfFrame.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfFrame field.
 inline
 const UInt32 &TextureChunkBase::getFrame(void) const
 {
     return _sfFrame.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfFrame field.
 inline
 void TextureChunkBase::setFrame(const UInt32 &value)
 {
     _sfFrame.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfMinFilter field.
 inline
 UInt32 &TextureChunkBase::getMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfMinFilter field.
 inline
 const UInt32 &TextureChunkBase::getMinFilter(void) const
 {
     return _sfMinFilter.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfMinFilter field.
 inline
 void TextureChunkBase::setMinFilter(const UInt32 &value)
 {
     _sfMinFilter.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfMagFilter field.
 inline
 UInt32 &TextureChunkBase::getMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfMagFilter field.
 inline
 const UInt32 &TextureChunkBase::getMagFilter(void) const
 {
     return _sfMagFilter.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfMagFilter field.
 inline
 void TextureChunkBase::setMagFilter(const UInt32 &value)
 {
     _sfMagFilter.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfWrapS field.
 inline
 UInt32 &TextureChunkBase::getWrapS(void)
 {
     return _sfWrapS.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfWrapS field.
 inline
 const UInt32 &TextureChunkBase::getWrapS(void) const
 {
     return _sfWrapS.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfWrapS field.
 inline
 void TextureChunkBase::setWrapS(const UInt32 &value)
 {
     _sfWrapS.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfWrapT field.
 inline
 UInt32 &TextureChunkBase::getWrapT(void)
 {
     return _sfWrapT.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfWrapT field.
 inline
 const UInt32 &TextureChunkBase::getWrapT(void) const
 {
     return _sfWrapT.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfWrapT field.
 inline
 void TextureChunkBase::setWrapT(const UInt32 &value)
 {
     _sfWrapT.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfWrapR field.
 inline
 UInt32 &TextureChunkBase::getWrapR(void)
 {
     return _sfWrapR.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfWrapR field.
 inline
 const UInt32 &TextureChunkBase::getWrapR(void) const
 {
     return _sfWrapR.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfWrapR field.
 inline
 void TextureChunkBase::setWrapR(const UInt32 &value)
 {
     _sfWrapR.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfEnvMode field.
 inline
 UInt32 &TextureChunkBase::getEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfEnvMode field.
 inline
 const UInt32 &TextureChunkBase::getEnvMode(void) const
 {
     return _sfEnvMode.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfEnvMode field.
 inline
 void TextureChunkBase::setEnvMode(const UInt32 &value)
 {
     _sfEnvMode.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfEnvColor field.
 inline
 Color4f &TextureChunkBase::getEnvColor(void)
 {
     return _sfEnvColor.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfEnvColor field.
 inline
 const Color4f &TextureChunkBase::getEnvColor(void) const
 {
     return _sfEnvColor.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfEnvColor field.
 inline
 void TextureChunkBase::setEnvColor(const Color4f &value)
 {
     _sfEnvColor.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfGLId field.
 inline
 UInt32 &TextureChunkBase::getGLId(void)
 {
     return _sfGLId.getValue();
 }
 
+//! Get the value of the TextureChunk::_sfGLId field.
 inline
 const UInt32 &TextureChunkBase::getGLId(void) const
 {
     return _sfGLId.getValue();
 }
 
+//! Set the value of the TextureChunk::_sfGLId field.
 inline
 void TextureChunkBase::setGLId(const UInt32 &value)
 {

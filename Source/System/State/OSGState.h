@@ -49,6 +49,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief Wrapper for a complete State. See \ref State
+    for a description.
+*/
+
 class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 {
     /*==========================  PUBLIC  =================================*/

@@ -48,12 +48,12 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase
-{
-  private:
+/*! \brief State chunk for user-defined clipping planes. See \ref
+    PageSystemClipPlaneChunk for a description.
+*/
 
-    typedef ClipPlaneChunkBase Inherited;
-
+class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase 
+{ 
     /*==========================  PUBLIC  =================================*/
   public:
     
@@ -61,19 +61,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase
     /*! \name                 Chunk Class Access                           */
     /*! \{                                                                 */
 
-    virtual const StateChunkClass *getClass(void) const;
+    inline virtual const  StateChunkClass * getClass        (void) const;
 
-    /*! \{                                                                 */
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name              Static Chunk Class Access                       */
     /*! \{                                                                 */
 
-    static        UInt32           getStaticClassId  (void);
-    static  const StateChunkClass *getStaticClass    (void);
+    inline static         UInt32           getStaticClassId  (void);
+    inline static   const StateChunkClass *getStaticClass    (void);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Sync                                    */
+    /*! \}                                                                 */ 
+    /*---------------------------------------------------------------------*/ 
+    /*! \name                      Sync                                    */ 
     /*! \{                                                                 */
 
     virtual void changed(BitVector  whichField, 
@@ -138,6 +138,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunk : public ClipPlaneChunkBase
 
     friend class FieldContainer;
     friend class ClipPlaneChunkBase;
+
+    typedef ClipPlaneChunkBase Inherited;
 
     // class. Used for indexing in State
     static StateChunkClass _class;
