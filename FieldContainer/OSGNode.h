@@ -279,8 +279,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     void setParent(const NodePtr &parent);
 
-    void onCreate (      void           );
-    void onCreate (const Node    &source);
+    void onCreate (const Node    *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

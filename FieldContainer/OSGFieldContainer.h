@@ -334,8 +334,8 @@ class FieldContainer
 
             pTmp += sizeof(ObjectType);
         }
-
-        result->onCreate(*prototypeP);
+        
+        result->onCreate(prototypeP);
 
 #ifdef OSG_GV_BETA
         fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
@@ -388,6 +388,8 @@ class FieldContainer
             
             pTmp += sizeof(ObjectType);
         }
+
+        result->onCreate();
 
 #ifdef OSG_GV_BETA
         fprintf(stderr, "GV_MEM_FC_DBG : (%d|%lf|%I64d) c (%p|%s|%u)\n", 
@@ -487,10 +489,7 @@ class FieldContainer
     /*! \{                                                                 */
 
             OSG_SYSTEMLIB_DLLMAPPING 
-            void onCreate       (void);
-
-            OSG_SYSTEMLIB_DLLMAPPING 
-            void onCreate       (const FieldContainer &source);
+            void onCreate       (const FieldContainer *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -360,7 +360,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     vector<void*>                     _extFunctions;
 
     //! register/unregister the instance with the global list
-    void onCreate(  const FieldContainer &  );
+    void onCreate(  const Window *source = NULL );
     void onDestroy( void );
 
     /*! \}                                                                 */

@@ -74,7 +74,7 @@ The texture chunk class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.34 2002/02/26 06:10:14 vossg Exp $";
+char TextureChunk::cvsid[] = "@(#)$Id: OSGTextureChunk.cpp,v 1.35 2002/03/08 11:09:45 vossg Exp $";
 
 StateChunkClass TextureChunk::_class("Texture", 4);
 
@@ -227,7 +227,7 @@ bool TextureChunk::isTransparent(void) const
 /** \brief instance initialization
  */
 
-void TextureChunk::onCreate(const FieldContainer &)
+void TextureChunk::onCreate(const TextureChunk *)
 {
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK

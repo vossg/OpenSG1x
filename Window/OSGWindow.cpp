@@ -186,7 +186,7 @@ Window::~Window(void)
 /** \brief instance initialisation
  */
 
-void Window::onCreate( const FieldContainer & )
+void Window::onCreate( const Window * )
 {
     _allWindows.push_back( WindowPtr(*this ) );
     

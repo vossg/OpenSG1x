@@ -287,7 +287,7 @@ Geometry::~Geometry(void)
 /** \brief instance initialization
  */
 
-void Geometry::onCreate( const FieldContainer & )
+void Geometry::onCreate( const Geometry * )
 {
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK

@@ -857,21 +857,23 @@ void Node::setParent(const NodePtr &parent)
     _sfParent.setValue(parent);
 }
 
-void Node::onCreate(void)
+void Node::onCreate(const Node *source)
 {
-}
+    if(source == NULL)
+        return;
 
-void Node::onCreate(const Node &source)
-{
-    setCore(source.getCore());
+    setCore(source->getCore());
 
-    AttachmentMap::const_iterator fcI=source._attachmentMap.getValue().begin();
+    AttachmentMap::const_iterator fcI = 
+        source->_attachmentMap.getValue().begin();
+    AttachmentMap::const_iterator fcEnd = 
+        source->_attachmentMap.getValue().end();
 
-    while(fcI != source._attachmentMap.getValue().end())
+    while(fcI != fcEnd)
     {
         addAttachment((*fcI).second);
 
-        fcI++;
+        ++fcI;
     }
 }
 

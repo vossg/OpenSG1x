@@ -127,7 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                       Init                                   */
     /*! \{                                                                 */
 
-    void onCreate(const FieldContainer &source);
+    void onCreate(const TextureChunk *source = NULL);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

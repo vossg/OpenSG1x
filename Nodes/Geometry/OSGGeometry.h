@@ -174,7 +174,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     void handleGL(Window* win, UInt32 id);
 
-    void onCreate(const FieldContainer &source);
+    void onCreate(const Geometry *source = NULL);
 
     // intersect action: ray test
     Action::ResultE intersect(Action * action );

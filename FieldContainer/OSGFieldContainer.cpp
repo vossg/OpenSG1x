@@ -163,11 +163,7 @@ void FieldContainer::changed(BitVector  OSG_CHECK_ARG(whichField),
 /*-------------------------------------------------------------------------*/
 /*                             MT Contruction                              */
 
-void FieldContainer::onCreate(void)
-{
-}
-
-void FieldContainer::onCreate(const FieldContainer &)
+void FieldContainer::onCreate(const FieldContainer *)
 {
 }
 
