@@ -755,11 +755,12 @@ void VRMLLoader::scanFile(const Char8 *szFilename, UInt32 uiOptions)
     Inherited::scanFile(szFilename, uiOptions);
 }
 
-/*
-void scanFile(const Char8  *szFilename, 
-  UInt32  uiAddOptions, 
-  UInt32  uiSubOptions);
- */
+void VRMLLoader::scanFile(const Char8  *szFilename, 
+                          UInt32  uiAddOptions, 
+                          UInt32  uiSubOptions)
+{
+    fprintf(stderr, "scanFile(name, add, sub) NOT IMPLEMENTEN\n");
+}
 
 
 VRMLLoader::ResultStore &VRMLLoader::getResultStore(void)
