@@ -74,6 +74,7 @@
 #include <OSGReal32Fields.h> // MinValue type
 #include <OSGReal32Fields.h> // MaxValue type
 #include <OSGUInt32Fields.h> // Flags type
+#include <OSGUInt32Fields.h> // HistorySize type
 #include <OSGStringFields.h> // Description type
 #include <OSGReal32Fields.h> // LineWidth type
 #include <OSGColor3fFields.h> // ColorBackground type
@@ -110,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
         MinValueFieldId          = ColorCurrentFieldId      + 1,
         MaxValueFieldId          = MinValueFieldId          + 1,
         FlagsFieldId             = MaxValueFieldId          + 1,
-        DescriptionFieldId       = FlagsFieldId             + 1,
+        HistorySizeFieldId       = FlagsFieldId             + 1,
+        DescriptionFieldId       = HistorySizeFieldId       + 1,
         LineWidthFieldId         = DescriptionFieldId       + 1,
         ColorBackgroundFieldId   = LineWidthFieldId         + 1,
         TextEnabledFieldId       = ColorBackgroundFieldId   + 1,
@@ -128,6 +130,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     static const osg::BitVector MinValueFieldMask;
     static const osg::BitVector MaxValueFieldMask;
     static const osg::BitVector FlagsFieldMask;
+    static const osg::BitVector HistorySizeFieldMask;
     static const osg::BitVector DescriptionFieldMask;
     static const osg::BitVector LineWidthFieldMask;
     static const osg::BitVector ColorBackgroundFieldMask;
@@ -243,6 +246,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     MFReal32            _mfMinValue;
     MFReal32            _mfMaxValue;
     MFUInt32            _mfFlags;
+    MFUInt32            _mfHistorySize;
     MFString            _mfDescription;
     SFReal32            _sfLineWidth;
     SFColor3f           _sfColorBackground;
@@ -279,6 +283,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
            MFReal32            *getMFMinValue       (void);
            MFReal32            *getMFMaxValue       (void);
            MFUInt32            *getMFFlags          (void);
+           MFUInt32            *getMFHistorySize    (void);
 
            UInt32              &getDisplayType    (UInt32 index);
            MFUInt32            &getDisplayType    (void);
@@ -307,6 +312,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
            UInt32              &getFlags          (UInt32 index);
            MFUInt32            &getFlags          (void);
      const MFUInt32            &getFlags          (void) const;
+           UInt32              &getHistorySize    (UInt32 index);
+           MFUInt32            &getHistorySize    (void);
+     const MFUInt32            &getHistorySize    (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -345,6 +353,6 @@ typedef GraphicStatisticsForegroundBase *GraphicStatisticsForegroundBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.2 2002/07/19 01:04:42 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.h,v 1.3 2002/07/30 16:30:32 jbehr Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

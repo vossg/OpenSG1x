@@ -151,6 +151,12 @@ MFUInt32 *GraphicStatisticsForegroundBase::getMFFlags(void)
 }
 
 inline
+MFUInt32 *GraphicStatisticsForegroundBase::getMFHistorySize(void)
+{
+    return &_mfHistorySize;
+}
+
+inline
 MFString *GraphicStatisticsForegroundBase::getMFDescription(void)
 {
     return &_mfDescription;
@@ -441,6 +447,24 @@ const MFUInt32 &GraphicStatisticsForegroundBase::getFlags(void) const
 }
 
 inline
+UInt32 &GraphicStatisticsForegroundBase::getHistorySize(const UInt32 index)
+{
+    return _mfHistorySize[index];
+}
+
+inline
+MFUInt32 &GraphicStatisticsForegroundBase::getHistorySize(void)
+{
+    return _mfHistorySize;
+}
+
+inline
+const MFUInt32 &GraphicStatisticsForegroundBase::getHistorySize(void) const
+{
+    return _mfHistorySize;
+}
+
+inline
 string &GraphicStatisticsForegroundBase::getDescription(const UInt32 index)
 {
     return _mfDescription[index];
@@ -460,5 +484,5 @@ const MFString &GraphicStatisticsForegroundBase::getDescription(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.2 2002/07/19 01:04:42 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForegroundBase.inl,v 1.3 2002/07/30 16:30:32 jbehr Exp $"
 

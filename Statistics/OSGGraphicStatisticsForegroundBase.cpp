@@ -91,6 +91,9 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::MaxValueFieldMask =
 const OSG::BitVector  GraphicStatisticsForegroundBase::FlagsFieldMask = 
     (1 << GraphicStatisticsForegroundBase::FlagsFieldId);
 
+const OSG::BitVector  GraphicStatisticsForegroundBase::HistorySizeFieldMask = 
+    (1 << GraphicStatisticsForegroundBase::HistorySizeFieldId);
+
 const OSG::BitVector  GraphicStatisticsForegroundBase::DescriptionFieldMask = 
     (1 << GraphicStatisticsForegroundBase::DescriptionFieldId);
 
@@ -138,6 +141,9 @@ const OSG::BitVector  GraphicStatisticsForegroundBase::BorderEnabledFieldMask =
     The maximum value to be displayed by the Statistic
 */
 /*! \var UInt32          GraphicStatisticsForegroundBase::_mfFlags
+    
+*/
+/*! \var UInt32          GraphicStatisticsForegroundBase::_mfHistorySize
     
 */
 /*! \var string          GraphicStatisticsForegroundBase::_mfDescription
@@ -208,6 +214,11 @@ FieldDescription *GraphicStatisticsForegroundBase::_desc[] =
                      FlagsFieldId, FlagsFieldMask,
                      false,
                      (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFFlags),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "historySize", 
+                     HistorySizeFieldId, HistorySizeFieldMask,
+                     false,
+                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFHistorySize),
     new FieldDescription(MFString::getClassType(), 
                      "description", 
                      DescriptionFieldId, DescriptionFieldMask,
@@ -304,7 +315,8 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(void) :
     _mfColorCurrent           (), 
     _mfMinValue               (), 
     _mfMaxValue               (), 
-    _mfFlags                  (UInt32(0)), 
+    _mfFlags                  (), 
+    _mfHistorySize            (), 
     _mfDescription            (), 
     _sfLineWidth              (Real32(1.0)), 
     _sfColorBackground        (Color3f(0.0,0.0,0.0)), 
@@ -331,6 +343,7 @@ GraphicStatisticsForegroundBase::GraphicStatisticsForegroundBase(const GraphicSt
     _mfMinValue               (source._mfMinValue               ), 
     _mfMaxValue               (source._mfMaxValue               ), 
     _mfFlags                  (source._mfFlags                  ), 
+    _mfHistorySize            (source._mfHistorySize            ), 
     _mfDescription            (source._mfDescription            ), 
     _sfLineWidth              (source._sfLineWidth              ), 
     _sfColorBackground        (source._sfColorBackground        ), 
@@ -398,6 +411,11 @@ UInt32 GraphicStatisticsForegroundBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (FlagsFieldMask & whichField))
     {
         returnValue += _mfFlags.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+    {
+        returnValue += _mfHistorySize.getBinSize();
     }
 
     if(FieldBits::NoField != (DescriptionFieldMask & whichField))
@@ -484,6 +502,11 @@ void GraphicStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
         _mfFlags.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+    {
+        _mfHistorySize.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (DescriptionFieldMask & whichField))
     {
         _mfDescription.copyToBin(pMem);
@@ -567,6 +590,11 @@ void GraphicStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfFlags.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+    {
+        _mfHistorySize.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (DescriptionFieldMask & whichField))
     {
         _mfDescription.copyFromBin(pMem);
@@ -633,6 +661,9 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
     if(FieldBits::NoField != (FlagsFieldMask & whichField))
         _mfFlags.syncWith(pOther->_mfFlags);
 
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+        _mfHistorySize.syncWith(pOther->_mfHistorySize);
+
     if(FieldBits::NoField != (DescriptionFieldMask & whichField))
         _mfDescription.syncWith(pOther->_mfDescription);
 
@@ -683,7 +714,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.2 2002/07/19 01:04:42 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForegroundBase.cpp,v 1.3 2002/07/30 16:30:32 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

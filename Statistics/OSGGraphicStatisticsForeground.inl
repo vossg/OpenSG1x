@@ -96,7 +96,8 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32&  value,
     UInt32 flags =  getFlags()[ID];
   
     /* Smooth the value, if asked for */
-    UInt32 size = _history[ID].size();
+    UInt32 hSize = _history.size();
+    UInt32 size = (ID < hSize) ? _history[ID].size() : 0;
   
     if(size > 0)
         {
@@ -120,5 +121,5 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32&  value,
 }
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUND_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.inl,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUND_INLINE_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.inl,v 1.2 2002/07/30 16:30:32 jbehr Exp $"
 

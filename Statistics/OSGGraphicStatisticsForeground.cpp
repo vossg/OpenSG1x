@@ -108,8 +108,21 @@ void GraphicStatisticsForeground::initMethod (void)
 
 //! react to field changes
 
-void GraphicStatisticsForeground::changed(BitVector, UInt32)
+void GraphicStatisticsForeground::changed(BitVector whichField, UInt32 from)
 {
+  UInt32 i, n = getHistorySize().size();
+
+  /* Save the data  */
+  if (whichField & HistorySizeFieldMask) {          
+    _historyID.resize(n,0);
+    _history.resize(n);
+    for (i = 0; i < n; i++) {
+      if (_history[i].size() == 0)
+        _history[i].resize( getHistorySize()[i], 
+                            (getMaxValue()[i] - getMinValue()[i]) / 2.0);
+    }
+  }
+
 }
 
 //! output the instance for debug purposes
@@ -288,37 +301,12 @@ void GraphicStatisticsForeground::addElement( StatElemDescBase &desc,
     getMinValue().push_back(minValue);
     getMaxValue().push_back(maxValue);
     getFlags().push_back(flags);
+    getHistorySize().push_back( historySize ? historySize : 25 );
     getDescription().push_back(description);
   
-    /*
-      History setup
-    */
+    // changed() must be called (automatically) 
+    // to sync the _history/_historyID values
 
-    /* If the value should be smoothed but there is no history size
-       given, set to history size to some random value */
-
-    if( (flags & STATISTICS_SMOOTH) 
-        && (historySize == 0))
-        {
-            historySize  =  25;
-        }
-
-    /* Initialize the history for smoothing the display if asked for by
-       setting all history values to the estimated average as given by
-       the user.  */
-    Real32 avg = 0.0;
-    if(flags & STATISTICS_SMOOTH)
-        {
-            avg  =  (maxValue-minValue) / 2.0;
-        }
-
-    /* Save the data  */
-    UInt32 historyIndex = _history.size();
-    _history.resize(historyIndex + 1);
-    _history[historyIndex].resize ( historySize, avg );
-    _historyID.push_back( 0 );
-  
-   
 }//addElement()
 
 
@@ -355,11 +343,10 @@ void GraphicStatisticsForeground::removeElement(StatElemDescBase &desc)
     getMinValue().erase(getMinValue().begin() + i);
     getMaxValue().erase(getMaxValue().begin() + i);
     getFlags().erase(getFlags().begin() + i);
-    /* TODO; remove the history elem
     getHistorySize().erase(getHistorySize().begin() + i);
-    getHistoryID().erase(getHistoryID().begin() + i);
-    getHistory().erase(getHistory().begin() + i);
-    */
+    
+    _history.erase   (_history.begin() + i);
+    _historyID.erase (_historyID.begin() + i);
 
 }
 
@@ -1420,7 +1407,7 @@ string GraphicStatisticsForeground::real2String(Real32 value, char* format)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.7 2002/07/27 12:43:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGGraphicStatisticsForeground.cpp,v 1.8 2002/07/30 16:30:32 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
