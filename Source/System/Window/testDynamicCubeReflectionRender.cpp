@@ -52,8 +52,8 @@ void display(void)
     rdia = (rmax-rmin).length();
   
     Matrix m;
-    m.setTransform(Pnt3f( osgcos(time / 1500) * (rdia+sdia),
-                          ((smax+smin) * .5)[1],
+    m.setTransform(Vec3f( osgcos(time / 1500) * (rdia+sdia),
+                          ((smax+smin.subZero()) * .5)[1],
                           osgsin(time / 1500) * (rdia+sdia)));
     
     beginEditCP(rtrans);
@@ -239,9 +239,9 @@ int main(int argc, char **argv)
     cubetex->setPosYImage(img);
     cubetex->setMinFilter(GL_LINEAR);
     cubetex->setMagFilter(GL_LINEAR);   
-    cubetex->setWrapR(GL_CLAMP_TO_EDGE);   
-    cubetex->setWrapS(GL_CLAMP_TO_EDGE);   
-    cubetex->setWrapT(GL_CLAMP_TO_EDGE);   
+    cubetex->setWrapR(GL_CLAMP);   
+    cubetex->setWrapS(GL_CLAMP);   
+    cubetex->setWrapT(GL_CLAMP);   
     endEditCP(cubetex);
      
     TexGenChunkPtr texgen = TexGenChunk::create();
