@@ -80,7 +80,7 @@ needs a direction, where the light is coming from, beside of the color informati
 
 DirectionalLightPtr dLight = DirectionalLight::create();
 
-beginEditCP(pLight);
+beginEditCP(dLight);
     
     dLight->setDirection(Vec3f(0,-1,2));
     

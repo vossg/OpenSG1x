@@ -8,8 +8,12 @@ OSG_USING_NAMESPACE;
 
 Chapter Overview
 <HR>
-    \ref TutorialWindowsWindows
-    \ref TutorialWindowsViewports
+    \ref TutorialWindowsWindows <BR>
+    \ref TutorialWindowsViewports <BR>
+	\ref TutorialWindowsCameras <BR>
+	\ref TutorialWindowsBackground <BR>
+	\ref TutorialWindowsForegrounds <BR>
+	\ref TutorialWindowsExercises
 <HR>
 
 This chapter is all about windows and viewports. A window is self explaining, as of course, OpenSG needs a window which it will render in. Viewports are
@@ -109,7 +113,7 @@ viewport allows rendering of specific color channels and finally the stero buffe
 shutter glasses for example need four buffers which are provided by osg::StereoBufferViewport. Passive stero can be achived with default viewports. 
 More on that in Chapter(xxx)
 
-\section TutorialWindowsCamera Cameras
+\section TutorialWindowsCameras Cameras
 
 A camera is of course needed for every application. The camera defines what is actually being rendered. The same way as you can have multiple viewports, you
 can also have multiple cameras. However, one camera can be attachted to more than one viewport. The most important parameters of a camera are it's position
@@ -226,4 +230,158 @@ than placing several cameras side by side to achieve the same effect.
 
 In Darmstadt, Germany there is a wall of screens, called HEye Wall, with 6 * 4 screens which is capable of stereo rendering. An 48 + 1 cluster running 
 OpenSG is driving the HEye Wall. Instead of using 48 cameras it is sufficient to use only one single camera and let the decorators do the rest!
+
+\section TutorialWindowsBackground Backgrounds
+
+Well the background does simply what a background is suppposed to do. Any region that was not covered by some object that was just rendered is filled with
+a backgound. Every viewport must have exactly one background, it can not have more. However, it is of course possible to swap backgrounds during runtime. 
+There are several different backgrounds at your disposal.
+
+\subsection TutorialWindowsBackgroundSolid Solid Background
+
+osg::SolidBackground is the most simple and common of all backgrounds, it simply fills the screen with one color. Setting up such a background is very easy. 
+The following example will generate a red background.
+
+\code
+SolidBackgroundPtr bg = SolidBackground::create();
+beginEditCP(bg, SolidBackground::ColorFieldID);
+	bg->setColor(Color3f(1,0,0));
+endEditCP(bg, SolidBackground::ColorFieldID);
+\endocde
+
+\subsection TutorialWindowsBackgroundGradient Gradient Background
+
+osg::GradientBackground enables you to fill the background with a color gradient. To specify the gradient you can use any number of color keys. Gradients in
+OpenSG are always vertical. Every color key needs a value between 0 (bottom) and 1 (top). If no color key is givin the background will be black, if only one
+key is given the background will be identical to a solid background with the same color. Regions which are not filled will be drawn in black, too.
+
+\code
+	[TODO: Gradient Example]
+\endcode
+
+TutorialWindowsBackgroundImage Image Background
+
+You also can uses images as a background by using osg::ImageBackground. The image can be scaled to fill the whole viewport, else it will be drawn from the
+lower left corner, leaving unoccupied regions in a user defined color. Please notice that the image is not used like a texture thus image backgrounds are
+not as fast to draw than the others. Setting up an image background is also very simple. The following example will create a background with some image,
+which will not be scaled to fit the viewport and left areas will be drawn black.
+
+\code
+	ImageBackgroundPtr imBkg = ImageBackground::create();
+	beginEditCP(imBkg,  ImageBackground::ColorFieldMask |
+						ImageBackground::ImageFieldMask |
+						ImageBackground::ScaleFieldMask
+			   ); 
+		imBkg->setColor(Color3f(0,0,0));
+		imBkg->setImage(some_image);
+		imBkg->setScale(false);
+	endEditCP(imBkg,  ImageBackground::ColorFieldMask |
+						ImageBackground::ImageFieldMask |
+						ImageBackground::ScaleFieldMask
+			   );
+\endcode
+
+<I>
+	Please notice that the image that need to be passed to setImage() is not just some jpg file or similar. You need to pass an osg::Image object. The tutorial
+	at the end of this chapter will show you how to use an image background.
+</I>
+
+\subsection TutorialWindowsBackgroundPassive Passive Background
+
+Well like the other passive components encountered so far, the osg::PassiveBackground does nothing at all thus there are no fields to set. It's main purpose is
+to make it possible to have two or more overlapping viewports to generate combined images.
+
+\subsection TutorialWindowsBackgroundSky Sky Background
+
+The most exciting background for virtual reality environments is most likely to be the osg::SkyBackground. Inspired by the VRML background node the OpenSG
+sky background is a sky box. With some parameters you can create quickly a ground-sky environment, but more interesting is to use six specially designed
+textures which then can simulate an infine environment that will move if the user looks around.
+
+\image html skybox.png "All six images of a skybox stichted together"
+\image latex skybox.eps "All six images of a skybox stichted together" width = 4cm
+
+\section TutorialWindowsForegrounds Foregrounds
+
+Foregrounds are painted on top of the rendered image. They can be used to add a logo or a watermark for example, but a foreground can also be used to grab
+an rendered image into an osg::Image or file. There can be more than one foreground assigned to a viewport. If that is the case they are evaluted in the same
+order as they were added.
+
+\subsection TutorialWindowsForegroundsImage Image Foreground
+
+The most common foreground is the osg::ImageForeground which is often used to add a logo to a rendered scene. That image can be either RGB or RGBA. The
+image foreground supports correct alpha blending.
+
+\subsection TutorialWindowsForegroundsPolygon Polygon Foreground
+
+The osg::PolygonForeground draws a single polygon with an optional texture on top of the rendered image. It's main purpose is to archieve the same results
+as with the default image foreground, but by using a texture rather than an image. The usage might be a bit strange (at least it seems to me ;-) ) - you
+need a set of 2D points and an equal number of 3D points to define the polygon and it's position on screen. If values for the 2D points are greater than one, 
+the starting point is the lower left corner and for values smaller then -1 are using the upper right corner as origin. 
+
+\subsection TutorialWindowsForegroundGrab Grab Foreground
+
+The osg::GrabForeground can be used to grab a rendered image into an osg::Image. The size and position of the image define the area that will be grabbed. If
+you only create the image and leave it's size to default values (i.e 1D image with 1 pixel) the whole viewport will be grabbed. It might be a bit confusing
+that there is no such method like grab() or anything else that will actually invoke the grabbing process, but the grab is executed every time the frame is 
+rendered. So if you are implementing something like a screenshoot function you should remove the foreground after fetching the image to avoid grabbing one
+each frame!
+
+The following example shows how you could set up a grab foreground. We are creating an image in RGBA color mode with size 1 to grab the whole viewport.
+
+\code
+	GrabForegroundPtr grab = GrabForeground::create();
+	beginEditCP(grab);
+		grabImage = Image::create();
+		beginEditCP(grabImage);
+			grabImage->set(GL_RGBA, 1);
+		endEditCP(grabImage);
+		grab->setImage(grabImage);
+	endEditCP(grab);
+	
+	//mgr should be an instance of the SimpleSceneManager
+	//We get a pointer to the foreground multifield from the viewport
+	MFForegroundPtr *foregrounds = mgr->getWindow()->getPort(0)->getMFForegrounds();
+	
+	//now we simple add it to the foreground multifield
+	foregrounds->push_back(grab);
+\endcode
+
+Whenever a frame is rendered the osg::Image grabImage will store the rendered frame overwriting a possibily previously stored frame. 
+
+\subsection TutorialWindowsForegroundFileGrab File Grab Foreground
+
+osg::FileGrabForeground works pretty much the same way grab foreground does. However as the name implies the result is stored in a file rather than in an
+OpenSG image object. There is a boolean flag to tell the system wether this foreground is avtive or not. Furthermore you do not need to create an image 
+instance as this is done automatically for you, but you have to provide a filename for the image to be stored. You can not only stores single files,
+but image secuquences. The filename is given in a printf style thus naming an image "image%d" will lead to an image sequence as an internal frame counter
+will replace the variable in the filename with the counter value. If you use %04d instead you will have leading zeros in your filename which might be very
+usefull for some other applications.
+
+\subsection TutorialWindowsForegroundSimpleStatistics
+
+This foreground is subject to change, so hang on...
+
+\subsection TutorialWindowsForegroundsGraphicStatistics
+
+same as simple statistics foreground
+
+\section TutorialWindowsTutorial Tutorial - Without Simple Scene Manager
+
+As promised, we are going to build an application which will show a torus only. Again? Well, this time we are doing it from bottom up, without 
+the comfortable support of the simple scene manager! Additionally we are going to use nice backgrounds and a logo in the foreground and add a screenshot feature
+which will grab the rendered image and saves it in a file! To make the whole thing complete we are going to use two viewports thus we are having two different
+viewing angles on our sceen! So here we go:
+
+Here is an overview of what we are going to do.
+
+\image html scene_setup.png "Application overview"
+\image latex scene_setup.eps "Application overview" width = 8cm
+
+\section TutorialWindowsExercises Exercises
+
+\subsection TutorialWindwsExercises1 Ex. Sky Background
+
+Try to use a sky background with textures. You can find the needed textures in the progs/data folder. The files are calles right.jpg, top.jpg,... and so on.
+
+
 */
