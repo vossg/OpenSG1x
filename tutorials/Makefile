@@ -17,12 +17,16 @@ LIBTYPE ?= dbg
 
 OSGCONFIG := notset
 
+# use OSGPOOL if set
+
+OSGPOOL ?= ..
+
 # try to get configured information first, will not work if more
 # than one system is configured from one dir. Just for the 1.0
 
 OSGINSTALLPREFIX := notset
 
-PREFIXSUFFIX := $(shell ../CommonConf/config.guess)
+PREFIXSUFFIX := $(shell $(OSGPOOL)/CommonConf/config.guess)
 -include .prefix.$(PREFIXSUFFIX)
 
 ifneq ($(OSGINSTALLPREFIX),notset)
