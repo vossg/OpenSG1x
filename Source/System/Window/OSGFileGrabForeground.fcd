@@ -8,18 +8,10 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
 Background is the base class for all background clearing.
-	<Field
-		name="active"
-		type="bool"
-		cardinality="single"
-		visibility="external"
-		defaultValue="false"
-		access="public"
-	>
-	Activate the grabber.
-	</Field>
 	<Field
 		name="name"
 		type="std::string"

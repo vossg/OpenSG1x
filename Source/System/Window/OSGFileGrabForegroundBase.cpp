@@ -64,9 +64,6 @@
 
 OSG_USING_NAMESPACE
 
-const OSG::BitVector  FileGrabForegroundBase::ActiveFieldMask = 
-    (TypeTraits<BitVector>::One << FileGrabForegroundBase::ActiveFieldId);
-
 const OSG::BitVector  FileGrabForegroundBase::NameFieldMask = 
     (TypeTraits<BitVector>::One << FileGrabForegroundBase::NameFieldId);
 
@@ -83,9 +80,6 @@ const OSG::BitVector FileGrabForegroundBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var bool            FileGrabForegroundBase::_sfActive
-    Activate the grabber.
-*/
 /*! \var std::string     FileGrabForegroundBase::_sfName
     The filename template. %d is replaced by the frame number.
 */
@@ -100,11 +94,6 @@ const OSG::BitVector FileGrabForegroundBase::MTInfluenceMask =
 
 FieldDescription *FileGrabForegroundBase::_desc[] = 
 {
-    new FieldDescription(SFBool::getClassType(), 
-                     "active", 
-                     ActiveFieldId, ActiveFieldMask,
-                     false,
-                     (FieldAccessMethod) &FileGrabForegroundBase::getSFActive),
     new FieldDescription(SFString::getClassType(), 
                      "name", 
                      NameFieldId, NameFieldMask,
@@ -175,7 +164,6 @@ void FileGrabForegroundBase::executeSync(      FieldContainer &other,
 #endif
 
 FileGrabForegroundBase::FileGrabForegroundBase(void) :
-    _sfActive                 (bool(false)), 
     _sfName                   (), 
     _sfFrame                  (UInt32(0)), 
     _sfIncrement              (bool(true)), 
@@ -188,7 +176,6 @@ FileGrabForegroundBase::FileGrabForegroundBase(void) :
 #endif
 
 FileGrabForegroundBase::FileGrabForegroundBase(const FileGrabForegroundBase &source) :
-    _sfActive                 (source._sfActive                 ), 
     _sfName                   (source._sfName                   ), 
     _sfFrame                  (source._sfFrame                  ), 
     _sfIncrement              (source._sfIncrement              ), 
@@ -207,11 +194,6 @@ FileGrabForegroundBase::~FileGrabForegroundBase(void)
 UInt32 FileGrabForegroundBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
-    {
-        returnValue += _sfActive.getBinSize();
-    }
 
     if(FieldBits::NoField != (NameFieldMask & whichField))
     {
@@ -237,11 +219,6 @@ void FileGrabForegroundBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
-    {
-        _sfActive.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (NameFieldMask & whichField))
     {
         _sfName.copyToBin(pMem);
@@ -264,11 +241,6 @@ void FileGrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
-    {
-        _sfActive.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (NameFieldMask & whichField))
     {
@@ -293,9 +265,6 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
-
-    if(FieldBits::NoField != (ActiveFieldMask & whichField))
-        _sfActive.syncWith(pOther->_sfActive);
 
     if(FieldBits::NoField != (NameFieldMask & whichField))
         _sfName.syncWith(pOther->_sfName);
@@ -339,7 +308,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 

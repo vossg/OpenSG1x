@@ -96,13 +96,6 @@ FileGrabForegroundPtr FileGrabForegroundBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the FileGrabForeground::_sfActive field.
-inline
-SFBool *FileGrabForegroundBase::getSFActive(void)
-{
-    return &_sfActive;
-}
-
 //! Get the FileGrabForeground::_sfName field.
 inline
 SFString *FileGrabForegroundBase::getSFName(void)
@@ -124,27 +117,6 @@ SFBool *FileGrabForegroundBase::getSFIncrement(void)
     return &_sfIncrement;
 }
 
-
-//! Get the value of the FileGrabForeground::_sfActive field.
-inline
-bool &FileGrabForegroundBase::getActive(void)
-{
-    return _sfActive.getValue();
-}
-
-//! Get the value of the FileGrabForeground::_sfActive field.
-inline
-const bool &FileGrabForegroundBase::getActive(void) const
-{
-    return _sfActive.getValue();
-}
-
-//! Set the value of the FileGrabForeground::_sfActive field.
-inline
-void FileGrabForegroundBase::setActive(const bool &value)
-{
-    _sfActive.setValue(value);
-}
 
 //! Get the value of the FileGrabForeground::_sfName field.
 inline
@@ -212,5 +184,5 @@ void FileGrabForegroundBase::setIncrement(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
