@@ -255,7 +255,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleAttachment : public Attachment
     enum 
 	{ 
 		SimpleFieldId     = Inherited::NextFieldId, 
-		NextFieldId       = SimpleFieldId + 1, 
+		NextFieldId       = SimpleFieldId + 1
 	};
 
 	static const BitVector SimpleFieldMask;

@@ -92,7 +92,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 	{ 
 		ParentsFieldId     = Inherited::NextFieldId, 
 		AttachmentsFieldId = ParentsFieldId + 1,
-		NextFieldId        = AttachmentsFieldId + 1, 
+		NextFieldId        = AttachmentsFieldId + 1
 	};
 
 	static const BitVector ParentsFieldMask;
