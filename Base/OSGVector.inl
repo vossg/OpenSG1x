@@ -1674,6 +1674,38 @@ VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     return returnValue;
 }
 
+template <class    ValueTypeT, 
+          class    StorageInterfaceT> inline
+VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType  
+VectorInterface<ValueTypeT, StorageInterfaceT>::projectTo(
+    const VectorInterface &toVec)
+{
+    RealReturnType rDot       = dot(toVec);
+    RealReturnType rSquareDot = toVec.dot(toVec);
+
+    if(rSquareDot > Eps)
+    {
+        rDot /= rSquareDot;
+   
+        if(osgabs(rDot) > Eps)
+        {
+            *this  = toVec;
+            *this *= rDot;
+        }
+        else
+        { 
+            this->setValues(0., 0., 0.);
+            rDot = TypeConstants<RealReturnType>::getZeroElement();
+        }
+    }
+    else
+    {
+        rDot = TypeConstants<RealReturnType>::getOneElement();
+    }
+    
+    return rDot;
+}
+
 /*------------------------------ math -----------------------------------*/
 
 /** \brief Component wise vector addition

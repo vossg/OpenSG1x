@@ -902,6 +902,8 @@ class OSG_BASE_DLLMAPPING VectorInterface :
 
     RealReturnType  enclosedAngle(const VectorInterface &vec) const;
 
+    RealReturnType  projectTo    (const VectorInterface &toVec);
+
     /*------------------------------ math -----------------------------------*/
 
     void       operator +=(const VectorInterface    &vec);
