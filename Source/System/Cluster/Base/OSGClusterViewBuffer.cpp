@@ -35,11 +35,9 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -52,6 +50,8 @@
 #include "OSGImageFileHandler.h"
 #include "OSGImageFileType.h"
 #include "OSGConnection.h"
+
+/* */
 
 OSG_USING_NAMESPACE
 
@@ -75,53 +75,53 @@ OSG_USING_NAMESPACE
  **/
 
 /*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
+/*                            Constructors/Destructor                      */
 
-/*! Constructor documentation
- *
- * Initialize a ClusterViewBuffer. By default, no image compression
- * is set and the subtile size is set to 32
+/*! Initialize a ClusterViewBuffer. By default, no image compression
+    is set and the subtile size is set to 32. The viewbuffer contents
+    is send in packages. If the package size is not too large, then 
+    network transmission of the last and graphics card read of the current
+    package is done in parallel. 
  */
-ClusterViewBuffer::ClusterViewBuffer(void):
+ClusterViewBuffer::ClusterViewBuffer(void) :
     _imgTransType(NULL),
     _subTileSize(32)
 {
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-/*! Destructor documentation
+/*! Destructor
  */
 ClusterViewBuffer::~ClusterViewBuffer(void)
 {
 }
+
+/*-------------------------------------------------------------------------*/
+/*                            send/recv                                    */
 
 /*! Receive image data from all channels of a conneciton. The receive is
  *  finished, when the last channel signals a transmission end.
  */
 void ClusterViewBuffer::recv(Connection &connection)
 {
-    UInt32              tx,ty,tw,th;
-    UInt32              missing = connection.getChannelCount();
-    Image              *pImage;
-    BufferT             data;
-    BufferT             imageData;
-    UInt32              dataSize;
-    UInt32              component;
-    GLenum              glformat;
-    int                 componentCnt;
-    UInt32              sync;
+    UInt32  tx, ty, tw, th;
+    UInt32  missing = connection.getChannelCount();
+    Image   *pImage;
+    BufferT data;
+    BufferT imageData;
+    UInt32  dataSize;
+    UInt32  component;
+    GLenum  glformat;
+    int     componentCnt;
+    UInt32  sync;
 
     glPushMatrix();
     glLoadIdentity();
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,getBufferWidth(),
-               0,getBufferHeight());
-    glDisable(GL_DEPTH_TEST);  
-    glPixelStorei(GL_UNPACK_ALIGNMENT,1); 
+    gluOrtho2D(0, getBufferWidth(), 0, getBufferHeight());
+    glDisable(GL_DEPTH_TEST);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     // we expect tiles form all connected servers
     while(missing)
@@ -133,32 +133,34 @@ void ClusterViewBuffer::recv(Connection &connection)
             missing--;
             continue;
         }
+
         // get dimension
         connection.getValue(tx);
         connection.getValue(ty);
         connection.getValue(tw);
         connection.getValue(th);
-        glRasterPos2i(tx,ty);
+        glRasterPos2i(tx, ty);
+
         // =========== recv stencil =====================================
         if(component & STENCIL)
         {
-            data.resize(tw*th);
-            connection.get(&data[0],tw*th);
-            glDrawPixels(tw,th,GL_STENCIL_INDEX,GL_UNSIGNED_BYTE,&data[0]);
-            glEnable(GL_STENCIL_TEST);  
+            data.resize(tw * th);
+            connection.get(&data[0], tw * th);
+            glDrawPixels(tw, th, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE, &data[0]);
+            glEnable(GL_STENCIL_TEST);
         }
 
         // =========== recv depth =======================================
         if(component & DEPTH)
         {
-            glEnable(GL_DEPTH_TEST);  
-            glEnable(GL_STENCIL_TEST);  
-            glStencilFunc(GL_ALWAYS,1,1);
-            glStencilOp(GL_KEEP,GL_ZERO,GL_REPLACE);
-            data.resize(tw*th*sizeof(float));
-            connection.get(&data[0],tw*th*sizeof(float));
-            glDrawPixels(tw,th,GL_DEPTH_COMPONENT,GL_FLOAT,&data[0]);
-            glDisable(GL_DEPTH_TEST);  
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_STENCIL_TEST);
+            glStencilFunc(GL_ALWAYS, 1, 1);
+            glStencilOp(GL_KEEP, GL_ZERO, GL_REPLACE);
+            data.resize(tw * th * sizeof(float));
+            connection.get(&data[0], tw * th * sizeof(float));
+            glDrawPixels(tw, th, GL_DEPTH_COMPONENT, GL_FLOAT, &data[0]);
+            glDisable(GL_DEPTH_TEST);
         }
 
         // =========== recv RGBA ========================================
@@ -166,60 +168,60 @@ void ClusterViewBuffer::recv(Connection &connection)
         {
             if(component & (DEPTH | STENCIL))
             {
-                glStencilFunc(GL_EQUAL,1,1);
+                glStencilFunc(GL_EQUAL, 1, 1);
             }
-            switch(component&RGBA)
+
+            switch(component & RGBA)
             {
-                case RGB: 
-                    glformat     = GL_RGB; 
-                    componentCnt = 3;
-                    break;
-                case RGBA:
-                    glformat     = GL_RGBA;
-                    componentCnt = 4;
-                    break;
-                default:
-                    SFATAL << "Component combination not supported"
-                           << std::endl;
-                    return;
+            case RGB:
+                glformat = GL_RGB;
+                componentCnt = 3;
+                break;
+            case RGBA:
+                glformat = GL_RGBA;
+                componentCnt = 4;
+                break;
+            default:
+                SFATAL << "Component combination not supported" << std::endl;
+                return;
             }
+
             connection.getValue(dataSize);
+
             // compression ?
-            if(dataSize>0)
+            if(dataSize > 0)
             {
                 pImage = new Image;
 
                 data.resize(dataSize);
-                connection.get(&data[0],dataSize);
-                imageData.resize(tw*th*componentCnt);
-                ImageFileType::restore(*pImage,(UChar8*)&data[0],dataSize);
-                glDrawPixels(tw,
-                             th,
-                             glformat,
-                             GL_UNSIGNED_BYTE,
-                             pImage->getData());
+                connection.get(&data[0], dataSize);
+                imageData.resize(tw * th * componentCnt);
+                ImageFileType::restore(*pImage, (UChar8 *) &data[0], dataSize);
+                glDrawPixels(tw, th, glformat, GL_UNSIGNED_BYTE,
+                                             pImage->getData());
 
                 subRefP(pImage);
             }
             else
             {
-                data.resize(tw*th*componentCnt);
-                connection.get(&data[0],tw*th*componentCnt);
-                glDrawPixels(tw,th,glformat,GL_UNSIGNED_BYTE,&data[0]);
+                data.resize(tw * th * componentCnt);
+                connection.get(&data[0], tw * th * componentCnt);
+                glDrawPixels(tw, th, glformat, GL_UNSIGNED_BYTE, &data[0]);
             }
         }
 
         if(component & (DEPTH | STENCIL))
         {
-            glDisable(GL_STENCIL_TEST);  
+            glDisable(GL_STENCIL_TEST);
         }
     }
+
     connection.putValue(sync);
     connection.flush();
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
-    glEnable(GL_DEPTH_TEST);  
+    glEnable(GL_DEPTH_TEST);
 }
 
 /*! Send parts of a view buffer to a Connection
@@ -233,57 +235,51 @@ void ClusterViewBuffer::recv(Connection &connection)
  *  \param toX          copy to this x position on destination buffer
  *  \param toY          copy to this y position on destination buffer
  */
-void ClusterViewBuffer::send(Connection &connection,
-                             UInt32     component,
-                             UInt32     x1,
-                             UInt32     y1,
-                             UInt32     x2,
-                             UInt32     y2,
-                             UInt32     toX,
-                             UInt32     toY)
+void ClusterViewBuffer::send(Connection &connection, 
+                             UInt32 component, UInt32 x1,
+                             UInt32 y1, UInt32 x2, UInt32 y2, UInt32 toX,
+                             UInt32 toY)
 {
-    UInt32              tx,ty,tw,th;
-    Image              *pImage;
+    UInt32              tx, ty, tw, th;
+    Image               *pImage;
     BufferT             data;
     BufferT             imageData;
     UInt32              dataSize;
     GLenum              glformat;
     Image::PixelFormat  imgformat;
     int                 componentCnt;
-    int                 imgtranssize=0;
+    int                 imgtranssize = 0;
     UInt32              sync;
 
-    switch(component&RGBA)
+    switch(component & RGBA)
     {
-        case RGB: 
-            glformat     = GL_RGB; 
-            imgformat    = Image::OSG_RGB_PF;
-            componentCnt = 3;
-            break;
-        case RGBA:
-            glformat     = GL_RGBA;
-            imgformat    = Image::OSG_RGBA_PF; 
-            componentCnt = 4;
-            break;
-        default:
-            SFATAL << "Component combination not supported" << std::endl;
-            return;
+    case RGB:  glformat = GL_RGB;
+               imgformat = Image::OSG_RGB_PF;
+               componentCnt = 3;
+               break;
+    case RGBA: glformat = GL_RGBA;
+               imgformat = Image::OSG_RGBA_PF;
+               componentCnt = 4;
+               break;
+    default:   SFATAL << "Component combination not supported" << std::endl;
+               return;
     }
+
     // resize image buffer
-    imageData.resize(_subTileSize*_subTileSize*componentCnt);
+    imageData.resize(_subTileSize * _subTileSize * componentCnt);
 
-    glPixelStorei(GL_PACK_ALIGNMENT,1); 
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
-    for(ty=y1;ty<=y2;ty+=_subTileSize)
+    for(ty = y1; ty <= y2; ty += _subTileSize)
     {
-        for(tx=x1;tx<=x2;tx+=_subTileSize)
+        for(tx = x1; tx <= x2; tx += _subTileSize)
         {
-            tw = osgMin(_subTileSize,x2+1-tx);
-            th = osgMin(_subTileSize,y2+1-ty);
+            tw = osgMin(_subTileSize, x2 + 1 - tx);
+            th = osgMin(_subTileSize, y2 + 1 - ty);
 
             connection.putValue(component);
-            connection.putValue(tx+toX);
-            connection.putValue(ty+toY);
+            connection.putValue(tx + toX);
+            connection.putValue(ty + toY);
             connection.putValue(tw);
             connection.putValue(th);
 
@@ -291,22 +287,20 @@ void ClusterViewBuffer::send(Connection &connection,
             if(component & STENCIL)
             {
                 // read stencil buffer
-                data.resize(tw*th);
-                glReadPixels(tx,ty,tw,th,
-                             GL_STENCIL_INDEX,GL_UNSIGNED_BYTE,
-                             &data[0]);
-                connection.put(&data[0],tw*th);
+                data.resize(tw * th);
+                glReadPixels(tx, ty, tw, th, GL_STENCIL_INDEX, GL_UNSIGNED_BYTE,
+                                             &data[0]);
+                connection.put(&data[0], tw * th);
             }
 
             // =========== send DEPTH =======================================
             if(component & DEPTH)
             {
                 // read stencil buffer
-                data.resize(tw*th*sizeof(float));
-                glReadPixels(tx,ty,tw,th,
-                             GL_DEPTH_COMPONENT,GL_FLOAT,
-                             &data[0]);
-                connection.put(&data[0],tw*th*sizeof(float));
+                data.resize(tw * th * sizeof(float));
+                glReadPixels(tx, ty, tw, th, GL_DEPTH_COMPONENT, GL_FLOAT,
+                                             &data[0]);
+                connection.put(&data[0], tw * th * sizeof(float));
             }
 
             // =========== send RGBA ========================================
@@ -316,47 +310,45 @@ void ClusterViewBuffer::send(Connection &connection,
                 if(_imgTransType)
                 {
                     // set image size
-
                     pImage = new Image;
 
-                    pImage->set(imgformat,
-                                tw,th,1,
-                                1,1,0.0,
-                                (UChar8*)&imageData[0],false);
+                    pImage->set(imgformat, tw, th, 1, 1, 1, 0.0,
+                                                    (UChar8 *) &imageData[0],
+                                                    false);
 
                     // read buffer data into image
-                    glReadPixels(tx,ty,tw,th,
-                                 glformat,GL_UNSIGNED_BYTE,
-                                 pImage->getData());
+                    glReadPixels(tx, ty, tw, th, glformat, GL_UNSIGNED_BYTE,
+                                                     pImage->getData());
+
                     // bug maxsize is not big enugh
-                    data.resize(_imgTransType->maxBufferSize(*pImage)+1000);
-                    dataSize=_imgTransType->store(*pImage,
-                                                  (UChar8*)&data[0],
-                                                  data.size());
+                    data.resize(_imgTransType->maxBufferSize(*pImage) + 1000);
+                    dataSize = _imgTransType->store(*pImage, (UChar8 *) &data[0],
+                                                                        data.size());
                     connection.putValue(dataSize);
-                    connection.put(&data[0],dataSize);
-                    imgtranssize+=dataSize;
+                    connection.put(&data[0], dataSize);
+                    imgtranssize += dataSize;
 
                     subRefP(pImage);
                 }
                 else
                 {
-                    data.resize(tw*th*componentCnt);
+                    data.resize(tw * th * componentCnt);
+
                     // read buffer data
-                    glReadPixels(tx,ty,tw,th,
-                                 glformat,GL_UNSIGNED_BYTE,
-                                 &data[0]);
-                    dataSize=0;
+                    glReadPixels(tx, ty, tw, th, glformat, GL_UNSIGNED_BYTE,
+                                                     &data[0]);
+                    dataSize = 0;
                     connection.putValue(dataSize);
-                    connection.put(&data[0],tw*th*componentCnt);
-                    imgtranssize+=tw*th*componentCnt;
+                    connection.put(&data[0], tw * th * componentCnt);
+                    imgtranssize += tw * th * componentCnt;
                 }
             }
 
             connection.flush();
         }
     }
-    component=0;
+
+    component = 0;
     connection.putValue(component);
     connection.flush();
     connection.selectChannel();
@@ -370,70 +362,62 @@ void ClusterViewBuffer::send(Connection &connection,
  * \param toX          copy to this x position on destination buffer
  * \param toY          copy to this y position on destination buffer
  */
-void ClusterViewBuffer::send(Connection &connection,
-                             UInt32     component,
-                             UInt32     toX,
-                             UInt32     toY)
+void ClusterViewBuffer::send(Connection &connection, UInt32 component,
+                             UInt32 toX, UInt32 toY)
 {
-    send(connection,component,0,0,getBufferWidth(),getBufferHeight(),toX,toY);
+    send(connection, component, 0, 0, getBufferWidth(), getBufferHeight(), toX,
+             toY);
 }
 
-/*! Set compression type
- *
- * By default, no compression is used for image transmission. 
- * The given mime type identifies an ImageType e.g. "JPEG".
- * This image type is used for compression. 
- *
- * \param mimeType   Image mime type or NULL for no compression.
+/*-------------------------------------------------------------------------*/
+/*                            set parameters                               */
+
+/*! Set compression type. By default, no compression is used for image transmission. 
+ *  The given mime type identifies an ImageType e.g. "JPEG".
+ *  This image type is used for compression. 
  */
 void ClusterViewBuffer::setImgTransType(const char *mimeType)
 {
-    if(mimeType==NULL)
+    if(mimeType == NULL)
     {
-        _imgTransType=NULL;
+        _imgTransType = NULL;
     }
     else
     {
-        _imgTransType=ImageFileHandler::the().getFileType(mimeType);
+        _imgTransType = ImageFileHandler::the().getFileType(mimeType);
     }
 }
 
-/*! Set subtile size
- *
- * The whole buffer is transfered as small subtiles. Increasing or 
- * decreasing the subtile size will result in changes to the performance.
- * The best size depends on network package size and the ration 
- * between network performance and buffer read/write performance.
- *
- * \param size   Subtile size
+/*! Set subtile size. The whole buffer is transfered as small subtiles.
+    Increasing or decreasing the subtile size will result in changes to the
+    performance. The best size depends on network package size and the
+    ration between network performance and buffer read/write performance.
  */
 void ClusterViewBuffer::setSubtileSize(UInt32 size)
 {
-    _subTileSize=size;
+    _subTileSize = size;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                            get                                          */
+
 /*! Get buffer width
- *
- * \return current buffer width
  */
-UInt32 ClusterViewBuffer::getBufferWidth()
+UInt32 ClusterViewBuffer::getBufferWidth(void)
 {
-    GLint view[4];
-    glGetIntegerv(GL_VIEWPORT,view);
+    GLint   view[4];
+    glGetIntegerv(GL_VIEWPORT, view);
     return view[2];
 }
 
 /*! Get buffer width
- *
- * \return current buffer height
  */
-UInt32 ClusterViewBuffer::getBufferHeight()
+UInt32 ClusterViewBuffer::getBufferHeight(void)
 {
-    GLint view[4];
-    glGetIntegerv(GL_VIEWPORT,view);
+    GLint   view[4];
+    glGetIntegerv(GL_VIEWPORT, view);
     return view[3];
 }
-
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -441,14 +425,12 @@ UInt32 ClusterViewBuffer::getBufferHeight()
 #ifdef __sgi
 #pragma set woff 1174
 #endif
-
 #ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
+#pragma warning(disable : 177)
 #endif
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id:$";
-    static Char8 cvsid_hpp[] = OSG_VIEWBUFFERHANDLER_HEADER_CVSID;
+    static Char8    cvsid_cpp[] = "@(#)$Id:$";
+    static Char8    cvsid_hpp[] = OSG_VIEWBUFFERHANDLER_HEADER_CVSID;
 }
-

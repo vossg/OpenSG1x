@@ -53,7 +53,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
 {
     /*==========================  PUBLIC  =================================*/
   public:
-
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -65,7 +64,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
                           Real32  writePixelCost    = 1.0 /  20000000,
                const std::string &vendor            = "Unknown",
                const std::string &renderer          = "Unknown");
-
     RenderNode(const RenderNode &source);
 
     /*! \}                                                                 */
@@ -156,8 +154,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
     /*! \name                   helper                                     */
     /*! \{                                                                 */
 
-    double runFaceBench  (float w,int size );
-    double runRasterBench(void             );
+    double runFaceBench  ( float w,int size );
+    double runRasterBench( void             );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

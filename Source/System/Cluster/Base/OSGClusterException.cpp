@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *           Copyright (C) 2000-2002,2002 by the OpenSG Forum                *
+ *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,103 +36,60 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-OSG_BEGIN_NAMESPACE
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGClusterException.h"
 
-inline Real32 RenderNode::getVisibleFaceCost(void) const
-{
-    return _visibleFaceCost;
-}
+OSG_USING_NAMESPACE
 
-inline Real32 RenderNode::getInvisibleFaceCost(void) const
-{
-    return _invisibleFaceCost;
-}
+/** \class ClusterException
+ *  \ingroup GrpSystemCluster
+ *  \brief Indicate cluster exceptions
+ **/
 
-inline Real32 RenderNode::getDrawPixelCost(void) const
-{
-    return _drawPixelCost;
-}
-
-inline Real32 RenderNode::getReadPixelCost(void) const
-{
-    return _readPixelCost;
-}
-
-inline Real32 RenderNode::getWritePixelCost(void) const
-{
-    return _writePixelCost;
-}
-
-inline std::string RenderNode::getVendor(void) const
-{
-    return _vendor;
-}
-
-inline std::string RenderNode::getRenderer(void) const
-{
-    return _renderer;
-}
-
-inline void RenderNode::setVisibleFaceCost(Real32 value)
-{
-    _visibleFaceCost=value;
-}
-
-inline void RenderNode::setInvisibleFaceCost(Real32 value)
-{
-    _invisibleFaceCost=value;
-}
-
-inline void RenderNode::setDrawPixelCost(Real32 value)
-{
-    _drawPixelCost=value;
-}
-
-inline void RenderNode::setReadPixelCost(Real32 value)
-{
-    _readPixelCost=value;
-}
-
-inline void RenderNode::setWritePixelCost(Real32 value)
-{
-    _writePixelCost=value;
-}
-
-/*! set vendor string of the graphics board
+/*! Constructor. Add ClusterLib to the error text
  */
-inline void RenderNode::setVendor(const std::string &value)
+ClusterException::ClusterException():Exception()
 {
-    _vendor=value;
+    _what += "ClusterLib: ";
 }
 
-/*! set renderer string of the graphics board
+/** \class ConnectionClosed
+ *  \ingroup GrpSystemCluster
+ *  \brief Indicate close of connecitons
+ **/
+
+/*! Constructor. Add error text.
  */
-inline void RenderNode::setRenderer(const std::string &value)
+ConnectionClosed::ConnectionClosed():ClusterException()
 {
-    _renderer=value;
+    _what += "Connection closed by endpoint. ";
 }
 
-/*! Estimate rendering performance. Facesetup end rasterisation is done
- *  in parallel on most hardware plattforms. So we use the maximum of 
- *  face cost and rasterisation cost.
+/** \class RemoteSyncError
+ *  \ingroup GrpSystemCluster
+ *  \brief Indicate error in sync data stream
+ **/
+
+/*! Constructor. Add error text.
  */
-inline Real32 RenderNode::estimatePerformance(Real32 invisibleFaces,
-                                              Real32 visibleFaces,
-                                              Real32 pixel         ) const
+RemoteSyncError::RemoteSyncError():ClusterException()
 {
-    return 
-        ( invisibleFaces * _invisibleFaceCost ) +
-        osgMax( ( visibleFaces   * _visibleFaceCost   ), 
-                ( pixel          * _drawPixelCost     ) );
+    _what += "Error in synchronisation data stream. ";
 }
 
-OSG_END_NAMESPACE
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
-#define OSG_CLUSTERNODE_INLINE_CVSID "@(#)$Id:$"
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
 
-
-
-
-
-
-
+namespace
+{
+    static Char8    cvsid_cpp[] = "@(#)$Id:$";
+    static Char8    cvsid_hpp[] = OSGCLUSTEREXCEPTION_HEADER_CVSID;
+}

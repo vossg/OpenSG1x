@@ -36,10 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -86,7 +82,7 @@ OSG_USING_NAMESPACE
  * \param servicePort     port to wait for connections
  *
  */
-ClusterServer::ClusterServer(           WindowPtr  window,
+ClusterServer::ClusterServer(        WindowPtr    window,
                              const std::string    &serviceName,
                              const std::string    &connectionType,
                              const std::string    &address,
@@ -107,17 +103,15 @@ ClusterServer::ClusterServer(           WindowPtr  window,
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor
- *
- * Disconnect from all connected rendering servers
+/*! Destructor. Disconnect from all connected rendering servers
  */
 ClusterServer::~ClusterServer(void)
 {
     try
     {
-        if(_clusterWindow!=NullFC)
+        if(_clusterWindow != NullFC)
         {
-            _clusterWindow=NullFC;
+            _clusterWindow = NullFC;
         }
         if(_connection)
             delete _connection;
@@ -299,21 +293,19 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
     return true;
 }
 
-/*!
- * Tell address of server requested over broadcast. A clusterServer
- * instance is given as parameter.
+/*! Tell address of server requested over broadcast. A clusterServer
+ *  instance is given as parameter.
  *
- * serviceProc is a static class function that is processed in a
- * seperate thread. It tells all requesting clients on which
- * network address this server is waiting for connecitons.
+ *  serviceProc is a static class function that is processed in a
+ *  seperate thread. It tells all requesting clients on which
+ *  network address this server is waiting for connecitons.
  *
- * We do this in a thread because not all network types are
- * able to set a timeout for accept. The service thread tells
- * clients the address on wich the accept is expected.
- * After a successful connection the service thread will be
- * termnated.
+ *  We do this in a thread because not all network types are
+ *  able to set a timeout for accept. The service thread tells
+ *  clients the address on wich the accept is expected.
+ *  After a successful connection the service thread will be
+ *  termnated.
  */
-
 void ClusterServer::serviceProc(void *arg)
 {
     ClusterServer *server = static_cast<ClusterServer *>(arg);

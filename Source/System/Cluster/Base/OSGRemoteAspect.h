@@ -43,10 +43,6 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <map>
 #include <set>
 #include <OSGSystemDef.h>
@@ -76,10 +72,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
         ADDREFED  =6,
         SUBREFED  =7
     };
+
     /** functor called for changed containers **/
-
     typedef ArgsCollector<RemoteAspect *> FunctorArgs;
-
     typedef TypedFunctor2Base<bool, 
                               CPtrRefCallArg<FieldContainerPtr>, 
                               FunctorArgs                      > Functor;
@@ -104,28 +99,31 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     /*! \name                   Remote aspect functionaliy                 */
     /*! \{                                                                 */
 
-    void receiveSync       ( Connection &connection,
-                             bool applyToChangelist=false   );
-    void sendSync          ( Connection &connection,
-                             ChangeList *changeList=NULL    );
-    void registerCreated   ( const FieldContainerType &type, 
-                             const Functor &func            );
-    void registerDestroyed ( const FieldContainerType &type, 
-                             const Functor &func            );
-    void registerChanged   ( const FieldContainerType &type, 
-                             const Functor &func            );
+    void receiveSync      ( Connection &connection,
+                            bool applyToChangelist=false   );
+    void sendSync         ( Connection &connection,
+                            ChangeList *changeList=NULL    );
+    void registerCreated  ( const FieldContainerType &type, 
+                            const Functor &func            );
+    void registerDestroyed( const FieldContainerType &type, 
+                            const Functor &func            );
+    void registerChanged  ( const FieldContainerType &type, 
+                            const Functor &func            );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Statistics                                 */
     /*! \{                                                                 */
 
-    void           setStatistics(StatCollector * stat  );
+    void setStatistics( StatCollector * stat );
 
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
+    /*---------------------------------------------------------------------*/
+    /*! \name                   member                                     */
+    /*! \{                                                                 */
 
     /** remote id to fieldcontainer mapping **/
     ReceivedFCT                       _receivedFC;
@@ -142,38 +140,39 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     std::vector<Functor>              _changedFunctors;
     StatCollector                    *_statistics;
     
-    void   send          ( Connection &connection    );
-    void   receive       ( Connection &connection    );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 protected helper functions                   */
+    /*! \{                                                                 */
+
     bool   callCreated   ( FieldContainerPtr &node   );
     bool   callDestroyed ( FieldContainerPtr &node   );
     bool   callChanged   ( FieldContainerPtr &node   );
 
+    /*! \}                                                                 */
+
     /*==========================  PRIVATE  ================================*/
   private:
-
-    friend class RemoteAspectFieldContainerMapper;
-	static char cvsid[];
-
-    static bool _defaultCreatedFunction(FieldContainerPtr& fcp,
-                                                      RemoteAspect * aspect);
+    /*---------------------------------------------------------------------*/
+    /*! \name                 static elements                              */
+    /*! \{                                                                 */
+    static bool _defaultCreatedFunction  (FieldContainerPtr& fcp,
+                                          RemoteAspect * aspect);
     static bool _defaultDestroyedFunction(FieldContainerPtr& fcp,
-                                                      RemoteAspect * aspect);
-    static bool _defaultChangedFunction(FieldContainerPtr& fcp,
-                                                      RemoteAspect * aspect);
+                                          RemoteAspect * aspect);
+    static bool _defaultChangedFunction  (FieldContainerPtr& fcp,
+                                          RemoteAspect * aspect);
 
     static StatElemDesc<StatTimeElem> statSyncTime;
+    /*! \}                                                                 */
 
+    friend class RemoteAspectFieldContainerMapper;
 	// prohibit default functions (move to 'public' if you need one)
     RemoteAspect(const RemoteAspect &source);
     RemoteAspect &operator =(const RemoteAspect &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 // class pointer
-
 typedef RemoteAspect *RemoteAspectP;
 
 struct RemoteAspectFieldContainerMapper:public FieldContainerMapper
@@ -183,5 +182,7 @@ struct RemoteAspectFieldContainerMapper:public FieldContainerMapper
 };
 
 OSG_END_NAMESPACE
+
+#define OSGREMOTEASPECT_HEADER_CVSID "@(#)$Id:$"
 
 #endif /* _REMOTEASPECT_H_ */

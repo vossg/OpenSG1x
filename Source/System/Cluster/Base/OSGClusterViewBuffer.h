@@ -71,50 +71,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     typedef std::vector<Int8> BufferT;
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name          Constructors / Destructor                           */
     /*! \{                                                                 */
 
     ClusterViewBuffer(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
     virtual ~ClusterViewBuffer(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Get                                     */
+    /*! \name                 send/recv                                    */
     /*! \{                                                                 */
+
+    void recv( Connection &connection );
+    void send( Connection &connection,
+               UInt32      component,
+               UInt32      x1,
+               UInt32      y1,
+               UInt32      x2,
+               UInt32      y2,
+               UInt32      toX,
+               UInt32      toY        );
+    void send( Connection &connection,
+               UInt32      component,
+               UInt32      toX,
+               UInt32      toY        );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                      Set                                     */
+    /*! \name                 set parameters                               */
     /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   functions                                  */
-    /*! \{                                                                 */
-
-    void recv       (Connection &connection);
-
-    void send       (Connection &connection,
-                     UInt32     component,
-                     UInt32     x1,
-                     UInt32     y1,
-                     UInt32     x2,
-                     UInt32     y2,
-                     UInt32     toX,
-                     UInt32     toY);
-    void send       (Connection &connection,
-                     UInt32     component,
-                     UInt32     toX,
-                     UInt32     toY);
 
     void   setImgTransType(const char *mime=NULL);
     void   setSubtileSize(UInt32 size);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    get                                       */
+    /*! \{                                                                 */
 
     UInt32 getBufferWidth();
     UInt32 getBufferHeight();
@@ -122,7 +115,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
     /*---------------------------------------------------------------------*/
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
@@ -140,12 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterViewBuffer
     void operator =(const ClusterViewBuffer &source);
 };
 
-//---------------------------------------------------------------------------
-//   Exported Types
-//---------------------------------------------------------------------------
-
 // class pointer
-
 typedef ClusterViewBuffer *ClusterViewBufferP;
 
 OSG_END_NAMESPACE

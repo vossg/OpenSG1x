@@ -43,59 +43,36 @@
 #pragma once
 #endif
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
-
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGException.h>
 
 OSG_BEGIN_NAMESPACE
 
-/** \class ClusterException
- *  \ingroup GrpSystemCluster
- *  \brief Indicate cluster exceptions
- **/
-
 class OSG_SYSTEMLIB_DLLMAPPING ClusterException : public Exception 
 {
+    /*==========================  PUBLIC  =================================*/
 public:
-    ClusterException():Exception()
-    {
-        _what += "ClusterLib: ";
-    }
+    ClusterException();
 };
-
-/** \class ConnectionClosed
- *  \ingroup GrpSystemCluster
- *  \brief Indicate close of connecitons
- **/
 
 class OSG_SYSTEMLIB_DLLMAPPING ConnectionClosed : public ClusterException
 {
+    /*==========================  PUBLIC  =================================*/
 public:
-    ConnectionClosed():ClusterException()
-    {
-        _what += "Connection closed by endpoint. ";
-    }
+    ConnectionClosed();
 };
-
-/** \class RemoteSyncError
- *  \ingroup GrpSystemCluster
- *  \brief Indicate error in sync data stream
- **/
 
 class OSG_SYSTEMLIB_DLLMAPPING RemoteSyncError : public ClusterException
 {
+    /*==========================  PUBLIC  =================================*/
 public:
-    RemoteSyncError():ClusterException()
-    {
-        _what += "Error in synchronisation data stream. ";
-    }
+    RemoteSyncError();
 };
 
 OSG_END_NAMESPACE
+
+#define OSGCLUSTEREXCEPTION_HEADER_CVSID "@(#)$Id:$"
 
 #endif 
 

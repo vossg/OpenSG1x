@@ -36,9 +36,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-//---------------------------------------------------------------------------
-//  Includes
-//---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -65,31 +62,15 @@ OSG_USING_NAMESPACE
  * are send to a Connection.
  **/
 
-/***************************************************************************\
- *                           Class variables                               *
-\***************************************************************************/
+StatElemDesc<StatTimeElem> RemoteAspect::statSyncTime
+    ("remoteSyncTime", "time for scenegraph distribution");
 
-/** cvsid **/
-char RemoteAspect::cvsid[] = "@(#)$Id: OSGRemoteAspect.cpp,v 1.1 2001/08/12 20:34:25 dirk Exp $";
-
-StatElemDesc<StatTimeElem>  
-RemoteAspect::statSyncTime ("remoteSyncTime", 
-                            "time for scenegraph distribution");
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-/*------------- constructors & destructors --------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                            constructor destructor                       */
 
 /*! Constructor
  */
-
-RemoteAspect::RemoteAspect():
+RemoteAspect::RemoteAspect(void) :
     _receivedFC(),
     _receivedType(),
     _sentType(),
@@ -99,65 +80,59 @@ RemoteAspect::RemoteAspect():
     _changedFunctors(),
     _statistics(NULL)
 {
-    FieldContainerFactory::TypeMapIterator typeI;
+    FieldContainerFactory::TypeMapIterator  typeI;
 
     // initialize field filter
-    _fieldFilter[Geometry::getClassType().getId()] 
-    = Geometry::GLIdFieldMask;
-    _fieldFilter[TextureChunk::getClassType().getId()] 
-    = TextureChunk::GLIdFieldMask;
+    _fieldFilter[Geometry::getClassType().getId()] = Geometry::GLIdFieldMask;
+    _fieldFilter[TextureChunk::getClassType().getId()] = TextureChunk::GLIdFieldMask;
 
-    for(typeI =FieldContainerFactory::the()->beginTypes();
-        typeI!=FieldContainerFactory::the()->endTypes();
-        ++typeI)
+    for(typeI = FieldContainerFactory::the()->beginTypes();
+            typeI != FieldContainerFactory::the()->endTypes(); ++typeI)
     {
         if(typeI->second->isDerivedFrom(Window::getClassType()))
         {
-            _fieldFilter[typeI->second->getId()] = 
-                Window::GlObjectEventCounterFieldMask |
+            _fieldFilter[typeI->second->getId()
+                    ] = Window::GlObjectEventCounterFieldMask |
                 Window::GlObjectLastRefreshFieldMask |
                 Window::GlObjectLastReinitializeFieldMask;
         }
     }
 }
 
-/** \brief Destructor
+/*! Destructor
  */
-
 RemoteAspect::~RemoteAspect(void)
 {
-    FieldContainerFactory *factory=FieldContainerFactory::the();
-    ReceivedFCT::iterator i;
-    FieldContainerPtr fcPtr;
-    NodePtr node;
+    FieldContainerFactory   *factory = FieldContainerFactory::the();
+    ReceivedFCT::iterator   i;
+    FieldContainerPtr       fcPtr;
+    NodePtr                 node;
 
     // subRef received field container
-    for(i =_receivedFC.begin();
-        i!=_receivedFC.end();
-        i++)
+    for(i = _receivedFC.begin(); i != _receivedFC.end(); i++)
     {
-        fcPtr=factory->getContainer(i->second);
+        fcPtr = factory->getContainer(i->second);
         if(fcPtr != NullFC)
         {
             callDestroyed(fcPtr);
 
             // currently it is not save to subref all
-            // containers because we don't know whether 
+            // containers because we don't know whether
             // they are referenced by other nodes.
             // It's only save to remove nodes without parents
-            node=NodePtr::dcast(fcPtr);
-            if(node!=NullFC)
+            node = NodePtr::dcast(fcPtr);
+            if(node != NullFC)
             {
-                if(node->getParent()==NullFC)
+                if(node->getParent() == NullFC)
                 {
                     do
                     {
                         subRefCP(fcPtr);
-                        fcPtr=factory->getContainer(i->second);
-                    }
-                    while(fcPtr!=NullFC);
+                        fcPtr = factory->getContainer(i->second);
+                    } while(fcPtr != NullFC);
                 }
             }
+
             /*
             // subref twice because we have two addrefs on reate
             // It is not possible to subref until the node is removed
@@ -171,6 +146,9 @@ RemoteAspect::~RemoteAspect(void)
     }
 }
 
+/*-------------------------------------------------------------------------*/
+/*                          Remote aspect functionaliy                     */
+
 /*! <EM>receiveSync</EM> reads changes from the given connection and
  *  applies them to the current thread aspect.
  *  Functors for registered types are called, if they occure in the
@@ -178,71 +156,77 @@ RemoteAspect::~RemoteAspect(void)
  * 
  *  \see registerCreated registerChanged registerDeleted
  */
-void RemoteAspect::receiveSync(Connection &connection,
-                               bool applyToChangelist)
+void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
 {
-    bool finish=false;
-    UInt8  cmd;
-    UInt32 remoteTypeId;
-    UInt32 localTypeId;
-    UInt32 remoteId;
-    std::string name;
-    FieldContainerFactory *factory=FieldContainerFactory::the();
-    FieldContainerType *fcType;
-    FieldContainerPtr fcPtr;
-    BitVector mask;
-    RemoteAspectFieldContainerMapper mapper;
-    ReceivedTypeT::iterator receivedTypeI;
-    ReceivedFCT::iterator receivedFCI;
+    bool                                finish = false;
+    UInt8                               cmd;
+    UInt32                              remoteTypeId;
+    UInt32                              localTypeId;
+    UInt32                              remoteId;
+    std::string                         name;
+    FieldContainerFactory               *factory = FieldContainerFactory::the();
+    FieldContainerType                  *fcType;
+    FieldContainerPtr                   fcPtr;
+    BitVector                           mask;
+    RemoteAspectFieldContainerMapper    mapper;
+    ReceivedTypeT::iterator             receivedTypeI;
+    ReceivedFCT::iterator               receivedFCI;
 
     if(_statistics)
+    {
         _statistics->getElem(statSyncTime)->start();
+    }
 
     connection.selectChannel();
+
     // register mapper into factory
-    mapper._remoteAspect=this;
+    mapper._remoteAspect = this;
     factory->setMapper(&mapper);
     do
     {
         connection.getValue(cmd);
         switch(cmd)
         {
-            case NEWTYPE:
+        case NEWTYPE:
             {
                 connection.getValue(remoteTypeId);
                 connection.getValue(name);
+
                 // find local type
-                fcType=FieldContainerFactory::the()->findType(name.c_str());
+                fcType = FieldContainerFactory::the()->findType(name.c_str());
                 if(!fcType)
                 {
-                    SWARNING << "Unknown Type: " << name << std::endl; 
+                    SWARNING << "Unknown Type: " << name << std::endl;
                 }
                 else
                 {
-                    localTypeId=FieldContainerFactory::the()->
-                        findType(name.c_str())->getId();
+                    localTypeId = FieldContainerFactory::the()->findType(name.c_str())->getId();
+
                     // insert remote type id into map
-                    _receivedType[remoteTypeId]=localTypeId;
+                    _receivedType[remoteTypeId] = localTypeId;
                 }
                 break;
             }
-            case CREATED:
+
+        case CREATED:
             {
                 connection.getValue(remoteTypeId);
                 connection.getValue(remoteId);
-                receivedTypeI=_receivedType.find(remoteTypeId);
+                receivedTypeI = _receivedType.find(remoteTypeId);
                 if(receivedTypeI == _receivedType.end())
                 {
-                    SWARNING << "Unknown TypeID: " 
-                             << remoteTypeId 
-                             << std::endl; 
+                    SWARNING <<
+                        "Unknown TypeID: " <<
+                        remoteTypeId <<
+                        std::endl;
                 }
                 else
                 {
-                    localTypeId=receivedTypeI->second;
-                    fcType=factory->findType(localTypeId);
-                    fcPtr=fcType->createFieldContainer();
-                    _receivedFC[remoteId]=fcPtr.getFieldContainerId();
+                    localTypeId = receivedTypeI->second;
+                    fcType = factory->findType(localTypeId);
+                    fcPtr = fcType->createFieldContainer();
+                    _receivedFC[remoteId] = fcPtr.getFieldContainerId();
+
                     // make shure, client will not subref to zero
                     addRefCP(fcPtr);
                     addRefCP(fcPtr);
@@ -250,63 +234,66 @@ void RemoteAspect::receiveSync(Connection &connection,
                 }
                 break;
             }
-            case DESTROYED:
+
+        case DESTROYED:
             {
                 connection.getValue(remoteId);
-                receivedFCI=_receivedFC.find(remoteId);
+                receivedFCI = _receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SWARNING << "Can't destroy unknown FC:" 
-                             << remoteId 
-                             << std::endl; 
+                    SWARNING <<
+                        "Can't destroy unknown FC:" <<
+                        remoteId <<
+                        std::endl;
                 }
                 else
                 {
-                    UInt32 id=receivedFCI->second;
+                    UInt32  id = receivedFCI->second;
                     _receivedFC.erase(receivedFCI);
-                    fcPtr=factory->getContainer(id);
-                    if(fcPtr!=NullFC)
+                    fcPtr = factory->getContainer(id);
+                    if(fcPtr != NullFC)
                     {
                         callDestroyed(fcPtr);
 
                         // first subref because if on the client side
                         // the refcount gets zero, then no subref is
                         // added to the changelist
-
                         // then refcount is 0 or 1
                         // 0 if addRef never was called for this fc
                         // 1 if one or more times addRef was called
                         do
                         {
                             subRefCP(fcPtr);
-                            fcPtr=factory->getContainer(id);
-                        }
-                        while(fcPtr!=NullFC);
+                            fcPtr = factory->getContainer(id);
+                        } while(fcPtr != NullFC);
                     }
                 }
                 break;
             }
-            case CHANGED:
+
+        case CHANGED:
             {
-                UInt32 maskUInt32;
+                UInt32  maskUInt32;
                 connection.getValue(remoteId);
                 connection.getValue(maskUInt32);
-                mask=maskUInt32;
-                receivedFCI=_receivedFC.find(remoteId);
+                mask = maskUInt32;
+                receivedFCI = _receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    SFATAL << "Can't change unknown FC:" 
-                           << remoteId 
-                           << std::endl; 
+                    SFATAL <<
+                        "Can't change unknown FC:" <<
+                        remoteId <<
+                        std::endl;
                     throw RemoteSyncError();
                 }
                 else
                 {
-                    fcPtr=factory->getContainer(receivedFCI->second);
+                    fcPtr = factory->getContainer(receivedFCI->second);
                     if(applyToChangelist)
                     {
-                        beginEditCP(fcPtr,mask);
+                        beginEditCP(fcPtr, mask);
                     }
+
                     /*
                     for(int i=0;i<fcPtr->getType().getNumFieldDescs();i++)
                     {
@@ -315,154 +302,166 @@ void RemoteAspect::receiveSync(Connection &connection,
                             cout<< "changed field: " << desc->getName() << std::endl;
                     }
                     */
-                    fcPtr->copyFromBin(connection,mask);
+                    fcPtr->copyFromBin(connection, mask);
                     if(applyToChangelist)
                     {
-                        endEditCP(fcPtr,mask);
+                        endEditCP(fcPtr, mask);
                     }
                     else
                     {
                         // do we need to call this?
-                        changedCP(fcPtr,mask);
+                        changedCP(fcPtr, mask);
                     }
+
                     callChanged(fcPtr);
                 }
                 break;
             }
-            case SYNCENDED:
+
+        case SYNCENDED:
             {
-                finish=true;
+                finish = true;
                 break;
             }
-            case ADDREFED:
+
+        case ADDREFED:
             {
                 connection.getValue(remoteId);
-                receivedFCI=_receivedFC.find(remoteId);
+                receivedFCI = _receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    FDEBUG(("Can't addref unknown FC:%d\n", remoteId)); 
+                    FDEBUG(("Can't addref unknown FC:%d\n", remoteId));
                 }
                 else
                 {
-                    fcPtr=factory->getContainer(receivedFCI->second);
-                    FDEBUG (( "AddRef: %s ID:%d\n",
-                              fcPtr->getType().getName().str(),
-                              fcPtr.getFieldContainerId() ))
+                    fcPtr = factory->getContainer(receivedFCI->second);
+                    FDEBUG(("AddRef: %s ID:%d\n", 
+                            fcPtr->getType().getName().str(),
+                            fcPtr.getFieldContainerId())) 
                     addRefCP(fcPtr);
                 }
                 break;
             }
-            case SUBREFED:
+
+        case SUBREFED:
             {
                 connection.getValue(remoteId);
-                receivedFCI=_receivedFC.find(remoteId);
+                receivedFCI = _receivedFC.find(remoteId);
                 if(receivedFCI == _receivedFC.end())
                 {
-                    FDEBUG(("Can't subref unknown FC:%d\n", remoteId)); 
+                    FDEBUG(("Can't subref unknown FC:%d\n", remoteId));
                 }
                 else
                 {
-                    fcPtr=factory->getContainer(receivedFCI->second);
-                    FDEBUG (( "SubRef: %s ID:%d\n",
-                              fcPtr->getType().getName().str(),
-                              fcPtr.getFieldContainerId() ))
-#if 0                        
-        //ignore until solution is found for subrefs in destructors
+                    fcPtr = factory->getContainer(receivedFCI->second);
+                    FDEBUG(("SubRef: %s ID:%d\n", 
+                            fcPtr->getType().getName().str(),
+                            fcPtr.getFieldContainerId()))
+#if 0
+                    //ignore until solution is found for subrefs in destructors
                     subRefCP(fcPtr);
 #endif
                 }
                 break;
             }
-            default:
+        default:
             {
-                SFATAL << "Unknown tag:" << (int)cmd << std::endl;
+                SFATAL << "Unknown tag:" << (int) cmd << std::endl;
                 throw RemoteSyncError();
             }
         }
-    } while(!finish);
+    } 
+    while(!finish);
+
     // unregister mapper into factory
     factory->setMapper(NULL);
 
     if(_statistics)
+    {
         _statistics->getElem(statSyncTime)->stop();
+    }
 }
 
 /*! All changes from changeList are send to the connecteion except 
  *  the fields which are filtered. Filters are used to avoid transmission
  *  of local states. e.g. GL variables. 
  */
-void RemoteAspect::sendSync(Connection &connection,
-                            ChangeList *changeList)
+void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
 {
-    ChangeList::changed_const_iterator changedI;
-    ChangeList::idrefd_const_iterator  createdI;
-    ChangeList::idrefd_const_iterator  destroyedI;
-    ChangeList::refd_const_iterator    addRefedI;
-    ChangeList::refd_const_iterator    subRefedI;
-    FieldFilterT::iterator filterI;
-    FieldContainerFactory *fcFactory = FieldContainerFactory::the();
-    FieldContainerPtr fcPtr;
-    UInt32 typeId;
-    BitVector mask;
-    UInt32 maskUInt32;
-    UInt8 cmd;
-    std::string typeName;
-    FieldMaskMapT::iterator sentFCI;
-    FieldMaskMapT changedMap;
-    FieldMaskMapT::iterator changedMapI;
+    ChangeList::changed_const_iterator  changedI;
+    ChangeList::idrefd_const_iterator   createdI;
+    ChangeList::idrefd_const_iterator   destroyedI;
+    ChangeList::refd_const_iterator     addRefedI;
+    ChangeList::refd_const_iterator     subRefedI;
+    FieldFilterT::iterator              filterI;
+    FieldContainerFactory               *fcFactory = FieldContainerFactory::the();
+    FieldContainerPtr                   fcPtr;
+    UInt32                              typeId;
+    BitVector                           mask;
+    UInt32                              maskUInt32;
+    UInt8                               cmd;
+    std::string                         typeName;
+    FieldMaskMapT::iterator             sentFCI;
+    FieldMaskMapT                       changedMap;
+    FieldMaskMapT::iterator             changedMapI;
 
     if(_statistics)
+    {
         _statistics->getElem(statSyncTime)->start();
+    }
 
     if(!changeList)
     {
-        changeList=OSG::Thread::getCurrentChangeList();
+        changeList = OSG::Thread::getCurrentChangeList();
     }
 
     // created fct
-    for(createdI =changeList->beginCreated() ;
-        createdI!=changeList->endCreated() ;
-        createdI++)
+    for(createdI = changeList->beginCreated();
+            createdI != changeList->endCreated(); createdI++)
     {
-        fcPtr=fcFactory->getContainer(*createdI);
+        fcPtr = fcFactory->getContainer(*createdI);
         if(fcPtr == NullFC)
         {
             continue;
         }
+
         typeId = fcPtr->getTypeId();
+
         // type unknown by remote context ?
-        if(_sentType.count(typeId)==0)
+        if(_sentType.count(typeId) == 0)
         {
             // mark type as known
             _sentType.insert(typeId);
+
             // send new type
-            cmd=NEWTYPE;
-            typeName=fcPtr->getType().getName().str();
+            cmd = NEWTYPE;
+            typeName = fcPtr->getType().getName().str();
             connection.putValue(cmd);
             connection.putValue(typeId);
             connection.putValue(typeName);
         }
+
         // send container to create
-        _sentFC[*createdI]=0;
-        cmd=CREATED;
+        _sentFC[*createdI] = 0;
+        cmd = CREATED;
         connection.putValue(cmd);
         connection.putValue(typeId);
         connection.putValue(*createdI);
     }
 
     // destroy fct
-    for(destroyedI =changeList->beginDestroyed() ;
-        destroyedI!=changeList->endDestroyed() ;
-        destroyedI++)
+    for(destroyedI = changeList->beginDestroyed();
+            destroyedI != changeList->endDestroyed(); destroyedI++)
     {
-        UInt32 id=(*destroyedI);
+        UInt32  id = (*destroyedI);
+
         // is it a known container
-        sentFCI=_sentFC.find(id);
+        sentFCI = _sentFC.find(id);
         if(sentFCI != _sentFC.end())
         {
             // remove from known containers
             _sentFC.erase(sentFCI);
-            cmd=DESTROYED;
+            cmd = DESTROYED;
             connection.putValue(cmd);
             connection.putValue(id);
         }
@@ -471,91 +470,98 @@ void RemoteAspect::sendSync(Connection &connection,
     // changed fields
     // first create a condensed map, where each container is stored
     // only once
-    for(changedI =changeList->beginChanged() ;
-        changedI!=changeList->endChanged() ;
-        changedI++)
+    for(changedI = changeList->beginChanged();
+            changedI != changeList->endChanged(); changedI++)
     {
-        changedMapI=changedMap.find(changedI->first);
-        if(changedMapI==changedMap.end())
-            changedMap.insert(std::pair<UInt32,BitVector>(
-                                  changedI->first,changedI->second));
+        changedMapI = changedMap.find(changedI->first);
+        if(changedMapI == changedMap.end())
+        {
+            changedMap.insert(std::pair < UInt32,
+                                          BitVector > (changedI->first, changedI->second));
+        }
         else
-            changedMapI->second|=changedI->second;
+        {
+            changedMapI->second |= changedI->second;
+        }
     }
-    for(FieldMaskMapT::iterator condensedI=changedMap.begin();
-        condensedI != changedMap.end();
-        ++condensedI)
+
+    for(FieldMaskMapT::iterator condensedI = changedMap.begin();
+            condensedI != changedMap.end(); ++condensedI)
     {
-        sentFCI=_sentFC.find(condensedI->first);
+        sentFCI = _sentFC.find(condensedI->first);
+
         // ignore changes for not transmitted fieldcontainers
         if(sentFCI == _sentFC.end())
             continue;
-        FieldContainerPtr fcPtr = 
-            FieldContainerFactory::the()->getContainer(condensedI->first);
+
+        FieldContainerPtr   fcPtr = FieldContainerFactory::the()->getContainer(condensedI->first);
+
         // ignore removed containers
         if(fcPtr == NullFC)
             continue;
         mask = condensedI->second;
-        filterI=_fieldFilter.find(fcPtr->getType().getId());
+        filterI = _fieldFilter.find(fcPtr->getType().getId());
+
         // apply field filter
         if(filterI != _fieldFilter.end())
         {
-            FDEBUG (( "SyncFieldFilter: :%s \n",
-                      fcPtr->getType().getName().str() ))
-            mask &= 0xFFFFFFFF ^ filterI->second;
+            FDEBUG(("SyncFieldFilter: :%s \n", fcPtr->getType().getName().str()
+                           )) mask &= 0xFFFFFFFF ^ filterI->second;
         }
+
         if(mask)
         {
             // send changes
-            maskUInt32=mask;
-            condensedI->second|=mask;
-            cmd=CHANGED;
+            maskUInt32 = mask;
+            condensedI->second |= mask;
+            cmd = CHANGED;
             connection.putValue(cmd);
-            connection.putValue(condensedI->first);   // id
-            connection.putValue(maskUInt32);          // mask
-            fcPtr->copyToBin(connection,mask);
-            FDEBUG (( "Changed: %s ID:%d Mask:%d\n",
-                      fcPtr->getType().getName().str(),
-                      fcPtr.getFieldContainerId(),
-                      mask ))
+            connection.putValue(condensedI->first); // id
+            connection.putValue(maskUInt32);        // mask
+            fcPtr->copyToBin(connection, mask);
+            FDEBUG(("Changed: %s ID:%d Mask:%d\n", fcPtr->getType().getName()
+                                   .str(), fcPtr.getFieldContainerId(), mask))
         }
     }
 
     // addref
-    for(addRefedI =changeList->beginAddRefd();
-        addRefedI!=changeList->endAddRefd();
-        addRefedI++)
+    for(addRefedI = changeList->beginAddRefd();
+            addRefedI != changeList->endAddRefd(); addRefedI++)
     {
-        UInt32 id=(*addRefedI);
+        UInt32  id = (*addRefedI);
+
         // ignore subrefs for unknown fcs
         if(_sentFC.find(id) == _sentFC.end())
             continue;
-        cmd=ADDREFED;
+        cmd = ADDREFED;
         connection.putValue(cmd);
         connection.putValue(id);
     }
 
     // subref
-    for(subRefedI =changeList->beginSubRefd();
-        subRefedI!=changeList->endSubRefd();
-        subRefedI++)
+    for(subRefedI = changeList->beginSubRefd();
+            subRefedI != changeList->endSubRefd(); subRefedI++)
     {
-        UInt32 id=(*subRefedI);
+        UInt32  id = (*subRefedI);
+
         // ignore addrefs for unknown fcs
         if(_sentFC.find(id) == _sentFC.end())
             continue;
-        cmd=SUBREFED;
+        cmd = SUBREFED;
         connection.putValue(cmd);
         connection.putValue(id);
     }
 
-    cmd=SYNCENDED;
+    cmd = SYNCENDED;
     connection.putValue(cmd);
-    // write buffer 
+
+    // write buffer
     connection.flush();
 
     if(_statistics)
+    {
         _statistics->getElem(statSyncTime)->stop();
+    }
 }
 
 /*! The given functor is called when a create of the specified type
@@ -563,18 +569,17 @@ void RemoteAspect::sendSync(Connection &connection,
  *
  *  \see receiveSync
  */
-void RemoteAspect::registerCreated(const FieldContainerType &type, 
+void RemoteAspect::registerCreated(const FieldContainerType &type,
                                    const Functor &func)
 {
-    while ( type.getId() >= _createdFunctors.size() )
+    while(type.getId() >= _createdFunctors.size())
     {
-        _createdFunctors.push_back(
-            osgTypedFunctionFunctor2CPtrRef<bool,
-                                             FieldContainerPtr,
-                                             RemoteAspect     *>(
-                                                 &_defaultCreatedFunction));
+        _createdFunctors.push_back(osgTypedFunctionFunctor2CPtrRef < bool,
+                                           FieldContainerPtr,
+                                           RemoteAspect * > (&_defaultCreatedFunction));
     }
-    _createdFunctors[ type.getId() ] = func;
+
+    _createdFunctors[type.getId()] = func;
 }
 
 /*! The given functor is called when a destroy of the specified type
@@ -582,18 +587,16 @@ void RemoteAspect::registerCreated(const FieldContainerType &type,
  *
  *  \see receiveSync
  */
-void RemoteAspect::registerDestroyed(const FieldContainerType &type, 
+void RemoteAspect::registerDestroyed(const FieldContainerType &type,
                                      const Functor &func)
 {
-    while ( type.getId() >= _destroyedFunctors.size() )
+    while(type.getId() >= _destroyedFunctors.size())
     {
-        _destroyedFunctors.push_back(
-            osgTypedFunctionFunctor2CPtrRef<bool,
-                                            FieldContainerPtr,
-                                            RemoteAspect     *>(
-                                                &_defaultDestroyedFunction));
+        _destroyedFunctors.push_back(osgTypedFunctionFunctor2CPtrRef < bool,
+                                             FieldContainerPtr, RemoteAspect * > (&_defaultDestroyedFunction));
     }
-    _destroyedFunctors[ type.getId() ] = func;
+
+    _destroyedFunctors[type.getId()] = func;
 }
 
 /*! The given functor is called when a change of the specified type
@@ -601,46 +604,50 @@ void RemoteAspect::registerDestroyed(const FieldContainerType &type,
  *
  *  \see receiveSync
  */
-void RemoteAspect::registerChanged(const FieldContainerType &type, 
+void RemoteAspect::registerChanged(const FieldContainerType &type,
                                    const Functor &func)
 {
-    while ( type.getId() >= _changedFunctors.size() )
+    while(type.getId() >= _changedFunctors.size())
     {
-        _changedFunctors.push_back(
-            osgTypedFunctionFunctor2CPtrRef<bool,
-                                            FieldContainerPtr,
-                                            RemoteAspect     *>(
-                                                &_defaultChangedFunction));
+        _changedFunctors.push_back(osgTypedFunctionFunctor2CPtrRef < bool,
+                                           FieldContainerPtr,
+                                           RemoteAspect * > (&_defaultChangedFunction));
     }
-    _changedFunctors[ type.getId() ] = func;
+
+    _changedFunctors[type.getId()] = func;
 }
 
-/*! Set statistics collector
- *
- */
 
+/*-------------------------------------------------------------------------*/
+/*                          statistics                                     */
+
+/*! Set statistics collector
+ */
 void RemoteAspect::setStatistics(StatCollector *statistics)
 {
     _statistics = statistics;
 }
 
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/*                        protected helpers                                */
 
 /*! Call created functor for a given FieldContainer
  *
  *  \see registerCreated
  */
-bool RemoteAspect::callCreated( FieldContainerPtr &fcp )
+bool RemoteAspect::callCreated(FieldContainerPtr &fcp)
 {
-    bool result;
-    UInt32 uiFunctorIndex = fcp->getType().getId();
+    bool    result;
+    UInt32  uiFunctorIndex = fcp->getType().getId();
 
-    if ( uiFunctorIndex < _createdFunctors.size() )
-        result = _createdFunctors[uiFunctorIndex].call(fcp,this);
-    else 
-        result = _defaultCreatedFunction(fcp,this);
+    if(uiFunctorIndex < _createdFunctors.size())
+    {
+        result = _createdFunctors[uiFunctorIndex].call(fcp, this);
+    }
+    else
+    {
+        result = _defaultCreatedFunction(fcp, this);
+    }
 
     return result;
 }
@@ -649,15 +656,19 @@ bool RemoteAspect::callCreated( FieldContainerPtr &fcp )
  *
  *  \see registerDestroyed
  */
-bool RemoteAspect::callDestroyed( FieldContainerPtr &fcp )
+bool RemoteAspect::callDestroyed(FieldContainerPtr &fcp)
 {
-    bool result;
-    UInt32 uiFunctorIndex = fcp->getType().getId();
+    bool    result;
+    UInt32  uiFunctorIndex = fcp->getType().getId();
 
-    if ( uiFunctorIndex < _destroyedFunctors.size() )
-        result = _destroyedFunctors[uiFunctorIndex].call(fcp,this);
-    else 
-        result = _defaultDestroyedFunction(fcp,this);
+    if(uiFunctorIndex < _destroyedFunctors.size())
+    {
+        result = _destroyedFunctors[uiFunctorIndex].call(fcp, this);
+    }
+    else
+    {
+        result = _defaultDestroyedFunction(fcp, this);
+    }
 
     return result;
 }
@@ -666,15 +677,19 @@ bool RemoteAspect::callDestroyed( FieldContainerPtr &fcp )
  *
  *  \see registerChanged
  */
-bool RemoteAspect::callChanged( FieldContainerPtr &fcp )
+bool RemoteAspect::callChanged(FieldContainerPtr &fcp)
 {
-    bool result;
-    UInt32 uiFunctorIndex = fcp->getType().getId();
+    bool    result;
+    UInt32  uiFunctorIndex = fcp->getType().getId();
 
-    if ( uiFunctorIndex < _changedFunctors.size() )
-        result = _changedFunctors[uiFunctorIndex].call(fcp,this);
-    else 
-        result = _defaultChangedFunction(fcp,this);
+    if(uiFunctorIndex < _changedFunctors.size())
+    {
+        result = _changedFunctors[uiFunctorIndex].call(fcp, this);
+    }
+    else
+    {
+        result = _defaultChangedFunction(fcp, this);
+    }
 
     return result;
 }
@@ -682,8 +697,8 @@ bool RemoteAspect::callChanged( FieldContainerPtr &fcp )
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
 #ifdef __sgi
+
 /* fcp is used only if the FDEBUG macro is not removed by the
    proprocessor. Switch off error for unused fcp parameter. */
 #pragma set woff 3201
@@ -691,35 +706,27 @@ bool RemoteAspect::callChanged( FieldContainerPtr &fcp )
 
 /*! Default create functor
  */
-bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr& fcp,
-                                           RemoteAspect *)
+bool RemoteAspect::_defaultCreatedFunction(FieldContainerPtr &fcp, RemoteAspect *)
 {
-    FDEBUG (( "Created:%s %d\n",
-              fcp->getType().getName().str(),
-              fcp.getFieldContainerId() ))
-    return true;
+    FDEBUG(("Created:%s %d\n", fcp->getType().getName().str(), fcp.
+                   getFieldContainerId())) return true;
 }
 
 /*! Default destroyed functor
  */
-bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr& fcp,
-                                           RemoteAspect *)
+bool RemoteAspect::_defaultDestroyedFunction(FieldContainerPtr &fcp,
+                                             RemoteAspect *)
 {
-    FDEBUG (( "Destroyed:%s %d\n\n",
-              fcp->getType().getName().str(), 
-              fcp.getFieldContainerId() ))
-    return true;
+    FDEBUG(("Destroyed:%s %d\n\n", fcp->getType().getName().str(), fcp.
+                   getFieldContainerId())) return true;
 }
 
 /*! Default changed functor
  */
-bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr& fcp,
-                                           RemoteAspect *)
+bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr &fcp, RemoteAspect *)
 {
-    FDEBUG (( "Changed:%s %d\n",
-              fcp->getType().getName().str(), 
-              fcp.getFieldContainerId() ))
-    return true;
+    FDEBUG(("Changed:%s %d\n", fcp->getType().getName().str(), fcp.
+                   getFieldContainerId())) return true;
 }
 
 #ifdef __sgi
@@ -729,22 +736,37 @@ bool RemoteAspect::_defaultChangedFunction(FieldContainerPtr& fcp,
 /*! Field container id mapper. This mapper mappes remote field 
  *  container id to local ids.
  */
-
 UInt32 RemoteAspectFieldContainerMapper::map(UInt32 uiId)
 {
-    UInt32 mappedId;
-    std::map<UInt32,UInt32>::iterator i;
+    UInt32  mappedId;
+    std::map<UInt32, UInt32>::iterator i;
 
-    i=_remoteAspect->_receivedFC.find(uiId);
-    if(i==_remoteAspect->_receivedFC.end())
+    i = _remoteAspect->_receivedFC.find(uiId);
+    if(i == _remoteAspect->_receivedFC.end())
     {
         SWARNING << "Can't find container id:\n" << uiId << std::endl;
-        mappedId=0;
+        mappedId = 0;
     }
     else
     {
-        mappedId=i->second;
+        mappedId = i->second;
     }
-    FDEBUG (( "Map: %d to %d\n",uiId,mappedId ))
-    return mappedId;
+
+    FDEBUG(("Map: %d to %d\n", uiId, mappedId)) return mappedId;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+#ifdef OSG_LINUX_ICC
+#pragma warning(disable : 177)
+#endif
+
+namespace
+{
+    static Char8    cvsid_cpp[] = "@(#)$Id:$";
+    static Char8    cvsid_hpp[] = OSGREMOTEASPECT_HEADER_CVSID;
 }

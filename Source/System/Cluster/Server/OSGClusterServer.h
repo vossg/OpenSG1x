@@ -90,21 +90,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     void render            (RenderAction *action);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                 Container Access                             */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Assignment                                */
-    /*! \{                                                                 */
-
-    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   your_category                              */
+    /*! \name            ClusterWindow changed function                    */
     /*! \{                                                                 */
 
     bool windowChanged(FieldContainerPtr& fcp,
