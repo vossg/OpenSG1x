@@ -133,26 +133,8 @@ FieldType::FieldType(const Char8             *szName,
     Inherited(szName, true),
     _createMethod(createMethod)
 {	
-/*
-	if((szName       != NULL        ) && 
-       (*szName      != '\0'        ) && 
-       (createMethod != NULL))
-    {
-		if(FieldFactory::_fieldTypeV == NULL) 
-        {
-			FieldFactory::_fieldTypeV = new vector<FieldType *>(0);
-		}
-        
-		FieldFactory::_fieldTypeV->push_back(this);
-		_typeId = FieldFactory::_fieldTypeV->size();
-
-        osgstringDup(szName, _szName);		
-	}
-	else
-		cerr << "ERROR: Invalid Field::Field() parameter" << endl;
-
+    FieldFactory::addType(this);
     SDEBUG << "Initialized FieldType : " << _szName << endl;
-    */
 }
 
 

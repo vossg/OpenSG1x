@@ -50,7 +50,7 @@
 
 #include <OSGFieldDataType.h>
 
-#include <vector>
+#include <map>
 
 OSG_BEGIN_NAMESPACE
 
@@ -89,8 +89,6 @@ class OSG_FIELD_DLLMAPPING FieldFactory
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-    static const char *getClassname (void) { return "FieldFactory"; };
-
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -104,8 +102,8 @@ class OSG_FIELD_DLLMAPPING FieldFactory
 
     /*------------------------------ type -----------------------------------*/
 
-	FieldType *getFieldType(UInt32   typeId);
-	FieldType *getFieldType(const char *szName);
+	static FieldType *getFieldType(UInt32   typeId);
+	static FieldType *getFieldType(const char *szName);
 
     /*------------------------------ name -----------------------------------*/
 
@@ -170,9 +168,9 @@ class OSG_FIELD_DLLMAPPING FieldFactory
 
 	static char cvsid[];
     
-    static FieldFactory         _the;
+    static FieldFactory              _the;
     
-    static vector<FieldType *> *_fieldTypeV;
+    static map<UInt32, FieldType *> *_fieldTypeM;
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -185,6 +183,8 @@ class OSG_FIELD_DLLMAPPING FieldFactory
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
+
+    static void addType(FieldType *pType);
 
 	// prohibit default functions (move to 'public' if you need one)
 

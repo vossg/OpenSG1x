@@ -87,12 +87,12 @@ char FieldFactory::cvsid[] = "@(#)$Id: $";
 /** \brief Factory instance
  */
 
-FieldFactory   FieldFactory::_the;
+FieldFactory FieldFactory::_the;
 
 /** \brief Field type storage
  */
 
-vector<FieldType *> *FieldFactory::_fieldTypeV  = NULL;
+map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -135,11 +135,13 @@ FieldFactory::~FieldFactory(void )
 
 Field * FieldFactory::createField(UInt32 typeId)
 {
-	if((  _fieldTypeV          != NULL) &&
-       ((*_fieldTypeV)[typeId - 1] != NULL) && 
-       ((*_fieldTypeV)[typeId - 1]->_createMethod))
+    FieldType *pType = getFieldType(typeId);
+
+
+	if((pType                != NULL) &&
+       (pType->_createMethod != NULL))
     {
-		return (*_fieldTypeV)[typeId - 1]->_createMethod();
+		return pType->_createMethod();
     }
 	else
     {
@@ -152,9 +154,17 @@ Field * FieldFactory::createField(UInt32 typeId)
 
 Field * FieldFactory::createField(const char *szName)
 {
-	FieldType *type = getFieldType(szName);
+	FieldType *pType          = getFieldType(szName);
 
-	return type ? type->_createMethod() : NULL;
+	if((pType                != NULL) &&
+       (pType->_createMethod != NULL))
+    {
+		return pType->_createMethod();
+    }
+	else
+    {
+		return NULL;
+    }
 }
 
 /*---------------------------------- type -----------------------------------*/
@@ -164,34 +174,48 @@ Field * FieldFactory::createField(const char *szName)
 
 FieldType * FieldFactory::getFieldType (const char *szName)
 {
-	FieldType *type = 0;
-	UInt32 i;
+    map<UInt32, FieldType *>::iterator  mIt;
+	FieldType                          *returnValue = NULL;
 	
-	if(_fieldTypeV != NULL) 
+	if(_fieldTypeM != NULL) 
     {
-		for(i = 0; i < _fieldTypeV->size(); i++)
+        mIt = _fieldTypeM->begin();
+
+        while(mIt != _fieldTypeM->end())
         {
-			if( ((*_fieldTypeV)[i]  != NULL              ) && 
-                (! strcmp(szName, (*_fieldTypeV)[i]->getCName())) ) 
+            if(strcmp(szName, (*mIt).second->getCName()) == 0)
             {
-				type = (*_fieldTypeV)[i];
+				returnValue = (*mIt).second;
 				break;
 			}
+            
+            mIt++;
         }
 	}
 
-	return type;
+	return returnValue;
 }
 
 /** \brief Get type by data type
  */
 
-FieldType * FieldFactory::getFieldType(UInt32 typeId)
+FieldType *FieldFactory::getFieldType(UInt32 typeId)
 {
-    if(typeId >= _fieldTypeV->size())
-        return NULL;
+    map<UInt32, FieldType *>::iterator  mIt;
 
-	return _fieldTypeV ? (*_fieldTypeV)[typeId - 1] : NULL;
+    if(_fieldTypeM == NULL)
+        return NULL;
+   
+    mIt = _fieldTypeM->find(typeId);
+
+    if(mIt != _fieldTypeM->end())
+    {
+        return (*mIt).second;
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 
@@ -202,10 +226,9 @@ FieldType * FieldFactory::getFieldType(UInt32 typeId)
 
 const char *FieldFactory::getFieldTypeName(UInt32 typeId)
 {
-	FieldType *fieldType = 
-        _fieldTypeV ? (*_fieldTypeV)[typeId - 1] : NULL;
+	FieldType *pFieldType = getFieldType(typeId);
 
-	return fieldType ? fieldType->getCName() : NULL;
+	return pFieldType ? pFieldType->getCName() : NULL;
 }
 
 /*---------------------------------- instance -------------------------------*/
@@ -234,6 +257,19 @@ FieldFactory::FieldFactory(void)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
+void FieldFactory::addType(FieldType *pType)
+{
+    if(pType == NULL)
+        return;
+
+    if(getFieldType(pType->getId()) != NULL)
+        return;
+
+    if(_fieldTypeM == NULL)
+        _fieldTypeM = new map<UInt32, FieldType *>();
+
+    (*_fieldTypeM)[pType->getId()] = pType;
+}
 
 
 ///---------------------------------------------------------------------------
