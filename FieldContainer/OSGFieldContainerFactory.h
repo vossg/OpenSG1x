@@ -85,18 +85,21 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     typedef vector<FieldContainerType            *>  UninitializedTypeStore;
     typedef vector<FieldContainerPtr              >  FieldContainerStore;
 
-    typedef TypeIdMap::iterator                      TypeIdMapIt;
-    typedef TypeNameMap::iterator                    TypeNameMapIt;
-    typedef GroupMap::iterator                       GroupMapIt;
+    typedef TypeIdMap             ::iterator         TypeIdMapIt;
+    typedef TypeNameMap           ::iterator         TypeNameMapIt;
+    typedef GroupMap              ::iterator         GroupMapIt;
     typedef UninitializedTypeStore::iterator         UninitTypeStoreIt;
-    typedef FieldContainerStore::iterator            FieldContainerStoreIt;
+    typedef FieldContainerStore   ::iterator         FieldContainerStoreIt;
 
-    typedef TypeIdMap::const_iterator                TypeIdMapConstIt;
-    typedef TypeNameMap::const_iterator              TypeNameMapCnstIt;
-    typedef GroupMap::const_iterator                 GroupMapConstIt;
+    typedef TypeIdMap             ::const_iterator   TypeIdMapConstIt;
+    typedef TypeNameMap           ::const_iterator   TypeNameMapCnstIt;
+    typedef GroupMap              ::const_iterator   GroupMapConstIt;
+
 
     /*==========================  PUBLIC  =================================*/
   public :
+
+    typedef TypeIdMapIt                              TypeMapIterator;
 
     static FieldContainerFactory *the(void);
 
@@ -112,6 +115,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     FieldContainerType *findUninitializedType (const Char8  *szName) const;
 
     bool                initializePendingTypes(void);
+
+    TypeMapIterator     beginTypes  (void);
+    TypeMapIterator     endTypes    (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -167,6 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
   protected:
 
     static FieldContainerFactory *_the;
+
+    static TypeMapIterator        _defaultTypeMapIt;
 
     /*---------------------------------------------------------------------*/
     /*! \name             Intialization / Termination                      */

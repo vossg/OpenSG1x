@@ -79,6 +79,9 @@ namespace
 
 FieldContainerFactory *FieldContainerFactory::_the = NULL;
 
+FieldContainerFactory::TypeMapIterator 
+                       FieldContainerFactory::_defaultTypeMapIt;
+
 /*-------------------------------------------------------------------------*/
 /*                                The                                      */
 
@@ -213,6 +216,31 @@ bool FieldContainerFactory::initializePendingTypes(void)
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 383)
 #endif
+
+FieldContainerFactory::TypeMapIterator FieldContainerFactory::beginTypes(void)
+{
+    TypeMapIterator returnValue = _defaultTypeMapIt;
+
+    if(_pTypeIdMap != NULL)
+    {
+        returnValue = _pTypeIdMap->begin();
+    }
+
+    return returnValue;
+}
+
+FieldContainerFactory::TypeMapIterator FieldContainerFactory::endTypes(void)
+{
+    TypeMapIterator returnValue = _defaultTypeMapIt;
+
+    if(_pTypeIdMap != NULL)
+    {
+        returnValue = _pTypeIdMap->end();
+    }
+
+    return returnValue;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                               Groups                                    */
