@@ -79,19 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-<<<<<<< OSGDistanceLOD.cpp
-<<<<<<< OSGDistanceLOD.cpp
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
-=======
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
->>>>>>> 1.2
-=======
-<<<<<<< OSGDistanceLOD.cpp
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
-=======
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.4 2001/07/25 09:29:11 neumannc Exp $";
->>>>>>> 1.2
->>>>>>> 1.3
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.5 2001/07/25 12:59:39 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
