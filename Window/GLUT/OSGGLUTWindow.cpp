@@ -209,7 +209,7 @@ inline void (*GLUTWindow::getFunctionByName( const Char8 *s ))()
 #elif defined( WIN32 )
 	return (  wglGetProcAddress( s )  );
 #else
-	return (  glXGetProcAddressARB( s )  );
+	return (  glXGetProcAddressARB((const GLubyte *)s )  );
 #endif
 }
 

@@ -216,7 +216,7 @@ void (*XWindow::getFunctionByName( const Char8 *s ))(void)
 	dlclose(libHandle);
 	return (void (*)(void))func;   	 
 #else
-	return glXGetProcAddressARB( s );
+	return glXGetProcAddressARB((const GLubyte *) s);
 #endif
 }
 
