@@ -297,7 +297,6 @@ void MergeGraphOp::processGroups(NodePtr& node)
     for ( ; it != en; ++it )
     {
         beginEditCP(node, Node::ChildrenFieldMask);
-        addRefCP(*it);
         node->subChild(*it);
         endEditCP  (node, Node::ChildrenFieldMask);
     }
@@ -417,7 +416,6 @@ void MergeGraphOp::processTransformations(NodePtr& node)
     for ( ; it != en; ++it )
     {
         beginEditCP(node, Node::ChildrenFieldMask);
-        addRefCP(*it);
         node->subChild(*it);
         endEditCP  (node, Node::ChildrenFieldMask);
     }
@@ -513,7 +511,6 @@ void MergeGraphOp::processGeometries(NodePtr& node)
     for ( ; it != en; ++it )
     {
         beginEditCP(node, Node::ChildrenFieldMask);
-        addRefCP(*it);
         node->subChild(*it);
         endEditCP  (node, Node::ChildrenFieldMask);
     }
