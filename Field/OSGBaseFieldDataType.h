@@ -57,8 +57,12 @@ OSG_BEGIN_NAMESPACE
 template <>
 struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
+
+    static DataType         &getType (void)      { return _type;          }
 
     static Char8            *getSName(void)      { return "SFColor3f";    }
 
@@ -84,8 +88,12 @@ struct FieldDataTraits<Color3f> : public FieldTraitsRecurseBase<Color3f>
 template <>
 struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
+
+    static DataType         &getType (void)      { return _type;          }
 
     static Char8            *getSName(void)      { return "SFColor4f";    }
 
@@ -111,16 +119,20 @@ struct FieldDataTraits<Color4f> : public FieldTraitsRecurseBase<Color4f>
 template <>
 struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
 
-    static Char8 *getSName(void)   { return "SFColor3ub"; }
-    static Char8 *getMName(void)   { return "MFColor3ub"; }
+    static DataType &getType      (void)   { return _type;          }
 
-    static Color3ub  getDefault(void) { return Color3ub();   }
+    static Char8    *getSName     (void)   { return "SFColor3ub"; }
+    static Char8    *getMName     (void)   { return "MFColor3ub"; }
 
-    static Bool   getFromString(      Color3ub  &outVal,
-                                const Char8 *&inVal)
+    static Color3ub  getDefault   (void) { return Color3ub();   }
+
+    static Bool      getFromString(      Color3ub  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
 
@@ -144,16 +156,20 @@ struct FieldDataTraits<Color3ub> : public FieldTraitsRecurseBase<Color3ub>
 template <>
 struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
 
-    static Char8 *getSName(void)   { return "SFColor4ub";    }
+    static DataType &getType (void)      { return _type;           }
 
-    static Char8 *getMName(void)   { return "MFColor4ub";    }
+    static Char8    *getSName     (void) { return "SFColor4ub";    }
 
-    static Color4ub  getDefault(void) { return Color4ub();      }
+    static Char8    *getMName     (void) { return "MFColor4ub";    }
 
-    static Bool   getFromString(      Color4ub  &outVal,
+    static Color4ub  getDefault   (void) { return Color4ub();      }
+
+    static Bool      getFromString(      Color4ub  &outVal,
                                 const Char8 *&inVal)
     {
         outVal.setValue(inVal);
@@ -172,8 +188,12 @@ struct FieldDataTraits<Color4ub> : public FieldTraitsRecurseBase<Color4ub>
 template <>
 struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
+
+    static DataType         &getType (void)      { return _type;         }
 
     static Char8            *getSName(void)      { return "SFString";    }
 
@@ -199,19 +219,90 @@ struct FieldDataTraits<String> : public FieldTraitsRecurseBase<String>
     {
         target = source;
     }
+
+    static UInt32 getBinSize(const String   &oObject)
+    {
+        return oObject.length() + 1 + sizeof(UInt32);
+    }
+
+    static UInt32 getBinSize(const String   *pObjectStore,
+                                   UInt32    uiNumObjects)
+    {
+        UInt32 size=0;
+
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            size += getBinSize(pObjectStore,uiNumObjects);
+        }
+
+        return size;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const String       &oObject)
+    {
+        UInt32 size = oObject.length() + 1;
+
+        memcpy(pMem, &size, sizeof(size));
+        memcpy(pMem, oObject.str(), size);
+
+        return pMem + sizeof(UInt32) + size;
+    }
+
+    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
+                                  const String       *pObjectStore,
+                                        UInt32        uiNumObjects)
+    {
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            pMem = copyToBin(pMem, pObjectStore[i]);
+        }
+
+        return pMem;
+    }
+
+    static MemoryHandle copyFromBin(const MemoryHandle pMem, 
+                                          String   &oObject)
+    {
+        UInt32 size;
+
+        memcpy(&size, pMem, sizeof(size));
+
+        oObject.set((const Char8*)(pMem + sizeof(UInt32)));
+
+        return pMem + size + sizeof(UInt32);
+    }
+
+    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
+                                          String       *pObjectStore,
+                                          UInt32        uiNumObjects)
+    {
+        MemoryHandle mem=pMem;
+
+        for(UInt32 i = 0; i < uiNumObjects; ++i)
+        {
+            mem = copyFromBin(mem, pObjectStore[i]);
+        }
+
+        return mem;
+    }
 };
 
 template <>
 struct FieldDataTraits1<Time> : public FieldTraitsRecurseBase<Time>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
                                                    FromStringConvertable };
 
-    static Char8            *getSName(void)      { return "SFTime";    }
+    static DataType         &getType (void)      { return _type;         }
 
-    static Char8            *getMName(void)      { return "MFTime";    }
+    static Char8            *getSName(void)      { return "SFTime";      }
 
-    static Time              getDefault(void)    { return Time();      }
+    static Char8            *getMName(void)      { return "MFTime";      }
+
+    static Time              getDefault(void)    { return Time();        }
 
     static Bool              getFromString(      Time   &outVal,
                                            const Char8 *&inVal)
@@ -232,14 +323,18 @@ template <>
 struct FieldDataTraits<DynamicVolume> : 
     public FieldTraitsRecurseBase<DynamicVolume>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+                                                   FromStringConvertable     };
 
-    static Char8            *getSName(void)      { return "SFDynamicVolume";      }
+    static DataType         &getType (void)      { return _type;             }
 
-    static Char8            *getMName(void)      { return "MFDynamicVolume";      }
+    static Char8            *getSName(void)      { return "SFDynamicVolume"; }
 
-    static DynamicVolume     getDefault(void)    { return DynamicVolume(); }
+    static Char8            *getMName(void)      { return "MFDynamicVolume"; }
+
+    static DynamicVolume     getDefault(void)    { return DynamicVolume();   }
 
     static Bool             getFromString(      DynamicVolume  &,
                                           const Char8         *&)
@@ -258,21 +353,29 @@ struct FieldDataTraits<DynamicVolume> :
 template <>
 struct FieldDataTraits1<BitVector> : public FieldTraitsRecurseBase<BitVector>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = 0x00 };
+
+    static DataType         &getType (void)      { return _type;          }
 
     static Char8            *getSName(void)      { return "SFBitVector";   }
 
     static Char8            *getMName(void)      { return "MFBitVector";   }
 
-    static BitVector         getDefault(void)    { return BitVector(); }
+    static BitVector         getDefault(void)    { return BitVector();     }
 };
 
 
 template <>
 struct FieldDataTraits<Plane> : public FieldTraitsRecurseBase<Plane>
 {
+    static DataType         _type;
+
     enum                     { StringConvertable = ToStringConvertable | 
-                                                   FromStringConvertable };
+                                                   FromStringConvertable  };
+
+    static DataType         &getType (void)      { return _type;          }
 
     static Char8            *getSName(void)      { return "SFPlane";      }
 

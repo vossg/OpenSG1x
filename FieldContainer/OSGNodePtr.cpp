@@ -48,9 +48,10 @@
 #include "OSGConfig.h"
 
 #include "OSGNodePtr.h"
+#include "OSGThread.h"
+
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
-#include "OSGThread.h"
 
 OSG_USING_NAMESPACE
 
@@ -67,6 +68,8 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 char NodePtr::cvsid[] = "@(#)$Id: $";
+
+const NodePtr NodePtr::NullPtr;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -427,7 +430,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const NodePtr  &fc)
 {
-	if(fc == NullNode)
+	if(fc == NodePtr::NullPtr)
     {
 		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }
@@ -448,7 +451,7 @@ OSG_SYSTEMLIB_DLLMAPPING
 ostream &OSG::operator <<(      ostream  &os,
                           const CNodePtr &fc)
 {
-	if(fc == NullNode)
+	if(fc == NodePtr::NullPtr)
     {
 		os << hex << "NodePtr 0x" << &fc << dec << ":NullFC";
     }

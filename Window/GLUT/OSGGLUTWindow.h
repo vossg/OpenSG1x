@@ -249,10 +249,12 @@ typedef FCPtr<WindowPtr, GLUTWindow> GLUTWindowPtr;
 template <>
 struct FieldDataTraits<GLUTWindowPtr> : public Traits
 {
-    enum                         { StringConvertable = 0x00  };
+    static DataType                 _type;
+    enum                            { StringConvertable = 0x00  };
 
-    static Char8 *getSName(void) { return "SFGLUTWindowPtr"; }
-    static Char8 *getMName(void) { return "MFGLUTWindowPtr"; }
+    static DataType &getType (void) { return _type;             }
+    static Char8    *getSName(void) { return "SFGLUTWindowPtr"; }
+    static Char8    *getMName(void) { return "MFGLUTWindowPtr"; }
 };
 
 /** \brief SFGLUTWindowPtr

@@ -82,11 +82,15 @@ template <>
 struct FieldDataTraits<CameraPtr> : 
     public FieldTraitsRecurseMapper<CameraPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFCameraPtr"; }
-    static char *getMName(void) { return "MFCameraPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFCameraPtr"; }
+    static char     *getMName(void) { return "MFCameraPtr"; }
 };
 
 /** \brief SFCameraPtr

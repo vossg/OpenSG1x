@@ -320,6 +320,47 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
     }
 }
 
+template <class GeoPropertyDesc> inline 
+UInt32 GeoProperty<GeoPropertyDesc>::getBinSize(const BitVector &whichField)
+{
+    UInt32 returnValue = Inherited::getBinSize(whichField);
+
+    if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        returnValue += _field.getBinSize();
+    }
+
+    return returnValue;
+}
+
+template <class GeoPropertyDesc> inline 
+MemoryHandle GeoProperty<GeoPropertyDesc>::copyToBin(
+          MemoryHandle  pMem,
+    const BitVector    &whichField)
+{
+    pMem = Inherited::copyToBin(pMem, whichField);
+
+    if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        pMem = _field.copyToBin(pMem);
+    }
+    return pMem;
+}
+
+template <class GeoPropertyDesc> inline 
+MemoryHandle GeoProperty<GeoPropertyDesc>::copyFromBin(
+          MemoryHandle  pMem,
+    const BitVector    &whichField)
+{
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        pMem = _field.copyFromBin(pMem);
+    }
+
+    return pMem;
+}
 
 /*------------------------------ access -----------------------------------*/
 

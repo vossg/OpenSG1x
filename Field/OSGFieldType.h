@@ -51,7 +51,7 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
-#include <OSGTypeBase.h>
+#include <OSGDataType.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -75,7 +75,7 @@ class Field;
  *  \brief FieldType
  */
 
-class OSG_BASE_DLLMAPPING FieldType : public TypeBase
+class OSG_BASE_DLLMAPPING FieldType : public DataType
 {
   public:
 
@@ -106,6 +106,7 @@ class OSG_BASE_DLLMAPPING FieldType : public TypeBase
     //-----------------------------------------------------------------------
 
     FieldType(const Char8             *szName, 
+              const DataType          &contentType,
                     CreateFieldMethod  createMethod,
                     Cardinality        cardinality);
 
@@ -145,7 +146,8 @@ class OSG_BASE_DLLMAPPING FieldType : public TypeBase
 
     /*------------------------------ access ---------------------------------*/
 
-    Cardinality getCardinality(void) const;
+    const DataType    &getContentType(void) const;
+          Cardinality  getCardinality(void) const;
 
     /*----------------------------- comparision -----------------------------*/
 
@@ -190,7 +192,7 @@ class OSG_BASE_DLLMAPPING FieldType : public TypeBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypeBase Inherited;
+    typedef DataType Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      
@@ -216,7 +218,7 @@ class OSG_BASE_DLLMAPPING FieldType : public TypeBase
     //   instance variables                                                  
     //-----------------------------------------------------------------------
 
-//    const TypeBase          &_contentType;
+    const DataType          &_contentType;
     const CreateFieldMethod  _createMethod;
 
     //-----------------------------------------------------------------------

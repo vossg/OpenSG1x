@@ -1,8 +1,8 @@
 
 #include <stdio.h>
-#include <OSGContainerFieldDataType.h>
 #include <OSGGeometry.h>
 #include <OSGGeoPropInterfaceFields.h>
+#include <OSGSFFieldContainerTypes.h>
 
 int main(void)
 {

@@ -82,11 +82,15 @@ template <>
 struct FieldDataTraits<StateChunkPtr> : 
     public FieldTraitsRecurseMapper<StateChunkPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFStateChunkPtr"; }
-    static char *getMName(void) { return "MFStateChunkPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFStateChunkPtr"; }
+    static char     *getMName(void) { return "MFStateChunkPtr"; }
 };
 
 /** \brief SFStateChunkPtr

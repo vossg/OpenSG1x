@@ -60,6 +60,9 @@
 #include "OSGFieldFactory.h"
 #include "OSGFieldDescription.h"
 
+#include "OSGNodePtr.h"
+#include "OSGAttachmentPtr.h"
+
 OSG_USING_NAMESPACE
 
 //---------------------------------------------------------------------------

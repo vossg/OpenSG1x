@@ -36,23 +36,14 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_CONTAINERFIELDDATATYPE_H_
-#define _OSG_CONTAINERFIELDDATATYPE_H_
+#ifndef _OSG_FIELDCONTAINERFIELDDATATYPE_H_
+#define _OSG_FIELDCONTAINERFIELDDATATYPE_H_
 
 #include <OSGFieldDataType.h>
-#include <OSGNodePtr.h>
+#include <OSGFieldContainerPtr.h>
+#include <OSGFieldContainerFactory.h>
 
-#include <map>
 OSG_BEGIN_NAMESPACE
-
-
-class NodeCore;
-typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;
-
-class Attachment;
-typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
-
-typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 
 /** \ingroup FieldLib
  *  \ingroup SingleFields
@@ -64,70 +55,82 @@ template <>
 struct FieldTraitsRecurseMapper<FieldContainerPtr> : 
     public FieldTraitsRecurseBase<FieldContainerPtr>
 {
-    enum                        { bHasParent        = 0x00      };
+    enum                           { bHasParent = 0x00 };
 
-    static UInt32 getBinSize(void)
+    static UInt32 getBinSize(const FieldContainerPtr &)
     {
-        fprintf(stderr, "FieldTraitsToBin<FieldContainerPtr>::getBinSize()\n");
-        return 0;
+        return sizeof(UInt32);
+    }
+
+    static UInt32 getBinSize(const FieldContainerPtr *,
+                                   UInt32             uiNumObjects)
+    {
+        return sizeof(UInt32) * uiNumObjects;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle       pMem, 
                                   const FieldContainerPtr &pObject)
     {
-        fprintf(stderr, 
-                "FieldTraitsToBin<FieldContainerPtr>::copyToBin\n");
+        UInt32 id;
 
-        return pMem;
+        if(pObject==NullFC)
+        {
+            // id=0 indicates an Null Ptr
+            id = 0;
+        }
+        else
+        {
+            id = pObject.getFieldContainerId();
+        }
+
+        memcpy(pMem, &id, sizeof(UInt32));
+
+        return pMem + sizeof(UInt32);
     }
 
     static MemoryHandle copyToBin(      MemoryHandle       pMem, 
                                   const FieldContainerPtr *pObjectStore,
                                         UInt32             uiNumObjects)
     {
-        fprintf(stderr, 
-                "FieldTraitsToBin<FieldContainerPtr>::mcopyToBin\n");
-
-        return pMem;
-    }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief FieldContainerPtr field traits 
- */
-
-template <>
-struct FieldTraitsRecurseMapper<AttachmentMap> : 
-    public FieldTraitsRecurseBase<AttachmentMap>
-{
-    enum                        { bHasParent        = 0x00      };
-
-    static UInt32 getBinSize(void)
-    {
-        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::getSize\n");
-        return 0;
-    }
-
-    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
-                                  const AttachmentMap &pObject)
-    {
-        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::copyToBin\n");
+        for(UInt32 i = 0; i < uiNumObjects; i++)
+        {
+            pMem = copyToBin(pMem, pObjectStore[i]);
+        }
 
         return pMem;
     }
 
-    static MemoryHandle copyToBin(      MemoryHandle   pMem, 
-                                  const AttachmentMap *pObjectStore,
-                                        UInt32         uiNumObjects)
+    static MemoryHandle copyFromBin(const MemoryHandle       pMem, 
+                                          FieldContainerPtr &pObject)
     {
-        fprintf(stderr, "FieldTraitsToBin<AttachmentMap>::mcopyToBin\n");
+        UInt32 id;
 
-        return pMem;
+        memcpy(&id, pMem, sizeof(UInt32));
+
+        if(0 != id)
+        {
+            pObject = FieldContainerFactory::the()->getMappedContainer(id);
+        }
+        else
+        {
+            pObject = NullFC;
+        }
+
+        return pMem + sizeof(UInt32);
     }
-    static void putToBin (void) 
-    { 
+
+    static MemoryHandle copyFromBin(const MemoryHandle       pMem, 
+                                          FieldContainerPtr *pObjectStore,
+                                          UInt32             uiNumObjects)
+    {
+        MemoryHandle mem = pMem;
+
+        for(UInt32 i = 0; i < uiNumObjects; i++)
+        {
+            mem = copyFromBin(mem, pObjectStore[i]);
+        }
+
+        return mem;
     }
 };
 
@@ -141,65 +144,19 @@ template <>
 struct FieldDataTraits<FieldContainerPtr> : 
     public FieldTraitsRecurseMapper<FieldContainerPtr>
 {
-    enum                        { StringConvertable = 0x00      };
+    static DataType                 _type;
+
+    enum                            { StringConvertable = 0x00      };
+
+    static DataType &getType (void) { return _type;                 }
  
-    static char *getSName(void) { return "SFFieldContainerPtr"; }
-    static char *getMName(void) { return "MFFieldContainerPtr"; }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief NodePtr field traits 
- */
-
-template <>
-struct FieldDataTraits<NodePtr> : public FieldTraitsRecurseMapper<NodePtr>
-{
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
-
-    static char *getSName(void) { return "SFNodePtr"; }
-    static char *getMName(void) { return "MFNodePtr"; }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief NodeCorePtr field traits 
- */
-
-template <>
-struct FieldDataTraits<NodeCorePtr> : 
-    public FieldTraitsRecurseMapper<NodeCorePtr>
-{
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
-
-    static char *getSName(void) { return "SFNodeCorePtr"; }
-    static char *getMName(void) { return "MFNodeCorePtr"; }
-};
-
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief PropertyPtr field traits 
- */
-
-template <>
-struct FieldDataTraits<AttachmentMap> : 
-    public FieldTraitsRecurseMapper<AttachmentMap>
-{
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x00      };
-
-    static char *getSName(void) { return "SFAttachmentMap"; }
-    static char *getMName(void) { return "MFAttachmentMap"; }
+    static char     *getSName(void) { return "SFFieldContainerPtr"; }
+    static char     *getMName(void) { return "MFFieldContainerPtr"; }
 };
 
 OSG_END_NAMESPACE
 
-#endif /* _OSG_VECFIELDDATATYPE_H_ */
+#endif /* _OSG_FIELDCONTAINERDATATYPE_H_ */
 
 
 

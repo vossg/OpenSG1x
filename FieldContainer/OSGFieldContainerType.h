@@ -50,8 +50,8 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGTypeBase.h>
+#include <OSGDataType.h>
+#include <OSGFieldContainerPtrForward.h>
 
 #include <map>
 
@@ -62,14 +62,6 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class FieldDescription;
-
-class NodePtr;
-
-class NodeCore;
-typedef FCPtr<FieldContainerPtr, NodeCore  > NodeCorePtr;
-
-class Attachment;
-typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -86,7 +78,7 @@ typedef FieldContainerPtr (*PrototypeCreateF)(void);
  *  \brief FieldContainerType
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
+class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public DataType
 {
   public:
 
@@ -112,7 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerType : public TypeBase
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef TypeBase Inherited;
+    typedef DataType Inherited;
 
     //-----------------------------------------------------------------------
     //   friend classes                                                      

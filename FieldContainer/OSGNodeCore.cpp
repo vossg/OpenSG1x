@@ -47,7 +47,6 @@
 
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
-#include "OSGAttachment.h"
 
 OSG_USING_NAMESPACE
 
@@ -63,8 +62,6 @@ const NodeCorePtr OSG::NullNodeCore;
 
 const BitVector 
 	NodeCore::ParentsFieldMask     = (1 << NodeCore::ParentsFieldId    );
-const BitVector 
-	NodeCore::AttachmentsFieldMask = (1 << NodeCore::AttachmentsFieldId);
 
 FieldDescription *NodeCore::_desc[] = 
 {
@@ -72,13 +69,7 @@ FieldDescription *NodeCore::_desc[] =
                          "parents", 
                          OSG_FC_FIELD_IDM_DESC(ParentsField),
                          false,
-                         (FieldAccessMethod) &NodeCore::getMFParents),
-    
-    new FieldDescription(SFAttachmentMap::getClassType(),
-                         "attachments", 
-                         OSG_FC_FIELD_IDM_DESC(AttachmentsField),
-                         false,
-                         (FieldAccessMethod) &NodeCore::getSFAttachments)
+                         (FieldAccessMethod) &NodeCore::getMFParents)
 };
 
 FieldContainerType NodeCore::_type("NodeCore",
@@ -132,82 +123,6 @@ MFNodePtr *NodeCore::getMFParents(void)
 {
     return &_parents;
 }
-
-SFAttachmentMap *NodeCore::getSFAttachments(void)
-{
-    return &_attachmentMap;
-}
-
-void NodeCore::addAttachment(const AttachmentPtr &fieldContainerP,
-                                   UInt16         binding)
-{
-	UInt32 key;
-
-	if(fieldContainerP == NullAttachment)
-        return;
-
-	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
-
-    addRefCP(fieldContainerP);
-
-	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-
-    beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
-    {
-        fieldContainerP->addParent(getPtr());
-    }
-    endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);    
-	
-	if(fcI != _attachmentMap.getValue().end())
-    {
-        subRefCP((*fcI).second);
-        (*fcI).second = fieldContainerP;
-    }	
-    else
-    {
-        _attachmentMap.getValue()[key] = fieldContainerP;
-    }
-}
-
-void NodeCore::subAttachment(const AttachmentPtr &fieldContainerP,
-                                   UInt16         binding)
-{
-    UInt32 key;
-    AttachmentMap::iterator fcI;
-
-    if(fieldContainerP == NullAttachment)
-        return;
-
-    key = (UInt32(fieldContainerP->getGroupId()) << 16) | binding;
-
-    fcI = _attachmentMap.getValue().find(key);
-
-    if(fcI != _attachmentMap.getValue().end())
-    {
-        beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
-        {
-            (*fcI).second->subParent(getPtr());
-        }
-        endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
-        
-        subRefCP((*fcI).second);
-        
-        _attachmentMap.getValue().erase(fcI);
-    }  
-}
-
-AttachmentPtr NodeCore::findAttachment(UInt16 groupId, 
-                                       UInt16 binding)
-{
-	UInt32 key = (UInt32(groupId) << 16) | binding;
-
-	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-	
-	return (fcI == _attachmentMap.getValue().end()) ? 
-        NullAttachment : fcI->second;
-}
-
-
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -268,15 +183,7 @@ void NodeCore::dump(      UInt32     uiIndent,
     indentLog(uiIndent, PLOG);
     PLOG << "{" << endl;
 
-    AttachmentMap::const_iterator fcI;
-
-    fcI = _attachmentMap.getValue().begin();
-
-    while(fcI != _attachmentMap.getValue().end())
-    {
-        (*fcI).second->dump(uiIndent + 4, bvFlags);
-        ++fcI;
-    }
+    Inherited::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
     PLOG << "}" << endl;
@@ -296,8 +203,7 @@ void NodeCore::dump(      UInt32     uiIndent,
 
 NodeCore::NodeCore(void) :
     Inherited     (),
-    _parents      (),
-    _attachmentMap()
+    _parents      ()
 {
 	return;
 }
@@ -307,17 +213,8 @@ NodeCore::NodeCore(void) :
 
 NodeCore::NodeCore(const NodeCore &obj) :
     Inherited     (obj),
-    _parents      (),
-    _attachmentMap()
+    _parents      ()
 {
-    AttachmentMap::const_iterator fcI = obj._attachmentMap.getValue().begin();
-
-    while(fcI != obj._attachmentMap.getValue().end())
-    {
-        addAttachment((*fcI).second);
-
-        fcI++;
-    }
 }
 
 /** \brief Destructor
@@ -359,16 +256,11 @@ void NodeCore::subParent(const NodePtr &parent)
 
 UInt32 NodeCore::getBinSize(const BitVector &whichField)
 {
-    UInt32 returnValue = 0;
+    UInt32 returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         returnValue += _parents.getBinSize();
-    }
-
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        returnValue += _attachmentMap.getBinSize();
     }
 
     return returnValue;
@@ -377,14 +269,11 @@ UInt32 NodeCore::getBinSize(const BitVector &whichField)
 MemoryHandle NodeCore::copyToBin(      MemoryHandle  pMem, 
                                  const BitVector    &whichField)
 {
+    pMem = Inherited::copyToBin(pMem, whichField);
+
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         pMem = _parents.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        pMem = _attachmentMap.copyToBin(pMem);
     }
 
     return pMem;
@@ -393,14 +282,11 @@ MemoryHandle NodeCore::copyToBin(      MemoryHandle  pMem,
 MemoryHandle NodeCore::copyFromBin(      MemoryHandle  pMem, 
                                    const BitVector    &whichField)
 {
+    pMem = Inherited::copyFromBin(pMem, whichField);
+
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         pMem = _parents.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        pMem = _attachmentMap.copyFromBin(pMem);
     }
 
     return pMem;
@@ -421,11 +307,6 @@ void NodeCore::executeSyncImpl(      NodeCore  *pOther,
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
     {
         _parents.syncWith(pOther->_parents);
-    }
-
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        _attachmentMap.syncWith(pOther->_attachmentMap);
     }
 }
 

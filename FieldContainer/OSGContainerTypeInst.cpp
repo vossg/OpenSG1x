@@ -52,36 +52,82 @@
 #include <OSGSField.h>
 #include <OSGMField.h>
 
-#include <map>
-#include <OSGAttachment.h>
-#include "OSGSFFieldContainerTypes.h"
-#include "OSGMFFieldContainerTypes.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGMFFieldContainerPtr.h"
+
+#include "OSGSFAttachmentContainerPtr.h"
+#include "OSGMFAttachmentContainerPtr.h"
+
+#include "OSGSFNodePtr.h"
+#include "OSGMFNodePtr.h"
+
+#include "OSGSFNodeCorePtr.h"
+#include "OSGMFNodeCorePtr.h"
+
+#include "OSGSFAttachmentPtr.h"
+#include "OSGMFAttachmentPtr.h"
+
+#include "OSGSFAttachmentMap.h"
+#include "OSGMFAttachmentMap.h"
 
 OSG_BEGIN_NAMESPACE
 
 #if defined(__sgi)
 
-#pragma instantiate SField<FieldContainerPtr>::_fieldType
-#pragma instantiate SField<NodePtr          >::_fieldType
-#pragma instantiate SField<NodeCorePtr      >::_fieldType
-#pragma instantiate SField<AttachmentMap    >::_fieldType
+DataType FieldDataTraits<FieldContainerPtr     >::_type(
+    "FieldContainerPtr",
+    true);
 
-#pragma instantiate MField<FieldContainerPtr>::_fieldType
-#pragma instantiate MField<NodePtr          >::_fieldType
-#pragma instantiate MField<NodeCorePtr      >::_fieldType
-#pragma instantiate MField<AttachmentMap    >::_fieldType
+DataType FieldDataTraits<AttachmentContainerPtr>::_type(
+    "AttachmenContainertPtr", 
+    true);
+
+DataType FieldDataTraits<NodePtr               >::_type(
+    "NodePtr",
+    true);
+
+DataType FieldDataTraits<NodeCorePtr           >::_type(
+    "NodeCorePtr",
+    true);
+
+DataType FieldDataTraits<AttachmentPtr         >::_type(
+    "AttachmentPtr",
+    true);
+
+DataType FieldDataTraits<AttachmentMap         >::_type(
+    "AttachmentMap",
+    true);
+
+#pragma instantiate SField<FieldContainerPtr     >::_fieldType
+#pragma instantiate SField<AttachmentContainerPtr>::_fieldType
+#pragma instantiate SField<NodePtr               >::_fieldType
+#pragma instantiate SField<NodeCorePtr           >::_fieldType
+#pragma instantiate SField<NodeCorePtr           >::_fieldType
+#pragma instantiate SField<AttachmentPtr         >::_fieldType
+#pragma instantiate SField<AttachmentMap         >::_fieldType
+
+#pragma instantiate MField<FieldContainerPtr     >::_fieldType
+#pragma instantiate MField<AttachmentContainerPtr>::_fieldType
+#pragma instantiate MField<NodePtr               >::_fieldType
+#pragma instantiate MField<NodeCorePtr           >::_fieldType
+#pragma instantiate MField<AttachmentPtr         >::_fieldType
+#pragma instantiate MField<AttachmentMap         >::_fieldType
 
 #else
 
-OSG_DLLEXPORT_DEF1(SField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, NodePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, NodeCorePtr,       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(SField, AttachmentMap,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, FieldContainerPtr,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, AttachmentContainerPtr,OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, NodePtr,               OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, NodeCorePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, AttachmentPtr,         OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(SField, AttachmentMap,         OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
-OSG_DLLEXPORT_DEF1(MField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, NodePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, NodeCorePtr,       OSG_SYSTEMLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DEF1(MField, AttachmentMap,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, FieldContainerPtr,     OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, AttachmentContainerPtr,OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, NodePtr,               OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, NodeCorePtr,           OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, AttachmentPtr,         OSG_SYSTEMLIB_DLLTMPLMAPPING)
+OSG_DLLEXPORT_DEF1(MField, AttachmentMap,         OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 #endif
 

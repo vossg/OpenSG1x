@@ -85,6 +85,8 @@ The GLUTWindow class.
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<GLUTWindowPtr>::_type("GLUTWindowPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<GLUTWindowPtr>::_fieldType

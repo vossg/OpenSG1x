@@ -176,11 +176,11 @@ template<class _Tp, class _Alloc> inline
 MFieldVector<_Tp, _Alloc> &MFieldVector<_Tp, _Alloc>::operator =(
     const MFieldVector<_Tp, _Alloc> &__x)
 {
-	if (this == &__x)
-		return *this;
+    if (this == &__x)
+        return *this;
 
-	// copy parts inherited from parent
-	*(static_cast<Inherited *>(this)) = __x;
+    // copy parts inherited from parent
+    *(static_cast<Inherited *>(this)) = __x;
 
     return *this;
 }
@@ -236,14 +236,16 @@ char MField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
-	MFieldTraits::getMName(), 
-	create,
+    MFieldTraits::getMName(), 
+    MFieldTraits::getType(),
+    create,
     FieldType::MULTI_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType MField<FieldTypeT, fieldNameSpace>::_fieldType(
-	MFieldTraits::getMName(), 
-	create,
+    MFieldTraits::getMName(), 
+    MFieldTraits::getType(),
+    create,
     FieldType::MULTI_FIELD);
 #endif
 
@@ -639,7 +641,7 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
 {
-	return size();
+    return size();
 }
 
 /** \brief Returns true if the field does not hold any value
@@ -648,7 +650,7 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 Bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
 {
-	return _values.empty();
+    return _values.empty();
 }
 
 /** \brief Returns the type of the field
@@ -687,9 +689,9 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 String &MField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
 {
-	SWARNING << "getStrValue: not implemented yet!" << endl;
+    SWARNING << "getStrValue: not implemented yet!" << endl;
 
-	return string;
+    return string;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -703,12 +705,19 @@ void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 MField<FieldTypeT, fieldNameSpace>::getBinSize(void)
 {
-    return _values.size() * MFieldTraits::getBinSize();
+    return sizeof(UInt32) + // num elements
+           MFieldTraits::getBinSize(&(_values[0]), _values.size());
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
 {
+    UInt32 n = _values.size();
+
+    memcpy(pMem, &n, sizeof(UInt32));
+
+    pMem += sizeof(UInt32);
+
     return MFieldTraits::copyToBin(   pMem, 
                                    &(_values[0]),
                                      _values.size());
@@ -717,7 +726,18 @@ MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MemoryHandle MField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
 {
-    return pMem;
+    UInt32 n;
+
+    memcpy(&n,pMem,sizeof(UInt32));
+
+    pMem += sizeof(UInt32);
+
+    _values.clear ( );
+    _values.resize(n);
+
+    return MFieldTraits::copyFromBin(   pMem, 
+                                     &(_values[0]),
+                                     n);
 }
 
 /*--------------------------------- dump ------------------------------------*/

@@ -82,10 +82,14 @@ template <>
 struct FieldDataTraits<SolidBackgroundPtr> : 
     public FieldTraitsRecurseMapper<SolidBackgroundPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFSolidBackgroundPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFSolidBackgroundPtr"; }
 };
 
 /** \brief SFSolidBackgroundPtr

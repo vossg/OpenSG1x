@@ -64,11 +64,13 @@ template <>
 struct FieldDataTraits<GeoPositionPtr> : 
     public FieldTraitsRecurseMapper<GeoPositionPtr>
 {
-    enum                           { StringConvertable = 0x00   };
-    enum                           { bHasParent        = 0x01   };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00   };
+    enum                             { bHasParent        = 0x01   };
 
-    static Char8 *getSName (void)  { return "SFGeoPositionPtr"; }
-    static Char8 *getMName (void)  { return "MFGeoPositionPtr"; }
+    static DataType &getType  (void) { return _type;              }
+    static Char8    *getSName (void) { return "SFGeoPositionPtr"; }
+    static Char8    *getMName (void) { return "MFGeoPositionPtr"; }
 };
 
 typedef SField<GeoPositionPtr> SFGeoPositionPtr;
@@ -94,11 +96,13 @@ template <>
 struct FieldDataTraits<GeoNormalPtr> :
     public FieldTraitsRecurseMapper<GeoNormalPtr>
 {
-    enum                            { StringConvertable = 0x00 };
-    enum                            { bHasParent        = 0x01   };
+    static DataType                  _type;
+    enum                            { StringConvertable = 0x00  };
+    enum                            { bHasParent        = 0x01  };
 
-    static Char8  *getSName  (void) { return "SFGeoNormalPtr"; }
-    static Char8  *getMName  (void) { return "MFGeoNormalPtr"; }
+    static DataType &getType  (void) { return _type;            }
+    static Char8    *getSName (void) { return "SFGeoNormalPtr"; }
+    static Char8    *getMName (void) { return "MFGeoNormalPtr"; }
 };
 
 typedef SField<GeoNormalPtr> SFGeoNormalPtr;
@@ -123,11 +127,13 @@ template <>
 struct FieldDataTraits<GeoColorPtr> : 
     public FieldTraitsRecurseMapper<GeoColorPtr>
 {
-    enum                            { StringConvertable = 0x00   };
-    enum                            { bHasParent        = 0x01   };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00 };
+    enum                             { bHasParent        = 0x01 };
 
-    static Char8  *getSName  (void) { return "SFGeoColorPtr";    }
-    static Char8  *getMName  (void) { return "MFGeoColorPtr";    }
+    static DataType &getType  (void) { return _type;            }
+    static Char8    *getSName (void) { return "SFGeoColorPtr";  }
+    static Char8    *getMName (void) { return "MFGeoColorPtr";  }
 };
 
 typedef SField<GeoColorPtr> SFGeoColorPtr;
@@ -153,11 +159,13 @@ template <>
 struct FieldDataTraits<GeoTexCoordsPtr> : 
     public FieldTraitsRecurseMapper<GeoTexCoordsPtr>
 {
-    enum                            { StringConvertable = 0x00   };
-    enum                            { bHasParent        = 0x01   };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00    };
+    enum                             { bHasParent        = 0x01    };
 
-    static Char8  *getSName  (void) { return "SFGeoTexCoordsPtr";    }
-    static Char8  *getMName  (void) { return "MFGeoTexCoordsPtr";    }
+    static DataType &getType  (void) { return _type;               }
+    static Char8    *getSName (void) { return "SFGeoTexCoordsPtr"; }
+    static Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
 };
 
 typedef SField<GeoTexCoordsPtr> SFGeoTexCoordsPtr;
@@ -182,11 +190,13 @@ template <>
 struct FieldDataTraits<GeoIndexPtr> : 
     public FieldTraitsRecurseMapper<GeoIndexPtr>
 {
-    enum                            { StringConvertable = 0x00 };
-    enum                            { bHasParent        = 0x01 };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00 };
+    enum                             { bHasParent        = 0x01 };
 
-    static Char8  *getSName  (void) { return "SFGeoIndexPtr";  }
-    static Char8  *getMName  (void) { return "MFGeoIndexPtr";  }
+    static DataType &getType  (void) { return _type;            }
+    static Char8    *getSName (void) { return "SFGeoIndexPtr";  }
+    static Char8    *getMName (void) { return "MFGeoIndexPtr";  }
 };
 
 typedef SField<GeoIndexPtr> SFGeoIndexPtr;
@@ -212,11 +222,13 @@ template <>
 struct FieldDataTraits<GeoPTypePtr> : 
     public FieldTraitsRecurseMapper<GeoPTypePtr>
 {
-    enum                            { StringConvertable = 0x00 };
-    enum                            { bHasParent        = 0x01 };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00 };
+    enum                             { bHasParent        = 0x01 };
 
-    static Char8  *getSName  (void) { return "SFGeoPTypePtr";  }
-    static Char8  *getMName  (void) { return "MFGeoPTypePtr";  }
+    static DataType &getType  (void) { return _type;            }
+    static Char8    *getSName (void) { return "SFGeoPTypePtr";  }
+    static Char8    *getMName (void) { return "MFGeoPTypePtr";  }
 };
 
 typedef SField<GeoPTypePtr> SFGeoPTypePtr;
@@ -241,11 +253,13 @@ template <>
 struct FieldDataTraits<GeoPLengthPtr> :
     public FieldTraitsRecurseMapper<GeoPLengthPtr>
 {
-    enum                            { StringConvertable = 0x00  };
-    enum                            { bHasParent        = 0x01  };
+    static DataType                  _type;
+    enum                             { StringConvertable = 0x00  };
+    enum                             { bHasParent        = 0x01  };
 
-    static char   *getSName  (void) { return "SFGeoPLengthPtr"; }
-    static char   *getMName  (void) { return "MFGeoPLengthPtr"; }
+    static DataType &getType  (void) { return _type;             }
+    static char     *getSName (void) { return "SFGeoPLengthPtr"; }
+    static char     *getMName (void) { return "MFGeoPLengthPtr"; }
 };
 
 typedef SField<GeoPLengthPtr> SFGeoPLengthPtr;

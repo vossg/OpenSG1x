@@ -83,6 +83,12 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
   public:
 
     //-----------------------------------------------------------------------
+    //   constants                                                           
+    //-----------------------------------------------------------------------
+
+    static const NodePtr NullPtr;
+
+    //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
 
@@ -98,14 +104,14 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     //   class functions                                                     
     //-----------------------------------------------------------------------
 
-	template <class InTypeT> inline
-	static NodePtr dcast(const InTypeT oIn)
-	{
-		return NodePtr(
-			(dynamic_cast<const typename NodePtr::ObjectType *>(oIn.getCPtr())),
-			oIn.getContainerSize(),
-			oIn.getParentFieldPos());
-	}
+    template <class InTypeT> inline
+    static NodePtr dcast(const InTypeT oIn)
+    {
+        return NodePtr(
+            (dynamic_cast<const Node *>(oIn.getCPtr())),
+             oIn.getContainerSize(),
+             oIn.getParentFieldPos());
+    }
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -140,8 +146,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
 
     /*------------------------------ dump ----------------------------------*/
 
-	/* The next two Constructors are used to work around MS Bugs, use them
-	   only if you realy now what you are doing ;-) */
+    /* The next two Constructors are used to work around MS Bugs, use them
+       only if you realy now what you are doing ;-) */
 
     explicit NodePtr(const Node   &source);
     explicit NodePtr(const Node   *source);
@@ -200,7 +206,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public FieldContainerPtr
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     
@@ -333,7 +339,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public FieldContainerPtr
     //   class variables                                                     
     //-----------------------------------------------------------------------
 
-	static char cvsid[];
+    static char cvsid[];
 
     //-----------------------------------------------------------------------
     //   class functions                                                     

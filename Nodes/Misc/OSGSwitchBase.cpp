@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<SwitchPtr>::_type("SwitchPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<SwitchPtr>::_fieldType

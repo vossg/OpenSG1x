@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<StatePtr>::_type("StatePtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<StatePtr>::_fieldType
@@ -98,7 +100,7 @@ const OSG::BitVector	StateBase::ChunksFieldMask =
 
 
 
-char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char StateBase::cvsid[] = "@(#)$Id: OSGStateBase.cpp,v 1.10 2001/08/03 16:11:16 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -52,9 +52,12 @@
 #include <OSGFieldContainer.h>
 #include <OSGSFSysTypes.h>
 #include <OSGSFBaseTypes.h>
-#include <OSGSFFieldContainerTypes.h>
-#include <OSGMFFieldContainerTypes.h>
-#include <OSGAttachment.h>
+
+#include <OSGAttachmentContainer.h>
+#include <OSGSFNodeCorePtr.h>
+#include <OSGSFNodePtr.h>
+#include <OSGMFNodePtr.h>
+
 #include <OSGNodePtr.h>
 
 OSG_BEGIN_NAMESPACE
@@ -64,8 +67,6 @@ OSG_BEGIN_NAMESPACE
 //---------------------------------------------------------------------------
 
 class NodeCore;
-
-//class NodePtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -79,11 +80,11 @@ class NodeCore;
  *  \brief Node
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer 
+class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer 
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 
@@ -97,15 +98,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
 		ParentFieldId      = VolumeFieldId      + 1,
 		ChildrenFieldId    = ParentFieldId      + 1,
 		CoreFieldId        = ChildrenFieldId    + 1,
-		AttachmentsFieldId = CoreFieldId        + 1,
-		NextFieldId        = AttachmentsFieldId + 1
+		NextFieldId        = CoreFieldId + 1
 	};
 
 	static const BitVector VolumeFieldMask;
 	static const BitVector ParentFieldMask;
 	static const BitVector ChildrenFieldMask;
 	static const BitVector CoreFieldMask;
-	static const BitVector AttachmentsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -128,17 +127,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     /*-------------- general fieldcontainer declaration --------------------*/
 
     OSG_FIELD_CONTAINER_DECL(NodePtr)
-
-    /*------------------------------ attachments ---------------------------*/
-
-    void addAttachment(const AttachmentPtr &fieldContainerP, 
-                             UInt16         binding = 0);
-
-    void subAttachment(const AttachmentPtr &fieldContainerP,
-                             UInt16         binding = 0);
-
-    AttachmentPtr findAttachment(UInt32 groupId,
-                                 UInt16 binding = 0);
 
     /*-------------------------------- core --------------------------------*/
 
@@ -179,8 +167,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public FieldContainer
     SFNodePtr       *getSFParent     (void);
     SFNodeCorePtr   *getSFCore       (void);
     MFNodePtr       *getMFChildren   (void);
-
-    SFAttachmentMap *getSFAttachments(void);
 
     /*-------------------------- transformation ----------------------------*/
 

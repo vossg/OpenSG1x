@@ -52,15 +52,19 @@ OSG_BEGIN_NAMESPACE
 template <>
 struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
 {
-    enum                     { StringConvertable = 0    };
+    static DataType                      _type;
+    enum                                 { StringConvertable = 0 };
 
-    static Char8            *getSName(void)      { return "SFImageP";    }
-    static Char8            *getMName(void)      { return "MFImageP";    }
 
-    static ImageP            getDefault(void)    { return NULL;      }
+    static DataType &getType      (void) { return _type;         }
 
-    static Bool              getFromString(      ImageP  &outVal,
-                                           const Char8   *&inVal)
+    static Char8    *getSName     (void) { return "SFImageP";    }
+    static Char8    *getMName     (void) { return "MFImageP";    }
+
+    static ImageP    getDefault   (void) { return NULL;          }
+
+    static Bool      getFromString(      ImageP  &outVal,
+                                   const Char8   *&inVal)
     {
         // TO_BE_DONE
 		return false;

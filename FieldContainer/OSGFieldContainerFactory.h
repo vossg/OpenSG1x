@@ -50,8 +50,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGString.h>
-#include <OSGFieldContainerPtr.h>
-
+#include <OSGFieldContainerPtrForward.h>
 #include <map>
 #include <vector>
 
@@ -64,14 +63,6 @@ OSG_BEGIN_NAMESPACE
 
 class Lock;
 class FieldContainerType;
-
-class NodePtr;
-
-class NodeCore;
-typedef FCPtr<FieldContainerPtr, NodeCore  > NodeCorePtr;
-
-class Attachment;
-typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
 
 //---------------------------------------------------------------------------
 //   Types

@@ -48,6 +48,14 @@
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<GeoPositionPtr >::_type("GeoPositionPtr"  , true);
+DataType FieldDataTraits<GeoNormalPtr   >::_type("GeoNormalPtr"    , true);
+DataType FieldDataTraits<GeoColorPtr    >::_type("GeoColorPtr"     , true);
+DataType FieldDataTraits<GeoTexCoordsPtr>::_type("GeoTexCoordsPtr" , true);
+DataType FieldDataTraits<GeoIndexPtr    >::_type("GeoIndexPtr"     , true);
+DataType FieldDataTraits<GeoPTypePtr    >::_type("GeoPTypePtr"     , true);
+DataType FieldDataTraits<GeoPLengthPtr  >::_type("GeoPLengthPtr"   , true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField             <GeoPositionPtr           >::_fieldType

@@ -122,9 +122,11 @@ char FieldType::cvsid[] = "@(#)$Id: $";
  */
 
 FieldType::FieldType(const Char8             *szName,
+                     const DataType          &contentType,
                            CreateFieldMethod  createMethod,
                            Cardinality        cardinality) :
     Inherited    (szName, true),
+    _contentType (contentType),
     _cardinality (cardinality),
     _createMethod(createMethod)
 {	
@@ -143,6 +145,11 @@ FieldType::~FieldType(void)
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+const DataType &FieldType::getContentType(void) const
+{
+    return _contentType;
+}
 
 FieldType::Cardinality FieldType::getCardinality(void) const
 {

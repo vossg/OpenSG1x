@@ -78,14 +78,16 @@ char SField<FieldTypeT, fieldNameSpace>::cvsid[] = "@(#)$Id: $";
 #if defined(OSG_MICROSOFT_COMPILER_ALERT)
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType = FieldType(
-	SFieldTraits::getSName(), 
-	create,
+    SFieldTraits::getSName(), 
+    SFieldTraits::getType(),
+    create,
     FieldType::SINGLE_FIELD);
 #else
 template <class FieldTypeT, Int32 fieldNameSpace>
 const FieldType SField<FieldTypeT, fieldNameSpace>::_fieldType(
-	SFieldTraits::getSName(), 
-	create,
+    SFieldTraits::getSName(), 
+    SFieldTraits::getType(),
+    create,
     FieldType::SINGLE_FIELD);
 #endif
 
@@ -284,7 +286,7 @@ String &SField<FieldTypeT, fieldNameSpace>::getValueByStr(String &string) const
     
     Converter::putToString(_value, string);
     
-	return string;
+    return string;
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -310,7 +312,7 @@ void SField<FieldTypeT, fieldNameSpace>::operator =(const SField &source)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 UInt32 SField<FieldTypeT, fieldNameSpace>::getBinSize(void)
 {
-    return SFieldTraits::getBinSize();
+    return SFieldTraits::getBinSize(_value);
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
@@ -323,7 +325,8 @@ MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyToBin(MemoryHandle pMem)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MemoryHandle SField<FieldTypeT, fieldNameSpace>::copyFromBin(MemoryHandle pMem)
 {
-    return pMem;
+    return SFieldTraits::copyFromBin( pMem, 
+                                     _value);
 }
 
 /*--------------------------------- dump ------------------------------------*/

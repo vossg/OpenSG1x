@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<DynamicBackgroundPtr>::_type("DynamicBackgroundPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate MField<DynamicBackgroundPtr>::_fieldType
@@ -99,7 +101,7 @@ const OSG::BitVector	DynamicBackgroundBase::AngleFieldMask =
 
 
 
-char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
+char DynamicBackgroundBase::cvsid[] = "@(#)$Id: OSGDynamicBackgroundBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

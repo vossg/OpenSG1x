@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<TileCameraDecoratorPtr>::_fieldType
@@ -107,7 +109,7 @@ const OSG::BitVector	TileCameraDecoratorBase::TopFieldMask =
 
 
 
-char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.6 2001/07/31 13:39:05 vossg Exp $";
+char TileCameraDecoratorBase::cvsid[] = "@(#)$Id: OSGTileCameraDecoratorBase.cpp,v 1.7 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

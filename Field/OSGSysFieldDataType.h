@@ -54,13 +54,17 @@ template <>
 struct FieldDataTraits2<Bool> : 
     public FieldTraitsIntegralRecurseMapper<Bool>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFBool";    }
-    static Char8           *getMName(void)      { return "MFBool";    }
+    static DataType        &getType (void)      { return _type;         }
 
-    static Bool             getDefault(void)    { return false; }
+    static Char8           *getSName(void)      { return "SFBool";      }
+    static Char8           *getMName(void)      { return "MFBool";      }
+
+    static Bool             getDefault(void)    { return false;         }
 
     static Bool             getFromString(Bool         &outVal,
                                           const Char8 *&inVal)
@@ -136,13 +140,17 @@ struct FieldDataTraits2<Bool> :
 template <>
 struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFInt8";    }
-    static Char8           *getMName(void)      { return "MFInt8";    }
+    static DataType        &getType (void)     { return _type;          }
 
-    static Int8             getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFInt8";      }
+    static Char8           *getMName(void)      { return "MFInt8";      }
+
+    static Int8             getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      Int8   &outVal,
                                           const Char8 *&inVal)
@@ -168,13 +176,17 @@ struct FieldDataTraits<Int8> : public FieldTraitsIntegralRecurseMapper<Int8>
 template <>
 struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFUInt8";    }
-    static Char8           *getMName(void)      { return "MFUInt8";    }
+    static DataType        &getType (void)      { return _type;         }
 
-    static UInt8            getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFUInt8";     }
+    static Char8           *getMName(void)      { return "MFUInt8";     }
+
+    static UInt8            getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      UInt8   &outVal,
                                           const Char8  *&inVal)
@@ -201,13 +213,17 @@ struct FieldDataTraits<UInt8> : public FieldTraitsIntegralRecurseMapper<UInt8>
 template <>
 struct FieldDataTraits<Int16> : public FieldTraitsIntegralRecurseMapper<Int16>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFInt16";    }
-    static Char8           *getMName(void)      { return "MFInt16";    }
+    static DataType        &getType (void)      { return _type;         }
 
-    static Int16            getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFInt16";     }
+    static Char8           *getMName(void)      { return "MFInt16";     }
+
+    static Int16            getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      Int16  &outVal,
                                           const Char8 *&inVal)
@@ -234,13 +250,17 @@ template <>
 struct FieldDataTraits<UInt16> : 
     public FieldTraitsIntegralRecurseMapper<UInt16>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
+
+    static DataType        &getType (void)      { return _type;         }
 
     static Char8           *getSName(void)      { return "SFUInt16";    }
     static Char8           *getMName(void)      { return "MFUInt16";    }
 
-    static UInt16           getDefault(void)    { return 0; }
+    static UInt16           getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      UInt16  &outVal,
                                           const Char8  *&inVal)
@@ -268,13 +288,17 @@ template <>
 struct FieldDataTraits<Int32> : 
     public FieldTraitsIntegralRecurseMapper<Int32>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFInt32";    }
-    static Char8           *getMName(void)      { return "MFInt32";    }
+    static DataType        &getType (void)      { return _type;         }
 
-    static Int32            getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFInt32";     }
+    static Char8           *getMName(void)      { return "MFInt32";     }
+
+    static Int32            getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      Int32  &outVal,
                                           const Char8 *&inVal)
@@ -301,13 +325,17 @@ template <>
 struct FieldDataTraits<UInt32> : 
     public FieldTraitsIntegralRecurseMapper<UInt32>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
+
+    static DataType        &getType (void)      { return _type;         }
 
     static Char8           *getSName(void)      { return "SFUInt32";    }
     static Char8           *getMName(void)      { return "MFUInt32";    }
 
-    static UInt32           getDefault(void)    { return 0; }
+    static UInt32           getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      UInt32  &outVal,
                                           const Char8  *&inVal)
@@ -335,13 +363,17 @@ template <>
 struct FieldDataTraits<Int64> : 
     public FieldTraitsIntegralRecurseMapper<Int64>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
 
-    static Char8           *getSName(void)      { return "SFInt64";    }
-    static Char8           *getMName(void)      { return "MFInt64";    }
+    static DataType        &getType (void)      { return _type;         }
 
-    static Int64            getDefault(void)    { return 0; }
+    static Char8           *getSName(void)      { return "SFInt64";     }
+    static Char8           *getMName(void)      { return "MFInt64";     }
+
+    static Int64            getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      Int64   &outVal,
                                           const Char8  *&inVal)
@@ -368,13 +400,17 @@ template <>
 struct FieldDataTraits<UInt64> : 
     public FieldTraitsIntegralRecurseMapper<UInt64>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
+
+    static DataType        &getType (void)      { return _type;         }
 
     static Char8           *getSName(void)      { return "SFUInt64";    }
     static Char8           *getMName(void)      { return "MFUInt64";    }
 
-    static UInt64           getDefault(void)    { return 0; }
+    static UInt64           getDefault(void)    { return 0;             }
 
     static Bool             getFromString(      UInt64  &outVal,
                                           const Char8  *&inVal)
@@ -403,13 +439,17 @@ template <>
 struct FieldDataTraits<Real32> : 
     public FieldTraitsIntegralRecurseMapper<Real32>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
+
+    static DataType        &getType (void)      { return _type;         }
 
     static Char8           *getSName(void)      { return "SFReal32";    }
     static Char8           *getMName(void)      { return "MFReal32";    }
 
-    static Real32           getDefault(void)    { return 0.f; }
+    static Real32           getDefault(void)    { return 0.f;           }
 
     static Bool             getFromString(      Real32  &outVal,
                                           const Char8  *&inVal)
@@ -437,13 +477,17 @@ template <>
 struct FieldDataTraits<Real64> : 
     public FieldTraitsIntegralRecurseMapper<Real64>
 {
+    static DataType         _type;
+
     enum                    { StringConvertable = ToStringConvertable | 
                                                   FromStringConvertable };
+
+    static DataType        &getType (void)      { return _type;         }
 
     static Char8           *getSName(void)      { return "SFReal64";    }
     static Char8           *getMName(void)      { return "MFReal64";    }
 
-    static Real64           getDefault(void)    { return 0.; }
+    static Real64           getDefault(void)    { return 0.;            }
 
     static Bool             getFromString(      Real64  &outVal,
                                           const Char8  *&inVal)

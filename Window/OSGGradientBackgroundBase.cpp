@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate MField<GradientBackgroundPtr>::_fieldType
@@ -99,7 +101,7 @@ const OSG::BitVector	GradientBackgroundBase::PositionFieldMask =
 
 
 
-char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
+char GradientBackgroundBase::cvsid[] = "@(#)$Id: OSGGradientBackgroundBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

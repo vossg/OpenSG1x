@@ -50,19 +50,19 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGMatrix.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerType.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGSFFieldContainerTypes.h>
-#include <OSGMFFieldContainerTypes.h>
+#include <OSGAttachmentContainerPtr.h>
+#include <OSGAttachmentContainer.h>
+#include <OSGMFNodePtr.h>
 #include <OSGDynamicVolume.h>
-#include <OSGAttachment.h>
 
 OSG_BEGIN_NAMESPACE
 
 //---------------------------------------------------------------------------
 //  Forward References
 //---------------------------------------------------------------------------
+
+class NodeCore;
+typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -76,11 +76,11 @@ OSG_BEGIN_NAMESPACE
  *  \brief NodeCore
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer 
+class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer Inherited;
+    typedef AttachmentContainer Inherited;
 
   public:
 
@@ -89,14 +89,12 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
     //-----------------------------------------------------------------------
 
     enum 
-	{ 
-		ParentsFieldId     = Inherited::NextFieldId, 
-		AttachmentsFieldId = ParentsFieldId + 1,
-		NextFieldId        = AttachmentsFieldId + 1
-	};
+    { 
+        ParentsFieldId     = Inherited::NextFieldId, 
+        NextFieldId        = ParentsFieldId + 1
+    };
 
-	static const BitVector ParentsFieldMask;
-	static const BitVector AttachmentsFieldMask;
+    static const BitVector ParentsFieldMask;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -124,19 +122,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
     const MFNodePtr       &getParents      (void) const;
  
           MFNodePtr       *getMFParents    (void);
-
-          SFAttachmentMap *getSFAttachments(void);
-
-    /*------------------------------ attachments ---------------------------*/
-
-    void          addAttachment (const AttachmentPtr &fieldContainerP, 
-                                       UInt16         binding = 0);
-
-    void          subAttachment (const AttachmentPtr &fieldContainerP,
-                                       UInt16         binding = 0);
-
-    AttachmentPtr findAttachment(UInt16 groupId, 
-                                 UInt16 binding = 0);
 
     /*------------------------------ pointer -------------------------------*/
     
@@ -177,7 +162,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
     //-----------------------------------------------------------------------
 
     MFNodePtr       _parents;
-    SFAttachmentMap _attachmentMap;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -194,11 +178,11 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 
     NodeCorePtr getPtr(void);
 
-    virtual void executeSync(FieldContainer &other,
-                             const BitVector       &whichField);
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField);
 
-    void executeSyncImpl(NodeCore  *pOther,
-                         const BitVector  &whichField);
+            void executeSyncImpl(      NodeCore  *pOther,
+                                 const BitVector &whichField);
 
     /*-------------------------- transformation ----------------------------*/
 
@@ -208,7 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 
     virtual void adjustVolume    (Volume &volume);
 
-	virtual void invalidateVolume( void );
+    virtual void invalidateVolume( void );
 
   private:
 
@@ -258,8 +242,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public FieldContainer
 //---------------------------------------------------------------------------
 
 // class pointer
-
-typedef FCPtr<FieldContainerPtr, NodeCore> NodeCorePtr;
 
 extern OSG_SYSTEMLIB_DLLMAPPING const NodeCorePtr         NullNodeCore;
 

@@ -1026,6 +1026,8 @@ Bool Image::operator < (const Image &image )
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<ImageP>::_type("ImageP"  , true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<ImageP>::_fieldType

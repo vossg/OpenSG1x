@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<GroupPtr>::_type("GroupPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<GroupPtr>::_fieldType
@@ -94,7 +96,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.7 2001/07/31 13:39:04 vossg Exp $";
+char GroupBase::cvsid[] = "@(#)$Id: OSGGroupBase.cpp,v 1.8 2001/08/03 16:11:48 vossg Exp $";
 
 /** \brief Group type
  */

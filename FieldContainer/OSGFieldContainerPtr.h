@@ -910,6 +910,5 @@ extern OSG_SYSTEMLIB_DLLMAPPING const FieldContainerPtr NullFC;
 OSG_END_NAMESPACE
 
 #include <OSGFieldContainerPtr.inl>
-#include <OSGNodePtr.h>
 
 #endif /* _OSGFIELDCONTAINERPTR_H_ */

@@ -47,6 +47,7 @@
 #include "OSGConfig.h"
 
 #include "OSGAttachment.h"
+#include "OSGMFNodePtr.h"
 
 OSG_USING_NAMESPACE
 

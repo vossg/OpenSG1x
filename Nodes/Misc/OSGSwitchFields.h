@@ -82,11 +82,15 @@ template <>
 struct FieldDataTraits<SwitchPtr> : 
     public FieldTraitsRecurseMapper<SwitchPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFSwitchPtr"; }
-    static char *getMName(void) { return "MFSwitchPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFSwitchPtr"; }
+    static char     *getMName(void) { return "MFSwitchPtr"; }
 };
 
 /** \brief SFSwitchPtr

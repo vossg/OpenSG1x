@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<WindowPtr>::_type("WindowPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<WindowPtr>::_fieldType
@@ -110,7 +112,7 @@ const OSG::BitVector	WindowBase::GlObjectStatusFieldMask =
 
 
 
-char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.11 2001/07/31 13:39:05 vossg Exp $";
+char WindowBase::cvsid[] = "@(#)$Id: OSGWindowBase.cpp,v 1.12 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

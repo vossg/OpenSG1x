@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<MaterialPtr>::_fieldType
@@ -94,7 +96,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.8 2001/07/31 13:39:04 vossg Exp $";
+char MaterialBase::cvsid[] = "@(#)$Id: OSGMaterialBase.cpp,v 1.9 2001/08/03 16:12:15 vossg Exp $";
 
 /** \brief Material type
  */

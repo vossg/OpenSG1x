@@ -46,95 +46,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
-#include <OSGSField.h>
-#include <OSGContainerFieldDataType.h>
+#include <OSGSFFieldContainerPtr.h>
+#include <OSGSFAttachmentContainerPtr.h>
+#include <OSGSFNodePtr.h>
+#include <OSGSFNodeCorePtr.h>
+#include <OSGSFAttachmentMap.h>
+#include <OSGSFAttachmentPtr.h>
 
-/** \file OSGSFFieldContainerTypes.h
- *  \ingroup FieldLib
- *  \ingroup SingleFields
- *  \brief OpenSG field container single fields
- *
- * <UL>
- * <LI> osg::SFFieldContainerPtr
- * <LI> osg::SFNodePtr
- * <LI> osg::SFNodeCorePtr
- * <LI> osg::SFPropertyPtr
- * <LI> osg::SFAttachmentMap;
- * </UL>
- */
-
-OSG_BEGIN_NAMESPACE
-
-/** \brief SFFieldContainerPtr
- */
-
-typedef SField<FieldContainerPtr> SFFieldContainerPtr;
-
-#ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<FieldContainerPtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, FieldContainerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief SFNodePtr
- */
-
-typedef SField<NodePtr>           SFNodePtr;
-
-#ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<NodePtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, NodePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief SFNodeCorePtr
- */
-
-typedef SField<NodeCorePtr>       SFNodeCorePtr;
-
-#ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<NodeCorePtr>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, NodeCorePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-/** \brief SFAttachmentMap
- */
-
-typedef SField<AttachmentMap>     SFAttachmentMap;
-
-#ifndef OSG_COMPILECONTAINERFIELDINST
-#if defined(__sgi)
-
-#pragma do_not_instantiate SField<AttachmentMap>::_fieldType
-
-#else
-
-OSG_DLLEXPORT_DECL1(SField, AttachmentMap, OSG_SYSTEMLIB_DLLTMPLMAPPING)
-
-#endif
-#endif
-
-OSG_END_NAMESPACE
 
 #endif /* _OSGSFFIELDCONTAINERTYPES_H_ */
 

@@ -48,7 +48,6 @@
 #include "OSGFieldContainerType.h"
 #include "OSGNode.h"
 #include "OSGNodeCore.h"
-#include "OSGAttachment.h"
 
 OSG_USING_NAMESPACE
 
@@ -56,8 +55,6 @@ OSG_USING_NAMESPACE
  */
 
 const NodePtr OSG::NullNode;
-
-
 
 /***************************************************************************\
  *                               Types                                     *
@@ -75,7 +72,6 @@ const BitVector Node::VolumeFieldMask      = (1 << Node::VolumeFieldId     );
 const BitVector Node::ParentFieldMask      = (1 << Node::ParentFieldId     );
 const BitVector Node::ChildrenFieldMask    = (1 << Node::ChildrenFieldId   );
 const BitVector Node::CoreFieldMask        = (1 << Node::CoreFieldId       );
-const BitVector Node::AttachmentsFieldMask = (1 << Node::AttachmentsFieldId);
 
 FieldDescription *Node::_desc[] = 
 {
@@ -101,13 +97,7 @@ FieldDescription *Node::_desc[] =
                          "core",
                          OSG_FC_FIELD_IDM_DESC(CoreField),
                          false,	
-                         (FieldAccessMethod) &Node::getSFCore),
-
-    new FieldDescription(SFAttachmentMap::getClassType(),
-                         "attachments",
-                         OSG_FC_FIELD_IDM_DESC(AttachmentsField),
-                         false,	
-                         (FieldAccessMethod) &Node::getSFAttachments)
+                         (FieldAccessMethod) &Node::getSFCore)
 };
 
 FieldContainerType Node::_type(
@@ -185,81 +175,11 @@ OSG_FIELD_CONTAINER_DEF(Node, NodePtr)
 
 /*------------------------------ access -----------------------------------*/
 
-void Node::addAttachment(const AttachmentPtr &fieldContainerP,
-                               UInt16         binding)
-{
-    UInt32 key;
-
-    if(fieldContainerP == NullAttachment)
-        return;
-
-	key = (UInt32 (fieldContainerP->getGroupId()) << 16) | binding;
-
-    addRefCP(fieldContainerP);
-
-	AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-
-    beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
-    {
-        fieldContainerP->addParent(getPtr());
-    }
-    endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
-
-	if(fcI != _attachmentMap.getValue().end())
-    {
-        subRefCP((*fcI).second);
-        (*fcI).second = fieldContainerP;
-    }	
-    else
-    {
-        _attachmentMap.getValue()[key] = fieldContainerP;
-    }
-}
-
-void Node::subAttachment(const AttachmentPtr &fieldContainerP,
-                               UInt16         binding)
-{
-    UInt32 key;
-
-    AttachmentMap::iterator fcI;
-
-    if(fieldContainerP == NullAttachment)
-        return;
-
-    key = (UInt32(fieldContainerP->getGroupId()) << 16) | binding;
-
-    fcI = _attachmentMap.getValue().find(key);
-
-    if(fcI != _attachmentMap.getValue().end())
-    {
-        beginEditCP(fieldContainerP, Attachment::ParentsFieldMask);
-        {
-            (*fcI).second->subParent(getPtr());
-        }
-        endEditCP  (fieldContainerP, Attachment::ParentsFieldMask);
-
-        subRefCP((*fcI).second);
-
-        _attachmentMap.getValue().erase(fcI);
-    }  
-}
-
-AttachmentPtr Node::findAttachment(UInt32 groupId, 
-                                   UInt16 binding) 
-{
-    UInt32 key = (UInt32(groupId) << 16) | binding;
-
-    AttachmentMap::iterator fcI = _attachmentMap.getValue().find(key);
-    
-    return (fcI == _attachmentMap.getValue().end()) ? 
-        NullAttachment : (*fcI).second;
-}
-
 void Node::setCore(const NodeCorePtr &core)
 {
     NodePtr thisP = getPtr();
 
-    thisP.setParentFieldPos(CoreFieldMask);
+    thisP.setParentFieldPos(CoreFieldId);
 
 	if(_core.getValue() != NullFC)
     {
@@ -514,11 +434,6 @@ MFNodePtr *Node::getMFChildren(void)
     return &_children;
 }
 
-SFAttachmentMap *Node::getSFAttachments(void)
-{
-    return &_attachmentMap;
-}
-
 NodePtr Node::getPtr(void)
 {
     return NodePtr(*this);
@@ -619,7 +534,7 @@ void Node::changed(BitVector  whichField,
 
 UInt32 Node::getBinSize(const BitVector &whichField)
 {
-    UInt32 returnValue = 0;
+    UInt32 returnValue = Inherited::getBinSize(whichField);
 
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
@@ -641,17 +556,14 @@ UInt32 Node::getBinSize(const BitVector &whichField)
         returnValue += _core         .getBinSize();
     }
     
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        returnValue += _attachmentMap.getBinSize();
-    }
-
     return returnValue;
 }
 
 MemoryHandle Node::copyToBin  (      MemoryHandle  pMem, 
                                const BitVector    &whichField)
 {
+    pMem = Inherited::copyToBin(pMem, whichField);
+
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
         pMem = _volume.copyToBin(pMem);
@@ -672,17 +584,14 @@ MemoryHandle Node::copyToBin  (      MemoryHandle  pMem,
         pMem = _core.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        pMem = _attachmentMap.copyToBin(pMem);
-    }
-
     return pMem;
 }
 
 MemoryHandle Node::copyFromBin(      MemoryHandle  pMem, 
                                const BitVector    &whichField)
 {
+    pMem = Inherited::copyToBin(pMem, whichField);
+
     if(FieldBits::NoField != (VolumeFieldMask & whichField))
     {
         pMem = _volume.copyFromBin(pMem);
@@ -701,11 +610,6 @@ MemoryHandle Node::copyFromBin(      MemoryHandle  pMem,
     if(FieldBits::NoField != (CoreFieldMask & whichField))
     {
         pMem = _core.copyFromBin(pMem);
-    }
-
-    if(FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        pMem = _attachmentMap.copyFromBin(pMem);
     }
 
     return pMem;
@@ -745,15 +649,7 @@ void Node::dump(      UInt32     uiIndent,
         PLOG << "Core : " << "NULL" << endl;
     }
 
-    AttachmentMap::const_iterator fcI;
-
-    fcI = _attachmentMap.getValue().begin();
-
-    while(fcI != _attachmentMap.getValue().end())
-    {
-        (*fcI).second->dump(uiIndent + 4, bvFlags);
-        ++fcI;
-    }
+    Inherited::dump(uiIndent, bvFlags);
 
     indentLog(uiIndent, PLOG);
     PLOG << "]" << endl;
@@ -834,8 +730,7 @@ Node::Node(void) :
     Inherited     (),
     _parent       (),
     _children     (),
-    _core         (),
-    _attachmentMap()
+    _core         ()
 {
 }
 
@@ -846,8 +741,7 @@ Node::Node(const Node &source) :
     Inherited     (source),
     _parent       (),
     _children     (),
-    _core         (),
-    _attachmentMap()
+    _core         ()
 {
 }
 
@@ -919,11 +813,6 @@ void Node::executeSyncImpl(      Node      *pOther,
     if (FieldBits::NoField != (CoreFieldMask & whichField))
     {
         _core.syncWith(pOther->_core);
-    }
-
-    if (FieldBits::NoField != (AttachmentsFieldMask & whichField))
-    {
-        _attachmentMap.syncWith(pOther->_attachmentMap);
     }
 }
 

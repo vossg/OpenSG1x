@@ -82,11 +82,15 @@ template <>
 struct FieldDataTraits<VRMLTransformPtr> : 
     public FieldTraitsRecurseMapper<VRMLTransformPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFVRMLTransformPtr"; }
-    static char *getMName(void) { return "MFVRMLTransformPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFVRMLTransformPtr"; }
+    static char     *getMName(void) { return "MFVRMLTransformPtr"; }
 };
 
 /** \brief SFVRMLTransformPtr

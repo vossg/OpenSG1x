@@ -51,7 +51,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGFieldContainerType.h>
-#include <OSGFieldContainerPtr.h>
+#include <OSGNodePtr.h>
 
 #ifndef OSG_NOFUNCTORS
 #include <OSGFunctors.h>

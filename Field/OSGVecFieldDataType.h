@@ -46,42 +46,68 @@
 
 OSG_BEGIN_NAMESPACE
 
-/** \ingroup FieldLib
- *  \ingroup SingleFields
- *  \ingroup MultiFields
- *  \brief VecStorage4 field traits 
- */
-
 template<class ValueTypeT>
-struct FieldTraitsRecurseVecStore2Base : public Traits
+struct FieldTraitsRecurseVecStoreBase : public Traits
 {
     enum                         { bHasParent        = 0x00 };
 
-    static UInt32 getBinSize(void)
+    static UInt32 getBinSize(const ValueTypeT &)
     {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::gBS\n");
+        return sizeof(ValueTypeT);
+    }
 
-        return 0;
+    static UInt32 getBinSize(const ValueTypeT *,
+                                   UInt32      uiNumObjects)
+    {
+        return sizeof(ValueTypeT) * uiNumObjects;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle  pMem, 
                                   const ValueTypeT   &oObject)
     {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::cTB\n");
+        UInt32 size = getBinSize(oObject);
 
-        return pMem;
+        memcpy(pMem, &oObject, size);
+
+        return pMem + size;
     }
 
     static MemoryHandle copyToBin(      MemoryHandle  pMem, 
                                   const ValueTypeT   *pObjectStore,
                                         UInt32        uiNumObjects)
     {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage2<ValueTypeT> >::cFB\n");
+        UInt32 size = getBinSize(pObjectStore[0]) * uiNumObjects;
 
-        return pMem;
+        if(size > 0)
+        {
+            memcpy(pMem, &pObjectStore[0], size);
+        }
+
+        return pMem + size;
+    }
+
+    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
+                                          ValueTypeT   &oObject)
+    {
+        UInt32 size = getBinSize(oObject);
+
+        memcpy(&oObject, pMem, size);
+
+        return pMem + size;
+    }
+
+    static MemoryHandle copyFromBin(const MemoryHandle  pMem, 
+                                          ValueTypeT   *pObjectStore,
+                                          UInt32        uiNumObjects)
+    {
+        UInt32 size = getBinSize(pObjectStore, uiNumObjects);
+
+        if(size > 0)
+        {
+            memcpy(&pObjectStore[0], pMem, size);
+        }
+
+        return pMem + size;
     }
 };
 
@@ -92,36 +118,10 @@ struct FieldTraitsRecurseVecStore2Base : public Traits
  */
 
 template<class ValueTypeT>
-struct FieldTraitsRecurseVecStore3Base : public Traits
+struct FieldTraitsRecurseVecStore2Base : 
+    public FieldTraitsRecurseVecStoreBase<ValueTypeT> 
 {
-    enum                         { bHasParent        = 0x00                  };
-
-    static UInt32 getBinSize(void)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::gBS\n");
-        
-        return 0;
-    }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   &oObject)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::cTB\n");
-
-        return pMem;
-    }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage3<ValueTypeT> >::cFB\n");
-
-        return pMem;
-    }
+    enum { bHasParent = 0x00 };
 };
 
 /** \ingroup FieldLib
@@ -131,36 +131,23 @@ struct FieldTraitsRecurseVecStore3Base : public Traits
  */
 
 template<class ValueTypeT>
-struct FieldTraitsRecurseVecStore4Base : public Traits
+struct FieldTraitsRecurseVecStore3Base : 
+    public FieldTraitsRecurseVecStoreBase<ValueTypeT>
 {
-    enum                         { bHasParent        = 0x00 };
+    enum { bHasParent = 0x00 };
+};
 
-    static UInt32 getBinSize(void)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::gBS\n");
+/** \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \ingroup MultiFields
+ *  \brief VecStorage4 field traits 
+ */
 
-        return 0;
-    }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   &oObjectStore)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::cTB\n");
-
-        return pMem;
-    }
-
-    static MemoryHandle copyToBin(      MemoryHandle  pMem, 
-                                  const ValueTypeT   *pObjectStore,
-                                        UInt32        uiNumObjects)
-    {
-        fprintf(stderr, 
-                "FieldTraitsRecurseMapper<VecStorage4<ValueTypeT> >::cFB\n");
-
-        return pMem;
-    }
+template<class ValueTypeT>
+struct FieldTraitsRecurseVecStore4Base : 
+    public FieldTraitsRecurseVecStoreBase<ValueTypeT>
+{
+    enum { bHasParent = 0x00 };
 };
 
 /** \ingroup FieldLib
@@ -172,15 +159,20 @@ struct FieldTraitsRecurseVecStore4Base : public Traits
 template <>
 struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 {
-    enum                         { StringConvertable = ToStringConvertable | 
+    static DataType                _type;
+
+    enum                           { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
+    enum                           { bHasParent        = 0x01                };
 
-    static Char8 *getSName(void)   { return "SFVec2f"; }
-    static Char8 *getMName(void)   { return "MFVec2f"; }
-    static Vec2f  getDefault(void) { return Vec2f();   }
+    static DataType &getType      (void) { return _type;     }
 
-    static Bool   getFromString(      Vec2f  &outVal,
-                                const Char8 *&inVal)
+    static Char8    *getSName     (void) { return "SFVec2f"; }
+    static Char8    *getMName     (void) { return "MFVec2f"; }
+    static Vec2f     getDefault   (void) { return Vec2f();   }
+
+    static Bool      getFromString(      Vec2f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
         
@@ -204,17 +196,20 @@ struct FieldDataTraits<Vec2f> : public FieldTraitsRecurseVecStore2Base<Vec2f>
 template <>
 struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
     enum                         { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFVec3f"; }
-    static Char8 *getMName(void)   { return "MFVec3f"; }
+    static DataType &getType      (void) { return _type;     }
+    static Char8    *getSName     (void) { return "SFVec3f"; }
+    static Char8    *getMName     (void) { return "MFVec3f"; }
 
-    static Vec3f  getDefault(void) { return Vec3f();   }
+    static Vec3f     getDefault   (void) { return Vec3f();   }
 
-    static Bool   getFromString(      Vec3f  &outVal,
-                                const Char8 *&inVal)
+    static Bool      getFromString(      Vec3f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
 
@@ -238,18 +233,22 @@ struct FieldDataTraits<Vec3f> : public FieldTraitsRecurseVecStore3Base<Vec3f>
 template <>
 struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
     enum                         { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFVec4f";    }
+    static DataType &getType      (void) { return _type;     }
 
-    static Char8 *getMName(void)   { return "MFVec4f";    }
+    static Char8    *getSName     (void) { return "SFVec4f"; }
 
-    static Vec4f  getDefault(void) { return Vec4f();      }
+    static Char8    *getMName     (void) { return "MFVec4f"; }
 
-    static Bool   getFromString(      Vec4f  &outVal,
-                                const Char8 *&inVal)
+    static Vec4f     getDefault   (void) { return Vec4f();   }
+
+    static Bool      getFromString(      Vec4f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
 
@@ -272,18 +271,20 @@ struct FieldDataTraits<Vec4f> : public FieldTraitsRecurseVecStore4Base<Vec4f>
 template <>
 struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 {
+    static DataType             _type;
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
     enum                        { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFVec4ub";    }
+    static DataType &getType      (void) { return _type;      }
+    static Char8    *getSName     (void) { return "SFVec4ub"; }
 
-    static Char8 *getMName(void)   { return "MFVec4ub";    }
+    static Char8    *getMName     (void) { return "MFVec4ub"; }
 
-    static Vec4ub getDefault(void) { return Vec4ub();      }
+    static Vec4ub    getDefault   (void) { return Vec4ub();   }
 
-    static Bool   getFromString(      Vec4ub  &outVal,
-                                const Char8  *&inVal)
+    static Bool      getFromString(      Vec4ub  &outVal,
+                                   const Char8  *&inVal)
     {
         outVal.setValue(inVal);
 
@@ -306,18 +307,22 @@ struct FieldDataTraits<Vec4ub> : public FieldTraitsRecurseVecStore4Base<Vec4ub>
 template <>
 struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable  };
     enum                         { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFPnt2f";    }
+    static DataType &getType      (void) { return _type;     }
 
-    static Char8 *getMName(void)   { return "MFPnt2f";    }
+    static Char8    *getSName     (void) { return "SFPnt2f"; }
 
-    static Pnt2f  getDefault(void) { return Pnt2f();      }
+    static Char8    *getMName     (void) { return "MFPnt2f"; }
 
-    static Bool   getFromString(      Pnt2f  &outVal,
-                                const Char8 *&inVal)
+    static Pnt2f     getDefault   (void) { return Pnt2f();   }
+
+    static Bool      getFromString(      Pnt2f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
 
@@ -340,18 +345,22 @@ struct FieldDataTraits<Pnt2f> : public FieldTraitsRecurseVecStore2Base<Pnt2f>
 template <>
 struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 {
+    static DataType             _type;
+
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
     enum                        { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFPnt3f";    }
+    static DataType &getType      (void) { return _type;     }
 
-    static Char8 *getMName(void)   { return "MFPnt3f";    }
+    static Char8    *getSName     (void) { return "SFPnt3f"; }
 
-    static Pnt3f  getDefault(void) { return Pnt3f();      }
+    static Char8    *getMName     (void) { return "MFPnt3f"; }
 
-    static Bool   getFromString(      Pnt3f  &outVal,
-                                const Char8 *&inVal)
+    static Pnt3f     getDefault   (void) { return Pnt3f();   }
+
+    static Bool      getFromString(      Pnt3f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
         return false;
@@ -373,18 +382,22 @@ struct FieldDataTraits<Pnt3f> : public FieldTraitsRecurseVecStore3Base<Pnt3f>
 template <>
 struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 {
+    static DataType             _type;
+
     enum                        { StringConvertable = ToStringConvertable | 
                                                       FromStringConvertable };
     enum                        { bHasParent        = 0x01                  };
 
-    static Char8 *getSName(void)   { return "SFPnt4f";    }
+    static DataType &getType      (void) { return _type;     }
 
-    static Char8 *getMName(void)   { return "MFPnt4f";    }
+    static Char8    *getSName     (void) { return "SFPnt4f"; }
 
-    static Pnt4f  getDefault(void) { return Pnt4f();      }
+    static Char8    *getMName     (void) { return "MFPnt4f"; }
 
-    static Bool   getFromString(      Pnt4f  &outVal,
-                                const Char8 *&inVal)
+    static Pnt4f     getDefault   (void) { return Pnt4f();   }
+
+    static Bool      getFromString(      Pnt4f  &outVal,
+                                   const Char8 *&inVal)
     {
         outVal.setValue(inVal);
         return false;
@@ -400,10 +413,6 @@ struct FieldDataTraits<Pnt4f> : public FieldTraitsRecurseVecStore4Base<Pnt4f>
 OSG_END_NAMESPACE
 
 #endif /* _OSG_VECFIELDDATATYPE_H_ */
-
-
-
-
 
 
 

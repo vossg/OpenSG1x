@@ -55,16 +55,20 @@ OSG_BEGIN_NAMESPACE
 template <>
 struct FieldDataTraits<Matrix> : public FieldTraitsRecurseBase<Matrix>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
 
-    static Char8 *getSName(void) { return "SFMatrix"; }
-    static Char8 *getMName(void) { return "MFMatrix"; }
+    static DataType         &getType (void) { return _type;                  }
+
+    static Char8            *getSName(void) { return "SFMatrix";             }
+    static Char8            *getMName(void) { return "MFMatrix";             }
 
 //    static Matrix        getDefault(void)    { return Matrix; }
 
-    static Bool             getFromString(      Matrix   &,
-                                          const Char8   *&)
+    static Bool              getFromString(      Matrix   &,
+                                           const Char8   *&)
     {
         // TO_BE_DONE
         return false;
@@ -87,11 +91,15 @@ template <>
 struct FieldDataTraits<Quaternion> : 
     public FieldTraitsRecurseBase<Quaternion>
 {
+    static DataType              _type;
+
     enum                         { StringConvertable = ToStringConvertable | 
                                                        FromStringConvertable };
 
-    static Char8 *getSName(void) { return "SFQuaternion"; }
-    static Char8 *getMName(void) { return "MFQuaternion"; }
+    static DataType        &getType (void) { return _type;                   }
+
+    static Char8           *getSName(void) { return "SFQuaternion";          }
+    static Char8           *getMName(void) { return "MFQuaternion";          }
 
 //    static Quaternion    getDefault(void)    { return Quaternion; }
 

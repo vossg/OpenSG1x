@@ -406,6 +406,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoProperty :
             void executeSyncImpl(      GeoProperty *pOther,
                                  const BitVector   &whichField);
 
+    virtual UInt32       getBinSize (const BitVector    &whichField);
+    virtual MemoryHandle copyToBin  (      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
+    virtual MemoryHandle copyFromBin(      MemoryHandle  pMem,
+                                     const BitVector    &whichField);
+
   private:
 
     //-----------------------------------------------------------------------

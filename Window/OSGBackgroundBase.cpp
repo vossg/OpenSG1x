@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<BackgroundPtr>::_fieldType
@@ -94,7 +96,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.8 2001/07/31 13:39:05 vossg Exp $";
+char BackgroundBase::cvsid[] = "@(#)$Id: OSGBackgroundBase.cpp,v 1.9 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Background type
  */

@@ -36,8 +36,53 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-/* This is a dummy header to allow automatic inference from the type to the */
-/* field type header. */
+#ifndef _OSGMFATTACHMENTPTR_H_
+#define _OSGMFATTACHMENTPTR_H_
+#ifdef __sgi
+#pragma once
+#endif
 
-#include "OSGSFFieldContainerTypes.h"
-#include "OSGMFFieldContainerTypes.h"
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
+
+#include <OSGSystemDef.h>
+#include <OSGMField.h>
+#include <OSGAttachmentFieldDataType.h>
+
+/** \file OSGMFFieldContainerTypes.h
+ *  \ingroup FieldLib
+ *  \ingroup SingleFields
+ *  \brief OpenSG field container single fields
+ *
+ * <UL>
+ * <LI> osg::MFAttachmentPtr;
+ * </UL>
+ */
+
+OSG_BEGIN_NAMESPACE
+
+/** \brief MFAttachmentPtr
+ */
+
+typedef MField<AttachmentPtr>     MFAttachmentPtr;
+
+#ifndef OSG_COMPILECONTAINERFIELDINST
+#if defined(__sgi)
+
+#pragma do_not_instantiate MField<AttachmentPtr>::_fieldType
+
+#else
+
+OSG_DLLEXPORT_DECL1(MField, AttachmentPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+
+#endif
+#endif
+
+OSG_END_NAMESPACE
+
+#endif /* _OSGMFATTACHMENTPTR_H_ */
+
+
+
+

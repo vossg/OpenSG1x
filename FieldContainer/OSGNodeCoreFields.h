@@ -39,7 +39,7 @@
 /* This is a dummy header to allow automatic inference from the type to the */
 /* field type header. */
 
-#include "OSGSFFieldContainerTypes.h"
-#include "OSGMFFieldContainerTypes.h"
+#include "OSGSFNodeCorePtr.h"
+#include "OSGMFNodeCorePtr.h"
 
 

@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<InlinePtr>::_fieldType

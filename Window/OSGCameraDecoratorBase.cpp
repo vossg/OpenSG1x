@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<CameraDecoratorPtr>::_fieldType
@@ -98,7 +100,7 @@ const OSG::BitVector	CameraDecoratorBase::CameraFieldMask =
 
 
 
-char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.6 2001/07/31 13:39:05 vossg Exp $";
+char CameraDecoratorBase::cvsid[] = "@(#)$Id: OSGCameraDecoratorBase.cpp,v 1.7 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

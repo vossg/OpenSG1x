@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<PerspectiveCameraPtr>::_fieldType
@@ -98,7 +100,7 @@ const OSG::BitVector	PerspectiveCameraBase::FovFieldMask =
 
 
 
-char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.10 2001/07/31 13:39:05 vossg Exp $";
+char PerspectiveCameraBase::cvsid[] = "@(#)$Id: OSGPerspectiveCameraBase.cpp,v 1.11 2001/08/03 16:11:02 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -82,11 +82,15 @@ template <>
 struct FieldDataTraits<MaterialPtr> : 
     public FieldTraitsRecurseMapper<MaterialPtr>
 {
-    enum                        { StringConvertable = 0x00      };
-    enum                        { bHasParent        = 0x01      };
+    static DataType             _type;                       
 
-    static char *getSName(void) { return "SFMaterialPtr"; }
-    static char *getMName(void) { return "MFMaterialPtr"; }
+    enum                        { StringConvertable = 0x00 };
+    enum                        { bHasParent        = 0x01 };
+
+    static DataType &getType (void) { return _type;        }
+
+    static char     *getSName(void) { return "SFMaterialPtr"; }
+    static char     *getMName(void) { return "MFMaterialPtr"; }
 };
 
 /** \brief SFMaterialPtr

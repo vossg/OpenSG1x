@@ -51,9 +51,9 @@
 #include <OSGFieldDescription.h>
 #include <OSGFieldContainerType.h>
 #include <OSGFieldContainerPtr.h>
-#include <OSGSFFieldContainerTypes.h>
-#include <OSGMFFieldContainerTypes.h>
+#include <OSGAttachmentPtr.h>
 #include <OSGSFBaseTypes.h>
+#include <OSGMFFieldContainerPtr.h>
 
 #include <map>
 #include <iostream>
@@ -598,10 +598,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DynFieldAttachment :
 
 typedef Attachment                          *AttachmentP;
 
-typedef FCPtr<FieldContainerPtr, Attachment> AttachmentPtr;
-
 extern OSG_SYSTEMLIB_DLLMAPPING const AttachmentPtr NullAttachment;
-
 
 typedef map<UInt32, AttachmentPtr>  AttachmentMap;
 

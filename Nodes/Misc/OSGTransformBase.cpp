@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<TransformPtr>::_type("TransformPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<TransformPtr>::_fieldType
@@ -98,7 +100,7 @@ const OSG::BitVector	TransformBase::MatrixFieldMask =
 
 
 
-char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char TransformBase::cvsid[] = "@(#)$Id: OSGTransformBase.cpp,v 1.10 2001/08/03 16:11:48 vossg Exp $";
 
 /** \brief Group field description
  */

@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<StateChunkPtr>::_fieldType
@@ -94,7 +96,7 @@ OSG_END_NAMESPACE
 \***************************************************************************/
 
 
-char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.8 2001/07/31 13:39:05 vossg Exp $";
+char StateChunkBase::cvsid[] = "@(#)$Id: OSGStateChunkBase.cpp,v 1.9 2001/08/03 16:11:16 vossg Exp $";
 
 /** \brief StateChunk type
  */

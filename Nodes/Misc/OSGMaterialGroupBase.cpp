@@ -75,6 +75,8 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 
+DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", true);
+
 #if defined(__sgi)
 
 #pragma instantiate SField<MaterialGroupPtr>::_fieldType
@@ -98,7 +100,7 @@ const OSG::BitVector	MaterialGroupBase::MaterialFieldMask =
 
 
 
-char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.9 2001/07/31 13:39:04 vossg Exp $";
+char MaterialGroupBase::cvsid[] = "@(#)$Id: OSGMaterialGroupBase.cpp,v 1.10 2001/08/03 16:11:48 vossg Exp $";
 
 /** \brief Group field description
  */
