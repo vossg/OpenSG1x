@@ -146,6 +146,16 @@ StateChunkPtr &ChunkMaterialBase::getChunks( UInt32 index)
 	return _mfChunks.getValue( index );
 }
 
+MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
+{
+	return _mfChunks;
+}
+
+const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
+{
+	return _mfChunks;
+}
+
 
 /*------------------------------ access -----------------------------------*/
 
