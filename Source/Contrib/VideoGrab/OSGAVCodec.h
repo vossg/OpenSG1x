@@ -73,9 +73,9 @@ class AVCodecEncoder
 
     ~AVCodecEncoder();
 
-    int               width()   const { return stream->codec.width; };
-    int               height()  const { return stream->codec.height; };
-    unsigned char*    rgb()     const { return rgbframe->data[0]; };
+    int               width()   const { return stream->codec.width; }
+    int               height()  const { return stream->codec.height; }
+    unsigned char*    rgb()     const { return rgbframe->data[0]; }
     AVCodecContext*   context() const { return &stream->codec; }
 
     void              setRgb(unsigned char* rgb);

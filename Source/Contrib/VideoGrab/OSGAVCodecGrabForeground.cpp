@@ -152,7 +152,7 @@ void AVCodecGrabForeground::draw(DrawActionBase *action, Viewport *port)
     // do we have an encoder
     if( !encoder )
     {
-      encoder= new AVCodecEncoder(getName().c_str(), w, h, getKbit(), getFps(), getCodecid(), getFlip());
+      encoder= new AVCodecEncoder(getName().c_str(), w, h, getKbit(), getFps(), (CodecID) getCodecid(), getFlip());
     }
 
     encoder->setRgb(i->getData());

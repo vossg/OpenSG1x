@@ -139,7 +139,7 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
   }
 
   if (!format_out)
-    throw AVCodecException("couldn't find suitable output format\n");
+    throw AVCodecException("couldnt find suitable output format\n");
 
 
 //
@@ -160,7 +160,7 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
   {
     stream= av_new_stream(format_ctx, 0);
     if (!stream)
-      throw AVCodecException("couldn't allformat_ctx stream\n");
+      throw AVCodecException("couldnt allformat_ctx stream\n");
 
     AVCodecContext* c= &stream->codec;
     c->codec_id= format_out->video_codec;
@@ -202,7 +202,7 @@ AVCodecEncoder::AVCodecEncoder(const char* filename,
   if (!(format_out->flags & AVFMT_NOFILE))
   {
     if (url_fopen(&format_ctx->pb, filename, URL_WRONLY) < 0)
-      throw AVCodecException((std::string("couldn't open ") + std::string(filename) + std::string("\n")).c_str());
+      throw AVCodecException((std::string("couldnt open") + std::string(filename) + std::string("\n")).c_str());
   }
 
   /* write the stream header, if any */
@@ -267,11 +267,11 @@ void AVCodecEncoder::initCodec()
     codec= avcodec_find_encoder(c->codec_id);
 
   if (!codec)
-    throw AVCodecException("couldn't find codec\n");
+    throw AVCodecException("couldnt find codec\n");
 
   /* open the codec */
   if (avcodec_open(c, codec) < 0)
-    throw AVCodecException("couldn't open codec\n");
+    throw AVCodecException("couldnt open codec\n");
 
   video_outbuf= NULL;
   if (!(format_ctx->oformat->flags & AVFMT_RAWPICTURE))
@@ -283,7 +283,7 @@ void AVCodecEncoder::initCodec()
   /* allformat_ctxate the encoded raw picture */
   yuvframe= allocFrame(c->pix_fmt, c->width, c->height);
   if (!yuvframe)
-    throw AVCodecException("couldn't allformat_ctxate yuv-picture\n");
+    throw AVCodecException("couldnt allformat_ctxate yuv-picture\n");
 
   rgbframe= avcodec_alloc_frame();
   if (!rgbframe)
@@ -371,14 +371,14 @@ void AVCodecEncoder::setRgb(unsigned char* rgb)
 {
   avpicture_fill((AVPicture*)rgbframe, rgb, PIX_FMT_RGB24, width(), height());
   return;
-};
+}
 
 
 void AVCodecEncoder::setBitrate(int bitrate)
 {
   stream->codec.bit_rate= bitrate * 1000;
   return;
-};
+}
 /* --------------------------------------------------------------- *\
 \* --------------------------------------------------------------- */
 
