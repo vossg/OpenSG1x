@@ -1,0 +1,36 @@
+# AXPlugin
+
+Import('*')
+
+sources = Glob('*.cpp')
+
+headers = Split("""
+    OSGAXPlugin.h
+""")
+
+AppendFilesUnique(sources, GetMocSources(headers))
+
+def custom(env):
+
+    env.Append(CPPPATH=env.get('QTCPPPATH'))
+    env.Append(LIBPATH=env.get('QTLIBPATH'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
+    env.Append(LIBS=['qaxserver.lib', 'comdlg32.lib', 'advapi32.lib',
+                     'shell32.lib', 'ole32.lib', 'oleaut32.lib',
+                     'uuid.lib', 'imm32.lib', 'qtmain.lib'])
+    
+    env.Append(LINKFLAGS=['/subsystem:windows'])
+
+    CreateMocSources(env, headers)
+
+if tc.is_win32():
+    dep_LIBS = []
+else:
+    dep_LIBS = ['OSGWindowX']
+
+if _po.getPlatform() == 'win32' and _po.getOption('qt'):
+    BuildProgram(tc, 'osgAXPlugin', sources, tools=[],
+                 updates=[custom, OpenSGLibrary(['OSGWindowQT', 'OSGSystem', 'OSGBase'] + dep_LIBS)],
+                 CPPPATH=['.', env['PREFIX'].Dir('include')],
+                 CPPDEFINES=['OSG_WITH_QT', 'OSG_BUILD_DLL'])

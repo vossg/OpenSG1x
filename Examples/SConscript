@@ -1,1 +1,1 @@
-SConscript(dirs = ['SceneViewer', 'ProxyBuilder'])
+SConscript(dirs = ['AXPlugin', 'SceneViewer', 'ProxyBuilder'])

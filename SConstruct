@@ -504,6 +504,9 @@ class PlatformOptions:
     def buildOpt(self):
         return (self.getOption('type') == 'opt' or self.getOption('type') == 'both')
 
+    def getPlatform(self):
+        return self.de.get('PLATFORM')
+
 def moveGVBetaFile(base, file):
     src = os.path.join(base, file)
     dst = os.path.join(base, 'tmp_gv')
