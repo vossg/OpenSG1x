@@ -118,7 +118,10 @@ void XWindow::init(void)
     visInfo.visualid = XVisualIDFromVisual(winAttr.visual);
 
     // get new display-variable
-    setDisplay(XOpenDisplay(DisplayString(getDisplay())));  
+    if(getDisplay() == NULL)
+    {
+        setDisplay(XOpenDisplay(DisplayString(getDisplay())));  
+    }
 
     // get a visual for the glx context
     int nvis;

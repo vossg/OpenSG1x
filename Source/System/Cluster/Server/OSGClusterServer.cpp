@@ -336,6 +336,9 @@ WindowPtr ClusterServer::getServerWindow  (void)
 bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
                                   RemoteAspect *)
 {
+    if(_clusterWindow != NullFC)
+        return true;
+
     ClusterWindowPtr window=ClusterWindowPtr::dcast(fcp);
 
     if(window->getServers().size())
