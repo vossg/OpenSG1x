@@ -299,7 +299,11 @@ void Navigator::updateCameraTransformation()
         }
         else
         {
-            t->getSFMatrix()->setValue(theMatrix);
+	    beginEditCP(t);
+	    {
+              t->getSFMatrix()->setValue(theMatrix);
+            }
+            endEditCP(t);
         }
     }
     else
@@ -635,7 +639,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.10 2002/06/28 19:26:00 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNavigator.cpp,v 1.11 2002/07/10 16:18:26 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGNAVIGATOR_HEADER_CVSID;
     //static Char8 cvsid_inl       [] = OSGNAVIGATOR_INLINE_CVSID;
 

@@ -77,6 +77,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackground :
 
     void addLine(Color3f color, Real32 position);
 
+    void clearLines(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     transformation                           */

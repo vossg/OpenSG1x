@@ -51,6 +51,12 @@ inline void GradientBackground::addLine( Color3f col, Real32 pos )
     _mfPosition.push_back( pos );
 }
 
+inline void GradientBackground::clearLines( void )
+{
+    _mfColor.clear();
+    _mfPosition.clear();
+}
+
 
 OSG_END_NAMESPACE
 
