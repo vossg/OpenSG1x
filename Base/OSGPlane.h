@@ -89,7 +89,7 @@ class OSG_BASE_DLLMAPPING Plane {
     Plane(void);
     Plane(const Plane &obj);
     Plane(const Pnt3f &p0, const Pnt3f &p1, const Pnt3f &p2);
-    Plane(const Vec3f &n, float d);
+    Plane(const Vec3f &n, Real32 d);
     Plane(const Vec3f &n, const Pnt3f &p);
 
     /*! \}                                                                 */
@@ -97,7 +97,7 @@ class OSG_BASE_DLLMAPPING Plane {
     /*! \name                      Offset                                  */
     /*! \{                                                                 */
 
-    void offset(float d);
+    void offset(Real32 d);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -126,16 +126,17 @@ class OSG_BASE_DLLMAPPING Plane {
     /*! \name                    Set Values                                */
     /*! \{                                                                 */
 
-    void set(const Vec3f &normal, float distance);
+    inline void set(const Vec3f &normal, Real32 distance);
+    inline void set(Real32 x, Real32 y, Real32 z, Real32 distance);
+    inline void set(const Vec4f &plane);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Access                                  */
     /*! \{                                                                 */
 
-    inline const Vec3f &getNormal      (void) const { return _normalVec; }
-
-    inline float getDistanceFromOrigin (void) const { return _distance; }
+    inline const Vec3f  &getNormal             (void) const;
+    inline       Real32  getDistanceFromOrigin (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -146,8 +147,7 @@ class OSG_BASE_DLLMAPPING Plane {
     friend Bool operator ==(const Plane &p1, const Plane &p2);
 
     inline OSG_BASE_DLLMAPPING
-    friend Bool operator !=(const Plane &p1, const Plane &p2)
-    { return !(p1 == p2); }
+    friend Bool operator !=(const Plane &p1, const Plane &p2);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -155,10 +155,12 @@ class OSG_BASE_DLLMAPPING Plane {
 
     Vec3f _normalVec;
 
-    float _distance;
+    Real32 _distance;
 
 };
 
 OSG_END_NAMESPACE
+
+#include "OSGPlane.inl"
 
 #endif // OSGPLANE_CLASS_DECLARATION
