@@ -52,6 +52,7 @@
 
 #include "OSGChunkMaterial.h"
 #include "OSGVRMLToOSGAction.h"
+#include "OSGBlendChunk.h"
 
 OSG_USING_NAMESPACE
 
@@ -340,6 +341,18 @@ void VRMLAppearanceBinder::setTextureTransform(
 
 void VRMLAppearanceBinder::finish(VRMLToOSGAction *)
 {
+    BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
+
+    ChunkMaterialPtr pChunkMat = 
+        ChunkMaterialPtr::dcast(_pFieldContainer);
+
+    pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+    pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    
+    if(pChunkMat != NullFC)
+    {
+        pChunkMat->addChunk(pBlendChunk);
+    }
 }
 
 

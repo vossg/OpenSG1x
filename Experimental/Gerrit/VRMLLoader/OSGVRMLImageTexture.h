@@ -47,9 +47,8 @@
 //---------------------------------------------------------------------------
 
 #include <OSGBaseTypes.h>
-#include <OSGVRMLUnlimitedNode.h>
+#include <OSGVRMLTexture.h>
 #include <OSGMFBaseTypes.h>
-#include <OSGSFSysTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -70,7 +69,7 @@ class VRMLToOSGAction;
 //! VRMLImageTexture
 //! \ingroup VRMLNodeLib
 
-class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLUnlimitedNode
+class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLTexture
 {
   private:
 
@@ -78,7 +77,7 @@ class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLUnlimitedNode
     //   types                                                               
     //-----------------------------------------------------------------------
 
-    typedef VRMLUnlimitedNode Inherited;
+    typedef VRMLTexture Inherited;
 
   public:
 
@@ -93,12 +92,9 @@ class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLUnlimitedNode
     //   constants                                                           
     //-----------------------------------------------------------------------
 
-    OSG_RC_FIRST_ELEM_IDM_DECL(UrlField                  );
+    OSG_RC_FIRST_ELEM_IDM_DECL(UrlField);
 
-    OSG_RC_ELEM_IDM_DECL      (RepeatSField, UrlField    );
-    OSG_RC_ELEM_IDM_DECL      (RepeatTField, RepeatSField);
-
-    OSG_RC_LAST_ELEM_IDM_DECL (RepeatTField              );
+    OSG_RC_LAST_ELEM_IDM_DECL (UrlField);
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -168,8 +164,6 @@ class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLUnlimitedNode
     //-----------------------------------------------------------------------
 
     MFString _mfUrl;
-    SFBool   _sfRepeatS;
-    SFBool   _sfRepeatT;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
@@ -195,8 +189,6 @@ class OSG_VRML_DLLMAPPING VRMLImageTexture : public VRMLUnlimitedNode
     /*-------------------------- field access -------------------------------*/
 
     MFString *getMFUrl    (void);
-    SFBool   *getSFRepeatS(void);
-    SFBool   *getSFRepeatT(void);
 };
 
 

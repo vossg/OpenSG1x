@@ -22,6 +22,9 @@ Current Requirements :
         find the glut headers and libs
         find the tif headers and libs
         find the qt headers and libs (qt-mt301.lib) and the moc executable
+
+    If you want to edit any .l or .y file your VStudio additionally has to
+
         find a flex executable  (> version 2.5.4)
         find a bison executable (> version 1.30)
 

@@ -207,6 +207,9 @@ void VRMLLoader::initFieldTypeMapper(void)
     setIntExtMapping(SFString::getClassType().getId(),
                      ScanParseSkel::OSGsfString);
 
+    setIntExtMapping(SFTime::getClassType().getId(),
+                     ScanParseSkel::OSGsfTime);
+
     setIntExtMapping(SFVec2f::getClassType().getId(),
                      ScanParseSkel::OSGsfVec2f);
 
@@ -235,6 +238,9 @@ void VRMLLoader::initFieldTypeMapper(void)
 
     setIntExtMapping(MFString::getClassType().getId(),
                      ScanParseSkel::OSGmfString);
+
+    setIntExtMapping(MFTime::getClassType().getId(),
+                     ScanParseSkel::OSGsfTime);
 
     setIntExtMapping(MFUInt32::getClassType().getId(),
                      ScanParseSkel::OSGsfImage);

@@ -609,6 +609,7 @@ DSP_SUBPACKS := $(LIB_SOURCEPACKAGES)
 DSP_SUBDIRS  := $(LIB_ABSSOURCEDIRS)
 
 dsp_src = $(sort $(call getProjFiles,$(1)))
+dsp_def = $(wildcard lib.$(DBG).def)
 dsp_out = $(shell echo $(PACKAGE_NAME) $(1) $(OSGPOOL) $(call dsp_src,$(2)) > tmp_$(1) ) tmp_$(1)
 
 dsp_getPack = $(strip $(subst :, ,$(subst /,,$(subst $($(PROJ)POOL)/,,\
@@ -619,6 +620,9 @@ dsp_procPack = $(call dsp_out,$(call dsp_getPack,$(1)),$(1))
 DSP_PACKS  := $(sort $(foreach dir,$(DSP_SUBDIRS),$(call dsp_procPack,$(dir))))
 
 INCL_EXP_$(OS_BASE) := -I.. -I. $(INCL_EXP_$(OS_BASE))
+
+DSP_DEFS   := $(call dsp_def)
+
 
 dsp:
 	@echo "Building $(PACKAGE_NAME)Lib dsp file for $(OS_CMPLR)"
@@ -632,9 +636,12 @@ dsp:
 			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
 			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'						\
 		> $(PACKAGE_NAME)Lib.dsp
-	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) >> $(PACKAGE_NAME)Lib.dsp
+	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
 	@rm -f $(DSP_PACKS)
 	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/$(PACKAGE_NAME)Lib
+ifneq ($(DSP_DEFS),)
+	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/$(PACKAGE_NAME)Lib
+endif
 endif
 
 ifeq ($(IN_TEST_DIR),0)

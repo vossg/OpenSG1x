@@ -76,7 +76,7 @@ struct FieldDataTraits2<bool> :
 
     static bool      getDefault   (void) { return false;         }
 
-    static bool      getFromString(      bool  &outVal,
+    static bool      getFromString(      bool   &outVal,
                                    const Char8 *&inVal)
     {
         if(inVal == NULL)

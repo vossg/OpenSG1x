@@ -100,33 +100,11 @@ static void vrmlImageTextureDescInserter(ReflexiveContainerType *pType)
         NULL);
 
     pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "repeatS",
-        OSG_RC_ELEM_IDM_DESC(VRMLImageTexture::RepeatSField),
-        false,
-        (DataElemGetMethod) &VRMLImageTexture::getSFRepeatS,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
-
-    pDesc = new DataElementDesc(
-        SFBool::getClassType(),
-        "repeatT",
-        OSG_RC_ELEM_IDM_DESC(VRMLImageTexture::RepeatTField),
-        false,
-        (DataElemGetMethod) &VRMLImageTexture::getSFRepeatT,
-        NULL,
-        NULL);
-
-    pType->addInitialDesc(pDesc);
 }
 
 VRMLObjectType VRMLImageTexture::_type(
     "ImageTexture",
-    "VRMLUnlimitedNode",
+    "VRMLTexture",
     "VRMLNodes",
     (VRMLProtoCreateF) &VRMLImageTexture::createEmpty,
     VRMLImageTexture::init,
@@ -184,9 +162,7 @@ void VRMLImageTexture::init(void)
 VRMLImageTexture::VRMLImageTexture(void) :
 	 Inherited(    ),
     
-    _mfUrl    (    ),
-    _sfRepeatS(true),
-    _sfRepeatT(true)
+    _mfUrl    (    )
 {
 }
 
@@ -194,9 +170,7 @@ VRMLImageTexture::VRMLImageTexture(void) :
 VRMLImageTexture::VRMLImageTexture(const VRMLImageTexture &source) :
 	 Inherited(source           ),
 
-    _mfUrl    (source._mfUrl    ),
-    _sfRepeatS(source._sfRepeatS),
-    _sfRepeatT(source._sfRepeatT)
+    _mfUrl    (source._mfUrl    )
 {
 }
 
@@ -225,16 +199,6 @@ VRMLImageTexture::~VRMLImageTexture(void)
 MFString *VRMLImageTexture::getMFUrl(void)
 {
     return &_mfUrl;
-}
-
-SFBool *VRMLImageTexture::getSFRepeatS(void)
-{
-    return &_sfRepeatS;
-}
-
-SFBool *VRMLImageTexture::getSFRepeatT(void)
-{
-    return &_sfRepeatT;
 }
 
 

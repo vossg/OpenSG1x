@@ -14,12 +14,22 @@ $rel_path = "../..";
 @out_inl      = ();
 @out_y        = ();
 @out_l        = ();
+@out_def      = ();
 
 $out_libname  = "";
 
 for $i (0..$#ARGV)
 {
-    processPack($ARGV[$i]);
+    $_ = $ARGV[$i];
+
+    if(m/\.def/)
+    {
+        push(@out_def, $_);
+    }
+    else
+    {
+        processPack($ARGV[$i]);
+    }
 }
 
 #print "$#out_packages\n";
@@ -334,6 +344,20 @@ sub printScanParse
     print "# End Group\n";
 }
 
+sub printResourse
+{
+    local $files = shift(@_);
+
+    for $i (0..$#$files)
+    {
+        print "\n";
+        print "# Begin Source File\n";
+        print "SOURCE=$$files[$i]\n";
+        print "# End Source File\n";
+        print "\n";
+    }
+}
+
 sub printTargets
 {
     local $i;
@@ -387,6 +411,15 @@ sub printTargets
     {
         printScanParse($out_packages[$i], $out_y[$i], $out_l[$i]);
     }
+    print "\n";
+    print "# End Group\n";
+
+    print "# Begin Group \"Resource Files\"\n";
+    print "# PROP Default_Filter \"ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe\"\n";
+    print "\n";
+    
+    printResourse([@out_def]);
+
     print "\n";
     print "# End Group\n";
 
