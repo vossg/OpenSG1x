@@ -132,7 +132,7 @@ ifeq ($(OS_BASE), cygwin)
 SO_INIT_FLAGS =
 else
 ifeq ($(SO_NEEDS_INIT),1)
-SO_INIT_FLAGS = -Wl,-init -Wl,osgInitSharedObject$(PACKAGE_NAME)
+SO_INIT_FLAGS = -Wl,$(LINKER_INIT_FLAG) -Wl,osgInitSharedObject$(PACKAGE_NAME)
 else
 SO_INIT_FLAGS =
 endif
