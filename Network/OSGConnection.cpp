@@ -109,14 +109,37 @@ Connection::~Connection(void)
 }
 
 
+/** wait for signal
+ *
+ **/
 void Connection::wait(void)
 {
-    assert(false);
+    UInt32 tag;
+    UInt32 i;
+
+    // wait for signals on all channels
+    for(i=0;i<getChannelCount();++i)
+    {
+        // read sync tag;
+        do
+        {
+            selectChannel();
+            getValue(tag);
+        } 
+        while(tag!=0x12345678);
+    }
 }
 
+/** send signal
+ *
+ **/
 void Connection::signal(void)
 {
-    assert(false);
+    UInt32 tag=0x12345678;
+
+    // send signal
+    putValue(tag);
+    flush();
 }
 
 /*-------------------------------------------------------------------------*/
