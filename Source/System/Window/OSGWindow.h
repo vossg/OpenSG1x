@@ -86,6 +86,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     typedef TypedVoidFunctor2Base<PtrCallArg<Window> , 
                                   GLObjectFunctorArgs> GLObjectFunctor;
 
+    typedef void (*GLExtensionFunction)(void);
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
@@ -131,11 +133,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name               Extension handling                             */
     /*! \{                                                                 */
 
-    bool            hasExtension      (UInt32 id);
-    void           *getFunction       (UInt32 id);
-    void           *getFunctionNoCheck(UInt32 id);
-    void            dumpExtensions    (void);
-    void          (*getFunctionByName (const Char8 *s))(void);
+    bool                 hasExtension      (      UInt32  id);
+    void                *getFunction       (      UInt32  id);
+    void                *getFunctionNoCheck(      UInt32  id);
+    void                 dumpExtensions    (      void      );
+    GLExtensionFunction  getFunctionByName (const Char8  *s );
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -78,7 +78,8 @@ be converted to and from a string. See StatIntElem for a simple example.
 
 */
 
-/*! \fn StatElem::putToString
+/*! \fn void osg::StatElem::putToString(std::string &str, 
+                                        const char *format) const
 
 The putToString method converts the value of the StatElem into a standard STL 
 string. 

@@ -122,52 +122,52 @@ activate(void), deactivate(void) and swap(void).
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
-/*! \enum Window::GLObjectStatusE
+/*! \enum osg::Window::GLObjectStatusE
     Enumeration values for the status of the GL objects. This is primarily
     used to signal the object's callback functions what to do. See \ref
     PageSystemOGLObjects for a description.
 */
 
-/*! \var Window::GLObjectStatusE Window::notused
+/*! \var osg::Window::GLObjectStatusE Window::notused
     Object is not used at all right now.
 */
 
-/*! \var Window::GLObjectStatusE Window::initialize
+/*! \var osg::Window::GLObjectStatusE Window::initialize
     The object is being initialized for the first time.
 */
 
-/*! \var Window::GLObjectStatusE Window::reinitialize
+/*! \var osg::Window::GLObjectStatusE Window::reinitialize
     The object is being re-initialized, i.e. it has changed significantly.
 */
 
-/*! \var Window::GLObjectStatusE Window::initialized
+/*! \var osg::Window::GLObjectStatusE Window::initialized
     The object is initialized and valid.
 */
 
-/*! \var Window::GLObjectStatusE Window::needrefresh
+/*! \var osg::Window::GLObjectStatusE Window::needrefresh
     The object is initialized but needs a refresh.
 */
 
-/*! \var Window::GLObjectStatusE Window::destroy
+/*! \var osg::Window::GLObjectStatusE Window::destroy
     The object is to be destroyed, i.e. removed from the current OpenGL context.
 */
 
-/*! \var Window::GLObjectStatusE Window::finaldestroy
+/*! \var osg::Window::GLObjectStatusE Window::finaldestroy
     The object has been removed from all OpenGL contexts and used ressources
     but be freed now.
 */
 
-/*! \enum Window::invalidExtensionID
+/*! \enum osg::Window::invalidExtensionID
 */
 
-/*! \enum Window::invalidFunctionID
+/*! \enum osg::Window::invalidFunctionID
 */
 
-/*! \enum Window::statusShift
+/*! \enum osg::Window::statusShift
     Shift value to transform object id and status into  asingle int.
 */
 
-/*! \enum Window::statusMask
+/*! \enum osg::Window::statusMask
     Mask value to transform object id and status into  asingle int.
 */
 
@@ -769,7 +769,7 @@ void OSG::Window::dumpExtensions(void)
 #include <iterator>
 
 struct string_token_iterator : 
-#if defined(__linux) && __GNUC__ < 3
+#if defined(__GNUC__) && __GNUC__ < 3
     public std::input_iterator<std::string, std::ptrdiff_t>
 #else
     public std::iterator<std::input_iterator_tag, std::string>
@@ -977,7 +977,9 @@ void OSG::Window::frameExit(void)
 
     This is called internally when extension functions are first cached. 
 */
-void (*OSG::Window::getFunctionByName(const Char8 *s))(void)
+
+OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(const Char8 *s)
+//void (*OSG::Window::getFunctionByName(const Char8 *s))(void)
 {
     void (*retval)(void);
     
