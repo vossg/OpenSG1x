@@ -445,8 +445,6 @@
 // general float math
 # define OSG_HAS_FLOATMATH
 
-# define OSG_USE_STDMATH
-
 // Use WGL 
 # define OSG_USE_WGL
 
