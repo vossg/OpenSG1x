@@ -57,7 +57,20 @@
 #if ! defined (OSG_USE_PTHREADS)   && \
     ! defined (OSG_USE_SPROC)      && \
     ! defined (OSG_USE_WINTHREADS)
-#error "No threading model defined,  check your system/compiler combination"
+#error "No threading model defined, check your system/compiler combination"
+#endif
+
+#ifdef OSG_USE_PTHREADS
+#   ifdef OSG_USE_SPROC
+#       error  "PTHREAD and SPROC threading models defined. This is a bug!"
+#   endif
+#   ifdef OSG_USE_WINTHREADS
+#       error  "PTHREAD and WINTHREADS threading models defined. This is a bug!"
+#   endif
+#elif defined(OSG_USE_SPROC)
+#   ifdef OSG_USE_WINTHREADS
+#       error  "SPROC and WINTHREADS threading models defined. This is a bug!"
+#   endif
 #endif
 
 OSG_BEGIN_NAMESPACE
