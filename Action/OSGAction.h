@@ -346,6 +346,33 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
 
 typedef Action *ActionP;
 
+/*---------------------------------------------------------------------*/
+/*! \name                    Traversal Functions                       */
+/*! \{                                                                 */
+
+#ifndef OSG_NOFUNCTORS
+
+typedef Functor1Base<Action::ResultE, NodePtr &> TraverseFunctor;
+
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE traverse(   NodePtr root, 
+                            TraverseFunctor &func );
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE traverse(   vector<NodePtr> &list, 
+                            TraverseFunctor &func );
+                            
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE traverse(   NodePtr root, 
+                            TraverseFunctor &enter, 
+                            TraverseFunctor &leave );
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE traverse(   vector<NodePtr> &list, 
+                            TraverseFunctor &enter, 
+                            TraverseFunctor &leave );
+#endif
+                            
+/*! \}                                                                 */
+
 OSG_END_NAMESPACE
 
 #include "OSGAction.inl"

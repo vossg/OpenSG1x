@@ -94,48 +94,48 @@ OSG_BEGIN_NAMESPACE
 
 /*---------------------------- properties ---------------------------------*/
 
-	
+
 inline NodePtr Action::getActNode( void )
 {
-	return _actNode;
+    return _actNode;
 }
 
 inline
 const NodePtr Action::getNode( int index )
 {
-	if ( ! _actList )
-	{
-		return _actNode->getChild( index );
-	}
-	else
-	{
-		return (*_actList)[ index ];
-	}
+    if ( ! _actList )
+    {
+        return _actNode->getChild( index );
+    }
+    else
+    {
+        return (*_actList)[ index ];
+    }
 }
 
 inline
 void Action::addNode( NodePtr node )
 {
-	_newList.push_back( node );
+    _newList.push_back( node );
 }
 
 inline
 void Action::useNodeList( void )
 {
-	_useNewList = true;
+    _useNewList = true;
 }
 
-inline	
+inline
 UInt32 Action::getNNodes( void ) const
 {
-	if ( ! _actList )
-	{
-		return _actNode->getNChildren();
-	}
-	else
-	{
-		return (*_actList).size();
-	}	
+    if ( ! _actList )
+    {
+        return _actNode->getNChildren();
+    }
+    else
+    {
+        return (*_actList).size();
+    }
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -147,57 +147,57 @@ UInt32 Action::getNNodes( void ) const
 inline
 Action::ResultE Action::callEnter( NodePtr node )
 {
-	ResultE result;
+    ResultE result;
 
     UInt32 uiFunctorIndex = node->getCore()->getType().getId();
-	CNodePtr cnode(node);
+    CNodePtr cnode(node);
 
     if ( uiFunctorIndex < _enterFunctors.size() )
         result = _enterFunctors[uiFunctorIndex].call(cnode,this);
-	else if (  getDefaultEnterFunctors() && 
-				uiFunctorIndex < getDefaultEnterFunctors()->size() )
-	{
-		// field container registered method after this action was instantiated
-		// copy the new functors from default vector
-		vector<Functor> *defaultEnter = getDefaultEnterFunctors();
-		while ( defaultEnter->size() > _enterFunctors.size() )
-		{
-			_enterFunctors.push_back( (*defaultEnter)[_enterFunctors.size()] );
-		}		
-		result = _enterFunctors[uiFunctorIndex].call(cnode,this);
-	}
-	else // unknown field container
-		result = _defaultEnterFunction(cnode,this);
+    else if (  getDefaultEnterFunctors() &&
+                uiFunctorIndex < getDefaultEnterFunctors()->size() )
+    {
+        // field container registered method after this action was instantiated
+        // copy the new functors from default vector
+        vector<Functor> *defaultEnter = getDefaultEnterFunctors();
+        while ( defaultEnter->size() > _enterFunctors.size() )
+        {
+            _enterFunctors.push_back( (*defaultEnter)[_enterFunctors.size()] );
+        }
+        result = _enterFunctors[uiFunctorIndex].call(cnode,this);
+    }
+    else // unknown field container
+        result = _defaultEnterFunction(cnode,this);
 
-	return result;
+    return result;
 }
 
 inline
 Action::ResultE Action::callLeave( NodePtr node )
 {
-	ResultE result;
+    ResultE result;
 
     UInt32 uiFunctorIndex = node->getCore()->getType().getId();
-	CNodePtr cnode(node);
-	
+    CNodePtr cnode(node);
+
     if ( uiFunctorIndex < _leaveFunctors.size() )
         result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
-	else if ( 	getDefaultLeaveFunctors() &&
-				uiFunctorIndex < getDefaultLeaveFunctors()->size() )
-	{
-		// field container registered method after this action was instantiated
-		// copy the new functors from default vector
-		vector<Functor> *defaultLeave = getDefaultLeaveFunctors();
-		while ( defaultLeave->size() > _leaveFunctors.size() )
-		{
-			_leaveFunctors.push_back( (*defaultLeave)[_leaveFunctors.size()] );
-		}		
-		result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
-	}
-	else // unknown field container
-		result = _defaultLeaveFunction(cnode,this);
+    else if (   getDefaultLeaveFunctors() &&
+                uiFunctorIndex < getDefaultLeaveFunctors()->size() )
+    {
+        // field container registered method after this action was instantiated
+        // copy the new functors from default vector
+        vector<Functor> *defaultLeave = getDefaultLeaveFunctors();
+        while ( defaultLeave->size() > _leaveFunctors.size() )
+        {
+            _leaveFunctors.push_back( (*defaultLeave)[_leaveFunctors.size()] );
+        }
+        result = _leaveFunctors[uiFunctorIndex].call(cnode,this);
+    }
+    else // unknown field container
+        result = _defaultLeaveFunction(cnode,this);
 
-	return result;
+    return result;
 }
 
 /*-------------------------- assignment -----------------------------------*/
@@ -234,30 +234,30 @@ Action::ResultE Action::callLeave( NodePtr node )
 OSG_END_NAMESPACE
 
 ///---------------------------------------------------------------------------
-///  FUNCTION: 
+///  FUNCTION:
 ///---------------------------------------------------------------------------
 //:  Example for the head comment of a function
 ///---------------------------------------------------------------------------
 ///
-//p: Paramaters: 
-//p: 
+//p: Paramaters:
+//p:
 ///
 //g: GlobalVars:
-//g: 
+//g:
 ///
 //r: Return:
-//r: 
+//r:
 ///
 //c: Caution:
-//c: 
+//c:
 ///
 //a: Assumptions:
-//a: 
+//a:
 ///
 //d: Description:
-//d: 
+//d:
 ///
 //s: SeeAlso:
-//s: 
+//s:
 ///---------------------------------------------------------------------------
 

@@ -196,34 +196,6 @@ Action::~Action(void)
 
 /*------------------------------ access -----------------------------------*/
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
-
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/
@@ -521,31 +493,70 @@ Action::ResultE Action::_defaultLeaveFunction(CNodePtr& node, Action * action)
 	return Continue;
 }
 
-///---------------------------------------------------------------------------
-///  FUNCTION: 
-///---------------------------------------------------------------------------
-//:  Example for the head comment of a function
-///---------------------------------------------------------------------------
-///
-//p: Paramaters: 
-//p: 
-///
-//g: GlobalVars:
-//g: 
-///
-//r: Return:
-//r: 
-///
-//c: Caution:
-//c: 
-///
-//a: Assumptions:
-//a: 
-///
-//d: Description:
-//d: 
-///
-//s: SeeAlso:
-//s: 
-///---------------------------------------------------------------------------
+/*************** Functions ******************/
 
+
+/*! Simple tree traversal function. Calls func for every node encountered
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE OSG::traverse(  vector<NodePtr> &list, 
+                                TraverseFunctor &func )
+{
+    Action::ResultE res;
+    vector<NodePtr>::iterator it = list.begin(),
+                              en = list.end();
+    
+    for ( ; it != en; ++it )
+    {
+        res = func.call( (*it) );
+        
+        if(res == Action::Quit)
+            break;
+    }
+        
+    return res;
+}
+
+/*! Simple tree traversal function. Calls func for every node encountered
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE OSG::traverse(  NodePtr node, 
+                                TraverseFunctor &func )
+{
+    Action::ResultE res;
+    
+    res = func.call( node );
+    
+    switch(res)
+    {
+    case Action::Skip:      return Action::Continue;
+    case Action::Continue:  return traverse( node->getMFChildren()->getValues(), 
+                                             func );
+    default:                break;
+    }
+                 
+    return res;
+}
+                            
+/*! Simple tree traversal function. Calls enter before entering a node,
+    leave after leaving.
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE OSG::traverse(   vector<NodePtr> &list, 
+                                 TraverseFunctor &enter, 
+                                 TraverseFunctor &leave )
+{
+    return Action::Quit;
+}
+
+                            
+/*! Simple tree traversal function. Calls enter before entering a node,
+    leave after leaving.
+ */
+OSG_SYSTEMLIB_DLLMAPPING
+Action::ResultE OSG::traverse(   NodePtr root, 
+                                 TraverseFunctor &enter, 
+                                 TraverseFunctor &leave )
+{
+    return Action::Quit;
+}

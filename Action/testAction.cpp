@@ -194,6 +194,20 @@ Action::ResultE defleave2(CNodePtr& node, Action * action)
 }
 
 
+Action::ResultE traventer(NodePtr& node) 
+{ 
+	cerr << "traventer called: " << node << endl;
+
+	return Action::Continue; 
+}
+
+Action::ResultE travleave(NodePtr& node) 
+{ 
+	cerr << "travleave called: " << node << endl;
+
+	return Action::Continue; 
+}
+
 int main( int argc, char *argv[] )
 {
     osgInit(argc, argv);
@@ -308,6 +322,26 @@ int main( int argc, char *argv[] )
 	cerr << "Apply(list):" << endl;
 	act1->apply( g1->getMFChildren()->begin(), g1->getMFChildren()->end() );
 
+
+#if 0 // !!! what the &%$^&# is going on here?
+    // traversal function test
+    
+	cerr << "Traverse(node,enter):" << endl;
+    traverse(g1, osgFunctionFunctor1(traventer) );
+    
+	cerr << "Traverse(list,enter):" << endl;
+    traverse(g1->getMFChildren()->getValues(), osgFunctionFunctor1(traventer) );
+    
+	cerr << "Traverse(node,enter&leave):" << endl;
+    traverse(g1, osgFunctionFunctor1(traventer), 
+                 osgFunctionFunctor1(travleave) );
+    
+	cerr << "Traverse(list,enter):" << endl;
+    traverse(g1->getMFChildren()->getValues(), osgFunctionFunctor1(traventer), 
+                                               osgFunctionFunctor1(travleave) );
+#endif  
+    
+
 	// try the error checks
 
 	// NULL nodes
@@ -324,5 +358,4 @@ int main( int argc, char *argv[] )
 	NodePtr g3 = Node::create();
 	cerr << "Apply(node) without core:" << endl;
 	act1->apply( g3 );
-
 }
