@@ -133,7 +133,7 @@ Int32 PrimitiveIterator::getPositionIndex( Int32 which ) const
             return _indices->getValue( ( _actPointIndex + which ) * 
 	                                _nmappings + _positionIndex );
         else
-	    return _indices->getValue( _actPointIndex + which  );
+	    return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
@@ -159,7 +159,7 @@ Int32 PrimitiveIterator::getNormalIndex( Int32 which ) const
             return _indices->getValue( ( _actPointIndex + which ) * 
 	                                _nmappings + _normalIndex );
         else
-	    return _indices->getValue( _actPointIndex + which  );
+	    return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
@@ -188,7 +188,7 @@ Int32 PrimitiveIterator::getColorIndex( Int32 which ) const
             return _indices->getValue( ( _actPointIndex + which ) * 
 	                                _nmappings + _colorIndex );
         else
-	    return _indices->getValue( _actPointIndex + which  );
+	    return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
@@ -219,7 +219,7 @@ Int32 PrimitiveIterator::getTexCoordsIndex( Int32 which ) const
             return _indices->getValue( ( _actPointIndex + which ) * 
 	                                _nmappings + _texcoordsIndex );
         else
-	    return _indices->getValue( _actPointIndex + which  );
+	    return _indices->getValue( _actPointIndex * _nmappings + which  );
     }
     else
         return _actPointIndex + which;
@@ -236,6 +236,16 @@ Vec2f PrimitiveIterator::getTexCoords( Int32 which ) const
     return _geo->getTexCoords()->getValue( ind );
 }
 
+inline         
+Int32 PrimitiveIterator::getIndexIndex( Int32 which ) const
+{
+    if ( _geo->getIndex() != NullFC )
+    {
+        return ( _actPointIndex + which ) * _nmappings;
+    }
+    else
+        return -1;
+}
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

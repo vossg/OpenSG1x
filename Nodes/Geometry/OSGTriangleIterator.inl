@@ -178,6 +178,18 @@ Vec2f TriangleIterator::getTexCoords( Int32 which ) const
 }
 
 
+/*! Return the index index of a point in the current face. 
+	\param which the point to access. Must be between 0 and getLength().
+*/
+inline		 
+Int32 TriangleIterator::getIndexIndex( Int32 which ) const
+{
+	if ( _triPntIndex[which] >= 0 )
+		return _primIt.getIndexIndex( _triPntIndex[which] );
+	else 
+		return -1;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -

@@ -90,7 +90,7 @@ For finer-level iterators see \sa FaceIterator \sa TriangleIterator.
  *                           Class variables                               *
 \***************************************************************************/
 
-char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.10 2001/07/23 11:14:06 dirk Exp $";
+char PrimitiveIterator::cvsid[] = "@(#)$Id: OSGPrimitiveIterator.cpp,v 1.11 2001/08/02 14:07:55 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -234,6 +234,9 @@ void PrimitiveIterator::setToBegin( void )
 	_normalIndex    = _geo->calcMappingIndex( Geometry::MapNormal );
 	_colorIndex     = _geo->calcMappingIndex( Geometry::MapColor );
 	_texcoordsIndex = _geo->calcMappingIndex( Geometry::MapTexcoords );
+
+	if ( _nmappings == 0 )
+		_nmappings = 1;
 				  
 	if ( _types != GeoPType::NullPtr && _types->getSize() > 0 )
 	{

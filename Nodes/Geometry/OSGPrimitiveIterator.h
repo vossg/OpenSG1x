@@ -142,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
 	inline Int32    	getTexCoordsIndex 	( Int32 which ) const;
 	inline Vec2f		getTexCoords		( Int32 which ) const;
 
+	inline Int32    	getIndexIndex	( Int32 which ) const;
+
 	// TODO add texture coordinates
 
     /*------------------------- your_operators ------------------------------*/
