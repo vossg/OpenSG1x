@@ -67,61 +67,59 @@ using namespace std;
 RenderNode *RenderNode::_prefefined[]=
 {
     // some nvidia cards 
-
-    new RenderNode(1.0/ 42666739,          // GF 4
-                   1.0/ 42628314,
-                   1.0/857690534,
-                   1.0/ 35149710,
-                   1.0/ 35149710,
+    new RenderNode(1.0/ 275064277,          // GF 4
+                   1.0/  53687367,
+                   1.0/1161538447,
+                   1.0/  42022724,
+                   1.0/  83570644,
                    "NVIDIA Corporation",
                    "GeForce4 Ti 4600/AGP/3DNOW!"),
-
-    new RenderNode(1.0/ 14598000,          // GF 256
-                   1.0/ 14597000,
+/*
+    new RenderNode(1.0/  7598000,          // GF 256
+                   1.0/  7597000,
                    1.0/110599000,
                    1.0/ 18896143,
                    1.0/ 26220918,
                    "NVIDIA Corporation",
                    "GeForce 256/AGP"),
-
-    new RenderNode(1.0/ 44471000,          // GF 3
-                   1.0/ 44436000,
-                   1.0/635452000,
+*/
+    new RenderNode(1.0/ 94383759,          // GF 3
+                   1.0/ 17733654,
+                   1.0/897012437,
                    1.0/ 24905933,
                    1.0/ 45649003,
                    "NVIDIA Corporation",
                    "GeForce3/AGP/3DNOW!"),
 
-    new RenderNode(1.0/ 44061655,          // GF 3
-                   1.0/ 43842088,
-                   1.0/635688444,
-                   1.0/ 37530822,
-                   1.0/ 65564810,
-                   "NVIDIA Corporation",
-                   "GeForce3/AGP/SSE2"),
-
-    new RenderNode(1.0/ 24931000,          // GF 2 MX
-                   1.0/ 24930000,
-                   1.0/112858311,
+    new RenderNode(1.0/ 94383759,          // GF 3
+                   1.0/ 17733654,
+                   1.0/897012437,
                    1.0/ 24905933,
                    1.0/ 45649003,
                    "NVIDIA Corporation",
-                   "GeForce2 MX/AGP/3DNOW!"),
+                   "GeForce3/AGP/SSE2"),
 
+    new RenderNode(1.0/ 87097434,          // GF 2 MX
+                   1.0/ 18473570,
+                   1.0/172343128,
+                   1.0/ 49542156,
+                   1.0/ 77120245,
+                   "NVIDIA Corporation",
+                   "GeForce2 MX/AGP/3DNOW!"),
 
     // some sgi cards 
 
-    new RenderNode(1.0/   959500,          // O2
-                   1.0/   556700,
-                   1.0/ 28915540,
+    new RenderNode(1.0/  1428577,          // O2
+                   1.0/   581803,
+                   1.0/ 66498959,
                    1.0/  4047028,
                    1.0/  1101353,
                    "SGI",
                    "CRIME"),
 
-    new RenderNode(1.0/  1771522,          // IR2
-                   1.0/   861486,
-                   1.0/ 70556999,
+    new RenderNode(1.0/ 10121349,         // IR2
+                   1.0/  7749685,
+                   1.0/466657941,
                    1.0/ 38311070,
                    1.0/ 73507039,
                    "SGI",
@@ -134,8 +132,9 @@ RenderNode *RenderNode::_prefefined[]=
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-/*! Constructor 
- */
+/**
+ * Constructor 
+ **/
 RenderNode::RenderNode(Real32 invisibleFaceCost,
                        Real32 visibleFaceCost,
                        Real32 drawPixelCost,
@@ -153,8 +152,9 @@ RenderNode::RenderNode(Real32 invisibleFaceCost,
 {
 }
 
-/*! copy constructor
- */
+/**
+ * copy constructor
+ **/
 RenderNode::RenderNode(const RenderNode &source):
     _visibleFaceCost(source._visibleFaceCost),
     _invisibleFaceCost(source._invisibleFaceCost),
@@ -169,8 +169,10 @@ RenderNode::RenderNode(const RenderNode &source):
 /*-------------------------------------------------------------------------*/
 /*                             Destructor                                  */
 
-/*! Destructor documentation
- */
+/**
+ * Destructor documentation
+ **/
+
 RenderNode::~RenderNode(void)
 {
 }
@@ -178,8 +180,10 @@ RenderNode::~RenderNode(void)
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
 
-/*! assignment
- */
+/**
+ * assignment
+ **/
+
 RenderNode& RenderNode::operator = (const RenderNode &source)
 {
     if(this == &source)
@@ -199,24 +203,21 @@ RenderNode& RenderNode::operator = (const RenderNode &source)
 /*                             Performance analysis                        */
 
 
-/** get graphics performance
- * 
+/**
  * This is a rough estimation of rendering costst for visible faces,
- * faces outside of the viewport and size dependent rendering costs.
+ * faces outside the viewport and fill rate.
  * <pre>
  * // face cost calculation
  * cost = invisible * invisibleFaceCost +
- *        max( visible * visibleFaceCost + 
- *             pixel * pixelCost)
+ *        max( visible * visibleFaceCost , pixel * pixelCost)
  * </pre>
- *
  **/
 void RenderNode::determinePerformance( WindowPtr &window )
 {
     int c;
     double faces=0;
-    double A,B,C;
     double t;
+    UInt32 width,height;
 
     setVendor((const char*)glGetString(GL_VENDOR));
     setRenderer((const char*)glGetString(GL_RENDERER));
@@ -235,69 +236,28 @@ void RenderNode::determinePerformance( WindowPtr &window )
 
     SLOG << "Start rendering benchmark" << endl;
     window->activate();
-    // create display list
-    GLuint dList1 = glGenLists(1);
-    glNewList(dList1, GL_COMPILE);
-    float step = .1;
-    int count  = 400;
-    for(float y=0;y<(1-step/2);y+=step)
-    {        
-        glBegin(GL_TRIANGLE_STRIP);
-        glVertex3f(0,y     ,-1);
-        glVertex3f(0,y+step,-1);
-        for(float x=step;x<(1+step/2);x+=step)
-        {
-            glVertex3f(x,y     ,-1);
-            glVertex3f(x,y+step,-1);
-            faces+=2;
-        }
-        glEnd();
-    }
-    glEndList();
-    glFinish();
-    GLuint dList2 = glGenLists(1);
-    glNewList(dList2, GL_COMPILE);
-    for(c=0;c<count;++c)
-    {
-        glCallList(dList1);
-    }        
-    glEndList();
-    glFlush();
-    t=runFaceBench(dList2,128,128,1.0);
-    count=(int)(count/t);
-    glNewList(dList2, GL_COMPILE);
-    for(c=0;c<count;++c)
-    {
-        glCallList(dList1);
-    }
-    glEndList();
-    runFaceBench(dList2,1,1,1.0);
-    glFinish();
 
-    Real32 aSize=2;
-    Real32 bSize=2;
-    Real32 cSize=128;
-    do
-    {
-        for(A=0,c=0;A<1.0;++c)
-        {
-            A += runFaceBench(dList2,aSize,aSize,1.000);
-        }
-        A/=c*count;
-        for(B=0,c=0;B<1.0;++c)
-        {
-            B += runFaceBench(dList2,bSize,bSize,0.001);
-        }
-        B/=c*count;
-        C = runFaceBench(dList2,cSize,cSize,1.000)/count;
-    } while(A>C);
-
-    _visibleFaceCost     =A/faces;
-    _invisibleFaceCost   =B/faces;
-    _drawPixelCost       =C/(cSize*cSize);
-
+    // set viewport
     glViewport(0, 0, window->getWidth(), window->getHeight());
-    UInt32 width,height;
+
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glDisable(GL_SCISSOR_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glDepthFunc( GL_LEQUAL );
+    for(int i=0;i<8;++i)
+        glDisable(GL_LIGHT0+i);
+    glEnable(GL_LIGHT0);
+    double a1,a2,b,r;
+    a1=runFaceBench(1,1);
+    a2=runFaceBench(4,1);
+    b=(a2-.25*a1)/.75;
+    r=runRasterBench();
+
+    _visibleFaceCost     =1.0/a1;
+    _invisibleFaceCost   =1.0/b;
+    _drawPixelCost       =1.0/r;
 
     // test write performance
     glPixelStorei(GL_PACK_ALIGNMENT,1); 
@@ -337,12 +297,11 @@ void RenderNode::determinePerformance( WindowPtr &window )
     glPopMatrix();
     SLOG << "End rendering benchmark" << endl;
     
-    glDeleteLists(dList2,1);
-    glDeleteLists(dList1,1);
+    glPopAttrib();
 }
 
-/** Write class contents to the given data stream
- *
+/** 
+ * Write class contents to the given data stream
  **/
 
 void RenderNode::copyToBin(BinaryDataHandler &handle)
@@ -354,8 +313,8 @@ void RenderNode::copyToBin(BinaryDataHandler &handle)
     handle.putValue( _writePixelCost );
 }
 
-/** Read class contents from the given data stream
- *
+/** 
+ * Read class contents from the given data stream
  **/
 
 void RenderNode::copyFromBin(BinaryDataHandler &handle)
@@ -367,7 +326,16 @@ void RenderNode::copyFromBin(BinaryDataHandler &handle)
     handle.getValue(_writePixelCost);
 }
 
-/** Set render performance values for a group of render nodes
+/** 
+ * Set render performance values for a group of render nodes. The
+ * parameter <code>begin</code> points to the first and the parameter 
+ * <code>end</code> points behind the last member of the group.
+ *
+ * It is assumed the a render group is as fast as all its members together.
+ * Render costs of culled faces are handled different. In the worst case
+ * invisible faces have to be culled by each render node. To take this
+ * into account, we set the group speed to process culled faces to the
+ * average of all group members.
  **/
 void RenderNode::setGroup(const RenderNode *begin,const RenderNode *end)
 {
@@ -377,8 +345,9 @@ void RenderNode::setGroup(const RenderNode *begin,const RenderNode *end)
     Real32 drawPixels=0;
     Real32 readPixels=0;
     Real32 writePixels=0;
+    UInt32 count=0;
 
-    for(i=begin;i!=end;++i)
+    for(count=0,i=begin;i!=end;++i,count++)
     {
         invisibleFaces+=1.f/i->_invisibleFaceCost;
         visibleFaces  +=1.f/i->_visibleFaceCost;
@@ -393,67 +362,168 @@ void RenderNode::setGroup(const RenderNode *begin,const RenderNode *end)
     _writePixelCost   =(1.f/writePixels);
 }
 
-/** Dump class contents
+/**
+ * Dump class contents
  **/
-
 void RenderNode::dump(void) const
 {
     FLOG(("Vendor           : %s\n",_vendor.c_str()));
     FLOG(("Rnderer          : %s\n",_renderer.c_str()));
-    FLOG(("Clipped Faces/s  : %20.5f\n",1.0/_invisibleFaceCost));
+    FLOG(("Culled Faces/s   : %20.5f\n",1.0/_invisibleFaceCost));
     FLOG(("Faces/s          : %20.5f\n",1.0/_visibleFaceCost));
     FLOG(("Pixel/s          : %20.5f\n",1.0/_drawPixelCost));
     FLOG(("Read pixel/s     : %20.5f\n",1.0/_readPixelCost));
     FLOG(("Write pixel/s    : %20.5f\n",1.0/_writePixelCost));
 }
 
-/** check face rendering performance
- * 
- * This method will render a display list with vertices in x,y range [0.1].
- * size specifies the viewport size. The vertices will be scaled to fit
- * exactly in to the viewport. The parameter visible defines which share
- * of the geometry should be visible. 1: all is visible, 0.5 half of the
- * geometry is visible.
- *
- * \param dlist     display list
- * \param size      viewport size
- * \param visible   visible portion of the geometry
- *
+/**
+ * Render small faces as triangle stripes. With the parameter w
+ * it is possible to set the amount of visible faces. If w=1
+ * then all faces are visible. If w=2 then 1/2 of the faces are
+ * visible. The function returns the number of faces that could
+ * be rendered in one second. We are using triangle stripes with
+ * 8 faces to run the benchmark.
  **/
-double RenderNode::runFaceBench(UInt32 dlist,
-                                UInt32 width,
-                                UInt32 height,
-                                Real32 visible)
+double RenderNode::runFaceBench(float w,int size) 
 {
-    GLint depthFunc;
+    int c;
+    int faces=0;
 
-    glGetIntegerv( GL_DEPTH_FUNC,&depthFunc );
-    glDepthFunc  ( GL_LEQUAL );
-    glViewport(0, 0, width, height);
+    // vp size
+    GLint view[4];
+    glGetIntegerv(GL_VIEWPORT,view);
+    int vw=view[2],vh=view[3];
+
+    // set projection
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
-    glScalef(1.f/visible,1.f,1.f);
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,1,0,1);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+    gluOrtho2D(0,vw,0,vh);
+    glMatrixMode(GL_MODELVIEW);
+
+    // create display list
+    GLuint dList = glGenLists(1);
+    glNewList(dList, GL_COMPILE);
+    glBegin(GL_TRIANGLE_STRIP);
+    for(int x=0;x<=(vw*w);x+=size)
+    {
+        glNormal3f(0,0,1);
+        glVertex3f(x,0   ,1);
+        glNormal3f(0,0,1);
+        glVertex3f(x,size,1);
+        if(((x&3)==3) && (x!=(vw*w)))
+        {
+            glEnd();
+            glBegin(GL_TRIANGLE_STRIP);
+            glNormal3f(0,0,1);
+            glVertex3f(x,0   ,1);
+            glNormal3f(0,0,1);
+            glVertex3f(x,size,1);
+        }
+    }
+    glEnd();
+    glEndList();
     glFinish();
-    // start bench
-    Time t=-getSystemTime();
-    glCallList(dlist);
-    glFinish();
-    t+=getSystemTime();
-    // end bench
+
+    // run test
+    Time t=0;
+    c=0;
+    glPushMatrix();
+    do
+    {
+        glLoadIdentity();
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glFinish();
+        t-=getSystemTime();
+        for(int y=0;y<vh;y+=size)
+        {        
+            glCallList(dList);
+            glTranslatef(0,size,0);
+        }
+        glFinish();
+        t+=getSystemTime();
+        c++;
+    }
+    while(t<.5);
+    glPopMatrix();
+    faces=(int)(((vw*w*2)/size)*(vh/size)*c);
+
+    // reset projection
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
-    glDepthFunc  ( depthFunc );
-    return t;
+    glMatrixMode(GL_PROJECTION);
+
+    glDeleteLists(dList,1);
+    return faces/t;
 }
 
+/**
+ * Render one large face over the whole viewport. The returned value
+ * is the number of pixels that could be rendered in one second.
+**/
+double RenderNode::runRasterBench(void) 
+{
+    int c;
+
+    // vp size
+    GLint view[4];
+    glGetIntegerv(GL_VIEWPORT,view);
+    int vw=view[2],vh=view[3];
+    
+    // set projection
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0,vw,0,vh);
+
+    // create display list
+    GLuint dList = glGenLists(1);
+    glNewList(dList, GL_COMPILE);
+    glBegin(GL_QUADS);
+    glVertex3f(0   ,  0,1);
+    glNormal3f(0,0,1);
+    glVertex3f(0   , vh-1,1);
+    glNormal3f(0,0,1);
+    glVertex3f(vw-1, vh-1,1);
+    glNormal3f(0,0,1);
+    glVertex3f(vw-1,  0,1);
+    glNormal3f(0,0,1);
+    glEnd();
+    glEndList();
+    glFinish();
+
+    // run test
+    Time t=0;
+    c=0;
+    do
+    {
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glFinish();
+        t-=getSystemTime();
+        glCallList(dList);
+        glFinish();
+        t+=getSystemTime();
+        c++;
+    }
+    while(t<.5);
+    // reset projection
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+
+    glDeleteLists(dList,1);
+    return ((vw*vh*c) / t);
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

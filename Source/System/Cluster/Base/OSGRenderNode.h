@@ -156,10 +156,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderNode
     /*! \name                   helper                                     */
     /*! \{                                                                 */
 
-    double runFaceBench(UInt32 dlist,
-                        UInt32 width,
-                        UInt32 height,
-                        Real32 visible);
+    double runFaceBench  (float w,int size );
+    double runRasterBench(void             );
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
