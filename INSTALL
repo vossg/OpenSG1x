@@ -1,179 +1,164 @@
 
-Before you build OpenSG make sure that the following requirements for 
-your plattform are met :
-
-Required Packages : 
-===================
-
-Plattform :
-===========
-
-    SGI (>= 6.5)
-    ------------
-
-        Compiler : > MIPS Pro 7.3.*
-        Make     : > gmake 3.78.1
-        glut     : 3.7
-
-    Linux (so far only tested on RedHat > 7.0)
-    -----
-
-        Compiler : System compiler + 
-                   patch gcc/RHBA-2000-132 and glibc/RHBA-2000-079 (RH 7.0).
-
-                   gcc >= 3.0 not yet
-
-        Make     : > gmake 3.78.1
-        glut     : 3.7
-
-    NT 
-    -----------------
-
-        During this first dynamic developments, where only infrequent builds 
-        are done on NT, we do not use VisualStudio or some other
-        IDE (of course only if you do not count emacs to be one :-)). So we 
-        actually use gmake in combination with cygwin. So when you get a new
-        gmake PLEASE DO NOT try to build it with native windows dev tools,
-        use the gcc provided by cygwin instead. You can download an build the
-        usual unix distribution using the cygwin environment. For OpenSG, 
-        please do not try to use a microsoft compiler, even if there are 
-        config files available. Believe us, it will fail and we are 
-        working on it to find all the ways around their interpretation of
-        doing C++ compilations.
-
-        Compiler : Intel C++ > 4.5 + latest patchset
-        Cygwin   : >= 1.1.4
-        gmake    : >  gmake 3.78.1
-        glut     : 3.7
-
-        STL      : The current default is the original Microsoft 
-                   implementation. Since there where some problems using
-                   other implementations and the MSVC runtime libraries.
-
-OpenSG Configuration :
-======================
-
-We actually have a lovely configure script now, but it's still a bit
-experimental.
-
-See using_configure on how to use it. Feedback on success
-(or failure) welcome!
+   How to build OpenSG
+   ===================
+   
+The master document is on the web at
+http://www.opensg.org/prerequisites.EN.html. If in doubt, go there. 
 
 
-How to use configure is quite straight forward. But be warned it is still
-considered to be experimental. See ./configure --help for available options.
+On a Unix or Unix-like system it's pretty easy. 
+
+./configure && make && make install 
+
+should work.
+
+The only things it really depends on are OpenGL (or Mesa) and a decent C++
+compiler (see below for the definition of decent for the different platforms).
+
+However, in general you should configure some additional libraries. The most
+important is the GLUT library, as all of the tutorials and most of the tests
+depend on it. Other useful libraries are tif, jpg, png and qt. The library
+works with any QT >= 2, but the SceneViewer example needs 3.0, so it is
+recommended to use 3.0.
+
+To tell configure what libraries to use and, if necessary, where to find them
+use the --with-<lib>{=<dir>} options. Call ./configure --help to see all the
+options which are available.
+
+A typical configure call would look like this:
+
+./configure --with-glut=/usr --with-jpg --with-png --with-qt=/somewhere/qt-3.0
 
 
-IMPORTANT NOTE
-If you created the links required by previous versions of the configure method
-delete them and update again.
+configure creates a subdirectory in Builds, whose name
+depends on the current system, e.g. Builds/mips-sgi-irix6.5-CC, and which
+will contain all system-dependent files. This allows concurrent development on
+multiple different systems in one directory tree.
 
-!! MORE IMPORTANT NOTE !!
+Go into this directory and call make to create the libraries. To
+find out which make targets are available call make help. This is
+possible in all directories of the system which contain a makefile.
 
-As they changed the internal macros from 2.13 to 2.52 and cygwin starts
-to ship 2.52 : right now you must not use 2.52, download 2.13, configure it,
-install it and use it. 
+There are different libraries that make up the whole system:
 
-!!!! MOST IMPORTANT NOTE !!!!
+Base: the low-level support library. Contains elementary stuff like basic
+types, vectors, matrices, quaternions, bounding volumes and the OS
+abstractions.
 
-As this file might be slightly out of date, PLEASE refer to ./configure --help
-for the lates information.
+System: the central library, containing the main scenegraph, all the nodes
+and higher-level objects.
 
-!!!!!! UNBELIEVABLE IMPORTANT NOTE !!!!!!
+WindowGLUT: a little library that contains the OpenSG-GLUT
+interface object
 
-The bash command in front of ./configure (CYGWIN) is intended and does not
-denote a prompt, include it otherwise it will definitively not work.
+WindowX: a little library that contains the OpenSG-X interface
+object
 
+WindowWIN32: a little library that contains the OpenSG-WIN32
+interface object
 
-All platforms
-
-cd <..../OpenSG>
-autoconf
-
-IRIX :
-
-./configure --with-compiler=CC --with-stl=<stl-dir>
-		    --with-qt=<qt-dir> --with-glut=<glut-dir>
-			--prefix=<install-dir>
-cd Builds/mips-sgi-irix6.5-CC
-gmake
+WindowQT: a little library that contains the OpenSG-QT interface
+object
 
 
-CYGWIN (ICL4.5, including patch P000223C, P000421C, p000512c, P000616C)
-       (ICL5.0)
-       (not yet ICL5.0.1)
+After the libraries are built install them by calling make install. The
+libraries will be installed in the directory hierarchy defined by the --prefix
+option given to configure, per default /usr/local. Include files will go into
+prefix/include/OpenSG, libs into prefix/lib/dbg or prefix/lib/opt. The
+osg-config script, which can be used to simplify OpenSG makefiles, goes into
+prefix/bin.
 
-bash ./configure --with-compiler=icl45 --with-qt=<qtdir> --with-glut=<glut-dir>
-                 --prefix=<install-dir>
+One useful variant is to install into the system-dependent directory in
+Builds by calling make INSTALL_DIR=`pwd` install.
 
-cd Build/i686-pc-cygwin-icl45
-make
+To run OpenSG programs, make sure that the directory where the libraries are
+installed is in your LD_LIBRARY_PATH. 
 
+For bash/ksh users do a 
 
-Linux (RH 7.0, including patch gcc/RHBA-2000-132, glibc/RHBA-2000-079) 
-	  (RH 7.1 out of the box)
-      (SuSe 7.1, out of the box)
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:<prefix>/lib/{dbg,opt}
 
-./configure --with-compiler=g++ --with-glut --with-qt=<qtdir>
-			--prefix=<install-dir>
-cd Build/i686-pc-linux-g++
-make
+For csh/tcsh users do a 
 
-----
-General parameters : 
+setenv LD_LIBRARY_PATH ${LD_LIBRARY_PATH}:<prefix>/lib/{dbg,opt}
 
-	--prefix=<install-dir>
+while replacing <prefix> with your install prefix and {dbg,opt} with dbg or
+opt, depending on which kind of library you created.
 
-		sets the install directory where OpenSG will be installed. If set
-		to BUILD the Builds/<system> directory will be used. Defaults to
-		/usr/local
+After making the libraries you should make the tutorial examples. They are
+in OpenSG/tutorials. For Unix systems a simple make should do, 
+for Windows it's probably easier to download a binary release and start with 
+that.
 
-On unix system :
+As a somewhat bigger example program there's OpenSG/examples/SceneViewer. It
+needs QT 3.0, and it needs QTDIR to be set to directory where QT is installed.
+Given that, a simple make should be enough to create it.
 
-	--with-tif[=<dir>]
-	--with-gif[=<dir>]
-	--with-jpg[=<dir>]
-	--with-png[=<dir>]
-
-		enable the named image format and optinally give its location
-
-To make the system:
-
-cd Builds/<system>
-gmake
-(build BaseLib and SystemLib)
-you need to add BaseLib/lib-dbg and SystemLib/lib-dbg to your library path
-as an alternative you can do gmake install and add lib/dbg to your path.
-
-to make a test program
-cd SystemTest
-make testWindowGLUT
-./testWindowGLUT ../../../Loader/dino.raw
+There are also a bunch of tests that can be created in the *Test directory
+for each library. These are internal tests to see if the system does what it's
+supposed to do and not tutorials, thus they don't necessarily show the right way
+of doing things. Use them just if you can't find an example for what you want to
+do in the tutorials.
 
 
-To make the VRML Loader test program you need to be in SystemTest and
-ln -s ../../../Experimental/VRMLLoader/std.wrl .
-make testVRMLRender
-./testVRMLRender ../../../Experimental/VRMLLoader/tie.wrl
-Used keys: a s z x c w ESC
+
+Now the platform-specific requirements:
+
+IRIX
+====
+
+Compiler : > MIPS Pro 7.3.*
+Make     : > gmake 3.78.1
+glut     : 3.7
+
+
+Linux
+=====
+
+Compiler : gcc 2.95.>=3 or 2.96.x; 3.0.x not yet
+
+Standard systems:
+RH 7.0: needs patches gcc/RHBA-2000-132, glibc/RHBA-2000-079
+RH 7.1: out of the box
+SuSe 7.1: out of the box
+
+
+Windows
+=======
+
+During this first dynamic developments, where only infrequent builds  are done
+on NT, we do not use VisualStudio or some other IDE (of course only if you do
+not count emacs to be one :-)). So we  actually use gmake in combination with
+cygwin. So when you get a new gmake PLEASE DO NOT try to build it with native
+windows dev tools, use the gcc provided by cygwin instead. You can download and
+build the usual unix distribution using the cygwin environment. For OpenSG, 
+please do not try to use a microsoft compiler, even if there are config files
+available. Believe us, it will fail and we are working on it to find all the
+ways around their interpretation of doing C++ compilations.
+
+Compiler : Intel C++ > 4.5 + latest patchset
+Cygwin   : >= 1.1.4
+gmake    : > 3.78.1
+glut     : 3.7
+autoconf : 2.13 (only needed when you want to work on the configure scripts)
+STL      : The current default is the original Microsoft 
+           implementation. Since there where some problems using
+           other implementations and the MSVC runtime libraries.
+
 
 
 Documentation :
 ===============
 
-##############################################################################
-#### Since we just switched to configure this acutally does not work now #####
-##############################################################################
-
 And last, if you like it and want to get a deeper insight build the
 documentation to get an overview over the different parts of the system. 
 But be aware that the docuentation is by far not complete, it is ok to give
-you an overview and browse through the structure but nothing more (Currently).
+you an overview and browse through the structure but nothing more (currently).
 
     make doc
 
 This uses doxygen to create documentation in Doc/Code/html. We use
-version 1.2.5, which is pretty new, but 1.2.0 should be ok, too. The
+version 1.2.11, which is pretty new, but 1.2.X should be ok, too. The
 default configuration uses dot, so you need that, too, or you have turn
 off the HAVE_DOT option.
 
@@ -182,5 +167,14 @@ It tricks doxygen into seeing classes that aren't there. So don't be
 surprised if you see classes in the documentation that are not in the
 code.
 
+We have a starter guide which explains the OpenSG specifics. It's in
+Doc/starter, but you need LyX, convert from ImageMagick and fig2dev from
+transfig to make it. It's probably easier to download it from the website at
+http://www.opensg.org/documentation.EN.html.
+
+
+Question/Comments? 
+
+Mail to feedback@opensg.org.
 
    
