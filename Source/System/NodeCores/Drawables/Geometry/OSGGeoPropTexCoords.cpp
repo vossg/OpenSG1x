@@ -51,6 +51,22 @@
 
 OSG_USING_NAMESPACE
 
+FieldDescription *GeoTexCoords1fPropertyDesc::_desc[] =
+{
+    new FieldDescription(
+        StoredFieldType::getClassType(), 
+        getFieldName(), 
+        OSG_FC_FIELD_IDM_DESC(GeoProperty<
+                                GeoTexCoords1fPropertyDesc>::GeoPropDataField),
+        false,
+#ifdef OSG_MICROSOFT_COMPILER_HACKS
+        GeoProperty<GeoTexCoords1fPropertyDesc>::getFPtrAccessMethod())
+#else
+        (FieldAccessMethod) &GeoProperty<
+                                GeoTexCoords1fPropertyDesc>::getFieldPtr)
+#endif
+};
+
 FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
 {
     new FieldDescription(
@@ -86,6 +102,10 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
 OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
 
 OSG_BEGIN_NAMESPACE
+
+OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
+                           GeoTexCoords1fPropertyDesc, 
+                           OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty,
                            GeoTexCoords2fPropertyDesc, 

@@ -46,6 +46,63 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! \brief The descriptor trait for osg::GeoTexCoords1f.
+    \ingroup GrpSystemDrawablesGeometryProperties
+    \hideinhierarchy
+*/
+struct GeoTexCoords1fPropertyDesc : public GeoTexCoordsPropertyDesc
+{
+    static FieldDescription *_desc[];
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                          Get                                 */
+    /*! \{                                                                 */
+
+    static const Char8 *getTypeName (void) { return "GeoTexCoords1f";         }
+    static const Char8 *getClassName(void) { return "GeoTexCoords1fProperty"; }
+    static const Char8 *getFieldName(void) { return "TexCoords";              }
+    static const Char8 *getGroupName(void) { return "GeoTexCoords";           }
+
+    static InitContainerF     getInitMethod(void) { return NULL;            }
+
+    static UInt32             getFormat    (void) { return GL_FLOAT;        }
+    static UInt32             getFormatSize(void) { return sizeof(GLfloat); }
+    static UInt32             getDimension (void) { return 1;               }
+    static UInt32             getStride    (void) { return 0;               }
+
+    static FieldDescription **getDesc      (void) { return _desc;           }
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Typedefs                                  */
+    /*! \{                                                                 */
+
+    typedef GeoTexCoords                Inherited;
+    typedef GeoTexCoords::PtrType       InheritedPtr;
+
+    typedef GeoTexCoordsPropertyDesc    InheritedDesc;
+
+    typedef MFFloat                     StoredFieldType;
+    typedef InheritedDesc::GenericType  GenericType;
+
+#ifndef OSG_SUPPORT_NO_GEO_INTERFACE
+    typedef GeoPropertyInterface<GeoTexCoordsPropertyDesc> Interface;
+#endif
+
+    /*! \}                                                                 */
+};
+
+#if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
+typedef GeoProperty<GeoTexCoords1fPropertyDesc> GeoTexCoords1f;
+#endif
+
+#if !defined(OSG_COMPILEGEOPROPTEXCOORDSINST) && !defined(OSG_DO_DOC)
+OSG_FC_DLLEXPORT_DECL(GeoProperty,
+                      GeoTexCoords1fPropertyDesc,
+                      OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+
 /*! \brief The descriptor trait for osg::GeoTexCoords2f.
     \ingroup GrpSystemDrawablesGeometryProperties
     \hideinhierarchy

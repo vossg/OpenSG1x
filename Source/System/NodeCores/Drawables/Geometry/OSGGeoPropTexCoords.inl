@@ -44,6 +44,54 @@
 OSG_BEGIN_NAMESPACE
 
 
+// TexCoords1f
+
+template<> inline 
+Vec2f GeoProperty<GeoTexCoords1fPropertyDesc>::getValue(const UInt32 index)
+{
+    return Vec2f(_field[index], 0.f);
+}
+
+template<> inline 
+Vec2f GeoProperty<GeoTexCoords1fPropertyDesc>::getValue(
+    const UInt32 index) const
+{
+    return Vec2f(_field[index], 0.f);
+}
+
+template<> inline 
+void GeoProperty<GeoTexCoords1fPropertyDesc>::getValue(
+          Vec2f  &res,
+    const UInt32  index)
+{
+    res.setValues(_field[index], 0.f);
+}
+
+template<> inline 
+void GeoProperty<GeoTexCoords1fPropertyDesc>::getValue(
+          Vec2f  &res,
+    const UInt32  index) const
+{
+    res.setValues(_field[index], 0.f);
+}
+
+template<>
+inline void
+GeoProperty<GeoTexCoords1fPropertyDesc>::setValue( const Vec2f & val,
+    const UInt32 index )
+{
+    _field[index].setValues(val[0]);
+}
+
+template<>
+inline void
+GeoProperty<GeoTexCoords1fPropertyDesc>::addValue( const Vec2f & val )
+{
+    _field.push_back(val[0]);
+}
+
+
+
 // TexCoords3f
 
 template<> inline 
@@ -90,6 +138,5 @@ GeoProperty<GeoTexCoords3fPropertyDesc>::addValue( const Vec2f & val )
 {
     _field.push_back(Vec3f( val[0], val[1], 0));
 }
-
 
 OSG_END_NAMESPACE
