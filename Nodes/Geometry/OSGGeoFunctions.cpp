@@ -64,7 +64,7 @@ OSG_USING_NAMESPACE
 #pragma set woff 1174
 #endif
 
-static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.11 2001/07/30 22:17:45 vossg Exp $";
+static char cvsid[] = "@(#)$Id: OSGGeoFunctions.cpp,v 1.12 2001/08/03 16:03:08 mroth Exp $";
 
 #ifdef __sgi
 #pragma reset woff 1174
@@ -548,6 +548,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
   
   //----------------------------------------------------------------------
   // create index face/line data
+    osg::beginEditCP (indexPtr);
     for (pType = (faceSet ? 3 : 2); pType <= maxPType; pType++) {
     
         if (primitiveTypeCount[pType]) {
@@ -643,6 +644,7 @@ Int32 osg::setIndexFromVRMLData ( GeometryPtr geoPtr,
             }
         }
     }
+    osg::endEditCP (indexPtr);
 
     return triCount;
 }
