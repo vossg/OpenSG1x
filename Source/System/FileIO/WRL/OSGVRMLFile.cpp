@@ -1291,7 +1291,7 @@ PROTO ElevationGrid [
      addFieldValue        ("0");
      endFieldDecl         ();
 
-     beginFieldDecl       ("MFFloat", Self::OSGsfFloat, "height");
+     beginFieldDecl       ("MFFloat", Self::OSGmfFloat, "height");
      endFieldDecl         ();
 
      beginFieldDecl       ("SFBool", Self::OSGsfBool, "normalPerVertex");
