@@ -110,7 +110,7 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.1 2001/02/12 01:26:35 dirk Exp $";
+char SolidBackground::cvsid[] = "@(#)$Id: OSGSolidBackground.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 OSG_FC_FIRST_FIELD_IDM_DEF(SolidBackground, ColorField)
 OSG_FC_LAST_FIELD_IDM_DEF (SolidBackground, ColorField)
@@ -224,7 +224,8 @@ SolidBackground &SolidBackground::operator = (const SolidBackground &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void SolidBackground::dump(void) const
+void SolidBackground::dump(      UInt32     uiIndent, 
+                           const BitVector &bvFlags) const
 {
     SDEBUG << "Dump SolidBackground NI" << endl;
 }

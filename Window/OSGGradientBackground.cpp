@@ -110,7 +110,7 @@ OSG_END_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
-char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.1 2001/02/12 01:26:33 dirk Exp $";
+char GradientBackground::cvsid[] = "@(#)$Id: OSGGradientBackground.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 OSG_FC_FIRST_FIELD_IDM_DEF(GradientBackground, ColorField)
 OSG_FC_FIELD_IDM_DEF      (GradientBackground, PositionField, ColorField)
@@ -317,7 +317,8 @@ GradientBackground &GradientBackground::operator = (const GradientBackground &so
 
 /*------------------------------- dump ----------------------------------*/
 
-void GradientBackground::dump(void) const
+void GradientBackground::dump(      UInt32     uiIndent, 
+                              const BitVector &bvFlags) const
 {
     SDEBUG << "Dump GradientBackground NI" << endl;
 }

@@ -320,7 +320,8 @@ Camera& Camera::operator = (const Camera &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void Camera::dump(void) const
+void Camera::dump(      UInt32     uiIndent, 
+                  const BitVector &bvFlags) const
 {
     SDEBUG << "Dump Camera NI" << endl;
 }

@@ -48,7 +48,16 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 #include <qgl.h>
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 #include "OSGConfig.h"
 
@@ -212,5 +221,6 @@ class OSGQGLWidget : public QGLWidget
 OSG_END_NAMESPACE
 
 #include <OSGQGLWidget_qt.inl>
+
 
 #endif /* _OSG_QGLWIDGET_H_ */

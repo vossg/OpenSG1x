@@ -125,7 +125,8 @@ class OSG_WINDOW_DLLMAPPING GLUTWindow : public Window
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 

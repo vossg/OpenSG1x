@@ -113,17 +113,17 @@ int main (int argc, char **argv)
 	// beacon for camera and light	
     NodePtr b1n = Node::create();
     GroupPtr b1 = Group::create();
-	osgBeginEditCP(b1n);
+	beginEditCP(b1n);
 	b1n->setCore( b1 );
-	osgEndEditCP(b1n);
+	endEditCP(b1n);
 
 	// transformation
     NodePtr t1n = Node::create();
     TransformPtr t1 = Transform::create();
-	osgBeginEditCP(t1n);
+	beginEditCP(t1n);
 	t1n->setCore( t1 );
 	t1n->addChild( b1n );
-	osgEndEditCP(t1n);
+	endEditCP(t1n);
 
 	cam_trans = t1;
 
@@ -132,25 +132,25 @@ int main (int argc, char **argv)
 	NodePtr dlight = Node::create();
 	DirectionalLightPtr dl = DirectionalLight::create();
 
-	osgBeginEditCP(dlight);
+	beginEditCP(dlight);
 	dlight->setCore( dl );
-	osgEndEditCP(dlight);
+	endEditCP(dlight);
 	
-	osgBeginEditCP(dl);
+	beginEditCP(dl);
 	dl->setAmbientColor( .3, .3, .3, 1 );
 	dl->setDiffuseColor( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
-	osgEndEditCP(dl);
+	endEditCP(dl);
 
 	// root
     root = Node::create();
     GroupPtr gr1 = Group::create();
-	osgBeginEditCP(root);
+	beginEditCP(root);
 	root->setCore( gr1 );
 	root->addChild( t1n );
 	root->addChild( dlight );
-	osgEndEditCP(root);
+	endEditCP(root);
 
 	// Load the file
 
@@ -172,12 +172,12 @@ int main (int argc, char **argv)
 	
 	cout << "Volume: from " << min << " to " << max << endl;
 
-	osgBeginEditCP(dlight);
+	beginEditCP(dlight);
 	dlight->addChild( file );
-	osgEndEditCP(dlight);
+	endEditCP(dlight);
 
 	cerr << "Tree: " << endl;
-	root->print();
+	root->dump();
 
 	// Camera
 	PerspectiveCameraPtr cam = PerspectiveCamera::create();

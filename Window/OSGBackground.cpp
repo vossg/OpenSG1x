@@ -210,7 +210,8 @@ Background &Background::operator = (const Background &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void Background::dump(void) const
+void Background::dump(      UInt32     uiIndent, 
+                      const BitVector &bvFlags) const
 {
     SDEBUG << "Dump Background NI" << endl;
 }

@@ -219,7 +219,7 @@ void key(unsigned char key, int x, int y)
 			
 				act->apply( iroot );
 			
-				osgBeginEditCP(isect_points);
+				beginEditCP(isect_points);
 				isect_points->setValue( l.getPosition(), 0 );
 				isect_points->setValue( l.getPosition() + l.getDirection(), 1 );
 			
@@ -254,7 +254,7 @@ void key(unsigned char key, int x, int y)
 					isect_points->setValue( Pnt3f(0,0,0), 3 );
 					isect_points->setValue( Pnt3f(0,0,0), 4 );
 				}
-				osgEndEditCP(isect_points);
+				endEditCP(isect_points);
 			
 				cerr << endl;
 			
@@ -302,17 +302,17 @@ int main (int argc, char **argv)
 	// beacon for camera and light	
     NodePtr b1n = Node::create();
     GroupPtr b1 = Group::create();
-	osgBeginEditCP(b1n);
+	beginEditCP(b1n);
 	b1n->setCore( b1 );
-	osgEndEditCP(b1n);
+	endEditCP(b1n);
 
 	// transformation
     NodePtr t1n = Node::create();
     TransformPtr t1 = Transform::create();
-	osgBeginEditCP(t1n);
+	beginEditCP(t1n);
 	t1n->setCore( t1 );
 	t1n->addChild( b1n );
-	osgEndEditCP(t1n);
+	endEditCP(t1n);
 
 	cam_trans = t1;
 
@@ -321,16 +321,16 @@ int main (int argc, char **argv)
 	NodePtr dlight = Node::create();
 	DirectionalLightPtr dl = DirectionalLight::create();
 
-	osgBeginEditCP(dlight);
+	beginEditCP(dlight);
 	dlight->setCore( dl );
-	osgEndEditCP(dlight);
+	endEditCP(dlight);
 	
-	osgBeginEditCP(dl);
+	beginEditCP(dl);
 	dl->setAmbientColor( .3, .3, .3, 1 );
 	dl->setDiffuseColor( 1, 1, 1, 1 );
 	dl->setDirection(0,0,1);
 	dl->setBeacon( b1n);
-	osgEndEditCP(dl);
+	endEditCP(dl);
 
 	// intersect geometry
 
@@ -341,60 +341,60 @@ int main (int argc, char **argv)
 	red->setEmission( Color3f( 1,0,0 ) );	
 
 	isect_points = GeoPosition3f::create();
-	osgBeginEditCP(isect_points);
+	beginEditCP(isect_points);
 	isect_points->addValue( Pnt3f(0,0,0) );
 	isect_points->addValue( Pnt3f(0,0,0) );
 	isect_points->addValue( Pnt3f(0,0,0) );
 	isect_points->addValue( Pnt3f(0,0,0) );
 	isect_points->addValue( Pnt3f(0,0,0) );
-	osgEndEditCP(isect_points);
+	endEditCP(isect_points);
 
 	GeoIndexUI32Ptr index = GeoIndexUI32::create();	
-	osgBeginEditCP(index);
+	beginEditCP(index);
 	index->addValue( 0 );
 	index->addValue( 1 );
 	index->addValue( 2 );
 	index->addValue( 3 );
 	index->addValue( 4 );
-	osgEndEditCP(index);
+	endEditCP(index);
 
 	GeoPLengthPtr lens = GeoPLength::create();	
-	osgBeginEditCP(lens);
+	beginEditCP(lens);
 	lens->addValue( 2 );
 	lens->addValue( 3 );
-	osgEndEditCP(lens);
+	endEditCP(lens);
 	
 	GeoPTypePtr type = GeoPType::create();	
-	osgBeginEditCP(type);
+	beginEditCP(type);
 	type->addValue( GL_LINES );
 	type->addValue( GL_TRIANGLES );
-	osgEndEditCP(type);
+	endEditCP(type);
 
 	GeometryPtr testgeocore = Geometry::create();
-	osgBeginEditCP(testgeocore);
+	beginEditCP(testgeocore);
 	testgeocore->setPositions( isect_points );
 	testgeocore->setIndex( index );
 	testgeocore->setLengths( lens );
 	testgeocore->setTypes( type );
 	testgeocore->setMaterial( red );
-	osgEndEditCP( testgeocore );
+	endEditCP( testgeocore );
 	
 	
 	NodePtr testgeo = Node::create();
-	osgBeginEditCP(testgeo);
+	beginEditCP(testgeo);
 	testgeo->setCore( testgeocore );
-	osgEndEditCP( testgeo );
+	endEditCP( testgeo );
 	
 
 	// root
     root = Node::create();
     GroupPtr gr1 = Group::create();
-	osgBeginEditCP(root);
+	beginEditCP(root);
 	root->setCore( gr1 );
 	root->addChild( t1n );
 	root->addChild( dlight );
 	root->addChild( testgeo );
-	osgEndEditCP(root);
+	endEditCP(root);
 
 	// Load the file
 
@@ -416,15 +416,15 @@ int main (int argc, char **argv)
 	
 	cout << "Volume: from " << min << " to " << max << endl;
 
-	osgBeginEditCP(dlight);
+	beginEditCP(dlight);
 	dlight->addChild( file );
-	osgEndEditCP(dlight);
+	endEditCP(dlight);
 
 	// Intersect the loaded file only
 	iroot = file;
 
 	cerr << "Tree: " << endl;
-	root->print();
+	root->dump();
 
 	// Camera
 	
@@ -482,7 +482,7 @@ int main (int argc, char **argv)
 
     pc.dump();
 
-    pc = FieldContainerFactory::the().createFieldContainer("Camera");
+    pc = FieldContainerFactory::the()->createFieldContainer("Camera");
 
     pc.dump();
 	

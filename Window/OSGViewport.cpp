@@ -354,7 +354,8 @@ Viewport& Viewport::operator = (const Viewport &source)
 
 /*------------------------------- dump ----------------------------------*/
 
-void Viewport::dump(void) const
+void Viewport::dump(      UInt32     uiIndent, 
+                    const BitVector &bvFlags) const
 {
     SDEBUG << "Dump Viewport NI" << endl;
 }

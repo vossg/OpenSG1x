@@ -52,6 +52,7 @@
 #include <iostream.h>
 #endif
 
+
 #include "OSGQGLWidget_qt.h"
 
 using namespace osg;
@@ -177,4 +178,12 @@ OSGQGLWidget::~OSGQGLWidget( void )
 //s: 
 ///---------------------------------------------------------------------------
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 #include "OSGQGLWidget_qt_moc.cpp"
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif

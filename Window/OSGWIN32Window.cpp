@@ -72,7 +72,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.1 2001/02/12 01:26:35 dirk Exp $";
+char WIN32Window::cvsid[] = "@(#)$Id: OSGWIN32Window.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 // Static Class Varible implementations: 
 
@@ -171,7 +171,8 @@ void WIN32Window::swap( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void WIN32Window::dump(void) const
+void WIN32Window::dump(      UInt32     uiIndent, 
+                       const BitVector &bvFlags) const
 {
     SDEBUG << "Dump WIN32Window NI" << endl;
 }

@@ -69,7 +69,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.1 2001/02/12 01:26:35 dirk Exp $";
+char QTWindow::cvsid[] = "@(#)$Id: OSGQTWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 // Static Class Varible implementations: 
 
@@ -194,7 +194,8 @@ void QTWindow::init( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void QTWindow::dump(void) const
+void QTWindow::dump(      UInt32     uiIndent, 
+                    const BitVector &bvFlags) const
 {
     SDEBUG << "Dump QTWindow NI" << endl;
 }

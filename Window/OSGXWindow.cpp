@@ -75,7 +75,7 @@ using namespace osg;
  *                           Class variables                               *
 \***************************************************************************/
 
-char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.1 2001/02/12 01:26:35 dirk Exp $";
+char XWindow::cvsid[] = "@(#)$Id: OSGXWindow.cpp,v 1.2 2001/02/12 15:59:17 vossg Exp $";
 
 // Static Class Varible implementations: 
 
@@ -204,7 +204,8 @@ void XWindow::swap( void )
 
 /*------------------------------- dump ----------------------------------*/
 
-void XWindow::dump(void) const
+void XWindow::dump(      UInt32     uiIndent, 
+                   const BitVector &bvFlags) const
 {
     SDEBUG << "Dump XWindow NI" << endl;
 }

@@ -196,7 +196,8 @@ void PerspectiveCamera::getProjection( Matrix& result,
 
 /*------------------------------- dump ----------------------------------*/
 
-void PerspectiveCamera::dump(void) const
+void PerspectiveCamera::dump(      UInt32     uiIndent, 
+                             const BitVector &bvFlags) const
 {
     SDEBUG << "Dump PerspectiveCamera NI" << endl;
 }

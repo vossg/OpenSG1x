@@ -46,7 +46,15 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#ifdef __sgi
+#pragma set woff 1375
+#endif
+
 #include <qgl.h>
+
+#ifdef __sgi
+#pragma reset woff 1375
+#endif
 
 #include <OSGWindowBase.h>
 #include "OSGWindow.h"
@@ -143,7 +151,8 @@ class OSG_WINDOW_DLLMAPPING QTWindow : public XWindow
 
     /*------------------------------ dump -----------------------------------*/
 
-    virtual void dump(void) const;
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector &bvFlags  = 0) const;
 
   protected:
 
