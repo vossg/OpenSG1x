@@ -48,7 +48,7 @@
 #include <OSGConfig.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 
 
 OSG_BEGIN_NAMESPACE

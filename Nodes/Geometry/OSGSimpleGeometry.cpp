@@ -52,7 +52,7 @@
 
 #define OSG_COMPILEGEOMETRY
 
-#include <OSGGeometryBase.h>
+#include <OSGGeometryDef.h>
 
 #include <OSGLog.h>
 
@@ -548,95 +548,83 @@ NodePtr OSG::makeTorus( Real32 innerRadius, Real32 outerRadius, UInt16 sides, UI
 
 Real32 setVecLen(Vec3f &vec, Real32 length ) 
 {
-
-	Real32 val1,val2,val3,len;
-
-	vec.getValues( val1, val2, val3 );
-	len = vec.length();
+	Real32 len = vec.length();
 	if (len == 0.0) 
 	{
 		len = 1;
-	} else 
+	} 
+	else 
 	{
-		len *= (1.0 / length);
+		len = length / len;
 	}
-	vec.setValues( val1 / len, val2 / len, val3 / len);
+	vec *= len;
 	
-	return vec.length();
+	return length;
 }
 
 /*! \ingroup SimpleGeometry
 */
 
-static void subdivideTriangle( Vec3f &v1, 
-						Vec3f &v2, 
-						Vec3f &v3, 
+#define addPoint( v, index )												\
+{																			\
+	Vec3f norm( (v)[0], (v)[1], (v)[2]); 															\
+																			\
+	norm.normalize();											\
+	n->addValue( norm );													\
+	tx->addValue( 	Vec2f(	osgatan2( -(v)[0], -(v)[2] ) / Pi / 2 + .5, 	\
+							osgabs( osgatan2( -(v)[1],  					\
+											  osgsqrt( (v)[2] * (v)[2] + 	\
+											  		   (v)[0] * (v)[0]		\
+													 )  					\
+									  		)								\
+								  )  / Pi + .5								\
+				) 		 ); 												\
+	p->addValue( norm * radius );											\
+	i->addValue( index );													\
+}
+
+static void subdivideTriangle( UInt32 i1, 
+						UInt32 i2, 
+						UInt32 i3, 
 						Int32 depth, 
 						GeoPosition3f::FieldType  *p, 
 						GeoNormal3f::FieldType    *n,
 						GeoTexCoords2f::FieldType *tx,
 						GeoIndexUI32::FieldType   *i,
-						Int32 *z, Real32 radius) {
-			
-	setVecLen( v1, radius );
-	setVecLen( v2, radius );
-	setVecLen( v3, radius );
-
+						UInt32& z, Real32 radius) 
+{			
 	if (depth == 0) 
 	{
-		Vec3f norm;
-		
-		norm = v1; norm.normalize();
-		n->addValue( norm );
-		tx->addValue( 	Vec2f(	osgatan2( -v1[0], -v1[2] ) / Pi / 2 + .5, 
-								osgabs( osgatan2( -v1[1], 
-												  osgsqrt( v1[2] * v1[2] + v1[0] * v1[0]) 
-									  			)
-									  )  / Pi + .5
-				    ) 		 );
-		p->addValue( v1 );
-		i->addValue( (*z)++ );
-
-		norm = v2; norm.normalize();
-		n->addValue( norm );
-		tx->addValue( 	Vec2f(	osgatan2( -v2[0], -v2[2] ) / Pi / 2 + .5, 
-								osgabs( osgatan2( -v2[1], 
-												  osgsqrt( v2[2] * v2[2] + v2[0] * v2[0]) 
-									  			)
-									  )  / Pi + .5
-				    ) 		 );
-		p->addValue( v2 );
-		i->addValue( (*z)++ );
-
-		norm = v3; norm.normalize();
-		n->addValue( norm );
-		tx->addValue( 	Vec2f(	osgatan2( -v3[0], -v3[2] ) / Pi / 2 + .5, 
-								osgabs( osgatan2( -v3[1], 
-												  osgsqrt( v3[2] * v3[2] + v3[0] * v3[0]) 
-									  			)
-									  )  / Pi + .5
-				    ) 		 );
-		p->addValue( v3 );
-		i->addValue( (*z)++ );
-					
+		i->addValue( i1 );
+		i->addValue( i2 );
+		i->addValue( i3 );
+							
 		return;		
 	}
 
-	Vec3f v12, v23, v31;
+	Pnt3f 	v1 = p->getValue( i1 ), 
+			v2 = p->getValue( i2 ), 
+			v3 = p->getValue( i3 );
+	Pnt3f v12, v23, v31;
 
-	v12 = v1 + v2;
-	v23 = v2 + v3;
-	v31 = v3 + v1;
+	v12 = v1 + ( v2 - v1 ) * .5;
+	v23 = v2 + ( v3 - v2 ) * .5;
+	v31 = v3 + ( v1 - v3 ) * .5;
 	
 	v12 /= 2.0;
 	v23 /= 2.0;
 	v31 /= 2.0;
 	
-	subdivideTriangle(  v1, v12, v31, depth - 1, p,n,tx,i, z, radius );
-	subdivideTriangle(  v2, v23, v12, depth - 1, p,n,tx,i, z, radius );
-	subdivideTriangle(  v3, v31, v23, depth - 1, p,n,tx,i, z, radius );
-	subdivideTriangle( v12, v23, v31, depth - 1, p,n,tx,i, z, radius );
-		
+	UInt32 i12 = z++, i23 = z++, i31 = z++;
+	
+	addPoint( v12,i12 );
+	addPoint( v23,i23 );
+	addPoint( v31,i31 );
+	
+	subdivideTriangle(  i1, i12, i31, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle(  i2, i23, i12, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle(  i3, i31, i23, depth - 1, p,n,tx,i, z, radius );
+	subdivideTriangle( i12, i23, i31, depth - 1, p,n,tx,i, z, radius );
 }
 
 /*! \ingroup SimpleGeometry
@@ -661,31 +649,26 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	GeoIndexUI32Ptr		index = GeoIndexUI32::create();	
 	GeoPLengthPtr		lens  = GeoPLength::create();	
 	GeoPTypePtr			types = GeoPType::create();	
-	Int32				j,z=0;
+	UInt32				j,z;
 	
-	Vec3f *v[12] = { new Vec3f( -X, 0.,  Z ),
-					    new Vec3f(  X, 0.,  Z ),
-			    		new Vec3f( -X, 0., -Z ),
-					    new Vec3f(  X, 0., -Z ),
-					    new Vec3f( 0.,  Z,  X ),
-			    		new Vec3f( 0.,  Z, -X ),
-					    new Vec3f( 0., -Z,  X ),
-					    new Vec3f( 0., -Z, -X ),
-			    		new Vec3f(  Z,  X, 0. ),
-					    new Vec3f( -Z,  X, 0. ),
-					    new Vec3f(  Z, -X, 0. ),
-			    		new Vec3f( -Z, -X, 0. )   };
+	static Vec3f v[12] = {  Vec3f( -X, 0.,  Z ),
+					    	 Vec3f(  X, 0.,  Z ),
+			    			 Vec3f( -X, 0., -Z ),
+					    	 Vec3f(  X, 0., -Z ),
+					    	 Vec3f( 0.,  Z,  X ),
+			    			 Vec3f( 0.,  Z, -X ),
+					    	 Vec3f( 0., -Z,  X ),
+					    	 Vec3f( 0., -Z, -X ),
+			    			 Vec3f(  Z,  X, 0. ),
+					    	 Vec3f( -Z,  X, 0. ),
+					    	 Vec3f(  Z, -X, 0. ),
+			    			 Vec3f( -Z, -X, 0. )   };
 			    
 	Int32 tr[20][3] = { {1,4,0},  {4,9,0},  {4,5,9},  {8,5,4},  {1,8,4},
 					       {1,10,8}, {10,3,8}, {8,3,5},  {3,2,5},  {3,7,2},
 					       {3,10,7}, {10,6,7}, {6,11,7}, {6,0,11}, {6,1,0},
 			    		   {10,1,6}, {11,0,9}, {2,11,9}, {5,2,9},  {11,2,7} };			      	
 			    
-	for ( j=0; j<12; j++ )
-	{
-		setVecLen( *v[j], radius );
-	}
-							
 	GeoPosition3f::FieldType 	* p = pnts->getFieldPtr();
 	GeoNormal3f::FieldType   	* n = norms->getFieldPtr();
 	GeoTexCoords2f::FieldType   * tx = tex->getFieldPtr();
@@ -698,14 +681,30 @@ NodePtr OSG::makeSphere( UInt16 depth, Real32 radius )
 	beginEditCP(lens);
 	beginEditCP(types);
 	
+	// initial sizing to prevent reallocation halfway through
+	p->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
+	n->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
+	tx->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
+	i->reserve( osgpow( 3.f, (Real32)depth ) * 20 );
+	
+	// add the initial points to the fields	
+	for ( j=0; j<12; j++ ) 
+	{
+		Vec3f pnt = v[j];
+		setVecLen( pnt, radius );
+		addPoint( pnt, j );
+	}
+	
+	// subdivide the triangles
+	z=12;
 	for ( j=0; j<20; j++ ) 
 	{
-		subdivideTriangle( *v[ tr[j][0] ], *v[ tr[j][1] ], *v[ tr[j][2] ],
-				   depth, p, n, tx, i, &z, radius );
+		subdivideTriangle( tr[j][0], tr[j][1], tr[j][2],
+				   depth, p, n, tx, i, z, radius );
 	}
 
 	types->addValue( GL_TRIANGLES );
-	lens->addValue( p->getSize() );
+	lens->addValue( i->getSize() );
 	
 	endEditCP(pnts);
 	endEditCP(norms);

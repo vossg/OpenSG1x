@@ -37,6 +37,7 @@ DrawAction * dact;
 
 const int nobjects = 6;
 NodePtr  objects[nobjects];
+NodePtr  normalobjects[nobjects];
 
 Bool autoswitch = true;
 int obj = 0;
@@ -186,9 +187,10 @@ int main (int argc, char **argv)
 	cerr << "Frustum Node: " << hex << objects[5] << endl;
 	
 	// try the vertex normal calc
-    OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());
-	calcVertexNormals(pGeo);
+    //OSG::GeometryPtr pGeo = dcast<GeometryPtr>(objects[3]->getCore());
+	//calcVertexNormals(pGeo);
 	
+	// 
 	// The action
 
 	WindowPtr win = GLUTWindow::create();
