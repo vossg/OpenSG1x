@@ -164,7 +164,7 @@ ifneq ($(ADD_LIBS),)
 ADD_LIBS := $(subst :, ,$(ADD_LIBS))
 
 ifeq ($(OS_BASE),cygwin)
-ADD_LIBS_$(OS_BASE) := $(ADD_LIBS)
+ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(lib)$(LIB_SUFFIX))
 else
 ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(LIBLNK_OPTION)$(lib))
 endif
