@@ -49,7 +49,13 @@
 #include <strstream>
 #endif
 #include <OSGNodePtr.h>
-#include <OSGTXFFont.h>
+#include <OSGImage.h>
+
+#include <OSGTextTXFFace.h>
+#include <OSGTextTXFGlyph.h>
+#include <OSGTextLayoutParam.h>
+#include <OSGTextLayoutResult.h>
+
 #include <OSGViewport.h>
 
 #include "OSGSimpleStatisticsForeground.h"
@@ -60,16 +66,15 @@ OSG_USING_NAMESPACE
 
 /*! \class osg::SimpleStatisticsForeground
     \ingroup GrpSystemWindowForegroundsStatistics
-    
-SimpleStatisticsForeground displays the Statistics info as simple text lines. 
+
+SimpleStatisticsForeground displays the Statistics info as simple text lines.
 See \ref PageSystemWindowForegroundStatisticsSimple for a description.
 
 The format string for the given elements are stored in the _mfFormats Field,
 the size and color used for all lines in _sfSize and _sfColor.
 */
 /* static vars */
-ImagePtr SimpleStatisticsForeground::           _textimage = NullFC;
-Text SimpleStatisticsForeground::               _text;
+TextTXFFace *SimpleStatisticsForeground::       _face = 0;
 
 TextureChunkPtr SimpleStatisticsForeground::    _texchunk;
 
@@ -124,7 +129,7 @@ void SimpleStatisticsForeground::addElement(Int32 id, const char *format)
     getFormats().push_back(format ? format : "");
 }
 
-/*! Initialize the text used. It is compiled into the library as 
+/*! Initialize the text used. It is compiled into the library as
     StatisticsDefaultFontData and used as a TXF font.
 */
 void SimpleStatisticsForeground::initText(void)
@@ -132,32 +137,24 @@ void SimpleStatisticsForeground::initText(void)
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
     std::istringstream stream(StatisticsDefaultFontString,
-                              std::istringstream::in | 
+                              std::istringstream::in |
                               std::istringstream::out);
 #else
     std::istrstream stream((char *) StatisticsDefaultFontData,
                            StatisticsDefaultFontDataSize);
 #endif
+    _face = TextTXFFace::createFromStream(stream);
+    addRefP(_face);
 
-    TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);
-    font->initFont();
-
-    _text.setSize(1);
-    font->createInstance(&_text);
-    _text.setJustifyMajor(FIRST_JT);
-
-    // create the TXF texture
-    _textimage = Image::create();
-    _text.fillTXFImage(_textimage);
-
+    ImagePtr texture = _face->getTexture();
     _texchunk = TextureChunk::create();
-
     beginEditCP(_texchunk);
     {
-        _texchunk->setImage(_textimage);
+        _texchunk->setImage(texture);
         _texchunk->setWrapS(GL_CLAMP);
         _texchunk->setWrapT(GL_CLAMP);
         _texchunk->setEnvMode(GL_MODULATE);
+        _texchunk->setInternalFormat(GL_INTENSITY);
     }
 
     endEditCP(_texchunk);
@@ -167,7 +164,7 @@ void SimpleStatisticsForeground::initText(void)
 */
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
-    if(_textimage == NullFC)
+    if (_face == 0)
         initText();
 
     Real32  pw = Real32(port->getPixelWidth ());
@@ -199,7 +196,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     Real32  aspect = pw / ph;
     Real32  size = getSize();
 
-    glOrtho(-0.5, -0.5 + ph / size * aspect, 1 - ph / size, 1, 0, 1);
+    glOrtho(-0.5, -0.5 + ph / size * aspect, 0.5 - ph / size, 0.5, 0, 1);
 
     glAlphaFunc(GL_NOTEQUAL, 0);
     glEnable(GL_ALPHA_TEST);
@@ -248,28 +245,54 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         }
     }
 
-    std::vector < Pnt3f > pos;
-    std::vector < Vec2f > tex;
-
-    UInt32  n = _text.getTXFNVertices(stat);
-
-    pos.resize(n);
-    tex.resize(n);
-
-    _text.fillTXFArrays(stat, &pos[0], &tex[0]);
+    TextLayoutParam layoutParam;
+    layoutParam.majorAlignment = TextLayoutParam::ALIGN_BEGIN;
+    layoutParam.minorAlignment = TextLayoutParam::ALIGN_BEGIN;
+    TextLayoutResult layoutResult;
+    _face->layout(stat, layoutParam, layoutResult);
 
     _texchunk->activate(action);
 
     glColor4fv((GLfloat *) getColor().getValuesRGBA());
 
     glBegin(GL_QUADS);
-
-    for(UInt32 i = 0; i < n; i++)
+    UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
+    for(i = 0; i < numGlyphs; ++i)
     {
-        glTexCoord2fv((GLfloat *) &tex[i]);
-        glVertex3fv((GLfloat *) &pos[i]);
-    }
+        const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
+        Real32 width = glyph.getWidth();
+        Real32 height = glyph.getHeight();
+        // No need to draw invisible glyphs
+        if ((width <= 0.f) || (height <= 0.f))
+            continue;
 
+        // Calculate coordinates
+        const Vec2f &pos = layoutResult.positions[i];
+        Real32 posLeft = pos.x();
+        Real32 posTop = pos.y();
+        Real32 posRight = pos.x() + width;
+        Real32 posBottom = pos.y() - height;
+        Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
+        Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
+        Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
+        Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
+
+        // lower left corner
+        glTexCoord2f(texCoordLeft, texCoordBottom);
+        glVertex2f(posLeft, posBottom);
+
+        // lower right corner
+        glTexCoord2f(texCoordRight, texCoordBottom);
+        glVertex2f(posRight, posBottom);
+
+        // upper right corner
+        glTexCoord2f(texCoordRight, texCoordTop);
+        glVertex2f(posRight, posTop);
+
+        // upper left corner
+        glTexCoord2f(texCoordLeft, texCoordTop);
+        glVertex2f(posLeft, posTop);
+    }
     glEnd();
 
     _texchunk->deactivate(action);

@@ -49,7 +49,13 @@
 #else
 #include <strstream>
 #endif
-#include <OSGTXFFont.h>
+
+#include <OSGImage.h>
+
+#include <OSGTextTXFFace.h>
+#include <OSGTextTXFGlyph.h>
+#include <OSGTextLayoutResult.h>
+
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
 #include "OSGGraphicStatisticsFont.h"
@@ -62,14 +68,13 @@
 OSG_USING_NAMESPACE
 
 /* static vars */
-ImagePtr GraphicStatisticsForeground::          _textimage = NullFC;
-Text GraphicStatisticsForeground::              _text;
+TextTXFFace *GraphicStatisticsForeground::      _face = 0;
 TextureChunkPtr GraphicStatisticsForeground::   _texchunk;
 
 /*! \class osg::GraphicStatisticsForeground
     \ingroup GrpSystemWindowForegroundsStatistics
-    
-GraphicStatisticsForeground displays the Statistics info as graphical displays. 
+
+GraphicStatisticsForeground displays the Statistics info as graphical displays.
 See \ref PageSystemWindowForegroundStatisticsGraphic for a description.
 
 The different parameters for all the displays are spread over a lot of fields.
@@ -140,7 +145,7 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     }
 
     // initialize the text texture
-    if(_textimage == NullFC)
+    if(_face == 0)
     {
         initText();
     }
@@ -181,8 +186,8 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     StatElem        *el;
 
     // ratio = height / width
-    //    Real32 ratio  =  ( (Real32)port->getPixelHeight()) / 
-		//                     ((Real32) port->getPixelWidth());
+    //    Real32 ratio  =  ( (Real32)port->getPixelHeight()) /
+    //                     ((Real32) port->getPixelWidth());
     // temp Variables for the loop
     Vec2f           pos;
     Vec2f           size;
@@ -459,7 +464,7 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 elementID, StatElem *el,
     glPopMatrix();
 
     /* draw a line representing the real current value if the value is
-	   smoothed */
+       smoothed */
     UInt32  flags = getFlags()[elementID];
     if(flags & OSG_SMOOTH)
     {
@@ -495,7 +500,8 @@ void GraphicStatisticsForeground::drawAnalog(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(0.5, 0.5, 0.0);
         glScalef(0.2, 0.2, 1.0);
-        drawString(base, real2String(value), OSG_CENTER, OSG_TOP);
+        drawString(base, real2String(value), TextLayoutParam::ALIGN_MIDDLE,
+                   TextLayoutParam::ALIGN_FIRST);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
@@ -573,12 +579,12 @@ void GraphicStatisticsForeground::drawChart(UInt32 elementID, StatElem *el,
 
     /* The collor of the chart is set by the currentColor of this
        statistics Element */
-    glColor4f(getColorCurrent()[elementID][0], 
+    glColor4f(getColorCurrent()[elementID][0],
               getColorCurrent()[elementID][1],
-              getColorCurrent()[elementID][2], 
+              getColorCurrent()[elementID][2],
               getColorCurrent()[elementID][3]);
 
-    /* Base coordiantes for the chart (lower left corner) 
+    /* Base coordiantes for the chart (lower left corner)
        Will be set to the current base coordinates of each bar in the
        loop */
     Real32  deltax = textWidth;
@@ -630,7 +636,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
         glScalef(0.2f * ratio, 0.2f, 1.0f);
-        drawString(base, valstr, OSG_CENTER);
+        drawString(base, valstr, TextLayoutParam::ALIGN_MIDDLE);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
@@ -648,7 +654,7 @@ void GraphicStatisticsForeground::drawChart(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(0.0, 1.0, 0.0);
         glScalef(0.12f * ratio, 0.12f, 1.0f);
-        drawString(base, maxstr, OSG_LEFT, OSG_TOP);
+        drawString(base, maxstr, TextLayoutParam::ALIGN_FIRST, TextLayoutParam::ALIGN_FIRST);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
@@ -742,7 +748,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
         glVertex2f(0.5, 1.0);
         glColor4f(MaxColor[0] * ((xdist - 0.5f) * 2) + CurrentColor[0] *
                     (1 - ((xdist - 0.5f) * 2)),
-                  MaxColor[1] * ((xdist - 0.5f) * 2) + CurrentColor[1] * 
+                  MaxColor[1] * ((xdist - 0.5f) * 2) + CurrentColor[1] *
                     (1 - ((xdist - 0.5f) * 2)),
                   MaxColor[2] * ((xdist - 0.5f) * 2) + CurrentColor[2] *
                     (1 - ((xdist - 0.5f) * 2)), getColorMax()[elementID][3]);
@@ -751,8 +757,8 @@ void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
         glEnd();
     }                                       // end else
 
-    /* draw a line representing the real current value 
-	   if the value to be digitized is smoothed */
+    /* draw a line representing the real current value
+       if the value to be digitized is smoothed */
     if(_history[elementID].size() > 0)
     {
         glColor4f(1.0, 1.0, 0.0, 1.0);
@@ -794,7 +800,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(1.0, 0.7, 0.0);
         glScalef(0.15f * ratio, 0.15f, 1.0f);
-        drawString(base, maxstr, OSG_RIGHT);
+        drawString(base, maxstr, TextLayoutParam::ALIGN_END);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
@@ -803,7 +809,7 @@ void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(0.5f, 0.01f, 0.0f);
         glScalef(0.2f * ratio, 0.2f, 1.0f);
-        drawString(base, valstr, OSG_CENTER);
+        drawString(base, valstr, TextLayoutParam::ALIGN_MIDDLE);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
     }
@@ -876,7 +882,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
     glColor4f(getColorCurrent()[elementID][0], getColorCurrent()[elementID][1],
               getColorCurrent()[elementID][2], getColorCurrent()[elementID][3]);
 
-    /* Base coordiantes for the chart (lower left corner) 
+    /* Base coordiantes for the chart (lower left corner)
        Will be set to the current base coordinates of each bar in the
        loop */
     Real32  deltax = textWidth;
@@ -917,7 +923,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
         /* draw Point if wanted */
         if(flags & OSG_ENABLE_POINTS)
         {
-            /* filled circle 
+            /* filled circle
                        glPushMatrix();
                        glTranslatef(deltax, currHeight, 0.0);
                        glBegin(GL_POLYGON);
@@ -944,8 +950,8 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
     if(getTextEnabled())
     {
         // create some Strings to be drawn
-        std::string valstr = getDescription()[elementID] + " " + 
-					real2String(realValue);
+        std::string valstr = getDescription()[elementID] + " " +
+                    real2String(realValue);
 
         // set color to draw the text with
         glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
@@ -959,7 +965,7 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
         glPushMatrix();
         glTranslatef(0.5, 0.01, 0.0);
         glScalef(0.2f * ratio, 0.2f, 1.0f);
-        drawString(base, valstr, OSG_CENTER);
+        drawString(base, valstr, TextLayoutParam::ALIGN_MIDDLE);
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
 
@@ -984,7 +990,8 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
             glPushMatrix();
             glTranslatef(0.0, 1.0, 0.0);
             glScalef(0.12f * ratio, 0.12f, 1.0f);
-            drawString(base, maxstr, OSG_LEFT, OSG_TOP);
+            drawString(base, maxstr, TextLayoutParam::ALIGN_FIRST,
+                       TextLayoutParam::ALIGN_FIRST);
             glMatrixMode(GL_MODELVIEW);
             glPopMatrix();
         }
@@ -1003,7 +1010,7 @@ void GraphicStatisticsForeground::drawText(UInt32 elementID, StatElem *el,
 
     //std::cout << "TextChart value: " << value << std::endl;
     /* get value, calculate minimum value and maximun value and
-   convert into a string*/
+       convert into a string*/
     Real32      minV = getMinValue()[elementID];
     Real32      maxV = getMaxValue()[elementID];
     std::string minstr = real2String(minV, "%.0f");
@@ -1071,7 +1078,7 @@ void GraphicStatisticsForeground::drawText(UInt32 elementID, StatElem *el,
 
 //! Calculate the position an size of an element
 void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
-                                                 Viewport *port, 
+                                                 Viewport *port,
                                                  Vec2f *Position,
                                                  Vec2f *Size)
 {
@@ -1159,7 +1166,7 @@ void GraphicStatisticsForeground::initText(void)
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
     std::istringstream stream(GraphicsStatisticsFontString,
-                              std::istringstream::in | 
+                              std::istringstream::in |
                               std::istringstream::out);
 #else
     std::istrstream stream(
@@ -1167,98 +1174,81 @@ void GraphicStatisticsForeground::initText(void)
                  GraphicsStatisticsFontDataSize);
 #endif
 
-    TXFFont *font = new TXFFont("StatisticsDefaultFont", stream);
-    font->initFont();
+    _face = TextTXFFace::createFromStream(stream);
+    addRefP(_face);
 
-    _text.setSize(1);
-    font->createInstance(&_text);
-    _text.setJustifyMajor(FIRST_JT);
-
-    // create the TXF texture
-    _textimage = Image::create();
-    _text.fillTXFImage(_textimage);
-
+    ImagePtr texture = _face->getTexture();
     _texchunk = TextureChunk::create();
-
     beginEditCP(_texchunk);
     {
-        _texchunk->setImage(_textimage);
+        _texchunk->setImage(texture);
         _texchunk->setWrapS(GL_CLAMP);
         _texchunk->setWrapT(GL_CLAMP);
         _texchunk->setEnvMode(GL_MODULATE);
+        _texchunk->setInternalFormat(GL_INTENSITY);
     }
-
     endEditCP(_texchunk);
 }
 
 //! Draws a String
 void GraphicStatisticsForeground::drawString(DrawActionBase *base,
                                              const std::string &text,
-                                             UInt32 align, UInt32 valign)
+                                             TextLayoutParam::Alignment majorAlignment,
+                                             TextLayoutParam::Alignment minorAlignment)
 {
-//    return;
-
-    Real32  deltaX = 0.0;
-    Real32  deltaY = 0.0;
     std::vector < std::string > stat(1);
     stat[0] = text;
 
-    UInt32  n = _text.getTXFNVertices(stat);
-
-    std::vector < Pnt3f > positions(n);
-    std::vector < Vec2f > tex(n);
-
-    _text.fillTXFArrays(stat, &positions[0], &tex[0]);
-
-    // check whether we have to right-align the text
-    if(align == OSG_RIGHT)
-        deltaX = -(positions[n - 3][0]);
-    if(align == OSG_CENTER)
-    {
-        deltaX = -(positions[n - 3][0]) / 2.0f;
-    }
-
-    if(valign != OSG_BOTTOM)
-    {
-        Real32  textHeight = 0.0;
-        Real32  foo = 0.0;
-
-        // calculate the height of the text
-        for(unsigned int i = 0; i < n; i += 4)
-        {
-            foo = positions[i + 3][1] - positions[i][1];
-            if(foo > textHeight)
-                textHeight = foo;
-        }
-
-        if(valign == OSG_TOP)
-            deltaY = -textHeight;
-        if(valign == OSG_MIDDLE)
-            deltaY = -(textHeight / 2.0f);
-    }
+    TextLayoutParam layoutParam;
+    layoutParam.majorAlignment = majorAlignment;
+    layoutParam.minorAlignment = minorAlignment;
+    TextLayoutResult layoutResult;
+    _face->layout(stat, layoutParam, layoutResult);
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
-
-    // sane the delta values
-    Int32   deltaXI = (Int32) (deltaX * 10.0);
-    deltaX = ((Real32) deltaXI) / 10.0f;
-
-    Int32   deltaYI = (Int32) (deltaY * 10.0);
-    deltaY = ((Real32) deltaYI) / 10.0f;
-
-    glTranslatef(deltaX, deltaY, 0.0);
 
     // Draw the text
     _texchunk->activate(base);
 
     glBegin(GL_QUADS);
-    for(UInt32 i = 0; i < n; i++)
+    UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
+    for(i = 0; i < numGlyphs; ++i)
     {
-        glTexCoord2fv((GLfloat *) &tex[i]);
-        glVertex3fv((GLfloat *) &positions[i]);
-    }
+        const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
+        Real32 width = glyph.getWidth();
+        Real32 height = glyph.getHeight();
+        // No need to draw invisible glyphs
+        if ((width <= 0.f) || (height <= 0.f))
+            continue;
 
+        // Calculate coordinates
+        const Vec2f &pos = layoutResult.positions[i];
+        Real32 posLeft = pos.x();
+        Real32 posTop = pos.y();
+        Real32 posRight = pos.x() + width;
+        Real32 posBottom = pos.y() - height;
+        Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
+        Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
+        Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
+        Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
+
+        // lower left corner
+        glTexCoord2f(texCoordLeft, texCoordBottom);
+        glVertex2f(posLeft, posBottom);
+
+        // lower right corner
+        glTexCoord2f(texCoordRight, texCoordBottom);
+        glVertex2f(posRight, posBottom);
+
+        // upper right corner
+        glTexCoord2f(texCoordRight, texCoordTop);
+        glVertex2f(posRight, posTop);
+
+        // upper left corner
+        glTexCoord2f(texCoordLeft, texCoordTop);
+        glVertex2f(posLeft, posTop);
+    }
     glEnd();
 
     _texchunk->deactivate(base);

@@ -113,7 +113,8 @@ WARNINGS_CPP_OFF 	:= -Qwd985 -Qwd530 -Qwd981 -Qwd193
 
 WARNINGS_CPP_OFF 	:= $(WARNINGS_CPP_OFF) -Qwd444 -Qwd279
 
-WARN_ERR_CPP        := -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261
+# removed -Qwe171 because of conflicts with the new text code!
+WARN_ERR_CPP        := -Qwe698  -Qwe47 -Qwe373 -Qwe373 -Qwe261
 
 ifeq ($(COMPILERVERSION),501)
 WARN_ERR_CPP        := $(WARN_ERR_CPP) -Qwe1125

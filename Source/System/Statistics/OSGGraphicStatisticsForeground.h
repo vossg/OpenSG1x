@@ -8,7 +8,7 @@
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                License                                    *
  *                                                                           *
@@ -25,7 +25,7 @@
  * License along with this library; if not, write to the Free Software       *
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
@@ -34,7 +34,7 @@
  *                                                                           *
  *                                                                           *
  *                                                                           *
- \*---------------------------------------------------------------------------*/
+\*---------------------------------------------------------------------------*/
 
 #ifndef _OSGGRAPHICSTATISTICSFOREGROUND_H_
 #define _OSGGRAPHICSTATISTICSFOREGROUND_H_
@@ -44,14 +44,17 @@
 
 #include <OSGConfig.h>
 
-#include <OSGText.h>
 #include <OSGTextureChunk.h>
+#include <OSGTextFace.h>
+#include <OSGTextLayoutParam.h>
 
 #include <OSGGraphicStatisticsForegroundBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Graphics Statistics Foreground class. See \ref 
+class TextTXFFace;
+
+/*! \brief Graphics Statistics Foreground class. See \ref
     PageSystemWindowForegroundStatisticsGraphic for a description.
 */
 
@@ -69,7 +72,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
       OSG_BAR        = 1,
       OSG_CHART      = 2,
       OSG_LINE_CHART = 3,
-      OSG_TEXT       = 4     
+      OSG_TEXT       = 4
     };
 
     enum Mode {
@@ -105,28 +108,28 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                             const BitVector  bvFlags  = 0) const;
 
-    
+
     void draw(DrawActionBase *, Viewport *);
-    
-    
+
+
     //! Add an Element to be shown
     void addElement(StatElemDescBase &desc,
-                    UInt32            displayType, 
-                    Vec2f             pos, 
-                    Vec2f             size, 
-                    Color4f           highColor, 
+                    UInt32            displayType,
+                    Vec2f             pos,
+                    Vec2f             size,
+                    Color4f           highColor,
                     Color4f           lowColor,
                     Color4f           currentColor,
                     Real32            minValue     = 0.0,
                     Real32            maxValue     = 0.0,
-                    UInt32            Flags = OSG_UNDERFLOW_RESIZE | 
+                    UInt32            Flags = OSG_UNDERFLOW_RESIZE |
                                               OSG_OVERFLOW_RESIZE,
                     UInt32            historySize = 0,
                     std::string       description=""                      );
-    
+
     void removeElement(StatElemDescBase &desc);
 
 
@@ -149,10 +152,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~GraphicStatisticsForeground(void); 
+    virtual ~GraphicStatisticsForeground(void);
 
     /*! \}                                                                 */
-    
+
     //! Draw an analog Display
     void drawAnalog(UInt32,   StatElem*, DrawActionBase *, Viewport *);
     //! Draw a chart of the StatElem
@@ -168,20 +171,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
 
     //! initializes the text
     void initText( void );
-    
+
     //! Draws a string
-    void drawString(           DrawActionBase *base, 
-                    const std::string         &text,
-                               UInt32          align  = OSG_LEFT,
-                               UInt32          valign = OSG_BOTTOM);
-    
+    void drawString(DrawActionBase    *base,
+                    const std::string &text,
+                    TextLayoutParam::Alignment majorAlignment
+                    = TextLayoutParam::ALIGN_FIRST,
+                    TextLayoutParam::Alignment minorAlignment
+                    = TextLayoutParam::ALIGN_END);
+
     // converts a Real32 to a std::string
     std::string real2String(Real32 value, char* format = 0);
 
-    
-    void calcPosAndSize(const UInt32& elementID, 
-                        Viewport* port, 
-                        Vec2f* Position, 
+
+    void calcPosAndSize(const UInt32& elementID,
+                        Viewport* port,
+                        Vec2f* Position,
                         Vec2f* Size);
 
     //! Calculate the "real" value based on the value and the Flags
@@ -194,10 +199,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static ImagePtr        _textimage;
-
-
-    static Text            _text;
+    static TextTXFFace*    _face;
 
     static TextureChunkPtr _texchunk;
 
@@ -208,7 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     static void initMethod(void);
 
     std::vector< std::vector< Real32> > _history;
-    
+
     std::vector< UInt32 >               _historyID;
 
     // prohibit default functions (move to 'public' if you need one)

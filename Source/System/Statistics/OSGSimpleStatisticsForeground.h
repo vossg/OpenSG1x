@@ -44,7 +44,6 @@
 
 #include <OSGConfig.h>
 
-#include <OSGText.h>
 #include <OSGTextureChunk.h>
 #include <OSGStatElemDesc.h>
 
@@ -52,7 +51,9 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief Simple Statistics Foreground class. See \ref 
+class TextTXFFace;
+
+/*! \brief Simple Statistics Foreground class. See \ref
     PageSystemWindowForegroundStatisticsSimple for a description.
 */
 
@@ -69,7 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector whichField, 
+    virtual void changed(BitVector whichField,
                          UInt32    origin    );
 
     /*! \}                                                                 */
@@ -77,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
@@ -113,18 +114,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~SimpleStatisticsForeground(void); 
+    virtual ~SimpleStatisticsForeground(void);
 
     /*! \}                                                                 */
-    
+
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static ImagePtr        _textimage;
-    static Text            _text;
+    static TextTXFFace*    _face;
 
     static TextureChunkPtr _texchunk;
-    
+
     friend class FieldContainer;
     friend class SimpleStatisticsForegroundBase;
 
