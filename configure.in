@@ -279,7 +279,7 @@ else
 
     if test $build_os = linux-gnu; 
     then 
-		ac_gdz_base_system_libs='-pthread '$ac_gdz_base_system_libs
+		ac_gdz_base_system_libs='-lpthread '$ac_gdz_base_system_libs
     fi
 fi 
 
