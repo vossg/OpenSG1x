@@ -55,7 +55,7 @@ OSG_BEGIN_NAMESPACE
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setValid (const Bool value = true)
+void Volume::setValid (const Bool value)
 {
     if ( ! isStatic() )
     {
@@ -75,7 +75,7 @@ Bool Volume::isValid (void) const
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setEmpty (const Bool value = true)
+void Volume::setEmpty (const Bool value)
 {
     if (value)
     {
@@ -96,7 +96,7 @@ Bool Volume::isEmpty (void) const
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setStatic (const Bool value = true)
+void Volume::setStatic (const Bool value)
 {
     if (value)
         _state |= OSGSTATIC;
@@ -113,7 +113,7 @@ Bool Volume::isStatic (void) const
 
 /** set the volume to contain nothing */
 OSG_BASE_DLLMAPPING
-void Volume::setInfinite (const Bool value = true)
+void Volume::setInfinite (const Bool value)
 {
     if (value)
     {
