@@ -101,9 +101,9 @@ struct FieldDataTraits<ImageP> : public FieldTraitsRecurseBase<ImageP>
         if(oObject)
         {
             return type->maxBufferSize(*oObject) + 
-                   sizeof(UInt64);
+                   sizeof(UInt32);
         }
-        return sizeof(UInt64);
+        return sizeof(UInt32);
     }
 
     static UInt32 getBinSize(const ImageP   *pObjectStore,

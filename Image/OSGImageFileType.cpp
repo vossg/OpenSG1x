@@ -195,7 +195,7 @@ UInt64 ImageFileType::restore( Image &image,
               attData = (char*)(buffer + headSize + imageSize);
               attKey = attData;
               attValue = 0;
-              for (i = 0; i < attachmentSize; i++) {
+              for (i = 0; i < (attachmentSize-1); i++) {
                 if (attData[i] == 0) 
                   if (attKey) {
                     attValue = &(attData[i+1]);
@@ -267,9 +267,9 @@ UInt64 ImageFileType::store(const Image &image, UChar8 *buffer, Int32 memSize)
         aI != image._attachmentMap.end(); ++aI )
     {
       l = aI->first.length();
-      attachmentSize += l ? (l + 1) : 0;
+      attachmentSize += l + 1;
       l = aI->second.length();
-      attachmentSize += l ? (l + 1) : 0;
+      attachmentSize += l + 1;
     }
   
   if (buffer) 
@@ -341,9 +341,9 @@ UInt64 ImageFileType::maxBufferSize(const Image &image)
         aI != image._attachmentMap.end(); ++aI )
     {
       l = aI->first.length();
-      attachmentSize += l ? (l + 1) : 0;
+      attachmentSize += l + 1;
       l = aI->second.length();
-      attachmentSize += l ? (l + 1) : 0;
+      attachmentSize += l + 1;
     }
   
   size = headSize + imageSize + attachmentSize;
