@@ -106,9 +106,9 @@ LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 ifeq ($(findstring WIN,$(OS)),WIN)
 # we need OSGNSPlugin.res for the mime type and OSGNSPlugin.def to export some functions.
-LDFLAGS    :=  /dll OSGNSPlugin.res /def:OSGNSPlugin.def
+LDFLAGS    :=  /dll OSGNSPlugin.res /def:OSGNSPlugin.def qnp.lib
 else
-LDFLAGS    :=  -shared
+LDFLAGS    :=  -shared -lqnp
 endif
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System QT GLUT )
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)

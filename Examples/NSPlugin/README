@@ -2,8 +2,7 @@ OpenSG NSPlugins
 ----------------
 
 This is a OpenSG render plugin for netscape.
-You need the QT GUI library to build it.
-
+It depends on the Qt GUI library (with a compiled netscape plugin extension lib).
 
 INSTALL
 -------
@@ -12,10 +11,13 @@ make
 
 if this doesn't work call
 
-make OSGROOT=<osg root path>
+make LIBTYPE=[dbg | opt] OSGROOT=<osg root path>
+
+e.g. 
+
+make LIBTYPE=dbg OSGROOT=/home/amz/src/OpenSG/Builds/i686-pc-cygwin-icl60
 
 copy the npOpenSG.dll or npOpenSG.so file into the browser plugin dir.
 
 set the PATH (on windows) or LD_LIBRARY_PATH (on unix) environment variable
 to find the OSGBase, OSGSystem and the qt shared library.
-
