@@ -720,6 +720,51 @@ ifneq ($(DSP_DEFS),)
 endif
 endif
 
+
+ifeq ($(MAKECMDGOALS),dsp7)
+
+.PHONY: dsp7
+
+DSP_SUBPACKS := $(LIB_SOURCEPACKAGES)
+DSP_SUBDIRS  := $(LIB_ABSSOURCEDIRS)
+
+dsp_src = $(sort $(call getProjFiles,$(1)))
+dsp_def = $(wildcard lib.$(DBG).def)
+dsp_out = $(shell echo $(PACKAGE_NAME) $(1) $(OSGPOOL) $(call dsp_src,$(2)) > tmp_$(1) ) tmp_$(1)
+
+dsp_getPack = $(strip $(subst :, ,$(subst /,,$(subst $($(PROJ)POOL)/,,\
+	$(subst .:,,$(1))))))
+
+dsp_procPack = $(call dsp_out,$(call dsp_getPack,$(1)),$(1))
+
+DSP_PACKS  := $(sort $(foreach dir,$(DSP_SUBDIRS),$(call dsp_procPack,$(dir))))
+
+INCL_EXP_$(OS_BASE) := -I.. -I. $(INCL_EXP_$(OS_BASE))
+
+DSP_DEFS   := $(call dsp_def)
+
+
+dsp7:
+	@echo "Building $(PACKAGE_NAME)Lib dsp file for $(OS_CMPLR)"
+	@cat $(OSGPOOL)/$(OSGCOMMONCONF)/OSGLib.$(OS_CMPLR).dsp.in |		\
+	$(SED)  -e 's|@OSGPACK@|$(PACKAGE_NAME)|g' 							\
+			-e 's|@OSG_CCFLAGS@|$(CCFLAGS_EXT)|g'						\
+			-e 's|@OSG_CCFLAGS_DBG@|$(CCFLAGS_EXT_DBG)|g'				\
+			-e 's|@OSG_CURR_LIB_DEF@|-D$(CURRENT_LIB_DEF)|g'			\
+			-e 's|@OSG_CONF_PACKS@|$(CONFIGURED_PACKAGE_DEFS)|g'		\
+			-e 's|@OSG_QT_DEFS@|$(QT_PLATTFORMDEF_EXT)|g'				\
+			-e 's|@OSG_INCL@|$(INCL_EXP_$(OS_BASE))|g'					\
+			-e 's|@OSG_LIB_EXT@|$(OSG_LIB_EXT)|g'						\
+		> $(PACKAGE_NAME)Lib.dsp
+	@$(OSGPOOL)/$(OSGCOMMON)/createDSPSourcePart.pl $(DSP_PACKS) $(DSP_DEFS) >> $(PACKAGE_NAME)Lib.dsp
+	@rm -f $(DSP_PACKS)
+	@mv $(PACKAGE_NAME)Lib.dsp $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
+ifneq ($(DSP_DEFS),)
+	@cp lib.$(DBG).def $(OSGPOOL)/VSBuild/VS7/$(PACKAGE_NAME)Lib
+endif
+endif
+
+
 ifeq ($(IN_TEST_DIR),0)
 ifeq ($(SUB_JOB), build)
 -include $(LIB_DEPS) $(LIB_QTTARGET_DEPS) $(LIB_FLEXTARGET_DEPS) $(LIB_BISONTARGET_DEPS)

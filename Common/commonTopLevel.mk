@@ -142,6 +142,9 @@ depend: $(SUB_LIBTARGETS)
 dsp: SUB_TARGET := dsp
 dsp: $(SUB_LIBTARGETS)
 
+dsp7: SUB_TARGET := dsp7
+dsp7: $(SUB_LIBTARGETS)
+
 #########################################################################
 # install
 #########################################################################
