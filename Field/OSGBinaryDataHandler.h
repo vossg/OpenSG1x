@@ -98,6 +98,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void put        (      void const   *src, UInt32 size);
     void putAndFree (      MemoryHandle  src, UInt32 size);
 
+    void putValue   (const bool         &value);
     void putValue   (const UInt8        &value);
     void putValue   (const UInt16       &value);
     void putValue   (const UInt32       &value);
@@ -110,6 +111,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void putValue   (const Real64       &value);
     void putValue   (const string       &value);
 
+    void putValues  (const bool         *value, UInt32 size);
     void putValues  (const UInt8        *value, UInt32 size);
     void putValues  (const UInt16       *value, UInt32 size);
     void putValues  (const UInt32       *value, UInt32 size);
@@ -125,6 +127,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void get        (     void         *dst, UInt32 size);
     void getAndAlloc(     MemoryHandle &src, UInt32 size);
 
+    void getValue   (     bool         &value);
     void getValue   (     UInt8        &value);
     void getValue   (     UInt16       &value);
     void getValue   (     UInt32       &value);
@@ -137,6 +140,7 @@ class OSG_BASE_DLLMAPPING BinaryDataHandler
     void getValue   (     Real64       &value);
     void getValue   (     string       &value);
     
+    void getValues  (     bool         *value, UInt32 size);
     void getValues  (     UInt8        *value, UInt32 size);
     void getValues  (     UInt16       *value, UInt32 size);
     void getValues  (     UInt32       *value, UInt32 size);

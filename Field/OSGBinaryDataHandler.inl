@@ -125,6 +125,12 @@ BinaryDataHandler::WriteError::WriteError(const Char8 *reson) :
 }
 
 inline 
+void BinaryDataHandler::putValue(const bool &value)
+{
+    put(&value, sizeof(bool));
+}
+
+inline 
 void BinaryDataHandler::putValue(const UInt8 &value)
 {
     put(&value, sizeof(UInt8));
@@ -202,13 +208,18 @@ void BinaryDataHandler::putValue(const string &value)
         put(value.c_str(), len);
 }
 
+
+inline 
+void BinaryDataHandler::putValues(const bool *value, UInt32 size)
+{
+    put(value, size*sizeof(bool));
+}
+
 inline 
 void BinaryDataHandler::putValues(const UInt8 *value, UInt32 size)
 {
     put(value, size*sizeof(UInt8));
 }
-
-
 
 inline 
 void BinaryDataHandler::putValues(const UInt16 *value, UInt32 size)
@@ -384,6 +395,12 @@ void BinaryDataHandler::putValues(const string *value, UInt32 size)
 }
 
 inline 
+void BinaryDataHandler::getValue(bool &value)
+{
+    get(&value, sizeof(bool));
+}
+
+inline 
 void BinaryDataHandler::getValue(UInt8 &value)
 {
     get(&value, sizeof(UInt8));
@@ -475,6 +492,12 @@ void BinaryDataHandler::getValue(string &value)
     {
         value.erase();
     }
+}
+
+inline 
+void BinaryDataHandler::getValues(bool *value, UInt32 size)
+{
+    get(value, size*sizeof(bool));
 }
 
 inline 
