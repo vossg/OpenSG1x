@@ -328,6 +328,7 @@ class OSG_FIELD_DLLMAPPING MField : public Field
     const_iterator  find(const FieldTypeT &value) const;
 
     void            resize(size_t newsize);
+    void            reserve(size_t newsize);
 
     void            push_back(const FieldTypeT &value);
 

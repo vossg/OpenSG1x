@@ -577,6 +577,16 @@ void MField<FieldTypeT, fieldNameSpace>::resize(size_t newsize)
     _values.resize(newsize);
 }
 
+/** \brief allocates memory for the given number of elements. Depends on the underlying
+ *  stll container implementation
+ */
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::reserve(size_t newsize)
+{
+    _values.reserve(newsize);
+}
+
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::push_back(const FieldTypeT &value)
 {
