@@ -129,7 +129,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     // are aspects, each of which itself is threadsafe (i.e. multibuffered).
     // A single State per Material would be better. I'm just not sure how to
     // initialize it. :( DR
-
+    // Actually, no, it isn't!!! Multiple materials updating the same aspect 
+    // in different threads make this crash!!! DR
+    
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

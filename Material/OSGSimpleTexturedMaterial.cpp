@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.8 2002/02/26 06:10:16 vossg Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSimpleTexturedMaterial.cpp,v 1.9 2002/03/08 14:42:29 dirk Exp $";
     static char cvsid_hpp[] = OSGTEXTUREDSIMPLEMATERIAL_HEADER_CVSID;
     static char cvsid_inl[] = OSGTEXTUREDSIMPLEMATERIAL_INLINE_CVSID;
 }
@@ -122,8 +122,6 @@ void SimpleTexturedMaterial::initMethod (void)
 
 void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
 {
-    Inherited::changed(whichField, from);
-
     // these two are very expensive, as they need to regenerate the
     // texture object, do only if really needed
     if(whichField & ImageFieldMask)
@@ -154,6 +152,7 @@ void SimpleTexturedMaterial::changed(BitVector whichField, ChangeMode from)
         }
     }
 
+    Inherited::changed(whichField, from);
 }
 
 #if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)

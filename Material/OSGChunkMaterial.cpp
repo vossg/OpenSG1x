@@ -75,7 +75,7 @@ The chunk material class.
  *                           Class variables                               *
 \***************************************************************************/
 
-char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.21 2002/03/04 01:49:35 vossg Exp $";
+char ChunkMaterial::cvsid[] = "@(#)$Id: OSGChunkMaterial.cpp,v 1.22 2002/03/08 14:42:28 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -138,8 +138,9 @@ ChunkMaterial::~ChunkMaterial(void)
 /** \brief react to field changes
  */
 
-void ChunkMaterial::changed(BitVector, ChangeMode)
+void ChunkMaterial::changed(BitVector vec, ChangeMode mode)
 {
+    Inherited::changed(vec, mode);
 }
 
 
