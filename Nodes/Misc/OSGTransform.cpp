@@ -289,11 +289,14 @@ void Transform::dump(      UInt32     uiIndent,
 /** Actions */
 
 // execute the OpenGL commands directly 
-Action::ResultE Transform::drawEnter(Action *  )
+Action::ResultE Transform::drawEnter(Action * action )
 {
+    DrawAction * da = dynamic_cast<DrawAction*>(action);
     // should use the chunk, but it's not updated yet
     glPushMatrix();
     glMultMatrixf( getMatrix().getValues() );
+
+    da->selectVisibles();
 
     return Action::Continue;
 }

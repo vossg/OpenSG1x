@@ -47,6 +47,7 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+#include <OSGDrawAction.h>
 
 #include "OSGInline.h"
 
@@ -100,8 +101,63 @@ char Inline::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE Inline::InlineDrawEnter(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    Inline *pSC = dynamic_cast<Inline *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE Inline::InlineDrawLeave(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    Inline *pSC = dynamic_cast<Inline *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
+    }
+}
+#endif
+
 void Inline::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                InlinePtr, 
+                                Action *>(&Inline::drawEnter));
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                InlinePtr, 
+                                Action *>(&Inline::drawLeave));
+#else
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Inline::InlineDrawEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Inline::InlineDrawLeave));
+#endif
 }
 
 /***************************************************************************\
@@ -162,6 +218,22 @@ void Inline::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+//! DrawAction:  execute the OpenGL commands directly   
+Action::ResultE Inline::drawEnter(Action * action)
+{
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
+
+    if ( da->selectVisibles() == 0 )
+    	return Action::Skip;
+	
+    return Action::Continue;
+}
+
+Action::ResultE Inline::drawLeave(Action * action)
+{
+    return Action::Continue;
+}
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

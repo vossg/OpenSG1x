@@ -48,6 +48,7 @@
 //---------------------------------------------------------------------------
 
 #include <OSGConfig.h>
+#include <OSGAction.h>
 
 #include <OSGInlineBase.h>
 
@@ -94,6 +95,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 
     static const char *getClassname(void) { return "Inline"; };
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE InlineDrawEnter(CNodePtr &cnode, 
+                                             Action   *pAction);
+    static Action::ResultE InlineDrawLeave(CNodePtr &cnode, 
+                                             Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -105,6 +113,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
+
+    //! DrawAction:  execute the OpenGL commands directly   
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   protected:
 

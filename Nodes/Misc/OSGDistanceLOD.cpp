@@ -79,7 +79,7 @@ This Node manages the different levels of detail available for a Geometry and de
  *                           Class variables                               *
 \***************************************************************************/
 
-char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.8 2001/08/05 13:38:19 vossg Exp $";
+char DistanceLOD::cvsid[] = "@(#)$Id: OSGDistanceLOD.cpp,v 1.9 2001/08/07 17:07:01 dirk Exp $";
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -179,6 +179,8 @@ Action::ResultE DistanceLOD::draw(Action* action)
 	UInt32 numRanges = getMFRange()->getSize();
 	UInt32 limit = osgMin( numLevels, numRanges ); 
 	
+	UInt32 index = -1;
+
 	Pnt3f eyepos;
 	Pnt3f objpos;
 
@@ -192,19 +194,17 @@ Action::ResultE DistanceLOD::draw(Action* action)
 						   (eyepos[1]-objpos[1])*(eyepos[1]-objpos[1]) +
 						   (eyepos[2]-objpos[2])*(eyepos[2]-objpos[2]) );
 	
-    if(numRanges == 0)
-    {
-        da->useNodeList();
-    }
-    else
+	da->useNodeList();
+	
+    if(numRanges != 0)
     {
         if( dist < getMFRange()->getValue(0) )
         {
-            da->addNode( action->getNode(0) );
+            index = 0;
         } 
-        else if( dist > getMFRange()->getValue(numRanges-1) )
+        else if( dist >= getMFRange()->getValue(numRanges-1) )
         {
-            da->addNode( action->getNode(limit-1) );
+            index =  limit-1;
         }
         else
         {
@@ -216,8 +216,11 @@ Action::ResultE DistanceLOD::draw(Action* action)
                 i++;
             }
             
-            da->addNode( action->getNode(osgMin(i, limit-1)) );
+            index = osgMin(i, limit-1);
         } 
+		
+        if ( da->isVisible( action->getNode( index ).getCPtr() ) )
+			da->addNode( action->getNode( index ) );
 	}
 	return Action::Continue;
 }

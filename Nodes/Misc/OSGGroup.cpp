@@ -47,6 +47,8 @@
 
 #include "OSGConfig.h"
 
+#include <OSGDrawAction.h>
+
 #include "OSGGroup.h"
 
 OSG_USING_NAMESPACE
@@ -102,8 +104,63 @@ char Group::cvsid[] = "@(#)$Id: $";
 /** \brief initialize the static features of the class, e.g. action callbacks
  */
 
+#ifdef OSG_NOFUNCTORS
+OSG::Action::ResultE Group::GroupDrawEnter(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    Group *pSC = dynamic_cast<Group *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDE: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawEnter(pAction);
+    }
+}
+
+OSG::Action::ResultE Group::GroupDrawLeave(CNodePtr &cnode, 
+                                                      Action  *pAction)
+{
+    NodeCore      *pNC = cnode.getCPtr();
+    Group *pSC = dynamic_cast<Group *>(pNC);
+
+    if(pSC == NULL)
+    {
+        fprintf(stderr, "MGDL: core NULL\n");
+        return Action::Skip;
+    }
+    else
+    {
+        return pSC->drawLeave(pAction);
+    }
+}
+#endif
+
 void Group::initMethod (void)
 {
+#ifndef OSG_NOFUNCTORS
+    DrawAction::registerEnterDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                GroupPtr, 
+                                Action *>(&Group::drawEnter));
+    DrawAction::registerLeaveDefault( getClassType(), 
+        osgMethodFunctor2BaseCPtr<OSG::Action::ResultE,
+                                CNodePtr,  
+                                GroupPtr, 
+                                Action *>(&Group::drawLeave));
+#else
+    DrawAction::registerEnterDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Group::GroupDrawEnter));
+    DrawAction::registerLeaveDefault(getClassType(), 
+                                     Action::osgFunctionFunctor2(
+                                        Group::GroupDrawLeave));
+#endif
 }
 
 /***************************************************************************\
@@ -164,6 +221,23 @@ void Group::dump(      UInt32     uiIndent,
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
+
+//! DrawAction:  execute the OpenGL commands directly   
+Action::ResultE Group::drawEnter(Action * action)
+{
+    DrawAction *da = dynamic_cast<DrawAction *>(action);
+
+    if ( da->selectVisibles() == 0 )
+    	return Action::Skip;
+	
+    return Action::Continue;
+}
+
+Action::ResultE Group::drawLeave(Action * action)
+{
+    return Action::Continue;
+}
+
 
 /*-------------------------------------------------------------------------*\
  -  private                                                                -

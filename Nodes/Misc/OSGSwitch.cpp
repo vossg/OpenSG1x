@@ -175,7 +175,8 @@ Action::ResultE Switch::draw(Action* action)
 	if((getChoice() >= 0                 ) && 
        (getChoice() < action->getNNodes()))
     {
-		da->addNode(action->getNode(getChoice()));
+		if ( da->isVisible( action->getNode(getChoice()).getCPtr() ) )
+			da->addNode(action->getNode(getChoice()));
     }
 	
 	return Action::Continue;

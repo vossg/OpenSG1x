@@ -49,6 +49,7 @@
 
 #include <OSGConfig.h>
 
+#include <OSGAction.h>
 #include <OSGGroupBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -91,6 +92,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     static const char *getClassname(void) { return "Group"; };
 
+#ifdef OSG_NOFUNCTORS
+    static Action::ResultE GroupDrawEnter(CNodePtr &cnode, 
+                                             Action   *pAction);
+    static Action::ResultE GroupDrawLeave(CNodePtr &cnode, 
+                                             Action   *pAction);
+#endif
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -112,6 +120,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector &bvFlags  = 0) const;
+
+
+    //! DrawAction:  execute the OpenGL commands directly   
+    Action::ResultE drawEnter(Action * action );
+    Action::ResultE drawLeave(Action * action );
 
   protected:
 
