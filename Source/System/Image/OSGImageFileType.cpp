@@ -295,7 +295,8 @@ UInt64 ImageFileType::store(const ImagePtr &image,
     UChar8          *dest;
     const UChar8    *src = image->getData();
     std::map<std::string, std::string>::const_iterator aI;
-    unsigned int    i,l;
+    UInt32          l;
+		Int32           i;
     std::string     value;
 
     attachmentSize = 0;
@@ -310,12 +311,19 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         {
             FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
             Field *field=att->getField(i);
-            field->getValueByStr(value);
-            attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
-            attachmentSize += value.length() + 1;
-            
-            std::cout << fieldDesc->getName().str() << std::endl; 
-            std::cout << value << std::endl; 
+            if (fieldDesc && field) 
+            {
+                field->getValueByStr(value);
+                attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
+                attachmentSize += value.length() + 1;
+              
+                std::cout << fieldDesc->getName().str() << std::endl; 
+                std::cout << value << std::endl; 
+            }
+            else 
+            {
+                FFATAL (("Invalid Attachment in ImageFileType::store()\n"));
+            }
         }
     }
 
@@ -348,16 +356,23 @@ UInt64 ImageFileType::store(const ImagePtr &image,
             {
                 FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
                 Field *field=att->getField(i);
-                field->getValueByStr(value);
+                if (field && fieldDesc) 
+                {
+                    field->getValueByStr(value);
 
-                l = strlen( fieldDesc->getName().str() );
-                for (i = 0; i < l; i++)
-                    *dest++ = fieldDesc->getName().str()[i];
-                *dest++ = 0;
-                l = value.length();
-                for (i = 0; i < l; i++)
-                    *dest++ = value[i];
-                *dest++ = 0;
+                    l = strlen( fieldDesc->getName().str() );
+                    for (i = 0; i < l; i++)
+                      *dest++ = fieldDesc->getName().str()[i];
+                    *dest++ = 0;
+                    l = value.length();
+                    for (i = 0; i < l; i++)
+                      *dest++ = value[i];
+                    *dest++ = 0;
+                }
+                else
+                {
+                    FFATAL (("Invalid Attachment in ImageFileType::store()\n"));
+                }
             }
         }
 
@@ -399,9 +414,16 @@ UInt64 ImageFileType::maxBufferSize(const ImagePtr &image)
         {
             FieldDescription *fieldDesc=att->getType().getFieldDescription(i);
             Field *field=att->getField(i);
-            field->getValueByStr(value);
-            attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
-            attachmentSize += value.length() + 1;
+            if (field && fieldDesc) 
+            {
+                field->getValueByStr(value);
+                attachmentSize += strlen( fieldDesc->getName().str() ) + 1;
+                attachmentSize += value.length() + 1;
+            }
+            else 
+            {
+                FFATAL (("Invalid Attachment in ImageFileType::maxBufferSize()\n"));
+            }
         }
     }
 
