@@ -49,6 +49,15 @@ The base class for all windows.
 	Multicast address for multicast connections
 	</Field>
 	<Field
+		name="connectionParams"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Optional parameters e.g. "TTL=2"
+	</Field>
+	<Field
 		name="servicePort"
 		type="UInt32"
 		cardinality="single"

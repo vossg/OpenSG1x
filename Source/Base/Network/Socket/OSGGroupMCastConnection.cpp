@@ -44,6 +44,7 @@
 #include <assert.h>
 
 #include <set>
+#include <sstream>
 
 #include "OSGConfig.h"
 #include "OSGLog.h"
@@ -151,6 +152,32 @@ GroupConnection::Channel GroupMCastConnection::acceptPoint(Time timeout)
 {
     Connection::Channel channel = Inherited::acceptPoint(timeout);
     return channel;
+}
+
+/*! parse the params string.
+ */
+void GroupMCastConnection::setParams(const std::string &params)
+{
+    if(params.empty())
+        return;
+
+    std::string option = "TTL=";
+    UInt32 i = 0;
+    if((i=params.find(option)) != std::string::npos)
+    {
+        std::string str = params.substr(i + option.size());
+
+        std::stringstream ss;
+        UInt32 i = 0;
+        while(i < str.length() && str[i] != ',' && isdigit(str[i]))
+        {
+            ss << str[i++];
+        }
+        UInt8 ttl;
+        ss >> ttl;
+        _mcastSocket.setTTL(ttl);
+        FINFO(("GroupMCastConnection::setParams : setting ttl to %d.\n", (int) ttl));
+    }
 }
 
 /*-------------------------------------------------------------------------*/

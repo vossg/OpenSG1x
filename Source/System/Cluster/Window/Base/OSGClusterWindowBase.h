@@ -69,6 +69,7 @@
 #include <OSGStringFields.h> // ConnectionType type
 #include <OSGStringFields.h> // ConnectionInterface type
 #include <OSGStringFields.h> // ConnectionDestination type
+#include <OSGStringFields.h> // ConnectionParams type
 #include <OSGUInt32Fields.h> // ServicePort type
 #include <OSGStringFields.h> // ServiceAddress type
 #include <OSGWindowFields.h> // ClientWindow type
@@ -103,7 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
         ConnectionTypeFieldId        = ServersFieldId               + 1,
         ConnectionInterfaceFieldId   = ConnectionTypeFieldId        + 1,
         ConnectionDestinationFieldId = ConnectionInterfaceFieldId   + 1,
-        ServicePortFieldId           = ConnectionDestinationFieldId + 1,
+        ConnectionParamsFieldId      = ConnectionDestinationFieldId + 1,
+        ServicePortFieldId           = ConnectionParamsFieldId      + 1,
         ServiceAddressFieldId        = ServicePortFieldId           + 1,
         ClientWindowFieldId          = ServiceAddressFieldId        + 1,
         InterleaveFieldId            = ClientWindowFieldId          + 1,
@@ -117,6 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     static const OSG::BitVector ConnectionTypeFieldMask;
     static const OSG::BitVector ConnectionInterfaceFieldMask;
     static const OSG::BitVector ConnectionDestinationFieldMask;
+    static const OSG::BitVector ConnectionParamsFieldMask;
     static const OSG::BitVector ServicePortFieldMask;
     static const OSG::BitVector ServiceAddressFieldMask;
     static const OSG::BitVector ClientWindowFieldMask;
@@ -154,6 +157,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            SFString            *getSFConnectionType (void);
            SFString            *getSFConnectionInterface(void);
            SFString            *getSFConnectionDestination(void);
+           SFString            *getSFConnectionParams(void);
            SFUInt32            *getSFServicePort    (void);
            SFString            *getSFServiceAddress (void);
            SFWindowPtr         *getSFClientWindow   (void);
@@ -168,6 +172,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      const std::string         &getConnectionInterface(void) const;
            std::string         &getConnectionDestination(void);
      const std::string         &getConnectionDestination(void) const;
+           std::string         &getConnectionParams(void);
+     const std::string         &getConnectionParams(void) const;
            UInt32              &getServicePort    (void);
      const UInt32              &getServicePort    (void) const;
            std::string         &getServiceAddress (void);
@@ -195,6 +201,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      void setConnectionType ( const std::string &value );
      void setConnectionInterface( const std::string &value );
      void setConnectionDestination( const std::string &value );
+     void setConnectionParams( const std::string &value );
      void setServicePort    ( const UInt32 &value );
      void setServiceAddress ( const std::string &value );
      void setClientWindow   ( const WindowPtr &value );
@@ -250,6 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     SFString            _sfConnectionType;
     SFString            _sfConnectionInterface;
     SFString            _sfConnectionDestination;
+    SFString            _sfConnectionParams;
     SFUInt32            _sfServicePort;
     SFString            _sfServiceAddress;
     SFWindowPtr         _sfClientWindow;
@@ -304,6 +312,6 @@ typedef ClusterWindowBase *ClusterWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

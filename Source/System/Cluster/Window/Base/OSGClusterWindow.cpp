@@ -115,15 +115,20 @@ void ClusterWindow::init( void )
     {
         setConnectionType("StreamSock");
     }
-    connection=ConnectionFactory::the().createGroup(getConnectionType());
-    connection->setDestination(getConnectionDestination());
-    connection->setInterface(getConnectionInterface());
+
+    connection = ConnectionFactory::the().createGroup(getConnectionType());
     if(connection == NULL)
     {
         SFATAL << "Unknown connection type " 
                << getConnectionType() 
                << std::endl;
+        return;
     }
+
+    connection->setDestination(getConnectionDestination());
+    connection->setInterface(getConnectionInterface());
+    connection->setParams(getConnectionParams());
+
     getNetwork()->setMainConnection(connection);
     // create remote aspect
     remoteAspect = new RemoteAspect();
@@ -226,6 +231,7 @@ void ClusterWindow::init( void )
 
         SINFO << "Connect to " << (*s) << std::endl;
         serviceSock.open();
+        serviceSock.setTTL(8);
         while(retry)
         {
             try

@@ -76,6 +76,9 @@ const OSG::BitVector  ClusterWindowBase::ConnectionInterfaceFieldMask =
 const OSG::BitVector  ClusterWindowBase::ConnectionDestinationFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ConnectionDestinationFieldId);
 
+const OSG::BitVector  ClusterWindowBase::ConnectionParamsFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ConnectionParamsFieldId);
+
 const OSG::BitVector  ClusterWindowBase::ServicePortFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ServicePortFieldId);
 
@@ -115,6 +118,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
 */
 /*! \var std::string     ClusterWindowBase::_sfConnectionDestination
     Multicast address for multicast connections
+*/
+/*! \var std::string     ClusterWindowBase::_sfConnectionParams
+    Optional parameters e.g. "TTL=2"
 */
 /*! \var UInt32          ClusterWindowBase::_sfServicePort
     Broadcastport used for server search
@@ -162,6 +168,11 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      ConnectionDestinationFieldId, ConnectionDestinationFieldMask,
                      false,
                      (FieldAccessMethod) &ClusterWindowBase::getSFConnectionDestination),
+    new FieldDescription(SFString::getClassType(), 
+                     "connectionParams", 
+                     ConnectionParamsFieldId, ConnectionParamsFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFConnectionParams),
     new FieldDescription(SFUInt32::getClassType(), 
                      "servicePort", 
                      ServicePortFieldId, ServicePortFieldMask,
@@ -256,6 +267,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfConnectionType         (), 
     _sfConnectionInterface    (), 
     _sfConnectionDestination  (), 
+    _sfConnectionParams       (), 
     _sfServicePort            (UInt32(8437)), 
     _sfServiceAddress         (std::string("224.245.211.234")), 
     _sfClientWindow           (), 
@@ -276,6 +288,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfConnectionType         (source._sfConnectionType         ), 
     _sfConnectionInterface    (source._sfConnectionInterface    ), 
     _sfConnectionDestination  (source._sfConnectionDestination  ), 
+    _sfConnectionParams       (source._sfConnectionParams       ), 
     _sfServicePort            (source._sfServicePort            ), 
     _sfServiceAddress         (source._sfServiceAddress         ), 
     _sfClientWindow           (source._sfClientWindow           ), 
@@ -317,6 +330,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (ConnectionDestinationFieldMask & whichField))
     {
         returnValue += _sfConnectionDestination.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ConnectionParamsFieldMask & whichField))
+    {
+        returnValue += _sfConnectionParams.getBinSize();
     }
 
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
@@ -383,6 +401,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
         _sfConnectionDestination.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ConnectionParamsFieldMask & whichField))
+    {
+        _sfConnectionParams.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
     {
         _sfServicePort.copyToBin(pMem);
@@ -446,6 +469,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfConnectionDestination.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ConnectionParamsFieldMask & whichField))
+    {
+        _sfConnectionParams.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
     {
         _sfServicePort.copyFromBin(pMem);
@@ -502,6 +530,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (ConnectionDestinationFieldMask & whichField))
         _sfConnectionDestination.syncWith(pOther->_sfConnectionDestination);
 
+    if(FieldBits::NoField != (ConnectionParamsFieldMask & whichField))
+        _sfConnectionParams.syncWith(pOther->_sfConnectionParams);
+
     if(FieldBits::NoField != (ServicePortFieldMask & whichField))
         _sfServicePort.syncWith(pOther->_sfServicePort);
 
@@ -556,7 +587,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCLUSTERWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLUSTERWINDOWBASE_INLINE_CVSID;
 

@@ -933,6 +933,7 @@ int main(int argc,char **argv)
     std::vector<std::string> filenames;
     std::vector<std::string> servers;
     std::string              connectionType = "StreamSock";
+    std::string              connectionParameters;
     int                      rows=1;
     char                     type='M';
     bool                     clientRendering=true;
@@ -948,6 +949,11 @@ int main(int argc,char **argv)
         {
             switch(argv[i][1])
             {
+                case 'o':
+                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    connectionParameters = opt;
+                    printf("connectionParameters: '%s'\n", connectionParameters.c_str());
+                    break;
                 case 'A':
                     opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
                     autostart = opt;
@@ -1105,7 +1111,8 @@ int main(int argc,char **argv)
                               << "-y  server y resolution" << std::endl
                               << "-t  subtile size for img composition" << std::endl
                               << "-D  x,y,z duplicate geometry" << std::endl
-                              << "-A  Autostart command" << std::endl;
+                              << "-A  Autostart command" << std::endl
+                              << "-o  connection parameter string e.g. \"TTL=8\"" << std::endl;
                     return 0;
             }
         }
@@ -1238,8 +1245,9 @@ int main(int argc,char **argv)
         clientWindow->resize(winwidth,winheight);
         clusterWindow->setConnectionDestination(connectionDestination);
         clusterWindow->setConnectionInterface(connectionInterface);
+        clusterWindow->setConnectionParams(connectionParameters);
         glutMainLoop();
-    } 
+    }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
         SLOG << e.what() << std::endl;

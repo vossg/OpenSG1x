@@ -86,6 +86,13 @@ Connection::~Connection(void)
 {
 }
 
+/*! set connections parameters, a comma separated list e.g. "TTL=255"
+ */
+void Connection::setParams(const std::string &OSG_CHECK_ARG(params))
+{
+    // do nothing this is implemented in the derived classes e.g. OSGGroupMCastConnection.cpp
+}
+
 /*! get network interface
  */
 const std::string &Connection::getInterface(void)

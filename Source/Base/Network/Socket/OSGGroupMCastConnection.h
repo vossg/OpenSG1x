@@ -91,6 +91,13 @@ class OSG_BASE_DLLMAPPING GroupMCastConnection :
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   params                                     */
+    /*! \{                                                                 */
+
+    virtual void setParams(const std::string &params);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   create                                     */
     /*! \{                                                                 */
 

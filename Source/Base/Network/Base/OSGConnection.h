@@ -116,6 +116,13 @@ class OSG_BASE_DLLMAPPING Connection : public BinaryDataHandler
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   params                                     */
+    /*! \{                                                                 */
+
+    virtual void setParams(const std::string &params);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   interface                                  */
     /*! \{                                                                 */
     

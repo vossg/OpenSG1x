@@ -124,6 +124,13 @@ SFString *ClusterWindowBase::getSFConnectionDestination(void)
     return &_sfConnectionDestination;
 }
 
+//! Get the ClusterWindow::_sfConnectionParams field.
+inline
+SFString *ClusterWindowBase::getSFConnectionParams(void)
+{
+    return &_sfConnectionParams;
+}
+
 //! Get the ClusterWindow::_sfServicePort field.
 inline
 SFUInt32 *ClusterWindowBase::getSFServicePort(void)
@@ -235,6 +242,27 @@ inline
 void ClusterWindowBase::setConnectionDestination(const std::string &value)
 {
     _sfConnectionDestination.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfConnectionParams field.
+inline
+std::string &ClusterWindowBase::getConnectionParams(void)
+{
+    return _sfConnectionParams.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfConnectionParams field.
+inline
+const std::string &ClusterWindowBase::getConnectionParams(void) const
+{
+    return _sfConnectionParams.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfConnectionParams field.
+inline
+void ClusterWindowBase::setConnectionParams(const std::string &value)
+{
+    _sfConnectionParams.setValue(value);
 }
 
 //! Get the value of the ClusterWindow::_sfServicePort field.
@@ -408,5 +436,5 @@ const MFString &ClusterWindowBase::getAutostart(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
