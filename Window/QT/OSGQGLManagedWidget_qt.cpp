@@ -57,7 +57,7 @@ OSG_USING_NAMESPACE
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.6 2001/10/15 17:26:21 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGQGLManagedWidget_qt.cpp,v 1.7 2001/10/16 01:42:18 jbehr Exp $";
     static Char8 cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }
 
@@ -317,11 +317,13 @@ void OSGQGLManagedWidget::keyPressEvent(QKeyEvent *OSG_CHECK_ARG(ke))
 // Method: closeEvent
 //----------------------------------------------------------------------
 
-void OSGQGLManagedWidget::closeEvent(QCloseEvent *OSG_CHECK_ARG(event))
+void OSGQGLManagedWidget::closeEvent(QCloseEvent *event)
 {
   FDEBUG (("OSGQGLManagedWidget::closeEvent()\n"));
   
   emit closed(this);
+
+  Inherited::closeEvent(event);
 }
 
 #ifdef __sgi

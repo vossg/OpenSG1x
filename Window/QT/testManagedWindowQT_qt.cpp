@@ -22,6 +22,8 @@ int main( int argc, char ** argv )
   osg::OSGQGLManagedWidget widget;
   osg::NodePtr root;
   
+  qapp.connect( &qapp, SIGNAL  ( lastWindowClosed() ), 
+                &qapp, SLOT    ( quit() ) );
 
   if (argc > 1)
     {
