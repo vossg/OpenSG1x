@@ -1,13 +1,13 @@
 
-#include "OpenSG/OSGConfig.h"
+#include "OSGConfig.h"
 
 #include <iostream>
 #include <fstream>
 
-#include "OpenSG/OSGBaseFunctions.h"
-#include "OpenSG/OSGLog.h"
-#include "OpenSG/OSGImage.h"
-#include "OpenSG/OSGImageFileHandler.h"
+#include "OSGBaseFunctions.h"
+#include "OSGLog.h"
+#include "OSGImage.h"
+#include "OSGImageFileHandler.h"
 
 int main (int argc, char **argv)
 {
