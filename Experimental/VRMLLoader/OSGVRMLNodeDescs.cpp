@@ -744,9 +744,10 @@ void VRMLShapeDesc::init(const Char8 *szName)
     indentLog(getIndent(), PINFO);
     PINFO << "ShapeDesc::init : " << szName << endl;
 
-    _pNodeProto = Node::create();
+    _pNodeProto     = Node::create();
+    _pNodeCoreProto = MaterialGroup::create();
 
-    _pGenAtt    = GenericAtt::create();
+    _pGenAtt        = GenericAtt::create();
 }
 
 void VRMLShapeDesc::setMaterialDesc(VRMLMaterialDesc *pMaterialDesc)
@@ -789,7 +790,7 @@ Bool VRMLShapeDesc::prototypeAddField(const Char8  *szFieldType,
 
     if(stringcasecmp("apperance", szFieldname) == 0)
     {
-        _pCurrField = _pNodeProto->getField("core");
+        _pCurrField = _pNodeCoreProto->getField("material");
         returnValue = true;
 
         indentLog(getIndent(), PINFO);
@@ -851,10 +852,29 @@ void VRMLShapeDesc::getFieldAndDesc(
               << szFieldname
               << endl;
 
-        pField = pFC->getField("core");
-        
-        if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("core");
+        NodePtr pNode = NodePtr::dcast(pFC);
+
+        if(pNode != NullFC)
+        {
+            if(pNode->getCore() != NullFC)
+            { 
+                pField = pNode->getCore()->getField("material");
+                
+                if(pField != NULL)
+                {
+                    pDesc = 
+                        pNode->getCore()->getType().findFieldDescription(
+                            "material");
+                }
+            }
+        }
+        else
+        {
+            VRMLNodeDesc::getFieldAndDesc(pFC, 
+                                          szFieldname, 
+                                          pField,
+                                          pDesc);
+        }
     }
     else
     {
@@ -873,14 +893,19 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
                                            const Char8       *szName,
                                                  FieldContainerPtr)
 {
-    FieldContainerPtr returnValue = NullFC;
-    NodePtr           pNode       = NullFC;
-    NodePtr           pGeoNode    = NullFC;
-    GenericAttPtr     pAtt        = NullFC;
+    NodePtr           pNode     = NullFC;
+    NodeCorePtr       pNodeCore = NullFC;
 
     if(_pNodeProto != NullFC)
     {
-        returnValue = _pNodeProto->shallowCopy();
+        pNode = NodePtr::dcast(_pNodeProto->shallowCopy());
+
+        if(_pNodeCoreProto != NullFC)
+        {
+            pNodeCore = NodeCorePtr::dcast(_pNodeCoreProto->shallowCopy());
+
+            pNode->setCore(pNodeCore);
+        }
     }
 
     indentLog(getIndent(), PINFO);
@@ -888,12 +913,11 @@ FieldContainerPtr VRMLShapeDesc::beginNode(const Char8       *szTypename,
 
     incIndent();
 
-    return returnValue;
+    return pNode;
 }
 
 void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
 {
-
     if(pFC != NullFC)
     {
         NodePtr pNode = NodePtr::dcast(pFC);
@@ -903,16 +927,33 @@ void VRMLShapeDesc::endNode(FieldContainerPtr pFC)
             PWARNING << "warning empty material, using default\n" << endl;
 
             MaterialGroupPtr pMatGroup = MaterialGroup::create();
+
             beginEditCP(pMatGroup);
             {
                 pMatGroup->setMaterial(_pMaterialDesc->getDefaultMaterial());
             }
             endEditCP(pMatGroup);
+
             beginEditCP(pNode);
             {
                 pNode->setCore(pMatGroup);
             }
             endEditCP(pNode);
+        }
+        else
+        {
+            MaterialGroupPtr pMatGroup;
+
+            pMatGroup = MaterialGroupPtr::dcast(pNode->getCore());
+
+            if(pMatGroup != NullFC)
+            {
+                if(pMatGroup->getMaterial() == NullFC)
+                {
+                    pMatGroup->setMaterial(
+                        _pMaterialDesc->getDefaultMaterial());
+                }
+            }
         }
     }
 
@@ -2079,7 +2120,6 @@ void VRMLGeometryObjectDesc::dump(const Char8 *szNodeName)
 VRMLAppearanceDesc::VRMLAppearanceDesc(void) :
     Inherited         (),
 
-    _sfTexture        (),
     _pMaterialDesc    (NULL)
 {
 }
@@ -2098,7 +2138,7 @@ void VRMLAppearanceDesc::init(const Char8 *szName)
     indentLog(getIndent(), PINFO);
     PINFO << "ApperanceDesc::init : " << szName << endl;
 
-    _pNodeCoreProto = MaterialGroup::create();
+    _pNodeProto = ChunkMaterial::create();
 
     _pGenAtt    = GenericAtt::create();
 }
@@ -2167,10 +2207,10 @@ void VRMLAppearanceDesc::getFieldAndDesc(
               << szFieldname
               << endl;
         
-        pField = pFC->getField("material");
+        pField = pFC->getField("chunks");
         
         if(pField != NULL)
-            pDesc = pFC->getType().findFieldDescription("material");
+            pDesc = pFC->getType().findFieldDescription("chunks");
     }
     else if(stringcasecmp("texture", szFieldname) == 0)
     {
@@ -2179,10 +2219,10 @@ void VRMLAppearanceDesc::getFieldAndDesc(
               << szFieldname
               << endl;
 
-        _sfTexture.setValue(NullFC);
-
-        pField = &_sfTexture;
-        pDesc  = NULL;
+        pField = pFC->getField("chunks");
+        
+        if(pField != NULL)
+            pDesc = pFC->getType().findFieldDescription("chunks");
     }
     else
     {
@@ -2202,25 +2242,15 @@ FieldContainerPtr VRMLAppearanceDesc::beginNode(
     const Char8       *szName,
     FieldContainerPtr  pCurrentFC)
 {
-    FieldContainerPtr returnValue = NullFC;
-    NodeCorePtr       pNodeCore   = NullFC;
-    GenericAttPtr     pAtt        = NullFC;
+    FieldContainerPtr returnValue;
 
-    if(_pNodeCoreProto != NullFC)
+    if(_pNodeProto != NullFC)
     {
-        FieldContainerPtr pAttClone = _pGenAtt->clone();
-        
-        pAtt = GenericAttPtr::dcast(pAttClone);
-
-        returnValue = _pNodeCoreProto->shallowCopy();
-
-        pNodeCore   = NodeCorePtr::dcast(returnValue);
-
-        pNodeCore->addAttachment(pAtt);
+        returnValue = _pNodeProto->shallowCopy();
     }    
 
     indentLog(getIndent(), PINFO);
-    PINFO << "Begin Appearance " << &(*pNodeCore) << endl;
+    PINFO << "Begin Appearance " << &(*returnValue) << endl;
 
     incIndent();
 
@@ -2231,6 +2261,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 {
     if(pFC != NullFC)
     {
+#if 0
         MaterialGroupPtr pMatGroup = MaterialGroupPtr::dcast(pFC);
 
         if(pMatGroup != NullFC)
@@ -2292,12 +2323,13 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                 }
             }
         }
+#endif
     }
 
     decIndent();
 
     indentLog(getIndent(), PINFO);
-    PINFO << "End Appearance " <<  &(*(_sfTexture.getValue())) << endl;
+    PINFO << "End Appearance " <<  endl;
 }
 
 Bool VRMLAppearanceDesc::use(FieldContainerPtr pFC)
@@ -2394,8 +2426,8 @@ VRMLMaterialDesc::VRMLMaterialDesc(void) :
     _specularColor          (),
     _transparency           (),
 
-    _pDefMat                (),
-    _pMat                   ()
+    _pDefMat                (NullFC),
+    _pMat                   (NullFC)
 {
 }
 
@@ -2494,23 +2526,45 @@ Bool VRMLMaterialDesc::prototypeAddField(const Char8  *szFieldType,
 
 void VRMLMaterialDesc::endProtoInterface(void)
 {
-    Color3f cAmbient;
-    
-    cAmbient.setValuesRGB(_defaultDiffuseColor    .getValue().red() *
-                          _defaultAmbientIntensity.getValue(),
-                          _defaultDiffuseColor    .getValue().green() *
-                          _defaultAmbientIntensity.getValue(),
-                          _defaultDiffuseColor    .getValue().blue() *
-                          _defaultAmbientIntensity.getValue());
-    
-    _pDefMat = SimpleMaterial::create();
+    Color4f          cCol;
+    MaterialChunkPtr pMatChunk;
 
-    _pDefMat->setAmbient     ( cAmbient                       );
-    _pDefMat->setDiffuse     (_defaultDiffuseColor.getValue() );
-    _pDefMat->setSpecular    (_defaultSpecularColor.getValue());
-    _pDefMat->setShininess   (_defaultShininess.getValue()    );
-    _pDefMat->setEmission    (_defaultEmissiveColor.getValue());
-    _pDefMat->setTransparency(_defaultTransparency.getValue() );
+    cCol.setValuesRGBA(_defaultDiffuseColor    .getValue().red() *
+                       _defaultAmbientIntensity.getValue(),
+                       _defaultDiffuseColor    .getValue().green() *
+                       _defaultAmbientIntensity.getValue(),
+                       _defaultDiffuseColor    .getValue().blue() *
+                       _defaultAmbientIntensity.getValue(),
+                       _defaultTransparency    .getValue());
+    
+    _pDefMat = ChunkMaterial::create();
+
+    pMatChunk = MaterialChunk::create();
+
+    pMatChunk->setAmbient(cCol);
+
+    cCol.setValuesRGBA   (_defaultDiffuseColor.getValue()[0],
+                          _defaultDiffuseColor.getValue()[1],
+                          _defaultDiffuseColor.getValue()[2],
+                          _defaultTransparency.getValue());
+
+    pMatChunk->setDiffuse(cCol);
+
+    cCol.setValuesRGBA    (_defaultSpecularColor.getValue()[0],
+                           _defaultSpecularColor.getValue()[1],
+                           _defaultSpecularColor.getValue()[2],
+                           _defaultTransparency.getValue());
+    pMatChunk->setSpecular(cCol);
+
+    pMatChunk->setShininess(_defaultShininess.getValue());
+
+    cCol.setValuesRGBA    (_defaultEmissiveColor.getValue()[0],
+                           _defaultEmissiveColor.getValue()[1],
+                           _defaultEmissiveColor.getValue()[2],
+                           _defaultTransparency.getValue());
+    pMatChunk->setEmission(cCol);
+
+    _pDefMat->addChunk(pMatChunk);
 }
 
 void VRMLMaterialDesc::getFieldAndDesc(      
@@ -2556,7 +2610,7 @@ FieldContainerPtr VRMLMaterialDesc::beginNode(
 {
     reset();
 
-    _pMat = SimpleMaterial::create();
+    _pMat = MaterialChunk::create();
 
     return _pMat;
 }
@@ -2565,21 +2619,40 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
 {    
     if(_pMat != NullFC)
     {
-        Color3f cAmbient;
+        Color4f cCol;
 
-        cAmbient.setValuesRGB(_diffuseColor    .getValue().red() *
-                              _ambientIntensity.getValue(),
-                              _diffuseColor    .getValue().green() *
-                              _ambientIntensity.getValue(),
-                              _diffuseColor    .getValue().blue() *
-                              _ambientIntensity.getValue());
+        cCol.setValuesRGBA (_diffuseColor    .getValue().red() *
+                            _ambientIntensity.getValue(),
+                            _diffuseColor    .getValue().green() *
+                            _ambientIntensity.getValue(),
+                            _diffuseColor    .getValue().blue() *
+                            _ambientIntensity.getValue(),
+                            _transparency.getValue());
+
         beginEditCP(_pMat);
-        _pMat->setAmbient     ( cAmbient                );
-        _pMat->setDiffuse     (_diffuseColor.getValue() );
-        _pMat->setSpecular    (_specularColor.getValue());
-        _pMat->setShininess   (_shininess.getValue()    );
-        _pMat->setEmission    (_emissiveColor.getValue());
-        _pMat->setTransparency(_transparency.getValue() );
+
+        _pMat->setAmbient  (cCol);
+
+        cCol.setValuesRGBA (_diffuseColor.getValue()[0],
+                            _diffuseColor.getValue()[1],
+                            _diffuseColor.getValue()[2],
+                            _transparency.getValue());
+        _pMat->setDiffuse  (cCol);
+
+        cCol.setValuesRGBA (_specularColor.getValue()[0],
+                            _specularColor.getValue()[1],
+                            _specularColor.getValue()[2],
+                            _transparency.getValue());
+        _pMat->setSpecular (cCol);
+
+        _pMat->setShininess(_shininess.getValue()    );
+
+        cCol.setValuesRGBA (_emissiveColor.getValue()[0],
+                            _emissiveColor.getValue()[1],
+                            _emissiveColor.getValue()[2],
+                            _transparency.getValue());
+        _pMat->setEmission (cCol);
+
         endEditCP(_pMat);
     }
 }

@@ -766,7 +766,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLAppearanceDesc : public VRMLNodeDesc
     /*! \name                      Member                                  */
     /*! \{                                                                 */
 
-    SFFieldContainerPtr  _sfTexture;
     VRMLMaterialDesc    *_pMaterialDesc;
 
     /*! \}                                                                 */
@@ -875,8 +874,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     SFColor3f         _specularColor;
     SFReal32          _transparency;
 
-    SimpleMaterialPtr _pDefMat;
-    SimpleMaterialPtr _pMat;
+    ChunkMaterialPtr _pDefMat;
+    MaterialChunkPtr _pMat;
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

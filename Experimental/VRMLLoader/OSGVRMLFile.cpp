@@ -243,6 +243,9 @@ void VRMLFile::initIntExtFieldTypeMapper(void)
     setIntExtMapping(SFGeoTexCoordsPtr::getClassType().getId(),
                      ScanParseSkel::OSGsfNode);
 
+    setIntExtMapping(MFStateChunkPtr::getClassType().getId(),
+                     ScanParseSkel::OSGsfNode);
+
     setIntExtMapping(SFAttachmentMap::getClassType().getId(),
                      ScanParseSkel::OSGmfNode);
 
