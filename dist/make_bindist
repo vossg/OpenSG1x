@@ -16,6 +16,8 @@ fi
 
 echo "Making binary dist in" $OSGPOOL
 
+build_make=gmake
+
 # does the OSGPOOL exist? If not, check it out.
 
 if ! test -d $OSGPOOL
@@ -100,18 +102,29 @@ case $system in
     ;;
 
     *-pc-cygwin )   
-        
-    glut_dir="`pwd`/../packages/glut_3.7"
-    glut_lib="glut32.dll"
-    glut_args="--with-glut=$glut_dir"
-    qt_dir="`pwd`/../packages/qt-3.0"
-    qt_lib=qt-mt300.dll
-    qt_args="--with-qt=$qt_dir"
-    tif_args=""
-    par_jobs=1
-    compiler=${compiler:=icl50}
-    config_shell=bash
-    distname=win
+
+    if test ${#*} -eq 1
+    then
+        echo "got config"
+        config_in=$1
+        shift
+
+        echo "Building for windows using config " $config_in
+
+        . $config_in
+    else
+        glut_dir="`pwd`/../packages/glut_3.7"
+        glut_lib="glut32.dll"
+        glut_args="--with-glut=$glut_dir"
+        qt_dir="`pwd`/../packages/qt-3.0"
+        qt_lib=qt-mt300.dll
+        qt_args="--with-qt=$qt_dir"
+        tif_args=""
+        par_jobs=1
+        compiler=${compiler:=icl50}
+        config_shell=bash
+        distname=win
+    fi
     ;;
     
    *)
@@ -130,28 +143,50 @@ esac
 
 ##rm -rf Builds/$system-$compiler
 
-$config_shell ./configure --prefix=BUILD --with-compiler=$compiler \
-    $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args
 
-  
+if test -z $OSG_DIST_NO_RECONFIGURE
+then
+    $config_shell ./configure --prefix=BUILD --with-compiler=$compiler        \
+       $stl_args $glut_args $qt_args $tif_args $jpeg_args $png_args $gif_args \
+       $freetype_args $add_inc_dirs $add_lib_dirs $platform_args $config_args \
+       $compiler_args
+else
+    echo "OSG_DIST_NO_RECONFIGURE  set, skipping configure"
+fi
+
 # Build the libs
 
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
 
-gmake opt 
-gmake install
+if test -z $OSG_DIST_NO_REBUILD
+then
+    $build_make opt 
+    $build_make dbg 
+else
+    echo "OSG_DIST_NO_REBUILD      set, skipping build"
+fi
 
-gmake dbg 
-gmake install
+if test -z $OSG_DIST_NO_REINSTALL
+then
+    $build_make install
+else
+    echo "OSG_DIST_NO_REINSTALL    set, skipping install"
+fi
 
-# make the sceneviewer
+if test -z $OSG_DIST_NO_EXAMPLEBUILD
+then
 
-cd ../../examples/SceneViewer
+    # make the sceneviewer
 
-gmake QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler
+    cd ../../examples/SceneViewer
 
-cd $olddir
+    $build_make QTDIR=$qt_dir OSGROOT=../../Builds/$system-$compiler
+
+    cd $olddir
+else
+    echo "OSG_DIST_NO_EXAMPLEBUILD set, skipping example build"
+fi
 
 # create the distribution(s)
 
@@ -160,26 +195,46 @@ case $system in
     *-pc-cygwin )           
 
     cd $olddir
-    
-    rm -rf OpenSG-$VERSION-$distname
-    mkdir OpenSG-$VERSION-$distname
-    cd OpenSG-$VERSION-$distname
-    
-    # copy windows defaults
-    # copies GLUT lib automatically
-    cp -r $OSGPOOL/dist/win/lib .
-    cp -r $OSGPOOL/dist/win/dist/* .
-    cp    $OSGPOOL/dist/win/README.bindist README.txt
 
-    # copy the QT lib, as Qt 3.0 is not everywhere yet
-    cp ${qt_dir}/lib/${qt_lib} lib
+    if test -z $OSG_DIST_NO_DISTASSEMBLY
+    then
+    
+        rm -rf OpenSG-$VERSION-$distname-$compiler
+        mkdir OpenSG-$VERSION-$distname-$compiler
+        cd OpenSG-$VERSION-$distname-$compiler
+
+        # support libs
+    
+        mkdir tmp
+        cd tmp
+        unzip $OSGPOOL/dist/win/supportlibs.zip > /dev/null
+
+        mv include ..
+        mv stlport ../include
+        mv sources/*.txt ../include
+        mv README.txt ../README_SupportLibs.txt
+
+        mv lib ..
+
+        cd ..
+        rm -rf tmp
+
+        # copy windows defaults
+        # copies GLUT lib automatically
+
+        cp -r $OSGPOOL/dist/win/dist/* .
+        cp    $OSGPOOL/dist/win/README.bindist README.txt
+
+        # copy the QT lib, as Qt 3.0 is not everywhere yet
+        cp ${qt_dir}/lib/${qt_lib} lib
  
-    # copy the SceneViewer
-    cp $OSGPOOL/examples/SceneViewer/osgSceneViewer.exe .
+        # copy the SceneViewer
+        cp $OSGPOOL/examples/SceneViewer/osgSceneViewer.exe .
    
-    # copy OpenSG stuff
-    cp -r $OSGPOOL/Builds/$system-$compiler/include .
-    cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt/* lib
+        # copy OpenSG stuff
+        cp -r $OSGPOOL/Builds/$system-$compiler/include/OpenSG ./include
+        cp -r $OSGPOOL/Builds/$system-$compiler/lib/opt/* lib
+        cp -r $OSGPOOL/Builds/$system-$compiler/lib/dbg/* lib
     
 #  doesn't work. Libname is written in lib :(
 #    for i in $OSGPOOL/Builds/$system-$compiler/lib/dbg/*.dll ;
@@ -190,11 +245,21 @@ case $system in
 #        cp $d/$l.lib lib/${l}-dbg.lib 
 #    done
     
-    # do the tutorials
-    cp -r $OSGPOOL/tutorials .
-    
+        # do the tutorials
+        cp -r $OSGPOOL/Tutorials .
+    else
+        echo "OSG_DIST_NO_DISTASSEMBLY set, skipping assembly"
+
+        cd OpenSG-$VERSION-$distname-$compiler
+    fi
+
     cd tutorials
-    gmake -f Makefile.win
+
+
+    $build_make OSGPOOL=$OSGPOOL -f Makefile
+
+    exit
+
     gmake -f Makefile.win dsw
     
     # cleanup the garbage
