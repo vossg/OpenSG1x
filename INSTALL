@@ -102,13 +102,17 @@ do in the tutorials.
 
 
 
+Now the general requirements:
+
+gmake : >= 3.79.1
+
 Now the platform-specific requirements:
 
 IRIX
 ====
 
 Compiler : > MIPS Pro 7.3.*
-Make     : > gmake 3.78.1
+Make     : > gmake 3.79.1
 glut     : 3.7
 
 
@@ -130,7 +134,7 @@ Windows
 
 Compiler : Intel C++ > 4.5 + latest patchset
 Cygwin   : >= 1.1.4
-gmake    : > 3.78.1
+gmake    : > 3.79.1
 glut     : 3.7
 autoconf : > 2.13 (only needed when you want to work on the configure scripts)
 STL      : The current default is the original Microsoft 
@@ -157,7 +161,7 @@ MacOSX
 =======
 
 Compiler : tested with gcc-934.3 (ProjectBuilder 1.1.1 installed)
-gmake    : > 3.78.1
+gmake    : > 3.79.1
 QT       : does not work yet
 
 Problems : due to bugs in the codegenerator only static libs can be build,
