@@ -205,6 +205,28 @@ install-libs:
 		$(INSTLINK) $$t .;													\
 	done;																	\
 	cd $$CURRDIR;
+	@CURRDIR=`pwd`;                                                         \
+	BUILDLIBS=`find $$CURRDIR -name 'lib-dbglnk'		        			\
+					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
+	cd $(INSTALL_DIR)/lib/dbg;												\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo $$t;															\
+		$(INSTLINK) $$t .;													\
+	done;                                                                   \
+	cd $$CURRDIR;
+	@CURRDIR=`pwd`;															\
+	BUILDLIBS=`find $$CURRDIR -name 'lib-optlnk'		        			\
+					-exec find {} -name '*\$(LNK_LIB_SUFFIX)' -print \;` ;	\
+	cd $(INSTALL_DIR)/lib/opt;												\
+	rm -f *$(SO_SUFFIX);													\
+	for t in $$BUILDLIBS; 													\
+	do																		\
+		echo $$t;															\
+		$(INSTLINK) $$t .;													\
+	done;																	\
+	cd $$CURRDIR;
 ifeq ($(OS_BASE),cygwin)
 	@CURRDIR=`pwd`;															\
 	BUILDLIBS=`find $$CURRDIR -name 'lib-dbg' 			        			\
