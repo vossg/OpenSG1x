@@ -84,6 +84,13 @@ To create a new Viewport the draw and render methods should be overridden.
 
 \endext
 
+\dev
+
+When adding fields to the Viewport, make sure to add the code to copy them to
+all the different CLusterWindows! 
+
+\enddev
+
 */
 
 /***************************************************************************\
