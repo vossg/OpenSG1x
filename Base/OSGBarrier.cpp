@@ -508,13 +508,13 @@ void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
         
     WaitForSingleObject(_mutex1, INFINITE);
 
-	ReleaseMutex(_mutex1);
-    
     _count++;
 
     if(_count < numWaitFor)
     {
         /* not enough threads are waiting => wait */
+
+        ReleaseMutex(_mutex1);
         WaitForSingleObject(_conditionEvent, INFINITE);
     }
     else
@@ -522,8 +522,9 @@ void OSGWinThreadBarrierBase::enter(OSGUInt32 numWaitFor)
         /* ok, enough threads are waiting
            => wake up all waiting threads 
         */
-        SetEvent(_conditionEvent);
-        
+
+        ReleaseMutex(_mutex1);
+        SetEvent(_conditionEvent);        
     }
 
 	WaitForSingleObject(_mutex2, INFINITE);

@@ -387,7 +387,9 @@ OSG_USING_STD_NAMESPACE
 #endif
 
 #ifndef OSG_WIN_TYPES
-#define APIENTRY
+#define OSG_APIENTRY
+#else
+#define OSG_APIENTRY APIENTRY
 #endif
 
 

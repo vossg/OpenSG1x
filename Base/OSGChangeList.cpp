@@ -294,6 +294,14 @@ void OSGChangeList::applyToCurrent(void)
 
 void OSGChangeList::setAspect(OSGUInt32 aspectId)
 {
+    if(_changedFieldContainerV.size() != 0 ||
+       _addRefdFieldContainerV.size() != 0 ||
+       _subRefdFieldContainerV.size() != 0)
+    {
+        SWARNING << "Changing aspect on non empty changelist, all currrent "
+                 << "entries will be lost" << endl;          
+    }
+
     clearAll();
 
     OSGAspect::moveList(this, _aspectId, aspectId);

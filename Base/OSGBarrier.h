@@ -311,17 +311,7 @@ class OSGPThreadBarrierBase : public OSGBarrierCommonBase
     void operator =(const OSGPThreadBarrierBase &source);
 };
 
-class OSGBarrier : public OSGPThreadBarrierBase
-{
-  public:
-
-    virtual ~OSGBarrier(void) {};
-
-  protected:
-
-    OSGBarrier(const OSGBarrier &source);
-    void operator =(const OSGBarrier &source);
-};
+typedef OSGPThreadBarrierBase OSGBarrierBase;
 
 #endif /* OSG_USE_PTHREADS */
 
@@ -444,17 +434,7 @@ class OSGSprocBarrierBase : public OSGBarrierCommonBase
     void operator =(const OSGSprocBarrierBase &source);
 };
 
-class OSGBarrier : public OSGSprocBarrierBase
-{
-  public:
-
-    virtual ~OSGBarrier(void) {};
-
-  protected:
-
-    OSGBarrier(const OSGBarrier &source);
-    void operator =(const OSGBarrier &source);
-};
+typedef OSGSprocBarrierBase OSGBarrierBase;
 
 #endif /* OSG_USE_SPROC */
 
@@ -580,19 +560,21 @@ class OSGWinThreadBarrierBase : public OSGBarrierCommonBase
     void operator =(const OSGWinThreadBarrierBase &source);
 };
 
-class OSGBarrier : public OSGWinThreadBarrierBase
+typedef OSGWinThreadBarrierBase OSGBarrierBase;
+
+#endif /* OSG_USE_WINTHREADS */
+
+class OSGBarrier : public OSGBarrierBase
 {
-  public:
+  protected:
+
+    friend class OSGThreadManager;
 
     virtual ~OSGBarrier(void) {};
-
-  protected:
 
     OSGBarrier(const OSGBarrier &source);
     void operator =(const OSGBarrier &source);
 };
-
-#endif /* OSG_USE_WINTHREADS */
 
 //---------------------------------------------------------------------------
 //   Exported Types

@@ -351,7 +351,7 @@ void OSGPThreadBase::init(OSGThread *thisP)
     thisP->setupChangeListP();        
 }
 
-OSGPThreadBase *OSGPThreadBase::create(const char *szName)
+OSGPThreadBase *OSGPThreadBase::create(const OSGChar8 *szName)
 {
     return new OSGPThreadBase(szName);
 }
@@ -461,7 +461,7 @@ void OSGPThreadBase::print(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGPThreadBase::OSGPThreadBase(const char *szName) :
+OSGPThreadBase::OSGPThreadBase(const OSGChar8 *szName) :
     Inherited(szName),
 
     _threadDescP(NULL)
@@ -674,7 +674,7 @@ void OSGSprocBase::init(OSGThread *thisP)
     thisP->setupChangeListInternal();
 }
 
-OSGSprocBase *OSGSprocBase::create(const char *szName)
+OSGSprocBase *OSGSprocBase::create(const OSGChar8 *szName)
 {
     return new OSGSprocBase(szName);
 }
@@ -751,7 +751,7 @@ void OSGSprocBase::print(void)
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-OSGSprocBase::OSGSprocBase(const char *szName) :    
+OSGSprocBase::OSGSprocBase(const OSGChar8 *szName) :    
     Inherited(szName),
 
     _pid(NULL)
@@ -959,7 +959,7 @@ void OSGWinThreadBase::init(OSGThread *thisP)
     thisP->setupChangeListP();        
 }
 
-OSGWinThreadBase *OSGWinThreadBase::create(const char *szName)
+OSGWinThreadBase *OSGWinThreadBase::create(const OSGChar8 *szName)
 {
 	return new OSGWinThreadBase(szName);
 }
@@ -1051,7 +1051,7 @@ void OSGWinThreadBase::print(void)
 /** \brief Constructor
  */
 
-OSGWinThreadBase::OSGWinThreadBase(const char *szName) :
+OSGWinThreadBase::OSGWinThreadBase(const OSGChar8 *szName) :
     Inherited(szName),
 
 	_threadHandle(NULL),

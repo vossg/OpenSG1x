@@ -81,46 +81,6 @@ OSGBool          OSGThreadManager::_numAspectSet = false;
  -  public                                                                 -
 \*-------------------------------------------------------------------------*/
 
-void OSGThreadManager::setThreadCreateFunc(OSGCreateThreadF create)
-{
-    _createThreadF = create; 
-}
-
-void OSGThreadManager::setBarrierCreateFunc(OSGCreateBarrierF create)
-{
-    _createBarrierF = create;
-}
-
-void OSGThreadManager::setLockCreateFunc(OSGCreateLockF create)
-{
-    _createLockF = create;
-}
-
-void OSGThreadManager::setLockPoolCreateFunc(OSGCreateLockPoolF create)
-{
-    _createLockPoolF = create;
-}
-
-void OSGThreadManager::setThreadDestroyFunc(OSGDestroyThreadF destroy)
-{
-    _destroyThreadF = destroy;
-}
-
-void OSGThreadManager::setBarrierDestroyFunc(OSGDestroyBarrierF destroy)
-{
-    _destroyBarrierF = destroy;
-}
-
-void OSGThreadManager::setLockDestroyFunc(OSGDestroyLockF destroy)
-{
-    _destroyLockF = destroy;
-}
-
-void OSGThreadManager::setLockPoolDestroyFunc(OSGDestroyLockPoolF destroy)
-{
-    _destroyLockPoolF = destroy;
-}
-
 OSGThreadManager *OSGThreadManager::the(void)
 {
     return &_threadManagerP;
@@ -168,23 +128,13 @@ OSGChangeList *OSGThreadManager::getChangeList(OSGUInt32 aspectId)
     return returnValue;
 }
 
-#if defined(OSG_USE_SPROC)
-usptr_t *OSGThreadManager::getArena(void)
-{
-    return _arenaP;
-}
-#endif
-
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
 
-
 /*-------------------------------------------------------------------------*\
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
-
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -197,6 +147,47 @@ usptr_t *OSGThreadManager::getArena(void)
 /*------------- constructors & destructors --------------------------------*/
 
 /*------------------------------ access -----------------------------------*/
+
+void OSGThreadManager::setThreadCreateFunc(OSGCreateThreadF create)
+{
+    _createThreadF = create; 
+}
+
+void OSGThreadManager::setBarrierCreateFunc(OSGCreateBarrierF create)
+{
+    _createBarrierF = create;
+}
+
+void OSGThreadManager::setLockCreateFunc(OSGCreateLockF create)
+{
+    _createLockF = create;
+}
+
+void OSGThreadManager::setLockPoolCreateFunc(OSGCreateLockPoolF create)
+{
+    _createLockPoolF = create;
+}
+
+void OSGThreadManager::setThreadDestroyFunc(OSGDestroyThreadF destroy)
+{
+    _destroyThreadF = destroy;
+}
+
+void OSGThreadManager::setBarrierDestroyFunc(OSGDestroyBarrierF destroy)
+{
+    _destroyBarrierF = destroy;
+}
+
+void OSGThreadManager::setLockDestroyFunc(OSGDestroyLockF destroy)
+{
+    _destroyLockF = destroy;
+}
+
+void OSGThreadManager::setLockPoolDestroyFunc(OSGDestroyLockPoolF destroy)
+{
+    _destroyLockPoolF = destroy;
+}
+
 
 /*---------------------------- properties ---------------------------------*/
 
@@ -244,6 +235,9 @@ OSGThread *OSGThreadManager::getThread(const OSGChar8 *szName)
             _tableLockP->release();
         }
     }
+
+    if(returnValue != NULL)
+        returnValue->addRef();
 
     return returnValue;
 }
@@ -524,6 +518,14 @@ OSGLockPool *OSGThreadManager::findLockPool(const char *szName)
     return returnValue;
 }
 
+#if defined(OSG_USE_SPROC)
+usptr_t *OSGThreadManager::getArena(void)
+{
+    return _arenaP;
+}
+#endif
+
+
 /*-------------------------- assignment -----------------------------------*/
 
 
@@ -531,11 +533,6 @@ OSGLockPool *OSGThreadManager::findLockPool(const char *szName)
 
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
-\*-------------------------------------------------------------------------*/
-
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
 void OSGThreadManager::removeBarrier(OSGBarrier *barrierP)
@@ -694,6 +691,10 @@ OSGBool OSGThreadManager::init(void)
 
     return returnValue;
 }
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                -
+\*-------------------------------------------------------------------------*/
 
 void OSGThreadManager::shutdown(void)
 {
