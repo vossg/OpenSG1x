@@ -1,5 +1,5 @@
 
-#include <OSGCOnfig.h>
+#include <OSGConfig.h>
 
 #ifdef __sgi
 #include <math.h>
