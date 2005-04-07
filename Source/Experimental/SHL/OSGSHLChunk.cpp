@@ -368,7 +368,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             PFNGLDELETEOBJECTARBPROC deleteObject = (PFNGLDELETEOBJECTARBPROC)
                 win->getFunction(_funcDeleteObject);
             deleteObject(program);
-            win->setGLObjectId(getGLId(), 0);
+            win->setGLObjectId(id, 0);
         }
     }
     else if(mode == Window::finaldestroy)
@@ -1020,7 +1020,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.32 2005/04/01 15:20:58 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.33 2005/04/07 10:27:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
