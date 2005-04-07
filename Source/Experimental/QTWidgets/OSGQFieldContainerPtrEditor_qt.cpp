@@ -398,6 +398,12 @@ void
 QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 {
     FieldContainerPtr newfcPtr = FieldContainerFactory::the()->getContainer(_pSpinBoxId->getValue());
+    if(fcPtr == NullFC)
+    {
+        fcPtr = newfcPtr;
+        return;
+    }
+
     if(newfcPtr != NullFC && newfcPtr->getType().isDerivedFrom(fcPtr->getType()))
     {
         fcPtr = newfcPtr;
@@ -426,7 +432,7 @@ QFieldContainerPtrEditor::updateData(FieldContainerPtr &fcPtr) const
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.9 2005/03/26 11:10:59 a-m-z Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGQFieldContainerPtrEditor_qt.cpp,v 1.10 2005/04/07 18:14:46 a-m-z Exp $";
     static Char8 cvsid_hpp     [] = OSGQFIELDCONTAINERPTREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl     [] = OSGQFIELDCONTAINERPTREDITORQT_INLINE_CVSID;
 }

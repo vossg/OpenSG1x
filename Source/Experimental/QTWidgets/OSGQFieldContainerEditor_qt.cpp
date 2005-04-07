@@ -171,7 +171,7 @@ void
 QFieldContainerEditor::slotGenericRequest(
     QAbstractFieldEditor *pSender, UInt32 valueIndex, QString request)
 {
-    SLOG << "QFieldContainerEditor::slotGenericRequest: " << request << endLog;
+    //SLOG << "QFieldContainerEditor::slotGenericRequest: " << request << endLog;
 
     if(request.startsWith("QFieldContainerPtrEditor::ShowTarget") == true)
     {
@@ -351,7 +351,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.6 2004/12/20 11:09:52 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.7 2005/04/07 18:14:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }
