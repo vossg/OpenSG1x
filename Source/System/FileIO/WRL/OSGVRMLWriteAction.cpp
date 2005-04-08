@@ -63,6 +63,7 @@
 #include <OSGTextureChunk.h>
 #include <OSGImage.h>
 #include <OSGImageFileHandler.h>
+#include <OSGSimpleGeometry.h>
 
 #include <OSGGL.h>
 
@@ -1223,6 +1224,9 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     
     if(pMat == NullFC)
         pMat = pGeo->getMaterial();
+
+    if(pMat == NullFC)
+        pMat = OSG::getDefaultMaterial();
 
     if(pWriter->isWritten(pMat))
     {
