@@ -163,6 +163,10 @@ Vec3f &TrackballNavigator::getUp()
     return _vUp;
 }
 
+Real32 TrackballNavigator::getDistance()
+{
+    return _rDistance;
+}
 
 /*------------------------------ set --------------------------------------*/
 

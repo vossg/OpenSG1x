@@ -789,6 +789,29 @@ const Vec3f  &Navigator::getUp()
     return returnValue;
 }
 
+/*! Get the distance from the target position.
+*/
+Real32 Navigator::getDistance()
+{
+    Real32 distance = 0.0f;
+    switch (_currentMode)
+    {
+    case NONE:          break;
+
+    case TRACKBALL:     distance = _trackball.getDistance();
+                        break;
+                        
+    case FLY:           break;
+                        
+    case WALK:          break;
+                                
+    default:            FNOTICE(("Navigator: setDistance, unknown mode"));
+                        break;
+    }
+
+    return distance;
+}
+
 /*! Get the navigator's current state.
 */
 Navigator::State Navigator::getState()

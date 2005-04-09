@@ -94,6 +94,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TrackballNavigator
     Pnt3f  &getFrom();
     Pnt3f  &getAt();
     Vec3f  &getUp();
+    Real32  getDistance();
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

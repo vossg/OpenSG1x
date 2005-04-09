@@ -156,6 +156,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     const Pnt3f  &getFrom();
     const Pnt3f  &getAt();
     const Vec3f  &getUp();
+          Real32  getDistance();
           State   getState();
           Mode    getMode();
     
