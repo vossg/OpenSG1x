@@ -184,7 +184,7 @@ case $system in
             distname=suse$VERSION
         elif test -r /etc/redhat-release
         then
-            VERSION=`sed -e 's/^[^0-9]*//' -e 's/[^0-9]*$//' < /etc/redhat-release`
+            VERSION=`sed -e 's/^[^0-9]*//' -e 's/\([0-9]*\).*$/\1/' < /etc/redhat-release`
             distname=redhat$VERSION
         else
             distname=linux
