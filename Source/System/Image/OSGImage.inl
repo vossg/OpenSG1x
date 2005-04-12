@@ -42,6 +42,31 @@
 
 OSG_BEGIN_NAMESPACE
 
+/*! returns the external texture format
+*/
+inline UInt32 Image::externalFormat (void) const
+{ 
+  UInt32 format = getPixelFormat();
+
+  switch (format) 
+  {
+      case OSG_I_PF:
+          format = OSG_L_PF;
+          break;
+      default:
+          break;
+  }
+
+  return format;
+}
+
+/*! returns the internal texture format
+*/
+inline UInt32 Image::internalFormat (void) const
+{ 
+  return getPixelFormat();
+}
+
 /*! Check if the pixelFormat, dimension, bpp and data are valid (not null)
     with a single call.    
 */

@@ -204,6 +204,13 @@ void TextVectorFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layout
     geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
     geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
 
+    beginEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+    beginEditCP(normalsPtr, GeoNormals3f::GeoPropDataFieldMask);
+    beginEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    beginEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
+    beginEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    beginEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
+
     // store the normal for the front face
     normalsPtr->push_back(Vec3f(0.f, 0.f, 1.f));
     if (depth > 0.f)
@@ -492,6 +499,13 @@ void TextVectorFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layout
         }
     }
 
+    endEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
+    endEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    endEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
+    endEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    endEditCP(normalsPtr, GeoNormals3f::GeoPropDataFieldMask);
+    endEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+
     endEditCP(geoPtr);
 }
 
@@ -549,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorFace.cpp,v 1.1 2005/03/03 13:43:07 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorFace.cpp,v 1.2 2005/04/12 14:43:41 jbehr Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORFACE_INLINE_CVSID;
 }

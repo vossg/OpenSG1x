@@ -211,6 +211,13 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
     geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
     geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
 
+    beginEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+    beginEditCP(normalPtr, GeoNormals3f::GeoPropDataFieldMask);
+    beginEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    beginEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
+    beginEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    beginEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
+
     normalPtr->push_back(Vec3f(0.f, 0.f, 1.f));
     typesPtr->push_back(GL_QUADS);
 
@@ -276,6 +283,13 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
         indicesPtr->push_back(texCoordIndex++);
     }
     lensPtr->push_back(posPtr->size());
+
+    endEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
+    endEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    endEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
+    endEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    endEditCP(normalPtr, GeoNormals3f::GeoPropDataFieldMask);
+    endEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
 
     endEditCP(geoPtr);
 }
@@ -465,11 +479,8 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
     face->_texture = Image::create();
     addRefCP(face->_texture);
     beginEditCP(face->_texture);
-    {
-        face->_texture->set(Image::OSG_L_PF, textureWidth, textureHeight);
-        face->_texture->clear();
-    }
-    endEditCP(face->_texture);
+    face->_texture->set(Image::OSG_L_PF, textureWidth, textureHeight);
+    face->_texture->clear();
 
     // Parse texture
     switch (format)
@@ -479,6 +490,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                 UInt32 size = textureWidth * textureHeight;
                 assert(face->_texture->getSize() == size);
                 is.read((istream::char_type*)face->_texture->getData(), size);
+                endEditCP(face->_texture);
                 if (is.good() == false)
                 {
                     subRefP(face);
@@ -495,6 +507,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                 if (is.good() == false)
                 {
                     delete [] buffer;
+                    endEditCP(face->_texture);
                     subRefP(face);
                     return 0;
                 }
@@ -505,9 +518,11 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                     for (x = 0; x < textureWidth; ++x)
                         dst[y * textureWidth + x] = buffer[y * stride + (x >> 3)] & (1 << (x & 7)) ? 255 : 0;
                 delete [] buffer;
+                endEditCP(face->_texture);
             }
             break;
         default:
+            endEditCP(face->_texture);
             subRefP(face);
             return 0;
     }
@@ -864,7 +879,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.1 2005/03/03 13:43:07 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.2 2005/04/12 14:43:40 jbehr Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }
