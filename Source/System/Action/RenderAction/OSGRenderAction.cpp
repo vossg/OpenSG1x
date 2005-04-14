@@ -46,11 +46,6 @@
 
 #include "OSGConfig.h"
 
-// enabled as default.
-#ifndef OSG_OPT_DRAWTREE
-#define OSG_OPT_DRAWTREE
-#endif
-
 #include <OSGLog.h>
 #include <OSGFieldContainer.h>
 #include <OSGFieldContainerPtr.h>
@@ -65,13 +60,10 @@
 
 #include <OSGBaseFunctions.h>
 
-#if defined(OSG_OPT_DRAWTREE)
-# include <OSGDrawTreeNodeFactory.h>
-#else
-# include <OSGDrawTreeNode.h>
-#endif
+#include <OSGDrawTreeNodeFactory.h>
 
 #include <OSGMaterial.h>
+#include <OSGMultiPassMaterial.h>
 
 #include <OSGGeometry.h>
 #include <OSGLog.h>
@@ -222,9 +214,8 @@ RenderAction *RenderAction::getPrototype(void)
 
 RenderAction::RenderAction(void) :
      Inherited           (),
-#if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory        (NULL),
-#endif
+
     _pMaterial           (NULL),
 
     _uiMatrixId          (0),
@@ -265,9 +256,7 @@ RenderAction::RenderAction(void) :
     if(_vDefaultLeaveFunctors != NULL)
         _leaveFunctors = *_vDefaultLeaveFunctors;
 
-#if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory = new DrawTreeNodeFactory;
-#endif
 }
 
 
@@ -276,9 +265,8 @@ RenderAction::RenderAction(void) :
 
 RenderAction::RenderAction(const RenderAction &source) :
      Inherited           (source),
-#if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory        (NULL),
-#endif
+
     _pMaterial           (source._pMaterial),
 
     _uiMatrixId          (source._uiMatrixId),
@@ -313,9 +301,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack)
 {
-#if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory = new DrawTreeNodeFactory;
-#endif
 }
 
 /** \brief create a new DrawAction by cloning the prototype
@@ -343,9 +329,7 @@ RenderAction * RenderAction::create(void)
 
 RenderAction::~RenderAction(void)
 {
-#if defined(OSG_OPT_DRAWTREE)
     delete _pNodeFactory;
-#endif    
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -382,31 +366,48 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
+    MultiPassMaterial *pMPMat = NULL;
+    UInt32 mpMatPasses = 1;
+
+    if(pMat->getType().getGroupId() == MultiPassMaterial::getClassType().getGroupId())
+    {
+        pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
+        if(pMPMat != NULL)
+            mpMatPasses = pMPMat->getMaterials().size();
+    }
+
     if(!_stateSorting)
     {
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
+        for(UInt32 i=0;i<mpMatPasses;++i)
+        {
+            if(pMPMat != NULL)
+                pState = pMPMat->getState(i).getCPtr();
+            else
+                pState = pMat->getState().getCPtr();
 
-        pNewElem->setNode       (getActNode());
-        pNewElem->setGeometry   (pGeo);
-        pNewElem->setMatrixStore(_currMatrix);
-        pNewElem->setLightsState(_lightsState);
-        pNewElem->setState(pMat->getState().getCPtr());
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
     
-        if(!pMat->isTransparent())
-        {
-            if(_pNoStateSortRoot == NULL)
-                _pNoStateSortRoot = pNewElem;
+            pNewElem->setNode       (getActNode());
+            pNewElem->setGeometry   (pGeo);
+            pNewElem->setMatrixStore(_currMatrix);
+            pNewElem->setLightsState(_lightsState);
+            pNewElem->setState(pMat->getState().getCPtr());
+        
+            if(!pMat->isTransparent())
+            {
+                if(_pNoStateSortRoot == NULL)
+                    _pNoStateSortRoot = pNewElem;
+                else
+                    _pNoStateSortRoot->addChild(pNewElem);
+            }
             else
-                _pNoStateSortRoot->addChild(pNewElem);
+            {
+                if(_pNoStateSortTransRoot == NULL)
+                    _pNoStateSortTransRoot = pNewElem;
+                else
+                    _pNoStateSortTransRoot->addChild(pNewElem);
+            }
         }
-        else
-        {
-            if(_pNoStateSortTransRoot == NULL)
-                _pNoStateSortTransRoot = pNewElem;
-            else
-                _pNoStateSortTransRoot->addChild(pNewElem);
-        }
-
         return;
     }
 
@@ -418,147 +419,131 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     UInt32 sortKey = pMat->getSortKey();
 
-    pState = pMat->getState().getCPtr();
-
-    if(_bSortTrans == true && pMat->isTransparent() == true)
+    for(UInt32 i=0;i<mpMatPasses;++i)
     {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif
-
-        Pnt3f         objPos;
-            
-        getActNode()->getVolume().getCenter(objPos);
-        
-        _currMatrix.second.mult(objPos);
-            
-        pNewElem->setNode       (getActNode());
-            
-        pNewElem->setGeometry   (pGeo);
-        pNewElem->setMatrixStore(_currMatrix);
-            
-        pNewElem->setState      (pState);
-        pNewElem->setScalar     (objPos[2]);
-        pNewElem->setLightsState(_lightsState);
-
-        UInt32 rsize = _pTransMatRoots.size();
-        if(sortKey >= rsize)
-        {
-            _pTransMatRoots.resize(sortKey + 1);
-            for(UInt32 i=rsize;i<sortKey;++i)
-                _pTransMatRoots[i] = NULL;
-
-#if defined(OSG_OPT_DRAWTREE)
-            _pTransMatRoots[sortKey] = _pNodeFactory->create();
-#else
-            _pTransMatRoots[sortKey] =  new DrawTreeNode;
-            addRefP(_pTransMatRoots[sortKey]);
-#endif
-        }
-
-        if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-        {
-            _pTransMatRoots[sortKey]->addChild(pNewElem);
-        }
+        if(pMPMat != NULL)
+            pState = pMPMat->getState(i).getCPtr();
         else
+            pState = pMat->getState().getCPtr();
+
+        if(_bSortTrans && pMat->isTransparent())
         {
-            DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-            DrawTreeNode *pLast    = NULL;
-            bool          bFound   = false;
-
-            do
-            {
-
-                if(pNewElem->getScalar() > pCurrent->getScalar())
-                {
-                    pLast    = pCurrent;
-                    pCurrent = pCurrent->getBrother();
-                }
-                else
-                {
-                    bFound = true;
-                }
-
-            } while(bFound   == false && 
-                    pCurrent != NULL    );
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
+    
+            Pnt3f         objPos;
+                
+            getActNode()->getVolume().getCenter(objPos);
             
-            
-            if(bFound == true)
+            _currMatrix.second.mult(objPos);
+                
+            pNewElem->setNode       (getActNode());
+                
+            pNewElem->setGeometry   (pGeo);
+            pNewElem->setMatrixStore(_currMatrix);
+                
+            pNewElem->setState      (pState);
+            pNewElem->setScalar     (objPos[2]);
+            pNewElem->setLightsState(_lightsState);
+    
+            UInt32 rsize = _pTransMatRoots.size();
+            if(sortKey >= rsize)
             {
-                if(pLast == NULL)
-                {
-                    _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                }
-                else
-                {
-                    _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                }
+                _pTransMatRoots.resize(sortKey + 1);
+                for(UInt32 i=rsize;i<sortKey;++i)
+                    _pTransMatRoots[i] = NULL;
+    
+                _pTransMatRoots[sortKey] = _pNodeFactory->create();
             }
-            else
+    
+            if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
             {
                 _pTransMatRoots[sortKey]->addChild(pNewElem);
             }
-        }
-
-
-        _uiNumTransGeometries++;
-    }
-    else
-    {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif
- 
-        if(it == _mMatMap.end())
-        {
-#if defined(OSG_OPT_DRAWTREE)
-            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
-#else
-            DrawTreeNode *pNewMatElem = new DrawTreeNode;
-#endif
-            
-            //_mMatMap[pMat].push_back(pNewMatElem);
-            _mMatMap[pMat] = pNewMatElem;
-            
-            pNewElem->setNode       (getActNode());           
-            pNewElem->setGeometry   (pGeo);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-
-            pNewMatElem->addChild(pNewElem);
-            pNewMatElem->setState(pState);
-            
-            //_pMatRoot->addChild(pNewMatElem);
-            UInt32 rsize = _pMatRoots.size();
-            if(sortKey >= rsize)
+            else
             {
-                _pMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<sortKey;++i)
-                    _pMatRoots[i] = NULL;
+                DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
+                DrawTreeNode *pLast    = NULL;
+                bool          bFound   = false;
+    
+                do
+                {
+    
+                    if(pNewElem->getScalar() > pCurrent->getScalar())
+                    {
+                        pLast    = pCurrent;
+                        pCurrent = pCurrent->getBrother();
+                    }
+                    else
+                    {
+                        bFound = true;
+                    }
+    
+                } while(bFound   == false && 
+                        pCurrent != NULL    );
                 
-#if defined(OSG_OPT_DRAWTREE)
-                _pMatRoots[sortKey] = _pNodeFactory->create();
-#else
-                _pMatRoots[sortKey] =  new DrawTreeNode;
-                addRefP(_pMatRoots[sortKey]);
-#endif
+                
+                if(bFound == true)
+                {
+                    if(pLast == NULL)
+                    {
+                        _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
+                    }
+                    else
+                    {
+                        _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
+                    }
+                }
+                else
+                {
+                    _pTransMatRoots[sortKey]->addChild(pNewElem);
+                }
             }
-            _pMatRoots[sortKey]->addChild(pNewMatElem);
+    
+    
+            _uiNumTransGeometries++;
         }
         else
         {
-            pNewElem->setNode       (getActNode());
-            pNewElem->setGeometry   (pGeo);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-
-            it->second->addChild(pNewElem);
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
+     
+            if(it == _mMatMap.end())
+            {
+                DrawTreeNode *pNewMatElem = _pNodeFactory->create();
+    
+                //_mMatMap[pMat].push_back(pNewMatElem);
+                _mMatMap[pMat] = pNewMatElem;
+                
+                pNewElem->setNode       (getActNode());           
+                pNewElem->setGeometry   (pGeo);
+                pNewElem->setMatrixStore(_currMatrix);
+                pNewElem->setLightsState(_lightsState);
+    
+                pNewMatElem->addChild(pNewElem);
+                pNewMatElem->setState(pState);
+                
+                //_pMatRoot->addChild(pNewMatElem);
+                UInt32 rsize = _pMatRoots.size();
+                if(sortKey >= rsize)
+                {
+                    _pMatRoots.resize(sortKey + 1);
+                    for(UInt32 i=rsize;i<sortKey;++i)
+                        _pMatRoots[i] = NULL;
+    
+                    _pMatRoots[sortKey] = _pNodeFactory->create();
+                }
+                _pMatRoots[sortKey]->addChild(pNewMatElem);
+            }
+            else
+            {
+                pNewElem->setNode       (getActNode());
+                pNewElem->setGeometry   (pGeo);
+                pNewElem->setMatrixStore(_currMatrix);
+                pNewElem->setLightsState(_lightsState);
+    
+                it->second->addChild(pNewElem);
+            }
         }
-    }
+    } // multipass
 }
 
 void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
@@ -579,29 +564,47 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         return;
     }
 
+    MultiPassMaterial *pMPMat = NULL;
+    UInt32 mpMatPasses = 1;
+
+    if(pMat->getType().getGroupId() == MultiPassMaterial::getClassType().getGroupId())
+    {
+        pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
+        if(pMPMat != NULL)
+            mpMatPasses = pMPMat->getMaterials().size();
+    }
+
     if(!_stateSorting)
     {
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
+        for(UInt32 i=0;i<mpMatPasses;++i)
+        {
+            if(pMPMat != NULL)
+                pState = pMPMat->getState(i).getCPtr();
+            else
+                pState = pMat->getState().getCPtr();
 
-        pNewElem->setNode       (getActNode());
-        pNewElem->setFunctor    (func);
-        pNewElem->setMatrixStore(_currMatrix);
-        pNewElem->setLightsState(_lightsState);
-        pNewElem->setState(pMat->getState().getCPtr());
-    
-        if(!pMat->isTransparent())
-        {
-            if(_pNoStateSortRoot == NULL)
-                _pNoStateSortRoot = pNewElem;
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
+
+            pNewElem->setNode       (getActNode());
+            pNewElem->setFunctor    (func);
+            pNewElem->setMatrixStore(_currMatrix);
+            pNewElem->setLightsState(_lightsState);
+            pNewElem->setState(pState);
+        
+            if(!pMat->isTransparent())
+            {
+                if(_pNoStateSortRoot == NULL)
+                    _pNoStateSortRoot = pNewElem;
+                else
+                    _pNoStateSortRoot->addChild(pNewElem);
+            }
             else
-                _pNoStateSortRoot->addChild(pNewElem);
-        }
-        else
-        {
-            if(_pNoStateSortTransRoot == NULL)
-                _pNoStateSortTransRoot = pNewElem;
-            else
-                _pNoStateSortTransRoot->addChild(pNewElem);
+            {
+                if(_pNoStateSortTransRoot == NULL)
+                    _pNoStateSortTransRoot = pNewElem;
+                else
+                    _pNoStateSortTransRoot->addChild(pNewElem);
+            }
         }
 
         return;
@@ -615,152 +618,136 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     UInt32 sortKey = pMat->getSortKey();
 
-    pState = pMat->getState().getCPtr();
-
-    if(_bSortTrans == true && pMat->isTransparent() == true)
+    for(UInt32 i=0;i<mpMatPasses;++i)
     {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif
-
-        Pnt3f         objPos;
-            
-        getActNode()->getVolume().getCenter(objPos);
-        
-        _currMatrix.second.mult(objPos);
-            
-        pNewElem->setNode       (getActNode());
-            
-        pNewElem->setFunctor    (func);
-        pNewElem->setMatrixStore(_currMatrix);
-            
-        pNewElem->setState      (pState);
-        pNewElem->setScalar     (objPos[2]);
-        pNewElem->setLightsState(_lightsState);
-
-        UInt32 rsize = _pTransMatRoots.size();
-        if(sortKey >= rsize)
-        {
-            _pTransMatRoots.resize(sortKey + 1);
-            for(UInt32 i=rsize;i<=sortKey;++i)
-                _pTransMatRoots[i] = NULL;
-        }
-        
-        if(_pTransMatRoots[sortKey] == NULL)
-        {
-#if defined(OSG_OPT_DRAWTREE)
-            _pTransMatRoots[sortKey] = _pNodeFactory->create();
-#else
-            _pTransMatRoots[sortKey] =  new DrawTreeNode;
-            addRefP(_pTransMatRoots[sortKey]);
-#endif
-        }
-
-        if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-        {
-            _pTransMatRoots[sortKey]->addChild(pNewElem);
-        }
+        if(pMPMat != NULL)
+            pState = pMPMat->getState(i).getCPtr();
         else
+            pState = pMat->getState().getCPtr();
+
+        if(_bSortTrans && pMat->isTransparent())
         {
-            DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-            DrawTreeNode *pLast    = NULL;
-            bool          bFound   = false;
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
 
-            do
-            {
-
-                if(pNewElem->getScalar() > pCurrent->getScalar())
-                {
-                    pLast    = pCurrent;
-                    pCurrent = pCurrent->getBrother();
-                }
-                else
-                {
-                    bFound = true;
-                }
-
-            } while(bFound   == false && 
-                    pCurrent != NULL    );
+            Pnt3f         objPos;
+                
+            getActNode()->getVolume().getCenter(objPos);
             
-            
-            if(bFound == true)
+            _currMatrix.second.mult(objPos);
+                
+            pNewElem->setNode       (getActNode());
+                
+            pNewElem->setFunctor    (func);
+            pNewElem->setMatrixStore(_currMatrix);
+                
+            pNewElem->setState      (pState);
+            pNewElem->setScalar     (objPos[2]);
+            pNewElem->setLightsState(_lightsState);
+    
+            UInt32 rsize = _pTransMatRoots.size();
+            if(sortKey >= rsize)
             {
-                if(pLast == NULL)
-                {
-                    _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                }
-                else
-                {
-                    _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                }
+                _pTransMatRoots.resize(sortKey + 1);
+                for(UInt32 i=rsize;i<=sortKey;++i)
+                    _pTransMatRoots[i] = NULL;
             }
-            else
+            
+            if(_pTransMatRoots[sortKey] == NULL)
+            {
+                _pTransMatRoots[sortKey] = _pNodeFactory->create();
+            }
+
+            if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
             {
                 _pTransMatRoots[sortKey]->addChild(pNewElem);
             }
-        }
-
-
-        _uiNumTransGeometries++;
-    }
-    else
-    {
-#if defined(OSG_OPT_DRAWTREE)
-        DrawTreeNode *pNewElem = _pNodeFactory->create();
-#else
-        DrawTreeNode *pNewElem = new DrawTreeNode;
-#endif 
-       
-        if(it == _mMatMap.end())
-        {
-#if defined(OSG_OPT_DRAWTREE)
-            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
-#else
-            DrawTreeNode *pNewMatElem = new DrawTreeNode;
-#endif            
-            //_mMatMap[pMat].push_back(pNewMatElem);
-            _mMatMap[pMat] = pNewMatElem;
-
-            pNewElem->setNode       (getActNode());            
-            pNewElem->setFunctor    (func);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-            
-            pNewMatElem->addChild(pNewElem);
-            pNewMatElem->setState(pState);
-
-            //_pMatRoot->addChild(pNewMatElem);
-            UInt32 rsize = _pMatRoots.size();
-            if(sortKey >= rsize)
+            else
             {
-                _pMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<=sortKey;++i)
-                    _pMatRoots[i] = NULL;
+                DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
+                DrawTreeNode *pLast    = NULL;
+                bool          bFound   = false;
+    
+                do
+                {
+    
+                    if(pNewElem->getScalar() > pCurrent->getScalar())
+                    {
+                        pLast    = pCurrent;
+                        pCurrent = pCurrent->getBrother();
+                    }
+                    else
+                    {
+                        bFound = true;
+                    }
+    
+                } while(bFound   == false && 
+                        pCurrent != NULL    );
+                
+                
+                if(bFound == true)
+                {
+                    if(pLast == NULL)
+                    {
+                        _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
+                    }
+                    else
+                    {
+                        _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
+                    }
+                }
+                else
+                {
+                    _pTransMatRoots[sortKey]->addChild(pNewElem);
+                }
             }
-
-            if(_pMatRoots[sortKey] == NULL)
-            {
-#if defined(OSG_OPT_DRAWTREE)
-                _pMatRoots[sortKey] = _pNodeFactory->create();
-#else
-                _pMatRoots[sortKey] =  new DrawTreeNode;
-                addRefP(_pMatRoots[sortKey]);
-#endif
-            }
-            _pMatRoots[sortKey]->addChild(pNewMatElem);
+    
+    
+            _uiNumTransGeometries++;
         }
         else
         {
-            pNewElem->setNode       (getActNode());
-            pNewElem->setFunctor    (func);
-            pNewElem->setMatrixStore(_currMatrix);
-            pNewElem->setLightsState(_lightsState);
-            
-            it->second->addChild(pNewElem);
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
+
+            if(it == _mMatMap.end())
+            {
+                DrawTreeNode *pNewMatElem = _pNodeFactory->create();
+                //_mMatMap[pMat].push_back(pNewMatElem);
+                _mMatMap[pMat] = pNewMatElem;
+
+                pNewElem->setNode       (getActNode());            
+                pNewElem->setFunctor    (func);
+                pNewElem->setMatrixStore(_currMatrix);
+                pNewElem->setLightsState(_lightsState);
+                
+                pNewMatElem->addChild(pNewElem);
+                pNewMatElem->setState(pState);
+    
+                //_pMatRoot->addChild(pNewMatElem);
+                UInt32 rsize = _pMatRoots.size();
+                if(sortKey >= rsize)
+                {
+                    _pMatRoots.resize(sortKey + 1);
+                    for(UInt32 i=rsize;i<=sortKey;++i)
+                        _pMatRoots[i] = NULL;
+                }
+    
+                if(_pMatRoots[sortKey] == NULL)
+                {
+                    _pMatRoots[sortKey] = _pNodeFactory->create();
+                }
+                _pMatRoots[sortKey]->addChild(pNewMatElem);
+            }
+            else
+            {
+                pNewElem->setNode       (getActNode());
+                pNewElem->setFunctor    (func);
+                pNewElem->setMatrixStore(_currMatrix);
+                pNewElem->setLightsState(_lightsState);
+                
+                it->second->addChild(pNewElem);
+            }
         }
-    }
+    } // multipass
 }
 
 void RenderAction::dropLight(Light *pLight)
@@ -1214,24 +1201,7 @@ Action::ResultE RenderAction::start(void)
 
     _mMatMap.clear();
 
-#if defined(OSG_OPT_DRAWTREE)
     _pNodeFactory->freeAll();
-#else
-    for(UInt32 i=0;i<_pMatRoots.size();++i)
-        subRefP(_pMatRoots[i]);
-    for(UInt32 i=0;i<_pTransMatRoots.size();++i)
-        subRefP(_pTransMatRoots[i]);
-    if(_pNoStateSortRoot != NULL)
-    {
-        subRefP(_pNoStateSortRoot);
-        _pNoStateSortRoot = NULL;
-    }
-    if(_pNoStateSortTransRoot != NULL)
-    {
-        subRefP(_pNoStateSortTransRoot);
-        _pNoStateSortTransRoot = NULL;
-    }
-#endif
 
     /*
     if(_pRoot != NULL)
@@ -1290,9 +1260,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 //    dump(_pMatRoot, 0);
 //    dump(_pTransMatRoot, 0);
 
-#if defined(OSG_OPT_DRAWTREE)
     //    _pNodeFactory->printStat();    
-#endif
 
     if(!_bLocalLights)
     {
