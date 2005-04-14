@@ -378,10 +378,10 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     if(!_stateSorting)
     {
-        for(UInt32 i=0;i<mpMatPasses;++i)
+        for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
             if(pMPMat != NULL)
-                pState = pMPMat->getState(i).getCPtr();
+                pState = pMPMat->getState(mpi).getCPtr();
             else
                 pState = pMat->getState().getCPtr();
 
@@ -419,10 +419,10 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     UInt32 sortKey = pMat->getSortKey();
 
-    for(UInt32 i=0;i<mpMatPasses;++i)
+    for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
         if(pMPMat != NULL)
-            pState = pMPMat->getState(i).getCPtr();
+            pState = pMPMat->getState(mpi).getCPtr();
         else
             pState = pMat->getState().getCPtr();
 
@@ -540,6 +540,9 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
     
+                if(pMPMat != NULL)
+                    pNewElem->setState(pState);
+
                 it->second->addChild(pNewElem);
             }
         }
@@ -576,10 +579,10 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     if(!_stateSorting)
     {
-        for(UInt32 i=0;i<mpMatPasses;++i)
+        for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
             if(pMPMat != NULL)
-                pState = pMPMat->getState(i).getCPtr();
+                pState = pMPMat->getState(mpi).getCPtr();
             else
                 pState = pMat->getState().getCPtr();
 
@@ -618,10 +621,10 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     UInt32 sortKey = pMat->getSortKey();
 
-    for(UInt32 i=0;i<mpMatPasses;++i)
+    for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
         if(pMPMat != NULL)
-            pState = pMPMat->getState(i).getCPtr();
+            pState = pMPMat->getState(mpi).getCPtr();
         else
             pState = pMat->getState().getCPtr();
 
@@ -743,6 +746,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
+                
+                if(pMPMat != NULL)
+                    pNewElem->setState(pState);
                 
                 it->second->addChild(pNewElem);
             }
