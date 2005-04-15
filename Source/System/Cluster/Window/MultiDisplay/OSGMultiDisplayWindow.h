@@ -113,10 +113,16 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindow : public MultiDisplayWindowBas
     virtual ~MultiDisplayWindow(void); 
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Helper                                     */
+    /*! \{                                                                 */
+
+    void updateViewport(ViewportPtr &serverPort,ViewportPtr &clientPort); 
+
+    /*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
-
     friend class FieldContainer;
     friend class MultiDisplayWindowBase;
 

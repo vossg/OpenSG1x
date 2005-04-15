@@ -49,6 +49,7 @@
 #include <OSGTileCameraDecorator.h>
 #include <OSGBaseFunctions.h>
 #include <OSGStereoBufferViewport.h>
+#include <OSGFieldContainerFields.h>
 #include "OSGMultiDisplayWindow.h"
 #include "OSGConnection.h"
 #include "OSGNode.h"
@@ -188,11 +189,13 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         if(serverWindow->getPort().size() <= sv)
         {
             serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+            beginEditCP(serverPort);
             deco=TileCameraDecorator::create();
             beginEditCP(serverWindow);
             serverWindow->addPort(serverPort);
             serverPort->setCamera(deco);
             endEditCP(serverWindow);
+            endEditCP(serverPort);
         }
         else
         {
@@ -214,8 +217,14 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
                 deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
             }
         }
-        // duplicate values
-        beginEditCP(serverPort);
+        // update changed viewport fields
+        updateViewport(serverPort,clientPort);
+        // set viewport size
+        beginEditCP(serverPort,
+                    Viewport::LeftFieldMask|
+                    Viewport::BottomFieldMask|
+                    Viewport::RightFieldMask|
+                    Viewport::TopFieldMask);
         serverPort->setSize(Real32(l),Real32(b),Real32(r),Real32(t));
         // use pixel even if pixel = 1
         if(serverPort->getLeft() == 1.0)
@@ -226,12 +235,11 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             serverPort->setTop(1.0001);
         if(serverPort->getBottom() == 1.0)
             serverPort->setBottom(1.0001);
-        serverPort->setRoot      ( clientPort->getRoot()       );
-        serverPort->setBackground( clientPort->getBackground() );
-        serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );        
-        serverPort->setTravMask  ( clientPort->getTravMask()   );
-        endEditCP(serverPort);
-
+        endEditCP(serverPort,
+                  Viewport::LeftFieldMask|
+                  Viewport::BottomFieldMask|
+                  Viewport::RightFieldMask|
+                  Viewport::TopFieldMask);
         // calculate tile parameters
         beginEditCP(deco);
         deco->setFullWidth ( cright-cleft );
@@ -257,7 +265,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
     Connection *connection;
-
+    
     // clear command buffers
     UInt8 pixel[3];
     glReadPixels(0,0,
@@ -356,6 +364,99 @@ void MultiDisplayWindow::clientSwap( void )
 
     // show client window 
     Inherited::clientSwap();
+}
+
+/*-------------------------------------------------------------------------*/
+/*                              helper                                     */
+
+/*! update all changed viewport field from the client port
+ */
+void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
+                                        ViewportPtr &clientPort)
+{
+    bool equal;
+
+    // Compare the pointers.
+    if(serverPort == clientPort)
+        return;
+    if(serverPort == NullFC || clientPort == NullFC)
+        return;
+    if(serverPort->getType() != serverPort->getType())
+        return;
+    
+    const FieldContainerType &type = serverPort->getType();
+    UInt32 fcount = osgMin(serverPort->getType().getNumFieldDescs(),
+                           clientPort->getType().getNumFieldDescs());
+    
+    for(UInt32 i=1;i <= fcount;++i)
+    {
+        const FieldDescription* fdesc = type.getFieldDescription(i);
+        // ignore attachments
+        if(strcmp(fdesc->getCName(), "parent") == 0 ||
+           strcmp(fdesc->getCName(), "camera") == 0)
+            continue;
+
+        BitVector mask = fdesc->getFieldMask();
+   
+        Field *dst_field = serverPort->getField(i);
+        Field *src_field = clientPort->getField(i);
+    
+        const FieldType &dst_ftype = dst_field->getType();
+        const FieldType &src_ftype = src_field->getType();
+
+        if(dst_ftype != src_ftype)
+            continue;
+    
+        equal = true;
+
+        if(strstr(dst_ftype.getCName(), "Ptr") == NULL)
+        {
+            if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
+            {
+                std::string av, bv;
+                dst_field->getValueByStr(av);
+                src_field->getValueByStr(bv);
+                if(av != bv)
+                    equal = false;
+            }
+            else
+            {
+                // This is very slow with multi fields!!!!
+                std::string av, bv;
+                dst_field->getValueByStr(av);
+                src_field->getValueByStr(bv);
+                if(av != bv)
+                    equal = false;
+            }
+        }
+        else
+        {
+            if(dst_field->getCardinality() == FieldType::SINGLE_FIELD)
+            {
+                if((((SFFieldContainerPtr *)dst_field)->getValue() !=
+                    ((SFFieldContainerPtr *)src_field)->getValue()))
+                    equal = false;
+            }
+            else if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
+            {
+                if(((MFFieldContainerPtr*)dst_field)->size() !=
+                   ((MFFieldContainerPtr*)src_field)->size())
+                    equal = false;
+                for(UInt32 j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
+                {
+                    if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
+                        (*(((MFFieldContainerPtr *)src_field)))[j]))
+                        equal = false;
+                }
+            }
+        }
+        if(equal == false)
+        {
+            beginEditCP(serverPort, mask);
+            dst_field->setAbstrValue(*src_field);
+            endEditCP(serverPort, mask);
+        }
+    }
 }
 
 /*-------------------------------------------------------------------------*/
