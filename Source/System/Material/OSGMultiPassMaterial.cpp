@@ -196,6 +196,8 @@ StatePtr MultiPassMaterial::makeState(void)
 
 void MultiPassMaterial::rebuildState(void)
 {
+    for(UInt32 i = 0; i < _mfMaterials.size(); ++i)
+        _mfMaterials[i]->rebuildState();
 }
 
 StatePtr MultiPassMaterial::getState(UInt32 index)
@@ -244,7 +246,7 @@ void MultiPassMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.1 2005/04/14 15:43:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.2 2005/04/15 08:51:48 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 
