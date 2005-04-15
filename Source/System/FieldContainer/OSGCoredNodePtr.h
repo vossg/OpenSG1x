@@ -56,7 +56,7 @@ OSG_BEGIN_NAMESPACE
 /*! \ingroup GrpSystemFieldContainer
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING CoredNodePtrBase
+class /*OSG_SYSTEMLIB_DLLMAPPING*/ CoredNodePtrBase
 {
     /*==========================  PUBLIC  =================================*/
   public: 
@@ -209,6 +209,6 @@ OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.2 2005/03/14 02:35:32 vossg Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.3 2005/04/15 13:28:02 a-m-z Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */
