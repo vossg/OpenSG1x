@@ -396,7 +396,9 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
     //printf("comparing: %s\n", a->getType().getName().str());
     
     const FieldContainerType &type = a->getType();
-    UInt32 fcount = type.getNumFieldDescs();
+    //UInt32 fcount = type.getNumFieldDescs();
+    // ignore dynamic fields.
+    UInt32 fcount = osgMin(type.getNumFieldDescs(), b->getType().getNumFieldDescs());
     
     for(UInt32 i=1;i <= fcount;++i)
     {

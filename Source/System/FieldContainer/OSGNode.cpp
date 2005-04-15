@@ -702,11 +702,15 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         return NullFC;
     
     const FieldContainerType &type = src->getType();
-    UInt32 fcount = type.getNumFieldDescs();
-    
+
     //FDEBUG(("deepClone: fieldcontainertype = %s\n", type.getCName()));
 
     FieldContainerPtr dst = FieldContainerFactory::the()->createFieldContainer(type.getName().str());
+
+    //UInt32 fcount = type.getNumFieldDescs();
+    // ignore dynamic fields.
+    UInt32 fcount = osgMin(type.getNumFieldDescs(), dst->getType().getNumFieldDescs());
+    
     
     for(UInt32 i=1;i <= fcount;++i)
     {
