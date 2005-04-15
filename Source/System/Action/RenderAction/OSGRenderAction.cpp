@@ -419,6 +419,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     UInt32 sortKey = pMat->getSortKey();
 
+    DrawTreeNode *pLastMultiPass = NULL;
+
     for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
         if(pMPMat != NULL)
@@ -458,48 +460,58 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
             {
                 _pTransMatRoots[sortKey]->addChild(pNewElem);
+                if(pMPMat != NULL)
+                    pLastMultiPass = pNewElem;
             }
             else
             {
-                DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-                DrawTreeNode *pLast    = NULL;
-                bool          bFound   = false;
-    
-                do
+                if(mpi > 0)
                 {
-    
-                    if(pNewElem->getScalar() > pCurrent->getScalar())
-                    {
-                        pLast    = pCurrent;
-                        pCurrent = pCurrent->getBrother();
-                    }
-                    else
-                    {
-                        bFound = true;
-                    }
-    
-                } while(bFound   == false && 
-                        pCurrent != NULL    );
-                
-                
-                if(bFound == true)
-                {
-                    if(pLast == NULL)
-                    {
-                        _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                    }
-                    else
-                    {
-                        _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                    }
+                    // we only sort the first multipass geometrie and append the others!
+                    _pTransMatRoots[sortKey]->insertChildAfter(pLastMultiPass, pNewElem);
+                    pLastMultiPass = pNewElem;
                 }
                 else
                 {
-                    _pTransMatRoots[sortKey]->addChild(pNewElem);
+                    DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
+                    DrawTreeNode *pLast    = NULL;
+                    bool          bFound   = false;
+        
+                    do
+                    {
+        
+                        if(pNewElem->getScalar() > pCurrent->getScalar())
+                        {
+                            pLast    = pCurrent;
+                            pCurrent = pCurrent->getBrother();
+                        }
+                        else
+                        {
+                            bFound = true;
+                        }
+        
+                    } while(bFound   == false && 
+                            pCurrent != NULL    );
+                    
+                    
+                    if(bFound == true)
+                    {
+                        if(pLast == NULL)
+                        {
+                            _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
+                        }
+                        else
+                        {
+                            _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
+                        }
+                    }
+                    else
+                    {
+                        _pTransMatRoots[sortKey]->addChild(pNewElem);
+                    }
                 }
             }
-    
-    
+
             _uiNumTransGeometries++;
         }
         else
@@ -717,8 +729,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pLastMultiPass = pNewElem;
                 }
             }
-    
-    
+
             _uiNumTransGeometries++;
         }
         else
