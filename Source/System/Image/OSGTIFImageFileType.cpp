@@ -319,6 +319,14 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image),
     bool                retCode = false;
 
 #ifdef OSG_WITH_TIF
+    
+    if(image->getDimension() < 1 || image->getDimension() > 2)
+    {
+        FWARNING(("TIFImageFileType::write: invalid dimension %d!\n",
+            image->getDimension()));
+        return false;
+    }
+
     TIFF                *out = TIFFOpen(fileName, "w");
     int                 lineSize = image->getWidth() * image->getBpp();
     int                 photometric, samplesPerPixel;
