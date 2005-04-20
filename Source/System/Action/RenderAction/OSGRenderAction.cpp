@@ -239,7 +239,7 @@ RenderAction::RenderAction(void) :
 
     _bSortTrans              (true),
     _bZWriteTrans            (false),
-    _bLocalLights            (true),
+    _bLocalLights            (false),
     _bCorrectTwoSidedLighting(false),
 
     _vLights(),
@@ -468,8 +468,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 if(mpi > 0)
                 {
                     // we only sort the first multipass geometrie and append the others!
-                    _pTransMatRoots[sortKey]->insertChildAfter(pLastMultiPass, pNewElem);
-                    pLastMultiPass = pNewElem;
+                    if(pLastMultiPass != NULL)
+                        pLastMultiPass->addChild(pNewElem); 
                 }
                 else
                 {
@@ -685,8 +685,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 if(mpi > 0)
                 {
                     // we only sort the first multipass geometrie and append the others!
-                    _pTransMatRoots[sortKey]->insertChildAfter(pLastMultiPass, pNewElem);
-                    pLastMultiPass = pNewElem;
+                    if(pLastMultiPass != NULL)
+                        pLastMultiPass->addChild(pNewElem); 
                 }
                 else
                 {
