@@ -276,7 +276,7 @@ static void OSG_APIENTRY gluTessEndDataCB(void *polygonData)
 static void OSG_APIENTRY gluTessVertexDataCB(void *vertexData, void *polygonData)
 {
     TextVectorGlyph::PolygonOutline *outline = reinterpret_cast<TextVectorGlyph::PolygonOutline*>(polygonData);
-#ifdef __sgi
+#if defined(__sgi) || defined(__LP64__) || defined(__x86_64__) || defined(__ppc64__) || defined(__ia64__)
     // the reinterpret_cast doesn't compile on irix with mips pro 7.4 compiler ...
     char str[20];
     sprintf(str, "%p", vertexData);
@@ -633,7 +633,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.7 2005/03/24 10:25:38 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.8 2005/04/22 12:44:47 a-m-z Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORGLYPH_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORGLYPH_INLINE_CVSID;
 }
