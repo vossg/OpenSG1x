@@ -1531,7 +1531,6 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     UInt16 nmap  = getIndexMapping().size();
     UInt16 onmap = other->getIndexMapping().size();
 
-
     if ( nmap == onmap ) return 0;
     else
     {
@@ -1541,14 +1540,14 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
         if ( nmap == 0 && onmap == 1 ) return 2;
 
         //non-indexed in multi-indexed
-        if ( nmap == 1 && onmap == 0 ) return 3;
+        if ( nmap > 1 && onmap == 0 ) return 3;
         //multi-indexed in non-indexed
-        if ( nmap == 0 && onmap == 1 ) return 4;
+        if ( nmap == 0 && onmap > 1 ) return 4;
 
         //single-indexed in multi-indexed
-        if ( nmap == 1 && onmap == 0 ) return 5;
+        if ( nmap > 1 && onmap == 1 ) return 5;
         //multi-indexed in single-indexed
-        if ( nmap == 0 && onmap == 1 ) return 6;
+        if ( nmap == 1 && onmap > 1 ) return 6;
     }
 
     //hmm...another case?
