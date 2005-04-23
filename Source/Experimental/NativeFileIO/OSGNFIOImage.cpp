@@ -130,7 +130,7 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
     
     bool compressTextures = false;
     std::string exclude;
-    if(!getOptions().inlineTextures())
+    if(!getOptions().inlineTextures() && !img->getName().empty())
     {
         // only write the name field.
         exclude = "'dimension' 'width' 'height' 'depth' 'bpp' 'mipMapCount' "
@@ -255,6 +255,6 @@ bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.5 2005/02/17 14:30:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.6 2005/04/23 21:17:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
