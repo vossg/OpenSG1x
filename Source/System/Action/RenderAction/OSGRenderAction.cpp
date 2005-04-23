@@ -69,6 +69,7 @@
 #include <OSGLog.h>
 
 #include <OSGLight.h>
+#include <OSGLightEnv.h>
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
@@ -247,6 +248,11 @@ RenderAction::RenderAction(void) :
     _lightsState(0),
     _activeLightsState(0),
     _activeLightsCount(0),
+    
+    _lightsStack(),
+    _lightEnvsStack(),
+    _lightEnvsMap(),
+
     _stateSorting(true),
     _visibilityStack()
 {
@@ -298,6 +304,11 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightsState         (source._lightsState),
     _activeLightsState   (source._activeLightsState),
     _activeLightsCount   (source._activeLightsCount),
+    
+    _lightsStack         (source._lightsStack),
+    _lightEnvsStack      (source._lightEnvsStack),
+    _lightEnvsMap        (source._lightEnvsMap),
+
     _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack)
 {
@@ -835,6 +846,9 @@ void RenderAction::dropLight(Light *pLight)
             _lightsMap[pLight] = lightState;
             _lightsState += (TypeTraits<UInt64>::One << lightState);
         }
+        
+        if(!_lightEnvsStack.empty())
+            _lightsStack.push(pLight);
     }
 }
 
@@ -846,11 +860,59 @@ void RenderAction::undropLight(Light *pLight)
     if(!_bLocalLights)
         return;
 
-    RenderAction::LightsMap::iterator it = _lightsMap.find(pLight);
-    if(it == _lightsMap.end())
+    if(_lightEnvsStack.empty())
+    {
+        RenderAction::LightsMap::iterator it = _lightsMap.find(pLight);
+        if(it == _lightsMap.end())
+            return;
+        
+        _lightsState -= (TypeTraits<UInt64>::One << (*it).second);
+    }
+    else
+    {
+        LightEnv *pLightEnv = _lightEnvsStack.top();
+        RenderAction::LightEnvsMap::iterator it = _lightEnvsMap.find(pLightEnv);
+        if(it != _lightEnvsMap.end())
+            (*it).second++;
+        else
+            _lightEnvsMap.insert(std::pair<LightEnv *, UInt32>(pLightEnv, 1));
+    }
+}
+
+void RenderAction::dropLightEnv(LightEnv *pLightEnv)
+{
+    if(pLightEnv == NULL)
         return;
-    
-    _lightsState -= (TypeTraits<UInt64>::One << (*it).second);
+
+    if(!_bLocalLights)
+        return;
+
+    _lightEnvsStack.push(pLightEnv);
+}
+
+void RenderAction::undropLightEnv(LightEnv *pLightEnv)
+{
+    if(pLightEnv == NULL)
+        return;
+
+    if(!_bLocalLights)
+        return;
+
+    RenderAction::LightEnvsMap::iterator it = _lightEnvsMap.find(pLightEnv);
+    if(it != _lightEnvsMap.end())
+    {
+        for(UInt32 i=0;i<(*it).second;++i)
+        {
+            Light *pLight = _lightsStack.top();
+            _lightsStack.pop();
+            // now disable light
+            RenderAction::LightsMap::iterator it2 = _lightsMap.find(pLight);
+            if(it2 != _lightsMap.end())
+                _lightsState -= (TypeTraits<UInt64>::One << (*it2).second);
+        }
+    }
+
+    _lightEnvsStack.pop();
 }
 
 bool RenderAction::isVisible( Node* node )
@@ -1266,6 +1328,13 @@ Action::ResultE RenderAction::start(void)
     _lightsState       = 0;
     _activeLightsState = 0;
     _activeLightsCount = 0;
+
+    while(!_lightsStack.empty())
+        _lightsStack.pop();
+    while(!_lightEnvsStack.empty())
+        _lightEnvsStack.pop();
+    _lightEnvsMap.clear();
+
     _stateSorting = true;
 
     if(_viewport != NULL && full == false)

@@ -47,6 +47,7 @@
 //---------------------------------------------------------------------------
 
 #include <vector>
+#include <stack>
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -66,6 +67,7 @@ class DrawTreeNode;
 class Geometry;
 class State;
 class Light;
+class LightEnv;
 class LightChunk;
 
 class DrawTreeNodeFactory;
@@ -89,6 +91,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
     typedef std::map<Light       *,      UInt32                 > LightsMap;
+
+    typedef std::stack<Light     *                              > LightsStack;
+    typedef std::stack<LightEnv  *                              > LightEnvsStack;
+    typedef std::map<LightEnv    *,      UInt32                 > LightEnvsMap;
   
     //-----------------------------------------------------------------------
     //   constants                                                               
@@ -148,9 +154,15 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     /*------------------------- assignment ----------------------------------*/
 
     void dropGeometry(Geometry  *pGeo);
+    void dropFunctor (Material::DrawFunctor &func, Material *mat);
+
     void dropLight     (Light     *pLight);
     void undropLight   (Light     *pLight);
-    void dropFunctor (Material::DrawFunctor &func, Material *mat);
+
+    void dropLightEnv  (LightEnv  *pLightEnv);
+    void undropLightEnv(LightEnv  *pLightEnv);
+    
+    
 
     void setStateSorting(bool s);
     bool getStateSorting(void);
@@ -242,6 +254,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt64                    _lightsState;
     UInt64                    _activeLightsState;
     UInt32                    _activeLightsCount;
+
+    LightsStack               _lightsStack;
+    LightEnvsStack            _lightEnvsStack;
+    LightEnvsMap              _lightEnvsMap;
 
     bool                      _stateSorting;
 

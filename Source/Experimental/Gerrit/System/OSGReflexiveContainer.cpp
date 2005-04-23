@@ -70,6 +70,7 @@ ReflexiveContainerType ReflexiveContainer::_type(
     "ReflexiveContainer",
     NULL,
     NULL,
+    0,
     NULL,
     false);
 
