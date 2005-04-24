@@ -1,0 +1,69 @@
+!!ARBfp1.0
+# cgc version 1.3.0001, build date Aug  4 2004 10:01:10
+# command line args: -oglsl -strict -profile arbfp1
+# source file: f:/OpenSG/Source/Contrib/Terrain/fragment.glsl
+#vendor NVIDIA Corporation
+#version 1.0.02
+#profile arbfp1
+#program main
+#semantic texSampler
+#semantic nmapSampler
+#semantic offsetS
+#semantic offsetT
+#semantic scaleS
+#semantic scaleT
+#semantic specularExponent
+#semantic diffuseFactor
+#semantic specularFactor
+#semantic basecolor
+#var float4 gl_TexCoord[0] : $vin.TEX0 : TEX0 : -1 : 1
+#var float4 gl_TexCoord[1] :  :  : -1 : 0
+#var float4 gl_TexCoord[2] :  :  : -1 : 0
+#var float4 gl_TexCoord[3] :  :  : -1 : 0
+#var float4 gl_TexCoord[4] :  :  : -1 : 0
+#var float4 gl_TexCoord[5] :  :  : -1 : 0
+#var float4 gl_TexCoord[6] :  :  : -1 : 0
+#var float4 gl_TexCoord[7] :  :  : -1 : 0
+#var float4 gl_FragColor : $vout.COL : COL : -1 : 1
+#var sampler2D texSampler :  : texunit 0 : -1 : 1
+#var sampler2D nmapSampler :  : texunit 1 : -1 : 1
+#var float offsetS :  : c[3] : -1 : 1
+#var float offsetT :  : c[4] : -1 : 1
+#var float scaleS :  : c[1] : -1 : 1
+#var float scaleT :  : c[2] : -1 : 1
+#var float specularExponent :  : c[7] : -1 : 1
+#var float diffuseFactor :  : c[6] : -1 : 1
+#var float specularFactor :  : c[8] : -1 : 1
+#var float3 basecolor :  : c[0] : -1 : 1
+#var float3 lightDir : $vin.TEX1 : TEX1 : -1 : 1
+#var float3 viewDir : $vin.TEX2 : TEX2 : -1 : 1
+#const c[5] = 0.5 2 0 1
+PARAM c[9] = { program.local[0..4],
+		{ 0.5, 2, 0, 1 },
+		program.local[6..8] };
+TEMP R0;
+TEMP R1;
+MOV R0.w, c[4].x;
+MOV R0.z, c[3].x;
+MOV R0.x, c[1];
+MOV R0.y, c[2].x;
+MAD R0.xy, fragment.texcoord[0], R0, R0.zwzw;
+TEX R0.xyz, R0, texture[1], 2D;
+ADD R0.xyz, R0, -c[5].x;
+MUL R1.xyz, R0, c[5].y;
+DP3 R0.x, fragment.texcoord[1], R1;
+MUL R1.xyz, R0.x, R1;
+MAD R1.xyz, -R1, c[5].y, fragment.texcoord[1];
+DP3 R0.y, R1, fragment.texcoord[2];
+MAX R0.y, R0, c[5].z;
+POW R0.y, R0.y, c[7].x;
+MUL R0.y, R0, c[8].x;
+MIN R1.x, R0.y, c[5].w;
+MAX R0.w, R0.x, c[5].z;
+TEX R0.xyz, fragment.texcoord[0], texture[0], 2D;
+MAD R0.w, R0, c[6].x, R1.x;
+MUL R0.xyz, R0, c[0];
+MUL_SAT result.color.xyz, R0, R0.w;
+MOV result.color.w, c[5];
+END
+# 22 instructions, 2 R-regs
