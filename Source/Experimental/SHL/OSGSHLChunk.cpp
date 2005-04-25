@@ -809,8 +809,14 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
 void SHLChunk::updateCameraOrientation(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                        DrawActionBase *action, GLuint program)
 {
+    NodePtr beacon = action->getCamera()->getBeacon();
+    if(beacon == NullFC)
+    {
+        FWARNING(("SHLChunk::updateCameraOrientation : camera beacon is NULL!\n"));
+        return;
+    }
     Matrix m;
-    action->getCamera()->getBeacon()->getToWorld(m);
+    beacon->getToWorld(m);
     m[3].setValues(0,0,0,0);
 
     // get "glUniformMatrix4fvARB" function pointer
@@ -824,8 +830,14 @@ void SHLChunk::updateCameraOrientation(PFNGLGETUNIFORMLOCATIONARBPROC getUniform
 void SHLChunk::updateCameraPosition(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                     DrawActionBase *action, GLuint program)
 {
+    NodePtr beacon = action->getCamera()->getBeacon();
+    if(beacon == NullFC)
+    {
+        FWARNING(("SHLChunk::updateCameraPosition : camera beacon is NULL!\n"));
+        return;
+    }
     Matrix m;
-    action->getCamera()->getBeacon()->getToWorld(m);
+    beacon->getToWorld(m);
     Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
 
     // get "glUniform3fvARB" function pointer
@@ -839,8 +851,14 @@ void SHLChunk::updateCameraPosition(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLoc
 void SHLChunk::updateViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                 DrawActionBase *action, GLuint program)
 {
+    NodePtr beacon = action->getCamera()->getBeacon();
+    if(beacon == NullFC)
+    {
+        FWARNING(("SHLChunk::updateViewMatrix : camera beacon is NULL!\n"));
+        return;
+    }
     Matrix m;
-    action->getCamera()->getBeacon()->getToWorld(m);
+    beacon->getToWorld(m);
     m.invert();
 
     // get "glUniformMatrix4fvARB" function pointer
@@ -854,8 +872,14 @@ void SHLChunk::updateViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocatio
 void SHLChunk::updateInvViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                    DrawActionBase *action, GLuint program)
 {
+    NodePtr beacon = action->getCamera()->getBeacon();
+    if(beacon == NullFC)
+    {
+        FWARNING(("SHLChunk::updateInvViewMatrix : camera beacon is NULL!\n"));
+        return;
+    }
     Matrix m;
-    action->getCamera()->getBeacon()->getToWorld(m);
+    beacon->getToWorld(m);
 
     // get "glUniformMatrix4fvARB" function pointer
     PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
@@ -1020,7 +1044,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.33 2005/04/07 10:27:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.34 2005/04/25 09:34:41 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
