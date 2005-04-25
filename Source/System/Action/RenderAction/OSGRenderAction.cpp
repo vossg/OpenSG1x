@@ -590,15 +590,10 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         return;
     }
 
-    MultiPassMaterial *pMPMat = NULL;
     UInt32 mpMatPasses = 1;
-
-    if(pMat->getType().getGroupId() == MultiPassMaterial::getClassType().getGroupId())
-    {
-        pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
-        if(pMPMat != NULL)
-            mpMatPasses = pMPMat->getMaterials().size();
-    }
+    MultiPassMaterial *pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
+    if(pMPMat != NULL)
+        mpMatPasses = pMPMat->getMaterials().size();
 
     if(!_stateSorting)
     {
