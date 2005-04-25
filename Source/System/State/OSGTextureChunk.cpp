@@ -643,9 +643,6 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             getMinFilter() == GL_LINEAR_MIPMAP_NEAREST  ||
                             getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                             getMinFilter() == GL_LINEAR_MIPMAP_LINEAR   ;
-        
-        if(getExternalFormat() != GL_NONE)
-            externalFormat = getExternalFormat();
 
         if(internalFormat == GL_NONE)
         {
@@ -679,11 +676,19 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             internalFormat = GL_RGBA;
                             break;
 #endif
+            case GL_INTENSITY:
+                            internalFormat = GL_INTENSITY;
+                            externalFormat = GL_LUMINANCE;
+                            break;
+                            
             default:    internalFormat = externalFormat;
                         break;
             }
         }
-        
+         
+        if(getExternalFormat() != GL_NONE)
+            externalFormat = getExternalFormat();
+       
         if(imgtarget == GL_TEXTURE_RECTANGLE_ARB && needMipmaps)
         {
             SWARNING << "TextureChunk::initialize: Can't do mipmaps"
