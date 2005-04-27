@@ -914,7 +914,14 @@ bool RenderAction::isVisible( Node* node )
 {
     if ( getFrustumCulling() == false )
         return true;
-        
+
+    // HACK but light sources beneath a LightEnv node can also
+    // light it's brothers or parents.
+    // It is not as bad as it looks like, the isVisible() method is only
+    // used for Switch, DistanceLOD and ProxyGroup ...
+    if (!_lightEnvsStack.empty())
+        return true;
+
     getStatistics()->getElem(statCullTestedNodes)->inc();
     
     DynamicVolume vol;
