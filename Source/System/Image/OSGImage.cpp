@@ -3072,7 +3072,17 @@ bool Image::createData(const UInt8 *data, bool allocMem)
     if(allocMem && (byteCount = getSize()))
     {
         if(getPixel().getSize() != byteCount)
-            getPixel().resize(byteCount);
+        {
+            try
+            {
+                getPixel().resize(byteCount);
+            }
+            catch(...)
+            {
+                FFATAL(("Image::createData : Couldn't allocate %u bytes!\n", byteCount));
+                return false;
+            }
+        }
         if(data)
             memcpy(getData(), data, byteCount);
     }
