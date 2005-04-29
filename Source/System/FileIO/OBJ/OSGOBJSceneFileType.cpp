@@ -655,6 +655,9 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                                   std::map<std::string, SimpleTexturedMaterialPtr> & mtlMap )
   const
 {
+    if(fileName == NULL || strlen(fileName) == 0)
+        return 0;
+
   Int32 mtlCount = 0;
 
   PathHandler *pathHandler = SceneFileHandler::the().getPathHandler();
@@ -663,6 +666,12 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
     fullFilePath = pathHandler->findFile(fileName);
   else
     fullFilePath = fileName;
+
+  if(fullFilePath.empty())
+  {
+      FWARNING (("Couldn't open '%s'!\n", fileName));
+      return 0;
+  }
 
   std::ifstream in(fullFilePath.c_str());
   SimpleTexturedMaterialPtr mtlPtr = NullFC;
