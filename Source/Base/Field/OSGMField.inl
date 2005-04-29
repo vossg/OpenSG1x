@@ -349,6 +349,12 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::size(void) const
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
+UInt32 MField<FieldTypeT, fieldNameSpace>::capacity(void) const
+{
+    return _values.capacity();
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
 bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
 {
     return _values.empty();
