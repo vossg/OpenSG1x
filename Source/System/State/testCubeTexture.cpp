@@ -135,14 +135,18 @@ Action::ResultE setMaterial(NodePtr& node)
     
     if(geo!=NullFC)
     {
+        beginEditCP(geo, Geometry::MaterialFieldMask);
         geo->setMaterial(cuberefmat);
+        endEditCP(geo, Geometry::MaterialFieldMask);
     }   
     
     MaterialGroupPtr mg = MaterialGroupPtr::dcast(node->getCore());
     
     if(mg!=NullFC)
     {
+        beginEditCP(mg, MaterialGroup::MaterialFieldMask);
         mg->setMaterial(cuberefmat);
+        endEditCP(mg, MaterialGroup::MaterialFieldMask);
     }   
     
     return Action::Continue; 
@@ -301,12 +305,7 @@ int main(int argc, char **argv)
         cuberefmat->addChunk(texgen); 
     }
     endEditCP(cuberefmat);
-    
-    // set all geos to use the cube reflection material
-    traverse(scene, 
-             osgTypedFunctionFunctor1CPtrRef<Action::ResultE, NodePtr>
-             (setMaterial));
-
+ 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
@@ -318,6 +317,12 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
     mgr->redraw();
+
+   
+    // set all geos to use the cube reflection material
+    traverse(scene, 
+             osgTypedFunctionFunctor1CPtrRef<Action::ResultE, NodePtr>
+             (setMaterial));
    
     // GLUT main loop
     glutMainLoop();
