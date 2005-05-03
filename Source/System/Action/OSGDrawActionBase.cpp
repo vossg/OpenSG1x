@@ -180,9 +180,12 @@ Action::ResultE DrawActionBase::start(void)
 //_frustum.dump();
     }
 
-    if(_camera != NULL && _camera->getBeacon() != NullFC)
+    if(_camera != NULL && getViewport() != NULL)
     {
-        _mCameraToWorld = _camera->getBeacon()->getToWorld();
+        _camera->getViewing( _mCameraToWorld,
+                             getViewport()->getPixelWidth(),
+                             getViewport()->getPixelHeight() );
+        _mCameraToWorld.invert();
     }
 
 //    cerr << "DA::start" << endl;
