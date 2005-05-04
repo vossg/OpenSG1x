@@ -601,7 +601,7 @@ bool CDDSImage::load(std::string filename, bool flipImage)
 
         align_memory(&img);
         
-        if (flipImage)
+        if (flipImage && !cubemap)
             flip(img, img.width, img.height, img.depth, img.size);
         
         int w = clamp_size(width >> 1);
@@ -625,7 +625,7 @@ bool CDDSImage::load(std::string filename, bool flipImage)
             CSurface mipmap(w, h, d, size);
             fread(mipmap, 1, mipmap.size, fp);
             
-            if (flipImage)
+            if (flipImage && !cubemap)
             {
                 flip(mipmap, mipmap.width, mipmap.height, mipmap.depth, 
                     mipmap.size);
@@ -642,6 +642,7 @@ bool CDDSImage::load(std::string filename, bool flipImage)
         images.push_back(img);
     }
 
+#if 0
     // swap cubemaps on y axis (since image is flipped in OGL)
     if (cubemap && flipImage)
     {
@@ -650,7 +651,8 @@ bool CDDSImage::load(std::string filename, bool flipImage)
         images[3] = images[2];
         images[2] = tmp;
     }
-    
+#endif
+
     fclose(fp);
 
     valid = true;
