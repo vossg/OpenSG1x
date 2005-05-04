@@ -51,6 +51,7 @@
 #include <OSGWindow.h>
 #include <OSGDrawActionBase.h>
 #include <OSGCamera.h>
+#include <OSGViewport.h>
 #include <OSGTextureChunk.h>
 
 OSG_USING_NAMESPACE
@@ -160,11 +161,16 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     glMatrixMode(GL_TEXTURE);
     if(getUseCameraBeacon())
     {
-        Matrix m;
-        NodePtr beacon = action->getCamera()->getBeacon();
-        beacon->getToWorld(m);
-        m[3].setValues(0, 0, 0, 1);
-        glLoadMatrixf(m.getValues());
+        if(action->getCamera() != NULL && action->getViewport() != NULL)
+        {
+            Matrix m;
+            action->getCamera()->getViewing(m,
+                                        action->getViewport()->getPixelWidth(),
+                                        action->getViewport()->getPixelHeight());
+            m.invert();
+            m[3].setValues(0, 0, 0, 1);
+            glLoadMatrixf(m.getValues());
+        }
     }
     else
     {
@@ -208,11 +214,16 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     glMatrixMode(GL_TEXTURE);
     if(getUseCameraBeacon())
     {
-        Matrix m;
-        NodePtr beacon = action->getCamera()->getBeacon();
-        beacon->getToWorld(m);
-        m[3].setValues(0, 0, 0, 1);
-        glLoadMatrixf(m.getValues());
+        if(action->getCamera() != NULL && action->getViewport() != NULL)
+        {
+            Matrix m;
+            action->getCamera()->getViewing(m,
+                                        action->getViewport()->getPixelWidth(),
+                                        action->getViewport()->getPixelHeight());
+            m.invert();
+            m[3].setValues(0, 0, 0, 1);
+            glLoadMatrixf(m.getValues());
+        }
     }
     else
     {
