@@ -617,7 +617,7 @@ void DVRIsoShader::getLightSources(DirLightList &diffuseLights,
     diffuseLights .clear();
     specularLights.clear();
 
-    int maxNumLights;
+    GLint maxNumLights;
 
     glGetIntegerv(GL_MAX_LIGHTS, &maxNumLights);
 
