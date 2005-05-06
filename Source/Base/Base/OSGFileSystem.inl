@@ -234,7 +234,7 @@ namespace Directory
         
         if(szDirname != NULL)
         {
-#ifndef _WIN32_TARGET_
+#ifndef WIN32
             if(chdir(szDirname) == 0)
                 returnValue = true;
 #else
