@@ -489,7 +489,8 @@ class PlatformOptions:
         opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
         
         # contrib
-        opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CHChunk', 0))
+        opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))
+        opts.Add(BoolOption('contrib_cgfxmaterial', 'enable contrib CGFXMaterial', 0))
         opts.Add(BoolOption('contrib_drawfunctorcore', 'enable contrib DrawFunctorCore', 0))
 
         opts.Update(self.de)
@@ -637,7 +638,7 @@ class ToolChain:
             if isinstance(_po.getOption('cg'), str):
                 self.env['CGCPPPATH'] = [os.path.join(_po.getOption('cg'), 'include')]
                 self.env['CGLIBPATH'] = [os.path.join(_po.getOption('cg'), 'lib')]
-                self.env['OSG_CG_LIBS'] = ['cg', 'cgGL']
+                self.env['OSG_CG_LIBS'] = ['cg', 'cgGL', 'CgFXParser']
 
         if _po.getOption('gv_beta'):
             print 'Compiling with gv beta enabled!'

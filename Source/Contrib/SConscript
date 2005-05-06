@@ -10,6 +10,12 @@ if _po.getOption('contrib_cgchunk'):
     else:
         print 'Contrib CGChunk needs cg lib, add cg=<path> to cmd line.'
 
+if _po.getOption('contrib_cgfxmaterial'):
+    if _po.getOption('cg'):
+        ContribDirs.append(Dir('CGFXMaterial'))
+    else:
+        print 'Contrib CGFXMaterial needs cgfx lib, add cg=<path> to cmd line.'
+
 if _po.getOption('contrib_drawfunctorcore'):
     ContribDirs.append(Dir('DrawFunctorCore'))
 
@@ -20,7 +26,7 @@ InstallHeaders(env, headers)
 
 def custom(env):
 
-    if _po.getOption('contrib_cgchunk') and _po.getOption('cg'):
+    if (_po.getOption('contrib_cgchunk') or _po.getOption('contrib_cgfxmaterial')) and _po.getOption('cg'):
         env.Append(CPPPATH=env.get('CGCPPPATH'))
         env.Append(LIBPATH=env.get('CGLIBPATH'))
         env.Append(LIBS=env.get('OSG_CG_LIBS'))
