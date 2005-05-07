@@ -30,6 +30,7 @@ def custom(env):
         env.Append(CPPPATH=env.get('CGCPPPATH'))
         env.Append(LIBPATH=env.get('CGLIBPATH'))
         env.Append(LIBS=env.get('OSG_CG_LIBS'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
 
 if len(sources) > 0:
     BuildLibrary(tc, 'OSGContrib', sources,
