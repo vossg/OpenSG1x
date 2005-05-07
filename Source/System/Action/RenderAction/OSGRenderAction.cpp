@@ -544,10 +544,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setState(pState);
                 pNewMatElem->setNode(getActNode());
-                // without this one top_matrix wouldn't work correctly
-                // in StateChunk::activate() ...
-                pNewMatElem->setMatrixStore(_currMatrix);
-                
+
                 //_pMatRoot->addChild(pNewMatElem);
                 UInt32 rsize = _pMatRoots.size();
                 if(sortKey >= rsize)
@@ -760,10 +757,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setState(pState);
                 pNewMatElem->setNode(getActNode());
-                // without this one top_matrix wouldn't work correctly
-                // in StateChunk::activate() ...
-                pNewMatElem->setMatrixStore(_currMatrix);
-    
+
                 //_pMatRoot->addChild(pNewMatElem);
                 UInt32 rsize = _pMatRoots.size();
                 if(sortKey >= rsize)
@@ -1146,6 +1140,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
     #endif
         }
 
+        setActNode(pRoot->getNode());
+
         State *pNewState = pRoot->getState();
 
         if(pNewState != NULL)
@@ -1170,8 +1166,6 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                 _uiNumMaterialChanges++;
             }
         }
-
-        setActNode(pRoot->getNode());
 
         if(pRoot->getGeometry() != NULL)
         {
