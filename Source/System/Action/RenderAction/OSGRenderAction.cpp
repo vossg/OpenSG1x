@@ -543,6 +543,10 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setState(pState);
+                pNewMatElem->setNode(getActNode());
+                // without this one top_matrix wouldn't work correctly
+                // in StateChunk::activate() ...
+                pNewMatElem->setMatrixStore(_currMatrix);
                 
                 //_pMatRoot->addChild(pNewMatElem);
                 UInt32 rsize = _pMatRoots.size();
@@ -748,13 +752,17 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 //_mMatMap[pMat].push_back(pNewMatElem);
                 _mMatMap[pMat] = pNewMatElem;
 
-                pNewElem->setNode       (getActNode());            
+                pNewElem->setNode       (getActNode());
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setState(pState);
+                pNewMatElem->setNode(getActNode());
+                // without this one top_matrix wouldn't work correctly
+                // in StateChunk::activate() ...
+                pNewMatElem->setMatrixStore(_currMatrix);
     
                 //_pMatRoot->addChild(pNewMatElem);
                 UInt32 rsize = _pMatRoots.size();
@@ -1385,7 +1393,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     UInt32 passes = osgMax(_pMatRoots.size(), _pTransMatRoots.size());
     
-    for(UInt32 i=0;i<passes;++i)
+    for(i=0;i<passes;++i)
     {
         //printf("activeLightsState1: %d\n", _activeLightsState);
         if(i < _pMatRoots.size() && _pMatRoots[i] != NULL)
@@ -1418,7 +1426,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
     else
     {
-        for(UInt32 i = 0;i < _activeLightsCount;++i)
+        for(i = 0;i < _activeLightsCount;++i)
             glDisable(GL_LIGHT0 + i);
     }
 

@@ -103,21 +103,6 @@ DrawTreeNode::~DrawTreeNode(void)
                 "DrawTreeNode",
                 0);
 #endif
-
-#if !defined(OSG_OPT_DRAWTREE)
-
-#if 1
-    subRefP(_pFirstChild);
-    subRefP(_pBrother   );
-#else
-    DrawTreeNode *p;
-    
-    for(p = _pFirstChild; p; p = p->_pBrother)
-        subRefP(p);
-#endif
-
-
-#endif
 }
 
 

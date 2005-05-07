@@ -59,12 +59,7 @@ void DrawTreeNode::addChild(DrawTreeNode *pChild)
 {
     if(_pLastChild == NULL)
     {
-#if defined(OSG_OPT_DRAWTREE)
         _pFirstChild = pChild;
-#else
-        setRefP(_pFirstChild, pChild);
-#endif
-
         _pLastChild  = pChild;
     }
     else
@@ -87,12 +82,7 @@ void DrawTreeNode::insertFirstChild  (DrawTreeNode *pChild)
     else
     {
         pChild->setBrother(_pFirstChild);
-        
-#if defined(OSG_OPT_DRAWTREE)
         _pFirstChild = pChild;
-#else
-        setRefP(_pFirstChild, pChild);
-#endif
     }
     
 }
@@ -122,11 +112,7 @@ DrawTreeNode *DrawTreeNode::getBrother(void)
 inline
 void DrawTreeNode::setBrother(DrawTreeNode *pBrother)
 {
-#if defined(OSG_OPT_DRAWTREE)
     _pBrother = pBrother;
-#else
-    setRefP(_pBrother, pBrother);
-#endif
 }
 
 inline

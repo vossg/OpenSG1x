@@ -71,22 +71,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     static Int32 _iDeleteCount;
 
     /*! \}                                                                 */
-#if !defined(OSG_OPT_DRAWTREE)
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
-    /*! \{                                                                 */
-
-    DrawTreeNode(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
-    /*! \{                                                                 */
-
-    virtual ~DrawTreeNode(void); 
-
-    /*! \}                                                                 */
-#endif
     /*---------------------------------------------------------------------*/
     /*! \name                    Access                                    */
     /*! \{                                                                 */
@@ -155,8 +139,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     UInt64                     _lightsState;
 
     /*! \}                                                                 */
-
-#if defined(OSG_OPT_DRAWTREE)
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -171,8 +153,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     virtual ~DrawTreeNode(void); 
 
     /*! \}                                                                 */
-#endif
-
     /*==========================  PRIVATE  ================================*/
   private:
 
