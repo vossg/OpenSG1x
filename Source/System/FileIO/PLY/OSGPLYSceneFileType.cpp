@@ -54,6 +54,7 @@
 #include <OSGNode.h>
 #include <OSGGeometry.h>
 #include <OSGGeoProperty.h>
+#include <OSGGeoFunctions.h>
 #include <OSGRefPtr.h>
 
 #include "OSGPLYSceneFileType.h"
@@ -109,9 +110,8 @@ static PlyProperty face_props[] = { /* list of property information for a vertex
 
 NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtension*/) const
 {
-    int nelems;
-    char** elems;
-    PlyFile* ply = ply_read(&is, &nelems, &elems);
+    std::vector<std::string> elems;
+    PlyFile* ply = ply_read(&is, elems);
     if (!ply)
     {
         return NullFC;
@@ -120,9 +120,9 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
     GeoPositions3fPtr pos3f;
     GeoIndicesUI32Ptr indices;
 
-    for (int i = 0; i < nelems; ++i)
+    for (size_t i = 0; i < elems.size(); ++i)
     {
-        char* elem_name = elems[i];
+        const std::string& elem_name = elems[i];
         int num_elems;
         int nprops;
         PlyProperty** plist = ply_get_element_description(ply, elem_name, &num_elems, &nprops);
@@ -131,7 +131,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
             continue;
         }
 
-        if (equal_strings("vertex", elem_name))
+        if ("vertex" == elem_name)
         {
             pos3f = GeoPositions3f::create();
             beginEditCP(pos3f);
@@ -152,7 +152,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
 
             endEditCP(pos3f);
         }
-        else if (equal_strings("face", elem_name))
+        else if ("face" == elem_name)
         {
             indices = GeoIndicesUI32::create();
             beginEditCP(indices);
@@ -213,6 +213,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
         geo->setPositions(pos3f);
         geo->setIndices(indices);
         endEditCP(geo);
+        //calcVertexNormals(geo);
 
         return makeNodeFor(geo);
     }
@@ -259,6 +260,6 @@ PLYSceneFileType::PLYSceneFileType(const PLYSceneFileType& obj) :
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.1 2005/05/05 21:30:36 aegis Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.2 2005/05/08 10:30:03 aegis Exp $";
     static Char8 cvsid_hpp[] = OSGPLYSCENEFILETYPE_HEADER_CVSID;
 }
