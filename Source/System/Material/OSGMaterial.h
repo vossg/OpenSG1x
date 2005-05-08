@@ -72,6 +72,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Constants                                 */
+    /*! \{                                                                 */
+
+    static const UInt32 NoStateSorting;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 

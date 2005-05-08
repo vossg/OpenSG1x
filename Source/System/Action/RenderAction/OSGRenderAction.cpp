@@ -387,7 +387,11 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             mpMatPasses = pMPMat->getMaterials().size();
     }
 
-    if(!_stateSorting)
+    UInt32 sortKey = pMat->getSortKey();
+
+    if(!_stateSorting ||
+       (sortKey == Material::NoStateSorting && 
+        (!_bSortTrans || !pMat->isTransparent())))
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
@@ -428,7 +432,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     pMat->rebuildState();
 #endif
 
-    UInt32 sortKey = pMat->getSortKey();
+    if(sortKey >= Material::NoStateSorting)
+        sortKey = 0;
 
     DrawTreeNode *pLastMultiPass = NULL;
 
@@ -596,7 +601,11 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     if(pMPMat != NULL)
         mpMatPasses = pMPMat->getMaterials().size();
 
-    if(!_stateSorting)
+    UInt32 sortKey = pMat->getSortKey();
+
+    if(!_stateSorting ||
+       (sortKey == Material::NoStateSorting && 
+        (!_bSortTrans || !pMat->isTransparent())))
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
@@ -638,7 +647,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     pMat->rebuildState();
 #endif
 
-    UInt32 sortKey = pMat->getSortKey();
+    if(sortKey >= Material::NoStateSorting)
+        sortKey = 0;
 
     DrawTreeNode *pLastMultiPass = NULL;
 
@@ -667,7 +677,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setState      (pState);
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
-    
+
             UInt32 rsize = _pTransMatRoots.size();
             if(sortKey >= rsize)
             {
@@ -1148,7 +1158,11 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         {
             if(_pActiveState != NULL)
             {
-                if(pNewState != _pActiveState)
+                // ok for cgfx I have to call it (to update the world matrix),
+                // also if we have no state change.
+                // This shouldn't hurt too much cause same states are also
+                // tested in changeFrom()
+                //if(pNewState != _pActiveState)
                 {
                     pNewState->changeFrom(this, _pActiveState);
 
