@@ -625,8 +625,8 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                         }
                     }
                 }
-                endEditCP(calibPtr);
             }
+            endEditCP(calibPtr);
         }
     }
     catch (xmlpp::xmlerror e)
