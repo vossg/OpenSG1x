@@ -54,6 +54,10 @@ void testSocketGroup(int maxServers)
     Time t,max;
     int count;
     GroupConnection *group = ConnectionFactory::the().createGroup(connectionType);
+
+    if(strcmp(connectionType,"Multicast") == 0)
+        group->setDestination("225.123.123.123");
+
     std::set<std::string>::iterator aI;
     for(aI=address.begin() ; aI != address.end() ;aI++)
     {
@@ -126,6 +130,7 @@ void testSocketGroup(int maxServers)
 */
     group->signal();
 
+    fflush(stdout);
     delete group;
 }
 
@@ -191,21 +196,16 @@ void testSocketPoint()
         point->put(data,10000);
         point->flush();
     }
-    printf("sync for end\n");
     point->signal();
-    printf("wait for end\n");
     point->wait();
-    printf("findish\n");
 
     delete point;
 }
 
 int main(int argc,char **argv)
 {
-/*
     try 
     {
-*/
         osgInit(argc,argv);
         if(argc>2)
         {
@@ -214,11 +214,10 @@ int main(int argc,char **argv)
         }
         else
             testSocketPoint();
-/*
     }
     catch(std::exception &e)
     {
         printf("error %s\n",e.what());
     }
-*/
+    fflush(stdout);
 }
