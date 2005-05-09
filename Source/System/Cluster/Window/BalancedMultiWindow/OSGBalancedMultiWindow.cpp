@@ -277,7 +277,8 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     createLoadGroups();
 
     // local visualization
-    if(getHServers() * getVServers() == 0)
+    if(getHServers() * getVServers() == 0 &&
+        getClientWindow() != NullFC)
     {
         Server &server = _cluster.servers[getServers().size()];
         // set client window
@@ -336,7 +337,7 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     conn->flush();
     // client rendering ?
 //    if(getHServers() * getVServers() == 0)
-        drawSendAndRecv(getClientWindow(),action,getServers().size());
+    drawSendAndRecv(getClientWindow(),action,getServers().size());
 #if 0
     for(unsigned int p=0;p<_cluster.workpackages.size() ; ++p) {
         printf("from %d to %d    %d %d %d %d\n",
@@ -1548,184 +1549,186 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
     Connection *conn = getNetwork()->getMainConnection();
 
     // start rendering
-    window->activate ();
-    window->frameInit ();
-
-    // render viewport for others
-    for(wI  = _cluster.workpackages.begin() ; 
-        wI != _cluster.workpackages.end() ;
-        ++wI)
+    if(window != osg::NullFC)
     {
-        if(wI->drawServer == id &&
-           wI->sendToServer != id)
-        {
-            // new area
-            _cluster.areas.resize(_cluster.areas.size()+1);
-            _cluster.areas.back().sendToServer = wI->sendToServer;
-            renderViewport(window,
-                           wI->sendToServer,
-                           action,
-                           wI->viewportId,
-                           wI->rect);
-            storeViewport (_cluster.areas.back(),getPort()[wI->viewportId],wI->rect);
-            triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
-            triCount++;
-            drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
-        }
-    }
+        window->activate ();
+        window->frameInit ();
 
-    // clear viewports with background
-    clearViewports(window,id,action);
-
-    // render own viewports
-    for(wI  = _cluster.workpackages.begin() ; 
-        wI != _cluster.workpackages.end() ;
-        ++wI)
-    {
-        if(wI->drawServer == id &&
-           wI->sendToServer == id)
+        // render viewport for others
+        for(wI  = _cluster.workpackages.begin() ; 
+            wI != _cluster.workpackages.end() ;
+            ++wI)
         {
-            // render local viewport
-            renderViewport(window,
-                           id,
-                           action,
-                           wI->viewportId,
-                           wI->rect);
-            triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
-            triCount++;
-            drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
-        }
-    }
-    // send tiles
-    sendCount = _cluster.areas.size();
-    groupConn = getNetwork()->getGroupConnection(id);
-    while(sendCount)
-    {
-        groupConn->selectChannel();
-        groupConn->getValue(sendTo);
-        for(aI = _cluster.areas.begin() ; aI != _cluster.areas.end() ; ++aI)
-        {
-            if(sendTo == aI->sendToServer)
+            if(wI->drawServer == id &&
+               wI->sendToServer != id)
             {
-                conn = getNetwork()->getConnection(aI->sendToServer);
-                for(tI = aI->tiles.begin() ; tI != aI->tiles.end() ; ++tI)
-                {
-                    if(getShort())
-                        conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 2 + sizeof(Tile::Header));
-                    else
-                        conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 3 + sizeof(Tile::Header));
-                }
-                conn->flush();
-                sendCount--;
+                // new area
+                _cluster.areas.resize(_cluster.areas.size()+1);
+                _cluster.areas.back().sendToServer = wI->sendToServer;
+                renderViewport(window,
+                               wI->sendToServer,
+                               action,
+                               wI->viewportId,
+                               wI->rect);
+                storeViewport (_cluster.areas.back(),getPort()[wI->viewportId],wI->rect);
+                triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
+                triCount++;
+                drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
             }
         }
-    }
 
-    // receive and paint tiles from others
-    glViewport(0,
-               0,
-               window->getWidth(), 
-               window->getHeight());
-    groupConn = getNetwork()->getGroupConnection(id);
-    glPushMatrix();
-    glLoadIdentity();
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    gluOrtho2D(0, window->getWidth(), 0, window->getHeight());
-    glDisable(GL_DEPTH_TEST);
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    groupConn = getNetwork()->getGroupConnection(id);
-    wI = _cluster.workpackages.begin();
-    while(wI != _cluster.workpackages.end() &&
-          (wI->drawServer == id || wI->sendToServer != id))
-        ++wI;
-    if(wI != _cluster.workpackages.end())
-    {
-        conn = getNetwork()->getConnection(wI->drawServer);
-        sendTo = wI->sendToServer;
-        conn->putValue(sendTo);
-        conn->flush();
-    }
-    while(wI != _cluster.workpackages.end())
-    {
-        channel = groupConn->selectChannel();
-        do
+        // clear viewports with background
+        clearViewports(window,id,action);
+
+        // render own viewports
+        for(wI  = _cluster.workpackages.begin() ; 
+            wI != _cluster.workpackages.end() ;
+            ++wI)
         {
-            groupConn->get(&tile,sizeof(Tile::Header));
-            if(tile.header.last)
+            if(wI->drawServer == id &&
+               wI->sendToServer == id)
             {
-                ++wI;
-                // we got last tile, request from next server
-                while(wI != _cluster.workpackages.end() &&
-                      (wI->drawServer == id || wI->sendToServer != id))
-                    ++wI;
-                if(wI != _cluster.workpackages.end())
+                // render local viewport
+                renderViewport(window,
+                               id,
+                               action,
+                               wI->viewportId,
+                               wI->rect);
+                triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
+                triCount++;
+                drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
+            }
+        }
+        // send tiles
+        sendCount = _cluster.areas.size();
+        groupConn = getNetwork()->getGroupConnection(id);
+        while(sendCount)
+        {
+            groupConn->selectChannel();
+            groupConn->getValue(sendTo);
+            for(aI = _cluster.areas.begin() ; aI != _cluster.areas.end() ; ++aI)
+            {
+                if(sendTo == aI->sendToServer)
                 {
-                    conn = getNetwork()->getConnection(wI->drawServer);
-                    sendTo = wI->sendToServer;
-                    conn->putValue(sendTo);
+                    conn = getNetwork()->getConnection(aI->sendToServer);
+                    for(tI = aI->tiles.begin() ; tI != aI->tiles.end() ; ++tI)
+                    {
+                        if(getShort())
+                            conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 2 + sizeof(Tile::Header));
+                        else
+                            conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 3 + sizeof(Tile::Header));
+                    }
                     conn->flush();
+                    sendCount--;
                 }
             }
-            if(getShort())
-                groupConn->get(&tile.pixel,tile.header.width*tile.header.height*2);
-            else
-                groupConn->get(&tile.pixel,tile.header.width*tile.header.height*3);
-            glRasterPos2i (tile.header.x,tile.header.y);
-            if(getShort())
-                glDrawPixels(tile.header.width,tile.header.height, 
-                             GL_RGB, GL_UNSIGNED_SHORT_5_6_5,
-                             &(tile.pixel[0]));
-            else
-                glDrawPixels(tile.header.width,tile.header.height, 
-                             GL_RGB, GL_UNSIGNED_BYTE,
-                             &(tile.pixel[0]));
+        }
 
-            if(getShowBalancing())
+        // receive and paint tiles from others
+        glViewport(0,
+                   0,
+                   window->getWidth(), 
+                   window->getHeight());
+        groupConn = getNetwork()->getGroupConnection(id);
+        glPushMatrix();
+        glLoadIdentity();
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        gluOrtho2D(0, window->getWidth(), 0, window->getHeight());
+        glDisable(GL_DEPTH_TEST);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        groupConn = getNetwork()->getGroupConnection(id);
+        wI = _cluster.workpackages.begin();
+        while(wI != _cluster.workpackages.end() &&
+              (wI->drawServer == id || wI->sendToServer != id))
+            ++wI;
+        if(wI != _cluster.workpackages.end())
+        {
+            conn = getNetwork()->getConnection(wI->drawServer);
+            sendTo = wI->sendToServer;
+            conn->putValue(sendTo);
+            conn->flush();
+        }
+        while(wI != _cluster.workpackages.end())
+        {
+            channel = groupConn->selectChannel();
+            do
             {
-#if 1
-                static Real32 col[16][3] = {
-                    1,0,0,
-                    0,1,0,
-                    0,0,1,
-                    1,1,0,
-                    1,0,1,
-                    0,1,1,
-                    1,1,1,
-                    1,.5,0,
-                    .5,0,0,
-                    0,.5,0,
-                    0,0,.5,
-                    .5,.5,0,
-                    .5,0,1,
-                    0,.5,1,
-                    1,1,.5,
-                    .5,.5,0
-                };
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-                glBegin(GL_QUADS);
-                glColor4f(col[channel%16][0],
-                          col[channel%16][1],
-                          col[channel%16][2],
-                          .3);
-                glVertex2i(tile.header.x                  , tile.header.y);
-                glVertex2i(tile.header.x                  , tile.header.y+tile.header.height);
-                glVertex2i(tile.header.x+tile.header.width, tile.header.y+tile.header.height);
-                glVertex2i(tile.header.x+tile.header.width, tile.header.y);
-                glEnd();
-                glDisable(GL_BLEND);
-#endif
-            }
-        } 
-        while(!tile.header.last);
-    }
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glEnable(GL_DEPTH_TEST);
+                groupConn->get(&tile,sizeof(Tile::Header));
+                if(tile.header.last)
+                {
+                    ++wI;
+                    // we got last tile, request from next server
+                    while(wI != _cluster.workpackages.end() &&
+                          (wI->drawServer == id || wI->sendToServer != id))
+                        ++wI;
+                    if(wI != _cluster.workpackages.end())
+                    {
+                        conn = getNetwork()->getConnection(wI->drawServer);
+                        sendTo = wI->sendToServer;
+                        conn->putValue(sendTo);
+                        conn->flush();
+                    }
+                }
+                if(getShort())
+                    groupConn->get(&tile.pixel,tile.header.width*tile.header.height*2);
+                else
+                    groupConn->get(&tile.pixel,tile.header.width*tile.header.height*3);
+                glRasterPos2i (tile.header.x,tile.header.y);
+                if(getShort())
+                    glDrawPixels(tile.header.width,tile.header.height, 
+                                 GL_RGB, GL_UNSIGNED_SHORT_5_6_5,
+                                 &(tile.pixel[0]));
+                else
+                    glDrawPixels(tile.header.width,tile.header.height, 
+                                 GL_RGB, GL_UNSIGNED_BYTE,
+                                 &(tile.pixel[0]));
 
+                if(getShowBalancing())
+                {
+#if 1
+                    static Real32 col[16][3] = {
+                        1,0,0,
+                        0,1,0,
+                        0,0,1,
+                        1,1,0,
+                        1,0,1,
+                        0,1,1,
+                        1,1,1,
+                        1,.5,0,
+                        .5,0,0,
+                        0,.5,0,
+                        0,0,.5,
+                        .5,.5,0,
+                        .5,0,1,
+                        0,.5,1,
+                        1,1,.5,
+                        .5,.5,0
+                    };
+                    glEnable(GL_BLEND);
+                    glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+                    glBegin(GL_QUADS);
+                    glColor4f(col[channel%16][0],
+                              col[channel%16][1],
+                              col[channel%16][2],
+                              .3);
+                    glVertex2i(tile.header.x                  , tile.header.y);
+                    glVertex2i(tile.header.x                  , tile.header.y+tile.header.height);
+                    glVertex2i(tile.header.x+tile.header.width, tile.header.y+tile.header.height);
+                    glVertex2i(tile.header.x+tile.header.width, tile.header.y);
+                    glEnd();
+                    glDisable(GL_BLEND);
+#endif
+                }
+            } 
+            while(!tile.header.last);
+        }
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        glEnable(GL_DEPTH_TEST);
+    }
     if(id != getServers().size())
     {
         Connection *conn = getNetwork()->getMainConnection();
