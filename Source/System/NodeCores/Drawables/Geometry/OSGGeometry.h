@@ -177,16 +177,17 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void            invalidateDlistCache (void);
 
     /*! \}                                                                 */
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
     /*---------------------------------------------------------------------*/
     /*! \name                      NodeCore Specific                       */
     /*! \{                                                                 */
 
-    void               adjustVolume     (Volume & volume);
+    // this only calculates a bbox - therefore it is useful and does no harm
+    void            adjustVolume     (Volume & volume);
 
     /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
