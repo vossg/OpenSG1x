@@ -205,7 +205,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     std::vector<BBoxList*> _groupClose;
     std::vector<BBoxList>  _bboxlist;
     VPort                  _foreignPort;
-    bool                   _disableCulling;
+    bool                   _preloadCache;
 
     // calculate rendering load 
     inline Real32 getVisibleLoad(Int32      rect[4],
@@ -260,6 +260,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     void drawSendAndRecv(WindowPtr serverWindow,
                          RenderActionBase *action,
                          UInt32 id);
+
+    // preload display lists and textures
+    void preloadCache(WindowPtr window,
+                      RenderActionBase *action);
 
     friend class FieldContainer;
     friend class BalancedMultiWindowBase;

@@ -56,6 +56,8 @@
 #include <OSGRenderActionBase.h>
 #include <OSGDisplayCalibration.h>
 #include <OSGProxyGroup.h>
+#include <OSGPerspectiveCamera.h>
+#include <OSGMatrixUtility.h>
 
 OSG_USING_NAMESPACE
 
@@ -98,19 +100,7 @@ void BalancedMultiWindow::initMethod (void)
 
 void BalancedMultiWindow::serverInit (WindowPtr serverWindow, UInt32 id)
 {
-    if(!getBalance())
-    {
-        Inherited::serverInit(serverWindow,id);
-        return;
-    }
-    // reset server list
-    _cluster.servers.resize(getServers().size()+1);
-    _cluster.servers[id].id = id;
-    getNetwork()->connectAllGroupToPoint(id,"StreamSock");
-    // do not buffer any data
-    for(UInt32 i=0 ; i <= getServers().size() ; ++i)
-        getNetwork()->getConnection(i)->forceDirectIO();
-    _disableCulling = true;
+    Inherited::serverInit(serverWindow,id);
 }
 
 void BalancedMultiWindow::serverRender (WindowPtr serverWindow, 
@@ -121,6 +111,19 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     {
         Inherited::serverRender(serverWindow,id,action);
         return;
+    }
+
+    // initialize
+    if(_cluster.servers.size() == 0)
+    {
+        // reset server list
+        _cluster.servers.resize(getServers().size()+1);
+        _cluster.servers[id].id = id;
+        getNetwork()->connectAllGroupToPoint(id,"StreamSock");
+        // do not buffer any data
+        for(UInt32 i=0 ; i <= getServers().size() ; ++i)
+            getNetwork()->getConnection(i)->forceDirectIO();
+        _preloadCache = true;
     }
 
     UInt32 sendTo;
@@ -139,6 +142,9 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
 
     // create load groups for all root nodes
     createLoadGroups();
+
+    // preload texture and dlist cache
+    preloadCache(serverWindow,action);
 
     // collect visible viewports
     collectVisibleViewports(server);
@@ -226,20 +232,7 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
 
 void BalancedMultiWindow::clientInit (void)
 {
-    if(!getBalance())
-    {
-        Inherited::clientInit();
-        return;
-    }
-    // reset server list
-    _cluster.servers.resize(getServers().size()+1);
-    for(UInt32 id=0 ; id < getServers().size()+1 ; ++id)
-        _cluster.servers[id].id = id;
-    getNetwork()->connectAllGroupToPoint(getServers().size(),"StreamSock");
-    // do not buffer any data
-    for(UInt32 i=0 ; i <= getServers().size() ; ++i)
-        getNetwork()->getConnection(i)->forceDirectIO();
-    _disableCulling = true;
+    Inherited::clientInit();
 }
 
 void BalancedMultiWindow::clientPreSync( void )
@@ -273,6 +266,19 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     Connection::Channel channel;
     UInt32 bbcount,id,vp,vpcount,wpcount;
 
+    if(_cluster.servers.size() == 0)
+    {
+        // reset server list
+        _cluster.servers.resize(getServers().size()+1);
+        for(UInt32 id=0 ; id < getServers().size()+1 ; ++id)
+            _cluster.servers[id].id = id;
+        getNetwork()->connectAllGroupToPoint(getServers().size(),"StreamSock");
+        // do not buffer any data
+        for(UInt32 i=0 ; i <= getServers().size() ; ++i)
+            getNetwork()->getConnection(i)->forceDirectIO();
+        _preloadCache = true;
+    }
+
     // create load groups for all root nodes
     createLoadGroups();
 
@@ -290,6 +296,8 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
         server.load = 0;
         for(vp=0 ; vp < server.viewports.size() ; ++vp)
             server.load += server.viewports[vp].load;
+        // preload texture and dlist cache
+        preloadCache(getClientWindow(),action);
     }
 
     // read bboxes from all servers
@@ -550,8 +558,8 @@ void BalancedMultiWindow::createLoadGroups(void)
     if(changeList->beginCreated() == changeList->endCreated() &&
        changeList->beginDestroyed() == changeList->endDestroyed())
         return;
-
-    _disableCulling = true;
+    printf("created!!!!\n");
+    _preloadCache = true;
 
     // reset all;
     _cluster.rootNodes.clear();
@@ -1414,13 +1422,8 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
        _foreignPort.serverPort->getPixelBottom() <= 
        _foreignPort.serverPort->getPixelTop())
     {
-        // show whole scene in first frame
-        if(_disableCulling) {
-            action->setFrustumCulling(false);
-        }
         // do rendering
         action->setWindow(serverWindow.getCPtr() );
-
         _foreignPort.serverPort->render(action);
 /*
         GLint glvp[4];
@@ -1430,7 +1433,6 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
                glvp[2],
                glvp[3]);
 */
-        _disableCulling = false;
         action->setFrustumCulling(true);
     }
 
@@ -1754,6 +1756,90 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         printf("%4d %10d %2.6lf\n",getServers().size(),triCount,drawTime);
     }
 
+}
+
+/*! preload display lists and textures
+ */
+void BalancedMultiWindow::preloadCache(WindowPtr window,
+                                       RenderActionBase *action)
+{
+    NodePtr root = NullFC;
+    UInt32 v;
+
+    if(!_preloadCache)
+        return;
+    printf("preload\n");
+    _preloadCache = false;
+    window->activate();
+    window->frameInit();
+    // loop over all viewports
+    for(v = 0 ; v  < getPort().size() ; ++v )
+    {
+        ViewportPtr viewport = getPort()[v];
+        if(root == viewport->getRoot())
+            continue;
+        root = viewport->getRoot();
+        if(root == NullFC)
+            continue;
+        root->updateVolume();
+        window->activate();
+        window->frameInit();
+        // create cart
+        NodePtr cartN = Node::create();
+        TransformPtr cart = Transform::create();
+        beginEditCP(cartN);
+        cartN->setCore(cart);
+        endEditCP(cartN);
+        beginEditCP(root);
+        root->addChild(cartN);
+        endEditCP(root);
+        // create camera
+        PerspectiveCameraPtr cam = PerspectiveCamera::create();
+        addRefCP(cam);
+        cam->setBeacon( cartN );
+        cam->setFov   ( deg2rad( 60 ) );
+        // background
+        SolidBackgroundPtr bkgnd = SolidBackground::create();
+        addRefCP(bkgnd);
+        // create viewport
+        ViewportPtr vp = Viewport::create();
+        addRefCP(vp);
+        vp->setCamera( cam );
+        vp->setBackground( bkgnd );
+        vp->setRoot( root );
+        vp->setSize( 0,0, 1,1 );
+        // add to window
+        window->addPort(vp);
+        // calc viewing matrix
+        Vec3f min,max;
+        root->getVolume().getBounds( min, max );
+        Vec3f d = max - min;
+        Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(cam->getFov() / 2.f));
+        Vec3f up(0,1,0);
+        Pnt3f at((min[0] + max[0]) * .5f,(min[1] + max[1]) * .5f,(min[2] + max[2]) * .5f);
+        Pnt3f from=at;
+        from[2]+=(dist*3); 
+        beginEditCP(cart);
+        Matrix &matrix = cart->getMatrix();
+        MatrixLookAt(matrix, from, at, up);
+        endEditCP(cart);
+        // set the camera to go from 1% of the object to twice its size
+        Real32 diag = osgMax(osgMax(d[0], d[1]), d[2]);
+        beginEditCP(cam);
+        cam->setNear (diag / 100.f);
+        cam->setFar  (10 * dist);
+        endEditCP(cam);
+        // do rendering
+        action->setWindow(window.getCPtr() );
+        vp->render(action);
+        // remove port
+        window->subPort(vp);
+        // remove all
+        subRefCP(bkgnd);
+        subRefCP(vp);
+        subRefCP(cam);
+        root->subChild(cartN);
+    }
 }
 
 
