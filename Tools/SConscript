@@ -1,1 +1,1 @@
-SConscript(dirs = ['actorEdit', 'fcdEdit'])
+SConscript(dirs = ['actorEdit', 'fcdEdit', 'runGraphOp'])

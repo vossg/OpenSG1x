@@ -1,0 +1,9 @@
+Import('*')
+
+sources = Split("""
+    runGraphOp.cpp
+""")
+
+BuildProgram(tc, 'runGraphOp', sources,
+             updates=[OpenSGLibrary(['OSGSystem', 'OSGBase'])],
+             CPPPATH=[env['PREFIX'].Dir('include')])
