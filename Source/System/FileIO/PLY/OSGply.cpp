@@ -109,7 +109,7 @@ void binary_get_element(PlyFile *, char *);
 
 /* memory allocation */
 #define myalloc(mem_size) my_alloc((mem_size), __LINE__, __FILE__)
-char *my_alloc(int, int, char *);
+static char *my_alloc(int, int, char *);
 
 static bool should_reverse(int file_type)
 {
@@ -326,7 +326,7 @@ void ply_describe_other_properties(
   PlyElement* elem = find_element (plyfile, other->name);
   if (elem == NULL) {
     fprintf(stderr, "ply_describe_other_properties: can't find element '%s'\n",
-            other->name);
+            other->name.c_str());
     return;
   }
 
@@ -363,7 +363,8 @@ void ply_element_count(
   /* look for appropriate element */
   elem = find_element (plyfile, elem_name);
   if (elem == NULL) {
-    fprintf(stderr,"ply_element_count: can't find element '%s'\n",elem_name);
+    fprintf(stderr,"ply_element_count: can't find element'%s'\n", 
+            elem_name.c_str());
     exit (-1);
   }
 
@@ -834,7 +835,7 @@ void ply_get_element_setup(
     prop = find_property (elem, prop_list[i].name, &index);
     if (prop == NULL) {
       fprintf (stderr, "Warning:  Can't find property '%s' in element '%s'\n",
-               prop_list[i].name, elem_name);
+               prop_list[i].name.c_str(), elem_name);
       continue;
     }
 
@@ -881,7 +882,7 @@ void ply_get_property(
   prop_ptr = find_property (elem, prop->name, &index);
   if (prop_ptr == NULL) {
     fprintf (stderr, "Warning:  Can't find property '%s' in element '%s'\n",
-             prop->name, elem_name.c_str());
+             prop->name.c_str(), elem_name.c_str());
     return;
   }
   prop_ptr->internal_type  = prop->internal_type;
