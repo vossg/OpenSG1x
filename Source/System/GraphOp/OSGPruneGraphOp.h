@@ -61,7 +61,10 @@ public:
 
     static const char *getClassname(void) { return "PruneGraphOp"; };
 
-    PruneGraphOp(float size, Method method, const char* name = "Prune");
+    PruneGraphOp(
+        float size = 1.0f,
+        Method method = SUM_OF_DIMENSIONS,
+        const char* name = "Prune");
 
     GraphOp* create();
 
