@@ -52,7 +52,7 @@ OSG_USING_NAMESPACE
 /*! \class osg::MaterialMergeGraphOp
     \ingroup GrpSystemNodeCoresDrawablesGeometry
     
-Removes nodes of size smaller than a given threshold from the scene.
+Merges equivalent materials in a scene.
 */
 
 MaterialMergeGraphOp::MaterialMergeGraphOp(const char* name)
