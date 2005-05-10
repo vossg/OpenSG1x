@@ -195,7 +195,6 @@ void FlyNavigator::rotate(Real32 deltaX, Real32 deltaY)
     final.multMatrixPnt(_rAt);
 
     // rotate around the side vector
-
     Vec3f lv = _rAt-_rFrom;
     lv.normalize();
 
@@ -236,11 +235,6 @@ Real32 FlyNavigator::forward(Real32 step)
 */
 Real32 FlyNavigator::right(Real32 step)
 {
-    Int16 sign = (step >= 0) ? -1 : 1;
-    Real32 angle = 0.19634954f;
-
-    rotate(sign*angle, 0);
-/*
     Vec3f sv;
     sv = _rFrom-_rAt;
     sv.crossThis(_vUp);
@@ -251,7 +245,6 @@ Real32 FlyNavigator::right(Real32 step)
     transl.setTranslate(sv);
     transl.multMatrixPnt(_rAt);
     transl.multMatrixPnt(_rFrom);
- */
     return 0.0;
 }
 

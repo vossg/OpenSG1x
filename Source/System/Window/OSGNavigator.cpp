@@ -151,7 +151,8 @@ OSG_USING_NAMESPACE
 
 /*------------------------- constructors ----------------------------------*/
 
-Navigator::Navigator(): 
+Navigator::Navigator():
+    _rRotationAngle(0.04908739f),
     _rMotionFactor(1.f),
     _currentState(IDLE),
     _currentMode(TRACKBALL),
@@ -330,13 +331,15 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
         break;
 
     case FLY:       
-    
+
         switch (key)
         {
-        case LEFT      : _flyer.right(_rMotionFactor);   break;
-        case RIGHT     : _flyer.right(-_rMotionFactor);    break;
+        case LEFTROT   : _flyer.rotate(-_rRotationAngle, 0);  break;
+        case RIGHTROT  : _flyer.rotate( _rRotationAngle, 0);  break;
+        case LEFT      : _flyer.right( _rMotionFactor);  break;
+        case RIGHT     : _flyer.right(-_rMotionFactor);  break;
         case FORWARDS  : _flyer.forward(-_rMotionFactor); break;
-        case BACKWARDS : _flyer.forward(_rMotionFactor);  break;
+        case BACKWARDS : _flyer.forward( _rMotionFactor); break;
         default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
         }
         break;
@@ -345,12 +348,12 @@ void Navigator::keyPress(Int16 key, Int16 , Int16 )
     
         switch (key)
         {
-        case LEFTROT   : _walker.rotate(((-_rMotionFactor >= 0) ? -1 : 1)*0.19634954f, 0);  break;
-        case RIGHTROT  : _walker.rotate(((_rMotionFactor >= 0) ? -1 : 1)*0.19634954f, 0);  break;
-        case LEFT      : _walker.right(_rMotionFactor);   break;
-        case RIGHT     : _walker.right(-_rMotionFactor);    break;
+        case LEFTROT   : _walker.rotate(-_rRotationAngle, 0);  break;
+        case RIGHTROT  : _walker.rotate( _rRotationAngle, 0);  break;
+        case LEFT      : _walker.right( _rMotionFactor);   break;
+        case RIGHT     : _walker.right(-_rMotionFactor);   break;
         case FORWARDS  : _walker.forward(-_rMotionFactor); break;
-        case BACKWARDS : _walker.forward(_rMotionFactor);  break;
+        case BACKWARDS : _walker.forward( _rMotionFactor); break;
         default        : FNOTICE(("Navigator: keyPress, unknown key\n"));
         }
         break;
@@ -536,6 +539,13 @@ void Navigator::setMode(Navigator::Mode new_mode)
     if (_currentMode == new_mode) return;
 
     _currentMode = new_mode;
+}
+
+/*! Set the rotation angle.
+*/
+void Navigator::setRotationAngle(Real32 new_angle)
+{
+    _rRotationAngle = new_angle;
 }
 
 /*! Set the motion factor.
@@ -824,6 +834,20 @@ Navigator::State Navigator::getState()
 Navigator::Mode Navigator::getMode()
 {
     return _currentMode;
+}
+
+/*! Get the navigator's rotation angle.
+*/
+Real32 Navigator::getRotationAngle()
+{
+    return _rRotationAngle;
+}
+
+/*! Get the navigator's motion factor
+*/
+Real32 Navigator::getMotionFactor()
+{
+    return _rMotionFactor;
 }
 
 /*! Set the clickCenter current state.

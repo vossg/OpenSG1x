@@ -136,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
 
     void setMode         (Mode          new_mode    );
     void setViewport     (ViewportPtr   new_viewport);
+    void setRotationAngle(Real32        new_angle   );
     void setMotionFactor (Real32        new_factor  );
     void setFrom         (Pnt3f         new_from    );
     void setAt           (Pnt3f         new_at      );
@@ -159,6 +160,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
           Real32  getDistance();
           State   getState();
           Mode    getMode();
+          Real32  getRotationAngle();
+          Real32  getMotionFactor();
     
           WalkNavigator* getWalkNavigator() { return &_walker; }
 
@@ -174,6 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Navigator
     FlyNavigator       _flyer;
     WalkNavigator      _walker;
 
+    Real32      _rRotationAngle;
     Real32      _rMotionFactor;
     State       _currentState;
     Mode        _currentMode;
