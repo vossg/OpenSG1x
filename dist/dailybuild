@@ -21,7 +21,7 @@ cleanup ()
     
     eval $do_copy 
     
-    rm -f $log_configure $log_make $log_errors
+    rm -fr $tmpdir
 }
 
 errorexit () 
@@ -170,6 +170,9 @@ checkerror ()
         -e "GetLastError" \
         -e "Error (future)" \
         -e "(ignored)" \
+        -e "error-type" \
+        -e "error-constant" \
+        -e "Failed to create pthread thread key" \
     > $log_errors || true
     $grep -n -i -w failed $file | \
     $grep -v \
@@ -224,7 +227,8 @@ checkerror ()
 ##trap errorexit  ERR HUP INT QUIT
 ##trap normalexit EXIT
 
-tmpdir=/tmp
+tmpdir=/tmp/osgdb.$$
+mkdir $tmpdir
 basedir=`pwd`
 
 # Init perl script for log analysis
@@ -408,6 +412,10 @@ do
             shift
             shift
             ;;
+        --no-doc )
+            has_doxygen=0
+            shift
+            ;;
          *) 
             break 2
             ;;
@@ -440,7 +448,7 @@ rm -rf OpenSG
 # cvs needs to be in the path!
 export CVS_RSH=${tmpdir}/ssh-sf
 rm -f $log_cvs
-until cvs -z9 -ddirk@cvs.opensg.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
 do
     echo "CVS problem, sleeping and retrying!" >> $log_cvs
     sleep 10
@@ -479,7 +487,7 @@ case $system in
                 export PATH=/igd/a4/software/IRIX/bin/:$PATH
                 loginfo="OS: `/bin/uname -aR` <br>"
                 loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
-                has_doxygen=0
+                has_doxygen=${has_doxygen:=0}
                 ;;
             
             CC64)
@@ -499,7 +507,7 @@ case $system in
                 export PATH=${qt_dir}/bin/:$PATH
                 loginfo="OS: `/bin/uname -aR` <br>"
                 loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
-                has_doxygen=0
+                has_doxygen=${has_doxygen:=0}
                 ;;           
         esac
         ;;
@@ -526,8 +534,8 @@ case $system in
     
     *-pc-linux-gnu )    
         
-        #qt_dir="/usr/lib/qt3"
-        qt_dir="/igd/a4/software/Linux/packages/qt-x11-commercial-3.1.2"
+        qt_dir="/usr/lib/qt3"
+        #qt_dir="/igd/a4/software/Linux/packages/qt-x11-commercial-3.1.2"
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         glut_args=${glut_args:="--with-glut"}
         tif_args=${tif_args:="--with-tif"}
@@ -538,9 +546,13 @@ case $system in
         config_shell=bash
         mail=/usr/bin/Mail
         export PATH=/igd/a4/software/Linux/bin/:$PATH
-        loginfo="OS: `uname -a` <br>"
-        loginfo="$loginfo    `cat /proc/version` <br>"
-        loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
+        loginfo="OS: `uname -a` (`cat /proc/version`) <br>"
+        vopt="-v"
+        if test $compiler = "icc";
+        then
+            vopt="-V"
+        fi
+        loginfo="$loginfo Compiler Version: `$compiler $vopt 2>&1` <br>"
         ;;
 
     *-pc-cygwin )    
@@ -765,6 +777,14 @@ esac
 if test $errcount -gt 0
 then
     errorexit Tests NOFILE
+fi
+
+
+if ! test -d $qt_dir
+then
+    export OSG_DIST_NO_EXAMPLEBUILD=1
+    export OSG_DIST_NO_FCDEDIT=1
+    echo qt_dir not found, skipping example and fcdEdit build for dist > $log_dist 2>&1
 fi
 
 cd $basedir
