@@ -783,34 +783,20 @@ Exit:
   returns a list of properties, or NULL if the file doesn't contain that elem
 ******************************************************************************/
 
-PlyProperty **ply_get_element_description(
+bool ply_get_element_description(
   PlyFile *plyfile,
   const std::string& elem_name,
   int *nelems,
-  int *nprops)
+  std::vector<PlyProperty>& props)
 {
-  PlyElement *elem;
-  PlyProperty *prop;
-  PlyProperty **prop_list;
-
   /* find information about the element */
-  elem = find_element (plyfile, elem_name);
+  PlyElement* elem = find_element (plyfile, elem_name);
   if (elem == NULL)
-    return (NULL);
+    return false;
 
   *nelems = elem->num;
-  *nprops = elem->props.size();
-
-  /* make a copy of the element's property list */
-  prop_list = (PlyProperty **) myalloc (sizeof (PlyProperty *) * elem->props.size());
-  for (size_t i = 0; i < elem->props.size(); i++) {
-    prop = new PlyProperty;
-    *prop = elem->props[i];
-    prop_list[i] = prop;
-  }
-
-  /* return this duplicate property list */
-  return (prop_list);
+  props = elem->props;
+  return true;
 }
 
 
@@ -1471,7 +1457,7 @@ void binary_get_element(PlyFile *plyfile, char *elem_ptr)
 {
   std::istream *fp = plyfile->ifp;
   char* item;
-  std::vector<char> item_ptr;
+  char* item_ptr;
   int item_size;
   char** store_array;
 
@@ -1529,7 +1515,7 @@ void binary_get_element(PlyFile *plyfile, char *elem_ptr)
        * properties.
        */ 
       if (store_it) {
-	item_size = ply_type_size[prop->internal_type];
+        item_size = ply_type_size[prop->internal_type];
       }
 
       store_array = (char **) (elem_data + prop->offset);
@@ -1539,8 +1525,8 @@ void binary_get_element(PlyFile *plyfile, char *elem_ptr)
       }
       else {
         if (store_it) {
-          item_ptr.resize(item_size * list_count);
-          item = &item_ptr[0];
+          item_ptr = (char *) myalloc (sizeof (char) * item_size * list_count);
+          item = item_ptr;
           *store_array = item;
         }
 

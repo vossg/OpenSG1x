@@ -138,7 +138,7 @@ extern void ply_put_comment(PlyFile *, char *);
 extern void ply_put_obj_info(PlyFile *, char *);
 extern PlyFile *ply_read(std::istream *, std::vector<std::string>&);
 //extern PlyFile *ply_open_for_reading( char *, int *, char ***, int *, float *);
-extern PlyProperty **ply_get_element_description(PlyFile *, const std::string&, int*, int*);
+extern bool ply_get_element_description(PlyFile *, const std::string&, int*, std::vector<PlyProperty>&);
 extern void ply_get_element_setup( PlyFile *, char *, int, PlyProperty *);
 extern void ply_get_property(PlyFile *, const std::string&, PlyProperty *);
 extern PlyOtherProp *ply_get_other_properties(PlyFile *, char *, int);

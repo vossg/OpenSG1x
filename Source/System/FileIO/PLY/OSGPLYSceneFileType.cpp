@@ -124,10 +124,8 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
     {
         const std::string& elem_name = elems[i];
         int num_elems;
-        int nprops;
-        PlyProperty** plist = ply_get_element_description(ply, elem_name, &num_elems, &nprops);
-        if (!plist)
-        {
+        std::vector<PlyProperty> props;
+        if (!ply_get_element_description(ply, elem_name, &num_elems, props)) {
             continue;
         }
 
@@ -185,6 +183,8 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
                     v1 = v2;
                     v2 = v3;
                 }
+
+                free(f.verts);
             }
 
             endEditCP(indices);
@@ -213,7 +213,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
         geo->setPositions(pos3f);
         geo->setIndices(indices);
         endEditCP(geo);
-        //calcVertexNormals(geo);
+        calcVertexNormals(geo);
 
         return makeNodeFor(geo);
     }
@@ -260,6 +260,6 @@ PLYSceneFileType::PLYSceneFileType(const PLYSceneFileType& obj) :
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.2 2005/05/08 10:30:03 aegis Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.3 2005/05/10 09:47:20 aegis Exp $";
     static Char8 cvsid_hpp[] = OSGPLYSCENEFILETYPE_HEADER_CVSID;
 }
