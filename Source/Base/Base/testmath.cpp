@@ -1653,6 +1653,84 @@ void testfactor(void)
     std::cerr << rsR << std::endl;
 }
 
+void testnextpow2(void)
+{
+    {
+    std::cerr << "osgnextpow2 UInt32" << std::endl;
+    UInt32 a,b;
+    
+    b = 1;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = 0;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+     
+    b = 3;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1UL<<30)+1UL;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1UL<<31)+1UL;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    }
+    {
+    std::cerr << "osgnextpow2 Int32" << std::endl;
+    Int32 a,b;
+    
+    b = 1;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = 0;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+     
+    b = 3;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1L<<29)+1L;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1L<<30)+1L;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    }
+    {
+    std::cerr << "osgnextpow2 UInt64" << std::endl;
+    UInt64 a,b;
+    
+    b = 1;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = 0;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+     
+    b = 3;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1ULL<<62)+1ULL;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    
+    b = (1ULL<<63)+1ULL;
+    a = osgnextpower2(b);    
+    std::cerr << "npow2(" << b << ") = " << a << std::endl;
+    }
+    
+
+}
+
 int main(void)
 {
     osgInit(0, NULL);
@@ -1660,7 +1738,7 @@ int main(void)
 //    vectorTestConstructAndSetTest();
 //    vectorMathTests();
 //    matrixTest();
-      quattest();
+//      quattest();
 //    matutilitytest();
 //    matNSMTest();
 
@@ -1669,6 +1747,7 @@ int main(void)
 //    vec2pnttest();
 
 //    testfactor();
+      testnextpow2();
 
     return 0;
 }

@@ -1119,14 +1119,15 @@ bool osgispower2(Int32 rValue)
 inline
 UInt32 osgnextpower2(UInt32 rValue)
 {
-    UInt32 result = 1;
+    UInt32 result = 1, oresult = 0;
 
-    while(result < rValue)
+    while(result < rValue && result > oresult)
     {
+        oresult = result;
         result <<= 1;
     }
 
-    return result;
+    return (result > oresult)? result : 0;
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -1135,14 +1136,15 @@ UInt32 osgnextpower2(UInt32 rValue)
 inline
 Int32 osgnextpower2(Int32 rValue)
 {
-    Int32 result = 1;
+    Int32 result = 1, oresult = 0;
 
-    while(result < rValue)
+    while(result < rValue && result > oresult)
     {
+        oresult = result;
         result <<= 1;
     }
 
-    return result;
+    return (result > oresult)? result : 0;
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -1151,14 +1153,15 @@ Int32 osgnextpower2(Int32 rValue)
 inline
 Int64 osgnextpower2(Int64 rValue)
 {
-    Int64 result = 1;
+    Int64 result = 1, oresult = 0;
 
-    while(result < rValue)
+    while(result < rValue && result > oresult)
     {
+        oresult = result;
         result <<= 1;
     }
 
-    return result;
+    return (result > oresult)? result : 0;
 }
 
 /*! \ingroup GrpBaseBaseMathFn
@@ -1167,14 +1170,15 @@ Int64 osgnextpower2(Int64 rValue)
 template <> inline
 UInt64 osgnextpower2<UInt64>(UInt64 rValue)
 {
-    UInt64 result = 1;
+    UInt64 result = 1, oresult = 0;
 
-    while(result < rValue)
+    while(result < rValue && result > oresult)
     {
+        oresult = result;
         result <<= 1;
     }
 
-    return result;
+    return (result > oresult)? result : 0;
 }
 
 #ifdef SIZE_T_NEQ_UINT32
@@ -1185,14 +1189,15 @@ UInt64 osgnextpower2<UInt64>(UInt64 rValue)
 inline
 size_t osgnextpower2(size_t rValue)
 {
-    size_t result = 1;
+    size_t result = 1, oresult = 0;
 
-    while(result < rValue)
+    while(result < rValue && result > oresult)
     {
+        oresult = result;
         result <<= 1;
     }
 
-    return result;
+    return (result > oresult)? result : 0;
 }
 
 #endif
