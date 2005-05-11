@@ -634,7 +634,6 @@ PlyFile *ply_read(std::istream *fp, std::vector<std::string>& elem_names)
   PlyFile *plyfile;
   int nwords;
   const char **words;
-  int found_format = 0;
   PlyElement *elem;
   char *orig_line;
 
@@ -672,7 +671,6 @@ PlyFile *ply_read(std::istream *fp, std::vector<std::string>& elem_names)
         return (NULL);
       plyfile->reverse_bytes = should_reverse(plyfile->file_type);
       plyfile->version = float(atof (words[2]));
-      found_format = 1;
     }
     else if (equal_strings (words[0], "element"))
       add_element (plyfile, words, nwords);
@@ -1604,14 +1602,12 @@ const char **get_words(std::istream *fp, int *nwords, char **orig_line)
   int max_words = 10;
   int num_words = 0;
   char *ptr,*ptr2;
-  char *result;
 
   words = (const char **) myalloc (sizeof (char *) * max_words);
 
   std::string line;
   std::getline(*fp, line);
   strncpy(str, line.c_str(), BIG_STRING);
-  result = str;
 
   /* convert line-feed and tabs into spaces */
   /* (this guarentees that there will be a space before the */
@@ -1730,6 +1726,8 @@ double get_item_value(char *item, int type)
       fprintf (stderr, "get_item_value: bad type = %d\n", type);
       exit (-1);
   }
+  
+  return -1.;
 }
 
 

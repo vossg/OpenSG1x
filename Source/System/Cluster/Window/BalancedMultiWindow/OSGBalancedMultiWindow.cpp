@@ -586,7 +586,10 @@ void BalancedMultiWindow::createLoadGroups(void)
 void BalancedMultiWindow::collectLoadGroups(NodePtr node,NodePtr root)
 {
     LoadGroup load;
-    UInt32 lastSize,l;
+#if 0    
+    UInt32 lastSize;
+#endif    
+    UInt32 l;
     MFNodePtr::iterator child;
 
     // ignore null node
@@ -636,7 +639,9 @@ void BalancedMultiWindow::collectLoadGroups(NodePtr node,NodePtr root)
             _cluster.loadGroups.push_back(load);
     }
 
+#if 0    
     lastSize = _cluster.loadGroups.size();
+#endif
     // loop over all child nodes
     for(child = node->getMFChildren()->begin() ;
         child != node->getMFChildren()->end() ;
@@ -1105,7 +1110,6 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
     std::vector<Worker>::iterator wI;
     Real32 load[2] = {0,0};
     std::vector<Worker> worker[2];
-    Worker localWorker;
     Int32  localWorkerSide,side;
     Int32  localWorkerSideTry[2];
     Real32 resultLoad[2];
@@ -1113,7 +1117,7 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
     Real32 resultLoadTry[2][2];
     Int32  resultRectTry[2][2][4];
     int axis;
-    Real32 threshold;
+//    Real32 threshold;
     Real32 maxLoad1,maxLoad2;
     UInt32 fromAxis,toAxis;
     bool bestCut=getBestCut();
@@ -1137,7 +1141,6 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
         // local worker
         if(wI->serverId == port.serverId) 
         {
-            localWorker = *wI;
             localWorkerSide = side;
         }
     }
@@ -1229,7 +1232,7 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
     }
 
     // dont cut if only 1 percent is taken from load
-    threshold = (load[0] + load[1]) * 0.0001;
+//    threshold = (load[0] + load[1]) * 0.0001;
 
     // take full viewport, if the split is not performance relevant
     // This makes only sense if one of the sides contain a local 
@@ -1310,7 +1313,7 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
                                       Real32 resultLoad[2],
                                       Int32 resultRect[2][4])
 {
-    Int32 cut,lastCut;
+    Int32 cut;
     BBoxList *bl;
     Real64 leftLoad  = 0;
     Real64 rightLoad = load[0] + load[1];
@@ -1330,7 +1333,6 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
     sortBBoxes(port,axis,rect);
 
     // loop through all points
-    lastCut = rect[axis]-1;
     for(cut = rect[axis] ; cut < rect[axis+2] ; ++cut)
     {
         // loop through open list
@@ -1616,9 +1618,9 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                     for(tI = aI->tiles.begin() ; tI != aI->tiles.end() ; ++tI)
                     {
                         if(getShort())
-                            conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 2 + sizeof(Tile::Header));
+                            conn->put(&(*tI),(UInt32)osgabs(tI->header.width) * tI->header.height * 2 + sizeof(Tile::Header));
                         else
-                            conn->put(&(*tI),(UInt32)fabs(tI->header.width) * tI->header.height * 3 + sizeof(Tile::Header));
+                            conn->put(&(*tI),(UInt32)osgabs(tI->header.width) * tI->header.height * 3 + sizeof(Tile::Header));
                     }
                     conn->flush();
                     sendCount--;
