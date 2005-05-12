@@ -222,6 +222,7 @@ Action::ResultE DrawActionBase::start(void)
         getStatistics()->getElem(Drawable::statNLines)->set(0);
         getStatistics()->getElem(Drawable::statNPoints)->set(0);
         getStatistics()->getElem(Drawable::statNVertices)->set(0);
+        getStatistics()->getElem(Drawable::statNPrimitives)->set(0);
     }
 
 //fprintf(stderr,"%p: start\n", Thread::getCurrent());

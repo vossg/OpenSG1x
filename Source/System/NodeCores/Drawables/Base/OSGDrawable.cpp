@@ -63,6 +63,8 @@ StatElemDesc<StatIntElem>  Drawable::statNPoints("NPoints",
 "number of rendered points");
 StatElemDesc<StatIntElem>  Drawable::statNVertices("NVertices",
 "number of transformed vertices");
+StatElemDesc<StatIntElem>  Drawable::statNPrimitives("NPrimitives",
+"number of rendered primitive groups");
 
 /*----------------------- constructors & destructors ----------------------*/
 
@@ -123,7 +125,7 @@ void Drawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.4 2002/11/11 13:55:48 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.5 2005/05/12 09:07:17 aegis Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

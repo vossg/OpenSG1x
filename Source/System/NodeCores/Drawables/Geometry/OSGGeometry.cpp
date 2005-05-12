@@ -734,6 +734,12 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
                 is = getIndices()->getSize() /(is ? is : 1);
             }
             coll->getElem(Drawable::statNVertices)->add(is);
+
+            UInt32 primitiveCount = 0;
+            if (getTypes() != NullFC) {
+                primitiveCount = getTypes()->getSize();
+            }
+            coll->getElem(Drawable::statNPrimitives)->add(primitiveCount);
         }
     }
 

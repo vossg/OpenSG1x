@@ -69,6 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Drawable : public DrawableBase
     static StatElemDesc<StatIntElem>  statNLines;
     static StatElemDesc<StatIntElem>  statNPoints;
     static StatElemDesc<StatIntElem>  statNVertices;
+    static StatElemDesc<StatIntElem>  statNPrimitives;
 
     /*! \}                                                                 */
 
@@ -129,6 +130,6 @@ OSG_END_NAMESPACE
 #include <OSGDrawableBase.inl>
 #include <OSGDrawable.inl>
 
-#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.4 2005/05/12 09:07:17 aegis Exp $"
 
 #endif /* _OSGDRAWABLE_H_ */

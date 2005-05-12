@@ -157,6 +157,8 @@ int main(int argc, char **argv)
                        "%d lines drawn");
     statfg->addElement(Drawable::statNPoints, 
                        "%d points drawn");
+    statfg->addElement(Drawable::statNPrimitives,
+                        "%d primitive groups drawn");
     statfg->addElement(Drawable::statNVertices, 
                        "%d vertices transformed");
     endEditCP(statfg);
