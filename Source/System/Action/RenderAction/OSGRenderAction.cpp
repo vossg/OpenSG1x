@@ -384,7 +384,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     {
         pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
         if(pMPMat != NULL)
-            mpMatPasses = pMPMat->getMaterials().size();
+            mpMatPasses = pMPMat->getNPasses();
     }
 
     UInt32 sortKey = pMat->getSortKey();
@@ -599,7 +599,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     UInt32 mpMatPasses = 1;
     MultiPassMaterial *pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
     if(pMPMat != NULL)
-        mpMatPasses = pMPMat->getMaterials().size();
+        mpMatPasses = pMPMat->getNPasses();
 
     UInt32 sortKey = pMat->getSortKey();
 

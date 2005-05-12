@@ -217,6 +217,11 @@ StatePtr MultiPassMaterial::getState(UInt32 index)
     return NullFC;
 }
 
+UInt32 MultiPassMaterial::getNPasses(void)
+{
+    return _mfMaterials.size();
+}
+
 /*! Check if the Material (i.e. any of its materials) is transparent..
 */
 bool MultiPassMaterial::isTransparent(void) const
@@ -255,7 +260,7 @@ void MultiPassMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.3 2005/04/15 10:07:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.4 2005/05/12 15:23:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 
