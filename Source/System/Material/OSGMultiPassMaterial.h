@@ -90,7 +90,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiPassMaterial : public MultiPassMaterialBase
     virtual StatePtr   makeState         (void);
 
     virtual void       rebuildState      (void);
-    StatePtr           getState          (UInt32 index);
+    virtual StatePtr           getState          (UInt32 index);
 
     virtual bool       isTransparent     (void) const;
 
@@ -146,6 +146,6 @@ OSG_END_NAMESPACE
 #include <OSGMultiPassMaterialBase.inl>
 #include <OSGMultiPassMaterial.inl>
 
-#define OSGMULTIPASSMATERIAL_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterial.h,v 1.1 2005/04/14 15:43:45 a-m-z Exp $"
+#define OSGMULTIPASSMATERIAL_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterial.h,v 1.2 2005/05/12 14:40:44 a-m-z Exp $"
 
 #endif /* _OSGMULTIPASSMATERIAL_H_ */
