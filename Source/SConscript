@@ -104,6 +104,7 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     Action/RenderAction
     Cluster/Base
     Cluster/Server
+    Cluster/Window/BalancedMultiWindow
     Cluster/Window/Base
     Cluster/Window/MultiDisplay
     Cluster/Window/SortFirst
