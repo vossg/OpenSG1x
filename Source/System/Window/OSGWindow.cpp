@@ -1222,6 +1222,23 @@ void OSG::Window::frameExit(void)
     }
 
     _glObjectDestroyList.clear();
+    
+    // Test for OpenGL errors. Just a little precaution to catch
+    // stray errors. This is the only OpenGL error test in opt mode
+ 
+    GLenum glerr;
+
+    while((glerr = glGetError()) != GL_NO_ERROR)
+    {
+        FWARNING(("Window::frameExit: Caught stray OpenGL error %s (%#x).",
+                gluErrorString(glerr),
+                glerr));
+#ifndef OSG_DEBUG
+        FWARNING(("Rerun with debug-libraries to get more accurate "
+                  "information.\n"));
+#endif
+    }
+    
 }
 
 

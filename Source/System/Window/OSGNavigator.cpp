@@ -377,10 +377,20 @@ void Navigator::moveTo(Int16 x, Int16 y)
     if(width <= 0 || height <= 0)
         return;
 
-    Real32 fromX = (2.0f * _lastX - width) / width;
-    Real32 fromY = (height - 2.0f * _lastY) / height;
-    Real32 toX   = (2.0f * x - width) / width;
-    Real32 toY   = (height - 2.0f * y) / height;
+    WindowPtr par = _vp->getParent();
+    Real32 winHeight;
+    
+    if(par != NullFC)
+        winHeight = (Real32)par->getHeight();
+    else
+        winHeight = height;
+        
+    Real32 fromX = (2.0f * (_lastX - _vp->getPixelLeft())- width)/  width;
+    Real32 fromY = (2.0f * (winHeight - _lastY - _vp->getPixelBottom()) 
+                                - height)  / height;
+    Real32 toX   = (2.0f * (x - _vp->getPixelLeft()) - width) / width;
+    Real32 toY   = (2.0f * (winHeight - y - _vp->getPixelBottom()) 
+                                - height)/height;
 
     switch (_currentMode)
     {
