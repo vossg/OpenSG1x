@@ -1044,6 +1044,16 @@
 #define GL_CLAMP_TO_EDGE                  0x812F
 #endif
 
+/*---------------------------------------------------------------------*/
+/*! \name GL_UNSIGNED_SHORT_5_6_5                                      */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+
+#ifndef GL_UNSIGNED_SHORT_5_6_5
+#define GL_UNSIGNED_SHORT_5_6_5           0x8363
+#endif
 
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 
