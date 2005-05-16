@@ -172,7 +172,7 @@ class OSG_BASE_DLLMAPPING PathHandler
     /*! \name                      Helper                                  */
     /*! \{                                                                 */
 
-    void        validateList        (void                         );
+    void        validateList        (      PathList    &pathList  );
 
     PathType    analysePathList     (const Char8       *pathList  );
     PathType    analysePath         (const Char8       *path      );

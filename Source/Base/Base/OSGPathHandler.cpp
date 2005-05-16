@@ -189,7 +189,7 @@ void PathHandler::push_backCurrentDir(void)
 
     _pathList.push_back(tmpString);
 
-    validateList();
+    validateList(_pathList);
 
     delete [] pCurrentDir;
 }
@@ -229,7 +229,7 @@ void PathHandler::push_frontCurrentDir(void)
 
     _pathList.push_front(tmpString);
 
-    validateList();
+    validateList(_pathList);
 
     delete [] pCurrentDir;
 }
@@ -257,6 +257,7 @@ void PathHandler::subPath(const Char8 *pathList)
     PathList tmpList;
 
     parsePathList(pathList, tmpList);
+    validateList(tmpList);
     subPathList(tmpList);
 }
 
@@ -265,6 +266,7 @@ void PathHandler::subUnixPath(const Char8 *pathList)
     PathList tmpList;
 
     parseUnixPathList(pathList, tmpList);
+    validateList(tmpList);
     subPathList(tmpList);
 }
 
@@ -273,6 +275,7 @@ void PathHandler::subWin32Path(const Char8 *pathList)
     PathList tmpList;
 
     parseWin32PathList(pathList, tmpList);
+    validateList(tmpList);
     subPathList(tmpList);
 }
 
@@ -318,10 +321,10 @@ void PathHandler::dump(void)
 
 /*------------------------------ Helper -----------------------------------*/
 
-void PathHandler::validateList(void)
+void PathHandler::validateList(PathList &pathList)
 {
-    PathListIter iter    = _pathList.begin();
-    PathListIter listEnd = _pathList.end();
+    PathListIter iter    = pathList.begin();
+    PathListIter listEnd = pathList.end();
 
     while(iter != listEnd)
     {
@@ -647,14 +650,14 @@ void PathHandler::push_backPathList(PathList &pathList)
 {
     _pathList.splice(_pathList.end(), pathList);
 
-    validateList();
+    validateList(_pathList);
 }
 
 void PathHandler::push_frontPathList(PathList &pathList)
 {
     _pathList.splice(_pathList.begin(), pathList);
 
-    validateList();
+    validateList(_pathList);
 }
 
 void PathHandler::subPathList(const PathList &pathList)
