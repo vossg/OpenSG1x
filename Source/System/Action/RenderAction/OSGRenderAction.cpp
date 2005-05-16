@@ -377,15 +377,10 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
-    MultiPassMaterial *pMPMat = NULL;
     UInt32 mpMatPasses = 1;
-
-    if(pMat->getType().getGroupId() == MultiPassMaterial::getClassType().getGroupId())
-    {
-        pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
-        if(pMPMat != NULL)
-            mpMatPasses = pMPMat->getNPasses();
-    }
+    MultiPassMaterial *pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
+    if(pMPMat != NULL)
+        mpMatPasses = pMPMat->getNPasses();
 
     UInt32 sortKey = pMat->getSortKey();
 
@@ -408,6 +403,14 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setLightsState(_lightsState);
             pNewElem->setState(pMat->getState().getCPtr());
         
+            if(pMPMat != NULL)
+            {
+                if(mpi == mpMatPasses-1)
+                    pNewElem->setLastMultiPass();
+                else
+                    pNewElem->setMultiPass();
+            }
+
             if(!pMat->isTransparent())
             {
                 if(_pNoStateSortRoot == NULL)
@@ -463,6 +466,14 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
     
+            if(pMPMat != NULL)
+            {
+                if(mpi == mpMatPasses-1)
+                    pNewElem->setLastMultiPass();
+                else
+                    pNewElem->setMultiPass();
+            }
+
             UInt32 rsize = _pTransMatRoots.size();
             if(sortKey >= rsize)
             {
@@ -546,11 +557,27 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
     
+                if(pMPMat != NULL)
+                {
+                    // for multipass we have a different state in all draw node
+                    // children.
+                    pNewElem->setState(pState);
+
+                    if(mpi == mpMatPasses-1)
+                        pNewElem->setLastMultiPass();
+                    else
+                        pNewElem->setMultiPass();
+                }
+                else
+                {
+                    // for non multipass materials there is only one state
+                    // for all draw node children.
+                    pNewMatElem->setState(pState);
+                }
+
                 pNewMatElem->addChild(pNewElem);
-                pNewMatElem->setState(pState);
                 pNewMatElem->setNode(getActNode());
 
-                //_pMatRoot->addChild(pNewMatElem);
                 UInt32 rsize = _pMatRoots.size();
                 if(sortKey >= rsize)
                 {
@@ -570,7 +597,14 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setLightsState(_lightsState);
     
                 if(pMPMat != NULL)
+                {
                     pNewElem->setState(pState);
+
+                    if(mpi == mpMatPasses-1)
+                        pNewElem->setLastMultiPass();
+                    else
+                        pNewElem->setMultiPass();
+                }
 
                 it->second->addChild(pNewElem);
             }
@@ -621,7 +655,15 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setState(pState);
-        
+
+            if(pMPMat != NULL)
+            {
+                if(mpi == mpMatPasses-1)
+                    pNewElem->setLastMultiPass();
+                else
+                    pNewElem->setMultiPass();
+            }
+
             if(!pMat->isTransparent())
             {
                 if(_pNoStateSortRoot == NULL)
@@ -677,6 +719,14 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setState      (pState);
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
+
+            if(pMPMat != NULL)
+            {
+                if(mpi == mpMatPasses-1)
+                    pNewElem->setLastMultiPass();
+                else
+                    pNewElem->setMultiPass();
+            }
 
             UInt32 rsize = _pTransMatRoots.size();
             if(sortKey >= rsize)
@@ -764,8 +814,25 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 
+                if(pMPMat != NULL)
+                {
+                    // for multipass we have a different state in all draw node
+                    // children.
+                    pNewElem->setState(pState);
+
+                    if(mpi == mpMatPasses-1)
+                        pNewElem->setLastMultiPass();
+                    else
+                        pNewElem->setMultiPass();
+                }
+                else
+                {
+                    // for non multipass materials there is only one state
+                    // for all draw node children.
+                    pNewMatElem->setState(pState);
+                }
+
                 pNewMatElem->addChild(pNewElem);
-                pNewMatElem->setState(pState);
                 pNewMatElem->setNode(getActNode());
 
                 //_pMatRoot->addChild(pNewMatElem);
@@ -791,7 +858,16 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setLightsState(_lightsState);
                 
                 if(pMPMat != NULL)
+                {
+                    // for multipass we have a different state in all draw node
+                    // children.
                     pNewElem->setState(pState);
+
+                    if(mpi == mpMatPasses-1)
+                        pNewElem->setLastMultiPass();
+                    else
+                        pNewElem->setMultiPass();
+                }
                 
                 it->second->addChild(pNewElem);
             }
@@ -1152,22 +1228,24 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         setActNode(pRoot->getNode());
 
+        if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
+            activateLocalLights(pRoot);
+
         State *pNewState = pRoot->getState();
 
         if(pNewState != NULL)
         {
             if(_pActiveState != NULL)
             {
-                // ok for cgfx I have to call it (to update the world matrix),
-                // also if we have no state change.
-                // This shouldn't hurt too much cause same states are also
-                // tested in changeFrom()
-                //if(pNewState != _pActiveState)
+                // ok for cgfx I have to call it also for equal states
+                // to update the world matrix.
+                if(pRoot->isMultiPass() || pNewState != _pActiveState)
                 {
                     pNewState->changeFrom(this, _pActiveState);
 
                     _pActiveState = pNewState;
 
+    
                     _uiNumMaterialChanges++;
                 }
             }
@@ -1183,19 +1261,27 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         if(pRoot->getGeometry() != NULL)
         {
-            if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
-                activateLocalLights(pRoot);
             pRoot->getGeometry()->drawPrimitives(this);
 
             _uiNumGeometries++;
         }
         else if(pRoot->hasFunctor())
         {
-            if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
-                activateLocalLights(pRoot);
             pRoot->getFunctor().call(this);
 
             _uiNumGeometries++;
+        }
+
+        if(pNewState != NULL && pRoot->isLastMultiPass()) // last pass
+        {
+            // without this the deactivate would be called in the next
+            // changeFrom call, but before the deactivate the activate from
+            // the new state is called this conflicts with the cgfx chunk!
+            _pActiveState = NULL; // force a activate
+
+            pNewState->deactivate(this);
+
+            _uiNumMaterialChanges++;
         }
 
         if(pRoot->getFirstChild() != NULL)

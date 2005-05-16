@@ -207,6 +207,30 @@ UInt64 DrawTreeNode::getLightsState(void)
 }
 
 inline
+void DrawTreeNode::setMultiPass(void)
+{
+    _multiPass = 1;
+}
+
+inline
+void DrawTreeNode::setLastMultiPass(void)
+{
+    _multiPass = 2;
+}
+
+inline
+bool DrawTreeNode::isMultiPass(void)
+{
+    return (_multiPass > 0);
+}
+
+inline
+bool DrawTreeNode::isLastMultiPass(void)
+{
+    return (_multiPass == 2);
+}
+
+inline
 void DrawTreeNode::reset(void)
 {
     _pFirstChild = NULL;
@@ -220,6 +244,9 @@ void DrawTreeNode::reset(void)
     _oMatrixStore.second.setIdentity();
 
     _rScalarVal = 0.f;
+
+    _lightsState = 0;
+    _multiPass = 0;
 }
 
 OSG_END_NAMESPACE

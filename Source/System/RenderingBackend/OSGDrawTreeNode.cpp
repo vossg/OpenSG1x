@@ -74,7 +74,8 @@ DrawTreeNode::DrawTreeNode(void) :
     _hasFunctor  (false),
     _oMatrixStore(),
     _rScalarVal  (0.f),
-    _lightsState (0)
+    _lightsState (0),
+    _multiPass   (0)
 {
     _oMatrixStore.first = 0;
 
