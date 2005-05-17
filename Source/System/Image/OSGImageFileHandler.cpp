@@ -47,6 +47,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGPathHandler.h>
 #include <OSGBaseFunctions.h>
+#include <OSGFileSystem.h>
 
 #include "OSGImageFileHandler.h"
 
@@ -252,21 +253,7 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
                 type->getMimeType()));
 
         std::string fixedpath = fullFilePath;
-
-#ifdef WIN32
-        // HACK but on windows network paths like \\Server\bla doesn't work, but
-        // //Server/bla works ...
-        if(fixedpath.length() > 2 &&
-           fixedpath[0] == '\\' &&
-           fixedpath[1] == '\\')
-        {
-            for(Int32 i=0;i<fixedpath.length();++i)
-            {
-                if(fixedpath[i] == '\\')
-                    fixedpath[i] = '/';
-            }
-        }
-#endif
+        Path::fixWinNetworkPath(fixedpath);
 
         retCode = type->read(image, fixedpath.c_str());
 

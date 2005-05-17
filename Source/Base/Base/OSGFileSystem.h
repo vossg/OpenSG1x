@@ -61,6 +61,8 @@
 #include <vector>
 #endif
 
+#include <string>
+
 OSG_BEGIN_NAMESPACE
 
 /*! File AccessFlags
@@ -102,6 +104,12 @@ namespace Directory
 
     inline
     static std::vector<Char8 *> *getEntries(const Char8 *szDirname);
+}
+
+namespace Path
+{
+    inline
+    static void fixWinNetworkPath(std::string &path);
 }
 
 #endif

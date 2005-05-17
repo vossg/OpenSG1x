@@ -334,6 +334,29 @@ namespace Directory
     /*! @} */
 }
 
+
+namespace Path
+{
+    inline
+    static void fixWinNetworkPath(std::string &path)
+    {
+#ifdef WIN32
+        // HACK but on windows network paths like \\Server\bla doesn't work, but
+        // //Server/bla works ...
+        if(path.length() > 2 &&
+           path[0] == '\\' &&
+           path[1] == '\\')
+        {
+            for(Int32 i=0;i<path.length();++i)
+            {
+                if(path[i] == '\\')
+                    path[i] = '/';
+            }
+        }
+#endif
+    }
+}
+
 #define OSGFILESYSTEM_INLINE_CVSID "@(#)$Id: $"
 
 OSG_END_NAMESPACE
