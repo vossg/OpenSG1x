@@ -2760,7 +2760,24 @@ bool Image::write(const Char8 *fileName)
 bool Image::read(const Char8 *fileName)
 {
     ImagePtr iPtr(this);
-    bool ok = ImageFileHandler::the().read(iPtr, fileName);
+
+    std::string fixedpath = fileName;
+
+#ifdef WIN32
+        // HACK but on windows network paths like \\Server\bla doesn't work, but
+        // //Server/bla works ...
+        if(fixedpath.length() > 2 &&
+           fixedpath[0] == '\\' &&
+           fixedpath[1] == '\\')
+        {
+            for(Int32 i=0;i<fixedpath.length();++i)
+            {
+                if(fixedpath[i] == '\\')
+                    fixedpath[i] = '/';
+            }
+        }
+#endif
+    bool ok = ImageFileHandler::the().read(iPtr, fixedpath.c_str());
 
     if(ok)
     {

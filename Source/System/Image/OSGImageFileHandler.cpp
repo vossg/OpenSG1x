@@ -251,7 +251,24 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
                 fullFilePath.c_str(), 
                 type->getMimeType()));
 
-        retCode = type->read(image, fullFilePath.c_str());
+        std::string fixedpath = fullFilePath;
+
+#ifdef WIN32
+        // HACK but on windows network paths like \\Server\bla doesn't work, but
+        // //Server/bla works ...
+        if(fixedpath.length() > 2 &&
+           fixedpath[0] == '\\' &&
+           fixedpath[1] == '\\')
+        {
+            for(Int32 i=0;i<fixedpath.length();++i)
+            {
+                if(fixedpath[i] == '\\')
+                    fixedpath[i] = '/';
+            }
+        }
+#endif
+
+        retCode = type->read(image, fixedpath.c_str());
 
         if(retCode)
         {
