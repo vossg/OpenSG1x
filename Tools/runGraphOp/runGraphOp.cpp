@@ -76,8 +76,7 @@ int main(int argc, char** argv) {
     }
 
     cout << "Reading scene..." << endl;
-    SceneFileHandler::the().setDefaultGraphOp(new GraphOpSeq);
-    NodePtr scene = SceneFileHandler::the().read(inFile);
+    NodePtr scene = SceneFileHandler::the().read(inFile, NULL);
     if (!scene) {
         cout << "Error: Could not read scene " << inFile << endl;
         return EXIT_FAILURE;
