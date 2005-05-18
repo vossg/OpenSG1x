@@ -50,6 +50,7 @@
 #include <strings.h>
 #include <unistd.h>
 #include <errno.h>
+#include <iostream>
 #endif
 
 #ifdef __sun
@@ -534,6 +535,17 @@ Real32 osgrand(void);
 
 inline
 bool osgIsBigEndian(void);
+
+#if defined(WIN32) && defined(_MSC_VER) && _MSC_VER <= 1200  // VC6
+
+inline
+std::ostream &operator<<(std::ostream &os, UInt64 v);
+
+inline
+std::ostream &operator<<(std::ostream &os, Int64 v);
+
+#endif 
+
 
 /*---------------------------------------------------------------------*/
 /*                MemoryObject Reference Count Functions               */

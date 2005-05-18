@@ -1383,6 +1383,23 @@ bool osgIsBigEndian(void)
     return (BYTE_ORDER) == (BIG_ENDIAN);   
 }
 
+#if defined(WIN32) && defined(_MSC_VER) && _MSC_VER <= 1200  // VC6
+inline
+std::ostream &operator<<(std::ostream &os, UInt64 v)
+{
+    char buf[30];
+    sprintf(buf, "%I64u", v);
+    return os << buf;
+}
+
+inline
+std::ostream &operator<<(std::ostream &os, Int64 v)
+{
+    char buf[30];
+    sprintf(buf, "%I64d", v);
+    return os << buf;
+}
+#endif
 
 //---------------------------------------------------------------------------
 // Reference Count Functions
