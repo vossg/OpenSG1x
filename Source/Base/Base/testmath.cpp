@@ -1708,24 +1708,34 @@ void testnextpow2(void)
     UInt64 a,b;
     
     b = 1;
-    a = osgnextpower2(b);    
+    a = osgnextpower2(b);
+    // std stream doesn't support 64 bit int's on windows!
+#ifndef WIN32
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
-    
+#endif
+
     b = 0;
-    a = osgnextpower2(b);    
+    a = osgnextpower2(b);
+#ifndef WIN32
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
-     
+#endif
+
     b = 3;
-    a = osgnextpower2(b);    
+    a = osgnextpower2(b);
+#ifndef WIN32
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
-    
+#endif
+
     b = (1ULL<<62)+1ULL;
-    a = osgnextpower2(b);    
+    a = osgnextpower2(b);
+#ifndef WIN32
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
-    
+#endif
     b = (1ULL<<63)+1ULL;
-    a = osgnextpower2(b);    
+    a = osgnextpower2(b);
+#ifndef WIN32
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
+#endif
     }
     
 
