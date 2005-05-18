@@ -1,4 +1,5 @@
 #include <OSGGLUT.h>
+#include <OSGGLEXT.h>
 #include <OSGConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGPassiveWindow.h>
@@ -23,10 +24,6 @@ VertexProgramChunkPtr vp;
 FragmentProgramChunkPtr fp;
 ChunkMaterialPtr chMat;
 
-// not known under windows
-#ifndef GL_RGBA_FLOAT32_ATI
-  #define GL_RGBA_FLOAT32_ATI 0x8814
-#endif
 
 // redraw the window
 void display(void)
@@ -161,8 +158,7 @@ int main(int argc, char **argv)
     
     beginEditCP(tx1);
         tx1->setImage(pImg1);
-	    tx1->setInternalFormat(GL_RGBA_FLOAT32_ATI);
-	    tx1->setExternalFormat(GL_LUMINANCE);
+        tx1->setInternalFormat(GL_LUMINANCE32F_ARB);
         tx1->setMinFilter(GL_NEAREST_MIPMAP_NEAREST);
         tx1->setMagFilter(GL_NEAREST);
     endEditCP(tx1);
