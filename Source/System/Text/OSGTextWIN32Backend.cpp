@@ -832,17 +832,22 @@ TextWIN32VectorGlyph::TextWIN32VectorGlyph(Index glyphIndex, Real32 scale,
                 lpCurve = (LPTTPOLYCURVE)&(lpCurve->apfx[lpCurve->cpfx]);
             }
 
-            // Add points to close the contour.
-            // All contours are implied closed by TrueType definition.
-            // Depending on the specific font and glyph being used, these
-            // may not always be needed.
-            if ((startPoint.x.value != endPoint->x.value) || (startPoint.y.value != endPoint->y.value))
-            {
-                p.setValues(startPoint.x.value, startPoint.y.value);
-                p *= scale;
-                p -= offset;
-                _outline.back().push_back(TextVectorGlyph::Point(p, TextVectorGlyph::Point::PT_ON));
-            }
+            // Check if the contour is valid, i.e. if it has more than two points.
+            // When not, we simply delete the contour.
+            if (_outline.back().size() < 3)
+                _outline.erase(_outline.end() - 1);
+            else
+                // Add points to close the contour.
+                // All contours are implied closed by TrueType definition.
+                // Depending on the specific font and glyph being used, these
+                // may not always be needed.
+                if ((startPoint.x.value != endPoint->x.value) || (startPoint.y.value != endPoint->y.value))
+                {
+                    p.setValues(startPoint.x.value, startPoint.y.value);
+                    p *= scale;
+                    p -= offset;
+                    _outline.back().push_back(TextVectorGlyph::Point(p, TextVectorGlyph::Point::PT_ON));
+                }
         }
         else
             // Bad, bail, must have a bogus buffer.
@@ -1311,7 +1316,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.1 2005/03/03 13:43:07 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.2 2005/05/18 13:42:01 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTWIN32BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTWIN32BACKEND_INLINE_CVSID;
 }

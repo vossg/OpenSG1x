@@ -810,6 +810,13 @@ static OSStatus quadraticCurveCallback(const Float32Point *pt1, const Float32Poi
 //----------------------------------------------------------------------
 OSStatus quadraticClosePathCallback(void *callBackDataPtr)
 {
+    UserData *userData = reinterpret_cast<UserData*>(callBackDataPtr);
+
+    // Check if the contour is valid, i.e. if it has more than three points.
+    // When not, we simply delete the contour.
+    if (userData->outline.back().size() < 3)
+        userData->outline.erase(userData->outline.end() - 1);
+
     // Continue
     return noErr;
 }
@@ -889,6 +896,13 @@ static OSStatus cubicCurveToCallback(const Float32Point *pt1, const Float32Point
 //----------------------------------------------------------------------
 static OSStatus cubicClosePathCallback(void *callBackDataPtr)
 {
+    UserData *userData = reinterpret_cast<UserData*>(callBackDataPtr);
+
+    // Check if the contour is valid, i.e. if it has more than two points.
+    // When not, we simply delete the contour.
+    if (userData->outline.back().size() < 3)
+        userData->outline.erase(userData->outline.end() - 1);
+
     // Continue
     return noErr;
 }
@@ -1516,7 +1530,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.1 2005/03/03 13:43:07 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.2 2005/05/18 13:42:00 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTMACBACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTMACBACKEND_INLINE_CVSID;
 }

@@ -914,6 +914,12 @@ static int moveToFunc(FT_Vector *to, void *user)
 {
     UserData *userData = reinterpret_cast<UserData*>(user);
 
+    // Check if the previous contour is valid, i.e. if it has more than two points.
+    // When not, we simply delete the contour.
+    if (userData->outline.empty() == false)
+        if (userData->outline.back().size() < 3)
+            userData->outline.erase(userData->outline.end() - 1);
+
     // We start a new contour
     userData->outline.push_back(TextVectorGlyph::Contour());
 
@@ -1060,6 +1066,12 @@ TextFT2VectorGlyph::TextFT2VectorGlyph(Index glyphIndex, float scale, FT_GlyphSl
     };
     UserData userData(scale, Vec2f(_horiBearingX, _horiBearingY), _outline);
     FT_Outline_Decompose(&(glyphSlot->outline), &func_interface, &userData);
+
+    // Check if the last contour is valid, i.e. if it has more than two points.
+    // When not, we simply delete the contour.
+    if (_outline.empty() == false)
+        if (_outline.back().size() < 3)
+            _outline.erase(_outline.end() - 1);
 }
 
 
@@ -1438,7 +1450,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.1 2005/03/03 13:43:06 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.2 2005/05/18 13:42:00 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }
