@@ -10,6 +10,7 @@
 #include <OSGMaterialChunk.h>
 #include <OSGTextureTransformChunk.h>
 #include <OSGSimpleStatisticsForeground.h>
+#include <OSGSolidBackground.h>
 #include <OSGGeometry.h>
 
 #include "OSGTextPixmapFace.h"
@@ -666,7 +667,7 @@ int main(int argc, char **argv)
     statfg = SimpleStatisticsForeground::create();
     beginEditCP(statfg);
     statfg->setSize(25);
-    statfg->setColor(Color4f(0,1,0,0.7));
+    statfg->setColor(Color4f(0,1,0,0.9));
     statfg->addElement(familyDesc, "Family: %s");
     statfg->addElement(styleDesc, "Style: %s");
     statfg->addElement(majorAlignDesc, "Major Alignment: %s");
@@ -675,6 +676,12 @@ int main(int argc, char **argv)
     statfg->addElement(horiDirDesc, "%s");
     statfg->addElement(vertDirDesc, "%s");
     endEditCP(statfg);
+
+    // Create the background
+    SolidBackgroundPtr bg = SolidBackground::create();
+    beginEditCP(bg);
+    bg->setColor(Color3f(0.1, 0.1, 0.5));
+    endEditCP(bg);
 
     updateFace();
     updateScene();
@@ -689,9 +696,10 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
 
-    // add the statistics forground
+    // add the statistics forground and the background
     beginEditCP(gwin->getPort(0));
     gwin->getPort(0)->getForegrounds().push_back(statfg);
+    gwin->getPort(0)->setBackground(bg);
     endEditCP(gwin->getPort(0));
 
     // GLUT main loop
@@ -707,6 +715,8 @@ int main(int argc, char **argv)
 // redraw the window
 void display( void )
 {
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mgr->redraw();
 }
 
@@ -920,9 +930,6 @@ int setupGLUT(int *argc, char *argv[])
     glutAddMenuEntry("Right to left", COMMAND_RIGHTTOLEFT);
     glutAddMenuEntry("Bottom to top", COMMAND_BOTTOMTOTOP);
     glutAttachMenu(GLUT_RIGHT_BUTTON);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     return winid;
 }
