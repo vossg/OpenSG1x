@@ -1,30 +1,37 @@
-
 #include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGPassiveWindow.h>
 #include <OSGSimpleSceneManager.h>
 #include <OSGSceneFileHandler.h>
-
 #include <OSGSimpleMaterial.h>
+#include <OSGChunkMaterial.h>
+#include <OSGSimpleTexturedMaterial.h>
 #include <OSGTextureChunk.h>
 #include <OSGImage.h>
 #include <OSGTexGenChunk.h>
 #include <OSGTextureTransformChunk.h>
-
 #include <OSGVertexProgramChunk.h>
+#include <OSGFragmentProgramChunk.h>
 
 OSG_USING_NAMESPACE
 
+// some globals
 SimpleSceneManager *mgr;
 
 VertexProgramChunkPtr vp;
+FragmentProgramChunkPtr fp;
+ChunkMaterialPtr chMat;
+
+// not known under windows
+#ifndef GL_RGBA_FLOAT32_ATI
+  #define GL_RGBA_FLOAT32_ATI 0x8814
+#endif
 
 // redraw the window
 void display(void)
 {      
     // render
-    
     mgr->redraw();
 
     // all done, swap    
@@ -59,46 +66,48 @@ void motion(int x, int y)
 // react to keys
 void keyboard(unsigned char k, int, int)
 {
+	static Real32 scale=0, lod=0;
     switch(k)
     {
-    case 'a':   beginEditCP(vp, ProgramChunk::ProgramFieldMask); 
-                vp->read("simple.vp"); 
-                endEditCP(vp, ProgramChunk::ProgramFieldMask);
-                break;
-    case 's':   beginEditCP(vp, ProgramChunk::ParamValuesFieldMask); 
-                vp->setParameter("foo", Vec4f(osgrand(), osgrand(), 
-                                              osgrand(), osgrand()) ); 
-                endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
-                break;
-    case 'd':   beginEditCP(vp, ProgramChunk::ParamValuesFieldMask); 
-                vp->setParameter((int)1, Vec4f(osgrand(), osgrand(), 
-                                          osgrand(), osgrand()) ); 
-                endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
-                break;
-
-    case 27:    exit(1);
+	case '+':
+		scale += 0.25;
+		beginEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		  vp->setParameter("scale", Vec4f(0.5+scale,1,1,0));
+		endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		break;
+	case '-':
+		scale -= 0.25;
+		beginEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		  vp->setParameter("scale", Vec4f(0.5+scale,1,1,0));
+		endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		break;
+	case ',':
+		lod += 1;
+		beginEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		  vp->setParameter("lod", Vec4f(1+lod,1,0,0));
+		endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		break;
+	case '.':
+		lod -= 1;
+		beginEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		  vp->setParameter("lod", Vec4f(1+lod,1,0,0));
+		endEditCP(vp, ProgramChunk::ParamValuesFieldMask);
+		break;
+	case 27: 
+		exit(1);
+	default:
+		printf("Use [+|-] to scale, [,|.] for lod.\n");
+		break;
     }
 }
 
-
 int main(int argc, char **argv)
 {
-    osgInit(argc,argv);
-
-    // ATI Radeon Linux driver is buggy, doesn't handle dlisted geometry
-    // correct. Disable DList caching as a workaround.
-    FieldContainerPtr pProto = Geometry::getClassType().getPrototype();
-    GeometryPtr pGeoProto = GeometryPtr::dcast(pProto);
-    if(pGeoProto != NullFC)
-    {
-        pGeoProto->setDlistCache(false);
-    }
+    osgInit(argc, argv);
 
     // GLUT init
     glutInit(&argc, argv);
-    
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    
     glutCreateWindow("OpenSG");
     
     glutReshapeFunc(reshape);
@@ -111,125 +120,81 @@ int main(int argc, char **argv)
     PassiveWindowPtr pwin=PassiveWindow::create();
     pwin->init();
 
-    // create the vertex program chunk  
+    // create the shader program chunks
     vp = VertexProgramChunk::create();
+    fp = FragmentProgramChunk::create();
+    
     beginEditCP(vp);
- 
-    vp->read("simple.vp"); 
-   
-    vp->addParameter("foo", 0, Vec4f(1,0,0,0));
-    vp->addParameter("bar", 1, Vec4f(0,1,0,0));
-    vp->addParameter("baz", 3, Vec4f(0,0,1,0));
-    
+		vp->read("simple.vp");
+		vp->addParameter("scale", 0, Vec4f(0.5,1,1,0));
+		vp->addParameter("lod", 1, Vec4f(1,1,0,0));
     endEditCP(vp);
-    
+
+	beginEditCP(fp);
+		fp->read("simple.fp");
+    endEditCP(fp);
     
     // create the two textures
     TextureChunkPtr tx1 = TextureChunk::create();
-   
-    UChar8 imgdata1[] =
-        {  255,0,0,  0,255,0,  0,0,255, 255,0,255 };
+    TextureChunkPtr tx2 = TextureChunk::create(); 
+          
     ImagePtr pImg1 = Image::create();
-    pImg1->set(Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, imgdata1 );
+    ImagePtr pImg2 = Image::create();
+
+	char *iHeight = "OpenSGLogo_height.png",
+		 *iColor  = "OpenSGLogo.png";
+
+	if (argc >= 3)
+	{
+		iHeight = argv[1];
+		iColor  = argv[2];
+	}
+	else
+	{
+		FNOTICE(("Usage %s Displacementmap Colormap\n", argv[0]));
+	}
+    
+	pImg1->read(iHeight);
+	pImg1->reformat(Image::OSG_L_PF);
+
+    pImg2->read(iColor);
     
     beginEditCP(tx1);
-    tx1->setImage(pImg1); // NOTE: the image is NOT copied, the variable
-                          // needs to be kept around as long as the 
-                          // texture is used
-    tx1->setMinFilter(GL_LINEAR);
-    tx1->setMagFilter(GL_LINEAR);
-    tx1->setWrapS(GL_REPEAT);
-    tx1->setWrapT(GL_REPEAT);
-    tx1->setEnvMode(GL_REPLACE);
-    tx1->setPointSprite(true);
+        tx1->setImage(pImg1);
+	    tx1->setInternalFormat(GL_RGBA_FLOAT32_ATI);
+	    tx1->setExternalFormat(GL_LUMINANCE);
+        tx1->setMinFilter(GL_NEAREST_MIPMAP_NEAREST);
+        tx1->setMagFilter(GL_NEAREST);
     endEditCP(tx1);
    
+    beginEditCP(tx2);
+        tx2->setImage(pImg2);
+        tx2->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
+        tx2->setMagFilter(GL_LINEAR);
+    endEditCP(tx2);
+    
     // create the material
-    SimpleMaterialPtr mat = SimpleMaterial::create();
+    chMat = ChunkMaterial::create();
+    beginEditCP(chMat);
+	{
+		chMat->addChunk(tx2);
+		chMat->addChunk(tx1);
+		chMat->addChunk(vp);
+		chMat->addChunk(fp);
+	}
+    endEditCP(chMat);
     
-    beginEditCP(mat);
-    mat->setDiffuse(Color3f(1,1,1));
-    mat->setLit(true);
-    //mat->addChunk(tx1);
-    mat->addChunk(vp);
-    endEditCP(mat);
+	// create scene
+    NodePtr scene = makePlane( 4, 4, 64, 64);
+    GeometryPtr geoPtr = osg::GeometryPtr::dcast(scene->getCore());
+    geoPtr->setMaterial(chMat);
     
-    // create the scene
-    NodePtr scene;
-    
-    scene = Node::create();
-    GeometryPtr g1 = Geometry::create();
-
-    beginEditCP(scene);
-    scene->setCore(g1);
-    endEditCP(scene);
-
-    beginEditCP(g1);
-
-    GeoPositions3fPtr pnts = GeoPositions3f::create();
-    g1->setPositions(pnts);
-
-    MFPnt3f* p = pnts->getFieldPtr();
-
-    beginEditCP(pnts);
-    p->push_back(Pnt3f(-1, -1, -1));
-    p->push_back(Pnt3f( 1, -1, -1));
-    p->push_back(Pnt3f( 1,  1, -1));
-    p->push_back(Pnt3f(-1,  1, -1));
-    p->push_back(Pnt3f(-1, -1,  1));
-    p->push_back(Pnt3f( 1, -1,  1));
-    p->push_back(Pnt3f( 1,  1,  1));
-    p->push_back(Pnt3f(-1,  1,  1));
-    endEditCP(pnts);
-
-
-    GeoNormals3fPtr norms = GeoNormals3f::create();
-    g1->setNormals(norms);
-    beginEditCP(norms);
-    norms->push_back(Vec3f(-1, -1, -1));
-    norms->push_back(Vec3f( 1, -1, -1));
-    norms->push_back(Vec3f( 1,  1, -1));
-    norms->push_back(Vec3f(-1,  1, -1));
-    norms->push_back(Vec3f(-1, -1,  1));
-    norms->push_back(Vec3f( 1, -1,  1));
-    norms->push_back(Vec3f( 1,  1,  1));
-    norms->push_back(Vec3f(-1,  1,  1));
-    endEditCP(norms);
-
-    GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
-    g1->setTexCoords(texs);
-    beginEditCP(texs);
-    texs->push_back(Vec2f(0, 0));
-    texs->push_back(Vec2f(1, 0));
-    texs->push_back(Vec2f(1, 1));
-    texs->push_back(Vec2f(0, 1));
-    texs->push_back(Vec2f(0, 0));
-    texs->push_back(Vec2f(2, 0));
-    texs->push_back(Vec2f(2, 2));
-    texs->push_back(Vec2f(0, 2));
-    endEditCP(texs);
-
-    GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
-    g1->setLengths(lens);
-    beginEditCP(lens);
-    lens->push_back(8);
-    endEditCP(lens);
-
-    GeoPTypesPtr type = GeoPTypesUI8::create();     
-    g1->setTypes(type);
-    beginEditCP(type);
-    type->push_back(GL_QUADS);
-    endEditCP(type);
-
-    g1->setMaterial(mat);
-    
-    endEditCP(g1);
-
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
     // create the window and initial camera/viewport
-    mgr->setWindow(pwin );
+    mgr->setWindow(pwin);
+
     // tell the manager what to manage
     mgr->setRoot  (scene);
     
