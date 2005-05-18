@@ -39,6 +39,8 @@
 #include "OSGQGenericValueEditor_qt.h"
 #include <OSGQOSGWidgetFactoryHelper.h>
 #include <OSGField.h>
+#include <OSGSField.h>
+#include <OSGMField.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -105,6 +107,10 @@ QGenericValueEditor::readField(
         pFC.getAspectCPtr(uiAspect)->getField(uiFieldId)->getValueByStr(
             strFieldValue);
 
+        // remove quotes from the string.
+        if(pFC->getField(uiFieldId)->getContentType().getName() == IDString("string"))
+            removeQuotes(strFieldValue);
+
         _pLineEdit->blockSignals(true                 );
         _pLineEdit->setText     (strFieldValue.c_str());
         _pLineEdit->blockSignals(false                );
@@ -113,6 +119,10 @@ QGenericValueEditor::readField(
     {
         pFC.getAspectCPtr(uiAspect)->getField(uiFieldId)->getValueByStr(
             strFieldValue, uiValueIndex);
+
+        // remove quotes from the string.
+        if(pFC->getField(uiFieldId)->getContentType().getName() == IDString("string"))
+            removeQuotes(strFieldValue);
 
         _pLineEdit->blockSignals(true                 );
         _pLineEdit->setText     (strFieldValue.c_str());
@@ -200,6 +210,19 @@ QGenericValueEditor::initSelf(void)
             this,       SLOT  (slotLineEditValueChanged(void           )) );
 }
 
+void
+QGenericValueEditor::removeQuotes(std::string &str)
+{
+    if(str.length() < 2)
+        return;
+
+    if(str[0] == '"' && str[str.length()-1] == '"')
+    {
+        str.erase(str.begin());
+        str.resize(str.length() - 1);
+    }
+}
+
 // include generated file
 #include "OSGQGenericValueEditor_qt_moc.cpp"
 
@@ -216,7 +239,7 @@ QGenericValueEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.5 2005/03/18 13:04:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQGenericValueEditor_qt.cpp,v 1.6 2005/05/18 11:02:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQGENERICVALUEEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQGENERICVALUEEDITORQT_INLINE_CVSID;
 }

@@ -100,6 +100,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QGenericValueEditor : public QAbstractValueEdit
     void createChildWidgets(void);
     void layoutChildWidgets(void);
     void initSelf          (void);
+    void removeQuotes      (std::string &str);
 
     QHBoxLayout *_pHBox;
     QLabel      *_pLabel;
@@ -110,6 +111,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQGenericValueEditor_qt.inl"
 
-#define OSGQGENERICVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQGenericValueEditor_qt.h,v 1.2 2004/08/13 15:20:59 neumannc Exp $"
+#define OSGQGENERICVALUEEDITORQT_HEADER_CVSID "@(#)$Id: OSGQGenericValueEditor_qt.h,v 1.3 2005/05/18 11:02:50 a-m-z Exp $"
 
 #endif /* _OSGQGENERICVALUEEDITOR_QT_H_ */
