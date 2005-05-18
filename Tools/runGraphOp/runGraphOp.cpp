@@ -3,8 +3,8 @@
 #include <OpenSG/OSGGraphOpSeq.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 
-#include <OpenSG/OSGGeoTypeGraphOp.h>
-#include <OpenSG/OSGMakeTransparentGraphOp.h>
+//#include <OpenSG/OSGGeoTypeGraphOp.h>
+//#include <OpenSG/OSGMakeTransparentGraphOp.h>
 #include <OpenSG/OSGMaterialMergeGraphOp.h>
 #include <OpenSG/OSGMergeGraphOp.h>
 #include <OpenSG/OSGPruneGraphOp.h>
@@ -20,8 +20,8 @@ OSG_USING_NAMESPACE
 void registerGraphOps() {
     // This should go into the factory itself.  Otherwise, what use is it?
     GraphOpFactory& factory = GraphOpFactory::the();
-    factory.registerOp(new GeoTypeGraphOp);
-    factory.registerOp(new MakeTransparentGraphOp);
+//    factory.registerOp(new GeoTypeGraphOp);
+//    factory.registerOp(new MakeTransparentGraphOp);
     factory.registerOp(new MaterialMergeGraphOp);
     factory.registerOp(new MergeGraphOp);
     factory.registerOp(new PruneGraphOp);
