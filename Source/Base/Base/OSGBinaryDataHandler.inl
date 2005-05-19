@@ -129,7 +129,12 @@ BinaryDataHandler::WriteError::WriteError(const Char8 *reson) :
 inline 
 void BinaryDataHandler::putValue(const bool &value)
 {
-    put(&value, sizeof(bool));
+    // on Mac OS X a bool is four bytes long on all other
+    // platfroms it is one byte long. So we write now always
+    // one byte out.
+    // put(&value, sizeof(bool));
+    UInt8 temp = (UInt8) value;
+    put(&temp, sizeof(UInt8));
 }
 
 inline 
@@ -468,7 +473,10 @@ void BinaryDataHandler::putValues(const std::string *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValue(bool &value)
 {
-    get(&value, sizeof(bool));
+    //get(&value, sizeof(bool));
+    UInt8 temp;
+    get(&temp, sizeof(UInt8));
+    value = (bool) temp;
 }
 
 inline 
