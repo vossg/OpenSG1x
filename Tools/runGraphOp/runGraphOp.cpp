@@ -3,33 +3,9 @@
 #include <OpenSG/OSGGraphOpSeq.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 
-//#include <OpenSG/OSGGeoTypeGraphOp.h>
-//#include <OpenSG/OSGMakeTransparentGraphOp.h>
-#include <OpenSG/OSGMaterialMergeGraphOp.h>
-#include <OpenSG/OSGMergeGraphOp.h>
-#include <OpenSG/OSGPruneGraphOp.h>
-#include <OpenSG/OSGSharePtrGraphOp.h>
-#include <OpenSG/OSGSplitGraphOp.h>
-#include <OpenSG/OSGStripeGraphOp.h>
-#include <OpenSG/OSGVerifyGeoGraphOp.h>
 
 using namespace std;
 OSG_USING_NAMESPACE
-
-
-void registerGraphOps() {
-    // This should go into the factory itself.  Otherwise, what use is it?
-    GraphOpFactory& factory = GraphOpFactory::the();
-//    factory.registerOp(new GeoTypeGraphOp);
-//    factory.registerOp(new MakeTransparentGraphOp);
-    factory.registerOp(new MaterialMergeGraphOp);
-    factory.registerOp(new MergeGraphOp);
-    factory.registerOp(new PruneGraphOp);
-    factory.registerOp(new SharePtrGraphOp);
-    factory.registerOp(new SplitGraphOp);
-    factory.registerOp(new StripeGraphOp);
-    factory.registerOp(new VerifyGeoGraphOp);
-}
 
 
 void usage() {
@@ -55,8 +31,6 @@ int main(int argc, char** argv) {
         cout << "osgInit() failed" << endl;
         return EXIT_FAILURE;
     }
-
-    registerGraphOps();
 
     if (argc < 4) {
         usage();
