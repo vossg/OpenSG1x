@@ -43,6 +43,16 @@
 
 #include <OSGGraphOpFactory.h>
 
+//#include <OSGGeoTypeGraphOp.h>
+#include <OSGMakeTransparentGraphOp.h>
+#include <OSGMaterialMergeGraphOp.h>
+#include <OSGMergeGraphOp.h>
+#include <OSGPruneGraphOp.h>
+#include <OSGSharePtrGraphOp.h>
+#include <OSGSplitGraphOp.h>
+#include <OSGStripeGraphOp.h>
+#include <OSGVerifyGeoGraphOp.h>
+
 OSG_USING_NAMESPACE
 
 GraphOpFactory *GraphOpFactory::_the=NULL;
@@ -112,12 +122,15 @@ GraphOpFactory::iterator GraphOpFactory::end()
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-/*------------- constructors & destructors --------------------------------*/
-
-GraphOpFactory::GraphOpFactory(): _typeMap()
+GraphOpFactory::GraphOpFactory()
 {
+//    registerOp(new GeoTypeGraphOp);
+    registerOp(new MakeTransparentGraphOp);
+    registerOp(new MaterialMergeGraphOp);
+    registerOp(new MergeGraphOp);
+    registerOp(new PruneGraphOp);
+    registerOp(new SharePtrGraphOp);
+    registerOp(new SplitGraphOp);
+    registerOp(new StripeGraphOp);
+    registerOp(new VerifyGeoGraphOp);
 }
-
-/*-------------------------------------------------------------------------*\
- -  protected                                                              -
-\*-------------------------------------------------------------------------*/
