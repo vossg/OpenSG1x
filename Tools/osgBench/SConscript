@@ -1,0 +1,18 @@
+Import('*')
+
+sources = Split("""
+    Nodes.cpp
+    Test.cpp
+    TestWindow.cpp
+    python_wrapper.cpp
+""")
+
+BuildLibrary(tc, 'osgbench', sources,
+             updates=[OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase'])],
+             CPPDEFINES=['OSG_BUILD_DLL', 'BOOST_PYTHON_STATIC_LIB'],
+             CPPPATH=[env['PREFIX'].Dir('include'),
+                      '#/../supportlibs/include',
+                      'C:/Python24/include',
+                      '.'],
+             LIBPATH=['C:/Python24/libs'],
+             LIBS=['libboost_python-vc71-mt-gd-1_32'])

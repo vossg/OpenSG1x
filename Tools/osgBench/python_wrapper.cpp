@@ -1,10 +1,10 @@
-
-#include <boost/python/class.hpp>
-#include <boost/python/module.hpp>
-#include <boost/python/def.hpp>
+#include <boost/python.hpp>
 
 #include <OpenSG/OSGConfig.h>
 #include <OpenSG/OSGBaseFunctions.h>
+
+#include <OpenSG/OSGGraphOp.h>
+#include <OpenSG/OSGGraphOpFactory.h>
 
 
 #include "Nodes.h"
@@ -12,10 +12,21 @@
 #include "Test.h"
 
 
-extern "C" void doExit(void)
+void doExit()
 {
     OSG::osgExit();
 }
+
+
+osg::GraphOp* createGraphOp(const char* name) {
+    return osg::GraphOpFactory::the().create(name);
+}
+
+
+void traverse(osg::GraphOp& g, NodeBase& b) {
+    g.traverse(b.getNode());
+}
+
 
 BOOST_PYTHON_MODULE(osgbench)
 {
@@ -121,7 +132,14 @@ BOOST_PYTHON_MODULE(osgbench)
         .def("getStatValue", &Test::getStatValue)
         .def("setVerbose", &Test::setVerbose)
       ;
-      
+
+    class_<osg::GraphOp, boost::noncopyable>("GraphOp", no_init)
+        .def("traverse", &traverse)
+        ;
+
+    def("createGraphOp", &createGraphOp,
+        return_value_policy<manage_new_object>());
+    
     // Module Initialization
     
     OSG::osgInit(0, NULL);
