@@ -144,6 +144,28 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
         }
     }
 
+    // now validate the header of the file
+    bool implemented = false;
+    if(fileName && *fileName &&
+       type != NULL && !type->validateHeader(fileName, implemented))
+    {
+        FWARNING (("Found wrong image header trying to autodetect image type!\n"));
+        for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
+        {
+            type = sI->second;
+            if(type != NULL && type->validateHeader(fileName, implemented))
+            {
+                if(implemented)
+                {
+                    FWARNING (("Autodetected '%s' image type!\n", sI->first.str()));
+                    return type;
+                }
+            }
+        }
+        FWARNING (("Couldn't autodetect image type!\n"));
+        return NULL;
+    }
+
     return type;
 }
 

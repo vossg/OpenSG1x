@@ -453,6 +453,33 @@ bool SGIImageFileType::write(const ImagePtr &  ,
     return false;
 }
 
+bool SGIImageFileType::validateHeader( const Char8 *fileName, bool &implemented )
+{
+    implemented = true;
+
+    if(fileName == NULL)
+        return false;
+
+    FILE *file = fopen(fileName, "rb");
+    if(file == NULL)
+        return false;
+
+    UInt16 magic = 0;
+    fread((void *) &magic, sizeof(magic), 1, file);
+    fclose(file);
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(magic == 0xda01) // the magic header is big endian need to swap it.
+#else
+    if(magic == 0x01da)
+#endif
+    {
+        return true;
+    }
+
+    return false;
+}
+
 /******************************
 *protected
 ******************************/

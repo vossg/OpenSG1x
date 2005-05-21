@@ -460,6 +460,30 @@ bool GIFImageFileType::write(const ImagePtr &,
     return false;
 }
 
+bool GIFImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
+{
+    implemented = true;
+
+    if(fileName == NULL)
+        return false;
+
+    FILE *file = fopen(fileName, "rb");
+    if(file == NULL)
+        return false;
+
+    std::string magic;
+    magic.resize(4);
+    fread((void *) &magic[0], 4, 1, file);
+    fclose(file);
+
+    if(magic == "GIF8")
+    {
+        return true;
+    }
+
+    return false;
+}
+
 //-------------------------------------------------------------------------
 /*!
 Constructor used for the singleton object

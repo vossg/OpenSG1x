@@ -389,6 +389,30 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image),
     return retCode;
 }
 
+bool TIFImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
+{
+    implemented = true;
+
+    if(fileName == NULL)
+        return false;
+
+    FILE *file = fopen(fileName, "rb");
+    if(file == NULL)
+        return false;
+
+    std::string magic;
+    magic.resize(2);
+    fread((void *) &magic[0], 2, 1, file);
+    fclose(file);
+
+    if(magic == "MM" || magic == "II")
+    {
+        return true;
+    }
+
+    return false;
+}
+
 /******************************
 *protected 
 ******************************/

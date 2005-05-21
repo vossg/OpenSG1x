@@ -79,6 +79,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
 
     virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
+    virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/

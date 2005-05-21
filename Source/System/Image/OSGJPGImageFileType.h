@@ -80,6 +80,8 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 
     virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
+    virtual bool validateHeader( const Char8 *fileName, bool &implemented );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Get Method                                  */
@@ -101,6 +103,7 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 
     virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
                                  Int32 memSize = -1 );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Default Constructor                            */

@@ -135,6 +135,14 @@ const std::list<IDString> &ImageFileType::getSuffixList(void) const
 }
 
 //-------------------------------------------------------------------------
+
+bool ImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
+{
+    implemented = false;
+    return true;
+}
+
+//-------------------------------------------------------------------------
 /*!
 Constructor which takes a suffix array and size to add the
 ImageFileType to the Singleton ImageFileHandler

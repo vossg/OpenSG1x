@@ -74,6 +74,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
 
     virtual bool         write (const ImagePtr &image,
                                 const Char8 *fileName);
+
+    virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                  Get Method                                  */

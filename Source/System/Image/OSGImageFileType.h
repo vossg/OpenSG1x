@@ -95,6 +95,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     virtual bool write (const ImagePtr &image, const Char8 *fileName ) = 0;
 
+    virtual bool validateHeader( const Char8 *fileName, bool &implemented );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   store/restore                              */
@@ -176,6 +178,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
                                  Int32 memSize = -1 );
+
 
     /*! \}                                                                 */
 

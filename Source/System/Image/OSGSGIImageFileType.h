@@ -79,6 +79,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
 
     virtual bool write (const ImagePtr &image, const char *fileName);
 
+    virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/

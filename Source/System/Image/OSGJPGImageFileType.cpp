@@ -261,7 +261,7 @@ bool JPGImageFileType::read(      ImagePtr &OSG_JPG_ARG(image),
         {
             jpeg_destroy_decompress(&cinfo);
             fclose(infile);
-            return 0;
+            return retCode;
         }
 
         jpeg_create_decompress(&cinfo);
@@ -404,6 +404,34 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image),
     return false;
 #endif
 }
+
+bool JPGImageFileType::validateHeader( const Char8 *fileName, bool &implemented )
+{
+    implemented = true;
+
+    if(fileName == NULL)
+        return false;
+
+    FILE *file = fopen(fileName, "rb");
+    if(file == NULL)
+        return false;
+
+    UInt16 magic = 0;
+    fread((void *) &magic, sizeof(magic), 1, file);
+    fclose(file);
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+    if(magic == 0xd8ff) // the magic header is big endian need to swap it.
+#else
+    if(magic == 0xffd8)
+#endif
+    {
+        return true;
+    }
+
+    return false;
+}
+
 
 /* */
 UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ), 
