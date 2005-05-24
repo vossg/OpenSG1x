@@ -43,7 +43,9 @@
 
 #include "OSGConfig.h"
 #include <OSGLog.h>
+#include <OSGQuaternion.h>
 #include <OSGSimpleMaterial.h>
+#include <OSGTriangleIterator.h>
 #include "OSGSimpleGeometry.h"
 
 OSG_USING_NAMESPACE
@@ -694,46 +696,61 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
     return length;
 }
 
-#define addPoint(v, index)                                                \
-{                                                                           \
-    Vec3f norm((v)[0], (v)[1], (v)[2]);                                    \
-                                                                            \
-    norm.normalize();                                                       \
-    n->push_back(norm);                                                    \
-    tx->push_back(  Vec2f( osgatan2(-(v)[0], -(v)[2]) / Pi / 2 + .5f,     \
-                            osgatan2(-(v)[1],                              \
-                                              osgsqrt((v)[2] * (v)[2] +    \
-                                                       (v)[0] * (v)[0]      \
-                                                    )                      \
-                                   )                                       \
-                                  / Pi /2 + .5f                            \
-               )       );                                                 \
-    norm *= radius;                                                       \
-    p->push_back(norm.addToZero());                                       \
+void addPoint(Pnt3f v, UInt32 index, Real32 radius,
+              GeoPositions3f::StoredFieldType *p,
+              GeoNormals3f::StoredFieldType   *n,
+              GeoTexCoords2f::StoredFieldType *tx)
+{
+    Vec3f norm(v[0], v[1], v[2]);
+
+    norm.normalize();
+    n->push_back(norm);
+
+    norm *= radius;
+    p->push_back(norm.addToZero());
+
+    Vec2f texCoord;
+
+    // Theta -> v
+    texCoord[1] = (Pi - osgacos(norm[1])) / Pi;
+
+    // Phi -> u
+    Real32 phi = osgatan2(-norm[2], norm[0]);
+
+    if (phi <= -Eps)
+        phi += (2 * Pi);
+    phi /= (2 * Pi);
+
+    texCoord[0] = phi;
+
+    tx->push_back(texCoord);
 }
-    
-static void subdivideTriangle(UInt32 i1, 
+
+void subdivideTriangle( UInt32 i1, 
                         UInt32 i2, 
-                        UInt32 i3, 
+                        UInt32 i3,
                         Int32 depth, 
-                        GeoPositions3f::StoredFieldType  *p, 
+                        GeoPositions3f::StoredFieldType  *p,
                         GeoNormals3f::StoredFieldType    *n,
                         GeoTexCoords2f::StoredFieldType  *tx,
                         GeoIndicesUI32::StoredFieldType  *i,
-                        UInt32& z, Real32 radius) 
+                        UInt32& z, Real32 radius ) 
 {   
-    if(depth == 0) 
+    if (depth == 0) 
     {
         i->push_back(i1);
+        i->push_back(i1);
         i->push_back(i2);
+        i->push_back(i2);
+        i->push_back(i3);
         i->push_back(i3);
                             
         return;         
     }
 
-    Pnt3f   v1 = (*p)[i1], 
-            v2 = (*p)[i2], 
-            v3 = (*p)[i3];
+    Pnt3f v1 = (*p)[i1],
+          v2 = (*p)[i2],
+          v3 = (*p)[i3];
     Pnt3f v12, v23, v31;
 
     v12 = v1 + (v2 - v1) * .5f;
@@ -745,11 +762,10 @@ static void subdivideTriangle(UInt32 i1,
     v31 /= 2.0f;
     
     UInt32 i12 = z++, i23 = z++, i31 = z++;
-    
 
-    addPoint(v12,i12);
-    addPoint(v23,i23);
-    addPoint(v31,i31);
+    addPoint(v12,i12,radius,p,n,tx);
+    addPoint(v23,i23,radius,p,n,tx);
+    addPoint(v31,i31,radius,p,n,tx);
     
     subdivideTriangle( i1, i12, i31, depth - 1, p,n,tx,i, z, radius);
     subdivideTriangle( i2, i23, i12, depth - 1, p,n,tx,i, z, radius);
@@ -789,40 +805,47 @@ NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
 */
 
 GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
-{   
-    
+{
     #define X .525731112119133606
     #define Z .850650808352039932   
 
     GeoPositions3fPtr   pnts  = GeoPositions3f::create();
-    GeoNormals3fPtr         norms = GeoNormals3f::create();
+    GeoNormals3fPtr     norms = GeoNormals3f::create();
     GeoTexCoords2fPtr   tex   = GeoTexCoords2f::create();
-    GeoIndicesUI32Ptr       index = GeoIndicesUI32::create();   
-    GeoPLengthsPtr      lens  = GeoPLengthsUI32::create();  
-    GeoPTypesPtr            types = GeoPTypesUI8::create();     
-    UInt32              j,z;
+    GeoIndicesUI32Ptr   index = GeoIndicesUI32::create();
+    GeoPLengthsPtr      lens  = GeoPLengthsUI32::create();
+    GeoPTypesPtr        types = GeoPTypesUI8::create();
+    UInt32                   j, z;
     
     static Vec3f v[12] = {  Vec3f(-X, 0.,  Z),
-                             Vec3f( X, 0.,  Z),
-                             Vec3f(-X, 0., -Z),
-                             Vec3f( X, 0., -Z),
-                             Vec3f(0.,  Z,  X),
-                             Vec3f(0.,  Z, -X),
-                             Vec3f(0., -Z,  X),
-                             Vec3f(0., -Z, -X),
-                             Vec3f( Z,  X, 0.),
-                             Vec3f(-Z,  X, 0.),
-                             Vec3f( Z, -X, 0.),
-                             Vec3f(-Z, -X, 0.)   };
+                            Vec3f( X, 0.,  Z),
+                            Vec3f(-X, 0., -Z),
+                            Vec3f( X, 0., -Z),
+                            Vec3f(0.,  Z,  X),
+                            Vec3f(0.,  Z, -X),
+                            Vec3f(0., -Z,  X),
+                            Vec3f(0., -Z, -X),
+                            Vec3f( Z,  X, 0.),
+                            Vec3f(-Z,  X, 0.),
+                            Vec3f( Z, -X, 0.),
+                            Vec3f(-Z, -X, 0.)  };
+
+    Quaternion q(Vec3f(0,1,0), osgacos(Z));
+    Matrix mat;
+
+    mat.setTransform(q);
+
+    for (j=0; j<12; j++)
+        mat.mult(v[j]);
                 
     Int32 tr[20][3] = { {1,4,0},  {4,9,0},  {4,5,9},  {8,5,4},  {1,8,4},
-                           {1,10,8}, {10,3,8}, {8,3,5},  {3,2,5},  {3,7,2},
-                           {3,10,7}, {10,6,7}, {6,11,7}, {6,0,11}, {6,1,0},
-                           {10,1,6}, {11,0,9}, {2,11,9}, {5,2,9},  {11,2,7} };                  
+                        {1,10,8}, {10,3,8}, {8,3,5},  {3,2,5},  {3,7,2},
+                        {3,10,7}, {10,6,7}, {6,11,7}, {6,0,11}, {6,1,0},
+                        {10,1,6}, {11,0,9}, {2,11,9}, {5,2,9},  {11,2,7} };                  
                 
     GeoPositions3f::StoredFieldType     * p = pnts->getFieldPtr();
     GeoNormals3f::StoredFieldType       * n = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
+    GeoTexCoords2f::StoredFieldType    * tx = tex->getFieldPtr();
     GeoIndicesUI32::StoredFieldType     * i = index->getFieldPtr();
 
     beginEditCP(pnts);
@@ -833,7 +856,6 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     beginEditCP(types);
     
     // initial sizing to prevent reallocation halfway through
-
     UInt32 estimatedSize = UInt32(osgpow(4.f, (Real32) depth) * 20.f);
 
     p->reserve (estimatedSize);
@@ -842,46 +864,44 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     i->reserve (estimatedSize);
     
     // add the initial points to the fields     
-    for(j=0; j<12; j++) 
+    for (j=0; j<12; j++) 
     {
         Vec3f pnt = v[j];
         Vec3f norm = v[j];
+        
         setVecLen(pnt, radius);
         norm.normalize();
-        //addPoint(pnt, j);
+        
         p->push_back(pnt.addToZero());
         n->push_back(norm);
-        tx->push_back(Vec2f(   osgatan2(-(pnt)[0], -(pnt)[2]) / Pi / 2 + .5f,
-                                osgatan2(-(pnt)[1],
-                                              osgsqrt((pnt)[2] * (pnt)[2] +
-                                                       (pnt)[0] * (pnt)[0] 
-                                                    )
-                                       )
-                                / Pi / 2 + .5f
-               )       ); 
+
+        Vec2f texCoord;
+
+        // Theta -> v
+        texCoord[1] = 1 - osgacos(norm[1]) / Pi;
+
+        // Phi -> u
+        Real32 phi = osgatan2(-norm[2], norm[0]);
+
+        if (phi <= -Eps)
+            phi += (2 * Pi);
+        phi /= (2 * Pi);
+
+        texCoord[0] = phi;
+
+        tx->push_back(texCoord);
     }
     
-    // if we do not subdivide then lets have the icosahedron at least
-    if(depth < 1)
-    {
-        for(UInt32 c1=0; c1<20; ++c1)
-        {
-            for(UInt32 c2=0; c2<3; ++c2)
-            {
-                i->push_back(tr[c1][c2]);
-            }
-        }
-    }
     // subdivide the triangles
     z=12;
     for(j=0; j<20; j++) 
     {
-        subdivideTriangle(tr[j][0], tr[j][1], tr[j][2],
-                   depth, p, n, tx, i, z, radius);
+        subdivideTriangle(tr[j][0], tr[j][1], tr[j][2], 
+                          depth, p, n, tx, i, z, radius);
     }
 
     types->push_back(GL_TRIANGLES);
-    lens->push_back(i->size());
+    lens->push_back(i->size()/2);
     
     endEditCP(pnts);
     endEditCP(norms);
@@ -891,22 +911,77 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     endEditCP(types);
     
     // create the geometry
-    
     GeometryPtr geo = Geometry::create();
 
     beginEditCP(geo);
+    
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                      Geometry::MapNormal |
-                      Geometry::MapTexCoords);
+    geo->getIndexMapping().push_back(Geometry::MapPosition |
+                                     Geometry::MapNormal);
+    geo->getIndexMapping().push_back(Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
     geo->setLengths(lens);
+
     endEditCP(geo);
-        
+
+    // now check triangles
+    beginEditCP(geo);
+
+    for (TriangleIterator ti = geo->beginTriangles();
+                          ti != geo->endTriangles(); ++ti)
+    {
+        Vec3f q[3];
+        q[0] = ti.getNormal(0);
+        q[1] = ti.getNormal(1);
+        q[2] = ti.getNormal(2);
+
+        if  ( (osgabs(q[0][2]) <= 0.01 && q[0][0] >= -Eps) ||
+              (osgabs(q[1][2]) <= 0.01 && q[1][0] >= -Eps) ||
+              (osgabs(q[2][2]) <= 0.01 && q[2][0] >= -Eps) )
+        {
+            for (UInt16 i=0; i<3; i++)
+            {
+                Vec3f norm(q[i]);
+
+                if (osgabs(norm[2]) <= Eps && norm[0] >= -Eps)
+                {
+                    if ( !(q[0][2] < -Eps || q[1][2] < -Eps || q[2][2] < -Eps) )
+                    {
+                        Real32 theta = (Pi - osgacos(norm[1])) / Pi;
+    
+                        Vec2f texCoord(1, theta);
+
+                        if (osgabs(osgabs(norm[1]) - 1) <= Eps)
+                            texCoord[0] = 0.5;
+    
+                        tex->push_back(texCoord);
+    
+                        index->setValue( tex->size() - 1, ti.getIndexIndex(i) + 1 );
+                    }
+                    else
+                    {
+                        Real32 theta = (Pi - osgacos(norm[1])) / Pi;
+    
+                        Vec2f texCoord(0, theta);
+
+                        if (osgabs(osgabs(norm[1]) - 1) <= Eps)
+                            texCoord[0] = 0.5;
+    
+                        tex->push_back(texCoord);
+    
+                        index->setValue( tex->size() - 1, ti.getIndexIndex(i) + 1 );
+                    }
+                }
+            }
+        }
+    }
+    
+    endEditCP(geo);
+
     return geo;
 }
 
