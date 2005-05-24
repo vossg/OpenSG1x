@@ -221,6 +221,12 @@ SimpleSceneManager::~SimpleSceneManager(void)
 {
     if(_action)
         delete _action;
+
+    setRoot(NullFC); // sub root
+    if(_internalRoot != NullFC)
+        subRefCP(_internalRoot);
+    if(_camera != NullFC)
+        subRefCP(_camera);
 }
 
 
@@ -320,7 +326,8 @@ void SimpleSceneManager::setRoot(NodePtr root)
         }
 
         _root = root;
-        _internalRoot->addChild(_root);
+        if(_root != NullFC)
+            _internalRoot->addChild(_root);
     }
 }
 
