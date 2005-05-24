@@ -141,6 +141,9 @@ void keyboard(unsigned char k, int x, int y)
                 }
                 endEditCP(isectPoints);
             
+                // free the action
+                delete act;
+                
                 // the geometry won't notice automatically, tell it that the
                 // points changed
                 beginEditCP(testgeocore, Geometry::PositionsFieldMask);

@@ -297,6 +297,8 @@ void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
                             Pnt3f p1 = act->getHitPoint();
                             _trackball.setAt(p1);
                         }
+                        
+                        delete act;
                     }
                     break;
         
@@ -930,6 +932,8 @@ void Navigator::getIntersectionPoint(Int16 x, Int16 y)
                    (_dir.dot(line.getDirection()));
         _ip = line.getPosition() + u * line.getDirection();
     }
+    
+    delete act;
 }
 
 /*! Calculate the real translation that has to be done, so that the
