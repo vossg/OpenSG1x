@@ -461,7 +461,9 @@ ActorEditViewCtl::writeActorBaseCodeButtonClicked(void)
 
     if(dirName.isEmpty() == true)
         return;
-
+        
+    dirName += "/";
+    
     decFileName.clear (                                                      );
     decFileName.append(dirName.ascii()                                       );
     decFileName.append(ActorCodeWriter::the().getFilePrefix     (&_actorDesc));
@@ -501,7 +503,9 @@ ActorEditViewCtl::writeActorCodeButtonClicked(void)
 
     if(dirName.isEmpty() == true)
         return;
-
+        
+    dirName += "/";
+    
     decFileName.clear (                                                  );
     decFileName.append(dirName.ascii()                                   );
     decFileName.append(ActorCodeWriter::the().getFilePrefix (&_actorDesc));
@@ -716,7 +720,7 @@ ActorEditViewCtl::updateActiveSEView(void)
 
 namespace
 {
-    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGActorEditViewCtl_qt.cpp,v 1.1 2004/04/20 13:06:50 neumannc Exp $";
+    static Char8 cvsid_cpp     [] = "@(#)$Id: OSGActorEditViewCtl_qt.cpp,v 1.2 2005/05/24 23:11:01 dirk Exp $";
     static Char8 cvsid_hpp     [] = OSGACTOREDITVIEWCTLQT_HEADER_CVSID;
 //    static Char8 cvsid_inl     [] = OSGACTOREDITVIEWCTLQT_INLINE_CVSID;
 }
