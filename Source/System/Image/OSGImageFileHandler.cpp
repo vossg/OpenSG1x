@@ -91,7 +91,8 @@ Method to find a ImageFileHandler for the given mimeType for
 fileName suffix. Returns the ImageFileHandler object or Null.
 */
 ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
-                                             const char *fileName)
+                                             const char *fileName,
+                                             bool validateHeader)
 {
     IDString                                       suffix;
     ImageFileType                                 *type = 0;
@@ -144,26 +145,29 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
         }
     }
 
-    // now validate the header of the file
-    bool implemented = false;
-    if(fileName && *fileName &&
-       type != NULL && !type->validateHeader(fileName, implemented))
+    if(validateHeader)
     {
-        FWARNING (("Found wrong image header trying to autodetect image type!\n"));
-        for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
+        // now validate the header of the file
+        bool implemented = false;
+        if(fileName && *fileName &&
+           type != NULL && !type->validateHeader(fileName, implemented))
         {
-            type = sI->second;
-            if(type != NULL && type->validateHeader(fileName, implemented))
+            FWARNING (("Found wrong image header trying to autodetect image type!\n"));
+            for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
             {
-                if(implemented)
+                type = sI->second;
+                if(type != NULL && type->validateHeader(fileName, implemented))
                 {
-                    FWARNING (("Autodetected '%s' image type!\n", sI->first.str()));
-                    return type;
+                    if(implemented)
+                    {
+                        FWARNING (("Autodetected '%s' image type!\n", sI->first.str()));
+                        return type;
+                    }
                 }
             }
+            FWARNING (("Couldn't autodetect image type!\n"));
+            return NULL;
         }
-        FWARNING (("Couldn't autodetect image type!\n"));
-        return NULL;
     }
 
     return type;
@@ -266,7 +270,7 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
         return false;
     }
 
-    ImageFileType   *type = getFileType(mimeType, fullFilePath.c_str());
+    ImageFileType   *type = getFileType(mimeType, fullFilePath.c_str(), true);
 
     if(type)
     {

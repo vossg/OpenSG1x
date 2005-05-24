@@ -111,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
     /*! \{                                                                 */
 
     ImageFileType * getFileType    ( const char *mimeType,
-                                     const char *fileName = 0 );
+                                     const char *fileName = 0,
+                                     bool validateHeader = false);
 
     ImageFileType * getDefaultType (void);
 
