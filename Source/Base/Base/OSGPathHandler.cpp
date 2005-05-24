@@ -734,7 +734,14 @@ void PathHandler::splitPathList(const Char8    *pathList,
     std::string            workString(pathList);
 
     currPos = workString.find(pathSep);
-
+    
+    // CF added
+    if(currPos+1 < workString.size() && workString[currPos+1] == _dirSepUnix) 
+    {
+       // absolute path for WIN32 with Unix directory separators
+       currPos = std::string::npos;
+    }
+    
     if(currPos == std::string::npos)
     {
         result.push_back(workString);
