@@ -51,6 +51,7 @@
 #include <OSGRemoteAspect.h>
 #include <OSGCamera.h>
 #include <OSGViewport.h>
+#include <OSGStereoCameraDecorator.h>
 
 #include <OSGShaderParameter.h>
 #include <OSGShaderParameterBool.h>
@@ -775,9 +776,9 @@ void SHLChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateInvViewMatrix;
                 _osgParametersCallbacks.push_back(fp);
             }
-            else if(parameter->getName() == "OSGStereoBufferLeftEye")
+            else if(parameter->getName() == "OSGStereoLeftEye")
             {
-                paramtercbfp fp = updateStereoBufferLeftEye;
+                paramtercbfp fp = updateStereoLeftEye;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGClusterId")
@@ -904,25 +905,40 @@ void SHLChunk::updateInvViewMatrix(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLoca
         uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
 }
 
-void SHLChunk::updateStereoBufferLeftEye(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
-                                         DrawActionBase *action, GLuint program)
+void SHLChunk::updateStereoLeftEye(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                   DrawActionBase *action, GLuint program)
 {
-    GLint leftEye = 0;
-    GLint draw = GL_NONE;
-
-    glGetIntegerv(GL_DRAW_BUFFER, &draw);
-
-    if(draw == GL_BACK_LEFT ||
-       draw == GL_FRONT_LEFT)
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
-        leftEye = 1;
+        FWARNING(("SHLChunk::updateStereoLeftEye : Can't update OSGStereoLeftEye"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    // ok -1 is mono
+    Int32 leftEye = -1;
+    // now search for a stereo camera decorator and get the eye.
+    CameraPtr camera(*action->getCamera());
+    CameraDecoratorPtr decorator = CameraDecoratorPtr::dcast(camera);
+    while(decorator != NullFC)
+    {
+        StereoCameraDecoratorPtr stereoDecorator = StereoCameraDecoratorPtr::dcast(decorator);
+        if(stereoDecorator != NullFC)
+        {
+            if(stereoDecorator->getLeftEye())
+                leftEye = 1;
+            else
+                leftEye = 0;
+            break;
+        }
+        decorator = CameraDecoratorPtr::dcast(decorator->getDecoratee());
     }
 
     // get "glUniform1iARB" function pointer
     PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
 
-    GLint location = getUniformLocation(program, "OSGStereoBufferLeftEye");
+    GLint location = getUniformLocation(program, "OSGStereoLeftEye");
     if(location != -1)
         uniform1i(location, leftEye);
 }
@@ -1059,7 +1075,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.35 2005/05/04 10:08:13 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.36 2005/05/25 16:47:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

@@ -225,7 +225,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateInvViewMatrix     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateStereoBufferLeftEye(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateStereoLeftEye     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
     static void updateClusterId         (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
@@ -244,6 +244,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.17 2005/04/01 15:20:58 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.18 2005/05/25 16:47:15 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
