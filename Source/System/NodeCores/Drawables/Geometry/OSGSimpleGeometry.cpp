@@ -706,8 +706,8 @@ void addPoint(Pnt3f v, UInt32 index, Real32 radius,
     norm.normalize();
     n->push_back(norm);
 
-    norm *= radius;
-    p->push_back(norm.addToZero());
+    Pnt3f pnt(radius * norm);
+    p->push_back(pnt);
 
     Vec2f texCoord;
 
@@ -878,7 +878,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         Vec2f texCoord;
 
         // Theta -> v
-        texCoord[1] = 1 - osgacos(norm[1]) / Pi;
+        texCoord[1] = (Pi - osgacos(norm[1])) / Pi;
 
         // Phi -> u
         Real32 phi = osgatan2(-norm[2], norm[0]);
@@ -949,10 +949,10 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 
                 if (osgabs(norm[2]) <= Eps && norm[0] >= -Eps)
                 {
+                    Real32 theta = (Pi - osgacos(norm[1])) / Pi;
+                    
                     if ( !(q[0][2] < -Eps || q[1][2] < -Eps || q[2][2] < -Eps) )
                     {
-                        Real32 theta = (Pi - osgacos(norm[1])) / Pi;
-    
                         Vec2f texCoord(1, theta);
 
                         if (osgabs(osgabs(norm[1]) - 1) <= Eps)
@@ -964,8 +964,6 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
                     }
                     else
                     {
-                        Real32 theta = (Pi - osgacos(norm[1])) / Pi;
-    
                         Vec2f texCoord(0, theta);
 
                         if (osgabs(osgabs(norm[1]) - 1) <= Eps)
