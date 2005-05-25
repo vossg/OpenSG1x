@@ -67,6 +67,9 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  GrabForegroundBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << GrabForegroundBase::ImageFieldId);
 
+const OSG::BitVector  GrabForegroundBase::AutoResizeFieldMask = 
+    (TypeTraits<BitVector>::One << GrabForegroundBase::AutoResizeFieldId);
+
 const OSG::BitVector GrabForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -77,8 +80,8 @@ const OSG::BitVector GrabForegroundBase::MTInfluenceMask =
 /*! \var ImagePtr        GrabForegroundBase::_sfImage
     The image to write to.
 */
-/*! \var bool            GrabForegroundBase::_sfActive
-    Activate the grabber.
+/*! \var bool            GrabForegroundBase::_sfAutoResize
+    Automatically resize the image when the viewport size changes.
 */
 
 //! GrabForeground description
@@ -89,7 +92,12 @@ FieldDescription *GrabForegroundBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &GrabForegroundBase::getSFImage)
+                     (FieldAccessMethod) &GrabForegroundBase::getSFImage),
+    new FieldDescription(SFBool::getClassType(), 
+                     "autoResize", 
+                     AutoResizeFieldId, AutoResizeFieldMask,
+                     false,
+                     (FieldAccessMethod) &GrabForegroundBase::getSFAutoResize)
 };
 
 
@@ -146,6 +154,7 @@ void GrabForegroundBase::executeSync(      FieldContainer &other,
 
 GrabForegroundBase::GrabForegroundBase(void) :
     _sfImage                  (), 
+    _sfAutoResize             (bool(false)), 
     Inherited() 
 {
 }
@@ -156,6 +165,7 @@ GrabForegroundBase::GrabForegroundBase(void) :
 
 GrabForegroundBase::GrabForegroundBase(const GrabForegroundBase &source) :
     _sfImage                  (source._sfImage                  ), 
+    _sfAutoResize             (source._sfAutoResize             ), 
     Inherited                 (source)
 {
 }
@@ -177,6 +187,12 @@ UInt32 GrabForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfImage.getBinSize();
     }
 
+    if(FieldBits::NoField != (AutoResizeFieldMask & whichField))
+    {
+        returnValue += _sfAutoResize.getBinSize();
+    }
+
+
     return returnValue;
 }
 
@@ -189,6 +205,13 @@ void GrabForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     {
         _sfImage.copyToBin(pMem);
     }
+
+    if(FieldBits::NoField != (AutoResizeFieldMask & whichField))
+    {
+        _sfAutoResize.copyToBin(pMem);
+    }
+
+
 }
 
 void GrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
@@ -200,6 +223,13 @@ void GrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
     {
         _sfImage.copyFromBin(pMem);
     }
+
+    if(FieldBits::NoField != (AutoResizeFieldMask & whichField))
+    {
+        _sfAutoResize.copyFromBin(pMem);
+    }
+
+
 }
 
 void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
@@ -210,6 +240,11 @@ void GrabForegroundBase::executeSyncImpl(      GrabForegroundBase *pOther,
 
     if(FieldBits::NoField != (ImageFieldMask & whichField))
         _sfImage.syncWith(pOther->_sfImage);
+
+    if(FieldBits::NoField != (AutoResizeFieldMask & whichField))
+        _sfAutoResize.syncWith(pOther->_sfAutoResize);
+
+
 }
 
 
@@ -242,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 

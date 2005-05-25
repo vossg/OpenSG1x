@@ -103,6 +103,13 @@ SFImagePtr *GrabForegroundBase::getSFImage(void)
     return &_sfImage;
 }
 
+//! Get the GrabForeground::_sfAutoResize field.
+inline
+SFBool *GrabForegroundBase::getSFAutoResize(void)
+{
+    return &_sfAutoResize;
+}
+
 
 //! Get the value of the GrabForeground::_sfImage field.
 inline
@@ -125,6 +132,26 @@ void GrabForegroundBase::setImage(const ImagePtr &value)
     _sfImage.setValue(value);
 }
 
+//! Get the value of the GrabForeground::_sfAutoResize field.
+inline
+bool &GrabForegroundBase::getAutoResize(void)
+{
+    return _sfAutoResize.getValue();
+}
+
+//! Get the value of the GrabForeground::_sfAutoResize field.
+inline
+const bool &GrabForegroundBase::getAutoResize(void) const
+{
+    return _sfAutoResize.getValue();
+}
+
+//! Set the value of the GrabForeground::_sfAutoResize field.
+inline
+void GrabForegroundBase::setAutoResize(const bool &value)
+{
+    _sfAutoResize.setValue(value);
+}
 
 
 OSG_END_NAMESPACE

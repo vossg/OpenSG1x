@@ -116,23 +116,30 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
     if(i == NullFC)       // No image, no grab.
         return;
 
+    UInt32 w = osgMax(2, port->getPixelWidth());
+    UInt32 h = osgMax(2, port->getPixelHeight());
+    
     // If image is smaller than 2x2, resize it to vp size
     // the 2x2 is because you can't create 0x0 images
-    if(i->getWidth() <= 1 && i->getHeight() <= 1)
+    // If autoResize then update img size if vp changed
+    if ( (i->getWidth() <= 1 || i->getHeight() <= 1) ||
+         (getAutoResize() && (w != i->getWidth() || h != i->getHeight())) )
     {
-        i->set(i->getPixelFormat(),
-               port->getPixelWidth(), 
-               port->getPixelHeight());
+        i->set(i->getPixelFormat(), w, h);
     }
     
-    UInt32 w = osgMin(i->getWidth(),  port->getPixelWidth());
-    UInt32 h = osgMin(i->getHeight(), port->getPixelHeight());
-    
-    bool storeChanged = false;    
-    if(i->getWidth() != port->getPixelWidth())
+    bool storeChanged = false;
+
+    if ( !getAutoResize() )
     {
-        glPixelStorei(GL_PACK_ROW_LENGTH, i->getWidth());
-        storeChanged = true;
+        w = osgMin(i->getWidth(),  port->getPixelWidth());
+        h = osgMin(i->getHeight(), port->getPixelHeight());
+        
+        if (i->getWidth() != port->getPixelWidth())
+        {
+            glPixelStorei(GL_PACK_ROW_LENGTH, i->getWidth());
+            storeChanged = true;
+        }
     }
     
     glReadPixels(port->getPixelLeft(), port->getPixelBottom(), 

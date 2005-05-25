@@ -8,8 +8,10 @@
 	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
-Background is the base class for all background clearing.  	
+Background is the base class for all background clearing.
 	<Field
 		name="image"
 		type="ImagePtr"
@@ -18,5 +20,15 @@ Background is the base class for all background clearing.
 		access="public"
 	>
 	The image to write to.
+	</Field>
+	<Field
+		name="autoResize"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Automatically resize the image when the viewport size changes.
 	</Field>
 </FieldContainer>

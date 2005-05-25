@@ -66,7 +66,7 @@
 #include <OSGForeground.h> // Parent
 
 #include <OSGImageFields.h> // Image type
-#include <OSGBoolFields.h> // Active type
+#include <OSGBoolFields.h> // AutoResize type
 
 #include <OSGGrabForegroundFields.h>
 
@@ -90,11 +90,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
 
     enum
     {
-        ImageFieldId  = Inherited::NextFieldId,
-        NextFieldId   = ImageFieldId + 1
+        ImageFieldId      = Inherited::NextFieldId,
+        AutoResizeFieldId = ImageFieldId      + 1,
+        NextFieldId       = AutoResizeFieldId + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
+    static const OSG::BitVector AutoResizeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -122,9 +124,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
            SFImagePtr          *getSFImage          (void);
+           SFBool              *getSFAutoResize     (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
+           bool                &getAutoResize     (void);
+     const bool                &getAutoResize     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -132,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
      void setImage          ( const ImagePtr &value );
+     void setAutoResize     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -178,6 +184,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \{                                                                 */
 
     SFImagePtr          _sfImage;
+    SFBool              _sfAutoResize;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
