@@ -54,18 +54,20 @@ inline Real32 BalancedMultiWindow::getVisibleLoad(Int32      rect[4],
        bbox.rect[BOTTOM] > rect[TOP] ||
        bbox.rect[TOP]    < rect[BOTTOM])
         return 0;
+    Int32 l = osgMax(rect[0],bbox.rect[0]);
+    Int32 b = osgMax(rect[1],bbox.rect[1]);
+    Int32 r = osgMin(rect[2],bbox.rect[2]);
+    Int32 t = osgMin(rect[3],bbox.rect[3]);
+    Real32 visibleArea = (r-l+1) * (t-b+1);
+    Real32 area = (bbox.rect[2] - bbox.rect[0] + 1) *
+                  (bbox.rect[3] - bbox.rect[1] + 1);
+    // constant
     Real32 load = group.constant;
     // pixel
-    if(group.pixel) 
-    {
-        Int32 l = osgMax(rect[0],bbox.rect[0]);
-        Int32 b = osgMax(rect[1],bbox.rect[1]);
-        Int32 r = osgMin(rect[2],bbox.rect[2]);
-        Int32 t = osgMin(rect[3],bbox.rect[3]);
-        Real32 visibleArea = (r-l+1) * (t-b+1);
-        // pixel
-        load += visibleArea * group.pixel;
-    }
+    load += visibleArea * group.pixel;
+    // relative
+    if(area)
+        load += group.ratio * visibleArea / area;
     return load;
 }
 

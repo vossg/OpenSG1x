@@ -109,6 +109,7 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
 {
     if(!getBalance())
     {
+        _rebuildLoadGroups = true;
         Inherited::serverRender(serverWindow,id,action);
         return;
     }
@@ -146,11 +147,15 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     // preload texture and dlist cache
     preloadCache(serverWindow,action);
 
+    _loadTime = -getSystemTime();
+
     // collect visible viewports
     collectVisibleViewports(server);
 
     // create bboxes
     createBBoxes(server);
+
+    _loadTime += getSystemTime();
 
     // send bboxes of all viewports to client
     Connection *conn = getNetwork()->getMainConnection();
@@ -194,6 +199,18 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     }
     if(calibPtr != NullFC)
         calibPtr->calibrate(serverWindow,action);
+
+    // send statistics
+    if(getShowBalancing())
+    {
+        conn = getNetwork()->getMainConnection();
+        conn->putValue(_triCount);
+        conn->putValue(_drawTime);
+        conn->putValue(_pixelTime);
+        conn->putValue(_loadTime);
+        conn->putValue(_netTime);
+        conn->flush();
+    }
 
 #if 0
     // render bounding boxes
@@ -260,11 +277,13 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
 {
     if(!getBalance())
     {
+        _rebuildLoadGroups = true;
         Inherited::clientRender(action);
         return;
     }
     Connection::Channel channel;
     UInt32 bbcount,id,vp,vpcount,wpcount;
+    double frameTime = -getSystemTime();
 
     if(_cluster.servers.size() == 0)
     {
@@ -283,9 +302,11 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     createLoadGroups();
 
     // local visualization
+    _loadTime = 0;
     if(getHServers() * getVServers() == 0 &&
         getClientWindow() != NullFC)
     {
+        _loadTime = -getSystemTime();
         Server &server = _cluster.servers[getServers().size()];
         // set client window
         server.window = getClientWindow();
@@ -293,13 +314,14 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
         collectVisibleViewports(server);
         // create bboxes
         createBBoxes(server);
-        server.load = 0;
+        _loadTime += getSystemTime();
         for(vp=0 ; vp < server.viewports.size() ; ++vp)
             server.load += server.viewports[vp].load;
         // preload texture and dlist cache
         preloadCache(getClientWindow(),action);
     }
 
+    _netTime = 0;
     // read bboxes from all servers
     GroupConnection *conn = getNetwork()->getMainGroupConnection();
     while(conn->getSelectionCount())
@@ -337,7 +359,9 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     }
     conn->resetSelection();
     // do load balancing
+    _balanceTime = -getSystemTime();
     balanceServer();
+    _balanceTime += getSystemTime();
     // send work packages
     wpcount = _cluster.workpackages.size();
     conn->putValue(wpcount);
@@ -346,6 +370,33 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     // client rendering ?
 //    if(getHServers() * getVServers() == 0)
     drawSendAndRecv(getClientWindow(),action,getServers().size());
+
+    // statistics
+    UInt32 triCount;
+    Real64 drawTime;
+    Real64 pixelTime;
+    Real64 loadTime;
+    Real64 netTime;
+    if(getShowBalancing())
+    {
+        printf("Statistics:\n");
+        conn = getNetwork()->getMainGroupConnection();
+        while(conn->getSelectionCount())
+        {
+            channel = conn->selectChannel();
+            conn->subSelection(channel);
+            conn->getValue(triCount);
+            conn->getValue(drawTime);
+            conn->getValue(pixelTime);
+            conn->getValue(loadTime);
+            conn->getValue(netTime);
+            printf("Srv %4d L:%2.6lf T:%10d D:%2.6lf P:%2.6lf N:%2.6lf\n",channel,loadTime,triCount,drawTime,pixelTime,netTime);
+        }
+        conn->resetSelection();
+        frameTime += getSystemTime();
+        printf("Cli %4d L:%2.6lf T:%10d D:%2.6lf P:%2.6lf N:%2.6lf B:%2.6lf F:%2.6lf\n",getServers().size(),_loadTime,_triCount,_drawTime,_pixelTime,_netTime,_balanceTime,frameTime);
+        printf("end\n");
+    }    
 #if 0
     for(unsigned int p=0;p<_cluster.workpackages.size() ; ++p) {
         printf("from %d to %d    %d %d %d %d\n",
@@ -370,13 +421,15 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
 /*----------------------- constructors & destructors ----------------------*/
 
 BalancedMultiWindow::BalancedMultiWindow(void) :
-    Inherited()
+    Inherited(),
+    _rebuildLoadGroups(true)
 {
     setBestCut(true);
 }
 
 BalancedMultiWindow::BalancedMultiWindow(const BalancedMultiWindow &source) :
-    Inherited(source)
+    Inherited(source),
+    _rebuildLoadGroups(true)
 {
     setBestCut(true);
 }
@@ -553,12 +606,20 @@ void BalancedMultiWindow::createLoadGroups(void)
     NodePtr     root;
     UInt32      v;
 
-    // only if something changed
-    ChangeList *changeList = OSG::Thread::getCurrentChangeList();
-    if(changeList->beginCreated() == changeList->endCreated() &&
-       changeList->beginDestroyed() == changeList->endDestroyed())
+    if(!_rebuildLoadGroups)
+    {
+        // only if something changed
+        ChangeList *changeList = OSG::Thread::getCurrentChangeList();
+        if(changeList->beginCreated() == changeList->endCreated() &&
+           changeList->beginDestroyed() == changeList->endDestroyed())
+            _rebuildLoadGroups = false;
+        else
+            _rebuildLoadGroups = true;
+    }
+
+    if(!_rebuildLoadGroups)
         return;
-    printf("created!!!!\n");
+
     _preloadCache = true;
 
     // reset all;
@@ -577,6 +638,7 @@ void BalancedMultiWindow::createLoadGroups(void)
         // recousiveley collect groups
         collectLoadGroups(root,root);
     }
+    _rebuildLoadGroups = false;
 }
 
 /*! collect load for a subtree and write it to the group list. This method
@@ -606,13 +668,15 @@ void BalancedMultiWindow::collectLoadGroups(NodePtr node,NodePtr root)
         load.root = root;
         load.constant = 0;
         load.pixel = 0;
+        load.ratio = 0;
         load.node = node;
 
         // handle poxy groups
         proxy = ProxyGroupPtr::dcast(core);
         if(proxy != NullFC)
         {
-            load.constant = proxy->getIndices() / (float)MW_INDICES_PER_SEC;
+            load.constant = proxy->getIndices() / MW_INDICES_PER_SEC;
+            load.ratio    = proxy->getIndices() / MW_VISIBLE_INDICES_PER_SEC;
         }
         geo = GeometryPtr::dcast(core);
         if(geo != NullFC)
@@ -623,11 +687,15 @@ void BalancedMultiWindow::collectLoadGroups(NodePtr node,NodePtr root)
             // constant geometry setup cost
             if ((indices != NullFC)) 
             {
-                load.constant = indices->getSize() / (float)MW_INDICES_PER_SEC;
+                load.constant = indices->getSize() / MW_INDICES_PER_SEC;
+                load.ratio    = indices->getSize() / MW_VISIBLE_INDICES_PER_SEC;
             }
             else
-                if(positions != NullFC)
-                    load.constant = positions->getSize() / (float)MW_INDICES_PER_SEC;
+                if(positions != NullFC) 
+                {
+                    load.constant = positions->getSize() / MW_INDICES_PER_SEC;
+                    load.ratio    = positions->getSize() / MW_VISIBLE_INDICES_PER_SEC;
+                }
             // pixel cost for shaders
             if (mat != NullFC && mat->find (SHLChunk::getClassType ()) != NullFC)
                 load.pixel =  1.0 / (float)MW_SHADED_PIXEL_PER_SEC;
@@ -1034,6 +1102,7 @@ void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4])
     Real32 constant,pixel;
     UInt32 otherAxis = axis^1;
     Int32  t,b;
+    Real32 area;
 
     // list of opened groups
     if(_groupOpen.size() < rect[axis+2] + 1)
@@ -1063,6 +1132,10 @@ void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4])
         from = bI->rect[axis];
         to   = bI->rect[axis+2];
 
+        // orriginal bbox size
+        area = ( bI->rect[2] - bI->rect[0] + 1 ) *
+               ( bI->rect[3] - bI->rect[1] + 1 );
+
         // clip to visible 
         if(from < rect[axis  ])
             from = rect[axis];
@@ -1080,7 +1153,7 @@ void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4])
         // cost
         LoadGroup &group = _cluster.loadGroups[bI->groupId];
         constant = group.constant;
-        pixel    = (t-b+1) * group.pixel;
+        pixel    = (t-b+1) * ( group.pixel + group.ratio / area );
 
         // insert into open list
         freeList->next     = _groupOpen[from];
@@ -1306,14 +1379,14 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
 
 /*! split viewport
  */
-Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
-                                      VPort &port,
-                                      Int32 rect[4],
-                                      int axis,
-                                      Real32 resultLoad[2],
-                                      Int32 resultRect[2][4])
+void BalancedMultiWindow::splitAxis(Real32 load[2],
+                                    VPort &port,
+                                    Int32 rect[4],
+                                    int axis,
+                                    Real32 resultLoad[2],
+                                    Int32 resultRect[2][4])
 {
-    Int32 cut;
+    Int32 from,to,cut,lastCut;
     BBoxList *bl;
     Real64 leftLoad  = 0;
     Real64 rightLoad = load[0] + load[1];
@@ -1321,19 +1394,35 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
     UInt32 otherAxis = axis^1;
     Real64 scaleLeft  = 1 / load[0];
     Real64 scaleRight = 1 / load[1];
+    Real64 lastLeft;
+    Real64 lastRight;
 #if 0
     if(load[0] >= load[1] &&
-       load[0] / load[1] < 1.5)
+       load[0] / load[1] < 1.4)
         scaleLeft = scaleRight = 1.0;
     if(load[1] >= load[0] &&
-       load[1] / load[0] < 1.5)
+       load[1] / load[0] < 1.4)
         scaleLeft = scaleRight = 1.0;
 #endif
     // sort visible bboxes and calculate costs
     sortBBoxes(port,axis,rect);
 
+    for(from  = rect[axis] ; 
+        from <= rect[axis+2] &&
+            _groupOpen[from] == NULL &&
+            _groupClose[from] == NULL
+            ; ++from);
+    for(to  = rect[axis+2] ; 
+        to >= from &&
+            _groupOpen[to] == NULL &&
+            _groupClose[to] == NULL
+            ; --to);
+
     // loop through all points
-    for(cut = rect[axis] ; cut < rect[axis+2] ; ++cut)
+    lastCut = from-1;
+    lastLeft = 0;
+    lastRight = rightLoad;
+    for(cut = from ; cut < to ; ++cut)
     {
         // loop through open list
         bl = _groupOpen[cut];
@@ -1359,15 +1448,28 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
 */
 
 //        if(leftLoad * scaleLeft + 1e-6 >= rightLoad * scaleRight)
+        // take best ob last and current cut
         if(leftLoad * scaleLeft >= rightLoad * scaleRight)
         {
             break;
         }
+
+        lastLeft = leftLoad;
+        lastRight = rightLoad;
     }
+    if((osgMax(leftLoad*scaleLeft,rightLoad*scaleRight) >
+        osgMax(lastLeft*scaleLeft,lastRight*scaleRight) &&
+        cut > from) ||
+       (cut > from && cut == to))
+    {
+        cut--;
+        leftLoad = lastLeft;
+        rightLoad = lastRight;
+    } 
 
     // new left
     resultLoad[0] = leftLoad;
-    resultRect[0][axis]        = rect[axis];
+    resultRect[0][axis]        = from;
     resultRect[0][otherAxis]   = rect[otherAxis];
     resultRect[0][axis+2]      = cut;
     resultRect[0][otherAxis+2] = rect[otherAxis+2];
@@ -1376,11 +1478,11 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
     resultLoad[1] = rightLoad;
     resultRect[1][axis]        = cut+1;
     resultRect[1][otherAxis]   = rect[otherAxis];
-    resultRect[1][axis+2]      = rect[axis+2];
+    resultRect[1][axis+2]      = to;
     resultRect[1][otherAxis+2] = rect[otherAxis+2];
 
 //    printf("AA %d %d %d\n",rect[axis],resultRect[0][axis+2],rect[axis+2]);
-
+#if 0
     for(cut = rect[axis] ; 
         cut <= rect[axis+2] &&
             _groupOpen[cut] == NULL &&
@@ -1394,12 +1496,7 @@ Real32 BalancedMultiWindow::splitAxis(Real32 load[2],
             _groupClose[cut] == NULL
             ; --cut)
         resultRect[1][axis+2]--;
-
-//    printf("BB %d %d %d\n",rect[axis],resultRect[0][axis+2],rect[axis+2]);
-
-//    printf("%d l %f r %f\n",axis,leftLoad,rightLoad);
-
-    return osgMax(leftLoad,rightLoad);
+#endif
 }
 
 /*! render part of a viewport viewport 
@@ -1541,8 +1638,11 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
     std::vector<Tile>::iterator tI;
     Tile tile;
     Connection::Channel channel=0;
-    UInt32 triCount=0;
-    Real64 drawTime=0;
+
+    _triCount = 0;
+    _drawTime = 0;
+    _pixelTime = 0;
+    _netTime = 0;
 
     // prepare statistics
     if(action->getStatistics() == NULL) {
@@ -1574,10 +1674,11 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                                action,
                                wI->viewportId,
                                wI->rect);
+                _pixelTime -= getSystemTime();
                 storeViewport (_cluster.areas.back(),getPort()[wI->viewportId],wI->rect);
-                triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
-                triCount++;
-                drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
+                _pixelTime += getSystemTime();
+                _triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
+                _drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
             }
         }
 
@@ -1598,9 +1699,8 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                                action,
                                wI->viewportId,
                                wI->rect);
-                triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
-                triCount++;
-                drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
+                _triCount += (UInt32)action->getStatistics()->getElem( Drawable::statNTriangles )->getValue();
+                _drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
             }
         }
         // send tiles
@@ -1628,6 +1728,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
             }
         }
 
+        _netTime -= getSystemTime();
         // receive and paint tiles from others
         glViewport(0,
                    0,
@@ -1679,6 +1780,8 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                     groupConn->get(&tile.pixel,tile.header.width*tile.header.height*2);
                 else
                     groupConn->get(&tile.pixel,tile.header.width*tile.header.height*3);
+                _netTime += getSystemTime();
+                _pixelTime -= getSystemTime();
                 glRasterPos2i (tile.header.x,tile.header.y);
                 if(getShort())
                     glDrawPixels(tile.header.width,tile.header.height, 
@@ -1725,6 +1828,8 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                     glDisable(GL_BLEND);
 #endif
                 }
+                _pixelTime += getSystemTime();
+                _netTime -= getSystemTime();
             } 
             while(!tile.header.last);
         }
@@ -1733,31 +1838,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         glPopMatrix();
         glEnable(GL_DEPTH_TEST);
     }
-    if(id != getServers().size())
-    {
-        Connection *conn = getNetwork()->getMainConnection();
-        conn->putValue(triCount);
-        conn->putValue(drawTime);
-        conn->flush();
-    } 
-    else
-    {
-        UInt32 tri;
-        Real64 time;
-        printf("Triangles:\n");
-        GroupConnection *conn = getNetwork()->getMainGroupConnection();
-        while(conn->getSelectionCount())
-        {
-            channel = conn->selectChannel();
-            conn->subSelection(channel);
-            conn->getValue(tri);
-            conn->getValue(time);
-            printf("%4d %10d %2.6lf\n",channel,tri,time);
-        }
-        conn->resetSelection();
-        printf("%4d %10d %2.6lf\n",getServers().size(),triCount,drawTime);
-    }
-
+    _netTime += getSystemTime();
 }
 
 /*! preload display lists and textures
@@ -1770,7 +1851,6 @@ void BalancedMultiWindow::preloadCache(WindowPtr window,
 
     if(!_preloadCache)
         return;
-    printf("preload\n");
     _preloadCache = false;
     window->activate();
     window->frameInit();

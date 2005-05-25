@@ -57,9 +57,10 @@ OSG_BEGIN_NAMESPACE
 #define MW_TILE_SIZE 256
 
 // TODO use dynamic performance values
-#define MW_INDICES_PER_SEC        10000000.0
+#define MW_INDICES_PER_SEC         100000000.0
+#define MW_VISIBLE_INDICES_PER_SEC  30000000.0
 #define MW_PIXEL_PER_SEC          1000000000.0
-#define MW_SHADED_PIXEL_PER_SEC   5000000.0
+#define MW_SHADED_PIXEL_PER_SEC      5000000.0
 
 class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowBase
 {
@@ -132,6 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
         NodePtr                node;
         Real32                 pixel;
         Real32                 constant;
+        Real32                 ratio;
     };
     struct BBox {
         UInt32                 groupId;
@@ -207,6 +209,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     VPort                  _foreignPort;
     bool                   _preloadCache;
 
+    UInt32                 _triCount;
+    Real64                 _drawTime;
+    Real64                 _pixelTime;
+    Real64                 _loadTime;
+    Real64                 _balanceTime;
+    Real64                 _netTime;
+
+    bool                   _rebuildLoadGroups;
+
     // calculate rendering load 
     inline Real32 getVisibleLoad(Int32      rect[4],
                                  BBox      &bbox);
@@ -237,12 +248,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     // sort bboxes
     void sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4]);
     // split load at a given axis
-    Real32 splitAxis(Real32 load[2],
-                     VPort &port,
-                     Int32 rect[4],
-                     int axis,
-                     Real32 resultLoad[2],
-                     Int32 resultRect[2][4]);
+    void splitAxis(Real32 load[2],
+                   VPort &port,
+                   Int32 rect[4],
+                   int axis,
+                   Real32 resultLoad[2],
+                   Int32 resultRect[2][4]);
     // render part of a viewport viewport 
     void renderViewport(WindowPtr         serverWindow,
                         UInt32            id,
