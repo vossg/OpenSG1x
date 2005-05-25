@@ -97,80 +97,116 @@ void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 inline
 SFNodePtr *CameraDecoratorBase::getSFBeacon(void)
 {
-    return getDecoratee()->getSFBeacon();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getSFBeacon();
+    else
+        return getSFBeacon();
 }
 
 inline
 SFReal32 *CameraDecoratorBase::getSFNear(void)
 {
-    return getDecoratee()->getSFNear();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getSFNear();
+    else
+        return &_sfNear;
 }
 
 inline
 SFReal32 *CameraDecoratorBase::getSFFar(void)
 {
-    return getDecoratee()->getSFFar();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getSFFar();
+    else
+        return &_sfFar;
 }
 
 
 inline
 NodePtr &CameraDecoratorBase::getBeacon(void)
 {
-    return getDecoratee()->getBeacon();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getBeacon();
+    else
+        return _sfBeacon.getValue();
 }
 
 inline
 const NodePtr &CameraDecoratorBase::getBeacon(void) const
 {
-    return getDecoratee()->getBeacon();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getBeacon();
+    else
+        return _sfBeacon.getValue();
 }
 
 inline
 void CameraDecoratorBase::setBeacon(const NodePtr &value)
 {
-    beginEditCP(getDecoratee(), BeaconFieldMask);
-    getDecoratee()->setBeacon(value);
-    endEditCP  (getDecoratee(), BeaconFieldMask);
+    if(getDecoratee() != NullFC)
+    {
+        beginEditCP(getDecoratee(), BeaconFieldMask);
+        getDecoratee()->setBeacon(value);
+        endEditCP  (getDecoratee(), BeaconFieldMask);
+    }
 }
 
 inline
 Real32 &CameraDecoratorBase::getNear(void)
 {
-    return getDecoratee()->getNear();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getNear();
+    else
+        return _sfNear.getValue();
 }
 
 inline
 const Real32 &CameraDecoratorBase::getNear(void) const
 {
-    return getDecoratee()->getNear();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getNear();
+    else
+        return _sfNear.getValue();
 }
 
 inline
 void CameraDecoratorBase::setNear(const Real32 &value)
 {
-    beginEditCP(getDecoratee(), NearFieldMask);
-    getDecoratee()->setNear(value);
-    endEditCP  (getDecoratee(), NearFieldMask);
+    if(getDecoratee() != NullFC)
+    {
+        beginEditCP(getDecoratee(), NearFieldMask);
+        getDecoratee()->setNear(value);
+        endEditCP  (getDecoratee(), NearFieldMask);
+    }
 }
 
 inline
 Real32 &CameraDecoratorBase::getFar(void)
 {
-    return getDecoratee()->getFar();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getFar();
+    else
+        return _sfFar.getValue();
 }
 
 inline
 const Real32 &CameraDecoratorBase::getFar(void) const
 {
-    return getDecoratee()->getFar();
+    if(getDecoratee() != NullFC)
+        return getDecoratee()->getFar();
+    else
+        return _sfFar.getValue();
 }
 
 inline
 void CameraDecoratorBase::setFar(const Real32 &value)
 {
-    beginEditCP(getDecoratee(), FarFieldMask);
-    getDecoratee()->setFar(value);
-    endEditCP  (getDecoratee(), FarFieldMask);
+    if(getDecoratee() != NullFC)
+    {
+        beginEditCP(getDecoratee(), FarFieldMask);
+        getDecoratee()->setFar(value);
+        endEditCP  (getDecoratee(), FarFieldMask);
+    }
 }
 
 
