@@ -309,6 +309,11 @@ bool FieldContainerPtrBase::operator ! (void) const
     return _storeP == NULL;
 }
 
+inline
+FieldContainerPtrBase::operator unspecified_bool_type() const
+{
+    return !*this ? 0 : (unspecified_bool_type)&_storeP;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */

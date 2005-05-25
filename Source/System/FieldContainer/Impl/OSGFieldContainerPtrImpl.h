@@ -96,6 +96,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
   public:
 
     static const UInt16           InvalidParentEPos;
+    typedef UInt8 * FieldContainerPtrBase::*unspecified_bool_type;
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -163,6 +164,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     bool operator !  (void                              ) const;
 
+    operator unspecified_bool_type() const;
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
