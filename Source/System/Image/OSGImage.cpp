@@ -2910,9 +2910,9 @@ void Image::calcMipmapGeometry   ( UInt32 mipmapNum,
                                    UInt32 &height,
                                    UInt32 &depth ) const
 {
-  width  = getWidth() >> mipmapNum;
-  height = getHeight() >> mipmapNum;
-  depth  = getDepth() >> mipmapNum;
+  width  = getWidth()  ? osgMax(getWidth()  >> mipmapNum, 1) : 0 ;
+  height = getHeight() ? osgMax(getHeight() >> mipmapNum, 1) : 0 ;
+  depth  = getDepth()  ? osgMax(getDepth()  >> mipmapNum, 1) : 0 ;
 }
 
 #ifdef __sgi
