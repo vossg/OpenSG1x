@@ -314,7 +314,6 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                         FieldContainerType &fcType = fcPtr->getType();
                         for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
                         {
-                            Field *fieldPtr = fcPtr->getField(i);
                             FieldDescription *desc = fcPtr->getType().getFieldDescription(i);
                             // ignore beacon fields. I don't know any clean
                             // solution. In CamearDecorator the acces method
@@ -324,6 +323,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                             // cases this is OK, but not in this case.
                             if(strcmp(desc->getName().str(),"beacon")==0)
                                 continue;
+                            Field *fieldPtr = fcPtr->getField(i);
                             const FieldType &fType = fieldPtr->getType();
                             const char *ptrStr = strstr(fType.getCName(), "Ptr");
                             if(ptrStr && strlen(ptrStr) == 3)
