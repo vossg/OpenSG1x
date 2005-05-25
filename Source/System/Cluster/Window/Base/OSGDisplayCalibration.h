@@ -125,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     void createCMViewports(WindowPtr window);
     void updateMatrix();
     void updateGamma();
+    void updateGrid(WindowPtr window);
     void createPincushionGrid();
 
     /*! \}                                                                 */
@@ -134,8 +135,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     ChunkMaterialPtr          _ccmat;
     ChunkMaterialPtr          _nccmat;
     GeometryPtr               _ccgeo;
+    GeometryPtr               _scalegeo;
     GeoPositions3fPtr         _positions;
     GeoTexCoords2fPtr         _texcoords;
+    GeoPositions3fPtr         _positionsScale;
+    GeoTexCoords2fPtr         _texcoordsScale;
     ImagePtr                  _rgammaimg;
     TextureChunkPtr           _rgammachunk;    
     ImagePtr                  _ggammaimg;
@@ -151,6 +155,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     ViewportPtr               _cmPort;
     ViewportPtr               _dsPort;
     ViewportPtr               _dsPort2;
+    bool                      _gridChanged;
+    UInt32                    _winWidth;
+    UInt32                    _winHeight;
 
     /*==========================  PRIVATE  ================================*/
   private:
