@@ -433,6 +433,39 @@ PathHandler::PathType PathHandler::analysePathList(const Char8 *pathList)
         pCurr++;
     }
 
+#ifdef WIN32
+    // HACK but d:/data/tie.wrl is also a valid windows path.
+    if(returnValue == UnixPath)
+    {
+        // ok first look for a ";" in the path list.
+        UInt32 uiSize = 0;
+        pCurr = pathList;
+        while(*pCurr != '\0')
+        {
+            if(*pCurr == ';')
+            {
+                returnValue = Win32Path;
+                break;
+            }
+            pCurr++;
+            uiSize++;
+        }
+
+        // ok we found no ";" in the list look for a absolute windows path.
+        if(returnValue == UnixPath)
+        {
+            if(uiSize >= 3)
+            {
+                if(pathList[1] == ':' &&
+                   (pathList[2] == '/' || pathList[2] == '\\'))
+                {
+                    returnValue = Win32Path;
+                }
+            }
+        }
+    }
+#endif
+
     return returnValue;
 }
 
@@ -485,6 +518,18 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
         pCurr++;
         uiSize++;
     }
+
+#ifdef WIN32
+    if(returnValue == UnixPath)
+    {
+        // d:/data/tie.wrl is also a windows path!
+        if(uiSize >= 2)
+        {
+            if(path[1] == ':')
+                returnValue = Win32Path;
+        }
+    }
+#endif
 
     if(returnValue == Win32Path)
     {
@@ -734,14 +779,7 @@ void PathHandler::splitPathList(const Char8    *pathList,
     std::string            workString(pathList);
 
     currPos = workString.find(pathSep);
-    
-    // CF added
-    if(currPos+1 < workString.size() && workString[currPos+1] == _dirSepUnix) 
-    {
-       // absolute path for WIN32 with Unix directory separators
-       currPos = std::string::npos;
-    }
-    
+
     if(currPos == std::string::npos)
     {
         result.push_back(workString);
