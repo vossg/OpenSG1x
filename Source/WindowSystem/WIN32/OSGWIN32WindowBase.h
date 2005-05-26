@@ -62,6 +62,7 @@
 #include <OSGWindowWIN32Def.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGWindow.h> // Parent
 
@@ -238,8 +239,13 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
 
 typedef WIN32WindowBase *WIN32WindowBaseP;
 
+typedef osgIF<WIN32WindowBase::isNodeCore,
+              CoredNodePtr<WIN32Window>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet WIN32WindowNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */
