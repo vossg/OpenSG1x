@@ -78,6 +78,7 @@ char *FCBaseTemplate_h[]={
 "@@endif",
 "",
 "#include <@!HeaderPrefix!@OSGBaseTypes.h>",
+"#include <@!HeaderPrefix!@OSGCoredNodePtr.h>",
 "",
 #if 0 // Not sure what's the right way here
 "@@if useLocalIncludes",
@@ -397,9 +398,14 @@ char *FCBaseTemplate_h[]={
 "",
 "typedef @!Classname!@Base *@!Classname!@BaseP;",
 "",
+"typedef osgIF<@!Classname!@Base::isNodeCore,",
+"              CoredNodePtr<@!Classname!@>,",
+"              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC",
+"              >::_IRet @!Classname!@NodePtr;",
+"",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };
