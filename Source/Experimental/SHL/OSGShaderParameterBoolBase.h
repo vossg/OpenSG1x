@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameter.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBoolBase : public ShaderParameter
 
 typedef ShaderParameterBoolBase *ShaderParameterBoolBaseP;
 
+typedef osgIF<ShaderParameterBoolBase::isNodeCore,
+              CoredNodePtr<ShaderParameterBool>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ShaderParameterBoolNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.1 2004/07/01 11:26:57 a-m-z Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.2 2005/05/26 22:22:05 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOLBASE_H_ */

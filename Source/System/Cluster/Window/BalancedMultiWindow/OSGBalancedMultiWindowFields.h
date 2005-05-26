@@ -102,6 +102,6 @@ struct FieldDataTraits<BalancedMultiWindowPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGBALANCEDMULTIWINDOWFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGBALANCEDMULTIWINDOWFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGBALANCEDMULTIWINDOWFIELDS_H_ */

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -270,8 +271,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
 
 typedef StencilChunkBase *StencilChunkBaseP;
 
+typedef osgIF<StencilChunkBase::isNodeCore,
+              CoredNodePtr<StencilChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet StencilChunkNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.1 2005/03/21 14:41:40 yjung Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.2 2005/05/26 22:22:46 dirk Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

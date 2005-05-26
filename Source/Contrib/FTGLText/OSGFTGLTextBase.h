@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGMaterialDrawable.h> // Parent
 
@@ -238,8 +239,13 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLTextBase : public MaterialDrawable
 
 typedef FTGLTextBase *FTGLTextBaseP;
 
+typedef osgIF<FTGLTextBase::isNodeCore,
+              CoredNodePtr<FTGLText>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet FTGLTextNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.1 2004/08/05 05:22:50 dirk Exp $"
+#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.2 2005/05/26 22:22:01 dirk Exp $"
 
 #endif /* _OSGFTGLTEXTBASE_H_ */

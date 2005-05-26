@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameter.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterRealBase : public ShaderParameter
 
 typedef ShaderParameterRealBase *ShaderParameterRealBaseP;
 
+typedef osgIF<ShaderParameterRealBase::isNodeCore,
+              CoredNodePtr<ShaderParameterReal>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ShaderParameterRealNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealBase.h,v 1.1 2004/06/05 18:16:44 a-m-z Exp $"
+#define OSGSHADERPARAMETERREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealBase.h,v 1.2 2005/05/26 22:22:05 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERREALBASE_H_ */

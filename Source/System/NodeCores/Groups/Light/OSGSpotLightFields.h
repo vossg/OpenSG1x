@@ -102,6 +102,6 @@ struct FieldDataTraits<SpotLightPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.23 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSPOTLIGHTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSPOTLIGHTFIELDS_H_ */

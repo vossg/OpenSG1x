@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 
 typedef StateBase *StateBaseP;
 
+typedef osgIF<StateBase::isNodeCore,
+              CoredNodePtr<State>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet StateNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

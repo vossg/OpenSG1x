@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGClusterWindow.h> // Parent
 
@@ -82,10 +83,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindowBase : public ClusterWindow
 {
   private:
 
-    typedef ClusterWindow Inherited;
+    typedef ClusterWindow    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
+
+    typedef SortLastWindowPtr  Ptr;
 
     enum
     {
@@ -236,8 +239,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindowBase : public ClusterWindow
 
 typedef SortLastWindowBase *SortLastWindowBaseP;
 
+typedef osgIF<SortLastWindowBase::isNodeCore,
+              CoredNodePtr<SortLastWindow>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet SortLastWindowNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSORTLASTWINDOWBASE_HEADER_CVSID "@(#)$Id: $"
+#define OSGSORTLASTWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSORTLASTWINDOWBASE_H_ */

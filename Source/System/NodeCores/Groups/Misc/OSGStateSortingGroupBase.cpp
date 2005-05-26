@@ -241,7 +241,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.1 2005/04/06 09:35:00 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.2 2005/05/26 22:22:43 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATESORTINGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATESORTINGGROUPBASE_INLINE_CVSID;
 

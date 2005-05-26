@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -326,8 +327,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
 
 typedef MaterialChunkBase *MaterialChunkBaseP;
 
+typedef osgIF<MaterialChunkBase::isNodeCore,
+              CoredNodePtr<MaterialChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet MaterialChunkNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGMATERIALCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGMATERIALCHUNKBASE_H_ */

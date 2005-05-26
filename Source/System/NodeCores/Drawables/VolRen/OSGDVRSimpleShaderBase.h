@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGDVRShader.h> // Parent
 
@@ -188,8 +189,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRSimpleShaderBase : public DVRShader
 
 typedef DVRSimpleShaderBase *DVRSimpleShaderBaseP;
 
+typedef osgIF<DVRSimpleShaderBase::isNodeCore,
+              CoredNodePtr<DVRSimpleShader>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DVRSimpleShaderNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDVRSIMPLESHADERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGDVRSIMPLESHADERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGDVRSIMPLESHADERBASE_H_ */

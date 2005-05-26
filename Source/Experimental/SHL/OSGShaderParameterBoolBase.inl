@@ -128,5 +128,5 @@ void ShaderParameterBoolBase::setValue(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBoolBase.inl,v 1.1 2004/07/01 11:26:57 a-m-z Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBoolBase.inl,v 1.2 2005/05/26 22:22:05 dirk Exp $"
 

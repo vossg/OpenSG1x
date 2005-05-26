@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGCameraDecorator.h> // Parent
 
@@ -214,8 +215,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoCameraDecoratorBase : public CameraDecorato
 
 typedef StereoCameraDecoratorBase *StereoCameraDecoratorBaseP;
 
+typedef osgIF<StereoCameraDecoratorBase::isNodeCore,
+              CoredNodePtr<StereoCameraDecorator>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet StereoCameraDecoratorNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSTEREOCAMERADECORATORBASE_H_ */

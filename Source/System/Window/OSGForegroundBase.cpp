@@ -72,6 +72,14 @@ const OSG::BitVector ForegroundBase::MTInfluenceMask =
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
 
+// Field descriptions
+
+/*! \var bool            ForegroundBase::_sfActive
+    Activate the grabber.
+*/
+
+//! Foreground description
+
 FieldDescription *ForegroundBase::_desc[] = 
 {
     new FieldDescription(SFBool::getClassType(), 
@@ -80,6 +88,7 @@ FieldDescription *ForegroundBase::_desc[] =
                      false,
                      (FieldAccessMethod) &ForegroundBase::getSFActive)
 };
+
 
 FieldContainerType ForegroundBase::_type(
     "Foreground",
@@ -156,6 +165,7 @@ UInt32 ForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfActive.getBinSize();
     }
 
+
     return returnValue;
 }
 
@@ -168,6 +178,8 @@ void ForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     {
         _sfActive.copyToBin(pMem);
     }
+
+
 }
 
 void ForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
@@ -179,6 +191,8 @@ void ForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
     {
         _sfActive.copyFromBin(pMem);
     }
+
+
 }
 
 void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
@@ -189,6 +203,8 @@ void ForegroundBase::executeSyncImpl(      ForegroundBase *pOther,
 
     if(FieldBits::NoField != (ActiveFieldMask & whichField))
         _sfActive.syncWith(pOther->_sfActive);
+
+
 }
 
 
@@ -221,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFOREGROUNDBASE_INLINE_CVSID;
 

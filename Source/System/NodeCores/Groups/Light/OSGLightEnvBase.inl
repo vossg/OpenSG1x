@@ -100,5 +100,5 @@ LightEnvPtr LightEnvBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_INLINE_CVSID "@(#)$Id: OSGLightEnvBase.inl,v 1.1 2005/04/23 11:00:58 a-m-z Exp $"
+#define OSGLIGHTENVBASE_INLINE_CVSID "@(#)$Id: OSGLightEnvBase.inl,v 1.2 2005/05/26 22:22:26 dirk Exp $"
 

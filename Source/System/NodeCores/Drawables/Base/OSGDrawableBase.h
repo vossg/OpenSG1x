@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -172,8 +173,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawableBase : public NodeCore
 
 typedef DrawableBase *DrawableBaseP;
 
+typedef osgIF<DrawableBase::isNodeCore,
+              CoredNodePtr<Drawable>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DrawableNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.5 2003/10/29 08:30:15 vossg Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.6 2005/05/26 22:22:19 dirk Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

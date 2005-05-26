@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGGeometry.h> // Parent
 
@@ -238,8 +239,13 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformableGeometryBase : public Geometry
 
 typedef DeformableGeometryBase *DeformableGeometryBaseP;
 
+typedef osgIF<DeformableGeometryBase::isNodeCore,
+              CoredNodePtr<DeformableGeometry>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DeformableGeometryNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGDEFORMABLEGEOMETRYBASE_H_ */

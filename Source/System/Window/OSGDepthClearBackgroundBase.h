@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -188,8 +189,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
 
 typedef DepthClearBackgroundBase *DepthClearBackgroundBaseP;
 
+typedef osgIF<DepthClearBackgroundBase::isNodeCore,
+              CoredNodePtr<DepthClearBackground>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DepthClearBackgroundNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.1 2005/01/18 00:31:17 dirk Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.2 2005/05/26 22:22:51 dirk Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */

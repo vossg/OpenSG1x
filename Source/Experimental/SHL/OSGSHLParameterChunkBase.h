@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameterChunk.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public ShaderParameterChu
 
 typedef SHLParameterChunkBase *SHLParameterChunkBaseP;
 
+typedef osgIF<SHLParameterChunkBase::isNodeCore,
+              CoredNodePtr<SHLParameterChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet SHLParameterChunkNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.3 2005/05/26 22:22:05 dirk Exp $"
 
 #endif /* _OSGSHLPARAMETERCHUNKBASE_H_ */

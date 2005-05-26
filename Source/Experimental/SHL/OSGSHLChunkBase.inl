@@ -156,5 +156,5 @@ void SHLChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.6 2004/10/03 16:42:57 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.7 2005/05/26 22:22:05 dirk Exp $"
 

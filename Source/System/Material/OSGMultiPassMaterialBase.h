@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGMaterial.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiPassMaterialBase : public Material
 
 typedef MultiPassMaterialBase *MultiPassMaterialBaseP;
 
+typedef osgIF<MultiPassMaterialBase::isNodeCore,
+              CoredNodePtr<MultiPassMaterial>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet MultiPassMaterialNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.1 2005/04/14 15:43:45 a-m-z Exp $"
+#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.2 2005/05/26 22:22:16 dirk Exp $"
 
 #endif /* _OSGMULTIPASSMATERIALBASE_H_ */

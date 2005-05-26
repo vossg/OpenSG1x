@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGAttachment.h> // Parent
 
@@ -254,8 +255,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRIsoSurfaceBase : public Attachment
 
 typedef DVRIsoSurfaceBase *DVRIsoSurfaceBaseP;
 
+typedef osgIF<DVRIsoSurfaceBase::isNodeCore,
+              CoredNodePtr<DVRIsoSurface>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DVRIsoSurfaceNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGDVRISOSURFACEBASE_H_ */

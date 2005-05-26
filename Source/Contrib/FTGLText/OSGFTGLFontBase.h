@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -275,8 +276,13 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFontBase : public FieldContainer
 
 typedef FTGLFontBase *FTGLFontBaseP;
 
+typedef osgIF<FTGLFontBase::isNodeCore,
+              CoredNodePtr<FTGLFont>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet FTGLFontNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.1 2004/08/05 05:22:50 dirk Exp $"
+#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.2 2005/05/26 22:22:01 dirk Exp $"
 
 #endif /* _OSGFTGLFONTBASE_H_ */

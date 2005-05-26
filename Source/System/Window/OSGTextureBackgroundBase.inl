@@ -184,5 +184,5 @@ const MFPnt2f &TextureBackgroundBase::getTexCoords(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.1 2004/01/23 14:17:04 a-m-z Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.2 2005/05/26 22:22:51 dirk Exp $"
 

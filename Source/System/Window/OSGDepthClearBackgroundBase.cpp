@@ -204,7 +204,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.1 2005/01/18 00:31:17 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.2 2005/05/26 22:22:51 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID;
 

@@ -102,6 +102,6 @@ struct FieldDataTraits<SortFirstWindowPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSORTFIRSTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGSORTFIRSTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSORTFIRSTWINDOWFIELDS_H_ */

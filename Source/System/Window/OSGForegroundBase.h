@@ -62,9 +62,11 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGAttachmentContainer.h> // Parent
 
+#include <OSGBoolFields.h> // Active type
 
 #include <OSGForegroundFields.h>
 
@@ -86,13 +88,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
     typedef ForegroundPtr  Ptr;
 
-    enum 
+    enum
     {
         ActiveFieldId = Inherited::NextFieldId,
         NextFieldId   = ActiveFieldId + 1
     };
 
     static const OSG::BitVector ActiveFieldMask;
+
+
     static const OSG::BitVector MTInfluenceMask;
 
     /*---------------------------------------------------------------------*/
@@ -114,13 +118,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Field Set                                 */
-    /*! \{                                                                 */
-
-     void setActive         ( const bool &value );
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
@@ -128,6 +125,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
            bool                &getActive         (void);
      const bool                &getActive         (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setActive         ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,8 +207,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ForegroundBase : public AttachmentContainer
 
 typedef ForegroundBase *ForegroundBaseP;
 
+typedef osgIF<ForegroundBase::isNodeCore,
+              CoredNodePtr<Foreground>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ForegroundNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGFOREGROUNDBASE_H_ */

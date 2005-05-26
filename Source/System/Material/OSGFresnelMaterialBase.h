@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGChunkMaterial.h> // Parent
 
@@ -310,8 +311,13 @@ class OSG_SYSTEMLIB_DLLMAPPING FresnelMaterialBase : public ChunkMaterial
 
 typedef FresnelMaterialBase *FresnelMaterialBaseP;
 
+typedef osgIF<FresnelMaterialBase::isNodeCore,
+              CoredNodePtr<FresnelMaterial>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet FresnelMaterialNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.1 2004/02/01 20:07:03 a-m-z Exp $"
+#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.2 2005/05/26 22:22:16 dirk Exp $"
 
 #endif /* _OSGFRESNELMATERIALBASE_H_ */

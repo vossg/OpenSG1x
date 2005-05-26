@@ -431,7 +431,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.1 2005/03/21 14:41:40 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.2 2005/05/26 22:22:46 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 

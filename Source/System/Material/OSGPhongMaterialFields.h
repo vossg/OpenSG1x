@@ -102,6 +102,6 @@ struct FieldDataTraits<PhongMaterialPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGPHONGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGPHONGMATERIALFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPHONGMATERIALFIELDS_H_ */

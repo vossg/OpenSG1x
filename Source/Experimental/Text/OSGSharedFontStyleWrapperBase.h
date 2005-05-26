@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleWrapperBase : public FieldContaine
 
 typedef SharedFontStyleWrapperBase *SharedFontStyleWrapperBaseP;
 
+typedef osgIF<SharedFontStyleWrapperBase::isNodeCore,
+              CoredNodePtr<SharedFontStyleWrapper>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet SharedFontStyleWrapperNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.3 2003/10/29 08:30:04 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.4 2005/05/26 22:22:08 dirk Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

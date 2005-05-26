@@ -100,28 +100,32 @@ CoredNodePtr<Core>::CoredNodePtr(void) :
 {}
 
 template< class Core > inline
-CoredNodePtr<Core>::CoredNodePtr(const NodePtr& node)
+CoredNodePtr<Core>::CoredNodePtr(const NodePtr& node) : 
+    CoredNodePtrBase()
 {
     setNode(node);
     setCore(Core::Ptr::dcast(CoredNodePtrBase::node()->getCore()));
 }
 
 template< class Core > inline
-CoredNodePtr<Core>::CoredNodePtr(const NodeCorePtr& core)
+CoredNodePtr<Core>::CoredNodePtr(const NodeCorePtr& core) : 
+    CoredNodePtrBase()
 {
     setCore(Core::Ptr::dcast(core));
     updateNode();
 }
 
 template< class Core > inline
-CoredNodePtr<Core>::CoredNodePtr(const typename Core::Ptr& core)
+CoredNodePtr<Core>::CoredNodePtr(const typename Core::Ptr& core) : 
+    CoredNodePtrBase()
 {
     setCore(core);
     updateNode();
 }
 
 template< class Core > inline
-CoredNodePtr<Core>::CoredNodePtr(const CoredNodePtr<Core>& ptr)
+CoredNodePtr<Core>::CoredNodePtr(const CoredNodePtr<Core>& ptr) : 
+    CoredNodePtrBase()
 {
     setCore(ptr._core);
     setNode(ptr.node());
@@ -287,7 +291,38 @@ void endEditCP  (const CoredNodePtr<Core> &objectP,
     endEditCP(objectP.core(), whichField, origin);   
 }
 
+
+// Output operator
+
+template< class Core >
+inline std::ostream &operator << (std::ostream &str, 
+                                  const CoredNodePtr<Core>& cnp)
+{
+    str << "CoredNodePtr<" << Core::getClassType().getName()
+        << ">: Node: ";
+    if(cnp.node())
+    {
+        str << cnp.node();
+    }
+    else
+    {
+        str << "(unset)";
+    }
+    
+    str << " Core: ";
+    if(cnp.node() && cnp.core())
+    {
+        str << cnp.core();
+    }
+    else
+    {
+        str << "(unset)";
+    }
+    
+    return str;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.2 2005/03/13 05:43:07 vossg Exp $"
+#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.3 2005/05/26 22:22:13 dirk Exp $"
 

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGFieldContainer.h> // Parent
 
@@ -206,8 +207,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
 
 typedef ShaderParameterBase *ShaderParameterBaseP;
 
+typedef osgIF<ShaderParameterBase::isNodeCore,
+              CoredNodePtr<ShaderParameter>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ShaderParameterNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.3 2004/09/02 13:43:54 a-m-z Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.4 2005/05/26 22:22:05 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

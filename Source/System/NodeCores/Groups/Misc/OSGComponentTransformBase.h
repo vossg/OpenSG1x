@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGTransform.h> // Parent
 
@@ -254,8 +255,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
 
 typedef ComponentTransformBase *ComponentTransformBaseP;
 
+typedef osgIF<ComponentTransformBase::isNodeCore,
+              CoredNodePtr<ComponentTransform>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ComponentTransformNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGCOMPONENTTRANSFORMBASE_H_ */

@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGMaterialGroup.h> // Parent
 
@@ -326,8 +327,13 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
 
 typedef TiledTerrainBase *TiledTerrainBaseP;
 
+typedef osgIF<TiledTerrainBase::isNodeCore,
+              CoredNodePtr<TiledTerrain>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet TiledTerrainNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.1 2005/04/24 19:45:49 dirk Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.2 2005/05/26 22:22:04 dirk Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

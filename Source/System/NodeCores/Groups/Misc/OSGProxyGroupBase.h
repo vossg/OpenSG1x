@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGGroup.h> // Parent
 
@@ -323,8 +324,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
 
 typedef ProxyGroupBase *ProxyGroupBaseP;
 
+typedef osgIF<ProxyGroupBase::isNodeCore,
+              CoredNodePtr<ProxyGroup>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ProxyGroupNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPROXYGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPROXYGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPROXYGROUPBASE_H_ */

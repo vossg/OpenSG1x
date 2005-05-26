@@ -246,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.1 2005/04/14 15:43:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.2 2005/05/26 22:22:16 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -188,8 +189,13 @@ class OSG_SYSTEMLIB_DLLMAPPING GroupBase : public NodeCore
 
 typedef GroupBase *GroupBaseP;
 
+typedef osgIF<GroupBase::isNodeCore,
+              CoredNodePtr<Group>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet GroupNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGGROUPBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGGROUPBASE_H_ */

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGGroup.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialPoolBase : public Group
 
 typedef MaterialPoolBase *MaterialPoolBaseP;
 
+typedef osgIF<MaterialPoolBase::isNodeCore,
+              CoredNodePtr<MaterialPool>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet MaterialPoolNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.1 2005/04/30 15:03:20 a-m-z Exp $"
+#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.2 2005/05/26 22:22:43 dirk Exp $"
 
 #endif /* _OSGMATERIALPOOLBASE_H_ */

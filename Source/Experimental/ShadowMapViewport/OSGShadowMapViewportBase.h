@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGViewport.h> // Parent
 
@@ -286,8 +287,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
 
 typedef ShadowMapViewportBase *ShadowMapViewportBaseP;
 
+typedef osgIF<ShadowMapViewportBase::isNodeCore,
+              CoredNodePtr<ShadowMapViewport>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ShadowMapViewportNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.6 2004/09/18 14:50:21 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.7 2005/05/26 22:22:08 dirk Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

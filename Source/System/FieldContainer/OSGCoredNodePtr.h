@@ -127,7 +127,7 @@ class CoredNodePtr : public CoredNodePtrBase
     
     explicit CoredNodePtr(const NodeCorePtr& core);
     
-    explicit CoredNodePtr(const typename Core::Ptr& core);
+    CoredNodePtr(const typename Core::Ptr& core);
      
     CoredNodePtr(const CoredNodePtr<Core>& ptr);
    
@@ -205,10 +205,16 @@ void endEditCP  (const CoredNodePtr<Core> &objectP,
                        BitVector         whichField = FieldBits    ::AllFields,
                        UInt32            origin     = ChangedOrigin::External);
 
+// Output operator
+
+template< class Core >
+inline std::ostream &operator << (std::ostream &str, 
+                                  const CoredNodePtr<Core>& cnp);
+
 OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.3 2005/04/15 13:28:02 a-m-z Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.4 2005/05/26 22:22:13 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */

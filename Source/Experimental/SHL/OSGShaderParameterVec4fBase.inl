@@ -128,5 +128,5 @@ void ShaderParameterVec4fBase::setValue(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterVec4fBase.inl,v 1.1 2004/06/05 18:16:44 a-m-z Exp $"
+#define OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterVec4fBase.inl,v 1.2 2005/05/26 22:22:06 dirk Exp $"
 

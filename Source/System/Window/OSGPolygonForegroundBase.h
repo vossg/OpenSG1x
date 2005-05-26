@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGForeground.h> // Parent
 
@@ -254,8 +255,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
 
 typedef PolygonForegroundBase *PolygonForegroundBaseP;
 
+typedef osgIF<PolygonForegroundBase::isNodeCore,
+              CoredNodePtr<PolygonForeground>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet PolygonForegroundNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPOLYGONFOREGROUNDBASE_H_ */

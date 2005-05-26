@@ -153,7 +153,7 @@ const OSG::BitVector TiledTerrainBase::MTInfluenceMask =
     update terrain tiles in the next frame
 */
 /*! \var bool            TiledTerrainBase::_sfPerPixelLighting
-    Do per-pixel lighting with normalmap; otherwise per-vertex
+    Do per-pixel lighting with normalmap; otherwise generate per-vertex normals
 */
 
 //! TiledTerrain description
@@ -649,7 +649,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.1 2005/04/24 19:45:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.2 2005/05/26 22:22:04 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 

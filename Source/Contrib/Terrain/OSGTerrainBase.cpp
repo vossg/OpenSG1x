@@ -336,7 +336,7 @@ FieldDescription *TerrainBase::_desc[] =
                      false,
                      (FieldAccessMethod) &TerrainBase::getSFUpdateTerrain),
     new FieldDescription(SFBool::getClassType(), 
-                     "PerPixelLighting", 
+                     "perPixelLighting", 
                      PerPixelLightingFieldId, PerPixelLightingFieldMask,
                      false,
                      (FieldAccessMethod) &TerrainBase::getSFPerPixelLighting)
@@ -402,7 +402,7 @@ TerrainBase::TerrainBase(void) :
     _sfWidth                  (UInt32(0)), 
     _sfLevel                  (UInt32(1)), 
     _sfDetail                 (Real32(22.0f)), 
-    _sfBorderDetail           (Int32(-1)), 
+    _sfBorderDetail           (Int32(0)), 
     _sfVertexSpacing          (Real32(0.1f)), 
     _sfHeightVertices         (), 
     _sfGeoMorphing            (bool(false)), 
@@ -959,7 +959,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.1 2005/04/24 19:45:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.2 2005/05/26 22:22:04 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTERRAINBASE_INLINE_CVSID;
 

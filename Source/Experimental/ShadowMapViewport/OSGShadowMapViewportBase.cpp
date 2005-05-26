@@ -494,7 +494,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.6 2004/09/18 14:50:21 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.7 2005/05/26 22:22:08 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

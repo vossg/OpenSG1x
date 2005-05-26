@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -294,8 +295,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
 
 typedef PointChunkBase *PointChunkBaseP;
 
+typedef osgIF<PointChunkBase::isNodeCore,
+              CoredNodePtr<PointChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet PointChunkNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPOINTCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGPOINTCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPOINTCHUNKBASE_H_ */

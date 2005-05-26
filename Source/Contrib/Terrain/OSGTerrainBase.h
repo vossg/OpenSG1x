@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGGeometry.h> // Parent
 
@@ -419,8 +420,13 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
 
 typedef TerrainBase *TerrainBaseP;
 
+typedef osgIF<TerrainBase::isNodeCore,
+              CoredNodePtr<Terrain>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet TerrainNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.1 2005/04/24 19:45:49 dirk Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.2 2005/05/26 22:22:04 dirk Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

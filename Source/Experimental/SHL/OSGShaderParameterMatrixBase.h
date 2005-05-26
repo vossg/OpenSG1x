@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameter.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMatrixBase : public ShaderParamete
 
 typedef ShaderParameterMatrixBase *ShaderParameterMatrixBaseP;
 
+typedef osgIF<ShaderParameterMatrixBase::isNodeCore,
+              CoredNodePtr<ShaderParameterMatrix>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ShaderParameterMatrixNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.1 2004/06/05 18:16:43 a-m-z Exp $"
+#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.2 2005/05/26 22:22:05 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERMATRIXBASE_H_ */

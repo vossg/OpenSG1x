@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGLight.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
 
 typedef DirectionalLightBase *DirectionalLightBaseP;
 
+typedef osgIF<DirectionalLightBase::isNodeCore,
+              CoredNodePtr<DirectionalLight>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DirectionalLightNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGDIRECTIONALLIGHTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGDIRECTIONALLIGHTBASE_H_ */

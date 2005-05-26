@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGViewport.h> // Parent
 
@@ -230,8 +231,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
 
 typedef StereoBufferViewportBase *StereoBufferViewportBaseP;
 
+typedef osgIF<StereoBufferViewportBase::isNodeCore,
+              CoredNodePtr<StereoBufferViewport>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet StereoBufferViewportNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGSTEREOBUFFERVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSTEREOBUFFERVIEWPORTBASE_H_ */

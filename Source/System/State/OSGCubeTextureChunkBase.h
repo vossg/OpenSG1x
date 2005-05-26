@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGTextureChunk.h> // Parent
 
@@ -262,8 +263,13 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
 
 typedef CubeTextureChunkBase *CubeTextureChunkBaseP;
 
+typedef osgIF<CubeTextureChunkBase::isNodeCore,
+              CoredNodePtr<CubeTextureChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet CubeTextureChunkNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.34 2003/10/29 08:43:55 vossg Exp $"
+#define OSGCUBETEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGCUBETEXTURECHUNKBASE_H_ */

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGMaterialDrawable.h> // Parent
 
@@ -329,8 +330,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 
 typedef ParticlesBase *ParticlesBaseP;
 
+typedef osgIF<ParticlesBase::isNodeCore,
+              CoredNodePtr<Particles>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ParticlesNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

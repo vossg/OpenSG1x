@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -222,8 +223,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StateSortingGroupBase : public NodeCore
 
 typedef StateSortingGroupBase *StateSortingGroupBaseP;
 
+typedef osgIF<StateSortingGroupBase::isNodeCore,
+              CoredNodePtr<StateSortingGroup>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet StateSortingGroupNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.1 2005/04/06 09:35:00 a-m-z Exp $"
+#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.2 2005/05/26 22:22:43 dirk Exp $"
 
 #endif /* _OSGSTATESORTINGGROUPBASE_H_ */

@@ -164,6 +164,21 @@ class FieldContainer
                       const BitVector bvFlags  = 0) const = 0;
     
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                CoredNodePtr helper                           */
+    /*! \{                                                                 */
+
+    /*! \ingroup GrpSystemFieldContainer
+        Dummy class for CoredNodePtr instantiations on classes that are not
+        NodeCores
+    */
+
+    class attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+    {
+        attempt_to_create_CoredNodePtr_on_non_NodeCore_FC() {}
+    };
+    
+    /*! \}                                                                 */   
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -258,6 +273,13 @@ class FieldContainer
                                  const BitVector      &whichField);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                CoredNodePtr helper                           */
+    /*! \{                                                                 */
+    
+    static const bool isNodeCore = false;
+    
+    /*! \}                                                                 */   
     /*==========================  PRIVATE  ================================*/
 
   private:

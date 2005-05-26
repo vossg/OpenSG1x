@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
 
@@ -188,8 +189,13 @@ class OSG_SYSTEMLIB_DLLMAPPING LightEnvBase : public NodeCore
 
 typedef LightEnvBase *LightEnvBaseP;
 
+typedef osgIF<LightEnvBase::isNodeCore,
+              CoredNodePtr<LightEnv>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet LightEnvNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.1 2005/04/23 11:00:58 a-m-z Exp $"
+#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.2 2005/05/26 22:22:26 dirk Exp $"
 
 #endif /* _OSGLIGHTENVBASE_H_ */

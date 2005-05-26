@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGDrawable.h> // Parent
 
@@ -206,8 +207,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
 
 typedef MaterialDrawableBase *MaterialDrawableBaseP;
 
+typedef osgIF<MaterialDrawableBase::isNodeCore,
+              CoredNodePtr<MaterialDrawable>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet MaterialDrawableNodePtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.5 2003/10/29 08:30:16 vossg Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.6 2005/05/26 22:22:19 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

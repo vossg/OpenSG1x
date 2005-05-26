@@ -130,5 +130,5 @@ void ShaderChunkBase::setFragmentProgram(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.3 2005/05/26 22:22:05 dirk Exp $"
 
