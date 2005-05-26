@@ -2374,7 +2374,7 @@ void VRMLGeometryObjectDesc::endNode(FieldContainerPtr pFC)
             GeometryPtr pGeo = makeBoxGeo(pVec->getValue()[0],
                                           pVec->getValue()[1],
                                           pVec->getValue()[2],
-                                          2, 2, 2);
+                                          1,1,1);
 
             beginEditCP(pNode, Node::CoreFieldMask);
             {
