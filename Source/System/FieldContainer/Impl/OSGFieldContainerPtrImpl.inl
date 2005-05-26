@@ -310,9 +310,9 @@ bool FieldContainerPtrBase::operator ! (void) const
 }
 
 inline
-FieldContainerPtrBase::operator unspecified_bool_type() const
+FieldContainerPtrBase::operator FieldContainerPtrBase::unspecified_bool_type() const
 {
-    return !*this ? 0 : (unspecified_bool_type)&_storeP;
+    return !*this ? 0 : &FieldContainerPtrBase::_storeP;
 }
 
 /*-------------------------------------------------------------------------*/
