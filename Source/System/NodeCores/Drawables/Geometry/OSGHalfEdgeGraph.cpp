@@ -127,9 +127,10 @@ bool HalfEdgeGraph::Triangle::verify (void)
            )
          )
     {
-        FWARNING(("Neighbor linked more than once: %p/%p/%p\n", neighbor[0],
-                                                                neighbor[1],
-                                                                neighbor[2]));
+        FINFO(("HalfEdgeGraph::Triangle::verify: Neighbor linked more "
+               "than once: %p/%p/%p\n", neighbor[0],
+                                        neighbor[1],
+                                        neighbor[2]));
         retCode = false;
     }
 
@@ -137,7 +138,8 @@ bool HalfEdgeGraph::Triangle::verify (void)
        (halfEdgeVec[0].vertexStart() == halfEdgeVec[2].vertexStart()) ||
        (halfEdgeVec[1].vertexStart() == halfEdgeVec[2].vertexStart()))
     {
-        SWARNING << "Invalid collapsed Triangle" << endl;
+        SINFO << "HalfEdgeGraph::Triangle::verify: Invalid collapsed Triangle" 
+              << endl;
         retCode = false;
     }
 
@@ -145,7 +147,8 @@ bool HalfEdgeGraph::Triangle::verify (void)
        (halfEdgeVec[1].triangle != this) ||
        (halfEdgeVec[2].triangle != this))
     {
-        SWARNING << "Invalid halfEdge->triangle pointer" << endl;
+        SINFO << "HalfEdgeGraph::Triangle::verify: Invalid halfEdge->"
+              << "triangle pointer" << endl;
         retCode = false;
     }
 
@@ -153,7 +156,8 @@ bool HalfEdgeGraph::Triangle::verify (void)
        (halfEdgeVec[1].next != &halfEdgeVec[2]) ||
        (halfEdgeVec[2].next != &halfEdgeVec[0]))
     {
-        SWARNING << "Edge next link error" << endl;
+        SINFO << "HalfEdgeGraph::Triangle::verify: Edge next link error" 
+              << endl;
         retCode = false;
     }
 
