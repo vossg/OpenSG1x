@@ -300,9 +300,21 @@ int main (int argc, char **argv)
 
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };
+
+    Real16 imgdata2[] = 
+        {   Real16(1), Real16(0), Real16(0), Real16(0.5),
+            Real16(0), Real16(1), Real16(0), Real16(0.5),
+            Real16(0), Real16(0), Real16(1), Real16(1),
+            Real16(1), Real16(1), Real16(1), Real16(1) };
     
     ImagePtr image = Image::create();
+#if 1
     image->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
+#else
+    image->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, 
+                reinterpret_cast<UChar8*>(imgdata2), 
+                Image::OSG_FLOAT16_IMAGEDATA );
+#endif
 
     if (argc > 2  && strcmp(argv[2], "-c"))
             image->read( argv[2] );
