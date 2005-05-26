@@ -29,8 +29,7 @@ int main (int argc, char **argv)
 
     NodePtr n;
     GeometryPtr g;
-    
-    int j;
+    size_t j;
     
     // OSG
     
@@ -174,7 +173,7 @@ int main (int argc, char **argv)
                  << Geometry::mapType( pi2.getType() ) << " with " 
                  << pi2.getLength() << " points" << std::endl;
         }
-        for ( int k = 0; k < pi.getLength(); k++ )
+        for ( size_t k = 0; k < pi.getLength(); k++ )
         {
             if ( pi.getPositionIndex( k )   != pi2.getPositionIndex( k ) ||
                  pi.getColorIndex( k )      != pi2.getColorIndex( k ) ||
