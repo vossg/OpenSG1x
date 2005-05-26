@@ -111,6 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
     /*---------------------------------------------------------------------*/
 
     /*!\brief prohibit default function (move to 'public' if needed) */
+    void setMatrix(const Matrix & value);
+    
     void operator =(const ComponentTransform &source);
 };
 
