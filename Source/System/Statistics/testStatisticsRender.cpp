@@ -17,6 +17,8 @@ SimpleSceneManager *mgr;
 
 StatCollector *collector;
 
+bool show = true;
+
 // redraw the window
 void display(void)
 {   
@@ -70,6 +72,16 @@ void keyboard(unsigned char k, int, int)
                       << (mgr->getAction()->getVolumeDrawing()?"on":"off") 
                       << std::endl;
         }
+        
+        case 's':
+        {
+            RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
+            ract->setZWriteTrans(!ract->getZWriteTrans());
+		    std::cerr << "Switch TransZWrite to " 
+                      << (ract->getZWriteTrans()?"on":"off") 
+                      << std::endl;
+             
+        }
         break;
     }
 }
@@ -99,6 +111,13 @@ int main(int argc, char **argv)
 
     // create the scene
     NodePtr scene;
+    
+    if(argc > 1 && !strcmp(argv[1],"-s"))
+    {
+        show = false;
+        argv++;
+        argc--;
+    }
     
     if(argc > 1)
     {
@@ -170,9 +189,12 @@ int main(int argc, char **argv)
     
     mgr->getAction()->setStatistics(collector);
     
-    beginEditCP(pwin->getPort(0));
-    pwin->getPort(0)->getForegrounds().push_back(statfg);
-    endEditCP  (pwin->getPort(0));
+    if(show)
+    {
+        beginEditCP(pwin->getPort(0));
+        pwin->getPort(0)->getForegrounds().push_back(statfg);
+        endEditCP  (pwin->getPort(0));
+    }
     
     // GLUT main loop
     glutMainLoop();
