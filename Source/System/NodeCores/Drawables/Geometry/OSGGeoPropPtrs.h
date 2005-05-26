@@ -77,6 +77,7 @@ typedef GeoColors4ub::PtrType    GeoColors4ubPtr;
 
 typedef GeoNormals3f::PtrType    GeoNormals3fPtr;
 typedef GeoNormals3s::PtrType    GeoNormals3sPtr;
+typedef GeoNormals3b::PtrType    GeoNormals3bPtr;
 
 typedef GeoTexCoords1f::PtrType  GeoTexCoords1fPtr;
 typedef GeoTexCoords2f::PtrType  GeoTexCoords2fPtr;
