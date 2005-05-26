@@ -51,6 +51,35 @@ int main (int argc, char **argv)
     OSG::Thread::getCurrent()->getChangeList()->dump();
     OSG::Thread::getCurrent()->getChangeList()->clearAll();
 
+    // operator check
+    
+    pFC = OSG::NullFC;
+    
+    if(pFC)
+    {
+        std::cerr << "pFC set?!?" << std::endl;
+    }
+    else
+    {
+        std::cerr << "pFC not set" << std::endl;
+    }
+
+    pFC = OSG::FieldContainerFactory::the()->createNode("Node");
+    
+    if(pFC)
+    {
+        std::cerr << "pFC set" << std::endl;
+    }
+    else
+    {
+        std::cerr << "pFC not set?!?" << std::endl;
+    }
+    
+    OSG::subRefCP(pFC);
+    
+    // child management
+
+
     OSG::NodePtr           p1  = OSG::Node::create();
     OSG::FieldContainerPtr pb1 = p1;
 
