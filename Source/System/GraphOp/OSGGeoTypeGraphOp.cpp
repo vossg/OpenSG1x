@@ -37,100 +37,61 @@
 \*---------------------------------------------------------------------------*/
 
 
-/***************************************************************************\
-*                             Includes                                    *
-\***************************************************************************/
-
-#include <OSGGraphOpFactory.h>
-
 #include <OSGGeoTypeGraphOp.h>
-#include <OSGMakeTransparentGraphOp.h>
-#include <OSGMaterialMergeGraphOp.h>
-#include <OSGMergeGraphOp.h>
-#include <OSGPruneGraphOp.h>
-#include <OSGSharePtrGraphOp.h>
-#include <OSGSplitGraphOp.h>
-#include <OSGStripeGraphOp.h>
-#include <OSGVerifyGeoGraphOp.h>
+#include <OSGLog.h>
 
 OSG_USING_NAMESPACE
 
-GraphOpFactory *GraphOpFactory::_the=NULL;
-
-/***************************************************************************\
- *                            Description                                  *
-\***************************************************************************/
-
-/*! \class osg::GraphOpFactory
-    \ingroup GrpSystemNodeCoresDrawablesGeometry
     
-A base class used to traverse geometries.
-
-*/
-
-/***************************************************************************\
- *                           Instance methods                              *
-\***************************************************************************/
-
-/*-------------------------------------------------------------------------*\
- -  public                                                                 -
-\*-------------------------------------------------------------------------*/
-
-
-void GraphOpFactory::registerOp(GraphOp* prototype)
+GeoTypeGraphOp::GeoTypeGraphOp(const char* name)
+    : SingleTypeGraphOp<Geometry>(name)
 {
-    _typeMap[prototype->getName()]=prototype;
 }
 
-void GraphOpFactory::unRegisterOp(GraphOp* prototype)
+GraphOp* GeoTypeGraphOp::create()
 {
-    unRegisterOp(prototype->getName().c_str());
+    return new GeoTypeGraphOp();
 }
 
-void GraphOpFactory::unRegisterOp(const char* name)
+
+bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
 {
-    _typeMap.erase(name);
-}
+    GeometryPtr geo = GeometryPtr::dcast(node->getCore());
+
+    if(geo == NullFC)
+    {
+        return true;
+    }
+
+    GeoPositionsPtr positions = geo->getPositions();
+
+    GeoNormalsPtr   normals   = geo->getNormals();
+    GeoNormals3fPtr normals3f = GeoNormals3fPtr::dcast(normals);
+    if (normals3f != NullFC) {
+        MFVec3f& data = normals3f->getField();
+        
+        GeoNormals3bPtr normals3b = GeoNormals3b::create();
+        beginEditCP(normals3b);
+        for (size_t i = 0; i < data.size(); ++i) {
+            Vec3f vec = data[i];
+            vec *= (0.5f / vec.length());
+            normals3b->push_back(data[i]);
+        }
+        endEditCP(normals3b);
+
+        beginEditCP(geo);
+        geo->setNormals(normals3b);
+        endEditCP(geo);
+    }
+
+    GeoColorsPtr    colors    = geo->getColors();
+    GeoColorsPtr    scolors   = geo->getSecondaryColors();
     
-GraphOp *GraphOpFactory::create(const char* name)
-{
-    GraphOp *proto = _typeMap[name];     
-    if (proto != NULL)
-        return proto->create();
-    else
-        return NULL;
+    return true;
 }
 
-GraphOpFactory& GraphOpFactory::the()
-{
-    if(_the == NULL)
-        _the=new GraphOpFactory();
-    return *_the;
-}
 
-GraphOpFactory::iterator GraphOpFactory::begin()
+bool GeoTypeGraphOp::travNodeLeave(NodePtr)
 {
-    return _typeMap.begin();;
-}
-
-GraphOpFactory::iterator GraphOpFactory::end()
-{
-    return _typeMap.end();;
-}
-
-/*-------------------------------------------------------------------------*\
- -  private                                                                -
-\*-------------------------------------------------------------------------*/
-
-GraphOpFactory::GraphOpFactory()
-{
-    registerOp(new GeoTypeGraphOp);
-    registerOp(new MakeTransparentGraphOp);
-    registerOp(new MaterialMergeGraphOp);
-    registerOp(new MergeGraphOp);
-    registerOp(new PruneGraphOp);
-    registerOp(new SharePtrGraphOp);
-    registerOp(new SplitGraphOp);
-    registerOp(new StripeGraphOp);
-    registerOp(new VerifyGeoGraphOp);
+    return true;
 }
