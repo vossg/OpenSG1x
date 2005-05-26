@@ -1299,11 +1299,11 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(__GetProcAddress == NULL) 
     { 
-        __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddress"); 
+        __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddressARB"); 
 
         if(__GetProcAddress == NULL) 
         { 
-            __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddressARB"); 
+            __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddress"); 
             
             if(__GetProcAddress == NULL) 
             {
@@ -1315,12 +1315,12 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             } 
             else
             {
-                FDEBUG(("Using glXGetProcAddressARB for GL extension handling.\n"));
+                FDEBUG(("Using glXGetProcAddress for GL extension handling.\n"));
             }
         } 
         else
         {
-            FDEBUG(("Using glXGetProcAddress for GL extension handling.\n"));
+            FDEBUG(("Using glXGetProcAddressARB for GL extension handling.\n"));
         }
     } 
 
