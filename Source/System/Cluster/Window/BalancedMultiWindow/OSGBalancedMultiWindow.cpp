@@ -371,6 +371,14 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
 //    if(getHServers() * getVServers() == 0)
     drawSendAndRecv(getClientWindow(),action,getServers().size());
 
+    // do local rendering if not switched off and no parallel 
+    // rendering to local window
+    if(getHServers() * getVServers() != 0 &&
+       getClientWindow() != NullFC)
+    {
+        getClientWindow()->renderAllViewports( action );
+    }
+
     // statistics
     UInt32 triCount;
     Real64 drawTime;
