@@ -128,6 +128,17 @@ bool StatRealElem::operator < (const StatRealElem &other) const
     return this->get() < other.get();
 }
 
+/*--------------------------- creation ------------------------------------*/
+
+StatElem *StatRealElem::clone(void) const
+{
+    StatRealElem *e = new StatRealElem(getDesc());
+    
+    *e = *this;
+    
+    return e;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 

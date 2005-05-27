@@ -133,6 +133,17 @@ bool StatStringElem::operator < (const StatStringElem &other) const
     return this < &other;
 }
 
+/*--------------------------- creation ------------------------------------*/
+
+StatElem *StatStringElem::clone(void) const
+{
+    StatStringElem *e = new StatStringElem(getDesc());
+    
+    *e = *this;
+    
+    return e;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -94,7 +94,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     /*! \name                  Comparison                                  */
     /*! \{                                                                 */
 
-     bool operator <  (const StatElem &other) const;
+    bool operator <  (const StatElem &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Creation                                   */
+    /*! \{                                                                 */
+
+    virtual StatElem *clone(void) const = 0;
 
     /*! \}                                                                 */
 

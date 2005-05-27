@@ -104,6 +104,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem
     bool operator < (const StatTimeElem &other) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Creation                                   */
+    /*! \{                                                                 */
+
+    virtual StatElem *clone(void) const;
+
+    /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
  protected:
 

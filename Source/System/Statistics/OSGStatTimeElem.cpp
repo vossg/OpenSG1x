@@ -155,6 +155,17 @@ bool StatTimeElem::operator < (const StatTimeElem &other) const
     return _time < other._time;
 }
 
+/*--------------------------- creation ------------------------------------*/
+
+StatElem *StatTimeElem::clone(void) const
+{
+    StatTimeElem *e = new StatTimeElem(getDesc());
+    
+    *e = *this;
+    
+    return e;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

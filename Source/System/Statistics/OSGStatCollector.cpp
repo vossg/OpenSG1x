@@ -80,9 +80,21 @@ StatCollector::StatCollector(void)
     refitElemNum();
 }
 
-StatCollector::StatCollector(const StatCollector &source) :
-    _elemVec(source._elemVec)
+StatCollector::StatCollector(const StatCollector &source)
 {
+    _elemVec.resize(source._elemVec.size());
+    
+    for(UInt32 i = 0; i < source._elemVec.size(); ++i)
+    {
+        if(source._elemVec[i])
+        {
+            _elemVec[i] = source._elemVec[i]->clone();
+        }
+        else
+        {
+            _elemVec[i] = NULL;
+        }
+    }
 }
 
 StatCollector *StatCollector::create(void)
