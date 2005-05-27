@@ -133,6 +133,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     virtual void invalidateVolume(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                CoredNodePtr helper                           */
+    /*! \{                                                                 */
+    
+    static const bool isNodeCore = true;
+
+    /*! \}                                                                 */    
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -214,13 +221,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     virtual void adjustVolume    (Volume &volume);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                CoredNodePtr helper                           */
-    /*! \{                                                                 */
-    
-    static const bool isNodeCore = true;
-
-    /*! \}                                                                 */    
     /*==========================  PRIVATE  ================================*/
 
   private:

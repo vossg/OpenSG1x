@@ -178,6 +178,8 @@ class FieldContainer
         attempt_to_create_CoredNodePtr_on_non_NodeCore_FC() {}
     };
     
+    static const bool isNodeCore = false;
+    
     /*! \}                                                                 */   
     /*=========================  PROTECTED  ===============================*/
 
@@ -273,13 +275,6 @@ class FieldContainer
                                  const BitVector      &whichField);
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                CoredNodePtr helper                           */
-    /*! \{                                                                 */
-    
-    static const bool isNodeCore = false;
-    
-    /*! \}                                                                 */   
     /*==========================  PRIVATE  ================================*/
 
   private:
