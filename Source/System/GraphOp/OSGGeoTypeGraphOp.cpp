@@ -74,8 +74,8 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
         beginEditCP(normals3b);
         for (size_t i = 0; i < data.size(); ++i) {
             Vec3f vec = data[i];
-            vec *= (0.5f / vec.length());
-            normals3b->push_back(data[i]);
+            vec *= (0.9f / vec.length());
+            normals3b->push_back(vec);
         }
         endEditCP(normals3b);
 
