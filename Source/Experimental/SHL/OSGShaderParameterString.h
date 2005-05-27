@@ -36,27 +36,27 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHADERPARAMETER_H_
-#define _OSGSHADERPARAMETER_H_
+#ifndef _OSGSHADERPARAMETERSTRING_H_
+#define _OSGSHADERPARAMETERSTRING_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGShaderParameterBase.h>
+#include <OSGShaderParameterStringBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief ShaderParameter class. See \ref 
-           PageSystemShaderParameter for a description.
+/*! \brief ShaderParameterString class. See \ref 
+           PageSystemShaderParameterString for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterString : public ShaderParameterStringBase
 {
   private:
 
-    typedef ShaderParameterBase Inherited;
+    typedef ShaderParameterStringBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -76,80 +76,46 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
 
-    bool hasChanged(void);
-    void resetChanged(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     TypeId's                                 */
-    /*! \{                                                                 */
-
-    enum SHPType
-    {
-        SHPTypeUnknown = 0,
-        SHPTypeBool,
-        SHPTypeInt,
-        SHPTypeReal,
-        SHPTypeVec2s,
-        SHPTypeVec3s,
-        SHPTypeVec4s,
-        SHPTypeVec2f,
-        SHPTypeVec3f,
-        SHPTypeVec4f,
-        SHPTypeMatrix,
-        SHPTypeString
-    };
-
-    SHPType getTypeId(void);
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
-
-    // Variables should all be in ShaderParameterBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    ShaderParameter(void);
-    ShaderParameter(const ShaderParameter &source);
+    ShaderParameterString(void);
+    ShaderParameterString(const ShaderParameterString &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ShaderParameter(void); 
-
-    void setTypeId(SHPType type);
-    void setChanged(void);
+    virtual ~ShaderParameterString(void); 
 
     /*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
 
-    bool    _changed;
-    SHPType _typeid;
-
     friend class FieldContainer;
-    friend class ShaderParameterBase;
+    friend class ShaderParameterStringBase;
 
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const ShaderParameter &source);
+    void operator =(const ShaderParameterString &source);
 };
 
-typedef ShaderParameter *ShaderParameterP;
+typedef ShaderParameterString *ShaderParameterStringP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterBase.inl>
-#include <OSGShaderParameter.inl>
+#include <OSGShaderParameterStringBase.inl>
+#include <OSGShaderParameterString.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.4 2005/05/27 16:06:52 a-m-z Exp $"
+#define OSGSHADERPARAMETERSTRING_HEADER_CVSID "@(#)$Id: OSGShaderParameterString.h,v 1.1 2005/05/27 16:06:52 a-m-z Exp $"
 
-#endif /* _OSGSHADERPARAMETER_H_ */
+#endif /* _OSGSHADERPARAMETERSTRING_H_ */
