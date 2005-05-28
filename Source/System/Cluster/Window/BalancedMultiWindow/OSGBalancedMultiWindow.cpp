@@ -1394,7 +1394,7 @@ void BalancedMultiWindow::splitAxis(Real32 load[2],
                                     Real32 resultLoad[2],
                                     Int32 resultRect[2][4])
 {
-    Int32 from,to,cut,lastCut;
+    Int32 from,to,cut; // ,lastCut;
     BBoxList *bl;
     Real64 leftLoad  = 0;
     Real64 rightLoad = load[0] + load[1];
@@ -1427,7 +1427,7 @@ void BalancedMultiWindow::splitAxis(Real32 load[2],
             ; --to);
 
     // loop through all points
-    lastCut = from-1;
+    //lastCut = from-1;
     lastLeft = 0;
     lastRight = rightLoad;
     for(cut = from ; cut < to ; ++cut)
