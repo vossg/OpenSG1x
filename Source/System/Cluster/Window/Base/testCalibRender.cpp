@@ -138,8 +138,8 @@ key(unsigned char key, int , int )
         for(y=-10 ; y<=10 ; ++y)
             for(x=-10 ; x<=10 ; ++x)
             {
-                xx = x/20.0*sqrt(10*10-y*y)/10.0 + .5;
-                yy = (y+10.0)/20.0;
+                xx = x/20.0*sqrtf(10.0f*10.0f-y*y)/10.0f + .5f;
+                yy = (y+10.0f)/20.0f;
                 calib->getGrid().push_back(Vec2f(xx,yy));
             }
         endEditCP(calib);
