@@ -186,7 +186,6 @@ key(unsigned char key, int , int )
                                      0,0,0,1));
         endEditCP(calib);
         break;
-    break;
     }
     glutPostRedisplay();
 }
