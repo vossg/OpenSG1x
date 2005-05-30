@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGSolidBackground.h> // Parent
@@ -252,8 +253,10 @@ typedef osgIF<TextureGrabBackgroundBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet TextureGrabBackgroundNodePtr;
 
+typedef RefPtr<TextureGrabBackgroundPtr> TextureGrabBackgroundRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREGRABBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
+#define OSGTEXTUREGRABBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGTEXTUREGRABBACKGROUNDBASE_H_ */

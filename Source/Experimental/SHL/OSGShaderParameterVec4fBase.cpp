@@ -246,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4fBase.cpp,v 1.2 2005/05/26 22:22:06 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec4fBase.cpp,v 1.3 2005/05/30 20:00:11 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERVEC4FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID;
 

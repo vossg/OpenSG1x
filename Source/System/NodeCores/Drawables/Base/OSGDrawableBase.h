@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
@@ -178,8 +179,10 @@ typedef osgIF<DrawableBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet DrawableNodePtr;
 
+typedef RefPtr<DrawablePtr> DrawableRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.6 2005/05/26 22:22:19 dirk Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.7 2005/05/30 20:00:21 dirk Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

@@ -74,5 +74,5 @@ OSG::UInt32 DrawableBase::getClassTypeId(void)
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGDrawableBase.inl,v 1.6 2005/05/26 22:22:19 dirk Exp $"
+#define OSGDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGDrawableBase.inl,v 1.7 2005/05/30 20:00:21 dirk Exp $"
 

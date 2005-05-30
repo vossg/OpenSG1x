@@ -105,20 +105,13 @@ struct FieldDataTraits<NewFieldContainerPtr> :
 typedef SField<NewFieldContainerPtr> SFNewFieldContainerPtr;
 #endif
 
-#ifndef OSG_COMPILENEWFIELDCONTAINERINST
-OSG_DLLEXPORT_DECL1(SField, NewFieldContainerPtr, OSG_LIB_DLLTMPLMAPPING)
-#endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
 typedef MField<NewFieldContainerPtr> MFNewFieldContainerPtr;
 #endif
 
-#ifndef OSG_COMPILENEWFIELDCONTAINERINST
-OSG_DLLEXPORT_DECL1(MField, NewFieldContainerPtr, OSG_LIB_DLLTMPLMAPPING)
-#endif
-
 OSG_END_NAMESPACE
 
-#define OSGNEWFIELDCONTAINERFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGNEWFIELDCONTAINERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGNEWFIELDCONTAINERFIELDS_H_ */

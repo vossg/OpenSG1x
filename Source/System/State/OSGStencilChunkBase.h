@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
@@ -276,8 +277,10 @@ typedef osgIF<StencilChunkBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet StencilChunkNodePtr;
 
+typedef RefPtr<StencilChunkPtr> StencilChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.2 2005/05/26 22:22:46 dirk Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.3 2005/05/30 20:00:47 dirk Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameter.h> // Parent
@@ -228,8 +229,10 @@ typedef osgIF<ShaderParameterVec2fBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet ShaderParameterVec2fNodePtr;
 
+typedef RefPtr<ShaderParameterVec2fPtr> ShaderParameterVec2fRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fBase.h,v 1.2 2005/05/26 22:22:05 dirk Exp $"
+#define OSGSHADERPARAMETERVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fBase.h,v 1.3 2005/05/30 20:00:11 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERVEC2FBASE_H_ */

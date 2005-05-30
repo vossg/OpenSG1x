@@ -246,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.3 2005/05/26 22:22:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.4 2005/05/30 20:00:11 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

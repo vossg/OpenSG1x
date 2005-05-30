@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGDrawable.h> // Parent
@@ -212,8 +213,10 @@ typedef osgIF<MaterialDrawableBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet MaterialDrawableNodePtr;
 
+typedef RefPtr<MaterialDrawablePtr> MaterialDrawableRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.6 2005/05/26 22:22:19 dirk Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.7 2005/05/30 20:00:21 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

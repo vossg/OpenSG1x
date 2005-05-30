@@ -47,10 +47,10 @@ int main (int argc, char **argv) {
     float xmin, ymin, zmin, xmax, ymax, zmax;
 
     xmin = 0;
-    ymin = 0;
+    ymin = 0.5;
     zmin = 0;
     xmax = 1;
-    ymax = 1;
+    ymax = .5;
     zmax = 1;
 
     b.setBounds(xmin, ymin, zmin, xmax, ymax, zmax);
@@ -89,6 +89,7 @@ int main (int argc, char **argv) {
         std::cout << std::endl;
     }
 
+    return 0;
 
     SphereVolume s;
 

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGWindow.h> // Parent
@@ -324,8 +325,10 @@ typedef osgIF<ClusterWindowBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet ClusterWindowNodePtr;
 
+typedef RefPtr<ClusterWindowPtr> ClusterWindowRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

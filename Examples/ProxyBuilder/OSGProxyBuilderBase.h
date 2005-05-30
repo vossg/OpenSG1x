@@ -61,6 +61,8 @@
 #include <OpenSG/OSGConfig.h>
 
 #include <OpenSG/OSGBaseTypes.h>
+#include <OpenSG/OSGRefPtr.h>
+#include <OpenSG/OSGCoredNodePtr.h>
 
 #include <OpenSG/OSGGeometry.h> // Parent
 
@@ -187,8 +189,15 @@ class ProxyBuilderBase : public Geometry
 
 typedef ProxyBuilderBase *ProxyBuilderBaseP;
 
+typedef osgIF<ProxyBuilderBase::isNodeCore,
+              CoredNodePtr<ProxyBuilder>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ProxyBuilderNodePtr;
+
+typedef RefPtr<ProxyBuilderPtr> ProxyBuilderRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPROXYBUILDERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPROXYBUILDERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGPROXYBUILDERBASE_H_ */

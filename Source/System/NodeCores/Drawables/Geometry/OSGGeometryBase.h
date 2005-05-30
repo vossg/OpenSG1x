@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGMaterialDrawable.h> // Parent
@@ -345,8 +346,10 @@ typedef osgIF<GeometryBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet GeometryNodePtr;
 
+typedef RefPtr<GeometryPtr> GeometryRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
+#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGGEOMETRYBASE_H_ */

@@ -187,6 +187,8 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<ProxyBuilderPtr>::_type("ProxyBuilderPtr", "GeometryPtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(ProxyBuilderPtr, );
+OSG_DLLEXPORT_MFIELD_DEF1(ProxyBuilderPtr, );
 
 OSG_END_NAMESPACE
 
@@ -204,7 +206,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.41 2003/10/24 15:39:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROXYBUILDERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROXYBUILDERBASE_INLINE_CVSID;
 

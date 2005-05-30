@@ -258,8 +258,8 @@ OSG_BEGIN_NAMESPACE
 DataType FieldDataTraits<NewFieldContainerPtr>::_type("NewFieldContainerPtr", "FieldContainerPtr");
 #endif
 
-OSG_DLLEXPORT_SFIELD_DEF1(NewFieldContainerPtr, OSG_LIB_DLLTMPLMAPPING);
-OSG_DLLEXPORT_MFIELD_DEF1(NewFieldContainerPtr, OSG_LIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(NewFieldContainerPtr, );
+OSG_DLLEXPORT_MFIELD_DEF1(NewFieldContainerPtr, );
 
 OSG_END_NAMESPACE
 
@@ -277,7 +277,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNEWFIELDCONTAINERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGNEWFIELDCONTAINERBASE_INLINE_CVSID;
 

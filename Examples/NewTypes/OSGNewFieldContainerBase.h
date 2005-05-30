@@ -61,6 +61,8 @@
 #include <OpenSG/OSGConfig.h>
 
 #include <OpenSG/OSGBaseTypes.h>
+#include <OpenSG/OSGRefPtr.h>
+#include <OpenSG/OSGCoredNodePtr.h>
 
 #include <OpenSG/OSGFieldContainer.h> // Parent
 
@@ -229,8 +231,15 @@ class NewFieldContainerBase : public FieldContainer
 
 typedef NewFieldContainerBase *NewFieldContainerBaseP;
 
+typedef osgIF<NewFieldContainerBase::isNodeCore,
+              CoredNodePtr<NewFieldContainer>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet NewFieldContainerNodePtr;
+
+typedef RefPtr<NewFieldContainerPtr> NewFieldContainerRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGNEWFIELDCONTAINERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGNEWFIELDCONTAINERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGNEWFIELDCONTAINERBASE_H_ */

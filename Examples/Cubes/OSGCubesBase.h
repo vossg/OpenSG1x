@@ -62,6 +62,8 @@
 #include <OSGMyDef.h>
 
 #include <OpenSG/OSGBaseTypes.h>
+#include <OpenSG/OSGRefPtr.h>
+#include <OpenSG/OSGCoredNodePtr.h>
 
 #include <OpenSG/OSGMaterialDrawable.h> // Parent
 
@@ -238,8 +240,15 @@ class OSG_MYLIB_DLLMAPPING CubesBase : public MaterialDrawable
 
 typedef CubesBase *CubesBaseP;
 
+typedef osgIF<CubesBase::isNodeCore,
+              CoredNodePtr<Cubes>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet CubesNodePtr;
+
+typedef RefPtr<CubesPtr> CubesRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGCUBESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGCUBESBASE_H_ */

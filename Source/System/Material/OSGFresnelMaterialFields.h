@@ -102,6 +102,6 @@ struct FieldDataTraits<FresnelMaterialPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialFields.h,v 1.2 2005/05/26 22:22:16 dirk Exp $"
+#define OSGFRESNELMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialFields.h,v 1.3 2005/05/30 20:00:20 dirk Exp $"
 
 #endif /* _OSGFRESNELMATERIALFIELDS_H_ */

@@ -62,6 +62,7 @@
 #include <OSGWindowWIN32Def.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGWindow.h> // Parent
@@ -244,8 +245,10 @@ typedef osgIF<WIN32WindowBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet WIN32WindowNodePtr;
 
+typedef RefPtr<WIN32WindowPtr> WIN32WindowRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
+#define OSGWIN32WINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGWIN32WINDOWBASE_H_ */

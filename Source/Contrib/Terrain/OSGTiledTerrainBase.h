@@ -62,6 +62,7 @@
 #include <OSGContribDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGMaterialGroup.h> // Parent
@@ -332,8 +333,10 @@ typedef osgIF<TiledTerrainBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet TiledTerrainNodePtr;
 
+typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.2 2005/05/26 22:22:04 dirk Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.3 2005/05/30 20:00:02 dirk Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

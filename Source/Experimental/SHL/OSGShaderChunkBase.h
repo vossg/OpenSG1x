@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGShaderParameterChunk.h> // Parent
@@ -220,8 +221,10 @@ typedef osgIF<ShaderChunkBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet ShaderChunkNodePtr;
 
+typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.3 2005/05/26 22:22:05 dirk Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.4 2005/05/30 20:00:10 dirk Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

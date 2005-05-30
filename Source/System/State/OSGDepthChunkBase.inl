@@ -212,5 +212,5 @@ void DepthChunkBase::setFar(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.2 2005/05/26 22:22:46 dirk Exp $"
+#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.3 2005/05/30 20:00:46 dirk Exp $"
 

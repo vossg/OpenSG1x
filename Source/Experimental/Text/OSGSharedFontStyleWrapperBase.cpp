@@ -246,7 +246,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.3 2005/05/26 22:22:08 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.4 2005/05/30 20:00:14 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID;
 

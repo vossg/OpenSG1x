@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGNodeCore.h> // Parent
@@ -194,8 +195,10 @@ typedef osgIF<LightEnvBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet LightEnvNodePtr;
 
+typedef RefPtr<LightEnvPtr> LightEnvRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.2 2005/05/26 22:22:26 dirk Exp $"
+#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.3 2005/05/30 20:00:44 dirk Exp $"
 
 #endif /* _OSGLIGHTENVBASE_H_ */

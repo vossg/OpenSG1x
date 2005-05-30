@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGShaderChunk.h> // Parent
@@ -236,8 +237,10 @@ typedef osgIF<SHLChunkBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet SHLChunkNodePtr;
 
+typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.7 2005/05/26 22:22:05 dirk Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.8 2005/05/30 20:00:11 dirk Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

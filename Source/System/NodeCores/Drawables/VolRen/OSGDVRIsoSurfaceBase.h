@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGAttachment.h> // Parent
@@ -260,8 +261,10 @@ typedef osgIF<DVRIsoSurfaceBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet DVRIsoSurfaceNodePtr;
 
+typedef RefPtr<DVRIsoSurfacePtr> DVRIsoSurfaceRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.35 2005/04/04 14:51:48 dirk Exp $"
+#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
 
 #endif /* _OSGDVRISOSURFACEBASE_H_ */

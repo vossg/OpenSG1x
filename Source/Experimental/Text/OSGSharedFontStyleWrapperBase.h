@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGFieldContainer.h> // Parent
@@ -228,8 +229,10 @@ typedef osgIF<SharedFontStyleWrapperBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet SharedFontStyleWrapperNodePtr;
 
+typedef RefPtr<SharedFontStyleWrapperPtr> SharedFontStyleWrapperRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.4 2005/05/26 22:22:08 dirk Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.5 2005/05/30 20:00:14 dirk Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

@@ -633,7 +633,7 @@ inline              void          indentLog   (     UInt32        indent,
             << __FILE__                                         \
             << ':'                                              \
             << __LINE__                                         \
-            << "FATAL ASSERT: "                                 \
+            << " FATAL ASSERT: "                                \
             << (doExit ? "exit system" : "try to keep running") \
             << std::flush << std::endl;                         \
         OSG::osgLog().unlock();                                 \
@@ -657,7 +657,7 @@ inline              void          indentLog   (     UInt32        indent,
             << __FILE__                                         \
             << ':'                                              \
             << __LINE__                                         \
-            << "FATAL ASSERT: "                                 \
+            << " FATAL ASSERT: "                                \
             << (doExit ? "exit system" : "try to keep running") \
             << std::flush << std::endl;                         \
         OSG::osgLogP->doLog par                                 \

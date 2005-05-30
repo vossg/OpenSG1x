@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGViewport.h> // Parent
@@ -292,8 +293,10 @@ typedef osgIF<ShadowMapViewportBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet ShadowMapViewportNodePtr;
 
+typedef RefPtr<ShadowMapViewportPtr> ShadowMapViewportRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.7 2005/05/26 22:22:08 dirk Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.8 2005/05/30 20:00:10 dirk Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

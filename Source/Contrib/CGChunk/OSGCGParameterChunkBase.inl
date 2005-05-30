@@ -128,5 +128,5 @@ void CGParameterChunkBase::setCGChunk(const CGChunkPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGParameterChunkBase.inl,v 1.2 2005/05/26 22:22:00 dirk Exp $"
+#define OSGCGPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGParameterChunkBase.inl,v 1.3 2005/05/30 19:59:43 dirk Exp $"
 

@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
@@ -252,8 +253,10 @@ typedef osgIF<DepthChunkBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet DepthChunkNodePtr;
 
+typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.2 2005/05/26 22:22:46 dirk Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.3 2005/05/30 20:00:46 dirk Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

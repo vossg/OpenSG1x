@@ -62,6 +62,7 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
 #include <OSGMaterial.h> // Parent
@@ -228,8 +229,10 @@ typedef osgIF<MultiPassMaterialBase::isNodeCore,
               FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
               >::_IRet MultiPassMaterialNodePtr;
 
+typedef RefPtr<MultiPassMaterialPtr> MultiPassMaterialRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.2 2005/05/26 22:22:16 dirk Exp $"
+#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.3 2005/05/30 20:00:20 dirk Exp $"
 
 #endif /* _OSGMULTIPASSMATERIALBASE_H_ */
