@@ -127,6 +127,12 @@ LibClean: $(SUB_LIBTARGETS)
 DepClean: SUB_TARGET := DepClean
 DepClean: $(SUB_LIBTARGETS) 
 
+dbgDepClean: SUB_TARGET := dbgDepClean
+dbgDepClean: $(SUB_LIBTARGETS) 
+
+optDepClean: SUB_TARGET := optDepClean
+optDepClean: $(SUB_LIBTARGETS) 
+
 distclean: SUB_TARGET := distclean
 distclean: $(SUB_LIBTARGETS)
 
