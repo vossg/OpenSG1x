@@ -233,7 +233,7 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
     TXFGlyphInfo    *currentGlyph;
 
     numChars = 0;
-    for(i = 0; i < lineVec.size(); i++)
+    for(i = 0; i < Int32(lineVec.size()); i++)
     {
         numChars += strlen(lineVec[i].c_str());
     }
@@ -243,7 +243,7 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
 
     oaWidth = 0.f;
     tmpWidth = 0.f;
-    for(i = 0; i < lineVec.size(); i++)
+    for(i = 0; i < Int32(lineVec.size()); i++)
     {
         const Char8 *text = lineVec[i].c_str();
         numLineChars = strlen(text);

@@ -44,7 +44,7 @@ void connectProc(void *)
         }
         connection->flush();
         SLOG << "send OK" << std::endl;
-        for(c=0;c<recvCount;c++)
+        for(c=0;c<UInt32(recvCount);c++)
         {
             FLOG(("wait for %d\n",c));
             connection->selectChannel();
