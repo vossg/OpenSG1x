@@ -155,7 +155,7 @@ QFieldContainerView::endEdit(void)
 {
     int numRows = _pTable->numRows();
 
-    for(UInt32 i=0; i < numRows; ++i)
+    for(int i=0; i < numRows; ++i)
     {
         QFieldViewBase *pFView =
             dynamic_cast<QFieldViewBase *>(

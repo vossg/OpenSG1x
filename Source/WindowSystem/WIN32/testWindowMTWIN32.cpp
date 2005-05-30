@@ -127,7 +127,6 @@ void drawThreadProc (void *arg)
 LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
                          WPARAM wParam, LPARAM lParam)
 {
-    RECT clientRect;
     int  eventThread = 0, x, y, i;
 
     for (i=0; i<NUM_THREADS; i++)
@@ -185,10 +184,10 @@ LRESULT CALLBACK WndProc(HWND hwnd2, UINT uMsg,
             w = win[eventThread]->getWidth();
             h = win[eventThread]->getHeight();
     
-            a = -2. * ( lastx[eventThread] / w - .5 );
-            b = -2. * ( .5 - lasty[eventThread] / h );
-            c = -2. * ( x / w - .5 );
-            d = -2. * ( .5 - y / h );
+            a = -2.f * ( lastx[eventThread] / w - .5f );
+            b = -2.f * ( .5f - lasty[eventThread] / h );
+            c = -2.f * ( x / w - .5f );
+            d = -2.f * ( .5f - y / h );
                     
             if ( mouseb & ( 1 << 1 ) )
             {
@@ -246,9 +245,7 @@ int main (int argc, char **argv)
     HDC           hDC;
     MSG           msg;
     Int32     i,
-                  iPixelFormat,
-                  eventThread,
-                  dummy;
+                  iPixelFormat;
 
     // OSG init
 
@@ -327,7 +324,7 @@ int main (int argc, char **argv)
 
     // tball
 
-    Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5 );
+    Vec3f pos( 0, 0, max[2] + ( max[2] - min[2] ) * 1.5f );
 
     for ( i = 0; i < NUM_THREADS; i++ )
     {
