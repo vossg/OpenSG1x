@@ -41,7 +41,7 @@ int main( int argc, char *argv[] )
     set(v1);                                                          \
     v2 = get();                                                       \
     std::cerr << name;                                                \
-    if ( ! comp )                                                     \
+    if ( ! (comp) )                                                     \
     {                                                                 \
         std::cerr << " " << v1 << "!=" << v2 << "!!!" << std::endl;   \
         exit(1);                                                      \
