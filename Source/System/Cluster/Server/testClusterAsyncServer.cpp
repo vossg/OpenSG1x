@@ -41,7 +41,7 @@ void syncThreadProc (void *OSG_CHECK_ARG(arg))
             syncBarrier->enter( 2 );
             OSG::Thread::getCurrentChangeList()->clearAll();
         } 
-        catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+        catch(OSG_STDEXCEPTION_NAMESPACE::exception &/*e*/)
         {
             if(exitOnError)
             {

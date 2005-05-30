@@ -128,7 +128,7 @@ public:
         cart=_cart;
         static RenderNode rn;
         static int currentServers=0;
-        int i;
+        size_t i;
         Real32 travTime;
         Real32 drawTime;
         TileLoadBalancer::ResultT region;
@@ -547,7 +547,7 @@ void key(unsigned char key, int , int )
             std::vector<Quaternion>::iterator qit;
             
             fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
-            for(int i = 0; i < animOri.size(); ++i)
+            for(size_t i = 0; i < animOri.size(); ++i)
             {               
                 fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
                 if(i < animOri.size() - 1)
@@ -568,7 +568,7 @@ void key(unsigned char key, int , int )
             std::vector<Vec3f>::iterator vit;
             
             fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
-            for(int i = 0; i < animPos.size(); ++i)
+            for(size_t i = 0; i < animPos.size(); ++i)
             {               
                 fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
                 if(i < animPos.size() - 1)

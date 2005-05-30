@@ -101,7 +101,7 @@ NodePtr createNode(void)
 void client(void)
 {
     bool    finish = false;
-    int     i, j;
+    size_t  i, j;
     std::vector < NodePtr > nodes;
 
     connection->connectPoint("localhost:6789");

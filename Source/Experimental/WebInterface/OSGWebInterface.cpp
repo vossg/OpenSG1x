@@ -213,7 +213,7 @@ std::string WebInterface::encodeUrl(const std::string &path,
         result += pI->first.str();
         if(!pI->second.isEmpty())
             result += '=';
-        for(c = 0 ; c < pI->second.getLength() ; ++c)
+        for(c = 0 ; c < int(pI->second.getLength()) ; ++c)
         {
             ch = pI->second.str()[c];
             switch(ch)

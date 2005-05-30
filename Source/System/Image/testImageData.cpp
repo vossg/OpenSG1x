@@ -41,9 +41,9 @@ int main (int argc, char **argv)
             out.open(argv[2]);
             if (out.eof() == false)
             {
-                maxSize = fileType->maxBufferSize(pImage);
+                maxSize = (unsigned long)(fileType->maxBufferSize(pImage));
                 data = new OSG::UChar8[maxSize];
-                maxSize = fileType->store(pImage,(OSG::UChar8*)data);
+                maxSize = (unsigned long)fileType->store(pImage,(OSG::UChar8*)data);
                 out << "/* Image: " << argv[1] << "*/" << std::endl;
                 out << "static unsigned int imageWidth = " 
                     << pImage->getWidth() << ";" << std::endl;               

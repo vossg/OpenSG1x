@@ -139,7 +139,7 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
     SimpleMaterialPtr   mat;
     Int32               i, j, k, n, vN, fN, pType;
     Int32               triCount = 0, vertexCount, faceCount, edgeCount;
-    Real64              x, y, z, a;
+    Real32              x, y, z, a;
     bool                hasNormals = false, hasColors = false, hasTexCoords = false,
                         has4DimPoints = false;
     

@@ -467,7 +467,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             std::vector<Quaternion>::iterator qit;
             
             fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
-            for(int i = 0; i < animOri.size(); ++i)
+            for(size_t i = 0; i < animOri.size(); ++i)
             {               
                 fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
                 if(i < animOri.size() - 1)
@@ -488,7 +488,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             std::vector<Vec3f>::iterator vit;
             
             fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
-            for(int i = 0; i < animPos.size(); ++i)
+            for(size_t i = 0; i < animPos.size(); ++i)
             {               
                 fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
                 if(i < animPos.size() - 1)
@@ -607,7 +607,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
 
 void init(std::vector<std::string> &filenames)
 {
-    int i;
+    size_t i;
     OSG::DirectionalLightPtr dl;
     Real32 x,y,z;
     DynamicVolume volume;
