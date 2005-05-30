@@ -23,7 +23,8 @@ II_FILESDIR          :=
 
 ### Compiler Version ##############################################
 
-COMPILER := $(shell $(CC) -V 2>&1 | head -1 | cut -d' ' -f 8)
+COMPILER := $(shell $(CC) -V 2>&1 | fgrep Version | sed -e 's/.*Version //' -e 's/ .*//')
+COMPILERMAJORVERSION := $(shell echo $(COMPILER) | cut -c1)
 
 ifneq ($(COMPILER),)
 COMPILER-1 := $(subst .,,$(COMPILER))
@@ -33,7 +34,6 @@ COMPILER-2 := $(strip $(COMPILER-1))
 COMPILER-3 := $(shell if test $(COMPILER-2) -lt 100 ; then echo 1; fi)
 
 COMPILERVERSION := $(if $(COMPILER-3),$(COMPILER-2)0,$(COMPILER-2))
-COMPILERMAJORVERSION := $(shell $(CC) -V 2>&1 | head -1 | cut -d' ' -f 8 | cut -c1)
 else
 COMPILERVERSION :=
 COMPILERMAJORVERSION :=

@@ -23,7 +23,8 @@ II_FILESDIR          :=
 
 ### Compiler Version ##############################################
 
-COMPILER := $(shell $(CC) -V 2>&1 | fgrep Version | cut -d' ' -f 8)
+COMPILER := $(shell $(CC) -V 2>&1 | fgrep Version | sed -e 's/.*Version //' -e 's/ .*//')
+COMPILERMAJORVERSION := $(shell echo $(COMPILER) | cut -c1)
 
 ifneq ($(COMPILER),)
 COMPILER-1 := $(subst .,,$(COMPILER))
@@ -35,6 +36,7 @@ COMPILER-3 := $(shell if test $(COMPILER-2) -lt 100 ; then echo 1; fi)
 COMPILERVERSION := $(if $(COMPILER-3),$(COMPILER-2)0,$(COMPILER-2))
 else
 COMPILERVERSION :=
+COMPILERMAJORVERSION :=
 endif
 
 COMPILERVERSION := $(if $(COMPILERVERSION),$(COMPILERVERSION),$(error could not determine compiler version))
@@ -60,7 +62,9 @@ SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE   \
                    $(CONFIGURED_PACKAGE_DEFS)           \
 
 ifneq ($(COMPILERVERSION),710)
+ifneq ($(COMPILERMAJORVERSION),8)
 SOURCE_DEFINES  := $(SOURCE_DEFINES) -DOSG_SUPPORT_NO_GEO_INTERFACE=1
+endif
 endif
 
 #-DMNG_LIB -DPNG_LIB
@@ -88,7 +92,7 @@ WARNINGS_C_OFF	:= # -woff 835
 
 WARNINGS_CPP_ERR := -we167
 
-WARNINGS_CPP_OFF := -wd981,424,76
+WARNINGS_CPP_OFF := -wd981,424,76,383
 
 # -Wcast-qual  (removed from default because of qt2.2
 # -Wno-reorder (removed from default because of the generated base fc's
@@ -103,7 +107,11 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
+ifeq ($(COMPILERMAJORVERSION),8)
+COMPILER    		= -fpic -Kc++eh -Krtti -ansi
+else
 COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
+endif
 
 ### Optimize / Debug ###############################################
 
