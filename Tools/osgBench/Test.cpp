@@ -356,7 +356,8 @@ void Test::runLoop( std::vector<OSG::Matrix> &views,
         for(OSG::UInt32 i = 0; i < views.size(); ++i, ++_nRenderedFrames)
         {
             if(_verbose)
-                SWARNING << "Test::run: Frame " << i << " fov " 
+                SWARNING << "Test::run: Frame " << i << " ("
+                         << _nRenderedFrames << ") fov " 
                          << fovs[i] << ", view" << std::endl << views[i] 
                          << std::endl;
             _win->setCamera(views[i]);

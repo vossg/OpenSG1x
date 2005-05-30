@@ -24,7 +24,8 @@ osg::GraphOp* createGraphOp(const char* name) {
 
 
 void traverse(osg::GraphOp& g, NodeBase& b) {
-    g.traverse(b.getNode());
+    OSG::NodePtr p = b.getNode();
+    g.traverse(p);
 }
 
 
