@@ -108,6 +108,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     StateChunkPtr find(const FieldContainerType &type, 
                        Int32 slot = State::AutoSlotReplace);
 
+    virtual bool operator == (const Material &other);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:

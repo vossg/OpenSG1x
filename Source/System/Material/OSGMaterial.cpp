@@ -177,10 +177,9 @@ bool Material::operator < (const Material &other) const
     return this < &other;
 }
 
-bool Material::operator == (const Material &OSG_CHECK_ARG(other)) const
-{   
-    SLOG << "Material::operator== called: NIY!" << std::endl;
-    return false;
+bool Material::operator == (const Material& other) const
+{
+    return _pState == other._pState;
 }
 
 bool Material::operator != (const Material &other) const

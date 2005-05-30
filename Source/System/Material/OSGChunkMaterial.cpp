@@ -225,6 +225,20 @@ StateChunkPtr ChunkMaterial::find(const FieldContainerType &type,
     return NullFC;
 }
 
+bool ChunkMaterial::operator==(const Material& other)
+{
+    Material& thisBase = *this;
+    if (!(thisBase == other))
+        return false;
+
+    const ChunkMaterial* othercm = dynamic_cast<const ChunkMaterial*>(&other);
+    if (!othercm)
+        return false;
+
+    // ?
+    return false;
+}
+
 /*! Draw the geometry with this material.
 */
 
