@@ -78,6 +78,7 @@ char *FCBaseTemplate_h[]={
 "@@endif",
 "",
 "#include <@!HeaderPrefix!@OSGBaseTypes.h>",
+"#include <@!HeaderPrefix!@OSGRefPtr.h>",
 "#include <@!HeaderPrefix!@OSGCoredNodePtr.h>",
 "",
 #if 0 // Not sure what's the right way here
@@ -403,9 +404,11 @@ char *FCBaseTemplate_h[]={
 "              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC",
 "              >::_IRet @!Classname!@NodePtr;",
 "",
+"typedef RefPtr<@!Classname!@Ptr> @!Classname!@RefPtr;",
+"",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.37 2005/05/30 19:50:45 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };
