@@ -50,10 +50,14 @@
 #include <OSGNodePtrImpl.inl>
 #include <OSGCNodePtrImpl.inl>
 
+#include <OSGRefPtr.h>
+
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
+
+typedef RefPtr<NodePtr> NodeRefPtr;
 
 template <class Core> inline 
 NodePtr makeCoredNode(typename Core::Ptr *coreP = NULL);

@@ -51,6 +51,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSystemDef.h>
 #include <OSGFieldContainerPtr.h>
+#include <OSGRefPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -154,6 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
 
     friend class FieldContainer;
 };
+
+typedef RefPtr<AttachmentContainerPtr> AttachmentContainerRefPtr;
 
 #ifdef OSG_LINUX_ICC
 #pragma warning( default : 444 )

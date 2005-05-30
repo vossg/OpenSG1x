@@ -65,9 +65,9 @@ class /*OSG_SYSTEMLIB_DLLMAPPING*/ CoredNodePtrBase
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
   
-    CoredNodePtrBase(void);
+    inline CoredNodePtrBase(void);
   
-    CoredNodePtrBase(NodePtr node);
+    inline CoredNodePtrBase(NodePtr node);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -81,7 +81,7 @@ class /*OSG_SYSTEMLIB_DLLMAPPING*/ CoredNodePtrBase
     /*! \name                      Access                                  */
     /*! \{                                                                 */
     
-    NodePtr node(void) const;
+    inline NodePtr node(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -95,9 +95,9 @@ class /*OSG_SYSTEMLIB_DLLMAPPING*/ CoredNodePtrBase
 
     virtual NodeCorePtr getCoreV(void) const = 0;
     
-    void setNode(const NodePtr &node);
+    inline void setNode(const NodePtr &node);
     
-    void setNode(const NullFieldContainerPtr &);
+    inline void setNode(const NullFieldContainerPtr &);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -123,11 +123,13 @@ class CoredNodePtr : public CoredNodePtrBase
   
     CoredNodePtr(void);
     
+    // make them explicit to prevent unexpected construction/cast paths
+    
     explicit CoredNodePtr(const NodePtr& node);
     
     explicit CoredNodePtr(const NodeCorePtr& core);
     
-    CoredNodePtr(const typename Core::Ptr& core);
+    explicit CoredNodePtr(const typename Core::Ptr& core);
      
     CoredNodePtr(const CoredNodePtr<Core>& ptr);
    
@@ -148,8 +150,6 @@ class CoredNodePtr : public CoredNodePtrBase
     void coreChanged(void);
   
     typename Core::Ptr core(void) const;
-    
-    operator FieldContainerPtr(void) const;
 
     typename Core::Ptr& operator->(void);
     
@@ -177,6 +177,8 @@ class CoredNodePtr : public CoredNodePtrBase
     /*! \{                                                                 */
 
     NodeCorePtr getCoreV(void) const;
+    
+    void setCore(const NodeCorePtr &core);
     
     void setCore(const typename Core::Ptr &core);
 
@@ -215,6 +217,6 @@ OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.4 2005/05/26 22:22:13 dirk Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.5 2005/05/30 19:49:58 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */

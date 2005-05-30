@@ -101,9 +101,8 @@ CoredNodePtr<Core>::CoredNodePtr(void) :
 
 template< class Core > inline
 CoredNodePtr<Core>::CoredNodePtr(const NodePtr& node) : 
-    CoredNodePtrBase()
+    CoredNodePtrBase(node)
 {
-    setNode(node);
     setCore(Core::Ptr::dcast(CoredNodePtrBase::node()->getCore()));
 }
 
@@ -155,19 +154,9 @@ typename Core::Ptr CoredNodePtr<Core>::core(void) const
 {
 #ifdef OSG_DEBUG
     FFASSERT((node()->getCore() == _core), false, 
-              ("CoredNodePtr::operator Core::Ptr: core changed!"););
+              ("CoredNodePtr::core: core changed!"););
 #endif
     return _core;
-}
-
-template< class Core > inline
-CoredNodePtr<Core>::operator FieldContainerPtr(void) const
-{
-#ifdef OSG_DEBUG
-    FFASSERT((node()->getCore() == _core), false, 
-              ("CoredNodePtr::operator Core::Ptr: core changed!"););
-#endif
-    return node();
 }
 
 template< class Core > inline
@@ -175,7 +164,7 @@ typename Core::Ptr& CoredNodePtr<Core>::operator->(void)
 {
 #ifdef OSG_DEBUG
     FFASSERT((node()->getCore() == _core), false, 
-              ("CoredNodePtr::operator Core::Ptr: core changed!"););
+              ("CoredNodePtr::operator ->: core changed!"););
 #endif
     return _core;
 }
@@ -185,7 +174,7 @@ CoredNodePtr<Core>::operator NodePtr()
 {
 #ifdef OSG_DEBUG
     FFASSERT((node()->getCore() == _core), false, 
-              ("CoredNodePtr::operator Core::Ptr: core changed!"););
+              ("CoredNodePtr::operator NodePtr: core changed!"););
 #endif
     return node();
 }
@@ -231,6 +220,12 @@ template< class Core > inline
 NodeCorePtr CoredNodePtr<Core>::getCoreV(void) const
 {
     return _core;
+}
+
+template< class Core > inline
+void CoredNodePtr<Core>::setCore(const NodeCorePtr &core)
+{
+    setCore(Core::Ptr::dcast(core));
 }
 
 template< class Core > inline
@@ -324,5 +319,5 @@ inline std::ostream &operator << (std::ostream &str,
 
 OSG_END_NAMESPACE
 
-#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.3 2005/05/26 22:22:13 dirk Exp $"
+#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.4 2005/05/30 19:49:58 dirk Exp $"
 

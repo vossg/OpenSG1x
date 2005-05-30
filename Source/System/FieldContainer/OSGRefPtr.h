@@ -67,6 +67,8 @@ class RefPtr
   
     RefPtr(void);
     
+    // make it explicit to prevent unexpected construction/cast paths
+    
     explicit RefPtr(const Ref& fcp);
      
     RefPtr(const RefPtr<Ref>& ptr);
@@ -107,10 +109,14 @@ class RefPtr
     Ref _ref;
 };
 
+// Some base types
+
+typedef RefPtr<FieldContainerPtr> FieldContainerRefPtr;
+
 OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.2 2003/11/20 09:38:45 a-m-z Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.3 2005/05/30 19:49:58 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */

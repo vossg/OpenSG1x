@@ -55,6 +55,7 @@
 #include <OSGAttachmentContainer.h>
 #include <OSGNodeFields.h>
 #include <OSGDynamicVolume.h>
+#include <OSGRefPtr.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,6 +66,8 @@ class NodeCore;
 #if !defined(OSG_DO_DOC)   
 typedef FCPtr<AttachmentContainerPtr, NodeCore> NodeCorePtr;
 #endif
+
+typedef RefPtr<NodeCorePtr> NodeCoreRefPtr;
 
 /*! \ingroup GrpSystemFieldContainer
  */

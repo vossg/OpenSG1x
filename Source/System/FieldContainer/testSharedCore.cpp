@@ -88,7 +88,7 @@ int main (int argc, char *argv[])
         
         // RefPtr test
         
-        RefPtr<NodePtr> r1(n1),r2;
+        RefPtr<NodePtr> r1(n1),r2; // Note: r1 = n1; doesn't work
         
         PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
         
