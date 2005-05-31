@@ -39,6 +39,7 @@
 #pragma once
 #endif
 #include <OSGConfig.h>
+#include <OSGGeometry.h>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGNode.h>
@@ -84,7 +85,8 @@ Int32              createOptimizedPrimitives(GeometryPtr geo,
                                              bool createStrips      = true,
                                              bool createFans        = true,
                                              UInt32 minFanEdgeCount = 16,
-                                             bool colorCode         = false);
+                                             bool colorCode         = false,
+                                             bool stitchStrips      = true);
 
 OSG_SYSTEMLIB_DLLMAPPING 
 void                  createConvexPrimitives(GeometryPtr geo);
