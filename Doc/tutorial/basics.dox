@@ -1360,8 +1360,10 @@ NodePtr createScenegraph(void)
     root = Group::create();
 
     //add the torus and box to the group node
+    beginEditCP(root);
     root.node()->addChild(torus);
     root.node()->addChild(box);
+    endEditCP(root);
 
     addRefCP(root.node()); // keep the root node around, even after the CNP is destroyed
     
