@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 Chunk for texture coordinate generation functions.
 	<Field
@@ -56,6 +57,7 @@ Chunk for texture coordinate generation functions.
 		type="Vec4f"
 		cardinality="single"
 		visibility="external"
+		defaultValue="1,0,0,0"
 		access="public"
 	>
 	</Field>
@@ -64,6 +66,7 @@ Chunk for texture coordinate generation functions.
 		type="Vec4f"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0,1,0,0"
 		access="public"
 	>
 	</Field>
@@ -72,6 +75,7 @@ Chunk for texture coordinate generation functions.
 		type="Vec4f"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0,0,1,0"
 		access="public"
 	>
 	</Field>
@@ -80,6 +84,7 @@ Chunk for texture coordinate generation functions.
 		type="Vec4f"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0,0,0,1"
 		access="public"
 	>
 	</Field>

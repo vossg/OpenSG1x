@@ -1230,7 +1230,7 @@ void OSG::Window::frameExit(void)
 
     while((glerr = glGetError()) != GL_NO_ERROR)
     {
-        FWARNING(("Window::frameExit: Caught stray OpenGL error %s (%#x).",
+        FWARNING(("Window::frameExit: Caught stray OpenGL error %s (%#x).\n",
                 gluErrorString(glerr),
                 glerr));
 #ifndef OSG_DEBUG
