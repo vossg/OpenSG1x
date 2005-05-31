@@ -79,6 +79,7 @@ class NodeBase
     
     inline OSG::NodePtr getNode(void);
 
+    NodeBase clone(void);
     
     NodeIterator iter(const char * name);
     

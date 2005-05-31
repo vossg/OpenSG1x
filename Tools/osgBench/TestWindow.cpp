@@ -147,6 +147,34 @@ void TestWindow::redraw(void)
     _window->render(dynamic_cast<OSG::RenderAction*>(_ssm->getAction()));
 }
 
+OSG::ImagePtr TestWindow::snapshot(void)
+{
+//    _ssm->redraw();
+
+    OSG::ViewportPtr port = _ssm->getWindow()->getPort(0);
+
+    OSG::beginEditCP(port);
+    port->getForegrounds().push_back(_grabber);
+    OSG::endEditCP(port);
+    
+    OSG::ImagePtr img = OSG::Image::create();
+    OSG::beginEditCP(img);
+    img->setPixelFormat(OSG::Image::OSG_RGB_PF);
+    OSG::endEditCP(img);
+    
+    OSG::beginEditCP(_grabber);
+    _grabber->setImage(img);
+    OSG::endEditCP(_grabber);
+    
+    _window->render(dynamic_cast<OSG::RenderAction*>(_ssm->getAction()));
+    
+    OSG::beginEditCP(port);
+    port->getForegrounds().erase(port->getForegrounds().end()-1);
+    OSG::endEditCP(port);
+    
+    return img;
+}
+
 void TestWindow::finish(void)
 {    
     glFinish();
@@ -237,6 +265,16 @@ void TestWindow::update(void)
 {  
     if(_window == OSG::NullFC)
         _window = OSG::GLUTWindow::create();
+    
+    if(_grabber == OSG::NullFC)
+    {
+        _grabber = OSG::GrabForeground::create();
+        OSG::beginEditCP(_grabber);
+        _grabber->setAutoResize(true);
+        _grabber->setActive(true);       
+        OSG::endEditCP(_grabber);
+    }
+    
     if(_ssm == NULL)
         _ssm = new OSG::SimpleSceneManager;
     

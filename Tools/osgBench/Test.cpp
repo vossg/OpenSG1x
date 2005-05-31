@@ -326,7 +326,7 @@ void Test::setVerbose(bool verbose)
 }
 
 // little helper function that runs the test loop. The main reason for this
-// function is being able to profile it, wihtout the initialisation.
+// function is being able to profile it, without the initialisation.
 
 void Test::runLoop( std::vector<OSG::Matrix> &views,
                     std::vector<OSG::Real32> &fovs)
@@ -451,6 +451,68 @@ void Test::run(void)
     runLoop(views, fovs);
 }
 
+
+Image Test::snapshot(OSG::UInt32 frame)
+{
+    if(!_win || !_win->isOpen())
+    {
+        FWARNING(("Test::snapshot: window not ready!\n"));
+        return Image();
+    }
+    if(!_scene)
+    {
+        FWARNING(("Test::snapshot: no scene!\n"));
+        return Image();
+    }
+    if(_froms.empty())
+    {
+        FWARNING(("Test::snapshot: no views!\n"));
+        return Image();
+    }
+    if(_oris.empty())
+    {
+        FWARNING(("Test::snapshot: no views!\n"));
+        return Image();
+    }
+    if(_froms.size() != _oris.size())
+    {
+        FWARNING(("Test::snapshot: _froms.size() != _oris.size()!\n"));
+        return Image();        
+    }
+    
+    if(_fovs.empty())
+    {
+        FWARNING(("Test::snapshot: no fovs!\n"));
+        return Image();
+    }
+    
+    std::vector<OSG::Matrix> views;
+    std::vector<OSG::Real32> fovs;
+   
+    expandData(views, fovs);
+    
+    if(frame >= views.size())
+    {
+        FWARNING(("Test::snapshot: frame >= views.size()!\n"));
+        return Image();            
+    }
+    
+    OSG::SimpleSceneManager *ssm = _win->getSSM();
+    
+    _win->setScene(_scene);
+    ssm->setHeadlight(_headlight);
+
+    _win->setCamera(views[frame]);
+    _win->setFov(fovs[frame]);
+    
+    ssm->getAction()->setStatistics(NULL); // Don't want this to count
+    
+    OSG::ImagePtr img;
+    
+    img = _win->snapshot();
+    
+    return Image(img);
+}
 
 // Get Results
 

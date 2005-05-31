@@ -28,6 +28,7 @@ for i in range(-nc,nc):
 test=Test()
 test.setWindow(win)
 test.setNFrames(100)
+test.setMinTime(5)
 test.setScene(scene)
 test.setStatistics(1)
 

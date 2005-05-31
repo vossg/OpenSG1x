@@ -1,6 +1,6 @@
 # trivial makefile for OpenSG example
 
-SRCS := Nodes.cpp TestWindow.cpp Test.cpp python_wrapper.cpp
+SRCS := Nodes.cpp TestWindow.cpp Test.cpp Image.cpp python_wrapper.cpp
 
 OBJS := $(SRCS:.cpp=.o)
 
@@ -45,4 +45,4 @@ osgbench.so: $(OBJS) $(SRCS)
 Nodes.o: Nodes.h Nodes.cpp
 TestWindow.o: TestWindow.h TestWindow.cpp
 Test.o: Test.h Test.cpp
-python_wrapper.o: python_wrapper.cpp Nodes.h TestWindow.h Test.h
+python_wrapper.o: python_wrapper.cpp Nodes.h TestWindow.h Test.h Image.h

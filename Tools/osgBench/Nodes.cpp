@@ -87,6 +87,11 @@ void NodeBase::dump(void)
     _node->dump();
 }
 
+NodeBase NodeBase::clone(void)
+{
+    return NodeBase(OSG::deepCloneTree(_node));
+}
+
 
 NodeIterator NodeBase::iter(const char * name)
 {

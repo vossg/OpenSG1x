@@ -38,6 +38,7 @@ BOOST_PYTHON_MODULE(osgbench)
         .def("iter", &NodeBase::iter)
         .def("geometries", &NodeBase::geometries)
         .def("transforms", &NodeBase::transforms)
+        .def("clone", &NodeBase::clone)
        ;
     
     class_<Group, bases<NodeBase> >("Group")
@@ -69,6 +70,12 @@ BOOST_PYTHON_MODULE(osgbench)
     class_<TypedNodeIterator<Transform> >("TransformNodeIterator")
         .def("next", &TypedNodeIterator<Transform>::next)
         .def("__iter__", &TypedNodeIterator<Transform>::__iter__)
+        ;
+    
+    class_<Image>("Image")
+        .def("write", &Image::write)
+        .def("clone", &Image::clone)
+        .def("diff", &Image::diff)
         ;
     
     def("makeBox", &makeBox);      
@@ -127,6 +134,7 @@ BOOST_PYTHON_MODULE(osgbench)
         .def("addFov", &Test::addFov)
         .def("setStatistics", &Test::setStatistics)
         .def("run", &Test::run)
+        .def("snapshot", &Test::snapshot)
         .def("getFPS", &Test::getFPS)
         .def("getTime", &Test::getTime)
         .def("getNRenderedFrames", &Test::getNRenderedFrames)

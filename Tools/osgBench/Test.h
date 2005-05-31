@@ -48,6 +48,7 @@
 #include <OpenSG/OSGStatCollector.h>
 #include "TestWindow.h"
 #include "Nodes.h"
+#include "Image.h"
 
 class Test
 {
@@ -110,6 +111,8 @@ class Test
     OSG::UInt16 getStatistics(void);
     
     void run(void);
+    
+    Image snapshot(OSG::UInt32 frame);
     
     // Get Results
     

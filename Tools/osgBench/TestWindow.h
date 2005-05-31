@@ -48,6 +48,8 @@
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGPerspectiveCamera.h>
+#include <OpenSG/OSGImage.h>
+#include <OpenSG/OSGGrabForeground.h>
 
 #include <Nodes.h>
 
@@ -87,6 +89,8 @@ class TestWindow
     
     void finish(void);
     void redraw(void);
+
+    OSG::ImagePtr snapshot(void);
     
     void open  (void);
     void close (void);    
@@ -109,6 +113,8 @@ class TestWindow
     OSG::SimpleSceneManager *_ssm;
     OSG::Real32 _near, _far, _fov;
     OSG::TransformPtr _beacon;
+    OSG::GrabForegroundPtr _grabber;
+    
     bool _open;
 };
 
