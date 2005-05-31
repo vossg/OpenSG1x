@@ -1223,7 +1223,7 @@ void quattest(void)
 
     std::cout <<  "\n slerp(X:0, X:Pi, .5) " << q1 << "\n";
 
-    q1.setValue(Pi/2., 0., 0.);
+    q1.setValue(Pi/2.0f, 0.f, 0.f);
 
     std::cout <<  "\n (Pi/2,0,0) " << q1 << "\n";
 
@@ -1255,7 +1255,7 @@ void quattest(void)
 
     v1.setValues(1., 0., 0.);
 
-    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
+    q1.setValueAsAxisRad(0.f, 1.f, 0.f, Pi/2.f);
 
     q1.multVec(v1, v2);
 
@@ -1267,8 +1267,8 @@ void quattest(void)
 
     std::cout << v1 << " * Y:Pi   = " << v2 << "\n\n";
 
-    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
-    q2.setValueAsAxisRad(0., 0., 1., Pi/2.);
+    q1.setValueAsAxisRad(0.f, 1.f, 0.f, Pi/2.f);
+    q2.setValueAsAxisRad(0.f, 0.f, 1.f, Pi/2.f);
 
     q3 = q1;
     q3.mult(q2);
@@ -1284,8 +1284,8 @@ void quattest(void)
               << "\n (Y:Pi/2 * X) * Z:Pi/2 = " << v3 
               << "\n (Y:Pi/2 * Z:Pi/2) * X = " << v4 << "\n\n";
 
-    q1.setValueAsAxisRad(0., 1., 0., Pi/2.);
-    q2.setValueAsAxisRad(0., 0., 1., Pi/2.);
+    q1.setValueAsAxisRad(0.f, 1.f, 0.f, Pi/2.f);
+    q2.setValueAsAxisRad(0.f, 0.f, 1.f, Pi/2.f);
 
     q3 = q1;
     q3.multLeft(q2);
@@ -1539,7 +1539,7 @@ Real32 nonFloatTest(void)
     rVal = deg2rad(90);
     rVal = rad2deg(90);
 
-    rVal = osgabs(90);
+    rVal = Real32(osgabs(90));
     rVal = osgpow(90, 10);
     rVal = osglog(90);
     rVal = osgexp(90);
@@ -1550,23 +1550,23 @@ Real32 nonFloatTest(void)
     rVal = osgsin(90.f);
     rVal = osgtan(90.f);
 
-    rVal = osgacos(90.);
-    rVal = osgasin(90.);
+    rVal = osgacos(90.f);
+    rVal = osgasin(90.f);
     rVal = osgatan(90.f);
 
-    rVal = osgatan2(90., 90.);
+    rVal = osgatan2(90.f, 90.f);
 
     rVal = osgdegree2rad(90.f);
     rVal = osgrad2degree(90.f);
 
-    rVal = deg2rad(90.);
-    rVal = rad2deg(90.);
+    rVal = deg2rad(90.f);
+    rVal = rad2deg(90.f);
 
-    rVal = osgabs(90.);
+    rVal = osgabs(90.f);
     rVal = osgpow(90.f, 10.f);
-    rVal = osglog(90.);
+    rVal = osglog(90.f);
     rVal = osgexp(90.f);
-    rVal = osgfloor(90.);
+    rVal = osgfloor(90.f);
 
     return rVal;
 }

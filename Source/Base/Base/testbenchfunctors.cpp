@@ -18,10 +18,10 @@ Int32 worksize;
 Real32 lowtime,hightime;
 
 #define WORK(res) \
-{                                               \
-    (res) = 0;                                  \
+{                                           \
+    (res) = 0;                              \
     for (Int32 i=0; i < worksize; i++ )     \
-        (res) = (res) + ( i / 100. );       \
+        (res) = (res) + ( i / 100.0f );     \
 }
 
 #ifndef WIN32
