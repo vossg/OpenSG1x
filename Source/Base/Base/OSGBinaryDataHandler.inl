@@ -476,7 +476,7 @@ void BinaryDataHandler::getValue(bool &value)
     //get(&value, sizeof(bool));
     UInt8 temp;
     get(&temp, sizeof(UInt8));
-    value = (bool) temp;
+    value = (temp!=0);
 }
 
 inline 

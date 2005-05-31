@@ -541,14 +541,14 @@ void QuaternionBase<ValueTypeT>::setValue(const ValueTypeT alpha,
                                           const ValueTypeT beta,
                                           const ValueTypeT gamma)
 {
-    ValueTypeT sx = osgsin(alpha * 0.5);
-    ValueTypeT cx = osgcos(alpha * 0.5);
+    ValueTypeT sx = osgsin(alpha * 0.5f);
+    ValueTypeT cx = osgcos(alpha * 0.5f);
 
-    ValueTypeT sy = osgsin(beta  * 0.5);
-    ValueTypeT cy = osgcos(beta  * 0.5);
+    ValueTypeT sy = osgsin(beta  * 0.5f);
+    ValueTypeT cy = osgcos(beta  * 0.5f);
 
-    ValueTypeT sz = osgsin(gamma * 0.5);
-    ValueTypeT cz = osgcos(gamma * 0.5);
+    ValueTypeT sz = osgsin(gamma * 0.5f);
+    ValueTypeT cz = osgcos(gamma * 0.5f);
 
     _quat[0] = (sx * cy * cz) - (cx * sy * sz);
     _quat[1] = (cx * sy * cz) + (sx * cy * sz);

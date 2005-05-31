@@ -397,7 +397,7 @@
 #     define OSG_THROW_NOTHING() 
 # endif
 
-# define OSG_NO_INT8_PNT
+// # define OSG_NO_INT8_PNT This works fine now. Why prevent it? DR
 
 # define OSG_USE_PTHREADS
 
@@ -830,6 +830,10 @@
 #define OSG_NUM_ASPECTS 2
 
 
+#if defined(WIN32) && !defined(WIN32_LEAN_AND_MEAN)
+#    define WIN32_LEAN_AND_MEAN
+#endif
+ 
 #ifdef OSG_WIN_TYPES
 #ifndef OSG_NO_WINDOWD_H_INCLUDE
 #include <windows.h>
@@ -865,6 +869,7 @@
 #endif
 
 
+#include <OSGBase.h>
 #include <OSGExportDefines.h>
 
 #ifdef _OSG_HAVE_CONFIGURED_H_

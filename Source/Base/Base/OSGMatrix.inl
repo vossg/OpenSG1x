@@ -864,10 +864,10 @@ bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
     {
         for (j = 0; j < 3; j++) 
         {
-            a._matrix[i][j] *= scratch;
+            a._matrix[i][j] *= ValueTypeT(scratch);
         }
 
-        t[i] = _matrix[3][i] * scratch;
+        t[i] = _matrix[3][i] * ValueTypeT(scratch);
 
         a._matrix[3][i] = a._matrix[i][3] = 0.0;
     }
@@ -902,9 +902,9 @@ bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
 
     for(i = 0; i < 3; i++) 
     {
-        s[i] = det_sign * osgsqrt(evalues[i]);
+        s[i] = ValueTypeT(det_sign * osgsqrt(evalues[i]));
 
-        si._matrix[i][i] = 1.0 / s[i];
+        si._matrix[i][i] = 1.0f / s[i];
     }
     
     /* (5) Compute U = RT S! R A. */
@@ -2330,7 +2330,7 @@ bool TransformationMatrix<ValueTypeT>::exp(TransformationMatrix &result) const
     if(j < 0) 
         j = 0;
 
-    A.scale(1.0 / (ValueTypeT(1 << j)));
+    A.scale(ValueTypeT(1.0f / (1 << j)));
 
     result.setIdentity();
 
@@ -2548,7 +2548,7 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
 
         for (j = 0; j < JacobiRank; j++) 
         {
-            evectors[i][j] = (i == j) ? 1.0 : 0.0;
+            evectors[i][j] = (i == j) ? 1.0f : 0.0f;
             a[i][j] = _matrix[i][j];
         }
     }
@@ -2611,8 +2611,8 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
                     z[p]    -= h;
                     z[q]    += h;
 
-                    evalues[p] -= h;
-                    evalues[q] += h;
+                    evalues[p] -= ValueTypeT(h);
+                    evalues[q] += ValueTypeT(h);
 
                     a[p][q] = 0.0;
                     
@@ -2648,8 +2648,8 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
                         g = evectors[j][p];
                         h = evectors[j][q];
 
-                        evectors[j][p] = g - s * (h + g * tau);
-                        evectors[j][q] = h + s * (g - h * tau);
+                        evectors[j][p] = ValueTypeT(g - s * (h + g * tau));
+                        evectors[j][q] = ValueTypeT(h + s * (g - h * tau));
                     }
                 }
                 rots++;
@@ -2657,7 +2657,7 @@ bool TransformationMatrix<ValueTypeT>::jacobi(
         }
         for (p = 0; p < JacobiRank; p++) 
         {
-            evalues[p] = b[p] += z[p];
+            evalues[p] = ValueTypeT(b[p] += z[p]);
 
             z[p] = 0;
         }

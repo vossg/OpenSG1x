@@ -552,12 +552,12 @@ const Real32 Sqrt2  = 1.41421356237309504f;
 /*! \ingroup GrpBaseBaseConstants
  */
 
-const Real32 Inf = 1E30;
+const Real32 Inf = 1E30f;
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-const Real32 NegInf = - 1E30;
+const Real32 NegInf = - 1E30f;
 
 /*! MathTypeProperties
  *  \ingroup GrpBaseBaseConstants

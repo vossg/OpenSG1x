@@ -506,7 +506,7 @@ int main (int argc, char **argv)
 
     OSG::beginEditCP(dlight);
 
-    for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
+    for(OSG::UInt32 numFiles = 1; numFiles < OSG::UInt32(argc); numFiles++)
     {
         if(argv[numFiles][0] == '-')
         {

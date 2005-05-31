@@ -55,6 +55,14 @@
 
 OSG_USING_NAMESPACE
 
+#ifndef OSG_DEFAULT_LOG_LEVEL
+#    define OSG_DEFAULT_LOG_LEVEL LOG_WARNING
+#endif
+
+#ifndef OSG_DEFAULT_LOG_TYPE
+#    define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
+#endif
+
 //---------------------------------------------------------------------------
 //  LogBuf
 //---------------------------------------------------------------------------

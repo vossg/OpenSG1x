@@ -1477,14 +1477,7 @@ template <class ValueTypeT,
 typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     VectorInterface<ValueTypeT, StorageInterfaceT>::length(void) const
 {
-    RealReturnType rTmpVal = Self::_values[0] * Self::_values[0];
-
-    for(UInt32 i = 1; i < Self::_iSize; i++)
-    {
-        rTmpVal += Self::_values[i] * Self::_values[i];
-    }
-
-    return osgsqrt(rTmpVal);
+    return osgsqrt(Self::squareLength());
 }
 
 //! square of the Euclidean length of the vector
@@ -1494,7 +1487,8 @@ template <class ValueTypeT,
 typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
     VectorInterface<ValueTypeT, StorageInterfaceT>::squareLength(void) const
 {
-    RealReturnType rTmpVal = Self::_values[0] * Self::_values[0];
+    RealReturnType rTmpVal = RealReturnType(Self::_values[0] * 
+                                            Self::_values[0]  );
 
     for(UInt32 i = 1; i < Self::_iSize; i++)
     {
@@ -1510,7 +1504,7 @@ template <class ValueTypeT,
           class StorageInterfaceT> inline
 void VectorInterface<ValueTypeT, StorageInterfaceT>::normalize(void)
 {
-    ValueTypeT rLength = length();
+    ValueTypeT rLength = ValueTypeT(length());
 
     if(osgabs(rLength) < Eps)
     {
@@ -1711,7 +1705,7 @@ typename VectorInterface<ValueTypeT, StorageInterfaceT>::RealReturnType
         if(osgabs(rDot) > Eps)
         {
             *this  = toVec;
-            *this *= rDot;
+            *this *= ValueTypeT(rDot);
         }
         else
         {

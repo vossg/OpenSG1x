@@ -377,7 +377,7 @@ int main (int argc, char **argv)
 
 //    pLoader->scanStandardPrototypes("std.wrl", 0);
 
-    for(OSG::UInt32 numFiles = 1; numFiles < argc; numFiles++)
+    for(OSG::UInt32 numFiles = 1; numFiles < OSG::UInt32(argc); numFiles++)
     {
 //        file = FhsFile::load(argv[numFiles]);
 
