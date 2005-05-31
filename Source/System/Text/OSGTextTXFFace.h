@@ -229,7 +229,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * TXF face.
      * @return The TXF face object or 0 in case of an error.
      */
-    static TextTXFFace *create(const std::string &family, Style style, 
+    static TextTXFFace *create(const std::string &family, Style style = STYLE_PLAIN,
                                const TextTXFParam &param = TextTXFParam());
 
     /**
@@ -308,6 +308,6 @@ OSG_END_NAMESPACE
 
 #include <OSGTextTXFFace.inl>
 
-#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
+#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.2 2005/05/31 13:01:23 pdaehne Exp $"
 
 #endif /* _OSGTEXTTXFFACE_H_ */
