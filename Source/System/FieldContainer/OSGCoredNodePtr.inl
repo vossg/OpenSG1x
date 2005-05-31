@@ -217,6 +217,14 @@ CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const CoredNodePtr<Core>& cnp
 }
 
 template< class Core > inline
+CoredNodePtr<Core>& CoredNodePtr<Core>::operator =(const NullFieldContainerPtr &)
+{
+    setNode(NullFC);
+    setCore(NullFC);
+    return *this;
+}
+
+template< class Core > inline
 NodeCorePtr CoredNodePtr<Core>::getCoreV(void) const
 {
     return _core;
@@ -319,5 +327,5 @@ inline std::ostream &operator << (std::ostream &str,
 
 OSG_END_NAMESPACE
 
-#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.4 2005/05/30 19:49:58 dirk Exp $"
+#define OSGCOREDNODEPTR_INLINE_CVSID "@(#)$Id: OSGCoredNodePtr.inl,v 1.5 2005/05/31 19:53:45 dirk Exp $"
 

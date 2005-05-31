@@ -165,6 +165,8 @@ class CoredNodePtr : public CoredNodePtrBase
     CoredNodePtr<Core>& operator =(const typename Core::Ptr& core);
 
     CoredNodePtr<Core>& operator =(const CoredNodePtr<Core>& cnp);
+
+    CoredNodePtr<Core>& operator =(const NullFieldContainerPtr &);
    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -217,6 +219,6 @@ OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.5 2005/05/30 19:49:58 dirk Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.6 2005/05/31 19:53:45 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */
