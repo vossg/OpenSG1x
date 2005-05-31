@@ -335,50 +335,28 @@ void SimpleSceneManager::setRoot(NodePtr root)
  */
 void SimpleSceneManager::setHeadlight(bool on)
 {
-    if(_headlight != NullFC)
+    if(_internalRoot == NullFC)
     {
-        beginEditCP(_headlight, LightBase::OnFieldMask);
-        _headlight->setOn(on);
-        endEditCP(_headlight, LightBase::OnFieldMask);
+        initialize();
     }
+
+    beginEditCP(_headlight, LightBase::OnFieldMask);
+    _headlight->setOn(on);
+    endEditCP(_headlight, LightBase::OnFieldMask);
 }
 
 /*! turn headlight on.
  */
 void SimpleSceneManager::turnHeadlightOn(void)
 {
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 383)
-#endif
-
-    if(_headlight != NullFC)
-    {
-        beginEditCP(_headlight, LightBase::OnFieldMask);
-        _headlight->setOn(true);
-        endEditCP(_headlight, LightBase::OnFieldMask);
-    }
-#ifdef OSG_WIN32_ICL
-#pragma warning (default : 383)
-#endif
+    setHeadlight(true);
 }
 
 /*! turn headlight off.
  */
 void SimpleSceneManager::turnHeadlightOff(void)
 {
-#ifdef OSG_WIN32_ICL
-#pragma warning (disable : 383)
-#endif
-
-    if(_headlight != NullFC)
-    {
-        beginEditCP(_headlight, LightBase::OnFieldMask);
-        _headlight->setOn(false);
-        endEditCP(_headlight, LightBase::OnFieldMask);
-    }
-#ifdef OSG_WIN32_ICL
-#pragma warning (default : 383)
-#endif
+    setHeadlight(false);
 }
 
 /*! set the highlight object
@@ -480,7 +458,7 @@ void SimpleSceneManager::initialize(void)
         beginEditCP(sf);
         sf->setSize(25);
         sf->setColor(Color4f(0,1,0,0.7));
-        sf->addElement(RenderAction::statDrawTime,      "Draw FPS: %r.3f");
+        sf->addElement(RenderAction::statTravTime,      "FPS: %r.3f");
         sf->addElement(DrawActionBase::statCullTestedNodes,
                            "%d Nodes culltested");
         sf->addElement(DrawActionBase::statCulledNodes,
