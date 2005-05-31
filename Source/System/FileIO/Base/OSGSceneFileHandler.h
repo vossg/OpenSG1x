@@ -98,6 +98,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     typedef void (*progresscbfp) (UInt32 p);
     void setReadProgressCB(progresscbfp fp);
+    progresscbfp getReadProgressCB(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

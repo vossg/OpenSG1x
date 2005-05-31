@@ -898,7 +898,13 @@ SceneFileHandler &SceneFileHandler::the(void)
 
 void SceneFileHandler::setReadProgressCB(progresscbfp fp)
 {
+    stopReadProgressThread();
     _readProgressFP = fp;
+}
+
+SceneFileHandler::progresscbfp SceneFileHandler::getReadProgressCB(void)
+{
+    return _readProgressFP;
 }
 
 void SceneFileHandler::startReadProgressThread(std::istream &is)
