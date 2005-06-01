@@ -830,10 +830,6 @@
 #define OSG_NUM_ASPECTS 2
 
 
-#if defined(WIN32) && !defined(WIN32_LEAN_AND_MEAN)
-#    define WIN32_LEAN_AND_MEAN
-#endif
- 
 #ifdef OSG_WIN_TYPES
 #ifndef OSG_NO_WINDOWD_H_INCLUDE
 #include <windows.h>
