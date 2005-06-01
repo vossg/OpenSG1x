@@ -287,10 +287,10 @@ void MaterialChunkBase::executeSync(      FieldContainer &other,
 #endif
 
 MaterialChunkBase::MaterialChunkBase(void) :
-    _sfDiffuse                (Color4f(1,1,1,0)), 
-    _sfAmbient                (Color4f(.2,.2,.2,0)), 
-    _sfSpecular               (Color4f(.5,.5,.5,0)), 
-    _sfEmission               (Color4f(0,0,0,0)), 
+    _sfDiffuse                (Color4f(1,1,1,1)), 
+    _sfAmbient                (Color4f(.2,.2,.2,1)), 
+    _sfSpecular               (Color4f(.5,.5,.5,1)), 
+    _sfEmission               (Color4f(0,0,0,1)), 
     _sfShininess              (Real32(10)), 
     _sfLit                    (bool(true)), 
     _sfColorMaterial          (GLenum(GL_DIFFUSE)), 
