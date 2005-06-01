@@ -614,6 +614,17 @@ void TextMacVectorFace::layout(const wstring &text, const TextLayoutParam &param
 {
     // Initialize return values
     layoutResult.clear();
+    if (param.horizontal == true)
+        layoutResult.textBounds[1] = _horiAscent - _horiDescent;
+    else
+        layoutResult.textBounds[0] = _vertDescent - _vertAscent;
+    layoutResult.lineBounds.push_back(layoutResult.textBounds);
+
+    // Convert the unicode string to utf16
+    vector<UniChar> utf16Text;
+    convertUnicodeToUTF16(text, utf16Text);
+    if (utf16Text.empty() == true)
+        return;
 
     // Check whether we have to use the horizontal or vertical ATSUI objects
     ATSUStyle fontStyle;
@@ -637,10 +648,6 @@ void TextMacVectorFace::layout(const wstring &text, const TextLayoutParam &param
     ByteCount layoutAttributeSizes[] = { sizeof(justFactor), sizeof(width) };
     ATSUAttributeValuePtr layoutAttributeValues[] = { &justFactor, &width };
     ATSUSetLayoutControls(textLayout, 2, layoutAttributeTags, layoutAttributeSizes, layoutAttributeValues);
-
-    // Convert the unicode string to utf16
-    vector<UniChar> utf16Text;
-    convertUnicodeToUTF16(text, utf16Text);
 
     // Set the text
     OSStatus result = ATSUSetTextPointerLocation(textLayout, &(utf16Text[0]), kATSUFromTextBeginning, kATSUToTextEnd, utf16Text.size());
@@ -705,10 +712,11 @@ void TextMacVectorFace::layout(const wstring &text, const TextLayoutParam &param
 
     // Determine text bounds / line bounds
     if (param.horizontal == true)
-        layoutResult.textBounds.setValues(osgabs(currPos.x()), _horiAscent - _horiDescent);
+        layoutResult.textBounds[0] = osgabs(currPos.x());
     else
-        layoutResult.textBounds.setValues(_vertDescent - _vertAscent, osgabs(currPos.y()));
-    layoutResult.lineBounds.push_back(layoutResult.textBounds);
+        layoutResult.textBounds[1] = osgabs(currPos.y());
+    assert(layoutResult.lineBounds.empty() == false);
+    layoutResult.lineBounds.front() = layoutResult.textBounds;
 }
 
 
@@ -1049,6 +1057,17 @@ void TextMacPixmapFace::layout(const wstring &text, const TextLayoutParam &param
 {
     // Initialize return values
     layoutResult.clear();
+    if (param.horizontal == true)
+        layoutResult.textBounds[1] = _horiAscent - _horiDescent;
+    else
+        layoutResult.textBounds[0] = _vertDescent - _vertAscent;
+    layoutResult.lineBounds.push_back(layoutResult.textBounds);
+
+    // Convert the unicode string to utf16
+    vector<UniChar> utf16Text;
+    convertUnicodeToUTF16(text, utf16Text);
+    if (utf16Text.empty() == true)
+        return;
 
     // Check whether we have to use the horizontal or vertical ATSUI objects
     ATSUStyle fontStyle;
@@ -1072,10 +1091,6 @@ void TextMacPixmapFace::layout(const wstring &text, const TextLayoutParam &param
     ByteCount layoutAttributeSizes[] = { sizeof(justFactor), sizeof(width) };
     ATSUAttributeValuePtr layoutAttributeValues[] = { &justFactor, &width };
     ATSUSetLayoutControls(textLayout, 2, layoutAttributeTags, layoutAttributeSizes, layoutAttributeValues);
-
-    // Convert the unicode string to utf16
-    vector<UniChar> utf16Text;
-    convertUnicodeToUTF16(text, utf16Text);
 
     // Set the text
     OSStatus result = ATSUSetTextPointerLocation(textLayout, &(utf16Text[0]), kATSUFromTextBeginning, kATSUToTextEnd, utf16Text.size());
@@ -1140,10 +1155,11 @@ void TextMacPixmapFace::layout(const wstring &text, const TextLayoutParam &param
 
     // Determine text bounds / line bounds
     if (param.horizontal == true)
-        layoutResult.textBounds.setValues(osgabs(currPos.x()), _horiAscent - _horiDescent);
+        layoutResult.textBounds[0] = osgabs(currPos.x());
     else
-        layoutResult.textBounds.setValues(_vertDescent - _vertAscent, osgabs(currPos.y()));
-    layoutResult.lineBounds.push_back(layoutResult.textBounds);
+        layoutResult.textBounds[1] = osgabs(currPos.y());
+    assert(layoutResult.lineBounds.empty() == false);
+    layoutResult.lineBounds.front() = layoutResult.textBounds;
 }
 
 
@@ -1530,7 +1546,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.2 2005/05/18 13:42:00 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.3 2005/06/01 10:42:15 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTMACBACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTMACBACKEND_INLINE_CVSID;
 }

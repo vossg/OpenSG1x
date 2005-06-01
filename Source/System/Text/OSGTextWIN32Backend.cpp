@@ -536,6 +536,11 @@ void TextWIN32VectorFace::layout(const wstring &text, const TextLayoutParam &par
 {
     // Initialize return values
     layoutResult.clear();
+    if (param.horizontal == true)
+        layoutResult.textBounds[1] = _horiAscent - _horiDescent;
+    else
+        layoutResult.textBounds[0] = _vertDescent - _vertAscent;
+    layoutResult.lineBounds.push_back(layoutResult.textBounds);
 
     // Convert the unicode string to utf16
     vector<WCHAR> utf16Text;
@@ -603,10 +608,11 @@ void TextWIN32VectorFace::layout(const wstring &text, const TextLayoutParam &par
 
         // Determine text bounds / line bounds
         if (param.horizontal == true)
-            layoutResult.textBounds.setValues(osgabs(currPos.x()), _horiAscent - _horiDescent);
+            layoutResult.textBounds[0] = osgabs(currPos.x());
         else
-            layoutResult.textBounds.setValues(_vertDescent - _vertAscent, osgabs(currPos.y()));
-        layoutResult.lineBounds.push_back(layoutResult.textBounds);
+            layoutResult.textBounds[1] = osgabs(currPos.y());
+        assert(layoutResult.lineBounds.empty() == false);
+        layoutResult.lineBounds.front() = layoutResult.textBounds;
     }
     delete [] results.lpDx;
     delete [] results.lpGlyphs;
@@ -908,6 +914,11 @@ void TextWIN32PixmapFace::layout(const wstring &text, const TextLayoutParam &par
 {
     // Initialize return values
     layoutResult.clear();
+    if (param.horizontal == true)
+        layoutResult.textBounds[1] = _horiAscent - _horiDescent;
+    else
+        layoutResult.textBounds[0] = _vertDescent - _vertAscent;
+    layoutResult.lineBounds.push_back(layoutResult.textBounds);
 
     // Convert the unicode string to utf16
     vector<WCHAR> utf16Text;
@@ -973,10 +984,11 @@ void TextWIN32PixmapFace::layout(const wstring &text, const TextLayoutParam &par
 
         // Determine text bounds / line bounds
         if (param.horizontal == true)
-            layoutResult.textBounds.setValues(osgabs(currPos.x()), _horiAscent - _horiDescent);
+            layoutResult.textBounds[0] = osgabs(currPos.x());
         else
-            layoutResult.textBounds.setValues(_vertDescent - _vertAscent, osgabs(currPos.y()));
-        layoutResult.lineBounds.push_back(layoutResult.textBounds);
+            layoutResult.textBounds[1] = osgabs(currPos.y());
+        assert(layoutResult.lineBounds.empty() == false);
+        layoutResult.lineBounds.front() = layoutResult.textBounds;
     }
     delete [] results.lpDx;
     delete [] results.lpGlyphs;
@@ -1316,7 +1328,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.2 2005/05/18 13:42:01 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.3 2005/06/01 10:42:15 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTWIN32BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTWIN32BACKEND_INLINE_CVSID;
 }

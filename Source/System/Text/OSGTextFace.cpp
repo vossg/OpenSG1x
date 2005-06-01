@@ -225,6 +225,7 @@ void TextFace::layout(const vector<wstring> &lines,
             result.indices.push_back(lineResult.indices[i]);
             result.positions.push_back(lineResult.positions[i] + offset);
         }
+        assert(lineResult.lineBounds.empty() == false);
         result.lineBounds.push_back(lineResult.lineBounds.front());
         Real32 extend = lineResult.lineBounds.front()[param.horizontal == true ? 0 : 1];
         if (extend > maxExtend)
@@ -528,7 +529,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.1 2005/03/03 13:43:06 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.2 2005/06/01 10:42:15 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACE_INLINE_CVSID;
 }
