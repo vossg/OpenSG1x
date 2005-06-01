@@ -4594,6 +4594,7 @@ void VRMLExtrusionDesc::endNode(FieldContainerPtr pFC)
                                               pOrientation ->getValues(),
                                               pScale       ->getValues(),
                                               pSpine       ->getValues(),
+					      pCreaseAngle ->getValue (),
                                               pBeginCap    ->getValue (),
                                               pEndCap      ->getValue (),
                                               pCcw         ->getValue (),
