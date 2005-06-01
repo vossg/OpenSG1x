@@ -1,0 +1,129 @@
+#!/bin/bash
+
+# check_commits: a script to analyze an archive of CVS commit
+# mails, create a digested version with the differences to an older version
+# and mail it out
+
+COMMITS=$1
+DIFFFILE=/tmp/cc.diff
+AWKFILE=/tmp/cc.awk
+
+# Create AWK script
+
+cat > $AWKFILE << EOF
+
+BEGIN           {   mode = 0;
+                    debug = 0;
+                    logtext = "";
+                }
+
+/^From.*\$/      {   mode = 1 }
+
+# Got the empty line that signals the beginning of the message?
+mode == 1       {   if (NF == 0)
+                    { 
+                        mode = 2;
+                    }
+                    next
+                }
+
+# Skipped empty line, get name
+mode == 2       {   if (debug == 1) { print "2 ", \$0; }
+                    printf("%s|", \$1);
+                    mode = 3;
+                    next;
+                }
+
+# Find directories of modified files
+mode == 3 && 
+(\$1 == "Modified" || \$1 == "Added") {
+                    if (debug == 1) { print "3m ", \$0; }
+                    if (NF > 3)
+                    {
+                        printf("(Branch: %s ", \$4);
+                    }
+                    mode = 5;
+                    first = 1;
+                }
+              
+/^    [^ ].*/   {   if (mode == 5)
+                    {
+                        if (debug == 1) { print "5s ", \$0; }
+                        if (first == 1) { first = 0; } else { printf(" "); }
+                        printf("%s", \$1);
+                    }
+                }
+
+
+# Find start of log text
+(mode == 3 || mode == 5) && 
+\$1 == "Log:"    {   if (debug == 1) { print "3 ", \$0; }
+                    printf("|");
+                    mode = 4;
+                    next;
+                }
+
+# Concat log lines
+mode == 4       {   if (debug == 1) { print "4 ", \$0; }
+                    if (NF == 0)
+                    {
+                        # Got empty line after log, wait for next message
+                        printf("\n");
+                        mode = 0;
+                    }
+                    else
+                    {
+                        printf("%s#", \$0);
+                    }
+                }
+
+EOF
+
+# Run the script
+
+if test -r ${COMMITS}.old
+then
+    diff $COMMITS ${COMMITS}.old | fgrep "< " | sed -e 's/^< //' | \
+    awk -f $AWKFILE | sort -u > $DIFFFILE
+else
+    awk -f $AWKFILE < $COMMITS | sort -u > $DIFFFILE
+fi
+
+if test `wc -l $DIFFFILE | cut -d' ' -f1` -lt 1
+then
+    exit
+fi
+
+currentname="x"
+currentdirs="x"
+
+dname="OpenSG Commit Digest for `date +%Y/%m/%d`"
+
+(
+echo 
+echo "                    $dname"
+echo "                    ==================================="
+
+IFS='|'
+cat $DIFFFILE | while read name dirs log
+do
+    if test $name != $currentname
+    then
+        echo
+        echo ======= Since the last digest ${name}@users.sf.net committed
+        currentname=$name
+        currentdirs="x"
+    fi
+    if test "$dirs" != "$currentdirs"
+    then
+        echo in ${dirs}:
+        currentdirs=$dirs
+    fi
+    echo $log | sed -e 's/#/\n/g'
+done
+
+echo
+echo "That's it for today!"
+) | Mail -s "$dname" dreiners@iastate.edu opensg-users@lists.sourceforge.net
+
+cp $COMMITS ${COMMITS}.old

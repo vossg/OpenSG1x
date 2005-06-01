@@ -408,7 +408,7 @@ do
             shift
             ;;
         --upload-key )        
-            do_copy="cd \$basedir; tar cf - \$link_html* | ssh -i $2 -l osgdb www.opensg.org tar xf - -C dailybuild_logs"
+            do_copy="cd \$basedir; tar cf - \$out_files* | ssh -i $2 -l osgdb www.opensg.org tar xf - -C dailybuild_logs"
             shift
             shift
             ;;
@@ -618,7 +618,7 @@ case $system in
 esac
 
 # Only some machines can write the Web files, scp via one of them unless alternative set
-do_copy=${do_copy:='cd $basedir; tar cf - $link_html* | ssh reiners@pc1107 tar xf - -C $log_destination'}
+do_copy=${do_copy:='cd $basedir; tar cf - $out_files* | ssh reiners@pc1107 tar xf - -C $log_destination'}
 
 # set defaults if not set yet
 qt_args=${qt_args:=""}
@@ -639,6 +639,7 @@ now=`date '+%d.%m.%y %H:%M'`
 today=`date '+%y%m%d'`
 
 build_id=$today.$system.$compiler
+out_files=opensg_dailybuild.$today
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
 
