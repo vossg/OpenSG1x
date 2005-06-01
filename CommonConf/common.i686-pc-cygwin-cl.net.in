@@ -71,10 +71,11 @@ WARNINGS_C_OFF		:=
 # 4275 non – DLL-interface classkey 'identifier' used as base for 
 #      DLL-interface classkey 'identifier'
 # 4355 'this' : used in base member initializer list
+# 4996 'sprintf' was declared deprecated (also for many other C functions)
 
 WARNINGS_CPP_OFF 	:= $(WARNINGS_C_OFF) -w44049 -w44065 \
 						-w44251 -w44275 -w44099 -w44250 -w44231 \
-                        -w44290
+                        -w44290 -w44996
 
 WARN_ERR_CPP        :=
 
@@ -103,10 +104,10 @@ endif
 CCFLAGS_EXT_OPT  := -O2 -Ob1 -MD
 ifeq ($(COMPILERMAJORVERSION), 14)
 # Cl.net 2005 options
-CCFLAGS_EXT_DBG  := -ZI -Od -RTC1 -D_DEBUG -MDd
+CCFLAGS_EXT_DBG  := -ZI -Od -RTC1 -D_DEBUG -DOSG_DEBUG -MDd
 else
 # other cl.net options
-CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -MDd
+CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd
 endif
 
 ### Optimize / Debug ###############################################
