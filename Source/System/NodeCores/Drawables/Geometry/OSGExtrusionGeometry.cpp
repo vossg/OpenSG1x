@@ -2,9 +2,9 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *           Copyright (C) 2000,2001,2002 by the OpenSG Forum                *
  *                                                                           *
- *               Andreas Fischle, Bastian Grundel                            *
+ *                            www.opensg.org                                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -27,39 +27,6 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------*\
- *                                Comments                                   *
- *                                                                           *
- * There are certainly bugs in this code, since it has not yet been          *
- * extensively tested.                                                       *
- *                                                                           *
- * There is a bit of debugging information available, but it's currently     *
- * commented out, since it consists mostly of matrix prints which we don't   *
- * consider appropriate for any debug level.                                 *
- *                                                                           *
- * The resulting surface is considered parametrized by paramters u and v,    *
- * where u parametrizes along the spine and v along the crosssection.        *
- *                                                                           *
- * The function prototypes mostly look like "data_in, flags, data_out".      *
- *                                                                           *
- * The core function makeExtrusionGeo is located somewhere near line 1700.   *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
- *                               Known Bugs                                  *
- *                                                                           *
- * 1. There is probably a bug in the normal generation concerning v_wrapped  *
- *    surfaces. Maybe the rendercode has the same problem.                   *
- *    We're not sure yet.                                                    *
- *                                                                           *
- * 2. Surfaces of revolution are not correctly drawn.                        *
- *    We probably set up the vValues/uValues incorrectly for surfaces        *
- *    constructed by pure rotation, and maybe combinations of rotation and   *
- *    translation along the spine                                            *
- *    To be more exactly it seems we're loosing one column in the            *
- *    subdivision grid at some point or don't draw it, but wrap correctly.   *
- *    The subdivision does not cause this, but is set up incorrectly.        *
- *                                                                           *
-\*---------------------------------------------------------------------------*/
-/*---------------------------------------------------------------------------*\
  *                                Changes                                    *
  *                                                                           *
  *                                                                           *
@@ -68,33 +35,36 @@
  *                                                                           *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
-#include <OSGConfig.h>
+
+//-----------------------------------------------------------------------------
+//                                 Includes                                    
+//-----------------------------------------------------------------------------
+
+
+#include <memory>
+#include <assert.h>
+
+#include "OSGConfig.h"
 #include <OSGLog.h>
 
-#include <OSGExtrusionGeometry.h>
+#include "OSGExtrusionGeometry.h"
 
-OSG_USING_NAMESPACE
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-static char cvsid[] = "@(#)$Id: $";
+// #define DEBUG_VERTEX_NORMALS
+// #define DEBUG_FACE_NORMALS
 
-#ifdef __sgi
-#pragma reset woff 1174
-#endif
-#if defined(OSG_WIN32_ICL) && !defined(OSG_CHECK_FIELDSETARG)
-#pragma warning(disable : 383)
-#endif
+
+OSG_BEGIN_NAMESPACE
+
 
 /*---------------------------------------------------------------------*/
 /*! \name                   Construction functions                     */
 /*! \{                                                                 */
 
-
 /*! \fn GeometryPtr makeExtrusion(const std::vector<Pnt2f> &crossSection,
                              const std::vector<Quaternion> &orientation,
                              const std::vector<Vec2f> &scale,
                              const std::vector<Pnt3f> &spine,
+                             Real32 creaseAngle,
                              bool beginCap, 
                              bool endCap,
                              bool ccw, 
@@ -113,6 +83,7 @@ static char cvsid[] = "@(#)$Id: $";
                              const std::vector<Quaternion> &orientation,
                              const std::vector<Vec2f> &scale,
                              const std::vector<Pnt3f> &spine,
+                             Real32 creaseAngle,
                              bool beginCap,
                              bool endCap, 
                              bool ccw,
@@ -130,1792 +101,1896 @@ static char cvsid[] = "@(#)$Id: $";
 /*! \}                                                                 */
 
 
-/* Subdivision helpers (will hopefully be rewritten anytime soon :) */
-/*------------------------------------------------------------------*/
-#define EPS     0.00001
 
-#define POINTS  0
-#define NORMALS 1
-#define TEXTURE 2
+//-----------------------------------------------------------------------------
+//                           Forward Declarations                              
+//-----------------------------------------------------------------------------
+template <class VectorTypeT>
+static void subdivide(const typename std::vector<VectorTypeT> &dataIn,
+                      typename std::vector<VectorTypeT> *dataOut,
+                      bool closed);
 
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-struct grid
+template <class VectorTypeT>
+static void subdivide(const typename std::vector<VectorTypeT> &dataIn,
+                      typename std::vector<VectorTypeT> *dataOut,
+                      UInt32 nTimes,
+                      bool close);
+
+
+//-----------------------------------------------------------------------------
+// Constructor
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+ExtrusionSurface::ExtrusionSurface(const std::vector<Pnt2f> &crossSection,
+                                   const std::vector<Quaternion> &orientation,
+                                   const std::vector<Vec2f> &scale,
+                                   const std::vector<Pnt3f> &spine,
+                                   Real32 creaseAngle,
+                                   bool beginCap,
+                                   bool endCap,
+                                   bool ccw,
+                                   bool convex,
+                                   bool buildNormal,
+                                   bool buildTexCoord) :
+
+    _creaseAngle(creaseAngle),
+    _beginCap(beginCap),
+    _endCap(endCap),
+    _ccw(ccw),
+    _convex(convex),
+    _createNormals(buildNormal),
+    _createTexCoords(buildTexCoord),
+    _primitiveCount(0),
+    _vertexCount(0),
+    _totalVertexCount(0)
 {
-    /*v parametrizes along the cross section, u along spine*/
-    UInt32  subfields;
-
-    UInt32  u_wrap[3], v_wrap[3];       /* closed along u or v? (topology) */
-    UInt32  ui_max[3], vi_max[3];       /* number of indices in u and v direction */
-
-    Real32  *data[3];                   /* points, normals, texture coords in this order */
-    Real32  *data_orig[3];              /* backups of the pointers before subdivision */
-
-    UInt32  coords[3];                  /* dimensions for the above vector fields */
-};
-#endif // exclude from doc
-#ifdef OSG_DEBUG_PM
-
-/* these come in handy sometimes */
-static void printMatrix(Real32 *data, int rows, int cols)
-{
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    // initialize cross section
+    if(!crossSection.empty()) 
     {
-        printf("( ");
-        for(j = 0; j < cols; j++)
-        {
-            if(data[i * cols + j] > 100.0)
-            {
-                printf("%-s, ", "BIGNUM");
-            }
-            else if(data[i * cols + j] < -100.0)
-            {
-                printf("%-s, ", "BIGNUM");
-            }
-            else
-            {
-                printf("%-7.4f, ", data[i * cols + j]);
-            }
-        }
-
-        printf(")\n");
+        // copy argument
+        _crossSection.assign(crossSection.begin(), crossSection.end());
+    }
+    else
+    {
+        // copy default
+        FDEBUG(("OSGExtrusion: Empty cross section. Using default.\n"));
+        for(UInt32 i = 0; i < DEF_N_CROSS_SECTION_POINTS; i++)
+            _crossSection.push_back(Pnt2f(DEF_CROSS_SECTION[i]));
     }
 
-    printf("\n");
-}
-
-/* */
-static void printMatrixLayer(Real32 *data, int rows, int cols, int coords,
-                             int offset)
-{
-    int i, j;
-
-    for(i = 0; i < rows; i++)
+    // initialize orientations
+    if(!orientation.empty())
     {
-        printf("( ");
-        for(j = 0; j < cols; j++)
-        {
-            if(data[coords * (i * cols + j) + offset] > 100.0)
-            {
-                printf("%-s, ", "BIGNUM");
-            }
-            else if(data[coords * (i * cols + j) + offset] < -100.0)
-            {
-                printf("%-s, ", "BIGNUM");
-            }
-            else
-            {
-                printf("%-7.4f, ", data[coords * (i * cols + j) + offset]);
-            }
-        }
-
-        printf(")\n");
+        // copy argument
+        _orientation.assign(orientation.begin(), orientation.end());
+    }
+    else
+    {
+        // copy default
+        FDEBUG(("OSGExtrusion: Empty orientation. Using default.\n"));
+        for(UInt32 i = 0; i < DEF_N_ORIENTATION_PARAMS; i++)
+            _orientation.push_back(Quaternion(Vec3f(DEF_ORIENTATION[i]),
+                                              DEF_ORIENTATION[i][3]));
+    }
+    
+    // initialize scale parameters
+    if(!scale.empty())
+    {
+        // copy argument
+        _scale.assign(scale.begin(), scale.end());
+    }
+    else
+    {
+        // copy default
+        FDEBUG(("OSGExtrusion: Empty scale parameter. Using default.\n"));
+        for(UInt32 i = 0; i < DEF_N_SCALE_PARAMS; i++)
+            _scale.push_back(Vec2f(DEF_SCALE[i]));
     }
 
-    printf("\n");
-}
-#endif \
-        \
-    //OSG_DEBUG
 
-/* */
-static Real32 vdist(Real32 *a, Real32 *b)
-{
-    Real32  d[3];
-
-    d[0] = a[0] - b[0];
-    d[1] = a[1] - b[1];
-    d[2] = a[2] - b[2];
-
-    return sqrt(d[0] * d[0] + d[1] * d[1] + d[2] * d[2]);
-}
-
-/* */
-static void calcTextureCoords(grid *grid_in, Real32 *texCoords)
-{
-    //uses the following global variables:
-    Real32  *knots = grid_in->data[POINTS];
-    UInt32  sp = grid_in->ui_max[POINTS];
-    UInt32  cs = grid_in->vi_max[POINTS];
-
-    UInt32  uwrap = grid_in->u_wrap[POINTS];
-    UInt32  vwrap = grid_in->v_wrap[POINTS];
-
-    UInt32  tsp = uwrap ? sp + 1 : sp;
-    UInt32  tcs = vwrap ? cs + 1 : cs;
-
-    UInt32  i, j;
-    UInt32  imsp, jmcs;                 /*these mean i mod spinepoints and ...*/
-
-    for(i = 0; i < tsp; i++)
+    // initialize spine
+    if(!spine.empty())
     {
-        for(j = 0; j < tcs; j++)
-        {
-            imsp = uwrap ? i % (tsp - 1) : i;
-            jmcs = vwrap ? j % (tcs - 1) : j;
-
-            //        FLOG(("tex (%i,%i) (%i,%i)\n",j,i,jmcs,imsp));
-            if(i > 0 && j > 0)
-            {
-                /*parameter along spine*/
-                texCoords[2 * (i * tcs + j)] =
-                    (
-                        vdist(knots + 3 * ((i - 1) * cs + jmcs),
-                                              knots + 3 * (imsp * cs + jmcs)) +
-                        texCoords[2 * ((i - 1) * tcs + jmcs)]
-                    );
-
-                /*parameter along crossection*/
-                texCoords[2 * (i * tcs + j) + 1] =
-                    (
-                        vdist(knots + 3 * (imsp * cs + (j - 1)),
-                                              knots + 3 * (imsp * cs + jmcs)) +
-                        texCoords[2 * (imsp * tcs + (j - 1)) + 1]
-                    );
-            }
-            else if(i == 0)
-            {
-                if(j == 0)
-                {
-                    texCoords[0] = 0.0;
-                    texCoords[1] = 0.0;
-                }
-                else
-                {
-                    texCoords[2 * j] = 0.0;
-                    texCoords[2 * j + 1] =
-                        (
-                            vdist(knots + 3 * (j - 1), knots + 3 * jmcs) +
-                            texCoords[2 * (j - 1) + 1]
-                        );
-                }
-            }
-            else
-            {
-                //i != 0 => j = 0;
-                texCoords[2 * i * tcs] =
-                    (
-                        vdist(knots + 3 * (i - 1) * cs, knots + 3 * imsp * cs) +
-                        texCoords[2 * (i - 1) * tcs]
-                    );
-                texCoords[2 * i * tcs + 1] = 0.0;
-            }
-        }
+        // copy argument
+        _spine.assign(spine.begin(), spine.end());
     }
-
-    /*
-  printMatrix(texCoords, tsp, 2*tcs);
-  printMatrixLayer(texCoords, tsp, tcs, 2, 0);
-  printMatrixLayer(texCoords, tsp, tcs, 2, 1);
-  */
-    for(UInt32 i = 0; i < tsp; i++)
+    else
     {
-        for(UInt32 j = 0; j < tcs; j++)
-        {
-            texCoords[2 * (i * tcs + j)] /= texCoords[2 * ((tsp - 1) * tcs + j)];
-            texCoords[2 * (i * tcs + j) + 1] /= texCoords[2 * (i * tcs + (tcs - 1)) + 1];
-        }
-    }
-
-    /*
-  printMatrix(texCoords, tsp, 2*tcs);
-  printMatrixLayer(texCoords, tsp, tcs, 2, 0);
-  printMatrixLayer(texCoords, tsp, tcs, 2, 1);
-  */
-}
-
-/* This is the interpolation along the crosssection */
-static void subdivRows(Real32 *col_in, grid *grid_in, UInt32 subfield,
-                       UInt32 rows, UInt32 cols, Real32 *col_out)
-{
-    UInt32  i, j, lc;
-    int     jm1_mod_cols;
-
-    if(!grid_in->v_wrap[subfield])
-    {
-        lc = 2 * cols - 1;
-
-        for(i = 0; i < rows; i++)
-        {
-            /*fill in the old points*/
-            for(j = 0; j < cols; j++)
-            {
-                col_out[2 * (i * lc + j)] = col_in[i * cols + j];
-            }
-
-            /* do subdivision on inner points (spare first and last 
-            subdivision point) */
-            for(j = 1; j < cols - 2; j++)
-            {
-                col_out[2 * (i * lc + j) + 1] = 1.0f / 16.0f *
-                    (
-                        9.0f * col_in[i * cols + j    ] +
-                        9.0f * col_in[i * cols + j + 1] -
-                               col_in[i * cols + j + 2] -
-                               col_in[i * cols + j - 1]
-                    );
-            }
-
-            col_out[2 * i * lc + 1] = (1.0f / 8.0f) *
-                (
-                    3.0f * col_in[i * cols] +
-                    6.0f * col_in[i * cols + 1] -
-                    1.0f * col_in[i * cols + 2]
-                );
-
-            col_out[2 * i * lc + (lc - 2)] = (1.0f / 8.0f) *
-                (
-                    3.0f * col_in[i * cols + (cols - 1)] + 6.0f * col_in[i * cols +
-                        (cols - 2)] - 1.0f * col_in[i * cols + (cols - 3)]
-                );
-        }
-    }
-    else                                /*Closed crossection*/
-    {
-        lc = 2 * cols;
-
-        for(i = 0; i < rows; i++)
-        {
-            /*fill in what is known from the last subdivision step*/
-            for(j = 0; j < cols; j++)
-            {
-                col_out[2 * (i * lc + j)] = col_in[i * cols + j];
-            }
-
-            /*do subdivision on all points (wrapping around where neccessary)*/
-            for(j = 0; j < cols; j++)
-            {
-                jm1_mod_cols = (int) (j - 1);
-                jm1_mod_cols %= (int) cols;
-
-                /*mind the %-operator only delivers the remainder!!!*/
-                if(jm1_mod_cols < 0)
-                    jm1_mod_cols += cols;
-
-                col_out[2 * (i * lc + j) + 1] = 1.0f / 16.0f *
-                    (
-                        9.0f * col_in[i * cols + j] + 
-                        9.0f * col_in[i * cols + (j + 1 ) % cols] -
-                        1.0f * col_in[i * cols + (j + 2) % cols] -
-                        1.0f * col_in[i * cols + jm1_mod_cols]
-                    );
-            }
-        }
+        // copy default
+        FDEBUG(("OSGExtrusion: Empty spine. Using default.\n"));
+        for(UInt32 i = 0; i < DEF_N_SPINE_POINTS; i++)
+            _spine.push_back(Pnt3f(DEF_SPINE[i]));
     }
 }
 
-/* This function expects its input like the output of subdivRows looks like */
 
-/* This is the interpolation along the spine */
-static void subdivCols(Real32 *col_in, grid *grid_in, UInt32 subfield,
-                       UInt32 rows, UInt32 cols, Real32 *col_out)
+//-----------------------------------------------------------------------------
+// Returns true if the member fields describe a valid extrusion surface and
+// false otherwise.
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+bool ExtrusionSurface::verifyInput(void)
 {
-    UInt32  i, j, lc, lr;
-    UInt32  u_wrap, v_wrap;
-    int     im1_mod_cols;
-
-    u_wrap = grid_in->u_wrap[subfield];
-    v_wrap = grid_in->v_wrap[subfield];
-
-    /*calculate dimension of output*/
-    lr = u_wrap ? 2 * rows : 2 * rows - 1;
-    lc = v_wrap ? 2 * cols : 2 * cols - 1;
-
-    if(!u_wrap)
+    if(_crossSection.size() < 2)
     {
-        /*iterate over newly inserted column points*/
-        /*no subdivision for first and last row*/
-        for(i = 1; i < rows - 2; i++)
-        {
-            for(j = 0; j < lc; j++)
-            {
-                col_out[(2 * i + 1) * lc + j] = 1.0f / 16.0f *
-                    (
-                        9.0f * col_in[2 * i * lc + j] +
-                        9.0f * col_out[2 * (i + 1) * lc + j] -
-                              col_in[2 * (i + 2) * lc + j] -
-                              col_in[2 * (i - 1) * lc + j]
-                    );
-            }
-        }
+        FWARNING(("OSGExtrusion:checkInput: Cross section is degenerate\n"));
+        return false;
+    }
 
-        /*fill in second upper and lower row*/
-        for(j = 0; j < lc; j++)
-        {
-            col_out[lc + j] = 1.0f / 8.0f *
-                (
-                    3.0f * col_in[j] +
-                    6.0f * col_in[2 * lc + j] -
-                    1.0f * col_in[4 * lc + j]
-                );
+    if(_spine.size() < 2)
+    {
+        FWARNING(("OSGExtrusion:checkInput: spine is degenerate\n"));
+        return false;
+    }
 
-            col_out[(lr - 2) * lc + j] = 1.0f / 8.0f *
-                (
-                    3.0f * col_in[(lr - 1) * lc + j] +
-                    6.0f * col_in[(lr - 3) * lc + j] -
-                    1.0f * col_in[(lr - 5) * lc + j]
-                );
+    return true;
+}
+
+
+//-----------------------------------------------------------------------------
+// Determines the topology of the sweep surface and sets the topology member
+// variables accordingly.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::determineTopology(void)
+{
+    // compute vector differences between start and end points
+    Vec3f sDiff = _spine.back() - _spine.front();
+    Vec2f cDiff = _crossSection.back() - _crossSection.front();
+
+    // determine whether the curves are closed
+    _spineClosed = (sDiff.length() < Eps) ? true : false;
+    _crossSectionClosed = (cDiff.length() < Eps) ? true : false;
+    
+    FDEBUG(("OSGExtrusion:checkInput: Topology: (Spine: %s / Cross-section: %s)\n", 
+            (_spineClosed ? "Closed" : "Open"),
+            (_crossSectionClosed ? "Closed" : "Open")));
+}
+
+
+//-----------------------------------------------------------------------------
+// Refines the cross-section n times using a simple subdivision scheme.
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::refineCrossSection(UInt32 nTimes)
+{
+    FDEBUG(("OSGExtrusion:refineCrossSection: Refinining %d times\n",nTimes));
+    std::vector<Vec2f> output;
+
+    // cast <Pnt2f> to <Vec2f> because we need the vector interface
+    std::vector<Vec2f> & csVec2f ((std::vector<Vec2f>&)(_crossSection));
+    subdivide(csVec2f, &output, nTimes, _crossSectionClosed);
+
+    // swap output data into _crossSection
+    output.swap(csVec2f);
+}
+
+//-----------------------------------------------------------------------------
+// Refines the spine n times using a simple subdivision scheme.
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::refineSpine(UInt32 nTimes)
+{
+    FDEBUG(("OSGExtrusion:refineSpine: Refinining %d times\n",nTimes));
+
+    std::vector<Vec3f> output;
+
+    // cast <Pnt3f> to <Vec3f> because we need the vector interface    
+    std::vector<Vec3f> & spVec3f ((std::vector<Vec3f>&)(_spine));
+    subdivide<Vec3f>(spVec3f, &output, nTimes, _spineClosed);
+
+    // swap output data into _spine
+    output.swap(spVec3f);
+}
+
+
+//-----------------------------------------------------------------------------
+// Refines the scale parameters n times using a simple subdivision scheme.
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::refineScale(UInt32 nTimes)
+{
+    FDEBUG(("OSGExtrusion:refineScale: Refinining %d times\n",nTimes));
+
+    std::vector<Vec2f> output;
+    subdivide<Vec2f>(_scale, &output, nTimes, _spineClosed);
+
+    // swap output data into _scale
+    output.swap(_scale);
+}
+
+
+//-----------------------------------------------------------------------------
+// Refines the scale parameters n times using a simple subdivision scheme.
+//
+// Todo: Not implemented yet
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::refineOrientation(UInt32 nTimes)
+{
+    FFATAL(("OSGExtrusion:refineOrientation: Not Implemented\n"));
+}
+
+
+//-----------------------------------------------------------------------------
+// Calculates the y-axes of the base transform from the cross section plane
+// to the spine-aligned cross section plane (SCP). The y- and z-axes are
+// expected to be already stored in the _transform vector.
+//
+// The computed x-axes are stored in the _transform vector.
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcXAxes(void)
+{
+    std::vector<Matrix>::iterator tIt = _transform.begin();
+
+    // Either of the two cases below implies the cross product of
+    // the y- and the z-axis vanish (and so do all x-axes)
+    if(!_spineCollinear && !_revolutionSurface)
+    {
+        for(; tIt != _transform.end(); ++tIt)
+        {
+            Vec3f xAxis = calcXAxis(tIt);
+            (*tIt)[0].setValue(xAxis);
         }
     }
     else
     {
-        /*interpolation with wraparound*/
-        for(i = 0; i < rows; i++)
+        (*tIt)[0].setValue(Vec3f(0.f, 0.f, 0.f));
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+// Calculates the y-axes of the base transform from the cross-section plane
+// to the spine-aligned cross section plane (SCP). If no y-axis could be
+// defined it sets the _revolutionSurface flag to true (and false otherwise.)
+//
+// The computed y-axes are stored in the _transform vector.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcYAxes(void)
+{
+    bool yAxisDefined = false;
+
+    std::vector<Pnt3f>::const_iterator  spineIt = _spine.begin();
+    std::vector<Matrix>::iterator tIt = _transform.begin();
+    for(; spineIt != _spine.end(); ++spineIt, ++tIt)
+    {
+        Vec3f yAxis = calcNonUnitYAxis(spineIt);
+        if(yAxis.length() > Eps) // we have found a valid tangent
         {
-            for(j = 0; j < lc; j++)
+            yAxis.normalize();
+            if(!yAxisDefined)
             {
-                im1_mod_cols = (int) (i - 1);
-                im1_mod_cols %= rows;
+                FDEBUG(("OSGExtrusion:calcYAxes: yAxis is defined\n"));
+                yAxisDefined = true;
 
-                if(im1_mod_cols < 0)
-                    im1_mod_cols += rows;
-
-                col_out[(2 * i + 1) * lc + j] =
-                    (
-                        9.0f * col_in[2 * i * lc + j] +
-                        9.0f * col_out[2 * ((i + 1) % rows) * lc + j] -
-                              col_in[2 * ((i + 2) % rows) * lc + j] -
-                              col_in[2 * im1_mod_cols * lc + j]
-                    ) /
-                    16.0f;
+                // assign found y-axis to all transforms
+                // up to and including the current one
+                std::vector<Matrix>::iterator yIt;
+                for(yIt = _transform.begin(); yIt != (tIt + 1); ++yIt)
+                    (*yIt)[1].setValue(yAxis);
+            }
+            else 
+            {
+                // assign found y-axis to the current transform only
+                (*tIt)[1].setValue(yAxis);
             }
         }
-    }
-}
-
-/* */
-static void initGrid(grid *grid_in)
-{
-    UInt32  k;
-
-    grid_in->subfields = 3;
-
-    for(k = 0; k < 3; k++)
-    {
-        grid_in->ui_max[k] = 0;
-        grid_in->vi_max[k] = 0;
-        grid_in->coords[k] = 0;
-
-        grid_in->u_wrap[k] = 0;
-        grid_in->v_wrap[k] = 0;
-
-        grid_in->data[k] = NULL;
-        grid_in->data_orig[k] = NULL;
-    }
-}
-
-/* */
-static int connectSubfieldToGrid(Real32 *data_in, UInt32 subfield, grid *grid_out)
-{
-    if(subfield < grid_out->subfields)
-    {
-        if(grid_out->data[subfield] != NULL)
-            return -1;
-
-        grid_out->data[subfield] = data_in;
-
-        /*      for(UInt32 k = 0; k < grid_out->coords[subfield]; k++)
+        else if(yAxisDefined)
         {
-          printMatrixLayer(data_in, grid_out->ui_max[subfield], 
-                           grid_out->vi_max[subfield], 
-                           grid_out->coords[subfield], k); 
-        }
-      */
-        /* make a backup since the function which registered (and allocated) */
-        /* the memory might be a different one than that in which we have */
-        /* to free the original (nonsubdivided) data */
-        grid_out->data_orig[subfield] = data_in;
-    }
-
-    return 0;
-}
-
-/* */
-static void freeGrid(grid *grid_in, UInt32 freeOriginal)
-{
-    UInt32  k;
-
-    for(k = 0; k < grid_in->subfields; k++)
-    {
-        if(grid_in->data[k] != NULL)
-            free(grid_in->data[k]);
-
-        if(freeOriginal && grid_in->data_orig[k] != NULL)
-        {
-            free(grid_in->data_orig[k]);
+            // reuse y-axis determined during last step
+            (*tIt)[1] = (*(tIt - 1))[1];
         }
     }
+
+    // all spine points coincided => surface of revolution
+    _revolutionSurface = !yAxisDefined;
 }
 
-/* */
-static void setGridTopology(grid *grid_in, UInt32 subfield, UInt32 rows,
-                            UInt32 cols, UInt32 dim, UInt32 u_wrap, UInt32 v_wrap)
+//-----------------------------------------------------------------------------
+// Calculates the z-axes of the base transform from the cross-section plane (CP)
+// to the spine-aligned cross section plane (SCP). If no z-axis could be
+// defined it sets the _spineCollinear flag to true (and false otherwise.)
+//
+// The computed z-axes are stored in the _transform vector.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcZAxes(void)
 {
-    grid_in->u_wrap[subfield] = u_wrap;
-    grid_in->v_wrap[subfield] = v_wrap;
-    grid_in->vi_max[subfield] = cols;
-    grid_in->ui_max[subfield] = rows;
-    grid_in->coords[subfield] = dim;
-
-    FDEBUG(("Setting Topology: uWrap: %b, vWrap: %b\n", u_wrap, v_wrap));
-    FDEBUG(("Setting Topology: uValues: %i, vValues: %i\n", rows, cols));
-}
-
-/* */
-static void normalizeGrid(grid *grid_in, UInt32 subfield)
-{
-    UInt32  i, j, dim;
-    UInt32  rows, cols;
-    Real32  *base;
-    Real32  length;
-
-    base = grid_in->data[subfield];
-    dim = grid_in->coords[subfield];
-    cols = grid_in->ui_max[subfield];
-    rows = grid_in->vi_max[subfield];
-
-    for(i = 0; i < dim * rows * cols; i += dim)
+    bool zAxisDefined = false;
+    
+    std::vector<Pnt3f>::const_iterator  spineIt = _spine.begin();
+    std::vector<Matrix>::iterator tIt = _transform.begin();
+    for(; spineIt != _spine.end(); ++spineIt, ++tIt)
     {
-        length = 0.0;
-        for(j = 0; j < dim; j++)
+        Vec3f zAxis = calcNonUnitZAxis(spineIt);
+        if(zAxis.length() > Eps)
         {
-            length += base[i + j] * base[i + j];
-        }
-
-        length = sqrt(length);
-
-        if(length > 0.0)
-        {
-            for(j = 0; j < dim; j++)
-                base[i + j] /= length;
-        }
-    }
-}
-
-/* this one splits the grid into its coordinate layers              */
-
-/* which is probably a bad idea at least for low subdivision levels */
-static void splitCoords(grid *grid_in, UInt32 subfield, Real32 **d_out)
-{
-    Real32  *cur_out = NULL;
-    Real32  *d_in = NULL;
-
-    UInt32  i, j, k;
-
-    UInt32  cols, rows, coords;
-
-    d_in = grid_in->data[subfield];
-
-    rows = grid_in->ui_max[subfield];
-    cols = grid_in->vi_max[subfield];
-
-    coords = grid_in->coords[subfield];
-
-    for(k = 0; k < coords; k++)
-    {
-        cur_out = (Real32 *) malloc(rows * cols * sizeof(Real32));
-        if(cur_out == NULL)
-        {
-            exit(EXIT_FAILURE);
-        }
-
-        for(i = 0; i < rows; i++)
-        {
-            for(j = 0; j < cols; j++)
+            zAxis.normalize();
+            if(!zAxisDefined)
             {
-                cur_out[i * cols + j] = d_in[coords * (i * cols + j) + k];
-            }
-        }
+                FDEBUG(("OSGExtrusion:calcZAxes: zAxis is defined\n"));
+                zAxisDefined = true;
+                
+                // set the current z-Axis for the current transform
+                (*tIt)[2].setValue(zAxis);
 
-        d_out[k] = cur_out;
-    }
-}
-
-/* Here we free the coordinate planes and allocate the memory for the merged */
-
-/* grid.                                                                     */
-static void mergeCoordsToGrid(Real32 **d_in, grid *grid_in, UInt32 subfield,
-                              UInt32 rows, UInt32 cols, Real32 **d_out)
-{
-    Real32  *cur_out;
-    Real32  *d_out_ptr;
-    UInt32  coords;
-    UInt32  i, j, k;
-
-    grid_in->ui_max[subfield] = rows;
-    grid_in->vi_max[subfield] = cols;
-    coords = grid_in->coords[subfield];
-
-    if((cur_out = (Real32 *) malloc(rows * cols * coords * sizeof(Real32))) == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    for(k = 0; k < coords; k++)
-    {
-        //      printMatrix(d_in[k], rows, cols);
-        for(i = 0; i < rows; i++)
-        {
-            for(j = 0; j < cols; j++)
-            {
-                d_out_ptr = d_in[k] + i * cols + j;
-                cur_out[coords * (i * cols + j) + k] = *d_out_ptr;
-            }
-        }
-
-        free(d_in[k]);
-        d_in[k] = NULL;
-    }
-
-    *d_out = cur_out;
-}
-
-/* */
-static void freeCoordGrids(Real32 **d_in, UInt32 coords)
-{
-    UInt32  k;
-
-    for(k = 0; k < coords; k++)
-    {
-        free(d_in[k]);
-        d_in[k] = NULL;
-    }
-}
-
-/*Here we  write back to the subfield*/
-static void subdivMeshSubfield(UInt32 subdivs, grid *grid_in, UInt32 subfield)
-{
-    UInt32  i, k;
-
-    Real32  **d_in = NULL;
-    Real32  **d_out = NULL;
-
-    Real32  *last_mesh = NULL, *cur_mesh = NULL;
-    Real32  *merged_mesh = NULL;
-
-    UInt32  rows, cols;
-    UInt32  coords;
-    UInt32  lc, lr;
-
-    coords = grid_in->coords[subfield];
-
-    d_in = (Real32 **) (malloc(coords * sizeof(Real32 *)));
-
-    d_out = (Real32 **) (malloc(coords * sizeof(Real32 *)));
-
-    if(d_in == NULL || d_out == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    for(k = 0; k < coords; k++)
-    {
-        d_in[k] = NULL;
-        d_out[k] = NULL;
-    }
-
-    /* this function allocates memory for the d[i] */
-    splitCoords(grid_in, subfield, d_in);
-
-    for(i = 0; i < coords; i++)
-    {
-        last_mesh = d_in[i];
-
-        rows = grid_in->ui_max[subfield];
-        cols = grid_in->vi_max[subfield];
-
-        for(k = 0; k < subdivs; k++)
-        {
-            lc = grid_in->v_wrap[subfield] ? 2 * cols : 2 * cols - 1;
-            lr = grid_in->u_wrap[subfield] ? 2 * rows : 2 * rows - 1;
-
-            if((cur_mesh = (Real32 *) malloc(lc * lr * sizeof(Real32))) == NULL)
-            {
-                exit(EXIT_FAILURE);
-            }
-
-            subdivRows(last_mesh, grid_in, subfield, rows, cols, cur_mesh);
-            subdivCols(cur_mesh, grid_in, subfield, rows, cols, cur_mesh);
-
-            if(k > 0)
-                free(last_mesh);
-
-            last_mesh = cur_mesh;
-            cols = lc;
-            rows = lr;
-        }
-
-        d_out[i] = cur_mesh;
-
-        if(subdivs > 0)
-            free(d_in[i]);
-    }
-
-    mergeCoordsToGrid(d_out, grid_in, subfield, rows, cols, &merged_mesh);
-
-    /*assign subdivided mesh*/
-    grid_in->data[subfield] = merged_mesh;
-
-    freeCoordGrids(d_out, coords);
-
-    free(d_in);
-    free(d_out);
-}
-
-/* */
-static void subdivSurface(UInt32 subdivs, grid *grid_in)
-{
-    /*do subdivisions of the available fields*/
-    if(subdivs > 0)
-    {
-        for(UInt32 i = 0; i < grid_in->subfields; i++)
-        {
-            /*0 = points, 1 = normals, 2 = textures */
-            if(grid_in->data[i] != NULL)
-            {
-                subdivMeshSubfield(subdivs, grid_in, i);
-            }
-
-            if(grid_in->data[1] != NULL)
-            {
-                normalizeGrid(grid_in, 1);
-            }
-        }
-    }
-}
-
-/* end of subdivision helpers                                                */
-
-/*---------------------------------------------------------------------------*/
-static void createSCP(const std::vector<Pnt3f> &spine, bool *pSpineClosed,
-                      bool *pPureRotation, std::vector<Matrix> &SCP)
-{
-    /* This function makes quite heavy use of the .length() function   */
-    /* For epsilon checks the 1-Norm or Inf.-Norm would probably suffice. */
-    Vec3f   yUnit(0.0, 1.0, 0.0);
-    Vec3f   zUnit(0.0, 0.0, 1.0);
-
-    UInt32 sp_len = spine.size();
-
-    bool spineClosed = false;
-    bool yFound = false;
-    bool zFound = false;
-
-    *pPureRotation = false;
-
-    SCP.resize(sp_len);
-
-    if((spine[0] - spine[spine.size() - 1]).length() < EPS)
-    {
-        spineClosed = true;
-        *pSpineClosed = true;
-    }
-    else
-    {
-        spineClosed = false;
-        *pSpineClosed = false;
-    }
-
-    /* determine the SCPBaseTransformation for the first crosssection */
-    if(spineClosed)
-    {
-        SCP[0][1].setValue(spine[1] - spine[sp_len - 2]);
-
-        if(SCP[0][1].length() > EPS)    /* translation */
-        {
-            Vec3f tmp1 = spine[1] - spine[0];
-            Vec3f tmp2 = spine[sp_len - 2] - spine[sp_len - 1];
-
-            yFound = true;
-
-            SCP[0][2].setValue(tmp1.cross(tmp2));
-
-            if(SCP[0][2].length() > EPS)
-                zFound = true;
-        }
-    }
-    else                                /* spine is open */
-    {
-        SCP[0][1].setValue(spine[1] - spine[0]);
-
-        if(SCP[0][1].length() > EPS)
-        {
-            yFound = true;
-        }
-    }
-
-    for(UInt32 i = 1; i < sp_len - 1; i++)
-    {
-        // jbher
-        SCP[i][1].setValue(spine[i + 1] - spine[i - 1]);
-
-        if(SCP[i][1].length() > EPS)    /* y_Axis defined */
-        {
-            /* If this is the first defined y-Axis we have to */
-            /* set up the previous ones exactly like this one */
-            if(!yFound)
-            {
-                yFound = true;
-
-                for(UInt32 j = 0; j < i; j++)
-                    SCP[j][1] = SCP[i][1];
-            }
-
-            SCP[i][2].setValue((spine[i + 1] - spine[i]).cross(spine[i - 1] - spine[i]));
-
-            if(SCP[i][2].length() > EPS)
-            {
-                if(!zFound)
+                // assign found z-axis to all previous transforms
+                std::vector<Matrix>::iterator zIt;
+                for(zIt = _transform.begin(); zIt != tIt; ++zIt)
                 {
-                    zFound = true;
-
-                    for(UInt32 j = 0; j < i; j++)
-                        SCP[j][2] = SCP[i][2];
+                    (*zIt)[2].setValue(zAxis);
                 }
             }
-            else                        /* z_Axis is not defined, take the last one */
-            if(zFound)
+            else // assign found z-axis to this basis _only_
             {
-                SCP[i][2] = SCP[i - 1][2];
-            }
-        }
-        else
-        {
-            if(yFound)
-            {
-                SCP[i][1] = SCP[i - 1][1];
-            }
-        }
-    }
+                (*tIt)[2].setValue(zAxis);
 
-    /* SCPBaseTransformation of the last crosssection */
-    if(spineClosed)
-    {
-        /* no translation during last step */
-        if(SCP[0][1].length() < EPS)
-        {
-            if(yFound)
-            {
-                SCP[sp_len - 1][1] = SCP[sp_len - 2][1];
-            }
-            else
-            {
-                /* for a surface of revolution we can't define */
-                /* a basis transformation, so we don't make one */
-                SCP[0][1].setValue(yUnit);
-                SCP[0][2].setValue(zUnit);
+                // as the zAxis is defined tIt - 1 contains a valid value 
+                Vec3f prevZAxis((*(tIt - 1))[2][0],
+                                (*(tIt - 1))[2][1],
+                                (*(tIt - 1))[2][2]);
 
-                /* One transformation for all spinepoints */
-                SCP.resize(1);
-            }
-        }
-        else                            /* translation during last step */
-        {
-            SCP[sp_len - 1][1] = SCP[0][1];
-        }
-
-        if(SCP[0][2].length() < EPS)
-        {
-            if(zFound)
-            {
-                SCP[sp_len - 1][2] = SCP[sp_len - 2][2];
-            }
-            else                        /* In this case the whole spine is collinear */
-            {
-                if(yFound)
+                // check whether the z-axis needs to be flipped
+                if(prevZAxis.dot(zAxis) + Eps < 0.f)
                 {
-                    Quaternion quat;
-                    Vec3f v(SCP[0][1]);
-
-                    quat.setValue(yUnit, v);
-                    quat.getValue(SCP[0]);
-
-                    SCP.resize(1);
+                    FDEBUG(("OSGExtrusion:calcZAxes: Flipping z-axis\n"));
+                    zAxis.negate();
                 }
-                else
-                {
-                    /* for a surface of revolution we can't define */
-                    /* a basis transformation */
-                    SCP[0][1].setValue(yUnit);
-                    SCP[0][2].setValue(zUnit);
 
-                    /* One transformation for all spinepoints */
-                    SCP.resize(1);
-
-                    *pPureRotation = true;
-                }
+                // assign zAxis to current transform
+                (*tIt)[2].setValue(zAxis);
             }
         }
-    }
-    else                                /* spine is open */
+        else if(zAxisDefined)
+        {
+            // reuse previous value
+            (*tIt)[2] = (*(tIt - 1))[2];
+        }
+    } // end for
+
+    // All cross products vanished => spine has no non-collinear part
+    // and is thus composed of collinear parts and revolutions only
+    _spineCollinear = !zAxisDefined;
+}
+
+//-----------------------------------------------------------------------------
+// Calculates the affine basis transformations from the cross-section plane
+// (i.e. the xz-plane) to the spine-aligne cross-section plane (SCP) and
+// determines whether:
+//
+// 1. the surface has a collinear spine,
+// 2. the surface is a pure surface of revolution
+// 3. the surface is not of one of the above special types.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcTransforms(void)
+{
+    _transform.clear();
+
+    // initialize the transformations with Id
+    _transform.resize(_spine.size());
+
+    /* X3D Spec:
+     * The SCP is computed by first computing its Y-axis and Z-axis, then 
+     * taking the cross product of these to determine the X-axis. These three 
+     * axes are then used to determine the rotation value needed to rotate the
+     * Y=0 plane to the SCP. This results in a plane that is the approximate 
+     * tangent of the spine at each point, as shown in Figure 13.5.
+     */
+    calcZAxes(); // sets bool _spineCollinear
+    calcYAxes(); // sets bool _revolutionSurface
+
+    // We need to make a difference between surfaces having at least
+    // one non-trivial collinear part in their spine and surfaces created
+    // by pure revolution of the crossection.
+    if(_revolutionSurface)
     {
-        SCP[sp_len - 1][1].setValue(spine[sp_len - 1] - spine[sp_len - 2]);
+        _spineCollinear = false;
+    }
+    calcXAxes(); // uses _spineCollinear and _revolutionSurface
 
-        /* no translation during last step */
-        if(SCP[sp_len - 1][1].length() < EPS)
-        {
-            if(yFound)
-            {
-                SCP[sp_len - 1][1] = SCP[sp_len - 2][1];
-            }
-        }
-
-        if(zFound)
-        {
-            SCP[sp_len - 1][2] = SCP[sp_len - 2][2];
-        }
-        else                            /* In this case the whole spine is collinear */
-        {
-            Quaternion quat;
-            Vec3f v(SCP[0][1]);
-
-            quat.setValue(yUnit, v);
-            quat.getValue(SCP[0]);
-
-            /* One transformation for all spinepoints */
-            SCP.resize(1);
-        }
+    /* X3D Spec:
+     *
+     * If the entire spine is collinear, the SCP is computed by finding the 
+     * rotation of a vector along the positive Y-axis (v1) to the vector formed
+     * by the spine points (v2). The Y=0 plane is then rotated by this value.
+     *
+     * If two points are coincident, they both have the same SCP. If each point
+     * has a different orientation value, then the surface is constructed by 
+     * connecting edges of the cross-sections as normal. This is useful in 
+     * creating revolved surfaces.
+     */
+    Matrix rotation; // m = Id and thus ok for revolution case
+    if(_spineCollinear && !_revolutionSurface)
+    {
+        // calculate the rotation that rotates the y unit vector to the
+        // direction of the spine.
+        Vec3f v1(0.f, 1.f, 0.f);
+        Vec3f v2(_transform[0][1]);
+            
+        Quaternion q;
+        q.setValue(v1, v2);
+        q.getValue(rotation);
     }
 
-    for(UInt32 i = 0; i < SCP.size(); i++)
+    std::vector<Matrix>::iterator tIt             = _transform.begin();
+    std::vector<Pnt3f>::const_iterator spineIt    = _spine.begin();
+    std::vector<Vec2f>::const_iterator scaleIt    = _scale.begin(); 
+    std::vector<Quaternion>::const_iterator rotIt = _orientation.begin();
+
+    // calculate an affine transformation for the cross-section at
+    // each spine point
+    for(; spineIt != _spine.end(); ++spineIt, ++tIt)
     {
-        if(i > 0)
+        // special cases
+        if(_spineCollinear || _revolutionSurface)
         {
-            if(SCP[i][2].dot(SCP[i - 1][2]) < 0)
-                SCP[2].negate();
-        }
+            // defines the x,y and z-axes in this case
+            *tIt = rotation;
+        }        
 
-        SCP[i][0] = SCP[i][1].cross(SCP[i][2]);
+        // setup transform of the CP
+        Matrix cSPlaneTransform;
 
-        SCP[i][0].normalize();
-        SCP[i][1].normalize();
-        SCP[i][2].normalize();
+        // Scale the x- and z-axes
+        cSPlaneTransform[0] *= (*scaleIt)[0];
+        cSPlaneTransform[2] *= (*scaleIt)[1];
+
+        // apply orientation
+        Matrix orientationMatrix;
+        rotIt->getValue(orientationMatrix);
+        cSPlaneTransform.multLeft(orientationMatrix);
+
+        tIt->mult(cSPlaneTransform);
+
+        // affine translation to the spine point
+        tIt->setTranslate(*spineIt);
+        
+        // The affine transformation *tIt should now
+        //
+        //   1. scale the CP
+        //   2. apply the orientation to the CP        
+        //   2. translate the origin to spine[i]
+        //
+        // in exactly this order.
+
+        /* X3D Spec quotation:
+         *
+         * If the number of scale or orientation values is greater than the
+         * number of spine points, the excess values are ignored. If they 
+         * contain one value, it is applied at all spine points. The 
+         * results are undefined if the number of scale or orientation 
+         * values is greater than one but less than the number of spine 
+         * points. The scale values shall be positive.
+         */
+        
+        // always use last available value
+        if(rotIt + 1   != _orientation.end()) { ++rotIt;   }
+        if(scaleIt + 1 != _scale.end())       { ++scaleIt; }
+    }
+
+    FDEBUG(("OSGExtrusion:calcTransforms: spine collinear: %s\n", 
+            (_spineCollinear ? "true" : "false")));
+
+    FDEBUG(("OSGExtrusion:calcTransforms: revolution surface: %s\n",
+            (_revolutionSurface ? "true" : "false")));
+}
+
+
+//-----------------------------------------------------------------------------
+// Initializes the vertex grid with _spine.size() rows and _crossSection.size()
+// columns.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::initGrid(void)
+{
+    FDEBUG(("OSGExtrusion:initGrid: Initializing vertex grid\n"));
+    
+    _grid.clear();
+    _grid.resize(_spine.size());
+
+    VertexGrid::iterator gridRowIt = _grid.begin();
+    for(Int32 i = 0; i < _spine.size(); i++, ++gridRowIt)
+    {
+        gridRowIt->resize(_crossSection.size());
     }
 }
 
-/* */
-static void calcHullVertices(const std::vector<Pnt2f> &crossSection,
-                             const std::vector<Quaternion> &orientation,
-                             const std::vector<Vec2f> &scale,
-                             const std::vector<Pnt3f> &spine, bool *uWrap,
-                             bool *vWrap, std::vector<Pnt3f> &vertices)
+
+//-----------------------------------------------------------------------------
+// Calculates the vertex positions of the sweep surface by transforming the 
+// cross-section using the _transforms member field.
+//
+// The calculated positions are stored in the position components of the
+// vertices in the _grid.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcSweepSurfacePositions(void)
 {
-    /* Closure detection in u-direction is not yet correct */
-    /* Let u be the parameter of the hull surface in direction of the spine */
-    /* then closure of the spine does not imply that the hull surface is */
-    /* closed in u direction */
-    std::vector < Matrix > SCPBaseTransform;
+    FDEBUG(("OSGExtrusion:calcSweepSurfacePositions: Calculation vertex positions\n"));
 
-    UInt32 sp_len = spine.size();
-    UInt32 cs_len = crossSection.size();
-    UInt32 sc_len = scale.size();
-    UInt32 or_len = orientation.size();
-
-    // bool crossSectionClosed = false;
-    bool spineClosed = false;
-    bool pureRotation = false;
-
-    if((crossSection[0] - crossSection[cs_len - 1]).length() < EPS)
+    if(_grid.size() < _spine.size())
     {
-        // crossSectionClosed = true;
-        *vWrap = true;
-        vertices.resize((cs_len - 1) * sp_len);
-    }
-    else
-    {
-        // crossSectionClosed = false;
-        *vWrap = false;
-        vertices.resize(cs_len * sp_len);
-    }
-
-    UInt32 cs_lim = *vWrap ? cs_len - 1 : cs_len;
-
-    createSCP(spine, &spineClosed, &pureRotation, SCPBaseTransform);
-
-    FLOG(("For the moment we assume spine closed => uWrap of surface"));
-
-    *uWrap = (spineClosed && !pureRotation);
-
-    for(UInt32 i = 0; i < sp_len; i++)
-    {
-        /* the VRML-spec does not say how to interpret the case if */
-        /* we are called with more than one but less than number of */
-        /* spine points orientation/scale values */
-        /* If that occurs we just go on with the last value we know */
-        Matrix SCPRotation;
-        SCPRotation.setIdentity();
-
-        if(or_len > i)
-        {
-            Quaternion tmp = orientation[i];
-
-            //        printMatrix((Real32*)&tmp[0], 1, 4);
-            tmp.getValuesOnly(SCPRotation);
-
-            //        printMatrix((Real32*)&SCPRotation[0], 3, 4);
-        }
-        else
-        {
-            Quaternion tmp = orientation[sp_len - 1];
-
-            //        printMatix((Real32*)&tmp[0], 1, 4);
-            tmp.getValuesOnly(SCPRotation);
-
-            //        printMatrix((Real32*)&SCPRotation[0], 3, 4);
-        }
-
-        if(sc_len >= sp_len)
-        {
-            Vec2f tmp;
-
-            for(UInt32 j = 0; j < cs_lim; j++)
-            {
-                tmp[0] = scale[i][0] * crossSection[j][0];
-                tmp[1] = scale[i][1] * crossSection[j][1];
-
-                vertices[i * cs_lim + j].setValue((SCPRotation[0] * tmp[0] + SCPRotation[2] * tmp[1]));
-
-                /*
-            printf("vertices[%i] : (%f, %f, %f) \n",i*cs_lim+j, 
-                   vertices[i*cs_lim+j][0],
-                   vertices[i*cs_lim+j][1],
-                   vertices[i*cs_lim+j][2]);
-            */
-            }
-        }
-        else
-        {
-            for(UInt32 j = 0; j < cs_lim; j++)
-            {
-                Vec2f tmp;
-
-                if(j < sc_len)
-                {
-                    tmp[0] = scale[i][0] * crossSection[j][0];
-                    tmp[1] = scale[i][1] * crossSection[j][1];
-                }
-                else
-                {
-                    tmp[0] = scale[sc_len - 1][0] * crossSection[j][0];
-                    tmp[1] = scale[sc_len - 1][1] * crossSection[j][1];
-                }
-
-                vertices[i * cs_lim + j].setValue((SCPRotation[0] * tmp[0] + SCPRotation[2] * tmp[1]));
-            }
-        }
-    }
-
-    /* the spine is entirely collinear or consists only of coincident points */
-    if(SCPBaseTransform.size() > 1)
-    {
-        for(UInt32 i = 0; i < sp_len; i++)
-        {
-            /* move the SCP along the spine */
-            SCPBaseTransform[i][3].setValue(spine[i]);
-
-            for(UInt32 j = 0; j < cs_lim; j++)
-            {
-                SCPBaseTransform[i].multMatrixPnt(vertices[i * cs_lim + j]);
-            }
-        }
-    }
-    else
-    {
-        for(UInt32 i = 0; i < sp_len; i++)
-        {
-            /* move the SCP along the spine */
-            SCPBaseTransform[0][3].setValue(spine[i]);
-
-            for(UInt32 j = 0; j < cs_lim; j++)
-            {
-                SCPBaseTransform[0].multMatrixPnt(vertices[i * cs_lim + j]);
-            }
-        }
-    }
-}
-
-/* */
-static void calcHullNormals(const std::vector<Pnt2f> &,
-                            const std::vector<Quaternion> &,
-                            const std::vector<Vec2f> &,
-                            const std::vector<Pnt3f> &,
-                            const std::vector<Pnt3f> &vertices, bool ccw,
-                            bool uWrap, bool vWrap, UInt32 uValues,
-                            UInt32 vValues, std::vector<Vec3f> &normals)
-{
-    normals.resize(uValues * vValues);
-
-    UInt32 sp_len = uValues;
-    UInt32 cs_len = vValues;
-
-    UInt32 i, j;
-
-    UInt32 ll;
-    UInt32 lr;
-    UInt32 ul;
-    UInt32 ur;
-
-    if(ccw)
-    {
-        for(i = 0; i < sp_len - 1; i++)
-        {
-            for(j = 0; j < cs_len - 1; j++)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                /* ll = lower left, ul = upper left ... */
-                ll = i * cs_len + j;
-                lr = i * cs_len + (j + 1);
-                ul = (i + 1) * cs_len + j;
-                ur = (i + 1) * cs_len + (j + 1);
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[ul];
-                dc = vertices[ul] - vertices[lr];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[lr] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[lr] - vertices[ul];
-                dc = vertices[ul] - vertices[ur];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[lr] += n;
-                normals[ul] += n;
-                normals[ur] += n;
-            }
-
-            if(vWrap)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[ul];
-                dc = vertices[ul] - vertices[i * cs_len];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[i * cs_len] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[i * cs_len] - vertices[ul];
-                dc = vertices[ul] - vertices[(i + 1) * cs_len];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[(i + 1) * cs_len] += n;
-            }
-        }
-
-        if(uWrap)
-        {
-            for(j = 0; j < cs_len - 1; j++)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[j];
-                dc = vertices[j] - vertices[lr];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[j] += n;
-                normals[lr] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[lr] - vertices[j];
-                dc = vertices[j] - vertices[j + 1];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[lr] += n;
-                normals[j] += n;
-                normals[j + 1] += n;
-            }
-
-            if(vWrap)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[j];
-                dc = vertices[j] - vertices[i * cs_len];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[j] += n;
-                normals[i * cs_len] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[i * cs_len] - vertices[j];
-                dc = vertices[j] - vertices[0];
-                n = dc.cross(ds);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[i * cs_len] += n;
-                normals[j] += n;
-                normals[0] += n;
-            }
-        }
-    }
-    else
-    {
-        for(i = 0; i < sp_len - 1; i++)
-        {
-            for(j = 0; j < cs_len - 1; j++)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                /* ll = lower left, ul = upper left ... */
-                ll = i * cs_len + j;
-                lr = i * cs_len + (j + 1);
-                ul = (i + 1) * cs_len + j;
-                ur = (i + 1) * cs_len + (j + 1);
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[ul];
-                dc = vertices[ul] - vertices[lr];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[lr] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[lr] - vertices[ul];
-                dc = vertices[ul] - vertices[ur];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[lr] += n;
-                normals[ul] += n;
-                normals[ur] += n;
-            }
-
-            if(vWrap)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[ul];
-                dc = vertices[ul] - vertices[i * cs_len];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[i * cs_len] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[i * cs_len] - vertices[ul];
-                dc = vertices[ul] - vertices[(i + 1) * cs_len];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[ul] += n;
-                normals[(i + 1) * cs_len] += n;
-            }
-        }
-
-        if(uWrap)
-        {
-            for(j = 0; j < cs_len - 1; j++)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[j];
-                dc = vertices[j] - vertices[lr];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[j] += n;
-                normals[lr] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[lr] - vertices[j];
-                dc = vertices[j] - vertices[j + 1];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[lr] += n;
-                normals[j] += n;
-                normals[j + 1] += n;
-            }
-
-            if(vWrap)
-            {
-                Vec3f n;
-                Vec3f ds, dc;
-
-                // Berechnung der Dreiecksflaechen-Normalen I
-                ds = vertices[ll] - vertices[j];
-                dc = vertices[j] - vertices[i * cs_len];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[ll] += n;
-                normals[j] += n;
-                normals[i * cs_len] += n;
-
-                // Berechnung der Dreiecksflaechen-Normalen II
-                ds = vertices[i * cs_len] - vertices[j];
-                dc = vertices[j] - vertices[0];
-                n = ds.cross(dc);
-                n.normalize();
-
-                // Bildung der Eck-Normalen
-                normals[i * cs_len] += n;
-                normals[j] += n;
-                normals[0] += n;
-            }
-        }
-    }
-
-    FLOG(("Normalizing normals, might not be necessary\n"));
-
-    for(i = 0; i < sp_len; i++)
-    {
-        for(j = 0; j < cs_len; j++)
-        {
-            normals[i * cs_len + j].normalize();
-        }
-    }
-}
-
-/* For transition only! To be removed during the next days, 
-   specifically after subdivision cleanup */
-static void convertSubdivisionGrid(grid *ext_grid, UInt32 *_uValues,
-                                   UInt32 *_vValues,
-                                   std::vector<Pnt3f> &_vertices,
-                                   std::vector<Vec3f> &_normals,
-                                   std::vector<Vec2f> &_texCoords)
-{
-    Real32  *vertices = ext_grid->data[POINTS];
-    Real32  *normals = ext_grid->data[NORMALS];
-    Real32  *texCoords = ext_grid->data[TEXTURE];
-
-    UInt32 sp_len = ext_grid->ui_max[POINTS];
-    UInt32 cs_len = ext_grid->vi_max[POINTS];
-
-    *_uValues = sp_len;
-    *_vValues = cs_len;
-
-    UInt32 tot_sp_len = ext_grid->ui_max[TEXTURE];
-    UInt32 tot_cs_len = ext_grid->vi_max[TEXTURE];
-
-    _vertices.resize(sp_len * cs_len);
-
-    UInt32 i, j, k;
-
-    for(i = 0; i < ext_grid->ui_max[POINTS]; i++)
-    {
-        for(j = 0; j < ext_grid->vi_max[POINTS]; j++)
-        {
-            for(k = 0; k < 3; k++)
-            {
-                _vertices[i * cs_len + j][k] = 
-                        vertices[3 * (i * cs_len + j) + k];
-            }
-        }
-    }
-
-    if(normals != NULL)
-    {
-        _normals.resize(sp_len * cs_len);
-
-        for(i = 0; i < ext_grid->ui_max[NORMALS]; i++)
-        {
-            for(j = 0; j < ext_grid->vi_max[NORMALS]; j++)
-            {
-                for(k = 0; k < 3; k++)
-                {
-                    _normals[i * cs_len + j][k] = 
-                            normals[3 * (i * cs_len + j) + k];
-                }
-            }
-        }
-    }
-
-    if(texCoords != NULL)
-    {
-        _texCoords.resize(tot_sp_len * tot_cs_len);
-
-        for(i = 0; i < ext_grid->ui_max[TEXTURE]; i++)
-        {
-            for(j = 0; j < ext_grid->vi_max[TEXTURE]; j++)
-            {
-                for(k = 0; k < 2; k++)
-                {
-                    _texCoords[i * tot_cs_len + j][k] = 
-                            texCoords[2 * (i * tot_cs_len + j) + k];
-                }
-            }
-        }
-    }
-
-    /* the second argument is a flag which signals if the original grid */
-    /* constructed during linear extrusion from the original extrusion data */
-    /* has also to be set free */
-    /* we know this condition */
-    //if(numOfSubdivision > 0)
-    freeGrid(ext_grid, false);
-}
-
-/* */
-static void generateHull(const std::vector<Pnt2f> &crossSection,
-                         const std::vector<Quaternion> &orientation,
-                         const std::vector<Vec2f> &scale,
-                         const std::vector<Pnt3f> &spine, 
-                         bool ccw,
-                         bool buildNormal, 
-                         bool buildTexCoord,
-                         UInt32 numOfSubdivision, 
-                         bool *_uWrap, 
-                         bool *_vWrap,
-                         UInt32 *_uValues, 
-                         UInt32 *_vValues,
-                         std::vector<Pnt3f> &vertices,
-                         std::vector<Vec3f> &normals,
-                         std::vector<Vec2f> &texCoords)
-{
-    /* Note : The terminology concerning the parametrization of the hull */
-    /* surface differs from the spec                                     */
-    /* u parametrizes the hull surface along the spine                   */
-    /* v parametrizes the hull surface along the crosssection            */
-    grid ext_grid;
-    initGrid(&ext_grid);
-
-    bool uWrap = false;
-    bool vWrap = false;
-    UInt32 uValues = 0;
-    UInt32 vValues = 0;
-
-    UInt32 sp_len = spine.size();
-    UInt32 cs_len = crossSection.size();
-
-    FDEBUG(("calculating hull vertices\n"));
-
-    /*setup vertex data in vertices */
-    calcHullVertices(crossSection, orientation, scale, spine, &uWrap, &vWrap,
-                         vertices);
-
-    /* calculate total length of crossSection and spine */
-    uValues = (uWrap) ? sp_len - 1 : sp_len;
-    vValues = (vWrap) ? cs_len - 1 : cs_len;
-
-    FDEBUG(("connecting point data to subdivision grid:\n"));
-    FDEBUG(("considering spineClosed and uWrap the same!\n"));
-
-    setGridTopology(&ext_grid, POINTS, uValues, vValues, 3, uWrap, vWrap);
-    connectSubfieldToGrid((Real32 *) &vertices[0], POINTS, &ext_grid);
-
-    if(buildNormal)
-    {
-        FDEBUG(("calculating normals\n"));
-        calcHullNormals(crossSection, orientation, scale, spine, vertices, ccw,
-                                uWrap, vWrap, uValues, vValues, normals);
-
-        FDEBUG(("connecting normal data to subdivision grid:\n\n"));
-        setGridTopology(&ext_grid, NORMALS, uValues, vValues, 3, uWrap, vWrap);
-        connectSubfieldToGrid((Real32 *) &normals[0], NORMALS, &ext_grid);
-    }
-
-    if(buildTexCoord)
-    {
-        FDEBUG(("calculating hull texture coordinates\n"));
-
-        texCoords.resize(sp_len * cs_len);
-        calcTextureCoords(&ext_grid, (Real32 *) &texCoords[0]);
-
-        /* register the texture coordinates */
-        setGridTopology(&ext_grid, TEXTURE, sp_len, cs_len, 2, false, false);
-        connectSubfieldToGrid((Real32 *) &texCoords[0], TEXTURE, &ext_grid);
-    }
-
-    /* This prevents us from segfaulting */
-    if((numOfSubdivision > 0) && (uValues > 2) && (vValues > 2))
-    {
-        FDEBUG(("subdividing %i times\n", numOfSubdivision));
-        subdivSurface(numOfSubdivision, &ext_grid);
-
-        /* This is _VERY_ ugly and subject to change in the next future*/
-        convertSubdivisionGrid(&ext_grid, &uValues, &vValues, vertices, normals,
-                                       texCoords);
-    }
-
-    *_uWrap = uWrap;
-    *_vWrap = vWrap;
-    *_uValues = uValues;
-    *_vValues = vValues;
-}
-
-/* */
-static void renderHull(const std::vector<Pnt3f> &vertices,
-                       const std::vector<Vec3f> &normals,
-                       const std::vector<Vec2f> &texCoords, bool buildNormal,
-                       bool buildTexCoord, bool uWrap, bool vWrap,
-                       UInt32 uValues, UInt32 vValues,
-                       GeoPositions3fPtr &geoVertices,
-                       GeoNormals3fPtr &geoNormals,
-                       GeoTexCoords2fPtr &geoTexCoords,
-                       GeoPLengthsUI32Ptr &geoLengths, GeoPTypesUI8Ptr &geoTypes)
-{
-    GeoPositions3f::StoredFieldType * geoVerticesPtr = geoVertices->getFieldPtr();
-    GeoNormals3f::StoredFieldType * geoNormalsPtr = geoNormals->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType * geoLengthsPtr = geoLengths->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType * geoTypesPtr = geoTypes->getFieldPtr();
-
-    /* calculate spine and crosssection lengths */
-    UInt32 tot_sp_len = uWrap ? uValues + 1 : uValues;
-    UInt32 tot_cs_len = vWrap ? vValues + 1 : vValues;
-
-    beginEditCP(geoLengths);
-    beginEditCP(geoTypes);
-
-    UInt32 k, j;
-    UInt32 il, iu;
-    UInt32 ilc, iuc;
-
-    FDEBUG(("drawing to OpenSG\n"));
-
-    /* Maybe striping along the spine is worth to go for */
-    for(k = 0; k < tot_sp_len - 1; k++)
-    {
-        beginEditCP(geoVertices);
-
-        /*initialize index of first points of line i*/
-        il = k * vValues;
-        iu = ((k + 1) % uValues) * vValues;
-
-        geoLengthsPtr->push_back(2 * tot_cs_len);
-        geoTypesPtr->push_back(GL_TRIANGLE_STRIP);
-
-        ilc = il;
-        iuc = iu;
-
-        /* write vertices to geometry */
-        for(j = 0; j < vValues; j++)
-        {
-            geoVerticesPtr->push_back(vertices[ilc++]);
-            geoVerticesPtr->push_back(vertices[iuc++]);
-        }
-
-        if(vWrap)
-        {
-            iuc = ((k + 1) % uValues) * vValues;
-            ilc = k * vValues;
-
-            geoVerticesPtr->push_back(vertices[ilc]);
-            geoVerticesPtr->push_back(vertices[iuc]);
-        }
-
-        endEditCP(geoVertices);
-
-        /* write normals to geometry if necessary */
-        if(buildNormal)
-        {
-            beginEditCP(geoNormals);
-
-            ilc = il;
-            iuc = iu;
-
-            for(j = 0; j < vValues; j++)
-            {
-                geoNormalsPtr->push_back(normals[ilc++]);
-                geoNormalsPtr->push_back(normals[iuc++]);
-            }
-
-            if(vWrap)
-            {
-                iuc = ((k + 1) % uValues) * vValues;
-                ilc = k * vValues;
-
-                geoNormalsPtr->push_back(normals[ilc]);
-                geoNormalsPtr->push_back(normals[iuc]);
-            }
-
-            endEditCP(geoNormals);
-        }
-
-        /* write texture coordinates to geometry if necessary */
-        if(buildTexCoord)
-        {
-            beginEditCP(geoTexCoords);
-
-            il = k * tot_cs_len;
-            iu = (k + 1) * tot_cs_len;
-
-            for(j = 0; j < tot_cs_len; j++)
-            {
-                geoTexCoords->push_back(texCoords[il++]);
-                geoTexCoords->push_back(texCoords[iu++]);
-            }
-
-            beginEditCP(geoTexCoords);
-        }
-
-        endEditCP(geoLengths);
-        endEditCP(geoTypes);
-    }
-}
-
-/* */
-void renderCap(const std::vector<Pnt2f> &crossSection,
-               const std::vector<Pnt3f> &hullVertices, bool ccw, bool convex,
-               bool buildNormal, bool buildTexCoord, bool uWrap, bool vWrap,
-               UInt32 numOfCap, UInt32 uValues, UInt32 vValues,
-               GeoPositions3fPtr &geoVertices, GeoNormals3fPtr &geoNormals,
-               GeoTexCoords2fPtr &geoTexCoords, GeoPLengthsUI32Ptr &geoLengths,
-               GeoPTypesUI8Ptr &geoTypes)
-{
-    Vec2f   baryCenter(0.0f, 0.0f);
-    Vec3f   vertexBaryCenter(0.0f, 0.0f, 0.0f);
-    Vec3f v;
-
-    // UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
-    UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
-    UInt32 v_limit = vWrap ? tot_vValues : tot_vValues + 1;
-
-    if(!convex)
-    {
-        FWARNING(("OSGExtrusion: Support for nonconvex caps not yet implemented\n"));
+        FFATAL(("OSGExtrusion:calcSweepSurfacePositions: Grid not initialized\n"));
         return;
     }
 
-    /* calculate barycenter of the crossSection */
-    for(UInt32 j = 0; j < vValues; j++)
+    _posMap.clear();
+
+    // compute transformation matrices
+    calcTransforms();
+
+    if(_grid.size() < _spine.size()) // grid not yet or incorrectly initialized
     {
-        baryCenter += crossSection[j].subZero();
-        v.setValue(hullVertices[(numOfCap % uValues) * vValues + j]);
-        vertexBaryCenter += v;
+        initGrid();
     }
 
-    baryCenter /= Real32(crossSection.size());
-    vertexBaryCenter /= Real32(vValues);
+    std::vector<Matrix>::iterator transIt = _transform.begin();
+    VertexGrid::iterator gridRowIt = _grid.begin();
 
-    beginEditCP(geoTypes);
-    beginEditCP(geoLengths);
-    beginEditCP(geoVertices);
+    // iterate over the spine points
+    for(Int32 i = 0; i < _spine.size(); i++, ++gridRowIt)
     {
-        geoTypes->push_back(GL_TRIANGLE_FAN);
-        geoLengths->push_back(v_limit + 1);
-
-        geoVertices->push_back(vertexBaryCenter);
-
-        for(UInt32 j = 0; j < v_limit; j++)
+        if(transIt->det3() < Eps) // degenerate transform
         {
-            if(!uWrap)
-            {
-                geoVertices->push_back(hullVertices[numOfCap * vValues + (j % vValues)]);
-            }
-            else                        /* u_wrap */
-            {
-                geoVertices->push_back(hullVertices[j % vValues]);
-            }
-        }
-    }
-
-    endEditCP(geoVertices);
-    endEditCP(geoTypes);
-    endEditCP(geoLengths);
-
-    if(buildNormal)
-    {
-        Vec3f diff1;
-        Vec3f diff2;
-
-        diff1.setValue(hullVertices[(numOfCap % uValues) * vValues] - vertexBaryCenter);
-        diff2.setValue(hullVertices[(numOfCap % uValues) * vValues + 1] -
-                               vertexBaryCenter);
-
-        Vec3f normal;
-
-        /* I think it's ok if these crossproducts are zero */
-        /* If anybody uses coincident crossSection points this makes trouble */
-        if(uValues / 2 > numOfCap)
-        {
-            normal = ccw ? diff2.cross(diff1) : diff1.cross(diff2);
-        }
-        else                            /* invert the normal */
-        {
-            normal = ccw ? diff1.cross(diff2) : diff2.cross(diff1);
+            FWARNING(("OSGExtrusion:calcSurfacePositions: Degenerate transformation matrix\n"));
+            SWARNING << "Degenerate transform[" << i << "]:\n "
+                     << *transIt << std::endl;
         }
 
-        beginEditCP(geoNormals);
+        std::vector<Vertex>::iterator gridColIt = gridRowIt->begin();
+        std::vector<Pnt2f>::iterator crossIt;
+
+        // iterate over the cross-section curve
+        for(crossIt = _crossSection.begin(); crossIt != _crossSection.end();
+            ++crossIt, ++gridColIt)
         {
-            for(UInt32 j = 0; j < v_limit + 1; j++)
-            {
-                normal.normalize();
-                geoNormals->push_back(normal);
-            }
+            Pnt3f p = Pnt3f((*crossIt)[0], 0.f, (*crossIt)[1]);
+
+            // apply "CP to SCP"-transform
+            transIt->multMatrixPnt(p, gridColIt->position);
         }
 
-        endEditCP(geoNormals);
-    }
-
-    if(buildTexCoord)
-    {
-        FWARNING(("OSGExtrusion: Texture coordinates for caps not yet implemented\n"));
-        beginEditCP(geoTexCoords);
-        {
-            for(UInt32 j = 0; j < v_limit + 1; j++)
-            {
-                Vec2f texCoord;
-
-                texCoord = Vec2f(0.0f, 0.0f);
-                geoTexCoords->push_back(texCoord);
-            }
-        }
-
-        endEditCP(geoTexCoords);
+        // always use last defined transformation matrix
+        if(transIt + 1 != _transform.end()) { ++transIt; }
     }
 }
+
+
+//-----------------------------------------------------------------------------
+// Calculates the texture coordinates of the sweep surface. The texture coords
+// are obtained by measuring the lengths along the row- and column-curves
+// of the grid and renormalizing them to the usual [0, 1]-range. The grid
+// is expected to already hold the position data of the sweep surface.
+//
+// The calculated texture coordinates are stored in the _grid.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::calcSweepSurfaceTexCoords(void)
+{
+    FDEBUG(("OSGExtrusion:calcSweepSurfaceTexCoords: Calculating texture coordinates\n"));
+    if(_grid.size() < _spine.size())
+    {
+        FFATAL(("OSGExtrusion:calcSweepSurfaceTexCoords: Grid not initialized\n"));
+        return;
+    }
+    _texCoordMap.clear();
+    
+    /* X3D Spec:
+     *
+     *  Textures are mapped so that the coordinates range in the U direction 
+     *  from 0 to 1 along the crossSection curve (with 0 corresponding to the 
+     *  first point in crossSection and 1 to the last) and in the V direction
+     *  from 0 to 1 along the spine curve (with 0 corresponding to the first 
+     *  listed spine point and 1 to the last) 
+     */
+
+    // accumulate distances along u and v directions
+    for(UInt32 i = 0; i < _spine.size(); ++i)
+    {
+        for(UInt32 j = 0; j < _crossSection.size(); ++j)
+        {
+            Real32 u,v;
+            UInt32 iPrev = (i == 0) ? 0 : i - 1;
+            UInt32 jPrev = (j == 0) ? 0 : j - 1;
+
+            // contains length of i-th column curve up to the (j-1)-th point
+            u = _grid[i][jPrev].texCoord[0];
+            // add distance to j-th point
+            u += _grid[i][j].position.dist(_grid[i][jPrev].position);
+
+            // contains length of j-th row curve up to the (i-1)-th point
+            v = _grid[iPrev][j].texCoord[1];
+            // add distance to i-th point
+            v += _grid[i][j].position.dist(_grid[iPrev][j].position);
+
+            _grid[i][j].texCoord[0] = u;
+            _grid[i][j].texCoord[1] = v;
+        }
+    }
+
+    // renormalize distances to [0,1]x[0,1]
+    for(UInt32 i = 0; i < _spine.size(); ++i)
+    {
+        for(UInt32 j = 0; j < _crossSection.size(); ++j)
+        {
+            // length is maximal in the row/column curve end points
+            Real32 uMax = _grid[i][_crossSection.size() - 1].texCoord[0];
+            Real32 vMax = _grid[_spine.size() - 1][j].texCoord[1];
+
+            if(uMax > Eps)
+                _grid[i][j].texCoord[0] /= uMax;
+
+            if(vMax > Eps)
+                _grid[i][j].texCoord[1] /= vMax;
+        }
+    }
+}
+
+
+void ExtrusionSurface::calcSweepSurfaceFaceNormals(void)
+{
+    FDEBUG(("OSGExtrusion:calcSweepSurfaceFaceNormals: Calculating sweep surface face normals\n"));
+
+    if(_grid.size() < _spine.size())
+    {
+        FFATAL(("OSGExtrusion:calcSweepSurfaceFaceNormals: Grid not initialized\n"));
+        return;
+    }
+    
+    // calculate face normals
+    for(UInt32 i = 0; i < _spine.size(); ++i)
+    {
+        UInt32 iPrev, iNext;
+
+        // determine adjacent row indices
+        if(_spineClosed)
+        {
+            // first point == last point
+            iPrev = (i != 0) ? i - 1 : _spine.size() - 2;
+            iNext = (i != _spine.size() - 1) ? i + 1 : 1;
+        }
+        else
+        {
+            iPrev = (i != 0) ? i - 1 : 0;
+            iNext = (i != _spine.size() - 1) ? i + 1 : i;
+        }
+
+        for(UInt32 j = 0; j < _crossSection.size(); ++j)
+        {
+            Vec3f n;
+            UInt32 jPrev, jNext;
+
+            // determine adjacent column indices
+            if(_crossSectionClosed)
+            {
+                // first point == last point
+                jPrev = (j != 0) ? j - 1 : _crossSection.size() - 2;
+                jNext = (j != _crossSection.size() - 1) ? j + 1 : 1;
+            }
+            else
+            {
+                jPrev = (j != 0) ? j - 1 : 0;
+                jNext = (j != _crossSection.size() - 1) ? j + 1 : j;
+            }
+
+            // upper right face normal (1st quadrant)
+            _grid[i][j].adjFaceNormals[0] =
+                calcQuadFaceNormal(_grid[i][j].position,
+                                   _grid[i][jNext].position,
+                                   _grid[iNext][jNext].position,
+                                   _grid[iNext][j].position);
+
+
+            // upper left face normal (2nd quadrant)
+            _grid[i][j].adjFaceNormals[1] = 
+                calcQuadFaceNormal(_grid[i][j].position,
+                                   _grid[iNext][j].position,
+                                   _grid[iNext][jPrev].position,
+                                   _grid[i][jPrev].position);
+
+
+            // lower left face normal (3nd quadrant)
+            _grid[i][j].adjFaceNormals[2] = 
+                calcQuadFaceNormal(_grid[i][j].position,
+                                   _grid[i][jPrev].position,
+                                   _grid[iPrev][jPrev].position,
+                                   _grid[iPrev][j].position);
+
+
+            // lower right face normal (4th quadrant)
+            _grid[i][j].adjFaceNormals[3] = 
+                calcQuadFaceNormal(_grid[i][j].position,
+                                   _grid[iPrev][j].position,
+                                   _grid[iPrev][jNext].position,
+                                   _grid[i][jNext].position);
+        }
+    }
+}
+
+
+
+//-----------------------------------------------------------------------------
+// 
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::storeSweepSurfaceWithoutNormals(GeoIndicesUI32Ptr  indicesPtr,
+                                                       GeoPLengthsUI32Ptr lensPtr,
+                                                       GeoPTypesUI8Ptr    typesPtr)
+{
+    assert(indicesPtr != NullFC);
+    assert(lensPtr    != NullFC);
+    assert(typesPtr   != NullFC);
+
+    for(UInt32 i = 0; i < _spine.size() - 1; i++)
+    {
+        for(UInt32 j = 0; j < _crossSection.size(); j++)
+        {
+            Vertex v;
+            // begin new triangle strip
+            v = _grid[i+1][j];
+
+            // store position (and texcoord if available)
+            storeVertex(v, indicesPtr);
+
+            v = _grid[i][j];
+            // store position (and texcoord if available)
+            storeVertex(v, indicesPtr);
+        }
+        // store row strip
+        storePrimitive(GL_TRIANGLE_STRIP, lensPtr, typesPtr);
+    }
+}
+
+void ExtrusionSurface::storeSweepSurfaceWithNormals(GeoIndicesUI32Ptr  indicesPtr,
+                                                    GeoPLengthsUI32Ptr lensPtr,
+                                                    GeoPTypesUI8Ptr    typesPtr)
+{
+    assert(indicesPtr != NullFC);
+    assert(lensPtr    != NullFC);
+    assert(typesPtr   != NullFC);
+
+    // we need to calculate the face normals first
+    calcSweepSurfaceFaceNormals();
+ 
+    if(_ccw)
+    {
+        // The current face is the face in quadrant 1 of the vertex
+        // grid[i,j]. Stripes are generated in positive j direction
+        // along the cross-section.
+        UInt32 spineEnd = _spine.size() - 1;
+        UInt32 cSEnd = _crossSection.size() - 1;
+        for(UInt32 i = 0; i < spineEnd; i++)
+        {
+            // upper left vertex of current quad face
+            // current face is located in 4th quadrant of vertex
+            calcVertexNormal(&_grid[i+1][0], 3);
+            storeVertex(_grid[i+1][0], indicesPtr);
+
+            // lower left vertex of current quad face
+            // current face is located in 1st quadrant of vertex            
+            calcVertexNormal(&_grid[i][0], 0);
+            storeVertex(_grid[i][0], indicesPtr);
+
+            Vec3f fN = _grid[i][0].adjFaceNormals[0];
+            for(UInt32 j = 0; j < cSEnd; j++)
+            {
+                // The next face is the face in quadrant 1 of the vertex
+                // grid[i,j+1]                
+                Vec3f fNNext = _grid[i][j+1].adjFaceNormals[0];
+
+                // if the creaseAngle is too small the strip has to be split,
+                // because the normals are not shared along the common edge
+                // of the current and the next face.
+                // if j + 1 == csEnd the current quad is the last one
+                if((fN.enclosedAngle(fNNext) + Eps > _creaseAngle - Eps)
+                   || (j + 1 == cSEnd))
+                {
+                    // upper right vertex of current quad face
+                    // current face is located in 3rd quadrant of vertex
+                    calcVertexNormal(&_grid[i+1][j+1], 2);
+                    storeVertex(_grid[i+1][j+1], indicesPtr);
+
+                    // upper right vertex of current quad face
+                    // current face is located in 2nd quadrant of vertex
+                    calcVertexNormal(&_grid[i][j+1], 1);
+                    storeVertex(_grid[i][j+1], indicesPtr);
+                    
+                    // terminate strip
+                    storePrimitive(GL_TRIANGLE_STRIP, lensPtr, typesPtr);
+                }
+
+                // Either the strip was split above or not. In both cases
+                // continue/begin new strip if there's still a quad left
+                if(j + 1 < cSEnd)
+                {
+                    
+                    // upper left vertex of _next_ quad face
+                    // next face is located in 4th quadrant of vertex
+                    calcVertexNormal(&_grid[i+1][j+1], 3); 
+                    storeVertex(_grid[i+1][j+1], indicesPtr);
+                    
+                    // lower left vertex of _next_ quad face
+                    // next face is located in 1st quadrant of vertex
+                    calcVertexNormal(&_grid[i][j+1], 0);
+                    storeVertex(_grid[i][j+1], indicesPtr);
+                }
+
+                // update face normal
+                fN = fNNext;                
+            }
+        }
+    }
+    else // cw case
+    {
+        // The current face is the face in quadrant 1 of the vertex
+        // grid[i,j-1]. Stripes are generated in negative j direction
+        // along the cross-section.
+        for(UInt32 i = 0; i < _spine.size() - 1; i++)
+        {
+            UInt32 cSEnd = _crossSection.size() - 1;
+
+            // begin new triangle strip
+            calcVertexNormal(&_grid[i+1][cSEnd], 2);
+            storeVertex(_grid[i+1][cSEnd], indicesPtr);
+
+            calcVertexNormal(&_grid[i][cSEnd], 1);
+            storeVertex(_grid[i][cSEnd], indicesPtr);
+
+            Vec3f fN = _grid[i][cSEnd].adjFaceNormals[0];            
+            for(UInt32 j = cSEnd; j > 0; j--)
+            {
+                Vec3f fNNext = _grid[i][j - 1].adjFaceNormals[0];
+                if((fN.enclosedAngle(fNNext) + Eps > _creaseAngle - Eps)
+                   || (j == 1))
+                {
+                    calcVertexNormal(&_grid[i + 1][j - 1], 3);
+                    storeVertex(_grid[i + 1][j - 1], indicesPtr);
+                    
+                    calcVertexNormal(&_grid[i][j - 1], 0);
+                    storeVertex(_grid[i][j - 1], indicesPtr);
+                    
+                    // terminate strip
+                    storePrimitive(GL_TRIANGLE_STRIP, lensPtr, typesPtr);
+                }
+
+                if(j > 1) // still one quad to go
+                {
+                    calcVertexNormal(&_grid[i + 1][j - 1], 2);
+                    storeVertex(_grid[i + 1][j - 1], indicesPtr);
+                
+                    calcVertexNormal(&_grid[i][j - 1], 1);
+                    storeVertex(_grid[i][j - 1], indicesPtr);
+                }
+                // update face normal
+                fN = fNNext;                
+            }
+        }
+    }
+}
+
+
+//----------------------------------------------------------------------
+// Returns true if the origin lies in the left half plane of the
+// oriented line AB.
+//
+// Author: afischle
+//----------------------------------------------------------------------
+inline bool ExtrusionSurface::isLeft(const Pnt2f &a, const Pnt2f &b)
+{
+    Vec2f d = b - a;
+    d.normalize();
+    // compute the normal pointing into the _right_ half plane of the oriented
+    // line
+    Vec2f n = Vec2f(d.y(), -d.x());
+    // the dot product is >0 when two vectors point into the same direction
+    return n.dot(a) > 0.f;
+}
+
+
+//-----------------------------------------------------------------------------
+// Computes the minimum of the y-components of all points of the contour.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+Real32 ExtrusionSurface::computeMinYAbs(const std::vector<Pnt2f> &contour,
+                                        Real32 alpha)
+{
+    const Real32 sinAlpha = osgsin(alpha);
+    const Real32 cosAlpha = osgcos(alpha);
+
+    Real32 minYAbs = 1.f;
+    for(std::vector<Pnt2f>::const_iterator it = contour.begin();
+        it != contour.end(); ++it)
+    {
+        Real32 y = sinAlpha * it->x() + cosAlpha * it->y();
+        if(osgabs(y) < minYAbs)
+            minYAbs = y;
+    }
+
+    return minYAbs;
+}
+
+//-----------------------------------------------------------------------------
+// Computes a rotation of the curve such that the minimum of the y-components
+// of all of its points is the maximal for alpha = n * (2 * Pi / nAngles),
+// where 0 <= n <= nAngles.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+Real32 ExtrusionSurface::calcBetterRotationAngle(const std::vector<Pnt2f> &contour,
+                                                 UInt32 nAngles)
+{
+    Real32 maxMinY = 0.f;
+    Real32 bestAlpha = 0.f;
+
+    Real32 alphaInc = 2 * Pi / nAngles;
+    for(Real32 alpha = 0.f; alpha < 2 * Pi; alpha += alphaInc)
+    {
+        Real32 minYAlpha = computeMinYAbs(contour, alpha);
+        if(minYAlpha > maxMinY)
+        {
+            maxMinY = minYAlpha;
+            bestAlpha = alpha;
+        }
+    }
+
+    return bestAlpha;
+}
+
+
+//-----------------------------------------------------------------------------
+// Translates the given curve such that the specified reference point is
+// translated to the origin and rescales it to the unit square.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+bool ExtrusionSurface::calcOptimizedContour(const std::vector<Pnt2f> &contour,
+                                            const Pnt2f &point,
+                                            std::vector<Pnt2f> *optimizedContour)
+{
+    // copy the input
+    std::vector<Pnt2f> coords(contour);
+
+    // translate the reference point to the origin
+    // and compute a scale factor
+    Real32 maxLen = std::numeric_limits<Real32>::min();
+    Real32 minLen = std::numeric_limits<Real32>::max();
+
+    for(std::vector<Pnt2f>::iterator it = coords.begin();
+            it != coords.end(); ++it)
+    {
+        // translate the problem to the origin
+        *it -= Vec2f(point);
+        Real32 len = Vec2f(*it).length();
+
+        if(len > maxLen)  maxLen = len;
+        if(len < minLen)  minLen = len;
+    }
+
+    if(maxLen < Eps)
+    {
+        FWARNING(("OSGExtrusion:calcOptimizedContour: Contour completely degenerate\n"));
+        return false;
+    }
+
+    if(minLen < Eps)
+    {
+        FWARNING(("OSGExtrusion:calcOptimizedContour: Reference point on curve\n"));
+        return false;
+    }
+
+    // rescale the contour to the unit disk and determine the minimal
+    // absolute y coordinate
+    Real32 minAbsY = 1.f;
+    for(std::vector<Pnt2f>::iterator it = coords.begin();
+            it != coords.end(); ++it)
+    {
+        *it /= maxLen;
+        // osgabs(it->y()) <= 1.f after rescale
+        if(osgabs(it->y()) < minAbsY)
+            minAbsY = osgabs(it->y());
+    }
+
+    optimizedContour->clear();
+    optimizedContour->reserve(coords.size());
+    
+    if(minAbsY > Eps) // we can probably determine all crossings
+    {
+        optimizedContour->assign(coords.begin(), coords.end());
+    }
+    else // try to rotate the contour
+    {
+        // we need to rotate the contour to get a reasonable result
+        FDEBUG(("OSGExtrusion:calcOptimizedContour: Contour needs rotation\n"));
+        // compute the best rotation angle for 64 equal partitions 
+        // of the circle
+        Real32 alpha = calcBetterRotationAngle(contour, 64);
+        FDEBUG(("OSGExtrusion:calcOptimizedContour: Rotation angle is: %f\n",
+                alpha));
+
+        Real32 sinAlpha = osgsin(alpha);
+        Real32 cosAlpha = osgcos(alpha);
+
+        // rotate the contour and copy it into the output vector
+        for(std::vector<Pnt2f>::iterator it = coords.begin();
+            it != coords.end(); ++it)
+        {
+            Pnt2f p;
+            p[0] = cosAlpha * it->x() - sinAlpha * it->y();
+            p[1] = sinAlpha * it->x() + cosAlpha * it->y();
+
+            optimizedContour->push_back(p);
+        }
+    }
+
+    // optimization successful
+    return true;
+}
+
+
+//----------------------------------------------------------------------
+// Returns the winding number of the given contour with respect to the
+// specified point by counting how often the infinite line f(x) = point.y
+// was crossed by the curve.
+// 
+// Author: afischle
+//----------------------------------------------------------------------
+Int32 ExtrusionSurface::calcWindingNumber(const std::vector<Pnt2f> &contour, 
+                                          const Pnt2f &point)
+{
+    Int32 windingNumber = 0;
+    std::vector<Pnt2f> coords;
+
+    // translate contour to origin and rotate it to a better position
+    calcOptimizedContour(contour, point, &coords);
+
+    const Pnt2f *prevPoint = &(coords[coords.size() - 1]);
+    for(UInt32 i = 0; i < coords.size(); ++i)
+    {
+        const Pnt2f *curPoint = &(coords[i]);
+        if(prevPoint->y() < 0.f)
+        {
+            // upward crossing
+            if(curPoint->y() > 0.f)
+            {
+                if(isLeft(*prevPoint, *curPoint) == true)
+                    windingNumber++;
+            }
+        }
+        else // prevPoint->y() > 0.f
+        {
+            // downward crossing
+            if(curPoint->y() < 0.f)
+            {
+                if(isLeft(*prevPoint, *curPoint) == false)
+                    windingNumber--;
+            }
+        }
+        prevPoint = curPoint;
+    }
+
+    return windingNumber;
+}
+
+
+//-----------------------------------------------------------------------------
+// Calculates a convex cap surface bounded by the row-curve with index
+// spineIndex in the grid. If it is a begin cap its normal is reversed.
+//
+// The positions, normals and texture coordinates of the generated primitives
+// are inserted into maps which map the respective properties to an integer
+// index. The indices so obtained are stored in the indices field container.
+// The lengths and types of the generated primitives are directly stored in
+// the respective field containers.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::storeConvexCap(UInt32 spineIndex, 
+                                      bool isBeginCap, 
+                                      GeoIndicesUI32Ptr  indicesPtr,
+                                      GeoPLengthsUI32Ptr lensPtr,
+                                      GeoPTypesUI8Ptr    typesPtr)
+{
+    assert(indicesPtr != NullFC);
+    assert(lensPtr    != NullFC);
+    assert(typesPtr   != NullFC);
+
+    if(!_convex)
+    {
+        FFATAL(("OSGExtrusion:storeCap: Non-convex caps not yet implemented\n"));
+        return;
+    }
+    
+    std::vector<Pnt3f> capBorderCurveInSection;
+    std::vector<Pnt2f> capBorderCurveInXZPlane(_crossSection);
+    capBorderCurveInSection.reserve(_grid[spineIndex].size());
+
+    std::vector<Vertex>::const_iterator gIt = _grid[spineIndex].begin();
+    while(gIt != _grid[spineIndex].end())
+    {
+        capBorderCurveInSection.push_back(gIt->position);
+        ++gIt;
+    }
+
+    if(!_crossSectionClosed)
+    {
+        capBorderCurveInSection.push_back(_grid[spineIndex].front().position);
+        capBorderCurveInXZPlane.push_back(_crossSection.front());
+    }
+
+    FDEBUG(("OSGExtrusion:storeCap: Generating cap[%d], type=%s, _ccw=%s\n", 
+            spineIndex,
+            (isBeginCap ? "begin cap" : "end cap"),
+            (_ccw ? "TRUE" : "FALSE")));
+           
+    Pnt3f baryCenterInSection;
+    Pnt2f baryCenterInXZPlane;
+
+    std::vector<Pnt3f>::iterator sIt = capBorderCurveInSection.begin();
+    std::vector<Pnt2f>::iterator cIt = capBorderCurveInXZPlane.begin();
+
+    // compute barycenters
+    UInt32 nBorderPoints = capBorderCurveInSection.size() - 1;
+    // calculate the mean of all points with the exception of the last
+    // (which is equal to the first)
+    for(UInt32 i = 0; i < nBorderPoints; ++i, ++sIt, ++cIt)
+    {
+        baryCenterInSection += Vec3f(*sIt);
+        baryCenterInXZPlane += Vec2f(*cIt);
+    }
+    baryCenterInSection /= nBorderPoints;
+    baryCenterInXZPlane /= nBorderPoints;
+
+   /* X3D Spec:
+    *
+    * Normals for the caps are generated along the Y-axis of the SCP,
+    * with the ordering determined by viewing the cross-section from
+    * above (looking along the negative Y-axis of the SCP). By default, a
+    * beginCap with a counterclockwise ordering shall have a normal along
+    * the negative Y-axis. An endCap with a counterclockwise ordering
+    * shall have a normal along the positive Y-axis.
+    *
+    */
+
+    // compute winding number
+    Int32 windNum = calcWindingNumber(capBorderCurveInXZPlane,
+                                      baryCenterInXZPlane);
+    
+    FDEBUG(("OSGExtrusion:storeCap: Cross-section has winding number: %d\n",
+            windNum));
+
+    bool isCCWOrderedCap = true;
+    if(windNum != 0)
+    {
+        isCCWOrderedCap = (windNum > 0) ? true : false;
+    }
+    else
+    {
+        FWARNING(("OSGExtrusion:storeCap: Winding number = 0. Culling might be incorrect\n"));
+        // hope isCCWCrossSection == true ist correct
+    }
+
+    Vertex v;
+    v.position = baryCenterInSection;
+
+    // compute cap normal
+    bool negateNormal = false;
+    if(_createNormals)
+    {
+        // Take the Y-axis at the given spine index as the cap normal
+        Vec3f capNormal = Vec3f(_transform[spineIndex][1]);
+
+        if(isBeginCap) 
+        {
+            if(!isCCWOrderedCap)
+            {
+                negateNormal = true;
+            }
+        }
+        else // end cap
+        {
+            if(isCCWOrderedCap)
+            {
+                negateNormal = true;
+            }
+        }
+
+        if(!_ccw)
+            negateNormal = !negateNormal;
+
+        v.normal = negateNormal ? -capNormal : capNormal;
+
+        FDEBUG(("OSGExtrusion:storeCap: Cap normal: (%f, %f, %f)\n",
+                v.normal[0], v.normal[1], v.normal[2]));
+    }
+     
+    // calculate texture coordinates
+    // compute 2D bounding box for cross section
+    Real32 xMin,xMax,zMin,zMax;
+    xMin = xMax = capBorderCurveInXZPlane[0][0];
+    zMin = zMax = capBorderCurveInXZPlane[0][1];
+    for(cIt = capBorderCurveInXZPlane.begin(); 
+        cIt != capBorderCurveInXZPlane.end(); ++cIt)
+    {
+        if(xMin > (*cIt)[0]) xMin = (*cIt)[0];
+        if(xMax < (*cIt)[0]) xMax = (*cIt)[0];
+        if(zMin > (*cIt)[1]) zMin = (*cIt)[1];
+        if(zMax < (*cIt)[1]) zMax = (*cIt)[1];
+    }
+    Real32 xWidth = xMax - xMin;
+    Real32 zWidth = zMax - zMin;
+    Real32 maxWidth = (xWidth > zWidth) ? xWidth : zWidth;
+    Real32 scale = (maxWidth > Eps) ? 1.f / maxWidth : 1.f;
+
+    v.texCoord[0] = (baryCenterInXZPlane[0] - xMin) * scale;
+    v.texCoord[1] = (baryCenterInXZPlane[1] - zMin) * scale;
+
+    // store barycenter vertex
+    storeVertex(v, indicesPtr);
+
+    bool reverseInsert = false;
+    
+    if(isCCWOrderedCap)
+    {
+        if(!negateNormal)
+            reverseInsert = true;
+    }
+    else
+    {
+        if(negateNormal)
+            reverseInsert = true;
+    }
+
+    if(reverseInsert)
+    {
+        FDEBUG(("OSGExtrusion:storeCap: storing cap border vertices reversed\n")); 
+        std::vector<Pnt3f>::reverse_iterator sRevIt 
+            = capBorderCurveInSection.rbegin();
+        std::vector<Pnt2f>::reverse_iterator  cRevIt
+            = capBorderCurveInXZPlane.rbegin();
+
+        // store cross section image vertices
+        for(; sRevIt != capBorderCurveInSection.rend(); ++cRevIt, ++sRevIt)
+        {
+            v.position = *sRevIt;
+            v.texCoord[0] = ((*cRevIt)[0] - xMin) * scale;
+            v.texCoord[1] = ((*cRevIt)[1] - zMin) * scale;
+
+            storeVertex(v, indicesPtr);
+        }
+    }
+    else // don't reverse insert
+    {
+        FDEBUG(("OSGExtrusion:storeCap: storing cap border vertices\n")); 
+        sIt = capBorderCurveInSection.begin();
+        cIt = capBorderCurveInXZPlane.begin();
+        // store cross section image vertices
+        for(; sIt != capBorderCurveInSection.end(); ++cIt, ++sIt)
+        {
+            v.position = *sIt;
+            v.texCoord[0] = ((*cIt)[0] - xMin) * scale;
+            v.texCoord[1] = ((*cIt)[1] - zMin) * scale;
+
+            storeVertex(v, indicesPtr);
+        }
+    }
+
+    storePrimitive(GL_TRIANGLE_FAN, lensPtr, typesPtr);
+}
+
+
+//-----------------------------------------------------------------------------
+// Stores the contents of the maps containing the positions, normals and
+// texture coordinates into the specified field containers, where the
+// map entries 'property -> index' are stored s.th. ctnr[index] = property.
+//
+// Normals and texture coordinates are only stored if their create flags
+// (i.e _createNormals and _createTexCoords) are set to true.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::storeMaps(GeoPositions3fPtr posPtr,
+                                 GeoNormals3fPtr   normalsPtr,
+                                 GeoTexCoords2fPtr texPtr)
+{
+    assert(posPtr != NullFC);
+
+    FDEBUG(("OSGExtrusion:storeMaps: position map size:    %d\n", _posMap.size()));
+    FDEBUG(("OSGExtrusion:storeMaps: normal map size:      %d\n", _normalMap.size()));
+    FDEBUG(("OSGExtrusion:storeMaps: tex coord map size:   %d\n", _texCoordMap.size()));
+
+    // write shared positions
+    beginEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+
+    posPtr->resize(_posMap.size());
+    for(PositionMap::iterator pMIt = _posMap.begin();
+        pMIt != _posMap.end(); ++pMIt)
+    {
+        posPtr->setValue(pMIt->first, pMIt->second);
+    }
+
+    endEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+
+    // write shared vertex normals
+    if(_createNormals)
+    {
+        assert(normalsPtr != NullFC);
+        beginEditCP(normalsPtr, GeoNormals3f::GeoPropDataFieldMask);
+
+        normalsPtr->resize(_normalMap.size());
+        for(NormalMap::iterator nMIt = _normalMap.begin();
+            nMIt != _normalMap.end(); ++nMIt)
+        {
+            normalsPtr->setValue(nMIt->first, nMIt->second);
+        }
+
+        endEditCP(normalsPtr, GeoNormals3f::GeoPropDataFieldMask);
+    }
+
+    // write shared texture coordinates
+    if(_createTexCoords)
+    {
+        assert(texPtr != NullFC);
+        beginEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+
+        texPtr->resize(_texCoordMap.size());
+        for(TexCoordMap::iterator tMIt = _texCoordMap.begin();
+            tMIt != _texCoordMap.end(); ++tMIt)
+        {
+            texPtr->setValue(tMIt->first, tMIt->second);
+        }
+
+        endEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    }
+}
+
+
+//-----------------------------------------------------------------------------
+// Creates an extrusion surface consisting of a sweep surface and two optional
+// cap surfaces. The positions, normal and texture coordinates are shared where
+// possible.
+//
+// Todo:
+//  * Support non-convex cap surfaces
+//  * Refine orientations
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
+{
+    // do some sanity checks on and determines the topology
+    // of the _spine and _crossSection member fields
+    if(!verifyInput())
+    {
+        FWARNING(("OSGExtrusion:createGeometry: Invalid input. Returning NullFC\n"));
+        return NullFC;
+    }
+
+    // initialize topology flags (i.e spine/_crossSection closure)
+    determineTopology();
+    
+    // optionally subdivide input data
+    if(nSubdivs > 0)
+    {
+        refineCrossSection(nSubdivs);
+
+        if(_orientation.size() == 1)
+        {
+            refineSpine(nSubdivs);
+            refineScale(nSubdivs);
+        }
+        else // more than 1 orientation
+        {
+            // It'd be necessary to refine the orientations in order to get
+            // a consistent result, but this is not implemented yet.
+            FINFO(("OSGExtrusion:createGeometry: Too many orientations. Not refining along spine\n"));
+        }
+    }
+
+    // allocate vertex grid structure
+    initGrid();
+    calcSweepSurfacePositions();
+
+    if(_createTexCoords)
+    {
+        calcSweepSurfaceTexCoords();
+    }
+
+    // create opensg geometry field containers
+    GeoPositions3fPtr  posPtr     = GeoPositions3f::create();
+    GeoPLengthsUI32Ptr lensPtr    = GeoPLengthsUI32::create();
+    GeoIndicesUI32Ptr  indicesPtr = GeoIndicesUI32::create();
+    GeoPTypesUI8Ptr    typesPtr   = GeoPTypesUI8::create();
+    GeoNormals3fPtr    normalsPtr = NullFC;
+    GeoTexCoords2fPtr  texPtr     = NullFC;
+
+    if(_createNormals)
+        normalsPtr = GeoNormals3f::create();
+
+    if(_createTexCoords)
+        texPtr = GeoTexCoords2f::create();
+
+    beginEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    beginEditCP(lensPtr,    GeoPLengthsUI32::GeoPropDataFieldMask);
+    beginEditCP(typesPtr,   GeoPTypesUI8::GeoPropDataFieldMask);
+
+    if(_createNormals)
+    {
+        // store sweep surface as triangle strips with vertex normals
+        storeSweepSurfaceWithNormals(indicesPtr, lensPtr, typesPtr);
+    }
+    else
+    {
+        // store sweep surface as triangle strips without vertex normals
+        storeSweepSurfaceWithoutNormals(indicesPtr, lensPtr, typesPtr);
+    }
+
+    if(_convex)
+    {
+        // calculate and store caps as triangle fans
+        if(_beginCap)
+        {
+            FDEBUG(("OSGExtrusion:createGeometry: Creating begin cap\n"));
+            storeConvexCap(0,           // spine section 0 
+                           true,        // flip normal
+                           indicesPtr, 
+                           lensPtr, 
+                           typesPtr);
+        }
+        
+        if(_endCap)
+        {
+            FDEBUG(("OSGExtrusion:createGeometry: Creating end cap\n"));
+            storeConvexCap(_spine.size() - 1,  // last spine section
+                           false,              // don't flip normal
+                           indicesPtr,
+                           lensPtr, 
+                           typesPtr);
+        }
+    }
+    else // non-convex case
+    {
+        FFATAL(("OSGExtrusion:createGeometry: Support for non-convex caps not implemented\n"));
+    }
+    
+#ifdef DEBUG_VERTEX_NORMALS
+    // add surface normals for debugging purposes
+    storeVertexNormalGeo(indicesPtr, lensPtr, typesPtr);
+#endif
+
+#ifdef DEBUG_FACE_NORMALS
+    // add sweep surface face normals for debugging purposes
+    storeFaceNormalGeo(indicesPtr, lensPtr, typesPtr);
+#endif    
+
+    endEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
+    endEditCP(lensPtr,    GeoPLengthsUI32::GeoPropDataFieldMask);
+    endEditCP(typesPtr,   GeoPTypesUI8::GeoPropDataFieldMask);
+
+    // store the shared vertex data into the vertex data field containers
+    storeMaps(posPtr, normalsPtr, texPtr);
+
+    // create a new OpenSG geometry
+    GeometryPtr geoPtr = Geometry::create();
+
+    beginEditCP(geoPtr, Geometry::TypesFieldMask  |
+                Geometry::LengthsFieldMask        |
+                Geometry::IndicesFieldMask        |
+                Geometry::IndexMappingFieldMask   |
+                Geometry::PositionsFieldMask      |
+                Geometry::NormalsFieldMask        |
+                Geometry::TexCoordsFieldMask      );
+
+    // The interleaved multi-index blocks have one of the following 
+    // layouts (depending on _createNormals and _createTexCoords):
+    //
+    // 1. (Position)                  
+    // 2. (Position, Normal)
+    // 3. (Position, TexCoord)        
+    // 4. (Position, Normal, TexCoord)
+    geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
+    if(_createNormals)
+        geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
+    if(_createTexCoords)
+        geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
+
+    // set primitive data field containers
+    geoPtr->setLengths(lensPtr);
+    geoPtr->setIndices(indicesPtr);
+    geoPtr->setTypes(typesPtr);
+   
+    // set vertex data field containers
+    geoPtr->setPositions(posPtr);
+    geoPtr->setNormals(normalsPtr);
+    geoPtr->setTexCoords(texPtr);
+   
+    endEditCP(geoPtr, Geometry::TypesFieldMask  |
+              Geometry::LengthsFieldMask        |
+              Geometry::IndicesFieldMask        |
+              Geometry::IndexMappingFieldMask   |
+              Geometry::PositionsFieldMask      |
+              Geometry::NormalsFieldMask        |
+              Geometry::TexCoordsFieldMask      );
+
+
+    SINFO << "OSGExtrusion:createGeometry: Stats: ("
+          << _primitiveCount     << '/'
+          << _totalVertexCount   << '/'
+          << _posMap.size() << '/'
+          << _normalMap.size()   << '/'
+          << _texCoordMap.size() << ')'
+          << "(Prims/Verts/Pos/Norms/TexCoords)"
+          << std::endl; 
+        
+    return geoPtr;
+}
+
 
 NodePtr OSG::makeExtrusion(const std::vector<Pnt2f> &crossSection,
                            const std::vector<Quaternion> &orientation,
                            const std::vector<Vec2f> &scale,
-                           const std::vector<Pnt3f> &spine, bool beginCap,
-                           bool endCap, bool ccw, bool convex, bool buildNormal,
-                           bool buildTexCoord, UInt32 numOfSubdivision)
+                           const std::vector<Pnt3f> &spine,
+                           Real32 creaseAngle,
+                           bool beginCap,
+                           bool endCap, 
+                           bool ccw, 
+                           bool convex, 
+                           bool buildNormal,
+                           bool buildTexCoord, 
+                           UInt32 numOfSubdivision)
 {
-    GeometryPtr pGeo = makeExtrusionGeo(crossSection, orientation, scale, spine,
-                                            beginCap, endCap, ccw, convex,
-                                            buildNormal, buildTexCoord,
-                                            numOfSubdivision);
-
+    GeometryPtr pGeo = makeExtrusionGeo(crossSection, 
+                                        orientation,
+                                        scale, 
+                                        spine,
+                                        creaseAngle,
+                                        beginCap, 
+                                        endCap, 
+                                        ccw, 
+                                        convex,
+                                        buildNormal, 
+                                        buildTexCoord,
+                                        numOfSubdivision);
     if(pGeo == NullFC)
     {
         return NullFC;
     }
-
+    
     NodePtr node = Node::create();
-
     beginEditCP(node);
     node->setCore(pGeo);
     endEditCP(node);
-
     return node;
 }
+
 
 GeometryPtr OSG::makeExtrusionGeo(const std::vector<Pnt2f> &crossSection,
                                   const std::vector<Quaternion> &orientation,
                                   const std::vector<Vec2f> &scale,
-                                  const std::vector<Pnt3f> &spine, bool beginCap,
-                                  bool, bool ccw, bool convex, bool buildNormal,
-                                  bool buildTexCoord, UInt32 numSubdivs)
+                                  const std::vector<Pnt3f> &spine,
+                                  Real32 creaseAngle,
+                                  bool beginCap,
+                                  bool endCap, 
+                                  bool ccw, 
+                                  bool convex,
+                                  bool buildNormal,
+                                  bool buildTexCoord, 
+                                  UInt32 numSubdivs)
 {
-    std::vector < Pnt3f > hullVertices;
-    std::vector < Vec3f > hullNormals;
-    std::vector < Vec2f > hullTexCoords;
+    // debug dump of parameters
+    const char* prefix = "OSGExtrusion:makeExtrusionGeo";
+    FDEBUG(("%s: crossSection.size() == %d\n", prefix, crossSection.size()));
+    FDEBUG(("%s: orientation.size()  == %d\n", prefix, orientation.size()));
+    FDEBUG(("%s: scale.size()        == %d\n", prefix, scale.size()));
+    FDEBUG(("%s: spine.size()        == %d\n", prefix, spine.size()));
+    FDEBUG(("%s: creaseAngle         == %f\n", prefix, creaseAngle));
+    FDEBUG(("%s: beginCap            == %s\n", 
+            prefix, (beginCap ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: endCap              == %s\n", 
+            prefix, (endCap ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: ccw                 == %s\n", 
+            prefix, (ccw ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: convex              == %s\n", 
+            prefix, (convex ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: buildNormal         == %s\n", 
+            prefix, (buildNormal ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: buildTexCoord       == %s\n", 
+            prefix, (buildTexCoord ? "TRUE" : "FALSE")));
+    FDEBUG(("%s: nSubdivs            == %d\n", prefix, numSubdivs));
 
-    std::vector < Pnt3f > beginCapVertices;
-    std::vector < Vec3f > beginCapNormals;
-    std::vector < Vec2f > beginCaptexCoords;
-
-    std::vector < Pnt3f > endCapVertices;
-    std::vector < Vec3f > endCapNormals;
-    std::vector < Vec2f > endCaptexCoords;
-
-    GeoPositions3fPtr geoVertices = GeoPositions3f::create();
-    GeoNormals3fPtr geoNormals = GeoNormals3f::create();
-    GeoTexCoords2fPtr geoTexCoords = GeoTexCoords2f::create();
-    GeoPLengthsUI32Ptr geoLengths = GeoPLengthsUI32::create();
-    GeoPTypesUI8Ptr geoTypes = GeoPTypesUI8::create();
-
-    /* some minimal sanity checking here */
-    if(crossSection.size() < 2 ||
-           orientation.empty() ||
-           spine.size() < 2 ||
-           scale.empty())
+    if(crossSection.size() == 1)
     {
-        FWARNING(("OSGExtrusion called with too little data\nReturning NullFC\n"));
+        FWARNING(("OSGExtrusion: Encountered 1 point cross section\n"));
         return NullFC;
     }
 
-    bool uWrap = false;
-    bool vWrap = false;
+    // instantiate an ExtrusionSurface object and initialize it
+    ExtrusionSurface surf(crossSection,
+                          orientation,
+                          scale,
+                          spine,
+                          creaseAngle,
+                          beginCap,
+                          endCap,
+                          ccw,   
+                          convex,
+                          buildNormal,
+                          buildTexCoord);
 
-    UInt32 uValues = 0;
-    UInt32 vValues = 0;
+    // create and export geometry from extrusion surface object
+    GeometryPtr geoPtr = surf.createGeometry(numSubdivs);
 
-    FDEBUG(("entering hull generation\n"));
-    generateHull(crossSection, orientation, scale, spine, ccw, buildNormal,
-                     buildTexCoord, numSubdivs, &uWrap, &vWrap, &uValues,
-                     &vValues, hullVertices, hullNormals, hullTexCoords);
+    return geoPtr;
+}
 
-    FDEBUG(("entering hull render\n"));
-    renderHull(hullVertices, hullNormals, hullTexCoords, buildNormal,
-                   buildTexCoord, uWrap, vWrap, uValues, vValues, geoVertices,
-                   geoNormals, geoTexCoords, geoLengths, geoTypes);
+//-----------------------------------------------------------------------------
+//                       Subdivision Helper Functions                          
+//-----------------------------------------------------------------------------
 
-    UInt32 tot_uValues = uWrap ? uValues + 1 : uValues;
 
-    //  UInt32 tot_vValues = vWrap ? vValues + 1 : vValues;
-    if(beginCap)
+//-----------------------------------------------------------------------------
+// Subdivides the input data by applying the subdivision scheme
+// (-1/16, 9/16, 9/16, -1/16) at interior and (3/8, 6/8, -1/8) at boundary
+// points. Whether an input vector is to be interpreted as a closed curve is
+// determined by the closed flag. For closed curves the first and the last point
+// are expected to be the same.
+//
+// The subdivided result is stored in the user supplied vector pointed to by
+// dataOut.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+template <class VectorTypeT>
+static void subdivide(const typename std::vector<VectorTypeT>& dataIn,
+                            typename std::vector<VectorTypeT>* dataOut,
+                            bool closed)
+{
+    typename std::vector<VectorTypeT>::const_iterator inputIt;
+
+    // just copy the data if we can't interpolate
+    if(dataIn.size() <= 2)
     {
-        FDEBUG(("generating and rendering caps\n"));
-
-        renderCap(crossSection, hullVertices, ccw, convex, buildNormal,
-                          buildTexCoord, uWrap, vWrap, 0, uValues, vValues,
-                          geoVertices, geoNormals, geoTexCoords, geoLengths,
-                          geoTypes);
-
-        renderCap(crossSection, hullVertices, ccw, convex, buildNormal,
-                          buildTexCoord, uWrap, vWrap, tot_uValues - 1, uValues,
-                          vValues, geoVertices, geoNormals, geoTexCoords,
-                          geoLengths, geoTypes);
+        // copy and bail out
+        dataOut->assign(dataIn.begin(), dataIn.end());
+        return;
     }
 
-    GeometryPtr geo = Geometry::create();
+    // reset vector
+    dataOut->clear();
+    dataOut->reserve((2 * dataIn.size()) + 1);
 
-    beginEditCP(geo);
+    inputIt = dataIn.begin();
+    dataOut->push_back(*inputIt);  // copy first vertex
+    
+    // If closed apply the 4pt scheme (-1/16, 9/16, 9/16, -1/16) to the first
+    // point. In order to do this we need to wrap around in the first argument.
+    if(closed)
+    {
+        //dataIn[0] = dataIn[n-1], so we need to subtract one more
+        dataOut->push_back(apply4PtScheme<VectorTypeT>(dataIn.end() - 2,
+                                                       inputIt,
+                                                       inputIt + 1,
+                                                       inputIt + 2));
+    }
+    // Apply 3pt scheme (3/8, 6/8, -1/8) to the first point.
+    else
+    {
+        dataOut->push_back(apply3PtScheme<VectorTypeT>(inputIt,
+                                                       inputIt + 1,
+                                                       inputIt + 2));        
+    }
+    inputIt++;  // advance to next vertex
+    
+    
+    // if there are more than 3 points available, we can apply the 4 point 
+    // scheme (-1/16, 9/16, 9/16, -1/16) to all points with the exception 
+    // of the first and the last point.
+    if(dataIn.size() > 3)
+    {
+        //insert the interpolated points between inputIt and inputIt + 1
+        for(; (inputIt + 2) != dataIn.end(); ++inputIt)
+        {
+            dataOut->push_back(*inputIt);
+            dataOut->push_back(apply4PtScheme<VectorTypeT>(inputIt - 1,
+                                                           inputIt,
+                                                           inputIt + 1,
+                                                           inputIt + 2));
+        }
+    }
+    
+    dataOut->push_back(*inputIt);
+    
+    // If closed apply the 4pt scheme (-1/16, 9/16, 9/16, -1/16) to the
+    // points with indices (n-3, n-2, n-1, 1) (equivalent to (n-3,n-2,0,1))
+    if(closed)
+    {
+        dataOut->push_back(apply4PtScheme<VectorTypeT>(dataIn.end() - 3,
+                                                      dataIn.end() - 2,
+                                                      dataIn.begin(),
+                                                      dataIn.begin() + 1));
+    }
+    else
+    {
+        // Apply 3pt scheme (-1, 6, 3) by reversing the order of the 
+        // points for the boundary and applying (3, 6, -1) 
+        dataOut->push_back(apply3PtScheme<VectorTypeT>(dataIn.end() - 1,
+                                                       dataIn.end() - 2,
+                                                       dataIn.end() - 3));
+    }
 
-    geo->setTypes(geoTypes);
-    geo->setLengths(geoLengths);
-
-    geo->setNormals(geoNormals);
-    geo->setPositions(geoVertices);
-    geo->setTexCoords(geoTexCoords);
-
-    endEditCP(geo);
-
-    return geo;
+    // push back last input vertex
+    dataOut->push_back(dataIn.back());
 }
+
+//-----------------------------------------------------------------------------
+// Subdivides the input data nTimes and stores the result in a user supplied
+// vector pointed to by dataOut. The closed flag determines whether iterators
+// are wrapped around at the ends or not.
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+template <class VectorTypeT>
+static void subdivide(const typename std::vector<VectorTypeT>& dataIn,
+                      typename std::vector<VectorTypeT>* dataOut,
+                      UInt32 nTimes,
+                      bool closed)
+{
+    std::vector<VectorTypeT> in(dataIn), out;
+    for(UInt32 i = 0; i < nTimes; i++)
+    {
+        if(i + 1 < nTimes) // still one round to go
+        {
+            out.clear();
+            out.reserve(2 * (in.size() + 1));
+            subdivide<VectorTypeT>(in, &out, closed);
+
+            // swap buffers
+            in.swap(out);
+        }
+        else  // final subdivision step
+        {
+            dataOut->clear();
+            dataOut->reserve(2 * (in.size() + 1));
+
+            // subdivide and write result directly into dataOut
+            subdivide<VectorTypeT>(in, dataOut, closed);
+        }
+    }
+}
+
+//-----------------------------------------------------------------------------
+//                             Debugging helpers                               
+//-----------------------------------------------------------------------------
+
+
+//-----------------------------------------------------------------------------
+// Adds vertex normals to the created geometry
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::storeVertexNormalGeo(GeoIndicesUI32Ptr  indicesPtr,
+                                            GeoPLengthsUI32Ptr lensPtr,
+                                            GeoPTypesUI8Ptr    typesPtr)
+{
+    if(!_createNormals || !_createTexCoords)
+        return;
+
+    std::vector<Vec3f> nRevTable(_normalMap.size());
+    std::vector<Pnt3f> pRevTable(_posMap.size());
+
+    NormalMap::iterator   nIt = _normalMap.begin();
+    PositionMap::iterator pIt = _posMap.begin();
+
+    // build a lookup table of normal indices to vertex normals
+    for(; nIt != _normalMap.end(); ++nIt)
+        nRevTable[nIt->second] = nIt->first;
+
+    // build a lookup table of position indices to vertex positions
+    for(; pIt != _posMap.end(); ++pIt)
+        pRevTable[pIt->second] = pIt->first;
+
+    UInt32 prevN = indicesPtr->size();
+    UInt32 i = 0;
+
+    Vertex v;
+
+    v.normal = Vec3f(0.f, 0.f, 0.f);
+    v.texCoord = Vec2f(0.f, 0.f);
+
+    while(i < prevN)
+    {
+        v.position = pRevTable[indicesPtr->getValue(i)];
+        storeVertex(v, indicesPtr);
+        
+        v.position += 0.3f * nRevTable[indicesPtr->getValue(i+1)];
+        storeVertex(v, indicesPtr);
+        storePrimitive(GL_LINES, lensPtr, typesPtr);
+
+        i+=3;
+    }
+}
+
+//-----------------------------------------------------------------------------
+// Adds face normals to the created geometry
+//
+// Author: afischle
+//-----------------------------------------------------------------------------
+void ExtrusionSurface::storeFaceNormalGeo(GeoIndicesUI32Ptr  indicesPtr,
+                                          GeoPLengthsUI32Ptr lensPtr,
+                                          GeoPTypesUI8Ptr    typesPtr)
+{
+    if(!_createNormals || !_createTexCoords)
+        return;
+
+    for(UInt32 i = 0; i < _grid.size(); i++)
+    {
+        for(UInt32 j = 0; j < _grid[i].size(); j++)
+        {
+            Vertex a = _grid[i][j];
+            a.normal = Vec3f();
+
+            for(UInt32 k = 0; k < 4; k++)
+            {
+                Vertex b_k =_grid[i][j];
+                b_k.normal = Vec3f();
+                b_k.position += 0.3f * a.adjFaceNormals[k];
+
+                storeVertex(a, indicesPtr);
+                storeVertex(b_k, indicesPtr);
+
+                storePrimitive(GL_LINES, lensPtr, typesPtr);
+            }
+        }
+    }
+}
+
+
+OSG_END_NAMESPACE
+
+#ifdef DEBUG_VERTEX_NORMALS 
+#undef DEBUG_VERTEX_NORMALS
+#endif
+
+#ifdef DEBUG_FACE_NORMALS 
+#undef DEBUG_FACE_NORMALS
+#endif
+
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
+
+#ifdef __sgi
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static OSG::Char8 cvsid_cpp [] = "@(#)$Id: $";
+    static OSG::Char8 cvsid_hpp [] = OSGEXTRUSIONGEOMETRY_HEADER_CVSID;
+    static OSG::Char8 cvsid_inl [] = OSGEXTRUSIONGEOMETRY_INLINE_CVSID;
+}
+
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
