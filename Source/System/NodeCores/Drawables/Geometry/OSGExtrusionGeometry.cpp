@@ -53,7 +53,7 @@
 // #define DEBUG_FACE_NORMALS
 
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 
 /*---------------------------------------------------------------------*/
@@ -1962,8 +1962,6 @@ void ExtrusionSurface::storeFaceNormalGeo(GeoIndicesUI32Ptr  indicesPtr,
     }
 }
 
-
-OSG_END_NAMESPACE
 
 #ifdef DEBUG_VERTEX_NORMALS 
 #undef DEBUG_VERTEX_NORMALS
