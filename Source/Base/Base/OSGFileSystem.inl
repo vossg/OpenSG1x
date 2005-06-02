@@ -309,15 +309,15 @@ namespace Directory
                 
                 if(szPattern == NULL)
                 {
-                    szTmpDirname = new Char[strlen(szDirname) + 5];
+                    szTmpDirname = new Char8[stringlen(szDirname) + 5];
                     
                     sprintf(szTmpDirname, "%s\\*", szDirname);
                 }
                 else
                 {
-                    szTmpDirname = new Char[strlen(szDirname) +
-                                            strlen(szPattern) + 
-                                            5];
+                    szTmpDirname = new Char8[stringlen(szDirname) +
+                                             stringlen(szPattern) + 
+                                             5];
                     
                     sprintf(szTmpDirname, "%s\\%s", szDirname, szPattern);
                 }
