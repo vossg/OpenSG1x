@@ -42,6 +42,10 @@
 #pragma once
 #endif
 
+#include <OSGConfig.h>
+
+#ifndef OSG_DISABLE_DEPRECATED
+
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 
@@ -138,5 +142,7 @@ class OSG_BASE_DLLMAPPING SharedLibrary
 OSG_END_NAMESPACE
 
 #define OSGSHAREDLIBRARY_HEADER_CVSID "@(#)$Id: $"
+
+#endif
 
 #endif /* _OSGSHAREDLIBRARY_H_ */

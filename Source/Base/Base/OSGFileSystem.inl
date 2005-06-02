@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -87,7 +87,7 @@ namespace File
         bool  returnValue = false;
         Int32 rc          = 0;
         
-#ifdef OSG_MICROSOFT_COMPILER_ALERT
+#ifdef WIN32
         struct _stat statBuffer;
 #else
         struct  stat statBuffer;
@@ -95,10 +95,10 @@ namespace File
         
         if(szFilename != NULL)
         {
-#ifndef WIN32
-            rc = stat(szFilename, &statBuffer);
-#else
+#ifdef WIN32
             rc = _stat(szFilename, &statBuffer);
+#else
+            rc =  stat(szFilename, &statBuffer);
 #endif
             if(rc == 0 && ! (statBuffer.st_mode & OSGDIRFLAG))
             {
@@ -144,7 +144,7 @@ namespace Directory
         bool  returnValue = false;
         Int32 rc          = 0;
         
-#ifdef OSG_MICROSOFT_COMPILER_ALERT
+#ifdef WIN32
         struct _stat statBuffer;
 #else
         struct  stat statBuffer;
@@ -152,10 +152,10 @@ namespace Directory
         
         if(szDirname != NULL)
         {
-#ifndef WIN32
-            rc = stat(szDirname, &statBuffer);
-#else
+#ifdef WIN32
             rc = _stat(szDirname, &statBuffer);
+#else
+            rc = stat(szDirname, &statBuffer);
 #endif
             
             if(rc == 0 && (statBuffer.st_mode & OSGDIRFLAG))
@@ -207,7 +207,7 @@ namespace Directory
         while(1)
         {
 #ifndef WIN32
-            szTmpBuf = getcwd(returnValue, uiCurrentNameSize);
+            szTmpBuf =  getcwd(returnValue, uiCurrentNameSize);
 #else
             szTmpBuf = _getcwd(returnValue, uiCurrentNameSize);
 #endif
@@ -250,7 +250,8 @@ namespace Directory
      */
 
     inline
-    std::vector<Char8 *> *getEntries(const Char8 *szDirname)
+    std::vector<Char8 *> *getEntries(const Char8 *szDirname,
+                                     const Char8 *szPattern)
     {
         std::vector<Char8 *> *returnValue = NULL;
         
@@ -275,7 +276,22 @@ namespace Directory
                         {
                             stringDup(pDirEntry->d_name, szEntryName);
                             
-                            returnValue->push_back(szEntryName);
+                            if(szPattern != NULL)
+                            {
+                                if(fnmatch(szPattern, szEntryName, 0) == 0)
+                                {
+                                    returnValue->push_back(szEntryName);
+                                }
+                                else
+                                {
+                                    delete [] szEntryName;
+                                }
+                            }
+                            else
+                            {
+                                returnValue->push_back(szEntryName);
+                            }
+
                             szEntryName = NULL;
                         }
                     }
@@ -291,9 +307,20 @@ namespace Directory
                 HANDLE           pDir;
                 Char8           *szEntryName = NULL;
                 
-                szTmpDirname = new Char8[strlen(szDirname) + 5];
-                
-                sprintf(szTmpDirname, "%s\\*", szDirname);
+                if(szPattern == NULL)
+                {
+                    szTmpDirname = new Char[strlen(szDirname) + 5];
+                    
+                    sprintf(szTmpDirname, "%s\\*", szDirname);
+                }
+                else
+                {
+                    szTmpDirname = new Char[strlen(szDirname) +
+                                            strlen(szPattern) + 
+                                            5];
+                    
+                    sprintf(szTmpDirname, "%s\\%s", szDirname, szPattern);
+                }
                 
                 pDir = FindFirstFile(szTmpDirname, &pDirEntry);
                 
@@ -320,7 +347,7 @@ namespace Directory
                 }
                 
 #ifdef OSG_WIN32_ICL
-#pragma warning (default : 171)
+#pragma warning (error : 171)
 #endif
                 
                 delete szTmpDirname;
@@ -334,23 +361,25 @@ namespace Directory
     /*! @} */
 }
 
-
 namespace Path
 {
     inline
     static void fixWinNetworkPath(std::string &path)
     {
 #ifdef WIN32
-        // HACK but on windows network paths like \\Server\bla doesn't work, but
-        // //Server/bla works ...
-        if(path.length() > 2 &&
-           path[0] == '\\' &&
-           path[1] == '\\')
+        // HACK but on windows network paths like \\Server\bla doesn't work, 
+        // but //Server/bla works ...
+
+        if((path.length() >  2   ) &&
+           (path[0]       == '\\') &&
+           (path[1]       == '\\')  )
         {
-            for(Int32 i=0;i<path.length();++i)
+            for(Int32 i = 0; i < path.length(); ++i)
             {
                 if(path[i] == '\\')
+                {
                     path[i] = '/';
+                }
             }
         }
 #endif

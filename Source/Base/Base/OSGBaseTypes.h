@@ -559,6 +559,42 @@ const Real32 Inf = 1E30f;
 
 const Real32 NegInf = - 1E30f;
 
+#ifdef WIN32
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8 *PluginExt     = ".dll";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8 *PluginPattern = "*.dll";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8  DirSep    = '\\';
+
+#else
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8 *PluginExt     = ".so";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8 *PluginPattern = "*.so";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+static const Char8  DirSep    = '/';
+
+#endif
+
 /*! MathTypeProperties
  *  \ingroup GrpBaseBaseConstants
  */

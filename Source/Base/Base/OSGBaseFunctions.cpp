@@ -54,6 +54,8 @@
 
 #include "OSGBaseFunctions.h"
 #include "OSGThreadManager.h"
+#include "OSGSharedObjectHandler.h"
+#include "OSGFileSystem.h"
 
 #ifdef OSG_GV_BETA
 #include <OSGFactoryController.h>
@@ -61,11 +63,13 @@
 
 OSG_BEGIN_NAMESPACE
 
-static std::vector<InitFuncF> *osgInitFunctions       = NULL;
-static std::vector<ExitFuncF> *osgSystemExitFunctions = NULL;
+static std::vector<InitFuncF>    *osgInitFunctions       = NULL;
+static std::vector<ExitFuncF>    *osgSystemExitFunctions = NULL;
 
-static std::vector<InitFuncF> *osgPreMPInitFunctions  = NULL;
-static std::vector<ExitFuncF> *osgPostMPExitFunctions = NULL;
+static std::vector<InitFuncF>    *osgPreMPInitFunctions  = NULL;
+static std::vector<ExitFuncF>    *osgPostMPExitFunctions = NULL;
+
+static std::vector<std::string>  *osgPreloadSharedObject = NULL;
 
 /*! \ingroup GrpBaseBaseInitExit
  */
@@ -151,6 +155,21 @@ void addPostMPExitFunction(ExitFuncF exitFunc)
 /*! \ingroup GrpBaseBaseInitExit
  */
 
+void preloadSharedObject(const Char8 *szName)
+{
+    if(osgPreloadSharedObject == NULL)
+    {
+        osgPreloadSharedObject = new std::vector<std::string>;
+    }
+
+    std::string tmpString(szName);
+
+    osgPreloadSharedObject->push_back(tmpString);
+}
+
+/*! \ingroup GrpBaseBaseInitExit
+ */
+
 static void osgExitWrapper(void)
 {
     osgExit();
@@ -166,6 +185,88 @@ bool osgInit(Int32, Char8 **)
     
     UInt32 i;
     bool   returnValue = true;
+
+    returnValue = SharedObjectHandler::the()->initialize();
+
+    if(osgPreloadSharedObject != NULL)
+    {
+        for(UInt32 i = 0; i < osgPreloadSharedObject->size(); ++i)
+        {
+            SharedObjectHandler::the()->getOSGSharedObject(
+                (*osgPreloadSharedObject)[i].c_str());
+        }
+    }
+
+    char *szEnvLibs = getenv("OSG_LOAD_LIBS");
+
+    if(szEnvLibs != NULL)
+    {
+        std::string tmpString(szEnvLibs);
+        string_token_iterator libIt(tmpString, ":");
+
+        string_token_iterator libEnd;
+
+        while(libIt != libEnd)
+        {
+            SharedObjectHandler::the()->getOSGSharedObject(
+                (*libIt).c_str());
+
+            ++libIt;
+        }
+    }
+
+    const char *szEnvPlugins       = getenv("OSG_PLUGIN_PATH");
+    const char *szEnvPluginPattern = getenv("OSG_PLUGIN_PATTERN");
+
+    if(szEnvPlugins != NULL)
+    {
+        if(szEnvPluginPattern == NULL)
+        {
+            szEnvPluginPattern = PluginPattern;
+        }
+
+        FINFO(("Get Plugins %s from %s\n", 
+               szEnvPluginPattern,
+               szEnvPlugins));
+
+        std::vector<Char8 *> *pPlugins = 
+            Directory::getEntries(szEnvPlugins, szEnvPluginPattern);
+
+        if(pPlugins != NULL)
+        {
+            std::string szPluginName;
+
+            for(UInt32 i = 0; i < pPlugins->size(); ++i)
+            {
+                if((*pPlugins)[i][0] == '.')
+                {
+                    if((*pPlugins)[i][1] == '\0')
+                    {
+                        continue;
+                    }
+                    else if((*pPlugins)[i][1] == '.' &&
+                            (*pPlugins)[i][2] == '\0')
+                    {
+                        continue;
+                    }
+                }
+
+                szPluginName.assign(szEnvPlugins);
+                szPluginName += '/';
+                szPluginName += (*pPlugins)[i];
+
+                SharedObjectHandler::the()->getSharedObject(
+                    szPluginName.c_str());
+            }
+        }
+
+        delete pPlugins;
+    }
+
+    SharedObjectHandler::the()->dump();
+
+    if(returnValue == false)
+        return returnValue;
 
     if(osgPreMPInitFunctions != NULL)
     {

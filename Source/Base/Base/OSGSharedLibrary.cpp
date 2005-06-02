@@ -36,10 +36,13 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
+
+#ifndef OSG_DISABLE_DEPRECATED
 
 #include "OSGSharedLibrary.h"
 #include "OSGBaseFunctions.h"
@@ -230,3 +233,4 @@ namespace
     static Char8 cvsid_hpp[] = OSGSHAREDLIBRARY_HEADER_CVSID;
 }
 
+#endif

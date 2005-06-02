@@ -62,13 +62,14 @@
 #include <ieeefp.h>
 #endif
 
+#include <OSGConfig.h>
+#include <OSGBase.h>
+#include <OSGBaseTypes.h>
+
 #ifdef OSG_USE_STDMATH
 #include <cmath>
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
 
 #include <vector>
 #include <string>
@@ -656,6 +657,8 @@ void addPreMPInitFunction (InitFuncF initFunc);
 OSG_BASE_DLLMAPPING
 void addPostMPExitFunction(ExitFuncF exitFunc);
 
+OSG_BASE_DLLMAPPING
+void preloadSharedObject(const Char8 *szName);
 
 OSG_BASE_DLLMAPPING
 bool osgInit(Int32 argc, Char8 **argv);

@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright (C) 2000-2003 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -52,6 +52,7 @@
 #endif
 
 #ifndef WIN32
+#include <fnmatch.h>
 #include <dirent.h>
 #include <unistd.h>
 #include <vector>
@@ -86,29 +87,25 @@ namespace AccessFlags
 
 namespace File
 {
-    inline
     static bool tstAttr(const Char8  *szFilename,
                               UInt32  uiAccessFlags);
 }
 
 namespace Directory
 {
-    inline
     static bool                  tstAttr   (const Char8  *szDirname,
                                                   UInt32  uiAccessFlags);
-    inline
+
     static Char8                *getCurrent(void);
 
-    inline
-    static bool                  setCurrent(const Char8 *szDirname);
+    static bool                  setCurrent(const Char8 *szDirname,
+                                            const Char8 *szPattern);
 
-    inline
     static std::vector<Char8 *> *getEntries(const Char8 *szDirname);
 }
 
 namespace Path
 {
-    inline
     static void fixWinNetworkPath(std::string &path);
 }
 
@@ -116,7 +113,7 @@ namespace Path
 
 OSG_END_NAMESPACE
 
-#include <OSGFileSystem.inl>
+#include "OSGFileSystem.inl"
 
 #define OSGFILESYSTEM_HEADER_CVSID "@(#)$Id: $"
 
