@@ -288,8 +288,8 @@ class OSG_BASE_DLLMAPPING SharedObjectHandler
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend  bool osgInit(Int32 argc, Char8 **argv);
-    friend  bool osgExit(void                    );
+    friend  OSG_BASE_DLLMAPPING bool osgInit(Int32 argc, Char8 **argv);
+    friend  OSG_BASE_DLLMAPPING bool osgExit(void                    );
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
