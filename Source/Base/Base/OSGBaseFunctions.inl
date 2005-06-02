@@ -1401,6 +1401,138 @@ std::ostream &operator<<(std::ostream &os, Int64 v)
 }
 #endif
 
+/*---------------------------------------------------------------------*/
+/*               big/little endian conversion functions                */
+
+#if BYTE_ORDER == LITTLE_ENDIAN
+
+// host to network
+
+inline
+UInt16 osghtons(UInt16 src)
+{
+    return (src >> 8) | (src << 8);
+}
+
+inline
+UInt32 osghtonl(UInt32 src)
+{
+    return ((src&0x000000ff) << 24) |
+           ((src&0x0000ff00) << 8 ) |
+           ((src&0x00ff0000) >> 8 ) |
+           ((src&0xff000000) >> 24);
+}
+
+inline
+UInt64 osghtonll(UInt64 src)
+{
+#ifdef OSG_LONGLONG_HAS_LL
+    return ((src&0x00000000000000ffLL) << 56) |
+           ((src&0x000000000000ff00LL) << 40) |
+           ((src&0x0000000000ff0000LL) << 24) |
+           ((src&0x00000000ff000000LL) << 8 ) |
+           ((src&0x000000ff00000000LL) >> 8 ) |
+           ((src&0x0000ff0000000000LL) >> 24) |
+           ((src&0x00ff000000000000LL) >> 40) |
+           ((src&0xff00000000000000LL) >> 56);
+#else
+    return ((src&0x00000000000000ff) << 56) |
+           ((src&0x000000000000ff00) << 40) |
+           ((src&0x0000000000ff0000) << 24) |
+           ((src&0x00000000ff000000) << 8 ) |
+           ((src&0x000000ff00000000) >> 8 ) |
+           ((src&0x0000ff0000000000) >> 24) |
+           ((src&0x00ff000000000000) >> 40) |
+           ((src&0xff00000000000000) >> 56);
+#endif
+}
+
+// network to host
+
+inline
+UInt16 osgntohs(UInt16 src)
+{
+    return (src >> 8) | (src << 8);
+}
+
+inline
+UInt32 osgntohl(UInt32 src)
+{
+    return ((src&0x000000ff) << 24) |
+           ((src&0x0000ff00) << 8 ) |
+           ((src&0x00ff0000) >> 8 ) |
+           ((src&0xff000000) >> 24);
+}
+
+inline
+UInt64 osgntohll(UInt64 src)
+{
+#ifdef OSG_LONGLONG_HAS_LL
+    return ((src&0x00000000000000ffLL) << 56) |
+           ((src&0x000000000000ff00LL) << 40) |
+           ((src&0x0000000000ff0000LL) << 24) |
+           ((src&0x00000000ff000000LL) << 8 ) |
+           ((src&0x000000ff00000000LL) >> 8 ) |
+           ((src&0x0000ff0000000000LL) >> 24) |
+           ((src&0x00ff000000000000LL) >> 40) |
+           ((src&0xff00000000000000LL) >> 56);
+#else
+    return ((src&0x00000000000000ff) << 56) |
+           ((src&0x000000000000ff00) << 40) |
+           ((src&0x0000000000ff0000) << 24) |
+           ((src&0x00000000ff000000) << 8 ) |
+           ((src&0x000000ff00000000) >> 8 ) |
+           ((src&0x0000ff0000000000) >> 24) |
+           ((src&0x00ff000000000000) >> 40) |
+           ((src&0xff00000000000000) >> 56);
+#endif
+}
+
+#else
+
+// host to network
+// perhaps we should use macros here ...
+
+inline
+UInt16 osghtons(UInt16 src)
+{
+    return src;
+}
+
+inline
+UInt32 osghtonl(UInt32 src)
+{
+    return src;
+}
+
+inline
+UInt64 osghtonll(UInt64 src)
+{
+    return src;
+}
+
+// network to host
+
+inline
+UInt16 osgntohs(UInt16 src)
+{
+    return src;
+}
+
+inline
+UInt32 osgntohl(UInt32 src)
+{
+    return src;
+}
+
+inline
+UInt64 osgntohll(UInt64 src)
+{
+    return src;
+}
+
+#endif
+
 //---------------------------------------------------------------------------
 // Reference Count Functions
 //---------------------------------------------------------------------------

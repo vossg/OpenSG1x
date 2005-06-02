@@ -46,6 +46,7 @@
 #include <OSGBase.h>
 #include <OSGBaseTypes.h>
 #include <OSGException.h>
+#include <OSGBaseFunctions.h>
 
 #include <vector>
 #include <list>

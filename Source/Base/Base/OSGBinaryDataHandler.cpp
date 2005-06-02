@@ -351,7 +351,7 @@ void BinaryDataHandler::readBuffer(void)
 
     // read buffer size
     read((MemoryHandle) &nsize, sizeof(UInt32));
-    size = ntohl(nsize);
+    size = osgntohl(nsize);
 
     // read rest of buffer
     for(i = readBufBegin(); size != 0; ++i)
@@ -412,7 +412,7 @@ void BinaryDataHandler::writeBuffer(void)
     }
 
     // write buffer size
-    nsize = htonl(size);
+    nsize = osghtonl(size);
 
     write((MemoryHandle) &nsize, sizeof(UInt32));
 

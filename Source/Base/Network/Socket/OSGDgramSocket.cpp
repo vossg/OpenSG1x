@@ -62,6 +62,7 @@
 #include <math.h>
 #include <map>
 #include <OSGBase.h>
+#include <OSGBaseFunctions.h>
 #include <OSGSocketAddress.h>
 #include <OSGDgramSocket.h>
 #include <OSGNetworkMessage.h>
@@ -235,7 +236,7 @@ int DgramSocket::recvFrom(NetworkMessage &msg,SocketAddress &from)
 {
     NetworkMessage::Header hdr;
     peek(&hdr,sizeof(hdr));
-    msg.setSize(ntohl(hdr.size));
+    msg.setSize(osgntohl(hdr.size));
     return recvFrom(msg.getBuffer(),msg.getSize(),from);
 }
 
@@ -285,7 +286,7 @@ int DgramSocket::sendTo(const void *buf,int size,const SocketAddress &to)
 int DgramSocket::sendTo(NetworkMessage &msg,const SocketAddress &to)
 {
     NetworkMessage::Header &hdr=msg.getHeader();
-    hdr.size=htonl(msg.getSize());
+    hdr.size=osghtonl(msg.getSize());
     return sendTo(msg.getBuffer(),msg.getSize(),to);
 }
 

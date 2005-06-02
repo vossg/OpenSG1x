@@ -39,19 +39,12 @@
 #include <OSGConfig.h>
 #include <iostream>
 
-// Application declarations
-// to get ntons/ntohs
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <arpa/inet.h>
-#endif
-
 // Class declarations
 #include "OSGImageFileType.h"
 #include "OSGImageFileHandler.h"
 #include "OSGImageGenericAtt.h"
 #include "OSGLog.h"
+#include "OSGBaseFunctions.h"
 
 OSG_USING_NAMESPACE
 
@@ -67,18 +60,18 @@ Helper method to convert the Head block from net to host format
 */
 bool ImageFileType::Head::netToHost(void)
 {
-    pixelFormat    = ntohs(pixelFormat);
-    width          = ntohs(width);
-    height         = ntohs(height);
-    depth          = ntohs(depth);
-    mipmapCount    = ntohs(mipmapCount);
-    frameCount     = ntohs(frameCount);
-    frameDelay     = ntohs(frameDelay);
-    sideCount      = ntohs(sideCount);
-    dataType       = ntohs(dataType);
+    pixelFormat    = osgntohs(pixelFormat);
+    width          = osgntohs(width);
+    height         = osgntohs(height);
+    depth          = osgntohs(depth);
+    mipmapCount    = osgntohs(mipmapCount);
+    frameCount     = osgntohs(frameCount);
+    frameDelay     = osgntohs(frameDelay);
+    sideCount      = osgntohs(sideCount);
+    dataType       = osgntohs(dataType);
     _reserved3     = 0;
     _reserved4     = 0;
-    attachmentSize = ntohs(attachmentSize);
+    attachmentSize = osgntohs(attachmentSize);
 
     return true;
 }
@@ -90,18 +83,18 @@ Helper method to convert the Head block from host to net format
 */
 bool ImageFileType::Head::hostToNet(void)
 {
-    pixelFormat    = htons(pixelFormat);
-    width          = htons(width);
-    height         = htons(height);
-    depth          = htons(depth);
-    mipmapCount    = htons(mipmapCount);
-    frameCount     = htons(frameCount);
-    frameDelay     = htons(frameDelay);
-    sideCount      = htons(sideCount);
-    dataType       = htons(dataType);
+    pixelFormat    = osghtons(pixelFormat);
+    width          = osghtons(width);
+    height         = osghtons(height);
+    depth          = osghtons(depth);
+    mipmapCount    = osghtons(mipmapCount);
+    frameCount     = osghtons(frameCount);
+    frameDelay     = osghtons(frameDelay);
+    sideCount      = osghtons(sideCount);
+    dataType       = osghtons(dataType);
     _reserved3     = 0;
     _reserved4     = 0;
-    attachmentSize = htons(attachmentSize);
+    attachmentSize = osghtons(attachmentSize);
 
     return true;
 }

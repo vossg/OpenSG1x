@@ -39,14 +39,6 @@
 #ifndef _DGRAM_INL_
 #define _DGRAM_INL_
 
-// Application declarations
-// to get ntons/ntohs
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <arpa/inet.h>
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
@@ -59,7 +51,7 @@ UInt32 Dgram::getCapacity(void) const
 
 UInt16 Dgram::getId(void) const
 {
-    return ntohs(_buffer._id);
+    return osgntohs(_buffer._id);
 }
 
 UInt32 Dgram::getSize(void) const
@@ -117,7 +109,7 @@ inline void Dgram::setResponseSize(void)
 
 inline void Dgram::setId(UInt16 id)
 {
-    _buffer._id = htons(id);
+    _buffer._id = osghtons(id);
 }
 
 inline void Dgram::setBufferSize(UInt32 size)

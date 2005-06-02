@@ -34,81 +34,11 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef WIN32
-#include <netinet/in.h>
-#endif
 #include <sys/types.h>
 
 #include <OSGBaseFunctions.h>
 
 OSG_BEGIN_NAMESPACE
-
-// define helper functions
-#if BYTE_ORDER == LITTLE_ENDIAN
-inline
-UInt64 htonl64(const UInt64 &src)  
-{
-#ifdef OSG_LONGLONG_HAS_LL
-    return 
-        ((src&0x00000000000000ffLL) << 56) |
-        ((src&0x000000000000ff00LL) << 40) |
-        ((src&0x0000000000ff0000LL) << 24) |
-        ((src&0x00000000ff000000LL) << 8 ) |
-        ((src&0x000000ff00000000LL) >> 8 ) |
-        ((src&0x0000ff0000000000LL) >> 24) |
-        ((src&0x00ff000000000000LL) >> 40) |
-        ((src&0xff00000000000000LL) >> 56);
-#else
-    return 
-        ((src&0x00000000000000ff) << 56) |
-        ((src&0x000000000000ff00) << 40) |
-        ((src&0x0000000000ff0000) << 24) |
-        ((src&0x00000000ff000000) << 8 ) |
-        ((src&0x000000ff00000000) >> 8 ) |
-        ((src&0x0000ff0000000000) >> 24) |
-        ((src&0x00ff000000000000) >> 40) |
-        ((src&0xff00000000000000) >> 56);
-#endif
-}
-
-inline
-UInt64 ntohl64(const UInt64 &src)  
-{
-#ifdef OSG_LONGLONG_HAS_LL
-    return
-        ((src&0x00000000000000ffLL) << 56) |
-        ((src&0x000000000000ff00LL) << 40) |
-        ((src&0x0000000000ff0000LL) << 24) |
-        ((src&0x00000000ff000000LL) << 8 ) |
-        ((src&0x000000ff00000000LL) >> 8 ) |
-        ((src&0x0000ff0000000000LL) >> 24) |
-        ((src&0x00ff000000000000LL) >> 40) |
-        ((src&0xff00000000000000LL) >> 56);
-#else
-    return
-        ((src&0x00000000000000ff) << 56) |
-        ((src&0x000000000000ff00) << 40) |
-        ((src&0x0000000000ff0000) << 24) |
-        ((src&0x00000000ff000000) << 8 ) |
-        ((src&0x000000ff00000000) >> 8 ) |
-        ((src&0x0000ff0000000000) >> 24) |
-        ((src&0x00ff000000000000) >> 40) |
-        ((src&0xff00000000000000) >> 56);
-#endif
-}
-#else
-inline
-UInt64 htonl64(const UInt64 &src) 
-{
-    return src;   
-} 
-
-inline
-UInt64 ntohl64(const UInt64 &src) 
-{
-    return src;   
-} 
-#endif
 
 inline
 BinaryDataHandler::ReadError::ReadError(const Char8 *reson) : 
@@ -146,7 +76,7 @@ void BinaryDataHandler::putValue(const UInt8 &value)
 inline 
 void BinaryDataHandler::putValue(const UInt16 &value)
 {
-    UInt16 z = htons(value);
+    UInt16 z = osghtons(value);
 
     put(&z, sizeof(UInt16));
 }
@@ -154,7 +84,7 @@ void BinaryDataHandler::putValue(const UInt16 &value)
 inline 
 void BinaryDataHandler::putValue(const UInt32 &value)
 {
-    UInt32 z = htonl(value);
+    UInt32 z = osghtonl(value);
 
     put(&z, sizeof(UInt32));
 }
@@ -162,7 +92,7 @@ void BinaryDataHandler::putValue(const UInt32 &value)
 inline 
 void BinaryDataHandler::putValue(const UInt64 &value)
 {
-    UInt64 z = htonl64(value);
+    UInt64 z = osghtonll(value);
 
     put(&z, sizeof(UInt64));
 }
@@ -176,7 +106,7 @@ void BinaryDataHandler::putValue(const Int8 &value)
 inline 
 void BinaryDataHandler::putValue(const Int16 &value)
 {
-    Int16 z = htons(value);
+    Int16 z = osghtons(value);
 
     put(&z, sizeof(Int16));
 }
@@ -184,7 +114,7 @@ void BinaryDataHandler::putValue(const Int16 &value)
 inline 
 void BinaryDataHandler::putValue(const Int32 &value)
 {
-    Int32 z = htonl(value);
+    Int32 z = osghtonl(value);
 
     put(&z, sizeof(Int32));
 }
@@ -192,7 +122,7 @@ void BinaryDataHandler::putValue(const Int32 &value)
 inline 
 void BinaryDataHandler::putValue(const Int64 &value)
 {
-    Int64 z = htonl64(value);
+    Int64 z = osghtonll(value);
     put(&z, sizeof(Int64));
 
 }
@@ -200,7 +130,7 @@ void BinaryDataHandler::putValue(const Int64 &value)
 inline 
 void BinaryDataHandler::putValue(const Real16 &value)
 {
-    UInt16 v = htons(value.bits());
+    UInt16 v = osghtons(value.bits());
 
     put(&v, sizeof(Real16));
 }
@@ -208,7 +138,7 @@ void BinaryDataHandler::putValue(const Real16 &value)
 inline 
 void BinaryDataHandler::putValue(const Real32 &value)
 {
-    UInt32 v = htonl( *((const UInt32 *)(&value)) );
+    UInt32 v = osghtonl( *((const UInt32 *)(&value)) );
 
     put(&v, sizeof(Real32));
 }
@@ -216,7 +146,7 @@ void BinaryDataHandler::putValue(const Real32 &value)
 inline 
 void BinaryDataHandler::putValue(const Real64 &value)
 {
-    UInt64 v = htonl64( *((const UInt64 *)(&value)) );
+    UInt64 v = osghtonll( *((const UInt64 *)(&value)) );
 
     put(&v, sizeof(Real64));
 }
@@ -224,8 +154,8 @@ void BinaryDataHandler::putValue(const Real64 &value)
 inline 
 void BinaryDataHandler::putValue(const Real128 &value)
 {
-    UInt64 v = htonl64( *( (const UInt64 *)(&value)) );
-    UInt64 w = htonl64( *(((const UInt64 *)(&value)) + 1) );
+    UInt64 v = osghtonll( *( (const UInt64 *)(&value)) );
+    UInt64 w = osghtonll( *(((const UInt64 *)(&value)) + 1) );
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     put(&w, sizeof(UInt64));
@@ -490,7 +420,7 @@ void BinaryDataHandler::getValue(UInt16 &value)
 {
     get(&value, sizeof(UInt16));
 
-    value = ntohs(value);
+    value = osgntohs(value);
 }
 
 inline 
@@ -498,7 +428,7 @@ void BinaryDataHandler::getValue(UInt32 &value)
 {
     get(&value, sizeof(UInt32));
 
-    value = ntohl(value);
+    value = osgntohl(value);
 }
 
 inline 
@@ -506,7 +436,7 @@ void BinaryDataHandler::getValue(UInt64 &value)
 {
     get(&value, sizeof(UInt64));
 
-    value = ntohl64(value);
+    value = osgntohll(value);
 }
 
 inline 
@@ -520,7 +450,7 @@ void BinaryDataHandler::getValue(Int16 &value)
 {
     get(&value, sizeof(Int16));
 
-    value = ntohs(value);
+    value = osgntohs(value);
 }
 
 inline 
@@ -528,7 +458,7 @@ void BinaryDataHandler::getValue(Int32 &value)
 {
     get(&value, sizeof(Int32));
 
-    value = ntohl(value);
+    value = osgntohl(value);
 }
 
 inline 
@@ -536,7 +466,7 @@ void BinaryDataHandler::getValue(Int64 &value)
 {
     get(&value, sizeof(Int64));
 
-    value = ntohl64(value);
+    value = osgntohll(value);
 }
 
 inline 
@@ -546,7 +476,7 @@ void BinaryDataHandler::getValue(Real16 &value)
 
     get(&v, sizeof(Real16));
 
-    v     = ntohs(v);
+    v     = osgntohs(v);
     value.setBits(v);
 }
 
@@ -557,7 +487,7 @@ void BinaryDataHandler::getValue(Real32 &value)
 
     get(&v, sizeof(Real32));
 
-    v     = ntohl(v);
+    v     = osgntohl(v);
     value = *(reinterpret_cast<Real32 *>(&v));
 }
 
@@ -568,7 +498,7 @@ void BinaryDataHandler::getValue(Real64 &value)
 
     get(&v, sizeof(Real64));
 
-    v     = ntohl64(v);
+    v     = osgntohll(v);
     value = *(reinterpret_cast<Real64 *>(&v));
 }
 
@@ -585,8 +515,8 @@ void BinaryDataHandler::getValue(Real128 &value)
     get(&v[1], sizeof(UInt64));
 #endif
 
-    v[0]     = ntohl64(v[0]);
-    v[1]     = ntohl64(v[1]);
+    v[0]     = osgntohll(v[0]);
+    v[1]     = osgntohll(v[1]);
     value = *(reinterpret_cast<Real128 *>(&v));
 }
 
@@ -636,7 +566,7 @@ void BinaryDataHandler::getValues(UInt16 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohs(value[i]);
+            value[i] = osgntohs(value[i]);
         }
     }
 #endif
@@ -652,7 +582,7 @@ void BinaryDataHandler::getValues(UInt32 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohl(value[i]);
+            value[i] = osgntohl(value[i]);
         }
     }
 #endif
@@ -668,7 +598,7 @@ void BinaryDataHandler::getValues(UInt64 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohl64(value[i]);
+            value[i] = osgntohll(value[i]);
         }
     }
 #endif
@@ -690,7 +620,7 @@ void BinaryDataHandler::getValues(Int16 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohs(value[i]);
+            value[i] = osgntohs(value[i]);
         }
     }
 #endif
@@ -706,7 +636,7 @@ void BinaryDataHandler::getValues(Int32 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohl(value[i]);
+            value[i] = osgntohl(value[i]);
         }
     }
 #endif
@@ -722,7 +652,7 @@ void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
     {
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i] = ntohl64(value[i]);
+            value[i] = osgntohll(value[i]);
         }
     }
 #endif
@@ -740,7 +670,7 @@ void BinaryDataHandler::getValues(Real16 *value, UInt32 size)
 
         for(UInt32 i = 0; i < size; ++i)
         {
-            value[i].setBits(ntohs(intValue[i]));
+            value[i].setBits(osgntohs(intValue[i]));
         }
     }
 #endif
@@ -758,7 +688,7 @@ void BinaryDataHandler::getValues(Real32 *value, UInt32 size)
 
         for(UInt32 i = 0; i < size; ++i)
         {
-            intValue[i] = ntohl(intValue[i]);
+            intValue[i] = osgntohl(intValue[i]);
         }
     }
 #endif
@@ -776,7 +706,7 @@ void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 
         for(UInt32 i = 0; i < size; ++i)
         {
-            longValue[i] = ntohl64(longValue[i]);
+            longValue[i] = osgntohll(longValue[i]);
         }
     }
 #endif
@@ -795,8 +725,8 @@ void BinaryDataHandler::getValues(Real128 *value, UInt32 size)
         for(UInt32 i = 0; i < size; i += 2)
         {
             UInt64 l = longValue[i];
-            longValue[i]     = ntohl64(longValue[i + 1]);
-            longValue[i + 1] = ntohl64(longValue[l    ]);
+            longValue[i]     = osgntohll(longValue[i + 1]);
+            longValue[i + 1] = osgntohll(longValue[l    ]);
         }
     }
 #endif

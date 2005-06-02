@@ -47,6 +47,7 @@
 
 #include "OSGConfig.h"
 #include "OSGLog.h"
+#include "OSGBaseFunctions.h"
 #include "OSGBaseThread.h"
 #include "OSGSocketSelection.h"
 #include "OSGBinaryMessage.h"
@@ -167,7 +168,7 @@ void GroupSockPipeline::writeBuffer(void)
 
     UInt32 size = writeBufBegin()->getDataSize();
     // write size to header
-    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=htonl(size);
+    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=osghtonl(size);
     if(size)
     {
         _next.send(&_socketWriteBuffer[0],

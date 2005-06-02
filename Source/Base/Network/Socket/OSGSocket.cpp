@@ -65,6 +65,7 @@
 #include <math.h>
 #include <map>
 #include <OSGBase.h>
+#include <OSGBaseFunctions.h>
 #include <OSGSocketAddress.h>
 #include <OSGSocket.h>
 #include <OSGSocketSelection.h>
@@ -280,7 +281,7 @@ int Socket::recv(NetworkMessage &msg)
 {
     NetworkMessage::Header hdr;
     peek(&hdr,sizeof(hdr));
-    msg.setSize(ntohl(hdr.size));
+    msg.setSize(osgntohl(hdr.size));
     return recv(msg.getBuffer(),msg.getSize());
 }
 
@@ -357,7 +358,7 @@ int Socket::send(const void *buf,int size)
 int Socket::send(NetworkMessage &msg)
 {
     NetworkMessage::Header &hdr=msg.getHeader();
-    hdr.size=htonl(msg.getSize());
+    hdr.size=osghtonl(msg.getSize());
     return send(msg.getBuffer(),msg.getSize());
 }
 

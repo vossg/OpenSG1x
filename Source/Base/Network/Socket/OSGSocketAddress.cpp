@@ -55,6 +55,7 @@
 #include <ctype.h>
 
 #include "OSGBase.h"
+#include "OSGBaseFunctions.h"
 #include "OSGSocketAddress.h"
 #include "OSGSocketException.h"
 
@@ -99,12 +100,12 @@ SocketAddress::SocketAddress(SocketAddress::Type type,int port)
     _sockaddr.sin_family = AF_INET;
     switch(type)
     {
-        case ANY:       _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+        case ANY:       _sockaddr.sin_addr.s_addr = osghtonl(INADDR_ANY);
                         break;
-        case BROADCAST: _sockaddr.sin_addr.s_addr = htonl(INADDR_BROADCAST);
+        case BROADCAST: _sockaddr.sin_addr.s_addr = osghtonl(INADDR_BROADCAST);
 //            setHost(std::string("192.168.0.255"));
                         break;
-        default:        _sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+        default:        _sockaddr.sin_addr.s_addr = osghtonl(INADDR_ANY);
     }
     setPort(port);
 }
@@ -129,7 +130,7 @@ SocketAddress::~SocketAddress()
  */
 void SocketAddress::setPort(int port)
 {
-    _sockaddr.sin_port = htons( port );
+    _sockaddr.sin_port = osghtons( port );
 }
 
 /*! Set host name
@@ -196,7 +197,7 @@ std::string SocketAddress::getHostByName() const
  */ 
 bool SocketAddress::isMulticast(void)
 {
-    UInt32 addr = ntohl(_sockaddr.sin_addr.s_addr);
+    UInt32 addr = osgntohl(_sockaddr.sin_addr.s_addr);
     return addr & 0xC0000;
 }
 
@@ -219,7 +220,7 @@ int SocketAddress::getSockAddrSize(void) const
  */
 int SocketAddress::getPort(void) const
 {
-    return ntohs(_sockaddr.sin_port);
+    return osgntohs(_sockaddr.sin_port);
 }
 
 /*-------------------------------------------------------------------------*/

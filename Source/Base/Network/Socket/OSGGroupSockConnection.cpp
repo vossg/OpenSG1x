@@ -47,6 +47,7 @@
 
 #include "OSGConfig.h"
 #include "OSGLog.h"
+#include "OSGBaseFunctions.h"
 #include "OSGSocketSelection.h"
 #include "OSGSocketException.h"
 #include "OSGGroupSockConnection.h"
@@ -329,7 +330,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
                 if(result.isSetRead(_sockets[index]))
                 {
                     len = _sockets[index].recv(&tag,sizeof(tag));
-                    tag = ntohl(tag);
+                    tag = osgntohl(tag);
                     if(len == 0)
                         throw ReadError("Channel closed");
                     selection.clearRead(_sockets[index]);
@@ -354,7 +355,7 @@ bool GroupSockConnection::wait(Time timeout) throw (ReadError)
  */
 void GroupSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=htonl(314156);
+    UInt32 tag=osghtonl(314156);
     UInt32 index;
 
     try
@@ -418,7 +419,7 @@ void GroupSockConnection::readBuffer()
     if(len==0)
         throw ReadError("Channel closed");
     // read remaining data
-    size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
+    size=osgntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
     len=_sockets[_readIndex].recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
                          size);
     if(len==0)
@@ -459,7 +460,7 @@ void GroupSockConnection::writeBuffer(void)
     Int32 index;
     UInt32 size = writeBufBegin()->getDataSize();
     // write size to header
-    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=htonl(size);
+    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=osghtonl(size);
     if(size)
     {
         // write data to all sockets

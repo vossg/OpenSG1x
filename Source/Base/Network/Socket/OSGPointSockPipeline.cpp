@@ -45,6 +45,7 @@
 
 #include "OSGConfig.h"
 #include "OSGLog.h"
+#include "OSGBaseFunctions.h"
 #include "OSGBaseThread.h"
 #include "OSGSocketSelection.h"
 #include "OSGBinaryMessage.h"
@@ -198,7 +199,7 @@ void PointSockPipeline::readBuffer()
     if(len==0)
         throw ReadError("peek got 0 bytes!");
     // read remaining data
-    size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
+    size=osgntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
     len=_prev.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
                    size);
     if(len==0)

@@ -45,6 +45,7 @@
 
 #include "OSGConfig.h"
 #include "OSGLog.h"
+#include "OSGBaseFunctions.h"
 #include "OSGSocketSelection.h"
 #include "OSGPointSockConnection.h"
 #include "OSGGroupSockConnection.h"
@@ -246,7 +247,7 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
             return false;
         if(!_socket.recv(&tag,sizeof(tag)))
             throw ReadError("Channel closed");
-        tag = ntohl(tag);
+        tag = osgntohl(tag);
         if(tag != 314156)
         {
             FFATAL(("Stream out of sync in SockConnection\n"));
@@ -264,7 +265,7 @@ bool PointSockConnection::wait(Time timeout) throw (ReadError)
  */
 void PointSockConnection::signal(void) throw (WriteError)
 {
-    UInt32 tag=htonl(314156);
+    UInt32 tag=osghtonl(314156);
     try
     {
         _socket.send(&tag,sizeof(tag));
@@ -324,7 +325,7 @@ void PointSockConnection::readBuffer()
     if(len==0)
         throw ReadError("peek got 0 bytes!");
     // read remaining data
-    size=ntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
+    size=osgntohl(((SocketBufferHeader*)&_socketReadBuffer[0])->size);
     len=_socket.recv(&_socketReadBuffer[sizeof(SocketBufferHeader)],
                      size);
     if(len==0)
@@ -354,7 +355,7 @@ void PointSockConnection::writeBuffer(void)
     Int32 index;
     UInt32 size = writeBufBegin()->getDataSize();
     // write size to header
-    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=htonl(size);
+    ((SocketBufferHeader*)&_socketWriteBuffer[0])->size=osghtonl(size);
     if(size)
     {
         // write whole block

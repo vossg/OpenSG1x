@@ -547,6 +547,31 @@ std::ostream &operator<<(std::ostream &os, Int64 v);
 
 #endif 
 
+/*---------------------------------------------------------------------*/
+/*               big/little endian conversion functions                */
+
+// host to network
+
+inline
+UInt16 osghtons(UInt16 src);
+
+inline
+UInt32 osghtonl(UInt32 src);
+
+inline
+UInt64 osghtonll(UInt64 src);
+
+// network to host
+
+inline
+UInt16 osgntohs(UInt16 src);
+
+inline
+UInt32 osgntohl(UInt32 src);
+
+inline
+UInt64 osgntohll(UInt64 src);
+
 
 /*---------------------------------------------------------------------*/
 /*                MemoryObject Reference Count Functions               */

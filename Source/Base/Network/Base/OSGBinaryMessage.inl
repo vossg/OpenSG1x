@@ -39,12 +39,6 @@
 #ifndef _BINSOCKETMESSAGE_INL_
 #define _BINSOCKETMESSAGE_INL_
 
-#ifdef WIN32
-#include <winsock.h>
-#else
-#include <arpa/inet.h>
-#endif
-
 OSG_BEGIN_NAMESPACE
 
 /*---------------------------------------------------------------------*/
@@ -52,25 +46,25 @@ OSG_BEGIN_NAMESPACE
 
 inline void BinaryMessage::putUInt32(const UInt32  value)
 {
-    Int32 net=htonl(value);
+    Int32 net=osghtonl(value);
     _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
 }
 
 inline void BinaryMessage::putInt32 (const Int32  value)
 {
-    Int32 net=htonl(value);
+    Int32 net=osghtonl(value);
     _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
 }
 
 inline void BinaryMessage::putUInt16(const UInt16  value)
 {
-    Int16 net=htons(value);
+    Int16 net=osghtons(value);
     _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
 }
 
 inline void BinaryMessage::putInt16 (const Int16  value)
 {
-    Int16 net=htons(value);
+    Int16 net=osghtons(value);
     _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
 }
 
@@ -108,7 +102,7 @@ inline void BinaryMessage::getUInt32(UInt32  &value)
 {
     Int32 net;
     memcpy(&net,&_buffer[_pos],sizeof(net));
-    value=ntohl(net);
+    value=osgntohl(net);
     _pos+=sizeof(net);
 }
 
@@ -116,21 +110,21 @@ inline void BinaryMessage::getInt32 (Int32  &value)
 {
     Int32 net;
     memcpy(&net,&_buffer[_pos],sizeof(net));
-    value=ntohl(net);
+    value=osgntohl(net);
     _pos+=sizeof(net);
 }
 
 inline void BinaryMessage::getUInt16(UInt16  &value)
 {
     Int16 net=*((Int16 *)( &_buffer[_pos]));
-    value=ntohs(net);
+    value=osgntohs(net);
     _pos+=sizeof(net);
 }
 
 inline void BinaryMessage::getInt16 (Int16  &value)
 {
     Int16 net=*((Int16 *)( &_buffer[_pos]));
-    value=ntohs(net);
+    value=osgntohs(net);
     _pos+=sizeof(net);
 }
 
@@ -223,10 +217,3 @@ inline Real32 BinaryMessage::getReal32(void)
 OSG_END_NAMESPACE
 
 #endif
-
-
-
-
-
-
-
