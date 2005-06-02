@@ -510,8 +510,12 @@ inline UInt32
 ExtrusionSurface::store(PType property, 
                         std::map<PType, UInt32, vecless<PType> > &pIndexMap)
 {
-    typedef typename std::map<PType, UInt32>::iterator   PTypeMapIterator;
-    typedef typename std::map<PType, UInt32>::value_type PTypeMapValueType;
+    typedef typename std::map<PType, 
+                              UInt32,
+                              vecless<PType> >::iterator   PTypeMapIterator;
+    typedef typename std::map<PType, 
+                              UInt32,
+                              vecless<PType> >::value_type PTypeMapValueType;
     
     UInt32 newIndex = pIndexMap.size();
     const std::pair<PTypeMapIterator, bool>& result
@@ -551,7 +555,7 @@ ExtrusionSurface::store(PType property,
 OSG_END_NAMESPACE
 
 
-#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.1 2005/06/01 09:31:51 jbehr Exp $"
+#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.2 2005/06/02 14:32:16 vossg Exp $"
 
 
 #ifdef DEBUG_SUBDIVISION
