@@ -92,7 +92,7 @@ FieldDescription *ShaderParameterBase::_desc[] =
 
 FieldContainerType ShaderParameterBase::_type(
     "ShaderParameter",
-    "FieldContainer",
+    "AttachmentContainer",
     NULL,
     NULL, 
     ShaderParameter::initMethod,
@@ -215,7 +215,7 @@ void ShaderParameterBase::executeSyncImpl(      ShaderParameterBase *pOther,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<ShaderParameterPtr>::_type("ShaderParameterPtr", "FieldContainerPtr");
+DataType FieldDataTraits<ShaderParameterPtr>::_type("ShaderParameterPtr", "AttachmentContainerPtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -237,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.5 2005/05/30 20:00:11 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.6 2005/06/03 08:55:37 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

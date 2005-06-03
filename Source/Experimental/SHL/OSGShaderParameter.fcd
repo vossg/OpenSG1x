@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="ShaderParameter"
-	parent="FieldContainer"
+	parent="AttachmentContainer"
 	library="System"
 	pointerfieldtypes="both"
 	structure="abstract"

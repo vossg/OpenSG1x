@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGFieldContainerFields.h>
+#include <OSGAttachmentContainerFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class ShaderParameter;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ShaderParameterPtr
 
-typedef FCPtr<FieldContainerPtr, ShaderParameter> ShaderParameterPtr;
+typedef FCPtr<AttachmentContainerPtr, ShaderParameter> ShaderParameterPtr;
 
 #endif
 
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterFields.h,v 1.5 2005/05/30 20:00:11 dirk Exp $"
+#define OSGSHADERPARAMETERFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterFields.h,v 1.6 2005/06/03 08:55:37 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERFIELDS_H_ */

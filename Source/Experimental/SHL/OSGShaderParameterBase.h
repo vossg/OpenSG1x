@@ -65,7 +65,7 @@
 #include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
-#include <OSGFieldContainer.h> // Parent
+#include <OSGAttachmentContainer.h> // Parent
 
 #include <OSGStringFields.h> // Name type
 
@@ -78,11 +78,11 @@ class BinaryDataHandler;
 
 //! \brief ShaderParameter Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public FieldContainer
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public AttachmentContainer
 {
   private:
 
-    typedef FieldContainer    Inherited;
+    typedef AttachmentContainer    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -217,6 +217,6 @@ typedef RefPtr<ShaderParameterPtr> ShaderParameterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.5 2005/05/30 20:00:11 dirk Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.6 2005/06/03 08:55:37 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */
