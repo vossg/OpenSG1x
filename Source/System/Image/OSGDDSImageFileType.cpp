@@ -572,8 +572,16 @@ bool CDDSImage::load(std::string filename, bool flipImage)
         compressed = false;
         components = 3;
     }
+    else if (/*ddsh.ddspf.dwFlags == 0x20000  &&*/ ddsh.ddspf.dwRGBBitCount == 8)
+    {
+        format = Image::OSG_L_PF; 
+        compressed = false;
+        components = 1;
+    }
     else 
     {
+        printf("type: flags(%x) bits(%u)\n", ddsh.ddspf.dwFlags, ddsh.ddspf.dwRGBBitCount);
+        SWARNING << "ERROR: unknown image format!" << endLog;
         fclose(fp);
         return false;
     }
