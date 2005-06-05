@@ -580,7 +580,6 @@ bool CDDSImage::load(std::string filename, bool flipImage)
     }
     else 
     {
-        printf("type: flags(%x) bits(%u)\n", ddsh.ddspf.dwFlags, ddsh.ddspf.dwRGBBitCount);
         SWARNING << "ERROR: unknown image format!" << endLog;
         fclose(fp);
         return false;
