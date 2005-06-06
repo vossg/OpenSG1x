@@ -68,6 +68,10 @@ OSG_SYSTEMLIB_DLLMAPPING void dropVolume(DrawActionBase *action,
                                          NodePtr node,
                                          Color3f col);
 
+OSG_SYSTEMLIB_DLLMAPPING void dropVolume(DrawActionBase *action, 
+                                         const DynamicVolume &volume,
+                                         Color3f col);
+
 /*! \}                                                                 */
 
 OSG_END_NAMESPACE

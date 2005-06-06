@@ -277,7 +277,12 @@ class VolumeDrawWrapper
     {
         node->updateVolume();
         
-        VolumeDrawWrapper * vdw = new VolumeDrawWrapper(node->getVolume(), col);
+        drop(action, node->getVolume(), col);
+    }
+    
+    static void drop(DrawActionBase *action, const DynamicVolume &volume, Color3f col)
+    {
+        VolumeDrawWrapper * vdw = new VolumeDrawWrapper(volume, col);
 
         Material::DrawFunctor func;
         func = osgTypedMethodFunctor1ObjPtr(vdw, &VolumeDrawWrapper::draw);
@@ -311,5 +316,15 @@ OSG_SYSTEMLIB_DLLMAPPING
 void OSG::dropVolume(DrawActionBase *action, NodePtr node, Color3f col)
 {
     VolumeDrawWrapper::drop(action, node, col);
+    return;
+}
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the volume.
+*/
+OSG_SYSTEMLIB_DLLMAPPING 
+void OSG::dropVolume(DrawActionBase *action, const DynamicVolume &volume, Color3f col)
+{
+    VolumeDrawWrapper::drop(action, volume, col);
     return;
 }
