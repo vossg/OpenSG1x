@@ -145,6 +145,10 @@ OSG_USING_NAMESPACE
     The action used to render the scene.
  */
 
+/*! \var SimpleSceneManager::_ownAction
+    The action created by this SSM.
+ */
+
 /*! \var SimpleSceneManager::_cart
     The core of the camera beacon. Manipulated by the navigator.
  */
@@ -196,6 +200,7 @@ SimpleSceneManager::SimpleSceneManager(void) :
     _internalRoot   (NullFC),
     _headlight      (NullFC),
     _action         (NULL  ),
+    _ownAction      (NULL  ),
     _cart           (NullFC),
     _camera         (NullFC),
     _navigator      (      ),
@@ -219,8 +224,7 @@ SimpleSceneManager* SimpleSceneManager::create(void)
 
 SimpleSceneManager::~SimpleSceneManager(void)
 {
-    if(_action)
-        delete _action;
+    delete _ownAction;
 
     setRoot(NullFC); // sub root
     if(_internalRoot != NullFC)
@@ -288,20 +292,25 @@ DrawActionBase *SimpleSceneManager::getAction(void)
     return _action;
 }
 
-/*! set the action used to render the scene
+/*! set the action used to render the scene. Use NULL to set to 
+    internally created action.
  */
 void SimpleSceneManager::setAction(RenderAction *action)
 {
     bool statstate = _statstate;
 
-    if(_action != NULL)
-    {
-        if(statstate)
-            setStatistics(false);
-        delete _action;
-    }
+    if(_action != NULL && statstate)
+        setStatistics(false);
 
-    _action = action;
+    if(action == NULL)
+    {
+        _action = _ownAction;
+    }
+    else
+    {
+        _action = action;
+    }
+    
     if(statstate)
         setStatistics(true);
 }
@@ -403,7 +412,8 @@ void SimpleSceneManager::setStatistics(bool on)
 void SimpleSceneManager::initialize(void)
 {
     // the rendering action
-    _action = RenderAction::create();
+    _ownAction = RenderAction::create();
+    _action = _ownAction;
 
     // the camera and light beacon
     NodePtr cartN = Node::create();

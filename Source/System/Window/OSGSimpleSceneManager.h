@@ -192,6 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     NodePtr                      _internalRoot;
     DirectionalLightPtr          _headlight;
     RenderAction *               _action;
+    RenderAction *               _ownAction;
     TransformPtr                 _cart;
     PerspectiveCameraPtr         _camera;
 
