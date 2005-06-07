@@ -77,6 +77,9 @@ const OSG::BitVector  DepthChunkBase::NearFieldMask =
 const OSG::BitVector  DepthChunkBase::FarFieldMask = 
     (TypeTraits<BitVector>::One << DepthChunkBase::FarFieldId);
 
+const OSG::BitVector  DepthChunkBase::ReadOnlyFieldMask = 
+    (TypeTraits<BitVector>::One << DepthChunkBase::ReadOnlyFieldId);
+
 const OSG::BitVector DepthChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -95,6 +98,9 @@ const OSG::BitVector DepthChunkBase::MTInfluenceMask =
 */
 /*! \var Real32          DepthChunkBase::_sfFar
     The far value for glDepthRange. Ignored if less than 0, defaults to -1.
+*/
+/*! \var bool            DepthChunkBase::_sfReadOnly
+    Whether the depth buffer is enabled for writing or not.
 */
 
 //! DepthChunk description
@@ -120,7 +126,12 @@ FieldDescription *DepthChunkBase::_desc[] =
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFFar)
+                     (FieldAccessMethod) &DepthChunkBase::getSFFar),
+    new FieldDescription(SFBool::getClassType(), 
+                     "readOnly", 
+                     ReadOnlyFieldId, ReadOnlyFieldMask,
+                     false,
+                     (FieldAccessMethod) &DepthChunkBase::getSFReadOnly)
 };
 
 
@@ -180,6 +191,7 @@ DepthChunkBase::DepthChunkBase(void) :
     _sfFunc                   (GLenum(GL_LEQUAL)), 
     _sfNear                   (Real32(-1.f)), 
     _sfFar                    (Real32(-1.f)), 
+    _sfReadOnly               (bool(false)), 
     Inherited() 
 {
 }
@@ -193,6 +205,7 @@ DepthChunkBase::DepthChunkBase(const DepthChunkBase &source) :
     _sfFunc                   (source._sfFunc                   ), 
     _sfNear                   (source._sfNear                   ), 
     _sfFar                    (source._sfFar                    ), 
+    _sfReadOnly               (source._sfReadOnly               ), 
     Inherited                 (source)
 {
 }
@@ -229,6 +242,11 @@ UInt32 DepthChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFar.getBinSize();
     }
 
+    if(FieldBits::NoField != (ReadOnlyFieldMask & whichField))
+    {
+        returnValue += _sfReadOnly.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -256,6 +274,11 @@ void DepthChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FarFieldMask & whichField))
     {
         _sfFar.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ReadOnlyFieldMask & whichField))
+    {
+        _sfReadOnly.copyToBin(pMem);
     }
 
 
@@ -286,6 +309,11 @@ void DepthChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFar.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ReadOnlyFieldMask & whichField))
+    {
+        _sfReadOnly.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -306,6 +334,9 @@ void DepthChunkBase::executeSyncImpl(      DepthChunkBase *pOther,
 
     if(FieldBits::NoField != (FarFieldMask & whichField))
         _sfFar.syncWith(pOther->_sfFar);
+
+    if(FieldBits::NoField != (ReadOnlyFieldMask & whichField))
+        _sfReadOnly.syncWith(pOther->_sfReadOnly);
 
 
 }
@@ -340,7 +371,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.3 2005/05/30 20:00:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.4 2005/06/07 09:35:15 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 

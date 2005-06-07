@@ -62,8 +62,6 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -71,6 +69,7 @@
 #include <OSGGLenumFields.h> // Func type
 #include <OSGReal32Fields.h> // Near type
 #include <OSGReal32Fields.h> // Far type
+#include <OSGBoolFields.h> // ReadOnly type
 
 #include <OSGDepthChunkFields.h>
 
@@ -94,17 +93,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
 
     enum
     {
-        EnableFieldId = Inherited::NextFieldId,
-        FuncFieldId   = EnableFieldId + 1,
-        NearFieldId   = FuncFieldId   + 1,
-        FarFieldId    = NearFieldId   + 1,
-        NextFieldId   = FarFieldId    + 1
+        EnableFieldId   = Inherited::NextFieldId,
+        FuncFieldId     = EnableFieldId   + 1,
+        NearFieldId     = FuncFieldId     + 1,
+        FarFieldId      = NearFieldId     + 1,
+        ReadOnlyFieldId = FarFieldId      + 1,
+        NextFieldId     = ReadOnlyFieldId + 1
     };
 
     static const OSG::BitVector EnableFieldMask;
     static const OSG::BitVector FuncFieldMask;
     static const OSG::BitVector NearFieldMask;
     static const OSG::BitVector FarFieldMask;
+    static const OSG::BitVector ReadOnlyFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -135,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
            SFGLenum            *getSFFunc           (void);
            SFReal32            *getSFNear           (void);
            SFReal32            *getSFFar            (void);
+           SFBool              *getSFReadOnly       (void);
 
            bool                &getEnable         (void);
      const bool                &getEnable         (void) const;
@@ -144,6 +146,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
      const Real32              &getNear           (void) const;
            Real32              &getFar            (void);
      const Real32              &getFar            (void) const;
+           bool                &getReadOnly       (void);
+     const bool                &getReadOnly       (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,6 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
      void setFunc           ( const GLenum &value );
      void setNear           ( const Real32 &value );
      void setFar            ( const Real32 &value );
+     void setReadOnly       ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,6 +208,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
     SFGLenum            _sfFunc;
     SFReal32            _sfNear;
     SFReal32            _sfFar;
+    SFBool              _sfReadOnly;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -248,15 +254,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
 
 typedef DepthChunkBase *DepthChunkBaseP;
 
-typedef osgIF<DepthChunkBase::isNodeCore,
-              CoredNodePtr<DepthChunk>,
-              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
-              >::_IRet DepthChunkNodePtr;
-
-typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
-
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.3 2005/05/30 20:00:46 dirk Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.4 2005/06/07 09:35:15 yjung Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

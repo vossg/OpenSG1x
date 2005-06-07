@@ -124,6 +124,13 @@ SFReal32 *DepthChunkBase::getSFFar(void)
     return &_sfFar;
 }
 
+//! Get the DepthChunk::_sfReadOnly field.
+inline
+SFBool *DepthChunkBase::getSFReadOnly(void)
+{
+    return &_sfReadOnly;
+}
+
 
 //! Get the value of the DepthChunk::_sfEnable field.
 inline
@@ -209,8 +216,29 @@ void DepthChunkBase::setFar(const Real32 &value)
     _sfFar.setValue(value);
 }
 
+//! Get the value of the DepthChunk::_sfReadOnly field.
+inline
+bool &DepthChunkBase::getReadOnly(void)
+{
+    return _sfReadOnly.getValue();
+}
+
+//! Get the value of the DepthChunk::_sfReadOnly field.
+inline
+const bool &DepthChunkBase::getReadOnly(void) const
+{
+    return _sfReadOnly.getValue();
+}
+
+//! Set the value of the DepthChunk::_sfReadOnly field.
+inline
+void DepthChunkBase::setReadOnly(const bool &value)
+{
+    _sfReadOnly.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.3 2005/05/30 20:00:46 dirk Exp $"
+#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.4 2005/06/07 09:35:15 yjung Exp $"
 

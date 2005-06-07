@@ -149,6 +149,8 @@ void DepthChunk::activate(DrawActionBase *, UInt32)
     {
         glDisable(GL_DEPTH_TEST);
     }
+
+    glDepthMask(!getReadOnly());
 }
 
 void DepthChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32 index )
@@ -173,6 +175,8 @@ void DepthChunk::deactivate ( DrawActionBase *, UInt32 )
     {
         glEnable(GL_DEPTH_TEST);
     }
+
+    glDepthMask(GL_TRUE);
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -206,7 +210,8 @@ bool DepthChunk::operator == (const StateChunk &other) const
     if(getEnable()          != tother->getEnable()  ||
        getFunc()            != tother->getFunc()    ||
        getFar()             != tother->getFar()     ||
-       getNear()            != tother->getNear()           )
+       getNear()            != tother->getNear()    ||   
+       getReadOnly()        != tother->getReadOnly() )
         return false;
 
     return true;
@@ -233,7 +238,7 @@ bool DepthChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunk.cpp,v 1.1 2005/05/11 23:03:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunk.cpp,v 1.2 2005/06/07 09:35:15 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 
