@@ -117,7 +117,6 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     FileIO/OBJ
     FileIO/OFF
     FileIO/OSG
-    FileIO/PLY
     FileIO/RAW
     FileIO/ScanParseSkel
     FileIO/WRL
