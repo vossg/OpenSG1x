@@ -167,7 +167,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
                 ply_get_element(ply, &f);
                 if (f.nverts < 3)
                 {
-                    fprintf(stderr, "face with less than 3 vertices?");
+                    FINFO(("PLYSceneFileType::read: face with less than 3 vertices?"));
                     continue;
                 }
 
@@ -260,6 +260,6 @@ PLYSceneFileType::PLYSceneFileType(const PLYSceneFileType& obj) :
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.3 2005/05/10 09:47:20 aegis Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.1 2005/06/08 19:12:03 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGPLYSCENEFILETYPE_HEADER_CVSID;
 }

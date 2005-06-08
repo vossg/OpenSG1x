@@ -47,7 +47,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class OSG_SYSTEMLIB_DLLMAPPING PLYSceneFileType : public SceneFileType
+class OSG_CONTRIBLIB_DLLMAPPING PLYSceneFileType : public SceneFileType
 {
 public:
     static PLYSceneFileType& the()
@@ -80,7 +80,7 @@ typedef PLYSceneFileType* PLYSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGPLYSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGPLYSceneFileType.h,v 1.1 2005/05/05 21:30:36 aegis Exp $"
+#define OSGPLYSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGPLYSceneFileType.h,v 1.1 2005/06/08 19:12:03 dirk Exp $"
 
 #endif // _OSGPLYSCENEFILETYPE_H_
 

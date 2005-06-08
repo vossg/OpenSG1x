@@ -1,6 +1,6 @@
 
-SUB_DIR     := System/FileIO/PLY
-PACKAGENAME := Fhs
+SUB_DIR     := Contrib/DrawFunctorCore
+PACKAGENAME := DrawFunctorCore
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
@@ -10,4 +10,3 @@ HAS_LIB     :=
 REQUIRED_SYSTEM_PACKAGES :=
 
 include $($(PROJ)POOL)/$($(PROJ)COMMON)/commonPackage.mk
-
