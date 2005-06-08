@@ -603,10 +603,12 @@ void mouse(int button, int state, int x, int y)
 			
 			//and the node that was hit
 			NodePtr n = iAct->getHitObject();
-			
-			//we decrease the reference count - which will now
-			//be zero, hence the object will be deleted!
-			subRefCP(n);
+
+			//remove the node from the scene
+			NodePtr parent = n->getParent();
+			beginEditCP(parent, Node::ChildrenFieldMask);
+				parent->subChild(n);
+			endEditCP(parent, Node::ChildrenFieldMask);
 		}
 	}
         
