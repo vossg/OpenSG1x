@@ -154,7 +154,7 @@ static const char * searchList()
 	const char * dyldlp = safegetenv("DYLD_LIBRARY_PATH");
 	size_t	buf_size = strlen(ldlp) + strlen(dyldlp) + 256;
 	buf = malloc(buf_size);
-	snprintf(buf, buf_size, "%s:%s:/System/Library/Frameworks/OpenGL.framework/Libraries:/usr/lib:/lib", dyldlp, ldlp);
+	snprintf(buf, buf_size, "%s:%s:/usr/lib:/lib", dyldlp, ldlp);
 	return buf;
 }
 
