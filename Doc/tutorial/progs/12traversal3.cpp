@@ -142,7 +142,10 @@ void mouse(int button, int state, int x, int y)
 			Pnt3f p = iAct->getHitPoint();
 			cout << "Hit point : " << p[0] << " " << p[1] << " " << p[2] << endl;
 			NodePtr n = iAct->getHitObject();
-			subRefCP(n);
+			NodePtr parent = n->getParent();
+			beginEditCP(parent, Node::ChildrenFieldMask);
+				parent->subChild(n);
+			endEditCP(parent, Node::ChildrenFieldMask);
 		}
 	}
         
