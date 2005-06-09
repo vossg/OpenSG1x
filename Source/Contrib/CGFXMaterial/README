@@ -1,0 +1,27 @@
+
+README for CGFXMaterial
+==================
+
+Name:                   CGFXMaterial
+License:                LGPL
+Maintainer:             Andreas Zieringer <amz@a-m-z.org>
+Initial Author:         Andreas Zieringer <amz@a-m-z.org>
+Additional Libraries:   Cg:CgGL:CgFXParser (ftp://download.nvidia.com/developer/cg/)
+Added:                  2005/06/09
+Last modified:          2005/06/09
+Last tested:            2005/06/09
+
+Description:
+
+A material for cgfx.
+
+Configure:
+
+This is just an example you need to modify the cg paths.
+
+./configure <your standard options> --with-add-incdir=/usr/software/cg/include --with-add-libdir=/usr/software/cg/lib --with-add-lib=Cg:CgGL:CgFXParser
+
+
+Have fun
+
+    Andreas
