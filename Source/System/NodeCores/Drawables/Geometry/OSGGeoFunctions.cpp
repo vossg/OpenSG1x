@@ -226,7 +226,7 @@ faster; but not well tested code
 
     // problem: not all of the points of the property might be used by this
     // geometry. If the property has more than 1 users, be careful.
-    if(1 /* cannot check that yet, be conservative*/ )
+    if(norms->getParents().size() > 1)
     {
         for(TriangleIterator t = geo->beginTriangles(); t != geo->endTriangles();
                     ++t)
@@ -266,7 +266,7 @@ faster; but not well tested code
         norms->setValue( norms->getValue(i1) + p.getNormal(), i1 );
         norms->setValue( norms->getValue(i2) + p.getNormal(), i2 );
     }
-    if(1 /* cannot check that yet, be conservative*/ )
+    if(norms->getParents().size() > 1)
     {
         std::set < UInt32 >::iterator i = used_indices.begin();
         std::set < UInt32 >::iterator end = used_indices.end();
