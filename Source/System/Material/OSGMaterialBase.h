@@ -67,7 +67,7 @@
 
 #include <OSGAttachmentContainer.h> // Parent
 
-#include <OSGUInt32Fields.h> // SortKey type
+#include <OSGInt32Fields.h> // SortKey type
 
 #include <OSGMaterialFields.h>
 
@@ -122,17 +122,17 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFSortKey        (void);
+           SFInt32             *getSFSortKey        (void);
 
-           UInt32              &getSortKey        (void);
-     const UInt32              &getSortKey        (void) const;
+           Int32               &getSortKey        (void);
+     const Int32               &getSortKey        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setSortKey        ( const UInt32 &value );
+     void setSortKey        ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -162,7 +162,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfSortKey;
+    SFInt32             _sfSortKey;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -217,6 +217,6 @@ typedef RefPtr<MaterialPtr> MaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
+#define OSGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.37 2005/05/30 19:50:45 dirk Exp $"
 
 #endif /* _OSGMATERIALBASE_H_ */

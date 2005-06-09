@@ -382,7 +382,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     if(pMPMat != NULL)
         mpMatPasses = pMPMat->getNPasses();
 
-    UInt32 sortKey = pMat->getSortKey();
+    Int32 sortKey = pMat->getSortKey();
 
     if(!_stateSorting ||
        (sortKey == Material::NoStateSorting && 
@@ -435,7 +435,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     pMat->rebuildState();
 #endif
 
-    if(sortKey >= Material::NoStateSorting)
+    if(sortKey == Material::NoStateSorting)
         sortKey = 0;
 
     DrawTreeNode *pLastMultiPass = NULL;
@@ -474,16 +474,9 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                     pNewElem->setMultiPass();
             }
 
-            UInt32 rsize = _pTransMatRoots.size();
-            if(sortKey >= rsize)
-            {
-                _pTransMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<sortKey;++i)
-                    _pTransMatRoots[i] = NULL;
-    
-                _pTransMatRoots[sortKey] = _pNodeFactory->create();
-            }
-    
+            if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
+                _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+
             if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
             {
                 _pTransMatRoots[sortKey]->addChild(pNewElem);
@@ -578,15 +571,9 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setNode(getActNode());
 
-                UInt32 rsize = _pMatRoots.size();
-                if(sortKey >= rsize)
-                {
-                    _pMatRoots.resize(sortKey + 1);
-                    for(UInt32 i=rsize;i<sortKey;++i)
-                        _pMatRoots[i] = NULL;
-    
-                    _pMatRoots[sortKey] = _pNodeFactory->create();
-                }
+                if(_pMatRoots.find(sortKey) == _pMatRoots.end())
+                    _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+
                 _pMatRoots[sortKey]->addChild(pNewMatElem);
             }
             else
@@ -635,7 +622,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     if(pMPMat != NULL)
         mpMatPasses = pMPMat->getNPasses();
 
-    UInt32 sortKey = pMat->getSortKey();
+    Int32 sortKey = pMat->getSortKey();
 
     if(!_stateSorting ||
        (sortKey == Material::NoStateSorting && 
@@ -689,7 +676,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     pMat->rebuildState();
 #endif
 
-    if(sortKey >= Material::NoStateSorting)
+    if(sortKey == Material::NoStateSorting)
         sortKey = 0;
 
     DrawTreeNode *pLastMultiPass = NULL;
@@ -728,18 +715,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setMultiPass();
             }
 
-            UInt32 rsize = _pTransMatRoots.size();
-            if(sortKey >= rsize)
-            {
-                _pTransMatRoots.resize(sortKey + 1);
-                for(UInt32 i=rsize;i<=sortKey;++i)
-                    _pTransMatRoots[i] = NULL;
-            }
-            
-            if(_pTransMatRoots[sortKey] == NULL)
-            {
-                _pTransMatRoots[sortKey] = _pNodeFactory->create();
-            }
+            if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
+                _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
 
             if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
             {
@@ -836,18 +813,10 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setNode(getActNode());
 
                 //_pMatRoot->addChild(pNewMatElem);
-                UInt32 rsize = _pMatRoots.size();
-                if(sortKey >= rsize)
-                {
-                    _pMatRoots.resize(sortKey + 1);
-                    for(UInt32 i=rsize;i<=sortKey;++i)
-                        _pMatRoots[i] = NULL;
-                }
-    
-                if(_pMatRoots[sortKey] == NULL)
-                {
-                    _pMatRoots[sortKey] = _pNodeFactory->create();
-                }
+
+                if(_pMatRoots.find(sortKey) == _pMatRoots.end())
+                    _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+
                 _pMatRoots[sortKey]->addChild(pNewMatElem);
             }
             else
@@ -1485,24 +1454,33 @@ Action::ResultE RenderAction::stop(ResultE res)
         draw(_pNoStateSortTransRoot);
     }
 
-    UInt32 passes = osgMax(_pMatRoots.size(), _pTransMatRoots.size());
-    
-    for(i=0;i<passes;++i)
+    SortKeyMap::iterator matRootsIt = _pMatRoots.begin();
+    SortKeyMap::iterator transMatRootsIt = _pTransMatRoots.begin();
+
+    while(matRootsIt != _pMatRoots.end() ||
+          transMatRootsIt != _pTransMatRoots.end())
     {
         //printf("activeLightsState1: %d\n", _activeLightsState);
-        if(i < _pMatRoots.size() && _pMatRoots[i] != NULL)
-            draw(_pMatRoots[i]->getFirstChild());
+
+        if(matRootsIt != _pMatRoots.end())
+        {
+            //printf("_pMatRoots: sortKey %d\n", (*matRootsIt).first);
+            draw((*matRootsIt).second->getFirstChild());
+            ++matRootsIt;
+        }
         //printf("activeLightsState2: %d\n", _activeLightsState);
 
-        if(i < _pTransMatRoots.size() && _pTransMatRoots[i] != NULL)
+        if(transMatRootsIt != _pTransMatRoots.end())
         {
             if(!_bZWriteTrans)
                 glDepthMask(false);
         
-            draw(_pTransMatRoots[i]->getFirstChild());
-        
+            //printf("_pTransMatRoots: sortKey %d\n", (*transMatRootsIt).first);
+            draw((*transMatRootsIt).second->getFirstChild());
+
             if(!_bZWriteTrans)
                 glDepthMask(true);
+            ++transMatRootsIt;
         }
     }
 

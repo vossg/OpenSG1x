@@ -101,7 +101,7 @@ OSG_BEGIN_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
 OSG_END_NAMESPACE
 
-const UInt32 Material::NoStateSorting = 0xffffffff;
+const Int32 Material::NoStateSorting = 0x7fffffff;
 
 /***************************************************************************\
  *                           Class methods                                 *

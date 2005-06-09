@@ -72,7 +72,7 @@ OSG::UInt32 MaterialBase::getClassTypeId(void)
 
 //! Get the Material::_sfSortKey field.
 inline
-SFUInt32 *MaterialBase::getSFSortKey(void)
+SFInt32 *MaterialBase::getSFSortKey(void)
 {
     return &_sfSortKey;
 }
@@ -80,21 +80,21 @@ SFUInt32 *MaterialBase::getSFSortKey(void)
 
 //! Get the value of the Material::_sfSortKey field.
 inline
-UInt32 &MaterialBase::getSortKey(void)
+Int32 &MaterialBase::getSortKey(void)
 {
     return _sfSortKey.getValue();
 }
 
 //! Get the value of the Material::_sfSortKey field.
 inline
-const UInt32 &MaterialBase::getSortKey(void) const
+const Int32 &MaterialBase::getSortKey(void) const
 {
     return _sfSortKey.getValue();
 }
 
 //! Set the value of the Material::_sfSortKey field.
 inline
-void MaterialBase::setSortKey(const UInt32 &value)
+void MaterialBase::setSortKey(const Int32 &value)
 {
     _sfSortKey.setValue(value);
 }

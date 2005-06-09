@@ -13,7 +13,7 @@
 >
 	<Field
 		name="sortKey"
-		type="UInt32"
+		type="Int32"
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"

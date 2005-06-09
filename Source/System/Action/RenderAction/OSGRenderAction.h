@@ -48,6 +48,7 @@
 
 #include <vector>
 #include <stack>
+#include <map>
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -231,8 +232,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     MaterialMap               _mMatMap;
     
     //DrawTreeNode             *_pRoot;
-    std::vector<DrawTreeNode *> _pMatRoots;
-    std::vector<DrawTreeNode *> _pTransMatRoots;
+    typedef std::map<Int32, DrawTreeNode *> SortKeyMap;
+    SortKeyMap                  _pMatRoots;
+    SortKeyMap                  _pTransMatRoots;
     DrawTreeNode               *_pNoStateSortRoot;
     DrawTreeNode               *_pNoStateSortTransRoot;
 

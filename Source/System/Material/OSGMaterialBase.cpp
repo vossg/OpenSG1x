@@ -74,7 +74,7 @@ const OSG::BitVector MaterialBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var UInt32          MaterialBase::_sfSortKey
+/*! \var Int32           MaterialBase::_sfSortKey
     
 */
 
@@ -82,7 +82,7 @@ const OSG::BitVector MaterialBase::MTInfluenceMask =
 
 FieldDescription *MaterialBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
+    new FieldDescription(SFInt32::getClassType(), 
                      "sortKey", 
                      SortKeyFieldId, SortKeyFieldMask,
                      false,
@@ -133,7 +133,7 @@ void MaterialBase::executeSync(      FieldContainer &other,
 #endif
 
 MaterialBase::MaterialBase(void) :
-    _sfSortKey                (UInt32(0)), 
+    _sfSortKey                (Int32(0)), 
     Inherited() 
 {
 }
