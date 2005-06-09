@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Little trick script to create an RPM from a finished OpenSG dailybuild
+# Official RPM builders would probably kill me for this, but building  
+# everything twice is just not an efficient use of time...
+
+if (( $# < 4 ))
+then
+    echo "Usage: $0 <OpenSG root> <Bin root> <Date> <Conf> <RPM Target Dir>"
+    exit 1
+fi
+
+OPENSG_ROOT=$1
+BIN_ROOT=$2
+DATE=$3
+CONF=$4
+TARGET=$5
+TEMP_ROOT=${6:-/usr/tmp}
+
+# Get some configuration data
+
+VERSION=`cat $OPENSG_ROOT/VERSION`
+MAJOR=`echo $VERSION | sed -e 's/\..*$//'`
+
+# Create the dummy RPM hierarchy
+
+RPMROOT=${TEMP_ROOT}/opensgdb_rpm
+
+rm -rf  ${RPMROOT}
+
+cd ${RPMROOT}
+mkdir -p RPMS
+mkdir -p SRPMS
+mkdir -p BUILD
+mkdir -p TEMP
+
+
+if test -d ${OPENSG_ROOT}/Doc/Code/html
+then
+    DOCFILES=html
+else
+    DOCFILES=VERSION
+fi
+
+rpmbuild -v --define="_topdir ${RPMROOT}" \
+--define="version $VERSION" --define="major $MAJOR" \
+--define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
+--define="opensgroot ${OPENSG_ROOT}" --define="date ${DATE}" \
+--define="conf ${CONF}" --define="docfiles ${DOCFILES}" \
+-ba ${OPENSG_ROOT}/dist/opensg_db.spec
+
+mv ${RPMROOT}/RPMS/*  ${TARGET}
+
+rm -rf ${RPMROOT}
+

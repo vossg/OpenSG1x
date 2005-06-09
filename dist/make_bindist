@@ -34,6 +34,8 @@ var_expand()
 
 echo $0 $*
 
+NO_RPM=0
+
 while test ${#*} -gt 0
 do
 	case $1 in
@@ -45,6 +47,10 @@ do
                 --qt)
 	                qt_dir=$2
 	                shift
+	                shift
+	                ;;
+                --no_rpm)
+	                NO_RPM=1
 	                shift
 	                ;;
 		*)	break 2
@@ -689,6 +695,7 @@ fi
 case $system in
     mips-sgi-* )
     ;;
+    
     *-pc-linux-gnu )
     ;;
 esac
@@ -783,7 +790,17 @@ cd ..
 case $system in
     mips-sgi-* )
     ;;
+    
     *-pc-linux-gnu )
+    # Should we do RPMs?
+    if test $NO_RPM != 0
+    then
+        $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
+            `date +%y%m%d` "" `pwd`
+        mv OpenSG-devel*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
+        mv OpenSG-*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
+    fi
+    
     ;;
 esac
 
