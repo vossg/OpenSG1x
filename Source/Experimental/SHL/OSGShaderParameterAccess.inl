@@ -106,7 +106,7 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
     }
     else
     {
-        FWARNING(("ShaderParameterAccess::getParameter : Parameter '%s' doesn't exist!\n", name));
+        FINFO(("ShaderParameterAccess::getParameter : Parameter '%s' doesn't exist!\n", name));
         return false;
     }
     return true;
@@ -114,4 +114,4 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.9 2004/09/02 13:43:54 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.10 2005/06/09 09:48:43 a-m-z Exp $"
