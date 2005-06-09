@@ -76,7 +76,7 @@ int main(int argc, char **argv)
         mat1->setSortKey      (0);
         mat1->addChunk        (pchunk);
     endEditCP (mat1);
-    NodePtr box1 = makeBox(10.0, 10.0, 10.0, 1, 1, 1);
+    NodePtr box1 = makeBox(2.5, 2.5, 2.5, 1, 1, 1);
     GeometryPtr geo = GeometryPtr::dcast(box1->getCore());
     beginEditCP(geo, Geometry::MaterialFieldMask);
         geo->setMaterial(mat1);
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
         mat3->setSortKey      (2);
         mat3->addChunk        (pchunk);
     endEditCP (mat3);
-    NodePtr box3 = makeBox(2.5, 2.5, 2.5, 1, 1, 1);
+    NodePtr box3 = makeBox(10.0, 10.0, 10.0, 1, 1, 1);
     geo = GeometryPtr::dcast(box3->getCore());
     beginEditCP(geo, Geometry::MaterialFieldMask);
         geo->setMaterial(mat3);
