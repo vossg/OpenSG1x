@@ -492,6 +492,7 @@ class PlatformOptions:
         opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))
         opts.Add(BoolOption('contrib_cgfxmaterial', 'enable contrib CGFXMaterial', 0))
         opts.Add(BoolOption('contrib_drawfunctorcore', 'enable contrib DrawFunctorCore', 0))
+        opts.Add(BoolOption('contrib_ply', 'enable ply loader', 0))
 
         opts.Update(self.de)
 

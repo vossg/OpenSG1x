@@ -42,6 +42,7 @@
 #pragma  once
 #endif
 
+#include <OSGContribDef.h>
 #include <OSGBaseTypes.h>
 #include "OSGSceneFileType.h"
 
@@ -80,7 +81,7 @@ typedef PLYSceneFileType* PLYSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGPLYSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGPLYSceneFileType.h,v 1.1 2005/06/08 19:12:03 dirk Exp $"
+#define OSGPLYSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGPLYSceneFileType.h,v 1.2 2005/06/10 20:31:13 a-m-z Exp $"
 
 #endif // _OSGPLYSCENEFILETYPE_H_
 
