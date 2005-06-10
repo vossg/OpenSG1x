@@ -15,6 +15,7 @@
 # OSG_DIST_NO_TUTORIALBUILD
 # OSG_DIST_REMOVE_BUILDDIR
 # OSG_DIST_NO_FCDEDIT
+# OSG_DIST_NO_RPM
 # OSG_DIST_CLEANUP
 
 
@@ -34,8 +35,6 @@ var_expand()
 
 echo $0 $*
 
-NO_RPM=0
-
 while test ${#*} -gt 0
 do
 	case $1 in
@@ -47,10 +46,6 @@ do
                 --qt)
 	                qt_dir=$2
 	                shift
-	                shift
-	                ;;
-                --no_rpm)
-	                NO_RPM=1
 	                shift
 	                ;;
 		*)	break 2
@@ -480,7 +475,7 @@ case $system in
         rm -rf Tools
 
     else
-        echo "x$OSG_DIST_NO_FCDEDIT  set, skipping fcdEdit build"
+        echo "OSG_DIST_NO_FCDEDIT set, skipping fcdEdit build"
 
         # copy the fcdEdit
 
@@ -667,14 +662,21 @@ rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .pr
 
 var_expand $OSGPOOL/dist/README.tutorials README
 
-if $build_make
+
+if test x$OSG_DIST_NO_TUTORIALBUILD = x
 then
-    echo "Tutorials succeeded"
+    # do the tutorials
+    if $build_make
+    then
+        echo "Tutorials succeeded"
+    else
+        echo "ERROR: Tutorials failed"
+        exit
+    fi
+    $build_make clean
 else
-    echo "ERROR: Tutorials failed"
-    exit
+    echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
 fi
-$build_make clean
 
 cd ..
 
@@ -762,26 +764,36 @@ rm -rf lib/opt
 
 echo "tuts..."
 
-cd Tutorials
-$build_make Clean
 
-var_expand $OSGPOOL/dist/README.tutorials README
-var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
-sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
-if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+if test x$OSG_DIST_NO_TUTORIALBUILD = x
 then
-    sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
-    chmod 755 ../run_osgSceneViewer
-fi
+    # do the tutorials
 
-if $build_make
-then
-    echo "Dbg Tutorials succeeded"
+    cd Tutorials
+    $build_make Clean
+
+    var_expand $OSGPOOL/dist/README.tutorials README
+    var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
+    sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
+    if test x$OSG_DIST_NO_EXAMPLEBUILD = x
+    then
+        sed -e 's|##DBG##|dbg|g' < $OSGPOOL/dist/run_osgSceneViewer > ../run_osgSceneViewer
+        chmod 755 ../run_osgSceneViewer
+    fi
+
+    if $build_make
+    then
+        echo "Dbg Tutorials succeeded"
+    else
+        echo "ERROR: Dbg Tutorials failed"
+        exit
+    fi
+    $build_make clean
 else
-    echo "ERROR: Dbg Tutorials failed"
-    exit
+    echo "OSG_DIST_NO_TUTORIALBUILD set, skipping tutorial build"
+
+    cd Tutorials
 fi
-$build_make clean
 
 cd ..
 
@@ -793,12 +805,12 @@ case $system in
     
     *-pc-linux-gnu )
     # Should we do RPMs?
-    if test $NO_RPM != 0
+    if test x$OSG_DIST_NO_RPM = x
     then
-        $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
-            `date +%y%m%d` "" `pwd`
-        mv OpenSG-devel*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
-        mv OpenSG-*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
+        ##$OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
+        ##    `date +%y%m%d` "" `pwd`
+        ##mv OpenSG-devel*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
+        ##mv OpenSG-*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
     fi
     
     ;;
