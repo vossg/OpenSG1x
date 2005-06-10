@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
+#include <OSGBaseTypes.h>
 #include <OSGGeoTypeGraphOp.h>
 #include <OSGLog.h>
 
@@ -65,28 +65,104 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
 
     GeoPositionsPtr positions = geo->getPositions();
 
+    // normals
     GeoNormalsPtr   normals   = geo->getNormals();
     GeoNormals3fPtr normals3f = GeoNormals3fPtr::dcast(normals);
-    if (normals3f != NullFC) {
-        MFVec3f& data = normals3f->getField();
+    if (normals3f != NullFC)
+    {
+        MFVec3f &src = normals3f->getField();
         
         GeoNormals3bPtr normals3b = GeoNormals3b::create();
+        MFVec3b &dst = normals3b->getField();
+        dst.reserve(src.size());
         beginEditCP(normals3b);
-        for (size_t i = 0; i < data.size(); ++i) {
-            Vec3f vec = data[i];
-            vec *= (0.9f / vec.length());
-            normals3b->push_back(vec);
-        }
+            for (UInt32 i = 0; i < src.size(); ++i)
+            {
+                Vec3f vec = src[i];
+                vec *= (0.9f / vec.length());
+                normals3b->push_back(vec);
+            }
         endEditCP(normals3b);
 
-        beginEditCP(geo);
-        geo->setNormals(normals3b);
-        endEditCP(geo);
+        beginEditCP(geo, Geometry::NormalsFieldMask);
+            geo->setNormals(normals3b);
+        endEditCP(geo, Geometry::NormalsFieldMask);
     }
 
     GeoColorsPtr    colors    = geo->getColors();
     GeoColorsPtr    scolors   = geo->getSecondaryColors();
+
+    // crashs while rendering ...
+#if 0
+    // lengths
+    GeoPLengthsUI32Ptr lengthsUI32 = GeoPLengthsUI32Ptr::dcast(geo->getLengths());
+    if(lengthsUI32 != NullFC)
+    {
+        MFUInt32 &src = lengthsUI32->getField();
+
+        // now check if maximum length is greater than 65535
+        UInt32 max_length = UInt32(TypeTraits<UInt16>::getMax());
+        bool max_length_ok = true;
+        for(UInt32 i=0;i<src.size();++i)
+        {
+            if(src[i] > max_length)
+            {
+                max_length_ok = false;
+                break;
+            }
+        }
+
+        if(max_length_ok)
+        {
+            GeoPLengthsUI16Ptr lengthsUI16 = GeoPLengthsUI16::create();
+            MFUInt16 &dst = lengthsUI16->getField();
+            dst.reserve(src.size());
+            beginEditCP(lengthsUI16);
+                for (UInt32 i = 0; i < src.size(); ++i)
+                    dst.push_back(UInt16(src[i]));
+            endEditCP(lengthsUI16);
     
+            beginEditCP(geo, Geometry::LengthsFieldMask);
+                geo->setLengths(lengthsUI16);
+            endEditCP(geo, Geometry::LengthsFieldMask);
+        }
+    }
+#endif
+
+    // indices
+    GeoIndicesUI32Ptr indicesUI32 = GeoIndicesUI32Ptr::dcast(geo->getIndices());
+    if(indicesUI32 != NullFC)
+    {
+        MFUInt32 &src = indicesUI32->getField();
+
+        // now check if maximum index is greater than 65535
+        UInt32 max_index = UInt32(TypeTraits<UInt16>::getMax());
+        bool max_index_ok = true;
+        for(UInt32 i=0;i<src.size();++i)
+        {
+            if(src[i] > max_index)
+            {
+                max_index_ok = false;
+                break;
+            }
+        }
+
+        if(max_index_ok)
+        {
+            GeoIndicesUI16Ptr indicesUI16 = GeoIndicesUI16::create();
+            MFUInt16 &dst = indicesUI16->getField();
+            dst.reserve(src.size());
+            beginEditCP(indicesUI16);
+                for (UInt32 i = 0; i < src.size(); ++i)
+                    dst.push_back(src[i]);
+            endEditCP(indicesUI16);
+    
+            beginEditCP(geo, Geometry::IndicesFieldMask);
+                geo->setIndices(indicesUI16);
+            endEditCP(geo, Geometry::IndicesFieldMask);
+        }
+    }
+
     return true;
 }
 
