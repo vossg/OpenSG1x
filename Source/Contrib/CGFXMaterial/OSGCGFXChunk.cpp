@@ -80,6 +80,10 @@
 
 #include <Cg/cgGL.h>
 
+#ifndef GL_CLIENT_ALL_ATTRIB_BITS
+#define GL_CLIENT_ALL_ATTRIB_BITS 0xffffffff
+#endif
+
 OSG_USING_NAMESPACE
 
 /*! \class osg::CGFXChunk
@@ -679,6 +683,9 @@ void CGFXChunk::updateEffect(Window *win)
                     cgfxParameters.insert(param.Name);
                 }
                 break;
+                default:
+                    FWARNING(("CGFXChunk : Unsupported parameter type (%d)!\n", param.Type));
+                break;
             }
 
             // now add the Annotation Attachment.
@@ -759,6 +766,9 @@ void CGFXChunk::updateEffect(Window *win)
                                     osgAnnotation->getParameters().push_back(p);
                                 }
                             }
+                            break;
+                            default:
+                               FWARNING(("CGFXChunk : Unsupported annotation type (%d)!\n", annotation.Type));
                             break;
                         }
                     }
@@ -1121,6 +1131,10 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
                         }
                     }
                 }
+                break;
+                default:
+                    FWARNING(("CGFXChunk : Unsupported parameter type (%d)!\n", param.Type));
+                break;
             }
         }
     }
@@ -1683,7 +1697,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.1 2005/06/09 14:53:41 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.2 2005/06/11 11:10:59 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

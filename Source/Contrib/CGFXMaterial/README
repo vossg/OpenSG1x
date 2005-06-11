@@ -6,10 +6,12 @@ Name:                   CGFXMaterial
 License:                LGPL
 Maintainer:             Andreas Zieringer <amz@a-m-z.org>
 Initial Author:         Andreas Zieringer <amz@a-m-z.org>
-Additional Libraries:   Cg:CgGL:CgFXParser (ftp://download.nvidia.com/developer/cg/)
-Added:                  2005/06/09
-Last modified:          2005/06/09
-Last tested:            2005/06/09
+Additional Libraries:   http://developer.nvidia.com/object/cg_toolkit.html
+    Windows:            Cg:CgGL:CgFXParser
+    Linux:              Cg:CgGL:CgFX:CgFXGL 
+Added:                  2005/06/11
+Last modified:          2005/06/11
+Last tested:            2005/06/11
 
 Description:
 
