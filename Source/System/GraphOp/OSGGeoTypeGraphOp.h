@@ -62,15 +62,13 @@ public:
 
     // This function is worthless.
     void setParams(const std::string params);
-    void setByteNormals(bool s);
-    void set16BitIndices(bool s);
+    void setFilter(const OSG::BitVector &filter);
 
 private:
     bool travNodeEnter(NodePtr node);
     bool travNodeLeave(NodePtr node);
 
-    bool _byteNormals;
-    bool _16bitIndices;
+    OSG::BitVector _filter;
 };
 
 OSG_END_NAMESPACE

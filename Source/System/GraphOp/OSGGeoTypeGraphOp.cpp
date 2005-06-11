@@ -45,8 +45,7 @@ OSG_USING_NAMESPACE
     
 GeoTypeGraphOp::GeoTypeGraphOp(const char* name)
     : SingleTypeGraphOp<Geometry>(name),
-    _byteNormals(true),
-    _16bitIndices(true)
+    _filter(TypeTraits<OSG::BitVector>::getMax())
 {
 }
 
@@ -68,7 +67,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
     GeoPositionsPtr positions = geo->getPositions();
 
     // normals
-    if(_byteNormals)
+    if(_filter & Geometry::NormalsFieldMask)
     {
         GeoNormalsPtr   normals   = geo->getNormals();
         GeoNormals3fPtr normals3f = GeoNormals3fPtr::dcast(normals);
@@ -99,43 +98,46 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
 
     // crashs while rendering ...
 #if 0
-    // lengths
-    GeoPLengthsUI32Ptr lengthsUI32 = GeoPLengthsUI32Ptr::dcast(geo->getLengths());
-    if(lengthsUI32 != NullFC)
+    if(_filter & Geometry::LengthsFieldMask)
     {
-        MFUInt32 &src = lengthsUI32->getField();
-
-        // now check if maximum length is greater than 65535
-        UInt32 max_length = UInt32(TypeTraits<UInt16>::getMax());
-        bool max_length_ok = true;
-        for(UInt32 i=0;i<src.size();++i)
+        // lengths
+        GeoPLengthsUI32Ptr lengthsUI32 = GeoPLengthsUI32Ptr::dcast(geo->getLengths());
+        if(lengthsUI32 != NullFC)
         {
-            if(src[i] > max_length)
-            {
-                max_length_ok = false;
-                break;
-            }
-        }
-
-        if(max_length_ok)
-        {
-            GeoPLengthsUI16Ptr lengthsUI16 = GeoPLengthsUI16::create();
-            MFUInt16 &dst = lengthsUI16->getField();
-            dst.reserve(src.size());
-            beginEditCP(lengthsUI16);
-                for (UInt32 i = 0; i < src.size(); ++i)
-                    dst.push_back(UInt16(src[i]));
-            endEditCP(lengthsUI16);
+            MFUInt32 &src = lengthsUI32->getField();
     
-            beginEditCP(geo, Geometry::LengthsFieldMask);
-                geo->setLengths(lengthsUI16);
-            endEditCP(geo, Geometry::LengthsFieldMask);
+            // now check if maximum length is greater than 65535
+            UInt32 max_length = UInt32(TypeTraits<UInt16>::getMax());
+            bool max_length_ok = true;
+            for(UInt32 i=0;i<src.size();++i)
+            {
+                if(src[i] > max_length)
+                {
+                    max_length_ok = false;
+                    break;
+                }
+            }
+    
+            if(max_length_ok)
+            {
+                GeoPLengthsUI16Ptr lengthsUI16 = GeoPLengthsUI16::create();
+                MFUInt16 &dst = lengthsUI16->getField();
+                dst.reserve(src.size());
+                beginEditCP(lengthsUI16);
+                    for (UInt32 i = 0; i < src.size(); ++i)
+                        dst.push_back(UInt16(src[i]));
+                endEditCP(lengthsUI16);
+        
+                beginEditCP(geo, Geometry::LengthsFieldMask);
+                    geo->setLengths(lengthsUI16);
+                endEditCP(geo, Geometry::LengthsFieldMask);
+            }
         }
     }
 #endif
 
     // indices
-    if(_16bitIndices)
+    if(_filter & Geometry::IndicesFieldMask)
     {
         GeoIndicesUI32Ptr indicesUI32 = GeoIndicesUI32Ptr::dcast(geo->getIndices());
         if(indicesUI32 != NullFC)
@@ -184,12 +186,7 @@ void GeoTypeGraphOp::setParams(const std::string params)
 {
 }
 
-void GeoTypeGraphOp::setByteNormals(bool s)
+void GeoTypeGraphOp::setFilter(const OSG::BitVector &filter)
 {
-    _byteNormals = s;
-}
-
-void GeoTypeGraphOp::set16BitIndices(bool s)
-{
-    _16bitIndices = s;
+    _filter = filter;
 }
