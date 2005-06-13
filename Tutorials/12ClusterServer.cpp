@@ -58,6 +58,8 @@ int main(int argc,char **argv)
             {
                 case 'm': connectionType="Multicast";
                           break;
+                case 'p': connectionType="SockPipeline";
+                          break;
                 case 'w': fullscreen=false;
                           break;
                 case 'a': address = argv[a][2] ? argv[a]+2 : argv[++a];
@@ -70,6 +72,7 @@ int main(int argc,char **argv)
                           break;
                 default:  std::cout << argv[0] 
                                     << "-m "
+                                    << "-p "
                                     << "-w "
                                     << "-a address "
                                     << endLog;
