@@ -136,7 +136,7 @@ inline Int32 Window::getExtensionId(const Char8  *s)
     if(it == _registeredExtensions.end())
         return -1;
 
-    return it -_registeredExtensions.begin();
+    return Int32(it -_registeredExtensions.begin());
 }
 
 /*! Access the available extensions.
