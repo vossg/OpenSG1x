@@ -148,6 +148,13 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
     if (geo->getIndices() == NullFC) return 128; //NON_INDEXED
     if (geo->getIndexMapping().size() < 2) return 129; //SINGLE_INDEXED
 
+    if ((geo->getIndices() != NullFC && 
+         geo->getIndices()->getFormatSize() != 4) ||
+        (geo->getLengths() != NullFC && 
+         geo->getLengths()->getFormatSize() != 4)
+        )
+        return 130; // Needd to use the master pump
+    
     UInt32 uiIndexMask = 0;
 
     for(UInt32 i = 0; i < geo->getIndexMapping().size(); ++i)
@@ -291,7 +298,7 @@ GeoPumpFactory::PartialInterfacePump GeoPumpFactory::getPartialInterfacePump(
 
 GeoPumpFactory::Index GeoPumpFactory::numIndices( void )
 {
-    return 130;
+    return 131;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -672,11 +679,27 @@ void GeoPump128(Window   *win,
     UInt32 LengthsInd,TypesInd = 0;
     UInt32 first=0;
 
-    for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+    if(LengthsPtr->getFormatSize() == 4)
     {
-        UInt32 count = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
-        glDrawArrays(*(TypesData + TypesInd++ * TypesStride),first,count);
-        first+=count;
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt32 count = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
+            glDrawArrays(*(TypesData + TypesInd++ * TypesStride),first,count);
+            first+=count;
+        }
+    }
+    else if(LengthsPtr->getFormatSize() == 2)
+    {
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt16 count = *(UInt16*)(LengthsData + LengthsInd * LengthsStride);
+            glDrawArrays(*(TypesData + TypesInd++ * TypesStride),first,count);
+            first+=count;
+        }       
+    }
+    else
+    {
+        FWARNING(("GeoPump128: unknown Lengths format size\n"));
     }
     
     if(modified&(1<<0)) glDisableClientState(GL_VERTEX_ARRAY);
@@ -882,35 +905,75 @@ void GeoPump129(Window   *win,
     (void (OSG_APIENTRY *)(GLenum mode, GLuint start,
            GLuint end, GLsizei count, GLenum type, const GLvoid*indices))
             win->getFunction(GeoPumpFactory::_funcglDrawRangeElementsEXT);
-    
-    for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+
+
+    if(LengthsPtr->getFormatSize() == 4)
     {
-        UInt32 count  = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
-        UInt32 * vind = (UInt32*)(IndicesData + IndicesStride * IndicesInd);
-        IndicesInd += count;
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt32 count  = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
+            UInt8 * vind = IndicesData + IndicesStride * IndicesInd;
+            IndicesInd += count;
 
 #if 0
-        glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
-                        IndicesPtr->getFormat(),vind);
+            glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
+                            IndicesPtr->getFormat(),vind);
 #else
-        if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
-        {
-            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                      0, 
-                                      IndicesSize, 
-                                      count,
-                                      IndicesPtr->getFormat(), 
-                                      vind);
-        }
-        else
-        {
-            // hope this still works
-            glDrawElements(*(TypesData + TypesInd++ * TypesStride),
-                           count,
-                           IndicesPtr->getFormat(),
-                           vind);
-        }
+            if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          0, 
+                                          IndicesSize, 
+                                          count,
+                                          IndicesPtr->getFormat(), 
+                                          vind);
+            }
+            else
+            {
+                // hope this still works
+                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                               count,
+                               IndicesPtr->getFormat(),
+                               vind);
+            }
 #endif                        
+        }
+    }
+    else if(LengthsPtr->getFormatSize() == 2)
+    {
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt16 count  = *(UInt16*)(LengthsData + LengthsInd * LengthsStride);
+            UInt8 * vind = IndicesData + IndicesStride * IndicesInd;
+            IndicesInd += count;
+
+#if 0
+            glDrawElements(*(TypesData + TypesInd++ * TypesStride),count,
+                            IndicesPtr->getFormat(),vind);
+#else
+            if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          0, 
+                                          IndicesSize, 
+                                          count,
+                                          IndicesPtr->getFormat(), 
+                                          vind);
+            }
+            else
+            {
+                // hope this still works
+                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                               count,
+                               IndicesPtr->getFormat(),
+                               vind);
+            }
+#endif                        
+        }
+    }
+    else
+    {
+        FWARNING(("GeoPump129: unknown Lengths format size\n"));
     }
 
     if (win->hasExtension(GeoPumpFactory::_extCompiledVertexArray))
@@ -1351,7 +1414,7 @@ defMultiGeoPump( 127 , iC; iS; iN; iT; iT1; iT2; iT3; , rC; rS; rN; rT; rT1; rT2
 
 // the master pump function
 
-GeoPumpFactory::GeoPump GeoPumpFactory::GeoPumps[130]={&GeoPump0,
+GeoPumpFactory::GeoPump GeoPumpFactory::GeoPumps[131]={&GeoPump0,
 &GeoPump1,&GeoPump2,&GeoPump3,&GeoPump4,&GeoPump5,&GeoPump6,&GeoPump7,&GeoPump8,
 &GeoPump9,&GeoPump10,&GeoPump11,&GeoPump12,&GeoPump13,&GeoPump14,&GeoPump15,&GeoPump16,
 &GeoPump17,&GeoPump18,&GeoPump19,&GeoPump20,&GeoPump21,&GeoPump22,&GeoPump23,&GeoPump24,
@@ -1367,7 +1430,8 @@ GeoPumpFactory::GeoPump GeoPumpFactory::GeoPumps[130]={&GeoPump0,
 &GeoPump97,&GeoPump98,&GeoPump99,&GeoPump100,&GeoPump101,&GeoPump102,&GeoPump103,&GeoPump104,
 &GeoPump105,&GeoPump106,&GeoPump107,&GeoPump108,&GeoPump109,&GeoPump110,&GeoPump111,&GeoPump112,
 &GeoPump113,&GeoPump114,&GeoPump115,&GeoPump116,&GeoPump117,&GeoPump118,&GeoPump119,&GeoPump120,
-&GeoPump121,&GeoPump122,&GeoPump123,&GeoPump124,&GeoPump125,&GeoPump126,&GeoPump127,&GeoPump128,&GeoPump129};
+&GeoPump121,&GeoPump122,&GeoPump123,&GeoPump124,&GeoPump125,&GeoPump126,&GeoPump127,&GeoPump128,
+&GeoPump129,&GeoPumpFactory::masterGeoPump};
 
 void GeoPumpFactory::masterGeoPump(Window   *win,
                                    Geometry *geo)
@@ -1452,7 +1516,8 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
 
     UInt32 lendummy;
     UInt32 LengthSize;
-
+    bool len16 = false;
+    
     // no lengths? use all available data for the first type
     if(! LengthData)
     {
@@ -1470,20 +1535,86 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
     else
     {
         LengthSize = LengthPtr->getSize();
+        len16 = (LengthPtr->getFormatSize() == 2);
     }
 
+    bool ind16 = false;
+    ind16 = (IndexPtr != NullFC && IndexPtr->getFormatSize() == 2);
+    
+    UInt32 l;
+    
     for(LengthInd = 0; LengthInd < LengthSize; LengthInd++)
     {
         glBegin(*(TypeData + TypeInd++ * TypeStride));
 
-        for(UInt32 l = *(UInt32*)(LengthData + LengthInd * LengthStride);
-                       l > 0; l--)
+        if(len16)
         {
-            if(IndexData)
+            l = *(UInt16*)(LengthData + LengthInd * LengthStride);
+        }
+        else
+        {
+            l = *(UInt32*)(LengthData + LengthInd * LengthStride);
+        }
+        
+        for( ; l > 0; l--)
+        {
+            if(IndexData && !ind16)
             {
                 UInt32 * vind;
 
                 vind = (UInt32*)(IndexData + IndexStride * IndexInd);
+                IndexInd += nmappings;
+
+                if(ColorData && ColorIndex >= 0)
+                {
+                    ColorFunc(ColorData + ColorStride * vind[ColorIndex]);
+                }
+
+                if(SecColorData && SecColorIndex >= 0)
+                {
+                    SecColorFunc(SecColorData + SecColorStride *
+                                    vind[SecColorIndex]);
+                }
+
+                if(NormalData && NormalIndex >= 0)
+                {
+                    NormalFunc(NormalData + NormalStride * vind[NormalIndex]);
+                }
+
+                if(TexCoordsData && TexCoordsIndex >= 0)
+                {
+                    TexCoordsFunc(TexCoordsData + TexCoordsStride *
+                                    vind[TexCoordsIndex]);
+                }
+
+                if(TexCoords1Data && TexCoords1Index >= 0)
+                {
+                    TexCoords1Func(GL_TEXTURE1_ARB,
+                                   TexCoords1Data + TexCoords1Stride *
+                                   vind[TexCoords1Index]);
+                }
+
+                if(TexCoords2Data && TexCoords2Index >= 0)
+                {
+                    TexCoords2Func(GL_TEXTURE2_ARB,
+                                     TexCoords2Data + TexCoords2Stride *
+                                     vind[TexCoords2Index]);
+                }
+
+                if(TexCoords3Data && TexCoords3Index >= 0)
+                {
+                    TexCoords3Func(GL_TEXTURE3_ARB,
+                                     TexCoords3Data + TexCoords3Stride *
+                                     vind[TexCoords3Index]);
+                }
+
+                PositionFunc(PositionData + PositionStride * vind[PositionIndex]);
+            }
+            else if(IndexData && ind16)
+            {
+                UInt16 * vind;
+
+                vind = (UInt16*)(IndexData + IndexStride * IndexInd);
                 IndexInd += nmappings;
 
                 if(ColorData && ColorIndex >= 0)

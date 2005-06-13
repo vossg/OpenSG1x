@@ -173,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static char cvsid[];
 
     static GeoPumpFactory *_the;
-    static GeoPump GeoPumps[130];
+    static GeoPump GeoPumps[131];
 
     /*---------------------------------------------------------------------*/
     /*! \name               OpenGL Extension handling                      */
