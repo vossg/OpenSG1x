@@ -108,7 +108,9 @@ public:
 
     bool traverse(NodePtr& node);
 
-    void setParams(const std::string params) { }
+    void setParams(const std::string params);
+    
+    std::string usage(void);
 
 private:
     Action::ResultE traverseEnter(NodePtr& node);
@@ -121,6 +123,8 @@ private:
     typedef std::map<MaterialPtr, MaterialObjectList> MaterialObjectMap;
 
     MaterialObjectMap _materialObjects;
+    
+    Real32 _transparency;
 };
 
 OSG_END_NAMESPACE

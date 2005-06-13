@@ -98,6 +98,8 @@ public:
     void setParams(const std::string params);
     void setMaxPolygons(UInt16 max_polygons);
 
+    std::string usage(void);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 protected:    

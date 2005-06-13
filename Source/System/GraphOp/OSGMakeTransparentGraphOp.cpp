@@ -45,7 +45,8 @@
 OSG_USING_NAMESPACE
 
 MakeTransparentGraphOp::MakeTransparentGraphOp(const char* name)
-    : GraphOp(name)
+    : GraphOp(name),
+      _transparency(0.5)
 {
 }
 
@@ -94,6 +95,31 @@ bool MakeTransparentGraphOp::traverse(NodePtr& node)
     }
 
     return true;
+}
+
+
+void MakeTransparentGraphOp::setParams(const std::string params)
+{
+    ParamSet ps(params);   
+
+    ps("transparency",  _transparency);
+   
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("MakeTransparentGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string MakeTransparentGraphOp::usage(void)
+{
+    return 
+    "MakeTransparent: make used Materials transparent\n"
+    "  Based on MaterialMergeGraphOp, merges Materials and sets their\n"
+    "  transparency.\n"
+    "Params: name (type, default)\n"
+    "  transparency (Real32, 0.5f): transparency value\n";    
 }
 
 Action::ResultE MakeTransparentGraphOp::traverseEnter(NodePtr& node)
@@ -155,13 +181,13 @@ typename Chunk::Ptr getOrAddChunk(ChunkMaterialPtr cm,
 
 
 void MakeTransparentGraphOp::applyTransparency(MaterialPtr m) {
-    const float amount = 0.5f;
-
+ 
     SimpleMaterialPtr sm = SimpleMaterialPtr::dcast(m);
     if (sm != NullFC) {
         std::cout << "SimpleMaterial" << std::endl;
         beginEditCP(sm);
-        sm->setTransparency(1.0f - (1.0f - sm->getTransparency()) * amount);
+        sm->setTransparency(1.0f - (1.0f - sm->getTransparency()) * 
+                            _transparency);
         sm->setColorMaterial(GL_NONE);
         endEditCP(sm);
 
@@ -177,7 +203,7 @@ void MakeTransparentGraphOp::applyTransparency(MaterialPtr m) {
         std::cout << "ChunkMaterial" << std::endl;
         BlendChunkPtr blendChunk = getOrAddChunk<BlendChunk>(cm);
         beginEditCP(blendChunk);
-        blendChunk->setColor(Color4f(1, 1, 1, amount));
+        blendChunk->setColor(Color4f(1, 1, 1, _transparency));
         blendChunk->setSrcFactor(GL_SRC_ALPHA);
         blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
         endEditCP(blendChunk);

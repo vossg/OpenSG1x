@@ -84,10 +84,26 @@ GraphOp *VerifyGeoGraphOp::create()
 
 void VerifyGeoGraphOp::setParams(const std::string params)
 {
-    if (params.find("true",0)!=std::string::npos)
-        _repair = true;
-    else
-        _repair = false;
+    ParamSet ps(params);   
+    
+    ps("repair",  _repair);
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("VerifyGeoGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string VerifyGeoGraphOp::usage(void)
+{
+    return 
+    "Verify: Test validity of Geometries\n"
+    "  Run some validity tests on Geometries, makes sure indices are\n"
+    "  in the valid range etc.\n"
+    "Params: name (type, default)\n"
+    "  repair (bool, true): try to repair consistency errors\n";
 }
 
 void VerifyGeoGraphOp::setRepair(bool repair)
@@ -377,7 +393,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
     }
 
     for (UInt32 j=0; j<ind->size(); j++)
-        if (ind->getValue(j)>=sizes[j % nmap] || ind->getValue(j)<0)
+        if (ind->getValue(j)>=sizes[j % nmap])
         {
             if (_repair)
             {

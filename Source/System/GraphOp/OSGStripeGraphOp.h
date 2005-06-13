@@ -90,6 +90,8 @@ public:
     
     void setParams(const std::string params);
 
+    std::string usage(void);
+
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
@@ -101,6 +103,8 @@ protected:
     /*==========================  PRIVATE  ================================*/
 private:
 
+    bool _force;  // Force striping striped geometries
+    bool _stitch; // Stitch strips together
 };
 
 OSG_END_NAMESPACE

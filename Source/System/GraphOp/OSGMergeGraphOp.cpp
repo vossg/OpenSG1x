@@ -129,8 +129,25 @@ bool MergeGraphOp::traverse(NodePtr& node)
     return result;
 }
 
-void MergeGraphOp::setParams(const std::string)
+void MergeGraphOp::setParams(const std::string params)
 {
+    ParamSet ps(params);   
+
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("MergeGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string MergeGraphOp::usage(void)
+{
+    return 
+    "Merge: merge all geometries in a subtree\n"
+    "  Tries to merge all Geometries in a subtree into the minimal number.\n"
+    "  of Nodes. Flattens Transformations and transforms indices on the way.\n"
+    ;
 }
 
 /*-------------------------------------------------------------------------*\

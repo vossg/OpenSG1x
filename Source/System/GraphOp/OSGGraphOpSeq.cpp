@@ -111,60 +111,64 @@ bool GraphOpSeq::run(NodePtr &root)
     parameters only strings which can be processed correctly.
     Examples:
     
-    Exclude(Me,You) Verify(true) AddExclude(Us,Them) Merge() Exclude(All) Split(1500)
-    Verify(true) Exclude(Node1,Node2) Merge() Split(30)
-    
+    Exclude(Me,You) Verify(true) AddExclude(Us,Them) Merge() Exclude(All) 
+    Split(max_polygons=1500) Verify(repair=true) Exclude(Node1,Node2) 
+    Merge() Stripe(stitch=true force=true)   
 */
+
 void GraphOpSeq::setGraphOps(const std::string params)
 {
     UInt16 counter = 0;
     while (counter < params.length())
     {
         //eat all intervals
-        while (params[counter]==' ') counter++;
-
+        while (params[counter]==' ') 
+            counter++;
+       
         std::string command;
-        counter = extractStr(params,counter," ",command);
-        FDEBUG(("command: %s\n",command.c_str()));
+        counter = extractStr(params, counter, ")", command) + 1;
+        FDEBUG(("command: %s\n", command.c_str()));
 
         //extract the command from the substring
         std::string goname;
-        UInt16 pos = extractStr(command,0,"(",goname);
-        FDEBUG(("goname: %s\n",goname.c_str()));
+        UInt16 pos = extractStr(command, 0, "(", goname);
+        FDEBUG(("GraphOpSeq::setGraphOps: goname: %s\n",goname.c_str()));
         
         GraphOp * go = GraphOpFactory::the().create(goname.c_str());
         if (go == NULL)
         {
             if (goname=="Exclude" || goname=="AddExclude")
             {
-                if (goname=="Exclude") _excludeNames.clear();
+                if (goname=="Exclude") 
+                    _excludeNames.clear();
+                    
                 std::string cparams;
-                extractStr(command,pos,")",cparams);
-                FDEBUG(("cparams: %s\n",cparams.c_str()));
+                extractStr(command, pos, ")", cparams);
+                FDEBUG(("GraphOpSeq::setGraphOps: cparams: %s\n", cparams.c_str()));
                 UInt16 i = 0;
                 while(i < cparams.length())
                 {
                     std::string ename;
-                    i = extractStr(cparams,i,",",ename);
+                    i = extractStr(cparams, i, ",", ename);
                     _excludeNames.push_back(ename);
-                    FDEBUG(("ename: %s\n",ename.c_str()));
+                    FDEBUG(("GraphOpSeq::setGraphOps: ename: %s\n",ename.c_str()));
                 }
                 
             }
             else
-                FWARNING(("GraphOpSeq: Invalid GraphOp name given: %s\n",goname.c_str()));
+                FWARNING(("GraphOpSeq::setGraphOps: Invalid GraphOp name given: %s\n",goname.c_str()));
         }
         else
         {
             std::string goparams;
-            extractStr(command,pos,")",goparams);            
-            FDEBUG(("goparams: %s\n",goparams.c_str()));
+            extractStr(command, pos, ")", goparams);            
+            FDEBUG(("GraphOpSeq::setGraphOps: goparams: %s\n", goparams.c_str()));
             go->setParams(goparams);
             std::list<std::string>::iterator it=_excludeNames.begin();
             for (; it!=_excludeNames.end(); ++it)
             {
                 go->addToExcludeList(*it);
-                FDEBUG(("Added to op: %s\n",(*it).c_str()));
+                FDEBUG(("GraphOpSeq::setGraphOps: Added to op: %s\n",(*it).c_str()));
             }
             _GraphOperators.push_back(go);
         }
@@ -199,7 +203,7 @@ UInt16 GraphOpSeq::getSize(void)
 
 GraphOp* GraphOpSeq::getGraphOp(UInt16 index)
 {
-    if (index>=0 && index<getSize())
+    if (index<getSize())
         return _GraphOperators[index];
     else
         return NULL;
@@ -207,7 +211,7 @@ GraphOp* GraphOpSeq::getGraphOp(UInt16 index)
 
 bool GraphOpSeq::setGraphOp(UInt16 index, GraphOp *op)
 {
-    if (index>=0 && index<getSize())
+    if (index<getSize())
     {
         _GraphOperators[index]=op;
         return true;
@@ -218,7 +222,7 @@ bool GraphOpSeq::setGraphOp(UInt16 index, GraphOp *op)
 
 bool GraphOpSeq::removeGraphOp(UInt16 index)
 {
-    if (index>=0 && index<getSize())
+    if (index<getSize())
     {
         _GraphOperators.erase(_GraphOperators.begin()+index);
         return true;
@@ -235,7 +239,8 @@ bool GraphOpSeq::removeGraphOp(UInt16 index)
  -  private                                                                -
 \*-------------------------------------------------------------------------*/
 
-UInt16 GraphOpSeq::extractStr(const std::string param, UInt16 spos, char* delim, std::string& result)
+UInt16 GraphOpSeq::extractStr(const std::string param, UInt16 spos, 
+        char* delim, std::string& result)
 {
     std::string::size_type pos = param.find(delim,spos);
     if (pos == std::string::npos) 

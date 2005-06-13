@@ -73,7 +73,7 @@ public:
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
     
-    SharePtrGraphOp(const char* name = "ShareCores");
+    SharePtrGraphOp(const char* name = "SharePtr");
 
     GraphOp *create();
 
@@ -100,6 +100,8 @@ public:
     
     void setIncludes(const std::string &includes);
     void setExcludes(const std::string &excludes);
+
+    std::string usage(void);
 
     /*! \}                                                                 */
     

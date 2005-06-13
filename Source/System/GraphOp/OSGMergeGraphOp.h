@@ -96,6 +96,8 @@ public:
     /*! \{                                                                 */
 
     void setParams(const std::string params);
+    
+    std::string usage(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

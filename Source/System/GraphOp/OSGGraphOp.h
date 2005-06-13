@@ -47,6 +47,10 @@
 
 #include <OSGSystemDef.h>
 #include <OSGAction.h>
+#include <OSGBaseTypes.h>
+
+#include <map>
+#include <string>
 
 OSG_BEGIN_NAMESPACE
 
@@ -86,6 +90,7 @@ public:
     /*! \{                                                                 */
 
     virtual void setParams(const std::string params) = 0;
+    virtual std::string usage(void) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -115,6 +120,40 @@ public:
 
     /*=========================  PROTECTED  ===============================*/
 protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                Parameter Helpers                             */
+    /*! \{                                                                 */
+
+    class ParamSet
+    {
+      public:
+        
+        ParamSet(const std::string &params);
+    
+        // Set given value to parameter value, return true if set,
+        // false if not
+        bool operator()(const char *name, std::string &val); 
+        bool operator()(const char *name, Real32 &val); 
+        bool operator()(const char *name, UInt16 &val); 
+        bool operator()(const char *name, UInt32 &val); 
+        bool operator()(const char *name, bool &val); 
+
+        void markUsed(const char *name);
+        
+        std::string getUnusedParams(void);
+        
+      private:
+      
+        typedef std::map<std::string, std::string> valuesT;
+        typedef std::map<std::string, bool>        usedT;
+        
+        valuesT _values;
+        usedT _used;    
+    };
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
 
     virtual Action::ResultE traverseEnter(NodePtr& node) = 0;
     virtual Action::ResultE traverseLeave(NodePtr& node, Action::ResultE res) = 0;

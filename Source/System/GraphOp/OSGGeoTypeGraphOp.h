@@ -60,8 +60,13 @@ public:
 
     GraphOp* create();
 
-    // This function is worthless.
     void setParams(const std::string params);
+    
+    std::string usage(void);
+    
+    // Individual sets
+    void setByteNormals(bool s);
+    void set16BitIndices(bool s);
     void setFilter(const OSG::BitVector &filter);
 
 private:

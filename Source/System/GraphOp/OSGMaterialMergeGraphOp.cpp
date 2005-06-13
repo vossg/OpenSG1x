@@ -204,6 +204,28 @@ bool MaterialMergeGraphOp::traverse(NodePtr& node)
     return true;
 }
 
+
+void MaterialMergeGraphOp::setParams(const std::string params)
+{
+    ParamSet ps(params);   
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("MaterialMergeGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string MaterialMergeGraphOp::usage(void)
+{
+    return 
+    "MaterialMerge: merge Materials in given subtree\n"
+    "  Tries to find and merge equiavlent Materials to reduce the number\n"
+    "  of Materials used.\n"
+    ;
+}
+
 Action::ResultE MaterialMergeGraphOp::traverseEnter(NodePtr& node)
 {
     GeometryPtr geo = GeometryPtr::dcast(node->getCore());

@@ -96,8 +96,6 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
     GeoColorsPtr    colors    = geo->getColors();
     GeoColorsPtr    scolors   = geo->getSecondaryColors();
 
-    // crashs while rendering ...
-#if 0
     if(_filter & Geometry::LengthsFieldMask)
     {
         // lengths
@@ -134,7 +132,6 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
             }
         }
     }
-#endif
 
     // indices
     if(_filter & Geometry::IndicesFieldMask)
@@ -184,6 +181,47 @@ bool GeoTypeGraphOp::travNodeLeave(NodePtr)
 
 void GeoTypeGraphOp::setParams(const std::string params)
 {
+    ParamSet ps(params);   
+    std::string filter;
+    
+    if(ps("filter", filter))
+    {
+        _filter = 0;
+        if(filter.find("Nor") != std::string::npos ||
+           filter.find("nor") != std::string::npos)
+        {
+            _filter |= Geometry::NormalsFieldMask;
+        }
+        if(filter.find("Ind") != std::string::npos ||
+           filter.find("ind") != std::string::npos)
+        {
+            _filter |= Geometry::IndicesFieldMask;
+        }
+        if(filter.find("Len") != std::string::npos ||
+           filter.find("len") != std::string::npos)
+        {
+            _filter |= Geometry::LengthsFieldMask;
+        }
+    }
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("GeoTypeGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string GeoTypeGraphOp::usage(void)
+{
+    return 
+    "GeoType: convert the types of a Geometry's attributes\n"
+    "  Tries to convert the attributes of a Geometry to smaller/faster\n"
+    "  types. By default only the lengths are changed to 16 bit.\n"
+    "Params: name (type, default)\n"
+    "  filter  (string, \"\"): fields to convert, can be a combination of\n"
+    "                        Normals, Indices and Lengths, connected by +.\n"
+    ;
 }
 
 void GeoTypeGraphOp::setFilter(const OSG::BitVector &filter)

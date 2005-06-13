@@ -116,7 +116,7 @@ bool SharePtrGraphOp::traverse(NodePtr& root)
     // scenegraph and this only with one special geometry file ...
     fillAttachmentParents(root);
 
-    FLOG(("Shared %u ptrs with types", _share_counter));
+    FINFO(("Shared %u ptrs with types", _share_counter));
 
     for(fcsMap::iterator i = _fctypes.begin();i != _fctypes.end();++i)
         printf(" '%s'", (*i).first.c_str());
@@ -125,9 +125,44 @@ bool SharePtrGraphOp::traverse(NodePtr& root)
     return result;
 }
 
-void SharePtrGraphOp::setParams(const std::string /*params*/)
+void SharePtrGraphOp::setParams(const std::string params)
 {
-    //if (params.find("bla",0)!=std::string::npos)
+    ParamSet ps(params);   
+    std::string incl, excl;
+    
+    ps("includes",  incl);
+    ps("excludes",  excl);
+    
+    if(incl.length() && excl.length())
+    {
+        FWARNING(("SharePtrGraphOp: can't set includes and excludes\n"));
+    }
+    else
+    {
+        setIncludes(incl);
+        setExcludes(excl);
+    }
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("SharePtrGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string SharePtrGraphOp::usage(void)
+{
+    return 
+    "SharePtr: try to share FieldContainers in a subtree\n"
+    "  Compares the values of all referenced FieldContainers in the\n"
+    "  subtree and shares them if possible. Primarily useful for\n"
+    "  Geometries and Materials, but works for everything.\n"
+    "Params: name (type, default)\n"
+    "  includes (string, ""): comma-separated list of types to share\n"
+    "  excludes (string, ""): comma-separated list of types not to share\n"
+    "  (Only one of the two can be used, not both at the same time)\n"
+    ;
 }
 
 void SharePtrGraphOp::setIncludes(const std::string &includes)

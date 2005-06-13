@@ -67,6 +67,54 @@ GraphOp* PruneGraphOp::create()
     return new PruneGraphOp(_size, _method);
 }
 
+void PruneGraphOp::setParams(const std::string params)
+{
+    ParamSet ps(params);   
+    
+    ps("size",  _size);
+
+    std::string m;
+    ps("method", m);
+    
+    if(m.length())
+    {
+        if(m.find("volume") || m.find("VOLUME"))
+        {
+            _method = VOLUME;
+        }
+        else if(m.find("sum_of_dimensions") || m.find("SUM_OF_DIMENSIONS") ||
+                m.find("sum"))
+        {
+            _method = SUM_OF_DIMENSIONS;
+        }
+        else
+        {
+            FWARNING(("GeoTypeGraphOp: method '%s' unknown.\n", m.c_str()));
+        }
+    }
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("PruneGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string PruneGraphOp::usage(void)
+{
+    return 
+    "Prune: Remove small objects\n"
+    "  Removes nodes of size smaller than a given threshold from the scene\n"
+    "Params: name (type, default)\n"
+    "  method (string, SUM_OF_DIMENSIONS): \n"
+    "                    VOLUME: measure volume of Node\n"
+    "                    SUM_OF_DIMENSIONS: add upp the individual dims\n"
+    "  size   (Real32, 1.0f): \n"
+    "                    threshold value. Nodes smaller than this will be\n"
+    "                    removed\n";
+}
+
 Action::ResultE PruneGraphOp::traverseEnter(NodePtr& node)
 {
     return isTooSmall(node) ? Action::Skip : Action::Continue;

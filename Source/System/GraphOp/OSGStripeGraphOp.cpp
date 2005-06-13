@@ -69,7 +69,9 @@ A base class used to traverse geometries.
 /*------------- constructors & destructors --------------------------------*/
 
 StripeGraphOp::StripeGraphOp(const char* name): 
-    SingleTypeGraphOpGeo(name)
+    SingleTypeGraphOpGeo(name),
+    _force(false),
+    _stitch(false)
 {
 }
 
@@ -83,9 +85,28 @@ GraphOp *StripeGraphOp::create()
     return inst;
 }
 
-void StripeGraphOp::setParams(const std::string /*params*/)
+void StripeGraphOp::setParams(const std::string params)
 {
-    //if (params.find("bla",0)!=std::string::npos)
+    ParamSet ps(params);   
+    
+    ps("force",  _force);
+    ps("stitch",  _stitch);
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("StripeGraphOp doesn't have parameters '%s'\n.",
+                out.c_str()));
+    }
+}
+
+std::string StripeGraphOp::usage(void)
+{
+    return 
+    "Stripe: Stripe Geometries\n"
+    "Params: name (type, default)\n"
+    "  force  (bool, false): force striping even if already striped\n";
+    "  stitch (bool, false): stitch strips using degenerate triangles\n";
 }
 
 bool StripeGraphOp::travNodeEnter(NodePtr node)
@@ -94,8 +115,21 @@ bool StripeGraphOp::travNodeEnter(NodePtr node)
 
     if(geo != NullFC)
     {
+        // Check if it's striped already
+        if (!_force)
+        {
+            GeoPTypesPtr t = geo->getTypes();
+            
+            for(UInt32 i = 0; i < t->size(); ++i)
+            {
+                if(t->getValue(i) == GL_TRIANGLE_STRIP)
+                {
+                    return true;
+                }
+            }
+        }
         createSharedIndex(geo);
-        createOptimizedPrimitives(geo);
+        createOptimizedPrimitives(geo, 1, true, true, 16, false, _stitch);
     }
     
     return true;

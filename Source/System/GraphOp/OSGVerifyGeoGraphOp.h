@@ -91,6 +91,8 @@ public:
     void setParams(const std::string params);
     void setRepair(bool repair);    
 
+    std::string usage(void);
+
     /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/

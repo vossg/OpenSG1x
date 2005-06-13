@@ -78,7 +78,8 @@ A class used to optimize geometries a bit.
 
 /*------------- constructors & destructors --------------------------------*/
 
-SplitGraphOp::SplitGraphOp(const char* name, UInt16 max_polygons): GraphOp(name), _max_polygons(max_polygons)
+SplitGraphOp::SplitGraphOp(const char* name, UInt16 max_polygons): 
+    GraphOp(name), _max_polygons(max_polygons)
 {
 }
 
@@ -99,7 +100,24 @@ bool SplitGraphOp::traverse(NodePtr& root)
 
 void SplitGraphOp::setParams(const std::string params)
 {
-    _max_polygons = atoi(params.c_str());
+    ParamSet ps(params);   
+    
+    ps("max_polygons", _max_polygons);
+    
+    std::string out = ps.getUnusedParams();
+    if(out.length())
+    {
+        FWARNING(("SplitGraphOp doesn't have parameters '%s'.\n",
+                out.c_str()));
+    }
+}
+
+std::string SplitGraphOp::usage(void)
+{
+    return 
+    "Split: Split large geometries into smaller ones\n"
+    "Params: name (type, default)\n"
+    "  max_polygons (UInt32, 1000): maximum number of polygons allowed per Geo\n";
 }
 
 void SplitGraphOp::setMaxPolygons(UInt16 max_polygons)
