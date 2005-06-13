@@ -76,6 +76,12 @@ int main(int argc, char **argv)
             {
                 case 'm': mwin->setConnectionType("Multicast");
                           break;
+                case 'p': mwin->setConnectionType("SockPipeline");
+                          break;
+                case 'i': opt = argv[a][2] ? argv[a]+2 : argv[++a];
+                          if(opt != argv[argc])
+                              mwin->setConnectionInterface(opt);
+                          break;
                 case 'f': opt = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(opt != argv[argc])
                               scene = SceneFileHandler::the().read(
@@ -91,6 +97,8 @@ int main(int argc, char **argv)
                           break;
                 default:  std::cout << argv[0]  
                                     << " -m"
+                                    << " -p"
+                                    << " -i interface"
                                     << " -f file"
                                     << " -x horizontal server cnt"
                                     << " -y vertical server cnt"
