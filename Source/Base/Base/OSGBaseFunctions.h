@@ -74,6 +74,7 @@
 #include <vector>
 #include <string>
 #include <iterator>
+#include <algorithm>
 
 #ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_USE_HASH_COMPARE
@@ -561,6 +562,15 @@ UInt32 osghtonl(UInt32 src);
 inline
 UInt64 osghtonll(UInt64 src);
 
+inline
+Real32 osghtonf(Real32 src);
+
+inline
+Real64 osghtond(Real64 src);
+
+inline
+Real128 osghtondd(Real128 src);
+
 // network to host
 
 inline
@@ -572,6 +582,14 @@ UInt32 osgntohl(UInt32 src);
 inline
 UInt64 osgntohll(UInt64 src);
 
+inline
+Real32 osgntohf(Real32 src);
+
+inline
+Real64 osgntohd(Real64 src);
+
+inline
+Real128 osgntohd(Real128 src);
 
 /*---------------------------------------------------------------------*/
 /*                MemoryObject Reference Count Functions               */

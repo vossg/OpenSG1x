@@ -1447,6 +1447,41 @@ UInt64 osghtonll(UInt64 src)
 #endif
 }
 
+inline
+Real32 osghtonf(Real32 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[3]);
+    std::swap(p[1], p[2]);
+    return src;
+}
+
+inline
+Real64 osghtond(Real64 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[7]);
+    std::swap(p[1], p[6]);
+    std::swap(p[2], p[5]);
+    std::swap(p[3], p[4]);
+    return src;
+}
+
+inline
+Real128 osghtondd(Real128 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[15]);
+    std::swap(p[1], p[14]);
+    std::swap(p[2], p[13]);
+    std::swap(p[3], p[12]);
+    std::swap(p[4], p[11]);
+    std::swap(p[5], p[10]);
+    std::swap(p[6], p[9]);
+    std::swap(p[7], p[8]);
+    return src;
+}
+
 // network to host
 
 inline
@@ -1488,6 +1523,41 @@ UInt64 osgntohll(UInt64 src)
 #endif
 }
 
+inline
+Real32 osgntohf(Real32 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[3]);
+    std::swap(p[1], p[2]);
+    return src;
+}
+
+inline
+Real64 osgntohd(Real64 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[7]);
+    std::swap(p[1], p[6]);
+    std::swap(p[2], p[5]);
+    std::swap(p[3], p[4]);
+    return src;
+}
+
+inline
+Real128 osgntohdd(Real128 src)
+{
+    UInt8 *p = (UInt8 *) &src;
+    std::swap(p[0], p[15]);
+    std::swap(p[1], p[14]);
+    std::swap(p[2], p[13]);
+    std::swap(p[3], p[12]);
+    std::swap(p[4], p[11]);
+    std::swap(p[5], p[10]);
+    std::swap(p[6], p[9]);
+    std::swap(p[7], p[8]);
+    return src;
+}
+
 #else
 
 // host to network
@@ -1511,6 +1581,24 @@ UInt64 osghtonll(UInt64 src)
     return src;
 }
 
+inline
+Real32 osghtonf(Real32 src)
+{
+    return src;
+}
+
+inline
+Real64 osghtond(Real64 src)
+{
+    return src;
+}
+
+inline
+Real128 osghtondd(Real128 src)
+{
+    return src;
+}
+
 // network to host
 
 inline
@@ -1527,6 +1615,24 @@ UInt32 osgntohl(UInt32 src)
 
 inline
 UInt64 osgntohll(UInt64 src)
+{
+    return src;
+}
+
+inline
+Real32 osgntohf(Real32 src)
+{
+    return src;
+}
+
+inline
+Real64 osgntohd(Real64 src)
+{
+    return src;
+}
+
+inline
+Real128 osgntohdd(Real128 src)
 {
     return src;
 }

@@ -483,28 +483,46 @@ void BinaryDataHandler::getValue(Real16 &value)
 inline 
 void BinaryDataHandler::getValue(Real32 &value)
 {
+    get(&value, sizeof(Real32));
+
+    value = osgntohf(value);
+
+#if 0
+    // doesn't work on my 64 bit linux ...
     UInt32 v;
 
     get(&v, sizeof(Real32));
 
     v     = osgntohl(v);
     value = *(reinterpret_cast<Real32 *>(&v));
+#endif
 }
 
 inline 
 void BinaryDataHandler::getValue(Real64 &value)
 {
+    get(&value, sizeof(Real64));
+
+    value = osgntohd(value);
+
+#if 0
     UInt64 v;
 
     get(&v, sizeof(Real64));
 
     v     = osgntohll(v);
     value = *(reinterpret_cast<Real64 *>(&v));
+#endif
 }
 
 inline 
 void BinaryDataHandler::getValue(Real128 &value)
 {
+    get(&value, sizeof(Real128));
+
+    value = osgntohdd(value);
+
+#if 0
     UInt64 v[2];
 
 #if BYTE_ORDER == LITTLE_ENDIAN
@@ -518,6 +536,7 @@ void BinaryDataHandler::getValue(Real128 &value)
     v[0]     = osgntohll(v[0]);
     v[1]     = osgntohll(v[1]);
     value = *(reinterpret_cast<Real128 *>(&v));
+#endif
 }
 
 inline 
