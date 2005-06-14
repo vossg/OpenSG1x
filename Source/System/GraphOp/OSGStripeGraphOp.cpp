@@ -105,7 +105,7 @@ std::string StripeGraphOp::usage(void)
     return 
     "Stripe: Stripe Geometries\n"
     "Params: name (type, default)\n"
-    "  force  (bool, false): force striping even if already striped\n";
+    "  force  (bool, false): force striping even if already striped\n"
     "  stitch (bool, false): stitch strips using degenerate triangles\n";
 }
 

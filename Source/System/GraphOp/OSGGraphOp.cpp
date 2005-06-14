@@ -184,8 +184,8 @@ GraphOp::ParamSet::ParamSet(const std::string &params)
     {
         char c = 0;
         
-        key.clear();
-        value.clear();
+        key = "";
+        value = "";
         
         // Read key
         while(it != end)
@@ -195,7 +195,7 @@ GraphOp::ParamSet::ParamSet(const std::string &params)
             if(c == ' ' || c == '=')
                 break;
             
-            key.push_back(tolower(c));
+            key += tolower(c);
         }
         
         // Do we have a value? Read it
@@ -208,7 +208,7 @@ GraphOp::ParamSet::ParamSet(const std::string &params)
                 if(c == ' ')
                     break;
 
-                value.push_back(c);
+                value += c;
             }           
         }
 
