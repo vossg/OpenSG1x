@@ -811,6 +811,7 @@ case $system in
         ##    `date +%y%m%d` "" `pwd`
         ##mv OpenSG-devel*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
         ##mv OpenSG-*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
+        echo "RPM disabled for now"
     fi
     
     ;;
