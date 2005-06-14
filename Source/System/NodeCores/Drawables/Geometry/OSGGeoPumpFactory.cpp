@@ -876,10 +876,12 @@ void GeoPump129(Window   *win,
 
     UInt32 lendummy;
     UInt32 LengthsSize;
+    bool   len16 = false;
 
     if(LengthsPtr != NullFC && LengthsData != NULL)
     {
         LengthsSize = LengthsPtr->getSize();
+        len16 = (LengthsPtr->getFormatSize() == 2);
     }
     else
     {
@@ -907,7 +909,7 @@ void GeoPump129(Window   *win,
             win->getFunction(GeoPumpFactory::_funcglDrawRangeElementsEXT);
 
 
-    if(LengthsPtr->getFormatSize() == 4)
+    if(len16 == false)
     {
         for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
         {
@@ -939,7 +941,7 @@ void GeoPump129(Window   *win,
 #endif                        
         }
     }
-    else if(LengthsPtr->getFormatSize() == 2)
+    else if(len16 == true)
     {
         for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
         {
