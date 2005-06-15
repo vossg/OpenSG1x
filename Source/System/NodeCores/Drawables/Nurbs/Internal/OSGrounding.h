@@ -36,12 +36,17 @@ OSG_BEGIN_NAMESPACE
 
 #ifdef OSG_HAVE_FPU_CONTROL_H
 #  include <fpu_control.h>
-   static fpu_control_t fpu_round_double =
-     (_FPU_DEFAULT & ~ _FPU_EXTENDED)|_FPU_DOUBLE;
-   static fpu_control_t fpu_init;
-#  define OSG_FPU_ROUND_DOUBLE  { _FPU_GETCW(fpu_init);\
+#  ifdef _FPU_EXTENDED
+     static fpu_control_t fpu_round_double =
+       (_FPU_DEFAULT & ~ _FPU_EXTENDED)|_FPU_DOUBLE;
+     static fpu_control_t fpu_init;
+#    define OSG_FPU_ROUND_DOUBLE  { _FPU_GETCW(fpu_init);\
                              _FPU_SETCW(fpu_round_double); }
-#  define OSG_FPU_RESTORE       {_FPU_SETCW(fpu_init);}
+#    define OSG_FPU_RESTORE       {_FPU_SETCW(fpu_init);}
+#  else /* not FPU_EXTENDED */
+#    define OSG_FPU_ROUND_DOUBLE
+#    define OSG_FPU_RESTORE
+#  endif /* not FPU_EXTENDED */
 #else /* not OSG_HAVE_FPU_CONTROL_H */
 #  ifdef OSG_HAVE_FLOATINGPOINT_H
 #    include <floatingpoint.h>
