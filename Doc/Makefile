@@ -102,6 +102,7 @@ DOC_OLD_PAGES  := 	        Code/mainpage.dox \
 				../Source/Base/Field/Field.dox \
 				../Source/Base/Functors/Functors.dox \
 				../Source/Base/Network/Socket.dox \
+				../Source/Base/Network/Connection.dox \
 				../Source/Base/StringConversion/StringConversion.dox \
 				../Source/System/FieldContainer/FieldContainer.dox \
 				../Source/System/Image/Image.dox \
