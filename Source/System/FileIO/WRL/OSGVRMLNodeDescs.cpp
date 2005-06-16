@@ -58,6 +58,7 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGExtrusionGeometry.h>
 #include <OSGTextureChunk.h>
+#include <OSGTextureTransformChunk.h>
 #include <OSGGeoFunctions.h>
 #include <OSGDistanceLOD.h>
 #include <OSGSwitch.h>
@@ -2651,6 +2652,10 @@ bool VRMLAppearanceDesc::prototypeAddField(const Char8  *szFieldType,
     {
         return true;
     }
+    else if(stringcasecmp("textureTransform", szFieldname) == 0)
+    {
+        return true;
+    }
     else
     {
         return VRMLNodeDesc::prototypeAddField(szFieldType,
@@ -2696,6 +2701,20 @@ void VRMLAppearanceDesc::getFieldAndDesc(
             pDesc = pFC->getType().findFieldDescription("chunks");
     }
     else if(stringcasecmp("texture", szFieldname) == 0)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "VRMLAppearanceDesc::getFieldAndDesc : request internal "
+              << szFieldname
+              << std::endl;
+#endif
+
+        pField = pFC->getField("chunks");
+
+        if(pField != NULL)
+            pDesc = pFC->getType().findFieldDescription("chunks");
+    }
+    else if(stringcasecmp("textureTransform", szFieldname) == 0)
     {
 #ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);
@@ -3141,6 +3160,221 @@ void VRMLMaterialDesc::dump(const Char8 *)
 {
 }
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \class osg::VRMLTextureTransformDesc
+    \ingroup GrpSystemFileIOVRML
+    VRML Texture Transform description
+*/
+
+/*-------------------------------------------------------------------------*/
+/*                            Constructors                                 */
+
+VRMLTextureTransformDesc::VRMLTextureTransformDesc(void) :
+    Inherited(),
+    _defaultCenter(),
+    _defaultRotation(),
+    _defaultScale(),
+    _defaultTranslation(),
+
+    _center(),
+    _rotation(),
+    _scale(),
+    _translation()
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+VRMLTextureTransformDesc::~VRMLTextureTransformDesc(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Helper                                    */
+
+void VRMLTextureTransformDesc::init(const Char8 *OSG_VRML_ARG(szName))
+{
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "TextureTransformDesc::init : " << szName << std::endl;
+#endif
+}
+
+void VRMLTextureTransformDesc::reset(void)
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                               Field                                     */
+
+bool VRMLTextureTransformDesc::prototypeAddField(const Char8  *,
+                                             const UInt32  ,
+                                             const Char8  *szFieldname)
+{
+    bool bFound;
+
+    _pCurrField = NULL;
+
+    if(stringcasecmp("center", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultCenter;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("rotation", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultRotation;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("scale", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultScale;
+
+        bFound = true;
+    }
+    else if(stringcasecmp("translation", szFieldname) == 0)
+    {
+        _pCurrField = &_defaultTranslation;
+
+        bFound = true;
+    }
+
+    if(bFound == true)
+    {
+#ifdef OSG_DEBUG_VRML
+        indentLog(getIndent(), PINFO);
+        PINFO << "TextureTransformDesc::prototypeAddField : add part "
+              << szFieldname
+              << std::endl;
+#endif
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void VRMLTextureTransformDesc::endProtoInterface(void)
+{
+}
+
+void VRMLTextureTransformDesc::getFieldAndDesc(
+          FieldContainerPtr  ,
+    const Char8            * szFieldname,
+          Field            *&pField,
+    const FieldDescription *&pDesc)
+{
+    if(stringcasecmp("center", szFieldname) == 0)
+    {
+        pField = &_center;
+    }
+    else if(stringcasecmp("rotation", szFieldname) == 0)
+    {
+        pField = &_rotation;
+    }
+    else if(stringcasecmp("scale", szFieldname) == 0)
+    {
+        pField = &_scale;
+    }
+    else if(stringcasecmp("translation", szFieldname) == 0)
+    {
+        pField = &_translation;
+    }
+
+    pDesc = NULL;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Node                                     */
+
+FieldContainerPtr VRMLTextureTransformDesc::beginNode(
+    const Char8       *,
+    const Char8       *,
+    FieldContainerPtr  )
+{
+    TextureTransformChunkPtr returnValue = TextureTransformChunk::create();
+
+#ifdef OSG_DEBUG_VRML
+    indentLog(getIndent(), PINFO);
+    PINFO << "Begin TextureTransform " << &(*returnValue) << std::endl;
+
+    incIndent();
+#endif
+
+    _center = _defaultCenter;
+    _rotation = _defaultRotation;
+    _scale = _defaultScale;
+    _translation = _defaultTranslation;
+
+    return returnValue;
+}
+
+void VRMLTextureTransformDesc::endNode(FieldContainerPtr pFC)
+{
+    TextureTransformChunkPtr pTexTrans = NullFC;
+
+    pTexTrans = TextureTransformChunkPtr::dcast(pFC);
+
+    if(pTexTrans != NullFC)
+    {
+        Matrix     m;
+
+        Vec3f center(_center.getValue()[0],
+                     _center.getValue()[1], 0.0f);
+
+        Quaternion rotation;
+        rotation.setValueAsAxisRad(0.0f, 0.0f, 1.0f, _rotation.getValue());
+
+        Vec3f scale(_scale.getValue()[0],
+                    _scale.getValue()[1], 1.0f);
+        
+        Vec3f translation(_translation.getValue()[0],
+                          _translation.getValue()[1], 0.0f);
+
+        m.setTransform(translation,
+                       rotation,
+                       scale,
+                       Quaternion::identity(),
+                       center);
+
+        beginEditCP(pTexTrans);
+        {
+            pTexTrans->setMatrix(m);
+        }
+        endEditCP  (pTexTrans);
+    }
+    else
+    {
+        PWARNING <<  "VRMLTextureTransformDesc::endNode : Invalid texture transform ptr"
+                 << std::endl;
+    }
+
+#ifdef OSG_DEBUG_VRML
+    decIndent();
+
+    indentLog(getIndent(), PINFO);
+    PINFO << "End TextureTransform "
+          << _center.getValue() << " "
+          << _rotation.getValue()    << " "
+          << _scale.getValue()    << " "
+          << _translation.getValue()    << " "
+          << &(*pFC) << std::endl;
+#endif
+}
+
+/*-------------------------------------------------------------------------*/
+/*                                Dump                                     */
+
+void VRMLTextureTransformDesc::dump(const Char8 *)
+{
+}
 
 
 //---------------------------------------------------------------------------

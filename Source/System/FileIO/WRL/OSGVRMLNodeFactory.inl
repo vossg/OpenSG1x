@@ -256,6 +256,16 @@ void VRMLNodeFactory<BaseT>::beginProto(
 
             _mNodeDescHash[szName] = _pCurrentNodeDesc;
         }
+        else if(stringcasecmp("TextureTransform", szProtoname) == 0)
+        {
+            stringDup(szProtoname, szName);
+
+            _pCurrentNodeDesc = new VRMLTextureTransformDesc();
+
+            _pCurrentNodeDesc->init(szProtoname);
+
+            _mNodeDescHash[szName] = _pCurrentNodeDesc;
+        }
         else if(stringcasecmp("ImageTexture", szProtoname) == 0)
         {
             stringDup(szProtoname, szName);

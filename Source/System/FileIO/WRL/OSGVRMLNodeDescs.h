@@ -1006,6 +1006,103 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     void operator =(const VRMLMaterialDesc &source);
 };
 
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+/*! \brief VRML Texture Transform Desc
+*/
+
+class OSG_SYSTEMLIB_DLLMAPPING VRMLTextureTransformDesc : public VRMLNodeDesc
+{
+    /*==========================  PUBLIC  =================================*/
+  public :
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Constructors                               */
+    /*! \{                                                                 */
+
+    VRMLTextureTransformDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    virtual ~VRMLTextureTransformDesc(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Helper                                    */
+    /*! \{                                                                 */
+
+    virtual void init (const Char8 *szName);
+
+    virtual void reset(      void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Field                                    */
+    /*! \{                                                                 */
+
+    virtual bool prototypeAddField(const Char8             * szFieldType,
+                                   const UInt32              uiFieldTypeId,
+                                   const Char8             * szFieldName);
+
+    virtual void endProtoInterface(void);
+
+    virtual void getFieldAndDesc  (      FieldContainerPtr   pFC,
+                                   const Char8             * szFieldname,
+                                         Field             *&pField,
+                                   const FieldDescription  *&pDesc);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Node                                    */
+    /*! \{                                                                 */
+
+    virtual FieldContainerPtr beginNode(const Char8             *szTypename,
+                                        const Char8             *szName,
+                                              FieldContainerPtr  pCurrentFC);
+
+    virtual void              endNode  (      FieldContainerPtr            );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                        Dump                                  */
+    /*! \{                                                                 */
+
+    virtual void dump(const Char8 *szNodeName);
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Member                                  */
+    /*! \{                                                                 */
+
+    SFVec2f _defaultCenter;
+    SFReal32 _defaultRotation;
+    SFVec2f _defaultScale;
+    SFVec2f _defaultTranslation;
+
+    SFVec2f _center;
+    SFReal32 _rotation;
+    SFVec2f _scale;
+    SFVec2f _translation;
+
+    /*! \}                                                                 */
+    /*==========================  PRIVATE  ================================*/
+  private:
+
+    typedef VRMLNodeDesc Inherited;
+
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    VRMLTextureTransformDesc(const VRMLTextureTransformDesc &source);
+    /*!\brief prohibit default function (move to 'public' if needed) */
+    void operator =(const VRMLTextureTransformDesc &source);
+};
 
 //---------------------------------------------------------------------------
 //  Class
@@ -1102,7 +1199,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const VRMLImageTextureDesc &source);
 };
-
 
 //---------------------------------------------------------------------------
 //  Class
