@@ -362,6 +362,10 @@ loginfo=""
 make=make
 
 scriptname=$0
+allargs=$@
+
+# Are we restarting from a script update?
+restarting=0
 
 while test $# -gt 0 
 do
@@ -416,6 +420,10 @@ do
             has_doxygen=0
             shift
             ;;
+        --restart )
+            restarting=1
+            shift
+            ;;
          *) 
             break 2
             ;;
@@ -442,17 +450,29 @@ host=`hostname`
 
 # Check out the sources
 
-#cleanup what's left
-rm -rf OpenSG
+# Are we restarting? In that we don't have to do CVS
 
-# cvs needs to be in the path!
-export CVS_RSH=${tmpdir}/ssh-sf
-rm -f $log_cvs
-until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
-do
-    echo "CVS problem, sleeping and retrying!" >> $log_cvs
-    sleep 10
-done
+if test $restarting == 0
+then
+    #cleanup what's left
+    rm -rf OpenSG
+
+    # cvs needs to be in the path!
+    export CVS_RSH=${tmpdir}/ssh-sf
+    rm -f $log_cvs
+    until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+    do
+        echo "CVS problem, sleeping and retrying!" >> $log_cvs
+        sleep 10
+    done
+
+    # check if the dailybuild script has changed and update myself
+    if ! diff -q $scriptname OpenSG/dist/dailybuild >> /dev/null;
+    then
+        (cp OpenSG/dist/dailybuild $scriptname && exec $scriptname --restart $allargs)
+        exit 0
+    fi
+fi
 
 # find the right parameters for this system
 
@@ -761,6 +781,15 @@ do
 
 done
 
+# Wait for the docs to finish
+if expr $has_doxygen > /dev/null 2>&1 = 1 ;
+then
+     
+    while ! test -r $doc_flag ; do sleep 30; done
+
+    checkerror "Doc" $log_doc
+fi
+
 # make the binary dist
 
 # no need to do these, done already
@@ -798,15 +827,6 @@ for i in OpenSG-`cat OpenSG/VERSION`-*
 do
     mv $i $link_html.$i
 done
-
-# Wait for the docs to finish
-if expr $has_doxygen > /dev/null 2>&1 = 1 ;
-then
-     
-    while ! test -r $doc_flag ; do sleep 30; done
-
-    checkerror "Doc" $log_doc
-fi
 
 # all done
 
