@@ -49,6 +49,9 @@
 #include <OSGGLU.h>
 #include <OSGGLEXT.h>
 #include <OSGRemoteAspect.h>
+#include <OSGCamera.h>
+#include <OSGViewport.h>
+#include <OSGStereoCameraDecorator.h>
 
 #include <OSGShaderParameter.h>
 #include <OSGShaderParameterReal.h>
@@ -118,7 +121,9 @@ CGChunk::CGChunk(void) :
     _vProgram(NULL),
     _fProgram(NULL),
     _vp_isvalid(false),
-    _fp_isvalid(false)
+    _fp_isvalid(false),
+    _osgParametersCallbacks(),
+    _oldParameterSize(0)
 {
 }
 
@@ -128,7 +133,9 @@ CGChunk::CGChunk(const CGChunk &source) :
     _vProgram(source._vProgram),
     _fProgram(source._fProgram),
     _vp_isvalid(source._vp_isvalid),
-    _fp_isvalid(source._fp_isvalid)
+    _fp_isvalid(source._fp_isvalid),
+    _osgParametersCallbacks(source._osgParametersCallbacks),
+    _oldParameterSize(source._oldParameterSize)
 {
 }
 
@@ -332,6 +339,8 @@ void CGChunk::updateParameters(Window */*win*/,
                                const MFShaderParameterPtr &parameters,
                                bool force)
 {
+    checkOSGParameters();
+
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
         ShaderParameterPtr parameter = parameters[i];
@@ -602,6 +611,274 @@ bool CGChunk::hasFP(void)
              << " not supported!" << std::endl;
     return false;
 }
+
+
+void CGChunk::checkOSGParameters(void)
+{
+    // ok this can go wrong if you sub and add a parameter
+    // between one begin/endEditCP ...
+    if(getParameters().getSize() == _oldParameterSize)
+        return;
+    _oldParameterSize = getParameters().getSize();
+
+    _osgParametersCallbacks.clear();
+    const MFShaderParameterPtr &parameters = getParameters();
+    for(UInt32 i = 0; i < parameters.size(); ++i)
+    {
+        ShaderParameterPtr parameter = parameters[i];
+        if(parameter->getName().size() > 3 &&
+           parameter->getName()[0] == 'O' &&
+           parameter->getName()[1] == 'S' &&
+           parameter->getName()[2] == 'G')
+        {
+            if(parameter->getName() == "OSGCameraOrientation")
+            {
+                // .net compiler needs this workaround in opt mode ...
+                paramtercbfp fp = updateCameraOrientation;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGCameraPosition")
+            {
+                paramtercbfp fp = updateCameraPosition;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGViewMatrix")
+            {
+                paramtercbfp fp = updateViewMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGInvViewMatrix")
+            {
+                paramtercbfp fp = updateInvViewMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGStereoLeftEye")
+            {
+                paramtercbfp fp = updateStereoLeftEye;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else
+            {
+                FWARNING(("CGChunk::checkOSGParameters : unknown osg paramter '%s'\n",
+                         parameter->getName().c_str()));;
+            }
+        }
+    }
+}
+
+void CGChunk::updateOSGParameters(DrawActionBase *action)
+{
+    if(_osgParametersCallbacks.empty())
+        return;
+
+    for(UInt32 i=0;i<_osgParametersCallbacks.size();++i)
+        _osgParametersCallbacks[i](action, this);
+}
+
+void CGChunk::updateCameraOrientation(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateCameraOrientation : Can't update OSGCameraOrientation"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    action->getCamera()->getViewing(m,
+                                action->getViewport()->getPixelWidth(),
+                                action->getViewport()->getPixelHeight());
+    m.invert();
+    m[3].setValues(0, 0, 0, 1);
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGCameraOrientation");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGCameraOrientation");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
+}
+
+void CGChunk::updateCameraPosition(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateCameraPosition : Can't update OSGCameraPosition"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    action->getCamera()->getViewing(m,
+                                action->getViewport()->getPixelWidth(),
+                                action->getViewport()->getPixelHeight());
+    m.invert();
+    Vec3f cameraPos(m[3][0], m[3][1], m[3][2]);
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGCameraPosition");
+        if(vpparam != 0)
+            cgGLSetParameter3fv(vpparam, cameraPos.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGCameraPosition");
+        if(fpparam != 0)
+            cgGLSetParameter3fv(fpparam, cameraPos.getValues());
+    }
+}
+
+void CGChunk::updateProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateViewMatrix : Can't update OSGProjectionMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    action->getCamera()->getProjection(m, action->getViewport()->getPixelWidth(),
+                                          action->getViewport()->getPixelHeight());
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGProjectionMatrix");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGProjectionMatrix");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
+}
+
+void CGChunk::updateViewMatrix(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateViewMatrix : Can't update OSGViewMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    action->getCamera()->getViewing(m,
+                                action->getViewport()->getPixelWidth(),
+                                action->getViewport()->getPixelHeight());
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGViewMatrix");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGViewMatrix");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
+}
+
+void CGChunk::updateInvViewMatrix(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateInvViewMatrix : Can't update OSGInvViewMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    action->getCamera()->getViewing(m,
+                                action->getViewport()->getPixelWidth(),
+                                action->getViewport()->getPixelHeight());
+    m.invert();
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGInvViewMatrix");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGInvViewMatrix");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
+}
+
+void CGChunk::updateStereoLeftEye(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("CGChunk::updateStereoLeftEye : Can't update OSGStereoLeftEye"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    // ok -1 is mono
+    Real32 leftEye = -1.0f;
+    // now search for a stereo camera decorator and get the eye.
+    CameraPtr camera(*action->getCamera());
+    CameraDecoratorPtr decorator = CameraDecoratorPtr::dcast(camera);
+    while(decorator != NullFC)
+    {
+        StereoCameraDecoratorPtr stereoDecorator = StereoCameraDecoratorPtr::dcast(decorator);
+        if(stereoDecorator != NullFC)
+        {
+            if(stereoDecorator->getLeftEye())
+                leftEye = 1.0f;
+            else
+                leftEye = 0.0f;
+            break;
+        }
+        decorator = CameraDecoratorPtr::dcast(decorator->getDecoratee());
+    }
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGStereoLeftEye");
+        if(vpparam != 0)
+            cgGLSetParameter1f(vpparam, leftEye);
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGStereoLeftEye");
+        if(fpparam != 0)
+            cgGLSetParameter1f(fpparam, leftEye);
+    }
+}
+
 
 #if 0
 void CGChunk::parseProgramParams(OSGCGprogram prog)

@@ -47,6 +47,7 @@
 #include "OSGWindow.h"
 
 #include <map>
+#include <vector>
 
 #include <OSGCGChunkBase.h>
 
@@ -164,13 +165,31 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     typedef struct _OSGCGprogram    *OSGCGprogram;
     typedef struct _OSGCGparameter  *OSGCGparameter;
 
-    OSGCGcontext   _context;
-    OSGCGprogram   _vProgram;
-    bool           _vp_isvalid;
-    OSGCGprogram   _fProgram;
-    bool           _fp_isvalid;
+    OSGCGcontext                _context;
+    OSGCGprogram                _vProgram;
+    bool                        _vp_isvalid;
+    OSGCGprogram                _fProgram;
+    bool                        _fp_isvalid;
+
+    typedef void (*paramtercbfp) (DrawActionBase *action, CGChunk *cgchunk);
+
+    std::vector<paramtercbfp>   _osgParametersCallbacks;
+    UInt32 _oldParameterSize;
 
     void updateCGContext(void);
+
+    void checkOSGParameters(void);
+    void updateOSGParameters(DrawActionBase *action);
+
+    typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
+            (GLuint programObj, const char *name);
+
+    static void updateCameraOrientation (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateCameraPosition    (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateProjectionMatrix  (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateViewMatrix        (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateInvViewMatrix     (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateStereoLeftEye     (DrawActionBase *action, CGChunk *cgchunk);
 
 #if 0
     void parseProgramParams(OSGCGprogram prog);
