@@ -830,6 +830,11 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 
+                // FIXME call pNewElem->setState(pState); if the _lightsState
+                // is different to the one from the last added child! Without it
+                // activate or changeFrom is never called and the OSGActiveLightsMask in
+                // the SHLChunk never updated.
+
                 if(pMPMat != NULL)
                 {
                     // for multipass we have a different state in all draw node
