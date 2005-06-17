@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     _cgfxmat = CGFXMaterial::create();
     beginEditCP(_cgfxmat);
         _cgfxmat->setEffectFile(effectFile);
-        // this multipass technique leads to a render bug, I have no idea what's wrob :-(
+        // this multipass technique leads to a render bug, I have no idea what's wrong :-(
         //_cgfxmat->setTechnique(1);
     endEditCP(_cgfxmat);
 

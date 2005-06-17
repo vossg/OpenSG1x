@@ -684,7 +684,7 @@ void CGFXChunk::updateEffect(Window *win)
                 }
                 break;
                 default:
-                    FWARNING(("CGFXChunk : Unsupported parameter type (%d)!\n", param.Type));
+                    FWARNING(("CGFXChunk : Unsupported parameter (%s) type (%d)!\n", param.Name, param.Type));
                 break;
             }
 
@@ -768,7 +768,7 @@ void CGFXChunk::updateEffect(Window *win)
                             }
                             break;
                             default:
-                               FWARNING(("CGFXChunk : Unsupported annotation type (%d)!\n", annotation.Type));
+                               FWARNING(("CGFXChunk : Unsupported annotation (%s) type (%d)!\n", annotation.Name, annotation.Type));
                             break;
                         }
                     }
@@ -1133,7 +1133,6 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
                 }
                 break;
                 default:
-                    FWARNING(("CGFXChunk : Unsupported parameter type (%d)!\n", param.Type));
                 break;
             }
         }
@@ -1697,7 +1696,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.2 2005/06/11 11:10:59 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.3 2005/06/17 15:13:38 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
