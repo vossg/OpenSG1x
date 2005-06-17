@@ -28,12 +28,15 @@ RPMROOT=${TEMP_ROOT}/opensgdb_rpm
 
 rm -rf  ${RPMROOT}
 
+mkdir ${RPMROOT}
+
 cd ${RPMROOT}
 mkdir -p RPMS
 mkdir -p SRPMS
 mkdir -p BUILD
 mkdir -p TEMP
-
+mkdir -p SOURCES
+touch SOURCES/dummy.tgz
 
 if test -d ${OPENSG_ROOT}/Doc/Code/html
 then
@@ -42,6 +45,12 @@ else
     DOCFILES=VERSION
 fi
 
+echo rpmbuild -v --define="_topdir ${RPMROOT}" \
+--define="version $VERSION" --define="major $MAJOR" \
+--define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
+--define="opensgroot ${OPENSG_ROOT}" --define="date ${DATE}" \
+--define="conf ${CONF}" --define="docfiles ${DOCFILES}" \
+-ba ${OPENSG_ROOT}/dist/opensg_db.spec
 rpmbuild -v --define="_topdir ${RPMROOT}" \
 --define="version $VERSION" --define="major $MAJOR" \
 --define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
@@ -49,7 +58,8 @@ rpmbuild -v --define="_topdir ${RPMROOT}" \
 --define="conf ${CONF}" --define="docfiles ${DOCFILES}" \
 -ba ${OPENSG_ROOT}/dist/opensg_db.spec
 
-mv ${RPMROOT}/RPMS/*  ${TARGET}
+echo mv ${RPMROOT}/RPMS/*/*  ${TARGET}
+mv ${RPMROOT}/RPMS/*/*  ${TARGET}
 
-rm -rf ${RPMROOT}
+#rm -rf ${RPMROOT}
 

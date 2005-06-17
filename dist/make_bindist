@@ -797,7 +797,22 @@ fi
 
 cd ..
 
-# do system-specific stuff
+echo "pack..."
+cd ..
+
+tar cf - OpenSG-$OSGVERSION-${distname}-dbg | \
+            gzip -9 > OpenSG-$OSGVERSION-${distname}-dbg.tgz
+
+
+if ! test x$OSG_DIST_CLEANUP = x
+then
+    rm -rf OpenSG-$OSGVERSION-${distname}-dbg
+
+    echo "Cleanup\n";
+fi
+
+
+# do system-specific installers
 
 case $system in
     mips-sgi-* )
@@ -807,28 +822,14 @@ case $system in
     # Should we do RPMs?
     if test x$OSG_DIST_NO_RPM = x
     then
-        ##$OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
-        ##    `date +%y%m%d` "" `pwd`
-        ##mv OpenSG-devel*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
-        ##mv OpenSG-*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
-        echo "RPM disabled for now"
+        $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
+            `date +%y%m%d` "No conf" `pwd`
+        mv OpenSG-$OSGVERSION*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
+        mv OpenSG-devel-$OSGVERSION*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
     fi
     
     ;;
 esac
-
-echo "pack..."
-cd ..
-
-tar cf - OpenSG-$OSGVERSION-${distname}-dbg | \
-            gzip -9 > OpenSG-$OSGVERSION-${distname}-dbg.tgz
-
-if ! test x$OSG_DIST_CLEANUP = x
-then
-    rm -rf OpenSG-$OSGVERSION-${distname}-dbg
-
-    echo "Cleanup\n";
-fi
 
 # that's it!
 echo "All done. Enjoy!"

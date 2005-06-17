@@ -1,16 +1,18 @@
-# Spec file for OpenSG.
+# Dummy Spec file for OpenSG dailybuilds
+# Tricks RPM into using an already compiled OpenSG from the dailybuild
+# Not nice, but recompiling everything just for RPM is not an option
+
 %define name    OpenSG
-%define version	1.4
 %define release	1
 
 Name: %{name}
 Summary: OpenSG
 Version: %{version}
 Release: %{release}
-Source: %{name}-%{version}-src.tgz
+Source: dummy.tgz
 URL: http://www.opensg.org
 Group: System Environment/Libraries
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot: %{_tmppath}
 License: LGPL
 
 Requires: libjpeg
@@ -43,33 +45,52 @@ Provides: OpenSG-devel = %{version}-%{release}
 The header files and libraries needed for developing programs using OpenSG.
 
 %prep
-rm -rf $RPM_BUILD_ROOT
-# For now don't keep unpacking
-%setup -q -n %{name}
-#%setup -DT -q -n %{name}
+# None necessary
 
 %build
-# Don't need to run autogen with most tarballs since we run it before compressing it.
-qt=`ls -1d /usr/lib/qt* | tail -1`
-./configure  --prefix=$RPM_BUILD_ROOT/usr --enable-glut --enable-jpg --enable-png --enable-tif --enable-gif --enable-qt --with-qt=$qt
-gmake opt
-#gmake
+# None necessary
 
 %install
 mkdir -p $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr
-gmake install
+
+pushd %{binroot}
+cp -R include $RPM_BUILD_ROOT/usr
+make INSTALL_DIR=$RPM_BUILD_ROOT/usr install-libs install-bin
+popd
 sed -i "s/prefix=\".*/prefix=\"\/usr\"/" $RPM_BUILD_ROOT/usr/bin/osg-config
 
-cd $RPM_BUILD_ROOT/usr/lib
-ln -sf opt/libOSGBase.so libOSGBase.so
-ln -sf opt/libOSGSystem.so libOSGSystem.so
-ln -sf opt/libOSGWindowX.so libOSGWindowX.so
-ln -sf opt/libOSGWindowGLUT.so libOSGWindowGLUT.so
-ln -sf opt/libOSGWindowQT.so libOSGWindowQT.so
+mv $RPM_BUILD_ROOT/usr/include/OpenSG $RPM_BUILD_ROOT/usr/include/OpenSG-%{version}
+ln -sf OpenSG-%{version} $RPM_BUILD_ROOT/usr/include/OpenSG
 
+cd $RPM_BUILD_ROOT/usr/lib
+
+mv opt OpenSG-%{version}-opt
+mv dbg OpenSG-%{version}-dbg
+
+# Create version-based links
+cd OpenSG-%{version}-dbg
+for l in *;
+do
+    ln -sf $l ../$l.%{major}
+    ln -sf $l ../$l.%{version}
+    ln -sf OpenSG-%{version}-opt/$l ../$l
+done
+
+cd ..
+
+pushd %{opensgroot}
+
+cp CHANGELOG COPYING INSTALL PEOPLE README VERSION $RPM_BUILD_ROOT/../BUILD
+
+if test %{docfiles} == html
+then
+    cp -R Doc/Code/html $RPM_BUILD_ROOT/../BUILD
+fi
+
+popd
+ 
 %clean
-rm -rf $RPM_BUILD_ROOT
 
 %pre
 
@@ -82,17 +103,14 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/bin
-/usr/lib/libOSGBase.so
-/usr/lib/libOSGSystem.so
-/usr/lib/libOSGWindowX.so
-/usr/lib/libOSGWindowGLUT.so
-/usr/lib/libOSGWindowQT.so
-/usr/lib/opt
+/usr/lib/lib*
+/usr/lib/*opt
 
 %files devel
 %defattr(-, root, root)
 /usr/include
+/usr/lib/*dbg
 
-%doc CHANGELOG COPYING INSTALL PEOPLE README VERSION
+%doc CHANGELOG COPYING INSTALL PEOPLE README VERSION ${docfiles}
 
 %changelog
