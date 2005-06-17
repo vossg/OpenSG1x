@@ -168,6 +168,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setStateSorting(bool s);
     bool getStateSorting(void);
 
+    UInt32 getActiveLightsMask(void);
+
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
@@ -256,6 +258,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt64                    _lightsState;
     UInt64                    _activeLightsState;
     UInt32                    _activeLightsCount;
+    UInt32                    _activeLightsMask;
 
     LightsStack               _lightsStack;
     LightEnvsStack            _lightEnvsStack;

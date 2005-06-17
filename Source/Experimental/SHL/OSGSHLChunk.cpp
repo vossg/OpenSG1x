@@ -52,6 +52,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 #include <OSGStereoCameraDecorator.h>
+#include <OSGRenderAction.h>
 
 #include <OSGShaderParameter.h>
 #include <OSGShaderParameterBool.h>
@@ -786,6 +787,11 @@ void SHLChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateClusterId;
                 _osgParametersCallbacks.push_back(fp);
             }
+            else if(parameter->getName() == "OSGActiveLightsMask")
+            {
+                paramtercbfp fp = updateActiveLightsMask;
+                _osgParametersCallbacks.push_back(fp);
+            }
             else
             {
                 FWARNING(("SHLChunk::checkOSGParameters : unknown osg paramter '%s'\n",
@@ -960,6 +966,20 @@ void SHLChunk::updateClusterId(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation
         uniform1i(location, (GLint) _clusterId);
 }
 
+void SHLChunk::updateActiveLightsMask(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGActiveLightsMask");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask());
+}
+
 /*------------------------------ State ------------------------------------*/
 
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -1075,7 +1095,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.36 2005/05/25 16:47:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.37 2005/06/17 14:07:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

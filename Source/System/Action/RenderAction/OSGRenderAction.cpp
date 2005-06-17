@@ -248,6 +248,7 @@ RenderAction::RenderAction(void) :
     _lightsState(0),
     _activeLightsState(0),
     _activeLightsCount(0),
+    _activeLightsMask(0),
     
     _lightsStack(),
     _lightEnvsStack(),
@@ -304,6 +305,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightsState         (source._lightsState),
     _activeLightsState   (source._activeLightsState),
     _activeLightsCount   (source._activeLightsCount),
+    _activeLightsMask    (source._activeLightsMask),
     
     _lightsStack         (source._lightsStack),
     _lightEnvsStack      (source._lightEnvsStack),
@@ -570,6 +572,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setNode(getActNode());
+                pNewMatElem->setLightsState(_lightsState);
 
                 if(_pMatRoots.find(sortKey) == _pMatRoots.end())
                     _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
@@ -811,6 +814,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setNode(getActNode());
+                pNewMatElem->setLightsState(_lightsState);
 
                 //_pMatRoot->addChild(pNewMatElem);
 
@@ -896,7 +900,7 @@ void RenderAction::dropLight(Light *pLight)
         if(!light_limit_reached)
         {
             _lightsMap[pLight] = lightState;
-            _lightsState += (TypeTraits<UInt64>::One << lightState);
+            _lightsState |= (TypeTraits<UInt64>::One << lightState);
         }
         
         if(!_lightEnvsStack.empty())
@@ -917,8 +921,8 @@ void RenderAction::undropLight(Light *pLight)
         RenderAction::LightsMap::iterator it = _lightsMap.find(pLight);
         if(it == _lightsMap.end())
             return;
-        
-        _lightsState -= (TypeTraits<UInt64>::One << (*it).second);
+
+        _lightsState &= ~(TypeTraits<UInt64>::One << (*it).second);
     }
     else
     {
@@ -1118,6 +1122,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
 
     // ok this is not optimal yet but it works.
     UInt32 light_id = 0;
+    _activeLightsMask = 0;
     for(UInt32 i = 0;i < _vLights.size();++i)
     {
         if((_activeLightsState & (TypeTraits<UInt64>::One << i)) ==
@@ -1130,14 +1135,14 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
         
         if(pRoot->getLightsState() & (TypeTraits<UInt64>::One << i))
         {
-            //printf("activate light: %u\n", light_id);
             glPushMatrix();
             glLoadMatrixf(_vLights[i].second.getValues());
+            _activeLightsMask |= (1 << light_id);
             _vLights[i].first->activate(this, light_id++);
             glPopMatrix();
         }
     }
-    
+
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
     {
         //printf("deactivate light: %u\n", i);
@@ -1437,8 +1442,10 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     if(!_bLocalLights)
     {
+        _activeLightsMask = 0;
         for(i = 0; i < _vLights.size(); i++)
         {
+            _activeLightsMask |= (1 << i);
             glLoadMatrixf(_vLights[i].second.getValues());
             _vLights[i].first->activate(this, i);
         }

@@ -229,6 +229,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateClusterId         (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
+    static void updateActiveLightsMask  (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
 
     typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
@@ -244,6 +246,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.18 2005/05/25 16:47:15 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.19 2005/06/17 14:07:05 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

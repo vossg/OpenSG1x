@@ -137,6 +137,12 @@ bool RenderAction::getStateSorting(void)
     return _stateSorting;
 }
 
+inline
+UInt32 RenderAction::getActiveLightsMask(void)
+{
+    return _activeLightsMask;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
