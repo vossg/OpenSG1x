@@ -168,13 +168,13 @@ void GroupMCastConnection::setParams(const std::string &params)
     Inherited::setParams(params);
 
     std::string option = "TTL=";
-    UInt32 i = 0;
+    std::string::size_type i = 0;
     if((i=params.find(option)) != std::string::npos)
     {
         std::string str = params.substr(i + option.size());
 
         std::stringstream ss;
-        UInt32 j = 0;
+        std::string::size_type j = 0;
         while(j < str.length() && str[j] != ',' && isdigit(str[j]))
         {
             ss << str[j++];
