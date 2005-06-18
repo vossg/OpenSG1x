@@ -51,7 +51,7 @@ cat << EOF > $outfile
 <td><center>Date</center></td>
 <td>System</td>
 <td><center>Snapshots</center></td>
-<td colspan="2"><center>Dists</center></td>
+<td colspan="4"><center>Dists</center></td>
 <td>Status</td>
 </tr>
 EOF
@@ -96,20 +96,37 @@ do
 
     if test "x$dists" = x
     then
-        echo "<td style=snap colspan=2> </td>" >> $outfile
+        echo "<td style=snap colspan=4> </td>" >> $outfile
     else
         a=0
         for d in $dists
         do
-            v=`echo $d | sed -e "s/.*-//" -e "s/.[^.]*$//"`
-            echo "<td style=snap><center><a href="$d">$v</a></center></td>" >> $outfile
             a=`expr $a + 1`
+            dlist[$a]=$d
+            ext=`echo $d | sed -e "s/.*-//" -e "s/[^.]*.//"`
+            v=`echo $d | sed -e "s/.*-//" -e "s/.[^.]*$//"`
+            if test $ext = "rpm"
+            then
+                if test $v == "devel"
+                then
+                    v="drpm"
+                else
+                    v="rpm"
+                fi
+            fi
+            vlist[$a]=$v
         done
-        
-        case $a in        
-        0)  echo "<td style=snap></td>" >> $outfile 
-            echo "<td style=snap></td>" >> $outfile ;;
-        1)  echo "<td style=snap></td>" >> $outfile ;;
+
+        case $a in
+        0)  echo "<td style=snap colspan=4></td>" >> $outfile ;;
+        1)  echo "<td style=snap colspan=4><center><a href="${dlist[1]}">${vlist[1]}</a></center></td>" >> $outfile ;;
+        2)  echo "<td style=snap colspan=2><center><a href="${dlist[1]}">${vlist[1]}</a></center></td>" >> $outfile 
+            echo "<td style=snap colspan=2><center><a href="${dlist[2]}">${vlist[2]}</a></center></td>" >> $outfile ;;
+        4)  echo "<td style=snap><center><a href="${dlist[1]}">${vlist[1]}</a></center></td>" >> $outfile 
+            echo "<td style=snap><center><a href="${dlist[2]}">${vlist[2]}</a></center></td>" >> $outfile 
+            echo "<td style=snap><center><a href="${dlist[3]}">${vlist[3]}</a></center></td>" >> $outfile 
+            echo "<td style=snap><center><a href="${dlist[4]}">${vlist[4]}</a></center></td>" >> $outfile ;;
+        *)  echo "<td style=snap colspan=4></td>" >> $outfile ;;
         esac
     fi
     
