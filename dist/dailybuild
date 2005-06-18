@@ -172,7 +172,7 @@ checkerror ()
         -e "(ignored)" \
         -e "error-type" \
         -e "error-constant" \
-        -e "Failed to create pthread thread key" \
+        -e "Failed to create pthread" \
     > $log_errors || true
     $grep -n -i -w failed $file | \
     $grep -v \
@@ -492,24 +492,6 @@ case $system in
         case "$compiler" in
         
             CC)
-                # IGD Irix settings
-                
-                qt_dir="/igd/a4/software/IRIX/packages/qt-3.0"
-                qt_args=${qt_args:="--with-qt=${qt_dir}"}
-                glut_args=${glut_args:="--with-glut=/igd/a4/software/IRIX/packages/glut-3.7"}
-                tif_args=${tif_args:="--with-tif=/igd/a4/software/IRIX/"}
-                jpg_args=${jpg_args:="--with-jpg=/igd/a4/software/IRIX/"}
-                png_args=${png_args:="--with-png=/igd/a4/software/IRIX/"}
-                par_jobs=${par_jobs:=6}
-                do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 reiners@pc1107 tar xf - -C $log_destination'}
-                mail=/usr/sbin/Mail
-                make=/sgi/bin/gmake
-                export PATH=/igd/a4/software/IRIX/bin/:$PATH
-                loginfo="OS: `/bin/uname -aR` <br>"
-                loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
-                has_doxygen=${has_doxygen:=0}
-                ;;
-            
             CC64)
                  # VRAC Irix settings
           
