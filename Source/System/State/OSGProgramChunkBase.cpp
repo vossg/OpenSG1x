@@ -169,7 +169,7 @@ ProgramChunkBase::ProgramChunkBase(void) :
     _sfProgram                (), 
     _mfParamValues            (), 
     _mfParamNames             (), 
-    _sfGLId                   (), 
+    _sfGLId                   (UInt32(0)), 
     Inherited() 
 {
 }

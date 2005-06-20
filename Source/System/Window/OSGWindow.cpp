@@ -824,6 +824,15 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 
     for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
     {
+#ifdef OSG_DEBUG
+        if(id + num > (*it)->_mfGlObjectLastReinitialize.size())
+        {
+            FWARNING(("Window::destroyGLObject:: id %d + num %d exceed"
+                "registered objects size %d!\n", id, num, 
+                (*it)->_mfGlObjectLastReinitialize.size()));
+            return;
+        }
+#endif
         // has the object been used in this context at all?
         if((*it)->getGlObjectLastReinitialize()[id] != 0) 
             (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
