@@ -161,8 +161,8 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 bottom = row    * height - row    * getYOverlap();
     Int32 right  = left   + width  - 1;
     Int32 top    = bottom + height - 1;
-    Real32 scaleCWidth  = ((width - getXOverlap()) * (getHServers() - 1) + width) / (float)getWidth();
-    Real32 scaleCHeight = ((height - getYOverlap())* (getVServers() - 1) + height)/ (float)getHeight();
+    Real64 scaleCWidth  = ((width - getXOverlap()) * (getHServers() - 1) + width) / (float)getWidth();
+    Real64 scaleCHeight = ((height - getYOverlap())* (getVServers() - 1) + height)/ (float)getHeight();
 
     // duplicate viewports
     for(cv=0,sv=0;cv<getPort().size();cv++)
