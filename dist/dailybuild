@@ -491,8 +491,7 @@ case $system in
         
         case "$compiler" in
         
-            CC)
-            CC64)
+            CC*)
                  # VRAC Irix settings
           
                 qt_dir="/home/users/dreiners"
