@@ -124,10 +124,10 @@ else
 	COMP_OPTIMIZE    =
 ifeq ($(COMPILERMAJORVERSION), 14)
 # Cl.net 2005 options
-	COMP_DEBUG       =  -ZI -Od -D_DEBUG
+	COMP_DEBUG       =  -ZI -Od -D_DEBUG -DOSG_DEBUG
 else
 # other cl.net options
-	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG
+	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG
 endif
         COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
 endif
