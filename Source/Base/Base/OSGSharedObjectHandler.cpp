@@ -169,7 +169,7 @@ bool SharedObject::open()
     {
         libName = _szName.c_str();
     }
-
+    
 #ifndef WIN32
 #ifdef OSG_DLOPEN_LAZY
     _pHandle = dlopen(libName, RTLD_LAZY);
@@ -182,7 +182,19 @@ bool SharedObject::open()
         FWARNING(("Could not open shared object : %s\n", dlerror()));
     }
 #else
-    _pHandle = LoadLibrary(libName);
+
+    if(libName == NULL)
+    {
+        Char8 szModuleName[1024];
+
+        GetModuleFileName(NULL, szModuleName, 1024);
+
+        _pHandle = LoadLibrary(szModuleName);
+    }
+    else
+    {
+        _pHandle = LoadLibrary(libName);
+    }
 #endif
 
     return (_pHandle != NULL);
