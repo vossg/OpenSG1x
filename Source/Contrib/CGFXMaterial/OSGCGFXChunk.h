@@ -86,6 +86,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
         OSG_CG_VIEW,
         OSG_CG_VIEWI,
         OSG_CG_VIEWIT,
+        OSG_CG_TIME,
         OSG_CG_LAST
     };
 
@@ -234,6 +235,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.1 2005/06/09 14:53:41 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.2 2005/06/22 12:42:50 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

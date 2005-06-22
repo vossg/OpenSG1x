@@ -799,8 +799,10 @@ void CGFXChunk::updateEffect(Window *win)
             setStateParameter(CGFXChunk::OSG_CG_VIEW, param.Name);
         else if (stringcasecmp(param.Semantic, "ViewI") == 0)
             setStateParameter(CGFXChunk::OSG_CG_VIEWI, param.Name);
-         else if (stringcasecmp(param.Semantic, "ViewIT") == 0)
+        else if (stringcasecmp(param.Semantic, "ViewIT") == 0)
             setStateParameter(CGFXChunk::OSG_CG_VIEWIT, param.Name);
+        else if (stringcasecmp(param.Semantic, "Time") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_TIME, param.Name);
     }
     endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
 
@@ -1496,6 +1498,14 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         _effect[id].effect->SetMatrix(_effect[id].effect->GetParameterByName(NULL,
             _state_parameters[OSG_CG_VIEWIT].c_str()), m.getValues(), 4, 4);
     }
+
+    if(!_state_parameters[OSG_CG_TIME].empty())
+    {
+        Real32 t = Real32(OSG::getSystemTime());
+        m = viewingI;
+        _effect[id].effect->SetFloat(_effect[id].effect->GetParameterByName(NULL,
+            _state_parameters[OSG_CG_TIME].c_str()), t);
+    }
 }
 
 /*------------------------------ State ------------------------------------*/
@@ -1696,7 +1706,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.3 2005/06/17 15:13:38 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.4 2005/06/22 12:42:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
