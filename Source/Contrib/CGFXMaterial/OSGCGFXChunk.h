@@ -212,6 +212,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     // class. Used for indexing in State
     static StateChunkClass _class;
     static bool _initializedCGFXGL;
+    static Real64 _time;
 
     static void initMethod(void);
 
@@ -235,6 +236,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.2 2005/06/22 12:42:50 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.3 2005/06/23 09:04:45 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

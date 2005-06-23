@@ -100,6 +100,7 @@ OSG_USING_NAMESPACE
 StateChunkClass CGFXChunk::_class("CGFX");
 
 bool CGFXChunk::_initializedCGFXGL = false;
+Real64  CGFXChunk::_time = -1.0;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1501,8 +1502,10 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
 
     if(!_state_parameters[OSG_CG_TIME].empty())
     {
-        Real32 t = Real32(OSG::getSystemTime());
-        m = viewingI;
+        if(_time == -1.0)
+            _time = OSG::getSystemTime();
+
+        Real32 t = Real32((OSG::getSystemTime() - _time) * 1000.0);
         _effect[id].effect->SetFloat(_effect[id].effect->GetParameterByName(NULL,
             _state_parameters[OSG_CG_TIME].c_str()), t);
     }
@@ -1706,7 +1709,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.4 2005/06/22 12:42:50 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.5 2005/06/23 09:04:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

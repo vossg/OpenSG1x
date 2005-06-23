@@ -72,6 +72,7 @@ int main(int argc, char **argv)
     glutSetWindow(winid);
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
+    glutIdleFunc(display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
@@ -103,7 +104,7 @@ int main(int argc, char **argv)
     // create root node
     _scene = Node::create();
 
-    GeometryPtr geo1 = makeLatLongSphereGeo(50, 50, 1.0f);
+    GeometryPtr geo1 = makeLatLongSphereGeo(50, 50, 100.0f);
     
     OSG::calcVertexTangents(geo1, 0, Geometry::TexCoords1FieldId, Geometry::TexCoords2FieldId);
 
