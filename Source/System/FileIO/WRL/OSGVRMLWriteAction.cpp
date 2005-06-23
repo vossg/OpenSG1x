@@ -1335,8 +1335,13 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
             {
                 const std::string *pFilename = 
                     pImage->findAttachmentField("fileName");
+                std::string filename;
+                if(pFilename == NULL)
+                    filename = pImage->getName();
+                else
+                    filename = *pFilename;
 
-                if(pFilename != NULL)
+                if(!filename.empty())
                 {
                     
                     pWriter->printIndent();
@@ -1350,7 +1355,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
                     pWriter->printIndent();
                     fprintf(pFile, "url \"%s\"\n",
-                            pFilename->c_str());
+                            filename.c_str());
 
                     if(pTChunk->getWrapS() != GL_REPEAT)
                     {
