@@ -99,8 +99,8 @@ public:
 
     virtual bool traverse(NodePtr& root);
 
-    const std::string getName(void)             { return _name; };
-    void              setName(const char *name) { _name=name;   };
+    const std::string &getName(void);
+    void              setName(const char *name);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

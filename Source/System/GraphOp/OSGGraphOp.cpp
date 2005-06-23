@@ -109,6 +109,16 @@ bool GraphOp::traverse(NodePtr& node)
         return false;
 }
 
+const std::string & GraphOp::getName(void)
+{
+    return _name;
+};
+
+void GraphOp::setName(const char *name)
+{
+    _name = name;
+};
+
 /*--------------------------- Exclude List --------------------------------*/
 
 void GraphOp::addToExcludeList(NodePtr& node)
