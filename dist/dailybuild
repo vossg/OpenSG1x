@@ -172,7 +172,6 @@ checkerror ()
         -e "(ignored)" \
         -e "error-type" \
         -e "error-constant" \
-        -e "Failed to create pthread" \
     > $log_errors || true
     $grep -n -i -w failed $file | \
     $grep -v \
@@ -181,6 +180,7 @@ checkerror ()
         -e "inlining failed" \
         -e "failed in call to" \
         -e "failed: Connection timed out" \
+        -e "Failed to create pthread" \
     >> $log_errors || true
     
     # remove the expected warnings
@@ -491,8 +491,8 @@ case $system in
         
         case "$compiler" in
         
-            CC*)
-                 # VRAC Irix settings
+            CC64)
+                 # VRAC Irix 64 settings
           
                 qt_dir="/home/users/dreiners"
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
@@ -501,9 +501,27 @@ case $system in
                 jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib64"}
                 png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib64"}
                 par_jobs=${par_jobs:=8}
-                do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /igd/a4/home/reiners/.ssh/id.ssh1 reiners@pc1107 tar xf - -C $log_destination'}
                 mail=/usr/sbin/Mail
                 make=/home/users/dreiners/bin/IRIX64/make
+                grep=/usr/freeware/bin/grep
+                export PATH=${qt_dir}/bin/:$PATH
+                loginfo="OS: `/bin/uname -aR` <br>"
+                loginfo="$loginfo Compiler Version: `CC -version 2>&1` <br>"
+                has_doxygen=${has_doxygen:=0}
+                ;;           
+        
+            CC)
+                 # VRAC Irix settings
+          
+                qt_dir="/home/users/dreiners"
+                qt_args=${qt_args:="--with-qt=${qt_dir}"}
+                glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib"}
+                tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib"}
+                jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib"}
+                png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib"}
+                par_jobs=${par_jobs:=4}
+                mail=/usr/sbin/Mail
+                make=make
                 grep=/usr/freeware/bin/grep
                 export PATH=${qt_dir}/bin/:$PATH
                 loginfo="OS: `/bin/uname -aR` <br>"
