@@ -408,6 +408,7 @@
 // icc >=8.1 uses gnu headers anyway, use gnu defines set above
 #if __INTEL_COMPILER_VERSION < 810  
 # define OSG_STDEXTENSION_NAMESPACE std
+# define OSG_STDEXCEPTION_NAMESPACE std
 #endif
 
 # define OSG_STL_HAS_HASH_MAP
