@@ -8,7 +8,9 @@ Maintainer:             Andreas Zieringer <amz@a-m-z.org>
 Initial Author:         Andreas Zieringer <amz@a-m-z.org>
 Additional Libraries:   http://developer.nvidia.com/object/cg_toolkit.html
     Windows:            Cg:CgGL:CgFXParser
-    Linux:              Cg:CgGL:CgFX:CgFXGL 
+    Linux:              Cg:CgGL:CgFX:CgFXGL
+    I compiled it with cg 1.3 beta but nvidia removed this version I hope it works also
+    with 1.2.1. It doesn't work with the new cg 1.4 they changed the API :-(
 Added:                  2005/06/11
 Last modified:          2005/06/11
 Last tested:            2005/06/11
