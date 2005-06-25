@@ -96,6 +96,15 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Timer                                      */
+    /*! \{                                                                 */
+
+    typedef Real64 (*timercbfp) (void);
+    static void setTimerCB(timercbfp fp);
+    static timercbfp getTimerCB(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                 Parameter Access                             */
     /*! \{                                                                 */
 
@@ -157,6 +166,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     static void initMethod(void);
 
+    static timercbfp _timerFP;
+
     CGFXChunkPtr          _cgfxChunk;
     ShaderParameterAccess *_parameter_access;
 
@@ -171,6 +182,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.1 2005/06/09 14:53:42 a-m-z Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.2 2005/06/25 12:33:53 a-m-z Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */

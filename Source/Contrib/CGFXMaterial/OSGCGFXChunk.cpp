@@ -1502,10 +1502,16 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
 
     if(!_state_parameters[OSG_CG_TIME].empty())
     {
+        Real64 systemTime = 0.0;
+        if(CGFXMaterial::getTimerCB() != NULL)
+            systemTime = CGFXMaterial::getTimerCB()();
+        else
+            systemTime = OSG::getSystemTime();
+        
         if(_time == -1.0)
-            _time = OSG::getSystemTime();
+            _time = systemTime;
 
-        Real32 t = Real32((OSG::getSystemTime() - _time) * 1000.0);
+        Real32 t = Real32((systemTime - _time) * 1000.0);
         _effect[id].effect->SetFloat(_effect[id].effect->GetParameterByName(NULL,
             _state_parameters[OSG_CG_TIME].c_str()), t);
     }
@@ -1709,7 +1715,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.5 2005/06/23 09:04:45 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.6 2005/06/25 12:33:53 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

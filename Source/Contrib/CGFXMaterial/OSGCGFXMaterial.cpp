@@ -73,6 +73,8 @@ OSG_USING_NAMESPACE
  *                           Class variables                               *
 \***************************************************************************/
 
+CGFXMaterial::timercbfp CGFXMaterial::_timerFP = NULL;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -80,7 +82,6 @@ OSG_USING_NAMESPACE
 void CGFXMaterial::initMethod (void)
 {
 }
-
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -221,6 +222,16 @@ Int32 CGFXMaterial::findImage(const ImagePtr &img)
 std::string CGFXMaterial::getTechniqueString(Int32 index)
 {
     return _cgfxChunk->getTechniqueString(index);
+}
+
+void CGFXMaterial::setTimerCB(CGFXMaterial::timercbfp fp)
+{
+    _timerFP = fp;
+}
+
+CGFXMaterial::timercbfp CGFXMaterial::getTimerCB(void)
+{
+    return _timerFP;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -378,7 +389,7 @@ bool CGFXMaterial::subParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.1 2005/06/09 14:53:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.2 2005/06/25 12:33:53 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 
