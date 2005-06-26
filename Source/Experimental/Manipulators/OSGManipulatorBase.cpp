@@ -702,7 +702,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.1 2005/06/26 12:44:40 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

@@ -78,41 +78,41 @@ void RotateManipulator::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawEnter));
+                                          Action   *>(&RotateManipulator::drawEnter));
     DrawAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawLeave));
+                                          Action   *>(&RotateManipulator::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderEnter));
+                                          Action   *>(&RotateManipulator::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderLeave));
+                                          Action   *>(&RotateManipulator::renderLeave));
    
     IntersectAction::registerEnterDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectEnter));
+                                          Action   *>(&RotateManipulator::intersectEnter));
 										  
     IntersectAction::registerLeaveDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           RotateManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectLeave));
+                                          Action   *>(&RotateManipulator::intersectLeave));
 										
 }
 
@@ -202,7 +202,7 @@ void  RotateManipulator::doMovement(TransformPtr t,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulator.cpp,v 1.1 2005/06/26 12:44:40 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulator.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGROTATEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGROTATEMANIPULATORBASE_INLINE_CVSID;
 

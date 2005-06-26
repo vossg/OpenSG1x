@@ -199,6 +199,6 @@ typedef RefPtr<ScaleManipulatorPtr> ScaleManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSCALEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGScaleManipulatorBase.h,v 1.1 2005/06/26 12:44:41 a-m-z Exp $"
+#define OSGSCALEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGScaleManipulatorBase.h,v 1.2 2005/06/26 21:13:56 dirk Exp $"
 
 #endif /* _OSGSCALEMANIPULATORBASE_H_ */

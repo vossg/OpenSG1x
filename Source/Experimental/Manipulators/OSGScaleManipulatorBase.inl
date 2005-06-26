@@ -100,5 +100,5 @@ ScaleManipulatorPtr ScaleManipulatorBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSCALEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGScaleManipulatorBase.inl,v 1.1 2005/06/26 12:44:41 a-m-z Exp $"
+#define OSGSCALEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGScaleManipulatorBase.inl,v 1.2 2005/06/26 21:13:56 dirk Exp $"
 

@@ -78,41 +78,41 @@ void MoveManipulator::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawEnter));
+                                          Action   *>(&MoveManipulator::drawEnter));
     DrawAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawLeave));
+                                          Action   *>(&MoveManipulator::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderEnter));
+                                          Action   *>(&MoveManipulator::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderLeave));
+                                          Action   *>(&MoveManipulator::renderLeave));
    
     IntersectAction::registerEnterDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectEnter));
+                                          Action   *>(&MoveManipulator::intersectEnter));
 										  
     IntersectAction::registerLeaveDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           MoveManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectLeave));
+                                          Action   *>(&MoveManipulator::intersectLeave));
 										
 }
 
@@ -203,7 +203,7 @@ void  MoveManipulator::doMovement(TransformPtr t,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulator.cpp,v 1.1 2005/06/26 12:44:40 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulator.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMOVEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMOVEMANIPULATORBASE_INLINE_CVSID;
 

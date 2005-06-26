@@ -78,41 +78,41 @@ void ScaleManipulator::initMethod (void)
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawEnter));
+                                          Action   *>(&ScaleManipulator::drawEnter));
     DrawAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::drawLeave));
+                                          Action   *>(&ScaleManipulator::drawLeave));
 
     RenderAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderEnter));
+                                          Action   *>(&ScaleManipulator::renderEnter));
 
     RenderAction::registerLeaveDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  , 
                                           CNodePtr  ,  
-                                          Action   *>(&Transform::renderLeave));
+                                          Action   *>(&ScaleManipulator::renderLeave));
    
     IntersectAction::registerEnterDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectEnter));
+                                          Action   *>(&ScaleManipulator::intersectEnter));
 										  
     IntersectAction::registerLeaveDefault( 
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ScaleManipulatorPtr  ,
                                           CNodePtr  ,
-                                          Action   *>(&Transform::intersectLeave));
+                                          Action   *>(&ScaleManipulator::intersectLeave));
 										
 }
 
@@ -201,7 +201,7 @@ void  ScaleManipulator::doMovement(TransformPtr t,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulator.cpp,v 1.1 2005/06/26 12:44:41 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulator.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSCALEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCALEMANIPULATORBASE_INLINE_CVSID;
 
