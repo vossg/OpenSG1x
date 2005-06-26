@@ -446,6 +446,7 @@ void SimpleSceneManager::initialize(void)
 
     // the camera
     _camera = PerspectiveCamera::create();
+    addRefCP(_camera);
     beginEditCP(_camera);
     _camera->setBeacon(cartN);
     _camera->setFov   (deg2rad(60.f));
