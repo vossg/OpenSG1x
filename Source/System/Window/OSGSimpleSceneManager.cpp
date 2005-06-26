@@ -326,14 +326,11 @@ void SimpleSceneManager::setRoot(NodePtr root)
 
     if(_root != root)
     {
-        addRefCP(_root);
-
         if(_root != NullFC)
         {
             beginEditCP(_internalRoot, Node::ChildrenFieldMask);
             _internalRoot->subChild(_root);
             endEditCP(_internalRoot, Node::ChildrenFieldMask);
-            subRefCP(_root);
         }
 
         _root = root;
