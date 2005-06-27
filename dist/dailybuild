@@ -674,7 +674,7 @@ checkerror "Cvs" $log_cvs
 
 case $system in
 
-    linux* ) 
+    *-linux-* ) 
                         cd ..
                         tar cf - OpenSG | \
                             gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz
