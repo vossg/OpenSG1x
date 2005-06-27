@@ -670,11 +670,11 @@ echo '<p>' >> $out_html.Main.html
 checkerror "Cvs" $log_cvs
 
 # create the source snapshot
-# Only on Irix, one is enough
+# Create on linux, as needed for the SRPM
 
 case $system in
 
-    mips-sgi-irix6* ) 
+    linux* ) 
                         cd ..
                         tar cf - OpenSG | \
                             gzip -9f > $basedir/opensg_dailybuild.$today.source.tgz

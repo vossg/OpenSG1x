@@ -822,8 +822,11 @@ case $system in
     # Should we do RPMs?
     if test x$OSG_DIST_NO_RPM = x
     then
+        echo Running $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
+            `date +%y%m%d` "No conf" `pwd`
         $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
             `date +%y%m%d` "No conf" `pwd`
+        mv OpenSG-$OSGVERSION*.src.rpm      OpenSG-$OSGVERSION-${distname}.src.rpm
         mv OpenSG-$OSGVERSION*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
         mv OpenSG-devel-$OSGVERSION*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
     fi

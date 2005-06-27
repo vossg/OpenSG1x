@@ -36,7 +36,8 @@ mkdir -p SRPMS
 mkdir -p BUILD
 mkdir -p TEMP
 mkdir -p SOURCES
-touch SOURCES/dummy.tgz
+mkdir -p SPECS
+cp ${OPENSG_ROOT}/../opensg_dailybuild.${DATE}*source.tgz SOURCES/OpenSG-${VERSION}.tgz
 
 if test -d ${OPENSG_ROOT}/Doc/Code/html
 then
@@ -45,11 +46,37 @@ else
     DOCFILES=VERSION
 fi
 
-echo rpmbuild -v --define="_topdir ${RPMROOT}" \
+# Make Source RPM
+
+# Replace stuff passed on the command line
+cat ${OPENSG_ROOT}/dist/opensg.spec |
+sed -e "s/%{version}/$VERSION/g"  -e "s/%{major}/$MAJOR/g" \
+    -e "s/%{date}/$DATE/g"  -e "s/%{conf}/$CONF/g" \
+    > ${RPMROOT}/SPECS/opensg.spec
+echo rpmbuild -v --define=\"_topdir ${RPMROOT}\" \
+--define=\"version $VERSION\" --define=\"major $MAJOR\" \
+--define=\"buildroot ${RPMROOT}/TEMP\" --define=\"binroot ${BIN_ROOT}\" \
+--define=\"opensgroot ${OPENSG_ROOT}\" --define=\"date ${DATE}\" \
+--define=\"conf ${CONF}\" --define=\"docfiles ${DOCFILES}\" \
+-bs ${RPMROOT}/SPECS/opensg.spec
+rpmbuild -v --define="_topdir ${RPMROOT}" \
 --define="version $VERSION" --define="major $MAJOR" \
 --define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
 --define="opensgroot ${OPENSG_ROOT}" --define="date ${DATE}" \
 --define="conf ${CONF}" --define="docfiles ${DOCFILES}" \
+-bs ${RPMROOT}/SPECS/opensg.spec
+
+echo mv ${RPMROOT}/SRPMS/* ${TARGET}
+mv ${RPMROOT}/SRPMS/*  ${TARGET}
+
+
+# Make binary RPMs
+
+echo rpmbuild -v --define=\"_topdir ${RPMROOT}\" \
+--define=\"version $VERSION\" --define=\"major $MAJOR\" \
+--define=\"buildroot ${RPMROOT}/TEMP\" --define=\"binroot ${BIN_ROOT}\" \
+--define=\"opensgroot ${OPENSG_ROOT}\" --define=\"date ${DATE}\" \
+--define=\"conf ${CONF}\" --define=\"docfiles ${DOCFILES}\" \
 -ba ${OPENSG_ROOT}/dist/opensg_db.spec
 rpmbuild -v --define="_topdir ${RPMROOT}" \
 --define="version $VERSION" --define="major $MAJOR" \
@@ -58,7 +85,7 @@ rpmbuild -v --define="_topdir ${RPMROOT}" \
 --define="conf ${CONF}" --define="docfiles ${DOCFILES}" \
 -ba ${OPENSG_ROOT}/dist/opensg_db.spec
 
-echo mv ${RPMROOT}/RPMS/*/*  ${TARGET}
+echo mv ${RPMROOT}/RPMS/*/* ${TARGET}
 mv ${RPMROOT}/RPMS/*/*  ${TARGET}
 
 #rm -rf ${RPMROOT}

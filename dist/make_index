@@ -71,12 +71,30 @@ do
     	echo "<td style=date>$date</td>" >> $outfile
 	lastdate=$date
         secondline=1
+        thirdline=0
     else
         snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
-        if test $secondline = 1 -a -f $snap
+        srpm=`echo $i | sed -e "s|${system}.Main.html.gz|OpenSG*.src.rpm|"` 
+        if test $secondline = 1
         then
+            if test -f $snap
+            then
+                echo "<td style=source><a href=$snap>Sources</a></td>" >> $outfile
+            else
+     	        echo "<td style=date> </td>" >> $outfile
+            fi
             secondline=0
-            echo "<td style=source><a href=$snap>Sources</a></td>" >> $outfile
+            thirdline=1
+        elif test $thirdline = 1
+        then
+            if test -f $srpm
+            then
+                srpm=`ls $srpm`
+                echo "<td style=source><a href=$srpm>SRPM</a></td>" >> $outfile
+            else
+     	        echo "<td style=date> </td>" >> $outfile
+            fi
+            thirdline=0
         else
     	    echo "<td style=date> </td>" >> $outfile
         fi

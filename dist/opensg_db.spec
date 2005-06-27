@@ -9,7 +9,7 @@ Name: %{name}
 Summary: OpenSG
 Version: %{version}
 Release: %{release}
-Source: dummy.tgz
+Source: OpenSG-%{version}.tgz
 URL: http://www.opensg.org
 Group: System Environment/Libraries
 BuildRoot: %{_tmppath}
@@ -67,14 +67,14 @@ cd $RPM_BUILD_ROOT/usr/lib
 
 mv opt OpenSG-%{version}-opt
 mv dbg OpenSG-%{version}-dbg
-
+ln -sf OpenSG-%{version}-opt OpenSG-%{version}
 # Create version-based links
 cd OpenSG-%{version}-dbg
 for l in *;
 do
     ln -sf $l ../$l.%{major}
     ln -sf $l ../$l.%{version}
-    ln -sf OpenSG-%{version}-opt/$l ../$l
+    ln -sf OpenSG-%{version}/$l ../$l
 done
 
 cd ..
