@@ -74,7 +74,7 @@ do
         thirdline=0
     else
         snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
-        srpm=`echo $i | sed -e "s|${system}.Main.html.gz|OpenSG*.src.rpm|"` 
+        srpm=`echo $i | sed -e "s|${system}.Main.html.gz|*.OpenSG*.src.rpm|"` 
         if test $secondline = 1
         then
             if test -f $snap
@@ -110,7 +110,7 @@ do
     fi
 
     distpat=`echo $i | sed -e 's|Main.html.gz|OpenSG\*|'`
-    dists=`find . -name "$distpat" | sort`
+    dists=`find . -name "$distpat" | fgrep -v .src.rpm | sort`
 
     if test "x$dists" = x
     then

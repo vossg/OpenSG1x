@@ -827,8 +827,8 @@ case $system in
         $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
             `date +%y%m%d` "No conf" `pwd`
         mv OpenSG-$OSGVERSION*.src.rpm      OpenSG-$OSGVERSION-${distname}.src.rpm
-        mv OpenSG-$OSGVERSION*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
         mv OpenSG-devel-$OSGVERSION*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
+        mv OpenSG-$OSGVERSION*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
     fi
     
     ;;
