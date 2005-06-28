@@ -49,15 +49,19 @@ DOCS_SYS   := ../Source/System/Action  										\
               ../Source/System/NodeCores/Drawables/Misc                     \
               ../Source/System/NodeCores/Drawables/Particles                \
               ../Source/System/NodeCores/Drawables/VolRen                   \
+              ../Source/System/NodeCores/Drawables/Nurbs                    \
               ../Source/System/NodeCores/Groups/Base                        \
               ../Source/System/NodeCores/Groups/Light                       \
               ../Source/System/NodeCores/Groups/Misc                        \
               ../Source/System/RenderingBackend                             \
               ../Source/System/State                                        \
-              ../Source/System/Statistics									\
+              ../Source/System/Statistics		    	            \
+              ../Source/System/Text                                         \
               ../Source/System/Window
 
-DOCS_EXP   := ../Source/Experimental/NewAction
+DOCS_EXP   := ../Source/Experimental/NewAction \
+              ../Source/Experimental/SHL 
+              
 
 DOCS_X     := ../Source/WindowSystem/X
 DOCS_W32   := ../Source/WindowSystem/WIN32
