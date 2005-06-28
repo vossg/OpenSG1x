@@ -257,9 +257,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
 
-    inline UInt32 externalFormat (void) const;
-    inline UInt32 internalFormat (void) const;
-
     inline bool   isValid           (void) const;
            bool   hasAlphaChannel   (void);
            bool   hasColorChannel   (void);

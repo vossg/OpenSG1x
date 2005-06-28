@@ -2992,13 +2992,16 @@ UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
 {
     Int32 levelSum, sum = 0;
 
-    while (mipmapNum--)
-    {
-      sum += calcMipmapLevelSize(mipmapNum,w,h,d);
+    if (w && h && d)
+    { 
+        while (mipmapNum--)
+        {
+            sum += calcMipmapLevelSize(mipmapNum,w,h,d);
       
-      w >>= 1;
-      h >>= 1;
-      d >>= 1;
+            w >>= 1;
+            h >>= 1;
+            d >>= 1;
+        }
     }
 
     return sum;
