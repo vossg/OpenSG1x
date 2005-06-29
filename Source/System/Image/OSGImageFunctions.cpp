@@ -302,7 +302,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
                                AlphaValue alphaValue )
 {
   UInt8 *data = 0, *ds;
-  Int32 w, h, d, x, y, z, ld, hd, xs, ys, zs, ps, ls, ss, os;
+  Int32 w, h, d, x, y, z, ld, hd, md, xs, ys, zs, ps, ls, ss, os;
   Real32 g;
   const Real32 gMax = 441.67295593, gF = 255.0/gMax;
   Image::PixelFormat pf;
@@ -343,7 +343,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
   for (z = 0; z < d; z++) {
     for (y = 0; y < h; y++) {
       for (x = 0; x < w; x++) {
-        //md = data[(x*ps) + (y*ls) + (z*ss) + os];
+        md = data[(x*ps) + (y*ls) + (z*ss) + os];
 
         ld = (x > 0)     ? data[((x-1)*ps) + (y*ls) + (z*ss) + os] : 0;
         hd = (x < (w-1)) ? data[((x+1)*ps) + (y*ls) + (z*ss) + os] : 0;
