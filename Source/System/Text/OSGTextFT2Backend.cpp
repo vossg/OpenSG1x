@@ -428,6 +428,11 @@ FT_Face TextFT2Backend::createFace(const string &family, TextFace::Style style, 
     if (error)
         return 0;
 
+    // Does this Face have a family name?
+    // If not, just use the family name used to find it.
+    if(face->family_name == NULL)
+        face->family_name = strdup(family.c_str());
+        
     // Select unicode character map
     // Freetype should do this automatically, but in fact it
     // does not do it for Type1 fonts -pdaehne
@@ -1450,7 +1455,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.2 2005/05/18 13:42:00 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.3 2005/06/29 21:10:43 dirk Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }
