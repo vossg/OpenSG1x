@@ -53,7 +53,7 @@
 OSG_BEGIN_NAMESPACE
 
 enum SliceDataType {
-  INVALID_SDT,
+  INVALID_SDT = 0,
   DEPTH_SDT,
   FRAME_SDT,
   SIDE_SDT
@@ -70,10 +70,16 @@ bool createNormalMapFromBump ( ImagePtr srcImage,
                                ImagePtr dstImage,
                                Vec3f    normalMapScale);
 
+enum AlphaValue {
+  NONE_AVT = 0,
+  SOURCE_AVT,
+  GRADIENT_AVT
+};  
+
 OSG_SYSTEMLIB_DLLMAPPING
 void createNormalVolume ( ImagePtr srcImage,
                           ImagePtr dstImage,
-                          bool createGradient = false);
+                          AlphaValue alphaValue = NONE_AVT );
 
 OSG_SYSTEMLIB_DLLMAPPING 
 bool create2DPreIntegrationLUT ( ImagePtr dstImage,

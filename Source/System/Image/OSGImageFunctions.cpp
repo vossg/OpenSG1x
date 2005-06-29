@@ -299,26 +299,32 @@ bool OSG::createNormalMapFromBump ( ImagePtr image,
 OSG_SYSTEMLIB_DLLMAPPING
 void OSG::createNormalVolume ( ImagePtr inImage,
                                ImagePtr outImage,
-                               bool createGradient )
+                               AlphaValue alphaValue )
 {
   UInt8 *data = 0, *ds;
   Int32 w, h, d, x, y, z, ld, hd, md, xs, ys, zs, ps, ls, ss, os;
   Real32 g;
   const Real32 gMax = 441.67295593, gF = 255.0/gMax;
   Image::PixelFormat pf;
+  ImagePtr copy;
 
-  pf = createGradient ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF;
+  if ( (inImage->getPixelFormat() != Image::OSG_L_PF) ||
+       (inImage->getDataType()    != Image::OSG_UINT8_IMAGEDATA) ) {
 
-  if (inImage->getPixelFormat() != Image::OSG_L_PF) {
-    FLOG (("Reformat pixelformat to OSG_L_PF\n"));
-    inImage->reformat(Image::OSG_L_PF);
+    copy = Image::create();
+    FLOG (("Create copy to reformat/convert Image\n"));
+
+    if (inImage->getPixelFormat() != Image::OSG_L_PF) 
+      inImage->reformat(Image::OSG_L_PF,copy);      
+    else 
+      copy->set(inImage);    
+    inImage = copy;
+    
+    if (inImage->getDataType() != Image::OSG_UINT8_IMAGEDATA) 
+      inImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);
   }
 
-  if (inImage->getDataType() != Image::OSG_UINT8_IMAGEDATA) {
-    FLOG (("Reformat dataType to OSG_UINT8_IMAGEDATA\n"));
-    inImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);
-  }
-
+  pf   = (alphaValue == NONE_AVT) ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF;
   w    = inImage->getWidth();
   h    = inImage->getHeight();
   d    = inImage->getDepth();
@@ -330,7 +336,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
 
   beginEditCP(outImage);
 
-  outImage->set( Image::OSG_RGB_PF, w, h, d );
+  outImage->set( pf, w, h, d );
                       
   ds = outImage->getData();
 
@@ -355,21 +361,36 @@ void OSG::createNormalVolume ( ImagePtr inImage,
         *ds++ = ys / 2 + 127;
         *ds++ = zs / 2 + 127;
 
-        if (createGradient)
+        switch (alphaValue) {
+        case NONE_AVT:
+          break;
+        case SOURCE_AVT:
+          *ds++ = md;
+          break;
+        case GRADIENT_AVT:
           *ds++ = osgMax ( int(osgsqrt ( xs * xs + ys * ys + zs * zs ) * gF),
                            255 );        
+          break;
+        }
+
       }
     }
   }
 
   endEditCP(outImage);
 
+  if (copy != osg::NullFC)
+    osg::subRefCP(copy);
+
   return;
 }
 
 
 //---------------------------------------------------------------------------//
-/*! create pre-integrated lookup table */
+/*! create pre-integrated lookup table 
+    code based on the "Truly Volumetric Effects" (Martin Kraus)
+    example in the ShaderX book (www.shaderx.com)
+*/
 
 OSG_SYSTEMLIB_DLLMAPPING
 bool OSG::create2DPreIntegrationLUT ( ImagePtr dst,
@@ -776,7 +797,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
 
 
 //---------------------------------------------------------------------------//
-/*! first some helpers */
+/*! noice; first some helpers */
 
 namespace
 {
