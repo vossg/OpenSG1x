@@ -642,6 +642,11 @@ void CGChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateCameraPosition;
                 _osgParametersCallbacks.push_back(fp);
             }
+            else if(parameter->getName() == "OSGProjectionMatrix")
+            {
+                paramtercbfp fp = updateProjectionMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
             else if(parameter->getName() == "OSGViewMatrix")
             {
                 paramtercbfp fp = updateViewMatrix;
