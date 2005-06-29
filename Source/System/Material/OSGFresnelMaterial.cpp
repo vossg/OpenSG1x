@@ -100,6 +100,9 @@ FresnelMaterial::FresnelMaterial(const FresnelMaterial &source) :
 
 FresnelMaterial::~FresnelMaterial(void)
 {
+    if(_sfImage.getValue() != NullFC)
+        subRefCP(_sfImage.getValue());
+
     subRefCP(_materialChunk);
     subRefCP(_textureChunk);
     subRefCP(_texGenChunk);
@@ -399,7 +402,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.3 2004/02/05 21:49:58 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.4 2005/06/29 11:41:13 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 
