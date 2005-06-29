@@ -146,6 +146,7 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     ../Experimental/ShadowMapViewport
     ../Experimental/SHL
     ../Experimental/WebInterface
+    ../Experimental/Manipulators
 """)]
 
 if _po.getOption('gv_beta'):
