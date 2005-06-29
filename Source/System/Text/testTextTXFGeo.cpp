@@ -620,7 +620,6 @@ void updateScene()
         texChunk->setMagFilter(GL_NEAREST);
         texChunk->setMinFilter(GL_NEAREST);
         texChunk->setEnvMode(GL_MODULATE);
-        texChunk->setInternalFormat(GL_INTENSITY);
     }
     endEditCP(texChunk);
 

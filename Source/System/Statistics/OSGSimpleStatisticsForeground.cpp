@@ -154,7 +154,6 @@ void SimpleStatisticsForeground::initText(void)
         _texchunk->setWrapS(GL_CLAMP);
         _texchunk->setWrapT(GL_CLAMP);
         _texchunk->setEnvMode(GL_MODULATE);
-        _texchunk->setInternalFormat(GL_INTENSITY);
     }
 
     endEditCP(_texchunk);
