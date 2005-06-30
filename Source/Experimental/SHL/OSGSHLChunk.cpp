@@ -792,6 +792,46 @@ void SHLChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateActiveLightsMask;
                 _osgParametersCallbacks.push_back(fp);
             }
+	    else if(parameter->getName() == "OSGLight0Active")
+            {
+                paramtercbfp fp = updateLight0Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight1Active")
+            {
+                paramtercbfp fp = updateLight1Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight2Active")
+            {
+                paramtercbfp fp = updateLight2Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight3Active")
+            {
+                paramtercbfp fp = updateLight3Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight4Active")
+            {
+                paramtercbfp fp = updateLight4Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight5Active")
+            {
+                paramtercbfp fp = updateLight5Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight6Active")
+            {
+                paramtercbfp fp = updateLight6Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
+	    else if(parameter->getName() == "OSGLight7Active")
+            {
+                paramtercbfp fp = updateLight7Active;
+                _osgParametersCallbacks.push_back(fp);
+            }
             else
             {
                 FWARNING(("SHLChunk::checkOSGParameters : unknown osg paramter '%s'\n",
@@ -980,6 +1020,118 @@ void SHLChunk::updateActiveLightsMask(PFNGLGETUNIFORMLOCATIONARBPROC getUniformL
         uniform1i(location, (GLint) ract->getActiveLightsMask());
 }
 
+void SHLChunk::updateLight0Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight0Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 1);
+}
+
+void SHLChunk::updateLight1Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight1Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 2);
+}
+
+void SHLChunk::updateLight2Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight2Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 4);
+}
+
+void SHLChunk::updateLight3Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight3Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 8);
+}
+
+void SHLChunk::updateLight4Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight3Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 16);
+}
+
+void SHLChunk::updateLight5Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight3Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 32);
+}
+
+void SHLChunk::updateLight6Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight3Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 64);
+}
+
+void SHLChunk::updateLight7Active(PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = (RenderAction *) action;
+
+    // get "glUniform1iARB" function pointer
+    PFNGLUNIFORM1IARBPROC uniform1i = (PFNGLUNIFORM1IARBPROC)
+        action->getWindow()->getFunction(_funcUniform1i);
+
+    GLint location = getUniformLocation(program, "OSGLight3Active");
+    if(location != -1)
+        uniform1i(location, (GLint) ract->getActiveLightsMask() & 128);
+}
+
 /*------------------------------ State ------------------------------------*/
 
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -1095,7 +1247,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.37 2005/06/17 14:07:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.38 2005/06/30 22:48:54 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

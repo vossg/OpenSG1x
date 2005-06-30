@@ -28,7 +28,9 @@
 
 // vertex shader program for bump mapping in surface local coordinates
 static std::string _vp_program =
-"uniform int OSGActiveLightsMask;\n"
+"uniform bool OSGLight0Active;\n"
+"uniform bool OSGLight1Active;\n"
+"uniform bool OSGLight2Active;\n"
 "vec4 Ambient;\n"
 "vec4 Diffuse;\n"
 "vec4 Specular;\n"
@@ -93,12 +95,14 @@ static std::string _vp_program =
 "        Diffuse  = vec4 (0.0);\n"
 "        Specular = vec4 (0.0);\n"
 "\n"
-"       // if(OSGActiveLightsMask & 1) is not supported by my profile :-(\n"
-"       if(OSGActiveLightsMask == 1 || OSGActiveLightsMask == 3)\n"
+"       if(OSGLight0Active)\n"
 "           pointLight(0, normal, eye, ecPosition3);\n"
 "\n"
-"       if(OSGActiveLightsMask == 3)\n"
+"       if(OSGLight1Active)\n"
 "           pointLight(1, normal, eye, ecPosition3);\n"
+"\n"
+"       if(OSGLight2Active)\n"
+"           pointLight(2, normal, eye, ecPosition3);\n"
 "\n"
 "        color = gl_FrontLightModelProduct.sceneColor +\n"
 "                    Ambient  * gl_FrontMaterial.ambient +\n"
@@ -144,6 +148,7 @@ static SimpleSceneManager *_mgr;
 static NodePtr _scene;
 static PointLightPtr _point1_core;
 static PointLightPtr _point2_core;
+static PointLightPtr _point3_core;
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -151,7 +156,7 @@ int setupGLUT( int *argc, char *argv[] );
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
-    printf("press key '1' and '2' to switch the light sources.\n");
+    printf("Press key '1', '2', or '3' to toggle the light sources.\n");
     // OSG init
     osgInit(argc,argv);
 
@@ -181,7 +186,9 @@ int main(int argc, char **argv)
     beginEditCP(shl);
         shl->setVertexProgram(_vp_program);
         shl->setFragmentProgram(_fp_program);
-        shl->setUniformParameter("OSGActiveLightsMask", 0);
+        shl->setUniformParameter("OSGLight0Active", 0);
+        shl->setUniformParameter("OSGLight1Active", 0);
+        shl->setUniformParameter("OSGLight2Active", 0);
     endEditCP(shl);
 
     beginEditCP(cmat);
@@ -197,7 +204,7 @@ int main(int argc, char **argv)
     NodePtr point1 = makeCoredNode<PointLight>(&_point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(-10.0, 5.0, 0.0);
+        point1_trans->getMatrix().setTranslate(-10.0, 5.0, 5.0);
     endEditCP(point1_trans);
 
     beginEditCP(_point1_core);
@@ -212,7 +219,7 @@ int main(int argc, char **argv)
     NodePtr point2 = makeCoredNode<PointLight>(&_point2_core);
     NodePtr point2_beacon = makeCoredNode<Transform>(&point2_trans);
     beginEditCP(point2_trans);
-        point2_trans->getMatrix().setTranslate(10.0, 5.0, 0.0);
+        point2_trans->getMatrix().setTranslate(10.0, 5.0, 5.0);
     endEditCP(point2_trans);
 
     beginEditCP(_point2_core);
@@ -226,6 +233,25 @@ int main(int argc, char **argv)
     beginEditCP(point1);
         point1->addChild(point2);
     endEditCP(point1);
+    
+    TransformPtr point3_trans;
+    NodePtr point3 = makeCoredNode<PointLight>(&_point3_core);
+    NodePtr point3_beacon = makeCoredNode<Transform>(&point3_trans);
+    beginEditCP(point3_trans);
+        point3_trans->getMatrix().setTranslate(0.0, -12.0, 5.0);
+    endEditCP(point3_trans);
+
+    beginEditCP(_point3_core);
+        _point3_core->setAmbient(0.0f, 0.0f, 0.0f, 1.0f);
+        _point3_core->setDiffuse(0.5f, 0.0f, 1.0f, 1.0f);
+        _point3_core->setSpecular(1.0f, 1.0f, 1.0f, 1.0f);
+        _point3_core->setBeacon(point3_beacon);
+        _point3_core->setOn(true);
+    endEditCP(_point3_core);
+
+    beginEditCP(point2);
+        point2->addChild(point3);
+    endEditCP(point2);
 
     // create a sphere.
     GeometryPtr geo = makeLatLongSphereGeo (100, 100, 1.0);
@@ -235,9 +261,9 @@ int main(int argc, char **argv)
 
     NodePtr sphere = OSG::makeNodeFor(geo);
 
-    beginEditCP(point2);
-        point2->addChild(sphere);
-    endEditCP(point2);
+    beginEditCP(point3);
+        point3->addChild(sphere);
+    endEditCP(point3);
 
     beginEditCP(_scene);
         _scene->setCore(Group::create());
@@ -318,24 +344,33 @@ void keyboard(unsigned char k, int x, int y)
         case '1':
         {
             beginEditCP(_point1_core);
-                _point1_core->setOn(true);
+                if(_point1_core->getOn() == false)
+                    _point1_core->setOn(true);
+                else
+                    _point1_core->setOn(false);
             endEditCP(_point1_core);
-
-            beginEditCP(_point2_core);
-                _point2_core->setOn(false);
-            endEditCP(_point2_core);
             break;
         }
 
         case '2':
         {
-            beginEditCP(_point1_core);
-                _point1_core->setOn(true);
-            endEditCP(_point1_core);
-
             beginEditCP(_point2_core);
-                _point2_core->setOn(true);
+                if(_point2_core->getOn() == false)
+                    _point2_core->setOn(true);
+                else
+                    _point2_core->setOn(false);
             endEditCP(_point2_core);
+            break;
+        }
+
+        case '3':
+        {
+            beginEditCP(_point3_core);
+                if(_point3_core->getOn() == false)
+                    _point3_core->setOn(true);
+                else
+                    _point3_core->setOn(false);
+            endEditCP(_point3_core);
             break;
         }
     }

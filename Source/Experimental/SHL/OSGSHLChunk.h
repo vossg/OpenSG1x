@@ -231,6 +231,22 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateActiveLightsMask  (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
+    static void updateLight0Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight1Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight2Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight3Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight4Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight5Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight6Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateLight7Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
 
     typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
@@ -246,6 +262,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.19 2005/06/17 14:07:05 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.20 2005/06/30 22:48:54 dirk Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
