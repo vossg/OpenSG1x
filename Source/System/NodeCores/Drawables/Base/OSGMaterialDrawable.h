@@ -90,6 +90,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawable : public MaterialDrawableBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+    void setMaterial       (const MaterialPtr     &value);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -131,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGMaterialDrawableBase.inl>
 #include <OSGMaterialDrawable.inl>
 
-#define OSGMATERIALDRAWABLE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawable.h,v 1.3 2002/11/11 13:55:48 dirk Exp $"
+#define OSGMATERIALDRAWABLE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawable.h,v 1.4 2005/06/30 17:17:47 a-m-z Exp $"
 
 #endif /* _OSGMATERIALDRAWABLE_H_ */

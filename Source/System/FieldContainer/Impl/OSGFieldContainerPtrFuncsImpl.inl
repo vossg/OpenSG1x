@@ -55,21 +55,51 @@ inline
 void addRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
-        objectP.addRef();
+    {
+#ifdef OSG_DEBUG
+        UInt32 id = objectP.getFieldContainerId();
+        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+#endif
+            objectP.addRef();
+#ifdef OSG_DEBUG
+        else
+            FFATAL(("addRefCP: invalid pointer (id=%u)!\n", id));
+#endif
+    }
 }
 
 inline
 void subRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
-        objectP.subRef();
+    {
+#ifdef OSG_DEBUG
+        UInt32 id = objectP.getFieldContainerId();
+        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+#endif
+            objectP.subRef();
+#ifdef OSG_DEBUG
+        else
+            FFATAL(("subRefCP: invalid pointer (id=%u)!\n", id));
+#endif
+    }
 }
 
 inline
 void clearRefCP(FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
-        objectP.subRef();
+    {
+#ifdef OSG_DEBUG
+        UInt32 id = objectP.getFieldContainerId();
+        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+#endif
+            objectP.subRef();
+#ifdef OSG_DEBUG
+        else
+            FFATAL(("clearRefCP: invalid pointer (id=%u)!\n", id));
+#endif
+    }
 
     objectP = NullFC;
 }
@@ -81,12 +111,32 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
     if(objectP != newObjectP)
     {
         if(objectP != NullFC)
-            objectP.subRef();
+        {
+#ifdef OSG_DEBUG
+            UInt32 id = objectP.getFieldContainerId();
+            if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+#endif
+                objectP.subRef();
+#ifdef OSG_DEBUG
+            else
+                FFATAL(("setRefdCP: invalid pointer (id=%u)!\n", id));
+#endif
+        }
 
         objectP = newObjectP;
 
         if(objectP != NullFC)
-            objectP.addRef();
+        {
+#ifdef OSG_DEBUG
+            UInt32 id = objectP.getFieldContainerId();
+            if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+#endif
+                objectP.addRef();
+#ifdef OSG_DEBUG
+            else
+                FFATAL(("setRefdCP: invalid pointer (id=%u)!\n", id));
+#endif
+        }
     }
 }
 

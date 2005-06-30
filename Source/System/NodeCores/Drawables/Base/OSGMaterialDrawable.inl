@@ -42,7 +42,13 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void MaterialDrawable::setMaterial(const MaterialPtr &value)
+{
+    setRefdCP(_sfMaterial.getValue(), value);
+}
+
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawable.inl,v 1.2 2002/11/11 13:55:48 dirk Exp $"
+#define OSGMATERIALDRAWABLE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawable.inl,v 1.3 2005/06/30 17:17:48 a-m-z Exp $"
 
