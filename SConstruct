@@ -777,7 +777,7 @@ class win32_icl_base(win32):
             dbg = env.Copy()
             dbg.Append(CXXFLAGS=['/MDd', '/Od', '/RTC1', '/Z7'],
                        LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG'])
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = 'D'
             dbg['OSG_PROGSUF'] = 'D'
@@ -787,7 +787,7 @@ class win32_icl_base(win32):
             dbg = env.Copy()
             dbg.Append(CXXFLAGS=['/MD', '/Od', '/RTC1', '/Z7'],
                        LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG'])
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = ''
             dbg['OSG_PROGSUF'] = ''
@@ -830,7 +830,7 @@ class win32_msvc_base(win32):
             dbg = env.Copy()
             dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ'],
                        LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG'])
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = 'D'
             dbg['OSG_PROGSUF'] = 'D'
@@ -840,7 +840,7 @@ class win32_msvc_base(win32):
             dbg = env.Copy()
             dbg.Append(CXXFLAGS=['/MD', '/Od', '/ZI', '/GZ'],
                        LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG'])
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = ''
             dbg['OSG_PROGSUF'] = ''
@@ -960,7 +960,7 @@ class linux_gcc(ToolChain):
             dbg = env.Copy()
             dbg.Append(CXXFLAGS=['-g'],
                        LINKFLAGS=[''],
-                       CPPDEFINES=['_DEBUG'])
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBDIR']  = 'dbg'
             dbg['OSG_PROGDIR'] = 'dbg'
