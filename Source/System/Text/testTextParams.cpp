@@ -42,7 +42,8 @@ public:
         mFaceSize(46),
         mLineSpacing(1.0f),
         mMaxExtent(0.0f),
-        mGeoScale(1.0f)
+        mGeoScale(1.0f),
+        mOffset(0.0, 0.0)
    {;}
 
    // Initialize the scene structures and get everything going
@@ -119,7 +120,7 @@ public:
 
       OSG::Vec2f bounds = layout_result.textBounds;
       //std::cout << "Text bounds: " << bounds << std::endl;
-      mFace->fillGeo(geom_ptr, layout_result, mGeoScale);
+      mFace->fillGeo(geom_ptr, layout_result, mGeoScale, mOffset);
    }
 
    void updateFace()
@@ -236,6 +237,14 @@ public:
       updateScene();
    }
 
+   void incOffset(float xInc, float yInc)
+   {
+      mOffset[0] += xInc;
+      mOffset[1] += yInc;
+      std::cout << "Offset: " << mOffset << std::endl;
+      updateScene();
+   }
+
 
 public:
    OSG::NodeRefPtr            mRootNode;     /**< Root node for text geom. */
@@ -258,6 +267,7 @@ public:
    float                      mMaxExtent;    /**< Maximum extent to use. */
 
    float                      mGeoScale;     /**< Scale for geometry. */
+   OSG::Vec2f                 mOffset;       /**< Offset of text when building. */
 };
 
 TextStuff  gTextStuff;
@@ -435,6 +445,28 @@ void keyboard(unsigned char k, int , int )
    }
 }
 
+void keyboard_special(int k, int , int )
+{
+   const float offset_inc(0.025f);
+
+   switch(k)
+   {
+   case GLUT_KEY_LEFT:
+      gTextStuff.incOffset(-offset_inc,0);
+      break;
+   case GLUT_KEY_RIGHT:
+      gTextStuff.incOffset(offset_inc,0);
+      break;
+   case GLUT_KEY_UP:
+      gTextStuff.incOffset(0,offset_inc);
+      break;
+   case GLUT_KEY_DOWN:
+      gTextStuff.incOffset(0,-offset_inc);
+      break;
+   }
+
+}
+
 void initgl(void)
 {
    glClearColor(0.1, 0.0, 0.1, 0.0);
@@ -459,6 +491,7 @@ int setupGLUT(int *argc, char *argv[])
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
+    glutSpecialFunc(keyboard_special);
 
     return winid;
 }

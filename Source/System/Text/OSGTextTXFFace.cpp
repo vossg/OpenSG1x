@@ -136,7 +136,7 @@ const TextTXFGlyph &TextTXFFace::getTXFGlyph(TextGlyph::Index glyphIndex)
 // Fills a geometry with a new text
 // Author: afischle, pdaehne
 //----------------------------------------------------------------------
-void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale)
+void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
 {
     beginEditCP(geoPtr);
 
@@ -235,7 +235,7 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
             continue;
 
         // Calculate coordinates
-        const Vec2f &pos = layoutResult.positions[i];
+        Vec2f pos = layoutResult.positions[i] + offset;
         Real32 posLeft = pos.x() * scale;
         Real32 posTop = pos.y() * scale;
         Real32 posRight = (pos.x() + width) * scale;
@@ -299,10 +299,10 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
 // Creates a new text geometry
 // Author: pdaehne
 //----------------------------------------------------------------------
-GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 scale)
+GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
 {
     GeometryPtr geo = Geometry::create();
-    fillGeo(geo, layoutResult, scale);
+    fillGeo(geo, layoutResult, scale, offset);
     return geo;
 }
 
@@ -311,9 +311,9 @@ GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 sc
 // Creates a new node with a text geometry
 // Author: pdaehne
 //----------------------------------------------------------------------
-NodePtr TextTXFFace::makeNode(const TextLayoutResult &layoutResult, Real32 scale)
+NodePtr TextTXFFace::makeNode(const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
 {
-    GeometryPtr geo = makeGeo(layoutResult, scale);
+    GeometryPtr geo = makeGeo(layoutResult, scale, offset);
     NodePtr node = Node::create();
     beginEditCP(node, Node::CoreFieldMask);
     node->setCore(geo);
@@ -879,7 +879,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.3 2005/06/29 16:25:03 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.4 2005/06/30 04:51:06 dirk Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }

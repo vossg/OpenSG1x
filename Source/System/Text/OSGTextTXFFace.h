@@ -202,24 +202,27 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * @param geoPtr The geometry that gets filled with the new text.
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
+     * @param offset Amount to offset the positions in the layout.
      */ 
-    void fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale = 1.f);
+    void fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
 
     /**
      * Creates a new text geometry.
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
+     * @param offset Amount to offset the positions in the layout.
      * @return A new text geometry.
      */
-    GeometryPtr makeGeo(const TextLayoutResult &layoutResult, Real32 scale = 1.f);
+    GeometryPtr makeGeo(const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
 
     /**
      * Creates a new node with a text geometry.
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
+     * @param offset Amount to offset the positions in the layout.
      * @return A new node containing a text geometry.
      */
-    NodePtr makeNode(const TextLayoutResult &layoutResult, Real32 scale = 1.f);
+    NodePtr makeNode(const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
 
     /**
      * Tries to create a TXF face.
@@ -308,6 +311,6 @@ OSG_END_NAMESPACE
 
 #include <OSGTextTXFFace.inl>
 
-#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.2 2005/05/31 13:01:23 pdaehne Exp $"
+#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.3 2005/06/30 04:51:06 dirk Exp $"
 
 #endif /* _OSGTEXTTXFFACE_H_ */
