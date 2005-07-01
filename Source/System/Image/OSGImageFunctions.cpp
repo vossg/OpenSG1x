@@ -380,7 +380,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
   endEditCP(outImage);
 
   if (copy != osg::NullFC)
-    osg::subRefCP(copy);
+    subRefCP(copy);
 
   return;
 }
