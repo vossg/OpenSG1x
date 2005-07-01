@@ -51,58 +51,91 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */
 
+#ifndef OSG_INVALID_PTR_CHECK
+
 inline
 void addRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
+        objectP.addRef();
+}
+
+#else
+
+inline
+bool safeAddRefCP(const FieldContainerPtrBase &objectP)
+{
+    if(objectP != NullFC)
     {
-#ifdef OSG_DEBUG
         UInt32 id = objectP.getFieldContainerId();
         if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-#endif
             objectP.addRef();
-#ifdef OSG_DEBUG
         else
-            FFATAL(("addRefCP: invalid pointer (id=%u)!\n", id));
-#endif
+            return false;
     }
+    return true;
 }
+
+#endif
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 inline
 void subRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
+        objectP.subRef();
+}
+
+#else
+
+inline
+bool safeSubRefCP(const FieldContainerPtrBase &objectP)
+{
+    if(objectP != NullFC)
     {
-#ifdef OSG_DEBUG
         UInt32 id = objectP.getFieldContainerId();
         if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-#endif
             objectP.subRef();
-#ifdef OSG_DEBUG
         else
-            FFATAL(("subRefCP: invalid pointer (id=%u)!\n", id));
-#endif
+            return false;
     }
+    return true;
 }
+
+#endif
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 inline
 void clearRefCP(FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
-    {
-#ifdef OSG_DEBUG
-        UInt32 id = objectP.getFieldContainerId();
-        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-#endif
-            objectP.subRef();
-#ifdef OSG_DEBUG
-        else
-            FFATAL(("clearRefCP: invalid pointer (id=%u)!\n", id));
-#endif
-    }
+        objectP.subRef();
 
     objectP = NullFC;
 }
+
+#else
+
+inline
+bool safeClearRefCP(FieldContainerPtrBase &objectP)
+{
+    if(objectP != NullFC)
+    {
+        UInt32 id = objectP.getFieldContainerId();
+        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
+            objectP.subRef();
+        else
+            return false;
+    }
+    objectP = NullFC;
+    return true;
+}
+
+#endif
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 inline
 void setRefdCP(      FieldContainerPtrBase &objectP,
@@ -111,34 +144,47 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
     if(objectP != newObjectP)
     {
         if(objectP != NullFC)
+            objectP.subRef();
+
+        objectP = newObjectP;
+
+        if(objectP != NullFC)
+            objectP.addRef();
+    }
+}
+
+#else
+
+inline
+bool safeSetRefdCP(      FieldContainerPtrBase &objectP,
+                   const FieldContainerPtrBase &newObjectP)
+{
+    if(objectP != newObjectP)
+    {
+        if(objectP != NullFC)
         {
-#ifdef OSG_DEBUG
             UInt32 id = objectP.getFieldContainerId();
             if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-#endif
                 objectP.subRef();
-#ifdef OSG_DEBUG
             else
-                FFATAL(("setRefdCP: invalid pointer (id=%u)!\n", id));
-#endif
+                return false;
         }
 
         objectP = newObjectP;
 
         if(objectP != NullFC)
         {
-#ifdef OSG_DEBUG
             UInt32 id = objectP.getFieldContainerId();
             if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-#endif
                 objectP.addRef();
-#ifdef OSG_DEBUG
             else
-                FFATAL(("setRefdCP: invalid pointer (id=%u)!\n", id));
-#endif
+                return false;
         }
     }
+    return true;
 }
+
+#endif
 
 inline
 void beginEditCP(const FieldContainerPtr &objectP,

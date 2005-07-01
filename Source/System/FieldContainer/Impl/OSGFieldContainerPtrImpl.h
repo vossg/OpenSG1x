@@ -272,6 +272,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     friend class FieldContainerFactory;
     friend class ChangeList;
 
+#ifndef OSG_INVALID_PTR_CHECK
+    
     friend OSG_SYSTEMLIB_DLLMAPPING
     void addRefCP   (const FieldContainerPtrBase &objectP);
 
@@ -284,6 +286,23 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     void clearRefCP (      FieldContainerPtrBase &objectP);
+
+#else
+
+    friend OSG_SYSTEMLIB_DLLMAPPING
+    bool safeAddRefCP   (const FieldContainerPtrBase &objectP);
+
+    friend OSG_SYSTEMLIB_DLLMAPPING
+    bool safeSubRefCP   (const FieldContainerPtrBase &objectP);
+
+    friend OSG_SYSTEMLIB_DLLMAPPING
+    bool safeSetRefdCP  (      FieldContainerPtrBase &objectP,
+                     const FieldContainerPtrBase &newObjectP);
+
+    friend OSG_SYSTEMLIB_DLLMAPPING
+    bool safeClearRefCP (      FieldContainerPtrBase &objectP);
+
+#endif
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     class FieldContainerType;

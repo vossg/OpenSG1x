@@ -57,31 +57,112 @@ OSG_BEGIN_NAMESPACE
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
 
+#ifndef OSG_INVALID_PTR_CHECK
+
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void addRefCP   (const FieldContainerPtrBase &objectP);
 
+#else
+
+#define addRefCP(objectP) \
+do \
+{ \
+    if(!safeAddRefCP(objectP)) \
+    { \
+        FFATAL(("addRefCP: invalid pointer in file '%s' line %d!\n", __FILE__, __LINE__)); \
+    } \
+} \
+while (0)
+
+OSG_SYSTEMLIB_DLLMAPPING
+inline
+bool safeAddRefCP   (const FieldContainerPtrBase &objectP);
+
+#endif
+
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void subRefCP   (const FieldContainerPtrBase &objectP);
 
+#else
+
+#define subRefCP(objectP) \
+do \
+{ \
+    if(!safeSubRefCP(objectP)) \
+    { \
+        FFATAL(("subRefCP: invalid pointer in file '%s' line %d!\n", __FILE__, __LINE__)); \
+    } \
+} \
+while (0)
+
+OSG_SYSTEMLIB_DLLMAPPING
+inline
+bool safeSubRefCP   (const FieldContainerPtrBase &objectP);
+
+#endif
+
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void setRefdCP  (      FieldContainerPtrBase &objectP,
                  const FieldContainerPtrBase &newObjectP);
 
+#else
+
+#define setRefdCP(objectP, newObjectP) \
+do \
+{ \
+    if(!safeSetRefdCP(objectP, newObjectP)) \
+    { \
+        FFATAL(("setRefdCP: invalid pointer in file '%s' line %d!\n", __FILE__, __LINE__)); \
+    } \
+} \
+while (0)
+
+OSG_SYSTEMLIB_DLLMAPPING
+inline
+bool safeSetRefdCP  (      FieldContainerPtrBase &objectP,
+                 const FieldContainerPtrBase &newObjectP);
+
+#endif
+
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
+
+#ifndef OSG_INVALID_PTR_CHECK
 
 OSG_SYSTEMLIB_DLLMAPPING
 inline
 void clearRefCP(FieldContainerPtrBase &objectP);
+
+#else
+
+#define clearRefCP(objectP) \
+do \
+{ \
+    if(!safeClearRefCP(objectP)) \
+    { \
+        FFATAL(("clearRefCP: invalid pointer in file '%s' line %d!\n", __FILE__, __LINE__)); \
+    } \
+} \
+while (0)
+
+OSG_SYSTEMLIB_DLLMAPPING
+inline
+bool safeClearRefCP(FieldContainerPtrBase &objectP);
+
+#endif
 
 /*! \ingroup GrpSystemFieldContainerFuncs
  */
