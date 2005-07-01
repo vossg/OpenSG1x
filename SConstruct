@@ -487,7 +487,9 @@ class PlatformOptions:
                             allowed_values=('dbg', 'opt', 'both', 'dbgopt')))
 
         opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
-        
+
+        opts.Add(BoolOption('invalid_pointer_check', 'enable invalid pointer check', 0))
+
         # contrib
         opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))
         opts.Add(BoolOption('contrib_cgfxmaterial', 'enable contrib CGFXMaterial', 0))
@@ -647,6 +649,9 @@ class ToolChain:
             moveGVBetaFiles()
         else:
             unmoveGVBetaFiles()
+
+        if _po.getOption('invalid_pointer_check'):
+            self.env.Append(CPPDEFINES = ['OSG_INVALID_PTR_CHECK'])
 
         # add include path for OSGConfigured.h file
         self.env.Append(CPPPATH=[Dir(os.path.join('Build', self.name, 'Source', 'Base'))])
