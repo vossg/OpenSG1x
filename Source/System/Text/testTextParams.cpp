@@ -69,9 +69,9 @@ public:
       OSG::ImagePtr img = OSG::Image::create();         // Temporary image for now
       OSG::UChar8 data[] = {0,0,0, 50,50,50, 100,100,100, 255,255,255};
 
-      beginEditCP(img);
+      OSG::beginEditCP(img);
          img->set( OSG::Image::OSG_RGB_PF, 2, 2, 1, 1, 1, 0, data);
-      endEditCP(img);
+      OSG::endEditCP(img);
 
       // -- Setup texture and materials -- //
       mTextureChunk->setImage(img);
@@ -136,9 +136,9 @@ public:
        {
           std::cerr << "ERROR: Failed to allocate face." << std::endl;
        }
-       subRefP(mFace);
+       OSG::subRefP(mFace);
        mFace = new_face;
-       addRefP(mFace);
+       OSG::addRefP(mFace);
 
        OSG::beginEditCP(mTextureChunk);
          OSG::ImagePtr face_image = mFace->getTexture();
