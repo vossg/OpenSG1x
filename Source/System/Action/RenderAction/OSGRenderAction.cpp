@@ -973,7 +973,7 @@ void RenderAction::undropLightEnv(LightEnv *pLightEnv)
             // now disable light
             RenderAction::LightsMap::iterator it2 = _lightsMap.find(pLight);
             if(it2 != _lightsMap.end())
-                _lightsState -= (TypeTraits<UInt64>::One << (*it2).second);
+                _lightsState &= ~(TypeTraits<UInt64>::One << (*it2).second);
         }
     }
 
@@ -1125,7 +1125,7 @@ void RenderAction::dump(DrawTreeNode *pRoot, UInt32 uiIndent)
 
 void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
 {
-    //printf("lightsState: %d\n", pRoot->getLightsState());
+    //printf("lightsState: %u %u\n", _activeLightsState, pRoot->getLightsState());
     if(_activeLightsState == pRoot->getLightsState())
         return;
 
@@ -1155,6 +1155,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
     {
         //printf("deactivate light: %u\n", i);
+        _activeLightsMask &= ~(1 << i);
         glDisable(GL_LIGHT0 + i);
     }
 
@@ -1415,6 +1416,7 @@ Action::ResultE RenderAction::start(void)
     _lightsState       = 0;
     _activeLightsState = 0;
     _activeLightsCount = 0;
+    _activeLightsMask  = 0;
 
     while(!_lightsStack.empty())
         _lightsStack.pop();
