@@ -110,7 +110,11 @@ LANG_FLAGS          =
 ifeq ($(COMPILERMAJORVERSION),8)
 COMPILER    		= -fpic -Kc++eh -Krtti -ansi
 else
+ifeq ($(COMPILERMAJORVERSION),9)
+COMPILER    		= -fpic -Kc++eh -Krtti -ansi
+else
 COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
+endif
 endif
 
 ### Optimize / Debug ###############################################
