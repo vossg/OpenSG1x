@@ -209,25 +209,38 @@ UInt64 DrawTreeNode::getLightsState(void)
 inline
 void DrawTreeNode::setMultiPass(void)
 {
-    _multiPass = 1;
+    _flags |= DrawTreeNode::MultiPass;
 }
 
 inline
 void DrawTreeNode::setLastMultiPass(void)
 {
-    _multiPass = 2;
+    _flags |= DrawTreeNode::LastMultiPass;
 }
 
 inline
 bool DrawTreeNode::isMultiPass(void)
 {
-    return (_multiPass > 0);
+    return (_flags & DrawTreeNode::MultiPass) ||
+           (_flags & DrawTreeNode::LastMultiPass);
 }
 
 inline
 bool DrawTreeNode::isLastMultiPass(void)
 {
-    return (_multiPass == 2);
+    return (_flags & DrawTreeNode::LastMultiPass);
+}
+
+inline
+void DrawTreeNode::setNoStateSorting(void)
+{
+    _flags |= DrawTreeNode::NoStateSorting;
+}
+
+inline
+bool DrawTreeNode::isNoStateSorting(void)
+{
+    return (_flags & DrawTreeNode::NoStateSorting);
 }
 
 inline
@@ -246,7 +259,7 @@ void DrawTreeNode::reset(void)
     _rScalarVal = 0.f;
 
     _lightsState = 0;
-    _multiPass = 0;
+    _flags = 0;
 }
 
 OSG_END_NAMESPACE

@@ -61,6 +61,13 @@ Int32 DrawTreeNode::_iCreateCount = 0;
 Int32 DrawTreeNode::_iDeleteCount = 0;
 
 /*-------------------------------------------------------------------------*/
+/*                            Flags                                        */
+
+const UInt8 DrawTreeNode::MultiPass = 1;
+const UInt8 DrawTreeNode::LastMultiPass = 2;
+const UInt8 DrawTreeNode::NoStateSorting = 4;
+
+/*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
 DrawTreeNode::DrawTreeNode(void) :
@@ -75,7 +82,7 @@ DrawTreeNode::DrawTreeNode(void) :
     _oMatrixStore(),
     _rScalarVal  (0.f),
     _lightsState (0),
-    _multiPass   (0)
+    _flags       (0)
 {
     _oMatrixStore.first = 0;
 

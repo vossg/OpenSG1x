@@ -404,6 +404,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setState(pMat->getState().getCPtr());
+            if(sortKey == Material::NoStateSorting)
+                pNewElem->setNoStateSorting();
         
             if(pMPMat != NULL)
             {
@@ -645,6 +647,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setState(pState);
+            if(sortKey == Material::NoStateSorting)
+                pNewElem->setNoStateSorting();
 
             if(pMPMat != NULL)
             {
@@ -1218,13 +1222,13 @@ void RenderAction::draw(DrawTreeNode *pRoot)
             {
                 // ok for cgfx I have to call it also for equal states
                 // to update the world matrix.
-                if(pRoot->isMultiPass() || pNewState != _pActiveState)
+                if(pRoot->isMultiPass() || pRoot->isNoStateSorting() ||
+                   pNewState != _pActiveState)
                 {
                     pNewState->changeFrom(this, _pActiveState);
 
                     _pActiveState = pNewState;
 
-    
                     _uiNumMaterialChanges++;
                 }
             }

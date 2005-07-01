@@ -187,8 +187,11 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     static void updateCameraOrientation (DrawActionBase *action, CGChunk *cgchunk);
     static void updateCameraPosition    (DrawActionBase *action, CGChunk *cgchunk);
     static void updateProjectionMatrix  (DrawActionBase *action, CGChunk *cgchunk);
-    static void updateViewMatrix        (DrawActionBase *action, CGChunk *cgchunk);
-    static void updateInvViewMatrix     (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateModelViewProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk);
+    static void updateTextureMatrix     (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateModelViewMatrix   (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateModelViewMatrixI  (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateModelViewMatrixIT (DrawActionBase *action, CGChunk *cgchunk);
     static void updateStereoLeftEye     (DrawActionBase *action, CGChunk *cgchunk);
 
 #if 0
