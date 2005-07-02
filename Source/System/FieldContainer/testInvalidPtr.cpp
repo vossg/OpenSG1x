@@ -1,7 +1,4 @@
 
-#define OSG_INVALID_PTR_CHECK
-
-
 #include <OSGConfig.h>
 
 #include <iostream>
