@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * @param param Contains parameters that affect the layout process.
      * @param result Gets filled with the layout results.
      */
-    virtual void layout(const std::string &utf8Text, 
+    virtual void layout(const std::string &utf8Text,
                         const TextLayoutParam &param,
                         TextLayoutResult &result);
 
@@ -183,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * @param param Contains parameters that affect the layout process.
      * @param result Gets filled with the layout results.
      */
-    virtual void layout(const std::vector<std::string> &lines, 
+    virtual void layout(const std::vector<std::string> &lines,
                         const TextLayoutParam &param,
                         TextLayoutResult &result);
 
@@ -193,7 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * @param param Contains parameters that affect the layout process.
      * @param result Gets filled with the layout results.
      */
-    virtual void layout(const std::vector<std::wstring> &lines, 
+    virtual void layout(const std::vector<std::wstring> &lines,
                         const TextLayoutParam &param,
                         TextLayoutResult &result);
 
@@ -203,26 +203,44 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
      * @param offset Amount to offset the positions in the layout.
-     */ 
-    void fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
+     * @param color  The color to use for the text.  If not specified, then we will not add color container.
+     */
+    void fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale = 1.f,
+                 Vec2f offset = Vec2f(0,0), Color3f color = Color3f(-1,-1,-1));
+
+    /**
+     * Adds geometry for new text to an existing text geometry.
+     * @param geoPtr The geometry that gets filled with the new text.
+     * @param layoutResult The result of a layout operation.
+     * @param scale The size of the glyphs.
+     * @param offset Amount to offset the positions in the layout.
+     * @param color  The color to use for the text.
+     * @note  Iff initial fill or add call used non-default color, the color parameter will be used.
+     */
+    void addToGeom(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale = 1.f,
+                 Vec2f offset = Vec2f(0,0), Color3f color = Color3f(-1,-1,-1));
 
     /**
      * Creates a new text geometry.
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
      * @param offset Amount to offset the positions in the layout.
+     * @param color  The color to use for the text.
      * @return A new text geometry.
      */
-    GeometryPtr makeGeo(const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
+    GeometryPtr makeGeo(const TextLayoutResult &layoutResult, Real32 scale = 1.f,
+                        Vec2f offset = Vec2f(0,0), Color3f color = Color3f(-1,-1,-1));
 
     /**
      * Creates a new node with a text geometry.
      * @param layoutResult The result of a layout operation.
      * @param scale The size of the glyphs.
      * @param offset Amount to offset the positions in the layout.
+     * @param color  The color to use for the text.
      * @return A new node containing a text geometry.
      */
-    NodePtr makeNode(const TextLayoutResult &layoutResult, Real32 scale = 1.f, Vec2f offset = Vec2f(0,0));
+    NodePtr makeNode(const TextLayoutResult &layoutResult, Real32 scale = 1.f,
+                     Vec2f offset = Vec2f(0,0), Color3f color = Color3f(-1,-1,-1));
 
     /**
      * Tries to create a TXF face.
@@ -273,7 +291,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFFace: public TextFace
 
     /** Destroys the %TextTXFFace object. */
     virtual ~TextTXFFace();
-    
+
     /** Calculates the positions of the glyphs on the texture */
     void prepareTexture(const TextTXFParam &param);
 
@@ -311,6 +329,6 @@ OSG_END_NAMESPACE
 
 #include <OSGTextTXFFace.inl>
 
-#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.3 2005/06/30 04:51:06 dirk Exp $"
+#define OSGTEXTTXFFACE_HEADER_CVSID "@(#)$Id: OSGTextTXFFace.h,v 1.4 2005/07/05 16:25:15 dirk Exp $"
 
 #endif /* _OSGTEXTTXFFACE_H_ */

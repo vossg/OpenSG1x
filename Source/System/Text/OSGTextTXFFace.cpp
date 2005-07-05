@@ -136,67 +136,98 @@ const TextTXFGlyph &TextTXFFace::getTXFGlyph(TextGlyph::Index glyphIndex)
 // Fills a geometry with a new text
 // Author: afischle, pdaehne
 //----------------------------------------------------------------------
-void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
+void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale,
+                          Vec2f offset, Color3f color)
+{
+    // cast the field containers down to the needed type and create them
+    // when they have the wrong type
+    GeoPositions3fPtr posPtr = GeoPositions3fPtr::dcast(geoPtr->getPositions());
+    if (posPtr != NullFC)
+       posPtr->clear();
+
+    // Clear out any existing data and then add to the geom
+    GeoNormals3fPtr normalPtr = GeoNormals3fPtr::dcast(geoPtr->getNormals());
+    if (normalPtr != NullFC)
+       normalPtr->clear();
+
+    GeoTexCoords2fPtr texPtr = GeoTexCoords2fPtr::dcast(geoPtr->getTexCoords());
+    if (texPtr != NullFC)
+       texPtr->clear();
+
+    GeoColors3fPtr colorPtr = GeoColors3fPtr::dcast(geoPtr->getColors());
+    if (NullFC != colorPtr)
+       colorPtr->clear();
+
+    GeoPLengthsUI32Ptr lensPtr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
+    if (lensPtr != NullFC)
+       lensPtr->clear();
+
+    GeoPTypesUI8Ptr typesPtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
+    if (typesPtr != NullFC)
+       typesPtr->clear();
+
+    geoPtr->setIndices(NullFC);
+    geoPtr->setSecondaryColors(NullFC);
+    geoPtr->setTexCoords1(NullFC);
+    geoPtr->setTexCoords2(NullFC);
+    geoPtr->setTexCoords3(NullFC);
+    geoPtr->getIndexMapping().clear();
+
+    addToGeom(geoPtr,layoutResult,scale,offset,color);
+}
+
+void TextTXFFace::addToGeom(GeometryPtr &geoPtr, const TextLayoutResult &layoutResult, Real32 scale,
+                            Vec2f offset, Color3f color)
 {
     beginEditCP(geoPtr);
 
     // cast the field containers down to the needed type and create them
     // when they have the wrong type
     GeoPositions3fPtr posPtr = GeoPositions3fPtr::dcast(geoPtr->getPositions());
+    GeoNormals3fPtr normalPtr = GeoNormals3fPtr::dcast(geoPtr->getNormals());
+    GeoTexCoords2fPtr texPtr = GeoTexCoords2fPtr::dcast(geoPtr->getTexCoords());
+    GeoColors3fPtr colorPtr = GeoColors3fPtr::dcast(geoPtr->getColors());
+    GeoPLengthsUI32Ptr lensPtr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
+    GeoPTypesUI8Ptr typesPtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
+
+    // Create color buffer: If Null container AND color is set && we have not potentially added text before
+    if ((NullFC == colorPtr) && (color != OSG::Color3f(-1,-1,-1)) &&
+        ((NullFC == posPtr) && (NullFC == texPtr)) )
+    {
+       colorPtr = GeoColors3f::create();
+       geoPtr->setColors(colorPtr);
+    }
+    bool use_colors(NullFC != colorPtr);
+
     if (posPtr == NullFC)
     {
         posPtr = GeoPositions3f::create();
         geoPtr->setPositions(posPtr);
     }
-    else
-        posPtr->clear();
-    GeoNormals3fPtr normalPtr = GeoNormals3fPtr::dcast(geoPtr->getNormals());
+
     if (normalPtr == NullFC)
     {
         normalPtr = GeoNormals3f::create();
         geoPtr->setNormals(normalPtr);
     }
-    else
-        normalPtr->clear();
-    GeoTexCoords2fPtr texPtr = GeoTexCoords2fPtr::dcast(geoPtr->getTexCoords());
+
     if (texPtr == NullFC)
     {
         texPtr = GeoTexCoords2f::create();
         geoPtr->setTexCoords(texPtr);
     }
-    else
-        texPtr->clear();
-    GeoPLengthsUI32Ptr lensPtr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
+
     if (lensPtr == NullFC)
     {
         lensPtr = GeoPLengthsUI32::create();
         geoPtr->setLengths(lensPtr);
     }
-    else
-        lensPtr->clear();
-    GeoIndicesUI32Ptr indicesPtr = GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
-    if (indicesPtr == NullFC)
-    {
-        indicesPtr = GeoIndicesUI32::create();
-        geoPtr->setIndices(indicesPtr);
-    }
-    else
-        indicesPtr->clear();
-    GeoPTypesUI8Ptr typesPtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
+
     if (typesPtr == NullFC)
     {
         typesPtr = GeoPTypesUI8::create();
         geoPtr->setTypes(typesPtr);
     }
-    else
-        typesPtr->clear();
-
-    geoPtr->setColors(NullFC);
-    geoPtr->setSecondaryColors(NullFC);
-    geoPtr->setTexCoords1(NullFC);
-    geoPtr->setTexCoords2(NullFC);
-    geoPtr->setTexCoords3(NullFC);
-    geoPtr->getIndexMapping().clear();
 
     UInt32 numGlyphs = layoutResult.getNumGlyphs();
     if (numGlyphs == 0)
@@ -205,26 +236,20 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
         return;
     }
 
-    // the interleaved multi-index blocks have the layout
-    // Position | Normal | TexCoord
-    geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
-    geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
-    geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
-
     beginEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
     beginEditCP(normalPtr, GeoNormals3f::GeoPropDataFieldMask);
     beginEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
+    if(NullFC != colorPtr)
+    {  beginEditCP(colorPtr, GeoIndicesUI32::GeoPropDataFieldMask); }
     beginEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
-    beginEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
     beginEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
 
-    normalPtr->push_back(Vec3f(0.f, 0.f, 1.f));
-    typesPtr->push_back(GL_QUADS);
+    OSG::Vec3f normal(0.0, 0.0, 0.0);        // normal to use for each glyph
 
-    typedef map<TextGlyph::Index, UInt32> TexCoordMap;
-    TexCoordMap texCoordMap;
-    UInt32 i;
-    for (i = 0; i < numGlyphs; ++i)
+    typesPtr->push_back(GL_QUADS);
+    unsigned num_glyphs_added(0);
+
+    for (UInt32 i = 0; i < numGlyphs; ++i)
     {
         TextGlyph::Index glyphIndex = layoutResult.indices[i];
         const TextTXFGlyph &glyph = getTXFGlyph(glyphIndex);
@@ -233,63 +258,55 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
         // No need to draw invisible glyphs
         if ((width <= 0.f) || (height <= 0.f))
             continue;
+        else
+            num_glyphs_added += 1;
 
         // Calculate coordinates
-        Vec2f pos = layoutResult.positions[i] + offset;
-        Real32 posLeft = pos.x() * scale;
-        Real32 posTop = pos.y() * scale;
-        Real32 posRight = (pos.x() + width) * scale;
-        Real32 posBottom = (pos.y() - height) * scale;
-        UInt32 texCoordIndex;
-        TexCoordMap::const_iterator tcIt = texCoordMap.find(glyphIndex);
-        if (tcIt == texCoordMap.end())
-        {
-            Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
-            Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
-            Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
-            Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
-            texCoordIndex = texPtr->size();
-            texCoordMap.insert(TexCoordMap::value_type(glyphIndex, texCoordIndex));
-            texPtr->push_back(Vec2f(texCoordLeft, texCoordBottom));
-            texPtr->push_back(Vec2f(texCoordRight, texCoordBottom));
-            texPtr->push_back(Vec2f(texCoordRight, texCoordTop));
-            texPtr->push_back(Vec2f(texCoordLeft, texCoordTop));
-        }
-        else
-            texCoordIndex = tcIt->second;
+        Vec2f pos = layoutResult.positions[i];
+        Real32 posLeft = (pos.x() * scale) + offset.x();
+        Real32 posTop = (pos.y() * scale) + offset.y();
+        Real32 posRight = ((pos.x() + width) * scale) + offset.x();
+        Real32 posBottom = ((pos.y() - height) * scale) + offset.y();
+
+        // Calculate texture coordinates
+        Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
+        Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
+        Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
+        Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
 
         // lower left corner
         posPtr->push_back(Vec3f(posLeft, posBottom, 0.f));
-        indicesPtr->push_back(posPtr->size() - 1);
-        indicesPtr->push_back(0);
-        indicesPtr->push_back(texCoordIndex++);
+        texPtr->push_back(Vec2f(texCoordLeft, texCoordBottom));
+        normalPtr->push_back(normal);
+        if(use_colors) colorPtr->push_back(color);
 
         // lower right corner
         posPtr->push_back(Vec3f(posRight, posBottom, 0.f));
-        indicesPtr->push_back(posPtr->size() - 1);
-        indicesPtr->push_back(0);
-        indicesPtr->push_back(texCoordIndex++);
+        texPtr->push_back(Vec2f(texCoordRight, texCoordBottom));
+        normalPtr->push_back(normal);
+        if(use_colors) colorPtr->push_back(color);
 
         // upper right corner
         posPtr->push_back(Vec3f(posRight, posTop, 0.f));
-        indicesPtr->push_back(posPtr->size() - 1);
-        indicesPtr->push_back(0);
-        indicesPtr->push_back(texCoordIndex++);
+        texPtr->push_back(Vec2f(texCoordRight, texCoordTop));
+        normalPtr->push_back(normal);
+        if(use_colors) colorPtr->push_back(color);
 
         // upper left corner
         posPtr->push_back(Vec3f(posLeft, posTop, 0.f));
-        indicesPtr->push_back(posPtr->size() - 1);
-        indicesPtr->push_back(0);
-        indicesPtr->push_back(texCoordIndex++);
+        texPtr->push_back(Vec2f(texCoordLeft, texCoordTop));
+        normalPtr->push_back(normal);
+        if(use_colors) colorPtr->push_back(color);
     }
-    lensPtr->push_back(posPtr->size());
+    lensPtr->push_back(num_glyphs_added*4);
 
     endEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
-    endEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
     endEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
     endEditCP(texPtr, GeoTexCoords2f::GeoPropDataFieldMask);
     endEditCP(normalPtr, GeoNormals3f::GeoPropDataFieldMask);
     endEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
+    if(NullFC != colorPtr)
+    { endEditCP(colorPtr, GeoIndicesUI32::GeoPropDataFieldMask); }
 
     endEditCP(geoPtr);
 }
@@ -299,10 +316,11 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
 // Creates a new text geometry
 // Author: pdaehne
 //----------------------------------------------------------------------
-GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
+GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 scale,
+                                 Vec2f offset, Color3f color)
 {
     GeometryPtr geo = Geometry::create();
-    fillGeo(geo, layoutResult, scale, offset);
+    fillGeo(geo, layoutResult, scale, offset, color);
     return geo;
 }
 
@@ -311,9 +329,10 @@ GeometryPtr TextTXFFace::makeGeo(const TextLayoutResult &layoutResult, Real32 sc
 // Creates a new node with a text geometry
 // Author: pdaehne
 //----------------------------------------------------------------------
-NodePtr TextTXFFace::makeNode(const TextLayoutResult &layoutResult, Real32 scale, Vec2f offset)
+NodePtr TextTXFFace::makeNode(const TextLayoutResult &layoutResult, Real32 scale,
+                              Vec2f offset, Color3f color)
 {
-    GeometryPtr geo = makeGeo(layoutResult, scale, offset);
+    GeometryPtr geo = makeGeo(layoutResult, scale, offset, color);
     NodePtr node = Node::create();
     beginEditCP(node, Node::CoreFieldMask);
     node->setCore(geo);
@@ -879,7 +898,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.4 2005/06/30 04:51:06 dirk Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.5 2005/07/05 16:25:15 dirk Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }

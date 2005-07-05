@@ -22,6 +22,9 @@
 #include <OSGTextureChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGImage.h>
+#include <OSGBaseFunctions.h>
+
+#include <sstream>
 
 
 OSG::SimpleSceneManager* mgr;
@@ -89,6 +92,7 @@ public:
          mat_chunk->setEmission(OSG::Color4f(0.f, 0.f, 0.f, 1.f));
          mat_chunk->setSpecular(OSG::Color4f(0.f, 0.f, 0.f, 1.f));
          mat_chunk->setShininess(0);
+         mat_chunk->setColorMaterial(GL_AMBIENT_AND_DIFFUSE);
       }
       OSG::endEditCP(mat_chunk);
 
@@ -120,7 +124,29 @@ public:
 
       OSG::Vec2f bounds = layout_result.textBounds;
       //std::cout << "Text bounds: " << bounds << std::endl;
-      mFace->fillGeo(geom_ptr, layout_result, mGeoScale, mOffset);
+      mFace->fillGeo(geom_ptr, layout_result, mGeoScale, mOffset, OSG::Color3f(0,1,0));
+
+      lines.clear();
+      lines.push_back("OpenSG");
+      lines.push_back("was");
+      lines.push_back("here");
+
+      OSG::Vec2f local_offset(3,4);
+      mFace->layout(lines, layout_param, layout_result);
+      mFace->addToGeom(geom_ptr, layout_result, mGeoScale, local_offset, OSG::Color3f(0, 0.5, 0.7));
+
+
+      const float rand_range(10.0f);
+
+      for(unsigned i=0;i<100;++i)
+      {
+         std::stringstream str;
+         str << i;
+         OSG::Vec2f rand_offset(OSG::osgrand()*rand_range, OSG::osgrand()*rand_range);
+         mFace->layout(str.str(), layout_param, layout_result);
+         mFace->addToGeom(geom_ptr, layout_result, mGeoScale, rand_offset, 
+                          OSG::Color3f(OSG::osgrand(), OSG::osgrand(), OSG::osgrand()));
+      }
    }
 
    void updateFace()
