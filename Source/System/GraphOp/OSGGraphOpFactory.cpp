@@ -52,6 +52,7 @@
 #include <OSGSplitGraphOp.h>
 #include <OSGStripeGraphOp.h>
 #include <OSGVerifyGeoGraphOp.h>
+#include <OSGVerifyGraphOp.h>
 
 OSG_USING_NAMESPACE
 
@@ -133,4 +134,5 @@ GraphOpFactory::GraphOpFactory()
     registerOp(new SplitGraphOp);
     registerOp(new StripeGraphOp);
     registerOp(new VerifyGeoGraphOp);
+    registerOp(new VerifyGraphOp);
 }
