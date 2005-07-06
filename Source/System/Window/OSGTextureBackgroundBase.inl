@@ -117,6 +117,34 @@ MFPnt2f *TextureBackgroundBase::getMFTexCoords(void)
     return &_mfTexCoords;
 }
 
+//! Get the TextureBackground::_sfRadialDistortion field.
+inline
+SFReal32 *TextureBackgroundBase::getSFRadialDistortion(void)
+{
+    return &_sfRadialDistortion;
+}
+
+//! Get the TextureBackground::_sfCenterOfDistortion field.
+inline
+SFVec2f *TextureBackgroundBase::getSFCenterOfDistortion(void)
+{
+    return &_sfCenterOfDistortion;
+}
+
+//! Get the TextureBackground::_sfHor field.
+inline
+SFUInt16 *TextureBackgroundBase::getSFHor(void)
+{
+    return &_sfHor;
+}
+
+//! Get the TextureBackground::_sfVert field.
+inline
+SFUInt16 *TextureBackgroundBase::getSFVert(void)
+{
+    return &_sfVert;
+}
+
 
 //! Get the value of the TextureBackground::_sfColor field.
 inline
@@ -160,6 +188,90 @@ void TextureBackgroundBase::setTexture(const TextureChunkPtr &value)
     _sfTexture.setValue(value);
 }
 
+//! Get the value of the TextureBackground::_sfRadialDistortion field.
+inline
+Real32 &TextureBackgroundBase::getRadialDistortion(void)
+{
+    return _sfRadialDistortion.getValue();
+}
+
+//! Get the value of the TextureBackground::_sfRadialDistortion field.
+inline
+const Real32 &TextureBackgroundBase::getRadialDistortion(void) const
+{
+    return _sfRadialDistortion.getValue();
+}
+
+//! Set the value of the TextureBackground::_sfRadialDistortion field.
+inline
+void TextureBackgroundBase::setRadialDistortion(const Real32 &value)
+{
+    _sfRadialDistortion.setValue(value);
+}
+
+//! Get the value of the TextureBackground::_sfCenterOfDistortion field.
+inline
+Vec2f &TextureBackgroundBase::getCenterOfDistortion(void)
+{
+    return _sfCenterOfDistortion.getValue();
+}
+
+//! Get the value of the TextureBackground::_sfCenterOfDistortion field.
+inline
+const Vec2f &TextureBackgroundBase::getCenterOfDistortion(void) const
+{
+    return _sfCenterOfDistortion.getValue();
+}
+
+//! Set the value of the TextureBackground::_sfCenterOfDistortion field.
+inline
+void TextureBackgroundBase::setCenterOfDistortion(const Vec2f &value)
+{
+    _sfCenterOfDistortion.setValue(value);
+}
+
+//! Get the value of the TextureBackground::_sfHor field.
+inline
+UInt16 &TextureBackgroundBase::getHor(void)
+{
+    return _sfHor.getValue();
+}
+
+//! Get the value of the TextureBackground::_sfHor field.
+inline
+const UInt16 &TextureBackgroundBase::getHor(void) const
+{
+    return _sfHor.getValue();
+}
+
+//! Set the value of the TextureBackground::_sfHor field.
+inline
+void TextureBackgroundBase::setHor(const UInt16 &value)
+{
+    _sfHor.setValue(value);
+}
+
+//! Get the value of the TextureBackground::_sfVert field.
+inline
+UInt16 &TextureBackgroundBase::getVert(void)
+{
+    return _sfVert.getValue();
+}
+
+//! Get the value of the TextureBackground::_sfVert field.
+inline
+const UInt16 &TextureBackgroundBase::getVert(void) const
+{
+    return _sfVert.getValue();
+}
+
+//! Set the value of the TextureBackground::_sfVert field.
+inline
+void TextureBackgroundBase::setVert(const UInt16 &value)
+{
+    _sfVert.setValue(value);
+}
+
 
 //! Get the value of the \a index element the TextureBackground::_mfTexCoords field.
 inline
@@ -184,5 +296,5 @@ const MFPnt2f &TextureBackgroundBase::getTexCoords(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.3 2005/05/30 20:00:49 dirk Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.4 2005/07/06 16:00:44 dirk Exp $"
 

@@ -48,8 +48,8 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief TextureBackground class. See \ref 
-           PageTextureBackgroundTextureBackground for a description.
+/*! \brief TextureBackground class. See \ref
+           PageSystemTextureBackground for a description.
 */
 
 class OSG_SYSTEMLIB_DLLMAPPING TextureBackground : public TextureBackgroundBase
@@ -66,12 +66,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackground : public TextureBackgroundBase
 
     virtual void clear( DrawActionBase * action, Viewport * port );
 
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    virtual void changed(BitVector  whichField, 
+    virtual void changed(BitVector  whichField,
                          UInt32     origin    );
 
     /*! \}                                                                 */
@@ -79,7 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackground : public TextureBackgroundBase
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
-    virtual void dump(      UInt32     uiIndent = 0, 
+    virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
@@ -100,13 +99,26 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackground : public TextureBackgroundBase
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~TextureBackground(void); 
+    virtual ~TextureBackground(void);
 
     /*! \}                                                                 */
-    
+
     /*==========================  PRIVATE  ================================*/
   private:
-
+    std::vector<Vec2f> _textureCoordArray;
+    std::vector<Vec2f> _vertexCoordArray;
+    std::vector<UInt32> _indexArray;
+    
+    // Values for which the grid has been calculated, 
+    // to check for update necessity
+    UInt16              _hor, _vert;
+    Real32              _radialDistortion;
+    Vec2f               _centerOfDistortion;
+    
+    // Helper method
+    
+    void updateGrid(void);
+    
     friend class FieldContainer;
     friend class TextureBackgroundBase;
 
@@ -124,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGTextureBackgroundBase.inl>
 #include <OSGTextureBackground.inl>
 
-#define OSGTEXTUREBACKGROUND_HEADER_CVSID "@(#)$Id: OSGTextureBackground.h,v 1.1 2004/01/23 14:16:05 a-m-z Exp $"
+#define OSGTEXTUREBACKGROUND_HEADER_CVSID "@(#)$Id: OSGTextureBackground.h,v 1.2 2005/07/06 16:00:44 dirk Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUND_H_ */

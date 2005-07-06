@@ -73,6 +73,18 @@ const OSG::BitVector  TextureBackgroundBase::TextureFieldMask =
 const OSG::BitVector  TextureBackgroundBase::TexCoordsFieldMask = 
     (TypeTraits<BitVector>::One << TextureBackgroundBase::TexCoordsFieldId);
 
+const OSG::BitVector  TextureBackgroundBase::RadialDistortionFieldMask = 
+    (TypeTraits<BitVector>::One << TextureBackgroundBase::RadialDistortionFieldId);
+
+const OSG::BitVector  TextureBackgroundBase::CenterOfDistortionFieldMask = 
+    (TypeTraits<BitVector>::One << TextureBackgroundBase::CenterOfDistortionFieldId);
+
+const OSG::BitVector  TextureBackgroundBase::HorFieldMask = 
+    (TypeTraits<BitVector>::One << TextureBackgroundBase::HorFieldId);
+
+const OSG::BitVector  TextureBackgroundBase::VertFieldMask = 
+    (TypeTraits<BitVector>::One << TextureBackgroundBase::VertFieldId);
+
 const OSG::BitVector TextureBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +100,18 @@ const OSG::BitVector TextureBackgroundBase::MTInfluenceMask =
 */
 /*! \var Pnt2f           TextureBackgroundBase::_mfTexCoords
     
+*/
+/*! \var Real32          TextureBackgroundBase::_sfRadialDistortion
+    
+*/
+/*! \var Vec2f           TextureBackgroundBase::_sfCenterOfDistortion
+    
+*/
+/*! \var UInt16          TextureBackgroundBase::_sfHor
+    horizontal subdivision
+*/
+/*! \var UInt16          TextureBackgroundBase::_sfVert
+    vertical subdivision
 */
 
 //! TextureBackground description
@@ -108,7 +132,27 @@ FieldDescription *TextureBackgroundBase::_desc[] =
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getMFTexCoords)
+                     (FieldAccessMethod) &TextureBackgroundBase::getMFTexCoords),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "radialDistortion", 
+                     RadialDistortionFieldId, RadialDistortionFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFRadialDistortion),
+    new FieldDescription(SFVec2f::getClassType(), 
+                     "centerOfDistortion", 
+                     CenterOfDistortionFieldId, CenterOfDistortionFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFCenterOfDistortion),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "hor", 
+                     HorFieldId, HorFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFHor),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "vert", 
+                     VertFieldId, VertFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFVert)
 };
 
 
@@ -167,6 +211,10 @@ TextureBackgroundBase::TextureBackgroundBase(void) :
     _sfColor                  (), 
     _sfTexture                (), 
     _mfTexCoords              (), 
+    _sfRadialDistortion       (Real32(0)), 
+    _sfCenterOfDistortion     (Vec2f(0.5, 0.5)), 
+    _sfHor                    (UInt16(2)), 
+    _sfVert                   (UInt16(2)), 
     Inherited() 
 {
 }
@@ -179,6 +227,10 @@ TextureBackgroundBase::TextureBackgroundBase(const TextureBackgroundBase &source
     _sfColor                  (source._sfColor                  ), 
     _sfTexture                (source._sfTexture                ), 
     _mfTexCoords              (source._mfTexCoords              ), 
+    _sfRadialDistortion       (source._sfRadialDistortion       ), 
+    _sfCenterOfDistortion     (source._sfCenterOfDistortion     ), 
+    _sfHor                    (source._sfHor                    ), 
+    _sfVert                   (source._sfVert                   ), 
     Inherited                 (source)
 {
 }
@@ -210,6 +262,26 @@ UInt32 TextureBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfTexCoords.getBinSize();
     }
 
+    if(FieldBits::NoField != (RadialDistortionFieldMask & whichField))
+    {
+        returnValue += _sfRadialDistortion.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CenterOfDistortionFieldMask & whichField))
+    {
+        returnValue += _sfCenterOfDistortion.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HorFieldMask & whichField))
+    {
+        returnValue += _sfHor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (VertFieldMask & whichField))
+    {
+        returnValue += _sfVert.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -232,6 +304,26 @@ void TextureBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         _mfTexCoords.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RadialDistortionFieldMask & whichField))
+    {
+        _sfRadialDistortion.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CenterOfDistortionFieldMask & whichField))
+    {
+        _sfCenterOfDistortion.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HorFieldMask & whichField))
+    {
+        _sfHor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertFieldMask & whichField))
+    {
+        _sfVert.copyToBin(pMem);
     }
 
 
@@ -257,6 +349,26 @@ void TextureBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfTexCoords.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (RadialDistortionFieldMask & whichField))
+    {
+        _sfRadialDistortion.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CenterOfDistortionFieldMask & whichField))
+    {
+        _sfCenterOfDistortion.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HorFieldMask & whichField))
+    {
+        _sfHor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VertFieldMask & whichField))
+    {
+        _sfVert.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -274,6 +386,18 @@ void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords);
+
+    if(FieldBits::NoField != (RadialDistortionFieldMask & whichField))
+        _sfRadialDistortion.syncWith(pOther->_sfRadialDistortion);
+
+    if(FieldBits::NoField != (CenterOfDistortionFieldMask & whichField))
+        _sfCenterOfDistortion.syncWith(pOther->_sfCenterOfDistortion);
+
+    if(FieldBits::NoField != (HorFieldMask & whichField))
+        _sfHor.syncWith(pOther->_sfHor);
+
+    if(FieldBits::NoField != (VertFieldMask & whichField))
+        _sfVert.syncWith(pOther->_sfVert);
 
 
 }
@@ -306,7 +430,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.3 2005/05/30 20:00:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.4 2005/07/06 16:00:41 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

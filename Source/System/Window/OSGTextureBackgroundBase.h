@@ -70,6 +70,10 @@
 #include <OSGColor4fFields.h> // Color type
 #include <OSGTextureChunkFields.h> // Texture type
 #include <OSGPnt2fFields.h> // TexCoords type
+#include <OSGReal32Fields.h> // RadialDistortion type
+#include <OSGVec2fFields.h> // CenterOfDistortion type
+#include <OSGUInt16Fields.h> // Hor type
+#include <OSGUInt16Fields.h> // Vert type
 
 #include <OSGTextureBackgroundFields.h>
 
@@ -93,15 +97,23 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
 
     enum
     {
-        ColorFieldId     = Inherited::NextFieldId,
-        TextureFieldId   = ColorFieldId     + 1,
-        TexCoordsFieldId = TextureFieldId   + 1,
-        NextFieldId      = TexCoordsFieldId + 1
+        ColorFieldId              = Inherited::NextFieldId,
+        TextureFieldId            = ColorFieldId              + 1,
+        TexCoordsFieldId          = TextureFieldId            + 1,
+        RadialDistortionFieldId   = TexCoordsFieldId          + 1,
+        CenterOfDistortionFieldId = RadialDistortionFieldId   + 1,
+        HorFieldId                = CenterOfDistortionFieldId + 1,
+        VertFieldId               = HorFieldId                + 1,
+        NextFieldId               = VertFieldId               + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector TextureFieldMask;
     static const OSG::BitVector TexCoordsFieldMask;
+    static const OSG::BitVector RadialDistortionFieldMask;
+    static const OSG::BitVector CenterOfDistortionFieldMask;
+    static const OSG::BitVector HorFieldMask;
+    static const OSG::BitVector VertFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -131,11 +143,23 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
            SFColor4f           *getSFColor          (void);
            SFTextureChunkPtr   *getSFTexture        (void);
            MFPnt2f             *getMFTexCoords      (void);
+           SFReal32            *getSFRadialDistortion(void);
+           SFVec2f             *getSFCenterOfDistortion(void);
+           SFUInt16            *getSFHor            (void);
+           SFUInt16            *getSFVert           (void);
 
            Color4f             &getColor          (void);
      const Color4f             &getColor          (void) const;
            TextureChunkPtr     &getTexture        (void);
      const TextureChunkPtr     &getTexture        (void) const;
+           Real32              &getRadialDistortion(void);
+     const Real32              &getRadialDistortion(void) const;
+           Vec2f               &getCenterOfDistortion(void);
+     const Vec2f               &getCenterOfDistortion(void) const;
+           UInt16              &getHor            (void);
+     const UInt16              &getHor            (void) const;
+           UInt16              &getVert           (void);
+     const UInt16              &getVert           (void) const;
            Pnt2f               &getTexCoords      (const UInt32 index);
            MFPnt2f             &getTexCoords      (void);
      const MFPnt2f             &getTexCoords      (void) const;
@@ -147,6 +171,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
 
      void setColor          ( const Color4f &value );
      void setTexture        ( const TextureChunkPtr &value );
+     void setRadialDistortion( const Real32 &value );
+     void setCenterOfDistortion( const Vec2f &value );
+     void setHor            ( const UInt16 &value );
+     void setVert           ( const UInt16 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -195,6 +223,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
     SFColor4f           _sfColor;
     SFTextureChunkPtr   _sfTexture;
     MFPnt2f             _mfTexCoords;
+    SFReal32            _sfRadialDistortion;
+    SFVec2f             _sfCenterOfDistortion;
+    SFUInt16            _sfHor;
+    SFUInt16            _sfVert;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -249,6 +281,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.3 2005/05/30 20:00:49 dirk Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.4 2005/07/06 16:00:44 dirk Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */
