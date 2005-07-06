@@ -1466,7 +1466,7 @@ void binary_get_element(PlyFile *plyfile, char *elem_ptr)
   /* do we need to setup for other_props? */
 
   int other_flag;
-  char *other_data;
+  char *other_data = NULL;
   if (elem->other_offset != NO_OTHER_PROPS) {
     other_flag = 1;
     /* make room for other_props */
