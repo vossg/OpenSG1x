@@ -216,6 +216,23 @@ void Image::dump(UInt32    ,
            ));
 }
 
+
+// Return the number of components per pixel.
+
+UInt8  Image::getComponents(void) const
+{
+    Int32 mapSizeFormat = sizeof(_formatDic) / sizeof(UInt32[2]);
+
+    for(UInt16 i = 0; i < mapSizeFormat; i++)
+    {
+        if(_formatDic[i][0] == getPixelFormat())
+            return _formatDic[i][1];
+    }
+    FWARNING(("Image::getComponents: image %p has unknown pixel format 0x%x!",
+                this, getPixelFormat()));
+    return 0;
+}
+
 /*------------------------------ set object data --------------------------*/
 
 /*! method to set the image data. Use the doCopy parameter to specify, whether
