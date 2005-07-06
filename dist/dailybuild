@@ -521,7 +521,7 @@ case $system in
                 png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib"}
                 par_jobs=${par_jobs:=4}
                 mail=/usr/sbin/Mail
-                make=make
+                make=/home/users/dreiners/bin/IRIX64/make
                 grep=/usr/freeware/bin/grep
                 export PATH=${qt_dir}/bin/:$PATH
                 loginfo="OS: `/bin/uname -aR` <br>"
