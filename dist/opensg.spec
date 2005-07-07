@@ -50,7 +50,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %build
 # Don't need to run autogen with most tarballs since we run it before compressing it.
-qt=`ls -1d /usr/lib/qt* | tail -1`
+qt=`ls -1d %{_libdir}/qt* | tail -1`
 ./configure  --prefix=$RPM_BUILD_ROOT/usr --enable-glut --enable-jpg --enable-png --enable-tif --enable-gif --enable-qt --with-qt=$qt
 gmake
 
@@ -60,21 +60,29 @@ rm -rf  $RPM_BUILD_ROOT/usr
 mkdir -p $RPM_BUILD_ROOT/usr
 
 make install > /dev/null
-sed -i "s/prefix=\".*/prefix=\"\/usr\"/" $RPM_BUILD_ROOT/usr/bin/osg-config
+sed -i "s/prefix=\".*/prefix=\"\/usr\"/" \
+    -i "s|${exec_prefix}/lib/|${exec_prefix}/lib/OpenSG-%{version}-|" \
+    $RPM_BUILD_ROOT/usr/bin/osg-config
 
 cd $RPM_BUILD_ROOT/usr/lib
 
-mv opt OpenSG-1.6.0-opt
-mv dbg OpenSG-1.6.0-dbg
-ln -sf OpenSG-1.6.0-opt OpenSG-1.6.0
+mv opt OpenSG-%{version}-opt
+mv dbg OpenSG-%{version}-dbg
+ln -sf OpenSG-%{version}-opt OpenSG-%{version}
 # Create version-based links
-cd OpenSG-1.6.0-opt
+cd OpenSG-%{version}-opt
 for l in *;
 do
     ln -sf $l ../$l.1
-    ln -sf $l ../$l.1.6.0
-    ln -sf OpenSG-1.6.0/$l ../$l
+    ln -sf $l ../$l.%{version}
+    ln -sf OpenSG-%{version}/$l ../$l
 done
+
+if test %{_libdir} != "lib"
+then
+    cd $RPM_BUILD_ROOT/usr
+    mv lib %{_libdir}
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
