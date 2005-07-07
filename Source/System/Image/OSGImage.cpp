@@ -1969,7 +1969,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
         subRefCP(dest);
     }
 
-    return ((getData() && !(dest->getData())) ? true : false);
+    return (getData() ? true : false);
 }
 
 /*! It just fills the hole image data with the given pixel value. It is
