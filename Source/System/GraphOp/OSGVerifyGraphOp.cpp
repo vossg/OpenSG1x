@@ -427,8 +427,6 @@ bool VerifyGraphOp::verifyIndexMap(GeometryPtr &geo, bool &repair)
     {
         return false;
     }
-
-    return true;
 }
 
 
