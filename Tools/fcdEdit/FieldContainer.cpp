@@ -1554,7 +1554,26 @@ bool FieldContainer::writeTempl(
                     values[FieldSeparatorE] = ",";
 
                 if ( fieldIt->defaultHeader() && *fieldIt->defaultHeader())
-                    values[FieldDefaultHeaderE] = fieldIt->defaultHeader();
+                {
+                    s = new char [strlen(fieldIt->defaultHeader()) + 1];
+                    strcpy(s, fieldIt->defaultHeader());
+
+                    // Do we need to add delimiters or are they in the fcd file
+                    // already?
+                    if(s[0] != '<' && s[0] != '"')
+                    {
+                        int l = strlen(s);
+                        char *s2 = new char [ l + 3];
+                        s2[0] = '<';
+                        memcpy(s2+1, s, l);
+                        s2[l+1] = '>';
+                        s2[l+2] = 0;
+                        delete [] s;
+                        s = s2;
+                    }
+                  
+                    values[FieldDefaultHeaderE] = s;
+                }
                 else
                     values[FieldDefaultHeaderE] = "";
             }
@@ -1625,6 +1644,10 @@ bool FieldContainer::writeTempl(
                         
             if ( values[FieldtypeIncludeE] )    
                 delete [] values[FieldtypeIncludeE];
+                        
+            if ( values[FieldDefaultHeaderE] &&
+                 strlen(values[FieldDefaultHeaderE]) )    
+                delete [] values[FieldDefaultHeaderE];
                 
             if ( values[FieldtypeE] )   
                 free( values[FieldtypeE] );
