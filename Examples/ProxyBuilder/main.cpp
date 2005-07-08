@@ -11,6 +11,8 @@
 #include <OpenSG/OSGGeometry.h>
 #include <OpenSG/OSGMaterialChunk.h>
 #include <OpenSG/OSGChunkMaterial.h>
+#include <OpenSG/OSGGraphOpSeq.h>
+#include <OpenSG/OSGMergeGraphOp.h>
 
 #include <OSGProxyBuilder.h>
 
@@ -85,6 +87,10 @@ int main(int argc, char *argv[])
     bool zip=false;
     std::vector<std::string> files;
     std::string prefix = "scene";
+    bool doInline=false;
+    bool quantisize=false;
+    bool stripe=false;
+    bool merge=false;
 
     OSG::osgInit(argc, argv);
 
@@ -100,8 +106,20 @@ int main(int argc, char *argv[])
                 case 'c':
                     concurrent = true;
                     break;
+                case 's':
+                    stripe = true;
+                    break;
+                case 'i':
+                    doInline = true;
+                    break;
+                case 'm':
+                    merge = true;
+                    break;
                 case 'z':
                     zip = true;
+                    break;
+                case 'q':
+                    quantisize = true;
                     break;
                 case 'o':
                     opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
@@ -112,6 +130,10 @@ int main(int argc, char *argv[])
                     printf(" -t NUM = positions threshold to write proxy\n");
                     printf(" -c proxy for concurrent load\n");
                     printf(" -z zip output\n");
+                    printf(" -s stripe\n");
+                    printf(" -i inline groups\n");
+                    printf(" -m merge small geos\n");
+                    printf(" -q compress output by quanitsatzion\n");
                     printf(" -h this text\n");
                     exit(0);
             }
@@ -120,10 +142,19 @@ int main(int argc, char *argv[])
         }
     }
 
+    if(quantisize) 
+    {
+        SceneFileHandler::the().setOptions("osb",
+                                           "compressTextures=true,"
+                                           "texturesCompressionQuality=75,"
+                                           "quantizePositions=16,"
+                                           "quantizeNormals=8,"
+                                           "quantizeTexCoords=16");
+    }
     OSG::NodePtr root = Node::create();
     beginEditCP(root);
     root->setCore(Group::create());
-    ProxyBuilder::start(prefix,threshold,concurrent,zip);
+    ProxyBuilder::start(prefix,threshold,concurrent,zip,doInline,stripe);
     for(i = 0 ; i < files.size() ; ++i)
     {
         printf("Parsing %s...\n",files[i].c_str());
@@ -135,6 +166,13 @@ int main(int argc, char *argv[])
     ProxyBuilder::stop();
 
     optMaterial(root);
+
+    if(merge)
+    {
+        osg::GraphOpSeq op;
+        op.addGraphOp(new MergeGraphOp);
+        op.run(root);
+    }
     OSG::SceneFileHandler::the().write(root,(prefix+".osb").c_str(),zip);
 
     return 0;

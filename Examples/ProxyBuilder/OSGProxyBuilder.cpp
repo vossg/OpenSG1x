@@ -153,11 +153,55 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
     node->setCore(geo);
     endEditCP(node);
 
+    bool repaire;
+    verifyIndexMap(geo,repaire);
+/*
+    // create index mapping, if missing
+    if(geo->getIndexMapping().size() == 0) {
+        UInt16 mask;
+        if(geo->getPositions() != osg::NullFC) {
+            printf("%d\n",geo->getPositions()->getSize());
+            mask|=Geometry::MapPosition;
+        }
+        if(geo->getColors() != osg::NullFC) {
+            printf("%d\n",geo->getColors()->getSize());
+            mask|=Geometry::MapColor;
+        }
+        if(geo->getNormals() != osg::NullFC) {
+            printf("%d\n",geo->getNormals()->getSize());
+            mask|=Geometry::MapNormal;
+        }
+        geo->getIndexMapping().push_back(mask);
+    }
+*/
     // stripe
-    osg::GraphOpSeq op;
-    op.addGraphOp(new StripeGraphOp);
-    op.run(node);
+    if(_stripe)
+    {
+        osg::GraphOpSeq op;
+        op.addGraphOp(new StripeGraphOp);
+        op.run(node);
+    }
+#if 0
+    int i;
+    GeoNormals3sPtr n3s = GeoNormals3s::create();
+    n3s->resize(proxyBuilder->getNormals()->getSize());
+    for(i=0 ; i<proxyBuilder->getNormals()->getSize() ; ++i)
+    {
+        n3s->setValue(proxyBuilder->getNormals()->getValue(i),i);
+    }
+    geo->setNormals(n3s);
 
+    if(proxyBuilder->getPositions()->getSize() < 65536)
+    {
+        GeoIndicesUI16Ptr i16 = GeoIndicesUI16::create();
+        i16->resize(proxyBuilder->getIndices()->getSize());
+        for(i=0 ; i<proxyBuilder->getIndices()->getSize() ; ++i)
+        {
+            i16->setValue(proxyBuilder->getIndices()->getValue(i),i);
+        }
+        geo->setIndices(i16);
+    }
+#endif
     // statistics
     GeoIndicesPtr indicesPtr=geo->getIndices();
     if(indicesPtr != NullFC)
@@ -179,6 +223,8 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
     }
     else 
     {
+        printf("Vertices: %d\n",positions);
+
         // write proxy file
         OSG::SceneFileHandler::the().write(node,proxyPath,_zip);
 
@@ -194,6 +240,17 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
         proxy->setTriangles(triangles);
         proxy->setPositions(positions);
         proxy->setGeometries(1);
+        // inline proxy
+        if(_doInline) {
+            FILE *in = fopen(proxyPath,"r");
+            UInt8 c;
+            while((fread(&c,1,1,in))) 
+                proxy->getInline().push_back(UInt8(c));
+            fclose(in);
+#ifndef WIN32            
+            unlink(proxyPath);
+#endif
+        }
         endEditCP(proxy);
 
         // create material group
@@ -239,27 +296,28 @@ void ProxyBuilder::createProxyGroup(GeometryPtr proxyBuilder)
     subRefCP(node);
 }
 
-void ProxyBuilder::createPendingProxyGroups(bool force)
+void ProxyBuilder::createPendingProxyGroups()
 {
-    std::vector<GeometryPtr>::iterator gI;
-
-    if(!force) 
-    {
-        // if first geo is valid, process all
-        if(_geos.size() == 0 ||
-           _geos[0]->getPositions() == osg::NullFC ||
-           _geos[0]->getParents().size() == 0)
-            return;
-    }
+    std::list<GeometryPtr>::iterator dI,gI;
 
     // reset geo proto
     Geometry::getClassType().setPrototype(_geometryProto);
 
-    for(gI = _geos.begin() ; gI != _geos.end() ; ++gI)
+    for(gI = _geos.begin() ; gI != _geos.end() ;)
     {
-        createProxyGroup(*gI);
+        if((*gI)->getPositions() != osg::NullFC &&
+           (*gI)->getParents().size() != 0) 
+        {
+            createProxyGroup(*gI);
+            dI=gI;
+            ++gI;
+            _geos.erase(dI);
+        }
+        else
+        {
+            ++gI;
+        }
     }
-    _geos.clear();
 
     // reset geo proto to proxy builder
     Geometry::getClassType().setPrototype(_proxyBuilderProto);
@@ -275,12 +333,16 @@ void ProxyBuilder::onCreate(const ProxyBuilder *source)
 void ProxyBuilder::start(const std::string &filePrefix,
                          UInt32 positionsThreshold,
                          bool concurrent,
-                         bool zip)
+                         bool zip,
+                         bool doInline,
+                         bool stripe)
 {
     _filePrefix = filePrefix;
     _positionsThreshold = positionsThreshold;
     _concurrentLoad = concurrent;
     _zip = zip;
+    _doInline = doInline;
+    _stripe = stripe;
     _proxyBuilderProto = ProxyBuilder::create();
     addRefCP(_proxyBuilderProto);
     _geometryProto = Geometry::getClassType().getPrototype();
@@ -292,8 +354,101 @@ void ProxyBuilder::start(const std::string &filePrefix,
 
 void ProxyBuilder::stop()
 {
-    createPendingProxyGroups(true);
+    createPendingProxyGroups();
     Geometry::getClassType().setPrototype(_geometryProto);
+}
+
+
+bool ProxyBuilder::verifyIndexMap(GeometryPtr &geo, bool &repair)
+{
+    repair = false;
+
+    if(geo == NullFC)
+        return true;
+
+    if(geo->getIndices() == NullFC)
+        return true;
+
+    if(!geo->getIndexMapping().empty())
+        return true;
+
+    if(geo->getPositions() == NullFC)
+        return true;
+
+    UInt32 positions_size = geo->getPositions()->getSize();
+
+    Int32 normals_size = 0;
+    if(geo->getNormals() != NullFC)
+        normals_size = geo->getNormals()->getSize();
+
+    Int32 colors_size = 0;
+    if(geo->getColors() != NullFC)
+        colors_size = geo->getColors()->getSize();
+
+    Int32 secondary_colors_size = 0;
+    if(geo->getSecondaryColors() != NullFC)
+        secondary_colors_size = geo->getSecondaryColors()->getSize();
+
+    Int32 texccords_size = 0;
+    if(geo->getTexCoords() != NullFC)
+        texccords_size = geo->getTexCoords()->getSize();
+
+    Int32 texccords1_size = 0;
+    if(geo->getTexCoords1() != NullFC)
+        texccords1_size = geo->getTexCoords1()->getSize();
+
+    Int32 texccords2_size = 0;
+    if(geo->getTexCoords2() != NullFC)
+        texccords2_size = geo->getTexCoords2()->getSize();
+
+    Int32 texccords3_size = 0;
+    if(geo->getTexCoords3() != NullFC)
+        texccords3_size = geo->getTexCoords3()->getSize();
+
+    /*
+    printf("sizes: %u %u %u %u %u %u %u %u\n", positions_size, normals_size,
+                                   colors_size, secondary_colors_size,
+                                   texccords_size, texccords1_size,
+                                   texccords2_size, texccords3_size);
+    */
+    if((positions_size == normals_size || normals_size == 0) &&
+       (positions_size == colors_size || colors_size == 0) &&
+       (positions_size == secondary_colors_size || secondary_colors_size == 0) &&
+       (positions_size == texccords_size || texccords_size == 0) &&
+       (positions_size == texccords1_size || texccords1_size == 0) &&
+       (positions_size == texccords2_size || texccords2_size == 0) &&
+       (positions_size == texccords3_size || texccords3_size == 0))
+    {
+        UInt16 indexmap = 0;
+        if(positions_size > 0)
+            indexmap |= Geometry::MapPosition;
+        if(normals_size > 0)
+            indexmap |= Geometry::MapNormal;
+        if(colors_size > 0)
+            indexmap |= Geometry::MapColor;
+        if(secondary_colors_size > 0)
+            indexmap |= Geometry::MapSecondaryColor;
+        if(texccords_size > 0)
+            indexmap |= Geometry::MapTexCoords;
+        if(texccords1_size > 0)
+            indexmap |= Geometry::MapTexCoords1;
+        if(texccords2_size > 0)
+            indexmap |= Geometry::MapTexCoords2;
+        if(texccords3_size > 0)
+            indexmap |= Geometry::MapTexCoords3;
+
+        beginEditCP(geo, Geometry::IndexMappingFieldMask);
+            geo->getIndexMapping().push_back(indexmap);
+        endEditCP(geo, Geometry::IndexMappingFieldMask);
+        repair = true;
+        return false;
+    }
+    else
+    {
+        return false;
+    }
+
+    return true;
 }
 
 /*------------------------------------------------------------------------*/
@@ -303,10 +458,12 @@ void ProxyBuilder::stop()
 FieldContainerPtr         ProxyBuilder::_geometryProto;
 FieldContainerPtr         ProxyBuilder::_proxyBuilderProto;
 UInt32                    ProxyBuilder::_proxyNum;
-std::vector<GeometryPtr>  ProxyBuilder::_geos;
+std::list<GeometryPtr>    ProxyBuilder::_geos;
 UInt32                    ProxyBuilder::_positionsThreshold=1000;
 bool                      ProxyBuilder::_concurrentLoad=false;
 bool                      ProxyBuilder::_zip=false;
+bool                      ProxyBuilder::_doInline=false;
+bool                      ProxyBuilder::_stripe=false;
 std::string               ProxyBuilder::_filePrefix;
 
 /*------------------------------------------------------------------------*/

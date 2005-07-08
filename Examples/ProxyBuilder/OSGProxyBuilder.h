@@ -83,11 +83,16 @@ class ProxyBuilder : public ProxyBuilderBase
     static void start(const std::string &filePrefix,
                       UInt32 positionsThreshold,
                       bool concurrent=false,
-                      bool zip=true); 
+                      bool zip=true,
+                      bool doInline=false,
+                      bool stripe=true); 
     static void stop(void); 
     void onCreate(const ProxyBuilder *source = NULL);
+    static bool verifyIndexMap(GeometryPtr &geo, bool &repair);
 
     /*! \}                                                                 */
+
+
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -119,7 +124,7 @@ class ProxyBuilder : public ProxyBuilderBase
     /*! \{                                                                 */
 
     static void createProxyGroup(GeometryPtr proxyBuilder);
-    static void createPendingProxyGroups(bool force=false);
+    static void createPendingProxyGroups();
 
     /*! \}                                                                 */
     
@@ -129,10 +134,12 @@ class ProxyBuilder : public ProxyBuilderBase
     static FieldContainerPtr         _geometryProto;
     static FieldContainerPtr         _proxyBuilderProto;
     static UInt32                    _proxyNum;
-    static std::vector<GeometryPtr>  _geos;
+    static std::list<GeometryPtr>    _geos;
     static UInt32                    _positionsThreshold;
     static bool                      _concurrentLoad;
     static bool                      _zip;
+    static bool                      _doInline;
+    static bool                      _stripe;
     static std::string               _filePrefix;
 
     friend class FieldContainer;
