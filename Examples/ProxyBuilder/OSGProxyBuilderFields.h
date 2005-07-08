@@ -112,6 +112,6 @@ typedef MField<ProxyBuilderPtr> MFProxyBuilderPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPROXYBUILDERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGPROXYBUILDERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGPROXYBUILDERFIELDS_H_ */

@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, CubesPtr, OSG_MYLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGCUBESFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
 
 #endif /* _OSGCUBESFIELDS_H_ */

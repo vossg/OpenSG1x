@@ -86,6 +86,8 @@
 
 #undef OSG_ICC_GNU_COMPAT
 
+#undef OSG_FIXED_MFIELDSYNC
+
 #endif
 
 

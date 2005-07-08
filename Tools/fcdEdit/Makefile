@@ -120,7 +120,7 @@ LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 LDFLAGS    :=
 ifeq ($(NOGUI),true)
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System )
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base )
 else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
 endif

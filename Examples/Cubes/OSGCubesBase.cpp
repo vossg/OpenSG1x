@@ -151,11 +151,26 @@ UInt32 CubesBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CubesBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((CubesBase *) &other, whichField);
 }
+#else
+void CubesBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((CubesBase *) &other, whichField, sInfo);
+}
+void CubesBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -260,6 +275,7 @@ void CubesBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CubesBase::executeSyncImpl(      CubesBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -277,6 +293,44 @@ void CubesBase::executeSyncImpl(      CubesBase *pOther,
 
 
 }
+#else
+void CubesBase::executeSyncImpl(      CubesBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+        _mfPosition.syncWith(pOther->_mfPosition, sInfo);
+
+    if(FieldBits::NoField != (LengthFieldMask & whichField))
+        _mfLength.syncWith(pOther->_mfLength, sInfo);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+        _mfColor.syncWith(pOther->_mfColor, sInfo);
+
+
+}
+
+void CubesBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+        _mfPosition.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (LengthFieldMask & whichField))
+        _mfLength.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+        _mfColor.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -308,7 +362,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBESBASE_INLINE_CVSID;
 
