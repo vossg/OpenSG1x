@@ -250,11 +250,26 @@ UInt32 ParticlesBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ParticlesBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ParticlesBase *) &other, whichField);
 }
+#else
+void ParticlesBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ParticlesBase *) &other, whichField, sInfo);
+}
+void ParticlesBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -512,6 +527,7 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -556,6 +572,71 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
 
 }
+#else
+void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ModeFieldMask & whichField))
+        _sfMode.syncWith(pOther->_sfMode);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _sfPositions.syncWith(pOther->_sfPositions);
+
+    if(FieldBits::NoField != (SecPositionsFieldMask & whichField))
+        _sfSecPositions.syncWith(pOther->_sfSecPositions);
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+        _sfColors.syncWith(pOther->_sfColors);
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+        _sfNormals.syncWith(pOther->_sfNormals);
+
+    if(FieldBits::NoField != (DrawOrderFieldMask & whichField))
+        _sfDrawOrder.syncWith(pOther->_sfDrawOrder);
+
+    if(FieldBits::NoField != (DynamicFieldMask & whichField))
+        _sfDynamic.syncWith(pOther->_sfDynamic);
+
+    if(FieldBits::NoField != (PumpFieldMask & whichField))
+        _sfPump.syncWith(pOther->_sfPump);
+
+    if(FieldBits::NoField != (BspFieldMask & whichField))
+        _sfBsp.syncWith(pOther->_sfBsp);
+
+
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+        _mfSizes.syncWith(pOther->_mfSizes, sInfo);
+
+    if(FieldBits::NoField != (IndicesFieldMask & whichField))
+        _mfIndices.syncWith(pOther->_mfIndices, sInfo);
+
+    if(FieldBits::NoField != (TextureZsFieldMask & whichField))
+        _mfTextureZs.syncWith(pOther->_mfTextureZs, sInfo);
+
+
+}
+
+void ParticlesBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SizesFieldMask & whichField))
+        _mfSizes.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (IndicesFieldMask & whichField))
+        _mfIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TextureZsFieldMask & whichField))
+        _mfTextureZs.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -587,7 +668,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

@@ -240,5 +240,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.1 2005/06/06 17:16:01 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.2 2005/07/08 06:33:25 vossg Exp $"
 

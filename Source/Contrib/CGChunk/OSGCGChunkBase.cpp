@@ -195,11 +195,26 @@ UInt32 CGChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((CGChunkBase *) &other, whichField);
 }
+#else
+void CGChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((CGChunkBase *) &other, whichField, sInfo);
+}
+void CGChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -372,6 +387,7 @@ void CGChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -401,6 +417,53 @@ void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
 
 
 }
+#else
+void CGChunkBase::executeSyncImpl(      CGChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (VertexProfileFieldMask & whichField))
+        _sfVertexProfile.syncWith(pOther->_sfVertexProfile);
+
+    if(FieldBits::NoField != (FragmentProfileFieldMask & whichField))
+        _sfFragmentProfile.syncWith(pOther->_sfFragmentProfile);
+
+    if(FieldBits::NoField != (VertexEntryPointFieldMask & whichField))
+        _sfVertexEntryPoint.syncWith(pOther->_sfVertexEntryPoint);
+
+    if(FieldBits::NoField != (FragmentEntryPointFieldMask & whichField))
+        _sfFragmentEntryPoint.syncWith(pOther->_sfFragmentEntryPoint);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
+
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+        _mfVertexArguments.syncWith(pOther->_mfVertexArguments, sInfo);
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+        _mfFragmentArguments.syncWith(pOther->_mfFragmentArguments, sInfo);
+
+
+}
+
+void CGChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VertexArgumentsFieldMask & whichField))
+        _mfVertexArguments.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (FragmentArgumentsFieldMask & whichField))
+        _mfFragmentArguments.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -432,7 +495,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
 

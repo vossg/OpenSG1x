@@ -195,11 +195,26 @@ UInt32 BlendShapeDeformerBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BlendShapeDeformerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((BlendShapeDeformerBase *) &other, whichField);
 }
+#else
+void BlendShapeDeformerBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((BlendShapeDeformerBase *) &other, whichField, sInfo);
+}
+void BlendShapeDeformerBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -372,6 +387,7 @@ void BlendShapeDeformerBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BlendShapeDeformerBase::executeSyncImpl(      BlendShapeDeformerBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -401,6 +417,68 @@ void BlendShapeDeformerBase::executeSyncImpl(      BlendShapeDeformerBase *pOthe
 
 
 }
+#else
+void BlendShapeDeformerBase::executeSyncImpl(      BlendShapeDeformerBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+    if(FieldBits::NoField != (WeightFieldMask & whichField))
+        _mfWeight.syncWith(pOther->_mfWeight, sInfo);
+
+    if(FieldBits::NoField != (VertexIndicesFieldMask & whichField))
+        _mfVertexIndices.syncWith(pOther->_mfVertexIndices, sInfo);
+
+    if(FieldBits::NoField != (TargetIndicesFieldMask & whichField))
+        _mfTargetIndices.syncWith(pOther->_mfTargetIndices, sInfo);
+
+    if(FieldBits::NoField != (TargetVerticesFieldMask & whichField))
+        _mfTargetVertices.syncWith(pOther->_mfTargetVertices, sInfo);
+
+    if(FieldBits::NoField != (NormalIndicesFieldMask & whichField))
+        _mfNormalIndices.syncWith(pOther->_mfNormalIndices, sInfo);
+
+    if(FieldBits::NoField != (NormalTargetIndicesFieldMask & whichField))
+        _mfNormalTargetIndices.syncWith(pOther->_mfNormalTargetIndices, sInfo);
+
+    if(FieldBits::NoField != (TargetNormalsFieldMask & whichField))
+        _mfTargetNormals.syncWith(pOther->_mfTargetNormals, sInfo);
+
+
+}
+
+void BlendShapeDeformerBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (WeightFieldMask & whichField))
+        _mfWeight.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VertexIndicesFieldMask & whichField))
+        _mfVertexIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TargetIndicesFieldMask & whichField))
+        _mfTargetIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TargetVerticesFieldMask & whichField))
+        _mfTargetVertices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (NormalIndicesFieldMask & whichField))
+        _mfNormalIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (NormalTargetIndicesFieldMask & whichField))
+        _mfNormalTargetIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TargetNormalsFieldMask & whichField))
+        _mfTargetNormals.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -432,7 +510,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDSHAPEDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDSHAPEDEFORMERBASE_INLINE_CVSID;
 

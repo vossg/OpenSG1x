@@ -217,11 +217,26 @@ UInt32 ShadowMapViewportBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShadowMapViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ShadowMapViewportBase *) &other, whichField);
 }
+#else
+void ShadowMapViewportBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ShadowMapViewportBase *) &other, whichField, sInfo);
+}
+void ShadowMapViewportBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -428,6 +443,7 @@ void ShadowMapViewportBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShadowMapViewportBase::executeSyncImpl(      ShadowMapViewportBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -463,6 +479,59 @@ void ShadowMapViewportBase::executeSyncImpl(      ShadowMapViewportBase *pOther,
 
 
 }
+#else
+void ShadowMapViewportBase::executeSyncImpl(      ShadowMapViewportBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (OffBiasFieldMask & whichField))
+        _sfOffBias.syncWith(pOther->_sfOffBias);
+
+    if(FieldBits::NoField != (OffFactorFieldMask & whichField))
+        _sfOffFactor.syncWith(pOther->_sfOffFactor);
+
+    if(FieldBits::NoField != (SceneRootFieldMask & whichField))
+        _sfSceneRoot.syncWith(pOther->_sfSceneRoot);
+
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+        _sfShadowColor.syncWith(pOther->_sfShadowColor);
+
+    if(FieldBits::NoField != (MapSizeFieldMask & whichField))
+        _sfMapSize.syncWith(pOther->_sfMapSize);
+
+    if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
+        _sfShadowOn.syncWith(pOther->_sfShadowOn);
+
+    if(FieldBits::NoField != (MapAutoUpdateFieldMask & whichField))
+        _sfMapAutoUpdate.syncWith(pOther->_sfMapAutoUpdate);
+
+
+    if(FieldBits::NoField != (LightNodesFieldMask & whichField))
+        _mfLightNodes.syncWith(pOther->_mfLightNodes, sInfo);
+
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+        _mfExcludeNodes.syncWith(pOther->_mfExcludeNodes, sInfo);
+
+
+}
+
+void ShadowMapViewportBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (LightNodesFieldMask & whichField))
+        _mfLightNodes.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
+        _mfExcludeNodes.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -494,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.8 2005/05/30 20:00:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.9 2005/07/08 06:32:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

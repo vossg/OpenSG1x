@@ -113,9 +113,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TwoSidedLightingChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -167,8 +164,29 @@ class OSG_SYSTEMLIB_DLLMAPPING TwoSidedLightingChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      TwoSidedLightingChunkBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      TwoSidedLightingChunkBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -199,6 +217,6 @@ typedef RefPtr<TwoSidedLightingChunkPtr> TwoSidedLightingChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.1 2005/06/09 08:39:27 a-m-z Exp $"
+#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.2 2005/07/08 06:33:20 vossg Exp $"
 
 #endif /* _OSGTWOSIDEDLIGHTINGCHUNKBASE_H_ */

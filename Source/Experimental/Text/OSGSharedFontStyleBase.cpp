@@ -129,11 +129,26 @@ UInt32 SharedFontStyleBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SharedFontStyleBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((SharedFontStyleBase *) &other, whichField);
 }
+#else
+void SharedFontStyleBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((SharedFontStyleBase *) &other, whichField, sInfo);
+}
+void SharedFontStyleBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -204,6 +219,7 @@ void SharedFontStyleBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SharedFontStyleBase::executeSyncImpl(      SharedFontStyleBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -215,6 +231,29 @@ void SharedFontStyleBase::executeSyncImpl(      SharedFontStyleBase *pOther,
 
 
 }
+#else
+void SharedFontStyleBase::executeSyncImpl(      SharedFontStyleBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ContainedFontStyleFieldMask & whichField))
+        _sfContainedFontStyle.syncWith(pOther->_sfContainedFontStyle);
+
+
+
+}
+
+void SharedFontStyleBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -244,7 +283,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEBASE_INLINE_CVSID;
 

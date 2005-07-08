@@ -153,9 +153,6 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLTextBase : public MaterialDrawable
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -216,8 +213,29 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLTextBase : public MaterialDrawable
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      FTGLTextBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      FTGLTextBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -249,6 +267,6 @@ typedef RefPtr<FTGLTextPtr> FTGLTextRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.3 2005/05/30 19:59:59 dirk Exp $"
+#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.4 2005/07/08 06:32:34 vossg Exp $"
 
 #endif /* _OSGFTGLTEXTBASE_H_ */

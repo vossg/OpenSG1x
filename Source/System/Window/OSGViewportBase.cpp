@@ -239,11 +239,26 @@ UInt32 ViewportBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ViewportBase *) &other, whichField);
 }
+#else
+void ViewportBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ViewportBase *) &other, whichField, sInfo);
+}
+void ViewportBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -484,6 +499,7 @@ void ViewportBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -525,6 +541,62 @@ void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
 
 
 }
+#else
+void ViewportBase::executeSyncImpl(      ViewportBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+        _sfLeft.syncWith(pOther->_sfLeft);
+
+    if(FieldBits::NoField != (RightFieldMask & whichField))
+        _sfRight.syncWith(pOther->_sfRight);
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+        _sfBottom.syncWith(pOther->_sfBottom);
+
+    if(FieldBits::NoField != (TopFieldMask & whichField))
+        _sfTop.syncWith(pOther->_sfTop);
+
+    if(FieldBits::NoField != (ParentFieldMask & whichField))
+        _sfParent.syncWith(pOther->_sfParent);
+
+    if(FieldBits::NoField != (CameraFieldMask & whichField))
+        _sfCamera.syncWith(pOther->_sfCamera);
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pOther->_sfRoot);
+
+    if(FieldBits::NoField != (BackgroundFieldMask & whichField))
+        _sfBackground.syncWith(pOther->_sfBackground);
+
+    if(FieldBits::NoField != (TravMaskFieldMask & whichField))
+        _sfTravMask.syncWith(pOther->_sfTravMask);
+
+    if(FieldBits::NoField != (DrawTimeFieldMask & whichField))
+        _sfDrawTime.syncWith(pOther->_sfDrawTime);
+
+
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+        _mfForegrounds.syncWith(pOther->_mfForegrounds, sInfo);
+
+
+}
+
+void ViewportBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ForegroundsFieldMask & whichField))
+        _mfForegrounds.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -556,7 +628,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

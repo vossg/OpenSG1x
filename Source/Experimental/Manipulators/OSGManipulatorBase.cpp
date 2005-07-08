@@ -285,11 +285,26 @@ UInt32 ManipulatorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ManipulatorBase *) &other, whichField);
 }
+#else
+void ManipulatorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ManipulatorBase *) &other, whichField, sInfo);
+}
+void ManipulatorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -615,6 +630,7 @@ void ManipulatorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ManipulatorBase::executeSyncImpl(      ManipulatorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -671,6 +687,74 @@ void ManipulatorBase::executeSyncImpl(      ManipulatorBase *pOther,
 
 
 }
+#else
+void ManipulatorBase::executeSyncImpl(      ManipulatorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (TargetFieldMask & whichField))
+        _sfTarget.syncWith(pOther->_sfTarget);
+
+    if(FieldBits::NoField != (ActiveSubHandleFieldMask & whichField))
+        _sfActiveSubHandle.syncWith(pOther->_sfActiveSubHandle);
+
+    if(FieldBits::NoField != (LastMousePosFieldMask & whichField))
+        _sfLastMousePos.syncWith(pOther->_sfLastMousePos);
+
+    if(FieldBits::NoField != (ViewportFieldMask & whichField))
+        _sfViewport.syncWith(pOther->_sfViewport);
+
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+        _sfActive.syncWith(pOther->_sfActive);
+
+    if(FieldBits::NoField != (LengthFieldMask & whichField))
+        _sfLength.syncWith(pOther->_sfLength);
+
+    if(FieldBits::NoField != (HandleXNodeFieldMask & whichField))
+        _sfHandleXNode.syncWith(pOther->_sfHandleXNode);
+
+    if(FieldBits::NoField != (HandleYNodeFieldMask & whichField))
+        _sfHandleYNode.syncWith(pOther->_sfHandleYNode);
+
+    if(FieldBits::NoField != (HandleZNodeFieldMask & whichField))
+        _sfHandleZNode.syncWith(pOther->_sfHandleZNode);
+
+    if(FieldBits::NoField != (TransXNodeFieldMask & whichField))
+        _sfTransXNode.syncWith(pOther->_sfTransXNode);
+
+    if(FieldBits::NoField != (TransYNodeFieldMask & whichField))
+        _sfTransYNode.syncWith(pOther->_sfTransYNode);
+
+    if(FieldBits::NoField != (TransZNodeFieldMask & whichField))
+        _sfTransZNode.syncWith(pOther->_sfTransZNode);
+
+    if(FieldBits::NoField != (MaterialXFieldMask & whichField))
+        _sfMaterialX.syncWith(pOther->_sfMaterialX);
+
+    if(FieldBits::NoField != (MaterialYFieldMask & whichField))
+        _sfMaterialY.syncWith(pOther->_sfMaterialY);
+
+    if(FieldBits::NoField != (MaterialZFieldMask & whichField))
+        _sfMaterialZ.syncWith(pOther->_sfMaterialZ);
+
+    if(FieldBits::NoField != (AxisLinesNFieldMask & whichField))
+        _sfAxisLinesN.syncWith(pOther->_sfAxisLinesN);
+
+
+
+}
+
+void ManipulatorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -702,7 +786,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.3 2005/07/08 06:32:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

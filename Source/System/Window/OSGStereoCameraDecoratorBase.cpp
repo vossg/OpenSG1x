@@ -131,11 +131,26 @@ UInt32 StereoCameraDecoratorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StereoCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((StereoCameraDecoratorBase *) &other, whichField);
 }
+#else
+void StereoCameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((StereoCameraDecoratorBase *) &other, whichField, sInfo);
+}
+void StereoCameraDecoratorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -223,6 +238,7 @@ void StereoCameraDecoratorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StereoCameraDecoratorBase::executeSyncImpl(      StereoCameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -237,6 +253,32 @@ void StereoCameraDecoratorBase::executeSyncImpl(      StereoCameraDecoratorBase 
 
 
 }
+#else
+void StereoCameraDecoratorBase::executeSyncImpl(      StereoCameraDecoratorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (LeftEyeFieldMask & whichField))
+        _sfLeftEye.syncWith(pOther->_sfLeftEye);
+
+    if(FieldBits::NoField != (EyeSeparationFieldMask & whichField))
+        _sfEyeSeparation.syncWith(pOther->_sfEyeSeparation);
+
+
+
+}
+
+void StereoCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -268,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

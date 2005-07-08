@@ -139,9 +139,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXAnnotationBase : public Attachment
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -200,8 +197,29 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXAnnotationBase : public Attachment
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      CGFXAnnotationBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      CGFXAnnotationBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -233,6 +251,6 @@ typedef RefPtr<CGFXAnnotationPtr> CGFXAnnotationRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.1 2005/06/09 14:53:41 a-m-z Exp $"
+#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.2 2005/07/08 06:32:32 vossg Exp $"
 
 #endif /* _OSGCGFXANNOTATIONBASE_H_ */

@@ -174,11 +174,26 @@ UInt32 DVRIsoSurfaceBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRIsoSurfaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DVRIsoSurfaceBase *) &other, whichField);
 }
+#else
+void DVRIsoSurfaceBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DVRIsoSurfaceBase *) &other, whichField, sInfo);
+}
+void DVRIsoSurfaceBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -317,6 +332,7 @@ void DVRIsoSurfaceBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRIsoSurfaceBase::executeSyncImpl(      DVRIsoSurfaceBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -340,6 +356,41 @@ void DVRIsoSurfaceBase::executeSyncImpl(      DVRIsoSurfaceBase *pOther,
 
 
 }
+#else
+void DVRIsoSurfaceBase::executeSyncImpl(      DVRIsoSurfaceBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (IsoValueFieldMask & whichField))
+        _sfIsoValue.syncWith(pOther->_sfIsoValue);
+
+    if(FieldBits::NoField != (IsoThicknessFieldMask & whichField))
+        _sfIsoThickness.syncWith(pOther->_sfIsoThickness);
+
+    if(FieldBits::NoField != (IsoOpacityFieldMask & whichField))
+        _sfIsoOpacity.syncWith(pOther->_sfIsoOpacity);
+
+    if(FieldBits::NoField != (AlphaModeFieldMask & whichField))
+        _sfAlphaMode.syncWith(pOther->_sfAlphaMode);
+
+    if(FieldBits::NoField != (SpecularLightingFieldMask & whichField))
+        _sfSpecularLighting.syncWith(pOther->_sfSpecularLighting);
+
+
+
+}
+
+void DVRIsoSurfaceBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -366,7 +417,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRISOSURFACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRISOSURFACEBASE_INLINE_CVSID;
 

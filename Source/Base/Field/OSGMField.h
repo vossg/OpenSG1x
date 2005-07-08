@@ -245,7 +245,27 @@ class MField : public Field
     /*! \name                      MT Sync                                 */
     /*! \{                                                                 */
 
-    void syncWith(Self &source);
+#if !defined(OSG_FIXED_MFIELDSYNC)
+    void syncWith       (Self      &source      );
+#else
+    void syncWith       (      Self      &source, 
+                         const SyncInfo  &sInfo );
+
+/*
+                         BitVector  syncMode,
+                         UInt32     uiSyncInfo,
+                         UInt32     uiCopyOffset);
+ */
+
+    void beginEdit      (UInt32     uiAspect,
+                         UInt32     uiCopyOffset);
+
+    Self *resolveShare  (UInt32     uiAspect, 
+                         UInt32     uiCopyOffset);
+
+    void  terminateShare(UInt32     uiAspect, 
+                         UInt32     uiCopyOffset);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +297,8 @@ class MField : public Field
     static const FieldType    _fieldType;
 
                  StorageType  _values;
+
+                 UInt32       _uiSharedWith;
 
 
     static       Field       *create(void);

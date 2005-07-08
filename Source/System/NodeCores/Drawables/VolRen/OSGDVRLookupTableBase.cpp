@@ -217,11 +217,26 @@ UInt32 DVRLookupTableBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRLookupTableBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DVRLookupTableBase *) &other, whichField);
 }
+#else
+void DVRLookupTableBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DVRLookupTableBase *) &other, whichField, sInfo);
+}
+void DVRLookupTableBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -428,6 +443,7 @@ void DVRLookupTableBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRLookupTableBase::executeSyncImpl(      DVRLookupTableBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -463,6 +479,71 @@ void DVRLookupTableBase::executeSyncImpl(      DVRLookupTableBase *pOther,
 
 
 }
+#else
+void DVRLookupTableBase::executeSyncImpl(      DVRLookupTableBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (DimensionFieldMask & whichField))
+        _sfDimension.syncWith(pOther->_sfDimension);
+
+    if(FieldBits::NoField != (ChannelFieldMask & whichField))
+        _sfChannel.syncWith(pOther->_sfChannel);
+
+    if(FieldBits::NoField != (TouchedFieldMask & whichField))
+        _sfTouched.syncWith(pOther->_sfTouched);
+
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _mfSize.syncWith(pOther->_mfSize, sInfo);
+
+    if(FieldBits::NoField != (DataFieldMask & whichField))
+        _mfData.syncWith(pOther->_mfData, sInfo);
+
+    if(FieldBits::NoField != (DataRFieldMask & whichField))
+        _mfDataR.syncWith(pOther->_mfDataR, sInfo);
+
+    if(FieldBits::NoField != (DataGFieldMask & whichField))
+        _mfDataG.syncWith(pOther->_mfDataG, sInfo);
+
+    if(FieldBits::NoField != (DataBFieldMask & whichField))
+        _mfDataB.syncWith(pOther->_mfDataB, sInfo);
+
+    if(FieldBits::NoField != (DataAFieldMask & whichField))
+        _mfDataA.syncWith(pOther->_mfDataA, sInfo);
+
+
+}
+
+void DVRLookupTableBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _mfSize.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DataFieldMask & whichField))
+        _mfData.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DataRFieldMask & whichField))
+        _mfDataR.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DataGFieldMask & whichField))
+        _mfDataG.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DataBFieldMask & whichField))
+        _mfDataB.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DataAFieldMask & whichField))
+        _mfDataA.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -489,7 +570,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRLOOKUPTABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRLOOKUPTABLEBASE_INLINE_CVSID;
 

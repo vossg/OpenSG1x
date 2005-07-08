@@ -102,6 +102,6 @@ struct FieldDataTraits<TwoSidedLightingChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGTWOSIDEDLIGHTINGCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkFields.h,v 1.1 2005/06/09 08:39:27 a-m-z Exp $"
+#define OSGTWOSIDEDLIGHTINGCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkFields.h,v 1.2 2005/07/08 06:33:20 vossg Exp $"
 
 #endif /* _OSGTWOSIDEDLIGHTINGCHUNKFIELDS_H_ */

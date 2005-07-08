@@ -207,11 +207,26 @@ UInt32 PhongMaterialBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PhongMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PhongMaterialBase *) &other, whichField);
 }
+#else
+void PhongMaterialBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PhongMaterialBase *) &other, whichField, sInfo);
+}
+void PhongMaterialBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -401,6 +416,7 @@ void PhongMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PhongMaterialBase::executeSyncImpl(      PhongMaterialBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -433,6 +449,50 @@ void PhongMaterialBase::executeSyncImpl(      PhongMaterialBase *pOther,
 
 
 }
+#else
+void PhongMaterialBase::executeSyncImpl(      PhongMaterialBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+        _sfAmbient.syncWith(pOther->_sfAmbient);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+        _sfSpecular.syncWith(pOther->_sfSpecular);
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+        _sfShininess.syncWith(pOther->_sfShininess);
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+        _sfEmission.syncWith(pOther->_sfEmission);
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+        _sfTransparency.syncWith(pOther->_sfTransparency);
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+        _sfLit.syncWith(pOther->_sfLit);
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+        _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
+
+
+
+}
+
+void PhongMaterialBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -459,7 +519,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIALBASE_INLINE_CVSID;
 

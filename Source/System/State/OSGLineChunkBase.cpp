@@ -163,11 +163,26 @@ UInt32 LineChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LineChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((LineChunkBase *) &other, whichField);
 }
+#else
+void LineChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((LineChunkBase *) &other, whichField, sInfo);
+}
+void LineChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -289,6 +304,7 @@ void LineChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -309,6 +325,38 @@ void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
 
 
 }
+#else
+void LineChunkBase::executeSyncImpl(      LineChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (StippleRepeatFieldMask & whichField))
+        _sfStippleRepeat.syncWith(pOther->_sfStippleRepeat);
+
+    if(FieldBits::NoField != (StipplePatternFieldMask & whichField))
+        _sfStipplePattern.syncWith(pOther->_sfStipplePattern);
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+        _sfSmooth.syncWith(pOther->_sfSmooth);
+
+
+
+}
+
+void LineChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -340,7 +388,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

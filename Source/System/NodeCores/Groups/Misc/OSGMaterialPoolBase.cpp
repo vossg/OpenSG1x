@@ -129,11 +129,26 @@ UInt32 MaterialPoolBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MaterialPoolBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((MaterialPoolBase *) &other, whichField);
 }
+#else
+void MaterialPoolBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((MaterialPoolBase *) &other, whichField, sInfo);
+}
+void MaterialPoolBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -204,6 +219,7 @@ void MaterialPoolBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MaterialPoolBase::executeSyncImpl(      MaterialPoolBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -215,6 +231,32 @@ void MaterialPoolBase::executeSyncImpl(      MaterialPoolBase *pOther,
 
 
 }
+#else
+void MaterialPoolBase::executeSyncImpl(      MaterialPoolBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+    if(FieldBits::NoField != (MaterialsFieldMask & whichField))
+        _mfMaterials.syncWith(pOther->_mfMaterials, sInfo);
+
+
+}
+
+void MaterialPoolBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (MaterialsFieldMask & whichField))
+        _mfMaterials.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -246,7 +288,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.3 2005/05/30 20:00:45 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.4 2005/07/08 06:33:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALPOOLBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALPOOLBASE_INLINE_CVSID;
 

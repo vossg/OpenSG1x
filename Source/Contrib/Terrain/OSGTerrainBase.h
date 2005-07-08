@@ -276,9 +276,6 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -397,8 +394,29 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      TerrainBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      TerrainBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -430,6 +448,6 @@ typedef RefPtr<TerrainPtr> TerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.3 2005/05/30 20:00:02 dirk Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.4 2005/07/08 06:32:36 vossg Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

@@ -175,6 +175,7 @@ NodeCorePtr NodeCore::getPtr(void) const
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 inline
 void NodeCore::executeSyncImpl(      NodeCore  *pOther,
                                const BitVector &whichField)
@@ -193,6 +194,28 @@ void NodeCore::executeSync(      FieldContainer &other,
 {
     this->executeSyncImpl((NodeCore *) &other, whichField);
 }
+#else
+inline
+void NodeCore::executeSyncImpl(      NodeCore  *pOther,
+                               const BitVector &whichField,
+                               const SyncInfo  &sInfo     )
+{
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.syncWith(pOther->_parents, sInfo);
+    }
+}
+
+inline
+void NodeCore::executeSync(      FieldContainer &other,
+                           const BitVector      &whichField,
+                           const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((NodeCore *) &other, whichField, sInfo);
+}
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              Matrix                                     */

@@ -197,11 +197,26 @@ UInt32 LightBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((LightBase *) &other, whichField);
 }
+#else
+void LightBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((LightBase *) &other, whichField, sInfo);
+}
+void LightBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -391,6 +406,7 @@ void LightBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightBase::executeSyncImpl(      LightBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -423,6 +439,50 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
 
 
 }
+#else
+void LightBase::executeSyncImpl(      LightBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+        _sfAmbient.syncWith(pOther->_sfAmbient);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+        _sfSpecular.syncWith(pOther->_sfSpecular);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+        _sfBeacon.syncWith(pOther->_sfBeacon);
+
+    if(FieldBits::NoField != (OnFieldMask & whichField))
+        _sfOn.syncWith(pOther->_sfOn);
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
+
+
+
+}
+
+void LightBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -449,7 +509,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASE_INLINE_CVSID;
 

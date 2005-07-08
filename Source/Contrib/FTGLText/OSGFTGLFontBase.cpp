@@ -184,11 +184,26 @@ UInt32 FTGLFontBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FTGLFontBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((FTGLFontBase *) &other, whichField);
 }
+#else
+void FTGLFontBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((FTGLFontBase *) &other, whichField, sInfo);
+}
+void FTGLFontBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -344,6 +359,7 @@ void FTGLFontBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FTGLFontBase::executeSyncImpl(      FTGLFontBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -370,6 +386,44 @@ void FTGLFontBase::executeSyncImpl(      FTGLFontBase *pOther,
 
 
 }
+#else
+void FTGLFontBase::executeSyncImpl(      FTGLFontBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+        _sfName.syncWith(pOther->_sfName);
+
+    if(FieldBits::NoField != (DrawTypeFieldMask & whichField))
+        _sfDrawType.syncWith(pOther->_sfDrawType);
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _sfSize.syncWith(pOther->_sfSize);
+
+    if(FieldBits::NoField != (ResFieldMask & whichField))
+        _sfRes.syncWith(pOther->_sfRes);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
+
+
+
+}
+
+void FTGLFontBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -401,7 +455,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.3 2005/05/30 19:59:59 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.4 2005/07/08 06:32:33 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

@@ -109,11 +109,26 @@ UInt32 ScaleManipulatorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ScaleManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ScaleManipulatorBase *) &other, whichField);
 }
+#else
+void ScaleManipulatorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ScaleManipulatorBase *) &other, whichField, sInfo);
+}
+void ScaleManipulatorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void ScaleManipulatorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ScaleManipulatorBase::executeSyncImpl(      ScaleManipulatorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void ScaleManipulatorBase::executeSyncImpl(      ScaleManipulatorBase *pOther,
 
 
 }
+#else
+void ScaleManipulatorBase::executeSyncImpl(      ScaleManipulatorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void ScaleManipulatorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -201,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.3 2005/07/08 06:32:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCALEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCALEMANIPULATORBASE_INLINE_CVSID;
 

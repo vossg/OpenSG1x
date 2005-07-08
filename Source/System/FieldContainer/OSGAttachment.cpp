@@ -289,6 +289,7 @@ void Attachment::onDestroy(void)
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void Attachment::executeSync(      FieldContainer &other,
                              const BitVector      &whichField)
 {
@@ -310,6 +311,52 @@ void Attachment::executeSyncImpl(      Attachment *pOther,
         _parents.syncWith(pOther->_parents);
     }
 }
+#else
+void Attachment::executeSync(      FieldContainer &other,
+                             const BitVector      &whichField,
+                             const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl(static_cast<Attachment *>(&other), 
+                          whichField,
+                          sInfo);
+}
+
+void Attachment::executeSyncImpl(      Attachment *pOther,
+                                 const BitVector  &whichField,
+                                 const SyncInfo   &sInfo)
+{
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (InternalFieldMask & whichField))
+    {
+        _sfInternal.syncWith(pOther->_sfInternal);
+    }
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.syncWith(pOther->_parents, sInfo);
+    }
+}
+
+void Attachment::execBeginEditImpl (const BitVector &whichField, 
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if (FieldBits::NoField != (ParentsFieldMask & whichField))
+    {
+        _parents.beginEdit(uiAspect, uiContainerSize);
+    }
+}
+
+void Attachment::execBeginEdit(const BitVector &whichField, 
+                               UInt32     uiAspect,
+                               UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+#endif
 
 OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &OSG::operator <<(      std::ostream  &stream,

@@ -195,11 +195,26 @@ UInt32 AVCodecGrabForegroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void AVCodecGrabForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((AVCodecGrabForegroundBase *) &other, whichField);
 }
+#else
+void AVCodecGrabForegroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((AVCodecGrabForegroundBase *) &other, whichField, sInfo);
+}
+void AVCodecGrabForegroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -372,6 +387,7 @@ void AVCodecGrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void AVCodecGrabForegroundBase::executeSyncImpl(      AVCodecGrabForegroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -401,6 +417,47 @@ void AVCodecGrabForegroundBase::executeSyncImpl(      AVCodecGrabForegroundBase 
 
 
 }
+#else
+void AVCodecGrabForegroundBase::executeSyncImpl(      AVCodecGrabForegroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ActiveFieldMask & whichField))
+        _sfActive.syncWith(pOther->_sfActive);
+
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+        _sfName.syncWith(pOther->_sfName);
+
+    if(FieldBits::NoField != (KbitFieldMask & whichField))
+        _sfKbit.syncWith(pOther->_sfKbit);
+
+    if(FieldBits::NoField != (FpsFieldMask & whichField))
+        _sfFps.syncWith(pOther->_sfFps);
+
+    if(FieldBits::NoField != (CodecidFieldMask & whichField))
+        _sfCodecid.syncWith(pOther->_sfCodecid);
+
+    if(FieldBits::NoField != (FlipFieldMask & whichField))
+        _sfFlip.syncWith(pOther->_sfFlip);
+
+    if(FieldBits::NoField != (AutoWriteFieldMask & whichField))
+        _sfAutoWrite.syncWith(pOther->_sfAutoWrite);
+
+
+
+}
+
+void AVCodecGrabForegroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -432,7 +489,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGAVCODECGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGAVCODECGRABFOREGROUNDBASE_INLINE_CVSID;
 

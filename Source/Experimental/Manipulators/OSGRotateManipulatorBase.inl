@@ -100,5 +100,5 @@ RotateManipulatorPtr RotateManipulatorBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGROTATEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGRotateManipulatorBase.inl,v 1.2 2005/06/26 21:13:56 dirk Exp $"
+#define OSGROTATEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGRotateManipulatorBase.inl,v 1.3 2005/07/08 06:32:38 vossg Exp $"
 

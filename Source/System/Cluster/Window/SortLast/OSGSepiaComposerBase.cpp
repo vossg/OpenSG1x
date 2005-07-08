@@ -109,11 +109,26 @@ UInt32 SepiaComposerBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SepiaComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((SepiaComposerBase *) &other, whichField);
 }
+#else
+void SepiaComposerBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((SepiaComposerBase *) &other, whichField, sInfo);
+}
+void SepiaComposerBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void SepiaComposerBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SepiaComposerBase::executeSyncImpl(      SepiaComposerBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void SepiaComposerBase::executeSyncImpl(      SepiaComposerBase *pOther,
 
 
 }
+#else
+void SepiaComposerBase::executeSyncImpl(      SepiaComposerBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void SepiaComposerBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -201,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSEPIACOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSEPIACOMPOSERBASE_INLINE_CVSID;
 

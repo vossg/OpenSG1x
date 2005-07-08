@@ -173,11 +173,26 @@ UInt32 MultiDisplayWindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((MultiDisplayWindowBase *) &other, whichField);
 }
+#else
+void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((MultiDisplayWindowBase *) &other, whichField, sInfo);
+}
+void MultiDisplayWindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void MultiDisplayWindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,41 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
 
 }
+#else
+void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (HServersFieldMask & whichField))
+        _sfHServers.syncWith(pOther->_sfHServers);
+
+    if(FieldBits::NoField != (VServersFieldMask & whichField))
+        _sfVServers.syncWith(pOther->_sfVServers);
+
+    if(FieldBits::NoField != (ManageClientViewportsFieldMask & whichField))
+        _sfManageClientViewports.syncWith(pOther->_sfManageClientViewports);
+
+    if(FieldBits::NoField != (XOverlapFieldMask & whichField))
+        _sfXOverlap.syncWith(pOther->_sfXOverlap);
+
+    if(FieldBits::NoField != (YOverlapFieldMask & whichField))
+        _sfYOverlap.syncWith(pOther->_sfYOverlap);
+
+
+
+}
+
+void MultiDisplayWindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -365,7 +416,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID;
 

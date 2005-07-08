@@ -109,11 +109,26 @@ UInt32 FragmentProgramChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FragmentProgramChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((FragmentProgramChunkBase *) &other, whichField);
 }
+#else
+void FragmentProgramChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((FragmentProgramChunkBase *) &other, whichField, sInfo);
+}
+void FragmentProgramChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void FragmentProgramChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FragmentProgramChunkBase::executeSyncImpl(      FragmentProgramChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void FragmentProgramChunkBase::executeSyncImpl(      FragmentProgramChunkBase *p
 
 
 }
+#else
+void FragmentProgramChunkBase::executeSyncImpl(      FragmentProgramChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void FragmentProgramChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -206,7 +242,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFRAGMENTPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRAGMENTPROGRAMCHUNKBASE_INLINE_CVSID;
 

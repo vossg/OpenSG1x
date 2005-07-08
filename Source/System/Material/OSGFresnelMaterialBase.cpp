@@ -251,11 +251,26 @@ UInt32 FresnelMaterialBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FresnelMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((FresnelMaterialBase *) &other, whichField);
 }
+#else
+void FresnelMaterialBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((FresnelMaterialBase *) &other, whichField, sInfo);
+}
+void FresnelMaterialBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -513,6 +528,7 @@ void FresnelMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void FresnelMaterialBase::executeSyncImpl(      FresnelMaterialBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -557,6 +573,62 @@ void FresnelMaterialBase::executeSyncImpl(      FresnelMaterialBase *pOther,
 
 
 }
+#else
+void FresnelMaterialBase::executeSyncImpl(      FresnelMaterialBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+        _sfAmbient.syncWith(pOther->_sfAmbient);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+        _sfSpecular.syncWith(pOther->_sfSpecular);
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+        _sfShininess.syncWith(pOther->_sfShininess);
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+        _sfEmission.syncWith(pOther->_sfEmission);
+
+    if(FieldBits::NoField != (TransparencyFieldMask & whichField))
+        _sfTransparency.syncWith(pOther->_sfTransparency);
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+        _sfLit.syncWith(pOther->_sfLit);
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+        _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+        _sfIndex.syncWith(pOther->_sfIndex);
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+        _sfScale.syncWith(pOther->_sfScale);
+
+    if(FieldBits::NoField != (BiasFieldMask & whichField))
+        _sfBias.syncWith(pOther->_sfBias);
+
+    if(FieldBits::NoField != (ImageFieldMask & whichField))
+        _sfImage.syncWith(pOther->_sfImage);
+
+
+
+}
+
+void FresnelMaterialBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -583,7 +655,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.3 2005/05/30 20:00:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.4 2005/07/08 06:32:50 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIALBASE_INLINE_CVSID;
 

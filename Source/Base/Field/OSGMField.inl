@@ -64,22 +64,25 @@ const FieldType &MField<FieldTypeT, fieldNameSpace>::getClassType(void)
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(void) :
-     Inherited(),
-    _values   ()
+     Inherited   ( ),
+    _values      ( ),
+    _uiSharedWith(0)
 {
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(const MField &obj) :
-     Inherited(obj        ),
-    _values   (obj._values)
+     Inherited   (obj        ),
+    _values      (obj._values),
+    _uiSharedWith(          0)
 {
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 MField<FieldTypeT, fieldNameSpace>::MField(const UInt32 size) :
-     Inherited(),
-    _values   ()
+     Inherited   ( ),
+    _values      ( ),
+    _uiSharedWith(0)
 {
     _values.resize(size);
 }
@@ -512,11 +515,170 @@ UInt32 MField<FieldTypeT, fieldNameSpace>::getSize(void) const
 /*-------------------------------------------------------------------------*/
 /*                              MT Sync                                    */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::syncWith(Self &source)
 {
     setValues(source);
 }
+#else
+template <class ValueT, Int32 iNamespace> inline
+void MField<ValueT, iNamespace>::syncWith(      Self      &source,
+                                          const SyncInfo  &sInfo )
+
+/*
+                                          BitVector  syncMode,
+                                          UInt32     uiSyncInfo,
+                                          UInt32     uiCopyOffset)
+ */
+{
+    if(sInfo.syncMode != 0x0000)
+    {
+        setValues  (source);
+    }
+    else
+    {
+        UInt32 uiFromAspect  = (sInfo.uiSyncInfo & 0xFF000000) >> 24;
+        UInt32 uiToAspect    = (sInfo.uiSyncInfo & 0x00FF0000) >> 16;
+
+        bool   bTargetDelete = true;
+
+        if(_uiSharedWith != 0x0000)
+        {
+            bTargetDelete = false;
+
+            resolveShare(uiToAspect, sInfo.uiCopyOffset);
+        }
+
+        Char8  *pOtherMem = reinterpret_cast<Char8 *>(this);
+        Self   *pOther    = NULL;
+        UInt32  uiShared  = source._uiSharedWith;
+        UInt32  uiCheck   = 1;
+
+        pOtherMem -= uiToAspect * sInfo.uiCopyOffset;
+
+        for(UInt32 i = 0; i < 32; ++i)
+        {
+            if(0x0000 != (uiShared & uiCheck))
+            {
+                pOther = 
+                    reinterpret_cast<Self *>(
+                        pOtherMem + (i * sInfo.uiCopyOffset));
+
+                pOther->_uiSharedWith |= (1 << uiToAspect);
+
+                uiShared &= ~uiCheck;
+            }
+
+            if(0x0000 == uiShared)
+            {
+                break;
+            }
+
+            uiCheck <<= 1;
+        }
+        
+        _uiSharedWith        |= source._uiSharedWith;
+        _uiSharedWith        |= (1 << uiFromAspect);
+
+        source._uiSharedWith |= (1 << uiToAspect  );
+
+        _values.shareValues(source._values, bTargetDelete);
+    }
+}
+
+template <class ValueT, Int32 iNamespace> inline
+void MField<ValueT, iNamespace>::beginEdit(UInt32 uiAspect,
+                                           UInt32 uiCopyOffset)
+{
+    if(_uiSharedWith != 0x0000)
+    {
+        Self   *pOther = resolveShare(uiAspect, uiCopyOffset);
+
+        _values.resolveShare();
+
+        setValues(*pOther);
+    }
+}
+
+template <class ValueT, Int32 iNamespace> inline
+typename MField<ValueT, 
+                iNamespace>::Self *
+    MField<ValueT, 
+           iNamespace>::resolveShare(UInt32 uiAspect, 
+                                     UInt32 uiCopyOffset)
+{
+    Char8  *pOtherMem = reinterpret_cast<Char8 *>(this);
+    Self   *pOther    = NULL;
+    UInt32  uiShared  = _uiSharedWith;
+    UInt32  uiCheck   = 1;
+    UInt32  uiOwn     = 1 << uiAspect;
+    
+    pOtherMem -= uiAspect * uiCopyOffset;
+    
+    for(UInt32 i = 0; i < 32; ++i)
+    {
+        if(0x0000 != (uiShared & uiCheck))
+        {
+            pOther = 
+                reinterpret_cast<Self *>(
+                    pOtherMem + (i * uiCopyOffset));
+            
+            pOther->_uiSharedWith &= ~uiOwn;
+            _uiSharedWith         &= ~uiCheck;
+            
+            uiShared &= ~uiCheck;
+        }
+        
+        if(0x0000 == uiShared)
+        {
+            break;
+        }
+        
+        uiCheck <<= 1;
+    }    
+
+    return pOther;
+}
+
+template <class ValueT, Int32 iNamespace> inline
+void MField<ValueT, iNamespace>::terminateShare(UInt32 uiAspect, 
+                                                UInt32 uiCopyOffset)
+{
+    if(_uiSharedWith != 0x0000)
+    {
+        Char8  *pOtherMem = reinterpret_cast<Char8 *>(this);
+        Self   *pOther    = NULL;
+        UInt32  uiShared  = _uiSharedWith;
+        UInt32  uiCheck   = 1 << (uiAspect + 1);
+        UInt32  uiOwn     = 1 << uiAspect;
+
+        for(UInt32 i = 1; i < 32; ++i)
+        {
+            if(0x0000 != (uiShared & uiCheck))
+            {
+                pOther = 
+                    reinterpret_cast<Self *>(
+                        pOtherMem + (i * uiCopyOffset));
+                
+                pOther->_uiSharedWith &= ~uiOwn;
+                _uiSharedWith         &= ~uiCheck;
+
+                pOther->_values.resolveShare();
+
+                uiShared &= ~uiCheck;
+            }
+            
+            if(0x0000 == uiShared)
+            {
+                break;
+            }
+
+            uiCheck <<= 1;
+        }
+    }
+}
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                         Binary Interface                                */

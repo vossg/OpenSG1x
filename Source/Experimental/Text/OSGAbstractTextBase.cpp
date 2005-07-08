@@ -164,11 +164,26 @@ UInt32 AbstractTextBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void AbstractTextBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((AbstractTextBase *) &other, whichField);
 }
+#else
+void AbstractTextBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((AbstractTextBase *) &other, whichField, sInfo);
+}
+void AbstractTextBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -307,6 +322,7 @@ void AbstractTextBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void AbstractTextBase::executeSyncImpl(      AbstractTextBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -330,6 +346,44 @@ void AbstractTextBase::executeSyncImpl(      AbstractTextBase *pOther,
 
 
 }
+#else
+void AbstractTextBase::executeSyncImpl(      AbstractTextBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+        _sfPosition.syncWith(pOther->_sfPosition);
+
+    if(FieldBits::NoField != (FontFieldMask & whichField))
+        _sfFont.syncWith(pOther->_sfFont);
+
+    if(FieldBits::NoField != (VerticalLineDistanceFieldMask & whichField))
+        _sfVerticalLineDistance.syncWith(pOther->_sfVerticalLineDistance);
+
+    if(FieldBits::NoField != (AlignmentFieldMask & whichField))
+        _sfAlignment.syncWith(pOther->_sfAlignment);
+
+
+    if(FieldBits::NoField != (TextFieldMask & whichField))
+        _mfText.syncWith(pOther->_mfText, sInfo);
+
+
+}
+
+void AbstractTextBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TextFieldMask & whichField))
+        _mfText.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -361,7 +415,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 

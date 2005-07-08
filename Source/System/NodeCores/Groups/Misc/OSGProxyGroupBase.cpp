@@ -250,11 +250,26 @@ UInt32 ProxyGroupBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ProxyGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ProxyGroupBase *) &other, whichField);
 }
+#else
+void ProxyGroupBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ProxyGroupBase *) &other, whichField, sInfo);
+}
+void ProxyGroupBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -512,6 +527,7 @@ void ProxyGroupBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -556,6 +572,65 @@ void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
 
 
 }
+#else
+void ProxyGroupBase::executeSyncImpl(      ProxyGroupBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (EnabledFieldMask & whichField))
+        _sfEnabled.syncWith(pOther->_sfEnabled);
+
+    if(FieldBits::NoField != (UrlFieldMask & whichField))
+        _sfUrl.syncWith(pOther->_sfUrl);
+
+    if(FieldBits::NoField != (RootFieldMask & whichField))
+        _sfRoot.syncWith(pOther->_sfRoot);
+
+    if(FieldBits::NoField != (StateFieldMask & whichField))
+        _sfState.syncWith(pOther->_sfState);
+
+    if(FieldBits::NoField != (ConcurrentLoadFieldMask & whichField))
+        _sfConcurrentLoad.syncWith(pOther->_sfConcurrentLoad);
+
+    if(FieldBits::NoField != (VolumeFieldMask & whichField))
+        _sfVolume.syncWith(pOther->_sfVolume);
+
+    if(FieldBits::NoField != (IndicesFieldMask & whichField))
+        _sfIndices.syncWith(pOther->_sfIndices);
+
+    if(FieldBits::NoField != (TrianglesFieldMask & whichField))
+        _sfTriangles.syncWith(pOther->_sfTriangles);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _sfPositions.syncWith(pOther->_sfPositions);
+
+    if(FieldBits::NoField != (GeometriesFieldMask & whichField))
+        _sfGeometries.syncWith(pOther->_sfGeometries);
+
+    if(FieldBits::NoField != (AbsoluteUrlFieldMask & whichField))
+        _sfAbsoluteUrl.syncWith(pOther->_sfAbsoluteUrl);
+
+
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+        _mfInline.syncWith(pOther->_mfInline, sInfo);
+
+
+}
+
+void ProxyGroupBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (InlineFieldMask & whichField))
+        _mfInline.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -582,7 +657,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROXYGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROXYGROUPBASE_INLINE_CVSID;
 

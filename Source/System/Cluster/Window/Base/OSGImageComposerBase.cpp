@@ -131,11 +131,26 @@ UInt32 ImageComposerBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ImageComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ImageComposerBase *) &other, whichField);
 }
+#else
+void ImageComposerBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ImageComposerBase *) &other, whichField, sInfo);
+}
+void ImageComposerBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -223,6 +238,7 @@ void ImageComposerBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ImageComposerBase::executeSyncImpl(      ImageComposerBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -237,6 +253,32 @@ void ImageComposerBase::executeSyncImpl(      ImageComposerBase *pOther,
 
 
 }
+#else
+void ImageComposerBase::executeSyncImpl(      ImageComposerBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (EnabledFieldMask & whichField))
+        _sfEnabled.syncWith(pOther->_sfEnabled);
+
+    if(FieldBits::NoField != (StatisticsFieldMask & whichField))
+        _sfStatistics.syncWith(pOther->_sfStatistics);
+
+
+
+}
+
+void ImageComposerBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -268,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGECOMPOSERBASE_INLINE_CVSID;
 

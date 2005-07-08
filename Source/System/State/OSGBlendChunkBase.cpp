@@ -212,11 +212,26 @@ UInt32 BlendChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BlendChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((BlendChunkBase *) &other, whichField);
 }
+#else
+void BlendChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((BlendChunkBase *) &other, whichField, sInfo);
+}
+void BlendChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -406,6 +421,7 @@ void BlendChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -438,6 +454,50 @@ void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
 
 
 }
+#else
+void BlendChunkBase::executeSyncImpl(      BlendChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SrcFactorFieldMask & whichField))
+        _sfSrcFactor.syncWith(pOther->_sfSrcFactor);
+
+    if(FieldBits::NoField != (DestFactorFieldMask & whichField))
+        _sfDestFactor.syncWith(pOther->_sfDestFactor);
+
+    if(FieldBits::NoField != (EquationFieldMask & whichField))
+        _sfEquation.syncWith(pOther->_sfEquation);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+        _sfColor.syncWith(pOther->_sfColor);
+
+    if(FieldBits::NoField != (AlphaFuncFieldMask & whichField))
+        _sfAlphaFunc.syncWith(pOther->_sfAlphaFunc);
+
+    if(FieldBits::NoField != (AlphaValueFieldMask & whichField))
+        _sfAlphaValue.syncWith(pOther->_sfAlphaValue);
+
+    if(FieldBits::NoField != (AlphaSrcFactorFieldMask & whichField))
+        _sfAlphaSrcFactor.syncWith(pOther->_sfAlphaSrcFactor);
+
+    if(FieldBits::NoField != (AlphaDestFactorFieldMask & whichField))
+        _sfAlphaDestFactor.syncWith(pOther->_sfAlphaDestFactor);
+
+
+
+}
+
+void BlendChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -469,7 +529,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

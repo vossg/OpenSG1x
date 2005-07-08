@@ -319,6 +319,7 @@ void Node::setParent(const NodePtr &parent)
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 inline
 void Node::executeSyncImpl(      Node      *pOther,
                            const BitVector &whichField)
@@ -357,6 +358,71 @@ void Node::executeSync(      FieldContainer &other,
 {
     this->executeSyncImpl((Node *) &other, whichField);
 }
+#else
+inline
+void Node::executeSyncImpl(      Node      *pOther,
+                           const BitVector &whichField,
+                           const SyncInfo  &sInfo     )
+{
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if (FieldBits::NoField != (VolumeFieldMask & whichField))
+    {
+        _sfVolume.syncWith(pOther->_sfVolume);
+    }
+
+    if (FieldBits::NoField != (TravMaskFieldMask & whichField))
+    {
+        _sfTravMask.syncWith(pOther->_sfTravMask);
+    }
+
+    if (FieldBits::NoField != (ParentFieldMask & whichField))
+    {
+        _sfParent.syncWith(pOther->_sfParent);
+    }
+
+    if (FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        _mfChildren.syncWith(pOther->_mfChildren, sInfo);
+    }
+
+    if (FieldBits::NoField != (CoreFieldMask & whichField))
+    {
+        _sfCore.syncWith(pOther->_sfCore);
+    }
+}
+
+inline
+void Node::executeSync(      FieldContainer &other,
+                       const BitVector      &whichField,
+                       const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((Node *) &other, whichField, sInfo);
+}
+
+inline
+void Node::execBeginEditImpl (const BitVector &whichField, 
+                                    UInt32     uiAspect,
+                                    UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if (FieldBits::NoField != (ChildrenFieldMask & whichField))
+    {
+        _mfChildren.beginEdit(uiAspect, uiContainerSize);
+    }
+}
+
+inline
+void Node::execBeginEdit(const BitVector &whichField, 
+                               UInt32     uiAspect,
+                               UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+
+#endif
 
 OSG_END_NAMESPACE
 

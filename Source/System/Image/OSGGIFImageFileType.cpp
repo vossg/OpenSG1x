@@ -206,10 +206,10 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
     GIFStream           *gifStream = GIFRead(const_cast <char *> (fileName));
     GIFData             *gifData = 0;
     bool                isColor;
-    int                 i, j, destI, lineSize;
+    int                 i, j, destI, lineSize, lineEnd;
     unsigned            red, green, blue;
     int                 transparentIndex;
-    int                 width = 0, height = 0, channel = 0;
+    int                 width = 0, height = 0, channel = 0, xOff = 0, yOff = 0;
     unsigned char       *srcData = 0, *destData = 0;
     int                 colorIndex;
     unsigned            frameCount = 0, currentFrame = 0;
@@ -247,8 +247,10 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                 // get the att.
                 transparentIndex = gifData->info.transparent;
                 frameDelay = float(gifData->info.delayTime) / 100.0f;
-                width = gifData->width;
+                width  = gifData->width;
                 height = gifData->height;
+                xOff   = gifData->x;
+                yOff   = gifData->y;
 
                 // check if the movie is color or greyscale
                 isColor = false;
@@ -300,9 +302,26 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                         destData = image->getData(0, currentFrame);
                     }
                     else
-                    {
+                    {                        
                         FWARNING(("GIF Anim with misc. image dimensions\n"));
-                        return false;
+
+                        fprintf(stderr, "%d %d %d %d %d %d\n",
+                                channel,
+                                image->getBpp(),
+                                gifData->x,
+                                gifData->y,
+                                gifData->width,
+                                gifData->height);
+
+                        destData = image->getData(0, currentFrame);
+
+                        memcpy(destData, 
+                               image->getData(0, 0), 
+                               image->getWidth () * 
+                               image->getHeight() * 
+                               channel);
+//currentFrame++;
+//                        continue;
                     }
                 }
                 else
@@ -328,9 +347,10 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                 }
 
                 // copy the image data)
-                lineSize = width * channel;
+                lineSize = image->getWidth() * channel;
+                lineEnd  = width * channel + xOff * channel;
                 srcData = gifData->data.image.data;
-                destData = destData + ((height - 1) * lineSize);
+                destData = destData + ((image->getHeight() - yOff - 1) * lineSize);
 
                 switch(channel)
                 {
@@ -390,30 +410,34 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
                     break;
 
                 case 4: // RGB with Alpha
-                    destI = 0;
+                    destI = xOff * 4;                    
+                    
                     for(i = width * height; i--;)
                     {
                         colorIndex = *srcData++;
                         if(colorIndex == transparentIndex)
                         {
+/*
                             for(j = 0; j < 3; j++)
                                 destData[destI++] = 0;                              // RGB
                             destData[destI++] = 0;                                  // ALPHA
+ */
+                            destI += 4;
                         }
                         else
                         {
                             for(j = 0; j < 3; j++)
                             {
                                 destData[destI++] = 
-																	colorMap[colorIndex * 3 + j];   // RGB
+                                    colorMap[colorIndex * 3 + j];   // RGB
                             }
 
                             destData[destI++] = 255;                                // ALPHA
                         }
 
-                        if(destI >= lineSize)
+                        if(destI >= lineEnd)
                         {
-                            destI = 0;
+                            destI = xOff * 4;
                             destData -= lineSize;
                         }
                     }

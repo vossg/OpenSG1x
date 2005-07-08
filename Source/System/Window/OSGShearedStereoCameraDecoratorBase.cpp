@@ -140,11 +140,26 @@ UInt32 ShearedStereoCameraDecoratorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShearedStereoCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ShearedStereoCameraDecoratorBase *) &other, whichField);
 }
+#else
+void ShearedStereoCameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ShearedStereoCameraDecoratorBase *) &other, whichField, sInfo);
+}
+void ShearedStereoCameraDecoratorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -232,6 +247,7 @@ void ShearedStereoCameraDecoratorBase::copyFromBin(      BinaryDataHandler &pMem
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -246,6 +262,32 @@ void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCamera
 
 
 }
+#else
+void ShearedStereoCameraDecoratorBase::executeSyncImpl(      ShearedStereoCameraDecoratorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ZeroParallaxDistanceFieldMask & whichField))
+        _sfZeroParallaxDistance.syncWith(pOther->_sfZeroParallaxDistance);
+
+    if(FieldBits::NoField != (OverlapFieldMask & whichField))
+        _sfOverlap.syncWith(pOther->_sfOverlap);
+
+
+
+}
+
+void ShearedStereoCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -277,7 +319,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHEAREDSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 

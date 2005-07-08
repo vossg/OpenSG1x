@@ -184,11 +184,26 @@ UInt32 CubeTextureChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CubeTextureChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((CubeTextureChunkBase *) &other, whichField);
 }
+#else
+void CubeTextureChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((CubeTextureChunkBase *) &other, whichField, sInfo);
+}
+void CubeTextureChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -344,6 +359,7 @@ void CubeTextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -370,6 +386,44 @@ void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
 
 
 }
+#else
+void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (PosZImageFieldMask & whichField))
+        _sfPosZImage.syncWith(pOther->_sfPosZImage);
+
+    if(FieldBits::NoField != (PosXImageFieldMask & whichField))
+        _sfPosXImage.syncWith(pOther->_sfPosXImage);
+
+    if(FieldBits::NoField != (NegXImageFieldMask & whichField))
+        _sfNegXImage.syncWith(pOther->_sfNegXImage);
+
+    if(FieldBits::NoField != (PosYImageFieldMask & whichField))
+        _sfPosYImage.syncWith(pOther->_sfPosYImage);
+
+    if(FieldBits::NoField != (NegYImageFieldMask & whichField))
+        _sfNegYImage.syncWith(pOther->_sfNegYImage);
+
+    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
+        _sfIsReflectionMap.syncWith(pOther->_sfIsReflectionMap);
+
+
+
+}
+
+void CubeTextureChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -401,7 +455,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBETEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBETEXTURECHUNKBASE_INLINE_CVSID;
 

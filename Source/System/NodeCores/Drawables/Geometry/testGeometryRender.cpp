@@ -20,6 +20,7 @@
 #include <OSGQuaternion.h>
 #include "OSGGeometry.h"
 #include <OSGGeoProperty.h>
+#include <OSGSimpleGeometry.h>
 
 /*
 #include "OSGGeoPropPositions.h"
@@ -37,7 +38,7 @@ NodePtr  root;
 Matrix accumM;
 Matrix stepM;
 
-WindowPtr win;
+GLUTWindowPtr win;
 
 void 
 display(void)
@@ -81,7 +82,7 @@ int main (int argc, char **argv)
 
     glutInit(&argc, argv);
     glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
-    glutCreateWindow("OpenSG");
+    int winid = glutCreateWindow("OpenSG");
     // glutKeyboardFunc(key);
     // glutReshapeFunc(resize);
     glutDisplayFunc(display);       
@@ -117,6 +118,8 @@ int main (int argc, char **argv)
 
         beginEditCP(g1);
     std::cerr << "Geometry Node: " << std::hex << (Geometry*) g1.getCPtr() << std::endl;
+
+    g1->setMaterial(getDefaultUnlitMaterial());
 
     GeoPositions3fPtr pnts = GeoPositions3f::create();
     g1->setPositions( pnts );
@@ -272,8 +275,9 @@ int main (int argc, char **argv)
 //    colorPtr_l->getField().setValues(colData_l);
 
     win = GLUTWindow::create();
+    win->setId(winid);
     win->init();
-    
+
     dact = DrawAction::create();
     dact->setWindow( win.getCPtr() );
     

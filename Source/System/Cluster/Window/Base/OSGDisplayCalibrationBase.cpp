@@ -217,11 +217,26 @@ UInt32 DisplayCalibrationBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DisplayCalibrationBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DisplayCalibrationBase *) &other, whichField);
 }
+#else
+void DisplayCalibrationBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DisplayCalibrationBase *) &other, whichField, sInfo);
+}
+void DisplayCalibrationBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -428,6 +443,7 @@ void DisplayCalibrationBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DisplayCalibrationBase::executeSyncImpl(      DisplayCalibrationBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -463,6 +479,59 @@ void DisplayCalibrationBase::executeSyncImpl(      DisplayCalibrationBase *pOthe
 
 
 }
+#else
+void DisplayCalibrationBase::executeSyncImpl(      DisplayCalibrationBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (EnabledFieldMask & whichField))
+        _sfEnabled.syncWith(pOther->_sfEnabled);
+
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+        _sfServer.syncWith(pOther->_sfServer);
+
+    if(FieldBits::NoField != (ColorMatrixFieldMask & whichField))
+        _sfColorMatrix.syncWith(pOther->_sfColorMatrix);
+
+    if(FieldBits::NoField != (GammaFieldMask & whichField))
+        _sfGamma.syncWith(pOther->_sfGamma);
+
+    if(FieldBits::NoField != (GridWidthFieldMask & whichField))
+        _sfGridWidth.syncWith(pOther->_sfGridWidth);
+
+    if(FieldBits::NoField != (GridHeightFieldMask & whichField))
+        _sfGridHeight.syncWith(pOther->_sfGridHeight);
+
+    if(FieldBits::NoField != (ScaleDownFieldMask & whichField))
+        _sfScaleDown.syncWith(pOther->_sfScaleDown);
+
+
+    if(FieldBits::NoField != (GammaRampFieldMask & whichField))
+        _mfGammaRamp.syncWith(pOther->_mfGammaRamp, sInfo);
+
+    if(FieldBits::NoField != (GridFieldMask & whichField))
+        _mfGrid.syncWith(pOther->_mfGrid, sInfo);
+
+
+}
+
+void DisplayCalibrationBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GammaRampFieldMask & whichField))
+        _mfGammaRamp.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GridFieldMask & whichField))
+        _mfGrid.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -494,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYCALIBRATIONBASE_INLINE_CVSID;
 

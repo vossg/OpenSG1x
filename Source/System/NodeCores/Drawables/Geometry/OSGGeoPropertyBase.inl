@@ -142,6 +142,7 @@ GeoProperty<GeoPropertyDesc>::~GeoProperty(void)
 {
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::executeSync(
           FieldContainer &other,
@@ -162,6 +163,54 @@ void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
         _field.syncWith(pOther->_field);
     }
 }
+#else
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::executeSync(
+          FieldContainer &other,
+    const BitVector      &whichField,
+    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((GeoProperty *) &other, whichField, sInfo);
+}
+
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::executeSyncImpl(
+          GeoProperty *pOther,
+    const BitVector   &whichField,
+    const SyncInfo    &sInfo     )
+{
+    LocalInherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        _field.syncWith(pOther->_field, sInfo);
+    }
+}
+
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::execBeginEditImpl(
+    const BitVector &whichField, 
+          UInt32     uiAspect,
+          UInt32     uiContainerSize)
+{
+    LocalInherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if (FieldBits::NoField != (GeoPropDataFieldMask & whichField))
+    {
+        _field.beginEdit(uiAspect, uiContainerSize);
+    }
+}
+
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::execBeginEdit(
+    const BitVector &whichField, 
+          UInt32     uiAspect,
+          UInt32     uiContainerSize)
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 template <class GeoPropertyDesc> inline 
 void GeoProperty<GeoPropertyDesc>::changed(BitVector whichField, 

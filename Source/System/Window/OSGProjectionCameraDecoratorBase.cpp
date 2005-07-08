@@ -195,11 +195,26 @@ UInt32 ProjectionCameraDecoratorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ProjectionCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ProjectionCameraDecoratorBase *) &other, whichField);
 }
+#else
+void ProjectionCameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ProjectionCameraDecoratorBase *) &other, whichField, sInfo);
+}
+void ProjectionCameraDecoratorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -372,6 +387,7 @@ void ProjectionCameraDecoratorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -401,6 +417,50 @@ void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecora
 
 
 }
+#else
+void ProjectionCameraDecoratorBase::executeSyncImpl(      ProjectionCameraDecoratorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (UserFieldMask & whichField))
+        _sfUser.syncWith(pOther->_sfUser);
+
+    if(FieldBits::NoField != (LeftFieldMask & whichField))
+        _sfLeft.syncWith(pOther->_sfLeft);
+
+    if(FieldBits::NoField != (BottomFieldMask & whichField))
+        _sfBottom.syncWith(pOther->_sfBottom);
+
+    if(FieldBits::NoField != (NormalFieldMask & whichField))
+        _sfNormal.syncWith(pOther->_sfNormal);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pOther->_sfHeight);
+
+
+    if(FieldBits::NoField != (SurfaceFieldMask & whichField))
+        _mfSurface.syncWith(pOther->_mfSurface, sInfo);
+
+
+}
+
+void ProjectionCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SurfaceFieldMask & whichField))
+        _mfSurface.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -432,7 +492,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 

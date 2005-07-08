@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGBackground.h> // Parent
 
@@ -165,9 +167,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -230,8 +229,29 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      PolygonBackgroundBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      PolygonBackgroundBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -254,8 +274,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
 
 typedef PolygonBackgroundBase *PolygonBackgroundBaseP;
 
+typedef osgIF<PolygonBackgroundBase::isNodeCore,
+              CoredNodePtr<PolygonBackground>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet PolygonBackgroundNodePtr;
+
+typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.1 2005/06/06 17:16:01 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.2 2005/07/08 06:33:25 vossg Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

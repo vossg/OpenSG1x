@@ -109,11 +109,26 @@ UInt32 TwoSidedLightingChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TwoSidedLightingChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TwoSidedLightingChunkBase *) &other, whichField);
 }
+#else
+void TwoSidedLightingChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TwoSidedLightingChunkBase *) &other, whichField, sInfo);
+}
+void TwoSidedLightingChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void TwoSidedLightingChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TwoSidedLightingChunkBase::executeSyncImpl(      TwoSidedLightingChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void TwoSidedLightingChunkBase::executeSyncImpl(      TwoSidedLightingChunkBase 
 
 
 }
+#else
+void TwoSidedLightingChunkBase::executeSyncImpl(      TwoSidedLightingChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void TwoSidedLightingChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -201,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.1 2005/06/09 08:39:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.2 2005/07/08 06:33:20 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_INLINE_CVSID;
 

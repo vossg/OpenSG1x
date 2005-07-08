@@ -199,11 +199,26 @@ UInt32 StencilChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StencilChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((StencilChunkBase *) &other, whichField);
 }
+#else
+void StencilChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((StencilChunkBase *) &other, whichField, sInfo);
+}
+void StencilChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -376,6 +391,7 @@ void StencilChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StencilChunkBase::executeSyncImpl(      StencilChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -405,6 +421,47 @@ void StencilChunkBase::executeSyncImpl(      StencilChunkBase *pOther,
 
 
 }
+#else
+void StencilChunkBase::executeSyncImpl(      StencilChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (StencilFuncFieldMask & whichField))
+        _sfStencilFunc.syncWith(pOther->_sfStencilFunc);
+
+    if(FieldBits::NoField != (StencilValueFieldMask & whichField))
+        _sfStencilValue.syncWith(pOther->_sfStencilValue);
+
+    if(FieldBits::NoField != (StencilMaskFieldMask & whichField))
+        _sfStencilMask.syncWith(pOther->_sfStencilMask);
+
+    if(FieldBits::NoField != (StencilOpFailFieldMask & whichField))
+        _sfStencilOpFail.syncWith(pOther->_sfStencilOpFail);
+
+    if(FieldBits::NoField != (StencilOpZFailFieldMask & whichField))
+        _sfStencilOpZFail.syncWith(pOther->_sfStencilOpZFail);
+
+    if(FieldBits::NoField != (StencilOpZPassFieldMask & whichField))
+        _sfStencilOpZPass.syncWith(pOther->_sfStencilOpZPass);
+
+    if(FieldBits::NoField != (ClearBufferFieldMask & whichField))
+        _sfClearBuffer.syncWith(pOther->_sfClearBuffer);
+
+
+
+}
+
+void StencilChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -431,7 +488,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.3 2005/05/30 20:00:47 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.4 2005/07/08 06:33:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 

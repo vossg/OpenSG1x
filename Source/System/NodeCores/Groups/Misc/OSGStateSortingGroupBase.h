@@ -139,9 +139,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StateSortingGroupBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -200,8 +197,29 @@ class OSG_SYSTEMLIB_DLLMAPPING StateSortingGroupBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      StateSortingGroupBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      StateSortingGroupBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -233,6 +251,6 @@ typedef RefPtr<StateSortingGroupPtr> StateSortingGroupRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.3 2005/05/30 20:00:45 dirk Exp $"
+#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.4 2005/07/08 06:33:17 vossg Exp $"
 
 #endif /* _OSGSTATESORTINGGROUPBASE_H_ */

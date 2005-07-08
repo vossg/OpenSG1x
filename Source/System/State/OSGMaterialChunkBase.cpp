@@ -274,11 +274,26 @@ UInt32 MaterialChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MaterialChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((MaterialChunkBase *) &other, whichField);
 }
+#else
+void MaterialChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((MaterialChunkBase *) &other, whichField, sInfo);
+}
+void MaterialChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -570,6 +585,7 @@ void MaterialChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -620,6 +636,68 @@ void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
 
 
 }
+#else
+void MaterialChunkBase::executeSyncImpl(      MaterialChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+        _sfAmbient.syncWith(pOther->_sfAmbient);
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+        _sfSpecular.syncWith(pOther->_sfSpecular);
+
+    if(FieldBits::NoField != (EmissionFieldMask & whichField))
+        _sfEmission.syncWith(pOther->_sfEmission);
+
+    if(FieldBits::NoField != (ShininessFieldMask & whichField))
+        _sfShininess.syncWith(pOther->_sfShininess);
+
+    if(FieldBits::NoField != (LitFieldMask & whichField))
+        _sfLit.syncWith(pOther->_sfLit);
+
+    if(FieldBits::NoField != (ColorMaterialFieldMask & whichField))
+        _sfColorMaterial.syncWith(pOther->_sfColorMaterial);
+
+    if(FieldBits::NoField != (BackMaterialFieldMask & whichField))
+        _sfBackMaterial.syncWith(pOther->_sfBackMaterial);
+
+    if(FieldBits::NoField != (BackDiffuseFieldMask & whichField))
+        _sfBackDiffuse.syncWith(pOther->_sfBackDiffuse);
+
+    if(FieldBits::NoField != (BackAmbientFieldMask & whichField))
+        _sfBackAmbient.syncWith(pOther->_sfBackAmbient);
+
+    if(FieldBits::NoField != (BackSpecularFieldMask & whichField))
+        _sfBackSpecular.syncWith(pOther->_sfBackSpecular);
+
+    if(FieldBits::NoField != (BackEmissionFieldMask & whichField))
+        _sfBackEmission.syncWith(pOther->_sfBackEmission);
+
+    if(FieldBits::NoField != (BackShininessFieldMask & whichField))
+        _sfBackShininess.syncWith(pOther->_sfBackShininess);
+
+    if(FieldBits::NoField != (BackColorMaterialFieldMask & whichField))
+        _sfBackColorMaterial.syncWith(pOther->_sfBackColorMaterial);
+
+
+
+}
+
+void MaterialChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -651,7 +729,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 

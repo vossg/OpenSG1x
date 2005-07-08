@@ -292,11 +292,29 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                     Sync                                     */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField);
 
             void executeSyncImpl(      Node           *pOther,
                                  const BitVector      &whichField);
+#else
+    virtual void executeSync       (      FieldContainer &other,
+                                    const BitVector      &whichField,
+                                    const SyncInfo       &sInfo     );
+
+            void executeSyncImpl   (      Node           *pOther,
+                                    const BitVector      &whichField,
+                                    const SyncInfo       &sInfo     );
+
+    virtual void execBeginEdit     (const BitVector &whichField, 
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField, 
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

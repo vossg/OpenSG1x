@@ -339,11 +339,26 @@ UInt32 ImageBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ImageBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ImageBase *) &other, whichField);
 }
+#else
+void ImageBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ImageBase *) &other, whichField, sInfo);
+}
+void ImageBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -737,6 +752,7 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ImageBase::executeSyncImpl(      ImageBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -805,6 +821,92 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
 
 
 }
+#else
+void ImageBase::executeSyncImpl(      ImageBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (DimensionFieldMask & whichField))
+        _sfDimension.syncWith(pOther->_sfDimension);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pOther->_sfHeight);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
+    if(FieldBits::NoField != (BppFieldMask & whichField))
+        _sfBpp.syncWith(pOther->_sfBpp);
+
+    if(FieldBits::NoField != (MipMapCountFieldMask & whichField))
+        _sfMipMapCount.syncWith(pOther->_sfMipMapCount);
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+        _sfFrameCount.syncWith(pOther->_sfFrameCount);
+
+    if(FieldBits::NoField != (FrameDelayFieldMask & whichField))
+        _sfFrameDelay.syncWith(pOther->_sfFrameDelay);
+
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+        _sfPixelFormat.syncWith(pOther->_sfPixelFormat);
+
+    if(FieldBits::NoField != (FrameSizeFieldMask & whichField))
+        _sfFrameSize.syncWith(pOther->_sfFrameSize);
+
+    if(FieldBits::NoField != (NameFieldMask & whichField))
+        _sfName.syncWith(pOther->_sfName);
+
+    if(FieldBits::NoField != (DataTypeFieldMask & whichField))
+        _sfDataType.syncWith(pOther->_sfDataType);
+
+    if(FieldBits::NoField != (ComponentSizeFieldMask & whichField))
+        _sfComponentSize.syncWith(pOther->_sfComponentSize);
+
+    if(FieldBits::NoField != (SideCountFieldMask & whichField))
+        _sfSideCount.syncWith(pOther->_sfSideCount);
+
+    if(FieldBits::NoField != (SideSizeFieldMask & whichField))
+        _sfSideSize.syncWith(pOther->_sfSideSize);
+
+    if(FieldBits::NoField != (ForceCompressedDataFieldMask & whichField))
+        _sfForceCompressedData.syncWith(pOther->_sfForceCompressedData);
+
+    if(FieldBits::NoField != (ForceAlphaChannelFieldMask & whichField))
+        _sfForceAlphaChannel.syncWith(pOther->_sfForceAlphaChannel);
+
+    if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
+        _sfForceColorChannel.syncWith(pOther->_sfForceColorChannel);
+
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+        _mfParents.syncWith(pOther->_mfParents, sInfo);
+
+    if(FieldBits::NoField != (PixelFieldMask & whichField))
+        _mfPixel.syncWith(pOther->_mfPixel, sInfo);
+
+
+}
+
+void ImageBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ParentsFieldMask & whichField))
+        _mfParents.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PixelFieldMask & whichField))
+        _mfPixel.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -836,7 +938,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBASE_INLINE_CVSID;
 

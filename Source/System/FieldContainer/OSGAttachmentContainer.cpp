@@ -306,6 +306,7 @@ AttachmentContainer::~AttachmentContainer(void)
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void AttachmentContainer::executeSync(      FieldContainer &other,
                                       const BitVector      &whichField)
 {
@@ -323,6 +324,27 @@ void AttachmentContainer::executeSyncImpl(
         _attachmentMap.syncWith(pOther->_attachmentMap);
     }
 }
+#else
+void AttachmentContainer::executeSync(      FieldContainer &other,
+                                      const BitVector      &whichField,
+                                      const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((AttachmentContainer *) &other, whichField, sInfo);
+}
+
+void AttachmentContainer::executeSyncImpl(
+          AttachmentContainer *pOther,
+    const BitVector           &whichField,
+    const SyncInfo            &sInfo     )
+{
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if (FieldBits::NoField != (AttachmentsFieldMask & whichField))
+    {
+        _attachmentMap.syncWith(pOther->_attachmentMap);
+    }
+}
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                                Pointer                                  */

@@ -139,9 +139,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterVec2fBase : public ShaderParameter
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -200,8 +197,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterVec2fBase : public ShaderParameter
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      ShaderParameterVec2fBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      ShaderParameterVec2fBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -233,6 +251,6 @@ typedef RefPtr<ShaderParameterVec2fPtr> ShaderParameterVec2fRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fBase.h,v 1.3 2005/05/30 20:00:11 dirk Exp $"
+#define OSGSHADERPARAMETERVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fBase.h,v 1.4 2005/07/08 06:32:40 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERVEC2FBASE_H_ */

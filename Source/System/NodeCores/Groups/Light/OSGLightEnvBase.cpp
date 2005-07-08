@@ -109,11 +109,26 @@ UInt32 LightEnvBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightEnvBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((LightEnvBase *) &other, whichField);
 }
+#else
+void LightEnvBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((LightEnvBase *) &other, whichField, sInfo);
+}
+void LightEnvBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void LightEnvBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightEnvBase::executeSyncImpl(      LightEnvBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void LightEnvBase::executeSyncImpl(      LightEnvBase *pOther,
 
 
 }
+#else
+void LightEnvBase::executeSyncImpl(      LightEnvBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void LightEnvBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -201,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.3 2005/05/30 20:00:44 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.4 2005/07/08 06:33:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTENVBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTENVBASE_INLINE_CVSID;
 

@@ -140,11 +140,26 @@ UInt32 MatrixCameraBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MatrixCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((MatrixCameraBase *) &other, whichField);
 }
+#else
+void MatrixCameraBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((MatrixCameraBase *) &other, whichField, sInfo);
+}
+void MatrixCameraBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -232,6 +247,7 @@ void MatrixCameraBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -246,6 +262,32 @@ void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
 
 
 }
+#else
+void MatrixCameraBase::executeSyncImpl(      MatrixCameraBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ProjectionMatrixFieldMask & whichField))
+        _sfProjectionMatrix.syncWith(pOther->_sfProjectionMatrix);
+
+    if(FieldBits::NoField != (ModelviewMatrixFieldMask & whichField))
+        _sfModelviewMatrix.syncWith(pOther->_sfModelviewMatrix);
+
+
+
+}
+
+void MatrixCameraBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -277,7 +319,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
 

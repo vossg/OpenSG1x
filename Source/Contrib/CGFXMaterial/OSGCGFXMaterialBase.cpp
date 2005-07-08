@@ -173,11 +173,26 @@ UInt32 CGFXMaterialBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGFXMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((CGFXMaterialBase *) &other, whichField);
 }
+#else
+void CGFXMaterialBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((CGFXMaterialBase *) &other, whichField, sInfo);
+}
+void CGFXMaterialBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void CGFXMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,47 @@ void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
 
 
 }
+#else
+void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (EffectFileFieldMask & whichField))
+        _sfEffectFile.syncWith(pOther->_sfEffectFile);
+
+    if(FieldBits::NoField != (EffectStringFieldMask & whichField))
+        _sfEffectString.syncWith(pOther->_sfEffectString);
+
+    if(FieldBits::NoField != (TechniqueFieldMask & whichField))
+        _sfTechnique.syncWith(pOther->_sfTechnique);
+
+
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+        _mfParameters.syncWith(pOther->_mfParameters, sInfo);
+
+    if(FieldBits::NoField != (ImagesFieldMask & whichField))
+        _mfImages.syncWith(pOther->_mfImages, sInfo);
+
+
+}
+
+void CGFXMaterialBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+        _mfParameters.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ImagesFieldMask & whichField))
+        _mfImages.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -365,7 +422,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.1 2005/06/09 14:53:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.2 2005/07/08 06:32:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

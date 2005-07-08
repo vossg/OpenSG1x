@@ -143,7 +143,7 @@ void Manipulator::changed(BitVector whichField, UInt32 origin)
         if ( !parents.isEmpty() )
         {
             //std::cout << "parent size= " << parents.getSize() << std::endl;
-            parent = parents.getValue(0); // Dangerous! multiple parents?
+            parent = parents[0]; // Dangerous! multiple parents?
         }
         else
         {
@@ -572,7 +572,7 @@ void Manipulator::mouseButtonRelease (UInt16 button, Int16 x, Int16 y)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.1 2005/06/26 12:44:40 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.2 2005/07/08 06:32:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

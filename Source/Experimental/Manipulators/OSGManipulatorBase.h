@@ -240,9 +240,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ManipulatorBase : public Transform
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -317,8 +314,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ManipulatorBase : public Transform
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      ManipulatorBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      ManipulatorBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -350,6 +368,6 @@ typedef RefPtr<ManipulatorPtr> ManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.2 2005/06/26 21:13:56 dirk Exp $"
+#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.3 2005/07/08 06:32:38 vossg Exp $"
 
 #endif /* _OSGMANIPULATORBASE_H_ */

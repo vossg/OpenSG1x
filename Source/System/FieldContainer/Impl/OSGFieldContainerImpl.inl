@@ -291,13 +291,13 @@ void FieldContainer::newPtr(ObjectPtrT &result)
 /*                               MT Edit                                   */
 
 template<class FieldTypeT> inline
-void FieldContainer::beginEdit(const BitVector &, FieldTypeT &)
+void FieldContainer::beginEditX(const BitVector &, FieldTypeT &)
 {
 //    fieldR.beginEdit();
 }
 
 template<class FieldTypeT> inline
-void FieldContainer::endEdit(const BitVector &whichField, FieldTypeT &)
+void FieldContainer::endEditX(const BitVector &whichField, FieldTypeT &)
 {
     FieldContainerPtr tmpPtr(this);
     endEditCP(tmpPtr, whichField);
@@ -337,11 +337,28 @@ void FieldContainer::onCreateAspect(const FieldContainer *,
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 inline
 void FieldContainer::executeSyncImpl(      FieldContainer *,
                                      const BitVector      &)
 {
 }
+#else
+inline
+void FieldContainer::executeSyncImpl(      FieldContainer *,
+                                     const BitVector      &,
+                                     const SyncInfo       &)
+{
+}
+
+inline
+void FieldContainer::execBeginEditImpl (const BitVector &whichField, 
+                                              UInt32     uiAspect,
+                                              UInt32     uiContainerSize)
+{
+}
+
+#endif
 
 OSG_END_NAMESPACE
 

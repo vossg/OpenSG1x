@@ -100,5 +100,5 @@ MoveManipulatorPtr MoveManipulatorBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGMOVEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGMoveManipulatorBase.inl,v 1.2 2005/06/26 21:13:56 dirk Exp $"
+#define OSGMOVEMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGMoveManipulatorBase.inl,v 1.3 2005/07/08 06:32:38 vossg Exp $"
 

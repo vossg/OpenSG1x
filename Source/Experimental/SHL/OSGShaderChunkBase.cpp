@@ -131,11 +131,26 @@ UInt32 ShaderChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShaderChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ShaderChunkBase *) &other, whichField);
 }
+#else
+void ShaderChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ShaderChunkBase *) &other, whichField, sInfo);
+}
+void ShaderChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -223,6 +238,7 @@ void ShaderChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ShaderChunkBase::executeSyncImpl(      ShaderChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -237,6 +253,32 @@ void ShaderChunkBase::executeSyncImpl(      ShaderChunkBase *pOther,
 
 
 }
+#else
+void ShaderChunkBase::executeSyncImpl(      ShaderChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (VertexProgramFieldMask & whichField))
+        _sfVertexProgram.syncWith(pOther->_sfVertexProgram);
+
+    if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
+        _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
+
+
+
+}
+
+void ShaderChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -268,7 +310,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.4 2005/05/30 20:00:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.5 2005/07/08 06:32:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 

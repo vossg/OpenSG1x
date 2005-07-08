@@ -236,10 +236,10 @@ class FieldContainer
     /*! \{                                                                 */
 
     template<class FieldTypeT>
-    void beginEdit(const BitVector &whichField, FieldTypeT &field);
+    void beginEditX(const BitVector &whichField, FieldTypeT &field);
 
     template<class FieldTypeT>
-    void endEdit  (const BitVector &whichField, FieldTypeT &field);
+    void endEditX  (const BitVector &whichField, FieldTypeT &field);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -266,6 +266,7 @@ class FieldContainer
     /*! \name                     Sync                                     */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     OSG_SYSTEMLIB_DLLMAPPING 
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField) = 0;
@@ -273,6 +274,27 @@ class FieldContainer
             OSG_SYSTEMLIB_DLLMAPPING 
             void executeSyncImpl(      FieldContainer *pOther,
                                  const BitVector      &whichField);
+#else
+    OSG_SYSTEMLIB_DLLMAPPING 
+    virtual void executeSync       (      FieldContainer &other,
+                                    const BitVector      &whichField,
+                                    const SyncInfo       &iSinfo    ) = 0;
+
+            OSG_SYSTEMLIB_DLLMAPPING 
+            void executeSyncImpl   (      FieldContainer *pOther,
+                                    const BitVector      &whichField,
+                                    const SyncInfo       &sInfo     );
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+    virtual void execBeginEdit     (const BitVector &whichField, 
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize) = 0;
+
+    OSG_SYSTEMLIB_DLLMAPPING 
+            void execBeginEditImpl (const BitVector &whichField, 
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

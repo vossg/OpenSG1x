@@ -174,11 +174,26 @@ UInt32 DepthChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DepthChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DepthChunkBase *) &other, whichField);
 }
+#else
+void DepthChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DepthChunkBase *) &other, whichField, sInfo);
+}
+void DepthChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -317,6 +332,7 @@ void DepthChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DepthChunkBase::executeSyncImpl(      DepthChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -340,6 +356,41 @@ void DepthChunkBase::executeSyncImpl(      DepthChunkBase *pOther,
 
 
 }
+#else
+void DepthChunkBase::executeSyncImpl(      DepthChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (EnableFieldMask & whichField))
+        _sfEnable.syncWith(pOther->_sfEnable);
+
+    if(FieldBits::NoField != (FuncFieldMask & whichField))
+        _sfFunc.syncWith(pOther->_sfFunc);
+
+    if(FieldBits::NoField != (NearFieldMask & whichField))
+        _sfNear.syncWith(pOther->_sfNear);
+
+    if(FieldBits::NoField != (FarFieldMask & whichField))
+        _sfFar.syncWith(pOther->_sfFar);
+
+    if(FieldBits::NoField != (ReadOnlyFieldMask & whichField))
+        _sfReadOnly.syncWith(pOther->_sfReadOnly);
+
+
+
+}
+
+void DepthChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -371,7 +422,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.4 2005/06/07 09:35:15 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.5 2005/07/08 06:33:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 

@@ -254,11 +254,26 @@ UInt32 TexGenChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TexGenChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TexGenChunkBase *) &other, whichField);
 }
+#else
+void TexGenChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TexGenChunkBase *) &other, whichField, sInfo);
+}
+void TexGenChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -516,6 +531,7 @@ void TexGenChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TexGenChunkBase::executeSyncImpl(      TexGenChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -560,6 +576,62 @@ void TexGenChunkBase::executeSyncImpl(      TexGenChunkBase *pOther,
 
 
 }
+#else
+void TexGenChunkBase::executeSyncImpl(      TexGenChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (GenFuncSFieldMask & whichField))
+        _sfGenFuncS.syncWith(pOther->_sfGenFuncS);
+
+    if(FieldBits::NoField != (GenFuncTFieldMask & whichField))
+        _sfGenFuncT.syncWith(pOther->_sfGenFuncT);
+
+    if(FieldBits::NoField != (GenFuncRFieldMask & whichField))
+        _sfGenFuncR.syncWith(pOther->_sfGenFuncR);
+
+    if(FieldBits::NoField != (GenFuncQFieldMask & whichField))
+        _sfGenFuncQ.syncWith(pOther->_sfGenFuncQ);
+
+    if(FieldBits::NoField != (GenFuncSPlaneFieldMask & whichField))
+        _sfGenFuncSPlane.syncWith(pOther->_sfGenFuncSPlane);
+
+    if(FieldBits::NoField != (GenFuncTPlaneFieldMask & whichField))
+        _sfGenFuncTPlane.syncWith(pOther->_sfGenFuncTPlane);
+
+    if(FieldBits::NoField != (GenFuncRPlaneFieldMask & whichField))
+        _sfGenFuncRPlane.syncWith(pOther->_sfGenFuncRPlane);
+
+    if(FieldBits::NoField != (GenFuncQPlaneFieldMask & whichField))
+        _sfGenFuncQPlane.syncWith(pOther->_sfGenFuncQPlane);
+
+    if(FieldBits::NoField != (SBeaconFieldMask & whichField))
+        _sfSBeacon.syncWith(pOther->_sfSBeacon);
+
+    if(FieldBits::NoField != (TBeaconFieldMask & whichField))
+        _sfTBeacon.syncWith(pOther->_sfTBeacon);
+
+    if(FieldBits::NoField != (RBeaconFieldMask & whichField))
+        _sfRBeacon.syncWith(pOther->_sfRBeacon);
+
+    if(FieldBits::NoField != (QBeaconFieldMask & whichField))
+        _sfQBeacon.syncWith(pOther->_sfQBeacon);
+
+
+
+}
+
+void TexGenChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -591,7 +663,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXGENCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXGENCHUNKBASE_INLINE_CVSID;
 

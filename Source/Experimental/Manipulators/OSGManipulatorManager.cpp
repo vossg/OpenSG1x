@@ -48,7 +48,7 @@ void ManipulatorManager::changeManipulator(ManipulatorType type)
         parents = _maniC->getParents();        
         if ( !parents.isEmpty() )
         {
-            maniN = parents.getValue(0);
+            maniN = parents[0];
             
             beginEditCP( maniN );
             {    

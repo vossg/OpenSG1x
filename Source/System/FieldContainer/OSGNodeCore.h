@@ -203,11 +203,21 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
     /*! \name                     Sync                                     */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     virtual void executeSync    (      FieldContainer &other,
                                  const BitVector      &whichField);
 
             void executeSyncImpl(      NodeCore  *pOther,
                                  const BitVector &whichField);
+#else
+    virtual void executeSync    (      FieldContainer &other,
+                                 const BitVector      &whichField,
+                                 const SyncInfo       &sInfo     );
+
+            void executeSyncImpl(      NodeCore  *pOther,
+                                 const BitVector &whichField,
+                                 const SyncInfo  &sInfo     );
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

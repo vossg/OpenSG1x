@@ -139,9 +139,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunkBase : public ShaderParameterChu
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -200,8 +197,29 @@ class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunkBase : public ShaderParameterChu
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      CGParameterChunkBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      CGParameterChunkBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -233,6 +251,6 @@ typedef RefPtr<CGParameterChunkPtr> CGParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.3 2005/05/30 19:59:43 dirk Exp $"
+#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.4 2005/07/08 06:32:31 vossg Exp $"
 
 #endif /* _OSGCGPARAMETERCHUNKBASE_H_ */

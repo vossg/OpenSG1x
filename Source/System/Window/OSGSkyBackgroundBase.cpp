@@ -316,11 +316,26 @@ UInt32 SkyBackgroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SkyBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((SkyBackgroundBase *) &other, whichField);
 }
+#else
+void SkyBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((SkyBackgroundBase *) &other, whichField, sInfo);
+}
+void SkyBackgroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -680,6 +695,7 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -742,6 +758,110 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
 
 }
+#else
+void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SphereResFieldMask & whichField))
+        _sfSphereRes.syncWith(pOther->_sfSphereRes);
+
+    if(FieldBits::NoField != (BackTextureFieldMask & whichField))
+        _sfBackTexture.syncWith(pOther->_sfBackTexture);
+
+    if(FieldBits::NoField != (BottomTextureFieldMask & whichField))
+        _sfBottomTexture.syncWith(pOther->_sfBottomTexture);
+
+    if(FieldBits::NoField != (FrontTextureFieldMask & whichField))
+        _sfFrontTexture.syncWith(pOther->_sfFrontTexture);
+
+    if(FieldBits::NoField != (LeftTextureFieldMask & whichField))
+        _sfLeftTexture.syncWith(pOther->_sfLeftTexture);
+
+    if(FieldBits::NoField != (RightTextureFieldMask & whichField))
+        _sfRightTexture.syncWith(pOther->_sfRightTexture);
+
+    if(FieldBits::NoField != (TopTextureFieldMask & whichField))
+        _sfTopTexture.syncWith(pOther->_sfTopTexture);
+
+    if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
+        _sfBoxInside.syncWith(pOther->_sfBoxInside);
+
+
+    if(FieldBits::NoField != (SkyColorFieldMask & whichField))
+        _mfSkyColor.syncWith(pOther->_mfSkyColor, sInfo);
+
+    if(FieldBits::NoField != (SkyAngleFieldMask & whichField))
+        _mfSkyAngle.syncWith(pOther->_mfSkyAngle, sInfo);
+
+    if(FieldBits::NoField != (GroundColorFieldMask & whichField))
+        _mfGroundColor.syncWith(pOther->_mfGroundColor, sInfo);
+
+    if(FieldBits::NoField != (GroundAngleFieldMask & whichField))
+        _mfGroundAngle.syncWith(pOther->_mfGroundAngle, sInfo);
+
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+        _mfTopTexCoord.syncWith(pOther->_mfTopTexCoord, sInfo);
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+        _mfBottomTexCoord.syncWith(pOther->_mfBottomTexCoord, sInfo);
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+        _mfRightTexCoord.syncWith(pOther->_mfRightTexCoord, sInfo);
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+        _mfLeftTexCoord.syncWith(pOther->_mfLeftTexCoord, sInfo);
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+        _mfFrontTexCoord.syncWith(pOther->_mfFrontTexCoord, sInfo);
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+        _mfBackTexCoord.syncWith(pOther->_mfBackTexCoord, sInfo);
+
+
+}
+
+void SkyBackgroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SkyColorFieldMask & whichField))
+        _mfSkyColor.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SkyAngleFieldMask & whichField))
+        _mfSkyAngle.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GroundColorFieldMask & whichField))
+        _mfGroundColor.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GroundAngleFieldMask & whichField))
+        _mfGroundAngle.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TopTexCoordFieldMask & whichField))
+        _mfTopTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (BottomTexCoordFieldMask & whichField))
+        _mfBottomTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (RightTexCoordFieldMask & whichField))
+        _mfRightTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (LeftTexCoordFieldMask & whichField))
+        _mfLeftTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (FrontTexCoordFieldMask & whichField))
+        _mfFrontTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
+        _mfBackTexCoord.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -771,7 +891,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 

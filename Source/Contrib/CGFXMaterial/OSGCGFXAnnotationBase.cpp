@@ -129,11 +129,26 @@ UInt32 CGFXAnnotationBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGFXAnnotationBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((CGFXAnnotationBase *) &other, whichField);
 }
+#else
+void CGFXAnnotationBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((CGFXAnnotationBase *) &other, whichField, sInfo);
+}
+void CGFXAnnotationBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -204,6 +219,7 @@ void CGFXAnnotationBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void CGFXAnnotationBase::executeSyncImpl(      CGFXAnnotationBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -215,6 +231,32 @@ void CGFXAnnotationBase::executeSyncImpl(      CGFXAnnotationBase *pOther,
 
 
 }
+#else
+void CGFXAnnotationBase::executeSyncImpl(      CGFXAnnotationBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+        _mfParameters.syncWith(pOther->_mfParameters, sInfo);
+
+
+}
+
+void CGFXAnnotationBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ParametersFieldMask & whichField))
+        _mfParameters.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -241,7 +283,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.1 2005/06/09 14:53:41 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.2 2005/07/08 06:32:31 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 

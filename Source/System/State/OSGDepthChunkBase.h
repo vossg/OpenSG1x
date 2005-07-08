@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -165,9 +167,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -230,8 +229,29 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      DepthChunkBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      DepthChunkBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -254,8 +274,15 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
 
 typedef DepthChunkBase *DepthChunkBaseP;
 
+typedef osgIF<DepthChunkBase::isNodeCore,
+              CoredNodePtr<DepthChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet DepthChunkNodePtr;
+
+typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.4 2005/06/07 09:35:15 yjung Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.5 2005/07/08 06:33:19 vossg Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

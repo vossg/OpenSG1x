@@ -100,5 +100,5 @@ DepthClearBackgroundPtr DepthClearBackgroundBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.3 2005/05/30 20:00:49 dirk Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.4 2005/07/08 06:33:25 vossg Exp $"
 

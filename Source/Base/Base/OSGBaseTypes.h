@@ -606,6 +606,13 @@ enum MathTypeProperties
     BoolValue
 };
 
+struct SyncInfo
+{
+    BitVector syncMode;
+    UInt32    uiSyncInfo;
+    UInt32    uiCopyOffset;
+};
+
 OSG_END_NAMESPACE
 
 #include <OSGBaseTypeTraits.h>

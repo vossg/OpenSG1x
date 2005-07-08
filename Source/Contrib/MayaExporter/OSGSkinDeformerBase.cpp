@@ -206,11 +206,26 @@ UInt32 SkinDeformerBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SkinDeformerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((SkinDeformerBase *) &other, whichField);
 }
+#else
+void SkinDeformerBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((SkinDeformerBase *) &other, whichField, sInfo);
+}
+void SkinDeformerBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -400,6 +415,7 @@ void SkinDeformerBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SkinDeformerBase::executeSyncImpl(      SkinDeformerBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -432,6 +448,74 @@ void SkinDeformerBase::executeSyncImpl(      SkinDeformerBase *pOther,
 
 
 }
+#else
+void SkinDeformerBase::executeSyncImpl(      SkinDeformerBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+    if(FieldBits::NoField != (InfluencesFieldMask & whichField))
+        _mfInfluences.syncWith(pOther->_mfInfluences, sInfo);
+
+    if(FieldBits::NoField != (BaseMatricesFieldMask & whichField))
+        _mfBaseMatrices.syncWith(pOther->_mfBaseMatrices, sInfo);
+
+    if(FieldBits::NoField != (VertexIndicesFieldMask & whichField))
+        _mfVertexIndices.syncWith(pOther->_mfVertexIndices, sInfo);
+
+    if(FieldBits::NoField != (InfluenceIndicesFieldMask & whichField))
+        _mfInfluenceIndices.syncWith(pOther->_mfInfluenceIndices, sInfo);
+
+    if(FieldBits::NoField != (InfluenceWeightsFieldMask & whichField))
+        _mfInfluenceWeights.syncWith(pOther->_mfInfluenceWeights, sInfo);
+
+    if(FieldBits::NoField != (NormalIndicesFieldMask & whichField))
+        _mfNormalIndices.syncWith(pOther->_mfNormalIndices, sInfo);
+
+    if(FieldBits::NoField != (NormalInfluenceIndicesFieldMask & whichField))
+        _mfNormalInfluenceIndices.syncWith(pOther->_mfNormalInfluenceIndices, sInfo);
+
+    if(FieldBits::NoField != (NormalInfluenceWeightsFieldMask & whichField))
+        _mfNormalInfluenceWeights.syncWith(pOther->_mfNormalInfluenceWeights, sInfo);
+
+
+}
+
+void SkinDeformerBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (InfluencesFieldMask & whichField))
+        _mfInfluences.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (BaseMatricesFieldMask & whichField))
+        _mfBaseMatrices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VertexIndicesFieldMask & whichField))
+        _mfVertexIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (InfluenceIndicesFieldMask & whichField))
+        _mfInfluenceIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (InfluenceWeightsFieldMask & whichField))
+        _mfInfluenceWeights.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (NormalIndicesFieldMask & whichField))
+        _mfNormalIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (NormalInfluenceIndicesFieldMask & whichField))
+        _mfNormalInfluenceIndices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (NormalInfluenceWeightsFieldMask & whichField))
+        _mfNormalInfluenceWeights.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -463,7 +547,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSKINDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKINDEFORMERBASE_INLINE_CVSID;
 

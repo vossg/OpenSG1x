@@ -328,11 +328,26 @@ UInt32 DVRVolumeBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRVolumeBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DVRVolumeBase *) &other, whichField);
 }
+#else
+void DVRVolumeBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DVRVolumeBase *) &other, whichField, sInfo);
+}
+void DVRVolumeBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -709,6 +724,7 @@ void DVRVolumeBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRVolumeBase::executeSyncImpl(      DVRVolumeBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -774,6 +790,86 @@ void DVRVolumeBase::executeSyncImpl(      DVRVolumeBase *pOther,
 
 
 }
+#else
+void DVRVolumeBase::executeSyncImpl(      DVRVolumeBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (AppearanceFieldMask & whichField))
+        _sfAppearance.syncWith(pOther->_sfAppearance);
+
+    if(FieldBits::NoField != (GeometryFieldMask & whichField))
+        _sfGeometry.syncWith(pOther->_sfGeometry);
+
+    if(FieldBits::NoField != (ShaderFieldMask & whichField))
+        _sfShader.syncWith(pOther->_sfShader);
+
+    if(FieldBits::NoField != (FileNameFieldMask & whichField))
+        _sfFileName.syncWith(pOther->_sfFileName);
+
+    if(FieldBits::NoField != (SamplingFieldMask & whichField))
+        _sfSampling.syncWith(pOther->_sfSampling);
+
+    if(FieldBits::NoField != (SamplingInteractiveFieldMask & whichField))
+        _sfSamplingInteractive.syncWith(pOther->_sfSamplingInteractive);
+
+    if(FieldBits::NoField != (BaseAlphaFieldMask & whichField))
+        _sfBaseAlpha.syncWith(pOther->_sfBaseAlpha);
+
+    if(FieldBits::NoField != (DoTexturesFieldMask & whichField))
+        _sfDoTextures.syncWith(pOther->_sfDoTextures);
+
+    if(FieldBits::NoField != (BrickOverlapFieldMask & whichField))
+        _sfBrickOverlap.syncWith(pOther->_sfBrickOverlap);
+
+    if(FieldBits::NoField != (Textures2DFieldMask & whichField))
+        _sfTextures2D.syncWith(pOther->_sfTextures2D);
+
+    if(FieldBits::NoField != (BrickStaticMemoryMBFieldMask & whichField))
+        _sfBrickStaticMemoryMB.syncWith(pOther->_sfBrickStaticMemoryMB);
+
+    if(FieldBits::NoField != (RenderMaterialFieldMask & whichField))
+        _sfRenderMaterial.syncWith(pOther->_sfRenderMaterial);
+
+    if(FieldBits::NoField != (BrickingModeFieldMask & whichField))
+        _sfBrickingMode.syncWith(pOther->_sfBrickingMode);
+
+    if(FieldBits::NoField != (BrickStaticSubdivisionFieldMask & whichField))
+        _sfBrickStaticSubdivision.syncWith(pOther->_sfBrickStaticSubdivision);
+
+    if(FieldBits::NoField != (BrickMaxSizeFieldMask & whichField))
+        _sfBrickMaxSize.syncWith(pOther->_sfBrickMaxSize);
+
+    if(FieldBits::NoField != (ShowBricksFieldMask & whichField))
+        _sfShowBricks.syncWith(pOther->_sfShowBricks);
+
+    if(FieldBits::NoField != (DrawStyleFieldMask & whichField))
+        _sfDrawStyle.syncWith(pOther->_sfDrawStyle);
+
+    if(FieldBits::NoField != (TextureStorageFieldMask & whichField))
+        _sfTextureStorage.syncWith(pOther->_sfTextureStorage);
+
+
+    if(FieldBits::NoField != (DrawStyleNamesFieldMask & whichField))
+        _mfDrawStyleNames.syncWith(pOther->_mfDrawStyleNames, sInfo);
+
+
+}
+
+void DVRVolumeBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DrawStyleNamesFieldMask & whichField))
+        _mfDrawStyleNames.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -800,7 +896,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMEBASE_INLINE_CVSID;
 

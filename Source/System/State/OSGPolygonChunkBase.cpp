@@ -247,11 +247,26 @@ UInt32 PolygonChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PolygonChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PolygonChunkBase *) &other, whichField);
 }
+#else
+void PolygonChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PolygonChunkBase *) &other, whichField, sInfo);
+}
+void PolygonChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -492,6 +507,7 @@ void PolygonChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -533,6 +549,62 @@ void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
 
 
 }
+#else
+void PolygonChunkBase::executeSyncImpl(      PolygonChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (CullFaceFieldMask & whichField))
+        _sfCullFace.syncWith(pOther->_sfCullFace);
+
+    if(FieldBits::NoField != (FrontFaceFieldMask & whichField))
+        _sfFrontFace.syncWith(pOther->_sfFrontFace);
+
+    if(FieldBits::NoField != (FrontModeFieldMask & whichField))
+        _sfFrontMode.syncWith(pOther->_sfFrontMode);
+
+    if(FieldBits::NoField != (BackModeFieldMask & whichField))
+        _sfBackMode.syncWith(pOther->_sfBackMode);
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+        _sfSmooth.syncWith(pOther->_sfSmooth);
+
+    if(FieldBits::NoField != (OffsetFactorFieldMask & whichField))
+        _sfOffsetFactor.syncWith(pOther->_sfOffsetFactor);
+
+    if(FieldBits::NoField != (OffsetBiasFieldMask & whichField))
+        _sfOffsetBias.syncWith(pOther->_sfOffsetBias);
+
+    if(FieldBits::NoField != (OffsetPointFieldMask & whichField))
+        _sfOffsetPoint.syncWith(pOther->_sfOffsetPoint);
+
+    if(FieldBits::NoField != (OffsetLineFieldMask & whichField))
+        _sfOffsetLine.syncWith(pOther->_sfOffsetLine);
+
+    if(FieldBits::NoField != (OffsetFillFieldMask & whichField))
+        _sfOffsetFill.syncWith(pOther->_sfOffsetFill);
+
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+        _mfStipple.syncWith(pOther->_mfStipple, sInfo);
+
+
+}
+
+void PolygonChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (StippleFieldMask & whichField))
+        _mfStipple.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -564,7 +636,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

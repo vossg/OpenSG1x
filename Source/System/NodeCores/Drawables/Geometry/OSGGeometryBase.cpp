@@ -272,11 +272,26 @@ UInt32 GeometryBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void GeometryBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((GeometryBase *) &other, whichField);
 }
+#else
+void GeometryBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((GeometryBase *) &other, whichField, sInfo);
+}
+void GeometryBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -568,6 +583,7 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -618,6 +634,71 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
 
 }
+#else
+void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (TypesFieldMask & whichField))
+        _sfTypes.syncWith(pOther->_sfTypes);
+
+    if(FieldBits::NoField != (LengthsFieldMask & whichField))
+        _sfLengths.syncWith(pOther->_sfLengths);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _sfPositions.syncWith(pOther->_sfPositions);
+
+    if(FieldBits::NoField != (NormalsFieldMask & whichField))
+        _sfNormals.syncWith(pOther->_sfNormals);
+
+    if(FieldBits::NoField != (ColorsFieldMask & whichField))
+        _sfColors.syncWith(pOther->_sfColors);
+
+    if(FieldBits::NoField != (SecondaryColorsFieldMask & whichField))
+        _sfSecondaryColors.syncWith(pOther->_sfSecondaryColors);
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+        _sfTexCoords.syncWith(pOther->_sfTexCoords);
+
+    if(FieldBits::NoField != (TexCoords1FieldMask & whichField))
+        _sfTexCoords1.syncWith(pOther->_sfTexCoords1);
+
+    if(FieldBits::NoField != (TexCoords2FieldMask & whichField))
+        _sfTexCoords2.syncWith(pOther->_sfTexCoords2);
+
+    if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
+        _sfTexCoords3.syncWith(pOther->_sfTexCoords3);
+
+    if(FieldBits::NoField != (IndicesFieldMask & whichField))
+        _sfIndices.syncWith(pOther->_sfIndices);
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+        _sfDlistCache.syncWith(pOther->_sfDlistCache);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
+
+
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+        _mfIndexMapping.syncWith(pOther->_mfIndexMapping, sInfo);
+
+
+}
+
+void GeometryBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
+        _mfIndexMapping.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -649,7 +730,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 

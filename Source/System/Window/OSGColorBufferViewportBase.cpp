@@ -166,11 +166,26 @@ UInt32 ColorBufferViewportBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ColorBufferViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ColorBufferViewportBase *) &other, whichField);
 }
+#else
+void ColorBufferViewportBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ColorBufferViewportBase *) &other, whichField, sInfo);
+}
+void ColorBufferViewportBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -292,6 +307,7 @@ void ColorBufferViewportBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ColorBufferViewportBase::executeSyncImpl(      ColorBufferViewportBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -312,6 +328,38 @@ void ColorBufferViewportBase::executeSyncImpl(      ColorBufferViewportBase *pOt
 
 
 }
+#else
+void ColorBufferViewportBase::executeSyncImpl(      ColorBufferViewportBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+        _sfRed.syncWith(pOther->_sfRed);
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+        _sfBlue.syncWith(pOther->_sfBlue);
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+        _sfGreen.syncWith(pOther->_sfGreen);
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
+
+
+
+}
+
+void ColorBufferViewportBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -343,7 +391,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORBUFFERVIEWPORTBASE_INLINE_CVSID;
 

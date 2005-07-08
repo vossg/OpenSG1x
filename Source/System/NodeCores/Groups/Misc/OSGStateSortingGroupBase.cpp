@@ -129,11 +129,26 @@ UInt32 StateSortingGroupBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StateSortingGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((StateSortingGroupBase *) &other, whichField);
 }
+#else
+void StateSortingGroupBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((StateSortingGroupBase *) &other, whichField, sInfo);
+}
+void StateSortingGroupBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -204,6 +219,7 @@ void StateSortingGroupBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void StateSortingGroupBase::executeSyncImpl(      StateSortingGroupBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -215,6 +231,29 @@ void StateSortingGroupBase::executeSyncImpl(      StateSortingGroupBase *pOther,
 
 
 }
+#else
+void StateSortingGroupBase::executeSyncImpl(      StateSortingGroupBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SortingFieldMask & whichField))
+        _sfSorting.syncWith(pOther->_sfSorting);
+
+
+
+}
+
+void StateSortingGroupBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -241,7 +280,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.3 2005/05/30 20:00:45 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.4 2005/07/08 06:33:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATESORTINGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATESORTINGGROUPBASE_INLINE_CVSID;
 

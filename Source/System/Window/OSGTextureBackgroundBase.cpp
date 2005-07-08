@@ -195,11 +195,26 @@ UInt32 TextureBackgroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TextureBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TextureBackgroundBase *) &other, whichField);
 }
+#else
+void TextureBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TextureBackgroundBase *) &other, whichField, sInfo);
+}
+void TextureBackgroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -372,6 +387,7 @@ void TextureBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -401,6 +417,38 @@ void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
 
 
 }
+#else
+void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ColorFieldMask & whichField))
+        _sfColor.syncWith(pOther->_sfColor);
+
+    if(FieldBits::NoField != (TextureFieldMask & whichField))
+        _sfTexture.syncWith(pOther->_sfTexture);
+
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+        _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
+
+
+}
+
+void TextureBackgroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+        _mfTexCoords.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -430,7 +478,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.4 2005/07/06 16:00:41 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.5 2005/07/08 06:33:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

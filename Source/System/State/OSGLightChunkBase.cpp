@@ -228,11 +228,26 @@ UInt32 LightChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((LightChunkBase *) &other, whichField);
 }
+#else
+void LightChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((LightChunkBase *) &other, whichField, sInfo);
+}
+void LightChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -456,6 +471,7 @@ void LightChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -494,6 +510,56 @@ void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
 
 
 }
+#else
+void LightChunkBase::executeSyncImpl(      LightChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (DiffuseFieldMask & whichField))
+        _sfDiffuse.syncWith(pOther->_sfDiffuse);
+
+    if(FieldBits::NoField != (AmbientFieldMask & whichField))
+        _sfAmbient.syncWith(pOther->_sfAmbient);
+
+    if(FieldBits::NoField != (SpecularFieldMask & whichField))
+        _sfSpecular.syncWith(pOther->_sfSpecular);
+
+    if(FieldBits::NoField != (PositionFieldMask & whichField))
+        _sfPosition.syncWith(pOther->_sfPosition);
+
+    if(FieldBits::NoField != (DirectionFieldMask & whichField))
+        _sfDirection.syncWith(pOther->_sfDirection);
+
+    if(FieldBits::NoField != (ExponentFieldMask & whichField))
+        _sfExponent.syncWith(pOther->_sfExponent);
+
+    if(FieldBits::NoField != (CutoffFieldMask & whichField))
+        _sfCutoff.syncWith(pOther->_sfCutoff);
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
+
+
+
+}
+
+void LightChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -525,7 +591,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 

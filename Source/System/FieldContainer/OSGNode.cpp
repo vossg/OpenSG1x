@@ -470,13 +470,15 @@ void Node::updateVolume(void)
             getCore()->adjustVolume(vol.getInstance());
     }
     
-    beginEdit(VolumeFieldMask, _sfVolume);
+    NodePtr thisP = getPtr();
+
+    beginEditCP(thisP, VolumeFieldMask);
    
     vol.instanceChanged();
     
     _sfVolume.setValue(vol);
     
-    endEdit(VolumeFieldMask, _sfVolume);
+    endEditCP(thisP, VolumeFieldMask);
 }
 
 void Node::invalidateVolume(void)
@@ -485,12 +487,14 @@ void Node::invalidateVolume(void)
     
     if(vol.isValid() == true && vol.isStatic() == false)
     {
-        beginEdit(VolumeFieldMask, _sfVolume);
+        NodePtr thisP = getPtr();
+
+        beginEditCP(thisP, VolumeFieldMask);
 
         vol.setValid(false);
         _sfVolume.getValue().instanceChanged();
         
-        endEdit(VolumeFieldMask, _sfVolume);
+        endEditCP(thisP, VolumeFieldMask);
 
         if(getParent() != NullFC)
         {

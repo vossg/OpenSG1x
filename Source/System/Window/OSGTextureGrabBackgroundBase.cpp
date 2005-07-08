@@ -164,11 +164,26 @@ UInt32 TextureGrabBackgroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TextureGrabBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TextureGrabBackgroundBase *) &other, whichField);
 }
+#else
+void TextureGrabBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TextureGrabBackgroundBase *) &other, whichField, sInfo);
+}
+void TextureGrabBackgroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -290,6 +305,7 @@ void TextureGrabBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TextureGrabBackgroundBase::executeSyncImpl(      TextureGrabBackgroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -310,6 +326,38 @@ void TextureGrabBackgroundBase::executeSyncImpl(      TextureGrabBackgroundBase 
 
 
 }
+#else
+void TextureGrabBackgroundBase::executeSyncImpl(      TextureGrabBackgroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (TextureFieldMask & whichField))
+        _sfTexture.syncWith(pOther->_sfTexture);
+
+    if(FieldBits::NoField != (AutoResizeFieldMask & whichField))
+        _sfAutoResize.syncWith(pOther->_sfAutoResize);
+
+    if(FieldBits::NoField != (BindTargetFieldMask & whichField))
+        _sfBindTarget.syncWith(pOther->_sfBindTarget);
+
+    if(FieldBits::NoField != (CopyTargetFieldMask & whichField))
+        _sfCopyTarget.syncWith(pOther->_sfCopyTarget);
+
+
+
+}
+
+void TextureGrabBackgroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -336,7 +384,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREGRABBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREGRABBACKGROUNDBASE_INLINE_CVSID;
 

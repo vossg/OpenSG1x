@@ -459,11 +459,26 @@ UInt32 RegisterCombinersChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void RegisterCombinersChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((RegisterCombinersChunkBase *) &other, whichField);
 }
+#else
+void RegisterCombinersChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((RegisterCombinersChunkBase *) &other, whichField, sInfo);
+}
+void RegisterCombinersChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -1044,6 +1059,7 @@ void RegisterCombinersChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void RegisterCombinersChunkBase::executeSyncImpl(      RegisterCombinersChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -1145,6 +1161,200 @@ void RegisterCombinersChunkBase::executeSyncImpl(      RegisterCombinersChunkBas
 
 
 }
+#else
+void RegisterCombinersChunkBase::executeSyncImpl(      RegisterCombinersChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (Color0FieldMask & whichField))
+        _sfColor0.syncWith(pOther->_sfColor0);
+
+    if(FieldBits::NoField != (Color1FieldMask & whichField))
+        _sfColor1.syncWith(pOther->_sfColor1);
+
+    if(FieldBits::NoField != (ColorSumClampFieldMask & whichField))
+        _sfColorSumClamp.syncWith(pOther->_sfColorSumClamp);
+
+    if(FieldBits::NoField != (PerStageConstantsFieldMask & whichField))
+        _sfPerStageConstants.syncWith(pOther->_sfPerStageConstants);
+
+
+    if(FieldBits::NoField != (VariableArgbFieldMask & whichField))
+        _mfVariableArgb.syncWith(pOther->_mfVariableArgb, sInfo);
+
+    if(FieldBits::NoField != (VariableBrgbFieldMask & whichField))
+        _mfVariableBrgb.syncWith(pOther->_mfVariableBrgb, sInfo);
+
+    if(FieldBits::NoField != (VariableCrgbFieldMask & whichField))
+        _mfVariableCrgb.syncWith(pOther->_mfVariableCrgb, sInfo);
+
+    if(FieldBits::NoField != (VariableDrgbFieldMask & whichField))
+        _mfVariableDrgb.syncWith(pOther->_mfVariableDrgb, sInfo);
+
+    if(FieldBits::NoField != (VariableAalphaFieldMask & whichField))
+        _mfVariableAalpha.syncWith(pOther->_mfVariableAalpha, sInfo);
+
+    if(FieldBits::NoField != (VariableBalphaFieldMask & whichField))
+        _mfVariableBalpha.syncWith(pOther->_mfVariableBalpha, sInfo);
+
+    if(FieldBits::NoField != (VariableCalphaFieldMask & whichField))
+        _mfVariableCalpha.syncWith(pOther->_mfVariableCalpha, sInfo);
+
+    if(FieldBits::NoField != (VariableDalphaFieldMask & whichField))
+        _mfVariableDalpha.syncWith(pOther->_mfVariableDalpha, sInfo);
+
+    if(FieldBits::NoField != (OutputABrgbFieldMask & whichField))
+        _mfOutputABrgb.syncWith(pOther->_mfOutputABrgb, sInfo);
+
+    if(FieldBits::NoField != (OutputCDrgbFieldMask & whichField))
+        _mfOutputCDrgb.syncWith(pOther->_mfOutputCDrgb, sInfo);
+
+    if(FieldBits::NoField != (OutputSumrgbFieldMask & whichField))
+        _mfOutputSumrgb.syncWith(pOther->_mfOutputSumrgb, sInfo);
+
+    if(FieldBits::NoField != (ScalergbFieldMask & whichField))
+        _mfScalergb.syncWith(pOther->_mfScalergb, sInfo);
+
+    if(FieldBits::NoField != (BiasrgbFieldMask & whichField))
+        _mfBiasrgb.syncWith(pOther->_mfBiasrgb, sInfo);
+
+    if(FieldBits::NoField != (OutputABalphaFieldMask & whichField))
+        _mfOutputABalpha.syncWith(pOther->_mfOutputABalpha, sInfo);
+
+    if(FieldBits::NoField != (OutputCDalphaFieldMask & whichField))
+        _mfOutputCDalpha.syncWith(pOther->_mfOutputCDalpha, sInfo);
+
+    if(FieldBits::NoField != (OutputSumalphaFieldMask & whichField))
+        _mfOutputSumalpha.syncWith(pOther->_mfOutputSumalpha, sInfo);
+
+    if(FieldBits::NoField != (DotABrgbFieldMask & whichField))
+        _mfDotABrgb.syncWith(pOther->_mfDotABrgb, sInfo);
+
+    if(FieldBits::NoField != (DotCDrgbFieldMask & whichField))
+        _mfDotCDrgb.syncWith(pOther->_mfDotCDrgb, sInfo);
+
+    if(FieldBits::NoField != (MuxSumrgbFieldMask & whichField))
+        _mfMuxSumrgb.syncWith(pOther->_mfMuxSumrgb, sInfo);
+
+    if(FieldBits::NoField != (ScalealphaFieldMask & whichField))
+        _mfScalealpha.syncWith(pOther->_mfScalealpha, sInfo);
+
+    if(FieldBits::NoField != (BiasalphaFieldMask & whichField))
+        _mfBiasalpha.syncWith(pOther->_mfBiasalpha, sInfo);
+
+    if(FieldBits::NoField != (MuxSumalphaFieldMask & whichField))
+        _mfMuxSumalpha.syncWith(pOther->_mfMuxSumalpha, sInfo);
+
+    if(FieldBits::NoField != (VariableEFieldMask & whichField))
+        _mfVariableE.syncWith(pOther->_mfVariableE, sInfo);
+
+    if(FieldBits::NoField != (VariableFFieldMask & whichField))
+        _mfVariableF.syncWith(pOther->_mfVariableF, sInfo);
+
+    if(FieldBits::NoField != (VariableGFieldMask & whichField))
+        _mfVariableG.syncWith(pOther->_mfVariableG, sInfo);
+
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+        _mfCombinerColor0.syncWith(pOther->_mfCombinerColor0, sInfo);
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+        _mfCombinerColor1.syncWith(pOther->_mfCombinerColor1, sInfo);
+
+
+}
+
+void RegisterCombinersChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableArgbFieldMask & whichField))
+        _mfVariableArgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableBrgbFieldMask & whichField))
+        _mfVariableBrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableCrgbFieldMask & whichField))
+        _mfVariableCrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableDrgbFieldMask & whichField))
+        _mfVariableDrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableAalphaFieldMask & whichField))
+        _mfVariableAalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableBalphaFieldMask & whichField))
+        _mfVariableBalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableCalphaFieldMask & whichField))
+        _mfVariableCalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableDalphaFieldMask & whichField))
+        _mfVariableDalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputABrgbFieldMask & whichField))
+        _mfOutputABrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputCDrgbFieldMask & whichField))
+        _mfOutputCDrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputSumrgbFieldMask & whichField))
+        _mfOutputSumrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ScalergbFieldMask & whichField))
+        _mfScalergb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (BiasrgbFieldMask & whichField))
+        _mfBiasrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputABalphaFieldMask & whichField))
+        _mfOutputABalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputCDalphaFieldMask & whichField))
+        _mfOutputCDalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (OutputSumalphaFieldMask & whichField))
+        _mfOutputSumalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DotABrgbFieldMask & whichField))
+        _mfDotABrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DotCDrgbFieldMask & whichField))
+        _mfDotCDrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (MuxSumrgbFieldMask & whichField))
+        _mfMuxSumrgb.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ScalealphaFieldMask & whichField))
+        _mfScalealpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (BiasalphaFieldMask & whichField))
+        _mfBiasalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (MuxSumalphaFieldMask & whichField))
+        _mfMuxSumalpha.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableEFieldMask & whichField))
+        _mfVariableE.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableFFieldMask & whichField))
+        _mfVariableF.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VariableGFieldMask & whichField))
+        _mfVariableG.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (CombinerColor0FieldMask & whichField))
+        _mfCombinerColor0.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (CombinerColor1FieldMask & whichField))
+        _mfCombinerColor1.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -1176,7 +1386,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID;
 

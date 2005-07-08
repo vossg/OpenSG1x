@@ -231,11 +231,26 @@ UInt32 PointChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PointChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PointChunkBase *) &other, whichField);
 }
+#else
+void PointChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PointChunkBase *) &other, whichField, sInfo);
+}
+void PointChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -459,6 +474,7 @@ void PointChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PointChunkBase::executeSyncImpl(      PointChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -497,6 +513,56 @@ void PointChunkBase::executeSyncImpl(      PointChunkBase *pOther,
 
 
 }
+#else
+void PointChunkBase::executeSyncImpl(      PointChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _sfSize.syncWith(pOther->_sfSize);
+
+    if(FieldBits::NoField != (SmoothFieldMask & whichField))
+        _sfSmooth.syncWith(pOther->_sfSmooth);
+
+    if(FieldBits::NoField != (MinSizeFieldMask & whichField))
+        _sfMinSize.syncWith(pOther->_sfMinSize);
+
+    if(FieldBits::NoField != (MaxSizeFieldMask & whichField))
+        _sfMaxSize.syncWith(pOther->_sfMaxSize);
+
+    if(FieldBits::NoField != (ConstantAttenuationFieldMask & whichField))
+        _sfConstantAttenuation.syncWith(pOther->_sfConstantAttenuation);
+
+    if(FieldBits::NoField != (LinearAttenuationFieldMask & whichField))
+        _sfLinearAttenuation.syncWith(pOther->_sfLinearAttenuation);
+
+    if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
+        _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
+
+    if(FieldBits::NoField != (FadeThresholdFieldMask & whichField))
+        _sfFadeThreshold.syncWith(pOther->_sfFadeThreshold);
+
+    if(FieldBits::NoField != (SpriteFieldMask & whichField))
+        _sfSprite.syncWith(pOther->_sfSprite);
+
+    if(FieldBits::NoField != (RModeFieldMask & whichField))
+        _sfRMode.syncWith(pOther->_sfRMode);
+
+
+
+}
+
+void PointChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -528,7 +594,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTCHUNKBASE_INLINE_CVSID;
 

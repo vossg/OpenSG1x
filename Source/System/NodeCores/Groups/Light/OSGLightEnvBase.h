@@ -113,9 +113,6 @@ class OSG_SYSTEMLIB_DLLMAPPING LightEnvBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -167,8 +164,29 @@ class OSG_SYSTEMLIB_DLLMAPPING LightEnvBase : public NodeCore
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      LightEnvBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      LightEnvBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -199,6 +217,6 @@ typedef RefPtr<LightEnvPtr> LightEnvRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.3 2005/05/30 20:00:44 dirk Exp $"
+#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.4 2005/07/08 06:33:15 vossg Exp $"
 
 #endif /* _OSGLIGHTENVBASE_H_ */

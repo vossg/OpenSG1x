@@ -173,11 +173,26 @@ UInt32 PolygonBackgroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PolygonBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PolygonBackgroundBase *) &other, whichField);
 }
+#else
+void PolygonBackgroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PolygonBackgroundBase *) &other, whichField, sInfo);
+}
+void PolygonBackgroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void PolygonBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,47 @@ void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
 
 
 }
+#else
+void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (MaterialFieldMask & whichField))
+        _sfMaterial.syncWith(pOther->_sfMaterial);
+
+    if(FieldBits::NoField != (NormalizedXFieldMask & whichField))
+        _sfNormalizedX.syncWith(pOther->_sfNormalizedX);
+
+    if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
+        _sfNormalizedY.syncWith(pOther->_sfNormalizedY);
+
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+        _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _mfPositions.syncWith(pOther->_mfPositions, sInfo);
+
+
+}
+
+void PolygonBackgroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
+        _mfTexCoords.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _mfPositions.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -370,7 +427,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.1 2005/06/06 17:16:01 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.2 2005/07/08 06:33:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

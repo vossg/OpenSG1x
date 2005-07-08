@@ -38,29 +38,33 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if defined(OSG_LINUX_ICC) && !defined(OSG_ICC_GNU_COMPAT)
+#    define MYFIRST _Myfirst
+#    define MYLAST  _Mylast
+#    define MYEND   _Myend
+#elif defined(OSG_SGI_CC) 
+#    define MYFIRST _M_start
+#    define MYLAST  _M_finish
+#    define MYEND   _M_end_of_storage
+#elif defined(OSG_LINUX_GCC)
+#    if __GNUC__ == 3 && __GNUC_MINOR__ >= 4
+#        define MYFIRST _M_impl._M_start
+#        define MYLAST  _M_impl._M_finish
+#        define MYEND   _M_impl._M_end_of_storage
+#    else
+#        define MYFIRST _M_start
+#        define MYLAST  _M_finish
+#        define MYEND   _M_end_of_storage
+#    endif
+#else
+#    define MYFIRST _Myfirst
+#    define MYLAST  _Mylast
+#    define MYEND   _Myend
+#endif
+
 #if defined(__sgi) || defined(__linux) || defined(darwin) || \
     defined(__sun) || defined(__hpux)
 
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getStart(void)
-{
-//    return Inherited::_M_start;
-    return NULL;
-}
-
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getFinish(void)
-{
-//    return Inherited::_M_finish;
-    return NULL;
-}
-
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getEndOfStorage(void)
-{
-//    return Inherited::_M_end_of_storage;
-    return NULL;
-}
 
 template <class Tp, class Alloc> inline
 MFieldVector<Tp, Alloc>::MFieldVector(const allocator_type& __a) :
@@ -122,25 +126,31 @@ MFieldVector<Tp, Alloc>::~MFieldVector()
 {
 }
 
+template <class Tp, class Alloc> inline
+void MFieldVector<Tp, Alloc>::shareValues(Self &other, bool bDeleteOld)
+{
+    if(bDeleteOld == true)
+    {
+        std::_Destroy(this->MYFIRST, this->MYLAST);
+
+        this->_M_deallocate(this->MYFIRST,
+                            this->MYEND - this->MYFIRST); 
+    }
+
+    this->MYFIRST = other.MYFIRST; 
+    this->MYLAST  = other.MYLAST;
+    this->MYEND   = other.MYEND;
+}
+
+template <class Tp, class Alloc> inline
+void MFieldVector<Tp, Alloc>::resolveShare(void)
+{
+    this->MYFIRST = NULL;
+    this->MYLAST  = NULL;
+    this->MYEND   = NULL;
+}
+
 #elif defined(WIN32)
-
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getStart(void)
-{
-    return NULL;
-}
-
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getFinish(void)
-{
-    return NULL;
-}
-
-template <class Tp, class Alloc> inline
-UChar8 *MFieldVector<Tp, Alloc>::getEndOfStorage(void)
-{
-    return NULL;
-}
 
 template<class Ty, class A> inline
 MFieldVector<Ty, A>::MFieldVector(const A &_Al) : 
@@ -176,6 +186,26 @@ MFieldVector<Ty, A>::~MFieldVector()
 {
 }
 
+template<class Ty, class A> inline
+void MFieldVector<Ty, A>::shareValues(Self &other, bool bDeleteOld)
+{
+    if(bDeleteOld == true)
+    {
+        delete this->MYFIRST;
+    }
+
+    this->MYFIRST = other.MYFIRST; 
+    this->MYLAST  = other.MYLAST;
+    this->MYEND   = other.MYEND;
+}
+
+template <class Tp, class A> inline
+void MFieldVector<Tp, A>::resolveShare(void)
+{
+    this->MYFIRST = NULL;
+    this->MYLAST  = NULL;
+    this->MYEND   = NULL;
+}
 #endif
 
 OSG_END_NAMESPACE

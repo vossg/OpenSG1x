@@ -128,5 +128,5 @@ const MFMaterialPtr &MultiPassMaterialBase::getMaterials(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.3 2005/05/30 20:00:20 dirk Exp $"
+#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.4 2005/07/08 06:32:50 vossg Exp $"
 

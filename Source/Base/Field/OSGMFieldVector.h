@@ -94,14 +94,9 @@ class MFieldVector : public std::vector<Tp, Alloc>
     typedef std::vector<Tp, Alloc> Inherited;
 
   private:
+
+    typedef MFieldVector<Tp, Alloc> Self;
     
-    template <class FieldTypeT, Int32 fieldNameSpace>
-    friend class MField;
-
-    UChar8 *getStart       (void);
-    UChar8 *getFinish      (void);
-    UChar8 *getEndOfStorage(void);
-
   public:
 
     typedef typename Inherited::allocator_type allocator_type;
@@ -131,6 +126,9 @@ class MFieldVector : public std::vector<Tp, Alloc>
 #endif /* __STL_MEMBER_TEMPLATES */
 
     ~MFieldVector();
+
+    void shareValues (Self &other, bool bDeleteOld);
+    void resolveShare(void                        );
 };
 
 #if defined(__sgi)
@@ -155,12 +153,7 @@ class MFieldVector : public std::vector<Ty, A>
 
 	typedef typename Inherited::const_iterator It;
 
-//    template <class FieldTypeT, Int32 fieldNameSpace>
-//    friend class MField;
-
-    UChar8 *getStart       (void);
-    UChar8 *getFinish      (void);
-    UChar8 *getEndOfStorage(void);
+    typedef           MFieldVector<Ty, A>      Self;
 
   public :	
 
@@ -178,6 +171,9 @@ class MFieldVector : public std::vector<Ty, A>
                  const A  &_Al = A());
 
 	~MFieldVector(void);
+
+    void shareValues (Self &other, bool bDeleteOld);
+    void resolveShare(void                        );
 };
 
 #endif

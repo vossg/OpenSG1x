@@ -382,11 +382,26 @@ UInt32 TerrainBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TerrainBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TerrainBase *) &other, whichField);
 }
+#else
+void TerrainBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TerrainBase *) &other, whichField, sInfo);
+}
+void TerrainBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -848,6 +863,7 @@ void TerrainBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TerrainBase::executeSyncImpl(      TerrainBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -928,6 +944,104 @@ void TerrainBase::executeSyncImpl(      TerrainBase *pOther,
 
 
 }
+#else
+void TerrainBase::executeSyncImpl(      TerrainBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (HeightDataFieldMask & whichField))
+        _sfHeightData.syncWith(pOther->_sfHeightData);
+
+    if(FieldBits::NoField != (HeightScaleFieldMask & whichField))
+        _sfHeightScale.syncWith(pOther->_sfHeightScale);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (LevelFieldMask & whichField))
+        _sfLevel.syncWith(pOther->_sfLevel);
+
+    if(FieldBits::NoField != (DetailFieldMask & whichField))
+        _sfDetail.syncWith(pOther->_sfDetail);
+
+    if(FieldBits::NoField != (BorderDetailFieldMask & whichField))
+        _sfBorderDetail.syncWith(pOther->_sfBorderDetail);
+
+    if(FieldBits::NoField != (VertexSpacingFieldMask & whichField))
+        _sfVertexSpacing.syncWith(pOther->_sfVertexSpacing);
+
+    if(FieldBits::NoField != (HeightVerticesFieldMask & whichField))
+        _sfHeightVertices.syncWith(pOther->_sfHeightVertices);
+
+    if(FieldBits::NoField != (GeoMorphingFieldMask & whichField))
+        _sfGeoMorphing.syncWith(pOther->_sfGeoMorphing);
+
+    if(FieldBits::NoField != (BoundMinFieldMask & whichField))
+        _sfBoundMin.syncWith(pOther->_sfBoundMin);
+
+    if(FieldBits::NoField != (BoundMaxFieldMask & whichField))
+        _sfBoundMax.syncWith(pOther->_sfBoundMax);
+
+    if(FieldBits::NoField != (EyePointFieldMask & whichField))
+        _sfEyePoint.syncWith(pOther->_sfEyePoint);
+
+    if(FieldBits::NoField != (EyeHeightFieldMask & whichField))
+        _sfEyeHeight.syncWith(pOther->_sfEyeHeight);
+
+    if(FieldBits::NoField != (EyePointValidFieldMask & whichField))
+        _sfEyePointValid.syncWith(pOther->_sfEyePointValid);
+
+    if(FieldBits::NoField != (OriginXFieldMask & whichField))
+        _sfOriginX.syncWith(pOther->_sfOriginX);
+
+    if(FieldBits::NoField != (OriginYFieldMask & whichField))
+        _sfOriginY.syncWith(pOther->_sfOriginY);
+
+    if(FieldBits::NoField != (OriginTexXFieldMask & whichField))
+        _sfOriginTexX.syncWith(pOther->_sfOriginTexX);
+
+    if(FieldBits::NoField != (OriginTexYFieldMask & whichField))
+        _sfOriginTexY.syncWith(pOther->_sfOriginTexY);
+
+    if(FieldBits::NoField != (TexSpacingFieldMask & whichField))
+        _sfTexSpacing.syncWith(pOther->_sfTexSpacing);
+
+    if(FieldBits::NoField != (TexYSpacingFieldMask & whichField))
+        _sfTexYSpacing.syncWith(pOther->_sfTexYSpacing);
+
+    if(FieldBits::NoField != (UpdateTerrainFieldMask & whichField))
+        _sfUpdateTerrain.syncWith(pOther->_sfUpdateTerrain);
+
+    if(FieldBits::NoField != (PerPixelLightingFieldMask & whichField))
+        _sfPerPixelLighting.syncWith(pOther->_sfPerPixelLighting);
+
+
+    if(FieldBits::NoField != (HeightErrorFieldMask & whichField))
+        _mfHeightError.syncWith(pOther->_mfHeightError, sInfo);
+
+    if(FieldBits::NoField != (HeightQuadFieldMask & whichField))
+        _mfHeightQuad.syncWith(pOther->_mfHeightQuad, sInfo);
+
+
+}
+
+void TerrainBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HeightErrorFieldMask & whichField))
+        _mfHeightError.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HeightQuadFieldMask & whichField))
+        _mfHeightQuad.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -959,7 +1073,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.3 2005/05/30 20:00:01 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.4 2005/07/08 06:32:36 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTERRAINBASE_INLINE_CVSID;
 

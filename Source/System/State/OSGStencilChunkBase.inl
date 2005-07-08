@@ -296,5 +296,5 @@ void StencilChunkBase::setClearBuffer(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.3 2005/05/30 20:00:47 dirk Exp $"
+#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.4 2005/07/08 06:33:19 vossg Exp $"
 

@@ -184,11 +184,26 @@ UInt32 MatrixCameraDecoratorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MatrixCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((MatrixCameraDecoratorBase *) &other, whichField);
 }
+#else
+void MatrixCameraDecoratorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((MatrixCameraDecoratorBase *) &other, whichField, sInfo);
+}
+void MatrixCameraDecoratorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -344,6 +359,7 @@ void MatrixCameraDecoratorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void MatrixCameraDecoratorBase::executeSyncImpl(      MatrixCameraDecoratorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -370,6 +386,44 @@ void MatrixCameraDecoratorBase::executeSyncImpl(      MatrixCameraDecoratorBase 
 
 
 }
+#else
+void MatrixCameraDecoratorBase::executeSyncImpl(      MatrixCameraDecoratorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (PreViewingFieldMask & whichField))
+        _sfPreViewing.syncWith(pOther->_sfPreViewing);
+
+    if(FieldBits::NoField != (PostViewingFieldMask & whichField))
+        _sfPostViewing.syncWith(pOther->_sfPostViewing);
+
+    if(FieldBits::NoField != (PreProjectionTranslationFieldMask & whichField))
+        _sfPreProjectionTranslation.syncWith(pOther->_sfPreProjectionTranslation);
+
+    if(FieldBits::NoField != (PostProjectionTranslationFieldMask & whichField))
+        _sfPostProjectionTranslation.syncWith(pOther->_sfPostProjectionTranslation);
+
+    if(FieldBits::NoField != (PreProjectionFieldMask & whichField))
+        _sfPreProjection.syncWith(pOther->_sfPreProjection);
+
+    if(FieldBits::NoField != (PostProjectionFieldMask & whichField))
+        _sfPostProjection.syncWith(pOther->_sfPostProjection);
+
+
+
+}
+
+void MatrixCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -401,7 +455,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERADECORATORBASE_INLINE_CVSID;
 

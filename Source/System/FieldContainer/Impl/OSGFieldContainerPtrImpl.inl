@@ -534,9 +534,12 @@ void FieldContainerPtr::operator =(const FieldContainerPtr &source)
 /*                             MT Edit                                     */
 
 inline
-void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField),
-                                  UInt32    OSG_CHECK_ARG(origin    )) const
+void FieldContainerPtr::beginEdit(BitVector whichField,
+                                  UInt32    OSG_CHECK_ARG(origin)) const
 {
+    (*this)->execBeginEdit(whichField,
+                           Thread::getAspect(), 
+                           getContainerSize());
 }
 
 inline
@@ -1122,9 +1125,25 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
                                         UInt32    uiToAspect,
                                         BitVector whichField)
 {
+#if defined(OSG_FIXED_MFIELDSYNC)
+    SyncInfo sInfo;
+
+    sInfo.syncMode     = 0x0000;
+    sInfo.uiSyncInfo   = (uiFromAspect << 24) | (uiToAspect << 16);
+    sInfo.uiCopyOffset = getContainerSize();
+#endif
+
     FieldContainer *pTo = ((FieldContainer *) getElemP(uiToAspect));
     
-    pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), whichField);
+#if !defined(OSG_FIXED_MFIELDSYNC)
+    pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), 
+                     whichField);
+#else
+    pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), 
+                     whichField,
+                     sInfo);
+#endif
+
     pTo->changed(whichField, ChangedOrigin::Sync);
 }
 

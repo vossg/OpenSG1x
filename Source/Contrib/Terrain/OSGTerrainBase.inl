@@ -772,5 +772,5 @@ const MFReal32 &TerrainBase::getHeightQuad(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.3 2005/05/30 20:00:02 dirk Exp $"
+#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.4 2005/07/08 06:32:36 vossg Exp $"
 

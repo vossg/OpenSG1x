@@ -186,11 +186,26 @@ UInt32 WindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void WindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((WindowBase *) &other, whichField);
 }
+#else
+void WindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((WindowBase *) &other, whichField, sInfo);
+}
+void WindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -363,6 +378,7 @@ void WindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void WindowBase::executeSyncImpl(      WindowBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -392,6 +408,56 @@ void WindowBase::executeSyncImpl(      WindowBase *pOther,
 
 
 }
+#else
+void WindowBase::executeSyncImpl(      WindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pOther->_sfHeight);
+
+    if(FieldBits::NoField != (ResizePendingFieldMask & whichField))
+        _sfResizePending.syncWith(pOther->_sfResizePending);
+
+    if(FieldBits::NoField != (GlObjectEventCounterFieldMask & whichField))
+        _sfGlObjectEventCounter.syncWith(pOther->_sfGlObjectEventCounter);
+
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+        _mfPort.syncWith(pOther->_mfPort, sInfo);
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+        _mfGlObjectLastRefresh.syncWith(pOther->_mfGlObjectLastRefresh, sInfo);
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+        _mfGlObjectLastReinitialize.syncWith(pOther->_mfGlObjectLastReinitialize, sInfo);
+
+
+}
+
+void WindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PortFieldMask & whichField))
+        _mfPort.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GlObjectLastRefreshFieldMask & whichField))
+        _mfGlObjectLastRefresh.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (GlObjectLastReinitializeFieldMask & whichField))
+        _mfGlObjectLastReinitialize.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -423,7 +489,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 

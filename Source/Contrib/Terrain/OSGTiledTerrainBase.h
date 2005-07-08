@@ -230,9 +230,6 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -304,8 +301,29 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      TiledTerrainBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      TiledTerrainBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -337,6 +355,6 @@ typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.3 2005/05/30 20:00:02 dirk Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.4 2005/07/08 06:32:37 vossg Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

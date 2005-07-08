@@ -184,11 +184,26 @@ UInt32 LinearCombinerGeometryBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LinearCombinerGeometryBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((LinearCombinerGeometryBase *) &other, whichField);
 }
+#else
+void LinearCombinerGeometryBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((LinearCombinerGeometryBase *) &other, whichField, sInfo);
+}
+void LinearCombinerGeometryBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -344,6 +359,7 @@ void LinearCombinerGeometryBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void LinearCombinerGeometryBase::executeSyncImpl(      LinearCombinerGeometryBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -370,6 +386,53 @@ void LinearCombinerGeometryBase::executeSyncImpl(      LinearCombinerGeometryBas
 
 
 }
+#else
+void LinearCombinerGeometryBase::executeSyncImpl(      LinearCombinerGeometryBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (RecalconrenderFieldMask & whichField))
+        _sfRecalconrender.syncWith(pOther->_sfRecalconrender);
+
+    if(FieldBits::NoField != (Allgeometries3fFieldMask & whichField))
+        _sfAllgeometries3f.syncWith(pOther->_sfAllgeometries3f);
+
+    if(FieldBits::NoField != (PositionsdirtyFieldMask & whichField))
+        _sfPositionsdirty.syncWith(pOther->_sfPositionsdirty);
+
+
+    if(FieldBits::NoField != (WeightsFieldMask & whichField))
+        _mfWeights.syncWith(pOther->_mfWeights, sInfo);
+
+    if(FieldBits::NoField != (SrcpositionsFieldMask & whichField))
+        _mfSrcpositions.syncWith(pOther->_mfSrcpositions, sInfo);
+
+    if(FieldBits::NoField != (SrcvolumesFieldMask & whichField))
+        _mfSrcvolumes.syncWith(pOther->_mfSrcvolumes, sInfo);
+
+
+}
+
+void LinearCombinerGeometryBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (WeightsFieldMask & whichField))
+        _mfWeights.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SrcpositionsFieldMask & whichField))
+        _mfSrcpositions.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SrcvolumesFieldMask & whichField))
+        _mfSrcvolumes.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -396,7 +459,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINEARCOMBINERGEOMETRYBASE_INLINE_CVSID;
 

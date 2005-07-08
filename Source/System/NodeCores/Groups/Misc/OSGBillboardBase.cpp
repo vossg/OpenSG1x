@@ -173,11 +173,26 @@ UInt32 BillboardBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BillboardBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((BillboardBase *) &other, whichField);
 }
+#else
+void BillboardBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((BillboardBase *) &other, whichField, sInfo);
+}
+void BillboardBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void BillboardBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,41 @@ void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
 
 
 }
+#else
+void BillboardBase::executeSyncImpl(      BillboardBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (AxisOfRotationFieldMask & whichField))
+        _sfAxisOfRotation.syncWith(pOther->_sfAxisOfRotation);
+
+    if(FieldBits::NoField != (FocusOnCameraFieldMask & whichField))
+        _sfFocusOnCamera.syncWith(pOther->_sfFocusOnCamera);
+
+    if(FieldBits::NoField != (AlignToScreenFieldMask & whichField))
+        _sfAlignToScreen.syncWith(pOther->_sfAlignToScreen);
+
+    if(FieldBits::NoField != (MinAngleFieldMask & whichField))
+        _sfMinAngle.syncWith(pOther->_sfMinAngle);
+
+    if(FieldBits::NoField != (MaxAngleFieldMask & whichField))
+        _sfMaxAngle.syncWith(pOther->_sfMaxAngle);
+
+
+
+}
+
+void BillboardBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -370,7 +421,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBILLBOARDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBILLBOARDBASE_INLINE_CVSID;
 

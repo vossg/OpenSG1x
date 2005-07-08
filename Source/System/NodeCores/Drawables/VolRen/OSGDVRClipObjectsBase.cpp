@@ -151,11 +151,26 @@ UInt32 DVRClipObjectsBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRClipObjectsBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DVRClipObjectsBase *) &other, whichField);
 }
+#else
+void DVRClipObjectsBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DVRClipObjectsBase *) &other, whichField, sInfo);
+}
+void DVRClipObjectsBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -260,6 +275,7 @@ void DVRClipObjectsBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRClipObjectsBase::executeSyncImpl(      DVRClipObjectsBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -277,6 +293,38 @@ void DVRClipObjectsBase::executeSyncImpl(      DVRClipObjectsBase *pOther,
 
 
 }
+#else
+void DVRClipObjectsBase::executeSyncImpl(      DVRClipObjectsBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ClipModeFieldMask & whichField))
+        _sfClipMode.syncWith(pOther->_sfClipMode);
+
+    if(FieldBits::NoField != (DoContoursFieldMask & whichField))
+        _sfDoContours.syncWith(pOther->_sfDoContours);
+
+
+    if(FieldBits::NoField != (ClipObjectsFieldMask & whichField))
+        _mfClipObjects.syncWith(pOther->_mfClipObjects, sInfo);
+
+
+}
+
+void DVRClipObjectsBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ClipObjectsFieldMask & whichField))
+        _mfClipObjects.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -306,7 +354,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRCLIPOBJECTSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRCLIPOBJECTSBASE_INLINE_CVSID;
 

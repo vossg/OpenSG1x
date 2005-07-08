@@ -294,11 +294,26 @@ UInt32 GraphicStatisticsForegroundBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((GraphicStatisticsForegroundBase *) &other, whichField);
 }
+#else
+void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((GraphicStatisticsForegroundBase *) &other, whichField, sInfo);
+}
+void GraphicStatisticsForegroundBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -624,6 +639,7 @@ void GraphicStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsForegroundBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -680,6 +696,107 @@ void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsFor
 
 
 }
+#else
+void GraphicStatisticsForegroundBase::executeSyncImpl(      GraphicStatisticsForegroundBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (LineWidthFieldMask & whichField))
+        _sfLineWidth.syncWith(pOther->_sfLineWidth);
+
+    if(FieldBits::NoField != (BackgroundColorFieldMask & whichField))
+        _sfBackgroundColor.syncWith(pOther->_sfBackgroundColor);
+
+    if(FieldBits::NoField != (TextEnabledFieldMask & whichField))
+        _sfTextEnabled.syncWith(pOther->_sfTextEnabled);
+
+    if(FieldBits::NoField != (BackgroundEnabledFieldMask & whichField))
+        _sfBackgroundEnabled.syncWith(pOther->_sfBackgroundEnabled);
+
+    if(FieldBits::NoField != (BorderEnabledFieldMask & whichField))
+        _sfBorderEnabled.syncWith(pOther->_sfBorderEnabled);
+
+
+    if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
+        _mfDisplayType.syncWith(pOther->_mfDisplayType, sInfo);
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _mfSize.syncWith(pOther->_mfSize, sInfo);
+
+    if(FieldBits::NoField != (PosFieldMask & whichField))
+        _mfPos.syncWith(pOther->_mfPos, sInfo);
+
+    if(FieldBits::NoField != (ColorMaxFieldMask & whichField))
+        _mfColorMax.syncWith(pOther->_mfColorMax, sInfo);
+
+    if(FieldBits::NoField != (ColorMinFieldMask & whichField))
+        _mfColorMin.syncWith(pOther->_mfColorMin, sInfo);
+
+    if(FieldBits::NoField != (ColorCurrentFieldMask & whichField))
+        _mfColorCurrent.syncWith(pOther->_mfColorCurrent, sInfo);
+
+    if(FieldBits::NoField != (MinValueFieldMask & whichField))
+        _mfMinValue.syncWith(pOther->_mfMinValue, sInfo);
+
+    if(FieldBits::NoField != (MaxValueFieldMask & whichField))
+        _mfMaxValue.syncWith(pOther->_mfMaxValue, sInfo);
+
+    if(FieldBits::NoField != (FlagsFieldMask & whichField))
+        _mfFlags.syncWith(pOther->_mfFlags, sInfo);
+
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+        _mfHistorySize.syncWith(pOther->_mfHistorySize, sInfo);
+
+    if(FieldBits::NoField != (DescriptionFieldMask & whichField))
+        _mfDescription.syncWith(pOther->_mfDescription, sInfo);
+
+
+}
+
+void GraphicStatisticsForegroundBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DisplayTypeFieldMask & whichField))
+        _mfDisplayType.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (SizeFieldMask & whichField))
+        _mfSize.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PosFieldMask & whichField))
+        _mfPos.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ColorMaxFieldMask & whichField))
+        _mfColorMax.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ColorMinFieldMask & whichField))
+        _mfColorMin.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ColorCurrentFieldMask & whichField))
+        _mfColorCurrent.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (MinValueFieldMask & whichField))
+        _mfMinValue.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (MaxValueFieldMask & whichField))
+        _mfMaxValue.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (FlagsFieldMask & whichField))
+        _mfFlags.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HistorySizeFieldMask & whichField))
+        _mfHistorySize.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (DescriptionFieldMask & whichField))
+        _mfDescription.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -711,7 +828,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 

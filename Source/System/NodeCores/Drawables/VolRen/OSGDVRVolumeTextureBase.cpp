@@ -184,11 +184,26 @@ UInt32 DVRVolumeTextureBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRVolumeTextureBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((DVRVolumeTextureBase *) &other, whichField);
 }
+#else
+void DVRVolumeTextureBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((DVRVolumeTextureBase *) &other, whichField, sInfo);
+}
+void DVRVolumeTextureBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -344,6 +359,7 @@ void DVRVolumeTextureBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void DVRVolumeTextureBase::executeSyncImpl(      DVRVolumeTextureBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -370,6 +386,47 @@ void DVRVolumeTextureBase::executeSyncImpl(      DVRVolumeTextureBase *pOther,
 
 
 }
+#else
+void DVRVolumeTextureBase::executeSyncImpl(      DVRVolumeTextureBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ImageFieldMask & whichField))
+        _sfImage.syncWith(pOther->_sfImage);
+
+    if(FieldBits::NoField != (MaxValFieldMask & whichField))
+        _sfMaxVal.syncWith(pOther->_sfMaxVal);
+
+    if(FieldBits::NoField != (SliceThicknessFieldMask & whichField))
+        _sfSliceThickness.syncWith(pOther->_sfSliceThickness);
+
+    if(FieldBits::NoField != (ResolutionFieldMask & whichField))
+        _sfResolution.syncWith(pOther->_sfResolution);
+
+    if(FieldBits::NoField != (FileNameFieldMask & whichField))
+        _sfFileName.syncWith(pOther->_sfFileName);
+
+
+    if(FieldBits::NoField != (HistogramFieldMask & whichField))
+        _mfHistogram.syncWith(pOther->_mfHistogram, sInfo);
+
+
+}
+
+void DVRVolumeTextureBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HistogramFieldMask & whichField))
+        _mfHistogram.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -396,7 +453,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMETEXTUREBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMETEXTUREBASE_INLINE_CVSID;
 

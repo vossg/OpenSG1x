@@ -261,11 +261,26 @@ UInt32 ClusterWindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ClusterWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ClusterWindowBase *) &other, whichField);
 }
+#else
+void ClusterWindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ClusterWindowBase *) &other, whichField, sInfo);
+}
+void ClusterWindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -540,6 +555,7 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -587,6 +603,74 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
 
 }
+#else
+void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ConnectionTypeFieldMask & whichField))
+        _sfConnectionType.syncWith(pOther->_sfConnectionType);
+
+    if(FieldBits::NoField != (ConnectionInterfaceFieldMask & whichField))
+        _sfConnectionInterface.syncWith(pOther->_sfConnectionInterface);
+
+    if(FieldBits::NoField != (ConnectionDestinationFieldMask & whichField))
+        _sfConnectionDestination.syncWith(pOther->_sfConnectionDestination);
+
+    if(FieldBits::NoField != (ConnectionParamsFieldMask & whichField))
+        _sfConnectionParams.syncWith(pOther->_sfConnectionParams);
+
+    if(FieldBits::NoField != (ServicePortFieldMask & whichField))
+        _sfServicePort.syncWith(pOther->_sfServicePort);
+
+    if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
+        _sfServiceAddress.syncWith(pOther->_sfServiceAddress);
+
+    if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
+        _sfClientWindow.syncWith(pOther->_sfClientWindow);
+
+    if(FieldBits::NoField != (InterleaveFieldMask & whichField))
+        _sfInterleave.syncWith(pOther->_sfInterleave);
+
+    if(FieldBits::NoField != (FrameCountFieldMask & whichField))
+        _sfFrameCount.syncWith(pOther->_sfFrameCount);
+
+    if(FieldBits::NoField != (ComposerFieldMask & whichField))
+        _sfComposer.syncWith(pOther->_sfComposer);
+
+
+    if(FieldBits::NoField != (ServersFieldMask & whichField))
+        _mfServers.syncWith(pOther->_mfServers, sInfo);
+
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+        _mfAutostart.syncWith(pOther->_mfAutostart, sInfo);
+
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+        _mfCalibration.syncWith(pOther->_mfCalibration, sInfo);
+
+
+}
+
+void ClusterWindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ServersFieldMask & whichField))
+        _mfServers.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (AutostartFieldMask & whichField))
+        _mfAutostart.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (CalibrationFieldMask & whichField))
+        _mfCalibration.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -618,7 +702,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCLUSTERWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLUSTERWINDOWBASE_INLINE_CVSID;
 

@@ -109,11 +109,26 @@ UInt32 RotateManipulatorBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void RotateManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((RotateManipulatorBase *) &other, whichField);
 }
+#else
+void RotateManipulatorBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((RotateManipulatorBase *) &other, whichField, sInfo);
+}
+void RotateManipulatorBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -167,6 +182,7 @@ void RotateManipulatorBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void RotateManipulatorBase::executeSyncImpl(      RotateManipulatorBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -175,6 +191,26 @@ void RotateManipulatorBase::executeSyncImpl(      RotateManipulatorBase *pOther,
 
 
 }
+#else
+void RotateManipulatorBase::executeSyncImpl(      RotateManipulatorBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+
+
+}
+
+void RotateManipulatorBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -201,7 +237,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.3 2005/07/08 06:32:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGROTATEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGROTATEMANIPULATORBASE_INLINE_CVSID;
 

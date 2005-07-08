@@ -146,9 +146,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -192,8 +189,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      ShaderChunkBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      ShaderChunkBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -225,6 +243,6 @@ typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.4 2005/05/30 20:00:10 dirk Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.5 2005/07/08 06:32:39 vossg Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

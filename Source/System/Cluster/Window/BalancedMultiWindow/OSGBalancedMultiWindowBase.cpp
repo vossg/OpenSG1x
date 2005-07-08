@@ -173,11 +173,26 @@ UInt32 BalancedMultiWindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BalancedMultiWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((BalancedMultiWindowBase *) &other, whichField);
 }
+#else
+void BalancedMultiWindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((BalancedMultiWindowBase *) &other, whichField, sInfo);
+}
+void BalancedMultiWindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void BalancedMultiWindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void BalancedMultiWindowBase::executeSyncImpl(      BalancedMultiWindowBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,41 @@ void BalancedMultiWindowBase::executeSyncImpl(      BalancedMultiWindowBase *pOt
 
 
 }
+#else
+void BalancedMultiWindowBase::executeSyncImpl(      BalancedMultiWindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (BalanceFieldMask & whichField))
+        _sfBalance.syncWith(pOther->_sfBalance);
+
+    if(FieldBits::NoField != (BestCutFieldMask & whichField))
+        _sfBestCut.syncWith(pOther->_sfBestCut);
+
+    if(FieldBits::NoField != (ShowBalancingFieldMask & whichField))
+        _sfShowBalancing.syncWith(pOther->_sfShowBalancing);
+
+    if(FieldBits::NoField != (TileSizeFieldMask & whichField))
+        _sfTileSize.syncWith(pOther->_sfTileSize);
+
+    if(FieldBits::NoField != (ShortFieldMask & whichField))
+        _sfShort.syncWith(pOther->_sfShort);
+
+
+
+}
+
+void BalancedMultiWindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -365,7 +416,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGBALANCEDMULTIWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBALANCEDMULTIWINDOWBASE_INLINE_CVSID;
 

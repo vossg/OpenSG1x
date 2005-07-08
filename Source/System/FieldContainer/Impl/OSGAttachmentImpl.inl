@@ -224,6 +224,7 @@ SimpleAttachment<AttachmentDescT>::~SimpleAttachment(void)
 /*-------------------------------------------------------------------------*/
 /*                               Sync                                      */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 template <class AttachmentDescT> inline
 void SimpleAttachment<AttachmentDescT>::executeSync(
           FieldContainer &other,
@@ -245,7 +246,32 @@ void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
         _field.syncWith(pOther->_field);
     }
 }
+#else
+template <class AttachmentDescT> inline
+void SimpleAttachment<AttachmentDescT>::executeSync(
+          FieldContainer &other,
+    const BitVector      &whichField,
+    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl(static_cast<SimpleAttachment *>(&other)    ,
+                                                           whichField,
+                                                          sInfo);
+}
 
+template <class AttachmentDescT> inline
+void SimpleAttachment<AttachmentDescT>::executeSyncImpl(
+          SimpleAttachment *pOther,
+    const BitVector        &whichField,
+    const SyncInfo         &sInfo     )
+{
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SimpleFieldMask & whichField))
+    {
+        _field.syncWith(pOther->_field);
+    }
+}
+#endif
 
 
 

@@ -272,11 +272,26 @@ UInt32 TiledTerrainBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TiledTerrainBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((TiledTerrainBase *) &other, whichField);
 }
+#else
+void TiledTerrainBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((TiledTerrainBase *) &other, whichField, sInfo);
+}
+void TiledTerrainBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -568,6 +583,7 @@ void TiledTerrainBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void TiledTerrainBase::executeSyncImpl(      TiledTerrainBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -618,6 +634,74 @@ void TiledTerrainBase::executeSyncImpl(      TiledTerrainBase *pOther,
 
 
 }
+#else
+void TiledTerrainBase::executeSyncImpl(      TiledTerrainBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (SizeXFieldMask & whichField))
+        _sfSizeX.syncWith(pOther->_sfSizeX);
+
+    if(FieldBits::NoField != (SizeYFieldMask & whichField))
+        _sfSizeY.syncWith(pOther->_sfSizeY);
+
+    if(FieldBits::NoField != (HeightScaleFieldMask & whichField))
+        _sfHeightScale.syncWith(pOther->_sfHeightScale);
+
+    if(FieldBits::NoField != (VertexSpacingFieldMask & whichField))
+        _sfVertexSpacing.syncWith(pOther->_sfVertexSpacing);
+
+    if(FieldBits::NoField != (GeoMorphingFieldMask & whichField))
+        _sfGeoMorphing.syncWith(pOther->_sfGeoMorphing);
+
+    if(FieldBits::NoField != (DetailFieldMask & whichField))
+        _sfDetail.syncWith(pOther->_sfDetail);
+
+    if(FieldBits::NoField != (CurrentXFieldMask & whichField))
+        _sfCurrentX.syncWith(pOther->_sfCurrentX);
+
+    if(FieldBits::NoField != (CurrentYFieldMask & whichField))
+        _sfCurrentY.syncWith(pOther->_sfCurrentY);
+
+    if(FieldBits::NoField != (SizeROIFieldMask & whichField))
+        _sfSizeROI.syncWith(pOther->_sfSizeROI);
+
+    if(FieldBits::NoField != (UpdateFieldMask & whichField))
+        _sfUpdate.syncWith(pOther->_sfUpdate);
+
+    if(FieldBits::NoField != (UpdateTerrainFieldMask & whichField))
+        _sfUpdateTerrain.syncWith(pOther->_sfUpdateTerrain);
+
+    if(FieldBits::NoField != (PerPixelLightingFieldMask & whichField))
+        _sfPerPixelLighting.syncWith(pOther->_sfPerPixelLighting);
+
+
+    if(FieldBits::NoField != (HeightTilesFieldMask & whichField))
+        _mfHeightTiles.syncWith(pOther->_mfHeightTiles, sInfo);
+
+    if(FieldBits::NoField != (HeightTexturesFieldMask & whichField))
+        _mfHeightTextures.syncWith(pOther->_mfHeightTextures, sInfo);
+
+
+}
+
+void TiledTerrainBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HeightTilesFieldMask & whichField))
+        _mfHeightTiles.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HeightTexturesFieldMask & whichField))
+        _mfHeightTextures.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -649,7 +733,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.3 2005/05/30 20:00:02 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.4 2005/07/08 06:32:36 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 

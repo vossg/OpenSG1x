@@ -140,11 +140,26 @@ UInt32 PerspectiveCameraBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PerspectiveCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField);
 }
+#else
+void PerspectiveCameraBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField, sInfo);
+}
+void PerspectiveCameraBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -232,6 +247,7 @@ void PerspectiveCameraBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -246,6 +262,32 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
 
 }
+#else
+void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (FovFieldMask & whichField))
+        _sfFov.syncWith(pOther->_sfFov);
+
+    if(FieldBits::NoField != (AspectFieldMask & whichField))
+        _sfAspect.syncWith(pOther->_sfAspect);
+
+
+
+}
+
+void PerspectiveCameraBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -277,7 +319,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 

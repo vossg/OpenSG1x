@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGStateChunk.h> // Parent
 
@@ -158,9 +160,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorMaskChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -222,8 +221,29 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorMaskChunkBase : public StateChunk
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      ColorMaskChunkBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      ColorMaskChunkBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -246,8 +266,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorMaskChunkBase : public StateChunk
 
 typedef ColorMaskChunkBase *ColorMaskChunkBaseP;
 
+typedef osgIF<ColorMaskChunkBase::isNodeCore,
+              CoredNodePtr<ColorMaskChunk>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet ColorMaskChunkNodePtr;
+
+typedef RefPtr<ColorMaskChunkPtr> ColorMaskChunkRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.1 2005/06/06 17:14:20 yjung Exp $"
+#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.2 2005/07/08 06:33:19 vossg Exp $"
 
 #endif /* _OSGCOLORMASKCHUNKBASE_H_ */

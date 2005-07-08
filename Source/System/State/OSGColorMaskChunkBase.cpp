@@ -162,11 +162,26 @@ UInt32 ColorMaskChunkBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ColorMaskChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((ColorMaskChunkBase *) &other, whichField);
 }
+#else
+void ColorMaskChunkBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((ColorMaskChunkBase *) &other, whichField, sInfo);
+}
+void ColorMaskChunkBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -288,6 +303,7 @@ void ColorMaskChunkBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void ColorMaskChunkBase::executeSyncImpl(      ColorMaskChunkBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -308,6 +324,38 @@ void ColorMaskChunkBase::executeSyncImpl(      ColorMaskChunkBase *pOther,
 
 
 }
+#else
+void ColorMaskChunkBase::executeSyncImpl(      ColorMaskChunkBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (MaskRFieldMask & whichField))
+        _sfMaskR.syncWith(pOther->_sfMaskR);
+
+    if(FieldBits::NoField != (MaskGFieldMask & whichField))
+        _sfMaskG.syncWith(pOther->_sfMaskG);
+
+    if(FieldBits::NoField != (MaskBFieldMask & whichField))
+        _sfMaskB.syncWith(pOther->_sfMaskB);
+
+    if(FieldBits::NoField != (MaskAFieldMask & whichField))
+        _sfMaskA.syncWith(pOther->_sfMaskA);
+
+
+
+}
+
+void ColorMaskChunkBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -339,7 +387,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.1 2005/06/06 17:14:20 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.2 2005/07/08 06:33:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORMASKCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORMASKCHUNKBASE_INLINE_CVSID;
 

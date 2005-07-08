@@ -173,11 +173,26 @@ UInt32 SortFirstWindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SortFirstWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((SortFirstWindowBase *) &other, whichField);
 }
+#else
+void SortFirstWindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((SortFirstWindowBase *) &other, whichField, sInfo);
+}
+void SortFirstWindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -316,6 +331,7 @@ void SortFirstWindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void SortFirstWindowBase::executeSyncImpl(      SortFirstWindowBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -339,6 +355,44 @@ void SortFirstWindowBase::executeSyncImpl(      SortFirstWindowBase *pOther,
 
 
 }
+#else
+void SortFirstWindowBase::executeSyncImpl(      SortFirstWindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (CompressionFieldMask & whichField))
+        _sfCompression.syncWith(pOther->_sfCompression);
+
+    if(FieldBits::NoField != (SubtileSizeFieldMask & whichField))
+        _sfSubtileSize.syncWith(pOther->_sfSubtileSize);
+
+    if(FieldBits::NoField != (ComposeFieldMask & whichField))
+        _sfCompose.syncWith(pOther->_sfCompose);
+
+    if(FieldBits::NoField != (UseFaceDistributionFieldMask & whichField))
+        _sfUseFaceDistribution.syncWith(pOther->_sfUseFaceDistribution);
+
+
+    if(FieldBits::NoField != (RegionFieldMask & whichField))
+        _mfRegion.syncWith(pOther->_mfRegion, sInfo);
+
+
+}
+
+void SortFirstWindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (RegionFieldMask & whichField))
+        _mfRegion.beginEdit(uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -365,7 +419,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.43 2005/03/05 11:27:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTFIRSTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTFIRSTWINDOWBASE_INLINE_CVSID;
 
