@@ -206,6 +206,23 @@ void MFieldVector<Tp, A>::resolveShare(void)
     this->MYLAST  = NULL;
     this->MYEND   = NULL;
 }
+
+#if defined(OSG_WIN32_CL) && defined(OSG_FIXED_MFIELDSYNC)
+template<> inline
+void MFieldVector<bool, std::allocator<bool> >::shareValues(
+    Self &other, 
+    bool  bDeleteOld)
+{
+    fprintf(stderr, "MFieldVector<_Bool, _Alloc>::shareValues not impl\n");
+}
+
+template <> inline
+void MFieldVector<bool, std::allocator<bool> >::resolveShare(void)
+{
+    fprintf(stderr, "MFieldVector<_Bool, _Alloc>::resolveShare not impl\n");
+}
+#endif
+
 #endif
 
 OSG_END_NAMESPACE
