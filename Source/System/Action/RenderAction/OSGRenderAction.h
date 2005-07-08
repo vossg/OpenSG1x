@@ -168,6 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setStateSorting(bool s);
     bool getStateSorting(void);
 
+    std::vector<Light *> getActiveLights(void);
     UInt32 getActiveLightsMask(void);
 
     /*------------------------- comparison ----------------------------------*/

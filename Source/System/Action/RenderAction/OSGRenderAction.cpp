@@ -980,6 +980,27 @@ void RenderAction::undropLightEnv(LightEnv *pLightEnv)
     _lightEnvsStack.pop();
 }
 
+std::vector<Light *> RenderAction::getActiveLights(void)
+{
+    // well that's quite slow ...
+    std::vector<Light *> lights;
+    for(UInt32 i = 0;i < _vLights.size();++i)
+    {
+        if(_activeLightsState & (TypeTraits<UInt64>::One << i))
+        {
+            for(LightsMap::iterator it = _lightsMap.begin(); it != _lightsMap.end(); ++it)
+            {
+                if((*it).second == i)
+                {
+                    lights.push_back((*it).first);
+                    break;
+                }
+            }
+        }
+    }
+    return lights;
+}
+
 bool RenderAction::isVisible( Node* node )
 {
     if ( getFrustumCulling() == false )
