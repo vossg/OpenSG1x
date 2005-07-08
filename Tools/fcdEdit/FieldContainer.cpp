@@ -645,6 +645,32 @@ bool FieldContainer::readDesc (const char *fn)
     return retCode;
 }
 
+char *escapeQuot(char *c)
+{
+    if (!c)
+    {
+        return new char [1];
+    }
+    
+    char *n;
+    
+    n = new char [strlen(c) + 1];
+    memcpy(n, c, strlen(c) + 1);
+    
+    char *r;
+    while(r = strchr(n, '"'))
+    {
+        char * n2 = new char [strlen(n) + 6];
+        memcpy(n2, n, r - n);
+        n2[r-n] = 0;
+        strcat(n2, "&quot;");
+        strcat(n2, r+1);
+        delete [] n;
+        n = n2;
+    }
+    
+    return n;
+}
 
 //----------------------------------------------------------------------
 // Method: writeDesc
@@ -715,8 +741,15 @@ bool FieldContainer::writeDesc (const char *fN)
       putField(out, pprefix, CARDINALITY_FIELD, npI->cardinalityStr());
       putField(out, pprefix, VISIBILITY_FIELD, npI->visibilityStr());
       putField(out, pprefix, DEFAULTVALUE_FIELD, npI->defaultValue());
-      putField(out, pprefix, DEFAULTHEADER_FIELD, npI->defaultHeader());
-      putField(out, pprefix, HEADER_FIELD, npI->header());
+      
+      char *c = escapeQuot(npI->defaultHeader());
+      putField(out, pprefix, DEFAULTHEADER_FIELD, c);
+      delete [] c;
+      
+      c = escapeQuot(npI->header());
+      putField(out, pprefix, HEADER_FIELD, c);
+      delete [] c;
+      
       putField(out, pprefix, ACCESS_FIELD, npI->accessStr());
       out << nprefix << ">" << endl;
             if (npI->description() && *npI->description())
@@ -1496,6 +1529,21 @@ bool FieldContainer::writeTempl(
                     s = new char [ strlen(fieldIt->header()) + 1];
                     strcpy( s, fieldIt->header() );                 
                 }
+                
+                // Do we need to add delimiters or are they in the fcd file
+                // already?
+                if(s[0] != '<' && s[0] != '"')
+                {
+                    int l = strlen(s);
+                    char *s2 = new char [ l + 3];
+                    s2[0] = '<';
+                    memcpy(s2+1, s, l);
+                    s2[l+1] = '>';
+                    s2[l+2] = 0;
+                    delete [] s;
+                    s = s2;
+                }
+                
                 values[FieldtypeIncludeE] = s;
                 
                 values[FielddescriptionE] = fielddescription;   

@@ -336,6 +336,13 @@ void Field::setDefaultHeader ( const char* defaultHeader )
     {
         _defaultHeader = new char [strlen(defaultHeader)+1];
         strcpy(_defaultHeader,defaultHeader);
+        
+        char *c;
+        while(c = strstr(_defaultHeader, "&quot;"))
+        {
+            *c = '"';
+            memcpy(c+1, c+6, strlen(c+6) + 1);
+        }
     }
     else
         _defaultHeader = 0;
@@ -381,6 +388,13 @@ void Field::setHeader ( const char* header )
     {
         _header = new char [strlen(header)+1];
         strcpy(_header,header);
+        
+        char *c;
+        while(c = strstr(_header, "&quot;"))
+        {
+            *c = '"';
+            memcpy(c+1, c+6, strlen(c+6) + 1);
+        }
     }
     else
         _header = 0;

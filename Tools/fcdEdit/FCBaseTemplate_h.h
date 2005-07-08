@@ -93,7 +93,7 @@ char *FCBaseTemplate_h[]={
 #endif
 "@@if !Decorator",
 "@@BeginFieldLoop@@",
-"#include <@!FieldtypeInclude!@> // @!Fieldname!@ type",
+"#include @!FieldtypeInclude!@ // @!Fieldname!@ type",
 "@@EndFieldLoop@@",
 "@@else",
 "#include <@!ParentHeaderPrefix!@OSG@!Parent!@Fields.h> // Decoratee type",
@@ -426,7 +426,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.39 2005/07/08 14:53:34 dirk Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

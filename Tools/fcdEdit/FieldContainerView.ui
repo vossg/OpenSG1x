@@ -15,9 +15,6 @@
     <property name="caption">
         <string>OpenSG Field Container Editor</string>
     </property>
-    <property name="toolTip" stdset="0">
-        <string>Use "" for lib-related includes</string>
-    </property>
     <vbox>
         <property name="name">
             <cstring>unnamed</cstring>
