@@ -923,5 +923,4 @@
 # endif
 #endif
 
-#define OSG_FIXED_MFIELDSYNC 1
 #endif /* _OSGCONFIG_H_ */
