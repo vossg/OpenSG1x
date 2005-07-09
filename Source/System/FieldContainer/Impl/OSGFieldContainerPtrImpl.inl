@@ -537,9 +537,11 @@ inline
 void FieldContainerPtr::beginEdit(BitVector whichField,
                                   UInt32    OSG_CHECK_ARG(origin)) const
 {
+#ifdef OSG_FIXED_MFIELDSYNC 
     (*this)->execBeginEdit(whichField,
                            Thread::getAspect(), 
                            getContainerSize());
+#endif
 }
 
 inline
