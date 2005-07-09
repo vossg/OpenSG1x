@@ -44,15 +44,15 @@ The header files and libraries needed for developing programs using OpenSG.
 
 %prep
 rm -rf $RPM_BUILD_ROOT
-# For now don't keep unpacking
 %setup -q -n %{name}
 #%setup -DT -q -n %{name}
 
 %build
-# Don't need to run autogen with most tarballs since we run it before compressing it.
 qt=`ls -1d %{_libdir}/qt* | tail -1`
 ./configure  --prefix=$RPM_BUILD_ROOT/usr --enable-glut --enable-jpg --enable-png --enable-tif --enable-gif --enable-qt --with-qt=$qt
-gmake
+export OSGSUBPARJOBS=`fgrep processor /proc/cpuinfo | wc -l`
+make
+make opt
 
 %install
 mkdir -p $RPM_BUILD_ROOT
@@ -60,9 +60,10 @@ rm -rf  $RPM_BUILD_ROOT/usr
 mkdir -p $RPM_BUILD_ROOT/usr
 
 make install > /dev/null
-sed -i "s/prefix=\".*/prefix=\"\/usr\"/" \
-    -i "s|${exec_prefix}/lib/|${exec_prefix}/lib/OpenSG-%{version}-|" \
-    $RPM_BUILD_ROOT/usr/bin/osg-config
+sed -e "s/prefix=\".*/prefix=\"\/usr\"/" \
+    -e "s|${exec_prefix}/lib/|${exec_prefix}/lib/OpenSG-1.6.0-|" \
+    < $RPM_BUILD_ROOT/usr/bin/osg-config > $RPM_BUILD_ROOT/usr/bin/osg-config.sed
+mv $RPM_BUILD_ROOT/usr/bin/osg-config.sed $RPM_BUILD_ROOT/usr/bin/osg-config
 
 cd $RPM_BUILD_ROOT/usr/lib
 
@@ -81,7 +82,7 @@ done
 if test %{_libdir} != "lib"
 then
     cd $RPM_BUILD_ROOT/usr
-    mv lib %{_libdir}
+    mv lib $RPM_BUILD_ROOT%{_libdir}
 fi
 
 %clean
@@ -98,13 +99,13 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-, root, root)
 /usr/bin
-/usr/lib/lib*
-/usr/lib/*opt
+%{_libdir}/lib*
+%{_libdir}/*opt
 
 %files devel
 %defattr(-, root, root)
 /usr/include
-/usr/lib/*dbg
+%{_libdir}/*dbg
 
 %doc CHANGELOG COPYING INSTALL PEOPLE README VERSION ${docfiles}
 
