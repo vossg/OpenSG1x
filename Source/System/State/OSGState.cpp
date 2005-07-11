@@ -343,10 +343,7 @@ bool State::addChunk(StateChunkPtr chunk, Int32 index)
         }
     }
 
-    if(_mfChunks[cindex] != chunk)
-    {
-        setRefdCP(_mfChunks[cindex], chunk);
-    }
+    setRefdCP(_mfChunks[cindex], chunk);
     
     return false;
 }

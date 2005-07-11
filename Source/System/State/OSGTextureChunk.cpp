@@ -51,6 +51,7 @@
 #include <OSGImage.h>
 
 #include "OSGDrawActionBase.h"
+#include "OSGRenderAction.h"
 
 #include "OSGTextureChunk.h"
 
@@ -262,7 +263,7 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
             imageContentChanged();
         }
     } // Only priority changed? Refresh is fine.
-    else if((whichField & ~PriorityFieldMask) == 0)
+    else if((whichField & ~(PriorityFieldMask | FrameFieldMask)) == 0)
     {
         imageContentChanged();
     } // Only dirty rectangle changed? Refresh is fine.
@@ -1555,6 +1556,10 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
 
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc();
+    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+        getImage()->getSize());
+    
     glBindTexture(target, getGLId());
 
 #ifdef GL_NV_point_sprite
@@ -1771,6 +1776,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
 
     win->validateGLObject(getGLId());
+
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc();
+    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+        getImage()->getSize());
 
     glBindTexture(target, getGLId());
  
