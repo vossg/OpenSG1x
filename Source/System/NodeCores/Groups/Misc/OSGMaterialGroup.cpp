@@ -115,9 +115,10 @@ Action::ResultE MaterialGroup::drawEnter(Action *action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-    if(da != NULL && _sfMaterial.getValue() != NullFC)
+    if(da != NULL && _sfMaterial.getValue() != NullFC &&
+       da->getMaterial() == NULL)
     {
-        da->setMaterial(&(*(_sfMaterial.getValue())));
+        da->setMaterial(&(*(_sfMaterial.getValue())), action->getActNode());
     }
 
     da->selectVisibles();
@@ -129,9 +130,9 @@ Action::ResultE MaterialGroup::drawLeave(Action * action)
 {
     DrawAction *da = dynamic_cast<DrawAction *>(action);
 
-    if(da != NULL)
+    if(da != NULL && da->getMaterialNode() == action->getActNode())
     {
-        da->setMaterial(NULL);
+        da->setMaterial(NULL, NullFC);
     }
 
     return Action::Continue;
@@ -144,9 +145,10 @@ Action::ResultE MaterialGroup::renderEnter(Action * action)
 {
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
-    if(da != NULL && _sfMaterial.getValue() != NullFC)
+    if(da != NULL && _sfMaterial.getValue() != NullFC &&
+       da->getMaterial() == NULL)
     {
-        da->setMaterial(&(*(_sfMaterial.getValue())));
+        da->setMaterial(&(*(_sfMaterial.getValue())), action->getActNode());
     }
 
     return Group::renderEnter(action);
@@ -156,9 +158,9 @@ Action::ResultE MaterialGroup::renderLeave(Action * action)
 {
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
-    if(da != NULL)
+    if(da != NULL && da->getMaterialNode() == action->getActNode())
     {
-        da->setMaterial(NULL);
+        da->setMaterial(NULL, NullFC);
     }
 
     return Group::renderLeave(action);

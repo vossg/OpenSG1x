@@ -99,7 +99,6 @@ display(void)
 
 void reshape( int w, int h )
 {
-	std::cerr << "Reshape: " << w << "," << h << std::endl;
 	win->resize( w, h );
 }
 
@@ -186,40 +185,46 @@ vis(int visible)
 
 void key(unsigned char key, int , int )
 {
-	switch ( key )
-	{
-	case 27:	osgExit(); exit(0);
-	case 'z':	glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-				std::cerr << "PolygonMode: Point." << std::endl;
-				break;
-	case 'x':	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-				std::cerr << "PolygonMode: Line." << std::endl;
-				break;
-	case 'c':	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-				std::cerr << "PolygonMode: Fill." << std::endl;
-				break;
-	case 'q':	glDisable( GL_COLOR_MATERIAL );
-				std::cerr << "ColorMaterial disabled." << std::endl;
-				break;
-	case 'w':	glEnable( GL_COLOR_MATERIAL );
-				std::cerr << "ColorMaterial enabled." << std::endl;
-				break;
-	case 'e':	doWire = !doWire;
-				std::cerr << "BBox render: " << (doWire?"on":"off") << std::endl;
-				break;
-	case 'd':	ract->setFrustumCulling( ! ract->getFrustumCulling() );
-				std::cerr << "Culling: " << (ract->getFrustumCulling()?"on":"off") << std::endl;
-				break;
-	case 'f':	ract->setVolumeDrawing( ! ract->getVolumeDrawing() );
-				std::cerr << "Volume Drawing: " << (ract->getVolumeDrawing()?"on":"off") << std::endl;
-				break;
-	case 'r':	headlight->setOn( ! headlight->getOn() );
-				std::cerr << "Headlight: " << (headlight->getOn()?"on":"off") << std::endl;
-				break;
-	case 'R':	doRender = !doRender;
-				printf("Now using %s action\n", doRender?"render":"draw" );
-				break;
-	}
+    switch ( key )
+    {
+        case 27:    osgExit(); exit(0);
+        case 'z':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(1,0,0));
+                    endEditCP(bill);
+                    printf("Axis now (1,0,0)\n");
+                    break;
+        case 'x':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(0,1,0));
+                    endEditCP(bill);
+                    printf("Axis now (0,1,0)\n");
+                    break;
+        case 'c':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(0,0,1));
+                    endEditCP(bill);
+                    printf("Axis now (0,0,1)\n");
+                    break;
+        case 'v':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(0,0,0));
+                    bill->setFocusOnCamera(false);
+                    bill->setAlignToScreen(false);
+                    endEditCP(bill);
+                    printf("Axis now (0,0,0), focusOnCamera false, alignToScreen false\n");
+                    break;
+        case 'b':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(0,0,0));
+                    bill->setFocusOnCamera(true);
+                    bill->setAlignToScreen(false);
+                    endEditCP(bill);
+                    printf("Axis now (0,0,0), focusOnCamera true , alignToScreen false\n");
+                    break;
+        case 'n':   beginEditCP(bill);
+                    bill->setAxisOfRotation(Vec3f(0,0,0));
+                    bill->setFocusOnCamera(false);
+                    bill->setAlignToScreen(true);
+                    endEditCP(bill);
+                    printf("Axis now (0,0,0), focusOnCamera false, alignToScreen true\n");
+                    break;
+    }
 }
 
 
@@ -331,7 +336,7 @@ int main (int argc, char **argv)
     endEditCP(tnode);
   
     // a geometry to billboard
-    NodePtr geo = makeTorus( .2, 1, 16, 16);
+    NodePtr geo = makeTorus( .2, 1, 16, 3);
 
     beginEditCP(bnode);
     bnode->addChild( geo );

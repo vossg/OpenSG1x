@@ -289,7 +289,7 @@ int main(int argc, char** argv)
     endEditCP(lodNode);
     
     beginEditCP(lodNodeCore);
-    lodNodeCore->getSFCenter()->setValue( Pnt3f(0, 0, 0) );
+    lodNodeCore->getSFCenter()->setValue( Pnt3f(0, 0, 2) );
     lodNodeCore->getMFRange()->push_back( 4.0 );
     lodNodeCore->getMFRange()->push_back( 8.0 );
     lodNodeCore->getMFRange()->push_back( 11.0 );
