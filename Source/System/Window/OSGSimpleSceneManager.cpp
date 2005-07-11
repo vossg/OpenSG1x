@@ -497,6 +497,8 @@ void SimpleSceneManager::initialize(void)
         sf->addElement(Drawable::statNLines,        "%d lines drawn");
         sf->addElement(Drawable::statNPoints,       "%d points drawn");
         sf->addElement(Drawable::statNVertices,     "%d vertices transformed");
+        sf->addElement(RenderAction::statNTextures, "%d textures used");
+        sf->addElement(RenderAction::statNTexBytes, "%d bytes of texture used");
         endEditCP(sf);
 
         StatCollector *collector = &sf->getCollector();
@@ -537,6 +539,13 @@ void SimpleSceneManager::showAll(void)
     Vec3f min,max;
     _root->getVolume().getBounds( min, max );
     Vec3f d = max - min;
+
+    if(d.length() < Eps) // Nothing loaded? Use a unity box
+    {
+        min.setValues(-1.f,-1.f,-1.f);
+        max.setValues( 1.f, 1.f, 1.f);
+        d = max - min;
+    }
 
     Real32 dist = osgMax(d[0],d[1]) / (2 * osgtan(_camera->getFov() / 2.f));
 
