@@ -113,9 +113,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
 
     /*------------------------- your_category -------------------------------*/
     
-    Material   *getMaterial(void) const;
-    void        setMaterial(Material *material);
-    
     UInt32      getLightCount(void) const;
     void        incLightCount(void);
     void        decLightCount(void);
@@ -212,8 +209,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawAction : public DrawActionBase
     //-----------------------------------------------------------------------
     //   instance variables                                                  
     //-----------------------------------------------------------------------
-
-    Material *_material;
     
     UInt32 _lightCount;
     

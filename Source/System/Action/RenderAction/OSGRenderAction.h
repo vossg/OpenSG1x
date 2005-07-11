@@ -88,14 +88,21 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 {
   public:
 
-    typedef std::pair<UInt32      ,      Matrix                 > MatrixStore;
+    typedef struct
+    {
+        UInt32 first;
+        Matrix second;
+        Matrix acc;
+    }
+    MatrixStore;
+    
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
-    typedef std::map<Light       *,      UInt32                 > LightsMap;
+    typedef std::map <Light      *,      UInt32                 > LightsMap;
 
     typedef std::stack<Light     *                              > LightsStack;
     typedef std::stack<LightEnv  *                              > LightEnvsStack;
-    typedef std::map<LightEnv    *,      UInt32                 > LightEnvsMap;
+    typedef std::map  <LightEnv  *,      UInt32                 > LightEnvsMap;
   
     //-----------------------------------------------------------------------
     //   constants                                                               
@@ -106,6 +113,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     static StatElemDesc<StatIntElem > statNMatrices;
     static StatElemDesc<StatIntElem > statNGeometries;
     static StatElemDesc<StatIntElem > statNTransGeometries;
+    static StatElemDesc<StatIntElem > statNTextures;
+    static StatElemDesc<StatIntElem > statNTexBytes;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -138,9 +147,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     virtual ~RenderAction(void); 
 
     /*------------------------- your_category -------------------------------*/
-
-    Material   *getMaterial  (void               ) const;
-    void        setMaterial  (Material *pMaterial);
     
     virtual Action::ResultE start(void       );
     virtual Action::ResultE stop (ResultE res); 
@@ -222,13 +228,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     DrawTreeNodeFactory      *_pNodeFactory;
 
-    Material                 *_pMaterial;
-
     UInt32                    _uiMatrixId;
 
     MatrixStore               _currMatrix;
     Matrix                    _camInverse;
-    Matrix                    _accMatrix;
 
     std::vector<MatrixStore>  _vMatrixStack;
 

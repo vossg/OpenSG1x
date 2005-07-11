@@ -151,6 +151,18 @@ StatCollector* DrawActionBase::getStatistics(void) const
     return _statistics;
 }
 
+inline 
+Material *DrawActionBase::getMaterial(void) const
+{
+    return _pMaterial;
+}
+
+inline 
+NodePtr DrawActionBase::getMaterialNode(void) const
+{
+    return _pMaterialNode;
+}
+
 /*---------------------------- properties ---------------------------------*/
 
 /*-------------------------- your_category---------------------------------*/

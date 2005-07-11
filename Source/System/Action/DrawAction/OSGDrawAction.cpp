@@ -167,7 +167,6 @@ DrawAction *DrawAction::getPrototype( void )
 
 DrawAction::DrawAction(void) :
      Inherited (),
-    _material  (NULL),
     _lightCount(0)
 {
     if ( _defaultEnterFunctors )
@@ -183,7 +182,6 @@ DrawAction::DrawAction(void) :
 
 DrawAction::DrawAction( const DrawAction & source ) :
      Inherited (source),
-    _material  (source._material),
     _lightCount(source._lightCount)
 {
 }
@@ -212,13 +210,6 @@ DrawAction::~DrawAction(void)
 }
 
 /*------------------------------ access -----------------------------------*/
-
-/*---------------------------- properties ---------------------------------*/
-    
-void DrawAction::setMaterial(Material *material)
-{
-    _material = material;
-}
 
 /*-------------------------- your_category---------------------------------*/
 

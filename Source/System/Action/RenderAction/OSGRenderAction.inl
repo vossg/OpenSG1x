@@ -103,16 +103,10 @@ OSG_BEGIN_NAMESPACE
 /*---------------------------- properties ---------------------------------*/
 
 inline 
-Material *RenderAction::getMaterial(void) const
-{
-    return _pMaterial;
-}
-
-inline 
 void RenderAction::updateTopMatrix(void)
 {
-    _accMatrix = _camInverse;
-    _accMatrix.mult(_currMatrix.second);
+    _currMatrix.acc = _camInverse;
+    _currMatrix.acc.mult(_currMatrix.second);
 }
 
 inline
@@ -122,7 +116,7 @@ const Matrix &RenderAction::top_matrix(void)
 //    _accMatrix = _camInverse;
 //    _accMatrix.mult(_currMatrix.second);
 
-    return _accMatrix;
+    return _currMatrix.acc;
 }
 
 inline

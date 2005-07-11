@@ -131,6 +131,8 @@ DrawActionBase::DrawActionBase(void) :
     _volumeDrawing (false),
     _autoFrustum   (true ),
     _frustum       (     ),
+    _pMaterial     (     ),
+    _pMaterialNode (     ),
     _mCameraToWorld(     )
 {
 }
@@ -148,6 +150,8 @@ DrawActionBase::DrawActionBase(const DrawActionBase &source) :
     _volumeDrawing (source._volumeDrawing  ),
     _autoFrustum   (source._autoFrustum    ),
     _frustum       (source._frustum        ),
+    _pMaterial     (source._pMaterial      ),
+    _pMaterialNode (source._pMaterialNode  ),
     _mCameraToWorld(source._mCameraToWorld )
 {
 }
@@ -167,6 +171,12 @@ DrawActionBase::~DrawActionBase(void)
 }
 
 /*------------------------------ start -----------------------------------*/
+
+void DrawActionBase::setMaterial(Material *pMaterial, NodePtr node)
+{
+    _pMaterial     = pMaterial;
+    _pMaterialNode = node;
+}
 
 
 Action::ResultE DrawActionBase::start(void)

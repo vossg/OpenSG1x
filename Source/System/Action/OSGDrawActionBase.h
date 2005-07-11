@@ -64,6 +64,7 @@ class Background;
 class Window;
 class Node;
 class Viewport;
+class Material;
 
 //---------------------------------------------------------------------------
 //   Types
@@ -147,6 +148,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
 
     // select all visible nodes
     UInt32  selectVisibles( void );
+
+
+    Material   *getMaterial    (void                             ) const;
+    NodePtr     getMaterialNode(void                             ) const;
+    void        setMaterial    (Material *pMaterial, NodePtr node);
     
     /*------------------------- your_operators ------------------------------*/
 
@@ -187,6 +193,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     Viewport      *_viewport;
     StatCollector *_statistics;
     bool           _ownStat;
+
+
+    Material      *_pMaterial;
+    NodePtr        _pMaterialNode;
 
     // frustum culling attributes
     

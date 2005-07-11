@@ -102,12 +102,6 @@ OSG_BEGIN_NAMESPACE
 
 
 inline 
-Material *DrawAction::getMaterial(void) const
-{
-    return _material;
-}
-
-inline 
 UInt32 DrawAction::getLightCount(void) const
 {
     return _lightCount;

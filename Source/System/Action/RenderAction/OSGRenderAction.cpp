@@ -120,6 +120,10 @@ StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries",
 "number of Geometry nodes");
 StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries",
 "number of transformed Geometry nodes");
+StatElemDesc<StatIntElem > RenderAction::statNTextures("NTextures",
+"number of texture changes");
+StatElemDesc<StatIntElem > RenderAction::statNTexBytes("NTexBytes",
+"sum of all used texture's size (approx., in bytes)");
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -217,8 +221,6 @@ RenderAction::RenderAction(void) :
      Inherited           (),
     _pNodeFactory        (NULL),
 
-    _pMaterial           (NULL),
-
     _uiMatrixId          (0),
     _currMatrix          (),
     _vMatrixStack        (),
@@ -273,8 +275,6 @@ RenderAction::RenderAction(void) :
 RenderAction::RenderAction(const RenderAction &source) :
      Inherited           (source),
     _pNodeFactory        (NULL),
-
-    _pMaterial           (source._pMaterial),
 
     _uiMatrixId          (source._uiMatrixId),
     _currMatrix          (source._currMatrix),
@@ -351,11 +351,6 @@ RenderAction::~RenderAction(void)
 
 // rendering state handling
 
-void RenderAction::setMaterial(Material *pMaterial)
-{
-    _pMaterial = pMaterial;
-}
-
 void RenderAction::dropGeometry(Geometry *pGeo)
 {
     Material *pMat;
@@ -366,9 +361,9 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
-    if(_pMaterial != NULL)
+    if(getMaterial() != NULL)
     {
-        pMat = _pMaterial;
+        pMat = getMaterial();
     }
     else if(pGeo->getMaterial() != NullFC)
     {
@@ -609,9 +604,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     Material *pMat;
     State    *pState;
 
-    if(_pMaterial != NULL)
+    if(getMaterial() != NULL)
     {
-        pMat = _pMaterial;
+        pMat = getMaterial();
     }
     else if(mat != NULL)
     {
@@ -1342,6 +1337,8 @@ bool RenderAction::getCorrectTwoSidedLighting(void)
 
 Action::ResultE RenderAction::start(void)
 {
+    glErr("RenderAction: precheck");
+    
     Inherited::start();
 
     if(_window != NULL)
@@ -1431,6 +1428,8 @@ Action::ResultE RenderAction::start(void)
     _uiNumMatrixChanges   = 0;
     _uiNumGeometries      = 0;
     _uiNumTransGeometries = 0;
+    getStatistics()->getElem(statNTextures)->reset();
+    getStatistics()->getElem(statNTexBytes)->reset();
 
     _vLights.clear();
     _lightsMap.clear();
@@ -1638,9 +1637,7 @@ void RenderAction::pop_matrix(void)
     }
 #endif
 
-    _currMatrix.first  = _vMatrixStack.back().first;
-    _currMatrix.second = _vMatrixStack.back().second;
-    updateTopMatrix();
+    _currMatrix  = _vMatrixStack.back();
 
     _vMatrixStack.pop_back();
 
