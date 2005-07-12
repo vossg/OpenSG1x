@@ -334,9 +334,8 @@ Action::ResultE Action::recurse( NodePtr node  )
             if ( result != Continue )
                 break;
         }
-    }
-
-    _actNode = node;
+    }   
+    
     if ( result == Continue )
         result = callLeave( node );
     else
