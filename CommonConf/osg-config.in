@@ -257,6 +257,7 @@ Libraries:
     GLUT
     QT
     Sepia
+    Contrib
 EOF
     exit $1
 }
