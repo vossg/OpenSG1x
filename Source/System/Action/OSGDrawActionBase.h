@@ -121,7 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
           Window        *getWindow       (void                  ) const;
           void           setWindow       (Window * window       );
     
-          StatCollector *getStatistics   (void                  ) const;
+          StatCollector *getStatistics   (void                  );
           void           setStatistics   (StatCollector * stat  );
 
     // frustum culling functions

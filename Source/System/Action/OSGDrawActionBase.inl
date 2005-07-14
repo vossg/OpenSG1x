@@ -146,8 +146,14 @@ const FrustumVolume& DrawActionBase::getFrustum(void) const
 }
     
 inline
-StatCollector* DrawActionBase::getStatistics(void) const
+StatCollector* DrawActionBase::getStatistics(void)
 {
+    if(_statistics == NULL)
+    {
+        _statistics = StatCollector::create();
+        _ownStat = true;
+    }
+
     return _statistics;
 }
 
