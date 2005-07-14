@@ -120,7 +120,13 @@ LD         := $(shell $(OSG_CONFIG) --exe-linker --$(LIBTYPE) )
 endif
 LDFLAGS    :=
 ifeq ($(NOGUI),true)
+ifeq ($(findstring WIN,$(OS)),WIN)
+# HACK we don't need to link against the System lib,
+# but on windows the compiler lib path is missing without the System lib ...
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System)
+else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base )
+endif
 else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
 endif
