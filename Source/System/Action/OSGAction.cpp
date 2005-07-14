@@ -335,7 +335,8 @@ Action::ResultE Action::recurse( NodePtr node  )
                 break;
         }
     }   
-    
+
+    _actNode = node;
     if ( result == Continue )
         result = callLeave( node );
     else
