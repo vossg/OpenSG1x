@@ -22,6 +22,9 @@ if _po.getOption('contrib_ply'):
 if _po.getOption('contrib_drawfunctorcore'):
     ContribDirs.append(Dir('DrawFunctorCore'))
 
+if _po.getOption('contrib_terrain'):
+    ContribDirs.append(Dir('Terrain'))
+
 headers, sources, tests, generated = ProcessDirs(ContribDirs)
 # don't forget the OSGContribDef.h file.
 headers += Glob('OSG*.h')
