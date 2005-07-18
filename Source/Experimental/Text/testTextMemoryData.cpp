@@ -3,7 +3,6 @@
 // This example shows how to use TrueType(tm) Fonts with OSGText
 //
 #include <fstream>
-#include <strstream>
 #include <string>
 #include <OSGGLUT.h>
 #include <OSGConfig.h>
