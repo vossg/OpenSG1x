@@ -128,6 +128,32 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     /*==========================  PRIVATE  ================================*/
   private:
 
+    struct LoadGroup;
+    struct BBox;
+    struct VPort;
+    struct Server;
+    struct WorkPackage;
+    struct Tile;
+    struct Area;
+    struct Cluster;
+    struct Worker;
+    struct OpenBBox;
+    struct ServerComp;
+    struct BBoxList;
+
+    friend struct LoadGroup;
+    friend struct BBox;
+    friend struct VPort;
+    friend struct Server;
+    friend struct WorkPackage;
+    friend struct Tile;
+    friend struct Area;
+    friend struct Cluster;
+    friend struct Worker;
+    friend struct OpenBBox;
+    friend struct ServerComp;
+    friend struct BBoxList;
+
     struct LoadGroup {
         NodePtr                root;
         NodePtr                node;

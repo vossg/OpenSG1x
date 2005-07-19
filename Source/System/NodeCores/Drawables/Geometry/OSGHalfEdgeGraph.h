@@ -70,8 +70,16 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
 
     enum WalkCase { START, LEFT, RIGHT, FINISH };
 
+    class HalfEdge;
     class Triangle;
-
+    class TriangleList;
+    class TrianglePool;
+    
+    friend class HalfEdge;
+    friend class Triangle;
+    friend class TriangleList;
+    friend class TrianglePool;
+    
     class HalfEdge
     {
         IndexT _vertexIndex;
@@ -130,18 +138,8 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
     {
         enum { DEFAULT_CHUNK_SIZE = 2048 };
 
-        struct Chunk
-        {
-            const UInt32 _size;
-            UInt32 _freeElem;
-            Chunk *_next;
-            Triangle *_data;
-
-            inline Chunk (const UInt32 size);
-            inline ~Chunk (void);
-            inline UInt32 countElem(void);
-        };
-
+        class Chunk;
+        
         UInt32 _defaultChunkSize;
         Chunk *_first;
         Chunk *_last;   
@@ -157,6 +155,8 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
         inline void setChunkSize(UInt32 chunkSize = DEFAULT_CHUNK_SIZE);
     };
 
+    friend TrianglePool::Chunk;
+    
     // temporary vector data structure
     typedef std::vector < std::pair<UInt32,HalfEdge *> > HalfEdgeLink;
     std::vector<HalfEdgeLink> _edgeLinkVec;
@@ -214,6 +214,19 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
 
     void clear(void);
 
+};
+
+class HalfEdgeGraph::TrianglePool::Chunk
+{
+    public:
+    const UInt32 _size;
+    UInt32 _freeElem;
+    Chunk *_next;
+    Triangle *_data;
+
+    inline Chunk (const UInt32 size);
+    inline ~Chunk (void);
+    inline UInt32 countElem(void);
 };
 
 typedef HalfEdgeGraph* HalfEdgeGraphP;

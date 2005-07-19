@@ -160,6 +160,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PriorityAction : public NewActionBase
     typedef StateStore::iterator        StateStoreIt;
     typedef StateStore::const_iterator  StateStoreConstIt;
 
+    class StateRefCount;
+    class NodeQueueEntry;
+    friend class StateRefCount;
+    friend class NodeQueueEntry;
+
     class StateRefCount
     {
       public:
@@ -269,6 +274,6 @@ OSG_END_NAMESPACE
 
 #include "OSGPriorityAction.inl"
 
-#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.6 2004/09/17 14:09:43 neumannc Exp $"
+#define OSGPRIORITYACTION_HEADER_CVSID "@(#)$Id: OSGPriorityAction.h,v 1.7 2005/07/19 23:11:33 dirk Exp $"
 
 #endif /* _OSGPRIORITYACTION_H_ */
