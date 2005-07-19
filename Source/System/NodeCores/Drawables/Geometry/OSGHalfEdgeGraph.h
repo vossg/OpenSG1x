@@ -136,15 +136,9 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
 
     class TrianglePool
     {
-        enum { DEFAULT_CHUNK_SIZE = 2048 };
+      public:
 
         class Chunk;
-        
-        UInt32 _defaultChunkSize;
-        Chunk *_first;
-        Chunk *_last;   
-
-      public:
 
         inline TrianglePool (UInt32 chunkSize = DEFAULT_CHUNK_SIZE);
         inline ~TrianglePool(void);
@@ -153,9 +147,19 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
         inline void clear(void);
         inline UInt32 countElem (void);
         inline void setChunkSize(UInt32 chunkSize = DEFAULT_CHUNK_SIZE);
+    
+      private:
+      
+        enum { DEFAULT_CHUNK_SIZE = 2048 };
+        
+        UInt32 _defaultChunkSize;
+        Chunk *_first;
+        Chunk *_last;   
+
+ 
     };
 
-    friend TrianglePool::Chunk;
+    friend class TrianglePool::Chunk;
     
     // temporary vector data structure
     typedef std::vector < std::pair<UInt32,HalfEdge *> > HalfEdgeLink;
