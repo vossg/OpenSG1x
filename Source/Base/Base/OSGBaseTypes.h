@@ -564,34 +564,34 @@ const Real32 NegInf = - 1E30f;
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8 *PluginExt     = ".dll";
+const Char8 PluginExt[]     = ".dll";
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8 *PluginPattern = "*.dll";
+const Char8 PluginPattern[] = "*.dll";
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8  DirSep    = '\\';
+const Char8  DirSep    = '\\';
 
 #else
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8 *PluginExt     = ".so";
+const Char8 PluginExt[]     = ".so";
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8 *PluginPattern = "*.so";
+const Char8 PluginPattern[] = "*.so";
 
 /*! \ingroup GrpBaseBaseConstants
  */
 
-static const Char8  DirSep    = '/';
+const Char8  DirSep    = '/';
 
 #endif
 
