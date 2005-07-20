@@ -25,9 +25,7 @@ int main(int argc, char *argv[])
         return 1;
     }
     
-    GraphOpSeq seq;
-    
-    seq.setGraphOps(argv[1]);
+    GraphOpSeq seq(argv[1]);
     
     for(int a = 2; a < (argc - 1); ++a)
     {

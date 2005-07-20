@@ -73,6 +73,12 @@ GraphOpSeq::GraphOpSeq(): _GraphOperators(), _excludeNames()
 {
 }
 
+GraphOpSeq::GraphOpSeq(const std::string params): 
+    _GraphOperators(), _excludeNames()
+{
+    setGraphOps(params);
+}
+
 GraphOpSeq::~GraphOpSeq()
 {
 }

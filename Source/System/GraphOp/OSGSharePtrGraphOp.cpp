@@ -119,8 +119,8 @@ bool SharePtrGraphOp::traverse(NodePtr& root)
     FINFO(("Shared %u ptrs with types", _share_counter));
 
     for(fcsMap::iterator i = _fctypes.begin();i != _fctypes.end();++i)
-        printf(" '%s'", (*i).first.c_str());
-    printf("\n");
+        FINFO((" '%s'", (*i).first.c_str()));
+    FINFO(("\n"));
 
     return result;
 }
@@ -370,7 +370,7 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
             if(*i != fc)
             {
                 ++_share_counter;
-                FLOG(("Shared %u ptrs.\r", _share_counter));
+                FDEBUG(("Shared %u ptrs.\r", _share_counter));
             }
             return *i;
         }
@@ -510,7 +510,7 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
                 }
                 else
                 {
-                    FLOG(("Slow multi field string compare for '%s'!\n",
+                    FINFO(("Slow multi field string compare for '%s'!\n",
                           a_ftype.getCName()));
                     std::string av, bv;
                     a_field->getValueByStr(av);

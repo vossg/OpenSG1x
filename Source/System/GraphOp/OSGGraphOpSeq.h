@@ -72,6 +72,7 @@ public:
     /*! \{                                                                 */
     
     GraphOpSeq(void);
+    GraphOpSeq(const std::string params);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
