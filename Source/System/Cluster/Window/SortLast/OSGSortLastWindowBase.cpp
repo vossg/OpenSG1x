@@ -170,6 +170,13 @@ void SortLastWindowBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void SortLastWindowBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfGroupNodes.terminateShare(uiAspect, this->getContainerSize());
+    _mfGroupLengths.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

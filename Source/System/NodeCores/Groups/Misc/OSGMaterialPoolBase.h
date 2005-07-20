@@ -219,6 +219,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialPoolBase : public Group
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<MaterialPoolPtr> MaterialPoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.4 2005/07/08 06:33:17 vossg Exp $"
+#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.5 2005/07/20 00:09:38 vossg Exp $"
 
 #endif /* _OSGMATERIALPOOLBASE_H_ */

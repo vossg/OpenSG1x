@@ -203,6 +203,14 @@ void LinearCombinerGeometryBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void LinearCombinerGeometryBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfWeights.terminateShare(uiAspect, this->getContainerSize());
+    _mfSrcpositions.terminateShare(uiAspect, this->getContainerSize());
+    _mfSrcvolumes.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

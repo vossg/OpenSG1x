@@ -236,6 +236,13 @@ void DisplayCalibrationBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void DisplayCalibrationBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfGammaRamp.terminateShare(uiAspect, this->getContainerSize());
+    _mfGrid.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

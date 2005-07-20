@@ -692,6 +692,12 @@ void TextureChunkBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void TextureChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfShaderOffsetMatrix.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

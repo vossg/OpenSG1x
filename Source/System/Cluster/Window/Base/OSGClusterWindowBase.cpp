@@ -280,6 +280,14 @@ void ClusterWindowBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void ClusterWindowBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfServers.terminateShare(uiAspect, this->getContainerSize());
+    _mfAutostart.terminateShare(uiAspect, this->getContainerSize());
+    _mfCalibration.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

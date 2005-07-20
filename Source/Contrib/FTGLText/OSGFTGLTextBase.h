@@ -235,6 +235,8 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLTextBase : public MaterialDrawable
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -267,6 +269,6 @@ typedef RefPtr<FTGLTextPtr> FTGLTextRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.4 2005/07/08 06:32:34 vossg Exp $"
+#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.5 2005/07/20 00:08:53 vossg Exp $"
 
 #endif /* _OSGFTGLTEXTBASE_H_ */

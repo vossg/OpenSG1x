@@ -273,6 +273,11 @@ void TexGenChunkBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void TexGenChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

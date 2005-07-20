@@ -313,6 +313,18 @@ void SurfaceBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void SurfaceBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfKnotsU.terminateShare(uiAspect, this->getContainerSize());
+    _mfKnotsV.terminateShare(uiAspect, this->getContainerSize());
+    _mfKnotLengths.terminateShare(uiAspect, this->getContainerSize());
+    _mfDimensions.terminateShare(uiAspect, this->getContainerSize());
+    _mfCurveControlPoints.terminateShare(uiAspect, this->getContainerSize());
+    _mfKnots.terminateShare(uiAspect, this->getContainerSize());
+    _mfCurvesPerLoop.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

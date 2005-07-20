@@ -203,6 +203,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public AttachmentContainer
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -235,6 +237,6 @@ typedef RefPtr<ShaderParameterPtr> ShaderParameterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.7 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.8 2005/07/20 00:08:58 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

@@ -186,6 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TwoSidedLightingChunkBase : public StateChunk
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -217,6 +219,6 @@ typedef RefPtr<TwoSidedLightingChunkPtr> TwoSidedLightingChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.2 2005/07/08 06:33:20 vossg Exp $"
+#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.3 2005/07/20 00:09:42 vossg Exp $"
 
 #endif /* _OSGTWOSIDEDLIGHTINGCHUNKBASE_H_ */

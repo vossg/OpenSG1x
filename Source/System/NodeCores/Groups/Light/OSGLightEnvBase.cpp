@@ -128,6 +128,11 @@ void LightEnvBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void LightEnvBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/
@@ -237,7 +242,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.4 2005/07/08 06:33:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.5 2005/07/20 00:09:34 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTENVBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTENVBASE_INLINE_CVSID;
 

@@ -170,6 +170,14 @@ void GeoCubesBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void GeoCubesBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfPosition.terminateShare(uiAspect, this->getContainerSize());
+    _mfLength.terminateShare(uiAspect, this->getContainerSize());
+    _mfColor.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

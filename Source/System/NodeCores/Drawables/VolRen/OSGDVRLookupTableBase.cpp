@@ -236,6 +236,17 @@ void DVRLookupTableBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void DVRLookupTableBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfSize.terminateShare(uiAspect, this->getContainerSize());
+    _mfData.terminateShare(uiAspect, this->getContainerSize());
+    _mfDataR.terminateShare(uiAspect, this->getContainerSize());
+    _mfDataG.terminateShare(uiAspect, this->getContainerSize());
+    _mfDataB.terminateShare(uiAspect, this->getContainerSize());
+    _mfDataA.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

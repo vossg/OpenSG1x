@@ -203,6 +203,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawableBase : public Drawable
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -235,6 +237,6 @@ typedef RefPtr<MaterialDrawablePtr> MaterialDrawableRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.8 2005/07/08 06:32:52 vossg Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.9 2005/07/20 00:09:27 vossg Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

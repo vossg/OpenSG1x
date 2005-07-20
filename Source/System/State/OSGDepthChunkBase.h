@@ -251,6 +251,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -283,6 +285,6 @@ typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.5 2005/07/08 06:33:19 vossg Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.6 2005/07/20 00:09:40 vossg Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

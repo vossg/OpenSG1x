@@ -335,6 +335,21 @@ void SkyBackgroundBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void SkyBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfSkyColor.terminateShare(uiAspect, this->getContainerSize());
+    _mfSkyAngle.terminateShare(uiAspect, this->getContainerSize());
+    _mfGroundColor.terminateShare(uiAspect, this->getContainerSize());
+    _mfGroundAngle.terminateShare(uiAspect, this->getContainerSize());
+    _mfTopTexCoord.terminateShare(uiAspect, this->getContainerSize());
+    _mfBottomTexCoord.terminateShare(uiAspect, this->getContainerSize());
+    _mfRightTexCoord.terminateShare(uiAspect, this->getContainerSize());
+    _mfLeftTexCoord.terminateShare(uiAspect, this->getContainerSize());
+    _mfFrontTexCoord.terminateShare(uiAspect, this->getContainerSize());
+    _mfBackTexCoord.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

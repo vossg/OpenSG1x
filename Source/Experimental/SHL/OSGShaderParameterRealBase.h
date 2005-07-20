@@ -219,6 +219,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterRealBase : public ShaderParameter
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<ShaderParameterRealPtr> ShaderParameterRealRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealBase.h,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealBase.h,v 1.5 2005/07/20 00:08:59 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERREALBASE_H_ */

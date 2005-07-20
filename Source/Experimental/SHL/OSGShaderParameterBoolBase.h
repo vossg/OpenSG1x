@@ -219,6 +219,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBoolBase : public ShaderParameter
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<ShaderParameterBoolPtr> ShaderParameterBoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.5 2005/07/20 00:08:58 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOLBASE_H_ */

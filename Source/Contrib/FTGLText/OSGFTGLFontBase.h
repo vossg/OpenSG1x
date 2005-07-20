@@ -272,6 +272,8 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFontBase : public FieldContainer
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -304,6 +306,6 @@ typedef RefPtr<FTGLFontPtr> FTGLFontRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.4 2005/07/08 06:32:34 vossg Exp $"
+#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.5 2005/07/20 00:08:52 vossg Exp $"
 
 #endif /* _OSGFTGLFONTBASE_H_ */

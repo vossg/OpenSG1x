@@ -267,6 +267,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -299,6 +301,6 @@ typedef RefPtr<StencilChunkPtr> StencilChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.4 2005/07/08 06:33:19 vossg Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.5 2005/07/20 00:09:42 vossg Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

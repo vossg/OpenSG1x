@@ -214,6 +214,12 @@ void TextureBackgroundBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void TextureBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfTexCoords.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/
@@ -431,6 +437,18 @@ void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
     if(FieldBits::NoField != (TextureFieldMask & whichField))
         _sfTexture.syncWith(pOther->_sfTexture);
 
+    if(FieldBits::NoField != (RadialDistortionFieldMask & whichField))
+        _sfRadialDistortion.syncWith(pOther->_sfRadialDistortion);
+
+    if(FieldBits::NoField != (CenterOfDistortionFieldMask & whichField))
+        _sfCenterOfDistortion.syncWith(pOther->_sfCenterOfDistortion);
+
+    if(FieldBits::NoField != (HorFieldMask & whichField))
+        _sfHor.syncWith(pOther->_sfHor);
+
+    if(FieldBits::NoField != (VertFieldMask & whichField))
+        _sfVert.syncWith(pOther->_sfVert);
+
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
@@ -478,7 +496,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.5 2005/07/08 06:33:26 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.6 2005/07/20 00:09:48 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

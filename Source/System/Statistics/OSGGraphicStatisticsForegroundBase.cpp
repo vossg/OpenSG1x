@@ -313,6 +313,22 @@ void GraphicStatisticsForegroundBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void GraphicStatisticsForegroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfDisplayType.terminateShare(uiAspect, this->getContainerSize());
+    _mfSize.terminateShare(uiAspect, this->getContainerSize());
+    _mfPos.terminateShare(uiAspect, this->getContainerSize());
+    _mfColorMax.terminateShare(uiAspect, this->getContainerSize());
+    _mfColorMin.terminateShare(uiAspect, this->getContainerSize());
+    _mfColorCurrent.terminateShare(uiAspect, this->getContainerSize());
+    _mfMinValue.terminateShare(uiAspect, this->getContainerSize());
+    _mfMaxValue.terminateShare(uiAspect, this->getContainerSize());
+    _mfFlags.terminateShare(uiAspect, this->getContainerSize());
+    _mfHistorySize.terminateShare(uiAspect, this->getContainerSize());
+    _mfDescription.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

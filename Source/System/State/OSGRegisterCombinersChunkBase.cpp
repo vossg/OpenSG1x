@@ -478,6 +478,38 @@ void RegisterCombinersChunkBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void RegisterCombinersChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfVariableArgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableBrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableCrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableDrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableAalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableBalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableCalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableDalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputABrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputCDrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputSumrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfScalergb.terminateShare(uiAspect, this->getContainerSize());
+    _mfBiasrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputABalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputCDalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfOutputSumalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfDotABrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfDotCDrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfMuxSumrgb.terminateShare(uiAspect, this->getContainerSize());
+    _mfScalealpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfBiasalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfMuxSumalpha.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableE.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableF.terminateShare(uiAspect, this->getContainerSize());
+    _mfVariableG.terminateShare(uiAspect, this->getContainerSize());
+    _mfCombinerColor0.terminateShare(uiAspect, this->getContainerSize());
+    _mfCombinerColor1.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

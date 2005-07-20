@@ -186,6 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightEnvBase : public NodeCore
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -217,6 +219,6 @@ typedef RefPtr<LightEnvPtr> LightEnvRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.4 2005/07/08 06:33:15 vossg Exp $"
+#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.5 2005/07/20 00:09:34 vossg Exp $"
 
 #endif /* _OSGLIGHTENVBASE_H_ */

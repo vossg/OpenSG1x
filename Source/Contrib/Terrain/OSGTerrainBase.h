@@ -416,6 +416,8 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -448,6 +450,6 @@ typedef RefPtr<TerrainPtr> TerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.4 2005/07/08 06:32:36 vossg Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.5 2005/07/20 00:08:55 vossg Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

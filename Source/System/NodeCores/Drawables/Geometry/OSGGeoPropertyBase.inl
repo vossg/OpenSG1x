@@ -210,6 +210,12 @@ void GeoProperty<GeoPropertyDesc>::execBeginEdit(
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::onDestroyAspect(UInt32 uiId, 
+                                                   UInt32 uiAspect)
+{
+    _field.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 template <class GeoPropertyDesc> inline 

@@ -22,6 +22,8 @@
 #include <OSGRenderAction.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGSceneFileHandler.h>
+#include <OSGMaterialGroup.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGDirectionalLight.h>
 
@@ -339,17 +341,18 @@ int main (int argc, char **argv)
     // Load the file
 
     NodePtr file = NullFC;
-    
+    NodePtr file1 = NullFC;
+
     if ( argc > 1 )
-        file = SceneFileHandler::the().read(argv[1]);
+        file1 = SceneFileHandler::the().read(argv[1]);
     
-    if ( file == NullFC )
+    if ( file1 == NullFC )
     {
         std::cerr << "Couldn't load file, ignoring" << std::endl;
-        file = makeTorus( .5, 2, 16, 16 );
+        file1 = makeTorus( .5, 2, 16, 16 );
     }
     
-    file->updateVolume();
+    file1->updateVolume();
 
 //    file->dump();
 
@@ -359,10 +362,32 @@ int main (int argc, char **argv)
 
 
     Vec3f min,max;
-    file->getVolume().getBounds( min, max );
+    file1->getVolume().getBounds( min, max );
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 
+
+    file = Node::create();
+    MaterialGroupPtr testMat = MaterialGroup::create();
+
+    SimpleMaterialPtr defaultMaterial = SimpleMaterial::create();
+
+    beginEditCP(defaultMaterial);
+    defaultMaterial->setDiffuse(Color3f(1,.0,.0));
+    defaultMaterial->setAmbient(Color3f(0.1,0.1,0.1));
+    defaultMaterial->setSpecular(Color3f(1,1,1));
+    defaultMaterial->setShininess(20);
+    endEditCP  (defaultMaterial);
+
+
+    testMat->setMaterial(defaultMaterial);
+
+    beginEditCP(file);
+    {
+        file->setCore(testMat);
+        file->addChild(file1);
+    }
+    endEditCP  (file);
 
     scene_trans      = Transform::create();
     NodePtr sceneTrN = Node::create();
@@ -371,6 +396,7 @@ int main (int argc, char **argv)
     {
         sceneTrN->setCore(scene_trans);
         sceneTrN->addChild(file);
+        sceneTrN->addChild(makeTorus( .5, 2, 16, 16 ));
     }
     endEditCP(sceneTrN);
 

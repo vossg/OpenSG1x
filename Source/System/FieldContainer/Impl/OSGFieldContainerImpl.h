@@ -261,6 +261,11 @@ class FieldContainer
     OSG_SYSTEMLIB_DLLMAPPING 
     virtual void onDestroy      (void);
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    OSG_SYSTEMLIB_DLLMAPPING 
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Sync                                     */

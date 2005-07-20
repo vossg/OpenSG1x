@@ -275,6 +275,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PhongMaterialBase : public ChunkMaterial
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -307,6 +309,6 @@ typedef RefPtr<PhongMaterialPtr> PhongMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHONGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
+#define OSGPHONGMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
 
 #endif /* _OSGPHONGMATERIALBASE_H_ */

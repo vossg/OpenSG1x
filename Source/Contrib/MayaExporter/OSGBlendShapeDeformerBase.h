@@ -267,6 +267,8 @@ class OSG_CONTRIBLIB_DLLMAPPING BlendShapeDeformerBase : public Deformer
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -299,6 +301,6 @@ typedef RefPtr<BlendShapeDeformerPtr> BlendShapeDeformerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDSHAPEDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.36 2005/05/26 21:53:01 dirk Exp $"
+#define OSGBLENDSHAPEDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
 
 #endif /* _OSGBLENDSHAPEDEFORMERBASE_H_ */

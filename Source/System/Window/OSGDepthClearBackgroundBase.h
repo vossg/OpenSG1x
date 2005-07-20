@@ -186,6 +186,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -217,6 +219,6 @@ typedef RefPtr<DepthClearBackgroundPtr> DepthClearBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.4 2005/07/08 06:33:25 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.5 2005/07/20 00:09:45 vossg Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */

@@ -205,6 +205,14 @@ void WindowBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void WindowBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfPort.terminateShare(uiAspect, this->getContainerSize());
+    _mfGlObjectLastRefresh.terminateShare(uiAspect, this->getContainerSize());
+    _mfGlObjectLastReinitialize.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

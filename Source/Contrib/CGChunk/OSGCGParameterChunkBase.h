@@ -219,6 +219,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunkBase : public ShaderParameterChu
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<CGParameterChunkPtr> CGParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.4 2005/07/08 06:32:31 vossg Exp $"
+#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.5 2005/07/20 00:08:50 vossg Exp $"
 
 #endif /* _OSGCGPARAMETERCHUNKBASE_H_ */

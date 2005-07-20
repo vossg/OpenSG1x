@@ -219,6 +219,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXAnnotationBase : public Attachment
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<CGFXAnnotationPtr> CGFXAnnotationRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.2 2005/07/08 06:32:32 vossg Exp $"
+#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.3 2005/07/20 00:08:51 vossg Exp $"
 
 #endif /* _OSGCGFXANNOTATIONBASE_H_ */

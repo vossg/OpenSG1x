@@ -77,7 +77,7 @@ devstarter:
 
 fcdToBase:
 	@CURRDIR=`pwd`;															\
-	FCDEDIT=$${CURRDIR}/Tools/fcdEdit/fcdEdit;								\
+	FCDEDIT=$${CURRDIR}/Tools/fcdEdit/fcdCompile;							\
 	for i in `find .														\
 		\( -type d \( -name CVS -o -name Test -o -name Builds -o			\
 		   -name Tools -o -name examples -o -name '*/.*' \) -prune \) 		\

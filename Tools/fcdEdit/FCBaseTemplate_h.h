@@ -341,6 +341,8 @@ char *FCBaseTemplate_h[]={
 "            void execBeginEditImpl (const BitVector &whichField,", 
 "                                          UInt32     uiAspect,",
 "                                          UInt32     uiContainerSize);",
+"",
+"    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);",
 "#endif",
 "",
 "    /*! \\}                                                                 */",
@@ -426,7 +428,7 @@ char *FCBaseTemplate_h[]={
 "",
 "OSG_END_NAMESPACE",
 "",
-"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.39 2005/07/08 14:53:34 dirk Exp $\"",
+"#define OSG@!CLASSNAME!@BASE_HEADER_CVSID \"@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $\"",
 "", 
 "#endif /* _OSG@!CLASSNAME!@BASE_H_ */",
 NULL };

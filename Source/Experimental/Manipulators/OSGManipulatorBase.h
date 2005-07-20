@@ -336,6 +336,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ManipulatorBase : public Transform
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -368,6 +370,6 @@ typedef RefPtr<ManipulatorPtr> ManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.3 2005/07/08 06:32:38 vossg Exp $"
+#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.4 2005/07/20 00:08:57 vossg Exp $"
 
 #endif /* _OSGMANIPULATORBASE_H_ */

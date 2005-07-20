@@ -99,6 +99,12 @@ void FieldContainer::onDestroy(void)
 {
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void FieldContainer::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+}
+#endif
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 

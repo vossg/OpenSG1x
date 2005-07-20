@@ -214,6 +214,18 @@ void BlendShapeDeformerBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void BlendShapeDeformerBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfWeight.terminateShare(uiAspect, this->getContainerSize());
+    _mfVertexIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfTargetIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfTargetVertices.terminateShare(uiAspect, this->getContainerSize());
+    _mfNormalIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfNormalTargetIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfTargetNormals.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

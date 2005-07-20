@@ -327,6 +327,8 @@ class GeoProperty :
             void execBeginEditImpl (const BitVector &whichField, 
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */

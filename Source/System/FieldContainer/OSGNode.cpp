@@ -669,6 +669,13 @@ Node::~Node(void)
     }
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void Node::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    _mfChildren.terminateShare(uiAspect, this->getContainerSize());
+}
+#endif
+
 NodePtr OSG::cloneTree(const NodePtr &pRootNode)
 {
     NodePtr returnValue = NullFC;

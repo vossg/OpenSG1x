@@ -170,6 +170,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawableBase : public NodeCore
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -201,6 +203,6 @@ typedef RefPtr<DrawablePtr> DrawableRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.8 2005/07/08 06:32:51 vossg Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.9 2005/07/20 00:09:27 vossg Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

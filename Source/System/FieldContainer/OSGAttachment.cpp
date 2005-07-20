@@ -286,6 +286,13 @@ void Attachment::onDestroy(void)
 {
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void Attachment::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    _parents.terminateShare(uiAspect, this->getContainerSize());
+}
+#endif
+
 /*-------------------------------------------------------------------------*/
 /*                                Sync                                     */
 

@@ -243,6 +243,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorMaskChunkBase : public StateChunk
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -275,6 +277,6 @@ typedef RefPtr<ColorMaskChunkPtr> ColorMaskChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.2 2005/07/08 06:33:19 vossg Exp $"
+#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.3 2005/07/20 00:09:40 vossg Exp $"
 
 #endif /* _OSGCOLORMASKCHUNKBASE_H_ */

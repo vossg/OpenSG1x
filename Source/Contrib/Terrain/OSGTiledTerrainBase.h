@@ -323,6 +323,8 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -355,6 +357,6 @@ typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.4 2005/07/08 06:32:37 vossg Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.5 2005/07/20 00:08:55 vossg Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

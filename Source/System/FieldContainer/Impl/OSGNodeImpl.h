@@ -287,6 +287,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     void onCreate (const Node    *source = NULL);
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Sync                                     */

@@ -307,6 +307,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FresnelMaterialBase : public ChunkMaterial
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -339,6 +341,6 @@ typedef RefPtr<FresnelMaterialPtr> FresnelMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.4 2005/07/08 06:32:50 vossg Exp $"
+#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.5 2005/07/20 00:09:24 vossg Exp $"
 
 #endif /* _OSGFRESNELMATERIALBASE_H_ */

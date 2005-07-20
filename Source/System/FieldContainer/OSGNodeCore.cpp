@@ -74,6 +74,13 @@ FieldContainerType NodeCore::_type("NodeCore",
 
 OSG_ABSTR_FIELD_CONTAINER_DEF(NodeCore, NodeCorePtr)
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void NodeCore::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    _parents.terminateShare(uiAspect, this->getContainerSize());
+}
+#endif
+
 /*-------------------------------------------------------------------------*/
 /*                                Dump                                     */
 

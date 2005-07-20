@@ -148,6 +148,11 @@ void ShaderParameterIntBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void ShaderParameterIntBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/
@@ -285,7 +290,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterIntBase.cpp,v 1.4 2005/07/08 06:32:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterIntBase.cpp,v 1.5 2005/07/20 00:08:59 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERINTBASE_INLINE_CVSID;
 

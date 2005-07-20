@@ -267,6 +267,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -299,6 +301,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.5 2005/07/08 06:33:26 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.6 2005/07/20 00:09:48 vossg Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */

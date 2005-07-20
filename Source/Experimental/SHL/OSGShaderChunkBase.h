@@ -211,6 +211,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -243,6 +245,6 @@ typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.5 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.6 2005/07/20 00:08:58 vossg Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

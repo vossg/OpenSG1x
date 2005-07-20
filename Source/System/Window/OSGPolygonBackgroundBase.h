@@ -251,6 +251,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -283,6 +285,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.2 2005/07/08 06:33:25 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.3 2005/07/20 00:09:46 vossg Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

@@ -225,6 +225,19 @@ void SkinDeformerBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void SkinDeformerBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    _mfInfluences.terminateShare(uiAspect, this->getContainerSize());
+    _mfBaseMatrices.terminateShare(uiAspect, this->getContainerSize());
+    _mfVertexIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfInfluenceIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfInfluenceWeights.terminateShare(uiAspect, this->getContainerSize());
+    _mfNormalIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfNormalInfluenceIndices.terminateShare(uiAspect, this->getContainerSize());
+    _mfNormalInfluenceWeights.terminateShare(uiAspect, this->getContainerSize());
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/

@@ -109,6 +109,10 @@ void FieldContainerPtrBase::deleteContainers(void) const
     
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
+#if defined(OSG_FIXED_MFIELDSYNC)
+        ((FieldContainer *) pTmp)->onDestroyAspect(*(getIdP()), i);
+#endif
+
         ((FieldContainer *) pTmp)->~FieldContainer();
         
         pTmp += _containerSize;
