@@ -79,7 +79,7 @@ do
     ln -sf OpenSG-%{version}/$l ../$l
 done
 
-if test %{_libdir} != "lib"
+if test %{_libdir} != "/usr/lib"
 then
     cd $RPM_BUILD_ROOT/usr
     mv lib $RPM_BUILD_ROOT%{_libdir}

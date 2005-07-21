@@ -77,6 +77,12 @@ do
     ln -sf OpenSG-%{version}/$l ../$l
 done
 
+if test %{_libdir} != "/usr/lib"
+then
+    cd $RPM_BUILD_ROOT/usr
+    mv lib $RPM_BUILD_ROOT%{_libdir}
+fi
+
 cd ..
 
 pushd %{opensgroot}
@@ -103,13 +109,13 @@ popd
 %files
 %defattr(-, root, root)
 /usr/bin
-/usr/lib/lib*
-/usr/lib/*opt
+%{_libdir}/lib*
+%{_libdir}/*opt
 
 %files devel
 %defattr(-, root, root)
 /usr/include
-/usr/lib/*dbg
+%{_libdir}/*dbg
 
 %doc CHANGELOG COPYING INSTALL PEOPLE README VERSION ${docfiles}
 
