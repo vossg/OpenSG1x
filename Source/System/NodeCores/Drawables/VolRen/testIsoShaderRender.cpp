@@ -83,7 +83,7 @@ int newMode = 1;
 NodePtr makeVolume( const char * datFile);
 
 // forware declaration of field access methods
-template <class T> void setField(FieldContainerPtr fc, char * fieldName, T newValue);
+template <class T, int id> void setField(FieldContainerPtr fc, char * fieldName, T newValue);
 template <class T> T getField(FieldContainerPtr fc, char * fieldName, T* dummy = NULL);
 
 // forward declaration so we can have the interesting stuff upfront
@@ -108,12 +108,19 @@ int main(int argc, char **argv)
         scene = makeVolume("00_data64x64x64.dat");
     else
     {
-        scene = SceneFileHandler::the().read(argv[1]);
-	if (scene == NullFC)
-	{
-	    SLOG << "Could not read file " << argv[1] << std::endl;
-	    exit(-1);
-	}
+        if(!strcmp(argv[1], "-i"))
+        {
+            scene = makeVolume(argv[2]);
+        }
+        else
+        {
+            scene = SceneFileHandler::the().read(argv[1]);
+	        if (scene == NullFC)
+	        {
+	            SLOG << "Could not read file " << argv[1] << std::endl;
+	            exit(-1);
+	        }
+        }
     }
 
     // create the SimpleSceneManager helper
@@ -164,7 +171,7 @@ void display(void)
     if (newMode != curMode)
     {
         beginEditCP(shader, DVRIsoShader::ShadeModeFieldMask);
-	setField<Int8>(shader, "shadeMode", newMode);
+	setField<Int8,0>(shader, "shadeMode", newMode);
 	endEditCP(shader, DVRIsoShader::ShadeModeFieldMask);
     }
 
@@ -300,6 +307,8 @@ NodePtr makeVolume( const char * datFile)
     
     vol->setBrickStaticMemoryMB(64);
     
+    setField<bool,2>(vol, "showBricks", true);
+
     endEditCP(vol);
 
     // Create a node for the volume core
@@ -312,12 +321,12 @@ NodePtr makeVolume( const char * datFile)
 }
 
 // Functions for generically accessing fields
-template <class T>
+template <class T, int id>
 void setField(FieldContainerPtr fc, char * fieldName, T newValue)
 {
     const FieldDescription * desc    = fc->getType().findFieldDescription(fieldName); 
     Field *                  field   = fc->getField(desc->getFieldId()); 
-    SField<T> *              dataptr = dynamic_cast<SField<T>*>(field); 
+    SField<T,id> *              dataptr = dynamic_cast<SField<T,id>*>(field); 
 
     if (dataptr)
         dataptr->setValue(newValue);
