@@ -67,6 +67,10 @@ FieldContainerFactory *FieldContainerFactory::_the = NULL;
 FieldContainerFactory::TypeMapIterator 
                        FieldContainerFactory::_defaultTypeMapIt;
 
+FieldContainerMapper::~FieldContainerMapper()
+{
+}
+ 
 /*-------------------------------------------------------------------------*/
 /*                                The                                      */
 

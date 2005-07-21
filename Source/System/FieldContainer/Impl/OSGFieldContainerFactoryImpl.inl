@@ -121,23 +121,38 @@ UInt32 FieldContainerFactory::registerFieldContainer(
 }
 
 inline
-void FieldContainerFactory::unregisterFieldContainer(
+bool FieldContainerFactory::unregisterFieldContainer(
     const FieldContainerPtr &pFieldContainer)
 {
     if(pFieldContainer == NullFC)
-        return;
+        return false;
 
     if(_pStoreLock != NULL)
         _pStoreLock->aquire();
 
     if(_pFieldContainerStore != NULL)
     {
+#ifdef OSG_DEBUG
+        if (pFieldContainer.getFieldContainerId() >=
+                    (*_pFieldContainerStore).size())
+        {
+            FWARNING(("FieldContainerFactory::unregisterFieldContainer:"
+                "id %d inconsistent with store size %d!\n", 
+                pFieldContainer.getFieldContainerId(), 
+                (*_pFieldContainerStore).size() ));   
+            return true;         
+        }
+        else
+#endif
+
         (*_pFieldContainerStore)[pFieldContainer.getFieldContainerId()] =
             NullFC;
     }
 
     if(_pStoreLock != NULL)
         _pStoreLock->release();
+    
+    return false;
 }
 
 OSG_END_NAMESPACE

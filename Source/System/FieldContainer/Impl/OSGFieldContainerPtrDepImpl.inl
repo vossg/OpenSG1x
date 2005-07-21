@@ -81,8 +81,11 @@ void FieldContainerPtrBase::deleteContainers(void) const
 
     Thread::getCurrentChangeList()->addDestroyed(*getIdP());
     
-    FieldContainerFactory::the()->unregisterFieldContainer(
-        *((const FieldContainerPtr *) this));
+    if (FieldContainerFactory::the()->unregisterFieldContainer(
+            *((const FieldContainerPtr *) this)))
+    {
+        return;
+    }
     
     UInt8 *pTmp = getFirstElemP();
     

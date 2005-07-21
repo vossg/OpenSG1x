@@ -184,6 +184,14 @@ FieldContainerPtrBase::FieldContainerPtrBase(
 inline
 FieldContainerPtrBase::~FieldContainerPtrBase(void)
 {
+#ifdef OSG_DEBUG
+    _storeP = reinterpret_cast<UInt8*>(-1);
+    _containerSize = 65535;
+    _uiParentEPos = 65535;
+#ifdef OSG_DEBUG_FCPTR
+    _typedStoreP = reinterpret_cast<UInt8*>(-1);
+#endif
+#endif
 }
 
 /*-------------------------------------------------------------------------*/

@@ -68,6 +68,8 @@ class FieldContainerType;
 
 struct OSG_SYSTEMLIB_DLLMAPPING FieldContainerMapper
 {
+    virtual ~FieldContainerMapper();
+    
     virtual UInt32 map(UInt32 uiId) = 0;
 };
 
@@ -241,7 +243,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name                    Register                                  */
     /*! \{                                                                 */
 
-    void   unregisterFieldContainer(const FieldContainerPtr  &pFieldContainer);
+    bool   unregisterFieldContainer(const FieldContainerPtr  &pFieldContainer);
     UInt32   registerFieldContainer(const FieldContainerPtr  &pFieldContainer);
 
     UInt32 registerType            (      FieldContainerType *pType          );
