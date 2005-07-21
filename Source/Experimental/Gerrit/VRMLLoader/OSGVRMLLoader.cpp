@@ -660,6 +660,12 @@ void VRMLLoader::scanFile(const Char8 *szFilename)
         _sElementDescStack.pop();
     }
 
+
+    if(_pNameNodeMap != NULL)
+    {
+        _pNameNodeMap.clear();
+    }
+
     Inherited::scanFile(szFilename);
 }
 
