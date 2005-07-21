@@ -65,6 +65,7 @@
 #include <OSGSceneFileHandler.h>
 
 #include <OSGDirectionalLight.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGViewport.h"
 #include "OSGCamera.h"
@@ -280,9 +281,7 @@ void key(unsigned char key, int x, int y)
 
                 break;                  
     case 'p':   {
-                std::ofstream outFileStream( "test.osg" );
-                OSGWriter writer( outFileStream, 2 );
-                writer.write( root );
+                SceneFileHandler::the().write(root,"test.osb" );
                 std::cerr << "File dumped." << std::endl;
                 }
                 break;                  
