@@ -2643,7 +2643,7 @@ echo "configure:2480: checking "/ guessing compiler dir for $build-$ac_gdz_compi
     done
 
 
-    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/Vc7
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/VC
     ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
     ac_gdz_compiler_incl=$ac_gdz_compiler_dir/include
     ac_gdz_compiler_lib=$ac_gdz_compiler_dir/lib

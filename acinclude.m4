@@ -272,6 +272,36 @@ AC_DEFUN(AC_GDZ_SETUP_MSVCNET,
     fi
 ])
 
+AC_DEFUN(AC_GDZ_SETUP_MSVCNET8,
+[
+    AC_GDZ_FIND_STUDIONET_DIR($1)
+
+    ac_gdz_compiler_dir=$ac_gdz_find_prog_dir_result/VC
+    ac_gdz_compiler_path=$ac_gdz_compiler_dir/bin
+    ac_gdz_compiler_incl=$ac_gdz_compiler_dir/include
+    ac_gdz_compiler_lib=$ac_gdz_compiler_dir/lib
+    ac_gdz_compiler_exe=cl.exe
+    ac_gdz_linker_exe=link.exe
+    ac_gdz_check_compiler_available=yes
+
+    ac_gdz_compiler_base=cl.net
+
+    if ! test -d "$ac_gdz_compiler_path"; then
+        echo
+        echo "ERROR could not determine compiler dir, tried :"
+
+        for drive in c d e f g; do
+            for progdir in "Program Files" "Programme"; do
+                for vsnet in $1; do
+                    echo "    /cygdrive/$drive/$progdir/$vsnet"
+                done
+            done
+        done
+
+        exit
+    fi
+])
+
 AC_DEFUN(AC_GDZ_SETUP_BORLAND,
 [
     changequote(<<, >>)dnl
@@ -350,7 +380,7 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
 
 
             cl.net2005*|cl8*)
-            AC_GDZ_SETUP_MSVCNET("Microsoft Visual Studio 8")
+            AC_GDZ_SETUP_MSVCNET8("Microsoft Visual Studio 8")
         
             if test "$enable_stlport" = yes; then
                 ac_gdz_stl_suffix=.stlport
