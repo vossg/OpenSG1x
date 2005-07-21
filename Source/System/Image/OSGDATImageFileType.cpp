@@ -133,7 +133,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     Image::Type formatType;
     UInt32 res[3];
     UInt32 bpv, dataSize = 0;
-    Image::PixelFormat pixelFormat;
+    Image::PixelFormat pixelFormat = OSG::Image::OSG_L_PF;
     char *dataBuffer = 0;
     bool needConversion;
     // default endian type is big endian
@@ -183,16 +183,10 @@ bool DATImageFileType::read (      ImagePtr &image,
                     if (formatI != _formatStrMap.end())
                     {
                         formatType = formatI->second.type;
-                        bpv = formatI->second.bpv;
-                        pixelFormat = formatI->second.pixelFormat;
-                        needConversion = formatI->second.needConversion;
                     }
                     else 
                     {
                         formatType = Image::OSG_INVALID_IMAGEDATATYPE;
-                        bpv = 0;
-                        pixelFormat = Image::OSG_INVALID_PF;
-                        needConversion = false;
                     }
                     image->setAttachmentField ( keyStr, value );
                     break;
@@ -261,8 +255,11 @@ bool DATImageFileType::read (      ImagePtr &image,
 #ifdef OSG_ZSTREAM_SUPPORTED
                     zip_istream *unzipper = NULL;
 #endif
+
+                    image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
+                    image->clear();
                     
-                    dataSize = bpv * res[0] * res[1] * res[2];
+                    dataSize = image->getSize();
                     
                     UInt32 fileDataSize = dataSize;
 
@@ -295,9 +292,6 @@ bool DATImageFileType::read (      ImagePtr &image,
                             FWARNING (( "RAW file length to big!\n" ));
                         }
                     }
-                    
-                    image->set ( pixelFormat, res[0], res[1], res[2], 1, 1, 0.0, 0, formatType);
-                    image->clear();
 
                     if (needConversion)
                         dataBuffer = new char [ dataSize ];

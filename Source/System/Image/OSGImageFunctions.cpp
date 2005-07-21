@@ -302,7 +302,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
                                AlphaValue alphaValue )
 {
   UInt8 *data = 0, *ds;
-  Int32 w, h, d, x, y, z, ld, hd, md, xs, ys, zs, ps, ls, ss, os;
+  Int32 w, h, d, x, y, z, md, ld, hd, xs, ys, zs, ps, ls, ss, os;
   Real32 g;
   const Real32 gMax = 441.67295593, gF = 255.0/gMax;
   Image::PixelFormat pf;
@@ -797,7 +797,44 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
 
 
 //---------------------------------------------------------------------------//
-/*! noice; first some helpers */
+/*! Noise code; first some helpers */
+
+/************************************************************************
+*                                                                       *
+*               Copyright (C) 2002-2004  3Dlabs Inc. Ltd.               *
+*                                                                       *
+*                        All rights reserved.                           *
+*                                                                       *
+* Redistribution and use in source and binary forms, with or without    *
+* modification, are permitted provided that the following conditions    *
+* are met:                                                              *
+*                                                                       *
+*     Redistributions of source code must retain the above copyright    *
+*     notice, this list of conditions and the following disclaimer.     *
+*                                                                       *
+*     Redistributions in binary form must reproduce the above           *
+*     copyright notice, this list of conditions and the following       *
+*     disclaimer in the documentation and/or other materials provided   *
+*     with the distribution.                                            *
+*                                                                       *
+*     Neither the name of 3Dlabs Inc. Ltd. nor the names of its         *
+*     contributors may be used to endorse or promote products derived   *
+*     from this software without specific prior written permission.     *
+*                                                                       *
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   *
+* "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     *
+* LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS     *
+* FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE        *
+* COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, *
+* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,  *
+* BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;      *
+* LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER      *
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT    *
+* LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN     *
+* ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE       *
+* POSSIBILITY OF SUCH DAMAGE.                                           *
+*                                                                       *
+************************************************************************/
 
 namespace
 {
@@ -1030,91 +1067,104 @@ Real32 noise(Real32 vec[], Int32 len)
 };
 
 
-/*! create a noise texture */
+/*! create a noise texture. 
+    Based on code my 
+ */
 
 OSG_SYSTEMLIB_DLLMAPPING
 bool OSG::createNoise(ImagePtr image,
-                      Image::PixelFormat useNumOctaves,
+                      Image::PixelFormat pixelformat,
+                      UInt16 numOctaves,
                       UInt16 size,
                       UInt8 dim,
-                      bool addValues)
+                      bool splitOctaves)
 {
-  Int32 f, i, j, k, w, h, mult = 1, numOctaves = 4, frequency = 4;
-  Real32 ni[3], amp = 0.5, inci, incj, inck;
-  unsigned char  *data, *ptr = NULL;
-  bool ok = true;
+    Int32 f, i, j, k, c, w, h, mult = 1, frequency = 4;
+    Real32 ni[3], amp = 0.5, inci, incj, inck;
+    unsigned char  *data, *ptr = NULL;
+    bool ok = true;
 
-  if (image == NullFC)
-  {
-    FFATAL (("No output image given\n"));
-    return false;
-  }
-
-  switch (useNumOctaves)
-  {
-    case Image::OSG_L_PF: numOctaves = 1; break;
-    case Image::OSG_LA_PF: numOctaves = 2; break;
-    case Image::OSG_RGB_PF: numOctaves = 3; break;
-    case Image::OSG_RGBA_PF: numOctaves = 4; break;
-    default: FWARNING(("Use [L|LA|RGB|RGBA] for 1..4 octaves\n")); break;
-  }
-  
-  switch (dim)
-  {
-    case 1:
-        ok = image->set(useNumOctaves, size);
-        w = h = 1;
-        break;
-    case 2:
-        ok = image->set(useNumOctaves, size, size);
-        w = size; h = 1;
-        break;
-    case 3:
-        ok = image->set(useNumOctaves, size, size, size);
-        w = h = size;
-        break;
-    default:
-        dim = 2; ok = image->set(useNumOctaves, size, size); w = size; h = 1;
-        FWARNING(("Use [1|2|3] for image dimension (default 2)\n"));
-        break;
-  }
-
-  if ( ! (ok && (data = image->getData())) )
-  { 
-      FFATAL(("Could not create image\n"));
-      return false;
-  }
-  
-  if (addValues && numOctaves == 1)
-    mult = 4;
-  
-  for (f=0; f<numOctaves*mult; ++f, frequency*=2, amp*=0.5)
-  {
-    ptr = data;
-    
-    setNoiseFrequency(frequency);
-    ni[0] = ni[1] = ni[2] = 0;
-    inci = 1.0 / (size / (Real32)frequency);
-    incj = 1.0 / (size / (Real32)frequency);
-    inck = 1.0 / (size / (Real32)frequency);
-    
-    for (i=0; i<size; ++i, ni[0]+=inci)
+    if (image == NullFC)
     {
-        for (j=0; j<w; ++j, ni[1]+=incj)
+        FFATAL (("No output image given\n"));
+        return false;
+    }
+
+    switch (dim)
+    {
+        case 1:
+            ok = image->set(pixelformat, size);
+            w = h = 1;
+            break;
+        case 2:
+            ok = image->set(pixelformat, size, size);
+            w = size; 
+            h = 1;
+            break;
+        case 3:
+            ok = image->set(pixelformat, size, size, size);
+            w = h = size;
+            break;
+        default:
+            ok = image->set(pixelformat, size, size); 
+            dim = 2; 
+            w = size; 
+            h = 1;
+            FWARNING(("createNoise: Use [1|2|3] for image dimension (default 2)\n"));
+            break;
+    }
+
+    if ( ! (ok && (data = image->getData())) )
+    { 
+        FFATAL(("createNoise: Could not create image\n"));
+        return false;
+    }
+
+    UInt16 ncomp = image->getComponents();
+
+    if(splitOctaves && numOctaves > ncomp)
+    {
+        FWARNING(("createNoise: try to split %d octaves, but only have %d"
+                    " components!\n", numOctaves, ncomp ));
+        numOctaves = ncomp;
+    }
+
+    for (f=0; f<numOctaves; ++f, frequency*=2, amp*=0.5)
+    {
+        ptr = data;
+
+        setNoiseFrequency(frequency);
+        ni[0] = ni[1] = ni[2] = 0;
+        inci = 1.0 / (size / (Real32)frequency);
+        incj = 1.0 / (size / (Real32)frequency);
+        inck = 1.0 / (size / (Real32)frequency);
+
+        for (i=0; i<size; ++i, ni[0]+=inci)
         {
-            for (k=0; k<h; ++k, ni[2]+=inck, ptr+=numOctaves)
+            for (j=0; j<w; ++j, ni[1]+=incj)
             {
-                // calculate numOctaves of noise and scale to range [0;1]
-                if ( !(addValues && numOctaves == 1) )
-                    *(ptr+f) = (unsigned char)(((noise(ni, dim) + 1) * amp) * 128.0);
-                else 
-                    (*ptr)  += (unsigned char)(((noise(ni, dim) + 1) * amp) * 128.0);
+                for (k=0; k<h; ++k, ni[2]+=inck)
+                {
+                    // calculate numOctaves of noise and scale to range [0;1]
+                    if (splitOctaves)
+                    {
+                        *(ptr+f) = (UInt8)(((noise(ni, dim) + 1) * amp) * 128.0);
+                    
+                        ptr+=ncomp;
+                    }
+                    else 
+                    {
+                        for(c = 0; c < ncomp; ++c, ++ptr, ni[0] += 1)
+                            (*ptr)  += (UInt8)(((noise(ni, dim) + 1) * amp) * 128.0);
+                        
+                        ni[0] -= ncomp;
+                    }
+                }
             }
         }
+        FNOTICE(("Generated %dD noise: octave %d/%d...\n", dim, f+1, numOctaves));
     }
-    FNOTICE(("Generated %dD noise: octave %d/%d...\n", dim, f+1, numOctaves));
-  }
 
-  return true;
+    return true;
 }
 

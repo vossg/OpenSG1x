@@ -109,10 +109,11 @@ bool createNormalizationCubeMap ( std::vector<ImagePtr> imageVec,
 
 OSG_SYSTEMLIB_DLLMAPPING
 bool createNoise ( ImagePtr image,
-                   Image::PixelFormat useNumOctaves = Image::OSG_RGBA_PF,
+                   Image::PixelFormat pixelformat = Image::OSG_RGBA_PF,
+                   UInt16 numOctaves = 6,
                    UInt16 size = 128,
                    UInt8  dim  = 2,
-                   bool   addValues = false);
+                   bool   splitOctaves = false);
 
 OSG_END_NAMESPACE
 

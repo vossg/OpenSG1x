@@ -193,6 +193,7 @@ int main (int argc, char **argv)
         fprintf(pWRLFile, 
                 "ROUTE_IMM TS.fraction_changed TO BD_Sequencer.fraction\n");
         fprintf(pWRLFile, "\n");
+
         OSG::subRefCP(pImage);
 
         fclose(pWRLFile);
