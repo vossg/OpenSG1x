@@ -1867,7 +1867,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     if (dstAttribTan == dstAttribBin)
         dstAttribBin = -1;
     
-    switch (srcTexIndex) {
+    switch (srcTexIndex) 
+    {
         case 0:
             mapTex = Geometry::MapTexCoords;
             break;
@@ -1887,7 +1888,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             break;
     }
   
-    switch (dstAttribTan) {    
+    switch (dstAttribTan) 
+    {    
         case Geometry::TexCoordsFieldId:
             beginEditCP(geo);
             {
@@ -1939,7 +1941,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             break;
     }
     
-    switch (dstAttribBin) {
+    switch (dstAttribBin) 
+    {
         case Geometry::TexCoordsFieldId:
             beginEditCP(geo);
             {
@@ -1991,7 +1994,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     
     // can't eval what combination was meant
     if ( srcTexIndex < 0 || srcTexIndex > 3 || 
-        (dstAttribTan == -1 && dstAttribBin == -1)) {
+        (dstAttribTan == -1 && dstAttribBin == -1)) 
+    {
         FFATAL(("Index set not supported in calcVertexTangents()\n"));
         return;
     }
@@ -1999,7 +2003,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     GeoIndicesPtr ip = geo->getIndices();
         
     // HACK but without indices it crashes
-    if (ip == NullFC || ip->size() == 0) {
+    if (ip == NullFC || ip->size() == 0) 
+    {
         FFATAL(("Geo without indices in calcVertexTangents()\n"));
         return;
     }
@@ -2007,7 +2012,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     GeoPositionsPtr positions = geo->getPositions();
     
     // Get the positions property
-    if (positions == NullFC) {
+    if (positions == NullFC) 
+    {
         FFATAL(("Geo without positions in calcVertexTangents()\n"));
         return;
     }
@@ -2020,23 +2026,28 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     UInt32 i, val, nind = ip->size() / (indexMapSize ? indexMapSize : 1);
     bool multiIndex = (indexMapSize > 1) ? true : false;
     
-    if (multiIndex) {
-        
+    beginEditCP(geo, Geometry::IndexMappingFieldMask |
+                     Geometry::IndicesFieldMask );
+   
+    if (multiIndex) 
+    {
         // separate the attrib's index if exist
         if (niTan >= 0) 
-            im[niTan] = im[niTan] &~ mapTan;
+            im[niTan] = im[niTan] & ~mapTan;
         if (niBin >= 0)
-            im[niBin] = im[niBin] &~ mapBin; 
+            im[niBin] = im[niBin] & ~mapBin; 
             
         // if im[ni] < 1 erase because index is unused
         MFUInt16::iterator imIt = im.begin();
-        if (niTan == niBin) {
+        if (niTan == niBin) 
+        {
             if (niTan >= 0 && im[niTan] < 1)
                 im.erase(imIt + niTan);
             else 
                 niTan = niBin = -1;    // not deleted
         }
-        else if (niTan < niBin) {
+        else if (niTan < niBin) 
+        {
             if (niBin >= 0 && im[niBin] < 1)
                 im.erase(imIt + niBin);
             else 
@@ -2046,7 +2057,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             else 
                 niTan = -1;
         }
-        else {
+        else 
+        {
             if (niTan >= 0 && im[niTan] < 1)
                 im.erase(imIt + niTan);
             else 
@@ -2071,25 +2083,31 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         std::vector<UInt32> indexBuffer;
         int status, l, g, ibSize;
         
-        if (niTan < 0 && niBin < 0) {
+        if (niTan < 0 && niBin < 0) 
+        {
             status = 0;
         }
         else if (niBin < 0 && niTan >= 0 || 
                  niBin >= 0 && niTan < 0 ||
-                 niBin >= 0 && niBin == niTan) {
+                 niBin >= 0 && niBin == niTan) 
+        {
             status = 1;
             l = (niBin < niTan) ? niTan : niBin;
         }
-        else /*if (niBin > 0 && niTan > 0)*/ {
+        else /*if (niBin > 0 && niTan > 0)*/ 
+        {
             status = 2;
             l = (niBin < niTan) ? niBin : niTan;
             g = (niBin < niTan) ? niTan : niBin;
         }
         
         // discard positions l and g and provide index for tangent|binormal
-        for (i=0; i<nind; i++) {
-            for (j=0; j<indexMapSize; j++) {
-                switch (status) {
+        for (i=0; i<nind; i++) 
+        {
+            for (j=0; j<indexMapSize; j++) 
+            {
+                switch (status) 
+                {
                     case 0:
                         indexBuffer.push_back(ip->getValue(i*indexMapSize+j));
                         break;
@@ -2120,41 +2138,50 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         
     } // multiIndex
     
+    endEditCP(geo, Geometry::IndexMappingFieldMask |
+                   Geometry::IndicesFieldMask );
+    
     TriangleIterator tI;
     IndexDic indexDic;
     Int32 k, index, v[3];
     Vec4f vect(0, 0, 0, 0);
     
     std::vector<Int32>indexVec;
-    Int16 niPos = geo->calcMappingIndex(Geometry::MapPosition),
+    Int16 niPos  = geo->calcMappingIndex(Geometry::MapPosition),
           niNorm = geo->calcMappingIndex(Geometry::MapNormal),
-          niTex = geo->calcMappingIndex(mapTex);
+          niTex  = geo->calcMappingIndex(mapTex);
+    
     indexVec.resize(3);    
     
     beginEditCP(ip);
-    
+   
     // init property arrays
-    for (i=0; i<nind; i++) {
+    for (i=0; i<nind; i++) 
+    {
         tangent.push_back(Vec3f::Null);
         binormal.push_back(Vec3f::Null);
         normal.push_back(Vec3f::Null);    
     }
     
-    for (tI=geo->beginTriangles(), i=0; tI!=geo->endTriangles(); ++tI, ++i) {  
-        
+    for (tI=geo->beginTriangles(), i=0; tI!=geo->endTriangles(); ++tI, ++i) 
+    {         
         // first, get index for every vertex
-        for (k=0; k<3; k++) {
+        for (k=0; k<3; k++) 
+        {
             index = tI.getIndexIndex(k);
             
-            if (multiIndex) {
+            if (multiIndex) 
+            {
                 // make vertex unique with resp. to Position, Normal, TexCoord
-                for (j=0; j<imsize; j++) {
+                for (j=0; j<imsize; j++) 
+                {
                     if (j == niPos || j == niNorm || j == niTex)
                         indexVec[j] = ip->getValue(index + j);
                 }
                 v[k] = indexDic.entry(indexVec);
             }
-            else {
+            else 
+            {
                 v[k] = tI.getPositionIndex(k); //index;
             }
         }
@@ -2166,7 +2193,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         Vec2f t0, t1, t2, tex1, tex2;
         Vec3f edge1, edge2, sdir, tdir;
         
-        switch (srcTexIndex) {
+        switch (srcTexIndex) 
+        {
             case 0:
                 t0 = tI.getTexCoords(0);
                 t1 = tI.getTexCoords(1);
@@ -2201,7 +2229,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         // set value for every vertex
         int tanOffset = (imsize == 0) ? 0 : imsize-1;
         
-        for (k=0; k<3; k++) {
+        for (k=0; k<3; k++) 
+        {
             tangent[v[k]] += sdir;
             binormal[v[k]] += tdir;
             normal[v[k]] = tI.getNormal(k);
@@ -2210,19 +2239,20 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     }
     endEditCP(ip);
     
-    // orthogonalize vectors (Gram-Schmidt) and calc handedness
-    beginEditCP(tangentP);
-    beginEditCP(binormalP);
-    
+    // orthogonalize vectors (Gram-Schmidt) and calc handedness    
     Vec3f T, B, N;
     Real32 sign = 0, l1, l2;
     tangentP->clear();
     binormalP->clear();
+
+    beginEditCP(tangentP);
+    beginEditCP(binormalP);
         
-    for (i=0; i<nind; i++) {
-        T = tangent[i];
+    for (i=0; i<nind; i++) 
+    {
+        T = tangent [i];
         B = binormal[i];
-        N = normal[i];    // must be normalized: n*n = 1
+        N = normal  [i];    // must be normalized: n*n = 1
         sign = ((N.cross(T)).dot(B) < 0) ? -1 : 1;
         
         T = T - N.dot(T) * N;
@@ -2232,6 +2262,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         
         vect.setValues(T[0], T[1], T[2], sign);
         tangentP->getField().push_back(vect); 
+        
         vect.setValues(B[0], B[1], B[2], sign);
         binormalP->getField().push_back(vect); 
     }

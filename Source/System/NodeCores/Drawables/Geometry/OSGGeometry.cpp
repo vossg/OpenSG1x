@@ -1442,6 +1442,7 @@ bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
         
     ChunkMaterialPtr cm1=ChunkMaterialPtr::dcast(m1);
     ChunkMaterialPtr cm2=ChunkMaterialPtr::dcast(m2);
+
     if (cm1==NullFC || cm2==NullFC) return false;
 
     MFStateChunkPtr &chunks1=cm1->getChunks();

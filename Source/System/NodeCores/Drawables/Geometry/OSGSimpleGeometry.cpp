@@ -812,11 +812,11 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     GeoPositions3fPtr   pnts  = GeoPositions3f::create();
     GeoNormals3fPtr     norms = GeoNormals3f::create();
     GeoTexCoords2fPtr   tex   = GeoTexCoords2f::create();
-    GeoIndicesUI32Ptr   index = GeoIndicesUI32::create();
-    GeoPLengthsPtr      lens  = GeoPLengthsUI32::create();
-    GeoPTypesPtr        types = GeoPTypesUI8::create();
-    UInt32                   j, z;
-    
+    GeoIndicesUI32Ptr   index = GeoIndicesUI32::create();   
+    GeoPLengthsPtr      lens  = GeoPLengthsUI32::create();  
+    GeoPTypesPtr        types = GeoPTypesUI8::create();     
+    UInt32              j,z;
+   
     static Vec3f v[12] = {  Vec3f(-X, 0.,  Z),
                             Vec3f( X, 0.,  Z),
                             Vec3f(-X, 0., -Z),
