@@ -5,6 +5,7 @@
 
 #include <OpenSG/OSGGraphOp.h>
 #include <OpenSG/OSGGraphOpFactory.h>
+#include <OpenSG/OSGGraphOpSeq.h>
 
 
 #include "Nodes.h"
@@ -18,14 +19,31 @@ void doExit()
 }
 
 
-osg::GraphOp* createGraphOp(const char* name) {
-    return osg::GraphOpFactory::the().create(name);
+OSG::GraphOp* createGraphOp(const char* name) 
+{
+    return OSG::GraphOpFactory::the().create(name);
+}
+
+OSG::GraphOpSeq* createGraphOpSeq(const char* ops) 
+{
+    OSG::GraphOpSeq *seq = new OSG::GraphOpSeq;
+    
+    seq->setGraphOps(ops);
+    
+    return seq;
 }
 
 
-void traverse(osg::GraphOp& g, NodeBase& b) {
+void traverse(OSG::GraphOp& g, NodeBase& b) 
+{
     OSG::NodePtr p = b.getNode();
     g.traverse(p);
+}
+
+void traverseSeq(OSG::GraphOpSeq& g, NodeBase& b) 
+{
+    OSG::NodePtr p = b.getNode();
+    g.run(p);
 }
 
 
@@ -142,11 +160,18 @@ BOOST_PYTHON_MODULE(osgbench)
         .def("setVerbose", &Test::setVerbose)
       ;
 
-    class_<osg::GraphOp, boost::noncopyable>("GraphOp", no_init)
+    class_<OSG::GraphOp, boost::noncopyable>("GraphOp", no_init)
         .def("traverse", &traverse)
         ;
 
+    class_<OSG::GraphOpSeq, boost::noncopyable>("GraphOpSeq", no_init)
+        .def("traverseSeq", &traverseSeq)
+        ;
+
     def("createGraphOp", &createGraphOp,
+        return_value_policy<manage_new_object>());
+
+    def("createGraphOpSeq", &createGraphOpSeq,
         return_value_policy<manage_new_object>());
     
     // Module Initialization
