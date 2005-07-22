@@ -3,6 +3,7 @@
 
 #include <OSGStateChunk.h>
 #include <OSGMaterialChunk.h>
+#include <OSGTextureChunk.h>
 
 #include "OSGMaterial.h"
 #include "OSGChunkMaterial.h"
@@ -34,5 +35,26 @@ int main( int argc, char *argv[] )
 
     b->dump();
 
+    TextureChunkPtr t1,t2,t3;
+    t1 = TextureChunk::create();
+    t2 = TextureChunk::create();
+    t3 = TextureChunk::create();
+    
+    b->addChunk(t1);
+    b->addChunk(t2);
+    b->addChunk(t3,5);
+ 
+    b->dump();
+   
+    StateChunkPtr s;
+    s = b->find(TextureChunk::getClassType());
+    std::cerr << "Chunk found: " << s << std::endl;
+   
+    Int32 ind = b->find(t2);
+    std::cerr << "TChunk direct found: " << ind << std::endl;
+   
+    s = b->find(TextureChunk::getClassType(), 5);
+    std::cerr << "Chunk (5) found: " << s << std::endl;
+    
     return 0;
 }

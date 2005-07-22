@@ -212,14 +212,22 @@ first found chunk is returned.
 StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, 
                                     Int32 slot)
 {
-    UInt32 count = 0;
-    for(MFStateChunkPtr::iterator i = _mfChunks.begin();i != _mfChunks.end();++i)
+    UInt32 index = 0;
+    
+    for(UInt32 i = 0; i < _mfChunks.size(); ++i)
     {
-        if((*i)->getType() == type)
-        {
-            if(slot == State::AutoSlotReplace || count == slot)
-                return (*i);
-            ++count;
+        StateChunkPtr p = _mfChunks[i];
+        Int32 s;
+        
+        if(i < getSlots().size())
+            s = getSlots(i);
+        else
+            s = State::AutoSlotReplace;
+            
+        if(p->getType() == type)
+        {           
+            if(slot == State::AutoSlotReplace || slot == s)
+                return (p);
         }
     }
     return NullFC;
