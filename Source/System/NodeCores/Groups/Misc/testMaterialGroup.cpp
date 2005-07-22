@@ -95,36 +95,43 @@ int main (int argc, char **argv)
     GroupNodePtr root = GroupNodePtr::create();
     
     {
-    CPEditAll(root);
-    
     MaterialGroupNodePtr mg1 = MaterialGroupNodePtr::create();
 
-    root.node()->addChild(mg1);
+    beginEditCP(root.node());
+        root.node()->addChild(mg1);
+    endEditCP(root.node());
     
     SimpleMaterialPtr green = SimpleMaterial::create();
     
     CPEditAll(green);
     green->setDiffuse(Color3f(0,1,0));
-    
-    CPEditAll(mg1);
-    mg1->setMaterial(green);
+
+    beginEditCP(mg1.core());
+        mg1->setMaterial(green);
+    endEditCP(mg1.core());
     
     MaterialGroupNodePtr mg2 = MaterialGroupNodePtr::create();
 
-    mg1.node()->addChild(mg2);
-    
+    beginEditCP(mg1.node());
+        mg1.node()->addChild(mg2);
+    endEditCP(mg1.node());
+
     SimpleMaterialPtr red = SimpleMaterial::create();
     
     CPEditAll(red);
     red->setDiffuse(Color3f(1,0,0));
-    
-    CPEditAll(mg2);
-    mg2->setMaterial(red);
-    
+
+    beginEditCP(mg2.core());
+        mg2->setMaterial(red);
+    endEditCP(mg2.core());
+
     GeometryNodePtr torus;
     torus = makeTorusGeo(.5, 2, 16, 16);
 
-    mg2.node()->addChild(torus);
+    beginEditCP(mg2.node());
+        mg2.node()->addChild(torus);
+    endEditCP(mg2.node());
+
     }
     
     // 
