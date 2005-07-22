@@ -712,7 +712,7 @@ void OSG::Window::refreshGLObject( UInt32 id )
 
         UInt32 lastinv = (*it)->getGlObjectEventCounter() + 1;
         MFUInt32 &field = (*it)->_mfGlObjectLastRefresh;
-        if(field.size() < id)
+        if(field.size() <= id)
             field.getValues().insert(field.end(), id - field.size() + 1, 0 );
         field[id] = lastinv;
         (*it)->setGlObjectEventCounter(lastinv);
