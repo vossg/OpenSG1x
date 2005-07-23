@@ -49,7 +49,10 @@ int main( int argc, char *argv[] )
     StateChunkPtr s;
     s = b->find(TextureChunk::getClassType());
     std::cerr << "Chunk found: " << s << std::endl;
-   
+
+    s = b->find(TextureChunk::getClassType(), 1);
+    std::cerr << "Chunk (1) found: " << s << std::endl;
+
     Int32 ind = b->find(t2);
     std::cerr << "TChunk direct found: " << ind << std::endl;
    

@@ -213,21 +213,22 @@ StateChunkPtr ChunkMaterial::find(const FieldContainerType &type,
                                     Int32 slot)
 {
     UInt32 index = 0;
-    
     for(UInt32 i = 0; i < _mfChunks.size(); ++i)
     {
         StateChunkPtr p = _mfChunks[i];
-        Int32 s;
-        
+        Int32 s = State::AutoSlotReplace;
+
         if(i < getSlots().size())
             s = getSlots(i);
-        else
-            s = State::AutoSlotReplace;
-            
+
+        if(s == State::AutoSlotReplace)
+            s = index;
+
         if(p->getType() == type)
         {           
             if(slot == State::AutoSlotReplace || slot == s)
                 return (p);
+            ++index;
         }
     }
     return NullFC;
