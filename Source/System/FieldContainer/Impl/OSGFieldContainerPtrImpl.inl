@@ -185,11 +185,11 @@ inline
 FieldContainerPtrBase::~FieldContainerPtrBase(void)
 {
 #ifdef OSG_DEBUG
-    _storeP = (UInt8*)(-1);
+    _storeP = NULL;
     _containerSize = 65535;
     _uiParentEPos = 65535;
 #ifdef OSG_DEBUG_FCPTR
-    _typedStoreP = (UInt8*)(-1);
+    _typedStoreP = NULL;
 #endif
 #endif
 }
