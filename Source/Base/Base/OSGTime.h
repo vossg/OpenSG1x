@@ -43,25 +43,45 @@
 #endif
 
 #include <OSGBaseTypes.h>
+#include <OSGBaseFunctions.h>
 
 OSG_BEGIN_NAMESPACE
 
 /*! \ingroup GrpBaseTypes
- *  \brief OSGTime
- *
- *  detailed
+    \brief OSGTime
+ 
+    Time supplies two time measurement methods.
+    
+    The first is the system time (getSystemTime()). It is measured in
+    seconds and started at an unspecified start point, so it's only
+    useful for relative measurements. It has limited resolution (~20 ms on
+    Windows, better on Linux), but will not wrap around in a reasonable
+    timeframe.
+
+    The second is the time stamp (getTimeStamp()). It is measured in an
+    unspecified integer unit, but the number of time stamp ticks per second
+    can be inquired via getTimeStampFreq(), or a number of TimeStamp ticks
+    can be converted to milliseconds using getTimeStampMsecs(). It has at
+    least the same resolution as the system time, but can be much higher. 
+    Currently it is only higher on Intel/AMD CPUs. It can be used to measure
+    very short time periods, but should not be used for long measurements.
+
  */
 
 typedef Real64 Time;
+typedef Int64 TimeStamp;
 
 inline
 Time getSystemTime(void);
 
 inline
-Int64 getPerfCounter(void);
+TimeStamp getTimeStamp(void);
 
 inline
-Int64 getPerfCounterFreq(void);
+TimeStamp getTimeStampFreq(void);
+
+inline
+Real64 getTimeStampMsecs(TimeStamp ticks);
 
 OSG_END_NAMESPACE
 

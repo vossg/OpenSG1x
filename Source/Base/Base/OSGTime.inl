@@ -63,26 +63,29 @@ Time getSystemTime (void)
 
 
 inline
-Int64 getPerfCounter(void)
+TimeStamp getTimeStamp(void)
 {
 #ifdef WIN32
     Int64 iCounter;
     
     QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER *>(&iCounter));
 
-    return iCounter;
+    return  static_cast<TimeStamp>(iCounter);
+#elif defined(__linux) && defined(__i386)
+
+    register uint64_t result;
+    //asm volatile ("rdtsc" : "=A"(result));
+    asm volatile (".byte 0x0f, 0x31" : "=A" (result)); // same thing as rdtsc... inject the bytes for the opcode.
+    return static_cast<TimeStamp>(result);
+    
 #else
-#ifdef OSG_LONGLONG_HAS_LL
-    return 0LL;
-#else
-    return 0;
-#endif
+    return static_cast<TimeStamp>(getSystemTime() * 1000.f);
 #endif
 }
 
 
 inline
-Int64 getPerfCounterFreq(void)
+TimeStamp getTimeStampFreq(void)
 {
 #ifdef WIN32
     Int64 iCounterFreq;
@@ -90,14 +93,40 @@ Int64 getPerfCounterFreq(void)
     QueryPerformanceFrequency(
         reinterpret_cast<LARGE_INTEGER *>(&iCounterFreq));
 
-    return iCounterFreq;
+    return static_cast<TimeStamp>(iCounterFreq);
+    
+#elif defined(__linux) && defined(__i386)
+
+    static Int64 iCounterFreq = 0;
+    
+    if(iCounterFreq == 0)
+    {
+        // Calibrate against gettimeofday
+
+        Time start, end;
+        Int64 cstart, cend;
+
+        cstart = getTimeStamp();
+        start = getSystemTime();
+
+        osgsleep(200);
+
+        cend = getTimeStamp();
+        end = getSystemTime();
+
+        iCounterFreq = static_cast<Int64>((cend - cstart) / (end - start));    
+    }
+    return static_cast<TimeStamp>(iCounterFreq);
+    
 #else
-#ifdef OSG_LONGLONG_HAS_LL
-    return 0LL;
-#else
-    return 0;
+    return static_cast<TimeStamp>(1000000);
 #endif
-#endif
+}
+
+inline
+Real64 getTimeStampMsecs(TimeStamp ticks)
+{
+    return ticks * 1000. / getTimeStampFreq();
 }
 
 OSG_END_NAMESPACE
