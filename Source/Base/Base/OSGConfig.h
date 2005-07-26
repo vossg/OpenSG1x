@@ -762,12 +762,19 @@
 # error Could not determine compiler / os combination
 #endif
 
+
+/* Mixed bag defines... */
+
+// STLPORT doesn't support all of std::math
+#ifdef STLPORT
+#undef OSG_USE_STDMATH
+#endif
+
+
+
 #if defined(OSG_HAS_STD_NAMESPACE)
 # define OSG_USING_STD_NAMESPACE namespace std {} using namespace std;
 # define OSG_STD std
-
-//OSG_USING_STD_NAMESPACE
-
 #endif
 
 #if defined(OSG_HAS_NAMESPACE)
