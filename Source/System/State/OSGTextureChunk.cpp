@@ -1556,9 +1556,9 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
 
-    action->getStatistics()->getElem(RenderAction::statNTextures)->inc();
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(idx);
     action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
-        getImage()->getSize());
+        idx, getImage()->getSize());
     
     glBindTexture(target, getGLId());
 
@@ -1777,9 +1777,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     win->validateGLObject(getGLId());
 
-    action->getStatistics()->getElem(RenderAction::statNTextures)->inc();
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(getGLId());
     action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
-        getImage()->getSize());
+        getGLId(), getImage()->getSize());
 
     glBindTexture(target, getGLId());
  

@@ -120,10 +120,10 @@ StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries",
 "number of Geometry nodes");
 StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries",
 "number of transformed Geometry nodes");
-StatElemDesc<StatIntElem > RenderAction::statNTextures("NTextures",
+StatElemDesc<StatIntOnceElem > RenderAction::statNTextures("NTextures",
 "number of texture changes");
-StatElemDesc<StatIntElem > RenderAction::statNTexBytes("NTexBytes",
-"sum of all used texture's size (approx., in bytes)");
+StatElemDesc<StatIntOnceElem > RenderAction::statNTexBytes("NTexBytes",
+"sum of all used textures' sizes (approx., in bytes)");
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -1428,8 +1428,8 @@ Action::ResultE RenderAction::start(void)
     _uiNumMatrixChanges   = 0;
     _uiNumGeometries      = 0;
     _uiNumTransGeometries = 0;
-    getStatistics()->getElem(statNTextures)->reset();
-    getStatistics()->getElem(statNTexBytes)->reset();
+
+    getStatistics()->reset();
 
     _vLights.clear();
     _lightsMap.clear();
@@ -1456,13 +1456,7 @@ Action::ResultE RenderAction::start(void)
 
 Action::ResultE RenderAction::stop(ResultE res)
 {
-   // CF changed
-#if 0
-    if(!_ownStat)
-       getStatistics()->getElem(statDrawTime)->start();
-#else
     getStatistics()->getElem(statDrawTime)->start();
-#endif
     
     UInt32 i;
 
@@ -1540,31 +1534,14 @@ Action::ResultE RenderAction::stop(ResultE res)
             glDisable(GL_LIGHT0 + i);
     }
 
-    // CF changed
-#if 0
-    if(!_ownStat)
-    {
-        glFinish();
-        getStatistics()->getElem(statDrawTime)->stop();
-
-        getStatistics()->getElem(statNMaterials      )->set(
-            _uiNumMaterialChanges);
-        getStatistics()->getElem(statNMatrices       )->set(
-            _uiNumMatrixChanges);
-        getStatistics()->getElem(statNGeometries     )->set(
-            _uiNumGeometries);
-        getStatistics()->getElem(statNTransGeometries)->set(
-            _uiNumTransGeometries);
-    }
-#else
-
     glFinish();
 
     StatTimeElem* elemDraw = getStatistics()->getElem(statDrawTime);
     elemDraw->stop();
 
     _viewport->setDrawTime((Real32)elemDraw->getTime());
-    if(!_ownStat) {
+    if(!_ownStat) 
+    {
         getStatistics()->getElem(statNMaterials      )->set(
             _uiNumMaterialChanges);
         getStatistics()->getElem(statNMatrices       )->set(
@@ -1574,7 +1551,6 @@ Action::ResultE RenderAction::stop(ResultE res)
         getStatistics()->getElem(statNTransGeometries)->set(
             _uiNumTransGeometries);
     }
-#endif
 
 
 //    FINFO (("Material %d Matrix %d Geometry %d Transparent %d\r",

@@ -108,13 +108,13 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     //   constants                                                               
     //-----------------------------------------------------------------------
 
-    static StatElemDesc<StatTimeElem> statDrawTime;
-    static StatElemDesc<StatIntElem > statNMaterials;
-    static StatElemDesc<StatIntElem > statNMatrices;
-    static StatElemDesc<StatIntElem > statNGeometries;
-    static StatElemDesc<StatIntElem > statNTransGeometries;
-    static StatElemDesc<StatIntElem > statNTextures;
-    static StatElemDesc<StatIntElem > statNTexBytes;
+    static StatElemDesc<StatTimeElem   > statDrawTime;
+    static StatElemDesc<StatIntElem    > statNMaterials;
+    static StatElemDesc<StatIntElem    > statNMatrices;
+    static StatElemDesc<StatIntElem    > statNGeometries;
+    static StatElemDesc<StatIntElem    > statNTransGeometries;
+    static StatElemDesc<StatIntOnceElem> statNTextures;
+    static StatElemDesc<StatIntOnceElem> statNTexBytes;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
