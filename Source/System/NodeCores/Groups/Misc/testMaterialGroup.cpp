@@ -95,6 +95,9 @@ int main (int argc, char **argv)
     GroupNodePtr root = GroupNodePtr::create();
     
     {
+    CPEditor rn(root.node());
+    CPEditor rc(root.core());
+    
     MaterialGroupNodePtr mg1 = MaterialGroupNodePtr::create();
 
     beginEditCP(root.node());
@@ -105,10 +108,9 @@ int main (int argc, char **argv)
     
     CPEditAll(green);
     green->setDiffuse(Color3f(0,1,0));
-
-    beginEditCP(mg1.core());
-        mg1->setMaterial(green);
-    endEditCP(mg1.core());
+    
+    CPEditor mg1c(mg1.core());
+    mg1->setMaterial(green);
     
     MaterialGroupNodePtr mg2 = MaterialGroupNodePtr::create();
 
@@ -120,11 +122,11 @@ int main (int argc, char **argv)
     
     CPEditAll(red);
     red->setDiffuse(Color3f(1,0,0));
-
-    beginEditCP(mg2.core());
-        mg2->setMaterial(red);
-    endEditCP(mg2.core());
-
+    
+    CPEditor mg2n(mg2.node());
+    CPEditor mg2c(mg2.core());
+    mg2->setMaterial(red);
+    
     GeometryNodePtr torus;
     torus = makeTorusGeo(.5, 2, 16, 16);
 
