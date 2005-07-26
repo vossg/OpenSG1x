@@ -13,8 +13,8 @@ FieldContainers in a running OpenSG application. If
 handleRequests() is called in each render loop, it is
 possible to connect the interface with a standard web
 browser http://hostname:8888. In glut applications the
-idle functions could be used. It is poosible to add 
-new features to the interfce by subclassing and adding
+idle functions could be used. It is possible to add 
+new features to the interface by subclassing and adding
 new handlers.
 
 */
@@ -73,7 +73,7 @@ WebInterface::~WebInterface()
 /*-------------------------------------------------------------------------*/
 /*                            request handling                             */
 
-/*! Handle all incomming http requests. Return, if no request is
+/*! Handle all incoming http requests. Return, if no request is
   pending
 */
 void WebInterface::handleRequests()
@@ -91,15 +91,19 @@ void WebInterface::handleRequests()
             "HTTP/1.1 200 OK\r\n"
             "Connection: close\r\n"
             "Server: OpenSGMicroWebInterface\r\n"
-            "Expires: 0\r\n"
-            "Content-Type: text/html\r\n"
-            "\r\n";
+            "Expires: 0\r\n";
         // find handler
         hI = _handler.find(IDString(path.c_str()));
         if(hI != _handler.end())
+        {
             (this->*hI->second)(_body,path.c_str(),param);
+        }
         else
-            _body << "<html>Invalid path</html>";
+        {
+            _body << "Content-Type: text/html\r\n"
+                     "\r\n"
+                     "<html>Invalid path</html>";
+        }
         _body.flush();
         _accepted.setDelay(false);
         // finish request
@@ -107,6 +111,18 @@ void WebInterface::handleRequests()
         // close connection
         _accepted.close();
     }
+}
+
+/*! Flush the data that's alrady in the stream to allow incremental creation
+   and updates on slow operaitons
+*/
+void WebInterface::flush(void)
+{
+    _body.flush();
+    _accepted.setDelay(false);
+    // finish request
+    _accepted.send(_body.str().c_str(), _body.str().length());
+    _body.str("");
 }
 
 /*! Suspend processing until a http request is pending for the
@@ -147,6 +163,13 @@ void WebInterface::setFooter(const std::string &footer)
 
 /*-------------------------------------------------------------------------*/
 /*                             get                                         */
+
+/*! Get the scenegraph root node.
+ */
+NodePtr WebInterface::getRoot(void)
+{
+    return _root;
+}
 
 /*! Get the html header.
  */
@@ -324,7 +347,7 @@ std::string WebInterface::createFCViewReference(FieldContainerPtr fcPtr,
                << fcPtr.getFieldContainerId()
                << "\">"
                << fcPtr->getType().getName().str()
-               << "("
+               << " ("
                << fcPtr.getFieldContainerId()
                << ")"
                << "</a>";
@@ -384,7 +407,7 @@ bool WebInterface::checkRequest(std::string &url)
         return true;
 }
 
-/*! Traversal function for the treViewHandler
+/*! Traversal function for the treeViewHandler
  */
 void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
                                 ParameterT &param)
@@ -447,7 +470,9 @@ void WebInterface::rootHandler(std::ostream &os,
                                const char *,
                                ParameterT &)
 {
-    os << "<html>" << _header;
+    os << "Content-Type: text/html\r\n"
+          "\r\n"
+          "<html>" << _header;
     os << "<h1>OpenSG Web Interface</h1>"
           "<ui>"
           "<li><a href=\"changelist\">ChangeList</a>"
@@ -475,7 +500,9 @@ void WebInterface::changelistHandler(std::ostream &os,
 
     changeList=OSG::Thread::getCurrentChangeList();
 
-    os << "<html>" << _header
+    os << "Content-Type: text/html\r\n"
+          "\r\n"
+          "<html>" << _header
        << "<h1>ChangeList</h1>";
     
     // created
@@ -582,14 +609,18 @@ void WebInterface::fcViewHandler(std::ostream &os,
 
     if(!getParam(param,"id"))
     {
-        os << "<html>" << _header
+        os << "Content-Type: text/html\r\n"
+              "\r\n"
+              "<html>" << _header
            << "id missing"
            << _footer << "</html>";
         return;
     }
     id=atoi(getParam(param,"id"));
 
-    os << "<html>" << _header;
+    os << "Content-Type: text/html\r\n"
+          "\r\n"
+          "<html>" << _header;
     fcPtr = FieldContainerFactory::the()->getContainer(id);
     if(fcPtr == NullFC)
     {
@@ -694,7 +725,9 @@ void WebInterface::fcEditHandler(std::ostream &os,
     }
     if(fcPtr == NullFC)
     {
-        os << "<html>" << _header
+        os << "Content-Type: text/html\r\n"
+              "\r\n"
+              "<html>" << _header
            << "Unknown field container"
            << _footer << "</html>";
         return;
@@ -702,7 +735,9 @@ void WebInterface::fcEditHandler(std::ostream &os,
     field = fcPtr->getField(fid);
     if(field == NULL)
     {
-        os << "<html>" << _header
+        os << "Content-Type: text/html\r\n"
+              "\r\n"
+              "<html>" << _header
            << "Unknown field in container"
            << _footer << "</html>";
         return;
@@ -715,7 +750,9 @@ void WebInterface::fcEditHandler(std::ostream &os,
         endEditCP(fcPtr,desc->getFieldMask());
     }
     field->getValueByStr(value);
-    os << "<html>" << _header
+    os << "Content-Type: text/html\r\n"
+          "\r\n"
+          "<html>" << _header
        << "<h1>Edit "
        << fcPtr->getTypeName()
        << "."
@@ -759,7 +796,9 @@ void WebInterface::treeViewHandler(std::ostream &os,
         setParam(param,"close",NULL);
     }        
     // Changed 
-    os << "<html>" << _header
+    os << "Content-Type: text/html\r\n"
+          "\r\n"
+          "<html>" << _header
        << "<h1>Scenegraph</h1>\n"
        << "<ul>\n";
     treeViewNode(os,_root,param);

@@ -43,13 +43,14 @@ public:
 
     void handleRequests(void              );
     bool waitRequest   (double duration=-1);
+    void flush         (void              );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
-    void setRoot(NodePtr root);
+    void    setRoot(NodePtr root);
     
     void                setHeader(const std::string &header);
     void                setFooter(const std::string &footer);
@@ -58,6 +59,8 @@ public:
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
+
+          NodePtr        getRoot  (void);
     
     const std::string   &getHeader(void);
     const std::string   &getFooter(void);
@@ -96,6 +99,12 @@ protected:
     void        setParam             (      ParameterT       &param,
                                       const char             *name ,
                                       const char             *value );
+                                      
+    void        treeViewNode         (std::ostream     &os,
+                                      NodePtr           node,
+                                      ParameterT       &param );
+                                      
+    const char *getNodeName          (const FieldContainerPtr &fcPtr);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -105,10 +114,6 @@ private:
     /*! \{                                                                 */
 
     bool        checkRequest         (std::string &url        );
-    void        treeViewNode         (std::ostream     &os,
-                                      NodePtr           node,
-                                      ParameterT       &param );
-    const char *getNodeName          (const FieldContainerPtr &fcPtr);
     std::string getDefaultHeader     (void);
 
     /*! \}                                                                 */
