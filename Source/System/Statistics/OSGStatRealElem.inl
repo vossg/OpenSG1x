@@ -58,11 +58,6 @@ inline void StatRealElem::sub(Real32 v)
     _value -= v; 
 }
 
-inline void StatRealElem::reset(void) 
-{ 
-    _value = 0; 
-}
-
 OSG_END_NAMESPACE
 
 #define OSGSTATREALELEM_INLINE_CVSID "@(#)$Id: $"

@@ -83,7 +83,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
 
     inline  void                set          (const Char8 * value);
 
-    inline  void                reset        (void);
+    virtual void                reset        (void);
 
     virtual void                putToString  (std::string &str, 
                                               const char *format = NULL) const;

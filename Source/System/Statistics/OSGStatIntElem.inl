@@ -58,11 +58,6 @@ inline void StatIntElem::sub(Int32 v)
     _value -= v; 
 }
 
-inline void StatIntElem::reset(void) 
-{ 
-    _value = 0; 
-}
-
 inline void StatIntElem::inc(void) 
 { 
     _value++; 

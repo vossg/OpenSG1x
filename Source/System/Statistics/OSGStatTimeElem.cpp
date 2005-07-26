@@ -136,6 +136,11 @@ Real64 StatTimeElem::getValue(void) const
     return static_cast<Real64>(getTime());
 }
 
+void StatTimeElem::reset(void) 
+{ 
+    // Time elements need to be started and stopped and can't be reset
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 StatTimeElem& StatTimeElem::operator = (const StatTimeElem &source)

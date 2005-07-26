@@ -109,6 +109,12 @@ Real64 StatIntElem::getValue(void) const
     return static_cast<Real64>(get());
 }
 
+
+void StatIntElem::reset(void) 
+{ 
+    _value = 0; 
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 StatIntElem& StatIntElem::operator = (const StatIntElem &source)

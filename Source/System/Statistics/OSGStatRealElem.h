@@ -88,7 +88,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatRealElem : public StatElem
     
     inline void    sub          (Real32 v);
 
-    inline void    reset        (void);
+    virtual void   reset        (void);
 
     virtual void   putToString  (std::string &str, 
                                  const char *format = NULL) const;

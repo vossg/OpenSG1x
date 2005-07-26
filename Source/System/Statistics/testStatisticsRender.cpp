@@ -155,6 +155,7 @@ int main(int argc, char **argv)
     beginEditCP(statfg);
     statfg->setSize(25);
     statfg->setColor(Color4f(0,1,0,0.7));
+#if 0
     statfg->addElement(RenderAction::statDrawTime, "Draw FPS: %r.3f");
     statfg->addElement(DrawActionBase::statTravTime, "TravTime: %.3f s");
     statfg->addElement(RenderAction::statDrawTime, "DrawTime: %.3f s");
@@ -180,6 +181,9 @@ int main(int argc, char **argv)
                         "%d primitive groups drawn");
     statfg->addElement(Drawable::statNVertices, 
                        "%d vertices transformed");
+    statfg->addElement(RenderAction::statNTextures, "%d textures used");
+    statfg->addElement(RenderAction::statNTexBytes, "%d bytes of texture used");
+#endif
     endEditCP(statfg);
     
     collector = &statfg->getCollector();

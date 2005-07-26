@@ -81,13 +81,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem
     /*! \name                    instance                                  */
     /*! \{                                                                 */
 
-    inline void         reset        (void);
+    virtual void        reset        (void);
     
-    inline const Time & start        (void);
+    inline  const Time &start        (void);
       
-    inline const Time & stop         (void);
+    inline  const Time &stop         (void);
 
-    inline const Time & getTime      (void) const;
+    inline  const Time &getTime      (void) const;
         
     virtual void        putToString  (std::string &str, 
                                       const char *format = NULL) const;

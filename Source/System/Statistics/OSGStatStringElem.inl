@@ -53,11 +53,6 @@ inline void StatStringElem::set(const Char8 * value)
     _value = (value ? value : ""); 
 }
 
-inline void StatStringElem::reset(void) 
-{ 
-    _value.resize(0); 
-}
-
 
 OSG_END_NAMESPACE
 

@@ -82,6 +82,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     virtual bool               getFromString(const Char8 *&inVal)       = 0;
     virtual Real64             getValue     (void               ) const = 0; 
 
+    virtual void               reset        (void               )       = 0; 
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructor                                */

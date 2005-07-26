@@ -86,7 +86,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntElem : public StatElem
     
     inline  void   sub          (Int32 v);
 
-    inline  void   reset        (void);
+    virtual void   reset        (void);
 
     inline  void   inc          (void);
 

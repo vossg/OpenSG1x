@@ -114,6 +114,12 @@ Real64 StatStringElem::getValue(void) const
     return 0;
 }
 
+
+void StatStringElem::reset(void) 
+{ 
+    _value.resize(0); 
+}
+
 /*-------------------------- assignment -----------------------------------*/
 
 StatStringElem& StatStringElem::operator = (const StatStringElem &source)

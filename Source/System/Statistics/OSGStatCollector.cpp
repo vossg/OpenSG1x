@@ -231,8 +231,27 @@ void StatCollector::clearElems(void)
         i != _elemVec.end();
         ++i)
     {
-        delete *i;
-        *i = NULL;
+        if(*i != NULL)
+        {
+            delete *i;
+            *i = NULL;
+        }
+    }
+}
+
+
+/*! Reset all elements to the start value.
+*/
+void StatCollector::reset(void)
+{
+    for(std::vector<StatElem*>::iterator i = _elemVec.begin(); 
+        i != _elemVec.end();
+        ++i)
+    {
+        if(*i != NULL)
+        {
+            (*i)->reset();
+        }
     }
 }
 

@@ -37,12 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 OSG_BEGIN_NAMESPACE
-
-inline void StatTimeElem::reset(void) 
-{ 
-    _time = 0; 
-}
-    
+  
 inline const Time &StatTimeElem::start(void) 
 { 
     return (_time = getSystemTime()); 

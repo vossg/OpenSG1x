@@ -237,9 +237,14 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             el = col->getElem(i, false);
             if(el)
             {
+                std::string desc(el->getDesc()->getName().str()), eltext;
+                
+                el->putToString(eltext);
+                desc = desc + " : " + eltext;
+                
                 stat.resize(stat.size() + 1);
                 std::vector < std::string >::iterator str = stat.end() - 1;
-                el->putToString(*str);
+                *str = desc;
             }
         }
     }

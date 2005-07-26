@@ -49,5 +49,6 @@
 #include <OSGStatRealElem.h>
 #include <OSGStatTimeElem.h>
 #include <OSGStatStringElem.h>
+#include <OSGStatIntOnceElem.h>
 
 #endif /* _OSGSTATELEMTYPES_H_ */
