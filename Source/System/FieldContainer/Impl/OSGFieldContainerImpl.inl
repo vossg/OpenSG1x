@@ -187,15 +187,6 @@ void FieldContainer::newPtr(
     }
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-/*
-    fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) cc (%p|%s|%u)\n", 
-            Thread::getAspect(),
-            getSystemTime(),
-            getPerfCounter(),
-            result._storeP,
-            ObjectType::getClassType().getCName(),
-            ObjectType::getClassType().getId());
-            */    
 
     fprintf(stderr, "GV_MEM_FC_DBG : (%u) cc (%p|%u)\n", 
             Thread::getAspect(),

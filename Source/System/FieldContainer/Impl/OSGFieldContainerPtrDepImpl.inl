@@ -92,16 +92,6 @@ void FieldContainerPtrBase::deleteContainers(void) const
     ((FieldContainer *) pTmp)->onDestroy();
     
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-/*
-    fprintf(stderr, "GV_MEM_FC_DBG : (%u|%lf|%I64d) d (%p|%s|%u)\n", 
-            Thread::getAspect(),
-            getSystemTime(), 
-            getPerfCounter(),
-            pTmp,
-            ((FieldContainer *) pTmp)->getType().getCName(),
-            ((FieldContainer *) pTmp)->getType().getId());
-            */
-
 
     fprintf(stderr, "GV_MEM_FC_DBG : (%u) d (%p|%u)\n", 
             Thread::getAspect(),
