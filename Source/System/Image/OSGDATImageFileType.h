@@ -80,6 +80,16 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
+
+    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
+
+    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -98,16 +108,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
 
     DATImageFileType (const DATImageFileType &obj);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
-                                 Int32 memSize = -1 );
-
-    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
-                                 Int32 memSize = -1 );
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/

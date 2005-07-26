@@ -20,7 +20,7 @@ int main (int argc, char **argv)
     OSG::UChar8 *data = 0;
     unsigned long i,maxSize;
 
-    if(argc >= 3 && !OSG::stringcasecmp(argv[1], "-type"))
+    if(argc >= 4 && !OSG::stringcasecmp(argv[1], "-t"))
     {
         fileType = OSG::ImageFileHandler::the().getFileType(argv[2]);  
         argv += 2;
@@ -31,25 +31,22 @@ int main (int argc, char **argv)
         fileType = OSG::ImageFileHandler::the().getDefaultType();
     }
     
-    if (argc > 2)
+    if (argc > 3)
     {
         if (pImage->read(argv[1]))
         {
-            FINFO (( "Input image has alpha: %s\n",
-                     pImage->hasAlphaChannel() ? "true" : "false" ));
-
-            out.open(argv[2]);
+            out.open(argv[3]);
             if (out.eof() == false)
             {
                 maxSize = (unsigned long)(fileType->maxBufferSize(pImage));
                 data = new OSG::UChar8[maxSize];
                 maxSize = (unsigned long)fileType->store(pImage,(OSG::UChar8*)data);
                 out << "/* Image: " << argv[1] << "*/" << std::endl;
-                out << "static unsigned int imageWidth = " 
+                out << "static unsigned int " << argv[2] << "Width = " 
                     << pImage->getWidth() << ";" << std::endl;               
-                out << "static unsigned int imageHeight = " 
+                out << "static unsigned int " << argv[2] << "Height = " 
                     << pImage->getHeight() << ";" << std::endl;               
-                out << "static unsigned char imageData[" << maxSize << "] = {" ;
+                out << "static unsigned char " << argv[2] << "Data[" << maxSize << "] = {" ;
                 for (i = 0; i < maxSize; i++)
                 {
                     if ((i % 8) == 0)
@@ -74,7 +71,7 @@ int main (int argc, char **argv)
     }
     else
     {
-        FLOG (( "usage: %s inputImageFile outputAsciiFile\n", argv[0] ));
+        FLOG (( "usage: %s [-t <mimeType>] inputImageFile varname outputAsciiFile\n", argv[0] ));
         retCode = -1;
     }
 

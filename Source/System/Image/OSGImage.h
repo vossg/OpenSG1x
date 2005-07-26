@@ -240,7 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     UInt64 store   (const Char8 *mimeType, UInt8* mem, Int32 memSize = -1);
-    UInt64 restore ( const UInt8* mem, Int32 memSize = -1);
+    UInt64 restore (const UInt8* mem, Int32 memSize = -1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

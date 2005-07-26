@@ -84,17 +84,6 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                  Get Method                                  */
-    /*! \{                                                                 */
-
-    static JPGImageFileType & the (void);
-
-    /*! \}                                                                 */
-
-    /*=========================  PROTECTED  ===============================*/
-  protected:
-
-    /*---------------------------------------------------------------------*/
     /*! \name                     Buffer                                   */
     /*! \{                                                                 */
 
@@ -105,6 +94,16 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
                                  Int32 memSize = -1 );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Get Method                                  */
+    /*! \{                                                                 */
+
+    static JPGImageFileType & the (void);
+
+    /*! \}                                                                 */
+
+    /*=========================  PROTECTED  ===============================*/
+  protected:
     /*---------------------------------------------------------------------*/
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */

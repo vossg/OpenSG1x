@@ -99,7 +99,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   store/restore                              */
+    /*! \name                 Safe Store/Restore                           */
     /*! \{                                                                 */
 
     static  UInt64 restore       ( ImagePtr &image, const UChar8 *buffer,
@@ -113,6 +113,18 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
                                    Int32 memSize = -1 );
     
     virtual UInt64 maxBufferSize ( const ImagePtr &image );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Raw Store/Restore                             */
+    /*! \{                                                                 */
+
+    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
+
+    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -167,18 +179,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \{                                                                 */
 
     ImageFileType ( const ImageFileType &obj);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
-                                 Int32 memSize = -1 );
-
-    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
-                                 Int32 memSize = -1 );
-
 
     /*! \}                                                                 */
 

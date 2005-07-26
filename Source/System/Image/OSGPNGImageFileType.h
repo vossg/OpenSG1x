@@ -77,6 +77,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
+
+    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
+
+    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
@@ -87,16 +97,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
-                                 Int32 memSize = -1 );
-
-    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
-                                 Int32 memSize = -1 );
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               Default Constructor                            */
     /*! \{                                                                 */

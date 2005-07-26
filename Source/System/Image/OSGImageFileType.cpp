@@ -187,7 +187,7 @@ ImageFileType::~ImageFileType(void)
 
 //-------------------------------------------------------------------------
 /*!
-Abstract restore method. Sould be overwriten by an concrete derived
+Abstract restore method. Should be overwriten by a concrete derived
 class. Tries to restore the image data from the given memblock.
 */
 UInt64 ImageFileType::restoreData(   ImagePtr  &, 
@@ -202,7 +202,7 @@ UInt64 ImageFileType::restoreData(   ImagePtr  &,
 
 //-------------------------------------------------------------------------
 /*!
-Abstract restore method. Sould be overwriten by an concrete derived
+Abstract restore method. Should be overwriten by a concrete derived
 class. Tries to store the given image data to the given memblock
 */
 UInt64 ImageFileType::storeData(const ImagePtr &, 

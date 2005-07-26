@@ -81,6 +81,15 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     virtual bool write (const ImagePtr &image, const Char8 *fileName);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Buffer                                   */
+    /*! \{                                                                 */
+
+    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
+                                 Int32 memSize = -1 );
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -100,15 +109,6 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
 
     MTDImageFileType (const MTDImageFileType &obj);
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     Buffer                                   */
-    /*! \{                                                                 */
-
-    virtual UInt64 restoreData ( ImagePtr &image, const UChar8 *buffer,
-                                 Int32 memSize = -1 );
-    virtual UInt64 storeData   ( const ImagePtr &image, UChar8 *buffer,
-                                 Int32 memSize = -1 );
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
