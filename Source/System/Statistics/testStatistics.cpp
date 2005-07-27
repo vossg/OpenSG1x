@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h>
 
+#include <OSGBaseFunctions.h>
 #include <OSGStatElem.h>
 #include <OSGStatCollector.h>
 #include <OSGStatElemDesc.h>
@@ -27,7 +28,7 @@ int main (int argc, char **argv)
     collector.getElem(barDesc)->set(2.0);
     collector.getElem(bazDesc)->set("HUGO");
 
-    osgsleep(200);
+    OSG::osgsleep(200);
 
     collector.getElem(fpsDesc)->stop();
     
