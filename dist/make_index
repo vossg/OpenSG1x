@@ -87,9 +87,9 @@ do
             thirdline=1
         elif test $thirdline = 1
         then
+            srpm=`ls -1 $srpm | head -n 1`
             if test -f $srpm
             then
-                srpm=`ls $srpm`
                 echo "<td style=source><a href=$srpm>SRPM</a></td>" >> $outfile
             else
      	        echo "<td style=date> </td>" >> $outfile

@@ -479,6 +479,7 @@ fi
 cd OpenSG
 guess=`CommonConf/config.guess`
 system=`CommonConf/config.sub $guess`
+version=`cat VERSION`
 
 # LOCAL: set the system specific params. 
 # PATH needs to include doxygen and dot for doc to work
@@ -494,7 +495,7 @@ case $system in
             CC64)
                  # VRAC Irix 64 settings
           
-                qt_dir="/home/users/dreiners"
+                qt_dir=${qt_dir:="/home/users/dreiners"}
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
                 glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib64"}
                 tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib64"}
@@ -513,7 +514,7 @@ case $system in
             CC)
                  # VRAC Irix settings
           
-                qt_dir="/home/users/dreiners"
+                qt_dir=${qt_dir:="/home/users/dreiners"}
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
                 glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib"}
                 tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib"}
@@ -533,7 +534,7 @@ case $system in
 
     hppa2.0w-hp* )    
 
-        qt_dir="/igd/a4/software/HP-UX/packages/qt-x11-free-3.2.0b1"
+        qt_dir=${qt_dir:="/igd/a4/software/HP-UX/packages/qt-x11-free-3.2.0b1"}
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         glut_args=${glut_args:="--with-glut --with-glutincludedir=/opt/graphics/OpenGL/contrib/libglut --with-glutlibdir=/opt/graphics/OpenGL/contrib/libglut"}
         tif_args=${tif_args:="--with-tif=/igd/a4/software/HP-UX/"}
@@ -553,7 +554,7 @@ case $system in
     
     *-pc-linux-gnu )    
         
-        qt_dir="/usr/lib/qt3"
+        qt_dir=${qt_dir:="/usr/lib/qt3"}
         #qt_dir="/igd/a4/software/Linux/packages/qt-x11-commercial-3.1.2"
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         glut_args=${glut_args:="--with-glut"}
@@ -583,11 +584,15 @@ case $system in
         unzip -o ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
         popd > $log_cvs 2>&1
 
+        # Makes ure we pick up cygwin commands before system commands
+        # convert is a problem here
+        export PATH=/usr/bin:$PATH
+        
         glut_args=${glut_args:="--with-glut=`pwd`/../supportlibs"}
         tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
         jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
         png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
-        qt_dir="`pwd`/../packages/qt-3.12"
+        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         par_jobs=${par_jobs:=1}
         compiler=${compiler:=icl50}
@@ -602,7 +607,7 @@ case $system in
         glut_args=${glut_args:="--with-glut"}
         tif_args=${tif_args:="--with-tif"}
         jpg_args=${jpg_args:="--with-jpg"}
-        qt_dir="/opt"
+        qt_dir=${qt_dir:="/opt"}
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         png_args=${png_args:="--with-png"}
         par_jobs=${par_jobs:=2}
@@ -693,15 +698,19 @@ checkerror "Configure" $log_configure
 # takes forever, do it in parallel
 if type doxygen > /dev/null 2>&1
 then
+    has_doxygen=${has_doxygen:=1}
+    doxy_target=alldocs
     if type latex > /dev/null 2>&1
     then
-        has_doxygen=${has_doxygen:=1}
+        # No LaTeX, no starter guide
+        has_latex=${has_latex:=1}
+        doxy_target="userdoc devdoc"
     fi
 fi
 
 if test x$has_doxygen = x1;
 then
-    ( rm -f $doc_flag ; $make alldocs 1>$log_doc 2>&1 ; touch $doc_flag ) &
+    ( rm -f $doc_flag ; $make $doxy_target 1>$log_doc 2>&1 ; touch $doc_flag ) &
 fi
 
 # make the libs
@@ -780,13 +789,43 @@ do
 
 done
 
-# Wait for the docs to finish
-if expr $has_doxygen > /dev/null 2>&1 = 1 ;
+# Wait for the docs to finish and copy them up
+if x$has_doxygen == x1 ;
 then
      
     while ! test -r $doc_flag ; do sleep 30; done
 
     checkerror "Doc" $log_doc
+
+    cd $basedir/Doc/Code
+    
+    case $system in
+
+        *cygwin* ) 
+            
+            # This should really try to find the program. Works for now...
+            /cygdrive/c/Program\ Files/HTML\ Help\ Workshop/hhc.exe user/html/index.hhp
+            mv user/html/index.chm $link_html.OpenSG-$version-userdocs.chm
+            /cygdrive/c/Program\ Files/HTML\ Help\ Workshop/hhc.exe dev/html/index.hhp
+            mv dev/html/index.chm $link_html.OpenSG-$version-devdocs.chm
+            ;;
+    esac
+    
+    mv user/html OpenSG-$version-userdocs
+    mv dev/html OpenSG-$version-devdocs
+    
+    tar cf $link_html.OpenSG-$version-userdocs.tar OpenSG-$version-userdocs
+    tar cf $link_html.OpenSG-$version-devdocs.tar OpenSG-$version-devdocs
+    
+    gzip -9 $link_html.OpenSG-$version-userdocs $link_html.OpenSG-$version-devdocs
+    
+    if x$has_latex == x1 ;
+    then
+        mv user/latex/StarterGuide.pdf $link_html.OpenSG-$version-StarterGuide.pdf
+    fi
+
+    # Move them up to be picked up by the dailybuild copy
+    mv $link_html.* $basedir/..
 fi
 
 # make the binary dist
@@ -822,7 +861,7 @@ echo /bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_d
 
 checkerror "Dist" $log_dist
 
-for i in OpenSG-`cat OpenSG/VERSION`-*
+for i in OpenSG-$version-*
 do
     mv $i $link_html.$i
 done

@@ -606,7 +606,7 @@ then
 
     cd $olddir
 else
-    echo "x$OSG_DIST_NO_FCDEDIT set, skipping fcdEdit build"
+    echo "OSG_DIST_NO_FCDEDIT set, skipping fcdEdit build"
 fi
 
 echo "Making Opt dist"
