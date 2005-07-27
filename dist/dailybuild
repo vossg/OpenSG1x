@@ -672,7 +672,10 @@ write_html_head $out_html.Main.html
 echo $loginfo >> $out_html.Main.html 
 echo '<p>' >> $out_html.Main.html 
 
-checkerror "Cvs" $log_cvs
+if test $restarting == 0
+then
+    checkerror "Cvs" $log_cvs
+fi
 
 # create the source snapshot
 # Create on linux, as needed for the SRPM
