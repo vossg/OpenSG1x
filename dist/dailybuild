@@ -790,7 +790,7 @@ do
 done
 
 # Wait for the docs to finish and copy them up
-if x$has_doxygen == x1 ;
+if test x$has_doxygen == x1 ;
 then
      
     while ! test -r $doc_flag ; do sleep 30; done
