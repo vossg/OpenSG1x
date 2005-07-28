@@ -213,7 +213,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         for(UInt32 i = 0; i < getElementIDs().size(); ++i)
         {
             Int32 id(getElementIDs()[i]);
-            el = ((id > 0) ? col->getElem(id) : 0);
+            el = ((id >= 0) ? col->getElem(id) : 0);
 
             stat.resize(stat.size() + 1);
             std::vector < std::string >::iterator str = stat.end() - 1;
