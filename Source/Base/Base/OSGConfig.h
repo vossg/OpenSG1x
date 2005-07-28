@@ -766,7 +766,7 @@
 /* Mixed bag defines... */
 
 // STLPORT doesn't support all of std::math
-#ifdef STLPORT
+#if defined(STLPORT) ||defined(OSG_WITH_STLPORT)
 #undef OSG_USE_STDMATH
 #endif
 
