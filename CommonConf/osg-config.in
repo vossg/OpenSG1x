@@ -109,6 +109,8 @@ stlport_libs=@ac_gdz_stlport_lib_e15@
 lib_stlport_path=@ac_gdz_stlport_libdir_e15@
 inc_stlport_path=@ac_gdz_stlport_incdir_e15@
 
+stlport_defs=
+
 image_libs=
 image_libs_path=
 image_incs_path=
@@ -144,6 +146,7 @@ if test "$stlport_libs"X != X; then
     if test "yes$inc_stlport_path" != "yes"; then
         inc_stl_path="$incdir_pre$inc_stlport_path$incdir_suf"
     fi
+    stlport_defs="-DOSG_WITH_STLPORT"
 fi
 
 
@@ -568,7 +571,7 @@ if test "$echo_cflags" = "yes"; then
 
     opensg_inc_path=${incdir_pre}${prefix}/include${incdir_suf}
 
-    echo $sys_cflags $sys_defs $inc_stl_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_gl_path $inc_add_path
+    echo $sys_cflags $sys_defs $stlport_defs $inc_stl_path $img_defs $img_incs_path $system_incs_path $opensg_inc_path $inc_gl_path $inc_add_path
 
 fi
 
