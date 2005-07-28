@@ -822,7 +822,7 @@ then
     
     gzip -9 $link_html.OpenSG-$version-userdocs $link_html.OpenSG-$version-devdocs
     
-    if x$has_latex == x1 ;
+    if test x$has_latex == x1 ;
     then
         mv user/latex/StarterGuide.pdf $link_html.OpenSG-$version-StarterGuide.pdf
     fi
