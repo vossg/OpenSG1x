@@ -181,11 +181,10 @@ bool GraphOp::isInExcludeList(NodePtr& node)
 
 // Parameter Helpers
 
-GraphOp::ParamSet::ParamSet(const std::string &params)
+GraphOp::ParamSet::ParamSet(const std::string &params) :
+    _values(),
+    _used()
 {
-    _values.clear();
-    _used.clear();
-    
     std::string::const_iterator it = params.begin(), end = params.end();
     
     std::string key, value;
@@ -226,8 +225,9 @@ GraphOp::ParamSet::ParamSet(const std::string &params)
         
         FDEBUG(("GraphOp::ParamSet: key='%s', value='%s'\n", key.c_str(),
                                                              value.c_str()));
-        _values[key] = value;
-        
+
+        _values.insert(valuesT::value_type(key, value));
+
         // Skip to next param
 
         while(it != end && (*it == ' '));
