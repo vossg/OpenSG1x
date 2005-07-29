@@ -663,7 +663,7 @@ void VRMLLoader::scanFile(const Char8 *szFilename)
 
     if(_pNameNodeMap != NULL)
     {
-        _pNameNodeMap.clear();
+        _pNameNodeMap->clear();
     }
 
     Inherited::scanFile(szFilename);
