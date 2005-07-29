@@ -42,6 +42,72 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+UInt32 SHLChunk::getFuncUniform1i(void)
+{
+    return _funcUniform1i;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform2iv(void)
+{
+    return _funcUniform2iv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform3iv(void)
+{
+    return _funcUniform3iv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform4iv(void)
+{
+    return _funcUniform4iv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform1f(void)
+{
+    return _funcUniform1f;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform2fv(void)
+{
+    return _funcUniform2fv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform3fv(void)
+{
+    return _funcUniform3fv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniform4fv(void)
+{
+    return _funcUniform4fv;
+}
+
+inline
+UInt32 SHLChunk::getFuncUniformMatrix4fv(void)
+{
+    return _funcUniformMatrix4fv;
+}
+
+inline
+UInt32 SHLChunk::getFuncGetUniformiv(void)
+{
+    return _funcGetUniformiv;
+}
+
+inline
+UInt32 SHLChunk::getFuncGetUniformfv(void)
+{
+    return _funcGetUniformfv;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.2 2004/06/04 19:59:26 a-m-z Exp $"
+#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.3 2005/07/29 11:39:17 a-m-z Exp $"

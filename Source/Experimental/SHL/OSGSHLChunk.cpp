@@ -165,7 +165,8 @@ void SHLChunk::initMethod (void)
 SHLChunk::SHLChunk(void) :
     Inherited(),
     _osgParametersCallbacks(),
-    _oldParameterSize(0)
+    _oldParameterSize(0),
+    _userParameterCallbacks()
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     _cg_extension = Window::registerExtension("GL_EXT_Cg_shader");
@@ -277,7 +278,8 @@ SHLChunk::SHLChunk(void) :
 SHLChunk::SHLChunk(const SHLChunk &source) :
     Inherited(source),
     _osgParametersCallbacks(source._osgParametersCallbacks),
-    _oldParameterSize(source._oldParameterSize)
+    _oldParameterSize(source._oldParameterSize),
+    _userParameterCallbacks(source._userParameterCallbacks)
 {
 }
 
@@ -792,53 +794,73 @@ void SHLChunk::checkOSGParameters(void)
                 paramtercbfp fp = updateActiveLightsMask;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight0Active")
+            else if(parameter->getName() == "OSGLight0Active")
             {
                 paramtercbfp fp = updateLight0Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight1Active")
+            else if(parameter->getName() == "OSGLight1Active")
             {
                 paramtercbfp fp = updateLight1Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight2Active")
+            else if(parameter->getName() == "OSGLight2Active")
             {
                 paramtercbfp fp = updateLight2Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight3Active")
+            else if(parameter->getName() == "OSGLight3Active")
             {
                 paramtercbfp fp = updateLight3Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight4Active")
+            else if(parameter->getName() == "OSGLight4Active")
             {
                 paramtercbfp fp = updateLight4Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight5Active")
+            else if(parameter->getName() == "OSGLight5Active")
             {
                 paramtercbfp fp = updateLight5Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight6Active")
+            else if(parameter->getName() == "OSGLight6Active")
             {
                 paramtercbfp fp = updateLight6Active;
                 _osgParametersCallbacks.push_back(fp);
             }
-	    else if(parameter->getName() == "OSGLight7Active")
+            else if(parameter->getName() == "OSGLight7Active")
             {
                 paramtercbfp fp = updateLight7Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else
             {
-                FWARNING(("SHLChunk::checkOSGParameters : unknown osg paramter '%s'\n",
-                         parameter->getName().c_str()));;
+                // check user parameter callbacks.
+                userParameterCallbacksMap::iterator it =
+                    _userParameterCallbacks.find(parameter->getName());
+                if(it != _userParameterCallbacks.end())
+                {
+                    paramtercbfp fp = (*it).second;
+                    _osgParametersCallbacks.push_back(fp);
+                }
+                else
+                {
+                    FWARNING(("SHLChunk::checkOSGParameters : unknown osg parameter '%s'\n",
+                              parameter->getName().c_str()));
+                }
             }
         }
     }
+}
+
+void SHLChunk::addParameterCallback(const char *name, paramtercbfp fp)
+{
+    if(name == NULL)
+        return;
+
+    setUniformParameter(name, 0);
+    _userParameterCallbacks.insert(std::make_pair(name, fp));
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
@@ -1247,7 +1269,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.38 2005/06/30 22:48:54 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.39 2005/07/29 11:39:17 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

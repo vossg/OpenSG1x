@@ -153,6 +153,38 @@ static PointLightPtr _point3_core;
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
 
+// Shows how to add your own parameter callbacks.
+
+typedef void   (OSG_APIENTRY * PFNGLUNIFORMMATRIXFVARBPROC) (GLint location, GLsizei count, GLboolean transpose, GLfloat *value);
+
+static void updateSpecialParameter(SHLChunk::PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                   DrawActionBase *action, GLuint program)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("updateSpecialParameter : Can't update OSGSpecialParameter"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    // uploads the camera orientation.
+    Matrix m;
+    action->getCamera()->getViewing(m,
+                                action->getViewport()->getPixelWidth(),
+                                action->getViewport()->getPixelHeight());
+    m.invert();
+    m[3].setValues(0, 0, 0, 1);
+
+    //std::cout << "uploading matrix " << m << std::endl;
+
+    // get "glUniformMatrix4fvARB" function pointer
+    PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(SHLChunk::getFuncUniformMatrix4fv());
+    GLint location = getUniformLocation(program, "OSGSpecialParameter");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+}
+
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
@@ -189,6 +221,9 @@ int main(int argc, char **argv)
         shl->setUniformParameter("OSGLight0Active", 0);
         shl->setUniformParameter("OSGLight1Active", 0);
         shl->setUniformParameter("OSGLight2Active", 0);
+        // The OSGSpecialParameter is not used in the shader just shows
+        // how to add your own parameter callbacks!
+        shl->addParameterCallback("OSGSpecialParameter", updateSpecialParameter);
     endEditCP(shl);
 
     beginEditCP(cmat);

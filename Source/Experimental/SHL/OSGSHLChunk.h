@@ -46,6 +46,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
@@ -116,6 +117,39 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
 
     virtual bool   operator == (const StateChunk &other) const;
     virtual bool   operator != (const StateChunk &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Parameter Callbacks                       */
+    /*! \{                                                                 */
+
+    typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
+            (GLuint programObj, const char *name);
+
+    typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                  DrawActionBase *action, GLuint program);
+
+    void addParameterCallback(const char *name, paramtercbfp fp);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Parameter funcs                           */
+    /*! \{                                                                 */
+
+    static inline UInt32 getFuncUniform1i(void);
+    static inline UInt32 getFuncUniform2iv(void);
+    static inline UInt32 getFuncUniform3iv(void);
+    static inline UInt32 getFuncUniform4iv(void);
+
+    static inline UInt32 getFuncUniform1f(void);
+    static inline UInt32 getFuncUniform2fv(void);
+    static inline UInt32 getFuncUniform3fv(void);
+    static inline UInt32 getFuncUniform4fv(void);
+
+    static inline UInt32 getFuncUniformMatrix4fv(void);
+
+    static inline UInt32 getFuncGetUniformiv(void);
+    static inline UInt32 getFuncGetUniformfv(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -214,9 +248,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void checkOSGParameters(void);
     void updateOSGParameters(DrawActionBase *action, GLuint program);
 
-    typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
-            (GLuint programObj, const char *name);
-
     static void updateCameraOrientation (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
     static void updateCameraPosition    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
@@ -248,11 +279,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static void updateLight7Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
 
-    typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
-                                  DrawActionBase *action, GLuint program);
     std::vector<paramtercbfp> _osgParametersCallbacks;
 
     UInt32 _oldParameterSize;
+
+    typedef std::map<std::string, paramtercbfp> userParameterCallbacksMap;
+    userParameterCallbacksMap _userParameterCallbacks;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -262,6 +294,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.20 2005/06/30 22:48:54 dirk Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.21 2005/07/29 11:39:17 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
