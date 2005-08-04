@@ -38,6 +38,42 @@ The available examples are:
 
 11picking:                Using a ray test to select objects/faces.
 
+12ClusterServer           A render cluster server (similar to a XServer)
+
+13ClusterClient           Connects to cluster server.
+
+14switch                  This example shows how to use the Switch NodeCore to selectively display one
+                          of a number of children of a node.
+
+15attachments             In many cases there is a need to attach some data to existing structures
+                          instead of deriving new classes. Many systems have a void* userdata 
+                          to do that. OpenSG uses the more flexible concept of Attachments. 
+
+16lights                  This example shows how to create and manipulate light sources.
+
+17deepclone               Shows how to create a copy of a scenegraph.
+
+18openg_slave             It is often necessary to mix non-OpenSG code with OpenSG.
+                          This is a quick way to melt such code-bases together.
+
+19LocalLights             This example shows how to create use local light sources.
+                          It creates four light sources (red, green, blue, white)
+                          each light source lights only its subtree.
+
+20MaterialSort            This example shows how to manually change the render order of materials.
+                          For intersecting geometries transparent sorting doesn't work so
+                          we set for each material a sort key.
+
+21Shadows                 This example shows realtime shadows via shadow maps.
+
+22Shader                  This example shows how to use GLSL shaders.
+                          It creates a bouncing ball animation (completely calculated on the GPU).
+                          You need a graphics card supporting the GL_ARB_shading_language_100 extension
+                          to run this tutorial.
+
+23videotexturebackground  This example shows how to use the TextureBackground to show animated
+                          pictures behind the 3D graphics, and how to do it as efficiently as 
+                          possible.
 
 The directory contains a test image that can be passed to materials to be used
 as a texture: osg_power_trans.rgb, which is the "Powered by OpenSG" logo
