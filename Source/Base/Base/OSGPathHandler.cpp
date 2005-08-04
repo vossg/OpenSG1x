@@ -538,6 +538,12 @@ PathHandler::PathType PathHandler::analysePath(const Char8 *path)
             if(path[1] == ':')
                 returnValue = (PathType) (returnValue | AbsPath);
         }
+        else
+        {
+            // windows network path.
+            if(path[0] == '\\' && path[1] == '\\')
+                returnValue = (PathType) (returnValue | AbsPath);
+        }
     }
     else
     {

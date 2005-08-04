@@ -2778,10 +2778,7 @@ bool Image::read(const Char8 *fileName)
 {
     ImagePtr iPtr(this);
 
-    std::string fixedpath = fileName;
-    Path::fixWinNetworkPath(fixedpath);
-
-    bool ok = ImageFileHandler::the().read(iPtr, fixedpath.c_str());
+    bool ok = ImageFileHandler::the().read(iPtr, fileName);
 
     if(ok)
     {

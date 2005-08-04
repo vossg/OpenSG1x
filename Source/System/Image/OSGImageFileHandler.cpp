@@ -278,10 +278,7 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
                 fullFilePath.c_str(), 
                 type->getMimeType()));
 
-        std::string fixedpath = fullFilePath;
-        Path::fixWinNetworkPath(fixedpath);
-
-        retCode = type->read(image, fixedpath.c_str());
+        retCode = type->read(image, fullFilePath.c_str());
 
         if(retCode)
         {
