@@ -128,6 +128,10 @@
     ?getFieldPtr@?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@osg@@QAEPAV?$MField@E$0A@@2@XZ
     ?getFieldPtr@?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@osg@@QAEPAV?$MField@G$0A@@2@XZ
 
+    ?getField@?$GeoProperty@UGeoNormals3bPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@CV?$VecStorage3@C@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoNormals3bPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@CV?$VecStorage3@C@osg@@@osg@@$0A@@2@XZ
+    ?create@?$GeoProperty@UGeoNormals3bPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoNormalsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoNormals3bPropertyDesc@osg@@@2@@2@XZ
+    ?getClassType@?$GeoProperty@UGeoNormals3bPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
 
     ?create@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UNameAttachmentDesc@osg@@@2@@2@XZ
     ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ
