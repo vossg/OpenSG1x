@@ -1228,8 +1228,8 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
         Real32 posRight = pos.x() + width;
         Real32 posBottom = pos.y() - height;
         Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
-        Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
-        Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
+        Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
+        Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
         Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
 
         // lower left corner
