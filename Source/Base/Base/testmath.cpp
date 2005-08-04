@@ -1719,11 +1719,11 @@ void testnextpow2(void)
     a = osgnextpower2(b);
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
 
-    b = (1ULL<<62)+1ULL;
+    b = (TypeTraits<UInt64>::One << 62) + TypeTraits<UInt64>::One;
     a = osgnextpower2(b);
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
 
-    b = (1ULL<<63)+1ULL;
+    b = (TypeTraits<UInt64>::One << 63) + TypeTraits<UInt64>::One;
     a = osgnextpower2(b);
     std::cerr << "npow2(" << b << ") = " << a << std::endl;
     }
