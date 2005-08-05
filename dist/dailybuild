@@ -424,6 +424,11 @@ do
             restarting=1
             shift
             ;;
+        --dist-name-suffix)
+            suffix=$2
+            shift
+            shift
+            ;;
          *) 
             break 2
             ;;
@@ -662,7 +667,7 @@ export LD_LIBRARY_PATH="${qt_dir}/lib:$LD_LIBRARY_PATH"
 now=`date '+%d.%m.%y %H:%M'`
 today=`date '+%y%m%d'`
 
-build_id=$today.$system.$compiler
+build_id=$today.$system.$compiler.$suffix
 out_files=opensg_dailybuild.$today
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
