@@ -41,7 +41,7 @@ RSC=rc.exe%
 # PROP Intermediate_Dir "Release"%
 # PROP Target_Dir ""%
 # ADD BASE CPP %
-# ADD CPP -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -DOSG_BUILD_DLL -GX -Gi- -FD -GR -Zm1200 -O2 -Ob1 -MD -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include -I../include/stlport /FD /c %
+# ADD CPP -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -DOSG_BUILD_DLL -GX -Gi- -FD -GR -Zm1200 -O2 -Ob1 -MD -DOSG_WITH_GLUT -DOSG_WITH_GIF -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_STLPORT -I../include -I../lib/glut_3.7/include -I../lib/jpg6b/include -I../lib/tiff-3.5.4/include -I../include/stlport /FD /c %
 # SUBTRACT CPP %
 # ADD BASE RSC /l 0x409 /d "NDEBUG"%
 # ADD RSC /l 0x409 /d "NDEBUG"%
