@@ -862,28 +862,34 @@ void RenderAction::dropLight(Light *pLight)
     pLight->makeChunk();
 
     oStore.first  =  pLight->getChunk().getCPtr();
-    oStore.second = _currMatrix.second;
+//    oStore.second = _currMatrix.second;
 
     Matrix fromworld,tobeacon;
     
 //        getActNode()->getToWorld(fromworld);
 
-    fromworld = top_matrix();
-    fromworld.invert();
+//    fromworld = top_matrix();
 
     NodePtr beacon = pLight->getBeacon();
 
     if(beacon == NullFC)
     {
         SINFO << "draw: no beacon set!" << std::endl;
+
+        oStore.second = _currMatrix.second;
     }
     else
     {
+        fromworld = _camInverse;
+        fromworld.invert();
+
         beacon->getToWorld(tobeacon);
 
-        tobeacon.mult(fromworld);
+//        tobeacon.mult(fromworld);
         
-        oStore.second.mult(tobeacon);
+        fromworld.mult(tobeacon);
+
+        oStore.second = fromworld;
     }
 
     bool light_limit_reached = (_vLights.size() >= (sizeof(_lightsState) * 8));
