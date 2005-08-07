@@ -425,7 +425,7 @@ do
             shift
             ;;
         --dist-name-suffix)
-            suffix=$2
+            suffix=.$2
             shift
             shift
             ;;
@@ -650,6 +650,7 @@ esac
 do_copy=${do_copy:='cd $basedir; tar cf - $out_files* | ssh reiners@pc1107 tar xf - -C $log_destination'}
 
 # set defaults if not set yet
+suffix=${suffix:=""}
 qt_args=${qt_args:=""}
 glut_args=${glut_args:=""}
 tif_args=${tif_args:=""}
@@ -667,7 +668,7 @@ export LD_LIBRARY_PATH="${qt_dir}/lib:$LD_LIBRARY_PATH"
 now=`date '+%d.%m.%y %H:%M'`
 today=`date '+%y%m%d'`
 
-build_id=$today.$system.$compiler.$suffix
+build_id=$today.$system.$compiler$suffix
 out_files=opensg_dailybuild.$today
 link_html=opensg_dailybuild.$build_id
 out_html=$basedir/$link_html
