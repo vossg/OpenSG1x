@@ -539,15 +539,16 @@ case $system in
     echo "Cleaning up"
 
     # cleanup the garbage
-    rm -rf Makefile* common.* template.* Tutorials.dsp.raw README BUILD \
-           vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix*
+    rm -rf Makefile* common.* template.* template-* Tutorials.dsp.raw \
+           README BUILD vc60.idb vc70.idb *.obj *.pdb *.ilk .prefix* \
+           .cvsignore SConscript
+
+    win_var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
+    win_var_expand $OSGPOOL/dist/README.tutorials README.txt
 
     cd ..
 
     find . -name CVS | xargs rm -rf
-
-    win_var_expand $OSGPOOL/dist/win/BUILD.tutorials BUILD.txt
-    win_var_expand $OSGPOOL/dist/README.tutorials README.txt
 
     # Build the installer
 
@@ -665,6 +666,8 @@ cd Tutorials
 rm -rf CVS
 unix_var_expand $OSGPOOL/dist/README.tutorials README
 unix_var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
+sed -e 's|##DBG##|opt|g' < BUILD > BUILD.sed
+mv BUILD.sed BUILD
 sed -e 's|##DBG##|opt|g' < Makefile.dist > Makefile
 
 if test x$OSG_DIST_NO_EXAMPLEBUILD = x
@@ -674,7 +677,8 @@ then
 fi
 
 #remove the stuff we don't need here
-rm -f Makefile.dist Makefile.win template.*  Tutorials.dsp.raw common.cygwin .prefix.*
+rm -f Makefile.dist Makefile.win template.* template-*  Tutorials.dsp.raw common.cygwin .prefix.* \
+    .cvsignore SConscript
 
 unix_var_expand $OSGPOOL/dist/README.tutorials README
 
@@ -790,6 +794,8 @@ then
 
     unix_var_expand $OSGPOOL/dist/README.tutorials README
     unix_var_expand $OSGPOOL/dist/BUILD.tutorials BUILD
+    sed -e 's|##DBG##|dbg|g' < BUILD > BUILD.sed
+    mv BUILD.sed BUILD
     sed -e 's|##DBG##|dbg|g' < $OSGPOOL/Tutorials/Makefile.dist > Makefile
     if test x$OSG_DIST_NO_EXAMPLEBUILD = x
     then
