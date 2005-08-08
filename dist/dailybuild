@@ -806,7 +806,7 @@ then
 
     checkerror "Doc" $log_doc
 
-    cd $basedir/Doc/Code
+    cd $basedir/OpenSG/Doc/Code
     
     case $system in
 
@@ -834,7 +834,7 @@ then
     fi
 
     # Move them up to be picked up by the dailybuild copy
-    mv $link_html.* $basedir/..
+    mv $link_html.* $basedir
 fi
 
 # make the binary dist
