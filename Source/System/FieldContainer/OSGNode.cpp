@@ -77,6 +77,9 @@ FieldDescription *Node::_desc[] =
                          false,
                          (FieldAccessMethod) &Node::getSFVolume),
 
+    // Yes, this is wrong, it should be an UInt32, but changing
+    // it now will break all old .osb files, and this info is
+    // nearly never necessary to be loaded from files.
     new FieldDescription(SFBool::getClassType(),
                          "travMask",
                          OSG_FC_FIELD_IDM_DESC(TravMaskField),
@@ -287,9 +290,9 @@ bool Node::replaceChildBy(const NodePtr &childP,
             // already somebody else's child?
             if(newChildP->getParent() != NullFC)
             {
-                beginEditCP(newChildP, Node::ChildrenFieldMask);
+                beginEditCP(newChildP->getParent(), Node::ChildrenFieldMask);
                 newChildP->getParent()->subChild(newChildP);
-                endEditCP(newChildP, Node::ChildrenFieldMask);
+                endEditCP(newChildP->getParent(), Node::ChildrenFieldMask);
             }
 
             (*childIt) = newChildP;
