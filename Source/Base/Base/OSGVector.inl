@@ -743,6 +743,7 @@ void PointInterface<ValueTypeT,
             case ' ' :
             case '\t':
             case '\n':
+	    case ',':
                 if(tokenC)
                 {
                     *tokenC = 0;
