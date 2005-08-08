@@ -68,6 +68,7 @@ write_html_head ()
 <h1>OpenSG dailybuild $now on $host results</h1>
 <p>
 `date +%H:%M`: Start<br><br>
+Dailybuild args: $allargs<br>
 System: $system<br>
 Compiler: $compiler <br>
 Configuration: --with-compiler=$compiler $stl_args $glut_args $qt_args $tif_args $jpg_args $png_args $extra_args<br>
@@ -474,6 +475,7 @@ then
     # check if the dailybuild script has changed and update myself
     if ! diff -q $scriptname OpenSG/dist/dailybuild >> /dev/null;
     then
+        echo "dailybuild changed, restarting..."
         (cp OpenSG/dist/dailybuild $scriptname && exec $scriptname --restart $allargs)
         exit 0
     fi
@@ -598,6 +600,10 @@ case $system in
         jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
         png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
         qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
+        if test ! -d $qt_dir
+        then
+            qt_dir=""
+        fi
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         par_jobs=${par_jobs:=1}
         compiler=${compiler:=icl50}
