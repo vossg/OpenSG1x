@@ -601,7 +601,7 @@ case $system in
         qt_args=${qt_args:="--with-qt=${qt_dir}"}
         par_jobs=${par_jobs:=1}
         compiler=${compiler:=icl50}
-        do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/reiners/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
+        do_copy=${do_copy:='cd $basedir; tar cf - $out_files* | ssh -i /home/reiners/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
         config_shell=bash
         mail=`pwd`/../do_send_mail
         loginfo="OS: `uname -a` <br>"
@@ -619,7 +619,7 @@ case $system in
         compiler=${compiler:=g++}
         config_shell=bash
         mail=/usr/bin/Mail
-        do_copy=${do_copy:='cd $basedir; tar cf - opensg_dailybuild* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
+        do_copy=${do_copy:='cd $basedir; tar cf - $out_files* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
         loginfo="OS: `uname -a` <br>"
         loginfo="$loginfo    `cat /proc/version` <br>"
         loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
@@ -814,27 +814,32 @@ then
             
             # This should really try to find the program. Works for now...
             /cygdrive/c/Program\ Files/HTML\ Help\ Workshop/hhc.exe user/html/index.hhp
-            mv user/html/index.chm $link_html.OpenSG-$version-userdocs.chm
+            mv user/html/index.chm $out_files.OpenSG-$version-userdocs.chm
             /cygdrive/c/Program\ Files/HTML\ Help\ Workshop/hhc.exe dev/html/index.hhp
-            mv dev/html/index.chm $link_html.OpenSG-$version-devdocs.chm
+            mv dev/html/index.chm $out_files.OpenSG-$version-devdocs.chm
+            ;;
+        
+        *)
+            # Remove the CHM proto-files          
+            rm user/html/index.hh* dev/html/index.hh* 
             ;;
     esac
     
     mv user/html OpenSG-$version-userdocs
     mv dev/html OpenSG-$version-devdocs
     
-    tar cf $link_html.OpenSG-$version-userdocs.tar OpenSG-$version-userdocs
-    tar cf $link_html.OpenSG-$version-devdocs.tar OpenSG-$version-devdocs
+    tar cf $out_files.OpenSG-$version-userdocs.tar OpenSG-$version-userdocs
+    tar cf $out_files.OpenSG-$version-devdocs.tar OpenSG-$version-devdocs
     
-    gzip -9 $link_html.OpenSG-$version-userdocs $link_html.OpenSG-$version-devdocs
+    gzip -9 $out_files.OpenSG-$version-userdocs $out_files.OpenSG-$version-devdocs
     
     if test x$has_latex == x1 ;
     then
-        mv user/latex/StarterGuide.pdf $link_html.OpenSG-$version-StarterGuide.pdf
+        mv user/latex/StarterGuide.pdf $out_files.OpenSG-$version-StarterGuide.pdf
     fi
 
     # Move them up to be picked up by the dailybuild copy
-    mv $link_html.* $basedir
+    mv $out_files.* $basedir
 fi
 
 # make the binary dist

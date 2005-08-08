@@ -26,6 +26,7 @@ logdir=$1
 skeleton=$2
 target=$3
 
+debug=0
 
 
 if test ! -d $logdir -o ! -w $logdir 
@@ -65,40 +66,67 @@ do
     split_name $i
     
     echo "<tr>" >> $outfile
+    
     date=$day.$month.$year
+    filedate=${year}${month}${day}
+    
     if test $date != $lastdate
     then
     	echo "<td style=date>$date</td>" >> $outfile
+        
+        # Add a line for documentation
+        echo "<td style=snap colspan=7> Docs: " >> $outfile        
+
+        for doc in userdocs.tar.gz devdocs.tar.gz StarterGuide.pdf.gz \
+                   userdocs.chm.gz devdocs.chm.gz StarterGuide.pdf \
+                   userdocs.chm devdocs.chm
+        do
+            test $debug -gt 1 && echo Name: opensg_dailybuild.${filedate}.OpenSG-*-${doc}
+            file=`find . -name "opensg_dailybuild.${filedate}.OpenSG-*-${doc}" | head -n 1`
+            test $debug -gt 1 && echo File: $file
+
+            name=`echo $doc | sed -e 's/\..*//'`
+           
+            if test x$file != x
+            then
+                echo "<a href=$file>$name</a> " >> $outfile
+            fi
+            
+        done
+        
+        echo "</td></tr><tr>" >> $outfile
+        
+        # Setup vars for dists
 	lastdate=$date
         secondline=1
         thirdline=0
-    else
-        snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
-        srpm=`echo $i | sed -e "s|${system}.Main.html.gz|*.OpenSG*.src.rpm|"` 
-        if test $secondline = 1
-        then
-            if test -f $snap
-            then
-                echo "<td style=source><a href=$snap>Sources</a></td>" >> $outfile
-            else
-     	        echo "<td style=date> </td>" >> $outfile
-            fi
-            secondline=0
-            thirdline=1
-        elif test $thirdline = 1
-        then
-            srpm=`ls -1 $srpm | head -n 1`
-            if test -f $srpm
-            then
-                echo "<td style=source><a href=$srpm>SRPM</a></td>" >> $outfile
-            else
-     	        echo "<td style=date> </td>" >> $outfile
-            fi
-            thirdline=0
-        else
-    	    echo "<td style=date> </td>" >> $outfile
-        fi
     fi
+    
+    snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
+    if test $secondline = 1
+    then
+        if test -f $snap
+        then
+            echo "<td style=source><a href=$snap>Sources</a></td>" >> $outfile
+        else
+     	    echo "<td style=date> </td>" >> $outfile
+        fi
+        secondline=0
+        thirdline=1
+    elif test $thirdline = 1
+    then
+        srpm=`ls -1 $srpm | head -n 1`
+        if test -f $srpm
+        then
+            echo "<td style=source><a href=$srpm>SRPM</a></td>" >> $outfile
+        else
+     	    echo "<td style=date> </td>" >> $outfile
+        fi
+        thirdline=0
+    else
+    	echo "<td style=date> </td>" >> $outfile
+    fi
+    
     echo "<td style=system><a href=$i>$system</a></td>" >> $outfile
 
     snap=`echo $i | sed -e 's|Main.html.gz|snapshot.tgz|'`    
