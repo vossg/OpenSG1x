@@ -861,7 +861,7 @@ if ! test -d $qt_dir
 then
     export OSG_DIST_NO_EXAMPLEBUILD=1
     export OSG_DIST_NO_FCDEDIT=1
-    echo qt_dir not found, skipping example and fcdEdit build for dist > $log_dist 2>&1
+    echo Warning: qt_dir not found, skipping example and fcdEdit build for dist > $log_dist 2>&1
 fi
 
 cd $basedir
