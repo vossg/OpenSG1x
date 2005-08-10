@@ -725,7 +725,7 @@ fi
 
 if test x$has_doxygen = x1;
 then
-    ( rm -f $doc_flag ; $make $doxy_target 1>$log_doc 2>&1 ; touch $doc_flag ) &
+    ( rm -f $doc_flag ; echo $make $doxy_target 1>$log_doc 2>&1; $make $doxy_target 1>>$log_doc 2>&1 ; touch $doc_flag ) &
 fi
 
 # make the libs
@@ -837,7 +837,7 @@ then
     tar cf $out_files.OpenSG-$version-userdocs.tar OpenSG-$version-userdocs
     tar cf $out_files.OpenSG-$version-devdocs.tar OpenSG-$version-devdocs
     
-    gzip -9 $out_files.OpenSG-$version-userdocs $out_files.OpenSG-$version-devdocs
+    gzip -9 $out_files.OpenSG-$version-userdocs.tar $out_files.OpenSG-$version-devdocs.tar
     
     if test x$has_latex == x1 ;
     then
