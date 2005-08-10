@@ -59,6 +59,9 @@ OSG_USING_NAMESPACE
 
 OSG_BEGIN_NAMESPACE
 UChar8 LogoData[] = {
+
+#ifndef OSG_DO_DOC
+
 77, 84, 68, 0, 1, 0, 0, 0, 
 25, 8, 0, 223, 0, 38, 0, 1, 
 0, 1, 0, 1, 0, 0, 0, 1, 0x14, 0x01, 2, 2, 
@@ -4300,6 +4303,9 @@ UChar8 LogoData[] = {
 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0, 0, 0, 
 0, 0, 0, 0, 0, 0,
+
+#endif
+
 };
 OSG_END_NAMESPACE
 
