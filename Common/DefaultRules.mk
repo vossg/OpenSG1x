@@ -476,8 +476,7 @@ TestLnk: $(TEST_TARGETS_IN)
 $(TEST_TARGETS_IN):  $(LIB_TESTQTTARGET_CPP) $(TEST_TARGETS) 
 	@for file in $@; do                \
 		echo $$file;                   \
-		rm -f $$file;                  \
-		ln -s $(EXEDIR)/$$file $$file; \
+		ln -sf $(EXEDIR)/$$file $$file; \
 	done
 
 $(TEST_TARGETS): $(TEST_OBJS) $(LIBS_DEP) $(TEST_DEPS)  
