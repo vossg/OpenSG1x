@@ -714,11 +714,15 @@ checkerror "Configure" $log_configure
 if type doxygen > /dev/null 2>&1
 then
     has_doxygen=${has_doxygen:=1}
-    doxy_target=alldocs
     if type latex > /dev/null 2>&1
     then
-        # No LaTeX, no starter guide
         has_latex=${has_latex:=1}
+    fi
+
+    if x$has_latex == x1
+    then
+        doxy_target="alldocs"
+    else
         doxy_target="userdoc devdoc"
     fi
 fi
