@@ -880,8 +880,8 @@ then
 fi
 
 cd $basedir
-echo /bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir > $log_dist 2>&1
-/bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir >> $log_dist 2>&1
+echo /bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir --today $today> $log_dist 2>&1
+/bin/sh OpenSG/dist/make_bindist --compiler $compiler --qt $qt_dir --today $today >> $log_dist 2>&1
 
 checkerror "Dist" $log_dist
 

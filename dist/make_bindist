@@ -51,6 +51,8 @@ win_var_expand()
 
 echo $0 $*
 
+today=`date '+%y%m%d'`
+
 while test ${#*} -gt 0
 do
 	case $1 in
@@ -61,6 +63,11 @@ do
 	                ;;
                 --qt)
 	                qt_dir=$2
+	                shift
+	                shift
+	                ;;
+                --today)
+	                today=$2
 	                shift
 	                shift
 	                ;;
@@ -845,9 +852,9 @@ case $system in
     if test x$OSG_DIST_NO_RPM = x
     then
         echo Running $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
-            `date +%y%m%d` "No conf" `pwd`
+            $today "No conf" `pwd`
         $OSGPOOL/dist/make_rpm $OSGPOOL $OSGPOOL/Builds/$system-$compiler \
-            `date +%y%m%d` "No conf" `pwd`
+            $today "No conf" `pwd`
         mv OpenSG-$OSGVERSION*.src.rpm      OpenSG-$OSGVERSION-${distname}.src.rpm
         mv OpenSG-devel-$OSGVERSION*.rpm OpenSG-$OSGVERSION-${distname}-devel.rpm
         mv OpenSG-$OSGVERSION-1*.rpm      OpenSG-$OSGVERSION-${distname}.rpm
