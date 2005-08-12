@@ -59,7 +59,7 @@
     e.g. "1.3.0pre1"
  */
 
-#define OSG_VERSION_STRING      "1.6.0pre1"
+#define OSG_VERSION_STRING      "1.6.0"
 
 /*! The numeric full version, with two digits per major/minor/release, e.g.
     010300
@@ -204,7 +204,7 @@
 #    define OSG_STL_HAS_HASH_MAP
 
 # else
-#     define OSG_THROW_NOTHING() 
+#     define OSG_THROW_NOTHING()
 #     if __GNUC_MINOR__ <= 96
 #         define OSG_GCC_NO_IOS_BASE
 #     endif
@@ -288,7 +288,7 @@
 
 # define OSG_STL_HAS_HASH_MAP
 
-/*! \brief Use GLX 
+/*! \brief Use GLX
  *  \ingroup GrpBaseDefines
  */
 
@@ -304,7 +304,7 @@
 
 # define OSG_SGI_CC
 
-# define OSG_FOUND_OS 
+# define OSG_FOUND_OS
 
 # define OSG_STDEXCEPTION_NAMESPACE std
 
@@ -344,7 +344,7 @@
 # define OSG_LINUX_GCC
 
 # define OSG_FOUND_OS
- 
+
 # endif // defined(__GNUC__) && defined(__linux)
 
 /*-------------------------------------------------------------------------*/
@@ -394,7 +394,7 @@
 # if __INTEL_COMPILER_VERSION >= 710
 #     define OSG_THROW_NOTHING() throw()
 # else
-#     define OSG_THROW_NOTHING() 
+#     define OSG_THROW_NOTHING()
 # endif
 
 // # define OSG_NO_INT8_PNT This works fine now. Why prevent it? DR
@@ -406,7 +406,7 @@
 # define OSG_FOUND_OS
 
 // icc >=8.1 uses gnu headers anyway, use gnu defines set above
-#if __INTEL_COMPILER_VERSION < 810  
+#if __INTEL_COMPILER_VERSION < 810
 # define OSG_STDEXTENSION_NAMESPACE std
 # define OSG_STDEXCEPTION_NAMESPACE std
 #endif
@@ -417,7 +417,7 @@
 
 # define OSG_HAS_VSNPRINTF
 
-# if __INTEL_COMPILER_VERSION >= 800 && __INTEL_COMPILER_VERSION < 810  
+# if __INTEL_COMPILER_VERSION >= 800 && __INTEL_COMPILER_VERSION < 810
 # define OSG_USE_HASH_COMPARE
 # endif
 
@@ -447,7 +447,7 @@
 // general float math
 # define OSG_HAS_FLOATMATH
 
-// Use WGL 
+// Use WGL
 # define OSG_USE_WGL
 
 # define OSG_STREAM_HAS_ISOPEN
@@ -472,7 +472,7 @@
 
 # if defined(_MSC_VER) && !defined(__ICL)
 
-# define OSG_SPEZ_IMPL_DLLMAPPING 
+# define OSG_SPEZ_IMPL_DLLMAPPING
 // Use windows internal types to define OpenSG base types
 # define OSG_WIN_TYPES
 // compiler supports namespaces
@@ -493,7 +493,7 @@
 
 # define OSG_MICROSOFT_COMPILER_ALERT
 # define OSG_MICROSOFT_COMPILER_HACKS
-// Use WGL 
+// Use WGL
 # define OSG_USE_WGL
 
 //# define OSG_HAS_TEMPLATE_RETURNVALUES
@@ -527,13 +527,13 @@
 # if defined(darwin)
 
 # define OSG_LINUX_TYPES
-# define OSG_NO_CONCEPT_CHECKS 
+# define OSG_NO_CONCEPT_CHECKS
 # define SIZE_T_NEQ_UINT32
 # define OSG_GLENUM_NEQ_UINT32
 
 # define OSG_NOGLSUBDIR
 # define OSG_NO_GLUT_GLSUBDIR
- 
+
 # define OSG_USE_PTHREADS
 
 # define OSG_DLSYM_NEEDS_UNDERSCORE
@@ -631,7 +631,7 @@
 
 //# define OSG_SGI_STL
 
-/*! \brief Use GLX 
+/*! \brief Use GLX
  *  \ingroup GrpBaseDefines
  */
 
@@ -649,7 +649,7 @@
 
 # define OSG_HPUX_ACC
 
-# define OSG_FOUND_OS 
+# define OSG_FOUND_OS
 
 // # define OSG_NOGLUTSUBDIR
 
@@ -729,7 +729,7 @@
 
 # define OSG_SGI_STL
 
-/*! \brief Use GLX 
+/*! \brief Use GLX
  *  \ingroup GrpBaseDefines
  */
 
@@ -747,7 +747,7 @@
 
 # define OSG_SUN_CC
 
-# define OSG_FOUND_OS 
+# define OSG_FOUND_OS
 
 # define OSG_NO_INT8_PNT
 
@@ -795,7 +795,7 @@
  *  \ingroup GrpBaseDefines
  */
 
-# define OSG_BEGIN_NAMESPACE namespace OSG { 
+# define OSG_BEGIN_NAMESPACE namespace OSG {
 
 /** \brief End the osg namespace
  *  \ingroup GrpBaseDefines
@@ -813,9 +813,9 @@
 
 # else /* OSG_HAS_NAMESPACE */
 
-# define OSG 
-# define OSG_BEGIN_NAMESPACE 
-# define OSG_END_NAMESPACE 
+# define OSG
+# define OSG_BEGIN_NAMESPACE
+# define OSG_END_NAMESPACE
 # define OSG_USING_OSG_NAMESPACE
 
 #endif /*  */
@@ -880,7 +880,7 @@
 #include <OSGConfigured.h>
 #endif
 
-#if defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
+#if defined(OSG_DEBUG_NO_FCPTR_ARITHM)
 # if defined(OSG_NUM_ASPECTS)
 #  undef OSG_NUM_ASPECTS
 # endif
