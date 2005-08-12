@@ -143,7 +143,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
   DataElem dataElem;
   Char8 strBuf[8192], *token, *nextToken;
   Int32 strBufSize = sizeof(strBuf)/sizeof(Char8);
-  Int32 index, posIndex, indexType;
+  Int32 index, posIndex = 0, indexType;
   Int32 i,j,n,primCount[3];
   std::list<Mesh> meshList;
   std::map<std::string, SimpleTexturedMaterialPtr> mtlMap;
@@ -682,7 +682,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
   std::map<std::string, OSG::ImagePtr> imageMap;
   std::map<std::string, OSG::ImagePtr>::iterator iI;
   ImagePtr image = NullFC;
-  bool constDiffuse, constAmbient, constSpecular;
+  bool constDiffuse = false, constAmbient = false, constSpecular = false;
 
   if (in)
     for (in >> elem; in.eof() == false; in >> elem)
@@ -785,6 +785,8 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                   case MTL_MAP_KS_ME:
                     constSpecular = true;
                     mtlPtr->setSpecular ( Color3f( 1, 1, 1) );
+                    break;
+                  default:
                     break;
                   }
                 }

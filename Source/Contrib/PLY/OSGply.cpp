@@ -1339,7 +1339,7 @@ Entry:
 void ascii_get_element(PlyFile *plyfile, char *elem_ptr)
 {
   std::istream *fp = plyfile->ifp;
-  char *elem_data,*item;
+  char *elem_data,*item = 0;
   char *item_ptr;
   int item_size;
   int int_val;
@@ -1355,7 +1355,7 @@ void ascii_get_element(PlyFile *plyfile, char *elem_ptr)
   /* do we need to setup for other_props? */
 
   int other_flag;
-  char* other_data;
+  char* other_data = 0;
   if (elem->other_offset != NO_OTHER_PROPS) {
     other_flag = 1;
     /* make room for other_props */
@@ -1455,9 +1455,9 @@ Entry:
 void binary_get_element(PlyFile *plyfile, char *elem_ptr)
 {
   std::istream *fp = plyfile->ifp;
-  char* item;
+  char* item = 0;
   char* item_ptr;
-  int item_size;
+  int item_size = 0;
   char** store_array;
 
   /* the kind of element we're reading currently */

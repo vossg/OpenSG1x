@@ -2096,7 +2096,7 @@ bool VRMLGeometryPartDesc::prototypeAddField(const Char8  *szFieldType,
                                              const UInt32  uiFieldTypeId,
                                              const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -2961,7 +2961,7 @@ bool VRMLMaterialDesc::prototypeAddField(const Char8  *,
                                          const UInt32  ,
                                          const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -3215,7 +3215,7 @@ bool VRMLTextureTransformDesc::prototypeAddField(const Char8  *,
                                              const UInt32  ,
                                              const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound =false;
 
     _pCurrField = NULL;
 
@@ -3431,7 +3431,7 @@ bool VRMLImageTextureDesc::prototypeAddField(const Char8  *,
                                              const UInt32  ,
                                              const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -3654,7 +3654,7 @@ bool VRMLPixelTextureDesc::prototypeAddField(const Char8  *,
                                              const UInt32  ,
                                              const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -3871,7 +3871,7 @@ bool VRMLLODDesc::prototypeAddField(const Char8  *szFieldType,
                                     const UInt32  uiFieldTypeId,
                                     const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -4116,7 +4116,7 @@ bool VRMLSwitchDesc::prototypeAddField(const Char8  *szFieldType,
                                        const UInt32  uiFieldTypeId,
                                        const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -4349,7 +4349,7 @@ bool VRMLGroupDesc::prototypeAddField(const Char8  *szFieldType,
                                       const UInt32  uiFieldTypeId,
                                       const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 
@@ -4931,7 +4931,7 @@ bool VRMLInlineDesc::prototypeAddField(const Char8  *szFieldType,
                                        const UInt32  uiFieldTypeId,
                                        const Char8  *szFieldname)
 {
-    bool bFound;
+    bool bFound = false;
 
     _pCurrField = NULL;
 

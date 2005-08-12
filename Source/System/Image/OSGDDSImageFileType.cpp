@@ -299,8 +299,8 @@ bool DDSImageFileType::read(ImagePtr &image, const Char8 *fileName)
 {
   bool validImage = false;
   CDDSImage ddsImage;
-  int i,j,w,h,d, mm, components, format,size;
-  int width, height, depth, numMipMaps;
+  int i,j,w,h,d, mm = 0, components, format,size;
+  int width = 0, height = 0, depth = 0, numMipMaps = 0;
   bool isCompressed, isCubeMap, isVolume;
   unsigned char *data;
   unsigned dataSize = 0;

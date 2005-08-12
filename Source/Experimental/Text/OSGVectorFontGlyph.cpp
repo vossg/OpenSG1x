@@ -113,7 +113,7 @@ void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower))
     Int32   end        = 0;
     Int32   bad        = 0;
 
-    if(!point != NULL || _numBad)
+    if(!point != 0 || _numBad)
     {
         _bad = true;
 

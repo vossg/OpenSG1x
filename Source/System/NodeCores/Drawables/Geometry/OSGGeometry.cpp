@@ -1602,9 +1602,9 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
 //merge two identical geometries
 void Geometry::merge0( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+    UInt32 posBase = 0,typeBase = 0,lengthBase = 0,normalBase = 0,colorBase = 0,
+        seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
+        texcoord3Base = 0;
 
     // append the data
     UInt32 i;
@@ -1787,9 +1787,9 @@ void Geometry::merge3( const GeometryPtr other )
 //the non-indexed geometry is converted to multi-indexed
 void Geometry::merge4( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+    UInt32 posBase = 0,typeBase = 0,lengthBase = 0,normalBase = 0,colorBase = 0,
+        seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
+        texcoord3Base = 0;
 
     UInt32 i;
 

@@ -135,7 +135,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     UInt32 bpv, dataSize = 0;
     Image::PixelFormat pixelFormat = OSG::Image::OSG_L_PF;
     char *dataBuffer = 0;
-    bool needConversion;
+    bool needConversion = false;
     // default endian type is big endian
     bool big_endian = true;
 

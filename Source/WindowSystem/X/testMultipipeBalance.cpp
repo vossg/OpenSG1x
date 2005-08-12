@@ -60,7 +60,7 @@ void readArgs(int argc,char **argv)
 {
     char  option;
     char *value;
-    int   valueSkip;
+    int   valueSkip = 0;
 
     for(int a=1;a<argc;a++)
     {

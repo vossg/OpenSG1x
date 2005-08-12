@@ -289,6 +289,7 @@ void vectorTestConstructAndSetTest(void)
 //    v3f8.setValues(20., 30., 40., 50.);
 //    v4f8.setValue(20., 30., 40., 50.);
 
+#ifndef OSG_DISABLE_DEPRECATED
     v2f8.setValue((char *) NULL);
     v3f8.setValue((char *) NULL);
     v4f8.setValue((char *) NULL);
@@ -393,7 +394,7 @@ void vectorTestConstructAndSetTest(void)
     printVec(v3f8);
     printVec(v4f8);
 
-
+#endif
 
 
     v2f8.setNull();

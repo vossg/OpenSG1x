@@ -950,16 +950,16 @@ int main(int argc,char **argv)
             switch(argv[i][1])
             {
                 case 'o':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     connectionParameters = opt;
                     printf("connectionParameters: '%s'\n", connectionParameters.c_str());
                     break;
                 case 'A':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     autostart = opt;
                     break;
                 case 'D':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     if(sscanf(opt,"%f,%f,%f",&ca,&cb,&cc)!=3)
                     {
                         std::cout << "Copy opton -D x,y,z" << std::endl;
@@ -967,12 +967,12 @@ int main(int argc,char **argv)
                     }
                     break;
                 case 'b':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     serviceAddress.assign(opt);
                     serviceAddressValid = true;
                     break;
                 case 'f':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     filenames.push_back(opt);
                     printf("<%s>\n",opt);
                     break;
@@ -980,16 +980,16 @@ int main(int argc,char **argv)
                     connectionType="Multicast";
                     break;
                 case 'r':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     rows=atoi(opt);
                     break;
                 case 't':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     subtilesize=atoi(opt);
                     break;
 #ifdef FRAMEINTERLEAVE
                 case 'i':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     interleave=atoi(opt);
                     break;
 #endif
@@ -1034,11 +1034,11 @@ int main(int argc,char **argv)
                     info=true;
                     break;
                 case 'e':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     sscanf(opt,"%f",&eyedistance);
                     break;
                 case 'z':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     sscanf(opt,"%f",&zeroparallax);
                     break;
                 case 'd':
@@ -1048,22 +1048,22 @@ int main(int argc,char **argv)
                     multiport=true;
                     break;
                 case 'x':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     sscanf(opt,"%d",&serverx);
                     break;
                 case 'y':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     sscanf(opt,"%d",&servery);
                     break;
                 case 'a':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     animName=opt;
                     loadAnim();
                     glutIdleFunc(display);       
                     animate=true;
                     break;
                 case 'l':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     if(sscanf(opt,"%d,%d",&animLoops,&animLength) != 2)
                     {
                         animLength = 30;
@@ -1074,15 +1074,15 @@ int main(int argc,char **argv)
                     }
                     break;
                 case 'g':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     sscanf(opt,"%d,%d",&winwidth,&winheight);
                     break;
                 case 'G':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     connectionDestination = opt;
                     break;
                 case 'i':
-                    opt = argv[i][2] ? opt=argv[i]+2 : opt=argv[++i];
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     connectionInterface = opt;
                     break;
                 case 'h':

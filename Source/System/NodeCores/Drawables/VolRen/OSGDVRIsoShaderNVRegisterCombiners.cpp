@@ -2039,7 +2039,7 @@ void DVRIsoShader::renderSlice_NVRegisterCombinerShading(
         doSpecular = false;
     }
     
-    GLfloat intFactor;
+    GLfloat intFactor = 0;
 
     switch(clippedSlice->orientation)
     {

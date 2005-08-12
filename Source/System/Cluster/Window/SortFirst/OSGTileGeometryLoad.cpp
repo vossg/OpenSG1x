@@ -143,13 +143,13 @@ void TileGeometryLoad::updateView(Matrix &viewing,
 {
     Vec3f                        vol[2];
     Pnt3f                        pnt;
-    Real32                       minx,miny;
-    Real32                       maxx,maxy;
+    Real32                       minx = 0.0,miny = 0.0;
+    Real32                       maxx = 0.0,maxy = 0.0;
     Matrix                      *p;
     Real32                       bestScalX;
-    UInt32                       bestDirX;
+    UInt32                       bestDirX = 0;
     Real32                       bestScalY;
-    UInt32                       bestDirY;
+    UInt32                       bestDirY = 0;
 
     // get whole transformation
     Matrix m=_node->getToWorld();
@@ -294,7 +294,7 @@ void TileGeometryLoad::updateGeometry()
     int                p,s;
     Vec3f              vmin,vmax;
     Pnt3f              pos;
-    Real32             min,max;
+    Real32             min = 0.0,max = 0.0;
     PrimitiveIterator  it;
     NodeCorePtr        core;
     GeometryPtr        geo;

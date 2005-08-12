@@ -143,7 +143,7 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
 #ifdef OSG_WITH_PNG
 
     bool                retCode;
-    Image::PixelFormat  pixelFormat;
+    Image::PixelFormat  pixelFormat = osg::Image::OSG_INVALID_PF;
     png_structp         png_ptr;
     png_infop           info_ptr;
     png_uint_32         width, wc, height, h, i;
@@ -531,7 +531,7 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
 #ifdef OSG_WITH_PNG
 
     UInt64              retCode;
-    Image::PixelFormat  pixelFormat;
+    Image::PixelFormat  pixelFormat = osg::Image::OSG_INVALID_PF;
     png_structp         png_ptr;
     png_infop           info_ptr;
     png_uint_32         width, wc, height, h, i;

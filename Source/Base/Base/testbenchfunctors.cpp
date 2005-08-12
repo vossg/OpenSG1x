@@ -74,6 +74,8 @@ Real32 function( Int32 )
 
 struct test
 {
+    virtual ~test() {}
+
     Real32 method( Int32 );
 
     virtual Real32 vmethod( Int32 );

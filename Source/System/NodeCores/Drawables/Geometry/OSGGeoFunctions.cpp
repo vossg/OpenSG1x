@@ -2081,7 +2081,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
 
         // add an entry to the indices for the attribs        
         std::vector<UInt32> indexBuffer;
-        int status, l, g, ibSize;
+        int status, l = 0, g = 0, ibSize;
         
         if (niTan < 0 && niBin < 0) 
         {

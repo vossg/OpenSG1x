@@ -126,10 +126,13 @@
 #		include <time.h>
 #		define random my_random
 #       include <float.h>
-//        static unsigned int fpu_init;
-//#       define OSG_FPU_ROUND_DOUBLE (fpu_init = _controlfp (0, 0),\
-//                                 _controlfp (_PC_53, _MCW_PC))
-//#       define OSG_FPU_RESTORE      (_controlfp (fpu_init, 0xfffff))
+
+#  if 0
+        static unsigned int fpu_init;
+#       define OSG_FPU_ROUND_DOUBLE (fpu_init = _controlfp (0, 0),\
+                                     _controlfp (_PC_53, _MCW_PC))
+#       define OSG_FPU_RESTORE      (_controlfp (fpu_init, 0xfffff))
+#  endif
 
 #else
 #  include <sys/time.h>
@@ -2786,7 +2789,7 @@ REAL incircleadapt(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL permanent)
   REAL cxtaa[8], cxtbb[8], cytaa[8], cytbb[8];
   int cxtaalen, cxtbblen, cytaalen, cytbblen;
   REAL axtbc[8], aytbc[8], bxtca[8], bytca[8], cxtab[8], cytab[8];
-  int axtbclen, aytbclen, bxtcalen, bytcalen, cxtablen, cytablen;
+  int axtbclen=0, aytbclen=0, bxtcalen=0, bytcalen=0, cxtablen=0, cytablen=0;
   REAL axtbct[16], aytbct[16], bxtcat[16], bytcat[16], cxtabt[16], cytabt[16];
   int axtbctlen, aytbctlen, bxtcatlen, bytcatlen, cxtabtlen, cytabtlen;
   REAL axtbctt[8], aytbctt[8], bxtcatt[8];

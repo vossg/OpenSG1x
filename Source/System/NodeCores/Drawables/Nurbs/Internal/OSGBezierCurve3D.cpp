@@ -491,7 +491,7 @@ int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delt
   double twopower = 1;
   double aenorm;
   double t1, t2;
-  int worst_i;
+  int worst_i = 0;
   vec3d  n0_norm;
 
   int n = control_points.size() - 1;
@@ -684,7 +684,7 @@ int BezierCurve3D::loadCreateMatrices( )
 	unsigned int	ui_j;
 	char			ac_val[ 17 ];
 	UInt64			*pui64_read;
-	UInt64			ui64_tmp;
+	UInt64			ui64_tmp = 0;
 
 	cl_matrix_file.open( "bezier_matrices_101.ini" );
 	if( !cl_matrix_file.good( ) )

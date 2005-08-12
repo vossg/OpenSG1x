@@ -452,7 +452,7 @@ void DVRClipGeometry::linkContour(      DVRTriangle *startTriangle,
 
     Pnt3f vertex[2];
     bool firstEdge;
-    int  first, second;
+    int  first = 0, second = 0;
 
     if(startTriangle->edgeCut[0] && startTriangle->edgeCut[1])
     {

@@ -46,7 +46,7 @@ SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_    \
 
 ### Warnings #######################################################
 
-WARNINGS	   	:= -Wall -W   -Wpointer-arith 			        \
+WARNINGS	   	:= -Wall -Wextra   -Wpointer-arith 			        \
 				   -Wcast-align   -Wconversion   	\
 				   -Winline 
 
@@ -77,7 +77,7 @@ endif
 
 ### Language #######################################################
 
-LANG_FLAGS          = -fvisibility-inlines-hidden
+LANG_FLAGS          = -fvisibility-inlines-hidden --param max-inline-insns-single=15000 --param inline-unit-growth=1000 --param large-function-growth=20000
 #-frepo  -fno-implicit-templates
 COMPILER    		= -ansi  -use_readonly_const
 
@@ -88,15 +88,15 @@ COMP_INLINE :=
 endif
 
 ifeq ($(DEBUG_VERSION), 0)
-	COMP_OPTIMIZE    = -O3
+	COMP_OPTIMIZE    = -O3 -fexpensive-optimizations
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g -DOSG_DEBUG
+	COMP_DEBUG       = -O1 -g -DOSG_DEBUG
 endif
 
-CCFLAGS_EXT_OPT := -O2
-CCFLAGS_EXT_DBG := -g -DOSG_DEBUG
+CCFLAGS_EXT_OPT := -O3
+CCFLAGS_EXT_DBG := -O1 -g -DOSG_DEBUG
 
 ### Compiler Flags ################################################
 
@@ -132,12 +132,12 @@ LINK_INLINE :=
 endif
 
 ifeq ($(DEBUG_VERSION), 0)
-	LINK_OPTIMIZE    = -O2
+	LINK_OPTIMIZE    = -O3
 	AR_FLAGS         = 
 	LINK_DEBUG       = 
 else
 	LINK_OPTIMIZE    =
-	LINK_DEBUG       = -g 
+	LINK_DEBUG       = -O1 -g 
 endif
 
 
@@ -145,8 +145,8 @@ LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
 LD_FLAGS_EXT      = 
-LD_FLAGS_EXT_OPT := -O2 
-LD_FLAGS_EXT_DBG := -g 
+LD_FLAGS_EXT_OPT := -O3 
+LD_FLAGS_EXT_DBG := -O1 -g 
 
 ADD_OS_LIB := -L/usr/X11R6/lib 
 

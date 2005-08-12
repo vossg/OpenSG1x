@@ -117,7 +117,7 @@ void Trackball::updateRotation(Real32 rLastX,    Real32 rLastY,
     Quaternion qCurrVal;
 
     Vec3f gAxis; /* Axis of rotation */
-    Real32    rPhi;  /* how much to rotate about axis */
+    Real32    rPhi = 0;  /* how much to rotate about axis */
     Vec3f gP1;
     Vec3f gP2;
     Vec3f gDiff;

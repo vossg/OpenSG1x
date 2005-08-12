@@ -61,15 +61,15 @@ typedef struct {
 //!! They are used internally for testing the functionality on differernt
 //!! platforms and MUST not be set manually a program 
 ShaderTest shaderTests[] = {
-    0, "Automatic Mode Selection                 ",
-    1, "SGI Color Matrix Lighting (2D)           ",
-    2, "SGI Color Matrix Lighting (3D)           ",
-    3, "NV  Register Combiners Lighting (2D)     ",
-    4, "NV  Register Combiners Lighting (Multi2D)",
-    5, "NV  Register Combiners Lighting (3D)     ",
-    6, "ARB Fragment Program Lighting (2D)       ",
-    7, "ARB Fragment Program Lighting (3D)       ",
-    8, "INACTIVE                                 "
+    {0, "Automatic Mode Selection                 "},
+    {1, "SGI Color Matrix Lighting (2D)           "},
+    {2, "SGI Color Matrix Lighting (3D)           "},
+    {3, "NV  Register Combiners Lighting (2D)     "},
+    {4, "NV  Register Combiners Lighting (Multi2D)"},
+    {5, "NV  Register Combiners Lighting (3D)     "},
+    {6, "ARB Fragment Program Lighting (2D)       "},
+    {7, "ARB Fragment Program Lighting (3D)       "},
+    {8, "INACTIVE                                 "}
 };
 
 // Number of Shader Modes
@@ -154,12 +154,12 @@ void display(void)
     {
 	// Eventually switch between different hardware modes
 	float ctime   = glutGet(GLUT_ELAPSED_TIME);
-	int   dtime   = ctime / 1000 / 2;
+	int   dtime   = (int)ctime / 1000 / 2;
 
 	newMode = dtime % numModes;
 
         // Make the volume rotate
-	int movement = (int) (ctime - lastFrame) * aniSpeed;
+	int movement = (int) ((ctime - lastFrame) * aniSpeed);
 	if (movement != 0) lastFrame = ctime;
 
         mgr->mouseButtonPress  (GLUT_LEFT_BUTTON,  0, 0);

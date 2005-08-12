@@ -243,7 +243,7 @@ bool JPGImageFileType::read(      ImagePtr &OSG_JPG_ARG(image),
     };
 
     unsigned char                   *destData;
-    Image::PixelFormat              pixelFormat;
+    Image::PixelFormat              pixelFormat = osg::Image::OSG_INVALID_PF;
 
     unsigned long                    imageSize;
     typedef struct local_error_mgr  *local_error_ptr;
@@ -447,7 +447,7 @@ UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ),
     };
 
     unsigned char                   *destData;
-    Image::PixelFormat              pixelFormat;
+    Image::PixelFormat              pixelFormat = osg::Image::OSG_INVALID_PF;
 
     unsigned long                    imageSize;
     typedef struct local_error_mgr  *local_error_ptr;

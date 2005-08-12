@@ -1293,7 +1293,7 @@ void Terrain::changed(BitVector whichField, UInt32 origin)
        {
 	 setWidth(getHeightData()->getWidth());
 	 assert(getHeightData()->getHeight() == getWidth());
-	 setLevel((osglog ((getWidth() - 1.0f)) / osglog(2.0f)));
+	 setLevel((UInt32)(osglog ((getWidth() - 1.0f)) / osglog(2.0f)));
 
 	 SLOG << "found data width=" << getWidth() << ", level=" << getLevel() << std::endl;
 
@@ -1447,7 +1447,7 @@ void Terrain::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrain.cpp,v 1.1 2005/04/24 19:45:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrain.cpp,v 1.2 2005/08/12 15:27:36 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTERRAINBASE_INLINE_CVSID;
 

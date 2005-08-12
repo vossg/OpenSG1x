@@ -521,7 +521,7 @@ void GeoPump0(Window   *OSG_CHECK_ARG(win),
 #define pumpSetup( name, typename, getmethod )                              \
     typename name##Ptr;                                                     \
     GLubyte * name##Data = NULL;                                            \
-    UInt32 name##Stride;                                                    \
+    UInt32 name##Stride = 0;                                                \
                                                                             \
     name##Ptr = geo->getmethod();                                           \
     if ( name##Ptr != NullFC )                                              \

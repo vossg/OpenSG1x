@@ -127,7 +127,7 @@ std::istream &DXFRecord::getLine(std::istream &is, std::string &str,
 	  
 	const Char8 DelimCR = '\r';
 	const Char8 DelimLF = '\n';
-	Char8 c1, c2;
+	Char8 c1, c2 = 0;
 
 	c1 = is.get();
 	testDelim = (c1 == DelimCR || c1 == DelimLF);
@@ -626,7 +626,7 @@ DXFRecord::~DXFRecord(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFRecord.cpp,v 1.1 2004/02/19 16:45:40 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFRecord.cpp,v 1.2 2005/08/12 15:27:38 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGDXFRECORD_HEADER_CVSID;
 //  static Char8 cvsid_inl[] = OSGDXFRECORD_INLINE_CVSID;
 }

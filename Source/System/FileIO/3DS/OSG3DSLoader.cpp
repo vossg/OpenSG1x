@@ -1301,7 +1301,7 @@ void L3DS::Seek(int offset, int origin)
         m_pos = offset;
     if (origin == SEEK_CURSOR)
         m_pos += offset;
-    if (m_pos < 0)
+    if (static_cast<signed>(m_pos) < 0)
         m_pos = 0;
     if (m_pos >= m_bufferSize)
         m_pos = m_bufferSize-1;

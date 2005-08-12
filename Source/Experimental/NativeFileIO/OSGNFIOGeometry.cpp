@@ -434,7 +434,7 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
         _out->putValue(fieldName);
         _out->putValue(fieldType);
         
-        UInt32 size;
+        UInt32 size = 0;
         if(res == Quantizer::QRES_8BIT)
         {
             size = sizeof(UInt8) * d * noe + sizeof(UInt8) +
@@ -520,6 +520,6 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.2 2004/01/09 09:09:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.3 2005/08/12 15:27:37 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGEOMETRY_HEADER_CVSID;
 }

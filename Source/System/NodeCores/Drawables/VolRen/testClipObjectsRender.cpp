@@ -66,9 +66,9 @@ typedef struct {
 //!! They are used internally for testing the functionality on differernt
 //!! platforms and MUST not be set manually a program 
 Test clipTests[] = {
-    0, "No Clipping      ",
-    1, "Intersect mode   ",
-    2, "Subtract mode    "
+    {0, "No Clipping      "},
+    {1, "Intersect mode   "},
+    {2, "Subtract mode    "}
 };
 
 // Number of clip Modes

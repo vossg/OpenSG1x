@@ -651,7 +651,7 @@ int BezierCurve2D::minMaxIntersection( dvector &res, double s, double e )
   double maxy = control_points[ 0 ].y;
   int result;
   vec2d r;
-  double mid;
+  double mid = 0.0;
 
 //  std::cerr.precision( DCTP_PRECISION );
 //  std::cerr << "minmax for: " << s << " " << e << std::endl;

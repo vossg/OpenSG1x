@@ -75,7 +75,9 @@ void display()
     try
     {
         syncBarrier->enter( 2 );
+#ifndef OSG_DISABLE_DEPRECATED
         syncThread->getChangeList()->applyToCurrent();
+#endif
         syncBarrier->enter( 2 );
         if(!doRun)
         {

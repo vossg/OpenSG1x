@@ -60,8 +60,8 @@ int lastx=0, lasty=0;
 
 // GL object test
 
-UInt32 glid2 = -1;
-UInt32 glid = -1;
+UInt32 glid2 = (UInt32) -1;
+UInt32 glid = (UInt32) -1;
 
 void dlist( Window *, UInt32 idstatus)
 {

@@ -446,7 +446,7 @@ bool Image::addValue(const char *value)
         Int32        width;
         Int32        height;
         Int32        pixelDepth;
-        PixelFormat  pf;
+        PixelFormat  pf = osg::Image::OSG_INVALID_PF;
 
         // read the head
         sscanf(value, "%d %d %d", &width, &height, &pixelDepth);
@@ -603,7 +603,7 @@ bool Image::addValue(const char *value)
 bool Image::reformat ( const Image::PixelFormat pixelFormat,
                        ImagePtr destination )
 {
-    UChar8 *data,*sourceData = 0;
+    UChar8 *data = 0,*sourceData = 0;
     UInt32 srcI, destI, destSize = 0;
     UInt32 sum;
     Real64 sumReal;

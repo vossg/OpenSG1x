@@ -96,7 +96,7 @@ int main (int argc, char **argv)
             pSrc = pImage   ->getData(0, i);
             pDst = pOutImage->getData(0, 0);
 
-            for(int i = 0; i < pImage->getWidth() * pImage->getHeight(); ++i)
+            for(int j = 0; j < pImage->getWidth() * pImage->getHeight(); ++j)
             {
                 *pDst++ = *pSrc++;
                 *pDst++ = *pSrc++;

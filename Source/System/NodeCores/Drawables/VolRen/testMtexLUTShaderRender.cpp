@@ -61,13 +61,13 @@ typedef struct {
 //!! They are used internally for testing the functionality on differernt
 //!! platforms and MUST not be set manually a program 
 ShaderTest shaderTests[] = {
-    0, "Automatic Mode Selection             ",
-    1, "SGI Texture Color Table Extension    ",
-    2, "EXT Paletted Texture Extension       ",
-    3, "NV  Texture Shader Dependent Lookup  ",
-    4, "ARB Fragment Program Dependent Lookup",
-    5, "Texture Reload                       ",
-    6, "INACTIVE                             "
+    {0, "Automatic Mode Selection             "},
+    {1, "SGI Texture Color Table Extension    "},
+    {2, "EXT Paletted Texture Extension       "},
+    {3, "NV  Texture Shader Dependent Lookup  "},
+    {4, "ARB Fragment Program Dependent Lookup"},
+    {5, "Texture Reload                       "},
+    {6, "INACTIVE                             "}
 };
 
 // Number of Shader Modes

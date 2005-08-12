@@ -451,7 +451,7 @@ void Manipulator::mouseMove(Int16 x, Int16 y)
 
         if( t != NullFC )
         {                    
-            UInt16          coord;                  // active coordinate: X=0,
+            UInt16          coord = 0;                  // active coordinate: X=0,
                                                   // Y=1, Z=2
 
             Int16            xDiff;                  // the mousepos x delta
@@ -572,7 +572,7 @@ void Manipulator::mouseButtonRelease (UInt16 button, Int16 x, Int16 y)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.2 2005/07/08 06:32:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.3 2005/08/12 15:27:36 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

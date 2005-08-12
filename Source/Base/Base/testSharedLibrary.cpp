@@ -7,7 +7,10 @@
 */
 #include "OSGConfig.h"
 #include "OSGBaseFunctions.h"
+
+#ifndef OSG_DISABLE_DEPRECATED
 #include "OSGSharedLibrary.h"
+#endif
 
 /*	General Settings
 */
@@ -18,6 +21,8 @@ int main( OSG::Int32 argc, OSG::Char8** argv)
 	// Init OSG
 
 	OSG::osgInit(argc, argv);
+
+#ifndef OSG_DISABLE_DEPRECATED
 
 #ifdef WIN32
     OSG::SharedLibrary  oSharedGLLib("opengl32.dll");
@@ -37,5 +42,7 @@ int main( OSG::Int32 argc, OSG::Char8** argv)
 
     fprintf(stderr, "%p | %p\n", hSym, hSym1);
 	
+#endif // #ifndef OSG_DISABLE_DEPRECATED
+        
 	return 0;
 }

@@ -357,7 +357,7 @@ bool Text::fillImage(ImagePtr & image,
     ImageFontGlyph  ***g;
     UChar8          *img = 0;
     const Int32     *res;
-    const Char8     *text;
+    const Char8     *text = 0;
     Int32           pen_x, pen_y, line, xoff, yoff;
     Int32           width = 0, overallWidth = 0, height = 0, overallHeight = 0;
     Int32           i, j, k, l, tmpMinY, tmpMaxY, strStart, strEnd, strStep;

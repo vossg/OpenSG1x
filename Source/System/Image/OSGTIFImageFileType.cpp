@@ -230,7 +230,7 @@ bool TIFImageFileType::read(      ImagePtr &OSG_TIF_ARG(image),
 
         if(valid)
         {
-            Image::PixelFormat  type;
+            Image::PixelFormat  type = osg::Image::OSG_INVALID_PF;
             switch(bpp)
             {
             case 1:
@@ -329,7 +329,7 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image),
 
     TIFF                *out = TIFFOpen(fileName, "w");
     int                 lineSize = image->getWidth() * image->getBpp();
-    int                 photometric, samplesPerPixel;
+    int                 photometric = 0, samplesPerPixel = 0;
     const UChar8       *data;
     int                 row;
 

@@ -1360,7 +1360,7 @@ Action::ResultE RenderAction::start(void)
     _visibilityStack.clear();
     _visibilityStack.push_back(FrustumVolume::P_NONE);
     
-    bool full;
+    bool full = false;
     
     if(_viewport != NULL)
     {

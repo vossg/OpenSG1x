@@ -452,7 +452,7 @@ void DVRMtexLUTShader::renderSlice(DVRVolume      *volume,
     MultiTexCoord2dARBFunc MultiTexCoord2dARB = 
         (MultiTexCoord2dARBFunc) win->getFunction(_funcMultiTexCoord2dARB); 
    
-    GLfloat intFactor;
+    GLfloat intFactor = 0;
     
     switch(clippedSlice->orientation)
     {

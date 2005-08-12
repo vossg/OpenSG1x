@@ -41,7 +41,7 @@ namespace xmlpp {
 //! \todo perhaps more language independency would be good :)
 xmlstring xmlerror::get_strerror() const
 {
-   const char *err;
+   const char *err = 0;
    switch(errorcode)
    {
       XMLERRORCODE(xml_unknown,"unspecified or unknown error");

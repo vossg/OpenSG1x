@@ -92,7 +92,7 @@ void BrickSet::buildBricks3D(DVRVolume   *volume,
     Real32 ymin = (overlap - 1 + 0.5f - resY / 2) * vox[1];
     Real32 zmin = (overlap - 1 + 0.5f - resZ / 2) * vox[2];
 
-    Real32 xmax, ymax, zmax;
+    Real32 xmax = 0, ymax = 0, zmax = 0;
     
     Int32 index = 0;
     
@@ -147,10 +147,10 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
     Vec3f  vox = vT->getSliceThickness();
     Vec3f  res = vT->getResolution();
 
-    Int32  resX, resY, resZ;
-    Real32 xmin, ymin, zmin;             
-    Real32 xmax, ymax, zmax;          
-    Real32 xinc, yinc, zinc;
+    Int32  resX = 0, resY= 0, resZ= 0;
+    Real32 xmin = 0, ymin = 0, zmin = 0;             
+    Real32 xmax = 0, ymax = 0, zmax = 0;          
+    Real32 xinc = 0, yinc = 0, zinc = 0;
     
     switch(ori) 
     {

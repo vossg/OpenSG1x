@@ -84,12 +84,13 @@ void MyOSGQGLWidget::mousePressEvent ( QMouseEvent *me )
 
 void MyOSGQGLWidget::mouseReleaseEvent ( QMouseEvent *me )
 {
-    UInt16 but;
+    UInt16 but = SimpleSceneManager::NoButton;
     switch ( me->button() ) 
     {
     case LeftButton:    but=SimpleSceneManager::MouseLeft;   break;
     case MidButton:     but=SimpleSceneManager::MouseMiddle; break;
     case RightButton:   but=SimpleSceneManager::MouseRight;  break;
+    default:                                                 break;
     }
     
     _manager.mouseButtonRelease( but, me->pos().x(), me->pos().y() );

@@ -113,7 +113,7 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
                    (flags & OSG_OVERFLOW_RESIZE) ||
                    (flags & OSG_UNDERFLOW_RESIZE))
         {
-            Real32  v, max, min, sum = 0.0;
+            Real32  v = 0.0, max = 0.0, min = 0.0, sum = 0.0;
 
             for(UInt32 i = 0; i < size; i++)
             {

@@ -202,7 +202,7 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
     bool                retCode = false;
 
 #ifdef OSG_WITH_GIF
-    Image::PixelFormat  pixelFormat;
+    Image::PixelFormat  pixelFormat = osg::Image::OSG_INVALID_PF;
     GIFStream           *gifStream = GIFRead(const_cast <char *> (fileName));
     GIFData             *gifData = 0;
     bool                isColor;
@@ -644,7 +644,7 @@ static GIFStream *GIFReadFP(FILE *fd)
     unsigned char   c;
     GIFStream       *gifStream = 0;
     GIFData         *cur, **end;
-    GIF89info       info;
+    GIF89info       info = {0};
     int             resetInfo = GIF_TRUE;
     int             n;
 

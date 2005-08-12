@@ -165,7 +165,7 @@ DXFResult DXFVertex::endEntity(void)
 {
 	if ( _vertexIndex[0] != -1 )
 	{
-		Int32 faceType;
+		Int32 faceType = 0;
 		// VERTEX holds face indices, not coordinates
 		// check, whether 3 or 4 vertices are combined as a face ( 1 ore 2 are
 		// considered a bug!)
@@ -279,7 +279,7 @@ DXFVertex::~DXFVertex(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFVertex.cpp,v 1.1 2004/02/19 16:45:40 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFVertex.cpp,v 1.2 2005/08/12 15:27:38 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGDXFVERTEX_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFVERTEX_INLINE_CVSID;
 }

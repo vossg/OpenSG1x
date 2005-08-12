@@ -391,7 +391,7 @@ void idle(void)
         indices->resize(pnts->getSize() / 2);
         for(UInt32 i = 0; i < pnts->getSize() / 2; ++i)
         {
-            (*indices)[i] = (osgrand() * 2 - 1) * pnts->getSize();
+            (*indices)[i] = (UInt32)(osgrand() * 2 - 1) * pnts->getSize();
         }
         endEditCP  (particles, Particles::IndicesFieldMask);     
     }

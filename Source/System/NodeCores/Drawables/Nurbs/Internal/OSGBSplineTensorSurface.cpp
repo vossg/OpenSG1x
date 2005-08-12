@@ -864,7 +864,7 @@ int BSplineTensorSurface::midPointSubDivision( std::vector< std::vector< BSpline
 	double					d_max;
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
-	int					i_span;
+	int					i_span = 0;
 	std::vector< std::vector< vec3d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
@@ -1100,7 +1100,7 @@ int BSplineTensorSurface::midPointSubDivisionV( std::vector< BSplineTensorSurfac
 	double					d_max;
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
-	int					i_span;
+	int					i_span = 0;
 	std::vector< std::vector< vec3d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
@@ -1258,7 +1258,7 @@ int BSplineTensorSurface::subDivisionV( std::vector< BSplineTensorSurface > &rvc
 	double					d_max;
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
-	int					i_span;
+	int					i_span = 0;
 	std::vector< std::vector< vec3d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
@@ -1482,7 +1482,7 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 	vec3d						aacl_skl[ 2 ][ 2 ];
 	vec3d						*apcl_temp[ 2 ];
 	int							i_r;
-	double						d_len;
+	double						d_len = 0.0;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;
