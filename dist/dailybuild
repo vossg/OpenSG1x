@@ -719,7 +719,7 @@ then
         has_latex=${has_latex:=1}
     fi
 
-    if x$has_latex == x1
+    if test x$has_latex = x1;
     then
         doxy_target="alldocs"
     else
