@@ -70,23 +70,23 @@ UInt32 EdgeIterator::getLength(void) const
 
 // Why isn't the following list of methods not implemented via macros like:
 //
-// #define getPROPERTYIndex(PROPERTY)                                          \
-// inline                                                                      \
-// Int32 EdgeIterator::get ## PROPERTY ## Index(Int32 which) const             \
-// {                                                                           \
-//     if ( getType() == GL_LINES )                                            \
-//         return Inherited::get ## PROPERTY ## Index(_edgePntIndex[which]);   \
-//     else                                                                    \
-//         return Inherited::get ## PROPERTY ## Index(which);                  \
-// }                                                                           \
+// #define getPROPERTYIndex(PROPERTY)                                          
+// inline                                                                      
+// Int32 EdgeIterator::get ## PROPERTY ## Index(Int32 which) const             
+// {                                                                           
+//     if ( getType() == GL_LINES )                                            
+//         return Inherited::get ## PROPERTY ## Index(_edgePntIndex[which]);   
+//     else                                                                    
+//         return Inherited::get ## PROPERTY ## Index(which);                  
+// }                                                                           
 //
-// #define getPROPERTY(PROPERTY,PROPERTY_TYPE)                         \
-// inline                                                              \
-// PROPERTY_TYPE EdgeIterator::get ## PROPERTY ## (Int32 which) const  \
-// {                                                                   \
-//     Int32 ind = get ## PROPERTY ## Index(which);                    \
-//                                                                     \
-//     return getGeometry()->get ## PROPERTY ## s()->getValue(ind);    \
+// #define getPROPERTY(PROPERTY,PROPERTY_TYPE)                         
+// inline                                                              
+// PROPERTY_TYPE EdgeIterator::get ## PROPERTY ## (Int32 which) const  
+// {                                                                   
+//     Int32 ind = get ## PROPERTY ## Index(which);                    
+//                                                                     
+//     return getGeometry()->get ## PROPERTY ## s()->getValue(ind);    
 // }
 //
 // getPROPERTYIndex(Position)

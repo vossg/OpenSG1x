@@ -164,7 +164,7 @@ AnonSymbolHandle SharedLibrary::getSymbol(const Char8 *szSymbolName)
 #else
 #endif
 
-    fprintf(stderr, "Got Symbol : %s %x %x\n", 
+    fprintf(stderr, "Got Symbol : %s %p %p\n", 
             szSymbolName, 
             _pHandle, 
             returnValue);

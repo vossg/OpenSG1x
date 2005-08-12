@@ -91,7 +91,7 @@ the singleton object.
 
 #ifdef OSG_WITH_JPG
 
-struct
+struct jpeg_mem
 {
     struct jpeg_destination_mgr dest;
     struct jpeg_source_mgr      src;

@@ -1130,6 +1130,10 @@ struct OSG::ParticlesDrawer
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action,
                              Int32 *index, UInt32 length) = 0;
+    
+    virtual ~ParticlesDrawer()
+    {
+    }
 };
 
 /* View-Dir aligned, indexed quad rendering */
