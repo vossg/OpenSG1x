@@ -108,9 +108,9 @@ endif
 UIC        :=  $(shell $(OSG_CONFIG) --uic)
 CXX        := "$(shell $(OSG_CONFIG) --compiler --$(LIBTYPE) )"
 ifeq ($(NOGUI),true)
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base ) -DFCD_TERM
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base) -DFCD_TERM
 else
-CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base QT )
+CXXFLAGS   :=  $(shell $(OSG_CONFIG) --cflags --$(LIBTYPE) Base QT)
 endif
 
 ifeq ($(findstring WIN,$(OS)),WIN)
@@ -125,7 +125,12 @@ ifeq ($(findstring WIN,$(OS)),WIN)
 # but on windows the compiler lib path is missing without the System lib ...
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System)
 else
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base )
+    ifeq ($(findstring icc,$(CXX)),icc)
+    # HACK this fixes the link problems on my icc 81 Linux. No clue why.
+    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base) -lGLU
+    else
+    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base)
+    endif
 endif
 else
 LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
@@ -203,6 +208,7 @@ dbg:
 opt:
 	$(MAKE) LIBTYPE=opt
 
+       
 ######################################################################
 
 .PRECIOUS: moc_%.cpp uic_%.cpp uic_%.h
