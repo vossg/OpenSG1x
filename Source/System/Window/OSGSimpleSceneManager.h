@@ -77,7 +77,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
             MouseMiddle =  1, 
             MouseRight  =  2,
             MouseUp     =  3,
-            MouseDown   =  4
+            MouseDown   =  4,
+            NoButton    =  -1
          };
          
     /*! \}                                                                 */
