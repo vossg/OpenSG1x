@@ -85,11 +85,11 @@ do
             file=`find . -name "opensg_dailybuild.${filedate}.OpenSG-*-${doc}" | head -n 1`
             test $debug -gt 1 && echo File: $file
 
-            name=`echo $doc | sed -e 's/\..*//'`
+            #name=`echo $doc | sed -e 's/\..*//'`
            
             if test x$file != x
             then
-                echo "<a href=$file>$name</a> " >> $outfile
+                echo "<a href=$file>$doc</a> " >> $outfile
             fi
             
         done

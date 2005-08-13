@@ -242,11 +242,19 @@ case $system in
             compiler=${compiler:=icl50}
             config_shell=bash
             distname=win
-            innosetup="/cygdrive/c/Programme/Inno Setup 3/ISCC.exe"
-            if ! test -x "$innosetup"
-            then
-                innosetup="/cygdrive/c/Program Files/Inno Setup 4/ISCC.exe"
-            fi
+	    innosetup=""
+	    for p in "/cygdrive/c/Programme" "/cygdrive/c/Program Files" "`pwd`/.." "`pwd`/../packages"
+	    do
+		for v in 3 4 5
+		do
+			i="${p}/Inno Setup ${v}/ISCC.exe"
+			
+			if test -x "$i"
+			then
+				innosetup="$i"
+			fi
+		done
+	    done
             if ! test -x "$innosetup"
             then
                 echo "Warning: Innosetup not found! Won't build installer!"
