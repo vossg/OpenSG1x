@@ -206,6 +206,10 @@ case $system in
         then
             VERSION=`tail -1 /etc/SuSE-release | sed -e 's/^[^0-9]*//'`
             distname=suse$VERSION
+        elif test -r /etc/fedora-release
+        then
+            VERSION=`sed -e 's/^[^0-9]*//' -e 's/\([0-9]*\).*$/\1/' < /etc/fedora-release`
+            distname=fedora$VERSION
         elif test -r /etc/redhat-release
         then
             VERSION=`sed -e 's/^[^0-9]*//' -e 's/\([0-9]*\).*$/\1/' < /etc/redhat-release`
@@ -242,6 +246,11 @@ case $system in
             if ! test -x "$innosetup"
             then
                 innosetup="/cygdrive/c/Program Files/Inno Setup 4/ISCC.exe"
+            fi
+            if ! test -x "$innosetup"
+            then
+                echo "Warning: Innosetup not found! Won't build installer!"
+                innosetup=""
             fi
             build_make=make
         fi
@@ -559,15 +568,16 @@ case $system in
 
     # Build the installer
 
-    echo "Building Installer"
-    cd ..
+    if ! test "x$innosetup" = x
+    then
+        echo "Building Installer"
+        cd ..
 
-    echo `pwd`
-    win_var_expand $OSGPOOL/dist/win/opensg_bindist.iss opensg_bindist.iss.raw
-    perl -pi -e 's/\n/\r\n/;' < opensg_bindist.iss.raw > opensg_bindist.iss
-
-    "$innosetup" opensg_bindist.iss
-
+        win_var_expand $OSGPOOL/dist/win/opensg_bindist.iss opensg_bindist.iss.raw
+        perl -pi -e 's/\n/\r\n/;' < opensg_bindist.iss.raw > opensg_bindist.iss
+        "$innosetup" opensg_bindist.iss
+    fi
+    
     if ! test x$OSG_DIST_CLEANUP = x
     then
         rm -rf OpenSG-$OSGVERSION-$distname-$compiler$suffix
