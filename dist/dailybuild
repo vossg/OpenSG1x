@@ -876,14 +876,18 @@ then
     errorexit Tests NOFILE
 fi
 
-qt_opt="--qt $qt_dir"
+if test "x$qt_dir" != x -a -d "$qt_dir"
+then
+    qt_opt="--qt $qt_dir"
+else
+    qt_opt=""
+fi
 
-if ! test -d $qt_dir
+if test "x$qt_opt" = x
 then
     export OSG_DIST_NO_EXAMPLEBUILD=1
     export OSG_DIST_NO_FCDEDIT=1
     echo Warning: qt_dir not found, skipping example and fcdEdit build for dist > $log_dist 2>&1
-    qt_opt=""
 fi
 
 cd $basedir
