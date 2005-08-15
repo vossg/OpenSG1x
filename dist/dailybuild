@@ -476,7 +476,9 @@ then
     if ! diff -q $scriptname OpenSG/dist/dailybuild >> /dev/null;
     then
         echo "dailybuild changed, restarting..."
-        (cp OpenSG/dist/dailybuild $scriptname && exec $scriptname --restart $allargs)
+# exec doesn't seem to work on the cygwin in Darmstadt. Works fine on mine...
+#        (cp OpenSG/dist/dailybuild $scriptname && exec $scriptname --restart $allargs)
+        (cp OpenSG/dist/dailybuild $scriptname && /bin/bash $scriptname --restart $allargs)
         exit 0
     fi
 fi
@@ -585,11 +587,11 @@ case $system in
     *-pc-cygwin )    
 
         # Unpack the Supportlibs and use them
-        mkdir ${basedir}/supportlibs > $log_cvs 2>&1
-        pushd ${basedir}/supportlibs > $log_cvs 2>&1
-        rm -rf * > $log_cvs 2>&1
-        unzip -o ../OpenSG/dist/win/supportlibs.zip > $log_cvs 2>&1
-        popd > $log_cvs 2>&1
+        mkdir ${basedir}/supportlibs >> $log_cvs 2>&1
+        pushd ${basedir}/supportlibs >> $log_cvs 2>&1
+        rm -rf * >> $log_cvs 2>&1
+        unzip -o ../OpenSG/dist/win/supportlibs.zip >> $log_cvs 2>&1
+        popd >> $log_cvs 2>&1
 
         # Makes ure we pick up cygwin commands before system commands
         # convert is a problem here
@@ -689,7 +691,7 @@ then
     checkerror "Cvs" $log_cvs
 fi
 
-# create the source snapshot
+# create the unix source snapshot
 # Create on linux, as needed for the SRPM
 
 case $system in
@@ -708,6 +710,21 @@ esac
 $config_shell ./configure --prefix=BUILD --with-compiler=$compiler $stl_args \
     $glut_args $qt_args $tif_args $jpg_args $png_args $extra_args 1>$log_configure 2>&1
 checkerror "Configure" $log_configure
+
+# create the windows source snapshot
+
+case $system in
+
+
+    *-pc-cygwin )    
+                        make dsp >> $log_install 2>&1
+                        make dsp7 >> $log_install 2>&1
+                        cd ..
+                        tar cf - OpenSG | \
+                            gzip -9f > $basedir/opensg_dailybuild.$today.win-source.tgz
+                        cd OpenSG
+                        ;;
+esac
 
 # start making the doc
 # takes forever, do it in parallel
@@ -745,17 +762,11 @@ checkerror "OptLibs" $log_make
 
 # locally install the libs
 
-$make install > $log_install 2>&1
+$make install >> $log_install 2>&1
 export LD_LIBRARY_PATH="`pwd`/lib/dbg:$LD_LIBRARY_PATH"
 
 # create the snapshot
 case $system in
-
-    *-pc-cygwin )    
-                        make dsp > $log_install 2>&1
-                        make dsp7 > $log_install 2>&1
-                        tar cf - lib include -C ../.. VSBuild | gzip -9f > $out_html.snapshot.tgz                       
-                        ;;
 
     * )    
                         tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
