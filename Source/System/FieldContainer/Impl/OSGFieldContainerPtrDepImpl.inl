@@ -126,6 +126,9 @@ void FieldContainerPtrBase::subRef(void) const
         _pRefCountLock->release(_storeP);
 
         deleteContainers();
+        
+         // Clean up a little.
+        const_cast<FieldContainerPtrBase*>(this)->_storeP = NULL;
     }
     else
     {

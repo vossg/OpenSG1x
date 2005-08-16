@@ -126,6 +126,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \name              Get Container Information                       */
     /*! \{                                                                 */
 
+    Int32  getRefCount        (void) const;
     UInt32 getFieldContainerId(void) const;
     UInt16 getContainerSize   (void) const;
 

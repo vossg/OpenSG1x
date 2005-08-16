@@ -105,6 +105,78 @@ RefPtr<Ref>& RefPtr<Ref>::operator =(const RefPtr<Ref>& rcp)
 }
 
 template< class Ref >
+RefPtr<Ref>& RefPtr<Ref>::operator =(const NullFieldContainerPtr&)
+{
+    setRef(NullFC);
+    
+    return *this;
+}
+
+
+template< class Ref >
+bool RefPtr<Ref>::operator < (const NullFieldContainerPtr&) const
+{
+    return false;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator ==(const NullFieldContainerPtr&) const
+{
+    return _ref == NullFC;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator !=(const NullFieldContainerPtr&) const
+{
+    return _ref != NullFC;
+}
+
+
+template< class Ref >
+bool RefPtr<Ref>::operator < (const FieldContainerPtr &other) const
+{
+    return _ref < other;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator ==(const FieldContainerPtr &other) const
+{
+    return _ref == other;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator !=(const FieldContainerPtr &other) const
+{
+    return !(_ref == other);
+}
+
+
+template< class Ref >
+bool RefPtr<Ref>::operator < (const RefPtr<Ref> &other) const
+{
+    return _ref < other._ref;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator ==(const RefPtr<Ref> &other) const
+{
+    return _ref == other._ref;
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator !=(const RefPtr<Ref> &other) const
+{
+    return !(_ref == other._ref);
+}
+
+template< class Ref >
+bool RefPtr<Ref>::operator ! (void) const
+{
+    return _ref == NullFC;
+}
+
+
+template< class Ref >
 void RefPtr<Ref>::setRef(const Ref &ref)
 {
     if(_ref == ref)
@@ -121,5 +193,5 @@ void RefPtr<Ref>::setRef(const Ref &ref)
 
 OSG_END_NAMESPACE
 
-#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.2 2005/02/22 21:05:03 dirk Exp $"
+#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.3 2005/08/16 16:17:40 dirk Exp $"
 

@@ -213,6 +213,15 @@ UInt16 FieldContainerPtrBase::getParentFieldPos(void) const
 /*                                Get                                      */
 
 inline
+Int32 FieldContainerPtrBase::getRefCount(void) const
+{
+    if(_storeP == NULL)
+        return 0;
+        
+    return (*getRefCountP());
+}
+
+inline
 UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
 {
     return (*getIdP());

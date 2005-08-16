@@ -60,7 +60,7 @@ class RefPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
-  
+ 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -91,9 +91,28 @@ class RefPtr
     
     Ref get(void) const;
     
-    RefPtr<Ref>& operator =(const Ref& fcp);
-    
-    RefPtr<Ref>& operator =(const RefPtr<Ref>& rcp);
+    RefPtr<Ref>& operator =(const Ref &fcp);    
+    RefPtr<Ref>& operator =(const RefPtr<Ref> &rcp);
+    RefPtr<Ref>& operator =(const NullFieldContainerPtr& );    
+   
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Comparison                                */
+    /*! \{                                                                 */
+
+    bool operator <  (const NullFieldContainerPtr &     ) const;   
+    bool operator == (const NullFieldContainerPtr &other) const;
+    bool operator != (const NullFieldContainerPtr &other) const;
+
+    bool operator <  (const FieldContainerPtr     &other) const;
+    bool operator == (const FieldContainerPtr     &other) const;
+    bool operator != (const FieldContainerPtr     &other) const;
+
+    bool operator <  (const RefPtr<Ref>           &other) const;
+    bool operator == (const RefPtr<Ref>           &other) const;
+    bool operator != (const RefPtr<Ref>           &other) const;
+
+    bool operator !  (void                              ) const;
    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -117,6 +136,6 @@ OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.3 2005/05/30 19:49:58 dirk Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.4 2005/08/16 16:17:40 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */

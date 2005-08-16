@@ -4,6 +4,7 @@
 
 #include <string>
 #include <map>
+#include <set>
 #include <OSGFieldContainerFactory.h>
 #include <OSGSFSysTypes.h>
 #include <OSGNode.h>
@@ -83,46 +84,98 @@ int main (int argc, char *argv[])
         NodePtr n2 = makeCoredNode<Geometry>(&geo);
         addRefCP(n2);
 
-        PLOG << "n1 " ; n1.dump(0, FCDumpFlags::RefCount);
-        PLOG << "n2 " ; n2.dump(0, FCDumpFlags::RefCount);
+        PLOG << "n1 " << n1.getRefCount() << endLog;
+        PLOG << "n2 " << n1.getRefCount() << endLog;
         
         // RefPtr test
         
         RefPtr<NodePtr> r1(n1),r2; // Note: r1 = n1; doesn't work
         
-        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r1 " << r1.get().getRefCount() << endLog;
         
         r2 = n2;
         
         PLOG << "r2 = n2;" << std::endl;
-        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;
          
         r1->addChild(r2);
          
         PLOG << "r1->addChild(r2);" << std::endl;
-        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
-        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "r1 " << r1.get().getRefCount() << endLog;
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;
       
         r2 = r1;
         
         PLOG << "r2 = r1;" << std::endl;
-        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);     
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;     
 
+        {
         std::vector< RefPtr<NodePtr> > v;
         
         v.push_back(r1);
         v.push_back(r2);
 
-        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
-        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
+        PLOG << "in vector" << endLog;
+        PLOG << "r1 " << r1.get().getRefCount() << endLog;
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;
+        }
+        
+        {
+        std::set< RefPtr<NodePtr> > s;
+        
+        s.insert(r1);
+        s.insert(r2);
+
+        PLOG << "in set" << endLog;
+        PLOG << "r1 " << r1.get().getRefCount() << endLog;
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;
+        }
+        
+        if(r1 < NullFC) PLOG << "r1 < NullFC" << endLog;
+        else            PLOG << "!(r1 < NullFC)" << endLog;
+
+        if(r1 == NullFC) PLOG << "r1 == NullFC" << endLog;
+        else            PLOG << "!(r1 == NullFC)" << endLog;
+
+        if(r1 != NullFC) PLOG << "r1 != NullFC" << endLog;
+        else            PLOG << "!(r1 != NullFC)" << endLog;
+
+        if(r1 < r2) PLOG << "r1 < r2" << endLog;
+        else        PLOG << "!(r1 < r2)" << endLog;
+
+        if(r1 == r2) PLOG << "r1 == r2" << endLog;
+        else         PLOG << "!(r1 == r2)" << endLog;
+
+        if(r1 != r2) PLOG << "r1 != r2" << endLog;
+        else         PLOG << "!(r1 != r2)" << endLog;
+
+        if(r1 < r2.get())   PLOG << "r1 < r2.get()" << endLog;
+        else                PLOG << "!(r1 < r2.get())" << endLog;
+
+        if(r1 == r2.get())  PLOG << "r1 == r2.get()" << endLog;
+        else                PLOG << "!(r1 == r2.get())" << endLog;
+
+        if(r1 != r2.get())  PLOG << "r1 != r2.get()" << endLog;
+        else                PLOG << "!(r1 != r2.get())" << endLog;
+
+        if(!r1) PLOG << "!r1" << endLog;
+        else         PLOG << "!(!r1)" << endLog;
+
+
         
         r1 = r2 = NullFC;
         
         PLOG << "r1 = r2 = NullFC;" << std::endl;
-        PLOG << "r1 " ; r1.get().dump(0, FCDumpFlags::RefCount);
-        PLOG << "r2 " ; r2.get().dump(0, FCDumpFlags::RefCount);
-        PLOG << "n1 " ; n1.dump(0, FCDumpFlags::RefCount);
-        PLOG << "n2 " ; n2.dump(0, FCDumpFlags::RefCount);
+        PLOG << "r1 " << r1.get().getRefCount() << endLog;
+        PLOG << "r2 " << r2.get().getRefCount() << endLog;
+        PLOG << "n1 " << n1.getRefCount() << endLog;
+        PLOG << "n2 " << n2.getRefCount() << endLog;
           
+        subRefCP(n1);
+        
+        PLOG << "subRefCP(n1);" << std::endl;
+        PLOG << "n1 " << n1.getRefCount() << endLog;
+        PLOG << "n2 " << n2.getRefCount() << endLog;
+        
 	return 0;
 }
