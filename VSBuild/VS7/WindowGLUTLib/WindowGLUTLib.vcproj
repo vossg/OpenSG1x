@@ -3,6 +3,7 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="WindowGLUTLib"
+	ProjectGUID="{C53B847B-1F44-4D53-A280-6D8AB6BD00B9}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -19,10 +20,10 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -Zm400 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/GLUT "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -Zm400 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window -I../../../Source/WindowSystem/GLUT "
 				Optimization="0"
 				AdditionalIncludeDirectories="..,."
-				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				RuntimeTypeInfo="TRUE"
@@ -37,14 +38,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowGLUTD.dll"
+				OutputFile="..\lib\dbg\OSGWindowGLUT.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUTD.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUT.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowGLUTD.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowGLUTD.lib"/>
+				MapFileName=".\Debug/OSGWindowGLUT.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowGLUT.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -82,11 +83,11 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -Zm400 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Window -I../../../Source/WindowSystem/GLUT "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -Zm400 -I../../../Source/BaseLib -I../../../Source/SystemLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window -I../../../Source/WindowSystem/GLUT "
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..,."
-				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
+				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="TRUE"
@@ -189,7 +190,7 @@
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
 							BasicRuntimeChecks="3"/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -198,7 +199,7 @@
 							Name="VCCLCompilerTool"
 							Optimization="2"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
 					</FileConfiguration>
 				</File>
 				<File
@@ -209,7 +210,7 @@
 							Name="VCCLCompilerTool"
 							Optimization="0"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
 							BasicRuntimeChecks="3"/>
 					</FileConfiguration>
 					<FileConfiguration
@@ -218,7 +219,7 @@
 							Name="VCCLCompilerTool"
 							Optimization="2"
 							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_QT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;OSG_WITH_GIF;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILEWINDOWGLUTLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
