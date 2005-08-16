@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=710  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi_alias -Qoption,cpp,--new_for_init -GR -O2 -Ob1 -MD -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_PNG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Source/BaseLib  -I../../../Source/Base/Base  -I../../../Source/Base/Field  -I../../../Source/Base/Functors  -I../../../Source/Base/Network/Base  -I../../../Source/Base/Network/Socket  -I../../../Source/Base/StringConversion  -I../../../Source/Base/Xml  -I../../../Source/Experimental/NativeFileIO  -I../../../Source/Experimental/NewAction/Actors  -I../../../Source/Experimental/NewAction  -I../../../Source/Experimental/SHL  -I../../../Source/Experimental/ShadowMapViewport  -I../../../Source/Experimental/Text  -I../../../Source/Experimental/WebInterface  -I../../../Source/System/Action/DrawAction  -I../../../Source/System/Action/IntersectAction  -I../../../Source/System/Action/RenderAction  -I../../../Source/System/Action  -I../../../Source/System/Cluster/Base  -I../../../Source/System/Cluster/Server  -I../../../Source/System/Cluster/Window/Base  -I../../../Source/System/Cluster/Window/MultiDisplay  -I../../../Source/System/Cluster/Window/SortFirst  -I../../../Source/System/Cluster/Window/SortLast  -I../../../Source/System/FieldContainer/Impl  -I../../../Source/System/FieldContainer  -I../../../Source/System/FileIO/3DS  -I../../../Source/System/FileIO/BIN  -I../../../Source/System/FileIO/Base  -I../../../Source/System/FileIO/DXF  -I../../../Source/System/FileIO/OBJ  -I../../../Source/System/FileIO/OFF  -I../../../Source/System/FileIO/OSG  -I../../../Source/System/FileIO/RAW  -I../../../Source/System/FileIO/SLP  -I../../../Source/System/FileIO/ScanParseSkel  -I../../../Source/System/FileIO/WRL  -I../../../Source/System/GraphOp  -I../../../Source/System/Image  -I../../../Source/System/Material  -I../../../Source/System/NodeCores/Drawables/Base  -I../../../Source/System/NodeCores/Drawables/Geometry  -I../../../Source/System/NodeCores/Drawables/Misc  -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal  -I../../../Source/System/NodeCores/Drawables/Nurbs  -I../../../Source/System/NodeCores/Drawables/Particles  -I../../../Source/System/NodeCores/Drawables/VolRen  -I../../../Source/System/NodeCores/Groups/Base  -I../../../Source/System/NodeCores/Groups/Light  -I../../../Source/System/NodeCores/Groups/Misc  -I../../../Source/System/RenderingBackend  -I../../../Source/System/State  -I../../../Source/System/Statistics  -I../../../Source/System/Window  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -Qoption,cpp,--new_for_init -GR -O2 -Ob1 -MD -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_PNG -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Source/BaseLib  -I../../../Source/Base/Base  -I../../../Source/Base/Field  -I../../../Source/Base/Functors  -I../../../Source/Base/Network/Base  -I../../../Source/Base/Network/Socket  -I../../../Source/Base/StringConversion  -I../../../Source/Base/Xml  -I../../../Source/Experimental/Manipulators  -I../../../Source/Experimental/NativeFileIO  -I../../../Source/Experimental/NewAction/Actors  -I../../../Source/Experimental/NewAction  -I../../../Source/Experimental/SHL  -I../../../Source/Experimental/ShadowMapViewport  -I../../../Source/Experimental/Text  -I../../../Source/Experimental/WebInterface  -I../../../Source/System/Action/DrawAction  -I../../../Source/System/Action/IntersectAction  -I../../../Source/System/Action/RenderAction  -I../../../Source/System/Action  -I../../../Source/System/Cluster/Base  -I../../../Source/System/Cluster/Server  -I../../../Source/System/Cluster/Window/BalancedMultiWindow  -I../../../Source/System/Cluster/Window/Base  -I../../../Source/System/Cluster/Window/MultiDisplay  -I../../../Source/System/Cluster/Window/SortFirst  -I../../../Source/System/Cluster/Window/SortLast  -I../../../Source/System/FieldContainer/Impl  -I../../../Source/System/FieldContainer  -I../../../Source/System/FileIO/3DS  -I../../../Source/System/FileIO/BIN  -I../../../Source/System/FileIO/Base  -I../../../Source/System/FileIO/DXF  -I../../../Source/System/FileIO/OBJ  -I../../../Source/System/FileIO/OFF  -I../../../Source/System/FileIO/OSG  -I../../../Source/System/FileIO/RAW  -I../../../Source/System/FileIO/SLP  -I../../../Source/System/FileIO/ScanParseSkel  -I../../../Source/System/FileIO/WRL  -I../../../Source/System/GraphOp  -I../../../Source/System/Image  -I../../../Source/System/Material  -I../../../Source/System/NodeCores/Drawables/Base  -I../../../Source/System/NodeCores/Drawables/Geometry  -I../../../Source/System/NodeCores/Drawables/Misc  -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal  -I../../../Source/System/NodeCores/Drawables/Nurbs  -I../../../Source/System/NodeCores/Drawables/Particles  -I../../../Source/System/NodeCores/Drawables/VolRen  -I../../../Source/System/NodeCores/Groups/Base  -I../../../Source/System/NodeCores/Groups/Light  -I../../../Source/System/NodeCores/Groups/Misc  -I../../../Source/System/RenderingBackend  -I../../../Source/System/State  -I../../../Source/System/Statistics  -I../../../Source/System/Text  -I../../../Source/System/Window  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
@@ -70,7 +70,7 @@ LINK32=xilink6.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP 
-# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe171 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=710  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi_alias -Qoption,cpp,--new_for_init -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_PNG -DOSG_WITH_GIF -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Source/BaseLib  -I../../../Source/Base/Base  -I../../../Source/Base/Field  -I../../../Source/Base/Functors  -I../../../Source/Base/Network/Base  -I../../../Source/Base/Network/Socket  -I../../../Source/Base/StringConversion  -I../../../Source/Base/Xml  -I../../../Source/Experimental/NativeFileIO  -I../../../Source/Experimental/NewAction/Actors  -I../../../Source/Experimental/NewAction  -I../../../Source/Experimental/SHL  -I../../../Source/Experimental/ShadowMapViewport  -I../../../Source/Experimental/Text  -I../../../Source/Experimental/WebInterface  -I../../../Source/System/Action/DrawAction  -I../../../Source/System/Action/IntersectAction  -I../../../Source/System/Action/RenderAction  -I../../../Source/System/Action  -I../../../Source/System/Cluster/Base  -I../../../Source/System/Cluster/Server  -I../../../Source/System/Cluster/Window/Base  -I../../../Source/System/Cluster/Window/MultiDisplay  -I../../../Source/System/Cluster/Window/SortFirst  -I../../../Source/System/Cluster/Window/SortLast  -I../../../Source/System/FieldContainer/Impl  -I../../../Source/System/FieldContainer  -I../../../Source/System/FileIO/3DS  -I../../../Source/System/FileIO/BIN  -I../../../Source/System/FileIO/Base  -I../../../Source/System/FileIO/DXF  -I../../../Source/System/FileIO/OBJ  -I../../../Source/System/FileIO/OFF  -I../../../Source/System/FileIO/OSG  -I../../../Source/System/FileIO/RAW  -I../../../Source/System/FileIO/SLP  -I../../../Source/System/FileIO/ScanParseSkel  -I../../../Source/System/FileIO/WRL  -I../../../Source/System/GraphOp  -I../../../Source/System/Image  -I../../../Source/System/Material  -I../../../Source/System/NodeCores/Drawables/Base  -I../../../Source/System/NodeCores/Drawables/Geometry  -I../../../Source/System/NodeCores/Drawables/Misc  -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal  -I../../../Source/System/NodeCores/Drawables/Nurbs  -I../../../Source/System/NodeCores/Drawables/Particles  -I../../../Source/System/NodeCores/Drawables/VolRen  -I../../../Source/System/NodeCores/Groups/Base  -I../../../Source/System/NodeCores/Groups/Light  -I../../../Source/System/NodeCores/Groups/Misc  -I../../../Source/System/RenderingBackend  -I../../../Source/System/State  -I../../../Source/System/Statistics  -I../../../Source/System/Window  /FD /c
+# ADD CPP -Qwd985 -Qwd530 -Qwd981 -Qwd193 -Qwd444 -Qwd279 -Qwe698  -Qwe47 -Qwe373 -Qwe373 -Qwe261 -DWIN32 -D_WINDOWS -DWINVER=0x0400 -D_WIN32_WINDOWS=0x0410 -D_WIN32_WINNT=0x0400 -D_OSG_HAVE_CONFIGURED_H_ -D__INTEL_COMPILER_VERSION=600  -DOSG_BUILD_DLL -Qvc6 -GX -Gi- -Qansi -Qoption,cpp,--new_for_init -GR -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd -DOSG_COMPILESYSTEMLIB -DOSG_WITH_GLUT -DOSG_WITH_QT -DOSG_WITH_TIF -DOSG_WITH_JPG -DOSG_WITH_PNG -DQT_NO_STL -DQT_DLL -DQT_THREAD_SUPPORT -DQT_ACCESSIBILITY_SUPPORT -DQT_NO_DEBUG -I.. -I.  -I../../../Source/BaseLib  -I../../../Source/Base/Base  -I../../../Source/Base/Field  -I../../../Source/Base/Functors  -I../../../Source/Base/Network/Base  -I../../../Source/Base/Network/Socket  -I../../../Source/Base/StringConversion  -I../../../Source/Base/Xml  -I../../../Source/Experimental/Manipulators  -I../../../Source/Experimental/NativeFileIO  -I../../../Source/Experimental/NewAction/Actors  -I../../../Source/Experimental/NewAction  -I../../../Source/Experimental/SHL  -I../../../Source/Experimental/ShadowMapViewport  -I../../../Source/Experimental/Text  -I../../../Source/Experimental/WebInterface  -I../../../Source/System/Action/DrawAction  -I../../../Source/System/Action/IntersectAction  -I../../../Source/System/Action/RenderAction  -I../../../Source/System/Action  -I../../../Source/System/Cluster/Base  -I../../../Source/System/Cluster/Server  -I../../../Source/System/Cluster/Window/BalancedMultiWindow  -I../../../Source/System/Cluster/Window/Base  -I../../../Source/System/Cluster/Window/MultiDisplay  -I../../../Source/System/Cluster/Window/SortFirst  -I../../../Source/System/Cluster/Window/SortLast  -I../../../Source/System/FieldContainer/Impl  -I../../../Source/System/FieldContainer  -I../../../Source/System/FileIO/3DS  -I../../../Source/System/FileIO/BIN  -I../../../Source/System/FileIO/Base  -I../../../Source/System/FileIO/DXF  -I../../../Source/System/FileIO/OBJ  -I../../../Source/System/FileIO/OFF  -I../../../Source/System/FileIO/OSG  -I../../../Source/System/FileIO/RAW  -I../../../Source/System/FileIO/SLP  -I../../../Source/System/FileIO/ScanParseSkel  -I../../../Source/System/FileIO/WRL  -I../../../Source/System/GraphOp  -I../../../Source/System/Image  -I../../../Source/System/Material  -I../../../Source/System/NodeCores/Drawables/Base  -I../../../Source/System/NodeCores/Drawables/Geometry  -I../../../Source/System/NodeCores/Drawables/Misc  -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal  -I../../../Source/System/NodeCores/Drawables/Nurbs  -I../../../Source/System/NodeCores/Drawables/Particles  -I../../../Source/System/NodeCores/Drawables/VolRen  -I../../../Source/System/NodeCores/Groups/Base  -I../../../Source/System/NodeCores/Groups/Light  -I../../../Source/System/NodeCores/Groups/Misc  -I../../../Source/System/RenderingBackend  -I../../../Source/System/State  -I../../../Source/System/Statistics  -I../../../Source/System/Text  -I../../../Source/System/Window  /FD /c
 # SUBTRACT CPP 
 # ADD BASE MTL /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /D "_DEBUG" /mktyplib203 /win32
@@ -81,7 +81,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=xilink6.exe
 # ADD BASE LINK32           
-# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmdd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystemD.dll
+# ADD LINK32 user32.lib kernel32.lib MSVCPRTD.lib MSVCRTD.lib libmmdd.lib winmm.lib wsock32.lib  opengl32.lib glu32.lib gdi32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib -NODEFAULTLIB -dll -map -Debug -out:..\lib\dbg\OSGSystem.dll
       
 
 !ENDIF 
@@ -94,6 +94,84 @@ LINK32=xilink6.exe
 # Begin Group "Header Files"
 # PROP Default_Filter "h;hpp;hxx;hm"
 
+# Begin Group "SourceExperimentalManipulators h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGExternalUpdateHandler.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorManager.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulator.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGSimpleGeometryExt.h
+# End Source File
+
+# End Group
 # Begin Group "SourceExperimentalNativeFileIO h"
 # PROP Default_Filter ""
 
@@ -388,6 +466,21 @@ SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealBase.h
 
 # Begin Source File
 SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterString.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringFields.h
 # End Source File
 
 
@@ -713,6 +806,24 @@ SOURCE=../../../Source/System/Cluster/Server/OSGClusterServer.h
 # End Source File
 
 # End Group
+# Begin Group "SourceSystemClusterWindowBalancedMultiWindow h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowFields.h
+# End Source File
+
+# End Group
 # Begin Group "SourceSystemClusterWindowBase h"
 # PROP Default_Filter ""
 
@@ -728,6 +839,21 @@ SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationFields.h
 # End Source File
 
 
@@ -1398,6 +1524,11 @@ SOURCE=../../../Source/System/FileIO/WRL/OSGVRMLWriteAction.h
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGGeoTypeGraphOp.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGGraphOp.h
 # End Source File
 
@@ -1409,6 +1540,11 @@ SOURCE=../../../Source/System/GraphOp/OSGGraphOpFactory.h
 
 # Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGGraphOpSeq.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGMakeTransparentGraphOp.h
 # End Source File
 
 
@@ -1449,6 +1585,11 @@ SOURCE=../../../Source/System/GraphOp/OSGStripeGraphOp.h
 
 # Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGVerifyGeoGraphOp.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGVerifyGraphOp.h
 # End Source File
 
 # End Group
@@ -1492,6 +1633,11 @@ SOURCE=../../../Source/System/Image/OSGImageFileHandler.h
 
 # Begin Source File
 SOURCE=../../../Source/System/Image/OSGImageFileType.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Image/OSGImageFunctions.h
 # End Source File
 
 
@@ -1594,6 +1740,21 @@ SOURCE=../../../Source/System/Material/OSGMaterialFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterial.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Material/OSGPhongMaterial.h
 # End Source File
 
@@ -1673,6 +1834,11 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Base/OSGMaterialDrawableFields
 # End Group
 # Begin Group "SourceSystemNodeCoresDrawablesGeometry h"
 # PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.h
+# End Source File
+
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.h
@@ -1801,6 +1967,16 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.h
 # End Source File
 
 
@@ -2306,6 +2482,21 @@ SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightBase.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightFields.h
 # End Source File
 
@@ -2434,6 +2625,21 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialGroupFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroup.h
 # End Source File
 
@@ -2445,6 +2651,21 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupFields.h
 # End Source File
 
 
@@ -2525,6 +2746,21 @@ SOURCE=../../../Source/System/State/OSGClipPlaneChunkFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunk.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunk.h
 # End Source File
 
@@ -2536,6 +2772,21 @@ SOURCE=../../../Source/System/State/OSGCubeTextureChunkBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunkFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunk.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkFields.h
 # End Source File
 
 
@@ -2690,6 +2941,21 @@ SOURCE=../../../Source/System/State/OSGStateFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunk.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGTestCubeMaps.h
 # End Source File
 
@@ -2751,6 +3017,21 @@ SOURCE=../../../Source/System/State/OSGTransformChunkBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGTransformChunkFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunk.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkFields.h
 # End Source File
 
 
@@ -2838,6 +3119,11 @@ SOURCE=../../../Source/System/Statistics/OSGStatIntElem.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Statistics/OSGStatIntOnceElem.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatRealElem.h
 # End Source File
 
@@ -2869,6 +3155,89 @@ SOURCE=../../../Source/System/Statistics/OSGStatisticsForegroundBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatisticsForegroundFields.h
+# End Source File
+
+# End Group
+# Begin Group "SourceSystemText h"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextBackend.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFT2Backend.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFace.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFaceFactory.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextGlyph.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutParam.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutResult.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextMacBackend.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapFace.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapGlyph.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFFace.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFGlyph.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFParam.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorFace.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorGlyph.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextWIN32Backend.h
 # End Source File
 
 # End Group
@@ -2932,6 +3301,21 @@ SOURCE=../../../Source/System/Window/OSGColorBufferViewportBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGColorBufferViewportFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackground.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundFields.h
 # End Source File
 
 
@@ -3071,6 +3455,21 @@ SOURCE=../../../Source/System/Window/OSGNavigator.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCamera.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraFields.h
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGPassiveBackground.h
 # End Source File
 
@@ -3127,6 +3526,21 @@ SOURCE=../../../Source/System/Window/OSGPerspectiveCameraBase.h
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGPerspectiveCameraFields.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackground.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundBase.h
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundFields.h
 # End Source File
 
 
@@ -3352,6 +3766,49 @@ SOURCE=../../../Source/System/Window/OSGWindowFields.h
 # Begin Group "Inline Files"
 # PROP Default_Filter "inl"
 
+# Begin Group "SourceExperimentalManipulators inl"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulator.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulator.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulator.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulator.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.inl
+# End Source File
+
+# End Group
 # Begin Group "SourceExperimentalNativeFileIO inl"
 # PROP Default_Filter ""
 # End Group
@@ -3550,6 +4007,16 @@ SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterString.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterVec2f.inl
 # End Source File
 
@@ -3706,6 +4173,19 @@ SOURCE=../../../Source/System/Cluster/Server/OSGClusterServer.inl
 # End Source File
 
 # End Group
+# Begin Group "SourceSystemClusterWindowBalancedMultiWindow inl"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.inl
+# End Source File
+
+# End Group
 # Begin Group "SourceSystemClusterWindowBase inl"
 # PROP Default_Filter ""
 
@@ -3716,6 +4196,16 @@ SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindow.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.inl
 # End Source File
 
 
@@ -3902,6 +4392,11 @@ SOURCE=../../../Source/System/FieldContainer/Impl/OSGNodePtrImpl.inl
 # End Group
 # Begin Group "SourceSystemFileIOBase inl"
 # PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/FileIO/Base/OSGZStream.inl
+# End Source File
+
 # End Group
 # Begin Group "SourceSystemFileIODXF inl"
 # PROP Default_Filter ""
@@ -3967,6 +4462,11 @@ SOURCE=../../../Source/System/Image/OSGImage.inl
 SOURCE=../../../Source/System/Image/OSGImageBase.inl
 # End Source File
 
+
+# Begin Source File
+SOURCE=../../../Source/System/Image/OSGImageFunctions.inl
+# End Source File
+
 # End Group
 # Begin Group "SourceSystemMaterial inl"
 # PROP Default_Filter ""
@@ -3998,6 +4498,16 @@ SOURCE=../../../Source/System/Material/OSGMaterial.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/Material/OSGMaterialBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterial.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialBase.inl
 # End Source File
 
 
@@ -4058,6 +4568,16 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Base/OSGMaterialDrawableBase.i
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGFaceIterator.inl
 # End Source File
 
@@ -4109,6 +4629,16 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometry.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.inl
 # End Source File
 
 
@@ -4359,6 +4889,16 @@ SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGPointLight.inl
 # End Source File
 
@@ -4442,12 +4982,32 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialGroupBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroup.inl
 # End Source File
 
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.inl
 # End Source File
 
 
@@ -4508,12 +5068,32 @@ SOURCE=../../../Source/System/State/OSGClipPlaneChunkBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunk.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunk.inl
 # End Source File
 
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunkBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunk.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkBase.inl
 # End Source File
 
 
@@ -4618,6 +5198,16 @@ SOURCE=../../../Source/System/State/OSGStateChunkBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunk.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGTexGenChunk.inl
 # End Source File
 
@@ -4654,6 +5244,16 @@ SOURCE=../../../Source/System/State/OSGTransformChunk.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGTransformChunkBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunk.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkBase.inl
 # End Source File
 
 
@@ -4711,6 +5311,11 @@ SOURCE=../../../Source/System/Statistics/OSGStatIntElem.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Statistics/OSGStatIntOnceElem.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatRealElem.inl
 # End Source File
 
@@ -4732,6 +5337,89 @@ SOURCE=../../../Source/System/Statistics/OSGStatisticsForeground.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatisticsForegroundBase.inl
+# End Source File
+
+# End Group
+# Begin Group "SourceSystemText inl"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextBackend.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFT2Backend.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFace.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFaceFactory.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextGlyph.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutParam.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutResult.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextMacBackend.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapFace.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapGlyph.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFFace.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFGlyph.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFParam.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorFace.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorGlyph.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextWIN32Backend.inl
 # End Source File
 
 # End Group
@@ -4775,6 +5463,16 @@ SOURCE=../../../Source/System/Window/OSGColorBufferViewport.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGColorBufferViewportBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackground.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundBase.inl
 # End Source File
 
 
@@ -4859,6 +5557,16 @@ SOURCE=../../../Source/System/Window/OSGMatrixCameraDecoratorBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCamera.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.inl
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGPassiveBackground.inl
 # End Source File
 
@@ -4895,6 +5603,16 @@ SOURCE=../../../Source/System/Window/OSGPerspectiveCamera.inl
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGPerspectiveCameraBase.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackground.inl
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundBase.inl
 # End Source File
 
 
@@ -5040,6 +5758,59 @@ SOURCE=../../../Source/System/Window/OSGWindowBase.inl
 # Begin Group "Source Files"
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 
+# Begin Group "SourceExperimentalManipulators cpp"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulator.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorManager.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulator.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulator.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulator.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGSimpleGeometryExt.cpp
+# End Source File
+
+# End Group
 # Begin Group "SourceExperimentalNativeFileIO cpp"
 # PROP Default_Filter ""
 
@@ -5279,6 +6050,16 @@ SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterReal.cpp
 
 # Begin Source File
 SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterString.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringBase.cpp
 # End Source File
 
 
@@ -5564,6 +6345,19 @@ SOURCE=../../../Source/System/Cluster/Server/OSGClusterServer.cpp
 # End Source File
 
 # End Group
+# Begin Group "SourceSystemClusterWindowBalancedMultiWindow cpp"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.cpp
+# End Source File
+
+# End Group
 # Begin Group "SourceSystemClusterWindowBase cpp"
 # PROP Default_Filter ""
 
@@ -5574,6 +6368,16 @@ SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindow.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.cpp
 # End Source File
 
 
@@ -5959,6 +6763,11 @@ SOURCE=../../../Source/System/FileIO/WRL/OSGVRMLWriteAction.cpp
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGGeoTypeGraphOp.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGGraphOp.cpp
 # End Source File
 
@@ -5970,6 +6779,11 @@ SOURCE=../../../Source/System/GraphOp/OSGGraphOpFactory.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGGraphOpSeq.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGMakeTransparentGraphOp.cpp
 # End Source File
 
 
@@ -6005,6 +6819,11 @@ SOURCE=../../../Source/System/GraphOp/OSGStripeGraphOp.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGVerifyGeoGraphOp.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGVerifyGraphOp.cpp
 # End Source File
 
 # End Group
@@ -6043,6 +6862,11 @@ SOURCE=../../../Source/System/Image/OSGImageFileHandler.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/Image/OSGImageFileType.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Image/OSGImageFunctions.cpp
 # End Source File
 
 
@@ -6125,6 +6949,16 @@ SOURCE=../../../Source/System/Material/OSGMaterialBase.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterial.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Material/OSGPhongMaterial.cpp
 # End Source File
 
@@ -6179,6 +7013,11 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Base/OSGMaterialDrawableBase.c
 # End Group
 # Begin Group "SourceSystemNodeCoresDrawablesGeometry cpp"
 # PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.cpp
+# End Source File
+
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.cpp
@@ -6257,6 +7096,16 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometry.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.cpp
 # End Source File
 
 
@@ -6647,6 +7496,16 @@ SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightBase.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGPointLight.cpp
 # End Source File
 
@@ -6730,12 +7589,32 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialGroupBase.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroup.cpp
 # End Source File
 
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.cpp
 # End Source File
 
 
@@ -6796,12 +7675,32 @@ SOURCE=../../../Source/System/State/OSGClipPlaneChunkBase.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunk.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunk.cpp
 # End Source File
 
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunkBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunk.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkBase.cpp
 # End Source File
 
 
@@ -6906,6 +7805,16 @@ SOURCE=../../../Source/System/State/OSGStateChunkBase.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunk.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGTestCubeMaps.cpp
 # End Source File
 
@@ -6947,6 +7856,16 @@ SOURCE=../../../Source/System/State/OSGTransformChunk.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/State/OSGTransformChunkBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunk.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkBase.cpp
 # End Source File
 
 
@@ -7009,6 +7928,11 @@ SOURCE=../../../Source/System/Statistics/OSGStatIntElem.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Statistics/OSGStatIntOnceElem.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatRealElem.cpp
 # End Source File
 
@@ -7035,6 +7959,89 @@ SOURCE=../../../Source/System/Statistics/OSGStatisticsForeground.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatisticsForegroundBase.cpp
+# End Source File
+
+# End Group
+# Begin Group "SourceSystemText cpp"
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextBackend.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFT2Backend.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFace.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFaceFactory.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextGlyph.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutParam.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutResult.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextMacBackend.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapFace.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapGlyph.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFFace.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFGlyph.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFParam.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorFace.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorGlyph.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextWIN32Backend.cpp
 # End Source File
 
 # End Group
@@ -7078,6 +8085,16 @@ SOURCE=../../../Source/System/Window/OSGColorBufferViewport.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGColorBufferViewportBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackground.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundBase.cpp
 # End Source File
 
 
@@ -7177,6 +8194,16 @@ SOURCE=../../../Source/System/Window/OSGNavigator.cpp
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCamera.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.cpp
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGPassiveBackground.cpp
 # End Source File
 
@@ -7213,6 +8240,16 @@ SOURCE=../../../Source/System/Window/OSGPerspectiveCamera.cpp
 
 # Begin Source File
 SOURCE=../../../Source/System/Window/OSGPerspectiveCameraBase.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackground.cpp
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundBase.cpp
 # End Source File
 
 
@@ -7371,6 +8408,9 @@ SOURCE=../../../Source/System/Window/OSGWindowBase.cpp
 # Begin Group "Scan/Parse Files"
 # PROP Default_Filter "y;l"
 
+# Begin Group "SourceExperimentalManipulators ly"
+# PROP Default_Filter ""
+# End Group
 # Begin Group "SourceExperimentalNativeFileIO ly"
 # PROP Default_Filter ""
 # End Group
@@ -7408,6 +8448,9 @@ SOURCE=../../../Source/System/Window/OSGWindowBase.cpp
 # PROP Default_Filter ""
 # End Group
 # Begin Group "SourceSystemClusterServer ly"
+# PROP Default_Filter ""
+# End Group
+# Begin Group "SourceSystemClusterWindowBalancedMultiWindow ly"
 # PROP Default_Filter ""
 # End Group
 # Begin Group "SourceSystemClusterWindowBase ly"
@@ -7561,6 +8604,9 @@ BuildCmds= \
 # Begin Group "SourceSystemStatistics ly"
 # PROP Default_Filter ""
 # End Group
+# Begin Group "SourceSystemText ly"
+# PROP Default_Filter ""
+# End Group
 # Begin Group "SourceSystemWindow ly"
 # PROP Default_Filter ""
 # End Group
@@ -7576,6 +8622,446 @@ BuildCmds= \
 # Begin Group "Header Install"
 # PROP Default_Filter "h;hpp;hxx;hm"
 
+# Begin Group "SourceExperimentalManipulators Install "
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGExternalUpdateHandler.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGExternalUpdateHandler.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGExternalUpdateHandler.h > ../include/OpenSG/OSGExternalUpdateHandler.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulator.h > ../include/OpenSG/OSGManipulator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulatorBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulatorBase.h > ../include/OpenSG/OSGManipulatorBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulatorFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulatorFields.h > ../include/OpenSG/OSGManipulatorFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorManager.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulatorManager.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulatorManager.h > ../include/OpenSG/OSGManipulatorManager.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMoveManipulator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGMoveManipulator.h > ../include/OpenSG/OSGMoveManipulator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMoveManipulatorBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.h > ../include/OpenSG/OSGMoveManipulatorBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMoveManipulatorFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGMoveManipulatorFields.h > ../include/OpenSG/OSGMoveManipulatorFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGRotateManipulator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGRotateManipulator.h > ../include/OpenSG/OSGRotateManipulator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGRotateManipulatorBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.h > ../include/OpenSG/OSGRotateManipulatorBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGRotateManipulatorFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGRotateManipulatorFields.h > ../include/OpenSG/OSGRotateManipulatorFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGScaleManipulator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGScaleManipulator.h > ../include/OpenSG/OSGScaleManipulator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGScaleManipulatorBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.h > ../include/OpenSG/OSGScaleManipulatorBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGScaleManipulatorFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGScaleManipulatorFields.h > ../include/OpenSG/OSGScaleManipulatorFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGSimpleGeometryExt.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGSimpleGeometryExt.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGSimpleGeometryExt.h > ../include/OpenSG/OSGSimpleGeometryExt.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulator.inl > ../include/OpenSG/OSGManipulator.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGManipulatorBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGManipulatorBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGManipulatorBase.inl > ../include/OpenSG/OSGManipulatorBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMoveManipulator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGMoveManipulator.inl > ../include/OpenSG/OSGMoveManipulator.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMoveManipulatorBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGMoveManipulatorBase.inl > ../include/OpenSG/OSGMoveManipulatorBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGRotateManipulator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGRotateManipulator.inl > ../include/OpenSG/OSGRotateManipulator.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGRotateManipulatorBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGRotateManipulatorBase.inl > ../include/OpenSG/OSGRotateManipulatorBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGScaleManipulator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGScaleManipulator.inl > ../include/OpenSG/OSGScaleManipulator.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGScaleManipulatorBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/Manipulators/OSGScaleManipulatorBase.inl > ../include/OpenSG/OSGScaleManipulatorBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+# End Group
 # Begin Group "SourceExperimentalNativeFileIO Install "
 # PROP Default_Filter ""
 
@@ -9014,6 +10500,63 @@ SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterString.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGShaderParameterString.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterString.h > ../include/OpenSG/OSGShaderParameterString.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGShaderParameterStringBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterStringBase.h > ../include/OpenSG/OSGShaderParameterStringBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGShaderParameterStringFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterStringFields.h > ../include/OpenSG/OSGShaderParameterStringFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterVec2f.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -9537,6 +11080,44 @@ SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterRealBase.inl
 
 "../include/OpenSG/OSGShaderParameterRealBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterRealBase.inl > ../include/OpenSG/OSGShaderParameterRealBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterString.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGShaderParameterString.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterString.inl > ../include/OpenSG/OSGShaderParameterString.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/Experimental/SHL/OSGShaderParameterStringBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGShaderParameterStringBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/Experimental/SHL/OSGShaderParameterStringBase.inl > ../include/OpenSG/OSGShaderParameterStringBase.inl
 
 # End Custom Build
 
@@ -11016,6 +12597,104 @@ SOURCE=../../../Source/System/Cluster/Server/OSGClusterServer.inl
 # End Source File
 
 # End Group
+# Begin Group "SourceSystemClusterWindowBalancedMultiWindow Install "
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGBalancedMultiWindow.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.h > ../include/OpenSG/OSGBalancedMultiWindow.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGBalancedMultiWindowBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.h > ../include/OpenSG/OSGBalancedMultiWindowBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGBalancedMultiWindowFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowFields.h > ../include/OpenSG/OSGBalancedMultiWindowFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGBalancedMultiWindow.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindow.inl > ../include/OpenSG/OSGBalancedMultiWindow.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGBalancedMultiWindowBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/BalancedMultiWindow/OSGBalancedMultiWindowBase.inl > ../include/OpenSG/OSGBalancedMultiWindowBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+# End Group
 # Begin Group "SourceSystemClusterWindowBase Install "
 # PROP Default_Filter ""
 
@@ -11068,6 +12747,63 @@ SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowFields.h
 
 "../include/OpenSG/OSGClusterWindowFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGClusterWindowFields.h > ../include/OpenSG/OSGClusterWindowFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDisplayCalibration.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.h > ../include/OpenSG/OSGDisplayCalibration.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDisplayCalibrationBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.h > ../include/OpenSG/OSGDisplayCalibrationBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDisplayCalibrationFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationFields.h > ../include/OpenSG/OSGDisplayCalibrationFields.h
 
 # End Custom Build
 
@@ -11163,6 +12899,44 @@ SOURCE=../../../Source/System/Cluster/Window/Base/OSGClusterWindowBase.inl
 
 "../include/OpenSG/OSGClusterWindowBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGClusterWindowBase.inl > ../include/OpenSG/OSGClusterWindowBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDisplayCalibration.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGDisplayCalibration.inl > ../include/OpenSG/OSGDisplayCalibration.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDisplayCalibrationBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Cluster/Window/Base/OSGDisplayCalibrationBase.inl > ../include/OpenSG/OSGDisplayCalibrationBase.inl
 
 # End Custom Build
 
@@ -13455,6 +15229,25 @@ SOURCE=../../../Source/System/FileIO/Base/OSGZStream.h
 
 # End Source File
 
+
+# Begin Source File
+SOURCE=../../../Source/System/FileIO/Base/OSGZStream.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGZStream.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/FileIO/Base/OSGZStream.inl > ../include/OpenSG/OSGZStream.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
 # End Group
 # Begin Group "SourceSystemFileIODXF Install "
 # PROP Default_Filter ""
@@ -14187,6 +15980,25 @@ SOURCE=../../../Source/System/FileIO/WRL/OSGVRMLWriteAction.inl
 # PROP Default_Filter ""
 
 # Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGGeoTypeGraphOp.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGGeoTypeGraphOp.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/GraphOp/OSGGeoTypeGraphOp.h > ../include/OpenSG/OSGGeoTypeGraphOp.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/GraphOp/OSGGraphOp.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -14235,6 +16047,25 @@ SOURCE=../../../Source/System/GraphOp/OSGGraphOpSeq.h
 
 "../include/OpenSG/OSGGraphOpSeq.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/GraphOp/OSGGraphOpSeq.h > ../include/OpenSG/OSGGraphOpSeq.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGMakeTransparentGraphOp.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMakeTransparentGraphOp.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/GraphOp/OSGMakeTransparentGraphOp.h > ../include/OpenSG/OSGMakeTransparentGraphOp.h
 
 # End Custom Build
 
@@ -14387,6 +16218,25 @@ SOURCE=../../../Source/System/GraphOp/OSGVerifyGeoGraphOp.h
 
 "../include/OpenSG/OSGVerifyGeoGraphOp.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/GraphOp/OSGVerifyGeoGraphOp.h > ../include/OpenSG/OSGVerifyGeoGraphOp.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/GraphOp/OSGVerifyGraphOp.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGVerifyGraphOp.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/GraphOp/OSGVerifyGraphOp.h > ../include/OpenSG/OSGVerifyGraphOp.h
 
 # End Custom Build
 
@@ -14561,6 +16411,25 @@ SOURCE=../../../Source/System/Image/OSGImageFileType.h
 
 "../include/OpenSG/OSGImageFileType.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Image/OSGImageFileType.h > ../include/OpenSG/OSGImageFileType.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Image/OSGImageFunctions.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGImageFunctions.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Image/OSGImageFunctions.h > ../include/OpenSG/OSGImageFunctions.h
 
 # End Custom Build
 
@@ -14796,6 +16665,25 @@ SOURCE=../../../Source/System/Image/OSGImageBase.inl
 
 # End Source File
 
+
+# Begin Source File
+SOURCE=../../../Source/System/Image/OSGImageFunctions.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGImageFunctions.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Image/OSGImageFunctions.inl > ../include/OpenSG/OSGImageFunctions.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
 # End Group
 # Begin Group "SourceSystemMaterial Install "
 # PROP Default_Filter ""
@@ -14963,6 +16851,63 @@ SOURCE=../../../Source/System/Material/OSGMaterialFields.h
 
 "../include/OpenSG/OSGMaterialFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMaterialFields.h > ../include/OpenSG/OSGMaterialFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterial.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMultiPassMaterial.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMultiPassMaterial.h > ../include/OpenSG/OSGMultiPassMaterial.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMultiPassMaterialBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMultiPassMaterialBase.h > ../include/OpenSG/OSGMultiPassMaterialBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMultiPassMaterialFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMultiPassMaterialFields.h > ../include/OpenSG/OSGMultiPassMaterialFields.h
 
 # End Custom Build
 
@@ -15248,6 +17193,44 @@ SOURCE=../../../Source/System/Material/OSGMaterialBase.inl
 
 "../include/OpenSG/OSGMaterialBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMaterialBase.inl > ../include/OpenSG/OSGMaterialBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterial.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMultiPassMaterial.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMultiPassMaterial.inl > ../include/OpenSG/OSGMultiPassMaterial.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Material/OSGMultiPassMaterialBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMultiPassMaterialBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Material/OSGMultiPassMaterialBase.inl > ../include/OpenSG/OSGMultiPassMaterialBase.inl
 
 # End Custom Build
 
@@ -15565,6 +17548,25 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Base/OSGMaterialDrawableBase.i
 # End Group
 # Begin Group "SourceSystemNodeCoresDrawablesGeometry Install "
 # PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGEdgeIterator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.h > ../include/OpenSG/OSGEdgeIterator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
 
 # Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.h
@@ -16061,6 +18063,44 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGHalfEdgeGraph.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.h > ../include/OpenSG/OSGHalfEdgeGraph.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLineIterator.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.h > ../include/OpenSG/OSGLineIterator.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGNodeGraph.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -16147,6 +18187,44 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGVolumeDraw.h
 
 "../include/OpenSG/OSGVolumeDraw.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGVolumeDraw.h > ../include/OpenSG/OSGVolumeDraw.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGEdgeIterator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGEdgeIterator.inl > ../include/OpenSG/OSGEdgeIterator.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGExtrusionGeometry.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGExtrusionGeometry.inl > ../include/OpenSG/OSGExtrusionGeometry.inl
 
 # End Custom Build
 
@@ -16356,6 +18434,44 @@ SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryBase.inl
 
 "../include/OpenSG/OSGGeometryBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGGeometryBase.inl > ../include/OpenSG/OSGGeometryBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGHalfEdgeGraph.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGHalfEdgeGraph.inl > ../include/OpenSG/OSGHalfEdgeGraph.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLineIterator.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Drawables/Geometry/OSGLineIterator.inl > ../include/OpenSG/OSGLineIterator.inl
 
 # End Custom Build
 
@@ -18894,6 +21010,63 @@ SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightBase.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLightEnv.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.h > ../include/OpenSG/OSGLightEnv.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLightEnvBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.h > ../include/OpenSG/OSGLightEnvBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLightEnvFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightEnvFields.h > ../include/OpenSG/OSGLightEnvFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightFields.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -19094,6 +21267,44 @@ SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightBase.inl
 
 "../include/OpenSG/OSGLightBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightBase.inl > ../include/OpenSG/OSGLightBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLightEnv.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightEnv.inl > ../include/OpenSG/OSGLightEnv.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGLightEnvBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Light/OSGLightEnvBase.inl > ../include/OpenSG/OSGLightEnvBase.inl
 
 # End Custom Build
 
@@ -19524,6 +21735,63 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialGroupFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMaterialPool.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.h > ../include/OpenSG/OSGMaterialPool.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMaterialPoolBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.h > ../include/OpenSG/OSGMaterialPoolBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMaterialPoolFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolFields.h > ../include/OpenSG/OSGMaterialPoolFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroup.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -19572,6 +21840,63 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupFields.h
 
 "../include/OpenSG/OSGProxyGroupFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupFields.h > ../include/OpenSG/OSGProxyGroupFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStateSortingGroup.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.h > ../include/OpenSG/OSGStateSortingGroup.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStateSortingGroupBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.h > ../include/OpenSG/OSGStateSortingGroupBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStateSortingGroupFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupFields.h > ../include/OpenSG/OSGStateSortingGroupFields.h
 
 # End Custom Build
 
@@ -19923,6 +22248,44 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialGroupBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMaterialPool.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPool.inl > ../include/OpenSG/OSGMaterialPool.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGMaterialPoolBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGMaterialPoolBase.inl > ../include/OpenSG/OSGMaterialPoolBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroup.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -19952,6 +22315,44 @@ SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupBase.inl
 
 "../include/OpenSG/OSGProxyGroupBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGProxyGroupBase.inl > ../include/OpenSG/OSGProxyGroupBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStateSortingGroup.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroup.inl > ../include/OpenSG/OSGStateSortingGroup.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStateSortingGroupBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/NodeCores/Groups/Misc/OSGStateSortingGroupBase.inl > ../include/OpenSG/OSGStateSortingGroupBase.inl
 
 # End Custom Build
 
@@ -20233,6 +22634,63 @@ SOURCE=../../../Source/System/State/OSGClipPlaneChunkFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunk.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGColorMaskChunk.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGColorMaskChunk.h > ../include/OpenSG/OSGColorMaskChunk.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGColorMaskChunkBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGColorMaskChunkBase.h > ../include/OpenSG/OSGColorMaskChunkBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGColorMaskChunkFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGColorMaskChunkFields.h > ../include/OpenSG/OSGColorMaskChunkFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunk.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -20281,6 +22739,63 @@ SOURCE=../../../Source/System/State/OSGCubeTextureChunkFields.h
 
 "../include/OpenSG/OSGCubeTextureChunkFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGCubeTextureChunkFields.h > ../include/OpenSG/OSGCubeTextureChunkFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunk.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthChunk.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGDepthChunk.h > ../include/OpenSG/OSGDepthChunk.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthChunkBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGDepthChunkBase.h > ../include/OpenSG/OSGDepthChunkBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthChunkFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGDepthChunkFields.h > ../include/OpenSG/OSGDepthChunkFields.h
 
 # End Custom Build
 
@@ -20860,6 +23375,63 @@ SOURCE=../../../Source/System/State/OSGStateFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunk.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStencilChunk.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGStencilChunk.h > ../include/OpenSG/OSGStencilChunk.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStencilChunkBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGStencilChunkBase.h > ../include/OpenSG/OSGStencilChunkBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStencilChunkFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGStencilChunkFields.h > ../include/OpenSG/OSGStencilChunkFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGTestCubeMaps.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -21107,6 +23679,63 @@ SOURCE=../../../Source/System/State/OSGTransformChunkFields.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunk.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTwoSidedLightingChunk.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTwoSidedLightingChunk.h > ../include/OpenSG/OSGTwoSidedLightingChunk.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTwoSidedLightingChunkBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTwoSidedLightingChunkBase.h > ../include/OpenSG/OSGTwoSidedLightingChunkBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTwoSidedLightingChunkFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTwoSidedLightingChunkFields.h > ../include/OpenSG/OSGTwoSidedLightingChunkFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGVertexProgramChunk.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -21240,6 +23869,44 @@ SOURCE=../../../Source/System/State/OSGClipPlaneChunkBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunk.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGColorMaskChunk.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGColorMaskChunk.inl > ../include/OpenSG/OSGColorMaskChunk.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGColorMaskChunkBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGColorMaskChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGColorMaskChunkBase.inl > ../include/OpenSG/OSGColorMaskChunkBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGCubeTextureChunk.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -21269,6 +23936,44 @@ SOURCE=../../../Source/System/State/OSGCubeTextureChunkBase.inl
 
 "../include/OpenSG/OSGCubeTextureChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGCubeTextureChunkBase.inl > ../include/OpenSG/OSGCubeTextureChunkBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunk.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthChunk.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGDepthChunk.inl > ../include/OpenSG/OSGDepthChunk.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGDepthChunkBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGDepthChunkBase.inl > ../include/OpenSG/OSGDepthChunkBase.inl
 
 # End Custom Build
 
@@ -21658,6 +24363,44 @@ SOURCE=../../../Source/System/State/OSGStateChunkBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunk.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStencilChunk.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGStencilChunk.inl > ../include/OpenSG/OSGStencilChunk.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGStencilChunkBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStencilChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGStencilChunkBase.inl > ../include/OpenSG/OSGStencilChunkBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/State/OSGTexGenChunk.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -21801,6 +24544,44 @@ SOURCE=../../../Source/System/State/OSGTransformChunkBase.inl
 
 "../include/OpenSG/OSGTransformChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTransformChunkBase.inl > ../include/OpenSG/OSGTransformChunkBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunk.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTwoSidedLightingChunk.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTwoSidedLightingChunk.inl > ../include/OpenSG/OSGTwoSidedLightingChunk.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/State/OSGTwoSidedLightingChunkBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTwoSidedLightingChunkBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/State/OSGTwoSidedLightingChunkBase.inl > ../include/OpenSG/OSGTwoSidedLightingChunkBase.inl
 
 # End Custom Build
 
@@ -22098,6 +24879,25 @@ SOURCE=../../../Source/System/Statistics/OSGStatIntElem.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Statistics/OSGStatIntOnceElem.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStatIntOnceElem.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Statistics/OSGStatIntOnceElem.h > ../include/OpenSG/OSGStatIntOnceElem.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatRealElem.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -22383,6 +25183,25 @@ SOURCE=../../../Source/System/Statistics/OSGStatIntElem.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Statistics/OSGStatIntOnceElem.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGStatIntOnceElem.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Statistics/OSGStatIntOnceElem.inl > ../include/OpenSG/OSGStatIntOnceElem.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Statistics/OSGStatRealElem.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -22469,6 +25288,617 @@ SOURCE=../../../Source/System/Statistics/OSGStatisticsForegroundBase.inl
 
 "../include/OpenSG/OSGStatisticsForegroundBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Statistics/OSGStatisticsForegroundBase.inl > ../include/OpenSG/OSGStatisticsForegroundBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+# End Group
+# Begin Group "SourceSystemText Install "
+# PROP Default_Filter ""
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextBackend.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextBackend.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextBackend.h > ../include/OpenSG/OSGTextBackend.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFT2Backend.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFT2Backend.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFT2Backend.h > ../include/OpenSG/OSGTextFT2Backend.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFace.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFace.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFace.h > ../include/OpenSG/OSGTextFace.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFaceFactory.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFaceFactory.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFaceFactory.h > ../include/OpenSG/OSGTextFaceFactory.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextGlyph.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextGlyph.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextGlyph.h > ../include/OpenSG/OSGTextGlyph.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutParam.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextLayoutParam.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextLayoutParam.h > ../include/OpenSG/OSGTextLayoutParam.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutResult.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextLayoutResult.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextLayoutResult.h > ../include/OpenSG/OSGTextLayoutResult.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextMacBackend.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextMacBackend.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextMacBackend.h > ../include/OpenSG/OSGTextMacBackend.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapFace.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextPixmapFace.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextPixmapFace.h > ../include/OpenSG/OSGTextPixmapFace.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapGlyph.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextPixmapGlyph.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextPixmapGlyph.h > ../include/OpenSG/OSGTextPixmapGlyph.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFFace.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFFace.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFFace.h > ../include/OpenSG/OSGTextTXFFace.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFGlyph.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFGlyph.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFGlyph.h > ../include/OpenSG/OSGTextTXFGlyph.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFParam.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFParam.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFParam.h > ../include/OpenSG/OSGTextTXFParam.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorFace.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextVectorFace.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextVectorFace.h > ../include/OpenSG/OSGTextVectorFace.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorGlyph.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextVectorGlyph.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextVectorGlyph.h > ../include/OpenSG/OSGTextVectorGlyph.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextWIN32Backend.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextWIN32Backend.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextWIN32Backend.h > ../include/OpenSG/OSGTextWIN32Backend.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextBackend.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextBackend.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextBackend.inl > ../include/OpenSG/OSGTextBackend.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFT2Backend.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFT2Backend.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFT2Backend.inl > ../include/OpenSG/OSGTextFT2Backend.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFace.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFace.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFace.inl > ../include/OpenSG/OSGTextFace.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextFaceFactory.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextFaceFactory.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextFaceFactory.inl > ../include/OpenSG/OSGTextFaceFactory.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextGlyph.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextGlyph.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextGlyph.inl > ../include/OpenSG/OSGTextGlyph.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutParam.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextLayoutParam.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextLayoutParam.inl > ../include/OpenSG/OSGTextLayoutParam.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextLayoutResult.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextLayoutResult.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextLayoutResult.inl > ../include/OpenSG/OSGTextLayoutResult.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextMacBackend.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextMacBackend.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextMacBackend.inl > ../include/OpenSG/OSGTextMacBackend.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapFace.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextPixmapFace.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextPixmapFace.inl > ../include/OpenSG/OSGTextPixmapFace.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextPixmapGlyph.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextPixmapGlyph.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextPixmapGlyph.inl > ../include/OpenSG/OSGTextPixmapGlyph.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFFace.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFFace.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFFace.inl > ../include/OpenSG/OSGTextTXFFace.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFGlyph.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFGlyph.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFGlyph.inl > ../include/OpenSG/OSGTextTXFGlyph.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextTXFParam.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextTXFParam.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextTXFParam.inl > ../include/OpenSG/OSGTextTXFParam.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorFace.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextVectorFace.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextVectorFace.inl > ../include/OpenSG/OSGTextVectorFace.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextVectorGlyph.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextVectorGlyph.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextVectorGlyph.inl > ../include/OpenSG/OSGTextVectorGlyph.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Text/OSGTextWIN32Backend.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGTextWIN32Backend.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Text/OSGTextWIN32Backend.inl > ../include/OpenSG/OSGTextWIN32Backend.inl
 
 # End Custom Build
 
@@ -22700,6 +26130,63 @@ SOURCE=../../../Source/System/Window/OSGColorBufferViewportFields.h
 
 "../include/OpenSG/OSGColorBufferViewportFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGColorBufferViewportFields.h > ../include/OpenSG/OSGColorBufferViewportFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackground.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthClearBackground.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGDepthClearBackground.h > ../include/OpenSG/OSGDepthClearBackground.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthClearBackgroundBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGDepthClearBackgroundBase.h > ../include/OpenSG/OSGDepthClearBackgroundBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthClearBackgroundFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGDepthClearBackgroundFields.h > ../include/OpenSG/OSGDepthClearBackgroundFields.h
 
 # End Custom Build
 
@@ -23222,6 +26709,63 @@ SOURCE=../../../Source/System/Window/OSGNavigator.h
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCamera.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGOffCenterPerspectiveCamera.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGOffCenterPerspectiveCamera.h > ../include/OpenSG/OSGOffCenterPerspectiveCamera.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGOffCenterPerspectiveCameraBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.h > ../include/OpenSG/OSGOffCenterPerspectiveCameraBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGOffCenterPerspectiveCameraFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGOffCenterPerspectiveCameraFields.h > ../include/OpenSG/OSGOffCenterPerspectiveCameraFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGPassiveBackground.h
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -23441,6 +26985,63 @@ SOURCE=../../../Source/System/Window/OSGPerspectiveCameraFields.h
 
 "../include/OpenSG/OSGPerspectiveCameraFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPerspectiveCameraFields.h > ../include/OpenSG/OSGPerspectiveCameraFields.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackground.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGPolygonBackground.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPolygonBackground.h > ../include/OpenSG/OSGPolygonBackground.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundBase.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGPolygonBackgroundBase.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPolygonBackgroundBase.h > ../include/OpenSG/OSGPolygonBackgroundBase.h
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundFields.h
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGPolygonBackgroundFields.h": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPolygonBackgroundFields.h > ../include/OpenSG/OSGPolygonBackgroundFields.h
 
 # End Custom Build
 
@@ -24419,6 +28020,44 @@ SOURCE=../../../Source/System/Window/OSGColorBufferViewportBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackground.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthClearBackground.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGDepthClearBackground.inl > ../include/OpenSG/OSGDepthClearBackground.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGDepthClearBackgroundBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGDepthClearBackgroundBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGDepthClearBackgroundBase.inl > ../include/OpenSG/OSGDepthClearBackgroundBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGFileGrabForeground.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -24723,6 +28362,44 @@ SOURCE=../../../Source/System/Window/OSGMatrixCameraDecoratorBase.inl
 
 
 # Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCamera.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGOffCenterPerspectiveCamera.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGOffCenterPerspectiveCamera.inl > ../include/OpenSG/OSGOffCenterPerspectiveCamera.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGOffCenterPerspectiveCameraBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.inl > ../include/OpenSG/OSGOffCenterPerspectiveCameraBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
 SOURCE=../../../Source/System/Window/OSGPassiveBackground.inl
 
 !IF  "$(CFG)" == "SystemLib - Win32 Release"
@@ -24866,6 +28543,44 @@ SOURCE=../../../Source/System/Window/OSGPerspectiveCameraBase.inl
 
 "../include/OpenSG/OSGPerspectiveCameraBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPerspectiveCameraBase.inl > ../include/OpenSG/OSGPerspectiveCameraBase.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackground.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGPolygonBackground.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPolygonBackground.inl > ../include/OpenSG/OSGPolygonBackground.inl
+
+# End Custom Build
+
+!ENDIF
+
+# End Source File
+
+
+# Begin Source File
+SOURCE=../../../Source/System/Window/OSGPolygonBackgroundBase.inl
+
+!IF  "$(CFG)" == "SystemLib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "SystemLib - Win32 Debug"
+
+# Begin Custom Build
+
+"../include/OpenSG/OSGPolygonBackgroundBase.inl": $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	sed.exe -e "s/include[ ]*<OSG/include <OpenSG\/OSG/g" -e "s/include[ ]*\"OSG/include \"OpenSG\/OSG/g" ../../../Source/System/Window/OSGPolygonBackgroundBase.inl > ../include/OpenSG/OSGPolygonBackgroundBase.inl
 
 # End Custom Build
 
