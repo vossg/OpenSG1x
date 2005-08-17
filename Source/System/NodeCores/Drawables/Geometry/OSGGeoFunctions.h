@@ -80,6 +80,20 @@ Int32                   setIndexFromVRMLData(GeometryPtr geo,
                                              bool faceSet         = true);
 
 OSG_SYSTEMLIB_DLLMAPPING 
+Int32                   setIndexFromIndexedX3DData ( GeometryPtr geo,
+                                                     std::vector<Int32> &coordIndex,
+                                                     std::vector<Int32> &normalIndex,
+                                                     std::vector<Int32> &colorIndex,
+                                                     std::vector<Int32> &texCoordIndex,
+                                                     Int32 primitiveType  = GL_POLYGON,
+                                                     bool  convex          = true,
+                                                     bool  ccw             = true,
+                                                     bool  normalPerVertex = true,
+                                                     bool  colorPerVertex  = true,
+                                                     bool  createNormal    = true );
+
+
+OSG_SYSTEMLIB_DLLMAPPING 
 Int32              createOptimizedPrimitives(GeometryPtr geo,
                                              UInt32 iteration       = 1,
                                              bool createStrips      = true,

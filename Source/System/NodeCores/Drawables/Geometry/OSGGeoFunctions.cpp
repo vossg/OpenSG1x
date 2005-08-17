@@ -916,7 +916,6 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
     }
 }
 
-
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
 
     setIndexFromVRMLData creates an osg::Geometry's interleaved index data
@@ -928,7 +927,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
     counter-clockwise or clockwise, \a normalPerVertex and \a colorPerVertex
     specify bindings, and \a faceSet defines whether a VRML IndexedFaceSet or
     an IndexedLineSet is being generated. See the VRML97 specification at
-    http://www.vrml.org/XXX for details.
+    http://www.web3d.org for details.
 
     Note: the \a convex and \a createNormals parameters are ignored right now!
 */
@@ -939,12 +938,58 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
                                 std::vector<Int32> &normalIndex,
                                 std::vector<Int32> &colorIndex,
                                 std::vector<Int32> &texCoordIndex,
-                                bool OSG_CHECK_ARG(convex), 
+                                bool convex, 
                                 bool ccw,
                                 bool normalPerVertex, 
                                 bool colorPerVertex,
-                                bool OSG_CHECK_ARG(createNormal), 
+                                bool createNormal, 
                                 bool faceSet)
+{
+  Int32 primitiveType = faceSet ? GL_POLYGON : GL_LINE;
+
+  return setIndexFromIndexedX3DData ( geoPtr,
+                                      coordIndex,
+                                      normalIndex,
+                                      colorIndex,
+                                      texCoordIndex,
+                                      primitiveType,
+                                      convex,
+                                      ccw,
+                                      normalPerVertex,
+                                      colorPerVertex,
+                                      createNormal );
+}
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
+    setIndexFromIndexedX3DData creates an osg::Geometry's interleaved index data
+    from X3D-style separate indices, see \ref PageSystemGeoFunctionsMakeGeo
+    for a description.
+    
+    The \a primitiveType defines the GL-Primtive (e.g. GL_LINE, GL_TRIANGLE_STRIP,
+    GL_POLYGON) which should be used.
+
+    \a coordIndex, \a normalIndex, \a colorIndex and \a texCoordIndex are
+    X3D-style indices. \a ccw sets whether poylgons are defined
+    counter-clockwise or clockwise, \a normalPerVertex and \a colorPerVertex
+    specify bindings. See the X3D specification at
+    http://www.web3d.org for details.
+
+    Note: the \a convex and \a createNormals parameters are ignored right now!
+*/
+
+OSG_SYSTEMLIB_DLLMAPPING 
+Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
+                                        std::vector<Int32> &coordIndex,
+                                        std::vector<Int32> &normalIndex,
+                                        std::vector<Int32> &colorIndex,
+                                        std::vector<Int32> &texCoordIndex,
+                                        Int32 primitiveType, 
+                                        bool OSG_CHECK_ARG(convex), 
+                                        bool ccw,
+                                        bool normalPerVertex, 
+                                        bool colorPerVertex,
+                                        bool OSG_CHECK_ARG(createNormal) )
 {
     /** define the bag type */
     typedef std::vector<Int32>  *IndexBagP;
@@ -964,7 +1009,6 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     };
 
     /** holds the Index types as str, mainly for log/debug outputs */
-#ifdef OSG_DEBUG
     static const char *indexTypeStr[] =
     {
         "UNKNOWN_IT",
@@ -977,7 +1021,6 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
         "PRIMITIVE_INDEX_IT",
         "PRIMITIVE_CREATE_IT"
     };
-#endif
     OSG::GeoPositionsPtr posPtr;
     OSG::GeoNormalsPtr normalPtr;
     OSG::GeoColorsPtr colorPtr;
@@ -986,10 +1029,11 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     OSG::GeoPTypesPtr geoTypePtr;
     OSG::GeoIndicesPtr indexPtr;
 
+    //bool faceSet = (primitiveType == GL_POLYGON);
     Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0;
     Int32 pType = 0, localPType;
-    Int32 maxPType = (faceSet ? 5 : 3);
-    Int32 minPType = (faceSet ? 3 : 2);
+    Int32 maxPType; //  = (faceSet ? 5 : 3);
+    Int32 minPType; //  = (faceSet ? 3 : 2);
     Int32 beginIndex, endIndex, step, len, sysPType = 0;
     Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
     Int32 pN = 0, nN = 0, cN = 0, tN = 0, tN1 = 0, tN2 = 0, tN3 = 0;
@@ -1015,6 +1059,56 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     // init
     coordIT = VERTEX_IT;
     indexMap[0] = Geometry::MapPosition;
+
+    //----------------------------------------------------------------------
+    // set maxPType and minPTypr from primitiveType
+    switch (primitiveType) {
+    case GL_POINTS:
+      minPType = 1;
+      maxPType = 1;
+      break;
+    case GL_LINES:
+      minPType = 2;
+      maxPType = 3;
+      break;
+    case GL_LINE_STRIP:
+      minPType = 2;
+      maxPType = 3;
+      break;
+    case GL_LINE_LOOP:
+      minPType = 2;
+      maxPType = 3;
+      break;
+    case GL_TRIANGLES:
+      minPType = 3;
+      maxPType = 3;
+      break;
+    case GL_TRIANGLE_STRIP:
+      minPType = 3;
+      maxPType = 3;
+      break;
+    case GL_TRIANGLE_FAN:
+      minPType = 3;
+      maxPType = 3;
+      break;
+    case GL_QUADS:
+      minPType = 3;
+      maxPType = 4;
+      break;
+    case GL_QUAD_STRIP:    
+      minPType = 3;
+      maxPType = 4;
+      break;
+    case GL_POLYGON:
+      minPType = 3;
+      maxPType = 5;
+      break;
+    default:
+      FFATAL (( "Can not fill index; Invalid primitiveType: %d\n",
+                primitiveType ));
+      break;
+    }
+      
 
     //----------------------------------------------------------------------
     // get the property pointer and element count
@@ -1266,24 +1360,16 @@ else
         textureIT = EMPTY_IT;
     }
 
-    if(faceSet)
-    {
-        FDEBUG(("primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d 4/%d poly/%d\n",
-                           primitiveN, primitiveTypeCount[0],
-                           primitiveTypeCount[1], primitiveTypeCount[2],
-                           primitiveTypeCount[3], primitiveTypeCount[4],
-                           primitiveTypeCount[5]));
-    }
-    else
-    {
-        FDEBUG(("primitiveN:  %d, 0/%d 1/%d 2/%d 3/%d\n", primitiveN,
-                           primitiveTypeCount[0], primitiveTypeCount[1],
-                           primitiveTypeCount[2], primitiveTypeCount[3]));
-    }
-
-    FDEBUG(("IndexType: coord: %s, color: %s, normal: %s, texture: %s \n",
-                   indexTypeStr[coordIT], indexTypeStr[colorIT], indexTypeStr[
-                   normalIT], indexTypeStr[textureIT]));
+    FNOTICE (( "primitiveN:  %d, %d, 0/%d 1/%d 2/%d 3/%d 4/%d 5/%d\n",
+            primitiveType,
+            primitiveN, primitiveTypeCount[0],
+            primitiveTypeCount[1], primitiveTypeCount[2],
+            primitiveTypeCount[3], primitiveTypeCount[4],
+            primitiveTypeCount[5]));
+    
+    FNOTICE (( "IndexType: coord: %s, color: %s, normal: %s, texture: %s \n",
+            indexTypeStr[coordIT], indexTypeStr[colorIT], 
+            indexTypeStr[normalIT], indexTypeStr[textureIT]));
 
     //----------------------------------------------------------------------
     // check/create the indexPtr/lengthsPtr/geoTypePtr
@@ -1437,25 +1523,29 @@ else
         if(primitiveTypeCount[pType])
         {
             // calc len/sysPType
-            if(faceSet)
+          
+            if(pType < maxPType)
             {
-                if(pType < 5)
+                len = primitiveTypeCount[pType] * pType;
+                switch (pType) 
                 {
-                    len = primitiveTypeCount[pType] * pType;
-                    sysPType = (pType == 3) ? GL_TRIANGLES : GL_QUADS;
+                  case 1:
+                    sysPType = GL_POINTS;
+                    break;
+                  case 2:
+                    sysPType = GL_LINES;
+                    break;
+                  case 3:
+                    sysPType = GL_TRIANGLES;
+                    break;
+                  case 4:
+                    sysPType = GL_QUADS;
+                    break;
                 }
-                else
-                    sysPType = 0;
             }
             else
             { 
-                if(pType == 2)
-                {
-                    len = primitiveTypeCount[pType] * pType;
-                    sysPType = GL_LINES;
-                }
-                else
-                    sysPType = 0;
+                sysPType = 0;
             }
 
             // set len/sysPType
@@ -1501,7 +1591,7 @@ else
                     {
                         if(len >= maxPType)
                         {
-                            sysPType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
+                            sysPType = primitiveType;
                             OSG::beginEditCP(lensPtr);
                             {
                                 lensPtr->push_back(len);
