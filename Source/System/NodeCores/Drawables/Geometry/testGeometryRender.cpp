@@ -249,13 +249,14 @@ int main (int argc, char **argv)
 //    g1->getIndexMapping().push_back( Geometry::MapColor );
 
 
+#if 1
     GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
 //    g1->setLengths( lens );
     beginEditCP(lens);
     lens->push_back( 4 );
     lens->push_back( 4 );
     endEditCP(lens);
-
+#endif
 
     GeoPTypesPtr type = GeoPTypesUI8::create();     
     g1->setTypes( type );

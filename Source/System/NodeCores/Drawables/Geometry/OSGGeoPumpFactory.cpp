@@ -664,14 +664,17 @@ void GeoPump128(Window   *win,
 
     UInt32 lendummy;
     UInt32 LengthsSize;
+    UInt32 LengthsFormatSize;
 
     if(LengthsPtr != NullFC && LengthsData != NULL)
     {
         LengthsSize = LengthsPtr->getSize();
+        LengthsFormatSize = LengthsPtr->getFormatSize();
     }
     else
     {
         LengthsSize = 1;
+        LengthsFormatSize =  4;
         LengthsData = (UChar8*) &lendummy;
         lendummy = PositionsPtr->getSize();
     }
@@ -679,7 +682,7 @@ void GeoPump128(Window   *win,
     UInt32 LengthsInd,TypesInd = 0;
     UInt32 first=0;
 
-    if(LengthsPtr->getFormatSize() == 4)
+    if(LengthsFormatSize == 4)
     {
         for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
         {
@@ -688,7 +691,7 @@ void GeoPump128(Window   *win,
             first+=count;
         }
     }
-    else if(LengthsPtr->getFormatSize() == 2)
+    else if(LengthsFormatSize == 2)
     {
         for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
         {
