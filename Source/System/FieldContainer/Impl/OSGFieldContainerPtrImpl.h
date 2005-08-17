@@ -801,10 +801,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CPEditor
  */
 
 #define CPEdit(fc, mask) \
- CPEditor CPEdit_##fc((fc),(mask))
+ ::OSG::CPEditor CPEdit_##fc((fc),(mask))
 
 #define CPEditAll(fc) \
- CPEditor CPEdit_##fc((fc))
+ ::OSG::CPEditor CPEdit_##fc((fc))
 
 #ifdef __sgi
 #pragma reset woff 1375
