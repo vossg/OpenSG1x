@@ -53,13 +53,13 @@ cat ${OPENSG_ROOT}/dist/opensg.spec |
 sed -e "s/%{version}/$VERSION/g"  -e "s/%{major}/$MAJOR/g" \
     -e "s/%{date}/$DATE/g"  -e "s/%{conf}/$CONF/g" \
     > ${RPMROOT}/SPECS/opensg.spec
-echo rpmbuild -v --define=\"_topdir ${RPMROOT}\" \
+echo rpmbuild -v --nodeps --define=\"_topdir ${RPMROOT}\" \
 --define=\"version $VERSION\" --define=\"major $MAJOR\" \
 --define=\"buildroot ${RPMROOT}/TEMP\" --define=\"binroot ${BIN_ROOT}\" \
 --define=\"opensgroot ${OPENSG_ROOT}\" --define=\"date ${DATE}\" \
 --define=\"conf ${CONF}\" --define=\"docfiles ${DOCFILES}\" \
 -bs ${RPMROOT}/SPECS/opensg.spec
-rpmbuild -v --define="_topdir ${RPMROOT}" \
+rpmbuild -v --nodeps --define="_topdir ${RPMROOT}" \
 --define="version $VERSION" --define="major $MAJOR" \
 --define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
 --define="opensgroot ${OPENSG_ROOT}" --define="date ${DATE}" \
@@ -72,13 +72,13 @@ mv ${RPMROOT}/SRPMS/*  ${TARGET}
 
 # Make binary RPMs
 
-echo rpmbuild -v --define=\"_topdir ${RPMROOT}\" \
+echo rpmbuild -v --nodeps --define=\"_topdir ${RPMROOT}\" \
 --define=\"version $VERSION\" --define=\"major $MAJOR\" \
 --define=\"buildroot ${RPMROOT}/TEMP\" --define=\"binroot ${BIN_ROOT}\" \
 --define=\"opensgroot ${OPENSG_ROOT}\" --define=\"date ${DATE}\" \
 --define=\"conf ${CONF}\" --define=\"docfiles ${DOCFILES}\" \
 -ba ${OPENSG_ROOT}/dist/opensg_db.spec
-rpmbuild -v --define="_topdir ${RPMROOT}" \
+rpmbuild -v --nodeps --define="_topdir ${RPMROOT}" \
 --define="version $VERSION" --define="major $MAJOR" \
 --define="buildroot ${RPMROOT}/TEMP" --define="binroot ${BIN_ROOT}" \
 --define="opensgroot ${OPENSG_ROOT}" --define="date ${DATE}" \
