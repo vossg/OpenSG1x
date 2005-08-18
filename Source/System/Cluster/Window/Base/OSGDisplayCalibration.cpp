@@ -84,13 +84,19 @@ void DisplayCalibration::initMethod (void)
 
 DisplayCalibration::DisplayCalibration(void) :
     Inherited(),
-    _cmPort(NullFC)
+    _changed(true),
+    _cmPort(NullFC),
+    _dsPort(NullFC),
+    _dsPort2(NullFC)
 {
 }
 
 DisplayCalibration::DisplayCalibration(const DisplayCalibration &source) :
     Inherited(source),
-    _cmPort(NullFC)
+    _changed(true),
+    _cmPort(NullFC),
+    _dsPort(NullFC),
+    _dsPort2(NullFC)
 {
 }
 
@@ -101,6 +107,12 @@ DisplayCalibration::~DisplayCalibration(void)
         subRefCP(_cmPort);
         subRefCP(_dsPort);
         subRefCP(_dsPort2);
+        subRefCP(_cmRoot);
+        subRefCP(_dsRoot);
+        subRefCP(_ds2Root);
+        subRefCP(_cam);
+        subRefCP(_dsBack);
+        subRefCP(_ds2Back);
     }
 }
 
@@ -110,92 +122,20 @@ DisplayCalibration::~DisplayCalibration(void)
  */
 void DisplayCalibration::calibrate(WindowPtr window,RenderActionBase *ract)
 {
-    // create color management structures
-    if(_cmPort == osg::NullFC)
-    {
-        createCMViewports(window);
-        updateMatrix();
-        updateGamma();
-        updateGrid(window);
-    }
-
-    Int32 left=0,top=1,bottom=0,right=1;
-    left   = 0;
-    right  = window->getWidth() - 1;
-    bottom = 0;
-    top    = window->getHeight() - 1;
-
-    if(getScaleDown()>1.0)
-        setScaleDown(1.0);
-
-    if(!getEnabled() && getScaleDown() >= 1.0)
+    if(!getEnabled())
         return;
 
-    // color correction
-    if(_gridChanged || 
-       _winWidth != window->getWidth() || 
-       _winHeight != window->getHeight())
-        updateGrid(window);
-    _winWidth = window->getWidth();
-    _winHeight = window->getHeight();
+    createCMViewports(window);
 
-    beginEditCP(_cmtrans);
-    _cmtrans->setTranslation(Vec3f(getScaleDown()-1, getScaleDown()-1, 0));
-    _cmtrans->setScale(Vec3f(getScaleDown(), getScaleDown(), 1.0));
-    endEditCP(_cmtrans);
     window->addPort(_cmPort);
-    if(getEnabled())
-    {
-        beginEditCP(_ccgeo);
-        _ccgeo->setMaterial(_ccmat);
-        endEditCP(_ccgeo);
-    }
-    else
-    {
-        beginEditCP(_ccgeo);
-        _ccgeo->setMaterial(_nccmat);
-        endEditCP(_ccgeo);
-    }
     _cmPort->render(ract);
     window->subPort(_cmPort);
 
     if(getScaleDown() < 1.0f)
     {
-        UInt32 w2 = UInt32(((right - left) + 1) * getScaleDown());
-        UInt32 h2 = UInt32(((top - bottom) + 1) * getScaleDown());
-        Int32 lefts = Int32(left * getScaleDown());
-        Int32 rights = w2 - 1;
-        Int32 bottoms = Int32(bottom * getScaleDown());
-        Int32 tops = h2 - 1;
-                    
-        _dsPort->setSize(lefts, bottoms, rights, tops);
-                    
-        Real32 h3= tops - bottoms + 1;
-        Real32 w3= rights - lefts + 1;
-        Real32 tw2 = osgnextpower2((UInt32) w2);
-        Real32 th2 = osgnextpower2((UInt32) h2);
-                
-        beginEditCP(_texcoordsScale);
-        _texcoordsScale->clear();
-        _texcoordsScale->addValue(Vec2f(0,0));
-        _texcoordsScale->addValue(Vec2f(w3/tw2,0));
-        _texcoordsScale->addValue(Vec2f(w3/tw2,h3/th2));
-        _texcoordsScale->addValue(Vec2f(0,h3/th2));
-        endEditCP(_texcoordsScale);
-
-        beginEditCP(_positionsScale);
-        _positionsScale->clear();
-        _positionsScale->addValue(Pnt3f(-1, -1, -0.5));
-        _positionsScale->addValue(Pnt3f( 1, -1, -0.5));
-        _positionsScale->addValue(Pnt3f( 1,  1, -0.5));
-        _positionsScale->addValue(Pnt3f(-1,  1, -0.5));
-        beginEditCP(_positionsScale);
-                    
         window->addPort(_dsPort);
         _dsPort->render(ract);
         window->subPort(_dsPort);
-        
-        _dsPort2->setSize(left,bottom,right,top);
         window->addPort(_dsPort2);
         _dsPort2->render(ract);
         window->subPort(_dsPort2);
@@ -205,15 +145,7 @@ void DisplayCalibration::calibrate(WindowPtr window,RenderActionBase *ract)
 
 void DisplayCalibration::changed(BitVector whichField, UInt32 origin)
 {
-    if(_cmPort != osg::NullFC)
-    {
-        updateMatrix();
-        updateGamma();
-    }
-    if(whichField & (DisplayCalibration::GridFieldMask |
-                     DisplayCalibration::GridWidthFieldMask |
-                     DisplayCalibration::GridHeightFieldMask))
-        _gridChanged = true;
+    _changed = true;
     Inherited::changed(whichField, origin);
 }
 
@@ -225,12 +157,38 @@ void DisplayCalibration::dump(      UInt32    ,
 
 void DisplayCalibration::createCMViewports(WindowPtr window)
 {
+    // create color management structures
+    if(_cmPort != osg::NullFC &&
+       !_changed &&
+       _winWidth == window->getWidth() &&
+       _winHeight == window->getHeight())
+        return;
+
+    if(getScaleDown()>1.0)
+        setScaleDown(1.0);
+
+    _changed = false;
+    _winWidth = window->getWidth();
+    _winHeight = window->getHeight();
+
+    // reset
+    if(_cmPort != osg::NullFC) {
+        subRefCP(_cmPort);
+        subRefCP(_dsPort);
+        subRefCP(_dsPort2);
+        subRefCP(_cmRoot);
+        subRefCP(_dsRoot);
+        subRefCP(_ds2Root);
+        subRefCP(_cam);
+        subRefCP(_dsBack);
+        subRefCP(_ds2Back);
+    }
+
     Matrix m;
     ImagePtr img = Image::create();
     beginEditCP(img);
     img->set(GL_RGB,1,1);
     endEditCP(img);
-    addRefCP(img);
 
     int extension = osg::Window::registerExtension("GL_ARB_fragment_program");
     if(window->hasExtension(extension))
@@ -256,7 +214,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         tex->setScale(false);
         tex->setEnvMode(GL_REPLACE);
         endEditCP  (tex);
-        addRefCP(tex);
 
         // Step 2: The textures for the initial gamma mapping
         
@@ -269,7 +226,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         beginEditCP(_rgammaimg);
         _rgammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,rgammadata);
         endEditCP(_rgammaimg);
-        addRefCP(_rgammaimg);
         
         _rgammachunk = TextureChunk::create();    
         beginEditCP(_rgammachunk);
@@ -279,7 +235,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _rgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
         _rgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
         endEditCP  (_rgammachunk);
-        addRefCP(_rgammachunk);
         
         UChar8 ggammadata[] =
             {  0, 80, 160, 255 };
@@ -288,7 +243,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         beginEditCP(_ggammaimg);
         _ggammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,ggammadata);
         endEditCP(_ggammaimg);
-        addRefCP(_ggammaimg);
         
         _ggammachunk = TextureChunk::create();    
         beginEditCP(_ggammachunk);
@@ -298,7 +252,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _ggammachunk->setWrapS(GL_CLAMP_TO_EDGE);
         _ggammachunk->setWrapT(GL_CLAMP_TO_EDGE);
         endEditCP  (_ggammachunk);
-        addRefCP(_ggammachunk);
 
         UChar8 bgammadata[] =
             {  0, 80, 160, 255 };
@@ -307,7 +260,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         beginEditCP(_bgammaimg);
         _bgammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,bgammadata);
         endEditCP(_bgammaimg);
-        addRefCP(_bgammaimg);
     
         _bgammachunk = TextureChunk::create();    
         beginEditCP(_bgammachunk);
@@ -317,7 +269,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _bgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
         _bgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
         endEditCP  (_bgammachunk);
-        addRefCP(_bgammachunk);
 
         // set gamma table
         for(int j=0; j < 3; ++j)
@@ -403,7 +354,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         tex->setShaderOperation(GL_TEXTURE_2D);
         tex->setInternalFormat(GL_RGB8);
         endEditCP  (tex);
-        addRefCP(tex);
 
         // Step 2: The textures for the initial gamma mapping
   
@@ -420,7 +370,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         beginEditCP(_argammaimg);
         _argammaimg->set(GL_RGB,4,4,1,1,1,0,_argammadata);
         endEditCP(_argammaimg);
-        addRefCP(_argammaimg);
     
         _argammachunk = TextureChunk::create();    
         beginEditCP(_argammachunk);
@@ -433,7 +382,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _argammachunk->setShaderInput    (GL_TEXTURE0_ARB);
         _argammachunk->setInternalFormat(GL_RGB8);
         endEditCP  (_argammachunk);
-        addRefCP(_argammachunk);
 
         UChar8 _gbgammadata[] =
             {  0,  0,  0,     0, 80,  0,     0,160,  0,    0,255,  0,
@@ -446,7 +394,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         beginEditCP(_gbgammaimg);
         _gbgammaimg->set(GL_RGB,4,4,1,1,1,0,_gbgammadata);
         endEditCP(_gbgammaimg);
-        addRefCP(_gbgammaimg);
     
         _gbgammachunk = TextureChunk::create();    
         beginEditCP(_gbgammachunk);
@@ -459,7 +406,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _gbgammachunk->setShaderInput    (GL_TEXTURE0_ARB);
         _gbgammachunk->setInternalFormat(GL_RGB8);
         endEditCP  (_gbgammachunk);
-        addRefCP(_gbgammachunk);
 
         // Step 3: RegisterCombiners Chunk for color matrix multiply
 
@@ -489,22 +435,17 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     }
     endEditCP(mat);
 
-    _ccmat = mat;
-    addRefCP(_ccmat);
-    
-    // rendering without color correction and down scaling.
-    _nccmat = ChunkMaterial::create();
-    beginEditCP(_nccmat);
-        _nccmat->addChunk(tex);
-    endEditCP(_nccmat);
-    addRefCP(_nccmat);
-    
     // add the second viewport
      
     GeoPTypesUI8Ptr  types = GeoPTypesUI8::create();
+    GeoPLengthsPtr lens = GeoPLengthsUI32::create();    
     beginEditCP(types);
     types->addValue(GL_QUADS);
     endEditCP(types);
+
+    beginEditCP(lens);
+    lens->addValue(4);
+    endEditCP(lens);
     
     GeoPositions3fPtr pos = GeoPositions3f::create();
     beginEditCP(pos);
@@ -525,16 +466,13 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
    
     GeometryPtr geo = Geometry::create();
     beginEditCP(geo);
-//    geo->setDlistCache(false);
     geo->setMaterial(mat);
-//    geo->setMaterial(getDefaultUnlitMaterial());
     geo->setPositions(pos);
     geo->setTypes(types);
     geo->setTexCoords(_texcoords);
+    geo->setLengths(lens);
     endEditCP  (geo);
     
-    _ccgeo = geo;
- 
     NodePtr cube = Node::create();
     beginEditCP(cube);
     cube->setCore(geo);
@@ -542,68 +480,62 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
    
     ComponentTransformPtr trans = ComponentTransform::create();
     beginEditCP(trans);
-    trans->setTranslation(Vec3f(0,0,0));
+    trans->setTranslation(Vec3f(getScaleDown()-1, getScaleDown()-1, 0));
+    trans->setScale(Vec3f(getScaleDown(), getScaleDown(), 1.0));
     endEditCP(trans);
-    _cmtrans = trans;
     
-    NodePtr tr = Node::create();
-    addRefCP(tr);
-    beginEditCP(tr);
-    tr->setCore(trans);
-    tr->addChild(cube);
-    endEditCP(tr);
+    _cmRoot = Node::create();
+    addRefCP(_cmRoot);
+    beginEditCP(_cmRoot);
+    _cmRoot->setCore(trans);
+    _cmRoot->addChild(cube);
+    endEditCP(_cmRoot);
  
     GroupPtr group = Group::create();
     NodePtr gr = Node::create();
     beginEditCP(gr);
     gr->setCore(group);
-    gr->addChild(tr);
+    gr->addChild(_cmRoot);
     endEditCP(gr);
    
-    MatrixCameraPtr cam = MatrixCamera::create();
+    _cam = MatrixCamera::create();
+    addRefCP(_cam);
+    beginEditCP(_cam);
+    _cam->setNear(0.1);
+    _cam->setFar(10);
+    _cam->setModelviewMatrix(Matrix::identity());
+    _cam->setProjectionMatrix(Matrix::identity());   
+    endEditCP(_cam);
     
-    beginEditCP(cam);
-    cam->setNear(0.1);
-    cam->setFar(10);
-    cam->setModelviewMatrix(Matrix::identity());
-    cam->setProjectionMatrix(Matrix::identity());   
-    endEditCP(cam);
-    
-    // create dummy geo
-    NodePtr dummy = NullFC;
     // create a dummy geometry
-    dummy = makePlane(1, 1, 1, 1);
-    addRefCP(tr);
-    beginEditCP(dummy);
-        dummy->setActive(false);
-    endEditCP(dummy);
-    
+    _dsRoot = makePlane(1, 1, 1, 1);
+    addRefCP(_dsRoot);
+    beginEditCP(_dsRoot);
+      _dsRoot->setActive(false);
+    endEditCP(_dsRoot);
     
     // Add the grab background
     
-    TextureGrabBackgroundPtr tg = TextureGrabBackground::create();
+    _cmBack = TextureGrabBackground::create();
+    addRefCP(_cmBack);
     
-    beginEditCP(tg);
-        tg->setTexture(tex);
-        tg->setColor(Color3f(0,0,0));
-    endEditCP(tg);
+    beginEditCP(_cmBack);
+        _cmBack->setTexture(tex);
+        _cmBack->setColor(Color3f(0,0,0));
+    endEditCP(_cmBack);
     
-    ViewportPtr vp = Viewport::create();
+    _cmPort = Viewport::create();
+    addRefCP(_cmPort);
 
-    beginEditCP(vp);
-        vp->setCamera(cam);
-        vp->setRoot(tr);
-        vp->setBackground(tg);
-        
-        vp->setLeft(0);
-        vp->setRight(1);
-        vp->setBottom(0);
-        vp->setTop(1);
-    endEditCP(vp);
-
-    addRefCP(vp);
-
-    _cmPort = vp;
+    beginEditCP(_cmPort);
+        _cmPort->setCamera(_cam);
+        _cmPort->setRoot(_cmRoot);
+        _cmPort->setBackground(_cmBack);
+        _cmPort->setLeft(0);
+        _cmPort->setRight(1);
+        _cmPort->setBottom(0);
+        _cmPort->setTop(1);
+    endEditCP(_cmPort);
 
     // create down scale viewport
 
@@ -611,7 +543,6 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     beginEditCP(img2);
         img2->set(GL_RGB,1,1);
     endEditCP(img2);
-    addRefCP(img2);
     
     TextureChunkPtr tex2 = TextureChunk::create();
     beginEditCP(tex2);
@@ -621,36 +552,34 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         tex2->setScale(false);
         tex2->setEnvMode(GL_REPLACE);
     endEditCP(tex2);
-    addRefCP(tex2);
     
-    TextureGrabBackgroundPtr tg2 = TextureGrabBackground::create();
-    beginEditCP(tg2);
-        tg2->setTexture(tex2);
-        tg2->setColor(Color3f(1,0,0));
-    endEditCP(tg2);
+    _dsBack = TextureGrabBackground::create();
+    addRefCP(_dsBack);
+    beginEditCP(_dsBack);
+        _dsBack->setTexture(tex2);
+        _dsBack->setColor(Color3f(1,0,0));
+    endEditCP(_dsBack);
     
     // create the down scale viewport
-    vp = Viewport::create();
-    beginEditCP(vp);
-        vp->setCamera(cam);
-        vp->setRoot(dummy);
-        vp->setBackground(tg2);
-        
-        vp->setLeft(0);
-        vp->setRight(1);
-        vp->setBottom(0);
-        vp->setTop(1);
-    endEditCP(vp);
-    addRefCP(vp);
-    
-    _dsPort = vp;
+    _dsPort = Viewport::create();
+    addRefCP(_dsPort);
+    beginEditCP(_dsPort);
+        _dsPort->setCamera(_cam);
+        _dsPort->setRoot(_dsRoot);
+        _dsPort->setBackground(_dsBack);
+        _dsPort->setLeft(0);
+        _dsPort->setRight(1);
+        _dsPort->setBottom(0);
+        _dsPort->setTop(1);
+    endEditCP(_dsPort);
 
     // vp2
     
-    SolidBackgroundPtr sback = SolidBackground::create();
-    beginEditCP(sback);
-        sback->setColor(Color3f(1,0,0));
-    endEditCP(sback);
+    _ds2Back = SolidBackground::create();
+    addRefCP(_ds2Back);
+    beginEditCP(_ds2Back);
+        _ds2Back->setColor(Color3f(1,0,0));
+    endEditCP(_ds2Back);
 
     ChunkMaterialPtr mat2 = ChunkMaterial::create();
     MaterialChunkPtr matc = MaterialChunk::create();
@@ -661,20 +590,25 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
 
     GeometryPtr geo2 = Geometry::create();
 
+    GeoPLengthsPtr lens2 = GeoPLengthsUI32::create();    
+    beginEditCP(lens2);
+    lens->addValue(4);
+    endEditCP(lens2);
+
     _positionsScale = GeoPositions3f::create();
     beginEditCP(_positionsScale);
-    pos->addValue(Pnt3f(-1, -1, -0.5));
-    pos->addValue(Pnt3f( 1, -1, -0.5));
-    pos->addValue(Pnt3f( 1,  1, -0.5));
-    pos->addValue(Pnt3f(-1,  1, -0.5));
+    _positionsScale->addValue(Pnt3f(-1, -1, -0.5));
+    _positionsScale->addValue(Pnt3f( 1, -1, -0.5));
+    _positionsScale->addValue(Pnt3f( 1,  1, -0.5));
+    _positionsScale->addValue(Pnt3f(-1,  1, -0.5));
     endEditCP(_positionsScale);
     
     _texcoordsScale = GeoTexCoords2f::create();
     beginEditCP(_texcoordsScale);
-    _texcoords->addValue(Vec2f(0,0));
-    _texcoords->addValue(Vec2f(1,0));
-    _texcoords->addValue(Vec2f(1,1));
-    _texcoords->addValue(Vec2f(0,1));
+    _texcoordsScale->addValue(Vec2f(0,0));
+    _texcoordsScale->addValue(Vec2f(1,0));
+    _texcoordsScale->addValue(Vec2f(1,1));
+    _texcoordsScale->addValue(Vec2f(0,1));
     endEditCP(_texcoordsScale);
 
     beginEditCP(geo2);
@@ -682,26 +616,157 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     geo2->setPositions(_positionsScale);
     geo2->setTypes(types);
     geo2->setTexCoords(_texcoordsScale);
+    geo2->setLengths(lens2);
     endEditCP(geo2);
  
-    NodePtr cube2 = Node::create();
-    beginEditCP(cube2);
-    cube2->setCore(geo2);
-    endEditCP(cube2);
+    _ds2Root = Node::create();
+    beginEditCP(_ds2Root);
+    _ds2Root->setCore(geo2);
+    endEditCP(_ds2Root);
 
-    vp = Viewport::create();
-    beginEditCP(vp);
-        vp->setCamera(cam);
-        vp->setRoot(cube2);
-        vp->setBackground(sback);
-        vp->setLeft(0);
-        vp->setRight(1);
-        vp->setBottom(0);
-        vp->setTop(1);
-    endEditCP(vp);
-    addRefCP(vp);
+    _dsPort2 = Viewport::create();
+    addRefCP(_dsPort2);
+    beginEditCP(_dsPort2);
+        _dsPort2->setCamera(_cam);
+        _dsPort2->setRoot(_ds2Root);
+        _dsPort2->setBackground(_ds2Back);
+        _dsPort2->setLeft(0);
+        _dsPort2->setRight(1);
+        _dsPort2->setBottom(0);
+        _dsPort2->setTop(1);
+    endEditCP(_dsPort2);
+
+    updateMatrix();
+    updateGamma();
+
+
+    // ---------------------------------------------------------------
+    // set projection grid
+    // ---------------------------------------------------------------
+
+    UInt32 x,y;
+    Int32 left=0,top=1,bottom=0,right=1;
+    left   = 0;
+    right  = window->getWidth() - 1;
+    bottom = 0;
+    top    = window->getHeight() - 1;
+
+    Real32 h=top-bottom+1;
+    Real32 w=right-left+1;
+    Real32 
+        tw = osgnextpower2((UInt32)w), 
+        th = osgnextpower2((UInt32)h);
+
+    beginEditCP(_texcoords);
+    beginEditCP(_positions);
+    _positions->clear();
+    _texcoords->clear();
+
+    if(getGrid().size() == 0 ||
+       getGrid().size() != getGridWidth() * getGridHeight() ||
+       getGridWidth() < 2 ||
+       getGridHeight() < 2)
+    {
+        _texcoords->addValue(Vec2f(0,0));
+        _texcoords->addValue(Vec2f(w/tw,0));
+        _texcoords->addValue(Vec2f(w/tw,h/th));
+        _texcoords->addValue(Vec2f(0,h/th));
+        _positions->addValue(Pnt3f(-1, -1, -0.5));
+        _positions->addValue(Pnt3f( 1, -1, -0.5));
+        _positions->addValue(Pnt3f( 1,  1, -0.5));
+        _positions->addValue(Pnt3f(-1,  1, -0.5));
+    }
+    else
+    {
+        UInt32 i;
+        bool   absolute=false;
+        for(i=0;i<getGrid().size();++i)
+            if(getGrid()[i][0]>1 ||
+               getGrid()[i][1]>1)
+            {
+                absolute=true;
+                break;
+            }
+        for(int y=0 ; y<getGridHeight()-1 ; ++y)
+        {
+            for(int x=0 ; x<getGridWidth()-1 ; ++x)
+            {
+                // calculate texture coordinates
+                Vec2f tex[4];
+                tex[0] = Vec2f(  x,  y);
+                tex[1] = Vec2f(x+1,  y);
+                tex[2] = Vec2f(x+1,y+1);
+                tex[3] = Vec2f(  x,y+1);
+
+                // get position
+                Vec2f pos[4];
+                pos[0] = getGrid()[y*getGridWidth()+x];
+                pos[1] = getGrid()[y*getGridWidth()+x+1];
+                pos[2] = getGrid()[(y+1)*getGridWidth()+x+1];
+                pos[3] = getGrid()[(y+1)*getGridWidth()+x];
+                for(i=0 ; i<4 ; ++i)
+                {
+                    // scale to 0 - 1
+                    tex[i][0] /= getGridWidth() - 1;
+                    tex[i][1] /= getGridHeight() - 1;
+                    // scale to ^2 texture size
+                    tex[i][0] *= w/(float)tw;
+                    tex[i][1] *= h/(float)th;
+                    if(absolute) 
+                    {
+                        pos[i][0] /= (w-1);
+                        pos[i][1] /= (h-1);
+                    }
+                    _texcoords->addValue(tex[i]);
+                    Pnt3f p(pos[i][0],pos[i][1],0);
+                    _positions->addValue(p*2-Vec3f(1,1,1));
+                }
+            }
+        }
+    }
+    endEditCP(_texcoords);
+
+    beginEditCP(lens);
+    lens->clear();
+    lens->addValue(_positions->getSize());
+    endEditCP(lens);
+
+    endEditCP(_positions);
+
+    // ---------------------------------------------------------------
+    // set downscale params
+    // ---------------------------------------------------------------
+
+    UInt32 w2 = UInt32(((right - left) + 1) * getScaleDown());
+    UInt32 h2 = UInt32(((top - bottom) + 1) * getScaleDown());
+    UInt32 lefts = Int32(left * getScaleDown());
+    UInt32 rights = w2 - 1;
+    UInt32 bottoms = Int32(bottom * getScaleDown());
+    UInt32 tops = h2 - 1;
     
-    _dsPort2 = vp;
+    _dsPort->setSize(lefts,bottoms,rights,tops);
+    _dsPort2->setSize(left,bottom,right,top);
+                    
+    Real32 h3= tops - bottoms + 1;
+    Real32 w3= rights - lefts + 1;
+    Real32 tw2 = osgnextpower2((UInt32) w2);
+    Real32 th2 = osgnextpower2((UInt32) h2);
+    
+    beginEditCP(_texcoordsScale);
+    _texcoordsScale->clear();
+    _texcoordsScale->addValue(Vec2f(0,0));
+    _texcoordsScale->addValue(Vec2f(w3/tw2,0));
+    _texcoordsScale->addValue(Vec2f(w3/tw2,h3/th2));
+    _texcoordsScale->addValue(Vec2f(0,h3/th2));
+    endEditCP(_texcoordsScale);
+    
+    beginEditCP(_positionsScale);
+    _positionsScale->clear();
+    _positionsScale->addValue(Pnt3f(-1, -1, -0.5));
+    _positionsScale->addValue(Pnt3f( 1, -1, -0.5));
+    _positionsScale->addValue(Pnt3f( 1,  1, -0.5));
+    _positionsScale->addValue(Pnt3f(-1,  1, -0.5));
+    endEditCP(_positionsScale);
 
 }
 
@@ -875,93 +940,6 @@ void DisplayCalibration::updateMatrix()
 
         endEditCP(_regCombiner);
     }
-}
-
-void DisplayCalibration::updateGrid(WindowPtr window)
-{
-    UInt32 x,y;
-    Int32 left=0,top=1,bottom=0,right=1;
-    left   = 0;
-    right  = window->getWidth() - 1;
-    bottom = 0;
-    top    = window->getHeight() - 1;
-
-    Real32 h=top-bottom+1;
-    Real32 w=right-left+1;
-    Real32 
-        tw = osgnextpower2((UInt32)w), 
-        th = osgnextpower2((UInt32)h);
-
-    beginEditCP(_texcoords);
-    beginEditCP(_positions);
-    _positions->clear();
-    _texcoords->clear();
-
-    if(getGrid().size() == 0 ||
-       getGrid().size() != getGridWidth() * getGridHeight() ||
-       getGridWidth() < 2 ||
-       getGridHeight() < 2)
-    {
-        _texcoords->addValue(Vec2f(0,0));
-        _texcoords->addValue(Vec2f(w/tw,0));
-        _texcoords->addValue(Vec2f(w/tw,h/th));
-        _texcoords->addValue(Vec2f(0,h/th));
-        _positions->addValue(Pnt3f(-1, -1, -0.5));
-        _positions->addValue(Pnt3f( 1, -1, -0.5));
-        _positions->addValue(Pnt3f( 1,  1, -0.5));
-        _positions->addValue(Pnt3f(-1,  1, -0.5));
-    }
-    else
-    {
-        UInt32 i;
-        bool   absolute=false;
-        for(i=0;i<getGrid().size();++i)
-            if(getGrid()[i][0]>1 ||
-               getGrid()[i][1]>1)
-            {
-                absolute=true;
-                break;
-            }
-        for(int y=0 ; y<getGridHeight()-1 ; ++y)
-        {
-            for(int x=0 ; x<getGridWidth()-1 ; ++x)
-            {
-                // calculate texture coordinates
-                Vec2f tex[4];
-                tex[0] = Vec2f(  x,  y);
-                tex[1] = Vec2f(x+1,  y);
-                tex[2] = Vec2f(x+1,y+1);
-                tex[3] = Vec2f(  x,y+1);
-
-                // get position
-                Vec2f pos[4];
-                pos[0] = getGrid()[y*getGridWidth()+x];
-                pos[1] = getGrid()[y*getGridWidth()+x+1];
-                pos[2] = getGrid()[(y+1)*getGridWidth()+x+1];
-                pos[3] = getGrid()[(y+1)*getGridWidth()+x];
-                for(i=0 ; i<4 ; ++i)
-                {
-                    // scale to 0 - 1
-                    tex[i][0] /= getGridWidth() - 1;
-                    tex[i][1] /= getGridHeight() - 1;
-                    // scale to ^2 texture size
-                    tex[i][0] *= w/(float)tw;
-                    tex[i][1] *= h/(float)th;
-                    if(absolute) 
-                    {
-                        pos[i][0] /= (w-1);
-                        pos[i][1] /= (h-1);
-                    }
-                    _texcoords->addValue(tex[i]);
-                    Pnt3f p(pos[i][0],pos[i][1],0);
-                    _positions->addValue(p*2-Vec3f(1,1,1));
-                }
-            }
-        }
-    }
-    endEditCP(_texcoords);
-    beginEditCP(_positions);
-    _gridChanged = false;
 }
 
 /*------------------------------------------------------------------------*/

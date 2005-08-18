@@ -131,10 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     /*! \}                                                                 */
 
     bool                      _useFragmentProgram;
-    ComponentTransformPtr     _cmtrans;
-    ChunkMaterialPtr          _ccmat;
-    ChunkMaterialPtr          _nccmat;
-    GeometryPtr               _ccgeo;
+    bool                      _changed;
     GeometryPtr               _scalegeo;
     GeoPositions3fPtr         _positions;
     GeoTexCoords2fPtr         _texcoords;
@@ -152,10 +149,18 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     TextureChunkPtr           _gbgammachunk;    
     FragmentProgramChunkPtr   _fragProgram;
     RegisterCombinersChunkPtr _regCombiner;
+
     ViewportPtr               _cmPort;
     ViewportPtr               _dsPort;
     ViewportPtr               _dsPort2;
-    bool                      _gridChanged;
+    NodePtr                   _cmRoot;
+    NodePtr                   _dsRoot;
+    NodePtr                   _ds2Root;
+    MatrixCameraPtr           _cam;
+    TextureGrabBackgroundPtr  _cmBack;
+    TextureGrabBackgroundPtr  _dsBack;
+    SolidBackgroundPtr        _ds2Back;
+
     UInt32                    _winWidth;
     UInt32                    _winHeight;
 

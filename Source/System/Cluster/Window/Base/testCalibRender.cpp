@@ -130,16 +130,16 @@ key(unsigned char key, int , int )
     {
         mode=3;
         beginEditCP(calib);
-        calib->setGridWidth(21);
-        calib->setGridHeight(21);
+        calib->setGridWidth(201);
+        calib->setGridHeight(201);
         calib->getGrid().clear();
         int x,y;
         float xx,yy;
-        for(y=-10 ; y<=10 ; ++y)
-            for(x=-10 ; x<=10 ; ++x)
+        for(y=-100 ; y<=100 ; ++y)
+            for(x=-100 ; x<=100 ; ++x)
             {
-                xx = x/20.0*sqrtf(10.0f*10.0f-y*y)/10.0f + .5f;
-                yy = (y+10.0f)/20.0f;
+                xx = x/200.0*sqrtf(100.0f*100.0f-y*y)/100.0f + .5f;
+                yy = (y+100.0f)/200.0f;
                 calib->getGrid().push_back(Vec2f(xx,yy));
             }
         endEditCP(calib);
