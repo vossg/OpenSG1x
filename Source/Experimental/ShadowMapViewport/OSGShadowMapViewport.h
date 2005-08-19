@@ -50,6 +50,7 @@
 
 #include <OSGSpotLight.h>
 #include <OSGDirectionalLight.h>
+#include <OSGNode.h>
 #include "OSGShadowMapViewportBase.h"
 
 #include <OSGPerspectiveCamera.h>
@@ -116,6 +117,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     void checkMapResolution();
 
     Action::ResultE findLight(NodePtr& node);
+    Action::ResultE findTransparent(NodePtr& node);
 
     UInt32                  _mapRenderSize;
     bool                    _mapSizeChanged;
@@ -124,11 +126,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
 
     TexGenChunkPtr          _texGen;
     PolygonChunkPtr         _poly;
+    PolygonChunkPtr         _offset;
     BlendChunkPtr           _blender;
     NodePtr                 _dummy;
     PassiveBackgroundPtr    _silentBack;
     TileCameraDecoratorPtr  _tiledeco;
 
+    std::vector<NodePtr>            _transparent;
+    std::vector<LightPtr>           _allLights;
     std::vector<LightPtr>           _lights;
     std::vector<LightPtr>           _oldLights;
     std::vector<CameraPtr>          _lightCameras;
@@ -190,6 +195,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.5 2004/08/30 17:49:38 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.6 2005/08/19 13:51:32 mroth Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

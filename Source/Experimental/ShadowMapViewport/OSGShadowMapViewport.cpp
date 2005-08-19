@@ -47,6 +47,7 @@
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
+#include <OSGMultiPassMaterial.h>
 
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
@@ -54,6 +55,8 @@
 #include <OSGBackground.h>
 #include <OSGForeground.h>
 #include <OSGImage.h>
+#include <OSGMaterialGroup.h>
+#include <OSGGeometry.h>
 
 #include <OSGLight.h>
 
@@ -269,6 +272,9 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
     _poly = PolygonChunk::create();
     addRefCP(_poly);
 
+    _offset = PolygonChunk::create();
+    addRefCP(_offset);
+
     _blender = BlendChunk::create();
     addRefCP(_blender);
 
@@ -344,6 +350,13 @@ void ShadowMapViewport::render(RenderActionBase* action)
 
         checkMapResolution();
         checkLights(action);
+
+        // find transparent nodes
+        _transparent.clear();
+        traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+             <Action::ResultE, ShadowMapViewport, NodePtr>
+             (this, &ShadowMapViewport::findTransparent));
+
         if(getMapAutoUpdate())
         {
             createShadowMaps(action);
@@ -436,24 +449,87 @@ void ShadowMapViewport::checkMapResolution()
 Action::ResultE ShadowMapViewport::findLight(NodePtr& node)
 {
     if(node->getCore()->getType().isDerivedFrom(Light::getClassType()))
-        _lights.push_back(LightPtr::dcast(node->getCore()));
+        _allLights.push_back(LightPtr::dcast(node->getCore()));
 
+    return Action::Continue;
+}
+
+Action::ResultE ShadowMapViewport::findTransparent(NodePtr& node)
+{
+    if(node->getCore() != NullFC)
+    {
+        if(node->getCore()->getType() == Geometry::getClassType() ||
+           node->getCore()->getType() == MaterialGroup::getClassType())
+        {
+            MaterialPtr mat;
+            MultiPassMaterialPtr multiMat;
+            osg::GeometryPtr geo = osg::GeometryPtr::dcast(node->getCore());
+            osg::MaterialGroupPtr matGroup = osg::MaterialGroupPtr::dcast(node->getCore());
+            if(geo != NullFC)
+                mat = geo->getMaterial();
+            if(matGroup != NullFC)
+                mat = matGroup->getMaterial();
+            if(mat != NullFC)
+            {
+                /* isTransparent in MultiPassMaterial returns false,
+                   if one Material is not transparent. Here we need
+                   to know if one Material is transparent so we can't
+                   use isTransparent for MultiPassMaterials. */
+                multiMat = MultiPassMaterialPtr::dcast(mat);
+                if(multiMat != NullFC)
+                {
+                    MFMaterialPtr::const_iterator it = multiMat->getMaterials().begin();
+                    MFMaterialPtr::const_iterator matsEnd = multiMat->getMaterials().end();
+                    for(; it != matsEnd; ++it)
+                    {
+                        if((*it) == NullFC)
+                            continue;
+                        if((*it)->isTransparent())
+                        {
+                            _transparent.push_back(node);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if(mat->isTransparent())
+                        _transparent.push_back(node);
+                }
+            }
+
+        }
+
+        if(node->getCore()->getType() == Geometry::getClassType())
+        {
+            osg::GeometryPtr geo = osg::GeometryPtr::dcast(node->getCore());
+            if(geo->getMaterial() != NullFC &&
+               geo->getMaterial()->isTransparent())
+                _transparent.push_back(node);
+        }
+        else if(node->getCore()->getType() == MaterialGroup::getClassType())
+        {
+            osg::MaterialGroupPtr matGroup = osg::MaterialGroupPtr::dcast(node->getCore());
+            if(matGroup->getMaterial() != NullFC &&
+               matGroup->getMaterial()->isTransparent())
+                _transparent.push_back(node);
+        }
+    }
     return Action::Continue;
 }
 
 
 void ShadowMapViewport::checkLights(RenderActionBase* action)
 {
+    //Finding lights by going through whole Scenegraph
+    _allLights.clear();
+    traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+             <Action::ResultE, ShadowMapViewport, NodePtr>
+             (this, &ShadowMapViewport::findLight));
+
+    //shadow for all lights
     if(getLightNodes().getSize() == 0)
-    {
-        FDEBUG(("Running Lightfinder\n"));
-        _lights.clear();
-        //Finding lights by going through whole Scenegraph
-        traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
-                 <Action::ResultE, ShadowMapViewport, NodePtr>
-                (this, &ShadowMapViewport::findLight));
-        FDEBUG(("Found %u lights\n", _lights.size()));
-    }
+        _lights = _allLights;
 
     _lightStates.clear();
     bool changed = false;
@@ -937,16 +1013,17 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
     //---Draw/Render-Pass with ambient light only & no shadows------
 
-    std::vector<Color4f> _light_specular;
-    std::vector<Color4f> _light_diffuse;
-    std::vector<Color4f> _light_ambient;
+    std::vector<int>     light_state;
+    std::vector<Color4f> light_specular;
+    std::vector<Color4f> light_diffuse;
+    std::vector<Color4f> light_ambient;
     Color4f shadow_color = getShadowColor() * (1.0 / Real32(_lights.size()));
 
     for(UInt32 j=0;j<_lights.size();++j) // Switching off specular highlights
     {
-        _light_specular.push_back(_lights[j]->getSpecular());
-        _light_diffuse.push_back(_lights[j]->getDiffuse());
-        _light_ambient.push_back(_lights[j]->getAmbient());
+        light_specular.push_back(_lights[j]->getSpecular());
+        light_diffuse.push_back(_lights[j]->getDiffuse());
+        light_ambient.push_back(_lights[j]->getAmbient());
 
         _lights[j]->setSpecular(0.0,0.0,0.0,1.0);
         _lights[j]->setDiffuse(shadow_color);
@@ -955,13 +1032,17 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
     // render
     action->apply(getRoot());
 
+    // get all lights
     for(UInt32 j=0;j<_lights.size();++j) // Switching on specular highlights
     {
-        _lights[j]->setSpecular(_light_specular[j]);
-        _lights[j]->setDiffuse(_light_diffuse[j]);
+        _lights[j]->setSpecular(light_specular[j]);
+        _lights[j]->setDiffuse(light_diffuse[j]);
         _lights[j]->setAmbient(0.0,0.0,0.0,1.0);
-        _lights[j]->setOn(false);
     }    
+    for(UInt32 j=0;j<_allLights.size();++j) {
+        light_state.push_back(_allLights[j]->getOn());
+        _allLights[j]->setOn(false);
+    }
 
     beginEditCP(_blender);
     {
@@ -971,6 +1052,17 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
         _blender->setAlphaValue(0.99);
     }
     endEditCP(_blender);
+    // switch off all transparent geos
+    for(UInt32 t=0;t<_transparent.size();++t)
+        _transparent[t]->setActive(false);
+
+    beginEditCP(_offset);
+    _offset->setOffsetBias(-1);
+    _offset->setOffsetFactor(0);
+    _offset->setOffsetFill(true);
+    endEditCP(_offset);
+
+    glDepthFunc(GL_LESS);
 
     //---Render-Pass with Shadow-----------------------------    
     for(UInt32 i=0;i<_lights.size();++i)
@@ -1007,7 +1099,9 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
             _blender->activate(action,0);
 
+            _offset->activate(action,0);
             action->apply(getRoot());
+            _offset->deactivate(action,0);
 
             _blender->deactivate(action,0);
 
@@ -1016,16 +1110,28 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
             _texChunks[i]->deactivate(action,3);
         
             _lights[i]->setOn(false);
+
+            // increase offset for next light
+            beginEditCP(_offset);
+            _offset->setOffsetBias(_offset->getOffsetBias() - 1);
+            endEditCP(_offset);
         }
     }
 
+    glDepthFunc(GL_LEQUAL);
+
+    // switch on all transparent geos
+    for(UInt32 t=0;t<_transparent.size();++t)
+        _transparent[t]->setActive(true);
+
     for(UInt32 i=0;i<_lights.size();++i) // Switching on ambient 
     {
-        _lights[i]->setAmbient(_light_ambient[i]);
+        _lights[i]->setAmbient(light_ambient[i]);
+    }
 
-        // If the light was originally on in our Scene then it must contribute to the Ambient-Pass
-        if(_lightStates[i] != 0)
-            _lights[i]->setOn(true);
+    for(UInt32 j=0;j<_allLights.size();++j) 
+    {
+        _allLights[j]->setOn(light_state[j]);
     }
 
 }
@@ -1045,7 +1151,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.10 2004/09/08 09:00:25 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.11 2005/08/19 13:51:32 mroth Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
