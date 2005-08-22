@@ -2,6 +2,35 @@
 ChangeLog for OpenSG
 ====================
 
+1.6.0 - 2005/08/25
+
+ADDED:
+    RPM support
+    Automatic helper classes for RefPtr and CoredNodePtr
+    Two-sided lighting, Depth Control, Separate Blending
+    Compressed Textures
+    Single-Image Cubemaps
+    .dds image format
+    Cg/CgFx
+    OpenSG-specific variables for GLSL (Camera matrix, active lights, time...)
+    Separate shader and parameters into separate chunks
+    MultipassMaterial: just combine multiple Materials into one
+    Small Geometry data formats (Uint8,UInt16)
+    Stitch strips with degenerate triangles
+    Line and Edge Iterators
+    Helper functions for Tangents/Binormals
+    Texture/TextureMemory statistics
+    String-based GraphOp/GraphOpSeq creation
+    ProxyBuilder for sort-last clustering
+    BalancedMultiWindow: load balancing cluster
+    Color and distortion calibration (cluster only right now)
+    PLY loader
+    Off-Center Perspective Camera and radial distortion in TextureBackground
+      (helpful for AR apps)
+    New Text implementation
+    wxWidgets example
+
+
 1.4.0 - 2004/11/22
 
 ADDED:
