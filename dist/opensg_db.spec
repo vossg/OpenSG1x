@@ -111,6 +111,7 @@ popd
 /usr/bin
 %{_libdir}/lib*
 %{_libdir}/*opt
+%{_libdir}/OpenSG-%{version}
 
 %files devel
 %defattr(-, root, root)

@@ -98,12 +98,12 @@ do
         
         # Setup vars for dists
 	lastdate=$date
-        secondline=1
-        thirdline=0
+        line=1
     fi
     
     snap=`echo $i | sed -e "s|${system}.Main.html.gz|source.tgz|"`    
-    if test $secondline = 1
+    winsnap=`echo $i | sed -e "s|${system}.Main.html.gz|win-source.tgz|"`    
+    if test $line = 1
     then
         if test -f $snap
         then
@@ -111,9 +111,17 @@ do
         else
      	    echo "<td style=date> </td>" >> $outfile
         fi
-        secondline=0
-        thirdline=1
-    elif test $thirdline = 1
+        line=2
+    elif test $line = 2
+    then
+        if test -f $winsnap
+        then
+            echo "<td style=source><a href=$winsnap>Win-Sources</a></td>" >> $outfile
+        else
+     	    echo "<td style=date> </td>" >> $outfile
+        fi
+        line=3
+    elif test $line = 3
     then
         srpm=`ls -1 $srpm | head -n 1`
         if test -f $srpm
@@ -122,7 +130,7 @@ do
         else
      	    echo "<td style=date> </td>" >> $outfile
         fi
-        thirdline=0
+        line=4
     else
     	echo "<td style=date> </td>" >> $outfile
     fi
