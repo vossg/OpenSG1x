@@ -333,7 +333,7 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
     Flag to use this texture for Point Sprites.
 */
 /*! \var Real32          TextureChunkBase::_sfPriority
-    Priority of this texture, between 0 and 1, the default is 0.
+    Priority of this texture, between 0 and 1, the default is 1.
 */
 /*! \var GLenum          TextureChunkBase::_sfShaderOperation
     Shader operation of this texture unit, default GL_NONE. If unit 0 uses         GL_NONE, shading is switched off.
@@ -737,7 +737,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfEnvOperand2Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfGLId                   (GLenum(0)), 
     _sfPointSprite            (bool(GL_FALSE)), 
-    _sfPriority               (Real32(0.f)), 
+    _sfPriority               (Real32(1.f)), 
     _sfShaderOperation        (GLenum(GL_NONE)), 
     _sfShaderInput            (GLenum(GL_NONE)), 
     _mfShaderOffsetMatrix     (), 
@@ -1919,7 +1919,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

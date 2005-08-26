@@ -345,10 +345,10 @@
 		cardinality="single"
 		visibility="external"
 		access="public"
-		defaultValue="0.f"
+		defaultValue="1.f"
 		defaultHeader=""
 	>
-        Priority of this texture, between 0 and 1, the default is 0.
+        Priority of this texture, between 0 and 1, the default is 1.
 	</Field>
 	<Field
 		name="shaderOperation"
