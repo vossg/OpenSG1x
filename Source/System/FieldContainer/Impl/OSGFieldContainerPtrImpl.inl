@@ -550,16 +550,22 @@ void FieldContainerPtr::operator =(const FieldContainerPtr &source)
 /*-------------------------------------------------------------------------*/
 /*                             MT Edit                                     */
 
+#ifdef OSG_FIXED_MFIELDSYNC 
 inline
 void FieldContainerPtr::beginEdit(BitVector whichField,
                                   UInt32    OSG_CHECK_ARG(origin)) const
 {
-#ifdef OSG_FIXED_MFIELDSYNC 
     (*this)->execBeginEdit(whichField,
                            Thread::getAspect(), 
                            getContainerSize());
-#endif
 }
+#else
+inline
+void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField),
+                                  UInt32    OSG_CHECK_ARG(origin)) const
+{
+}
+#endif
 
 inline
 void FieldContainerPtr::endEditNotChanged(BitVector whichField,

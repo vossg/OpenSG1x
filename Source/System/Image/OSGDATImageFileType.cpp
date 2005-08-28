@@ -132,7 +132,7 @@ bool DATImageFileType::read (      ImagePtr &image,
     KeyType key;
     Image::Type formatType;
     UInt32 res[3];
-    UInt32 bpv, dataSize = 0;
+    UInt32 dataSize = 0;
     Image::PixelFormat pixelFormat = OSG::Image::OSG_L_PF;
     char *dataBuffer = 0;
     bool needConversion = false;
@@ -142,7 +142,6 @@ bool DATImageFileType::read (      ImagePtr &image,
     res[0] = res[1] = res[2] = 0;
     fileOffset = 0;
     formatType = Image::OSG_INVALID_IMAGEDATATYPE;
-    bpv = 0;
     dataSize = 0;
     dataBuffer = 0;
 
