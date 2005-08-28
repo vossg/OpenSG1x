@@ -507,7 +507,7 @@ case $system in
             CC64)
                  # VRAC Irix 64 settings
           
-                qt_dir=${qt_dir:="/home/users/dreiners"}
+                qt_dir=${qt_dir:="/home/users/dreiners/qt-64"}
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
                 glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib64"}
                 tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib64"}
@@ -526,7 +526,7 @@ case $system in
             CC)
                  # VRAC Irix settings
           
-                qt_dir=${qt_dir:="/home/users/dreiners"}
+                qt_dir=${qt_dir:="/home/users/dreiners/qt-32"}
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
                 glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib32"}
                 tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib32"}
