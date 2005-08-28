@@ -183,6 +183,9 @@ checkerror ()
         -e "failed: Connection timed out" \
         -e "Failed to create pthread" \
     >> $log_errors || true
+
+    sort -un < $log_errors > ${log_errors}.2
+    mv ${log_errors}.2 $log_errors
     
     # remove the expected warnings
     $grep -n -i -w warning $file | \
@@ -525,10 +528,10 @@ case $system in
           
                 qt_dir=${qt_dir:="/home/users/dreiners"}
                 qt_args=${qt_args:="--with-qt=${qt_dir}"}
-                glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib"}
-                tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib"}
-                jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib"}
-                png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib"}
+                glut_args=${glut_args:="--with-glut --with-glutincludedir=/usr/freeware/include/ --with-glutlibdir=/usr/freeware/lib32"}
+                tif_args=${tif_args:="--with-tif --with-tifincludedir=/usr/freeware/include/ --with-tiflibdir=/usr/freeware/lib32"}
+                jpg_args=${jpg_args:="--with-jpg --with-jpgincludedir=/usr/freeware/include/ --with-jpglibdir=/usr/freeware/lib32"}
+                png_args=${png_args:="--with-png --with-pngincludedir=/usr/freeware/include/ --with-pnglibdir=/usr/freeware/lib32"}
                 par_jobs=${par_jobs:=4}
                 mail=/usr/sbin/Mail
                 make=/home/users/dreiners/bin/IRIX64/make
