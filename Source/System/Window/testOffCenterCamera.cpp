@@ -84,15 +84,9 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     
     bool stereobuffer = false;
-    bool amberblue = false;
     if(argc >= 2 && !strcmp(argv[1],"-s"))
     {
         stereobuffer = true;
-        --argc, ++argv;
-    }
-    if(argc >= 2 && !strcmp(argv[1],"-a"))
-    {
-        amberblue = true;
         --argc, ++argv;
     }
     
