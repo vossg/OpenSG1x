@@ -118,6 +118,9 @@ VRMLFile::VRMLFile(void) :
     _fStack   (),
     _fdStack  (),
 
+    _bvChanged    (),
+    _sChangedStack(),
+
     _nameFCMap  (),
     _nameDescMap()
 {
@@ -125,6 +128,9 @@ VRMLFile::VRMLFile(void) :
 
     initIntExtFieldTypeMapper();
     initExtIntFieldTypeMapper();
+
+    _bvChanged.first  = 0;
+    _bvChanged.second = 0;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -369,6 +375,11 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
         }
         endEditCP  (_pSceneRootNode, Node::ChildrenFieldMask);
     }
+
+    _sChangedStack.push(_bvChanged);
+
+    _bvChanged.first  = 0;
+    _bvChanged.second = 0;
 }
 
 void VRMLFile::endNode(void)
@@ -427,11 +438,15 @@ void VRMLFile::endNode(void)
             {
                 GroupPtr pGroup = Group::create();
 
-                beginEditCP(pNode);
+                beginEditCP(pNode, Node::CoreFieldMask);
                 pNode->setCore(pGroup);
-                beginEditCP(pNode);
+                endEditCP(pNode, Node::CoreFieldMask);
             }
+
+            endEditCP(pNode->getCore(), _bvChanged.first);
         }
+
+        endEditCP(_pCurrentFC, _bvChanged.first);
     }
 
     _fcStack.pop();
@@ -444,6 +459,18 @@ void VRMLFile::endNode(void)
     {
         _pCurrentFC = NullFC;
     }
+
+    if(_sChangedStack.size() != 0)
+    {
+        _bvChanged = _sChangedStack.top();
+    }
+    else
+    {
+        _bvChanged.first  = 0;
+        _bvChanged.second = 0;
+    }
+
+    _sChangedStack.pop();
 
 #ifdef OSG_DEBUG_VRML
     VRMLNodeDesc::decIndent();
@@ -514,6 +541,8 @@ void VRMLFile::beginField(const Char8  *szFieldname,
                              ChangedOrigin::AbstrIgnoreChild |
                              ChangedOrigin::AbstrCheckValid);
             }
+
+            _bvChanged.first |= _pCurrentFieldDesc->getFieldMask();
         }
     }
 
@@ -542,6 +571,7 @@ void VRMLFile::endField(void)
 
         if(_pCurrentFC != NullFC)
         {
+#if 0
             endEditCP(_pCurrentFC,
 //                       FieldBits::AllFields,
                       _pCurrentFieldDesc->getFieldMask(),
@@ -549,6 +579,7 @@ void VRMLFile::endField(void)
                        ChangedOrigin::AbstrIgnoreCore  |
                        ChangedOrigin::AbstrIgnoreChild |
                        ChangedOrigin::AbstrCheckValid  );
+#endif
 
             if(_pCurrentFC->getType().isNode())
             {
@@ -556,6 +587,7 @@ void VRMLFile::endField(void)
 
                 pCore = pNode->getCore();
 
+#if 0
                 endEditCP( pCore,
 //                           FieldBits::AllFields,
                           _pCurrentFieldDesc->getFieldMask(),
@@ -563,6 +595,7 @@ void VRMLFile::endField(void)
                            ChangedOrigin::AbstrIgnoreCore  |
                            ChangedOrigin::AbstrIgnoreChild |
                            ChangedOrigin::AbstrCheckValid  );
+#endif
             }
         }
     }

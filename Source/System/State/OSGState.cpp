@@ -135,6 +135,14 @@ State::~State(void)
     clearChunks();
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void State::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    clearChunks();
+}
+#endif
 
 void State::changed(BitVector whichField, UInt32 origin)
 {

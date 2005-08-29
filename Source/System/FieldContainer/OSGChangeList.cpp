@@ -211,8 +211,10 @@ void ChangeList::addAddRefd(const FieldContainerPtr &pFieldContainer)
 
 void ChangeList::addSubRefd(const FieldContainerPtr &pFieldContainer)
 {
+#if !defined(OSG_FIXED_MFIELDSYNC)
     if(_bReadOnly == true)
         return;
+#endif
 
     UInt32 uiContainerId = pFieldContainer.getFieldContainerId();
 
@@ -417,6 +419,7 @@ void ChangeList::apply(void)
                          _vChangedFieldContainers[i].second);
     }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
     {
         pTmp = FieldContainerFactory::the()->getContainer(
@@ -438,11 +441,52 @@ void ChangeList::apply(void)
 
         subRefCP(pTmp);
     }
+#endif
 
     _bReadOnly = false;
 
      OSG::Thread::getCurrentChangeList()->setReadOnly(false);
 }
+
+#if defined(OSG_FIXED_MFIELDSYNC)
+void ChangeList::applySubRefs(void)
+{
+    _bReadOnly = false;
+
+    OSG::Thread::getCurrentChangeList()->setReadOnly(false);
+
+    FieldContainerPtr pTmp;
+
+    std::vector<IdRefEntry>  tmpList;
+
+    tmpList.swap(_vSubRefdFieldContainers);
+
+    while(tmpList.size() != 0)
+    {
+        _vSubRefdFieldContainers.clear();
+
+        for(UInt32 i = 0; i < tmpList.size(); i++)
+        {
+//            fprintf(stderr, "subref %d\n", tmpList[i]);
+
+            pTmp = FieldContainerFactory::the()->getContainer(
+                tmpList[i]);
+            
+            if(pTmp == NullFC)
+                continue;
+            
+            pTmp.doSubRef();
+        }
+        
+        tmpList.clear();
+        tmpList.swap(_vSubRefdFieldContainers);
+    }
+
+    _bReadOnly = false;
+
+     OSG::Thread::getCurrentChangeList()->setReadOnly(false);
+}
+#endif
 
 void ChangeList::applyAndClear(void)
 {
@@ -458,6 +502,7 @@ void ChangeList::dump(void)
     UInt32 i;
 
     fprintf(stderr, "CL: %u\n", _uiAspectId);
+#if 0
     fprintf(stderr, "CLChanged:\n");
 
     for(i = 0; i < _vChangedFieldContainers.size(); i++)
@@ -467,6 +512,7 @@ void ChangeList::dump(void)
         fprintf(stderr, "\t%u\n", 
                 _vChangedFieldContainers[i].first);
     }
+#endif
 
     fprintf(stderr, "CLAdd:\n");
     for(i = 0; i < _vAddRefdFieldContainers.size(); i++)
@@ -489,7 +535,19 @@ void ChangeList::dump(void)
     fprintf(stderr, "CLCreate:\n");
     for(i = 0; i < _vCreatedFieldContainers.size(); i++)
     {
-        fprintf(stderr, "\t%u\n", _vCreatedFieldContainers[i]);
+        fprintf(stderr, "\t%u | ", _vCreatedFieldContainers[i]);
+
+        FieldContainerPtr pTmp = FieldContainerFactory::the()->getContainer(
+            _vCreatedFieldContainers[i]);
+            
+        if(pTmp != NullFC)
+        {
+            fprintf(stderr, "%s\n", pTmp->getType().getCName());
+        }
+        else
+        {
+            fprintf(stderr, "\n");
+        }
     }
     
     fprintf(stderr, "CLDestroy:\n");

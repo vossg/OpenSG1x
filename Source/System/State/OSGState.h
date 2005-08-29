@@ -150,6 +150,10 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
 
     /*! \}                                                                 */
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
+
     /*==========================  PRIVATE  ================================*/
   private:
 

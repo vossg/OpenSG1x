@@ -175,8 +175,12 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef std::pair<BitVector,
+                      BitVector>                  MaskPair;
+
     typedef std::map<IDString, FieldContainerPtr> NameContainerMap;
     typedef std::map<IDString, VRMLNodeDesc    *> NameDescriptionMap;
+    typedef std::stack<       MaskPair          > MaskStack;
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
@@ -198,6 +202,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
     std::stack<      FieldContainerPtr >  _fcStack;
     std::stack<      Field            *>  _fStack;
     std::stack<const FieldDescription *>  _fdStack;
+
+               MaskPair                    _bvChanged;
+               MaskStack                   _sChangedStack;
 
                NameContainerMap            _nameFCMap;
                NameDescriptionMap          _nameDescMap;

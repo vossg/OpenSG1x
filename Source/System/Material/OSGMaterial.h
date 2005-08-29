@@ -139,7 +139,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     // initialize it. :( DR
     // Actually, no, it isn't!!! Multiple materials updating the same aspect 
     // in different threads make this crash!!! DR
-    
+
+
+    // Make sure the state is deleted
+#if defined(OSG_FIXED_MFIELDSYNC)
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */

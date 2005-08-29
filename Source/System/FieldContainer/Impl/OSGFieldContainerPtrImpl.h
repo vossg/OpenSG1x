@@ -255,6 +255,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     void addRef          (void) const;
     void subRef          (void) const;
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    void doSubRef        (void) const;
+#endif
+
     void deleteContainers(void) const;
 
     /*! \}                                                                 */

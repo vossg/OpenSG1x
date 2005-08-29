@@ -99,15 +99,21 @@ void FieldContainerPtrBase::deleteContainers(void) const
 //            ((FieldContainer *) pTmp)->getType().getCName(),
             ((FieldContainer *) pTmp)->getType().getId());
 #endif
-    
+ 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    ((FieldContainer *) pTmp)->~FieldContainer();
+#endif
+   
     for(UInt32 i = 0; i < ThreadManager::getNumAspects(); i++)
     {
 #if defined(OSG_FIXED_MFIELDSYNC)
         ((FieldContainer *) pTmp)->onDestroyAspect(*(getIdP()), i);
 #endif
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
         ((FieldContainer *) pTmp)->~FieldContainer();
-        
+#endif
+
         pTmp += _containerSize;
     }
     
@@ -117,6 +123,7 @@ void FieldContainerPtrBase::deleteContainers(void) const
 inline
 void FieldContainerPtrBase::subRef(void) const
 {
+#if !defined(OSG_FIXED_MFIELDSYNC)
     _pRefCountLock->aquire(_storeP);
 
     (*getRefCountP())--;
@@ -137,7 +144,32 @@ void FieldContainerPtrBase::subRef(void) const
         Thread::getCurrentChangeList()->addSubRefd(
             *(static_cast<const FieldContainerPtr *>(this)));
     }
+#else
+    Thread::getCurrentChangeList()->addSubRefd(
+        *(static_cast<const FieldContainerPtr *>(this)));
+#endif
 }
+
+#if defined(OSG_FIXED_MFIELDSYNC)
+inline
+void FieldContainerPtrBase::doSubRef(void) const
+{
+    _pRefCountLock->aquire(_storeP);
+
+    (*getRefCountP())--;
+
+    if((*getRefCountP()) <= 0)
+    {
+        _pRefCountLock->release(_storeP);
+
+        deleteContainers();
+    }
+    else
+    {
+        _pRefCountLock->release(_storeP);
+    }
+}
+#endif
 
 OSG_END_NAMESPACE
 

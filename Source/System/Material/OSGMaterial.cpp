@@ -147,7 +147,16 @@ Material::~Material(void)
     subRefCP(_pState);
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void Material::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
 
+    subRefCP(_pState);
+    
+    _pState = NullFC;
+}
+#endif
 
 StatePtr Material::getState(void)
 {

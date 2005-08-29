@@ -2860,6 +2860,33 @@ Image::~Image(void)
 {
 }
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+void Image::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+    AttachmentMap::iterator attIt  = _attachmentMap.getValue().begin();
+    AttachmentMap::iterator attEnd = _attachmentMap.getValue().end();
+
+    AttachmentContainerPtr thisP = getPtr();
+
+    while(attIt != attEnd)
+    {
+        beginEditCP((*attIt).second, Attachment::ParentsFieldMask);
+        {
+            (*attIt).second->subParent(thisP);
+        }
+        endEditCP  ((*attIt).second, Attachment::ParentsFieldMask);
+
+        subRefCP   ((*attIt).second);
+
+        ++attIt;
+    }
+
+    _attachmentMap.getValue().clear();
+}
+#endif
+
 /*! Method to check, whether the object data defines a alpha channel or not
  */
 bool Image::hasAlphaChannel(void)

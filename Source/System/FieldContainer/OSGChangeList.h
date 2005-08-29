@@ -175,6 +175,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     void apply        (void);
     void applyAndClear(void);
 
+#if defined(OSG_FIXED_MFIELDSYNC)
+    void applySubRefs(void);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
