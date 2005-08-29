@@ -56,7 +56,8 @@ void BrickSet::buildBricks3D(DVRVolume   *volume,
         SFATAL << "BrickSet::buildBricks3D - brickSize too small: "
                << brickSize[0] << ","
                << brickSize[1] << "," 
-               << brickSize[2] << std::endl;
+               << brickSize[2] << "for overlap " 
+               << overlap << std::endl;
 
         return;
     }
