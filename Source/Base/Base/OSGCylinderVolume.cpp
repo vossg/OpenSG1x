@@ -68,40 +68,12 @@ Real32 CylinderVolume::getScalarVolume(void) const
 
 void CylinderVolume::getBounds(Pnt3f &min, Pnt3f &max) const
 {
-    // this is rather simpleminded, but good enough for now
-
-    if(_axisDir[0] < 0)
+    for(UInt32 i = 0; i < 3; i++) 
     {
-        min[0] = _axisPos[0] + _axisDir[0] - _radius;
-        max[0] = _axisPos[0] - _axisDir[0] + _radius;
-    }
-    else
-    {
-        min[0] = _axisPos[0] - _axisDir[0] - _radius;
-        max[0] = _axisPos[0] + _axisDir[0] + _radius;
-    }
-
-    if(_axisDir[1] < 0)
-    {
-        min[1] = _axisPos[1] + _axisDir[1] - _radius;
-        max[1] = _axisPos[1] - _axisDir[1] + _radius;
-    }
-    else
-    {
-        min[1] = _axisPos[1] - _axisDir[1] - _radius;
-        max[1] = _axisPos[1] + _axisDir[1] + _radius;
-    }
-
-    if(_axisDir[2] < 0)
-    {
-        min[2] = _axisPos[2] + _axisDir[2] - _radius;
-        max[2] = _axisPos[2] - _axisDir[2] + _radius;
-    }
-    else
-    {
-        min[2] = _axisPos[2] - _axisDir[2] - _radius;
-        max[2] = _axisPos[2] + _axisDir[2] + _radius;
-    }
+        min[i] = _axisPos[i] - _radius;
+        max[i] = _axisPos[i] + _radius;
+        ((_axisDir[i] < 0) ? min[i] : max[i]) += _axisDir[i];
+    }    
 }
 
 /*-------------------------- extending ------------------------------------*/
