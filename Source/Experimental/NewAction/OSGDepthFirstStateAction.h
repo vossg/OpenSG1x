@@ -165,6 +165,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthFirstStateAction : public NewActionBase
     typedef StateStore::iterator        StateStoreIt;
     typedef StateStore::const_iterator  StateStoreConstIt;
 
+    class StateRefCount;
+    class NodeStackEntry;
+    friend class StateRefCount;
+    friend class NodeStackEntry;
+    
     class StateRefCount
     {
       public:
@@ -263,6 +268,6 @@ OSG_END_NAMESPACE
 
 #include "OSGDepthFirstStateAction.inl"
 
-#define OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstStateAction.h,v 1.2 2004/09/17 14:09:42 neumannc Exp $"
+#define OSGDEPTHFIRSTSTATEACTION_HEADER_CVSID "@(#)$Id: OSGDepthFirstStateAction.h,v 1.3 2005/08/30 18:21:56 dirk Exp $"
 
 #endif /* _OSGDEPTHFIRSTSTATEACTION_H_ */
