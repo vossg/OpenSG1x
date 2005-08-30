@@ -340,7 +340,10 @@ NewActionBase::findBasicActor(BasicActorBase *pActor) const
     for(; (itActors != endActors) && !found; ++itActors, ++pos)
     {
         if(*itActors == pActor)
+        {
             found = true;
+            break;
+        }
     }
 
     return (found ? pos : TypeTraits<UInt32>::getMax());
@@ -486,7 +489,7 @@ NewActionBase::stopActors(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNewActionBase.cpp,v 1.3 2005/03/31 19:50:57 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNewActionBase.cpp,v 1.4 2005/08/30 13:18:01 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNEWACTIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGNEWACTIONBASE_INLINE_CVSID;
 }
