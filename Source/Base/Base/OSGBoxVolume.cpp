@@ -107,8 +107,8 @@ void BoxVolume::setBoundsByCenterAndSize(const Pnt3f &center,
                    center.z() + size.z() / 2.0f);
 
     Volume::setValid   (true);
-    Volume::setEmpty   (false);
-    Volume::setInfinite(true);
+    Volume::setEmpty   (size.isZero());
+    Volume::setInfinite(false);
 }
 
 
