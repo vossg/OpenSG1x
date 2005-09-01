@@ -149,4 +149,14 @@
 	>
 	The dlist id, if used.
 	</Field>
+	<Field
+		name="IgnoreGLForAspect"
+		type="Int32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="-1"
+		access="public"
+	>
+	The dlist id, if used.
+	</Field>
 </FieldContainer>

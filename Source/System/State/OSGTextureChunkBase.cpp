@@ -178,6 +178,9 @@ const OSG::BitVector  TextureChunkBase::EnvOperand2AlphaFieldMask =
 const OSG::BitVector  TextureChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::GLIdFieldId);
 
+const OSG::BitVector  TextureChunkBase::IgnoreGLForAspectFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::IgnoreGLForAspectFieldId);
+
 const OSG::BitVector  TextureChunkBase::PointSpriteFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::PointSpriteFieldId);
 
@@ -328,6 +331,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var GLenum          TextureChunkBase::_sfGLId
     The OpenGL texture id for this texture.
+*/
+/*! \var Int32           TextureChunkBase::_sfIgnoreGLForAspect
+    The dlist id, if used.
 */
 /*! \var bool            TextureChunkBase::_sfPointSprite
     Flag to use this texture for Point Sprites.
@@ -536,6 +542,11 @@ FieldDescription *TextureChunkBase::_desc[] =
                      GLIdFieldId, GLIdFieldMask,
                      true,
                      (FieldAccessMethod) &TextureChunkBase::getSFGLId),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "IgnoreGLForAspect", 
+                     IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
+                     true,
+                     (FieldAccessMethod) &TextureChunkBase::getSFIgnoreGLForAspect),
     new FieldDescription(SFBool::getClassType(), 
                      "pointSprite", 
                      PointSpriteFieldId, PointSpriteFieldMask,
@@ -736,6 +747,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfEnvOperand1Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfEnvOperand2Alpha       (GLenum(GL_SRC_ALPHA)), 
     _sfGLId                   (GLenum(0)), 
+    _sfIgnoreGLForAspect      (Int32(-1)), 
     _sfPointSprite            (bool(GL_FALSE)), 
     _sfPriority               (Real32(1.f)), 
     _sfShaderOperation        (GLenum(GL_NONE)), 
@@ -793,6 +805,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfEnvOperand1Alpha       (source._sfEnvOperand1Alpha       ), 
     _sfEnvOperand2Alpha       (source._sfEnvOperand2Alpha       ), 
     _sfGLId                   (source._sfGLId                   ), 
+    _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
     _sfPointSprite            (source._sfPointSprite            ), 
     _sfPriority               (source._sfPriority               ), 
     _sfShaderOperation        (source._sfShaderOperation        ), 
@@ -971,6 +984,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         returnValue += _sfGLId.getBinSize();
+    }
+
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        returnValue += _sfIgnoreGLForAspect.getBinSize();
     }
 
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
@@ -1222,6 +1240,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfGLId.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
     {
         _sfPointSprite.copyToBin(pMem);
@@ -1470,6 +1493,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
     {
         _sfPointSprite.copyFromBin(pMem);
@@ -1662,6 +1690,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
+
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
         _sfPointSprite.syncWith(pOther->_sfPointSprite);
 
@@ -1816,6 +1847,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
+
     if(FieldBits::NoField != (PointSpriteFieldMask & whichField))
         _sfPointSprite.syncWith(pOther->_sfPointSprite);
 
@@ -1919,7 +1953,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 

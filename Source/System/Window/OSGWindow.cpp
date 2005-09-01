@@ -539,7 +539,7 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
         initRegisterGLObject(id, num);
 
         staticRelease();
-       
+
         return id;
     }
     
@@ -572,7 +572,7 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
                 initRegisterGLObject(id, num);
 
                 staticRelease();
-                   
+
                 return id;
             }
         }
@@ -795,12 +795,14 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
                      GlObjectLastRefreshFieldMask);
 
     if(_mfGlObjectLastReinitialize.size() < id + num)
-    {
         _mfGlObjectLastReinitialize.resize(id + num);
+        
+    if(_mfGlObjectLastRefresh.size() < id + num)
         _mfGlObjectLastRefresh.resize(id + num);
+        
+    if(_lastValidate.size() < id + num)       
         _lastValidate.resize(id + num);
-    }
-
+ 
     for(UInt32 i = id; i < id + num; ++i)
     {
         _mfGlObjectLastReinitialize[i] = 0;
@@ -820,6 +822,20 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 */
 void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
+    // Has this object ever been used?
+    if(_glObjects[id] && _glObjects[id]->getRefCounter() == 0)
+    {
+        if(_glObjects[id])
+            delete _glObjects[ id ];
+        
+        for ( UInt32 j = 0; j < num ; j++)
+        {
+            _glObjects[id+j] = NULL;
+        }           
+
+        return;
+    }
+    
     std::vector<WindowPtr>::iterator it;
 
     for(it = _allWindows.begin(); it != _allWindows.end(); ++it)
@@ -833,6 +849,7 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
             return;
         }
 #endif
+
         // has the object been used in this context at all?
         if((*it)->getGlObjectLastReinitialize()[id] != 0) 
             (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
@@ -1227,6 +1244,7 @@ void OSG::Window::frameExit(void)
                 _glObjects[i+j] = NULL;
             }   
         }
+
         ++st;
     }
 

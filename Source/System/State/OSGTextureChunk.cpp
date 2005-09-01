@@ -250,13 +250,37 @@ const StateChunkClass *TextureChunk::getClass(void) const
 
 void TextureChunk::changed(BitVector whichField, UInt32 origin)
 {
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        if(getGLId() == 0)
+        {
+            TextureChunkPtr tmpPtr(*this);
+
+            beginEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
+            
+            setGLId(
+                Window::registerGLObject(
+                    osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr,
+                                                 Window ,
+                                                 UInt32>(
+                                                     tmpPtr,
+                                                     &TextureChunk::handleGL),
+                    1));
+            
+            endEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
+        }
+    }
+
     // Only filter changed? Mipmaps need reinit.
     if((whichField & ~(MinFilterFieldMask | MagFilterFieldMask)) == 0)
     {
         if((getMinFilter() != GL_NEAREST) &&
            (getMinFilter() != GL_LINEAR))
         {
-            Window::reinitializeGLObject(getGLId());
+            if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+            {
+                Window::reinitializeGLObject(getGLId());
+            }
         }
         else
         {
@@ -271,11 +295,17 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
                              DirtyMinYFieldMask | DirtyMaxYFieldMask |
                              DirtyMinZFieldMask | DirtyMaxZFieldMask)) == 0)
     {
-        Window::refreshGLObject(getGLId());
+        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+        {
+            Window::refreshGLObject(getGLId());
+        }
     }
     else // Play it safe, do a reinit
     {
-        Window::reinitializeGLObject(getGLId());
+        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+        {
+            Window::reinitializeGLObject(getGLId());
+        }
     }
 
     if(whichField & ImageFieldMask)
@@ -320,18 +350,21 @@ void TextureChunk::onCreate(const TextureChunk *)
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
     TextureChunkPtr tmpPtr(*this);
 
-    beginEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        beginEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
 
-    setGLId(
-        Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr,
+        setGLId(
+            Window::registerGLObject(
+                osgTypedMethodVoidFunctor2ObjCPtrPtr<TextureChunkPtr,
                                                  Window ,
                                                  UInt32>(
                                                      tmpPtr,
                                                      &TextureChunk::handleGL),
-            1));
+                1));
 
-    endEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
+        endEditCP(tmpPtr, TextureChunk::GLIdFieldMask);
+    }
 }
 
 

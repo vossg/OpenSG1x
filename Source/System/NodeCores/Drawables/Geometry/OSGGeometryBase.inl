@@ -194,6 +194,13 @@ SFInt32 *GeometryBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+//! Get the Geometry::_sfIgnoreGLForAspect field.
+inline
+SFInt32 *GeometryBase::getSFIgnoreGLForAspect(void)
+{
+    return &_sfIgnoreGLForAspect;
+}
+
 
 //! Get the value of the Geometry::_sfTypes field.
 inline
@@ -466,6 +473,27 @@ inline
 void GeometryBase::setGLId(const Int32 &value)
 {
     _sfGLId.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfIgnoreGLForAspect field.
+inline
+Int32 &GeometryBase::getIgnoreGLForAspect(void)
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Get the value of the Geometry::_sfIgnoreGLForAspect field.
+inline
+const Int32 &GeometryBase::getIgnoreGLForAspect(void) const
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Set the value of the Geometry::_sfIgnoreGLForAspect field.
+inline
+void GeometryBase::setIgnoreGLForAspect(const Int32 &value)
+{
+    _sfIgnoreGLForAspect.setValue(value);
 }
 
 

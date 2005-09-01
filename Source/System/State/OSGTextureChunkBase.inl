@@ -299,6 +299,13 @@ SFGLenum *TextureChunkBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+//! Get the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+SFInt32 *TextureChunkBase::getSFIgnoreGLForAspect(void)
+{
+    return &_sfIgnoreGLForAspect;
+}
+
 //! Get the TextureChunk::_sfPointSprite field.
 inline
 SFBool *TextureChunkBase::getSFPointSprite(void)
@@ -1042,6 +1049,27 @@ void TextureChunkBase::setGLId(const GLenum &value)
     _sfGLId.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+Int32 &TextureChunkBase::getIgnoreGLForAspect(void)
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+const Int32 &TextureChunkBase::getIgnoreGLForAspect(void) const
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+void TextureChunkBase::setIgnoreGLForAspect(const Int32 &value)
+{
+    _sfIgnoreGLForAspect.setValue(value);
+}
+
 //! Get the value of the TextureChunk::_sfPointSprite field.
 inline
 bool &TextureChunkBase::getPointSprite(void)
@@ -1444,5 +1472,5 @@ const MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: $"
 

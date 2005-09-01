@@ -96,6 +96,7 @@
 #include <OSGGLenumFields.h> // EnvOperand1Alpha type
 #include <OSGGLenumFields.h> // EnvOperand2Alpha type
 #include <OSGGLenumFields.h> // GLId type
+#include <OSGInt32Fields.h> // IgnoreGLForAspect type
 #include <OSGBoolFields.h> // PointSprite type
 #include <OSGReal32Fields.h> // Priority type
 #include <OSGGLenumFields.h> // ShaderOperation type
@@ -167,7 +168,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         EnvOperand1AlphaFieldId     = EnvOperand0AlphaFieldId     + 1,
         EnvOperand2AlphaFieldId     = EnvOperand1AlphaFieldId     + 1,
         GLIdFieldId                 = EnvOperand2AlphaFieldId     + 1,
-        PointSpriteFieldId          = GLIdFieldId                 + 1,
+        IgnoreGLForAspectFieldId    = GLIdFieldId                 + 1,
+        PointSpriteFieldId          = IgnoreGLForAspectFieldId    + 1,
         PriorityFieldId             = PointSpriteFieldId          + 1,
         ShaderOperationFieldId      = PriorityFieldId             + 1,
         ShaderInputFieldId          = ShaderOperationFieldId      + 1,
@@ -218,6 +220,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector EnvOperand1AlphaFieldMask;
     static const OSG::BitVector EnvOperand2AlphaFieldMask;
     static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector IgnoreGLForAspectFieldMask;
     static const OSG::BitVector PointSpriteFieldMask;
     static const OSG::BitVector PriorityFieldMask;
     static const OSG::BitVector ShaderOperationFieldMask;
@@ -292,6 +295,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFGLenum            *getSFEnvOperand1Alpha(void);
            SFGLenum            *getSFEnvOperand2Alpha(void);
            SFGLenum            *getSFGLId           (void);
+           SFInt32             *getSFIgnoreGLForAspect(void);
            SFBool              *getSFPointSprite    (void);
            SFReal32            *getSFPriority       (void);
            SFGLenum            *getSFShaderOperation(void);
@@ -370,6 +374,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const GLenum              &getEnvOperand2Alpha(void) const;
            GLenum              &getGLId           (void);
      const GLenum              &getGLId           (void) const;
+           Int32               &getIgnoreGLForAspect(void);
+     const Int32               &getIgnoreGLForAspect(void) const;
            bool                &getPointSprite    (void);
      const bool                &getPointSprite    (void) const;
            Real32              &getPriority       (void);
@@ -444,6 +450,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setEnvOperand1Alpha( const GLenum &value );
      void setEnvOperand2Alpha( const GLenum &value );
      void setGLId           ( const GLenum &value );
+     void setIgnoreGLForAspect( const Int32 &value );
      void setPointSprite    ( const bool &value );
      void setPriority       ( const Real32 &value );
      void setShaderOperation( const GLenum &value );
@@ -533,6 +540,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFGLenum            _sfEnvOperand1Alpha;
     SFGLenum            _sfEnvOperand2Alpha;
     SFGLenum            _sfGLId;
+    SFInt32             _sfIgnoreGLForAspect;
     SFBool              _sfPointSprite;
     SFReal32            _sfPriority;
     SFGLenum            _sfShaderOperation;
@@ -629,6 +637,6 @@ typedef RefPtr<TextureChunkPtr> TextureChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

@@ -81,6 +81,7 @@
 #include <OSGUInt16Fields.h> // IndexMapping type
 #include <OSGBoolFields.h> // DlistCache type
 #include <OSGInt32Fields.h> // GLId type
+#include <OSGInt32Fields.h> // IgnoreGLForAspect type
 
 #include <OSGGeometryFields.h>
 
@@ -104,21 +105,22 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 
     enum
     {
-        TypesFieldId           = Inherited::NextFieldId,
-        LengthsFieldId         = TypesFieldId           + 1,
-        PositionsFieldId       = LengthsFieldId         + 1,
-        NormalsFieldId         = PositionsFieldId       + 1,
-        ColorsFieldId          = NormalsFieldId         + 1,
-        SecondaryColorsFieldId = ColorsFieldId          + 1,
-        TexCoordsFieldId       = SecondaryColorsFieldId + 1,
-        TexCoords1FieldId      = TexCoordsFieldId       + 1,
-        TexCoords2FieldId      = TexCoords1FieldId      + 1,
-        TexCoords3FieldId      = TexCoords2FieldId      + 1,
-        IndicesFieldId         = TexCoords3FieldId      + 1,
-        IndexMappingFieldId    = IndicesFieldId         + 1,
-        DlistCacheFieldId      = IndexMappingFieldId    + 1,
-        GLIdFieldId            = DlistCacheFieldId      + 1,
-        NextFieldId            = GLIdFieldId            + 1
+        TypesFieldId             = Inherited::NextFieldId,
+        LengthsFieldId           = TypesFieldId             + 1,
+        PositionsFieldId         = LengthsFieldId           + 1,
+        NormalsFieldId           = PositionsFieldId         + 1,
+        ColorsFieldId            = NormalsFieldId           + 1,
+        SecondaryColorsFieldId   = ColorsFieldId            + 1,
+        TexCoordsFieldId         = SecondaryColorsFieldId   + 1,
+        TexCoords1FieldId        = TexCoordsFieldId         + 1,
+        TexCoords2FieldId        = TexCoords1FieldId        + 1,
+        TexCoords3FieldId        = TexCoords2FieldId        + 1,
+        IndicesFieldId           = TexCoords3FieldId        + 1,
+        IndexMappingFieldId      = IndicesFieldId           + 1,
+        DlistCacheFieldId        = IndexMappingFieldId      + 1,
+        GLIdFieldId              = DlistCacheFieldId        + 1,
+        IgnoreGLForAspectFieldId = GLIdFieldId              + 1,
+        NextFieldId              = IgnoreGLForAspectFieldId + 1
     };
 
     static const OSG::BitVector TypesFieldMask;
@@ -135,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     static const OSG::BitVector IndexMappingFieldMask;
     static const OSG::BitVector DlistCacheFieldMask;
     static const OSG::BitVector GLIdFieldMask;
+    static const OSG::BitVector IgnoreGLForAspectFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -174,6 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
            SFGeoIndicesPtr     *getSFIndices        (void);
            MFUInt16            *getMFIndexMapping   (void);
            SFBool              *getSFDlistCache     (void);
+           SFInt32             *getSFIgnoreGLForAspect(void);
 
            GeoPTypesPtr        &getTypes          (void);
      const GeoPTypesPtr        &getTypes          (void) const;
@@ -199,6 +203,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      const GeoIndicesPtr       &getIndices        (void) const;
            bool                &getDlistCache     (void);
      const bool                &getDlistCache     (void) const;
+           Int32               &getIgnoreGLForAspect(void);
+     const Int32               &getIgnoreGLForAspect(void) const;
            UInt16              &getIndexMapping   (const UInt32 index);
            MFUInt16            &getIndexMapping   (void);
      const MFUInt16            &getIndexMapping   (void) const;
@@ -220,6 +226,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      void setTexCoords3     ( const GeoTexCoordsPtr &value );
      void setIndices        ( const GeoIndicesPtr &value );
      void setDlistCache     ( const bool &value );
+     void setIgnoreGLForAspect( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -276,6 +283,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     MFUInt16            _mfIndexMapping;
     SFBool              _sfDlistCache;
     SFInt32             _sfGLId;
+    SFInt32             _sfIgnoreGLForAspect;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

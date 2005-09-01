@@ -106,6 +106,9 @@ const OSG::BitVector  GeometryBase::DlistCacheFieldMask =
 const OSG::BitVector  GeometryBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::GLIdFieldId);
 
+const OSG::BitVector  GeometryBase::IgnoreGLForAspectFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::IgnoreGLForAspectFieldId);
+
 const OSG::BitVector GeometryBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -153,6 +156,9 @@ const OSG::BitVector GeometryBase::MTInfluenceMask =
     Flag to activate caching the geometry inside a display list.
 */
 /*! \var Int32           GeometryBase::_sfGLId
+    The dlist id, if used.
+*/
+/*! \var Int32           GeometryBase::_sfIgnoreGLForAspect
     The dlist id, if used.
 */
 
@@ -229,7 +235,12 @@ FieldDescription *GeometryBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &GeometryBase::getSFGLId)
+                     (FieldAccessMethod) &GeometryBase::getSFGLId),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "IgnoreGLForAspect", 
+                     IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getSFIgnoreGLForAspect)
 };
 
 
@@ -320,6 +331,7 @@ GeometryBase::GeometryBase(void) :
     _mfIndexMapping           (), 
     _sfDlistCache             (bool(true)), 
     _sfGLId                   (Int32(0)), 
+    _sfIgnoreGLForAspect      (Int32(-1)), 
     Inherited() 
 {
 }
@@ -343,6 +355,7 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _mfIndexMapping           (source._mfIndexMapping           ), 
     _sfDlistCache             (source._sfDlistCache             ), 
     _sfGLId                   (source._sfGLId                   ), 
+    _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
     Inherited                 (source)
 {
 }
@@ -429,6 +442,11 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGLId.getBinSize();
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        returnValue += _sfIgnoreGLForAspect.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -506,6 +524,11 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyToBin(pMem);
     }
 
 
@@ -586,6 +609,11 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -638,6 +666,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
+
 
 }
 #else
@@ -686,6 +717,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
+
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))

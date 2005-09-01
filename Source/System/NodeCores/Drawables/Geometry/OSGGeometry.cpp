@@ -321,20 +321,24 @@ void Geometry::onCreate(const Geometry *)
 
     // !!! this temporary is needed to work around compiler problems(sgi)
     // CHECK CHECK
+
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
-    GeometryPtr tmpPtr(*this);
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        GeometryPtr tmpPtr(*this);
 
-    beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
+        beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
 
-    setGLId(
-          Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr,
-                                                 Window ,
-                                                 UInt32>(tmpPtr,
+        setGLId(
+            Window::registerGLObject(
+                osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr,
+                                                     Window ,
+                                                     UInt32>(tmpPtr,
                                                          &Geometry::handleGL),
-            1));
-
-    endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+                1));
+        
+        endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+    }
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -1199,36 +1203,42 @@ void Geometry::changed(BitVector whichField,
         }
     }
 
-    // invalidate the dlist cache
-    if(getDlistCache())
+#if 1
+
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
     {
-        if(getGLId() == 0)
+    // invalidate the dlist cache
+        if(getDlistCache())
         {
-            GeometryPtr tmpPtr(*this);
-
-            beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
-
-            setGLId(
-                Window::registerGLObject(
-                    osgTypedMethodVoidFunctor2ObjCPtrPtr<
+            if(getGLId() == 0)
+            {
+                GeometryPtr tmpPtr(*this);
+                
+                beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
+                
+                setGLId(
+                    Window::registerGLObject(
+                        osgTypedMethodVoidFunctor2ObjCPtrPtr<
                                 GeometryPtr,
                                 Window ,
                                 UInt32>(tmpPtr,
                                         &Geometry::handleGL),
-                    1));
+                        1));
 
-            endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+                endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+            }
+            
+            Window::refreshGLObject(getGLId());
         }
-
-        Window::refreshGLObject(getGLId());
+        else
+        {
+            if(getGLId() != 0)
+                Window::destroyGLObject(getGLId(), 1);
+            
+            setGLId(0);
+        }
     }
-    else
-    {
-        if(getGLId() != 0)
-            Window::destroyGLObject(getGLId(), 1);
-
-        setGLId(0);
-    }
+#endif
 
     Inherited::changed(whichField, origin);
 }
