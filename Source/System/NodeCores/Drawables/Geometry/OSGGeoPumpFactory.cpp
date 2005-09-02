@@ -674,7 +674,7 @@ void GeoPump128(Window   *win,
     else
     {
         LengthsSize = 1;
-        LengthsFormatSize =  4;
+        LengthsFormatSize = 4;
         LengthsData = (UChar8*) &lendummy;
         lendummy = PositionsPtr->getSize();
     }
