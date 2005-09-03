@@ -83,6 +83,12 @@ typename Ref::StoredObjectType* RefPtr<Ref>::operator->(void) const
 }
 
 template< class Ref >
+typename Ref::StoredObjectType* RefPtr<Ref>::getCPtr(void) const
+{
+    return &(*_ref);
+}
+
+template< class Ref >
 Ref RefPtr<Ref>::get(void) const
 {
     return _ref;
@@ -193,5 +199,5 @@ void RefPtr<Ref>::setRef(const Ref &ref)
 
 OSG_END_NAMESPACE
 
-#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.3 2005/08/16 16:17:40 dirk Exp $"
+#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.4 2005/09/03 18:35:01 dirk Exp $"
 

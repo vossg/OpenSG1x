@@ -61,6 +61,8 @@ class RefPtr
     /*==========================  PUBLIC  =================================*/
   public:
  
+    typedef  typename Ref::StoredObjectType  StoredObjectType;
+    
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -88,6 +90,7 @@ class RefPtr
     operator Ref(void) const;
     
     typename Ref::StoredObjectType* operator->(void) const;
+    typename Ref::StoredObjectType* getCPtr   (void) const;
     
     Ref get(void) const;
     
@@ -136,6 +139,6 @@ OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.4 2005/08/16 16:17:40 dirk Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.5 2005/09/03 18:35:01 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */
