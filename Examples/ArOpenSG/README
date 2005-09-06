@@ -1,0 +1,31 @@
+WHAT YOU NEED TO COMPILE THIS
+
+-VS.NET 2003 or Linux
+-DirectX 9.0 or Video for Linux (V4L)
+-ARToolKit Plus (from http://studierstube.org/handheld_ar/artoolkitplus.php)
+ or ARToolKit (from http://www.hitl.washington.edu/artoolkit)
+-a videosource (webcam...)
+-a piece of paper with a hiro pattern printed on it (print patt_hiro.png)
+-the file test.wrl (should be here somewhere)
+-the file camera_para.dat (should be here somewhere)
+
+ARToolKit Plus doesn't compile on Linux in the current form. artkp.patch is
+a patch that fixes some problems that gcc has with it. It is for version
+1.3.1, and may not work for other versions. To use it you also need to link
+MemroyManager.cpp into your project.
+
+There is a #define in main.cpp to switch between ARToolkit Plus and
+ARToolKit. Please set it accordingly.
+
+This is primarily an example of how to combine OpenSG and
+ARToolKit Plus, and it doesn't aspire to be the best possible AR
+application. ;) 
+
+Some code taken from Amire (www.sf.net/projects/amire).
+
+Original by
+Antonio Bleile
+Seac02 S.r.l
+www.seac02.it
+
+Some changes and Linux version by Dirk Reiners
