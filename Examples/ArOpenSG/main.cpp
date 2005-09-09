@@ -293,7 +293,7 @@ int setupAR()
 	  
 #ifdef ARTOOLKITPLUS
 	tracker = new ARToolKitPlus::TrackerSingleMarkerImpl<16,16,16, ARToolKitPlus::PIXEL_FORMAT_BGR, 150, 300>(width,height);
-	tracker->init("camera_para.dat", 1, 1000, 0 );
+	tracker->init("camera_para.dat", 1, 10000, 0 );
 	 
 	tracker->setImageProcessingMode( ARToolKitPlus::IMAGE_FULL_RES );
      
