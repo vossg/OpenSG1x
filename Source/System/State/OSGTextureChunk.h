@@ -193,6 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     static UInt32 _extTextureLodBias;
     static UInt32 _arbTextureCompression;
     static UInt32 _arbTextureRectangle;
+    static UInt32 _arbTextureNonPowerOfTwo;
     
     // extension indices for used fucntions;
     static UInt32 _funcTexImage3D;

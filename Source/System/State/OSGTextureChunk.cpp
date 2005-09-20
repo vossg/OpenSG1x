@@ -113,6 +113,7 @@ UInt32 TextureChunk::_sgisGenerateMipmap;
 UInt32 TextureChunk::_extTextureLodBias;
 UInt32 TextureChunk::_arbTextureCompression;
 UInt32 TextureChunk::_arbTextureRectangle;
+UInt32 TextureChunk::_arbTextureNonPowerOfTwo;
 UInt32 TextureChunk::_funcTexImage3D              = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D           = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture           = Window::invalidFunctionID;
@@ -160,27 +161,29 @@ TextureChunk::TextureChunk(void) :
     Inherited()
 {
     _extTex3D               =
-        Window::registerExtension("GL_EXT_texture3D"            );
+        Window::registerExtension("GL_EXT_texture3D"                );
     _arbMultiTex            =
-        Window::registerExtension("GL_ARB_multitexture"         );
+        Window::registerExtension("GL_ARB_multitexture"             );
     _arbCubeTex             =
-        Window::registerExtension("GL_ARB_texture_cube_map"     );
+        Window::registerExtension("GL_ARB_texture_cube_map"         );
     _nvPointSprite          =
-        Window::registerExtension("GL_NV_point_sprite"          );
+        Window::registerExtension("GL_NV_point_sprite"              );
     _nvTextureShader        =
-        Window::registerExtension("GL_NV_texture_shader"        );
+        Window::registerExtension("GL_NV_texture_shader"            );
     _nvTextureShader2       =
-        Window::registerExtension("GL_NV_texture_shader2"       );
+        Window::registerExtension("GL_NV_texture_shader2"           );
     _nvTextureShader3       =
-        Window::registerExtension("GL_NV_texture_shader3"       );
+        Window::registerExtension("GL_NV_texture_shader3"           );
     _sgisGenerateMipmap     =
-        Window::registerExtension("GL_SGIS_generate_mipmap"     );
+        Window::registerExtension("GL_SGIS_generate_mipmap"         );
     _extTextureLodBias      = 
-        Window::registerExtension("GL_EXT_texture_lod_bias"     );
+        Window::registerExtension("GL_EXT_texture_lod_bias"         );
     _arbTextureCompression  = 
-        Window::registerExtension("GL_ARB_texture_compression"  );
+        Window::registerExtension("GL_ARB_texture_compression"      );
     _arbTextureRectangle  = 
-        Window::registerExtension("GL_ARB_texture_rectangle"    );
+        Window::registerExtension("GL_ARB_texture_rectangle"        );
+    _arbTextureNonPowerOfTwo  = 
+        Window::registerExtension("GL_ARB_texture_non_power_of_two" );
 
     _funcTexImage3D    =
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , 
@@ -957,8 +960,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             void * data = NULL;
             UInt32 datasize = 0;
 
-            // can we use the texture directly?
+            // Do we need to massage the texture or can we just use it?
             if(imgtarget != GL_TEXTURE_RECTANGLE_ARB &&
+               !win->hasExtension(_arbTextureNonPowerOfTwo) &&
                (!osgispower2(width) || !osgispower2(height) || !osgispower2(depth))
               )
             {
@@ -1009,6 +1013,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                             height = outh;
                         }
                     }
+                
                 }
                 else // don't scale, just use ll corner
                 {
@@ -1124,9 +1129,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                       << imgtarget << "!!!" << std::endl;
                        } // switch imgtarget
                    } // compressed data?
-                   
+                       
                    defined = true;
-               } // do scale               
+                } // do scale  
             } 
 	        else // can we use it directly?
             {
@@ -1282,8 +1287,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         if(getExternalFormat() != GL_NONE)
             externalFormat = getExternalFormat();
 
-        if(!getScale() || imgtarget == GL_TEXTURE_RECTANGLE_ARB ||
-                           (osgispower2(img->getWidth() ) &&
+        if(!getScale() || imgtarget == GL_TEXTURE_RECTANGLE_ARB
+                       || win->hasExtension(_arbTextureNonPowerOfTwo) 
+                       ||  (osgispower2(img->getWidth() ) &&
                             osgispower2(img->getHeight()) &&
                             osgispower2(img->getDepth() )
           )                )
