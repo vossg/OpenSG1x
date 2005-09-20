@@ -47,12 +47,14 @@ bool  isPOT = false;
 
 // flag to indicate whether rectangular textures are available
 bool  hasRectTex = false;
+// flag to indicate whether NPOT textures are available
+bool  hasNPOT = false;
 
 
 // flag to indicate that only a small part of the image should be changed
 // per frame. The random image geenration can get slow for large
 // images.
-bool  changeOnlyPart = true;
+bool  changeOnlyPart = false;
 
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
@@ -173,8 +175,8 @@ int main(int argc, char **argv)
     
     // Create the parts needed for the video background
     
-    UInt32 width = 320;
-    UInt32 height = 200;
+    UInt32 width = 640;
+    UInt32 height = 480;
     
     // get the desired size from the command line
     if(argc >= 3)
@@ -199,9 +201,11 @@ int main(int argc, char **argv)
     
     // Now we can check for OpenGL extensions    
     hasRectTex = gwin->hasExtension("GL_ARB_texture_rectangle");
-    
+    hasNPOT = gwin->hasExtension("GL_ARB_texture_non_power_of_two");
+   
     // Print what we've got
     SLOG << "Got " << (isPOT?"":"non-") << "power-of-two images and "
+         << (hasNPOT?"can":"cannot") << " use NPOT textures and "
          << (hasRectTex?"can":"cannot") << " use rectangular textures" 
          << ", changing " << (changeOnlyPart?"part":"all") 
          << " of the screen"
@@ -245,6 +249,11 @@ int main(int argc, char **argv)
         {
             // power-of-two image. Nice, nothing special to do here.
         }
+        else if(hasNPOT)
+        {
+            // NPOT image, but GL_ARB_non_power_of_two supported,
+            // dpn't need to anything special
+        }
         else if(hasRectTex)
         {
             // Rectangular textures are available, but they need to be 
@@ -275,7 +284,7 @@ int main(int argc, char **argv)
         
         // Set up texture coordinates for the background
         
-        if(isPOT)
+        if(isPOT || hasNPOT)
         {
             // Standard texture coords for power-of-two image.
             back->getTexCoords().push_back(Pnt2f(0,0));
@@ -316,7 +325,8 @@ int main(int argc, char **argv)
     // tell the manager what to manage
     mgr->setWindow(gwin );
     mgr->setRoot  (scene);
-
+    mgr->setStatistics(true);
+    
     // replace the background
     // This has to be done after the viewport has been created, which the 
     // SSM does in setRoot().
