@@ -180,6 +180,13 @@ SFParticleBSPTree *ParticlesBase::getSFBsp(void)
     return &_sfBsp;
 }
 
+//! Get the Particles::_sfNumParticles field.
+inline
+SFInt32 *ParticlesBase::getSFNumParticles(void)
+{
+    return &_sfNumParticles;
+}
+
 
 //! Get the value of the Particles::_sfMode field.
 inline
@@ -370,6 +377,27 @@ void ParticlesBase::setBsp(const ParticleBSPTree &value)
     _sfBsp.setValue(value);
 }
 
+//! Get the value of the Particles::_sfNumParticles field.
+inline
+Int32 &ParticlesBase::getNumParticles(void)
+{
+    return _sfNumParticles.getValue();
+}
+
+//! Get the value of the Particles::_sfNumParticles field.
+inline
+const Int32 &ParticlesBase::getNumParticles(void) const
+{
+    return _sfNumParticles.getValue();
+}
+
+//! Set the value of the Particles::_sfNumParticles field.
+inline
+void ParticlesBase::setNumParticles(const Int32 &value)
+{
+    _sfNumParticles.setValue(value);
+}
+
 
 //! Get the value of the \a index element the Particles::_mfSizes field.
 inline
@@ -436,5 +464,5 @@ const MFReal32 &ParticlesBase::getTextureZs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

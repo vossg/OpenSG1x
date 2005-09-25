@@ -39,8 +39,8 @@
         The particle sizes. If not set (1,1,1) will be used, if only one entry
         is set, it will be used for all particles. If the number of sizes if
         equal to the number of positions every particle will get its own size.
-        Most modes only use the X coordinate of the vector. Particles with size 0
-        are ignored.
+        Most modes only use the X coordinate of the vector. Particles with 
+        size[0] == 0 are ignored.
 	</Field>
 	<Field
 		name="secPositions"
@@ -131,5 +131,16 @@
 		header="OSGParticleBSP.h"
 		access="public"
 	>
+	</Field>
+	<Field
+		name="numParticles"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="-1"
+	>
+        Optional number of particles to use. If set to -1, all the particles in 
+        pos, or indices if set, will be used.
 	</Field>
 </FieldContainer>

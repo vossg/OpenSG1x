@@ -177,6 +177,10 @@ int main(int argc, char **argv)
 
     pnts=GeoPositions3f::create();
     secpnts=GeoPositions3f::create();
+    
+    addRefCP(pnts);
+    addRefCP(secpnts);
+    
     GeoColors3fPtr  cols  = GeoColors3f::create();
     GeoNormals3fPtr norms = GeoNormals3f::create();
 

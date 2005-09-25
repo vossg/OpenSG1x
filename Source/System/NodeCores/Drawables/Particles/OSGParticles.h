@@ -67,7 +67,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     /*! \{                                                                 */
     
     enum { Points=0, Lines, ViewDirQuads, ViewerQuads, Arrows, 
-           ViewerArrows, Rectangles, LastMode }
+           ViewerArrows, Rectangles, ShaderQuads, ShaderStrips,
+           LastMode }
            ModeE;
     
     enum { Any=0, BackToFront, FrontToBack } DrawOrderE;
@@ -152,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Particles : public ParticlesBase
     friend class ParticlesBase;
 
     static void initMethod(void);
-
+    
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const Particles &source);

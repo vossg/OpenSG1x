@@ -79,6 +79,7 @@
 #include <OSGBoolFields.h> // Dynamic type
 #include <OSGUInt32Fields.h> // Pump type
 #include <OSGParticleBSP.h> // Bsp type
+#include <OSGInt32Fields.h> // NumParticles type
 
 #include <OSGParticlesFields.h>
 
@@ -114,7 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
         DynamicFieldId      = DrawOrderFieldId    + 1,
         PumpFieldId         = DynamicFieldId      + 1,
         BspFieldId          = PumpFieldId         + 1,
-        NextFieldId         = BspFieldId          + 1
+        NumParticlesFieldId = BspFieldId          + 1,
+        NextFieldId         = NumParticlesFieldId + 1
     };
 
     static const OSG::BitVector ModeFieldMask;
@@ -129,6 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
     static const OSG::BitVector DynamicFieldMask;
     static const OSG::BitVector PumpFieldMask;
     static const OSG::BitVector BspFieldMask;
+    static const OSG::BitVector NumParticlesFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -166,6 +169,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
            SFUInt32            *getSFDrawOrder      (void);
            SFBool              *getSFDynamic        (void);
            SFParticleBSPTree   *getSFBsp            (void);
+           SFInt32             *getSFNumParticles   (void);
 
            UInt32              &getMode           (void);
      const UInt32              &getMode           (void) const;
@@ -183,6 +187,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
      const bool                &getDynamic        (void) const;
            ParticleBSPTree     &getBsp            (void);
      const ParticleBSPTree     &getBsp            (void) const;
+           Int32               &getNumParticles   (void);
+     const Int32               &getNumParticles   (void) const;
            Vec3f               &getSizes          (const UInt32 index);
            MFVec3f             &getSizes          (void);
      const MFVec3f             &getSizes          (void) const;
@@ -206,6 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
      void setDrawOrder      ( const UInt32 &value );
      void setDynamic        ( const bool &value );
      void setBsp            ( const ParticleBSPTree &value );
+     void setNumParticles   ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -259,6 +266,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
     SFUInt32            _sfDrawOrder;
     SFBool              _sfDynamic;
     SFParticleBSPTree   _sfBsp;
+    SFInt32             _sfNumParticles;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -360,6 +368,6 @@ typedef RefPtr<ParticlesPtr> ParticlesRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

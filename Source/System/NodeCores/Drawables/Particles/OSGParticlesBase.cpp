@@ -100,6 +100,9 @@ const OSG::BitVector  ParticlesBase::PumpFieldMask =
 const OSG::BitVector  ParticlesBase::BspFieldMask = 
     (TypeTraits<BitVector>::One << ParticlesBase::BspFieldId);
 
+const OSG::BitVector  ParticlesBase::NumParticlesFieldMask = 
+    (TypeTraits<BitVector>::One << ParticlesBase::NumParticlesFieldId);
+
 const OSG::BitVector ParticlesBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -114,7 +117,7 @@ const OSG::BitVector ParticlesBase::MTInfluenceMask =
     The positions of the particles. This is the primary defining         information for a particle.
 */
 /*! \var Vec3f           ParticlesBase::_mfSizes
-    The particle sizes. If not set (1,1,1) will be used, if only one entry         is set, it will be used for all particles. If the number of sizes if         equal to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector. Particles with size 0         are ignored.
+    The particle sizes. If not set (1,1,1) will be used, if only one entry         is set, it will be used for all particles. If the number of sizes if         equal to the number of positions every particle will get its own size.         Most modes only use the X coordinate of the vector. Particles with          size[0] == 0 are ignored.
 */
 /*! \var GeoPositionsPtr ParticlesBase::_sfSecPositions
     The secondary position of the particle. This information is only used         by a few rendering modes, e.g. the streak mode. Usually it represents         the particle's last position.
@@ -142,6 +145,9 @@ const OSG::BitVector ParticlesBase::MTInfluenceMask =
 */
 /*! \var ParticleBSPTree ParticlesBase::_sfBsp
     
+*/
+/*! \var Int32           ParticlesBase::_sfNumParticles
+    Optional number of particles to use. If set to -1, all the particles in          pos, or indices if set, will be used.
 */
 
 //! Particles description
@@ -207,7 +213,12 @@ FieldDescription *ParticlesBase::_desc[] =
                      "bsp", 
                      BspFieldId, BspFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFBsp)
+                     (FieldAccessMethod) &ParticlesBase::getSFBsp),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "numParticles", 
+                     NumParticlesFieldId, NumParticlesFieldMask,
+                     false,
+                     (FieldAccessMethod) &ParticlesBase::getSFNumParticles)
 };
 
 
@@ -298,6 +309,7 @@ ParticlesBase::ParticlesBase(void) :
     _sfDynamic                (bool(true)), 
     _sfPump                   (), 
     _sfBsp                    (), 
+    _sfNumParticles           (Int32(-1)), 
     Inherited() 
 {
 }
@@ -319,6 +331,7 @@ ParticlesBase::ParticlesBase(const ParticlesBase &source) :
     _sfDynamic                (source._sfDynamic                ), 
     _sfPump                   (source._sfPump                   ), 
     _sfBsp                    (source._sfBsp                    ), 
+    _sfNumParticles           (source._sfNumParticles           ), 
     Inherited                 (source)
 {
 }
@@ -395,6 +408,11 @@ UInt32 ParticlesBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBsp.getBinSize();
     }
 
+    if(FieldBits::NoField != (NumParticlesFieldMask & whichField))
+    {
+        returnValue += _sfNumParticles.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -462,6 +480,11 @@ void ParticlesBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BspFieldMask & whichField))
     {
         _sfBsp.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NumParticlesFieldMask & whichField))
+    {
+        _sfNumParticles.copyToBin(pMem);
     }
 
 
@@ -532,6 +555,11 @@ void ParticlesBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBsp.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (NumParticlesFieldMask & whichField))
+    {
+        _sfNumParticles.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -578,6 +606,9 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
     if(FieldBits::NoField != (BspFieldMask & whichField))
         _sfBsp.syncWith(pOther->_sfBsp);
 
+    if(FieldBits::NoField != (NumParticlesFieldMask & whichField))
+        _sfNumParticles.syncWith(pOther->_sfNumParticles);
+
 
 }
 #else
@@ -614,6 +645,9 @@ void ParticlesBase::executeSyncImpl(      ParticlesBase *pOther,
 
     if(FieldBits::NoField != (BspFieldMask & whichField))
         _sfBsp.syncWith(pOther->_sfBsp);
+
+    if(FieldBits::NoField != (NumParticlesFieldMask & whichField))
+        _sfNumParticles.syncWith(pOther->_sfNumParticles);
 
 
     if(FieldBits::NoField != (SizesFieldMask & whichField))
@@ -676,7 +710,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 

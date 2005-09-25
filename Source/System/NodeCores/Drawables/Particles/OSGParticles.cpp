@@ -50,6 +50,7 @@
 #include <OSGMaterial.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGCamera.h>
+#include <OSGWindow.h>
 
 #include "OSGParticles.h"
 
@@ -67,6 +68,15 @@ OSG_USING_NAMESPACE
 See \ref PageSystemParticles for details.
 
 */
+
+
+/***************************************************************************\
+ *                           File variables                                *
+\***************************************************************************/
+
+static UInt32 _extMultitexture;
+
+static UInt32 _funcglMultiTexCoord3fvARB;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -100,6 +110,12 @@ void Particles::initMethod (void)
 Particles::Particles(void) :
     Inherited()
 {
+    _extMultitexture        = 
+        Window::registerExtension("GL_ARB_multitexture");
+
+    _funcglMultiTexCoord3fvARB = Window::registerFunction(
+                            OSG_DLSYM_UNDERSCORE"glMultiTexCoord3fvARB",
+                            _extMultitexture);          
 }
 
 Particles::Particles(const Particles &source) :
@@ -652,6 +668,39 @@ struct ColTraitGeneric : public ColTraitBase
 
 /*! Position Particle Traits */
 
+struct PosTraitNone : public ParticleTraits
+{
+    typedef struct
+    {
+    }
+    dataType;
+    
+    static inline void init(Particles *, DrawActionBase *, dataType &data,
+        GeoPositionsPtr &pos)
+    {
+    }
+    
+    static inline bool particle(dataType &data, UInt32 particle)
+    {
+        return false;
+    }
+    
+    static inline Pnt3f &position(dataType &data)
+    {
+        static Pnt3f null(0,0,0);
+        return null;
+    }
+    
+    static inline void vertex(dataType &data, UInt32 , Vec4f &dir, 
+                              Real32 s)
+    {
+    }
+    
+    static inline void vertex(dataType &data)
+    {
+    }
+};
+
 struct PosTraitGeneric : public ParticleTraits
 {
     typedef struct
@@ -1003,7 +1052,7 @@ struct TexTraitNone : public ParticleTraits
 };
 
 
-/*! Position Particle Traits */
+/*! Normal Particle Traits */
 
 struct NormalTraitGeneric : public ParticleTraits
 {
@@ -1126,7 +1175,8 @@ struct NormalTraitGeneric3f : public ParticleTraits
 
 struct OSG::ParticlesDrawer
 {
-    virtual void draw(Particles *part, DrawActionBase *action) = 0;
+    virtual void draw(Particles *part, DrawActionBase *action, 
+                             UInt32 length) = 0;
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action,
                              Int32 *index, UInt32 length) = 0;
@@ -1238,7 +1288,7 @@ struct drawViewDirQuads : public ParticlesDrawer
         glEnd();
     }
 
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -1288,9 +1338,7 @@ struct drawViewDirQuads : public ParticlesDrawer
         posTrait::init(part, action, posData, part->getPositions());
 
         glBegin(GL_QUADS);
-
-        UInt32 length = pos->getSize();
-        
+       
         for(UInt32 i = 0; i < length; ++i)
         {
             if(colTrait::particle (colData,  i))
@@ -1459,7 +1507,7 @@ struct drawViewerQuads : public ParticlesDrawer
         glEnd();
     }
 
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -1511,9 +1559,7 @@ struct drawViewerQuads : public ParticlesDrawer
         posTrait::init(part, action, posData, part->getPositions());
 
         glBegin(GL_QUADS);
-
-        UInt32 length = pos->getSize();
-        
+       
         for(UInt32 i = 0; i < length; ++i)
         {
             if(colTrait::particle (colData,  i))
@@ -1584,7 +1630,7 @@ struct drawViewerQuads : public ParticlesDrawer
 template <class posTrait, class colTrait, class texTrait, class sizeTrait>
 struct drawLines : public ParticlesDrawer 
 {
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr  pos  = part->getPositions();
@@ -1612,8 +1658,6 @@ struct drawLines : public ParticlesDrawer
         glLineWidth(s);
           
         glBegin(GL_LINES);
-
-        UInt32 length = pos->getSize();
         
         for(UInt32 i = 0; i < length; ++i)
         {
@@ -1712,7 +1756,7 @@ struct drawLines : public ParticlesDrawer
 template <class posTrait, class colTrait, class texTrait, class sizeTrait>
 struct drawPoints : public ParticlesDrawer 
 {
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr  pos  = part->getPositions();
@@ -1738,8 +1782,6 @@ struct drawPoints : public ParticlesDrawer
         glPointSize(s);
           
         glBegin(GL_POINTS);
-
-        UInt32 length = pos->getSize();
         
         for(UInt32 i = 0; i < length; ++i)
         {
@@ -1928,7 +1970,7 @@ template <class posTrait, class colTrait, class sizeTrait, class normalTrait,
           class geoTrait>
 struct drawObjects : public ParticlesDrawer 
 {
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr pos = part->getPositions();
@@ -1949,8 +1991,6 @@ struct drawObjects : public ParticlesDrawer
         typename posTrait::dataType posData, secPosData;
         posTrait::init(part, action, posData   , part->getPositions());
         posTrait::init(part, action, secPosData, part->getSecPositions());
-
-        UInt32 length = pos->getSize();
         
         for(UInt32 i = 0; i < length; ++i)
         {
@@ -2107,7 +2147,7 @@ template <class posTrait, class colTrait, class sizeTrait,
           class geoTrait>
 struct drawViewerObjects : public ParticlesDrawer 
 {
-    virtual void draw(Particles *part, DrawActionBase *action)
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -2139,8 +2179,6 @@ struct drawViewerObjects : public ParticlesDrawer
         typename posTrait::dataType posData, secPosData;
         posTrait::init(part, action, posData   , part->getPositions());
         posTrait::init(part, action, secPosData, part->getSecPositions());
-
-        UInt32 length = pos->getSize();
         
         for(UInt32 i = 0; i < length; ++i)
         {
@@ -2294,6 +2332,367 @@ struct drawViewerObjects : public ParticlesDrawer
     }
 };
 
+
+/* Static coordinates quad, pass all parameters to shader */
+
+template <class posTrait, class secPosTrait, class colTrait, class texTrait, 
+          class sizeTrait, class normalTrait>
+struct drawShaderQuads : public ParticlesDrawer 
+{
+    virtual void drawIndexed(Particles *part, DrawActionBase *action, 
+                          Int32 *index, UInt32 length)
+    {   
+        Window *win = action->getWindow();
+        
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
+            (GLenum which, GLubyte * data)=
+            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
+                win->getFunction(_funcglMultiTexCoord3fvARB);
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename normalTrait::dataType normalData;
+        normalTrait::init(part, action, normalData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        typename secPosTrait::dataType secPosData;
+        secPosTrait::init(part, action, secPosData, part->getSecPositions());
+
+        GeoPositionsPtr pos = part->getPositions();
+        
+        glBegin(GL_QUADS);
+
+        Int32 i;
+
+        for(UInt32 ii = 0; ii < length; ++ii)
+        {
+            i = index[ii];
+
+            if(i < 0 || i > Int32(pos->getSize()))
+                continue;
+
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle(texData, i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(normalTrait::particle(normalData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            if(secPosTrait::particle(secPosData, i))
+                continue;
+
+            
+            Vec3f s = sizeTrait::size(sizeData, i);
+
+            if(s[0] == 0)
+                continue;
+            
+            normalTrait::normal(normalData, 0);
+            
+            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
+                     (GLubyte*)posTrait::position(posData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
+                     (GLubyte*)secPosTrait::position(secPosData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            
+            texTrait::vertex(texData, 0, 0, 0);
+            glVertex2f      (-.5f, -.5f);
+            texTrait::vertex(texData, 0, 1, 0);
+            glVertex2f      ( .5f, -.5f);
+            texTrait::vertex(texData, 0, 1, 1);
+            glVertex2f      ( .5f,  .5f);
+            texTrait::vertex(texData, 0, 0, 1);
+            glVertex2f      (-.5f,  .5f);
+        }
+
+        glEnd();
+    }
+
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
+    {
+        Window *win = action->getWindow();
+        
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
+            (GLenum which, GLubyte * data)=
+            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
+                win->getFunction(_funcglMultiTexCoord3fvARB);
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename normalTrait::dataType normalData;
+        normalTrait::init(part, action, normalData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        typename secPosTrait::dataType secPosData;
+        secPosTrait::init(part, action, secPosData, part->getSecPositions());
+
+        GeoPositionsPtr pos = part->getPositions();
+        
+        glBegin(GL_QUADS);
+
+        Int32 i;
+ 
+        for(UInt32 i = 0; i < length; ++i)
+        {
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle(texData, i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(normalTrait::particle(normalData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            if(secPosTrait::particle(secPosData, i))
+                continue;
+
+            
+            Vec3f s = sizeTrait::size(sizeData, i);
+
+            if(s[0] == 0)
+                continue;
+            
+            normalTrait::normal(normalData, 0);
+            
+            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
+                     (GLubyte*)posTrait::position(posData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
+                     (GLubyte*)secPosTrait::position(secPosData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            
+            texTrait::vertex(texData, 0, 0, 0);
+            glVertex2f      (-.5f, -.5f);
+            texTrait::vertex(texData, 0, 1, 0);
+            glVertex2f      ( .5f, -.5f);
+            texTrait::vertex(texData, 0, 1, 1);
+            glVertex2f      ( .5f,  .5f);
+            texTrait::vertex(texData, 0, 0, 1);
+            glVertex2f      (-.5f,  .5f);
+        }
+
+        glEnd();
+    }
+};
+
+
+/* Static coordinates strips with y coordinates between -.5 and .5, split 
+   into size[2] parts, pass all parameters to shader */
+
+template <class posTrait, class secPosTrait, class colTrait, class texTrait, 
+          class sizeTrait, class normalTrait>
+struct drawShaderStrips : public ParticlesDrawer 
+{
+    virtual void drawIndexed(Particles *part, DrawActionBase *action, 
+                          Int32 *index, UInt32 length)
+    {   
+        Window *win = action->getWindow();
+        
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
+            (GLenum which, GLubyte * data)=
+            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
+                win->getFunction(_funcglMultiTexCoord3fvARB);
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename normalTrait::dataType normalData;
+        normalTrait::init(part, action, normalData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        typename secPosTrait::dataType secPosData;
+        secPosTrait::init(part, action, secPosData, part->getSecPositions());
+
+        GeoPositionsPtr pos = part->getPositions();
+
+        Int32 i;
+
+        for(UInt32 ii = 0; ii < length; ++ii)
+        {
+            i = index[ii];
+
+            if(i < 0 || i > Int32(pos->getSize()))
+                continue;
+
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle(texData, i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(normalTrait::particle(normalData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            if(secPosTrait::particle(secPosData, i))
+                continue;
+
+            
+            Vec3f s = sizeTrait::size(sizeData, i);
+
+            if(s[0] == 0)
+                continue;
+             
+            normalTrait::normal(normalData, 0);
+           
+            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
+                     (GLubyte*)posTrait::position(posData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
+                     (GLubyte*)secPosTrait::position(secPosData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+         
+            glBegin(GL_QUAD_STRIP);
+           
+            UInt32 n = s[2];           
+            Real32 step = 1.f / (n-1);
+            Real32 v = 0.f;
+            for(int y = 0; y < n; ++y, v += step)
+            {             
+                texTrait::vertex(texData, 0, 0, v);
+                glVertex2f  (-.5f, v-.5f);
+                texTrait::vertex(texData, 0, 1, v);
+                glVertex2f  ( .5f, v-.5f);
+            }
+            
+            glEnd();
+        }
+
+    }
+
+    virtual void draw(Particles *part, DrawActionBase *action, UInt32 length)
+    {
+        Window *win = action->getWindow();
+        
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
+            (GLenum which, GLubyte * data)=
+            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
+                win->getFunction(_funcglMultiTexCoord3fvARB);
+
+        // init traits
+        typename colTrait::dataType colData;
+        colTrait::init(part, action, colData);
+
+        typename texTrait::dataType texData;
+        texTrait::init(part, action, texData);
+
+        typename sizeTrait::dataType sizeData;
+        sizeTrait::init(part, action, sizeData);
+
+        typename normalTrait::dataType normalData;
+        normalTrait::init(part, action, normalData);
+
+        typename posTrait::dataType posData;
+        posTrait::init(part, action, posData, part->getPositions());
+
+        typename secPosTrait::dataType secPosData;
+        secPosTrait::init(part, action, secPosData, part->getSecPositions());
+
+        GeoPositionsPtr pos = part->getPositions();
+
+        Int32 i;
+ 
+        for(UInt32 i = 0; i < length; ++i)
+        {
+            if(colTrait::particle (colData,  i))
+                continue;
+
+            if(texTrait::particle(texData, i))
+                continue;
+
+            if(sizeTrait::particle(sizeData, i))
+                continue;
+
+            if(normalTrait::particle(normalData, i))
+                continue;
+
+            if(posTrait::particle(posData, i))
+                continue;
+
+            if(secPosTrait::particle(secPosData, i))
+                continue;
+
+            
+            Vec3f s = sizeTrait::size(sizeData, i);
+
+            if(s[0] == 0)
+                continue;
+             
+            normalTrait::normal(normalData, 0);
+           
+            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
+                     (GLubyte*)posTrait::position(posData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
+                     (GLubyte*)secPosTrait::position(secPosData).getValues());
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+         
+            glBegin(GL_QUAD_STRIP);
+           
+            UInt32 n = s[2];           
+            Real32 step = 1.f / (n-1);
+            Real32 v = 0.f;
+            for(int y = 0; y < n; ++y, v += step)
+            {
+                texTrait::vertex(texData, 0, 0, v);
+                glVertex2f  (-.5f, v-.5f);
+                texTrait::vertex(texData, 0, 1, v);
+                glVertex2f  ( .5f, v-.5f);
+            }
+            
+            glEnd();
+        }
+    }
+};
+
+
+
+
 /* Sorting functions */
 
 
@@ -2372,12 +2771,26 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
     UInt32 size;
     
     if(indices->size() > 0)
-    {
-        size = indices->size();
+    {   
+        if(getNumParticles() == -1)
+        {
+            size = indices->size();
+        }
+        else
+        {
+            size = getNumParticles();
+        }
     }
     else
     {
-        size = pos->getSize();
+        if(getNumParticles() == -1)
+        {
+            size = pos->size();
+        }
+        else
+        {
+            size = getNumParticles();
+        }
     }
    
     std::vector<sorter> sorterList(size);
@@ -2558,7 +2971,14 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
     else if (getIndices().size() > 0)
     {
         index  = &getMFIndices()->getValues()[0];
-        length = getIndices().size();
+        if(getNumParticles() == -1)
+        {
+            length = getIndices().size();
+        }
+        else
+        {
+            length = getNumParticles();
+        }
     }
 
     if(index != NULL)
@@ -2567,7 +2987,14 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
     }
     else
     {
-        drawer->draw(this,action);   
+        if(getNumParticles() == -1)
+        {
+            drawer->draw(this,action,pos->getSize());  
+        }
+        else
+        {
+            drawer->draw(this,action,getNumParticles());         
+        } 
     }
     
     if(freeIndex)
@@ -2584,7 +3011,7 @@ ParticlesDrawer *Particles::findDrawer(void)
         return NULL;
 
     UInt8 mode;
-    enum { part = 0, sing, none } size,normal,color,tex;
+    enum { part = 0, sing, none } size,normal,color,tex,secpos;
     
     mode = getMode();
     
@@ -2597,6 +3024,11 @@ ParticlesDrawer *Particles::findDrawer(void)
               getNormals()->getSize()   == getPositions()->getSize()) ? part :
              (getNormals() != NullFC && 
               getNormals()->getSize()   == 1                        ) ? sing : 
+                                                                        none;
+    secpos = (getSecPositions() != NullFC && 
+              getSecPositions()->getSize()== getPositions()->getSize())?part :
+             (getSecPositions() != NullFC && 
+              getSecPositions()->getSize()== 1                        )?sing : 
                                                                         none;
     color =  (getColors() != NullFC && 
               getColors()->getSize()    == getPositions()->getSize()) ? part :
@@ -2644,6 +3076,13 @@ ParticlesDrawer *Particles::findDrawer(void)
         
     case Lines:
     {
+        if(secpos == none)
+        {
+            FWARNING(("Particles::findDrawer: Need secondary positions for "
+                      "type Lines!\n"));
+            return NULL;
+        }
+        
         static ParticlesDrawer *fallback = 
                     new drawLines<PosTraitGeneric,ColTraitGeneric,
                                   TexTraitGeneric,SizeTraitGeneric>;
@@ -2713,6 +3152,20 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     case Arrows:
     {
+        if(secpos == none)
+        {
+            FWARNING(("Particles::findDrawer: Need secondary positions for "
+                      "type Arrows!\n"));
+            return NULL;
+        }
+        
+        if(normal == none)
+        {
+            FWARNING(("Particles::findDrawer: Need normals for "
+                      "type Arrows!\n"));
+            return NULL;
+        }
+        
         static ParticlesDrawer *fallback = 
                     new drawObjects<PosTraitGeneric,ColTraitGeneric, 
                                     SizeTraitGeneric,NormalTraitGeneric,
@@ -2723,6 +3176,20 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     case ViewerArrows:
     {
+        if(secpos == none)
+        {
+            FWARNING(("Particles::findDrawer: Need secondary positions for "
+                      "type ViewerArrows!\n"));
+            return NULL;
+        }
+        
+        if(normal == none)
+        {
+            FWARNING(("Particles::findDrawer: Need normals for "
+                      "type ViewerArrows!\n"));
+            return NULL;
+        }
+        
         static ParticlesDrawer *fallback = 
                     new drawViewerObjects<PosTraitGeneric,ColTraitGeneric, 
                                           SizeTraitGeneric,GeoTraitArrow>;
@@ -2732,12 +3199,68 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     case Rectangles:
     {
+        if(secpos == none)
+        {
+            FWARNING(("Particles::findDrawer: Need secondary positions for "
+                      "type Rectangles!\n"));
+            return NULL;
+        }
+        
+        if(normal == none)
+        {
+            FWARNING(("Particles::findDrawer: Need normals for "
+                      "type Rectangles!\n"));
+            return NULL;
+        }
+        
         static ParticlesDrawer *fallback = 
                     new drawObjects<PosTraitGeneric,ColTraitGeneric, 
                                     SizeTraitGeneric,NormalTraitGeneric,
                                     GeoTraitRectangle>;
         
         return fallback;
+    }
+    
+    case ShaderQuads:
+    {        
+        static ParticlesDrawer *fallback = 
+                    new drawShaderQuads<PosTraitGeneric,PosTraitGeneric,
+                                        ColTraitGeneric, TexTraitGeneric,
+                                        SizeTraitGeneric,NormalTraitGeneric>,
+                               *nosecfallback =  
+                    new drawShaderQuads<PosTraitGeneric,PosTraitNone,
+                                        ColTraitGeneric, TexTraitGeneric,
+                                        SizeTraitGeneric,NormalTraitGeneric>;
+        
+        if(secpos == none)
+        {
+            return nosecfallback;
+        }
+        else
+        {
+            return fallback;
+        }
+    }
+    
+    case ShaderStrips:
+    {
+        static ParticlesDrawer *fallback = 
+                    new drawShaderStrips<PosTraitGeneric,PosTraitGeneric,
+                                         ColTraitGeneric, TexTraitGeneric,
+                                         SizeTraitGeneric,NormalTraitGeneric>,
+                               *nosecfallback =  
+                    new drawShaderStrips<PosTraitGeneric,PosTraitNone,
+                                         ColTraitGeneric, TexTraitGeneric,
+                                         SizeTraitGeneric,NormalTraitGeneric>;
+               
+        if(secpos == none)
+        {
+            return nosecfallback;
+        }
+        else
+        {
+            return fallback;
+        }
     }
     
     };

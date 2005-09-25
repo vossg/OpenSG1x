@@ -82,6 +82,23 @@ to the secondary position and the it is perpendicular to the normal. There
 need to be positions and secondary positions for every arrow, a single normal
 is possible, or a separate normal for every arrow.
 
+osg::Particles::ModeE::ShaderQuads are designed to be rendered by a shader.
+The Particles core only supplies the data but does not try to do any kind of
+transformation on it, that's left to the shader. The data is passed to the
+shader as follows: the particle's position as texture coordinate 1, the
+secondary position as 2, the size as 3. Color and normal just use the regular
+OpenGL attributes. The vertices of the quad are fixed at (-.5,-.5), (.5,-.5), 
+(.5,.5) and (-.5,.5), the texture coordinates 0 at (0,0), (1,0), (1,1) and
+(0,1). If set, the textureZs of the particles are set in the texture
+coordinate 0.
+
+osg::Particles::ModeE::ShaderStrips are similar to the ShaderQuads. They also
+render a rectangle between (-.5,-.5) and (.5,.5), but they split it up into
+multiple slices, the number of slices is set by the z coordinate of the size
+attribute. For example setting size[2] to 2 would render two quads, with
+vertices (-.5,-.5), (.5,-.5), (.5,0), (-.5,0) and  (-.5,0), (.5,0), (.5,.5), 
+(-.5,.5) (and corresponsing texture coordinates).
+
 There is also a single material that is used to draw the particles, and an
 attribute to change the draw order of the particles.
 
