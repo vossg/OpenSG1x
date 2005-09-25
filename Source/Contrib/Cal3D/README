@@ -1,0 +1,28 @@
+
+README for Cal3D
+================
+
+Name:                   Cal3D
+License:                LGPL
+Maintainer:             Dirk Reiners <dirk@opensg.org>
+Initial Author:         Dirk Reiners <dirk@opensg.org>
+Additional Libraries:   cal3d
+Added:                  2005/09/11
+Last modified:          2005/09/11
+Last tested:            2005/09/11
+
+Description:
+
+A wrapper for the Cal3D character animatiom system (cal3d.sf.net).
+
+This has not been tested in a multi-thread environment and it probably 
+won't work there. Be warned!
+
+
+WARNING: the hardware skinning shader trigger a bug on nVidia drivers and
+don't work, ignore for now!
+
+Yours
+
+    Dirk
+    

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Character"
+	parent="Drawable"
+	pointerfieldtypes="none"
+	structure="concrete"
+        library="Contrib"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="model"
+		type="CharacterModelPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The model this character uses.
+	</Field>
+ 	<Field
+		name="currentAnimation"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Currently running animation.
+	</Field>
+	<Field
+		name="blendTime"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="1.f"
+	>
+	Blending time for switching between animations.
+	</Field>
+	<Field
+		name="delta"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="-1.f"
+	>
+	Delta time in seconds for the next frame to render. If set to -1, 
+        the time
+        is measured inside the Character Core and animated automatically.
+	</Field>
+	<Field
+		name="timeScale"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="1.f"
+	>
+	Scale factor to slow down/speed up animations. Only used if
+        delta is less than 0.
+	</Field>
+	<Field
+		name="drawSkeleton"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                defaultValue="false"
+	>
+	Flag for controlling drawing of the skeleton. If the skeleton is
+        drawn, the skin is not drawn (and vice versa).
+	</Field>
+	<Field
+		name="useShaderForGeometry"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+                value="false"
+	>
+	Flag for controlling whether the skin is deformed in software or whether
+        the vertices are passed undeformed and a shader is expected to do the job.
+	</Field>
+	<Field
+		name="modelVolume"
+		type="DynamicVolume"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+	The bounding volume of the character.
+        </Field>
+
+An instance of a CharacterModel.       
+</FieldContainer>

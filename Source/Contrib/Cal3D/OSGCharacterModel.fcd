@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="CharacterModel"
+	parent="AttachmentContainer"
+	pointerfieldtypes="single"
+	structure="concrete"
+        library="Contrib"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+>
+	<Field
+		name="configFile"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	File name for the model configuration file (.cfg).
+	</Field>
+	<Field
+		name="numAnimations"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Number of loaded animations (valid only after endEdit for loading model configuration file).
+	</Field>
+
+	<Field
+		name="shader"
+		type="SHLChunkPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The shader to use for skinning. Has to be set before the configFile.
+	</Field>
+	
+        <Field
+		name="materials"
+		type="ChunkMaterialPtr"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+	The different materials used in the model.
+	</Field>
+	
+   
+	
+The CoreModel, based on the Cal3D CoreModel component.
+</FieldContainer>

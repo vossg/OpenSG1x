@@ -1,0 +1,21 @@
+
+// This doesn't work right now, it triggers a bug in the nVidia drivers
+
+uniform mat4 boneMatrices[29];
+
+void main(void)
+{
+    vec4 weights       = gl_MultiTexCoord1;
+    vec4 matrixIndices = gl_MultiTexCoord2;
+    
+    mat4 skinmat;
+    int i;
+    for (i=0; i<4; i++)
+    {
+        skinmat = skinmat + (weights[i] * boneMatrices [int(matrixIndices[i])]);
+    }
+   
+    vec4 skinned = skinmat * gl_Vertex;       
+    
+    gl_Position     = gl_ModelViewProjectionMatrix * skinned;
+}
