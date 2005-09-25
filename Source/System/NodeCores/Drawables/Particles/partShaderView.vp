@@ -1,0 +1,26 @@
+
+uniform int time;
+
+// input variables
+#define pPos gl_MultiTexCoord1
+#define pSecPos gl_MultiTexCoord2
+#define pSize gl_MultiTexCoord3
+#define pOffset gl_Vertex
+
+// output variables to the fragment program.
+varying vec3 vTexcoord;
+varying vec3 vColor;
+
+void main(void)
+{
+
+    gl_FrontColor = gl_Color;
+    gl_TexCoord[0] = gl_MultiTexCoord0;
+
+    float off = sin(time/300.f+gl_MultiTexCoord0[2]);
+    off = off*off*off*gl_MultiTexCoord0[1]*gl_MultiTexCoord0[1] / 2;
+    vec4 pos;
+    pos = pPos + (pOffset[0]+off) * pSize[0] * gl_ModelViewMatrixInverse[0]
+               +  pOffset[1]      * pSize[0] * gl_ModelViewMatrixInverse[1];
+    gl_Position = gl_ModelViewProjectionMatrix * pos;
+}
