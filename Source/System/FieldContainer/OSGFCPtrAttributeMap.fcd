@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="FCPtrAttributeMap"
+	parent="Attachment"
+	library="System"
+	pointerfieldtypes="single"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+An attachment that stores a string-to-field container pointer (FCPtr) mapping of keys to values.
+	<Field
+		name="keys"
+		type="std::string"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	</Field>
+	<Field
+		name="values"
+		type="FieldContainerPtr"
+		cardinality="multi"
+		visibility="external"
+		access="protected"
+	>
+	</Field>
+</FieldContainer>
