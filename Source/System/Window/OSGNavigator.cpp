@@ -160,6 +160,7 @@ Navigator::Navigator():
     _cartN(NullFC),
     _moved(false),
     _clickCenter(true),
+    _clickNoIntersect(false),
     _lastX(0),
     _lastY(0),
     _ip(0,0,0)
@@ -872,6 +873,16 @@ bool Navigator::setClickCenter(bool state)
     return old;
 }
 
+/*! Set the clickCenter current state.
+*/
+bool Navigator::setClickNoIntersect(bool state)
+{
+    bool old = _clickNoIntersect;
+
+    _clickNoIntersect = state;
+    return old;
+}
+
 /*! Calculates the transformation matrix from CC to WC using the actual view
     matrix.
 */
@@ -899,10 +910,19 @@ static void calcCCtoWCMatrix(Matrix &cctowc, const Matrix &view,
 */
 void Navigator::getIntersectionPoint(Int16 x, Int16 y)
 {
+
     IntersectAction * act = IntersectAction::create();
     Line line;
     
     _vp->getCamera()->calcViewRay(line, x, y, *_vp);
+    
+    if(_clickNoIntersect)
+    {
+        Real32 u = (_dir.dot(Pnt3f(0.0f, 0.0f, 0.0f) - line.getPosition())) /
+                   (_dir.dot(line.getDirection()));
+        _ip = line.getPosition() + u * line.getDirection();
+        return;
+    }
 
     act->setLine(line);
     act->apply(_vp->getRoot());

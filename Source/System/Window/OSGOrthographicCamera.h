@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000,2001 by the OpenSG Forum                   *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,179 +36,97 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSG_NAVIGATOR_H_
-#define _OSG_NAVIGATOR_H_
+#ifndef _OSGORTHOGRAPHICCAMERA_H_
+#define _OSGORTHOGRAPHICCAMERA_H_
+#ifdef __sgi
+#pragma once
+#endif
 
 #include <OSGConfig.h>
-#include <OSGSystemDef.h>
 
-#include <OSGWindow.h>
-#include <OSGViewport.h>
-#include <OSGBaseTypes.h>
-#include <OSGLine.h>
-#include <OSGNode.h>
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
-#include <OSGIntersectAction.h>
-#include <OSGTrackballNavigator.h>
-#include <OSGFlyNavigator.h>
-#include <OSGWalkNavigator.h>
+#include <OSGOrthographicCameraBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief General Navigator for wrapping simple navigators. See \ref 
-    PageSystemWindowNavigatorsNavigator for a description.
+/*! \brief OrthographicCamera class. See \ref 
+           PageSystemOrthographicCamera for a description.
 */
-class OSG_SYSTEMLIB_DLLMAPPING Navigator
+
+class OSG_SYSTEMLIB_DLLMAPPING OrthographicCamera : public OrthographicCameraBase
 {
+  private:
+
+    typedef OrthographicCameraBase Inherited;
+
     /*==========================  PUBLIC  =================================*/
   public:
-  
-    enum Mode
-    {
-        TRACKBALL=0,
-        FLY,
-        WALK,
-        NONE
-    };
-
-    enum State
-    {
-        IDLE=0,
-        ROTATING,
-        TRANSLATING_XY,
-        TRANSLATING_Z,
-
-        TRANSLATING_ZPLUS=10,
-        TRANSLATING_ZMINUS
-    };
-
-    enum MouseButton
-    {
-        LEFT_MOUSE=0,
-        MIDDLE_MOUSE,
-        RIGHT_MOUSE,
-        UP_MOUSE,
-        DOWN_MOUSE
-    };
-
-    enum Key
-    {
-        LEFT=0,
-        RIGHT,
-        FORWARDS,
-        BACKWARDS,
-        LEFTROT,
-        RIGHTROT
-    };
-
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Constructors                               */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    Navigator();
+    virtual void changed(BitVector  whichField, 
+                         UInt32     origin    );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Camera-specific                             */
+    /*! \{                                                                 */
+
+    virtual void draw( DrawAction * action, const Viewport& port );
+
+    virtual void getProjection( Matrix& result, UInt32 width, UInt32 height );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Output                                   */
+    /*! \{                                                                 */
+
+    virtual void dump(      UInt32     uiIndent = 0, 
+                      const BitVector  bvFlags  = 0) const;
+
+    /*! \}                                                                 */
+    /*=========================  PROTECTED  ===============================*/
+  protected:
+
+    // Variables should all be in OrthographicCameraBase.
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  Constructors                                */
+    /*! \{                                                                 */
+
+    OrthographicCamera(void);
+    OrthographicCamera(const OrthographicCamera &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~Navigator();
+    virtual ~OrthographicCamera(void); 
 
     /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Notificators                              */
-    /*! \{                                                                 */
-
-    virtual void buttonPress  (Int16 button,  Int16 x, Int16 y);
-    virtual void buttonRelease(Int16 button,  Int16 x, Int16 y);
-    virtual void keyPress     (Int16 key   ,  Int16 x, Int16 y);
-    virtual void moveTo       (               Int16 x, Int16 y);
-    virtual void idle         (Int16 buttons, Int16 x, Int16 y);
-
-    void updateCameraTransformation();
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Set                                   */
-    /*! \{                                                                 */
-
-    void setMode         (Mode          new_mode    );
-    void setViewport     (ViewportPtr   new_viewport);
-    void setRotationAngle(Real32        new_angle   );
-    void setMotionFactor (Real32        new_factor  );
-    void setFrom         (Pnt3f         new_from    );
-    void setAt           (Pnt3f         new_at      );
-    void setDistance     (Real32        new_distance);
-    void setUp           (Vec3f         new_up      );
-    void set             (Pnt3f         new_from, Pnt3f new_at, Vec3f new_up);
-    void set             (const Matrix &new_matrix  );
-    bool setClickCenter  (bool          state       );
-
-    bool setClickNoIntersect (bool state);
-
-    void setCameraTransformation(const NodePtr & new_cartn);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                        Get                                   */
-    /*! \{                                                                 */
-
-    const Matrix &getMatrix();
-    const Pnt3f  &getFrom();
-    const Pnt3f  &getAt();
-    const Vec3f  &getUp();
-          Real32  getDistance();
-          State   getState();
-          Mode    getMode();
-          Real32  getRotationAngle();
-          Real32  getMotionFactor();
     
-          WalkNavigator* getWalkNavigator() { return &_walker; }
-
-    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                    Class Fields                              */
-    /*! \{                                                                 */
+    friend class FieldContainer;
+    friend class OrthographicCameraBase;
 
-    TrackballNavigator _trackball;
-    FlyNavigator       _flyer;
-    WalkNavigator      _walker;
+    static void initMethod(void);
 
-    Real32      _rRotationAngle;
-    Real32      _rMotionFactor;
-    State       _currentState;
-    Mode        _currentMode;
+    // prohibit default functions (move to 'public' if you need one)
 
-    ViewportPtr _vp;
-    NodePtr     _cartN;
-
-    bool        _moved;
-    bool        _clickCenter;
-    bool        _clickNoIntersect;
-    Real32      _lastX, _lastY;
-    Pnt3f       _ip;
-    Vec3f       _dir;
-    Matrix      theMatrix;
-
-    Matrix      _NoneMatrix;
-
-    /*! \}                                                                 */
-
-    void setNoneMatrix(Pnt3f new_from, Pnt3f new_at, Vec3f new_up);
-
-    void getIntersectionPoint(Int16 x, Int16 y);
-    void calcDeltas(Int16 fromX, Int16 fromY, Int16 toX, Int16 toY,
-                          Real32 &distanceX, Real32 &distanceY);
-
+    void operator =(const OrthographicCamera &source);
 };
+
+typedef OrthographicCamera *OrthographicCameraP;
 
 OSG_END_NAMESPACE
 
-#define OSGNAVIGATOR_HEADER_CVSID "@(#)$Id: OSGNavigator.h,v 1.6 2002/06/26 16:43:44 istoynov Exp $"
+#include <OSGOrthographicCameraBase.inl>
+#include <OSGOrthographicCamera.inl>
 
-#endif
+#define OSGORTHOGRAPHICCAMERA_HEADER_CVSID "@(#)$Id: OSGOrthographicCamera.h,v 1.1 2005/09/26 00:08:18 dirk Exp $"
+
+#endif /* _OSGORTHOGRAPHICCAMERA_H_ */
