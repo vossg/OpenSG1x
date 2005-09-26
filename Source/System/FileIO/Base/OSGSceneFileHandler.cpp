@@ -832,9 +832,9 @@ SceneFileHandler::SceneFileHandler (void) :
 {
     if(_defaultgraphOpSeq == NULL)
     {
+        // Set default optimizations
         _defaultgraphOpSeq = new GraphOpSeq;
-        // Add default striper.
-        _defaultgraphOpSeq->addGraphOp(new StripeGraphOp);
+        _defaultgraphOpSeq->setGraphOps("Stripe() SharePtr(includes=Material,StateChunk)");
     }
 
     return;
