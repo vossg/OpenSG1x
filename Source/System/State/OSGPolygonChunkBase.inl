@@ -98,28 +98,28 @@ PolygonChunkPtr PolygonChunkBase::createEmpty(void)
 
 //! Get the PolygonChunk::_sfCullFace field.
 inline
-SFInt32 *PolygonChunkBase::getSFCullFace(void)
+SFGLenum *PolygonChunkBase::getSFCullFace(void)
 {
     return &_sfCullFace;
 }
 
 //! Get the PolygonChunk::_sfFrontFace field.
 inline
-SFInt32 *PolygonChunkBase::getSFFrontFace(void)
+SFGLenum *PolygonChunkBase::getSFFrontFace(void)
 {
     return &_sfFrontFace;
 }
 
 //! Get the PolygonChunk::_sfFrontMode field.
 inline
-SFInt32 *PolygonChunkBase::getSFFrontMode(void)
+SFGLenum *PolygonChunkBase::getSFFrontMode(void)
 {
     return &_sfFrontMode;
 }
 
 //! Get the PolygonChunk::_sfBackMode field.
 inline
-SFInt32 *PolygonChunkBase::getSFBackMode(void)
+SFGLenum *PolygonChunkBase::getSFBackMode(void)
 {
     return &_sfBackMode;
 }
@@ -176,84 +176,84 @@ MFInt32 *PolygonChunkBase::getMFStipple(void)
 
 //! Get the value of the PolygonChunk::_sfCullFace field.
 inline
-Int32 &PolygonChunkBase::getCullFace(void)
+GLenum &PolygonChunkBase::getCullFace(void)
 {
     return _sfCullFace.getValue();
 }
 
 //! Get the value of the PolygonChunk::_sfCullFace field.
 inline
-const Int32 &PolygonChunkBase::getCullFace(void) const
+const GLenum &PolygonChunkBase::getCullFace(void) const
 {
     return _sfCullFace.getValue();
 }
 
 //! Set the value of the PolygonChunk::_sfCullFace field.
 inline
-void PolygonChunkBase::setCullFace(const Int32 &value)
+void PolygonChunkBase::setCullFace(const GLenum &value)
 {
     _sfCullFace.setValue(value);
 }
 
 //! Get the value of the PolygonChunk::_sfFrontFace field.
 inline
-Int32 &PolygonChunkBase::getFrontFace(void)
+GLenum &PolygonChunkBase::getFrontFace(void)
 {
     return _sfFrontFace.getValue();
 }
 
 //! Get the value of the PolygonChunk::_sfFrontFace field.
 inline
-const Int32 &PolygonChunkBase::getFrontFace(void) const
+const GLenum &PolygonChunkBase::getFrontFace(void) const
 {
     return _sfFrontFace.getValue();
 }
 
 //! Set the value of the PolygonChunk::_sfFrontFace field.
 inline
-void PolygonChunkBase::setFrontFace(const Int32 &value)
+void PolygonChunkBase::setFrontFace(const GLenum &value)
 {
     _sfFrontFace.setValue(value);
 }
 
 //! Get the value of the PolygonChunk::_sfFrontMode field.
 inline
-Int32 &PolygonChunkBase::getFrontMode(void)
+GLenum &PolygonChunkBase::getFrontMode(void)
 {
     return _sfFrontMode.getValue();
 }
 
 //! Get the value of the PolygonChunk::_sfFrontMode field.
 inline
-const Int32 &PolygonChunkBase::getFrontMode(void) const
+const GLenum &PolygonChunkBase::getFrontMode(void) const
 {
     return _sfFrontMode.getValue();
 }
 
 //! Set the value of the PolygonChunk::_sfFrontMode field.
 inline
-void PolygonChunkBase::setFrontMode(const Int32 &value)
+void PolygonChunkBase::setFrontMode(const GLenum &value)
 {
     _sfFrontMode.setValue(value);
 }
 
 //! Get the value of the PolygonChunk::_sfBackMode field.
 inline
-Int32 &PolygonChunkBase::getBackMode(void)
+GLenum &PolygonChunkBase::getBackMode(void)
 {
     return _sfBackMode.getValue();
 }
 
 //! Get the value of the PolygonChunk::_sfBackMode field.
 inline
-const Int32 &PolygonChunkBase::getBackMode(void) const
+const GLenum &PolygonChunkBase::getBackMode(void) const
 {
     return _sfBackMode.getValue();
 }
 
 //! Set the value of the PolygonChunk::_sfBackMode field.
 inline
-void PolygonChunkBase::setBackMode(const Int32 &value)
+void PolygonChunkBase::setBackMode(const GLenum &value)
 {
     _sfBackMode.setValue(value);
 }
@@ -408,5 +408,5 @@ const MFInt32 &PolygonChunkBase::getStipple(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGPOLYGONCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

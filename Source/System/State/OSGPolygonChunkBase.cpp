@@ -112,16 +112,16 @@ const OSG::BitVector PolygonChunkBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var Int32           PolygonChunkBase::_sfCullFace
+/*! \var GLenum          PolygonChunkBase::_sfCullFace
     Defines which side of the polygon is invisible. Set to GL_NONE to not cull anything.
 */
-/*! \var Int32           PolygonChunkBase::_sfFrontFace
+/*! \var GLenum          PolygonChunkBase::_sfFrontFace
     Defines which side of the polygon is considered the front side,          defaults to GL_CCW.
 */
-/*! \var Int32           PolygonChunkBase::_sfFrontMode
+/*! \var GLenum          PolygonChunkBase::_sfFrontMode
     Defines if polygon front sides are rendered filled (default), outlined or as points.
 */
-/*! \var Int32           PolygonChunkBase::_sfBackMode
+/*! \var GLenum          PolygonChunkBase::_sfBackMode
     Defines if polygon front sides are rendered filled (default), outlined or as points.
 */
 /*! \var bool            PolygonChunkBase::_sfSmooth
@@ -150,22 +150,22 @@ const OSG::BitVector PolygonChunkBase::MTInfluenceMask =
 
 FieldDescription *PolygonChunkBase::_desc[] = 
 {
-    new FieldDescription(SFInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "cullFace", 
                      CullFaceFieldId, CullFaceFieldMask,
                      false,
                      (FieldAccessMethod) &PolygonChunkBase::getSFCullFace),
-    new FieldDescription(SFInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "frontFace", 
                      FrontFaceFieldId, FrontFaceFieldMask,
                      false,
                      (FieldAccessMethod) &PolygonChunkBase::getSFFrontFace),
-    new FieldDescription(SFInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "frontMode", 
                      FrontModeFieldId, FrontModeFieldMask,
                      false,
                      (FieldAccessMethod) &PolygonChunkBase::getSFFrontMode),
-    new FieldDescription(SFInt32::getClassType(), 
+    new FieldDescription(SFGLenum::getClassType(), 
                      "backMode", 
                      BackModeFieldId, BackModeFieldMask,
                      false,
@@ -281,10 +281,10 @@ void PolygonChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 PolygonChunkBase::PolygonChunkBase(void) :
-    _sfCullFace               (Int32(GL_NONE)), 
-    _sfFrontFace              (Int32(GL_CCW)), 
-    _sfFrontMode              (Int32(GL_FILL)), 
-    _sfBackMode               (Int32(GL_FILL)), 
+    _sfCullFace               (GLenum(GL_NONE)), 
+    _sfFrontFace              (GLenum(GL_CCW)), 
+    _sfFrontMode              (GLenum(GL_FILL)), 
+    _sfBackMode               (GLenum(GL_FILL)), 
     _sfSmooth                 (bool(GL_FALSE)), 
     _sfOffsetFactor           (Real32(0)), 
     _sfOffsetBias             (Real32(0)), 
@@ -642,7 +642,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 

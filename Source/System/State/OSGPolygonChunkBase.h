@@ -67,10 +67,10 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGInt32Fields.h> // CullFace type
-#include <OSGInt32Fields.h> // FrontFace type
-#include <OSGInt32Fields.h> // FrontMode type
-#include <OSGInt32Fields.h> // BackMode type
+#include <OSGGLenumFields.h> // CullFace type
+#include <OSGGLenumFields.h> // FrontFace type
+#include <OSGGLenumFields.h> // FrontMode type
+#include <OSGGLenumFields.h> // BackMode type
 #include <OSGBoolFields.h> // Smooth type
 #include <OSGReal32Fields.h> // OffsetFactor type
 #include <OSGReal32Fields.h> // OffsetBias type
@@ -152,10 +152,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFCullFace       (void);
-           SFInt32             *getSFFrontFace      (void);
-           SFInt32             *getSFFrontMode      (void);
-           SFInt32             *getSFBackMode       (void);
+           SFGLenum            *getSFCullFace       (void);
+           SFGLenum            *getSFFrontFace      (void);
+           SFGLenum            *getSFFrontMode      (void);
+           SFGLenum            *getSFBackMode       (void);
            SFBool              *getSFSmooth         (void);
            SFReal32            *getSFOffsetFactor   (void);
            SFReal32            *getSFOffsetBias     (void);
@@ -164,14 +164,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
            SFBool              *getSFOffsetFill     (void);
            MFInt32             *getMFStipple        (void);
 
-           Int32               &getCullFace       (void);
-     const Int32               &getCullFace       (void) const;
-           Int32               &getFrontFace      (void);
-     const Int32               &getFrontFace      (void) const;
-           Int32               &getFrontMode      (void);
-     const Int32               &getFrontMode      (void) const;
-           Int32               &getBackMode       (void);
-     const Int32               &getBackMode       (void) const;
+           GLenum              &getCullFace       (void);
+     const GLenum              &getCullFace       (void) const;
+           GLenum              &getFrontFace      (void);
+     const GLenum              &getFrontFace      (void) const;
+           GLenum              &getFrontMode      (void);
+     const GLenum              &getFrontMode      (void) const;
+           GLenum              &getBackMode       (void);
+     const GLenum              &getBackMode       (void) const;
            bool                &getSmooth         (void);
      const bool                &getSmooth         (void) const;
            Real32              &getOffsetFactor   (void);
@@ -193,10 +193,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setCullFace       ( const Int32 &value );
-     void setFrontFace      ( const Int32 &value );
-     void setFrontMode      ( const Int32 &value );
-     void setBackMode       ( const Int32 &value );
+     void setCullFace       ( const GLenum &value );
+     void setFrontFace      ( const GLenum &value );
+     void setFrontMode      ( const GLenum &value );
+     void setBackMode       ( const GLenum &value );
      void setSmooth         ( const bool &value );
      void setOffsetFactor   ( const Real32 &value );
      void setOffsetBias     ( const Real32 &value );
@@ -245,10 +245,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFInt32             _sfCullFace;
-    SFInt32             _sfFrontFace;
-    SFInt32             _sfFrontMode;
-    SFInt32             _sfBackMode;
+    SFGLenum            _sfCullFace;
+    SFGLenum            _sfFrontFace;
+    SFGLenum            _sfFrontMode;
+    SFGLenum            _sfBackMode;
     SFBool              _sfSmooth;
     SFReal32            _sfOffsetFactor;
     SFReal32            _sfOffsetBias;
@@ -333,6 +333,6 @@ typedef RefPtr<PolygonChunkPtr> PolygonChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGPOLYGONCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGPOLYGONCHUNKBASE_H_ */

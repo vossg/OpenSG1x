@@ -13,7 +13,7 @@ The polygon chunk contains the parameter that is specific set for filled surface
 i.e. polygons.
 	<Field
 		name="cullFace"
-		type="Int32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
@@ -23,7 +23,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="frontFace"
-		type="Int32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CCW"
@@ -34,7 +34,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="frontMode"
-		type="Int32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
@@ -44,7 +44,7 @@ i.e. polygons.
 	</Field>
 	<Field
 		name="backMode"
-		type="Int32"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
