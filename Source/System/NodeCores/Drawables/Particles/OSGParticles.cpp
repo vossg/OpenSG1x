@@ -44,6 +44,7 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+#include <OSGGLEXT.h>
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
