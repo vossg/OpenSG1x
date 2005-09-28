@@ -740,7 +740,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.5 2005/07/20 00:08:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.6 2005/09/28 02:54:58 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 

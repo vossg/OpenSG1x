@@ -492,5 +492,5 @@ const MFMaterialPtr &TiledTerrainBase::getHeightTextures(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.4 2005/07/08 06:32:37 vossg Exp $"
+#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.5 2005/09/28 02:54:58 dirk Exp $"
 
