@@ -179,6 +179,9 @@ endif
 
 LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG) 
 
+ifeq ($(COMPILERMAJORVERSION),9)
+LD_FLAGS += -no-ipo 
+endif
 
 LD_FLAGS_EXT      = 
 LD_FLAGS_EXT_OPT := -O2 

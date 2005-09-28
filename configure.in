@@ -1369,7 +1369,6 @@ echo $with_icc_gnu_compat
         case $ac_gdz_compiler in
     		icc*)
                 ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
-                ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
             ;;
         esac
     fi

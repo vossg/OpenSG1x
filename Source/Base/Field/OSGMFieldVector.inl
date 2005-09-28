@@ -47,7 +47,7 @@ OSG_BEGIN_NAMESPACE
 #    define MYLAST  _M_finish
 #    define MYEND   _M_end_of_storage
 #elif defined(OSG_LINUX_GCC)
-#    if __GNUC__ == 3 && __GNUC_MINOR__ >= 4
+#    if (__GNUC__ == 3 && __GNUC_MINOR__ >= 4) || __GNUC__ >= 4
 #        define MYFIRST _M_impl._M_start
 #        define MYLAST  _M_impl._M_finish
 #        define MYEND   _M_impl._M_end_of_storage
@@ -131,10 +131,17 @@ void MFieldVector<Tp, Alloc>::shareValues(Self &other, bool bDeleteOld)
 {
     if(bDeleteOld == true)
     {
+#if defined(OSG_LINUX_ICC) && !defined(OSG_ICC_GNU_COMPAT)
+        this->_Destroy(this->MYFIRST, this->MYLAST);
+
+        this->_Alval.deallocate(this->MYFIRST,
+                                this->MYEND - this->MYFIRST); 
+#else
         std::_Destroy(this->MYFIRST, this->MYLAST);
 
         this->_M_deallocate(this->MYFIRST,
                             this->MYEND - this->MYFIRST); 
+#endif
     }
 
     this->MYFIRST = other.MYFIRST; 
