@@ -91,8 +91,8 @@ COMPILER    		=  -EHsc -FD -GR -Zm1200
 
 # Need to have the Framework SDK
 # Yes, this is a hack
-LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)"/cygdrive/c/Program Files/Microsoft Platform SDK/Lib"   $(LIBPATHS_$(OS_BASE))
-INCL_$(OS_BASE) := $(INC_OPTION)"/cygdrive/c/Program Files/Microsoft Platform SDK/Include"   $(INCL_$(OS_BASE))
+LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)"C:\Program Files\Microsoft Platform SDK\Lib"   $(LIBPATHS_$(OS_BASE))
+INCL_$(OS_BASE) := $(INC_OPTION)"C:\Program Files\Microsoft Platform SDK\Include"   $(INCL_$(OS_BASE))
 
 else
 # other cl.net options
