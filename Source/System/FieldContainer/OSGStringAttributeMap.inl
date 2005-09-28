@@ -109,8 +109,8 @@ inline std::string& StringAttributeMap::operator[](const std::string& key)
         }
     }
 
-    keys.addValue(key);
-    values.addValue(std::string(""));
+    keys.push_back(key);
+    values.push_back(std::string(""));
 
     // The value we want to return is at the end of _mfValues.
     return values[values.size() - 1];
@@ -118,5 +118,5 @@ inline std::string& StringAttributeMap::operator[](const std::string& key)
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGStringAttributeMap.inl,v 1.1 2005/09/25 23:00:54 dirk Exp $"
+#define OSGSTRINGATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGStringAttributeMap.inl,v 1.2 2005/09/28 03:01:44 vossg Exp $"
 

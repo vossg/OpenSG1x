@@ -112,8 +112,8 @@ inline FieldContainerPtr& FCPtrAttributeMap::operator[](const std::string& key)
         }
     }
 
-    keys.addValue(key);
-    values.addValue(NullFC);
+    keys.push_back(key);
+    values.push_back(NullFC);
 
     // The value we want to return is at the end of _mfValues.
     return values[values.size() - 1];
@@ -121,5 +121,5 @@ inline FieldContainerPtr& FCPtrAttributeMap::operator[](const std::string& key)
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMap.inl,v 1.1 2005/09/25 23:00:54 dirk Exp $"
+#define OSGFCPTRATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMap.inl,v 1.2 2005/09/28 03:01:44 vossg Exp $"
 

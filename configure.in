@@ -1326,7 +1326,7 @@ dnl a symlink from gmake to make
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread'
         ;;
         solaris*)
-    		ac_gdz_compiler_exe_exe='$(CC) -template=no%wholeclass,extdef -ptv -mt'
+		    ac_gdz_compiler_exe_exe='$(CC) -template=no%wholeclass,extdef -ptv -mt'
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         darwin*)
@@ -1337,10 +1337,47 @@ dnl a symlink from gmake to make
         ;;
     esac
 
+	echo $build $ac_gdz_compiler
+
+	case $build in
+		ia64-*-linux-gnu)
+			case $ac_gdz_compiler in
+				icc*)
+					ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lcxaguard -lipr '
+				;;
+			esac
+		;;
+	esac
+
     if test "$with_icc_gnu_compat" != no; then
-        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
-        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+		case $build in
+			ia64-*-linux-gnu)
+				case $ac_gdz_compiler in
+					icc*)
+						with_icc_gnu_compat='yes'
+					;;
+				esac
+			;;
+			*)
+	        	ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+		    	ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-gcc -gcc-version=$with_icc_gnu_compat"
+			;;
+		esac
+	else
+        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
+        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
     fi
+
+
+#	case $build in
+#		ia64-*-linux-gnu)
+#			case $ac_gdz_compiler in
+#				icc*)
+#					with_icc_gnu_compat='yes'
+#				;;
+#			esac
+#		;;
+#	esac
 
     if test $ac_gdz_conf_package_efence = "1"; then
         if test "x"$ac_gdz_efence_dir = "x" ; then

@@ -406,7 +406,7 @@
 # define OSG_FOUND_OS
 
 // icc >=8.1 uses gnu headers anyway, use gnu defines set above
-#if __INTEL_COMPILER_VERSION < 810
+#if __INTEL_COMPILER_VERSION < 810 || ! defined(__GNUC__)
 # define OSG_STDEXTENSION_NAMESPACE std
 # define OSG_STDEXCEPTION_NAMESPACE std
 #endif

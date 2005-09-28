@@ -139,8 +139,8 @@ void FCPtrAttributeMap::setAttribute(const std::string& key,
 
     // key was not found in _mfKeys, so we add key to _mfKeys and value to
     // _mfValues.
-    keys.addValue(key);
-    values.addValue(value);
+    keys.push_back(key);
+    values.push_back(value);
 }
 
 /*! Attempts to look up the value associated with the named key in this
@@ -240,7 +240,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMap.cpp,v 1.1 2005/09/25 23:00:54 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMap.cpp,v 1.2 2005/09/28 03:01:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID;
 
