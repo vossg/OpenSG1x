@@ -50,6 +50,7 @@
 #include <OSGRenderAction.h>
 #include <OSGSHLChunk.h>
 #include <OSGWindow.h>
+#include <OSGGLEXT.h>
 
 #include "OSGCharacterModel.h"
 #include "OSGCharacter.h"
@@ -646,7 +647,7 @@ Action::ResultE Character::renderActionHandler(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.1 2005/09/25 21:55:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.2 2005/09/28 04:56:20 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 
