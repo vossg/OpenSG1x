@@ -1349,6 +1349,8 @@ dnl a symlink from gmake to make
 		;;
 	esac
 
+echo $with_icc_gnu_compat
+
     if test "$with_icc_gnu_compat" != no; then
 		case $build in
 			ia64-*-linux-gnu)
@@ -1364,8 +1366,12 @@ dnl a symlink from gmake to make
 			;;
 		esac
 	else
-        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
-        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
+        case $ac_gdz_compiler in
+    		icc*)
+                ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
+                ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
+            ;;
+        esac
     fi
 
 

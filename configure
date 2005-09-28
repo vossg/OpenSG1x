@@ -3865,6 +3865,8 @@ else
 		;;
 	esac
 
+echo $with_icc_gnu_compat
+
     if test "$with_icc_gnu_compat" != no; then
 		case $build in
 			ia64-*-linux-gnu)
@@ -3880,8 +3882,12 @@ else
 			;;
 		esac
 	else
-        ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
-        ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
+        case $ac_gdz_compiler in
+    		icc*)
+                ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
+                ac_gdz_compiler_exe_shared=$ac_gdz_compiler_exe_shared" -cxxlib-icc -no-gcc"
+            ;;
+        esac
     fi
 
 
@@ -3937,7 +3943,7 @@ fi
 ac_gdz_common_system=$ac_gdz_commonconf_dir/common.$build-$ac_gdz_compiler_base.in
 
 echo $ac_n "checking project config common.project.in""... $ac_c" 1>&6
-echo "configure:3941: checking project config common.project.in" >&5
+echo "configure:3947: checking project config common.project.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.project.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3948,7 +3954,7 @@ else
 fi
 
 echo $ac_n "checking package config common.libs.in""... $ac_c" 1>&6
-echo "configure:3952: checking package config common.libs.in" >&5
+echo "configure:3958: checking package config common.libs.in" >&5
 
 if test -r "$ac_gdz_commonconf_dir/common.libs.in"; then
     echo "$ac_t"""yes"" 1>&6
@@ -3960,7 +3966,7 @@ fi
 
 
 echo $ac_n "checking additional package configs""... $ac_c" 1>&6
-echo "configure:3964: checking additional package configs" >&5
+echo "configure:3970: checking additional package configs" >&5
 
 for i in `find . -name common.libs.in | sed -e 's|^./||'` ;
 do
