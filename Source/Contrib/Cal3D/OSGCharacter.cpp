@@ -383,9 +383,9 @@ void Character::drawMeshes(std::vector<Int32> &meshes, Window *win)
                 (void (OSG_APIENTRY*) (GLenum type))
                 win->getFunction(_funcglClientActiveTextureARB);
         GLint (OSG_APIENTRY*_glGetUniformLocation) (GLuint program, 
-                const GLchar *name)=
+                const char *name)=
                 (GLint (OSG_APIENTRY*) (GLuint program,
-                const GLchar *name))
+                const char *name))
                 win->getFunction(_funcglGetUniformLocation);
         void (OSG_APIENTRY*_glUniformMatrix4fv) (GLint location, GLsizei count,
                  GLboolean transpose, const GLfloat *value)=
@@ -647,7 +647,7 @@ Action::ResultE Character::renderActionHandler(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.2 2005/09/28 04:56:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.3 2005/09/28 20:03:14 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 
