@@ -67,6 +67,9 @@ OSG_USING_NAMESPACE
 const OSG::BitVector  SHLChunkBase::CgFrontEndFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::CgFrontEndFieldId);
 
+const OSG::BitVector  SHLChunkBase::PointSizeFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::PointSizeFieldId);
+
 const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
 
@@ -79,6 +82,9 @@ const OSG::BitVector SHLChunkBase::MTInfluenceMask =
 
 /*! \var bool            SHLChunkBase::_sfCgFrontEnd
     
+*/
+/*! \var bool            SHLChunkBase::_sfPointSize
+    Flag to set whether the shader can change the point size.
 */
 /*! \var UInt32          SHLChunkBase::_sfGLId
     
@@ -93,6 +99,11 @@ FieldDescription *SHLChunkBase::_desc[] =
                      CgFrontEndFieldId, CgFrontEndFieldMask,
                      false,
                      (FieldAccessMethod) &SHLChunkBase::getSFCgFrontEnd),
+    new FieldDescription(SFBool::getClassType(), 
+                     "pointSize", 
+                     PointSizeFieldId, PointSizeFieldMask,
+                     false,
+                     (FieldAccessMethod) &SHLChunkBase::getSFPointSize),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -174,6 +185,7 @@ void SHLChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 SHLChunkBase::SHLChunkBase(void) :
     _sfCgFrontEnd             (bool(false)), 
+    _sfPointSize              (bool(false)), 
     _sfGLId                   (), 
     Inherited() 
 {
@@ -185,6 +197,7 @@ SHLChunkBase::SHLChunkBase(void) :
 
 SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
     _sfCgFrontEnd             (source._sfCgFrontEnd             ), 
+    _sfPointSize              (source._sfPointSize              ), 
     _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
@@ -207,6 +220,11 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfCgFrontEnd.getBinSize();
     }
 
+    if(FieldBits::NoField != (PointSizeFieldMask & whichField))
+    {
+        returnValue += _sfPointSize.getBinSize();
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         returnValue += _sfGLId.getBinSize();
@@ -224,6 +242,11 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (CgFrontEndFieldMask & whichField))
     {
         _sfCgFrontEnd.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PointSizeFieldMask & whichField))
+    {
+        _sfPointSize.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -244,6 +267,11 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfCgFrontEnd.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (PointSizeFieldMask & whichField))
+    {
+        _sfPointSize.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyFromBin(pMem);
@@ -262,6 +290,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
     if(FieldBits::NoField != (CgFrontEndFieldMask & whichField))
         _sfCgFrontEnd.syncWith(pOther->_sfCgFrontEnd);
 
+    if(FieldBits::NoField != (PointSizeFieldMask & whichField))
+        _sfPointSize.syncWith(pOther->_sfPointSize);
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
@@ -277,6 +308,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 
     if(FieldBits::NoField != (CgFrontEndFieldMask & whichField))
         _sfCgFrontEnd.syncWith(pOther->_sfCgFrontEnd);
+
+    if(FieldBits::NoField != (PointSizeFieldMask & whichField))
+        _sfPointSize.syncWith(pOther->_sfPointSize);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
@@ -324,7 +358,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.10 2005/07/20 00:08:58 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.11 2005/09/28 22:53:30 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

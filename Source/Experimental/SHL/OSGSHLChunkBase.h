@@ -68,6 +68,7 @@
 #include <OSGShaderChunk.h> // Parent
 
 #include <OSGBoolFields.h> // CgFrontEnd type
+#include <OSGBoolFields.h> // PointSize type
 #include <OSGUInt32Fields.h> // GLId type
 
 #include <OSGSHLChunkFields.h>
@@ -93,11 +94,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     enum
     {
         CgFrontEndFieldId = Inherited::NextFieldId,
-        GLIdFieldId       = CgFrontEndFieldId + 1,
+        PointSizeFieldId  = CgFrontEndFieldId + 1,
+        GLIdFieldId       = PointSizeFieldId  + 1,
         NextFieldId       = GLIdFieldId       + 1
     };
 
     static const OSG::BitVector CgFrontEndFieldMask;
+    static const OSG::BitVector PointSizeFieldMask;
     static const OSG::BitVector GLIdFieldMask;
 
 
@@ -126,10 +129,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \{                                                                 */
 
            SFBool              *getSFCgFrontEnd     (void);
+           SFBool              *getSFPointSize      (void);
            SFUInt32            *getSFGLId           (void);
 
            bool                &getCgFrontEnd     (void);
      const bool                &getCgFrontEnd     (void) const;
+           bool                &getPointSize      (void);
+     const bool                &getPointSize      (void) const;
            UInt32              &getGLId           (void);
      const UInt32              &getGLId           (void) const;
 
@@ -139,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \{                                                                 */
 
      void setCgFrontEnd     ( const bool &value );
+     void setPointSize      ( const bool &value );
      void setGLId           ( const UInt32 &value );
 
     /*! \}                                                                 */
@@ -183,6 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \{                                                                 */
 
     SFBool              _sfCgFrontEnd;
+    SFBool              _sfPointSize;
     SFUInt32            _sfGLId;
 
     /*! \}                                                                 */
@@ -261,6 +269,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.10 2005/07/20 00:08:58 vossg Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.11 2005/09/28 22:53:30 dirk Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

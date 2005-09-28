@@ -103,6 +103,13 @@ SFBool *SHLChunkBase::getSFCgFrontEnd(void)
     return &_sfCgFrontEnd;
 }
 
+//! Get the SHLChunk::_sfPointSize field.
+inline
+SFBool *SHLChunkBase::getSFPointSize(void)
+{
+    return &_sfPointSize;
+}
+
 //! Get the SHLChunk::_sfGLId field.
 inline
 SFUInt32 *SHLChunkBase::getSFGLId(void)
@@ -132,6 +139,27 @@ void SHLChunkBase::setCgFrontEnd(const bool &value)
     _sfCgFrontEnd.setValue(value);
 }
 
+//! Get the value of the SHLChunk::_sfPointSize field.
+inline
+bool &SHLChunkBase::getPointSize(void)
+{
+    return _sfPointSize.getValue();
+}
+
+//! Get the value of the SHLChunk::_sfPointSize field.
+inline
+const bool &SHLChunkBase::getPointSize(void) const
+{
+    return _sfPointSize.getValue();
+}
+
+//! Set the value of the SHLChunk::_sfPointSize field.
+inline
+void SHLChunkBase::setPointSize(const bool &value)
+{
+    _sfPointSize.setValue(value);
+}
+
 //! Get the value of the SHLChunk::_sfGLId field.
 inline
 UInt32 &SHLChunkBase::getGLId(void)
@@ -156,5 +184,5 @@ void SHLChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.9 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.10 2005/09/28 22:53:30 dirk Exp $"
 

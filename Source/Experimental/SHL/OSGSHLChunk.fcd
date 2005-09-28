@@ -21,6 +21,16 @@
 	>
 	</Field>
 	<Field
+		name="pointSize"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+        Flag to set whether the shader can change the point size.
+	</Field>
+	<Field
 		name="GLId"
 		type="UInt32"
 		cardinality="single"
