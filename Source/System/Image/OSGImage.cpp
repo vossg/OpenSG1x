@@ -2787,7 +2787,8 @@ bool Image::read(const Char8 *fileName)
         if(fileName[0] != '/' && fileName[0] != '\\' && fileName[1] != ':')
         {
             std::string base = SceneFileHandler::the().getPathHandler()->getBaseFile();
-            if(base[0] != '/' && base[0] != '\\' && base[1] != ':')
+            if(base.size() < 2 || 
+               (base[0] != '/' && base[0] != '\\' && base[1] != ':'))
             {
                 const char *cdir = Directory::getCurrent();
                 abspath = cdir;
