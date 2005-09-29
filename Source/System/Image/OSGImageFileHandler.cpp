@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 //-------------------------------
-//  Includes          
+//  Includes
 //-------------------------------
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,13 +48,14 @@
 #include <OSGPathHandler.h>
 #include <OSGBaseFunctions.h>
 #include <OSGFileSystem.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGImageFileHandler.h"
 
 
 OSG_USING_NAMESPACE
 
-/*! \class osg::ImageFileHandler 
+/*! \class osg::ImageFileHandler
     \ingroup GrpSystemImage
 
 Singelton Object/Class which holds all known ImageFileTypes.
@@ -64,7 +65,7 @@ Utilizes the local pathHandler for file path handler and
 construction. The PathHandler can be set from the application.
 
 See \ref PageSystemImage for details.
-    
+
 */
 
 /*****************************
@@ -87,7 +88,7 @@ const std::string ImageFileHandler::_fullFilePathKey("fullFilePath");
 
 //-------------------------------------------------------------------------
 /*!
-Method to find a ImageFileHandler for the given mimeType for 
+Method to find a ImageFileHandler for the given mimeType for
 fileName suffix. Returns the ImageFileHandler object or Null.
 */
 ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
@@ -105,7 +106,7 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
 
     if(mimeType && *mimeType)
     {
-        if ( (strlen(mimeType) > mtLen) && 
+        if ( (strlen(mimeType) > mtLen) &&
              !strncmp (mimeType, mtPrefix, mtLen) )
             mimeType += mtLen;
 
@@ -180,19 +181,19 @@ Returns the default OpenSG ImageFileType
 ImageFileType *ImageFileHandler::getDefaultType(void)
 {
   IDString        dSuffix("opensg");
-  
-  std::map<IDString, 
+
+  std::map<IDString,
     ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
-  
-  
+
+
   ImageFileType *type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
-  
+
   if(!type)
     {
       FFATAL(("Can not find any default (suffix:%s) image handler\n",
               dSuffix.str()));
     }
-  
+
   return type;
 }
 
@@ -208,7 +209,7 @@ Int32 ImageFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
     std::map<IDString, ImageFileType *>::iterator sI;
 
     suffixList.clear();
-    
+
     for ( sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); ++sI)
     {
         ImageFileType *type = sI->second;
@@ -231,6 +232,9 @@ will try to use the fileName suffix to determine the mimeType
 */
 ImagePtr ImageFileHandler::read(const char *fileName, const char *mimeType)
 {
+    if(_readFP != NULL)
+        return _readFP(fileName, mimeType);
+
     ImagePtr image = Image::create();
 
     if(read(image, fileName, mimeType) == false)
@@ -244,7 +248,7 @@ ImagePtr ImageFileHandler::read(const char *fileName, const char *mimeType)
 //-------------------------------------------------------------------------
 /*!
 Tries to read the raster data from
-the given fileName into the given Image. 
+the given fileName into the given Image.
 If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
@@ -254,7 +258,7 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
 {
     bool        retCode = false;
     std::string fullFilePath;
-    
+
     if( _pPathHandler != NULL )
     {
         fullFilePath = _pPathHandler->findFile(fileName);
@@ -263,7 +267,7 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
     {
         fullFilePath = fileName;
     }
-    
+
     if(fullFilePath.empty())
     {
         SWARNING << "couldn't find image file " << fileName << std::endl;
@@ -274,8 +278,8 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
 
     if(type)
     {
-        FDEBUG(("try to image read %s as %s\n", 
-                fullFilePath.c_str(), 
+        FDEBUG(("try to image read %s as %s\n",
+                fullFilePath.c_str(),
                 type->getMimeType()));
 
         retCode = type->read(image, fullFilePath.c_str());
@@ -285,6 +289,36 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
             FDEBUG(("image: %dx%d\n", image->getWidth(), image->getHeight()));
             image->setAttachmentField(_fileNameKey, fileName);
             image->setAttachmentField(_fullFilePathKey, fullFilePath);
+            
+            // converting the path to a absolute path.
+            std::string abspath;
+            if(fullFilePath[0] != '/' && fullFilePath[0] != '\\' && fullFilePath[1] != ':')
+            {
+                std::string base = SceneFileHandler::the().getPathHandler()->getBaseFile();
+                if(base.size() < 2 ||
+                   (base[0] != '/' && base[0] != '\\' && base[1] != ':'))
+                {
+                    const char *cdir = Directory::getCurrent();
+                    abspath = cdir;
+#ifdef WIN32
+                    abspath += '\\';
+#else
+                    abspath += '/';
+#endif
+                    delete [] cdir;
+                }
+
+                abspath += base;
+                abspath += fullFilePath;
+            }
+            else
+            {
+                abspath = fullFilePath;
+            }
+
+            beginEditCP(image, Image::NameFieldMask);
+                image->setName(abspath);
+            endEditCP(image, Image::NameFieldMask);
         }
         else
         {
@@ -300,9 +334,20 @@ bool ImageFileHandler::read(ImagePtr &image, const char *fileName,
     return retCode;
 }
 
+
+void ImageFileHandler::setReadCB(readcbfp fp)
+{
+    _readFP = fp;
+}
+
+ImageFileHandler::readcbfp ImageFileHandler::getReadCB(void)
+{
+    return _readFP;
+}
+
 //-------------------------------------------------------------------------
 /*!
-Tries to write the raster data (from the given Image) to 
+Tries to write the raster data (from the given Image) to
 the given fileName.
 If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
@@ -314,7 +359,7 @@ bool ImageFileHandler::write(const ImagePtr &image, const char *fileName,
     bool            retCode = false;
     ImageFileType   *type;
     const std::string     *fNAttachment;
-    
+
     if (!fileName && (fNAttachment = image->findAttachmentField(_fileNameKey)))
       fileName = fNAttachment->c_str();
 
@@ -326,7 +371,7 @@ bool ImageFileHandler::write(const ImagePtr &image, const char *fileName,
     }
     else
     {
-        SWARNING << "can't write " << fileName 
+        SWARNING << "can't write " << fileName
                  << "; unknown image format" << std::endl;
     }
 
@@ -344,7 +389,7 @@ PathHandler* ImageFileHandler::getPathHandler(void)
 
 //-------------------------------------------------------------------------
 /*!
-Method to set the path handler. 
+Method to set the path handler.
 */
 void ImageFileHandler::setPathHandler(PathHandler *pPathHandler)
 {
@@ -354,7 +399,7 @@ void ImageFileHandler::setPathHandler(PathHandler *pPathHandler)
 //-------------------------------------------------------------------------
 /*!
 Tries to restore the raster data from
-the given memblock into the given Image. 
+the given memblock into the given Image.
 If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
 will try to use the fileName suffix to determine the mimeType
@@ -367,7 +412,7 @@ UInt64 ImageFileHandler::restore(ImagePtr &image, const UChar8 *buffer,
 
 //-------------------------------------------------------------------------
 /*!
-Tries to store the raster data (from the given Image) to 
+Tries to store the raster data (from the given Image) to
 the given memBlock.
 If the mimeType is not Null the method
 will try to find the according ImageFileType. Otherwise it
@@ -385,7 +430,7 @@ UInt64 ImageFileHandler::store(const ImagePtr &image, const char *mimeType,
 
 //-------------------------------------------------------------------------
 /*!
-Tries to store the raster data (from the given Image) to 
+Tries to store the raster data (from the given Image) to
 a new memBlock. The method will automatically allocate and return a
 sufficient amount of memory with new. The application has
 to free the memory with 'delete [] mem'
@@ -444,7 +489,7 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
     if(!_the)
         _the = new ImageFileHandler;
 
-    for( sI = fileType.getSuffixList().begin(); 
+    for( sI = fileType.getSuffixList().begin();
          sI != fileType.getSuffixList().end();
         ++sI)
     {
@@ -470,22 +515,23 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
 /*!
 Default Constructor
 */
-ImageFileHandler::ImageFileHandler(void)
+ImageFileHandler::ImageFileHandler(void) :
+    _suffixTypeMap(),
+    _pPathHandler(NULL),
+    _readFP(NULL)
 {
-  _pPathHandler = NULL;
-  return;
 }
 
 //-------------------------------------------------------------------------
 /*!
 Invalid Copy Constructor
 */
-ImageFileHandler::ImageFileHandler(const ImageFileHandler &)
+ImageFileHandler::ImageFileHandler(const ImageFileHandler &) :
+    _suffixTypeMap(),
+    _pPathHandler(NULL),
+    _readFP(NULL)
 {
     FFATAL (("Run Copy Constructor on Singleton ImageFileHandler !\n"));
-    
-    _pPathHandler = NULL;
-    return;
 }
 
 //-------------------------------------------------------------------------
@@ -502,6 +548,8 @@ ImageFileHandler::~ImageFileHandler(void)
 Static method the get the Singleton Object
 */
 ImageFileHandler & ImageFileHandler::the(void)
-{ 
-  return *_the; 
+{
+    if(_the == NULL)
+        _the = new ImageFileHandler;
+    return *_the;
 }

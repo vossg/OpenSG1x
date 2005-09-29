@@ -57,6 +57,7 @@
 #include "OSGSceneFileHandler.h"
 #include "OSGZStream.h"
 
+
 #include <OSGNode.h>
 #include <OSGThread.h>
 #include <OSGThreadManager.h>
@@ -824,9 +825,11 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
 //
 //------------------------------
 SceneFileHandler::SceneFileHandler (void) :
+    _readProgressLock(NULL),
     _readProgressFP(NULL),
     _progressData(),
     _readReady(false),
+    _current_progress(0),
     _pathHandler(NULL),
     _defaultPathHandler()
 {
@@ -838,7 +841,6 @@ SceneFileHandler::SceneFileHandler (void) :
         _defaultgraphOpSeq->setGraphOps("Stripe()");
     }
 
-    return;
 }
 
 //----------------------------
@@ -890,15 +892,15 @@ SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 SceneFileHandler &SceneFileHandler::the(void)
 {
     if(_the == NULL)
-    {
         _the = new SceneFileHandler;
-    }
 
     return *_the;
 }
 
 void SceneFileHandler::setReadProgressCB(progresscbfp fp)
 {
+    if(_readProgressLock == NULL)
+        _readProgressLock = Lock::get("ReadProgressLock");
     stopReadProgressThread();
     _readProgressFP = fp;
 }
@@ -912,6 +914,8 @@ void SceneFileHandler::startReadProgressThread(std::istream &is)
 {
     if(_readProgressFP == NULL)
         return;
+
+    _current_progress = 0;
 
     // get length of the stream.
     _progressData.is = &is;
@@ -947,6 +951,9 @@ void SceneFileHandler::stopReadProgressThread(void)
 
 void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
 {
+    if(the()._readProgressFP == NULL || the()._progressData.is == NULL)
+        return;
+
     UInt32 p = 0;
     while(p < 100 && !the()._readReady)
     {
@@ -963,11 +970,35 @@ void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
             p = 100;
         }
 
+        if(the()._readProgressLock != NULL)
+            the()._readProgressLock->aquire();
+        the()._current_progress = p;
         the()._readProgressFP(p);
+        if(the()._readProgressLock != NULL)
+            the()._readProgressLock->release();
         osgsleep(100);
     }
     if(p < 100)
+    {
+        if(the()._readProgressLock != NULL)
+            the()._readProgressLock->aquire();
+        the()._current_progress = 100;
         the()._readProgressFP(100);
+        if(the()._readProgressLock != NULL)
+            the()._readProgressLock->release();
+    }
+}
+
+void SceneFileHandler::updateReadProgress(void)
+{
+    if(the()._readProgressFP == NULL)
+        return;
+
+    if(the()._readProgressLock != NULL)
+        the()._readProgressLock->aquire();
+    the()._readProgressFP(the()._current_progress);
+    if(the()._readProgressLock != NULL)
+        the()._readProgressLock->release();
 }
 
 SceneFileHandler::~SceneFileHandler(void)

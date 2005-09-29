@@ -83,7 +83,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     virtual bool    write ( const ImagePtr &image,
                             const char *fileName, const char *mimeType = 0);
-    
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read Callback                              */
+    /*! \{                                                                 */
+
+    typedef ImagePtr (*readcbfp) (const char *fileName, const char *mimeType);
+    void setReadCB(readcbfp fp);
+    readcbfp getReadCB(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   PathHandler                                */
@@ -91,7 +100,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     virtual PathHandler* getPathHandler(void                     );
     virtual void         setPathHandler(PathHandler *pPathHandler);
-    
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Storage                                  */
@@ -149,6 +158,7 @@ private:
     static bool addImageFileType (ImageFileType &fileType);
 
     PathHandler* _pPathHandler;
+    readcbfp _readFP;
 
     static const std::string _fileNameKey;
 

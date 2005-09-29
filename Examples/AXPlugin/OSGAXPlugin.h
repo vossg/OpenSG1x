@@ -145,6 +145,5 @@ private:
 
     QUrlOperator        *_urlop;
     std::stringstream   *_data;
-    bool                _download_ready;
     QString             _src;
 };

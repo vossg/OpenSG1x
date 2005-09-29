@@ -51,6 +51,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
 #include <OSGPathHandler.h>
+#include <OSGLock.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -99,6 +100,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     typedef void (*progresscbfp) (UInt32 p);
     void setReadProgressCB(progresscbfp fp);
     progresscbfp getReadProgressCB(void);
+
+    static void updateReadProgress(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -211,9 +214,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     void stopReadProgressThread(void);
     static void readProgress(void *data);
 
+    Lock           *_readProgressLock;
     progresscbfp    _readProgressFP;
     progressS       _progressData;
     bool            _readReady;
+    UInt32          _current_progress;
 
     PathHandler     *_pathHandler;
     PathHandler     _defaultPathHandler;

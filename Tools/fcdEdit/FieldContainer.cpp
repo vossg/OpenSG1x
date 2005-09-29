@@ -647,13 +647,16 @@ bool FieldContainer::readDesc (const char *fn)
 
 char *escapeQuot(char *c)
 {
+    char *n;
+
     if (!c)
     {
-        return new char [1];
+        // return a empty string.
+        n = new char [1];
+        n[0] = 0;
+        return n;
     }
-    
-    char *n;
-    
+
     n = new char [strlen(c) + 1];
     memcpy(n, c, strlen(c) + 1);
     

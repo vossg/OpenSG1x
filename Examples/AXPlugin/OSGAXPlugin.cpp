@@ -322,7 +322,6 @@ OSGAXPlugin::OSGAXPlugin(QWidget *parent, const char *name) :
         _headlight(NULL),
         _progress(NULL),
         _data(NULL),
-        _download_ready(false),
         _src("")
 {
     // When we register the server with "OpenSGax.exe -regserver"
@@ -476,20 +475,17 @@ NodePtr OSGAXPlugin::load(const QString &filename)
                 this, SLOT(urlOpData(const QByteArray &, QNetworkOperation *)));
         connect(&urlop, SIGNAL(dataTransferProgress(int, int, QNetworkOperation *)), this,
                 SLOT(urlOpDataTransferProgress(int, int, QNetworkOperation *)));
-        urlop.get(url.fileName());
-        
-        _download_ready = false;
+
         const QNetworkOperation *net = urlop.get(url.fileName());
         
-        while(!_download_ready &&
-              net->state() != QNetworkProtocol::StDone &&
+        while(net->state() != QNetworkProtocol::StDone &&
               net->state() != QNetworkProtocol::StFailed &&
               net->state() != QNetworkProtocol::StStopped)
         {
             qApp->processEvents();
         }
 
-        if(_download_ready || (net->state() == QNetworkProtocol::StDone))
+        if(net->state() == QNetworkProtocol::StDone)
             scene = SceneFileHandler::the().read(data, url.fileName().latin1());
 
         _data = NULL;
@@ -535,10 +531,6 @@ void OSGAXPlugin::urlOpDataTransferProgress(int bytesDone, int bytesTotal,
         _progress->resize(_gl->width(), _progress->height());
     _progress->setTotalSteps(bytesTotal);
     _progress->setProgress(bytesDone);
-
-    // quite strange but without this the file is downloaded twice!
-    if(bytesDone >= bytesTotal)
-        _download_ready = true;
 }
 
 void OSGAXPlugin::urlOpData(const QByteArray &data, QNetworkOperation *op)

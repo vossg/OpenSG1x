@@ -2778,41 +2778,7 @@ bool Image::read(const Char8 *fileName)
 {
     ImagePtr iPtr(this);
 
-    bool ok = ImageFileHandler::the().read(iPtr, fileName);
-
-    if(ok)
-    {
-        // converting the path to a absolute path.
-        std::string abspath;
-        if(fileName[0] != '/' && fileName[0] != '\\' && fileName[1] != ':')
-        {
-            std::string base = SceneFileHandler::the().getPathHandler()->getBaseFile();
-            if(base.size() < 2 || 
-               (base[0] != '/' && base[0] != '\\' && base[1] != ':'))
-            {
-                const char *cdir = Directory::getCurrent();
-                abspath = cdir;
-#ifdef WIN32
-                abspath += '\\';
-#else
-                abspath += '/';
-#endif
-                delete [] cdir;
-            }
-
-            abspath += base;
-            abspath += fileName;
-        }
-        else
-        {
-            abspath = fileName;
-        }
-
-        beginEditCP(iPtr, NameFieldMask);
-            setName(abspath);
-        endEditCP(iPtr, NameFieldMask);
-    }
-    return ok;
+    return ImageFileHandler::the().read(iPtr, fileName);
 }
 
 /*! Store the image to the given mem block as 'mimeType'.
