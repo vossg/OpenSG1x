@@ -119,7 +119,8 @@ void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
     }
 }
 
-bool TGAImageFileType::readCompressedImageData(std::istream &in, ImagePtr &image)
+bool TGAImageFileType::readCompressedImageData(std::istream &in, 
+                                               ImagePtr &image)
 {
     UInt32 npix = image->getWidth() * image->getHeight();
     UInt8   rep;
@@ -282,13 +283,33 @@ bool TGAImageFileType::read(      ImagePtr &image,
     {
     case 0x00:  // bottom left, ok!
                 break;
-    case 0x10:  // bottom right
     case 0x20:  // top left
+                // do top-bottom swap
+                {
+                    UInt32 bpl = image->getBpp() * image->getWidth();
+                    UChar8 *t = image->getData(), 
+                           *b = t + (image->getHeight() - 1) * bpl,
+                            dum;
+
+                    for(UInt32 y = image->getHeight() / 2; y > 0; --y)
+                    {
+                        for(UInt32 x = bpl; x > 0; --x, ++t, ++b)
+                        {
+                            dum = *t;
+                            *t = *b;
+                            *b = dum;
+                        }
+                        b -= bpl * 2;
+                    }
+                }
+                break;
+    case 0x10:  // bottom right
     case 0x30:  // top right
                 FWARNING(("TGA: origin 0x%d not supported!\n",
                           header.descriptor & 0x30));
                 return false;
     }
+
 
     // do BGR -> RGB swap, as GL_BGR_EXT is not supported everywhere
     if(image->getPixelFormat() == Image::OSG_RGB_PF ||
@@ -306,7 +327,7 @@ bool TGAImageFileType::read(      ImagePtr &image,
             d += bpp;
         }
     }
-
+    
     return true;
 }
 
