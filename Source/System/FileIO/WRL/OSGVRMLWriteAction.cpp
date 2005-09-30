@@ -1333,49 +1333,110 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
             if(pImage != NullFC)
             {
-                const std::string *pFilename = 
-                    pImage->findAttachmentField("fileName");
-                std::string filename;
-                if(pFilename == NULL)
-                    filename = pImage->getName();
-                else
-                    filename = *pFilename;
-
-                if(!filename.empty())
+                if(pWriter->getOptions() & 
+                                   VRMLWriteAction::OSGPixelTextures)
                 {
-                    
                     pWriter->printIndent();
-                    fprintf(pFile, "texture DEF Tex_%d ImageTexture\n",
-                                pWriter->setWritten(pTChunk) );
-
+                    fprintf(pFile, "texture DEF Tex_%d PixelTexture\n",
+                        pWriter->setWritten(pTChunk) );
+    
                     pWriter->printIndent();
                     fprintf(pFile, "{\n");
-
+    
                     pWriter->incIndent(4);
+    
+                    UInt32 pixelformat = pImage->getPixelFormat();
+                    UInt32 pixelsize = 1;
+                    if ( pixelformat == Image::OSG_RGB_PF)
+                        pixelsize = 3;
+                    else if ( pixelformat == Image::OSG_RGBA_PF)
+                        pixelsize = 4;
+                    else if ( pixelformat == Image::OSG_LA_PF )
+                        pixelsize = 2;
 
                     pWriter->printIndent();
-                    fprintf(pFile, "url \"%s\"\n",
-                            filename.c_str());
-
+                    fprintf(pFile, "image %d %d %d    ",
+                        pImage->getWidth(), pImage->getHeight(), pixelsize);
+    
+                    const UInt8 *data = pImage->getData();
+                    for (Int32 x=0; x<pImage->getHeight(); ++x) 
+                    {
+                        for (Int32 y=0; y<pImage->getWidth(); ++y) 
+                        {
+                            UInt32 pos = (x * pImage->getWidth() + y) * pixelsize;
+                            fprintf(pFile, "0x");
+                            for (UInt32 i=0;i<pixelsize;i++) 
+                            {
+                                fprintf(pFile, "%02X", (pImage->getData())[pos+i] );
+                            }
+                            fprintf(pFile, " ");
+                        }
+                        fprintf(pFile, "\n");
+                    }
+    
                     if(pTChunk->getWrapS() != GL_REPEAT)
                     {
                         pWriter->printIndent();
                         fprintf(pFile, "repeatS FALSE\n");
                     }
-
+    
                     if(pTChunk->getWrapT() != GL_REPEAT)
                     {
                         pWriter->printIndent();
                         fprintf(pFile, "repeatT FALSE\n");
                     }
-
+    
                     pWriter->decIndent(4);
-
+    
                     pWriter->printIndent();
                     fprintf(pFile, "}\n");
+                } 
+                else
+                {
+                    const std::string *pFilename = 
+                        pImage->findAttachmentField("fileName");
+                    std::string filename;
+                    if(pFilename == NULL)
+                        filename = pImage->getName();
+                    else
+                        filename = *pFilename;
+    
+                    if(!filename.empty())
+                    {
+                        
+                        pWriter->printIndent();
+                        fprintf(pFile, "texture DEF Tex_%d ImageTexture\n",
+                                    pWriter->setWritten(pTChunk) );
+    
+                        pWriter->printIndent();
+                        fprintf(pFile, "{\n");
+    
+                        pWriter->incIndent(4);
+    
+                        pWriter->printIndent();
+                        fprintf(pFile, "url \"%s\"\n",
+                                filename.c_str());
+    
+                        if(pTChunk->getWrapS() != GL_REPEAT)
+                        {
+                            pWriter->printIndent();
+                            fprintf(pFile, "repeatS FALSE\n");
+                        }
+    
+                        if(pTChunk->getWrapT() != GL_REPEAT)
+                        {
+                            pWriter->printIndent();
+                            fprintf(pFile, "repeatT FALSE\n");
+                        }
+    
+                        pWriter->decIndent(4);
+    
+                        pWriter->printIndent();
+                        fprintf(pFile, "}\n");
+                    }
                 }
             }
-        }              
+        }
     }
 /*
     sChunk = st->getChunk(TextureTransformChunk::getStaticClassId());    

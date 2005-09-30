@@ -94,9 +94,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     enum WriterOption
     {
-        OSGNoOptions = 0x0000,
-        OSGNoIndent  = 0x0001,
-        OSGNoNormals = 0x0002
+        OSGNoOptions        = 0x0000,
+        OSGNoIndent         = 0x0001,
+        OSGNoNormals        = 0x0002,
+        OSGPixelTextures    = 0x0004
     };
 
     //-----------------------------------------------------------------------
