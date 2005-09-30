@@ -195,17 +195,18 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
     std::string fieldType;
     _in->getValue(fieldType);
 
-    //GeoIndicesUI32Ptr indices  = GeoIndicesUI32::create();
-
-    GeoIndicesPtr indices;
-    
     UInt32 size = 0;
     UInt32 max = 0;
     UInt32 indices_size = 0;
     UInt32 noe = 0;
 
-    bool using_16bit = false;
+    _in->getValue(size);
+    _in->getValue(max);
+    _in->getValue(indices_size);
+    _in->getValue(noe);
 
+    GeoIndicesPtr indices;
+    bool using_16bit = false;
     if(getOptions().unpack16BitIndices())
     {
         // auto create 16 bit indices?
@@ -224,11 +225,6 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
         indices = GeoIndicesUI32::create();
     }
 
-    _in->getValue(size);
-    _in->getValue(max);
-    _in->getValue(indices_size);
-    _in->getValue(noe);
-    
     std::vector<UInt8> buffer;
     buffer.reserve(noe);
     UInt8 v;
@@ -556,6 +552,6 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.4 2005/09/30 12:52:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.5 2005/09/30 21:27:48 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGEOMETRY_HEADER_CVSID;
 }
