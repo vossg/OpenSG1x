@@ -417,9 +417,17 @@
 
 # define OSG_HAS_VSNPRINTF
 
-# if __INTEL_COMPILER_VERSION >= 800 && __INTEL_COMPILER_VERSION < 810
+# if __INTEL_COMPILER_VERSION >= 800 
 # define OSG_USE_HASH_COMPARE
 # endif
+
+#if defined(__GNUC__)
+#if __INTEL_COMPILER_VERSION >= 900 && __GNUC__ >= 4
+#define __builtin_powi(x,i) pow(x, i)
+#define __builtin_powif(x,i) pow(x, i)
+#define __builtin_powil(x,i) pow(x, i)
+#endif
+#endif
 
 # endif // defined(__INTEL_COMPILER) && defined(__linux)
 
@@ -922,7 +930,7 @@
 #        undef OSG_STDEXTENSION_NAMESPACE
 #    endif
 
-#    if __GNUC_MINOR__ >=1
+#    if __GNUC__ >= 4 || __GNUC_MINOR__ >=1
 #        define OSG_STDEXTENSION_NAMESPACE  __gnu_cxx
 #    else
 #        define OSG_STDEXTENSION_NAMESPACE  std
