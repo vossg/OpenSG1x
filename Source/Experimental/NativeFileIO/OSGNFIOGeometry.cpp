@@ -195,13 +195,35 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
     std::string fieldType;
     _in->getValue(fieldType);
 
-    GeoIndicesUI32Ptr indices  = GeoIndicesUI32::create();
+    //GeoIndicesUI32Ptr indices  = GeoIndicesUI32::create();
+
+    GeoIndicesPtr indices;
     
     UInt32 size = 0;
     UInt32 max = 0;
     UInt32 indices_size = 0;
     UInt32 noe = 0;
-    
+
+    bool using_16bit = false;
+
+    if(getOptions().unpack16BitIndices())
+    {
+        // auto create 16 bit indices?
+        if(max > TypeTraits<UInt16>::getMax())
+        {
+            indices = GeoIndicesUI32::create();
+        }
+        else
+        {
+            using_16bit = true;
+            indices = GeoIndicesUI16::create();
+        }
+    }
+    else
+    {
+        indices = GeoIndicesUI32::create();
+    }
+
     _in->getValue(size);
     _in->getValue(max);
     _in->getValue(indices_size);
@@ -215,13 +237,27 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
         _in->getValue(v);
         buffer.push_back(v);
     }
-    
-    indices->getFieldPtr()->reserve(indices_size);
-    beginEditCP(indices);
-    BitUnpacker unpacker(buffer, max);
-    for(UInt32 i=0;i<indices_size;++i)
-        indices->addValue(unpacker.unpack());
-    endEditCP(indices);
+
+    if(using_16bit)
+    {
+        MFUInt16 *ind = GeoIndicesUI16Ptr::dcast(indices)->getFieldPtr();
+        ind->reserve(indices_size);
+        beginEditCP(indices);
+            BitUnpacker unpacker(buffer, max);
+            for(UInt32 i=0;i<indices_size;++i)
+                ind->push_back(UInt16(unpacker.unpack()));
+        endEditCP(indices);
+    }
+    else
+    {
+        MFUInt32 *ind = GeoIndicesUI32Ptr::dcast(indices)->getFieldPtr();
+        ind->reserve(indices_size);
+        beginEditCP(indices);
+            BitUnpacker unpacker(buffer, max);
+            for(UInt32 i=0;i<indices_size;++i)
+                ind->push_back(unpacker.unpack());
+        endEditCP(indices);
+    }
 
     beginEditCP(geo, Geometry::IndicesFieldMask);
         geo->setIndices(indices);
@@ -520,6 +556,6 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.3 2005/08/12 15:27:37 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.4 2005/09/30 12:52:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGEOMETRY_HEADER_CVSID;
 }

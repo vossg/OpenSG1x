@@ -79,7 +79,8 @@ _texturesImageType("png"),
 _quantizePositions(Quantizer::QRES_OFF),
 _quantizeNormals(Quantizer::QRES_OFF),
 _quantizeTexCoords(Quantizer::QRES_OFF),
-_packIndices(false)
+_packIndices(false),
+_unpack16BitIndices(true)
 {
 }
 
@@ -102,6 +103,7 @@ void NFIOOptions::init(const std::string &options)
     _quantizeNormals = Quantizer::QRES_OFF;
     _quantizeTexCoords = Quantizer::QRES_OFF;
     _packIndices = false;
+    _unpack16BitIndices = false;
     
     std::string option;
     std::string::size_type i = std::string::npos;
@@ -156,6 +158,11 @@ void NFIOOptions::init(const std::string &options)
         _packIndices = true;
     if(options.find("packIndices=false") != std::string::npos)
         _packIndices = false;
+
+    if(options.find("unpack16BitIndices=true") != std::string::npos)
+        _unpack16BitIndices = true;
+    if(options.find("unpack16BitIndices=false") != std::string::npos)
+        _unpack16BitIndices = false;
 }
 
 /*------------------------------ options--- -------------------------------*/
@@ -200,6 +207,11 @@ bool NFIOOptions::packIndices(void) const
     return _packIndices;
 }
 
+bool NFIOOptions::unpack16BitIndices(void) const
+{
+    return _unpack16BitIndices;
+}
+
 /*------------------------ helper functions ------------------------------*/
 
 Int32 NFIOOptions::getInteger(const std::string &str)
@@ -240,6 +252,6 @@ std::string NFIOOptions::getString(const std::string &str)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.5 2005/02/17 14:30:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOOptions.cpp,v 1.6 2005/09/30 12:52:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOOPTIONS_HEADER_CVSID;
 }

@@ -92,7 +92,8 @@ class NFIOOptions
     UInt8 quantizeTexCoords(void) const;
     
     bool packIndices(void) const;
-    
+    bool unpack16BitIndices(void) const;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 protected:
@@ -112,10 +113,11 @@ private:
     UInt8       _quantizeNormals;
     UInt8       _quantizeTexCoords;
     bool        _packIndices;
+    bool        _unpack16BitIndices;
 };
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOOPTIONS_HEADER_CVSID "@(#)$Id: OSGNFIOOptions.h,v 1.2 2005/02/17 14:30:42 a-m-z Exp $"
+#define OSGNFIOOPTIONS_HEADER_CVSID "@(#)$Id: OSGNFIOOptions.h,v 1.3 2005/09/30 12:52:24 a-m-z Exp $"
 
 #endif /* _OSGNFIOOPTIONS_H_ */
