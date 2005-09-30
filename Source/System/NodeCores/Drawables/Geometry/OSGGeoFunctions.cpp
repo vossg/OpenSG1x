@@ -3383,9 +3383,11 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
                                                         UInt32 &point)
 {
     GeoPTypesUI8Ptr geoTypePtr;
-    GeoPLengthsUI32Ptr lensPtr;
+    GeoPLengthsUI32Ptr lens32Ptr;
+    GeoPLengthsUI16Ptr lens16Ptr;
     GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
-    GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::iterator lenI;
+    GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::iterator len32I;
+    GeoPLengthsUI16Ptr::StoredObjectType::StoredFieldType::iterator len16I;
 
     UInt32 lN, tN, len, type;
 
@@ -3398,8 +3400,17 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
     }
     else
     {
-        lensPtr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
-        lN = (lensPtr == OSG::NullFC) ? 0 : lensPtr->getSize();
+        lens32Ptr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
+    
+        if(lens32Ptr == NullFC)
+        {
+            lens16Ptr = GeoPLengthsUI16Ptr::dcast(geoPtr->getLengths());
+            lN = (lens16Ptr == OSG::NullFC) ? 0 : lens16Ptr->getSize();
+        }
+        else
+        {
+            lN = (lens32Ptr == OSG::NullFC) ? 0 : lens32Ptr->getSize();
+        }
 
         geoTypePtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
         tN = (geoTypePtr == OSG::NullFC) ? 0 : geoTypePtr->getSize();
@@ -3412,7 +3423,10 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
         typeI = geoTypePtr->getField().begin();
         if(lN != 0)
         {
-            lenI = lensPtr->getField().begin();
+            if(lens32Ptr != NullFC)
+                len32I = lens32Ptr->getField().begin();
+            else
+                len16I = lens16Ptr->getField().begin();
         }
 
         endTypeI = geoTypePtr->getField().end();
@@ -3421,7 +3435,10 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
             type = *typeI;
             if(lN != 0)
             {
-                len = *lenI;
+                if(lens32Ptr != NullFC)
+                    len = *len32I;
+                else
+                    len = *len16I;
             }
             else
             {
@@ -3474,7 +3491,10 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
             }
 
             ++typeI;
-            ++lenI;
+            if(lens32Ptr != NullFC)
+                ++len32I;
+            else
+                ++len16I;
         }
     }
 
