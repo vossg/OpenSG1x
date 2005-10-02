@@ -103,7 +103,7 @@
 #include <pthread.h>
 #elif defined(__sun)
 #include <arpa/nameser_compat.h>
-#elif defined(darwin)
+#elif defined(__APPLE__)
 #include <machine/endian.h>
 #elif defined(__linux)
 #include <endian.h>
@@ -532,7 +532,9 @@
 /*-------------------------------------------------------------------------*/
 /*                              Mac OSX gcc                                */
 
-# if defined(darwin)
+# if defined(__APPLE__)
+
+# define darwin
 
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS
@@ -547,7 +549,7 @@
 
 #define OSG_FOUND_OS
 
-# endif // if defined(darwin)
+# endif // if defined(__APPLE__)
 
 /*-------------------------------------------------------------------------*/
 /*                              HP-UX gcc-64                               */

@@ -23,9 +23,9 @@ II_FILESDIR          :=
 ### Defines #######################################################
 
 # For QT
-DEP_PLATTFORMDEF = -Ddarwin
+DEP_PLATTFORMDEF = 
 
-SOURCE_DEFINES   = -Ddarwin -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
+SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
                    $(CONFIGURED_PACKAGE_DEFS)
 #-DMNG_LIB -DPNG_LIB
 #-D__STL_USE_NEW_IOSTREAMS
