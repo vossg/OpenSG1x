@@ -312,13 +312,36 @@ void CharacterModel::convertMaterials(std::string configfile)
 
             ImagePtr img = Image::create();
             
-            if(!img->read(pfile.c_str()))
+             if(!img->read(pfile.c_str()))
             {
                 SWARNING << "CharacterModel::convertMaterials: error "
                          << "loading image " << file << endLog;
             }
             else
             {
+                beginEditCP(img);
+                
+                {
+                // For some reason Cal3D expects textures upside down ???
+                UInt32 bpl = img->getBpp() * img->getWidth();
+                UChar8 *t = img->getData(), 
+                       *b = t + (img->getHeight() - 1) * bpl,
+                        dum;
+
+                for(UInt32 y = img->getHeight() / 2; y > 0; --y)
+                {
+                    for(UInt32 x = bpl; x > 0; --x, ++t, ++b)
+                    {
+                        dum = *t;
+                        *t = *b;
+                        *b = dum;
+                    }
+                    b -= bpl * 2;
+                }
+                }
+                
+                endEditCP(img);
+                
                 TextureChunkPtr tex = TextureChunk::create();
                 
                 beginEditCP(tex);
@@ -376,7 +399,7 @@ void CharacterModel::deactivateShader(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModel.cpp,v 1.1 2005/09/25 21:55:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModel.cpp,v 1.2 2005/10/02 15:27:24 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 
