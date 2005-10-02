@@ -433,6 +433,8 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DEFAULTS,
                     ;;
         linux*)     ac_gdz_compiler=g++
                     ;;
+        darwin*)    ac_gdz_compiler=g++
+                    ;;
         irix*)      ac_gdz_compiler=CC
                     ;;
         *)          echo "System $build_os unknown, use --with-compiler!"
