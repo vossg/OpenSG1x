@@ -1062,7 +1062,7 @@ struct TypeTraits<GLenum> : public TypeTraitsBase
     {
         Char8 buffer[15];
 
-        sprintf(buffer, "%u", val);
+        sprintf(buffer, "%lu", static_cast<unsigned long>(val));
 
         return std::string(buffer);
     }
