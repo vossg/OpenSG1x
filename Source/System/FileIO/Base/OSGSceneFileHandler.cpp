@@ -840,8 +840,7 @@ SceneFileHandler::SceneFileHandler (void) :
     {
         // Set default optimizations
         _defaultgraphOpSeq = new GraphOpSeq;
-//        _defaultgraphOpSeq->setGraphOps("Stripe() SharePtr(includes=Material,StateChunk)");
-        _defaultgraphOpSeq->setGraphOps("Stripe()");
+        _defaultgraphOpSeq->setGraphOps("Stripe() SharePtr(includes=Material,StateChunk)");
     }
 
 }
