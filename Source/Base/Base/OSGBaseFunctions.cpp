@@ -255,6 +255,9 @@ bool osgInit(Int32, Char8 **)
                 szPluginName += '/';
                 szPluginName += (*pPlugins)[i];
 
+                FINFO(("Loading plugin %s\n", 
+                       szPluginName.c_str()));
+
                 SharedObjectHandler::the()->getSharedObject(
                     szPluginName.c_str());
             }
