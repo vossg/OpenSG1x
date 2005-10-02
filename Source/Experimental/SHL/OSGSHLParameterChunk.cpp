@@ -136,23 +136,23 @@ void SHLParameterChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 void SHLParameterChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
                                 UInt32 /*idx*/)
 {
+    SHLParameterChunk *old = dynamic_cast<SHLParameterChunk *>(old_chunk);
+    
+    // SHLParameterChunk didn't change so do nothing.
+    if(old == this)
+        return;
+
     if(!action->getWindow()->hasExtension(_shl_extension))
     {
         FWARNING(("OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_shading_language_100'!\n"));
         return;
     }
 
-    SHLParameterChunk *old = dynamic_cast<SHLParameterChunk *>(old_chunk);
-
     if(old == NULL)
     {
         FWARNING(( "SHLParameterChunk::changeFrom: caught non-SHLParameterChunk!\n"));
         return;
     }
-
-    // SHLParameterChunk didn't change so do nothing.
-    if(old == this)
-        return;
 
     updateParameters(action->getWindow());
 }
@@ -205,7 +205,7 @@ bool SHLParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.2 2004/08/27 12:50:51 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.3 2005/10/02 15:28:52 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 
