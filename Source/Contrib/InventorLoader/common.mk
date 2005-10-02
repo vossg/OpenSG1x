@@ -1,6 +1,6 @@
 
-SUB_DIR     := Contrib/DrawFunctorCore
-PACKAGENAME := DrawFunctorCore
+SUB_DIR     := Contrib/InventorLoader
+PACKAGENAME := InventorLoader
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
