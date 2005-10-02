@@ -51,6 +51,7 @@ public:
     /*! \{                                                                 */
 
     void    setRoot(NodePtr root);
+    void    setChangeList(ChangeList *clist);
     
     void                setHeader(const std::string &header);
     void                setFooter(const std::string &footer);
@@ -144,7 +145,7 @@ private:
     NodePtr           _root;
     std::string       _header;
     std::string       _footer;
-
+    ChangeList       *_clist;
     /*! \}                                                                 */
 };
 

@@ -32,7 +32,8 @@ WebInterface::WebInterface(UInt32 port) :
     _handler(),
     _root(NullFC),
     _header(getDefaultHeader()),
-    _footer()
+    _footer(),
+    _clist(NULL)
 {
     bool bound=false;
     _socket.open();
@@ -139,6 +140,14 @@ bool WebInterface::waitRequest(double duration)
 
 /*-------------------------------------------------------------------------*/
 /*                             set                                         */
+
+/*! Set the ChangeList. By default the ChangeList of the current thread is
+    used, but it can be overriden by this function.
+ */
+void WebInterface::setChangeList(ChangeList *clist)
+{
+    _clist = clist;
+}
 
 /*! Set the scenegraph root node.
  */
@@ -498,8 +507,15 @@ void WebInterface::changelistHandler(std::ostream &os,
     const int                           changedCols=3;
     const int                           destroyedCols=6;
 
-    changeList=OSG::Thread::getCurrentChangeList();
-
+    if(_clist == NULL)
+    {
+        changeList=OSG::Thread::getCurrentChangeList();
+    }
+    else
+    {
+        changeList = _clist;
+    }
+    
     os << "Content-Type: text/html\r\n"
           "\r\n"
           "<html>" << _header
@@ -657,6 +673,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                 }
             }
             else
+            {
                 if((type.size() > 3) && 
                    (type.find("Ptr",type.size()-3) != -1))
                 {
@@ -678,8 +695,10 @@ void WebInterface::fcViewHandler(std::ostream &os,
                     }
                 }
                 else
+                {
                     if(field)
                     {
+                        value = "";
                         field->getValueByStr(value);
                         os << "<form action=\"fcedit\">"
                            << "<input type=\"submit\" value=\"Edit\">"
@@ -693,7 +712,8 @@ void WebInterface::fcViewHandler(std::ostream &os,
                            << "</td><td>\n";
                         os << value;
                     }
-
+                }
+            }
             os << "</td></tr>\n";
         }
         os << "</table>";
