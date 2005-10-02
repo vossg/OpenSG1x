@@ -178,7 +178,9 @@ void SharePtrGraphOp::setIncludes(const std::string &includes)
         curPos = std::find_if(curPos, nextComma,
                               std::not1(std::ptr_fun(isspace)));
         _includes.push_back(std::string(curPos, nextComma));
-        curPos = ++nextComma;
+        if(nextComma != includes.end())
+            ++nextComma;
+        curPos = nextComma;
     }
 }
 
@@ -195,7 +197,9 @@ void SharePtrGraphOp::setExcludes(const std::string &excludes)
         curPos = std::find_if(curPos, nextComma,
                               std::not1(std::ptr_fun(isspace)));
         _excludes.push_back(std::string(curPos, nextComma));
-        curPos = ++nextComma;
+        if(nextComma != excludes.end())
+            ++nextComma;
+        curPos = nextComma;
     }
 }
 
