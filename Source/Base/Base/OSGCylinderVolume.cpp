@@ -162,15 +162,28 @@ bool CylinderVolume::isOnSurface(const Pnt3f &point) const
 
 /*-------------------------- transformation -------------------------------*/
 
-#ifdef __sgi
-#pragma set woff 1209
-#endif
-
 /*! transform volume by the given matrix */
-
-void CylinderVolume::transform(const Matrix &OSG_CHECK_ARG(mat))
+void CylinderVolume::transform(const Matrix&  mtx)
 {
-    assert(false);
+     // get pos & axis
+     Pnt3f p;
+     Vec3f v, v2, v3;
+     getAxis(p,v);
+
+     // find perpendicular vector (to detect radius transformation)
+     v2 = v;
+     v2.normalize();
+     v3 = v2.x() > 0.9 ? Vec3f(0,1,0) : Vec3f(1,0,0);
+     v3.crossThis(v2);
+
+     // transform
+     mtx.mult(p);
+     mtx.mult(v);
+     mtx.mult(v3);
+
+     // update
+     setAxis(p,v);
+     setRadius(getRadius() * v3.length());
 }
 
 #ifdef __sgi
