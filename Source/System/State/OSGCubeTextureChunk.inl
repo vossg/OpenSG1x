@@ -51,7 +51,7 @@ UInt32 CubeTextureChunk::getStaticClassId(void)
 inline
 const StateChunkClass *CubeTextureChunk::getStaticClass(void)
 {
-    return &CubeTextureChunk::_class;
+    return &TextureChunk::_class;
 }
 
 inline
