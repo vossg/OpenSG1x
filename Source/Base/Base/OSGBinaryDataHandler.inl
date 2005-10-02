@@ -183,7 +183,8 @@ void BinaryDataHandler::putValue(const std::string &value)
 inline 
 void BinaryDataHandler::putValues(const bool *value, UInt32 size)
 {
-    put(value, size * sizeof(bool));
+    for(UInt32 i = 0; i < size; ++i)
+        putValue(value[i]);
 }
 
 inline 
@@ -566,7 +567,8 @@ void BinaryDataHandler::getValue(std::string &value)
 inline 
 void BinaryDataHandler::getValues(bool *value, UInt32 size)
 {
-    get(value, size * sizeof(bool));
+    for(UInt32 i = 0; i < size; ++i)
+        getValue(value[i]);
 }
 
 inline 
