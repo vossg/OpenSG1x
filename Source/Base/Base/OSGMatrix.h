@@ -318,6 +318,10 @@ class TransformationMatrix
     void multVecMatrix    (      VectorType3f &vec) const;
 
 
+    void multMatrixVec    (const VectorType &src, 
+                                 VectorType &dst) const;
+    void multMatrixVec    (      VectorType &vec) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Math                                       */

@@ -1018,10 +1018,47 @@ void TransformationMatrix<ValueTypeT>::multMatrixVec(
                    src[2] * _matrix[2][2]));
 }
 
+
 //! Multiplies matrix by given column vector
 
 template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::multMatrixVec(VectorType3f &vec) const
+{
+    multMatrixVec(vec, vec);
+}
+
+/*! \brief Multiplies matrix by given column vector,  where the resulting
+    vector is given
+*/
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixVec(
+    const VectorType &src,
+          VectorType &dst) const
+{
+    dst.setValues((src[0] * _matrix[0][0] +
+                   src[1] * _matrix[1][0] +
+                   src[2] * _matrix[2][0] +
+                   src[3] * _matrix[3][0]),
+                  (src[0] * _matrix[0][1] +
+                   src[1] * _matrix[1][1] +
+                   src[2] * _matrix[2][1] +
+                   src[3] * _matrix[3][1]),
+                  (src[0] * _matrix[0][2] +
+                   src[1] * _matrix[1][2] +
+                   src[2] * _matrix[2][2] +
+                   src[3] * _matrix[3][2]),
+                  (src[0] * _matrix[0][3] +
+                   src[1] * _matrix[1][3] +
+                   src[2] * _matrix[2][3] +
+                   src[3] * _matrix[3][3]));
+}
+
+
+//! Multiplies matrix by given column vector
+
+template<class ValueTypeT> inline
+void TransformationMatrix<ValueTypeT>::multMatrixVec(VectorType &vec) const
 {
     multMatrixVec(vec, vec);
 }
