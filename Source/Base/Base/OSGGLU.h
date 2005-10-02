@@ -63,6 +63,8 @@ typedef void (APIENTRY *OSGGLUfuncptr)();
 #  else
 typedef void (*OSGGLUfuncptr)();
 #  endif
+#elif defined(__APPLE__)
+typedef GLvoid (*OSGGLUfuncptr)(...);
 #else
 typedef void (*OSGGLUfuncptr)();
 #endif

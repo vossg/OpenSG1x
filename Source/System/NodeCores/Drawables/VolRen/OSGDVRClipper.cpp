@@ -11,23 +11,19 @@
 
 #include <stdlib.h>
 
-#ifndef CALLBACK
-#define CALLBACK
-#endif
-
 OSG_USING_NAMESPACE
 
-static void CALLBACK errorCallback         (GLenum   errorCode);
-static void CALLBACK beginCallback         (GLenum   which, 
-                                            void    *data);
-static void CALLBACK endCallback           (void    *data);
-static void CALLBACK vertexCallback        (GLvoid  *vertexData, 
-                                            void    *data);
-static void CALLBACK vertexCombineCallback(GLdouble *, 
-                                           GLdouble **, 
-                                           GLfloat  *, 
-                                           GLdouble **, 
-                                           void     *data);
+static void OSG_APIENTRY errorCallback        (GLenum   errorCode);
+static void OSG_APIENTRY beginCallback        (GLenum   which, 
+                                               void    *data);
+static void OSG_APIENTRY endCallback          (void    *data);
+static void OSG_APIENTRY vertexCallback       (GLvoid  *vertexData, 
+                                               void    *data);
+static void OSG_APIENTRY vertexCombineCallback(GLdouble *, 
+                                               GLdouble **, 
+                                               GLfloat  *, 
+                                               GLdouble **, 
+                                               void     *data);
 
 DVRClipper::DVRClipper(void)
 {
@@ -129,23 +125,23 @@ void DVRClipper::initialize(DVRVolume *volume)
         // registering callback functions for glu tesselator...
         gluTessCallback(myTess, 
                         GLU_TESS_COMBINE_DATA, 
-                        (GLvoid (CALLBACK *)()) vertexCombineCallback);
+                        reinterpret_cast<OSGGLUfuncptr>(vertexCombineCallback));
 
         gluTessCallback(myTess, 
                         GLU_TESS_VERTEX_DATA, 
-                        (GLvoid (CALLBACK *)()) vertexCallback);
+                        reinterpret_cast<OSGGLUfuncptr>(vertexCallback));
 
         gluTessCallback(myTess, 
                         GLU_TESS_BEGIN_DATA,
-                        (GLvoid (CALLBACK *)()) beginCallback);
+                        reinterpret_cast<OSGGLUfuncptr>(beginCallback));
 
         gluTessCallback(myTess, 
                         GLU_TESS_END_DATA, 
-                        (GLvoid (CALLBACK *)()) endCallback);
+                        reinterpret_cast<OSGGLUfuncptr>(endCallback));
 
         gluTessCallback(myTess, 
                         GLU_TESS_ERROR, 
-                        (GLvoid (CALLBACK *)()) errorCallback);
+                        reinterpret_cast<OSGGLUfuncptr>(errorCallback));
     
     }
   
@@ -462,7 +458,7 @@ void DVRClipper::clipSlice(      DVRVolume      *volume,
     }
 }
 
-void CALLBACK errorCallback(GLenum errorCode)
+void OSG_APIENTRY errorCallback(GLenum errorCode)
 {
     SFATAL << "Error " 
            << gluErrorString(errorCode) 
@@ -470,7 +466,7 @@ void CALLBACK errorCallback(GLenum errorCode)
            << std::endl;
 }
 
-void CALLBACK  beginCallback(GLenum which, void *data)
+void OSG_APIENTRY beginCallback(GLenum which, void *data)
 {
     DVRRenderSlice *sliceData = (DVRRenderSlice *) data; 
   
@@ -490,7 +486,7 @@ void CALLBACK  beginCallback(GLenum which, void *data)
     }
 }
 
-void CALLBACK endCallback(void *data)
+void OSG_APIENTRY endCallback(void *data)
 {
     DVRRenderSlice *sliceData = (DVRRenderSlice *) data; 
 
@@ -500,7 +496,7 @@ void CALLBACK endCallback(void *data)
     }
 }
 
-void CALLBACK vertexCallback(GLvoid *vertexData, void *data)
+void OSG_APIENTRY vertexCallback(GLvoid *vertexData, void *data)
 {
     GLdouble       *v         = (GLdouble       *) vertexData;
 
@@ -537,11 +533,11 @@ void CALLBACK vertexCallback(GLvoid *vertexData, void *data)
     }
 }
 
-void CALLBACK vertexCombineCallback(GLdouble  *coords, 
-                                    GLdouble  *vertexData[4], 
-                                    GLfloat    weight    [4], 
-                                    GLdouble **dataOut, 
-                                    void      *data         )
+void OSG_APIENTRY vertexCombineCallback(GLdouble  *coords, 
+                                        GLdouble  *vertexData[4], 
+                                        GLfloat    weight    [4], 
+                                        GLdouble **dataOut, 
+                                        void      *data         )
 {
     DVRRenderSlice *sliceData = (DVRRenderSlice *) data;
 
@@ -597,11 +593,3 @@ void CALLBACK vertexCombineCallback(GLdouble  *coords,
 
     *dataOut = vertex;
 }
-
-
-
-
-
-
-
-

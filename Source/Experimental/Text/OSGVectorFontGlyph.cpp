@@ -237,13 +237,13 @@ bool VectorFontGlyph::createTriangles(void)
     tmTesselator = this;
 
     gluTessCallback(triangulator, (GLenum) GLU_BEGIN,
-                    (void (OSG_APIENTRY *) (void)) tessBegin);
+                    reinterpret_cast<OSGGLUfuncptr>(tessBegin));
     gluTessCallback(triangulator, (GLenum) GLU_VERTEX,
-                    (void (OSG_APIENTRY *) (void)) tessVertex);
+                    reinterpret_cast<OSGGLUfuncptr>(tessVertex));
     gluTessCallback(triangulator, (GLenum) GLU_EDGE_FLAG,
-                    (void (OSG_APIENTRY *) (void)) tessEdgeFlag);
+                    reinterpret_cast<OSGGLUfuncptr>(tessEdgeFlag));
     gluTessCallback(triangulator, (GLenum) GLU_END,
-                    (void (OSG_APIENTRY *) (void)) tessEnd);
+                    reinterpret_cast<OSGGLUfuncptr>(tessEnd));
 
     //     gluTessCallback(triangulator, (GLenum)GLU_ERROR,
     // 		     (void (OSG_SYSTEMLIB_DLLMAPPING *)()) tessError );
