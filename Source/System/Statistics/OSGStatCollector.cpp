@@ -257,7 +257,7 @@ void StatCollector::reset(void)
 
 /*-------------------------- assignment -----------------------------------*/
 
-StatCollector& StatCollector::operator = (const StatCollector &source)
+const StatCollector& StatCollector::operator = (const StatCollector &source)
 {
     if (this == &source)
         return *this;
@@ -276,6 +276,35 @@ bool StatCollector::operator < (const StatCollector &other) const
 {
     return this < &other;
 }
+
+
+StatCollector StatCollector::operator + (const StatCollector &other)
+{
+    StatCollector res(*this);
+    
+    res += other;
+    
+    return res;
+}
+
+StatCollector &StatCollector::operator += (const StatCollector &other)
+{
+    if(other._elemVec.size() > _elemVec.size())
+    {
+        _elemVec.resize(other._elemVec.size());
+    }
+    
+    for(UInt32 i = 0; i < _elemVec.size(); ++i)
+    {
+        if(_elemVec[i])
+        {
+            *_elemVec[i] += *other._elemVec[i];
+        }
+    }
+    
+    return *this;
+}
+
 
 
 #include <OSGMFieldTypeDef.inl>

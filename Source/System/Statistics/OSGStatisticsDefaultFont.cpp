@@ -45,6 +45,7 @@ OSG_BEGIN_NAMESPACE
 UInt32 StatisticsDefaultFontDataSize = 527380;
 
 UChar8 StatisticsDefaultFontData[527380] = {
+#ifndef OSG_DO_DOC
 255,116,120,102,18,52,86,120,0,0,0,0,0,0,2,0,0,0,4,0,
 0,0,0,71,255,255,255,255,0,0,0,255,0,1,12,43,2,0,16,0,
 1,195,1,188,0,2,12,43,2,0,16,0,0,202,1,232,0,3,12,43,
@@ -26414,6 +26415,7 @@ UChar8 StatisticsDefaultFontData[527380] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+#endif
 };
 
 std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 

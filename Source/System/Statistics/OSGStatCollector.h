@@ -78,15 +78,17 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector
     /*! \{                                                                 */
 
     
-    inline  UInt32   getNumOfElems (void);
+    inline  UInt32   getNumOfElems (void) const;
 
             void     refitElemNum  (void);
 
             void     clearElems    (void);
 
-    inline  bool     isValidID     (Int32 id);
+    inline  bool     isValidID     (Int32 id) const;
 
             void     reset         (void);
+
+    inline  StatElem *getElem      (Int32 id) const;
 
     inline  StatElem *getElem      (Int32 id, bool create = true);
 
@@ -114,7 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector
 
     static StatCollector *create(void);
 
-    StatCollector& operator =(const StatCollector &source);
+    const StatCollector& operator =(const StatCollector &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -129,6 +131,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector
     /*! \{                                                                 */
 
          bool operator <  (const StatCollector &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+
+          StatCollector  operator +  (const StatCollector &other);
+          StatCollector &operator += (const StatCollector &other);
 
     /*! \}                                                                 */
 

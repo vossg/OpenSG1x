@@ -133,6 +133,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntOnceElem : public StatElem
     virtual StatElem *clone(void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+
+    virtual StatElem &operator += (const StatElem &other);
+
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
  protected:
@@ -172,6 +179,6 @@ OSG_END_NAMESPACE
 
 #include "OSGStatIntOnceElem.inl"
 
-#define OSGSTATINTONCEELEM_HEADER_CVSID "@(#)$Id: OSGStatIntOnceElem.h,v 1.1 2005/07/26 19:12:07 dirk Exp $"
+#define OSGSTATINTONCEELEM_HEADER_CVSID "@(#)$Id: OSGStatIntOnceElem.h,v 1.2 2005/10/02 15:31:07 dirk Exp $"
 
 #endif /* _STATINTONCEELEM_H_ */

@@ -171,6 +171,17 @@ StatElem *StatTimeElem::clone(void) const
     return e;
 }
 
+/*--------------------------- operators ------------------------------------*/
+
+StatElem &StatTimeElem::operator += (const StatElem &other)
+{
+    const StatTimeElem *o = dynamic_cast<const StatTimeElem *>(&other);
+    
+    _time += o->_time;
+    
+    return *this;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

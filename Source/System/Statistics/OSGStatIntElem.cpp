@@ -145,6 +145,17 @@ StatElem *StatIntElem::clone(void) const
     return e;
 }
 
+/*--------------------------- operators ------------------------------------*/
+
+StatElem &StatIntElem::operator += (const StatElem &other)
+{
+    const StatIntElem *o = dynamic_cast<const StatIntElem *>(&other);
+    
+    _value += o->_value;
+    
+    return *this;
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

@@ -107,6 +107,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatStringElem : public StatElem {
     virtual StatElem *clone(void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+
+    virtual StatElem &operator += (const StatElem &other);
+
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:

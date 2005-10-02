@@ -130,5 +130,5 @@ const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

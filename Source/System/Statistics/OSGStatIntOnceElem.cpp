@@ -150,6 +150,19 @@ StatElem *StatIntOnceElem::clone(void) const
     return e;
 }
 
+/*--------------------------- operators ------------------------------------*/
+
+StatElem &StatIntOnceElem::operator += (const StatElem &other)
+{
+    const StatIntOnceElem *o = dynamic_cast<const StatIntOnceElem *>(&other);
+    
+    _value += o->_value;
+    _ids.insert(o->_ids.begin(), o->_ids.end());
+    
+    return *this;
+}
+
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -164,7 +177,7 @@ StatElem *StatIntOnceElem::clone(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatIntOnceElem.cpp,v 1.1 2005/07/26 19:12:07 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatIntOnceElem.cpp,v 1.2 2005/10/02 15:31:07 dirk Exp $";
     static Char8 cvsid_hpp[] = OSGSTATINTONCEELEM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTATINTONCEELEM_INLINE_CVSID;
 }

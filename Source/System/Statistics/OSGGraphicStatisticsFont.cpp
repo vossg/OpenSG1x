@@ -44,6 +44,9 @@ OSG_BEGIN_NAMESPACE
 
 UInt32 GraphicsStatisticsFontDataSize = 527380;
 UChar8 GraphicsStatisticsFontData[527380] = {
+
+#ifndef OSG_DO_DOC
+
 255,116,120,102,120,86,52,18,0,0,0,0,0,2,0,0,0,4,0,0,
 55,0,0,0,241,255,255,255,255,0,0,0,1,0,48,48,8,0,64,0,
 195,0,100,1,2,0,48,48,8,0,64,0,100,1,100,1,3,0,48,48,
@@ -26413,6 +26416,9 @@ UChar8 GraphicsStatisticsFontData[527380] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+#endif
+
 };
 /*
 UInt32 GraphicsStatisticsFontDataSize = 1051668;

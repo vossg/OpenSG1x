@@ -40,13 +40,13 @@
 OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
-inline UInt32 StatCollector::getNumOfElems(void)
+inline UInt32 StatCollector::getNumOfElems(void) const
 {
     return _elemVec.size();
 }
 
 /*-------------------------------------------------------------------------*/
-inline bool StatCollector::isValidID(Int32 id)
+inline bool StatCollector::isValidID(Int32 id) const
 {
     return (id >= 0) && (id < Int32(_elemVec.size()));
 }
@@ -80,6 +80,15 @@ inline StatElem *StatCollector::getElem(Int32 id, bool create)
         return elem;
     }
 
+    return _elemVec[id];
+}
+
+/*! Return a pointer to the StatElem for the id. 
+    It will returnn NULL if the element doesn't exist yet.
+*/
+
+inline StatElem *StatCollector::getElem(Int32 id) const
+{
     return _elemVec[id];
 }
 

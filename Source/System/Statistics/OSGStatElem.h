@@ -106,6 +106,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElem
     virtual StatElem *clone(void) const = 0;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+
+    virtual StatElem &operator += (const StatElem &other) = 0;
+
+    /*! \}                                                                 */
 
     /*=========================  PROTECTED  ===============================*/
   protected:
