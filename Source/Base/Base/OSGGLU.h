@@ -48,6 +48,8 @@
 
 #ifdef OSG_NOGLSUBDIR
 #include <glu.h>
+#elif defined(__APPLE__)
+#include <OpenGL/glu.h>
 #else
 #include <GL/glu.h>
 #endif

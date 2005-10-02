@@ -1047,12 +1047,6 @@ dnl e5
                     ac_gdz_glut_incdir_e5=$ac_gdz_glut_incdir
                 ;;
             esac
-        else
-            case $build_os in
-                darwin*)
-                    ac_gdz_glut_incdir_e5=/System/Library/Frameworks/GLUT.framework/Headers
-                ;;
-            esac
         fi
 
         if test -n "$ac_gdz_glut_libdir"; then
@@ -1202,10 +1196,6 @@ dnl e8
         case $build_os in
             cygwin*)
                 ac_gdz_gl_lib_e8=''
-            ;;
-            darwin*)
-                ac_gdz_gl_lib_e8=''
-                ac_gdz_gl_incdir_e8=/System/Library/Frameworks/OpenGL.framework/Headers
             ;;
             hpux*)
                 ac_gdz_gl_incdir_e8='/opt/graphics/OpenGL/include'
@@ -1562,7 +1552,6 @@ dnl e15
         ;;
         darwin*)
             ac_gdz_gl_lib_e15='-framework OpenGL'
-            ac_gdz_gl_incdir_e15=/System/Library/Frameworks/OpenGL.framework/Headers
         ;;
         hpux*)
             ac_gdz_gl_incdir_e15='/opt/graphics/OpenGL/include'
@@ -1611,12 +1600,6 @@ dnl e15
                 ;;
                 *)
                     ac_gdz_glut_incdir_e15=$ac_gdz_glut_incdir
-                ;;
-            esac
-        else
-            case $build_os in
-                darwin*)
-                    ac_gdz_glut_incdir_e15=/System/Library/Frameworks/GLUT.framework/Headers
                 ;;
             esac
         fi
