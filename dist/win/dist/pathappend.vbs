@@ -15,7 +15,11 @@ Path = WSHShell.Environment("USER").Item("PATH")
 pos=InStr(Path,osgpath)
 'WScript.echo pos
 If pos = 0 Then
-	Path = Path & ";" & osgpath
+          if Len(Path) = 0 Then
+	      Path = osgpath
+	Else
+	      Path = Path & ";" & osgpath
+	End If
 	WScript.echo "Added " & osgpath & " to your PATH environment."
 	'WScript.echo Path
 	WSHShell.Environment("USER").Item("PATH") = Path
@@ -36,3 +40,4 @@ Else
 		WSHShell.Environment("USER").Item("PATH") = newpath
 	End If
 End If
+WSHShell.Environment("USER").Item("OPENSG") = osgpath
