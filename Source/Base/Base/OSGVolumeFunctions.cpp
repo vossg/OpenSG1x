@@ -450,41 +450,112 @@ bool intersect(const SphereVolume &sphere, const Volume &vol)
 
 // # Cylinder ########################################################
 
-OSG_BASE_DLLMAPPING 
-bool intersect(const CylinderVolume &cylinder1, 
-               const CylinderVolume &cylinder2)
+// http://softsurfer.com/Archive/algorithm_0106/algorithm_0106.htm#dist3D_Segment_to_Segment()
+// Adapted for OpenSG by Marcus Lindblom 2005-09-06
+
+// Copyright 2001, softSurfer (www.softsurfer.com)
+// This code may be freely used and modified for any purpose
+// providing that this copyright notice is included with it.
+// SoftSurfer makes no warranty for this code, and cannot be held
+// liable for any real or imagined damage resulting from its use.
+// Users of this code must verify correctness for their application.
+
+// Assume that classes are already given for the objects:
+//    Point and Vector with
+//        coordinates {float x, y, z;}
+//        operators for:
+//            Point  = Point  Vector
+//            Vector = Point - Point
+//            Vector = Vector  Vector
+//            Vector = Scalar * Vector
+//    Line and Segment with defining points {Point P0, P1;}
+//    Track with initial position and velocity vector
+//            {Point P0; Vector v;}
+//===================================================================
+
+float dist3D_Segment_to_Segment( const Pnt3f& s1p, const Vec3f& s1d,
+                                const Pnt3f& s2p, const Vec3f& s2d)
 {
-    Vec3f   adir1, adir2, n, p;
-    Pnt3f   apos1, apos2;
-    double  d;
-    bool    retCode = false;
+    const float SMALL_NUM = 1e-9f; // anything that avoids division overflow
+    const Vec3f& u = s1d;
+    const Vec3f& v = s2d;
+    Vec3f w = s1p - s2p;
 
-    cylinder1.getAxis(apos1, adir1);
-    cylinder2.getAxis(apos2, adir2);
+    float    a = u.dot(u);        // always >= 0
+    float    b = u.dot(v);
+    float    c = v.dot(v);        // always >= 0
+    float    d = u.dot(w);
+    float    e = v.dot(w);
+    float    D = a*c - b*b;       // always >= 0
+    float    sc, sN, sD = D;      // sc = sN / sD, default sD = D >= 0
+    float    tc, tN, tD = D;      // tc = tN / tD, default tD = D >= 0
 
-    //get the shortest distance between the two axes of the cylinders
-
-    n = adir1.cross(adir2);
-    n.normalize();
-
-    p = apos1 - apos2;
-    d = fabs(n.dot(p.addToZero()));
-
-    if(cylinder1.isEmpty() == true || cylinder2.isEmpty() == true)
-    {
-        retCode = false;
+    // compute the line parameters of the two closest points
+    if (D < SMALL_NUM) { // the lines are almost parallel
+        sN = 0.0;        // force using point P0 on segment S1
+        sD = 1.0;        // to prevent possible division by 0.0 later
+        tN = e;
+        tD = c;
     }
-    else if(cylinder1.isInfinite() == true || cylinder2.isInfinite() == true)
-    {
-        retCode = true;
-    }
-    else if(d <= cylinder1.getRadius() + cylinder2.getRadius())
-    {
-        // the distance is smaller than the sum of the 2 radiuses
-        retCode = true;
+    else {                // get the closest points on the infinite lines
+        sN = (b*e - c*d);
+        tN = (a*e - b*d);
+        if (sN < 0.0) {       // sc < 0 => the s=0 edge is visible
+            sN = 0.0;
+            tN = e;
+            tD = c;
+        }
+        else if (sN > sD) {  // sc > 1 => the s=1 edge is visible
+            sN = sD;
+            tN = e + b;
+            tD = c;
+        }
     }
 
-    return retCode;
+    if (tN < 0.0) {           // tc < 0 => the t=0 edge is visible
+        tN = 0.0;
+        // recompute sc for this edge
+        if (-d < 0.0)
+            sN = 0.0;
+        else if (-d > a)
+            sN = sD;
+        else {
+            sN = -d;
+            sD = a;
+        }
+    }
+    else if (tN > tD) {      // tc > 1 => the t=1 edge is visible
+        tN = tD;
+        // recompute sc for this edge
+        if ((-d + b) < 0.0)
+            sN = 0;
+        else if ((-d + b) > a)
+            sN = sD;
+        else {
+            sN = (-d + b);
+            sD = a;
+        }
+    }
+    // finally do the division to get sc and tc
+    sc = (osgabs(sN) < SMALL_NUM ? 0.0 : sN / sD);
+    tc = (osgabs(tN) < SMALL_NUM ? 0.0 : tN / tD);
+
+    // get the difference of the two closest points
+    Vec3f dP = w + (sc * u) - (tc * v);  // = S1(sc) - S2(tc)
+
+    return dP.length();   // return the squared distance
+}
+
+OSG_BASE_DLLMAPPING 
+bool intersect(const CylinderVolume &cyl1, 
+               const CylinderVolume &cyl2)
+{
+    Pnt3f p1, p2;
+    Vec3f v1, v2;
+    cyl1.getAxis(p1, v1);
+    cyl2.getAxis(p2, v2);
+    return dist3D_Segment_to_Segment(p1, v1, p2, v2) <= 
+            (cyl1.getRadius() + cyl2.getRadius());
 }
 
 
