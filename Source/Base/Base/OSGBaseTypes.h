@@ -576,6 +576,23 @@ const Char8 PluginPattern[] = "*.dll";
 
 const Char8  DirSep    = '\\';
 
+#elif defined(__APPLE__)
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+const Char8 PluginExt[]     = ".dylib";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+const Char8 PluginPattern[] = "*.dylib";
+
+/*! \ingroup GrpBaseBaseConstants
+ */
+
+const Char8  DirSep    = '/';
+
 #else
 
 /*! \ingroup GrpBaseBaseConstants
