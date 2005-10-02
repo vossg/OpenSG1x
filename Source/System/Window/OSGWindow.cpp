@@ -822,6 +822,14 @@ void OSG::Window::doInitRegisterGLObject(UInt32 id, UInt32 num)
 */
 void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 {
+#ifdef OSG_DEBUG
+    if(id >= _glObjects.size() || _glObjects[id] == NULL)
+    {
+        FWARNING(("Window::destroyGLObject: object %d is NULL!\n", id));
+        return;
+    }
+#endif
+
     // Has this object ever been used?
     if(_glObjects[id] && _glObjects[id]->getRefCounter() == 0)
     {
@@ -843,7 +851,7 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 #ifdef OSG_DEBUG
         if(id + num > (*it)->_mfGlObjectLastReinitialize.size())
         {
-            FWARNING(("Window::destroyGLObject:: id %d + num %d exceed"
+            FWARNING(("Window::destroyGLObject: id %d + num %d exceed"
                 "registered objects size %d!\n", id, num, 
                 (*it)->_mfGlObjectLastReinitialize.size()));
             return;
@@ -1336,7 +1344,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             {
                 FWARNING(("Neither glXGetProcAddress nor "
                         "glXGetProcAddressARB found! Disabling all "
-                        " extensions for Window %p!")); 
+                        " extensions for Window %p!\n")); 
                 _availExtensions.clear();
                 _availExtensions.resize(_registeredExtensions.size(), false);
             } 
