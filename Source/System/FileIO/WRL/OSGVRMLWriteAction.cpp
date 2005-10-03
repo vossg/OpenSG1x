@@ -930,9 +930,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoIndicesUI32Ptr  pIndex  = GeoIndicesUI32Ptr ::dcast(pGeo->getIndices());
-    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr   ::dcast(pGeo->getTypes());
-    GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
+    GeoIndicesPtr   pIndex  = pGeo->getIndices();
+    GeoPTypesPtr    pTypes  = pGeo->getTypes();
+    GeoPLengthsPtr  pLength = pGeo->getLengths();
 
     if((pIndex  == NullFC) ||
        (pTypes  == NullFC) ||
@@ -941,16 +941,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoIndicesUI32::StoredFieldType  *pIndexField  = pIndex ->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes ->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
-
-    if(pIndexField          == NULL ||
-       pIndexField->size()  == 0    ||
-       pTypeField           == NULL ||
-       pTypeField->size()   == 0    ||
-       pLengthField         == NULL ||
-       pLengthField->size() == 0)
+    if(pIndex->size() == 0 ||
+       pTypes->size() == 0 ||
+       pLength->size() == 0)
     {
         return;
     }
@@ -1091,8 +1084,8 @@ void VRMLWriteAction::writeLineIndex(GeometryPtr      pGeo,
     if(pGeo == NullFC)
         return;
 
-    GeoPTypesUI8Ptr    pTypes  = GeoPTypesUI8Ptr   ::dcast(pGeo->getTypes());
-    GeoPLengthsUI32Ptr pLength = GeoPLengthsUI32Ptr::dcast(pGeo->getLengths());
+    GeoPTypesPtr    pTypes  = pGeo->getTypes();
+    GeoPLengthsPtr pLength = pGeo->getLengths();
 
     if((pTypes  == NullFC) ||
        (pLength == NullFC))
@@ -1100,13 +1093,8 @@ void VRMLWriteAction::writeLineIndex(GeometryPtr      pGeo,
         return;
     }
 
-    GeoPTypesUI8::StoredFieldType    *pTypeField   = pTypes->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType *pLengthField = pLength->getFieldPtr();
-
-    if(pTypeField           == NULL ||
-       pTypeField->size()   == 0    ||
-       pLengthField         == NULL ||
-       pLengthField->size() == 0)
+    if(pTypes->size() == 0 ||
+       pLength->size() == 0)
     {
         return;
     }
