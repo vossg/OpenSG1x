@@ -149,8 +149,9 @@ void VRMLWriteAction::FCInfo::convertName(Char8 *&szName)
         szName[i] = mapChar(szName[i]);
     }
     
-    // first char a number? add an _
-    if(szName[0] >= 0x30 && szName[0] <= 0x39)
+    // first char a number a plus or a minus? add an _
+    if((szName[0] >= 0x30 && szName[0] <= 0x39) ||
+        szName[0] == 0x2b || szName[0] == 0x2d)
     {
         Char8 *newstring = new char [strlen(szName) + 2];
         
@@ -1587,6 +1588,9 @@ void VRMLWriteAction::writeFaceSet(NodePtr          pNode,
     {
         if(pWriter->isCurrentUse() == false)
         {
+            pWriter->printIndent();
+            fprintf(pFile, "solid FALSE\n");
+
             writePoints   (pGeo, pFile, pWriter);
             writeNormals  (pGeo, pFile, pWriter);
             writeColors   (pGeo, pFile, pWriter);
