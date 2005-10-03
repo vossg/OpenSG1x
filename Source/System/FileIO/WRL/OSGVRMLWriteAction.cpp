@@ -1312,9 +1312,8 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
         if(pWriter->isWritten(pTChunk))
         {
             pWriter->printIndent();
-            fprintf(pFile, "texture USE Tex_%d\n", pWriter->getIndex(pMat));
+            fprintf(pFile, "texture USE Tex_%d\n", pWriter->getIndex(pTChunk));
             subRefCP(st);
-            return;
         }
         else
         {
