@@ -116,7 +116,7 @@ endif
 ifeq ($(findstring WIN,$(SYSTEM)),WIN)
 CC = "$(shell $(OSGCONFIG) --compiler)"
 else
-CC = $(shell $(OSGCONFIG) --compiler) -v
+CC = $(shell $(OSGCONFIG) --compiler) 
 endif
 
 CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)

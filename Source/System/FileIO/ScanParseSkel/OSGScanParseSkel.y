@@ -77,6 +77,10 @@ void freeName(char *&szName);
 #define SKEL ((ScanParseSkel *) pSkel)
 #define SKELTEXT (SKEL->getText())
 
+#if(!defined(__GNUC__) && defined(__ICL))
+# define alloca(size)   __builtin_alloca (size)
+#endif
+
 %}
 
 %token DEF
