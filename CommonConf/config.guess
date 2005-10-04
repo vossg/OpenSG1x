@@ -706,7 +706,7 @@ EOF
 				    p'`
         case "$ld_supported_emulations" in
 	  *ia64)
-		echo "${UNAME_MACHINE}-unknown-linux"
+		echo "${UNAME_MACHINE}-unknown-linux-gnu"
 		exit 0
 		;;
 	  i?86linux)

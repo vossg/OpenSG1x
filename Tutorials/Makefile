@@ -113,7 +113,11 @@ endif
 
 # Var settings
 
+ifeq ($(findstring WIN,$(SYSTEM)),WIN)
 CC = "$(shell $(OSGCONFIG) --compiler)"
+else
+CC = $(shell $(OSGCONFIG) --compiler) -v
+endif
 
 CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
 
