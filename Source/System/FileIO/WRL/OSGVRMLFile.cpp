@@ -446,7 +446,12 @@ void VRMLFile::endNode(void)
             endEditCP(pNode->getCore(), _bvChanged.first);
         }
 
-        endEditCP(_pCurrentFC, _bvChanged.first);
+        endEditCP(_pCurrentFC, 
+				  _bvChanged.first,
+                   ChangedOrigin::Abstract         |
+                   ChangedOrigin::AbstrIgnoreCore  |
+                   ChangedOrigin::AbstrIgnoreChild |
+                   ChangedOrigin::AbstrCheckValid );
     }
 
     _fcStack.pop();
