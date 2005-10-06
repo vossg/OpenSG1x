@@ -152,8 +152,13 @@ void Slices::changed(BitVector  whichField,
         }
     }
 
-    // TODO; only reinit on _size change
-    initEdgeVec();
+    if(whichField & sizeFieldMask)
+    {
+       std::cerr << "Slice::size called" << std::endl;
+       initEdgeVec();
+       invalidateVolume();
+    }
+
 }
 
 //! output the instance for debug purposes
@@ -198,7 +203,7 @@ Action::ResultE Slices::drawPrimitives(DrawActionBase *action)
 {
     Matrix camera,toworld;
     UInt32 triCount, vertexCount;
-    Vec3f planeNormal;
+    Vec3f planeNormal(0,0,1);
     StatCollector *coll = action->getStatistics();
     StatIntElem   *el   = 0;
     
@@ -223,7 +228,7 @@ Action::ResultE Slices::drawPrimitives(DrawActionBase *action)
     camera.multLeft(toworld);
   
     // Viewer direction  
-    planeNormal.setValues(camera[3][0],camera[3][1],camera[3][2]);
+    camera.multMatrixVec(planeNormal,planeNormal);
     planeNormal.normalize();
 
     drawSlices(action->getWindow(), planeNormal,triCount,vertexCount);
@@ -271,6 +276,8 @@ void Slices::adjustVolume( Volume & volume )
     
     p.negate();
     volume.extendBy ( p );
+
+    std::cerr << "###: " << p << std::endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -491,7 +498,8 @@ void Slices::drawSlices(Window *win, const Vec3f &planeNormal,
     
     if (numOfSlices) 
     {
-        glNormal3fv ( texSliceNormal.getValues() );
+        glNormal3fv ( planeNormal.getValues() );
+        glColor3fv  ( texSliceNormal.getValues() );
     
         for(si = 0; si < numOfSlices; si++) 
         {
