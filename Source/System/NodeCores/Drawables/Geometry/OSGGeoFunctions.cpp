@@ -945,7 +945,7 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
                                 bool createNormal, 
                                 bool faceSet)
 {
-  Int32 primitiveType = faceSet ? GL_POLYGON : GL_LINE;
+  Int32 primitiveType = faceSet ? GL_POLYGON : GL_LINE_STRIP;
 
   return setIndexFromIndexedX3DData ( geoPtr,
                                       coordIndex,
