@@ -145,8 +145,8 @@ class OSG_CONTRIBLIB_DLLMAPPING Character : public CharacterBase
     
     // extension indices for used fucntions;
     static UInt32           _funcglClientActiveTextureARB;
-    static UInt32           _funcglGetUniformLocation;
-    static UInt32           _funcglUniformMatrix4fv;
+    static UInt32           _funcglGetUniformLocationARB;
+    static UInt32           _funcglUniformMatrix4fvARB;
 
     // prohibit default functions (move to 'public' if you need one)
 
@@ -226,6 +226,6 @@ OSG_END_NAMESPACE
 #include <OSGCharacterBase.inl>
 #include <OSGCharacter.inl>
 
-#define OSGCHARACTER_HEADER_CVSID "@(#)$Id: OSGCharacter.h,v 1.1 2005/09/25 21:55:05 dirk Exp $"
+#define OSGCHARACTER_HEADER_CVSID "@(#)$Id: OSGCharacter.h,v 1.2 2005/10/06 14:22:40 dirk Exp $"
 
 #endif /* _OSGCHARACTER_H_ */

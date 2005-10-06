@@ -80,8 +80,8 @@ UInt32 Character::_arbSHL100;
 /*! OpenGL extension function indices.
 */
 UInt32 Character::_funcglClientActiveTextureARB;
-UInt32 Character::_funcglGetUniformLocation;
-UInt32 Character::_funcglUniformMatrix4fv;
+UInt32 Character::_funcglGetUniformLocationARB;
+UInt32 Character::_funcglUniformMatrix4fvARB;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -118,12 +118,12 @@ Character::Character(void) :
                             OSG_DLSYM_UNDERSCORE"glClientActiveTextureARB",
                             _extMultitexture);
         
-    _funcglGetUniformLocation = Window::registerFunction(
-                            OSG_DLSYM_UNDERSCORE"glGetUniformLocation",
+    _funcglGetUniformLocationARB = Window::registerFunction(
+                            OSG_DLSYM_UNDERSCORE"glGetUniformLocationARB",
                             _arbSHL100);
         
-    _funcglUniformMatrix4fv = Window::registerFunction(
-                            OSG_DLSYM_UNDERSCORE"glUniformMatrix4fv",
+    _funcglUniformMatrix4fvARB = Window::registerFunction(
+                            OSG_DLSYM_UNDERSCORE"glUniformMatrix4fvARB",
                             _arbSHL100);
 }
 
@@ -382,16 +382,16 @@ void Character::drawMeshes(std::vector<Int32> &meshes, Window *win)
         void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
                 (void (OSG_APIENTRY*) (GLenum type))
                 win->getFunction(_funcglClientActiveTextureARB);
-        GLint (OSG_APIENTRY*_glGetUniformLocation) (GLuint program, 
+        GLint (OSG_APIENTRY*_glGetUniformLocationARB) (GLuint program, 
                 const char *name)=
                 (GLint (OSG_APIENTRY*) (GLuint program,
                 const char *name))
-                win->getFunction(_funcglGetUniformLocation);
-        void (OSG_APIENTRY*_glUniformMatrix4fv) (GLint location, GLsizei count,
+                win->getFunction(_funcglGetUniformLocationARB);
+        void (OSG_APIENTRY*_glUniformMatrix4fvARB) (GLint location, GLsizei count,
                  GLboolean transpose, const GLfloat *value)=
                 (void (OSG_APIENTRY*) (GLint location, GLsizei count,
                  GLboolean transpose, const GLfloat *value))
-                win->getFunction(_funcglUniformMatrix4fv);
+                win->getFunction(_funcglUniformMatrix4fvARB);
          
         
         glVertexPointer(3, GL_FLOAT, 0, &_vertices[0]);
@@ -412,7 +412,7 @@ void Character::drawMeshes(std::vector<Int32> &meshes, Window *win)
         glErr("get boneMatrices uniform precheck");
         GLuint program = (GLuint) win->getGLObjectId(
                                      getModel()->getShader()->getGLId());
-        GLint loc = _glGetUniformLocation(program, "boneMatrices");
+        GLint loc = _glGetUniformLocationARB(program, "boneMatrices");
 
         if(loc == -1)
         {
@@ -456,7 +456,7 @@ void Character::drawMeshes(std::vector<Int32> &meshes, Window *win)
             
             if(loc != -1)
             {
-                _glUniformMatrix4fv(loc, matrices.size(), false,
+                _glUniformMatrix4fvARB(loc, matrices.size(), false,
                                 &matrices[0][0][0]);
             }
 
@@ -647,7 +647,7 @@ Action::ResultE Character::renderActionHandler(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.3 2005/09/28 20:03:14 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.4 2005/10/06 14:22:40 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 
