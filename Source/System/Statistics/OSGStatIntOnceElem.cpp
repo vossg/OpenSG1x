@@ -157,7 +157,14 @@ StatElem &StatIntOnceElem::operator += (const StatElem &other)
     const StatIntOnceElem *o = dynamic_cast<const StatIntOnceElem *>(&other);
     
     _value += o->_value;
-    _ids.insert(o->_ids.begin(), o->_ids.end());
+
+	IdHash::iterator it = o->_ids.begin();
+	
+	while (it != o->_ids.end())
+	{
+		_ids.insert(*it);
+		++it;
+	}
     
     return *this;
 }
@@ -177,7 +184,7 @@ StatElem &StatIntOnceElem::operator += (const StatElem &other)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatIntOnceElem.cpp,v 1.2 2005/10/02 15:31:07 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGStatIntOnceElem.cpp,v 1.3 2005/10/06 12:59:50 yjung Exp $";
     static Char8 cvsid_hpp[] = OSGSTATINTONCEELEM_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGSTATINTONCEELEM_INLINE_CVSID;
 }
