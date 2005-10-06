@@ -208,8 +208,7 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
     std::string line;
     std::vector < std::string > tokenVec;
     bool inHead;
-    unsigned headBufferSize = 256;
-    char headBuffer[headBufferSize];
+    char headBuffer[256];
     osg::Image::PixelFormat pixelFormat;
     osg::Image::Type imageType;
 
