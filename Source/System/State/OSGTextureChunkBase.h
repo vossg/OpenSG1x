@@ -116,6 +116,7 @@
 #include <OSGInt32Fields.h> // DirtyMaxY type
 #include <OSGInt32Fields.h> // DirtyMinZ type
 #include <OSGInt32Fields.h> // DirtyMaxZ type
+#include <OSGReal32Fields.h> // Anisotropy type
 
 #include <OSGTextureChunkFields.h>
 
@@ -188,7 +189,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         DirtyMaxYFieldId            = DirtyMinYFieldId            + 1,
         DirtyMinZFieldId            = DirtyMaxYFieldId            + 1,
         DirtyMaxZFieldId            = DirtyMinZFieldId            + 1,
-        NextFieldId                 = DirtyMaxZFieldId            + 1
+        AnisotropyFieldId           = DirtyMaxZFieldId            + 1,
+        NextFieldId                 = AnisotropyFieldId           + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -240,6 +242,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector DirtyMaxYFieldMask;
     static const OSG::BitVector DirtyMinZFieldMask;
     static const OSG::BitVector DirtyMaxZFieldMask;
+    static const OSG::BitVector AnisotropyFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -315,6 +318,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFInt32             *getSFDirtyMaxY      (void);
            SFInt32             *getSFDirtyMinZ      (void);
            SFInt32             *getSFDirtyMaxZ      (void);
+           SFReal32            *getSFAnisotropy     (void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -412,6 +416,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const Int32               &getDirtyMinZ      (void) const;
            Int32               &getDirtyMaxZ      (void);
      const Int32               &getDirtyMaxZ      (void) const;
+           Real32              &getAnisotropy     (void);
+     const Real32              &getAnisotropy     (void) const;
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
      const MFReal32            &getShaderOffsetMatrix(void) const;
@@ -469,6 +475,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setDirtyMaxY      ( const Int32 &value );
      void setDirtyMinZ      ( const Int32 &value );
      void setDirtyMaxZ      ( const Int32 &value );
+     void setAnisotropy     ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -560,6 +567,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFInt32             _sfDirtyMaxY;
     SFInt32             _sfDirtyMinZ;
     SFInt32             _sfDirtyMaxZ;
+    SFReal32            _sfAnisotropy;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -637,6 +645,6 @@ typedef RefPtr<TextureChunkPtr> TextureChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

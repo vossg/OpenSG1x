@@ -1039,10 +1039,23 @@
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
 #ifndef GL_EXT_texture_compression_s3tc
+#define GL_EXT_texture_compression_s3tc 1
 #define GL_COMPRESSED_RGB_S3TC_DXT1_EXT   0x83F0
 #define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT  0x83F1
 #define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT  0x83F2
 #define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT  0x83F3
+#endif
+
+/*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture_filter_anisotropic                            */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
+#ifndef GL_EXT_texture_filter_anisotropic
+#define GL_EXT_texture_filter_anisotropic 1
+#define GL_TEXTURE_MAX_ANISOTROPY_EXT     0x84FE
+#define GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT 0x84FF
 #endif
 
 /*---------------------------------------------------------------------*/

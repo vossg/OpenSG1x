@@ -439,6 +439,13 @@ SFInt32 *TextureChunkBase::getSFDirtyMaxZ(void)
     return &_sfDirtyMaxZ;
 }
 
+//! Get the TextureChunk::_sfAnisotropy field.
+inline
+SFReal32 *TextureChunkBase::getSFAnisotropy(void)
+{
+    return &_sfAnisotropy;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1448,6 +1455,27 @@ void TextureChunkBase::setDirtyMaxZ(const Int32 &value)
     _sfDirtyMaxZ.setValue(value);
 }
 
+//! Get the value of the TextureChunk::_sfAnisotropy field.
+inline
+Real32 &TextureChunkBase::getAnisotropy(void)
+{
+    return _sfAnisotropy.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfAnisotropy field.
+inline
+const Real32 &TextureChunkBase::getAnisotropy(void) const
+{
+    return _sfAnisotropy.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfAnisotropy field.
+inline
+void TextureChunkBase::setAnisotropy(const Real32 &value)
+{
+    _sfAnisotropy.setValue(value);
+}
+
 
 //! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
 inline
@@ -1472,5 +1500,5 @@ const MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGTEXTURECHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

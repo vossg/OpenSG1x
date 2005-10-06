@@ -114,6 +114,7 @@ UInt32 TextureChunk::_extTextureLodBias;
 UInt32 TextureChunk::_arbTextureCompression;
 UInt32 TextureChunk::_arbTextureRectangle;
 UInt32 TextureChunk::_arbTextureNonPowerOfTwo;
+UInt32 TextureChunk::_extTextureFilterAnisotropic;
 UInt32 TextureChunk::_funcTexImage3D              = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcTexSubImage3D           = Window::invalidFunctionID;
 UInt32 TextureChunk::_funcActiveTexture           = Window::invalidFunctionID;
@@ -184,6 +185,8 @@ TextureChunk::TextureChunk(void) :
         Window::registerExtension("GL_ARB_texture_rectangle"        );
     _arbTextureNonPowerOfTwo  = 
         Window::registerExtension("GL_ARB_texture_non_power_of_two" );
+    _extTextureFilterAnisotropic = 
+        Window::registerExtension("GL_EXT_texture_filter_anisotropic" );
 
     _funcTexImage3D    =
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , 
@@ -659,6 +662,9 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             if(paramtarget == GL_TEXTURE_3D ||
                paramtarget == GL_TEXTURE_CUBE_MAP_ARB)
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_R, getWrapR());
+
+            if(win->hasExtension(_extTextureFilterAnisotropic))
+                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, getAnisotropy());
 
             glErr("TextureChunk::initialize params");
         }

@@ -238,6 +238,9 @@ const OSG::BitVector  TextureChunkBase::DirtyMinZFieldMask =
 const OSG::BitVector  TextureChunkBase::DirtyMaxZFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::DirtyMaxZFieldId);
 
+const OSG::BitVector  TextureChunkBase::AnisotropyFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::AnisotropyFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -391,6 +394,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMaxZ
     Maximum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+*/
+/*! \var Real32          TextureChunkBase::_sfAnisotropy
+    texture anisotropy filtering the default 1.0f means isotropic filtering.
 */
 
 //! TextureChunk description
@@ -641,7 +647,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "dirtyMaxZ", 
                      DirtyMaxZFieldId, DirtyMaxZFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMaxZ)
+                     (FieldAccessMethod) &TextureChunkBase::getSFDirtyMaxZ),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "anisotropy", 
+                     AnisotropyFieldId, AnisotropyFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFAnisotropy)
 };
 
 
@@ -767,6 +778,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfDirtyMaxY              (Int32(-1)), 
     _sfDirtyMinZ              (Int32(-1)), 
     _sfDirtyMaxZ              (Int32(-1)), 
+    _sfAnisotropy             (Real32(1.0f)), 
     Inherited() 
 {
 }
@@ -825,6 +837,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfDirtyMaxY              (source._sfDirtyMaxY              ), 
     _sfDirtyMinZ              (source._sfDirtyMinZ              ), 
     _sfDirtyMaxZ              (source._sfDirtyMaxZ              ), 
+    _sfAnisotropy             (source._sfAnisotropy             ), 
     Inherited                 (source)
 {
 }
@@ -1086,6 +1099,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfDirtyMaxZ.getBinSize();
     }
 
+    if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
+    {
+        returnValue += _sfAnisotropy.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1338,6 +1356,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
     {
         _sfDirtyMaxZ.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
+    {
+        _sfAnisotropy.copyToBin(pMem);
     }
 
 
@@ -1593,6 +1616,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfDirtyMaxZ.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
+    {
+        _sfAnisotropy.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1750,6 +1778,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
         _sfDirtyMaxZ.syncWith(pOther->_sfDirtyMaxZ);
 
+    if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
+        _sfAnisotropy.syncWith(pOther->_sfAnisotropy);
+
 
 }
 #else
@@ -1904,6 +1935,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (DirtyMaxZFieldMask & whichField))
         _sfDirtyMaxZ.syncWith(pOther->_sfDirtyMaxZ);
 
+    if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
+        _sfAnisotropy.syncWith(pOther->_sfAnisotropy);
+
 
     if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
         _mfShaderOffsetMatrix.syncWith(pOther->_mfShaderOffsetMatrix, sInfo);
@@ -1953,7 +1987,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
