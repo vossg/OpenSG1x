@@ -434,7 +434,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x * topradius, height/2, z * topradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->push_back(Vec2f(j / (Real32) sides, 1));
+            tx->push_back(Vec2f(1.f - j / (Real32) sides, 1));
         }
         
         for(j = 0; j <= sides; j++)
@@ -445,7 +445,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x * botradius, -height/2, z * botradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->push_back(Vec2f(j / (Real32) sides, 0));
+            tx->push_back(Vec2f(1.f - j / (Real32) sides, 0));
         }
 
         t->push_back(GL_TRIANGLE_STRIP);
@@ -472,7 +472,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x, height/2, z));
             n->push_back(Vec3f(0, 1, 0));
-            tx->push_back(Vec2f(x / topradius / 2 + .5f, z / topradius / 2 + .5f));
+            tx->push_back(Vec2f(x / topradius / 2 + .5f, -z / topradius / 2 + .5f));
         }
 
         t->push_back(GL_POLYGON);
