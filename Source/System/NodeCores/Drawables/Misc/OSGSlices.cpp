@@ -152,7 +152,7 @@ void Slices::changed(BitVector  whichField,
         }
     }
 
-    if(whichField & sizeFieldMask)
+    if(whichField & SizeFieldMask)
     {
        std::cerr << "Slice::size called" << std::endl;
        initEdgeVec();
