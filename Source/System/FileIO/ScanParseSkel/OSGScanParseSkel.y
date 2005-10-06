@@ -77,7 +77,7 @@ void freeName(char *&szName);
 #define SKEL ((ScanParseSkel *) pSkel)
 #define SKELTEXT (SKEL->getText())
 
-#if(!defined(__GNUC__) && defined(__ICL))
+#if(!defined(__GNUC__) && defined(__ICL) && __INTEL_COMPILER_VERSION >= 900)
 # define alloca(size)   __builtin_alloca (size)
 #endif
 
