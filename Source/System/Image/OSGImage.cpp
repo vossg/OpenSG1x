@@ -655,19 +655,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
 
                             default:
@@ -680,19 +680,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
 
                             default:
@@ -863,19 +863,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
 
                             default:
@@ -1088,19 +1088,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
@@ -1350,19 +1350,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                            switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
@@ -1620,19 +1620,19 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             switch (getDataType())
                             {
                             case OSG_UINT8_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_UINT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
-                                memcpy (getData(), data, destSize);
+                                memcpy (data, getData(), destSize);
                                 break;
                             default:
                                 FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
