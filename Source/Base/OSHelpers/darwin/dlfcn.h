@@ -22,6 +22,9 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+// Only needed on old versions
+#ifdef __GNUC__ < 4
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -41,3 +44,5 @@ extern int dlclose(void * handle);
 #ifdef __cplusplus
 }
 #endif
+
+#endif // __GNUC__

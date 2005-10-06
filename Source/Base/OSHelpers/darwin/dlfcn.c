@@ -22,6 +22,8 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+// Only need this on older MacOS versions
+#if __GNUC__ < 4
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -579,3 +581,4 @@ const char * dlerror(void)
 	err_filled = 0;
 	return e;
 }
+#endif // __GNUC__
