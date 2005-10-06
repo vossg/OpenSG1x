@@ -467,7 +467,9 @@ then
     rm -rf OpenSG
 
     # cvs needs to be in the path!
-    export CVS_RSH=${tmpdir}/ssh-sf
+    #export CVS_RSH=${tmpdir}/ssh-sf
+    # use standard ssh, SF is on ssh2 now anyway
+    export CVS_RSH=ssh
     rm -f $log_cvs
     until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
     do
