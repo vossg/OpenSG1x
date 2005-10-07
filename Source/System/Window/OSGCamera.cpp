@@ -232,7 +232,8 @@ void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
 pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
 viewport's lower left corner. 
 */
-bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
+bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port,
+                         bool startFromNearPlane)
 {
     if(port.getPixelWidth() <= 0 || port.getPixelHeight() <= 0)
     {
@@ -266,9 +267,36 @@ bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
             
     Pnt3f at;
     cctowc.multFullMatrixPnt(Pnt3f(rx, ry, 1), at);
-    
-    line.setValue(from, at-from);
-    
+
+    if(startFromNearPlane)
+    {
+        // Move "from" away onto the near plane in order to
+        // avoid intersections with geometry which lies between 
+        // the observer and the near plane.
+        Vec3f offset = at-from;
+        Vec3f vdir(view[2][0], view[2][1], view[2][2]);
+        
+        // Normalize the vieweing direction
+        vdir = getNear() / vdir.length() * vdir;
+        
+        // Calculate offset by projecting the ray direction
+        // onto the vieweing direction and scaling appropriately
+        if (offset.length() > 0.0f) {
+            offset = vdir.dot(offset) / offset.dot(offset) * offset;
+        } else {
+            offset = Vec3f(0,0,0);
+        }
+        
+        // For some odd reason I don't understand, we have to
+        // subtract the offset from the "from" vector instead
+        // of adding it.
+        line.setValue(from-offset, at-from);
+    }
+    else
+    {
+        line.setValue(from, at-from);
+    }
+
     return true;
 }
 

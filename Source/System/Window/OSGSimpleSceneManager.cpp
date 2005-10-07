@@ -846,7 +846,7 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 {
     Line l;
 
-    _camera->calcViewRay( l, x, y, *_win->getPort()[0] );
+    _camera->calcViewRay( l, x, y, *_win->getPort()[0], true);
 
     return l;
 }

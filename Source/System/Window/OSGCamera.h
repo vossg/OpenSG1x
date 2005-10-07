@@ -116,7 +116,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
     /*! \name                 Intersection Helper                          */
     /*! \{                                                                 */
     
-    bool calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port);
+    bool calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port,
+                     bool startFromNearPlane = false);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
