@@ -1,4 +1,6 @@
 
+CC                   := g++
+
 LINKER_INIT_FLAG     := -Wl,-Bsymbolic -Wl,-init 
 
 LIBPATH_OPTION       := -L
@@ -79,7 +81,7 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100 -fPIC
+COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100 -fPIC -m32
 
 ### Optimize / Debug ###############################################
 
@@ -141,12 +143,12 @@ else
 endif
 
 
-LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS += -m32 $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
 LD_FLAGS_EXT      =  
 LD_FLAGS_EXT_OPT := -O2 
 LD_FLAGS_EXT_DBG := -g 
 
-ADD_OS_LIB := -L/usr/X11R6/lib64 
+ADD_OS_LIB := -L/usr/X11R6/lib
 
