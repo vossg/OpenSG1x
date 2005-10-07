@@ -154,7 +154,6 @@ void Slices::changed(BitVector  whichField,
 
     if(whichField & SizeFieldMask)
     {
-       std::cerr << "Slice::size called" << std::endl;
        initEdgeVec();
        invalidateVolume();
     }
@@ -276,8 +275,6 @@ void Slices::adjustVolume( Volume & volume )
     
     p.negate();
     volume.extendBy ( p );
-
-    std::cerr << "###: " << p << std::endl;
 }
 
 /*-------------------------------------------------------------------------*\
@@ -499,7 +496,6 @@ void Slices::drawSlices(Window *win, const Vec3f &planeNormal,
     if (numOfSlices) 
     {
         glNormal3fv ( planeNormal.getValues() );
-        glColor3fv  ( texSliceNormal.getValues() );
     
         for(si = 0; si < numOfSlices; si++) 
         {
