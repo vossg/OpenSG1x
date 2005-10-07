@@ -346,12 +346,7 @@ EOF
 # Little script to use ssh -1x for SourceForge Access
 cat > ${tmpdir}/ssh-sf << \EOF
 #!/bin/sh
-if ssh -V 2>&1 | fgrep "SSH Version 1." > /dev/null 2>&1
-then
-    ssh    -i ${HOME}/.ssh/sourceforge -x $*
-else
-    ssh -1 -i ${HOME}/.ssh/sourceforge -x $*
-fi
+ssh -i ${HOME}/.ssh/sourceforge -x $*
 EOF
 
 chmod 700 ${tmpdir}/ssh-sf
@@ -469,7 +464,7 @@ then
     # cvs needs to be in the path!
     #export CVS_RSH=${tmpdir}/ssh-sf
     # use standard ssh, SF is on ssh2 now anyway
-    export CVS_RSH=ssh
+    export CVS_RSH=${tmpdir}/ssh-sf
     rm -f $log_cvs
     until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
     do
