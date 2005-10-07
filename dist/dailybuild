@@ -645,6 +645,24 @@ case $system in
         # get rid of version number
         system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/'`
         ;;
+
+    x86_64-unknown-linux-gnu )    
+        
+        glut_args=${glut_args:="--with-glut"}
+        tif_args=${tif_args:="--with-tif"}
+        jpg_args=${jpg_args:="--with-jpg"}
+        qt_dir=${qt_dir:="/opt"}
+        qt_args=${qt_args:="--with-qt=${qt_dir}"}
+        png_args=${png_args:="--with-png"}
+        par_jobs=${par_jobs:=2}
+        compiler=${compiler:=g++}
+        config_shell=bash
+        mail=/usr/bin/Mail
+        do_copy=${do_copy:='cd $basedir; tar cf - $out_files* | ssh -i /home/osgdb/.ssh/id_dsa reiners@pc1107 tar xf - -C $log_destination'}
+        loginfo="OS: `uname -a` <br>"
+        loginfo="$loginfo    `cat /proc/version` <br>"
+        loginfo="$loginfo Compiler Version: `$compiler -v 2>&1` <br>"
+        ;;
     
    *)
 
