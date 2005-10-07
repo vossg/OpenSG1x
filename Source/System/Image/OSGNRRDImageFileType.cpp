@@ -328,10 +328,14 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
       }
 
       if (isSigned) {
-        FFATAL (( "s: Read singed data not supported\n",
+        FFATAL (( "s: Read signed data not supported\n",
                 fileName ));
       }
 
+      FINFO(("NRRDImageFileType::read: got %d D %s endian %s data.\n",
+                dimension, littleEndian?"little":"big",
+                rawEncoding?"raw":"cooked"));
+      
       image->set ( pixelFormat, width, height, depth,
                    1, 1, 0.0, 0, imageType );
 
