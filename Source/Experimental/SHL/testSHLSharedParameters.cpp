@@ -4,7 +4,7 @@
 // Ok this creates 1 CGChunk with different parameter sets for each geometry.
 
 // Headers
-#include <GL/glut.h>
+#include <OSGGLUT.h>
 #include <OSGConfig.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGGLUT.h>

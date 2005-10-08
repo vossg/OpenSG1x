@@ -1,5 +1,5 @@
-#include <GL/glut.h>
-#include <GL/gl.h>
+#include <OSGGLUT.h>
+#include <OSGGL.h>
 #include <OSGConfig.h>
 #include <OSGGLUTWindow.h>
 #include <OSGSimpleSceneManager.h>
