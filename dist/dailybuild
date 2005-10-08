@@ -643,7 +643,7 @@ case $system in
         export PATH=$PATH
         loginfo="OS: `uname -a` <br>"
         # get rid of version number
-        system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/'`
+        system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/' | sed -e 's/darwin.[0-9]/darwin/'`
         ;;
 
     x86_64-unknown-linux-gnu )    
