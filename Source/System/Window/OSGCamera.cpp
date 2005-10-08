@@ -230,10 +230,9 @@ void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
 
 /*! Calculate a ray that starts at the camera position and goes through the
 pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
-viewport's lower left corner. 
+viewport's upper left corner. 
 */
-bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port,
-                         bool startFromNearPlane)
+bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
 {
     if(port.getPixelWidth() <= 0 || port.getPixelHeight() <= 0)
     {
@@ -261,41 +260,12 @@ bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port,
                         ) / 
                         (Real32) port.getPixelHeight()
                        ) * 2.f;
-    
-    view.invert();
-    Pnt3f from(view[3][0], view[3][1], view[3][2]);
             
-    Pnt3f at;
-    cctowc.multFullMatrixPnt(Pnt3f(rx, ry, 1), at);
-
-    if(startFromNearPlane)
-    {
-        // Move "from" away onto the near plane in order to
-        // avoid intersections with geometry which lies between 
-        // the observer and the near plane.
-        Vec3f offset = at-from;
-        Vec3f vdir(view[2][0], view[2][1], view[2][2]);
-        
-        // Normalize the vieweing direction
-        vdir = getNear() / vdir.length() * vdir;
-        
-        // Calculate offset by projecting the ray direction
-        // onto the vieweing direction and scaling appropriately
-        if (offset.length() > 0.0f) {
-            offset = vdir.dot(offset) / offset.dot(offset) * offset;
-        } else {
-            offset = Vec3f(0,0,0);
-        }
-        
-        // For some odd reason I don't understand, we have to
-        // subtract the offset from the "from" vector instead
-        // of adding it.
-        line.setValue(from-offset, at-from);
-    }
-    else
-    {
-        line.setValue(from, at-from);
-    }
+    Pnt3f from, at;
+    cctowc.multFullMatrixPnt(Pnt3f(rx, ry, -1), from);
+    cctowc.multFullMatrixPnt(Pnt3f(rx, ry,  1), at);
+    
+    line.setValue(from, at-from);
 
     return true;
 }

@@ -36,6 +36,7 @@
 //#include "OSGPipe.h"
 #include "OSGCamera.h"
 #include "OSGPerspectiveCamera.h"
+#include "OSGOrthographicCamera.h"
 #include "OSGSolidBackground.h"
 //#include "OSGUniformBackground.h"
 
@@ -56,7 +57,9 @@ NodePtr  file;
 
 GeoPositions3fPtr isect_points;
 
-PerspectiveCameraPtr cam;
+CameraPtr cam;
+PerspectiveCameraPtr pcam;
+OrthographicCameraPtr ocam;
 ViewportPtr vp;
 WindowPtr win;
 
@@ -203,6 +206,14 @@ void key(unsigned char key, int x, int y)
                 break;
     case 'c':   glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
                 std::cerr << "PolygonMode: Fill." << std::endl;
+                break;
+    case 'p':   cam = pcam;
+                vp->setCamera( cam );
+                std::cerr << "Perspective Camera." << std::endl;
+                break;
+    case 'o':   cam = ocam;
+                vp->setCamera( ocam );
+                std::cerr << "Orthographic Camera." << std::endl;
                 break;
     case 'r':   std::cerr << "Sending ray through " << x << "," << y << std::endl;
                 Line l;
@@ -418,14 +429,22 @@ int main (int argc, char **argv)
     std::cerr << "Tree: " << std::endl;
     root->dump();
 
-    // Camera
+    // Cameras
     
-    cam = PerspectiveCamera::create();
-    cam->setBeacon( b1n );
-    cam->setFov( deg2rad( 90 ) );
-    cam->setNear( 0.1 );
-    cam->setFar( 10000 );
+    pcam = PerspectiveCamera::create();
+    pcam->setBeacon( b1n );
+    pcam->setFov( deg2rad( 90 ) );
+    pcam->setNear( 0.1 );
+    pcam->setFar( 10000 );
+    
+    ocam = OrthographicCamera::create();
+    ocam->setBeacon( b1n );
+    ocam->setVerticalSize((max-min).length());
+    ocam->setNear( 0.1 );
+    ocam->setFar( 10000 );
 
+    cam = pcam;
+    
     // Background
     SolidBackgroundPtr bkgnd = SolidBackground::create();
     
