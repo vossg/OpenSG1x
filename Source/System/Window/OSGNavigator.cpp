@@ -286,7 +286,7 @@ void Navigator::buttonRelease(Int16 , Int16 x, Int16 y)
                     {
                         IntersectAction * act  =  IntersectAction::create();
                         Line line;
-                        _vp->getCamera()->calcViewRay(line, x, y, *_vp, true);
+                        _vp->getCamera()->calcViewRay(line, x, y, *_vp);
 
                         Pnt3f lp1 = line.getPosition();
                         Vec3f ld1 = line.getDirection();
@@ -914,7 +914,7 @@ void Navigator::getIntersectionPoint(Int16 x, Int16 y)
     IntersectAction * act = IntersectAction::create();
     Line line;
     
-    _vp->getCamera()->calcViewRay(line, x, y, *_vp, true);
+    _vp->getCamera()->calcViewRay(line, x, y, *_vp);
     
     if(_clickNoIntersect)
     {
