@@ -642,8 +642,11 @@ class ToolChain:
             if isinstance(_po.getOption('cg'), str):
                 self.env['CGCPPPATH'] = [os.path.join(_po.getOption('cg'), 'include')]
                 self.env['CGLIBPATH'] = [os.path.join(_po.getOption('cg'), 'lib')]
-                self.env['OSG_CG_LIBS'] = ['cg', 'cgGL', 'CgFXParser']
-
+                if self.env.get('PLATFORM') == 'win32':
+                    self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXParser']
+                else:
+                    self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXGL']
+                    
         if _po.getOption('gv_beta'):
             print 'Compiling with gv beta enabled!'
             self.env.Append(CPPDEFINES = ['OSG_GV_BETA'])
