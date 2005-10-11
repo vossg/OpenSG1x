@@ -192,6 +192,11 @@ inline UInt32 Window::getGLObjectId(UInt32 id)
     return 0;
 }
 
+inline UInt32 Window::getGLObjectsSize(void)
+{
+    return _glObjects.size();
+}
+
 /*! Pack the id and the status into one UInt32. Used to pass the id and status
     to the actual implementation functions.
 

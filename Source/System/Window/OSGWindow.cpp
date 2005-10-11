@@ -722,6 +722,17 @@ void OSG::Window::refreshGLObject( UInt32 id )
     }
 }
 
+/*! Refresh all existing GL objects.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
+void OSG::Window::refreshAllGLObjects(void)
+{
+    for (UInt32 i = 1; i < _glObjects.size(); ++i)
+        refreshGLObject(i);
+}
+
 /*! Mark the given object for reinitialisation. The next time it is validated the
     registered callback function will be called for a reinit action.
 
@@ -746,7 +757,7 @@ void OSG::Window::reinitializeGLObject(UInt32 id)
         UInt32 lastinv = (*it)->getGlObjectEventCounter() + 1;
 
         MFUInt32 &field = (*it)->_mfGlObjectLastReinitialize;
-        if(field.size() < id)
+        if(field.size() <= id)
             field.getValues().insert(field.end(), id - field.size() + 1, 0 );
         // is it already validated?
         if(field[id] == 0)
@@ -757,6 +768,17 @@ void OSG::Window::reinitializeGLObject(UInt32 id)
         endEditCP  (*it, GlObjectEventCounterFieldMask|
                          GlObjectLastReinitializeFieldMask);
     }
+}
+
+/*! Reinitialize all existing GL objects.
+
+    See \ref PageSystemOGLObjects for a description of the OpenGL object
+    concept. 
+*/
+void OSG::Window::reinitializeAllGLObjects(void)
+{
+    for (UInt32 i = 1; i < _glObjects.size(); ++i)
+        reinitializeGLObject(i);
 }
 
 /*! Initialize the GL object registration for the given objects in all

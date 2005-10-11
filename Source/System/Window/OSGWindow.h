@@ -189,9 +189,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     GLObjectStatusE getGLObjectStatus   (UInt32 id);
     inline void     setGLObjectId       (UInt32 id, UInt32 id2);
     inline UInt32   getGLObjectId       (UInt32 id);
+    static
+    inline  UInt32  getGLObjectsSize    (void);
 
     static void     refreshGLObject     (UInt32 id);
+    static void     refreshAllGLObjects (void);
     static void     reinitializeGLObject(UInt32 id);
+    static void     reinitializeAllGLObjects(void);
     static void     destroyGLObject     (UInt32 id, UInt32 num = 1);
     static inline void unpackIdStatus   (UInt32 idstatus, UInt32 &id, 
                                                 GLObjectStatusE &status);
