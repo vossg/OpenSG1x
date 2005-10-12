@@ -296,7 +296,7 @@ ValueTypeT VecStorage4<ValueTypeT>::w(void) const
     \brief Own type
 */
 
-#ifndef darwin
+#ifndef darwinXXX
 template <class ValueTypeT,
           class StorageInterfaceT>
 const PointInterface<ValueTypeT, StorageInterfaceT>
