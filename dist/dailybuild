@@ -346,7 +346,12 @@ EOF
 # Little script to use ssh -1x for SourceForge Access
 cat > ${tmpdir}/ssh-sf << \EOF
 #!/bin/sh
-ssh -i ${HOME}/.ssh/sourceforge -x $*
+if ssh -V 2>&1 | fgrep "SSH Version 1." > /dev/null 2>&1
+then
+    ssh    -i ${HOME}/.ssh/sourceforge -x $*
+else
+    ssh -1 -i ${HOME}/.ssh/sourceforge -x $*
+fi
 EOF
 
 chmod 700 ${tmpdir}/ssh-sf
