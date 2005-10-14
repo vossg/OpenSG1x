@@ -77,6 +77,8 @@
 #include <OSGTextureChunk.h>
 #include <OSGImage.h>
 
+#include <OSGSceneFileHandler.h>
+
 //#define OSG_DEBUG_VRML
 
 OSG_USING_NAMESPACE
@@ -163,6 +165,8 @@ void VRMLFile::scanStream(std::istream &is)
         Inherited::scanStream(is);
     }
 
+    SceneFileHandler::the().updateReadProgress(100);
+
     FINFO(("Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
             useTime));
@@ -188,6 +192,8 @@ void VRMLFile::scanFile(const Char8 *szFilename)
         Inherited::scanFile(szFilename);
     }
 
+    SceneFileHandler::the().updateReadProgress(100);
+
     FINFO(("Full Time : %lf | Use Time %lf\n",
             getSystemTime() - startTime,
             useTime));
@@ -196,6 +202,7 @@ void VRMLFile::scanFile(const Char8 *szFilename)
 void VRMLFile::beginNode(const Char8 *szNodeTypename,
                          const Char8 *szNodename)
 {
+    SceneFileHandler::the().updateReadProgress();
     FieldContainerPtr pNewNode;
 
     _pCurrNodeDesc = findNodeDesc(szNodeTypename);
@@ -384,6 +391,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
 
 void VRMLFile::endNode(void)
 {
+    SceneFileHandler::the().updateReadProgress();
     if(_pCurrNodeDesc == NULL)
     {
 #ifdef OSG_DEBUG_VRML
@@ -702,6 +710,7 @@ UInt32 VRMLFile::getFieldType(const Char8 *szFieldname)
 
 void VRMLFile::use(const Char8 *szName)
 {
+    SceneFileHandler::the().updateReadProgress();
     Time beginUse = getSystemTime();
 
     FieldContainerPtr pUsedFC;
