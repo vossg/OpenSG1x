@@ -516,6 +516,9 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
         getFCCount(fc, fcCount);
     }
 
+    if(fcCount == 0)
+        fcCount = 1;
+
     _fcList.clear();
     _fcSet.clear();
     
@@ -991,6 +994,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.7 2005/10/14 14:06:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.8 2005/10/14 14:11:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
