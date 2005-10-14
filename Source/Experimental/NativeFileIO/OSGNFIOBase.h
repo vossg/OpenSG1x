@@ -230,7 +230,8 @@ private:
     /*---------------------------------------------------------------------*/
     /*! \name                       Write                                  */
     /*! \{                                                                 */
-    
+
+    static void getFCCount          (const FieldContainerPtr &fc, UInt32 &count);
     static void writeFieldContainer (const FieldContainerPtr &fc);
     static void writeFCId           (const FieldContainerPtr &fc);
     
@@ -244,6 +245,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.4 2004/10/23 21:20:53 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.5 2005/10/14 14:06:08 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */

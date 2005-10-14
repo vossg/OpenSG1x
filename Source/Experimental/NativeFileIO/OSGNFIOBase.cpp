@@ -52,6 +52,7 @@
 #include <OSGSimpleAttachments.h>
 #include <OSGNode.h>
 #include <OSGNodeCore.h>
+#include <OSGSceneFileHandler.h>
 
 #include <OSGLog.h>
 
@@ -191,7 +192,7 @@ FieldContainerPtr NFIOBase::readFieldContainer(void)
     {
         // read fieldcontainer type.
         _in->getValue(typeName);
-        
+
         if(typeName.empty()) // check for eof.
             break;
         
@@ -208,8 +209,11 @@ FieldContainerPtr NFIOBase::readFieldContainer(void)
         
         if(root == NullFC) // first fc is the root node.
             root = fc;
+        SceneFileHandler::the().updateReadProgress();
     }
-    
+
+    SceneFileHandler::the().updateReadProgress();
+
     // process all SF/MFFieldContainerPtr
     for(std::list<fcInfo>::iterator i = _fieldList.begin();
         i != _fieldList.end(); ++i)
@@ -219,6 +223,8 @@ FieldContainerPtr NFIOBase::readFieldContainer(void)
 
     _fieldList.clear();
     _fcMap.clear();
+
+    SceneFileHandler::the().updateReadProgress(100);
 
     return root;
 }
@@ -426,13 +432,90 @@ void NFIOBase::readMFFieldContainerPtr(const FieldContainerPtr &fc,
  *                            Writer                                       *
 \***************************************************************************/
 
+void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
+{
+    if(fc == NullFC)
+        return;
+
+    if(_fcSet.count(fc.getFieldContainerId()) > 0)
+        return;
+
+    _fcSet.insert(fc.getFieldContainerId());
+    ++count;
+
+    FieldContainerType  &fcType = fc->getType();
+    
+    //go through all fields
+    for(UInt32 i = 1; i <= fcType.getNumFieldDescs(); ++i)
+    {
+        FieldDescription    *fDesc = fcType.getFieldDescription(i);
+        Field               *fieldPtr = fc->getField(i);
+        const FieldType     &fType = fieldPtr->getType();
+
+        if(!fDesc->isInternal())
+        {
+            // ignore node volume
+            if(fcType == Node::getClassType() &&
+               fDesc->getFieldMask() == Node::VolumeFieldMask)
+            {
+                continue;
+            }
+            
+            FDEBUG(("NFIOBase::getFCCount: field: '%s' '%s'\n",
+                    fDesc->getCName(), fType.getCName()));
+
+            if(strstr(fType.getCName(), "Ptr") != NULL)
+            {
+                if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
+                {
+                    getFCCount(((SFFieldContainerPtr *) fieldPtr)->getValue(), count);
+                }
+                else if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD)
+                {
+                    MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                    UInt32 noe = mfield->size();
+                    for(UInt32 i = 0; i < noe; ++i)
+                    {
+                        getFCCount((*(mfield))[i], count);
+                    }
+                }
+                
+            }
+            else if(!strcmp(fDesc->getCName(), "attachments"))
+            {
+                SFAttachmentMap *amap = (SFAttachmentMap *) fieldPtr;
+                
+                AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
+                AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
+                
+                UInt32 noe = amap->getValue().size();
+                for(; mapIt != mapEnd; ++mapIt)
+                {
+                    getFCCount(mapIt->second, count);
+                }
+            }
+        }
+    }
+}
+
 void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
 {
     FDEBUG(("NFIOBase::writeFieldContainer\n"));
     
     if(fc == NullFC)
         return;
-    
+
+    SceneFileHandler::the().updateWriteProgress(0);
+
+    // need this for the progress calculation.
+    UInt32 fcCount = 0;
+    UInt32 currentFCCount = 0;
+    if(SceneFileHandler::the().getWriteProgressCB() != NULL)
+    {
+        _fcSet.clear();
+        getFCCount(fc, fcCount);
+    }
+
     _fcList.clear();
     _fcSet.clear();
     
@@ -448,9 +531,10 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
     _out->putValue(fc.getFieldContainerId());
     
     NFIOFactory::the().get(typeName)->writeFC(fc);
-    
+    SceneFileHandler::the().updateWriteProgress((currentFCCount++ * 100) / fcCount);
+
     FDEBUG(("NFIOBase::writeFC: writing fclist\n"));
-    
+
     FieldContainerPtr lfc;
     for(std::list<FieldContainerPtr>::iterator i = _fcList.begin();
         i != _fcList.end(); ++i)
@@ -460,6 +544,7 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
         _out->putValue(typeName);
         _out->putValue(lfc.getFieldContainerId());
         NFIOFactory::the().get(lfc->getType().getCName())->writeFC(lfc);
+        SceneFileHandler::the().updateWriteProgress((currentFCCount++ * 100) / fcCount);
     }
     
     // write eof marker
@@ -467,6 +552,8 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
 
     _fcList.clear();
     _fcSet.clear();
+
+    SceneFileHandler::the().updateWriteProgress(100);
 }
 
 void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
@@ -904,6 +991,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.6 2004/10/23 21:20:53 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.7 2005/10/14 14:06:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
