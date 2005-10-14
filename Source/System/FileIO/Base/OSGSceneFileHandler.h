@@ -51,7 +51,6 @@
 #include <OSGBaseTypes.h>
 #include <OSGSceneFileType.h>
 #include <OSGPathHandler.h>
-#include <OSGLock.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -98,10 +97,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     /*! \{                                                                 */
 
     typedef void (*progresscbfp) (UInt32 p);
-    void setReadProgressCB(progresscbfp fp);
+    void setReadProgressCB(progresscbfp fp, bool use_thread = true);
     progresscbfp getReadProgressCB(void);
 
-    static void updateReadProgress(void);
+    void updateReadProgress(void);
+    void updateReadProgress(UInt32 p);
+
+    void setWriteProgressCB(progresscbfp fp);
+    progresscbfp getWriteProgressCB(void);
+
+    void updateWriteProgress(UInt32 p);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -210,15 +215,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
         std::istream *is;
     } progressS;
 
-    void startReadProgressThread(std::istream &is);
-    void stopReadProgressThread(void);
+    void initReadProgress(std::istream &is);
+    void terminateReadProgress(void);
     static void readProgress(void *data);
 
-    Lock           *_readProgressLock;
     progresscbfp    _readProgressFP;
     progressS       _progressData;
     bool            _readReady;
-    UInt32          _current_progress;
+    bool            _useProgressThread;
+
+    progresscbfp    _writeProgressFP;
 
     PathHandler     *_pathHandler;
     PathHandler     _defaultPathHandler;

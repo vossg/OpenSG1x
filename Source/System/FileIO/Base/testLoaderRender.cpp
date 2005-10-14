@@ -83,13 +83,20 @@ key(unsigned char key, int , int )
                 break;
     case 'w':   mgr->setStatistics(false);
                 break;
+    case 'o':   SceneFileHandler::the().write(scene, "out.osb");
+                break;
     }
     glutPostRedisplay();
 }
 
-static void progress(UInt32 p)
+static void readProgress(UInt32 p)
 {
-    std::cerr << "Loading " << p << "%" << '\r';
+    std::cerr << "Reading " << p << "%                                         " << '\r';
+}
+
+static void writeProgress(UInt32 p)
+{
+    std::cerr << "Writing " << p << "%                                         " << '\r';
 }
 
 // Initialize GLUT & OpenSG and set up the scene
@@ -135,10 +142,16 @@ int main (int argc, char **argv)
     //SceneFileHandler::the().setOptions("wrl", "LineWidth(2.2)");
     
     // set a callback for reading progress.
-    SceneFileHandler::the().setReadProgressCB(progress);
+    // with the false parameter we don't use a extra thread for the progress calculation.
+    // doing the progress calculation in a thread has one benefit this works for all fileformats.
+    // without the thread the loader's have to call SceneFileHandler::the().updateReadProgress()
+    // The non threaded version should be safer e.g. updating a qt gui in a extra thread doesn't work.
+    SceneFileHandler::the().setReadProgressCB(readProgress, false);
+    // set a callback for writing progress.
+    SceneFileHandler::the().setWriteProgressCB(writeProgress);
 
     // Using the stream interface
-    // The last parameter is the filetype e.g. "bin", "osg" but it is
+    // The last parameter is the filetype e.g. "osb", "osg" but it is
     // also possible to use the filename with a extension.
     //std::ifstream in(fileName, std::ios::binary);
     //scene = SceneFileHandler::the().read(in, fileName);
@@ -173,8 +186,8 @@ int main (int argc, char **argv)
     //scene.dump();
 
     // stream out test.
-    //std::ofstream out("test.bin", std::ios::binary);
-    //SceneFileHandler::the().write(scene, out, "bin");
+    //std::ofstream out("test.osb", std::ios::binary);
+    //SceneFileHandler::the().write(scene, out, "osb");
     //out.close();
     
     // file out test.

@@ -219,7 +219,7 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtensio
             SINFO << "Detected gzip compressed stream." << std::endl;
 
 #ifdef OSG_ZSTREAM_SUPPORTED
-            startReadProgressThread(is);
+            initReadProgress(is);
             zip_istream unzipper(is);
             scene = type->read(unzipper, fileNameOrExtension);
             if(scene != NullFC)
@@ -229,16 +229,16 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtensio
                 else
                     SFATAL << "Compressed stream has wrong checksum." << std::endl;
             }
-            stopReadProgressThread();
+            terminateReadProgress();
 #else
             SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
 #endif
         }
         else
         {
-            startReadProgressThread(is);
+            initReadProgress(is);
             scene = type->read(is, fileNameOrExtension);
-            stopReadProgressThread();
+            terminateReadProgress();
         }
 
         if(scene != NullFC)
@@ -828,11 +828,11 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
 //
 //------------------------------
 SceneFileHandler::SceneFileHandler (void) :
-    _readProgressLock(NULL),
     _readProgressFP(NULL),
     _progressData(),
     _readReady(false),
-    _current_progress(0),
+    _useProgressThread(false),
+    _writeProgressFP(NULL),
     _pathHandler(NULL),
     _defaultPathHandler()
 {
@@ -891,6 +891,10 @@ SceneFileHandler::SceneFileHandler (const SceneFileHandler & )
 //
 //------------------------------
 
+SceneFileHandler::~SceneFileHandler(void)
+{
+}
+
 SceneFileHandler &SceneFileHandler::the(void)
 {
     if(_the == NULL)
@@ -899,12 +903,23 @@ SceneFileHandler &SceneFileHandler::the(void)
     return *_the;
 }
 
-void SceneFileHandler::setReadProgressCB(progresscbfp fp)
+// read progress stuff.
+
+void SceneFileHandler::setReadProgressCB(progresscbfp fp, bool use_thread)
 {
-    if(_readProgressLock == NULL)
-        _readProgressLock = Lock::get("ReadProgressLock");
-    stopReadProgressThread();
+    if(use_thread)
+    {
+        terminateReadProgress();
+    }
+    else
+    {
+        // check if setReadProgressCB was called before with use_thread enabled.
+        if(_useProgressThread)
+            terminateReadProgress();
+    }
+
     _readProgressFP = fp;
+    _useProgressThread = use_thread;
 }
 
 SceneFileHandler::progresscbfp SceneFileHandler::getReadProgressCB(void)
@@ -912,12 +927,10 @@ SceneFileHandler::progresscbfp SceneFileHandler::getReadProgressCB(void)
     return _readProgressFP;
 }
 
-void SceneFileHandler::startReadProgressThread(std::istream &is)
+void SceneFileHandler::initReadProgress(std::istream &is)
 {
     if(_readProgressFP == NULL)
         return;
-
-    _current_progress = 0;
 
     // get length of the stream.
     _progressData.is = &is;
@@ -925,28 +938,30 @@ void SceneFileHandler::startReadProgressThread(std::istream &is)
     _progressData.length = is.tellg();
     is.seekg(0, std::ios::beg);
 
-    Thread *pt = Thread::find("osg::FileIOReadProgressThread");
-    if(pt == NULL)
-        pt = OSG::Thread::get("osg::FileIOReadProgressThread");
-
     _readReady = false;
-    if(pt != NULL)
-        pt->runFunction(readProgress, 0, NULL);
-    else
-        SWARNING << "Couldn't create read progress thread!" << std::endl;
+    if(_useProgressThread)
+    {
+        Thread *pt = Thread::find("osg::FileIOReadProgressThread");
+        if(pt == NULL)
+            pt = OSG::Thread::get("osg::FileIOReadProgressThread");
+
+        if(pt != NULL)
+            pt->runFunction(readProgress, 0, NULL);
+        else
+            SWARNING << "Couldn't create read progress thread!" << std::endl;
+    }
 }
 
-void SceneFileHandler::stopReadProgressThread(void)
+void SceneFileHandler::terminateReadProgress(void)
 {
     if(_readProgressFP == NULL)
         return;
 
+    _readReady = true;
     Thread *pt = Thread::find("osg::FileIOReadProgressThread");
-
     if(pt != NULL)
     {
         // terminate thread
-        _readReady = true;
         Thread::join(pt);
     }
 }
@@ -972,39 +987,57 @@ void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
             p = 100;
         }
 
-        if(the()._readProgressLock != NULL)
-            the()._readProgressLock->aquire();
-        the()._current_progress = p;
         the()._readProgressFP(p);
-        if(the()._readProgressLock != NULL)
-            the()._readProgressLock->release();
-        osgsleep(100);
+
+        if(the()._useProgressThread)
+            osgsleep(100);
+        else
+            break;
     }
-    if(p < 100)
+
+    if(the()._useProgressThread && p < 100)
     {
-        if(the()._readProgressLock != NULL)
-            the()._readProgressLock->aquire();
-        the()._current_progress = 100;
         the()._readProgressFP(100);
-        if(the()._readProgressLock != NULL)
-            the()._readProgressLock->release();
     }
 }
 
 void SceneFileHandler::updateReadProgress(void)
 {
-    if(the()._readProgressFP == NULL)
+    if(_readProgressFP == NULL)
         return;
 
-    if(the()._readProgressLock != NULL)
-        the()._readProgressLock->aquire();
-    the()._readProgressFP(the()._current_progress);
-    if(the()._readProgressLock != NULL)
-        the()._readProgressLock->release();
+    if(_useProgressThread)
+        return;
+
+    readProgress(NULL);
 }
 
-SceneFileHandler::~SceneFileHandler(void)
+void SceneFileHandler::updateReadProgress(UInt32 p)
 {
+    if(_readProgressFP == NULL)
+        return;
+
+    _readProgressFP(p);
+}
+
+// write progress stuff.
+
+void SceneFileHandler::setWriteProgressCB(progresscbfp fp)
+{
+    _writeProgressFP = fp;
+}
+
+SceneFileHandler::progresscbfp SceneFileHandler::getWriteProgressCB(void)
+{
+    return _writeProgressFP;
+}
+
+void SceneFileHandler::updateWriteProgress(UInt32 p)
+{
+    if(_writeProgressFP == NULL)
+        return;
+
+    _writeProgressFP(p);
 }
 
 
