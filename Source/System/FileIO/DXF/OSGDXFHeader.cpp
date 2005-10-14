@@ -199,7 +199,7 @@ DXFHeader::~DXFHeader(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFHeader.cpp,v 1.1 2004/02/19 16:45:40 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFHeader.cpp,v 1.2 2005/10/14 08:33:35 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFHEADER_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFHEADER_INLINE_CVSID;
 }

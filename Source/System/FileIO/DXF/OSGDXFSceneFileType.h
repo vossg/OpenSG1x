@@ -127,6 +127,6 @@ typedef DXFSceneFileType* DXFSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGDXFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGDXFSceneFileType.h,v 1.1 2004/02/19 16:45:40 a-m-z Exp $"
+#define OSGDXFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGDXFSceneFileType.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
 
 #endif // _OSGDXFSCENEFILETYPE_H_

@@ -254,7 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFBlock : public DXFEntityBase
 
 OSG_END_NAMESPACE
 
-#define OSGDXFBLOCKS_HEADER_CVSID "@(#)$Id: OSGDXFBlocks.h,v 1.1 2004/02/19 16:45:38 a-m-z Exp $"
+#define OSGDXFBLOCKS_HEADER_CVSID "@(#)$Id: OSGDXFBlocks.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
 
 //#include "OSGDXFBlocks.inl"
 

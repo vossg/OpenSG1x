@@ -248,7 +248,7 @@ DXFTables::~DXFTables(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.3 2004/05/08 08:26:52 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.4 2005/10/14 08:33:35 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFTABLES_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDXFTABLES_INLINE_CVSID;
 }

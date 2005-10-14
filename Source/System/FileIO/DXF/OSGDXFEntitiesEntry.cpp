@@ -208,7 +208,7 @@ Matrix DXFEntitiesEntry::arbitraryAxisAlgorithm(const Vec3f &normal)
 	aZ = normal;
 	aZ.normalize();
 	
-	if(osgabs(aZ[0]) < Bound && osgabs(aZ[1] < Bound))
+	if(osgabs(aZ[0]) < Bound && osgabs(aZ[1]) < Bound)
 		aX = WY % aZ;
 	else
 		aX = WZ % aZ;	
@@ -458,7 +458,7 @@ DXFEntitiesEntry::~DXFEntitiesEntry(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntitiesEntry.cpp,v 1.1 2004/02/19 16:45:38 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntitiesEntry.cpp,v 1.2 2005/10/14 08:33:35 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFENTITIESENTRY_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFENTITIESENTRY_INLINE_CVSID;
 }

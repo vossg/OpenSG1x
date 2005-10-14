@@ -156,7 +156,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFEntitiesEntry : public DXFEntityBase
 
 OSG_END_NAMESPACE
 
-#define OSGDXFENTITIESENTRY_HEADER_CVSID "@(#)$Id: OSGDXFEntitiesEntry.h,v 1.1 2004/02/19 16:45:38 a-m-z Exp $"
+#define OSGDXFENTITIESENTRY_HEADER_CVSID "@(#)$Id: OSGDXFEntitiesEntry.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
 
 //#include "OSGDXFEntitiesEntry.inl"
 

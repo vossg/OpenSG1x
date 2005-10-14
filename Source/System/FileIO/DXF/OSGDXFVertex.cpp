@@ -279,7 +279,7 @@ DXFVertex::~DXFVertex(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFVertex.cpp,v 1.2 2005/08/12 15:27:38 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFVertex.cpp,v 1.3 2005/10/14 08:33:35 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFVERTEX_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFVERTEX_INLINE_CVSID;
 }

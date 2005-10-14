@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFFile : public DXFEntityBase
 
 OSG_END_NAMESPACE
 
-#define OSGDXFFILE_HEADER_CVSID "@(#)$Id: OSGDXFFile.h,v 1.1 2004/02/19 16:45:40 a-m-z Exp $"
+#define OSGDXFFILE_HEADER_CVSID "@(#)$Id: OSGDXFFile.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
 
 // #include "OSGDXFFile.inl"
 

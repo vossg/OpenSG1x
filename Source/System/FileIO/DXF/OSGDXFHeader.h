@@ -145,7 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFHeader : public DXFEntityBase
 
 OSG_END_NAMESPACE
 
-#define OSGDXFHEADER_HEADER_CVSID "@(#)$Id: OSGDXFHeader.h,v 1.1 2004/02/19 16:45:40 a-m-z Exp $"
+#define OSGDXFHEADER_HEADER_CVSID "@(#)$Id: OSGDXFHeader.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
 
 //#include "OSGDXFHEADER.inl"
 

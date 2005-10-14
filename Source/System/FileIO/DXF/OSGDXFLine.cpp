@@ -134,7 +134,7 @@ DXFResult DXFLine::evalRecord(void)
 			state = DXFStateUnknown;
 	}
 	if(state == DXFStateUnknown)
-		state == Inherited::evalRecord(); // don't remove this!
+		state = Inherited::evalRecord(); // don't remove this!
 	return state;
 }
 
@@ -208,7 +208,7 @@ DXFLine::~DXFLine(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFLine.cpp,v 1.1 2004/02/19 16:45:40 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFLine.cpp,v 1.2 2005/10/14 08:33:35 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGDXFLINE_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFLINE_INLINE_CVSID;
 }
