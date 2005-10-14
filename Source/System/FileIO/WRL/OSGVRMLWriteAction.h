@@ -376,7 +376,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     // I don't understand the reasoning and design of the FCInfo stuff and 
     // don't have time to do it right. :( DR 040106
     std::vector<FieldContainerPtr>        _writtenFCs;
-      
+
+    UInt32 _nodeCount;
+    UInt32 _currentNodeCount;
+
     //-----------------------------------------------------------------------
     //   instance functions                                                  
     //-----------------------------------------------------------------------
@@ -398,7 +401,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     void    addContainerUse(FieldContainerPtr &pContainer);
 
     FCInfo *getInfo        (FieldContainerPtr &pContainer);
-    
+
+    void    updateProgress (void                         );
+
     inline bool        isWritten(FieldContainerPtr &fc);
     inline UInt32      getIndex(FieldContainerPtr &fc);
     inline UInt32      setWritten(FieldContainerPtr &fc);

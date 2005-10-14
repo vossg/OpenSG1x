@@ -64,6 +64,7 @@
 #include <OSGImage.h>
 #include <OSGImageFileHandler.h>
 #include <OSGSimpleGeometry.h>
+#include <OSGSceneFileHandler.h>
 
 #include <OSGGL.h>
 
@@ -179,13 +180,13 @@ void VRMLWriteAction::FCInfo::buildName(const Char8  *szTypename,
     {
         _szName = new Char8[strlen(szTypename) + 32];
 
-        sprintf(_szName, "%s_%d", szTypename, uiContainerId);
+        sprintf(_szName, "%s_%u", szTypename, uiContainerId);
     }
     else
     {
         _szName = new Char8[64];
         
-        sprintf(_szName, "UType_%d", uiContainerId);
+        sprintf(_szName, "UType_%u", uiContainerId);
     }
 
     _bOwnName = true;
@@ -339,6 +340,8 @@ Action::ResultE VRMLWriteAction::writeGroupEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
+        pWriter->updateProgress();
+
         NodeCorePtr pCore = pNode->getCore();
 
         FCInfo *pInfo     = pWriter->getInfo(pGroup);
@@ -475,6 +478,8 @@ Action::ResultE VRMLWriteAction::writeComponentTransformEnter(CNodePtr &pGroup,
             return Action::Quit;
         }
 
+        pWriter->updateProgress();
+
         FCInfo *pInfo = pWriter->getInfo(pGroup);
 
         if(pInfo == NULL)
@@ -607,6 +612,8 @@ Action::ResultE VRMLWriteAction::writeTransformEnter(CNodePtr &pGroup,
         {
             return Action::Quit;
         }
+
+        pWriter->updateProgress();
 
         FCInfo *pInfo = pWriter->getInfo(pGroup);
 
@@ -1220,7 +1227,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     if(pWriter->isWritten(pMat))
     {
         pWriter->printIndent();
-        fprintf(pFile, "appearance USE App_%d\n", pWriter->getIndex(pMat));
+        fprintf(pFile, "appearance USE App_%u\n", pWriter->getIndex(pMat));
         return;
     }
     
@@ -1238,7 +1245,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
         return;
 
     pWriter->printIndent();
-    fprintf(pFile, "appearance DEF App_%d Appearance\n", pWriter->setWritten(pMat));
+    fprintf(pFile, "appearance DEF App_%u Appearance\n", pWriter->setWritten(pMat));
     
     pWriter->printIndent();
     fprintf(pFile, "{\n");
@@ -1312,7 +1319,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
         if(pWriter->isWritten(pTChunk))
         {
             pWriter->printIndent();
-            fprintf(pFile, "texture USE Tex_%d\n", pWriter->getIndex(pTChunk));
+            fprintf(pFile, "texture USE Tex_%u\n", pWriter->getIndex(pTChunk));
             subRefCP(st);
         }
         else
@@ -1325,7 +1332,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                                    VRMLWriteAction::OSGPixelTextures)
                 {
                     pWriter->printIndent();
-                    fprintf(pFile, "texture DEF Tex_%d PixelTexture\n",
+                    fprintf(pFile, "texture DEF Tex_%u PixelTexture\n",
                         pWriter->setWritten(pTChunk) );
     
                     pWriter->printIndent();
@@ -1343,7 +1350,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                         pixelsize = 2;
 
                     pWriter->printIndent();
-                    fprintf(pFile, "image %d %d %d    ",
+                    fprintf(pFile, "image %d %d %u    ",
                         pImage->getWidth(), pImage->getHeight(), pixelsize);
     
                     const UInt8 *data = pImage->getData();
@@ -1393,7 +1400,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                     {
                         
                         pWriter->printIndent();
-                        fprintf(pFile, "texture DEF Tex_%d ImageTexture\n",
+                        fprintf(pFile, "texture DEF Tex_%u ImageTexture\n",
                                     pWriter->setWritten(pTChunk) );
     
                         pWriter->printIndent();
@@ -1630,6 +1637,8 @@ Action::ResultE VRMLWriteAction::writeGeoEnter(CNodePtr &pGroup,
         {
             return Action::Quit;
         }
+
+        pWriter->updateProgress();
 
         pWriter->printIndent();
         fprintf(pFile, "Shape\n");
@@ -1948,6 +1957,8 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
                                  pCore. getFieldContainerId());
         }
     }
+
+    ++_nodeCount;
 }
 
 void VRMLWriteAction::addContainerUse(FieldContainerPtr &pContainer)
@@ -1983,6 +1994,11 @@ VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(
     return &(_vFCInfos[pContainer.getFieldContainerId()]);
 }
 
+void VRMLWriteAction::updateProgress(void)
+{
+    if(_nodeCount > 0)
+        SceneFileHandler::the().updateWriteProgress((_currentNodeCount++ * 100) / _nodeCount);
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -1998,15 +2014,17 @@ VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(
  */
 
 VRMLWriteAction::VRMLWriteAction(void) :
-     Inherited     (            ),
-    _material      (NULL        ),
-    _uiIndent      (0           ),
-    _pFile         (NULL        ),
-    _eTraversalMode(OSGCollectFC),
-    _currentUse    (false       ),
-    _uiOptions     (OSGNoOptions),
-    _vFCInfos      (            ),
-    _writtenFCs    (            )
+     Inherited       (            ),
+    _material        (NULL        ),
+    _uiIndent        (0           ),
+    _pFile           (NULL        ),
+    _eTraversalMode  (OSGCollectFC),
+    _currentUse      (false       ),
+    _uiOptions       (OSGNoOptions),
+    _vFCInfos        (            ),
+    _writtenFCs      (            ),
+    _nodeCount       (0           ),
+    _currentNodeCount(0           )
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -2020,15 +2038,17 @@ VRMLWriteAction::VRMLWriteAction(void) :
  */
 
 VRMLWriteAction::VRMLWriteAction(const VRMLWriteAction &source) :
-     Inherited     (source                ),
-    _material      (source._material      ),
-    _uiIndent      (source._uiIndent      ),
-    _pFile         (NULL                  ),
-    _eTraversalMode(source._eTraversalMode),
-    _currentUse    (source._currentUse    ),
-    _uiOptions     (source._uiOptions     ),
-    _vFCInfos      (source._vFCInfos      ),
-    _writtenFCs    (source._writtenFCs    )
+     Inherited       (source                  ),
+    _material        (source._material        ),
+    _uiIndent        (source._uiIndent        ),
+    _pFile           (NULL                    ),
+    _eTraversalMode  (source._eTraversalMode  ),
+    _currentUse      (source._currentUse      ),
+    _uiOptions       (source._uiOptions       ),
+    _vFCInfos        (source._vFCInfos        ),
+    _writtenFCs      (source._writtenFCs      ),
+    _nodeCount       (source._nodeCount       ),
+    _currentNodeCount(source._currentNodeCount)
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -2123,7 +2143,11 @@ Action::ResultE VRMLWriteAction::write(NodePtr node)
     _writtenFCs.clear();
     
     setMaterial(NullFC);
-    
+
+    SceneFileHandler::the().updateWriteProgress(0);
+    _nodeCount = 0;
+    _currentNodeCount = 0;
+
     returnValue = Inherited::apply(node);
 
     if(returnValue == Action::Continue)
@@ -2131,6 +2155,8 @@ Action::ResultE VRMLWriteAction::write(NodePtr node)
         _eTraversalMode = OSGWrite;
         returnValue = Inherited::apply(node);
     }
+
+    SceneFileHandler::the().updateReadProgress(100);
 
     return returnValue;
 }
