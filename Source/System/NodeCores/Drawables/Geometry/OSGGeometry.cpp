@@ -683,6 +683,11 @@ bool Geometry::merge( const GeometryPtr other )
 
 Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
 {
+    // store glColor.
+    Color4f color;
+    if(getColors() != NullFC)
+        glGetFloatv(GL_CURRENT_COLOR, color.getValuesRGBA());
+
     if(getDlistCache() == true)
     {
         action->getWindow()->validateGLObject(getGLId());
@@ -705,6 +710,10 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
                      << std::endl;
         }
     }
+
+    // restore glColor.
+    if(getColors() != NullFC)
+        glColor4fv(color.getValuesRGBA());
 
     StatCollector *coll = action->getStatistics();
 
