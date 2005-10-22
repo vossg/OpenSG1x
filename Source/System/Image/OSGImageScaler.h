@@ -1,5 +1,5 @@
-#ifndef _VRIMAGE_H
-#define _VRIMAGE_H
+#ifndef _OSGIMAGESCALER_H_
+#define _OSGIMAGESCALER_H_
 
 
 //----------------------------------------------------------------------------
@@ -147,4 +147,4 @@ private:
 
 OSG_END_NAMESPACE
 
-#endif // _OSG_IMAGE_SCALER_H
+#endif // _OSGIMAGESCALER_H_
