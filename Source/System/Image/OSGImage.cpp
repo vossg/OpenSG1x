@@ -3091,6 +3091,8 @@ bool Image::createData(const UInt8 *data, bool allocMem)
             try
             {
                 getPixel().resize(byteCount);
+                // free unused memory.
+                MFUInt8(getPixel()).swap(getPixel());
             }
             catch(...)
             {

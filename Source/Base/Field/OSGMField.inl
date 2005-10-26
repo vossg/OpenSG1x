@@ -363,6 +363,12 @@ bool MField<FieldTypeT, fieldNameSpace>::empty(void) const
     return _values.empty();
 }
 
+template <class FieldTypeT, Int32 fieldNameSpace> inline
+void MField<FieldTypeT, fieldNameSpace>::swap(MField &right)
+{
+    _values.swap(right._values);
+}
+
 /*-------------------------------------------------------------------------*/
 /*                           String IO                                     */
 

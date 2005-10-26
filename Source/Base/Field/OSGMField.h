@@ -212,6 +212,7 @@ class MField : public Field
     UInt32                 size     (void                              ) const;
     UInt32                 capacity (void                              ) const;
     bool                   empty    (void                              ) const;
+    void                   swap     (MField                      &right);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
