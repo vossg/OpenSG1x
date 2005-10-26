@@ -663,7 +663,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                paramtarget == GL_TEXTURE_CUBE_MAP_ARB)
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_R, getWrapR());
 
-            if(win->hasExtension(_extTextureFilterAnisotropic))
+            if(getAnisotropy() > 1.0f && win->hasExtension(_extTextureFilterAnisotropic))
                 glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, getAnisotropy());
 
             glErr("TextureChunk::initialize params");
