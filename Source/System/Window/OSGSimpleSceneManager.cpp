@@ -262,6 +262,13 @@ bool SimpleSceneManager::getHeadlightState(void)
     return _headlight->getOn();
 }
 
+/*! get the headlight
+ */
+DirectionalLightPtr SimpleSceneManager::getHeadlight(void)
+{
+    return _headlight;
+}
+
 /*! get the camera
  */
 PerspectiveCameraPtr SimpleSceneManager::getCamera(void)

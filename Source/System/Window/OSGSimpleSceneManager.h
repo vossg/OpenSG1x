@@ -107,6 +107,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual DrawActionBase      *getAction          ( void );
     virtual Navigator           *getNavigator       ( void );
     virtual bool                 getHeadlightState  ( void );
+    virtual DirectionalLightPtr  getHeadlight       ( void );
     virtual PerspectiveCameraPtr getCamera          ( void );
 
     /*! \}                                                                 */
