@@ -836,6 +836,9 @@ SceneFileHandler::SceneFileHandler (void) :
     _pathHandler(NULL),
     _defaultPathHandler()
 {
+    _progressData.length = 0;
+    _progressData.is = NULL;
+
     if(_defaultgraphOpSeq == NULL)
     {
         // Set default optimizations
@@ -964,6 +967,9 @@ void SceneFileHandler::terminateReadProgress(void)
         // terminate thread
         Thread::join(pt);
     }
+
+    _progressData.length = 0;
+    _progressData.is = NULL;
 }
 
 void SceneFileHandler::readProgress(void * OSG_CHECK_ARG(data))
