@@ -753,6 +753,13 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
 
 OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
 {
+    if(geo->getPositions() == NullFC ||
+       geo->getPositions()->size() == 0)
+    {
+        FINFO(("Geo without positions in calcFaceNormals()\n"));
+        return;
+    }
+
     GeoIndicesPtr newIndex = GeoIndicesUI32::create();
     GeoNormalsPtr newNormals = GeoNormals3f::create();
     Vec3f normal;
