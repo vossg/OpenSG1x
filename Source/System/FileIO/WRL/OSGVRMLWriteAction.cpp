@@ -2015,7 +2015,7 @@ void VRMLWriteAction::updateProgress(void)
 
 VRMLWriteAction::VRMLWriteAction(void) :
      Inherited       (            ),
-    _material        (NULL        ),
+    _material        (NullFC      ),
     _uiIndent        (0           ),
     _pFile           (NULL        ),
     _eTraversalMode  (OSGCollectFC),

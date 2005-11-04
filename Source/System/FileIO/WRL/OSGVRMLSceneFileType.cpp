@@ -130,6 +130,8 @@ bool VRMLSceneFileType::write(const NodePtr &node, std::ostream &os,
 
     pWriter->close();
 
+    delete pWriter;
+
     return true;
 }
 
