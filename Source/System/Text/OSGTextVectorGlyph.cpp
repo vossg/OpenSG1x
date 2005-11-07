@@ -284,7 +284,9 @@ static void OSG_APIENTRY gluTessVertexDataCB(void *vertexData, void *polygonData
     sscanf(str, "%llx", &value);
     UInt32 coordIndex = UInt32(value);
 #else
-    UInt32 coordIndex = (UInt32)vertexData;
+    // Go via 64 bit int to avoid problems on 64 bit machines
+    UInt64 coordIndexHelp = (UInt64)vertexData;
+    UInt32 coordIndex = static_cast<UInt32>(coordIndexHelp);
 #endif
     assert(outline != 0);
     outline->indices.push_back(coordIndex);
@@ -633,7 +635,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.9 2005/04/25 11:45:24 jbehr Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorGlyph.cpp,v 1.10 2005/11/07 20:17:58 dirk Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORGLYPH_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORGLYPH_INLINE_CVSID;
 }
