@@ -1438,14 +1438,16 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
-    UInt32 id;
+    UInt32 osgid;
+    GLuint id;
 
-    Window::unpackIdStatus(idstatus, id, mode);
+    Window::unpackIdStatus(idstatus, osgid, mode);
 
+    id = win->getGLObjectId(osgid);
+    
     if(mode == Window::destroy)
     {
-        GLuint tex = id;
-        glDeleteTextures(1, &tex);
+         glDeleteTextures(1, &id);
     }
     else if(mode == Window::finaldestroy)
     {
@@ -1454,6 +1456,12 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     else if(mode == Window::initialize || mode == Window::reinitialize ||
             mode == Window::needrefresh )
     {
+        if(mode == Window::initialize)
+        {
+            glGenTextures(1, &id);
+            win->setGLObjectId(osgid, id);
+        }
+        
         GLenum target;
 
         ImagePtr img = getImage();
@@ -1605,7 +1613,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
         idx, getImage()->getSize());
     
-    glBindTexture(target, getGLId());
+    glBindTexture(target, win->getGLObjectId(getGLId()));
 
 #ifdef GL_NV_point_sprite
     if(idx < static_cast<UInt32>(ntexcoords))
@@ -1826,7 +1834,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
         getGLId(), getImage()->getSize());
 
-    glBindTexture(target, getGLId());
+    glBindTexture(target, win->getGLObjectId(getGLId()));
  
 #ifdef GL_NV_point_sprite
     if(idx < ntexcoords)

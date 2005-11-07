@@ -358,7 +358,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.5 2005/07/20 00:08:52 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.6 2005/11/07 21:43:27 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 

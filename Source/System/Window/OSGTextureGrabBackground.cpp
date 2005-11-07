@@ -180,7 +180,8 @@ void TextureGrabBackground::clear(DrawActionBase *action, Viewport *port)
     if(copyTarget == GL_NONE)
         copyTarget = bindTarget;
     
-    glBindTexture(bindTarget, t->getGLId());
+    glBindTexture(bindTarget,
+                  action->getWindow()->getGLObjectId(t->getGLId()));
 
     glErr("TextureGrabBackground::copy precheck");
 

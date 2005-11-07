@@ -857,9 +857,11 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     
     //------Setting up Window to fit size of ShadowMap----------------
 
+    WindowPtr win = this->getParent();
+    
     // Saving original Window-Dimensions
-    _windowW = this->getParent()->getWidth();
-    _windowH = this->getParent()->getHeight();
+    _windowW = win->getWidth();
+    _windowH = win->getHeight();
 
     // Saving original Viewport-Dimensions
     vpTop = this->getTop();
@@ -930,7 +932,8 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
         
                     //----------Shadow-Texture-Parameters and Indices-------------
                 
-                    glBindTexture(GL_TEXTURE_2D,_texChunks[i]->getGLId());
+                    glBindTexture(GL_TEXTURE_2D,
+                                  win->getGLObjectId(_texChunks[i]->getGLId()));
                     if(glGetError() != GL_NO_ERROR)
                         SWARNING << "Error on binding Texture!" << endLog;    
 
@@ -1151,7 +1154,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.11 2005/08/19 13:51:32 mroth Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.12 2005/11/07 21:43:26 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

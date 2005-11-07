@@ -88,21 +88,10 @@ void FTGLFont::initMethod (void)
 
 /*----------------------- constructors & destructors ----------------------*/
 
-static void   APIENTRY FTGLFontGenTextures   (GLsizei n, GLuint *textures);
-static void   APIENTRY FTGLFontDeleteTextures(GLsizei n, const GLuint *textures);
-static GLuint APIENTRY FTGLFontGenLists      (GLsizei range);
-static void   APIENTRY FTGLFontDeleteLists   (GLuint list, GLsizei range);
-
 FTGLFont::FTGLFont(void) :
     Inherited(),
     _fonts()
 {
-    // Set up FTGL
-    
-	FTLibrary::Instance().setGLCallbacks( (FTLibrary::GenTexturesCB)FTGLFontGenTextures, 
-											(FTLibrary::DeleteTexturesCB)FTGLFontDeleteTextures, 
-											(FTLibrary::GenListsCB)FTGLFontGenLists, 
-											(FTLibrary::DeleteListsCB)FTGLFontDeleteLists);    
 }
 
 FTGLFont::FTGLFont(const FTGLFont &source) :
@@ -234,41 +223,6 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
     _fonts[win] = font;  
 }
 
-/*! Helper functions to let FTGL use OpenSG GL object handling
-*/
-
-void FTGLFontHandleGLDummy(Window *, UInt32 )
-{
-}
-
-void APIENTRY FTGLFontGenTextures(GLsizei n, GLuint *textures)
-{
-    for(UInt32 i = 0; i < n; ++i)
-        textures[i] = Window::registerGLObject(osgTypedFunctionVoidFunctor2Ptr<
-                                                 Window,
-                                                 UInt32>(
-                                                     &FTGLFontHandleGLDummy), 1);
-}
-
-void APIENTRY FTGLFontDeleteTextures(GLsizei n, const GLuint *textures)
-{
-    for(UInt32 i = 0; i < n; ++i)
-        Window::destroyGLObject(textures[i], 1);
-}
-
-GLuint APIENTRY FTGLFontGenLists(GLsizei range)
-{
-    return Window::registerGLObject(osgTypedFunctionVoidFunctor2Ptr<
-                                                 Window,
-                                                 UInt32>(
-                                                     &FTGLFontHandleGLDummy), range);
-}
-
-void APIENTRY FTGLFontDeleteLists(GLuint list, GLsizei range)
-{
-    Window::destroyGLObject(list, range);
-}
-
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -282,7 +236,7 @@ void APIENTRY FTGLFontDeleteLists(GLuint list, GLsizei range)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.3 2004/09/07 00:05:42 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.4 2005/11/07 21:43:27 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

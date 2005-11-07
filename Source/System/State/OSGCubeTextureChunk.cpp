@@ -258,18 +258,20 @@ void CubeTextureChunk::dump(      UInt32    ,
 void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
-    UInt32 id;
+    UInt32 osgid;
+    GLuint id;
     
     // does the window support cubemaps?
     if(win->hasExtension(_arbCubeTex) == false)
         return;
         
-    Window::unpackIdStatus(idstatus, id, mode);
+    Window::unpackIdStatus(idstatus, osgid, mode);
 
+    id = win->getGLObjectId(osgid);
+    
     if(mode == Window::destroy)
     {
-        GLuint tex = id;
-        glDeleteTextures(1, &tex);
+        glDeleteTextures(1, &id);
     }
     else if(mode == Window::finaldestroy)
     {
@@ -398,7 +400,7 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
   
     FDEBUG(("CubeTextureChunk::activate - %d\n", getGLId()));
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, getGLId());
+    glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
 #ifdef GL_NV_point_sprite
     if(idx < static_cast<UInt32>(ntexcoords))
@@ -550,7 +552,7 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     
     FDEBUG(("CubeTextureChunk::activate - %d\n", getGLId()));
 
-    glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, getGLId());
+    glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
 #ifdef GL_NV_point_sprite
     if(idx < ntexcoords)

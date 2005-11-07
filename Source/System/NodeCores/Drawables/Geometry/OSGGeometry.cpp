@@ -378,13 +378,17 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
-
+    UInt32 glid;
+    
     Window::unpackIdStatus(idstatus, id, mode);
 
     if(mode == Window::initialize || mode == Window::needrefresh ||
        mode == Window::reinitialize)
     {
-        glNewList(id, GL_COMPILE);
+        glid = glGenLists(1);
+        
+        win->setGLObjectId(id, glid);
+        glNewList(glid, GL_COMPILE);
 
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
         GeoPumpFactory::GeoPump p =
@@ -405,7 +409,8 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
     }
     else if(mode == Window::destroy)
     {
-        glDeleteLists(id, 1);
+        glid = win->getGLObjectId(id);
+        glDeleteLists(glid, 1);
     }
     else if(mode == Window::finaldestroy)
     {
@@ -691,7 +696,7 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
     if(getDlistCache() == true)
     {
         action->getWindow()->validateGLObject(getGLId());
-        glCallList(getGLId());
+        glCallList(action->getWindow()->getGLObjectId(getGLId()));
     }
     else
     {

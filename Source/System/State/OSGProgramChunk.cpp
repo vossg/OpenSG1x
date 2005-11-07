@@ -78,6 +78,7 @@ parameters can have an associated name (osg::ProgramChunk::_mfParamNames).
 
 StateChunkClass ProgramChunk::_class("Program");
 
+UInt32 ProgramChunk::_funcGenPrograms;
 UInt32 ProgramChunk::_funcProgramString;
 UInt32 ProgramChunk::_funcBindProgram;
 UInt32 ProgramChunk::_funcDeletePrograms;
@@ -108,6 +109,9 @@ ProgramChunk::ProgramChunk(void) :
 {
     UInt32 extension = Window::registerExtension("GL_ARB_vertex_program");
     
+    _funcGenPrograms                    =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenProgramsARB", 
+            extension);
     _funcProgramString                  =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glProgramStringARB", 
             extension);
@@ -344,9 +348,10 @@ void ProgramChunk::printCompileError(Window *win, UInt32 idstatus)
 void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 extension)
 {
     Window::GLObjectStatusE mode;
-    UInt32 id;
+    UInt32 osgid;
+    GLuint id;
     
-    Window::unpackIdStatus(idstatus, id, mode);
+    Window::unpackIdStatus(idstatus, osgid, mode);
     
     // get the program-specific specifics from the derived chunks
     // We can't call this member methods on Window::destroy because
@@ -357,6 +362,8 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 
     if(!win->hasExtension(extension))
         return;
 
+    id = win->getGLObjectId(osgid);
+    
     if(mode == Window::destroy)
     {
         // get "glDeleteProgramsARB" function pointer
@@ -364,8 +371,7 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 
             (void (OSG_APIENTRY*)(GLsizei num, const GLuint *progs))
             win->getFunction(_funcDeletePrograms);
 
-        GLuint prog = id;
-        deletePrograms(1, &prog);
+        deletePrograms(1, &id);
     }
     else if(mode == Window::finaldestroy)
     {
@@ -374,6 +380,16 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 
     else if(mode == Window::initialize || mode == Window::reinitialize ||
             mode == Window::needrefresh)
     {
+        if(mode == Window::initialize)
+        {
+            // get "glGenProgramsARB" function pointer
+            void (OSG_APIENTRY* genPrograms)(GLsizei n, GLuint *prog) =
+                (void (OSG_APIENTRY*)(GLsizei n, GLuint *prog))
+                win->getFunction(_funcGenPrograms);
+            genPrograms(1, &id);
+            win->setGLObjectId(osgid, id);
+        }
+        
         // get "glBindProgramARB" function pointer
         void (OSG_APIENTRY* bindProgram)(GLenum target, GLuint prog) =
             (void (OSG_APIENTRY*)(GLenum target, GLuint prog))
@@ -474,7 +490,7 @@ void ProgramChunk::activate(DrawActionBase *action, UInt32)
              
     glErr("ProgramChunk::activate: enable postcheck");
 
-    bindProgram(target, getGLId());
+    bindProgram(target, action->getWindow()->getGLObjectId(getGLId()));
              
     glErr("ProgramChunk::activate: bindProgram postcheck");
 }
@@ -520,7 +536,7 @@ void ProgramChunk::changeFrom(DrawActionBase *action,
              
     glErr("ProgramChunk::changeFrom: enable postcheck");
 
-    bindProgram(target, getGLId());
+    bindProgram(target, action->getWindow()->getGLObjectId(getGLId()));
              
     glErr("ProgramChunk::changeFrom: bindProgram postcheck");
 }
@@ -549,7 +565,7 @@ void ProgramChunk::deactivate(DrawActionBase *action, UInt32)
              
     glErr("ProgramChunk::deactivate: bindProgram precheck");
 
-    bindProgram(target, getGLId());
+    bindProgram(target, action->getWindow()->getGLObjectId(getGLId()));
              
     glErr("ProgramChunk::deactivate: bindProgram postcheck");
 
