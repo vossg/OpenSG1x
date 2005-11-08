@@ -279,6 +279,12 @@ void CubeTextureChunk::handleGL(Window *win, UInt32 idstatus)
     }
     else if(mode == Window::initialize || mode == Window::reinitialize)
     {
+        if(mode == Window::initialize)
+        {
+            glGenTextures(1, &id);
+            win->setGLObjectId(osgid, id);
+        }
+
         handleTexture(win, id, 
                       GL_TEXTURE_CUBE_MAP_ARB, 
                       GL_TEXTURE_CUBE_MAP_ARB, 
