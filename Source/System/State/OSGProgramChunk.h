@@ -207,6 +207,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunk : public ProgramChunkBase
     /*! \name            OpenGL Extension Handling                         */
     /*! \{                                                                 */
 
+    static UInt32 _funcGenPrograms;
     static UInt32 _funcProgramString;
     static UInt32 _funcBindProgram;
     static UInt32 _funcDeletePrograms;
