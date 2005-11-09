@@ -116,8 +116,10 @@ static boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 
 /* */
 static void jpeg_mem_skip_input_data(j_decompress_ptr OSG_CHECK_ARG(cinfo    ),
-                              long             OSG_CHECK_ARG(num_bytes))
+                                     long                           num_bytes)
 {
+    jpeg_mem.src.next_input_byte += num_bytes;
+    jpeg_mem.src.bytes_in_buffer -= num_bytes;
 }
 
 /* */
