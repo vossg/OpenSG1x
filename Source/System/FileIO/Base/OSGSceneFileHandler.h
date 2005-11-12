@@ -125,6 +125,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
     virtual FCPtrStore readTopNodes          (const  Char8  *fileName,
                                                      GraphOpSeq *graphOpSeq = _defaultgraphOpSeq);
 
+    typedef NodePtr (*fileioreadcbfp) (SceneFileType *type,
+                                       std::istream &is, const Char8* ext);
+    void setReadCB(fileioreadcbfp fp);
+    fileioreadcbfp getReadCB(void);
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Write                                      */
@@ -132,6 +137,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     virtual bool write(const NodePtr &node, std::ostream &os, const Char8 *ext, bool compress = false);
     virtual bool write(const NodePtr &node, const Char8 *fileName, bool compress = false);
+
+    typedef bool (*fileiowritecbfp) (SceneFileType *type,
+                                     const NodePtr &node, std::ostream &os,
+                                     const Char8 *ext, bool compress);
+    void setWriteCB(fileiowritecbfp fp);
+    fileiowritecbfp getWriteCB(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -228,6 +239,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     PathHandler     *_pathHandler;
     PathHandler     _defaultPathHandler;
+
+    fileioreadcbfp  _readFP;
+    fileiowritecbfp _writeFP;
 
     static GraphOpSeq      *_defaultgraphOpSeq;
     

@@ -214,31 +214,41 @@ NodePtr SceneFileHandler::read(std::istream &is, const Char8* fileNameOrExtensio
     {
         SINFO << "try to read stream as " << type->getName() << std::endl;
     
-        if(isGZip(is))
+        // check for fileio read callback
+        if(_readFP != NULL)
         {
-            SINFO << "Detected gzip compressed stream." << std::endl;
-
-#ifdef OSG_ZSTREAM_SUPPORTED
             initReadProgress(is);
-            zip_istream unzipper(is);
-            scene = type->read(unzipper, fileNameOrExtension);
-            if(scene != NullFC)
-            {
-                if(unzipper.check_crc())
-                    SINFO << "Compressed stream has correct checksum." << std::endl;
-                else
-                    SFATAL << "Compressed stream has wrong checksum." << std::endl;
-            }
+            scene = _readFP(type, is, fileNameOrExtension);
             terminateReadProgress();
-#else
-            SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
-#endif
         }
         else
         {
-            initReadProgress(is);
-            scene = type->read(is, fileNameOrExtension);
-            terminateReadProgress();
+            if(isGZip(is))
+            {
+                SINFO << "Detected gzip compressed stream." << std::endl;
+
+#ifdef OSG_ZSTREAM_SUPPORTED
+                initReadProgress(is);
+                zip_istream unzipper(is);
+                scene = type->read(unzipper, fileNameOrExtension);
+                if(scene != NullFC)
+                {
+                    if(unzipper.check_crc())
+                        SINFO << "Compressed stream has correct checksum." << std::endl;
+                    else
+                        SFATAL << "Compressed stream has wrong checksum." << std::endl;
+                }
+                terminateReadProgress();
+#else
+                SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
+#endif
+            }
+            else
+            {
+                initReadProgress(is);
+                scene = type->read(is, fileNameOrExtension);
+                terminateReadProgress();
+            }
         }
 
         if(scene != NullFC)
@@ -408,6 +418,16 @@ SceneFileHandler::FCPtrStore SceneFileHandler::readTopNodes(
     return nodeVec;
 }
 
+void SceneFileHandler::setReadCB(fileioreadcbfp fp)
+{
+    _readFP = fp;
+}
+
+SceneFileHandler::fileioreadcbfp SceneFileHandler::getReadCB(void)
+{
+    return _readFP;
+}
+
 //----------------------------
 // Function name: write
 //----------------------------
@@ -436,21 +456,30 @@ bool SceneFileHandler::write(const NodePtr &node, std::ostream &os,
 
     if(type)
     {
+        updateWriteProgress(0);
         SINFO << "try to write stream as " << type->getName() << std::endl;
-        if(compress)
+        
+        if(_writeFP != NULL)
         {
-#ifdef OSG_ZSTREAM_SUPPORTED
-            SINFO << "writing compressed stream." << std::endl;
-            zip_ostream zipper(os, true);
-            retCode = type->write(node, zipper, fileNameOrExtension);
-            zipper.zflush();
-#else
-            SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
-#endif
+            retCode = _writeFP(type, node, os, fileNameOrExtension, compress);
         }
         else
         {
-            retCode = type->write(node, os, fileNameOrExtension);
+            if(compress)
+            {
+#ifdef OSG_ZSTREAM_SUPPORTED
+                SINFO << "writing compressed stream." << std::endl;
+                zip_ostream zipper(os, true);
+                retCode = type->write(node, zipper, fileNameOrExtension);
+                zipper.zflush();
+#else
+                SFATAL << "Compressed streams are not supported! Configure with --enable-png --with-png=DIR options." << std::endl;
+#endif
+            }
+            else
+            {
+                retCode = type->write(node, os, fileNameOrExtension);
+            }
         }
     }
     else
@@ -486,6 +515,7 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool c
 
     if (type)
     {
+        updateWriteProgress(0);
         SINFO << "try to write " << fileName << " as " << type->getName() << std::endl;
 
         std::ofstream out(fileName, std::ios::binary);
@@ -512,6 +542,16 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool c
                          << std::endl;
 
     return retCode;
+}
+
+void SceneFileHandler::setWriteCB(fileiowritecbfp fp)
+{
+    _writeFP = fp;
+}
+
+SceneFileHandler::fileiowritecbfp SceneFileHandler::getWriteCB(void)
+{
+    return _writeFP;
 }
 
 /*!
@@ -834,7 +874,9 @@ SceneFileHandler::SceneFileHandler (void) :
     _useProgressThread(false),
     _writeProgressFP(NULL),
     _pathHandler(NULL),
-    _defaultPathHandler()
+    _defaultPathHandler(),
+    _readFP(NULL),
+    _writeFP(NULL)
 {
     _progressData.length = 0;
     _progressData.is = NULL;
