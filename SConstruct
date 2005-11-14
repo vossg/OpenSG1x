@@ -903,22 +903,28 @@ class win32_msvc80(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc80')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/w44258', '/w44996', '/EHsc', '/GR', '/FD', '/Zm1200', '/Zc:forScope'])
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+                             '/Zm1200', '/Zc:forScope'])
 
         # add msvc80 include and lib paths
         #import SCons.Tool.msvc
         # doesn't work for 8.0 :-(
         #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
         # HACK
-        include_path = 'D:/Programme/Microsoft Visual Studio 8/VC/include'
-        lib_path = 'D:/Programme/Microsoft Visual Studio 8/VC/lib'
-        exe_path = ['D:/Programme/Microsoft Visual Studio 8/VC/bin',
-                    'D:/Programme/Microsoft Visual Studio 8/VC/../Common7/IDE']
+        include_path = ['C:/Programme/Microsoft Visual Studio 8/VC/include',
+                        'C:/Programme/Microsoft Platform SDK/Include']
+        lib_path = ['C:/Programme/Microsoft Visual Studio 8/VC/lib',
+                    'C:/Programme/Microsoft Visual Studio 8/SDK/v2.0/lib',
+                    'C:/Programme/Microsoft Platform SDK/Lib']
+        exe_path = ['C:/Programme/Microsoft Visual Studio 8/Common7/IDE',
+                    'C:/Programme/Microsoft Visual Studio 8/VC/bin',
+                    'C:/Programme/Microsoft Visual Studio 8/Common7/Tools',
+                    'C:/Programme/Microsoft Visual Studio 8/SDK/v2.0/bin',
+                    'C:/WINDOWS/Microsoft.NET/Framework/v2.0.50727',
+                    'C:/Programme/Microsoft Visual Studio 8/VC/VCPackages']
 
         env.PrependENVPath('INCLUDE', include_path)
-        #env.PrependENVPath('INCLUDE', os.path.join(include_path, '..', 'PlatformSDK', 'Include'))
         env.PrependENVPath('LIB', lib_path)
-        #env.PrependENVPath('LIB', os.path.join(lib_path, '..', 'PlatformSDK', 'Lib'))
         env.PrependENVPath('PATH', exe_path)
 
 class cygwin_gcc(win32):
