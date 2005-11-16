@@ -43,6 +43,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGVector.h>
+#include <OSGColor.h>
 #include <OSGImage.h>
 
 #include <vector>
@@ -70,16 +71,10 @@ bool createNormalMapFromBump ( ImagePtr srcImage,
                                ImagePtr dstImage,
                                Vec3f    normalMapScale);
 
-enum AlphaValue {
-  NONE_AVT = 0,
-  SOURCE_AVT,
-  GRADIENT_AVT
-};  
-
 OSG_SYSTEMLIB_DLLMAPPING
-void createNormalVolume ( ImagePtr srcImage,
+bool createNormalVolume ( ImagePtr srcImage,
                           ImagePtr dstImage,
-                          AlphaValue alphaValue = NONE_AVT );
+                          const std::string &outputFormat );
 
 OSG_SYSTEMLIB_DLLMAPPING 
 bool create2DPreIntegrationLUT ( ImagePtr dstImage,
@@ -102,6 +97,14 @@ bool createPhongTexture ( ImagePtr image,
                           Real32   ka = 0,
                           Real32   kd = 0,
                           Real32   ks = 1);
+
+OSG_SYSTEMLIB_DLLMAPPING 
+bool createPhongVolume ( ImagePtr image,
+                         Color3f  diffuseColor,
+                         Color3f  specularColor,
+                         UInt32   lutSize,
+                         UInt32   lutScalar,
+                         Real32   lutIncr );
 
 OSG_SYSTEMLIB_DLLMAPPING
 bool createNormalizationCubeMap ( std::vector<ImagePtr> imageVec,

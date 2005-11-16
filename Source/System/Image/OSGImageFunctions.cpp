@@ -294,22 +294,53 @@ bool OSG::createNormalMapFromBump ( ImagePtr image,
 
 
 //---------------------------------------------------------------------------//
-/*!  */
+/*!  creates a Normal Volume from the given data */
 
 OSG_SYSTEMLIB_DLLMAPPING
-void OSG::createNormalVolume ( ImagePtr inImage,
+bool OSG::createNormalVolume ( ImagePtr inImage,
                                ImagePtr outImage,
-                               AlphaValue alphaValue )
+                               const std::string &outputFormat )
 {
-  UInt8 *data = 0, *ds;
-  Int32 w, h, d, x, y, z, md, ld, hd, xs, ys, zs, ps, ls, ss, os;
-  Real32 g;
   const Real32 gMax = 441.67295593, gF = 255.0/gMax;
-  Image::PixelFormat pf;
-  ImagePtr copy;
+  const osg::Real32 TwoPi = 2 * osg::Pi;
 
-  if ( (inImage->getPixelFormat() != Image::OSG_L_PF) ||
-       (inImage->getDataType()    != Image::OSG_UINT8_IMAGEDATA) ) {
+  enum DataIndex { SCALAR_DI,
+                   SCALAR_NULLEDGE_DI,
+                   X_DI, Y_DI, Z_DI,
+                   GRADIENT_DI,
+                   THETA_DI, PHI_DI,
+                   
+                   END_DI
+  };
+  
+  UInt8 *data = 0, *ds, dc;
+  osg::Real32 minU = osg::Inf, maxU = -osg::Inf;
+  osg::Real32 minV = osg::Inf, maxV = -osg::Inf;
+  Int32 w, h, d, x, y, z, md, ld, hd, xs, ys, zs, ps, ls, ss, os;
+  Int32 i,voxelSize ,g,t,p;
+  std::vector<UInt32> dataIndex;
+  Real32 u, v, length;
+  Vec3f normal;
+  ImagePtr copy;
+  Image::PixelFormat pf;
+  bool calcGradient = false, calcThetaPhi = false;
+  char validFormat[END_DI];
+  UInt8 voxelData[sizeof(validFormat)];
+  char *formatP;
+  bool isEdge;
+
+  // init valid format string
+  validFormat[SCALAR_DI]           = 's';
+  validFormat[SCALAR_NULLEDGE_DI]  = 'S';
+  validFormat[X_DI]                = 'x';
+  validFormat[Y_DI]                = 'y';
+  validFormat[Z_DI]                = 'z';
+  validFormat[GRADIENT_DI]         = 'g';
+  validFormat[THETA_DI]            = 't';
+  validFormat[PHI_DI]              = 'p';
+     
+  // check if we have a valid input image
+  if ( inImage->getBpp() != 1 ) {
 
     copy = Image::create();
     FLOG (("Create copy to reformat/convert Image\n"));
@@ -324,7 +355,27 @@ void OSG::createNormalVolume ( ImagePtr inImage,
       inImage->convertDataTypeTo(Image::OSG_UINT8_IMAGEDATA);
   }
 
-  pf   = (alphaValue == NONE_AVT) ? Image::OSG_RGB_PF : Image::OSG_RGBA_PF;
+  switch (outputFormat.size()) {
+  case 1:
+    pf = Image::OSG_L_PF;
+    break;
+  case 2:
+    pf = Image::OSG_LA_PF;
+    break;
+  case 3:
+    pf = Image::OSG_RGB_PF;
+    break;
+  case 4:
+    pf = Image::OSG_RGBA_PF;
+    break;
+  default:
+    FFATAL (( "Invalid outputFormat length in createNormalVolume: %d\n",
+              outputFormat.size() ));
+    return false;
+    break;
+  }
+    
+  // get image data and parameter
   w    = inImage->getWidth();
   h    = inImage->getHeight();
   d    = inImage->getDepth();
@@ -334,44 +385,131 @@ void OSG::createNormalVolume ( ImagePtr inImage,
   ss   = ls * h;
   os   = 0;
 
+  // check format string and fill dataIndex
+  voxelSize = outputFormat.size();
+  dataIndex.resize(voxelSize);
+  for (i = 0; i < voxelSize; i++) {
+    if ((formatP = strchr(validFormat, outputFormat[i]))) {
+      dataIndex[i] = (formatP - validFormat);
+      switch (dataIndex[i]) {
+      case GRADIENT_DI:
+        calcGradient = true;
+        break;
+      case THETA_DI:
+      case PHI_DI:
+        calcThetaPhi = true;
+        break;
+      }
+      FDEBUG (( "dataIndex[%d]: %d\n", i, dataIndex[i] ));
+    }        
+    else {
+      FFATAL (( "Invalid outputFormat element %c, valid: \n",
+                char(outputFormat[i]), validFormat ));
+      return false;
+    }
+  }
+                      
   beginEditCP(outImage);
 
+  // create output image
   outImage->set( pf, w, h, d );
                       
   ds = outImage->getData();
 
+  // fill output image
   for (z = 0; z < d; z++) {
     for (y = 0; y < h; y++) {
       for (x = 0; x < w; x++) {
+        isEdge = false;
+
         md = data[(x*ps) + (y*ls) + (z*ss) + os];
 
-        ld = (x > 0)     ? data[((x-1)*ps) + (y*ls) + (z*ss) + os] : 0;
-        hd = (x < (w-1)) ? data[((x+1)*ps) + (y*ls) + (z*ss) + os] : 0;
+        // calc xs
+        if (x > 0) 
+          ld = data[((x-1)*ps) + (y*ls) + (z*ss) + os];
+        else {
+          isEdge |= true;
+          ld = 0;
+        }          
+        if (x < (w-1))
+          hd = data[((x+1)*ps) + (y*ls) + (z*ss) + os];
+        else {
+          isEdge |= true;
+          hd = 0;
+        }
         xs = (ld - hd);
 
-        ld = (y > 0)     ? data[(x*ps) + ((y-1)*ls) + (z*ss) + os] : 0;
-        hd = (y < (h-1)) ? data[(x*ps) + ((y+1)*ls) + (z*ss) + os] : 0;
+        // calc ys
+        if (y > 0)
+          ld = data[(x*ps) + ((y-1)*ls) + (z*ss) + os];
+        else {
+          isEdge |= true;
+          ld = 0;
+        }
+        if (y < (h-1)) 
+          hd = data[(x*ps) + ((y+1)*ls) + (z*ss) + os];
+        else {
+          isEdge |= true;
+          hd = 0;
+        }
         ys = (ld - hd);
 
-        ld = (z > 0)     ? data[(x*ps) + (y*ls) + ((z-1)*ss) + os] : 0;
-        hd = (z < (d-1)) ? data[(x*ps) + (y*ls) + ((z+1)*ss) + os] : 0;
-        zs = (ld - hd);
-
-        *ds++ = xs / 2 + 127;
-        *ds++ = ys / 2 + 127;
-        *ds++ = zs / 2 + 127;
-
-        switch (alphaValue) {
-        case NONE_AVT:
-          break;
-        case SOURCE_AVT:
-          *ds++ = md;
-          break;
-        case GRADIENT_AVT:
-          *ds++ = osgMax ( int(osgsqrt ( xs * xs + ys * ys + zs * zs ) * gF),
-                           255 );        
-          break;
+        // cals zs
+        if (z > 0)
+          ld = data[(x*ps) + (y*ls) + ((z-1)*ss) + os];
+        else {
+          isEdge |= true;
+          ld = 0;
         }
+        if (z < (d-1))
+          hd = data[(x*ps) + (y*ls) + ((z+1)*ss) + os];
+        else {
+          isEdge |= true;
+          hd = 0;
+        }
+        zs = (ld - hd);
+        
+        // set the voxel data
+        voxelData[SCALAR_DI]          = md;
+        voxelData[SCALAR_NULLEDGE_DI] = isEdge ? 0 : md;
+        voxelData[X_DI]               = xs / 2 + 127;
+        voxelData[Y_DI]               = ys / 2 + 127;
+        voxelData[Z_DI]               = zs / 2 + 127;
+
+        // calc normal
+        if (calcGradient || calcThetaPhi) {
+          normal.setValues (xs,ys,zs);
+          length = normal.length();
+          normal.normalize();
+        }
+
+        // calc gradient
+        if (calcGradient) {
+          voxelData[GRADIENT_DI] = osgMax ( int (length * gF), 255 );
+        }
+        
+        // calc ThetaPhi
+        if (calcThetaPhi) {
+          v = osg::osgacos(normal[2]) / osg::Pi;
+          u = osg::osgsqrt(normal[0]*normal[0] + normal[1]*normal[1]);
+          
+          if (u) u = normal[0] / u;
+          u = osg::osgacos(u);
+          if (normal[1]<0) u = TwoPi - u;
+          u /= TwoPi;
+          
+          if (u<minU) minU=u;
+          if (u>maxU) maxU=u;
+          if (v<minV) minV=v;
+          if (v>maxV) maxV=v;
+
+          voxelData[THETA_DI] = (osg::UInt8)(v * 255.f);	// theta
+          voxelData[PHI_DI]   = (osg::UInt8)(u * 255.f);	// phi
+        }
+
+        // copy voxeldata to image data
+        for (i = 0; i < voxelSize; i++)
+          *ds++ = voxelData[dataIndex[i]];
 
       }
     }
@@ -382,7 +520,7 @@ void OSG::createNormalVolume ( ImagePtr inImage,
   if (copy != osg::NullFC)
     subRefCP(copy);
 
-  return;
+  return true;
 }
 
 
@@ -619,6 +757,64 @@ bool OSG::createPhongTexture(ImagePtr image,
     //image->dump();
 
     return true;
+}
+
+//---------------------------------------------------------------------------//
+/*! create phong Volume */
+
+bool createPhongVolume ( ImagePtr image,
+                         Color3f  diffuseColor,
+                         Color3f  specularColor,
+                         UInt32   lutSize,
+                         UInt32   lutScalar,
+                         Real32   lutIncr )
+{
+  const osg::Int32 lutFSize = lutSize / lutScalar;
+	osg::Real32 theta1, theta2, dPhi, incr = lutScalar * lutIncr;
+	osg::Real32 Const = 0.2f, Shi = 40, NdotL;
+	osg::Vec3f color;
+  osg::Vec3f diffuse  (diffuseColor[0],diffuseColor[1],diffuseColor[2]);
+  osg::Vec3f specular (specularColor[0],specularColor[1],specularColor[2]);
+	osg::UInt8 *ds;
+	osg::Real32 min = osg::Inf, max = -osg::Inf;
+	
+  osg::beginEditCP(image);
+
+	image->set( osg::Image::OSG_RGB_PF, lutFSize, lutFSize, lutFSize );
+
+  ds = image->getData();
+
+	FDEBUG (("calc phong map START\n"));
+
+	for (dPhi=0; dPhi<360; dPhi+=incr) {
+      for (theta1=0; theta1<180; theta1+=incr) {
+        for (theta2=0; theta2<180; theta2+=incr) {
+			osg::Real32 t1 = osg::osgdegree2rad(theta1),
+						t2 = osg::osgdegree2rad(theta2),
+						dp = osg::osgdegree2rad(dPhi);
+			NdotL = osg::osgsin(t1)*osg::osgsin(t2)*osg::osgcos(dp) +
+					osg::osgcos(t1)*osg::osgcos(t2);
+			NdotL = (NdotL >= 0) ? NdotL : 0;
+			color = diffuse * (NdotL + Const) +
+					specular * osg::osgpow(NdotL, Shi);
+
+			for (int i=0; i<3; i++) {
+				if (min>color[i]) min=color[i];
+				if (max<color[i]) max=color[i];
+				
+				color[i] = osg::osgClamp(0.f, (color[i]), 1.f);
+				*ds++ = (osg::UInt8)(color[i]*255);
+			}
+		}
+	  }
+	}
+
+  osg::endEditCP(image);
+
+	FDEBUG (( "calc phong map FINISH: clamped from [%f,%f] to [0,1]\n", 
+            min, max));
+
+  return true;
 }
 
 
