@@ -1243,8 +1243,11 @@ void Geometry::changed(BitVector whichField,
 
                 endEditCP(tmpPtr, Geometry::GLIdFieldMask);
             }
-            
-            Window::refreshGLObject(getGLId());
+
+            // speed improvement don't recreate the display list
+            // for a material change.
+            if(whichField != MaterialFieldMask)
+                Window::refreshGLObject(getGLId());
         }
         else
         {
