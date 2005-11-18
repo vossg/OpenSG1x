@@ -120,11 +120,14 @@ bool StripeGraphOp::travNodeEnter(NodePtr node)
         {
             GeoPTypesPtr t = geo->getTypes();
             
-            for(UInt32 i = 0; i < t->size(); ++i)
+            if(t != NullFC)
             {
-                if(t->getValue(i) == GL_TRIANGLE_STRIP)
+                for(UInt32 i = 0; i < t->size(); ++i)
                 {
-                    return true;
+                    if(t->getValue(i) == GL_TRIANGLE_STRIP)
+                    {
+                        return true;
+                    }
                 }
             }
         }
