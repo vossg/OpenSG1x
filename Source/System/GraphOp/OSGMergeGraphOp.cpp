@@ -80,7 +80,12 @@ A class used to optimize geometries a bit.
 
 /*------------- constructors & destructors --------------------------------*/
 
-MergeGraphOp::MergeGraphOp(const char* name): GraphOp(name)
+MergeGraphOp::MergeGraphOp(const char* name): GraphOp(name),
+    _secondary_color_is_vector(false),
+    _texcoord0_is_vector(false),
+    _texcoord1_is_vector(false),
+    _texcoord2_is_vector(false),
+    _texcoord3_is_vector(false)
 {
 }
 
@@ -133,6 +138,14 @@ void MergeGraphOp::setParams(const std::string params)
 {
     ParamSet ps(params);   
 
+    ps("color_is_vector", _color_is_vector);
+    ps("secondary_color_is_vector", _secondary_color_is_vector);
+    ps("texcoord_is_vector", _texcoord0_is_vector);
+    ps("texcoord0_is_vector", _texcoord0_is_vector);
+    ps("texcoord1_is_vector", _texcoord1_is_vector);
+    ps("texcoord2_is_vector", _texcoord2_is_vector);
+    ps("texcoord3_is_vector", _texcoord3_is_vector);
+
     std::string out = ps.getUnusedParams();
     if(out.length())
     {
@@ -147,6 +160,15 @@ std::string MergeGraphOp::usage(void)
     "Merge: merge all geometries in a subtree\n"
     "  Tries to merge all Geometries in a subtree into the minimal number.\n"
     "  of Nodes. Flattens Transformations and transforms indices on the way.\n"
+    "Params: name (type, default)\n"
+    " (The following params are useful for transforming tangent space vectors.)\n"
+    "  color_is_vector  (bool, false): transform color as if it were a normal\n"
+    "  secondary_color_is_vector  (bool, false): transform secondary color as if it were a normal\n"
+    "  texcoord_is_vector  (bool, false): transform texcoord0 as if it were a normal\n"
+    "  texcoord0_is_vector  (bool, false): transform texcoord0 as if it were a normal\n"
+    "  texcoord1_is_vector  (bool, false): transform texcoord1 as if it were a normal\n"
+    "  texcoord2_is_vector  (bool, false): transform texcoord2 as if it were a normal\n"
+    "  texcoord3_is_vector  (bool, false): transform texcoord3 as if it were a normal\n"
     ;
 }
 
@@ -395,6 +417,12 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                 TransformPtr  t = TransformPtr::dcast((*it)->getCore());
                                 GeoPositionsPtr pos  = geo->getPositions();
                                 GeoNormalsPtr   norm = geo->getNormals();
+                                GeoColorsPtr color = geo->getColors();
+                                GeoColorsPtr scolor = geo->getSecondaryColors();
+                                GeoTexCoords3fPtr texcoord0 = GeoTexCoords3fPtr::dcast(geo->getTexCoords());
+                                GeoTexCoords3fPtr texcoord1 = GeoTexCoords3fPtr::dcast(geo->getTexCoords1());
+                                GeoTexCoords3fPtr texcoord2 = GeoTexCoords3fPtr::dcast(geo->getTexCoords2());
+                                GeoTexCoords3fPtr texcoord3 = GeoTexCoords3fPtr::dcast(geo->getTexCoords3());
                                 Matrix m=t->getMatrix();
                                 if (pos!=NullFC) 
                                 {
@@ -419,6 +447,90 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                         norm->setValue(n,i);
                                     }
                                     endEditCP( norm );
+                                }
+
+                                if (color!=NullFC && _color_is_vector)
+                                {
+                                    beginEditCP( color );
+                                    for (UInt32 i=0; i<color->getSize(); i++)
+                                    {
+                                        Color3f c = color->getValue(i);
+                                        Vec3f v;
+                                        v.setValue(c.getValuesRGB());
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        c.setValuesRGB(v[0], v[1], v[2]);
+                                        color->setValue(c,i);
+                                    }
+                                    endEditCP( color );
+                                }
+
+                                if (scolor!=NullFC && _secondary_color_is_vector)
+                                {
+                                    beginEditCP( scolor );
+                                    for (UInt32 i=0; i<scolor->getSize(); i++)
+                                    {
+                                        Color3f c = scolor->getValue(i);
+                                        Vec3f v;
+                                        v.setValue(c.getValuesRGB());
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        c.setValuesRGB(v[0], v[1], v[2]);
+                                        scolor->setValue(c,i);
+                                    }
+                                    endEditCP( scolor );
+                                }
+
+                                if (texcoord0!=NullFC && _texcoord0_is_vector)
+                                {
+                                    beginEditCP( texcoord0 );
+                                    for (UInt32 i=0; i<texcoord0->getSize(); i++)
+                                    {
+                                        Vec3f v=texcoord0->getField().getValue(i);
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        texcoord0->getField().setValue(v,i);
+                                    }
+                                    endEditCP( texcoord0 );
+                                }
+
+                                if (texcoord1!=NullFC && _texcoord1_is_vector)
+                                {
+                                    beginEditCP( texcoord1 );
+                                    for (UInt32 i=0; i<texcoord1->getSize(); i++)
+                                    {
+                                        Vec3f v=texcoord1->getField().getValue(i);
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        texcoord1->getField().setValue(v,i);
+                                    }
+                                    endEditCP( texcoord1 );
+                                }
+
+                                if (texcoord2!=NullFC && _texcoord2_is_vector)
+                                {
+                                    beginEditCP( texcoord2 );
+                                    for (UInt32 i=0; i<texcoord2->getSize(); i++)
+                                    {
+                                        Vec3f v=texcoord2->getField().getValue(i);
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        texcoord2->getField().setValue(v,i);
+                                    }
+                                    endEditCP( texcoord2 );
+                                }
+
+                                if (texcoord3!=NullFC && _texcoord3_is_vector)
+                                {
+                                    beginEditCP( texcoord3 );
+                                    for (UInt32 i=0; i<texcoord3->getSize(); i++)
+                                    {
+                                        Vec3f v=texcoord3->getField().getValue(i);
+                                        m.multMatrixVec(v);
+                                        v.normalize();
+                                        texcoord3->getField().setValue(v,i);
+                                    }
+                                    endEditCP( texcoord3 );
                                 }
                                 beginEditCP(*it2);
                                 (*it2)->setCore(geo);

@@ -105,6 +105,14 @@ protected:
 
     /*==========================  PRIVATE  ================================*/
 private:
+    // Use these params to transform tangent space vectors, just like normals.
+    bool _color_is_vector;
+    bool _secondary_color_is_vector;
+    bool _texcoord0_is_vector;
+    bool _texcoord1_is_vector;
+    bool _texcoord2_is_vector;
+    bool _texcoord3_is_vector;
+
     bool mergeOnce(NodePtr& node);
 
     void makeExcludeList        (NodePtr& node);
