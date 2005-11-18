@@ -2052,14 +2052,14 @@ void Image::setAttachmentField ( const std::string &key,
     Field *field=att->getField(key.c_str());
     if(field == NULL)
     {
-        FieldDescription *pDesc;
-        pDesc = new FieldDescription(
+        FieldDescription desc(
             SFString::getClassType(),
             key.c_str(),
             0, 0,
             true,
             (FieldIndexAccessMethod) &ImageGenericAtt::getDynamicField);
-        UInt32 fieldId = att->addField(*pDesc);
+
+        UInt32 fieldId = att->addField(desc);
         field=att->getField(fieldId);
     }
     SFString *strField=dynamic_cast<SFString*>(field);
