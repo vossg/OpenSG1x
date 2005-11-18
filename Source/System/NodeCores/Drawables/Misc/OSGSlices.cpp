@@ -287,6 +287,12 @@ void Slices::adjustVolume( Volume & volume )
 
 void Slices::initEdgeVec( void )
 {
+    UInt32 i;
+    std::vector<Pnt3f> & p(_pointVec);
+    const Vec3f size(getSize());
+
+    FDEBUG (("Run Slices::initEdgeVec()\n"));
+
     // create the corner points
     
     //     4--------5    
@@ -300,10 +306,6 @@ void Slices::initEdgeVec( void )
     // |/       |/   
     // 3--------2 
 
-    UInt32 i;
-    std::vector<Pnt3f> & p(_pointVec);
-    const Vec3f size(getSize());
-    
     _pointVec.resize(8);
     
     p[0][0] = p[3][0] = p[4][0] = p[7][0] = -0.5f * size.x();
