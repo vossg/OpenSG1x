@@ -42,6 +42,11 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline bool Image::isValid (void) const
+{
+    return !getPixel().empty();
+}
+
 /*! returns the data size in bytes. 
  */
 inline unsigned long Image::getSize ( bool withMipmap,
