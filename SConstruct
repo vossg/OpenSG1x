@@ -711,7 +711,12 @@ class win32(ToolChain):
 
         # ws2_32
         env.Append(LINKFLAGS=['/NODEFAULTLIB'],
-                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'msvcprt', 'msvcrt'])
+                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32'])
+
+        if _po.buildDbg():
+            env.Append(LIBS = ['msvcprtd', 'msvcrtd'])
+        else:
+            env.Append(LIBS = ['msvcprt', 'msvcrt'])
 
     def is_win32(self):
         return 1
