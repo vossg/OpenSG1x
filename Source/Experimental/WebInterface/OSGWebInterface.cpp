@@ -330,7 +330,7 @@ void WebInterface::decodeUrl(const std::string &url,
                 }
             }
             setParam(param,name.c_str(),value.c_str());
-        } while(*sI == '&');
+        } while(sI != url.end() && *sI == '&');
     }
 }
 
