@@ -390,6 +390,11 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
             glid = glGenLists(1);
             win->setGLObjectId(id, glid);
         }
+        else
+        {
+            glid = win->getGLObjectId(id);
+        }
+
         glNewList(glid, GL_COMPILE);
 
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
