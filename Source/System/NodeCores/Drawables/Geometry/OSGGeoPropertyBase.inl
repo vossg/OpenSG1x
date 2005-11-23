@@ -375,7 +375,7 @@ UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
 template <class GeoPropertyDesc> inline
 UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
 {
-    return (UInt8 *) &(_field[0]);
+    return _field.empty() ? NULL : (UInt8 *) &(_field[0]);
 }
 
 
