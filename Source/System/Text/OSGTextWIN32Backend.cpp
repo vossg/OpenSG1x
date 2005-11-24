@@ -445,6 +445,8 @@ static void getFontInfo(HDC hDC, HFONT hFont, string &family,
     int nameLength = GetTextFace(hDC, 0, 0);
     family.resize(nameLength);
     GetTextFace(hDC, nameLength, &(family[0]));
+    // GetTextFace also puts a trailing '\0' into the string, so we have to remove it
+    family.resize(nameLength - 1);
 
     // Get metrics of the font
     TEXTMETRIC tm;
@@ -1328,7 +1330,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.3 2005/06/01 10:42:15 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.4 2005/11/24 18:32:21 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTWIN32BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTWIN32BACKEND_INLINE_CVSID;
 }
