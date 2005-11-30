@@ -372,7 +372,6 @@ bool OSG::createNormalVolume ( ImagePtr inImage,
     FFATAL (( "Invalid outputFormat length in createNormalVolume: %d\n",
               outputFormat.size() ));
     return false;
-    break;
   }
     
   // get image data and parameter
