@@ -251,10 +251,10 @@ RenderAction::RenderAction(void) :
     _activeLightsState(0),
     _activeLightsCount(0),
     _activeLightsMask(0),
-    
-    _lightsStack(),
-    _lightEnvsStack(),
-    _lightEnvsMap(),
+
+    _lightsTable(),
+    _lightsPath(),
+    _lightEnvsLightsState(),
 
     _stateSorting(true),
     _visibilityStack()
@@ -306,10 +306,10 @@ RenderAction::RenderAction(const RenderAction &source) :
     _activeLightsState   (source._activeLightsState),
     _activeLightsCount   (source._activeLightsCount),
     _activeLightsMask    (source._activeLightsMask),
-    
-    _lightsStack         (source._lightsStack),
-    _lightEnvsStack      (source._lightEnvsStack),
-    _lightEnvsMap        (source._lightEnvsMap),
+
+    _lightsTable         (source._lightsTable),
+    _lightsPath          (source._lightsPath),
+    _lightEnvsLightsState(source._lightEnvsLightsState),
 
     _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack)
@@ -892,29 +892,25 @@ void RenderAction::dropLight(Light *pLight)
         oStore.second = fromworld;
     }
 
-    bool light_limit_reached = (_vLights.size() >= (sizeof(_lightsState) * 8));
-
-    if(!light_limit_reached)
+    if(!_bLocalLights && _vLights.size() >= 8)
     {
-        _vLights.push_back(oStore);
-    }
-    else
-    {
-        SWARNING << "RenderAction::dropLight: maximum light source limit is " << (sizeof(_lightsState) * 8)
+        SWARNING << "RenderAction::dropLight: maximum light source limit is " <<  8
                  << " skipping light sources!" << std::endl;
     }
 
+    _vLights.push_back(oStore);
+
     if(_bLocalLights)
     {
-        UInt32 lightState = _vLights.size() - 1;
-        if(!light_limit_reached)
-        {
-            _lightsMap[pLight] = lightState;
-            _lightsState |= (TypeTraits<UInt64>::One << lightState);
-        }
-        
-        if(!_lightEnvsStack.empty())
-            _lightsStack.push(pLight);
+        // light id's are in the range from 1 - N
+        UInt32 lightState = _vLights.size();
+        _lightsPath.push_back(lightState);
+        // add current lights path to the lights table.
+        _lightsTable.push_back(_lightsPath);
+
+        _lightsState = lightState;
+
+        _lightsMap[lightState] = pLight;
     }
 }
 
@@ -926,23 +922,8 @@ void RenderAction::undropLight(Light *pLight)
     if(!_bLocalLights)
         return;
 
-    if(_lightEnvsStack.empty())
-    {
-        RenderAction::LightsMap::iterator it = _lightsMap.find(pLight);
-        if(it == _lightsMap.end())
-            return;
-
-        _lightsState &= ~(TypeTraits<UInt64>::One << (*it).second);
-    }
-    else
-    {
-        LightEnv *pLightEnv = _lightEnvsStack.top();
-        RenderAction::LightEnvsMap::iterator it = _lightEnvsMap.find(pLightEnv);
-        if(it != _lightEnvsMap.end())
-            (*it).second++;
-        else
-            _lightEnvsMap.insert(std::pair<LightEnv *, UInt32>(pLightEnv, 1));
-    }
+    if(_lightEnvsLightsState.empty())
+        _lightsPath.pop_back();
 }
 
 void RenderAction::dropLightEnv(LightEnv *pLightEnv)
@@ -953,7 +934,7 @@ void RenderAction::dropLightEnv(LightEnv *pLightEnv)
     if(!_bLocalLights)
         return;
 
-    _lightEnvsStack.push(pLightEnv);
+    _lightEnvsLightsState.push_back(_lightsState);
 }
 
 void RenderAction::undropLightEnv(LightEnv *pLightEnv)
@@ -964,40 +945,21 @@ void RenderAction::undropLightEnv(LightEnv *pLightEnv)
     if(!_bLocalLights)
         return;
 
-    RenderAction::LightEnvsMap::iterator it = _lightEnvsMap.find(pLightEnv);
-    if(it != _lightEnvsMap.end())
-    {
-        for(UInt32 i=0;i<(*it).second;++i)
-        {
-            Light *pLight = _lightsStack.top();
-            _lightsStack.pop();
-            // now disable light
-            RenderAction::LightsMap::iterator it2 = _lightsMap.find(pLight);
-            if(it2 != _lightsMap.end())
-                _lightsState &= ~(TypeTraits<UInt64>::One << (*it2).second);
-        }
-    }
-
-    _lightEnvsStack.pop();
+    _lightsState = _lightEnvsLightsState.back();
+    _lightEnvsLightsState.pop_back();
 }
 
 std::vector<Light *> RenderAction::getActiveLights(void)
 {
-    // well that's quite slow ...
     std::vector<Light *> lights;
-    for(UInt32 i = 0;i < _vLights.size();++i)
+    const std::vector<UInt32> &light_ids = _lightsTable[_activeLightsState - 1];
+
+    for(UInt32 i=0;i<light_ids.size();++i)
     {
-        if(_activeLightsState & (TypeTraits<UInt64>::One << i))
-        {
-            for(LightsMap::iterator it = _lightsMap.begin(); it != _lightsMap.end(); ++it)
-            {
-                if((*it).second == i)
-                {
-                    lights.push_back((*it).first);
-                    break;
-                }
-            }
-        }
+        UInt32 light_id = light_ids[i];
+        LightsMap::iterator it = _lightsMap.find(light_id);
+        if(it != _lightsMap.end())
+            lights.push_back((*it).second);
     }
     return lights;
 }
@@ -1011,7 +973,7 @@ bool RenderAction::isVisible( Node* node )
     // light it's brothers or parents.
     // It is not as bad as it looks like, the isVisible() method is only
     // used for Switch, DistanceLOD and ProxyGroup ...
-    if (!_lightEnvsStack.empty())
+    if(!_lightEnvsLightsState.empty())
         return true;
 
     getStatistics()->getElem(statCullTestedNodes)->inc();
@@ -1151,35 +1113,31 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     if(_activeLightsState == pRoot->getLightsState())
         return;
 
-    // ok this is not optimal yet but it works.
     UInt32 light_id = 0;
     _activeLightsMask = 0;
-    for(UInt32 i = 0;i < _vLights.size();++i)
-    {
-        if((_activeLightsState & (TypeTraits<UInt64>::One << i)) ==
-           (pRoot->getLightsState() & (TypeTraits<UInt64>::One << i)))
-        {
-            if(_activeLightsState & (TypeTraits<UInt64>::One << i))
-                ++light_id;
-            continue;
-        }
-        
-        if(pRoot->getLightsState() & (TypeTraits<UInt64>::One << i))
-        {
-            glPushMatrix();
-            glLoadMatrixf(_vLights[i].second.getValues());
-            _activeLightsMask |= (1 << light_id);
-            _vLights[i].first->activate(this, light_id++);
-            glPopMatrix();
-        }
-    }
+    const std::vector<UInt32> &lights = _lightsTable[pRoot->getLightsState() - 1];
 
+    //printf("activate lights: %u : ", pRoot->getLightsState() - 1);
+    for(UInt32 i=0;i<lights.size();++i)
+    {
+        UInt32 light_index = lights[i] - 1;
+        glPushMatrix();
+        glLoadMatrixf(_vLights[light_index].second.getValues());
+        _activeLightsMask |= (1 << light_id);
+        //printf("%u,", light_id);
+        _vLights[light_index].first->activate(this, light_id++);
+        glPopMatrix();
+    }
+    //printf("\n");
+
+    //printf("deactivate lights: ");
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
     {
-        //printf("deactivate light: %u\n", i);
+        //printf("%u,", i);
         _activeLightsMask &= ~(1 << i);
         glDisable(GL_LIGHT0 + i);
     }
+    //printf("\n");
 
     _activeLightsState = pRoot->getLightsState();
     _activeLightsCount = light_id;
@@ -1444,11 +1402,23 @@ Action::ResultE RenderAction::start(void)
     _activeLightsCount = 0;
     _activeLightsMask  = 0;
 
-    while(!_lightsStack.empty())
-        _lightsStack.pop();
-    while(!_lightEnvsStack.empty())
-        _lightEnvsStack.pop();
-    _lightEnvsMap.clear();
+    // for debugging
+#if 0
+    for(UInt32 i=0;i<_lightsTable.size();++i)
+    {
+        printf("Lights table: %u : ", i);
+        for(UInt32 j=0;j<_lightsTable[i].size();++j)
+        {
+            printf("%u,", _lightsTable[i][j]);
+        }
+        printf("\n");
+    }
+#endif
+    // -------------
+
+    _lightsTable.clear();
+    _lightsPath.clear();
+    _lightEnvsLightsState.clear();
 
     _stateSorting = true;
 

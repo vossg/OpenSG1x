@@ -109,13 +109,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     NodePtr       getNode         (void                           );
 
     void          setMatrixStore  (const RenderAction::MatrixStore &oMatrixStore);
-    RenderAction::MatrixStore  &getMatrixStore  (void                           );        
+    RenderAction::MatrixStore  &getMatrixStore  (void                           );
 
     void          setScalar       (Real32 rScalar                 );
     Real32        getScalar       (void                           );
 
-    void          setLightsState  (UInt64 state                   );
-    UInt64        getLightsState  (void                           );
+    void          setLightsState  (UInt32 state                   );
+    UInt32        getLightsState  (void                           );
 
     void          setMultiPass    (void                           );
     void          setLastMultiPass(void                           );
@@ -153,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
     Real32                     _rScalarVal;
 
-    UInt64                     _lightsState;
+    UInt32                     _lightsState;
 
     Int8                       _flags;
 

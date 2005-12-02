@@ -98,12 +98,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
-    typedef std::map <Light      *,      UInt32                 > LightsMap;
+    typedef std::map <UInt32,            Light *                > LightsMap;
 
-    typedef std::stack<Light     *                              > LightsStack;
-    typedef std::stack<LightEnv  *                              > LightEnvsStack;
-    typedef std::map  <LightEnv  *,      UInt32                 > LightEnvsMap;
-  
     //-----------------------------------------------------------------------
     //   constants                                                               
     //-----------------------------------------------------------------------
@@ -259,14 +255,14 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     std::vector<LightStore>   _vLights;
     LightsMap                 _lightsMap;
-    UInt64                    _lightsState;
-    UInt64                    _activeLightsState;
+    UInt32                    _lightsState;
+    UInt32                    _activeLightsState;
     UInt32                    _activeLightsCount;
     UInt32                    _activeLightsMask;
 
-    LightsStack               _lightsStack;
-    LightEnvsStack            _lightEnvsStack;
-    LightEnvsMap              _lightEnvsMap;
+    std::vector<std::vector<UInt32> > _lightsTable;
+    std::vector<UInt32>               _lightsPath;
+    std::vector<UInt32>               _lightEnvsLightsState;
 
     bool                      _stateSorting;
 

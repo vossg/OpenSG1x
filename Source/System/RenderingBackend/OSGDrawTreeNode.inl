@@ -195,13 +195,13 @@ Real32 DrawTreeNode::getScalar(void)
 }
 
 inline
-void DrawTreeNode::setLightsState(UInt64 state)
+void DrawTreeNode::setLightsState(UInt32 state)
 {
     _lightsState = state;
 }
 
 inline
-UInt64 DrawTreeNode::getLightsState(void)
+UInt32 DrawTreeNode::getLightsState(void)
 {
     return _lightsState;
 }
