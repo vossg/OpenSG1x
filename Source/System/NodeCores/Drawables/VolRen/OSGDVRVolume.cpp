@@ -417,10 +417,8 @@ Action::ResultE DVRVolume::draw(DrawActionBase *action)
         }
 
         // sort bricks
-        Vec3f eyePointWorld;
-
-        eyePointWorld.setValue(
-            action->getCamera()->getBeacon()->getToWorld()[3]);
+        Vec3f eyePointWorld(0.f, 0.f, 0.f);
+        action->getCameraToWorld().mult(eyePointWorld);
 
         Matrix modelMat = action->getActNode()->getToWorld();
       
