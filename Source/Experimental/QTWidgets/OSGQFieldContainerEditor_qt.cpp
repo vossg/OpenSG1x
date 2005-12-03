@@ -247,6 +247,10 @@ QFieldContainerEditor::populateTable(void)
             _editors[i - 1]->setReadOnly     (getReadOnly     ());
             _editors[i - 1]->setLabelsVisible(getLabelsVisible());
 
+            QString ft = "FieldType: ";
+            ft += fName;
+            QToolTip::add(_editors[i - 1], ft);
+
             _pTable        ->setCellWidget   (i - 1, FieldValueCol,
                                               _editors[i - 1]      );
             connect(
@@ -351,7 +355,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.7 2005/04/07 18:14:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.8 2005/12/03 10:18:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }
