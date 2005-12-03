@@ -946,20 +946,27 @@ void RenderAction::undropLightEnv(LightEnv *pLightEnv)
         return;
 
     _lightsState = _lightEnvsLightsState.back();
+    if(_lightsState > 0)
+        _lightsPath = _lightsTable[_lightsState - 1];
+    else
+        _lightsPath.clear();
     _lightEnvsLightsState.pop_back();
 }
 
 std::vector<Light *> RenderAction::getActiveLights(void)
 {
     std::vector<Light *> lights;
-    const std::vector<UInt32> &light_ids = _lightsTable[_activeLightsState - 1];
-
-    for(UInt32 i=0;i<light_ids.size();++i)
+    if(_activeLightsState > 0)
     {
-        UInt32 light_id = light_ids[i];
-        LightsMap::iterator it = _lightsMap.find(light_id);
-        if(it != _lightsMap.end())
-            lights.push_back((*it).second);
+        const std::vector<UInt32> &light_ids = _lightsTable[_activeLightsState - 1];
+    
+        for(UInt32 i=0;i<light_ids.size();++i)
+        {
+            UInt32 light_id = light_ids[i];
+            LightsMap::iterator it = _lightsMap.find(light_id);
+            if(it != _lightsMap.end())
+                lights.push_back((*it).second);
+        }
     }
     return lights;
 }
@@ -1114,21 +1121,30 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
         return;
 
     UInt32 light_id = 0;
-    _activeLightsMask = 0;
-    const std::vector<UInt32> &lights = _lightsTable[pRoot->getLightsState() - 1];
-
-    //printf("activate lights: %u : ", pRoot->getLightsState() - 1);
-    for(UInt32 i=0;i<lights.size();++i)
+    if(pRoot->getLightsState() > 0)
     {
-        UInt32 light_index = lights[i] - 1;
-        glPushMatrix();
-        glLoadMatrixf(_vLights[light_index].second.getValues());
-        _activeLightsMask |= (1 << light_id);
-        //printf("%u,", light_id);
-        _vLights[light_index].first->activate(this, light_id++);
-        glPopMatrix();
+        _activeLightsMask = 0;
+        const std::vector<UInt32> &lights = _lightsTable[pRoot->getLightsState() - 1];
+    
+        //printf("activate lights: %u : ", pRoot->getLightsState() - 1);
+        for(UInt32 i=0;i<lights.size();++i)
+        {
+            UInt32 light_index = lights[i] - 1;
+            glPushMatrix();
+            glLoadMatrixf(_vLights[light_index].second.getValues());
+            _activeLightsMask |= (1 << light_id);
+            //printf("%u,", light_id);
+            _vLights[light_index].first->activate(this, light_id++);
+            glPopMatrix();
+        }
+        //printf("\n");
     }
-    //printf("\n");
+
+    if(light_id >= 8)
+    {
+        SWARNING << "RenderAction::activateLocalLights: maximum light source limit is " <<  8
+                 << std::endl;
+    }
 
     //printf("deactivate lights: ");
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
