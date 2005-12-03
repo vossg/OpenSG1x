@@ -899,6 +899,7 @@ void RenderAction::dropLight(Light *pLight)
     }
 
     _vLights.push_back(oStore);
+    _lightsMap.push_back(pLight);
 
     if(_bLocalLights)
     {
@@ -907,10 +908,7 @@ void RenderAction::dropLight(Light *pLight)
         _lightsPath.push_back(lightState);
         // add current lights path to the lights table.
         _lightsTable.push_back(_lightsPath);
-
         _lightsState = lightState;
-
-        _lightsMap[lightState] = pLight;
     }
 }
 
@@ -956,17 +954,23 @@ void RenderAction::undropLightEnv(LightEnv *pLightEnv)
 std::vector<Light *> RenderAction::getActiveLights(void)
 {
     std::vector<Light *> lights;
-    if(_activeLightsState > 0)
+    if(_bLocalLights)
     {
-        const std::vector<UInt32> &light_ids = _lightsTable[_activeLightsState - 1];
-    
-        for(UInt32 i=0;i<light_ids.size();++i)
+        if(_activeLightsState > 0)
         {
-            UInt32 light_id = light_ids[i];
-            LightsMap::iterator it = _lightsMap.find(light_id);
-            if(it != _lightsMap.end())
-                lights.push_back((*it).second);
+            const std::vector<UInt32> &light_ids = _lightsTable[_activeLightsState - 1];
+        
+            for(UInt32 i=0;i<light_ids.size();++i)
+            {
+                UInt32 light_id = light_ids[i];
+                if(light_id > 0 && light_id <= _lightsMap.size())
+                    lights.push_back(_lightsMap[light_id - 1]);
+            }
         }
+    }
+    else
+    {
+        return _lightsMap;
     }
     return lights;
 }
@@ -1125,7 +1129,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     {
         _activeLightsMask = 0;
         const std::vector<UInt32> &lights = _lightsTable[pRoot->getLightsState() - 1];
-    
+
         //printf("activate lights: %u : ", pRoot->getLightsState() - 1);
         for(UInt32 i=0;i<lights.size();++i)
         {

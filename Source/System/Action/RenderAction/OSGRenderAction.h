@@ -98,7 +98,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
-    typedef std::map <UInt32,            Light *                > LightsMap;
 
     //-----------------------------------------------------------------------
     //   constants                                                               
@@ -254,7 +253,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bCorrectTwoSidedLighting;
 
     std::vector<LightStore>   _vLights;
-    LightsMap                 _lightsMap;
+    std::vector<Light *>      _lightsMap;
     UInt32                    _lightsState;
     UInt32                    _activeLightsState;
     UInt32                    _activeLightsCount;
