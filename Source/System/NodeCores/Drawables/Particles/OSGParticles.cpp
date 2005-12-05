@@ -2984,7 +2984,8 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
 
     if(index != NULL)
     {
-        drawer->drawIndexed(this,action,index,length);
+        if(length > 0)
+            drawer->drawIndexed(this,action,index,length);
     }
     else
     {
@@ -2992,7 +2993,7 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
         {
             drawer->draw(this,action,pos->getSize());  
         }
-        else
+        else if(getNumParticles() > 0)
         {
             drawer->draw(this,action,getNumParticles());         
         } 
