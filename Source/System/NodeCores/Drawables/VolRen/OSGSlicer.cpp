@@ -79,7 +79,7 @@ Int32 Slicer::getSlicingDirection(DrawActionBase *da, Vec3f *pViewDir)
                  Vec3f      finalSliceDir;
    
     // Get viewing matrix
-    Matrix   viewMat = da->getCamera()->getBeacon()->getToWorld();
+    Matrix   viewMat = da->getCameraToWorld();
 
     viewMat.invert();
     viewMat.getTransform(vecToCam, camRotationInv, dummyVec, dummyRot);
@@ -162,7 +162,7 @@ void Slicer::rotateToLocal(DrawActionBase *da, Vec3f &in, Vec3f &out)
     static Quaternion   camRotationInv; 
    
     // Get viewing matrix
-    Matrix viewMat = da->getCamera()->getBeacon()->getToWorld();
+    Matrix viewMat = da->getCameraToWorld();
 
     viewMat.invert();
     viewMat.getTransform(camTranslation, camRotationInv, camScale, dummyRot);

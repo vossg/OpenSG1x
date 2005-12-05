@@ -296,7 +296,7 @@ void DVRIsoShader::getCoveredScreenRect(DVRVolume      *volume,
     {
         
         Matrix4f modelMatrix = action->getActNode()->getToWorld();
-        Matrix4f viewMatrix  = action->getCamera()->getBeacon()->getToWorld();
+        Matrix4f viewMatrix  = action->getCameraToWorld();
 
         viewMatrix.invert();
 
