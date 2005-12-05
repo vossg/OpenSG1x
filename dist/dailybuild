@@ -165,7 +165,9 @@ checkerror ()
     retval=0
     
     # remove the expected errors
-    $grep -n -i -w error $file| \
+    # KLUDGE: for some unknown reason some <nul>s make it into the 
+    # log file on MacOS. Remove them before they confuse grep.
+    tr -d \0 < $file | $grep -n -i -w error | \
     $grep -v \
         -e "warning: nm returned a nonzero error status" \
         -e "GetLastError" \
@@ -174,7 +176,7 @@ checkerror ()
         -e "error-type" \
         -e "error-constant" \
     > $log_errors || true
-    $grep -n -i -w failed $file | \
+    tr -d \0 < $file | $grep -n -i -w failed | \
     $grep -v \
         -e "WIN32Window::init: failed" \
         -e "WIN32Window::activate: failed" \
@@ -188,7 +190,7 @@ checkerror ()
     mv ${log_errors}.2 $log_errors
     
     # remove the expected warnings
-    $grep -n -i -w warning $file | \
+    tr -d \0 < $file | $grep -n -i -w warning | \
     $grep -v \
         -e "not used for resolving any symbol" \
      > $log_warnings || true
@@ -740,8 +742,8 @@ case $system in
 
 
     *-pc-cygwin )    
-                        make dsp >> $log_install 2>&1
-                        make dsp7 >> $log_install 2>&1
+                        $make dsp >> $log_install 2>&1
+                        $make dsp7 >> $log_install 2>&1
                         cd ..
                         tar cf - OpenSG | \
                             gzip -9f > $basedir/opensg_dailybuild.$today.win-source.tgz
@@ -839,7 +841,7 @@ do
 #        done
 #    fi
     # free some space, OpenSG is big enough as is...
-    make distclean 1>>$log_test.$i 2>&1
+    $make distclean 1>>$log_test.$i 2>&1
     cd ..
 
 done
