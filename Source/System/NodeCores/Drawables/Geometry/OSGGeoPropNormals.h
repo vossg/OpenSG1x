@@ -159,6 +159,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
 
+#ifndef OSG_NO_INT8_PNT
+
 /*! \brief The descriptor trait for osg::GeoNormals3b.
     \ingroup GrpSystemDrawablesGeometryProperties
     \hideinhierarchy
@@ -214,6 +216,8 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
                       GeoNormals3bPropertyDesc,
                       OSG_SYSTEMLIB_DLLTMPLMAPPING)
 #endif
+
+#endif // OSG_NO_INT8_PNT
 
 OSG_END_NAMESPACE
 

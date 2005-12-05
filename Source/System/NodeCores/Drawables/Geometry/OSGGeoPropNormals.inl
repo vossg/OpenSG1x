@@ -156,6 +156,7 @@ inline GLbyte glFloatToByte(float f)
     return GLbyte((f * 255.0 - 1.0f) / 2.0f);
 }
 
+#ifndef OSG_NO_INT8_PNT
 inline Vec3f glByteVecToFloatVec(const Vec3b& v)
 {
     return Vec3f(
@@ -171,6 +172,7 @@ inline Vec3b glFloatVecToByteVec(const Vec3f& v)
         glFloatToByte(v[1]),
         glFloatToByte(v[2]));
 }
+#endif
 
 template<> inline
 Vec3f GeoProperty<GeoNormals3bPropertyDesc>::getValue(const UInt32 index)

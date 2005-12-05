@@ -118,7 +118,9 @@ void testTypes(void)
 	DOTEST(GeoTexCoords4d,  Vec4d   , GeoTexCoords4d::getClassType(), GeoTexCoords4d::PtrType, GeoTexCoords4d::GenericType);
 	DOTEST(GeoNormals3f,    Vec3f   , GeoNormals3f::getClassType(), GeoNormals3f::PtrType, GeoNormals3f::GenericType);
 	DOTEST(GeoNormals3s,    Vec3s   , GeoNormals3s::getClassType(), GeoNormals3s::PtrType, GeoNormals3s::GenericType);
-        DOTEST(GeoNormals3b,    Vec3b   , GeoNormals3b::getClassType(), GeoNormals3b::PtrType, GeoNormals3b::GenericType);
+#ifndef OSG_NO_INT8_PNT
+    DOTEST(GeoNormals3b,    Vec3b   , GeoNormals3b::getClassType(), GeoNormals3b::PtrType, GeoNormals3b::GenericType);
+#endif
 	DOTEST(GeoColors3ub,    Color3ub, GeoColors3ub::getClassType(), GeoColors3ub::PtrType, GeoColors3ub::GenericType);
 	DOTEST(GeoColors4ub,    Color4ub, GeoColors4ub::getClassType(), GeoColors4ub::PtrType, GeoColors4ub::GenericType);
 	DOTEST(GeoColors3f,     Color3f , GeoColors3f::getClassType(), GeoColors3f::PtrType, GeoColors3f::GenericType);
