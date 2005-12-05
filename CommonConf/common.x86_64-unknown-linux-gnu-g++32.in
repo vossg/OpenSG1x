@@ -143,10 +143,10 @@ else
 endif
 
 
-LD_FLAGS += -m32 $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
 
-LD_FLAGS_EXT      =  
+LD_FLAGS_EXT      = -m32  
 LD_FLAGS_EXT_OPT := -O2 
 LD_FLAGS_EXT_DBG := -g 
 
