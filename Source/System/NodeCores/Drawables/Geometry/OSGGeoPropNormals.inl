@@ -172,7 +172,6 @@ inline Vec3b glFloatVecToByteVec(const Vec3f& v)
         glFloatToByte(v[1]),
         glFloatToByte(v[2]));
 }
-#endif
 
 template<> inline
 Vec3f GeoProperty<GeoNormals3bPropertyDesc>::getValue(const UInt32 index)
@@ -243,5 +242,6 @@ bool GeoProperty<GeoNormals3bPropertyDesc>::insertValue(const Vec3f & val,
         return true;
     }
 }
+#endif
 
 OSG_END_NAMESPACE
