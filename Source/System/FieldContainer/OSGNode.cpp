@@ -167,11 +167,12 @@ void Node::addChild(const NodePtr &childP)
         addRefCP(childP);
 
         // already somebody else's child?
-        if(childP->getParent() != NullFC)
+        NodePtr parent = childP->getParent();
+        if(parent != NullFC)
         {
-            beginEditCP(childP->getParent(), Node::ChildrenFieldMask);
-            childP->getParent()->subChild(childP);
-            endEditCP(childP->getParent(), Node::ChildrenFieldMask);
+            beginEditCP(parent, Node::ChildrenFieldMask);
+            parent->subChild(childP);
+            endEditCP  (parent, Node::ChildrenFieldMask);
         }
 
         _mfChildren.push_back(childP);
