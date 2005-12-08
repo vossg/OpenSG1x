@@ -200,11 +200,12 @@ void Node::insertChild(UInt32 childIndex, const NodePtr &childP)
         addRefCP(childP);
 
         // already somebody else's child?
-        if(childP->getParent() != NullFC)
+        NodePtr parent = childP->getParent();
+        if(parent != NullFC)
         {
-            beginEditCP(childP->getParent(), Node::ChildrenFieldMask);
-            childP->getParent()->subChild(childP);
-            endEditCP(childP->getParent(), Node::ChildrenFieldMask);
+            beginEditCP(parent, Node::ChildrenFieldMask);
+            parent->subChild(childP);
+            endEditCP  (parent, Node::ChildrenFieldMask);
         }
 
         childIt += childIndex;
@@ -241,11 +242,12 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         subRefCP(_mfChildren[childIndex]);
 
         // already somebody else's child?
-        if(childP->getParent() != NullNode)
+        NodePtr parent = childP->getParent();
+        if(parent != NullFC)
         {
-            beginEditCP(childP->getParent(), Node::ChildrenFieldMask);
-            childP->getParent()->subChild(childP);
-            endEditCP(childP->getParent(), Node::ChildrenFieldMask);
+            beginEditCP(parent, Node::ChildrenFieldMask);
+            parent->subChild(childP);
+            endEditCP  (parent, Node::ChildrenFieldMask);
         }
 
         // set the new child
@@ -289,11 +291,12 @@ bool Node::replaceChildBy(const NodePtr &childP,
             subRefCP(childP);
 
             // already somebody else's child?
-            if(newChildP->getParent() != NullFC)
+            NodePtr parent = childP->getParent();
+            if(parent != NullFC)
             {
-                beginEditCP(newChildP->getParent(), Node::ChildrenFieldMask);
-                newChildP->getParent()->subChild(newChildP);
-                endEditCP(newChildP->getParent(), Node::ChildrenFieldMask);
+                beginEditCP(parent, Node::ChildrenFieldMask);
+                parent->subChild(childP);
+                endEditCP  (parent, Node::ChildrenFieldMask);
             }
 
             (*childIt) = newChildP;
