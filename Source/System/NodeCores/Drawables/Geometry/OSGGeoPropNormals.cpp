@@ -83,6 +83,7 @@ FieldDescription *GeoNormals3sPropertyDesc::_desc[] =
 #endif
 };
 
+#ifndef OSG_NO_INT8_PNT
 FieldDescription *GeoNormals3bPropertyDesc::_desc[] =
 {
     new FieldDescription(
@@ -98,6 +99,7 @@ FieldDescription *GeoNormals3bPropertyDesc::_desc[] =
                                   GeoNormals3bPropertyDesc>::getFieldPtr)
 #endif
 };
+#endif
 
 OSG_GEO_PROP_TYPE_TMPL_DEF(GeoProperty, GeoPropertyDesc, PtrType)
 
@@ -111,8 +113,10 @@ OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoNormals3sPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
+#ifndef OSG_NO_INT8_PNT
 OSG_GEOPROP_DLLEXPORT_DEF (GeoProperty        ,
                            GeoNormals3bPropertyDesc, 
                            OSG_SYSTEMLIB_DLLTMPLMAPPING);
+#endif
 
 OSG_END_NAMESPACE
