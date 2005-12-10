@@ -182,6 +182,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool getLocalLights(void);
     void setCorrectTwoSidedLighting(bool bVal);
     bool getCorrectTwoSidedLighting(void);
+    void setOcclusionCulling(bool bVal);
+    bool getOcclusionCulling(void);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -239,6 +241,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     DrawTreeNode               *_pNoStateSortRoot;
     DrawTreeNode               *_pNoStateSortTransRoot;
 
+    typedef std::map<Real32, DrawTreeNode *> OCMap;
+    OCMap                       _ocRoot;
+
     UInt32                    _uiActiveMatrix;
     State                    *_pActiveState;
 
@@ -251,6 +256,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bZWriteTrans;
     bool                      _bLocalLights;
     bool                      _bCorrectTwoSidedLighting;
+    bool                      _bOcclusionCulling;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
@@ -266,6 +272,21 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _stateSorting;
 
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
+
+    GLuint _occlusionQuery;
+
+    void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
+    void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);
+    void (OSG_APIENTRY* _glBeginQueryARB)(GLenum, GLuint);
+    void (OSG_APIENTRY* _glEndQueryARB)(GLenum);
+    void (OSG_APIENTRY* _glGetQueryObjectuivARB)(GLuint, GLenum, GLuint*);
+
+    static UInt32 _arbOcclusionQuery;
+    static UInt32 _funcGenQueriesARB;
+    static UInt32 _funcDeleteQueriesARB;
+    static UInt32 _funcBeginQueryARB;
+    static UInt32 _funcEndQueryARB;
+    static UInt32 _funcGetQueryObjectuivARB;
 
 //    Time                 _tMatSlot
 

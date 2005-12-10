@@ -57,6 +57,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 #include <OSGBackground.h>
+#include <OSGGLEXT.h>
 
 #include <OSGBaseFunctions.h>
 
@@ -124,6 +125,14 @@ StatElemDesc<StatIntOnceElem > RenderAction::statNTextures("NTextures",
 "number of texture changes");
 StatElemDesc<StatIntOnceElem > RenderAction::statNTexBytes("NTexBytes",
 "sum of all used textures' sizes (approx., in bytes)");
+
+
+UInt32 RenderAction::_arbOcclusionQuery;
+UInt32 RenderAction::_funcGenQueriesARB         = Window::invalidFunctionID;
+UInt32 RenderAction::_funcDeleteQueriesARB      = Window::invalidFunctionID;
+UInt32 RenderAction::_funcBeginQueryARB         = Window::invalidFunctionID;
+UInt32 RenderAction::_funcEndQueryARB           = Window::invalidFunctionID;
+UInt32 RenderAction::_funcGetQueryObjectuivARB  = Window::invalidFunctionID;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -232,6 +241,7 @@ RenderAction::RenderAction(void) :
     _pNoStateSortRoot    (NULL),
     _pNoStateSortTransRoot(NULL),
 
+    _ocRoot              (),
     _uiActiveMatrix      (0),
     _pActiveState        (NULL),
 
@@ -244,6 +254,7 @@ RenderAction::RenderAction(void) :
     _bZWriteTrans            (false),
     _bLocalLights            (false),
     _bCorrectTwoSidedLighting(false),
+    _bOcclusionCulling       (false),
 
     _vLights(),
     _lightsMap(),
@@ -257,7 +268,14 @@ RenderAction::RenderAction(void) :
     _lightEnvsLightsState(),
 
     _stateSorting(true),
-    _visibilityStack()
+    _visibilityStack(),
+
+    _occlusionQuery         (0),
+    _glGenQueriesARB        (NULL),
+    _glDeleteQueriesARB     (NULL),
+    _glBeginQueryARB        (NULL),
+    _glEndQueryARB          (NULL),
+    _glGetQueryObjectuivARB (NULL)
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
@@ -266,6 +284,13 @@ RenderAction::RenderAction(void) :
         _leaveFunctors = *_vDefaultLeaveFunctors;
 
     _pNodeFactory = new DrawTreeNodeFactory;
+
+    _arbOcclusionQuery          = Window::registerExtension("GL_ARB_occlusion_query");
+    _funcGenQueriesARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenQueriesARB");
+    _funcDeleteQueriesARB       = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteQueriesARB");
+    _funcBeginQueryARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBeginQueryARB");
+    _funcEndQueryARB            = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glEndQueryARB");
+    _funcGetQueryObjectuivARB   = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetQueryObjectuivARB");
 }
 
 
@@ -287,6 +312,8 @@ RenderAction::RenderAction(const RenderAction &source) :
     _pNoStateSortRoot    (source._pNoStateSortRoot),
     _pNoStateSortTransRoot(source._pNoStateSortTransRoot),
 
+    _ocRoot              (source._ocRoot),
+
     _uiActiveMatrix      (source._uiActiveMatrix),
     _pActiveState        (source._pActiveState),
 
@@ -299,6 +326,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _bZWriteTrans            (source._bZWriteTrans),
     _bLocalLights            (source._bLocalLights),
     _bCorrectTwoSidedLighting(source._bCorrectTwoSidedLighting),
+    _bOcclusionCulling       (source._bOcclusionCulling),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -312,7 +340,14 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightEnvsLightsState(source._lightEnvsLightsState),
 
     _stateSorting        (source._stateSorting),
-    _visibilityStack     (source._visibilityStack)
+    _visibilityStack     (source._visibilityStack),
+    
+    _occlusionQuery         (source._occlusionQuery),
+    _glGenQueriesARB        (source._glGenQueriesARB),
+    _glDeleteQueriesARB     (source._glDeleteQueriesARB),
+    _glBeginQueryARB        (source._glBeginQueryARB),
+    _glEndQueryARB          (source._glEndQueryARB),
+    _glGetQueryObjectuivARB (source._glGetQueryObjectuivARB)
 {
     _pNodeFactory = new DrawTreeNodeFactory;
 }
@@ -343,6 +378,9 @@ RenderAction * RenderAction::create(void)
 RenderAction::~RenderAction(void)
 {
     delete _pNodeFactory;
+
+    if(_occlusionQuery != 0)
+        _glDeleteQueriesARB(1, &_occlusionQuery);
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -623,6 +661,150 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         mpMatPasses = pMPMat->getNPasses();
 
     Int32 sortKey = pMat->getSortKey();
+
+    if(_bOcclusionCulling && _stateSorting)
+    {
+        DrawTreeNode *pLastMultiPass = NULL;
+        for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
+        {
+            if(pMPMat != NULL)
+                pState = pMPMat->getState(mpi).getCPtr();
+            else
+                pState = pMat->getState().getCPtr();
+
+            DrawTreeNode *pNewElem = _pNodeFactory->create();
+
+            pNewElem->setNode       (getActNode());
+            pNewElem->setFunctor    (func);
+            pNewElem->setMatrixStore(_currMatrix);
+            pNewElem->setLightsState(_lightsState);
+            pNewElem->setState      (pState);
+            if(sortKey == Material::NoStateSorting)
+                pNewElem->setNoStateSorting();
+
+            if(pMPMat != NULL)
+            {
+                if(mpi == mpMatPasses-1)
+                    pNewElem->setLastMultiPass();
+                else
+                    pNewElem->setMultiPass();
+            }
+
+            if(!pMat->isTransparent())
+            {
+                if(sortKey == 0)
+                {
+                    Pnt3f objPos;
+                    const Volume &vol = getActNode()->getVolume();
+                    vol.getCenter(objPos);
+                    //Pnt3f objMax = vol.getMax();
+                    //objPos[2] = objMax[2];
+
+                    _currMatrix.second.mult(objPos);
+                    pNewElem->setScalar(objPos[2]);
+
+                    OCMap::iterator it = _ocRoot.find(pNewElem->getScalar());
+                    if(it == _ocRoot.end())
+                        _ocRoot.insert(std::make_pair(pNewElem->getScalar(), pNewElem));
+                    else
+                        (*it).second->addChild(pNewElem);
+                }
+                else
+                {
+                    if(_pMatRoots.find(sortKey) == _pMatRoots.end())
+                        _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+
+                    _pMatRoots[sortKey]->addChild(pNewElem);
+                }
+            }
+            else
+            {
+                if(_bSortTrans)
+                {
+                    Pnt3f objPos;
+                    getActNode()->getVolume().getCenter(objPos);
+                    _currMatrix.second.mult(objPos);
+                    pNewElem->setScalar(objPos[2]);
+
+                    if(pMPMat != NULL)
+                    {
+                        if(mpi == mpMatPasses-1)
+                            pNewElem->setLastMultiPass();
+                        else
+                            pNewElem->setMultiPass();
+                    }
+        
+                    if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
+                        _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+        
+                    if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
+                    {
+                        _pTransMatRoots[sortKey]->addChild(pNewElem);
+                        if(pMPMat != NULL)
+                            pLastMultiPass = pNewElem;
+                    }
+                    else
+                    {
+                        if(mpi > 0)
+                        {
+                            // we only sort the first multipass geometrie and append the others!
+                            if(pLastMultiPass != NULL)
+                                pLastMultiPass->addChild(pNewElem); 
+                        }
+                        else
+                        {
+                            DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
+                            DrawTreeNode *pLast    = NULL;
+                            bool          bFound   = false;
+                
+                            do
+                            {
+                
+                                if(pNewElem->getScalar() > pCurrent->getScalar())
+                                {
+                                    pLast    = pCurrent;
+                                    pCurrent = pCurrent->getBrother();
+                                }
+                                else
+                                {
+                                    bFound = true;
+                                }
+                
+                            } while(bFound   == false && 
+                                    pCurrent != NULL    );
+                            
+                            
+                            if(bFound == true)
+                            {
+                                if(pLast == NULL)
+                                {
+                                    _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
+                                }
+                                else
+                                {
+                                    _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
+                                }
+                            }
+                            else
+                            {
+                                _pTransMatRoots[sortKey]->addChild(pNewElem);
+                            }
+                            pLastMultiPass = pNewElem;
+                        }
+                    }
+                    _uiNumTransGeometries++;
+                }
+                else
+                {
+                    if(_pNoStateSortTransRoot == NULL)
+                        _pNoStateSortTransRoot = pNewElem;
+                    else
+                        _pNoStateSortTransRoot->addChild(pNewElem);
+                }
+            }
+        }
+        return;
+    }
 
     if(!_stateSorting ||
        (sortKey == Material::NoStateSorting && 
@@ -1251,9 +1433,78 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         }
         else if(pRoot->hasFunctor())
         {
-            pRoot->getFunctor().call(this);
+            // skip occlusion test for small sized geometries
+            UInt32 pos_size = 0;
+            if(_bOcclusionCulling && pRoot->getNode()->getCore() != NullFC)
+            {
+                GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+                if(geo != NullFC)
+                {
+                    if(geo->getPositions() != NullFC)
+                        pos_size = geo->getPositions()->getSize();
+                }
+            }
 
-            _uiNumGeometries++;
+            if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
+               pos_size > 32)
+            {
+                //getStatistics()->getElem(statCullTestedNodes)->inc();
+                glDepthMask(GL_FALSE);
+                glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+                
+                if(_occlusionQuery == 0)
+                    _glGenQueriesARB(1, &_occlusionQuery);
+
+                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
+
+                const DynamicVolume& vol = pRoot->getNode()->getVolume();
+                Pnt3f min,max;
+                vol.getBounds(min, max);
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glEnd();
+        
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glEnd();
+
+                _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+
+                glDepthMask(GL_TRUE);
+                glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+
+                GLuint pixels = 0;
+                _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+
+                if(pixels > 0)
+                {
+                    pRoot->getFunctor().call(this);
+                    _uiNumGeometries++;
+                }
+                else
+                {
+                    getStatistics()->getElem(statCulledNodes)->inc();
+                }
+            }
+            else
+            {
+                pRoot->getFunctor().call(this);
+                _uiNumGeometries++;
+            }
         }
 
         if(pNewState != NULL && pRoot->isLastMultiPass()) // last pass
@@ -1317,6 +1568,16 @@ bool RenderAction::getCorrectTwoSidedLighting(void)
     return _bCorrectTwoSidedLighting;
 }
 
+void RenderAction::setOcclusionCulling(bool bVal)
+{
+    _bOcclusionCulling = bVal;
+}
+
+bool RenderAction::getOcclusionCulling(void)
+{
+    return _bOcclusionCulling;
+}
+
 // initialisation
 
 Action::ResultE RenderAction::start(void)
@@ -1328,6 +1589,15 @@ Action::ResultE RenderAction::start(void)
     if(_window != NULL)
     {
         _window->resizeGL();
+    }
+
+    if(_window->hasExtension(_arbOcclusionQuery))
+    {
+        _glGenQueriesARB          = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcGenQueriesARB);
+        _glDeleteQueriesARB       = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcDeleteQueriesARB);
+        _glBeginQueryARB          = (void (OSG_APIENTRY*)(GLenum, GLuint)) _window->getFunction(_funcBeginQueryARB);
+        _glEndQueryARB            = (void (OSG_APIENTRY*)(GLenum)) _window->getFunction(_funcEndQueryARB);
+        _glGetQueryObjectuivARB   = (void (OSG_APIENTRY*)(GLuint, GLenum, GLuint*)) _window->getFunction(_funcGetQueryObjectuivARB);
     }
 
     _uiMatrixId = 1;
@@ -1404,6 +1674,8 @@ Action::ResultE RenderAction::start(void)
     _pNoStateSortRoot = NULL;
     _pNoStateSortTransRoot = NULL;
 
+    _ocRoot.clear();
+
     _pActiveState   = NULL;
 
     _uiActiveMatrix = 0;
@@ -1475,6 +1747,14 @@ Action::ResultE RenderAction::stop(ResultE res)
     if(_pNoStateSortRoot != NULL)
     {
         draw(_pNoStateSortRoot);
+    }
+
+    if(_bOcclusionCulling)
+    {
+        for(OCMap::reverse_iterator it = _ocRoot.rbegin();it != _ocRoot.rend();++it)
+        {
+            draw((*it).second);
+        }
     }
 
     if(_pNoStateSortTransRoot != NULL)
