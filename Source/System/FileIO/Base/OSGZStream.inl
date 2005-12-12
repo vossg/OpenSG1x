@@ -40,7 +40,7 @@ basic_zip_streambuf<charT, traits>::basic_zip_streambuf(ostream_reference ostrea
                       window_size, memory_level,
                       static_cast<int>(strategy));
 
-    setp( &(_buffer[0]), &(_buffer[_buffer.size()-1]));
+    this->setp( &(_buffer[0]), &(_buffer[_buffer.size()-1]));
 }
 
 /** Destructor
