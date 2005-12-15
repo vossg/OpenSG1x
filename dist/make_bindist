@@ -302,6 +302,19 @@ case $system in
         build_make=make
 	;;
 
+    *-apple-darwin* )    
+
+        glut_args="--with-glut"
+        par_jobs=${par_jobs:=1}
+        compiler=${compiler:=cc}
+        config_shell=sh
+        mail=/usr/bin/Mail
+        export PATH=$PATH
+        loginfo="OS: `uname -a` <br>"
+        # get rid of version number
+        system=`echo $system | sed -e 's/darwin[0-9].[0-9]/darwin/' | sed -e 's/darwin.[0-9]/darwin/'`
+        ;;
+
     *)
 
         echo "Unknown system $system!"
