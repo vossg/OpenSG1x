@@ -244,7 +244,7 @@ void TextTXFFace::addToGeom(GeometryPtr &geoPtr, const TextLayoutResult &layoutR
     beginEditCP(lensPtr, GeoPLengthsUI32::GeoPropDataFieldMask);
     beginEditCP(typesPtr, GeoPTypesUI8::GeoPropDataFieldMask);
 
-    OSG::Vec3f normal(0.0, 0.0, 0.0);        // normal to use for each glyph
+    OSG::Vec3f normal(0.f, 0.f, 1.f);        // normal to use for each glyph
 
     typesPtr->push_back(GL_QUADS);
     unsigned num_glyphs_added(0);
@@ -898,7 +898,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.5 2005/07/05 16:25:15 dirk Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.6 2005/12/15 14:04:47 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }
