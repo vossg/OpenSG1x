@@ -573,8 +573,12 @@ void SHLChunk::updateParameters(Window *win,
     GLuint program = (GLuint) win->getGLObjectId(getGLId());
 
     if(program == 0)
+    {
+        FNOTICE(("SHLChunk::updateParameters: program == 0!\n"
+                 "This frame will probably be rendered wrong!\n"));
         return;
-
+    }
+    
     checkOSGParameters();
 
     if(parameters.empty())
@@ -1292,7 +1296,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.40 2005/09/28 22:53:30 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.41 2005/12/15 00:19:52 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
