@@ -269,6 +269,6 @@ typedef RefPtr<LightModelChunkPtr> LightModelChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTMODELCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightModelChunkBase.h,v 1.1 2005/12/15 13:14:14 yjung Exp $"
+#define OSGLIGHTMODELCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightModelChunkBase.h,v 1.2 2005/12/16 11:05:45 a-m-z Exp $"
 
 #endif /* _OSGLIGHTMODELCHUNKBASE_H_ */

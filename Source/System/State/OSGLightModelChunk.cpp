@@ -45,6 +45,8 @@
 
 #include <OSGConfig.h>
 
+#include <OSGGLEXT.h>
+
 #include "OSGLightModelChunk.h"
 
 OSG_USING_NAMESPACE
@@ -242,7 +244,7 @@ bool LightModelChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunk.cpp,v 1.1 2005/12/14 22:17:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunk.cpp,v 1.2 2005/12/16 11:05:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTMODELCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTMODELCHUNKBASE_INLINE_CVSID;
 

@@ -184,5 +184,5 @@ void LightModelChunkBase::setLocalViewer(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTMODELCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightModelChunkBase.inl,v 1.1 2005/12/15 13:14:14 yjung Exp $"
+#define OSGLIGHTMODELCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightModelChunkBase.inl,v 1.2 2005/12/16 11:05:45 a-m-z Exp $"
 

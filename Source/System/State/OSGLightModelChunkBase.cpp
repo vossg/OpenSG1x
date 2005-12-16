@@ -61,7 +61,7 @@
 #include "OSGLightModelChunkBase.h"
 #include "OSGLightModelChunk.h"
 
-#include <OSGGL.h>                        // ColorControl default header
+#include <OSGGLEXT.h>                     // ColorControl default header
 
 OSG_USING_NAMESPACE
 
@@ -359,7 +359,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.1 2005/12/15 13:14:13 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.2 2005/12/16 11:05:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTMODELCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTMODELCHUNKBASE_INLINE_CVSID;
 
