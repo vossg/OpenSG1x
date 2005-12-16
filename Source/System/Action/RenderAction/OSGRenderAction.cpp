@@ -695,12 +695,16 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 if(sortKey == 0)
                 {
                     Pnt3f objPos;
-                    const Volume &vol = getActNode()->getVolume();
-                    vol.getCenter(objPos);
-                    //Pnt3f objMax = vol.getMax();
-                    //objPos[2] = objMax[2];
+                    //const Volume &vol = getActNode()->getVolume();
+                    //vol.getCenter(objPos);
+                    //_currMatrix.second.mult(objPos);
 
-                    _currMatrix.second.mult(objPos);
+                    // we don't want the center we use the front most
+                    // z value for the sorting.
+                    DynamicVolume vol = getActNode()->getVolume();
+                    vol.transform(_currMatrix.second);
+                    objPos = vol.getMax();
+
                     pNewElem->setScalar(objPos[2]);
 
                     OCMap::iterator it = _ocRoot.find(pNewElem->getScalar());
@@ -1446,7 +1450,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
             }
 
             if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
-               pos_size > 32)
+               pos_size > 64)
             {
                 //getStatistics()->getElem(statCullTestedNodes)->inc();
                 glDepthMask(GL_FALSE);
@@ -1752,9 +1756,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     if(_bOcclusionCulling)
     {
         for(OCMap::reverse_iterator it = _ocRoot.rbegin();it != _ocRoot.rend();++it)
-        {
             draw((*it).second);
-        }
     }
 
     if(_pNoStateSortTransRoot != NULL)
