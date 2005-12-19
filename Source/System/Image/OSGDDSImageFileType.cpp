@@ -726,7 +726,7 @@ inline int CDDSImage::get_line_width(int width, int bpp)
 
 ///////////////////////////////////////////////////////////////////////////////
 // calculates size of DXTC texture in bytes
-inline int CDDSImage::size_dxtc(int width, int height)
+int CDDSImage::size_dxtc(int width, int height)
 {
     return ((width+3)/4)*((height+3)/4)*
         (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ? 8 : 16);   
@@ -734,7 +734,7 @@ inline int CDDSImage::size_dxtc(int width, int height)
 
 ///////////////////////////////////////////////////////////////////////////////
 // calculates size of uncompressed RGB texture in bytes
-inline int CDDSImage::size_rgb(int width, int height)
+int CDDSImage::size_rgb(int width, int height)
 {
     return width*height*components;
 }
