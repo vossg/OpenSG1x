@@ -115,8 +115,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     Action::ResultE intersectEnter(Action *action);
     Action::ResultE intersectLeave(Action *action);
 
-    NewActionTypes::ResultE intersectEnter(ActorBase::FunctorArgumentType &funcArg);
-    NewActionTypes::ResultE intersectLeave(ActorBase::FunctorArgumentType &funcArg);
+    NewActionTypes::ResultE intersectActorEnter(ActorBase::FunctorArgumentType &funcArg);
+    NewActionTypes::ResultE intersectActorLeave(ActorBase::FunctorArgumentType &funcArg);
 
     Action::ResultE renderEnter   (Action *action);
     Action::ResultE renderLeave   (Action *action);

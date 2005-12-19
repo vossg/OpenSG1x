@@ -229,7 +229,7 @@ void DXFFile::registerEntityType( const Char8 *entityParentTypeName,
 			// respective entity parent type has to be deferred until the
 			// parent type will be registered. Store the registration request.
 			_the->_entityTypeHierarchy.insert(
-				std::pair<std::string, std::string>(entityParentTypeName,
+				std::pair<const std::string, std::string>(entityParentTypeName,
 													entityUniqueName)
 											 );
 		}
@@ -427,7 +427,7 @@ DXFFile::~DXFFile(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFFile.cpp,v 1.2 2005/10/14 08:33:35 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFFile.cpp,v 1.3 2005/12/19 12:04:27 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDXFFILE_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFFILE_INLINE_CVSID;
 }

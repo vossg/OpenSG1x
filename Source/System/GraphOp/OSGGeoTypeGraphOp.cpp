@@ -66,6 +66,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
 
     GeoPositionsPtr positions = geo->getPositions();
 
+#ifndef __sun
     // normals
     if(_filter & Geometry::NormalsFieldMask)
     {
@@ -92,6 +93,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
             endEditCP(geo, Geometry::NormalsFieldMask);
         }
     }
+#endif
 
     GeoColorsPtr    colors    = geo->getColors();
     GeoColorsPtr    scolors   = geo->getSecondaryColors();

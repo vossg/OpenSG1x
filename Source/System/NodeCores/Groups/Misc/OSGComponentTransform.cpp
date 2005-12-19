@@ -146,7 +146,6 @@ void ComponentTransform::initMethod (void)
             CNodePtr               ,
             Action                *>(&ComponentTransform::renderLeave));
 
-
     IntersectAction::registerEnterDefault(
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
@@ -168,7 +167,7 @@ void ComponentTransform::initMethod (void)
             NewActionTypes::ResultE,
             ComponentTransformPtr  ,
             NodeCorePtr            ,
-            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectEnter),
+            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectActorEnter),
         getClassType());
 
     IntersectActor::regClassLeave(
@@ -176,7 +175,7 @@ void ComponentTransform::initMethod (void)
             NewActionTypes::ResultE,
             ComponentTransformPtr  ,
             NodeCorePtr            ,
-            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectLeave),
+            ActorBase::FunctorArgumentType &>(&ComponentTransform::intersectActorLeave),
         getClassType());
 }
 

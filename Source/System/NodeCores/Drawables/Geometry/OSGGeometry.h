@@ -53,6 +53,7 @@
 
 #include <OSGActorBase.h>
 
+
 OSG_BEGIN_NAMESPACE
 
 class DrawActionBase;
@@ -172,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     virtual Action::ResultE drawPrimitives (DrawActionBase * action );
             Action::ResultE intersect      (Action * action );
 
-    NewActionTypes::ResultE intersect      (ActorBase::FunctorArgumentType &funcArg);
+    NewActionTypes::ResultE intersectActor(ActorBase::FunctorArgumentType &funcArg);
 
     void            invalidateDlistCache (void);
 

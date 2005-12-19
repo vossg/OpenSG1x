@@ -106,12 +106,12 @@ OSG_USING_NAMESPACE
 //                           Forward Declarations                              
 //-----------------------------------------------------------------------------
 template <class VectorTypeT>
-void subdivide(const typename std::vector<VectorTypeT> &dataIn,
+static void subdivide(const typename std::vector<VectorTypeT> &dataIn,
                      typename std::vector<VectorTypeT> *dataOut,
                      bool closed);
 
 template <class VectorTypeT>
-void subdivide(const typename std::vector<VectorTypeT> &dataIn,
+static void subdivide(const typename std::vector<VectorTypeT> &dataIn,
                      typename std::vector<VectorTypeT> *dataOut,
                      UInt32 nTimes,
                      bool close);

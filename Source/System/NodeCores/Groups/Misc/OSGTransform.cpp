@@ -179,7 +179,7 @@ Action::ResultE Transform::intersectLeave(Action *action)
 }
 
 NewActionTypes::ResultE
-Transform::intersectEnter(ActorBase::FunctorArgumentType &funcArg)
+Transform::intersectActorEnter(ActorBase::FunctorArgumentType &funcArg)
 {
     IntersectActor *pIA        = dynamic_cast<IntersectActor *>(funcArg.getActor());
     Matrix          matrix     = this->getMatrix();
@@ -207,7 +207,7 @@ Transform::intersectEnter(ActorBase::FunctorArgumentType &funcArg)
 }
 
 NewActionTypes::ResultE
-Transform::intersectLeave(ActorBase::FunctorArgumentType &funcArg)
+Transform::intersectActorLeave(ActorBase::FunctorArgumentType &funcArg)
 {
     IntersectActor *pIA    = dynamic_cast<IntersectActor *>(funcArg.getActor());
     const Matrix   &matrix = this->getMatrix();
@@ -312,7 +312,7 @@ void Transform::initMethod (void)
           NewActionTypes::ResultE,
           TransformPtr           ,
           NodeCorePtr            ,
-          ActorBase::FunctorArgumentType &>(&Transform::intersectEnter),
+          ActorBase::FunctorArgumentType &>(&Transform::intersectActorEnter),
         getClassType());
 
     IntersectActor::regClassLeave(
@@ -320,8 +320,9 @@ void Transform::initMethod (void)
           NewActionTypes::ResultE,
           TransformPtr           ,
           NodeCorePtr            ,
-          ActorBase::FunctorArgumentType &>(&Transform::intersectLeave),
+          ActorBase::FunctorArgumentType &>(&Transform::intersectActorLeave),
         getClassType());
+
 }
 
 

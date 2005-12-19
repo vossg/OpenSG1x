@@ -113,7 +113,6 @@ void MoveManipulator::initMethod (void)
                                           MoveManipulatorPtr  ,
                                           CNodePtr  ,
                                           Action   *>(&MoveManipulator::intersectLeave));
-										
 }
 
 
@@ -203,7 +202,7 @@ void  MoveManipulator::doMovement(TransformPtr t,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulator.cpp,v 1.2 2005/06/26 21:13:56 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulator.cpp,v 1.3 2005/12/19 12:04:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMOVEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMOVEMANIPULATORBASE_INLINE_CVSID;
 

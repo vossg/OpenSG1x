@@ -863,8 +863,10 @@ void SHLChunk::addParameterCallback(const char *name, paramtercbfp fp)
     if(name == NULL)
         return;
 
+//    std::string szName(name);
+
     setUniformParameter(name, 0);
-    _userParameterCallbacks.insert(std::make_pair(name, fp));
+    _userParameterCallbacks.insert(std::make_pair<std::string, paramtercbfp>(name, fp));
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
@@ -1296,7 +1298,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.41 2005/12/15 00:19:52 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.42 2005/12/19 12:04:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

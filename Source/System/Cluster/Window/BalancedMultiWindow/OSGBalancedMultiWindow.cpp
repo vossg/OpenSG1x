@@ -638,10 +638,24 @@ void BalancedMultiWindow::createLoadGroups(void)
     {
         viewport = getPort()[v];
         root = viewport->getRoot();
+
+#ifdef __sun
+        UInt32 uiCount;
+
+        std::count(_cluster.rootNodes.begin(),
+                   _cluster.rootNodes.end(),
+                   root,
+                   uiCount);
+
+        if(uiCount)
+            continue;
+#else
         // ignore multiple viewports with same root 
         if(std::count(_cluster.rootNodes.begin(),
-                     _cluster.rootNodes.end(),root))
+                      _cluster.rootNodes.end(),
+                      root))
             continue;
+#endif
         _cluster.rootNodes.push_back(root);
         // recousiveley collect groups
         collectLoadGroups(root,root);

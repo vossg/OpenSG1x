@@ -147,7 +147,7 @@ void Geometry::initMethod(void)
             NewActionTypes::ResultE,
             GeometryPtr,
             NodeCorePtr,
-            ActorBase::FunctorArgumentType &>(&Geometry::intersect),
+            ActorBase::FunctorArgumentType &>(&Geometry::intersectActor),
         getClassType());
 
     RenderAction::registerEnterDefault(getClassType(),
@@ -800,7 +800,7 @@ Action::ResultE Geometry::intersect(Action * action)
 }
 
 NewActionTypes::ResultE
-Geometry::intersect(ActorBase::FunctorArgumentType &funcArg)
+Geometry::intersectActor(ActorBase::FunctorArgumentType &funcArg)
 {
     IntersectActor   *pIA         = dynamic_cast<IntersectActor *>(funcArg.getActor());
     Real32            scaleFactor = pIA->getScaleFactor();

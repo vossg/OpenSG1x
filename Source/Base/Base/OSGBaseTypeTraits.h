@@ -800,7 +800,7 @@ struct TypeTraits<Real16> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-#if defined(__sgi) || defined(WIN32)
+#if defined(__sgi) || defined(WIN32) || defined(__sun)
             return Real16(Real32(atof  (szString)));
 #else
             return Real16(Real32(strtof(szString, NULL)));
@@ -865,7 +865,7 @@ struct TypeTraits<Real32> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-#if defined(__sgi) || defined(WIN32)
+#if defined(__sgi) || defined(WIN32) || defined(__sun)
             return Real32(atof  (szString));
 #else
             return Real32(strtof(szString, NULL));
@@ -990,7 +990,7 @@ struct TypeTraits<Real128> : public TypeTraitsBase
     {
         if(szString != NULL)
         {
-#if defined(WIN32)
+#if defined(WIN32) || defined(__sun)
             return Real128(strtod(szString, NULL));
 #else
             return Real128(strtold(szString, NULL));
