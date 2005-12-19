@@ -66,7 +66,7 @@ OSG_USING_NAMESPACE
  *                               Types                                     *
 \***************************************************************************/
 
-#if 0
+#ifndef __sun
 /*! \typedef DXFTableAppid
  * Handles the APPID table entry in the DXF file structure. Parses and
  * dispatches the file section between the groups (0,TABLE), (2,APPID) and
@@ -251,7 +251,7 @@ DXFTables::~DXFTables(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.5 2005/12/19 12:04:27 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFTables.cpp,v 1.6 2005/12/19 12:35:48 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDXFTABLES_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDXFTABLES_INLINE_CVSID;
 }
