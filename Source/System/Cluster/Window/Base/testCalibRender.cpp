@@ -68,13 +68,13 @@ void cushion(float from[2],float to[2],
                 phi = atan(y/x);
             // in rechtwinkelige Koordinaten
             if(x < 0) 
-                phi = phi + M_PI;
+                phi = phi + Pi;
             if(x == 0) 
             {
                 if(y > 0) 
-                    phi = M_PI/2;
+                    phi = Pi / 2;
                 else
-                    phi = -M_PI / 2;
+                    phi = -Pi / 2;
             }
             //xp,yp: Koordinaten des abgebildeten Punktes
             xp = rr * cos(phi) + center[0];
