@@ -962,7 +962,7 @@ class linux_gcc(ToolChain):
         env = env.Copy()
         
         env.Append(CXXFLAGS=['-ansi', '-use_readonly_const',
-                             '-ftemplate-depth-100'],
+                             '-ftemplate-depth-100', '-fPIC'],
                    CPPDEFINES=['_GNU_SOURCE', '_OSG_HAVE_CONFIGURED_H_'],
                    LINKFLAGS = ['-Wl,-s'])
 
