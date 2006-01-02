@@ -188,9 +188,11 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
     ImagePtr img = Image::create();
     beginEditCP(img);
     img->set(GL_RGB,1,1);
+
     endEditCP(img);
 
-    int extension = osg::Window::registerExtension("GL_ARB_fragment_program");
+    int extension;
+    extension = osg::Window::registerExtension("GL_ARB_fragment_program");
     if(window->hasExtension(extension))
     {
         SINFO << "Use fragment program for color crrection" << std::endl;
@@ -201,7 +203,12 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         SINFO << "Use reg combiner for color crrection" << std::endl;
         _useFragmentProgram = false;
     }
-    
+    extension = Window::registerExtension("GL_ARB_texture_non_power_of_two" );
+    if(window->hasExtension(extension))
+        _nonPowerOfTwo = true;
+    else
+        _nonPowerOfTwo = false;
+
     TextureChunkPtr tex = TextureChunk::create();    
 
     if(_useFragmentProgram)
@@ -348,7 +355,13 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
 
         beginEditCP(tex);
         tex->setImage(img);
-        tex->setMinFilter(GL_NEAREST);
+        tex->setWrapS(GL_CLAMP_TO_EDGE);
+        tex->setWrapT(GL_CLAMP_TO_EDGE);
+
+        tex->setMinFilter(GL_LINEAR);
+        tex->setMagFilter(GL_LINEAR);
+
+//        tex->setMinFilter(GL_NEAREST);
         tex->setScale(false);
         tex->setEnvMode(GL_REPLACE);
         tex->setShaderOperation(GL_TEXTURE_2D);
@@ -667,10 +680,20 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
        getGridWidth() < 2 ||
        getGridHeight() < 2)
     {
-        _texcoords->addValue(Vec2f(0,0));
-        _texcoords->addValue(Vec2f(w/tw,0));
-        _texcoords->addValue(Vec2f(w/tw,h/th));
-        _texcoords->addValue(Vec2f(0,h/th));
+        if(!_nonPowerOfTwo)
+        {
+            _texcoords->addValue(Vec2f(0,0));
+            _texcoords->addValue(Vec2f(w/tw,0));
+            _texcoords->addValue(Vec2f(w/tw,h/th));
+            _texcoords->addValue(Vec2f(0,h/th));
+        }
+        else
+        {
+            _texcoords->addValue(Vec2f(0,0));
+            _texcoords->addValue(Vec2f(1,0));
+            _texcoords->addValue(Vec2f(1,1));
+            _texcoords->addValue(Vec2f(0,1));
+        }
         _positions->addValue(Pnt3f(-1, -1, -0.5));
         _positions->addValue(Pnt3f( 1, -1, -0.5));
         _positions->addValue(Pnt3f( 1,  1, -0.5));
@@ -710,8 +733,11 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
                     tex[i][0] /= getGridWidth() - 1;
                     tex[i][1] /= getGridHeight() - 1;
                     // scale to ^2 texture size
-                    tex[i][0] *= w/(float)tw;
-                    tex[i][1] *= h/(float)th;
+                    if(!_nonPowerOfTwo)
+                    {
+                        tex[i][0] *= w/(float)tw;
+                        tex[i][1] *= h/(float)th;
+                    }
                     if(absolute) 
                     {
                         pos[i][0] /= (w-1);

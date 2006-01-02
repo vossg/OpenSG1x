@@ -132,6 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
 
     bool                      _useFragmentProgram;
     bool                      _changed;
+    bool                      _nonPowerOfTwo;
     GeometryPtr               _scalegeo;
     GeoPositions3fPtr         _positions;
     GeoTexCoords2fPtr         _texcoords;

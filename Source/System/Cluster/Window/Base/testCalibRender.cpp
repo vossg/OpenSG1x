@@ -28,6 +28,7 @@
 #include <OSGStripeGraphOp.h>
 
 #include <OSGDisplayCalibration.h>
+#include <OSGMultiDisplayWindow.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -36,6 +37,53 @@ int mode;
 SimpleSceneManager *mgr;
 DisplayCalibrationPtr calib;
 NodePtr scene = NullFC;
+
+void cushion(float from[2],float to[2],
+             float center[2],
+             float distortion,
+             float resX=50,float resY=50)
+{
+    float x,y,sx,sy,arg;
+    float v,rr,xp,yp,phi;
+    float width  = to[0] - from[0];
+    float height = to[1] - from[1];
+
+    calib->setGridWidth(resX);
+    calib->setGridHeight(resY);
+    for(sy=from[1] ; sy <= to[1] ; sy += height / (resY-1))
+    {
+        for(sx=from[0] ; sx <= to[0] ; sx += width / (resX-1))
+        {
+            x = sx - center[0];
+            y = sy - center[1];
+            
+            // arg := Abstand von optischer Achse/distortion
+            arg = sqrt(x*x + y*y) / distortion;  
+            // Bei Optiken mit Tonnen-Verzerrung stuende hier v:=tan(arg)
+            v = atan(arg);
+            // rr : Neu berechneter Abstand von optischer Achse
+            rr = distortion * v; 
+            // Bestimmung des Winkels zur
+            if(x != 0) 
+                phi = atan(y/x);
+            // in rechtwinkelige Koordinaten
+            if(x < 0) 
+                phi = phi + M_PI;
+            if(x == 0) 
+            {
+                if(y > 0) 
+                    phi = M_PI/2;
+                else
+                    phi = -M_PI / 2;
+            }
+            //xp,yp: Koordinaten des abgebildeten Punktes
+            xp = rr * cos(phi) + center[0];
+            yp = rr * sin(phi) + center[1];
+
+            calib->getGrid().push_back(Vec2f(xp,yp));
+        }
+    }
+}
 
 // Standard GLUT callback functions
 void display( void )
@@ -61,6 +109,7 @@ void display( void )
 
 void reshape( int w, int h )
 {
+    printf("%d %d\n",w,h);
     mgr->resize( w, h );
     glutPostRedisplay();
 }
@@ -193,6 +242,13 @@ key(unsigned char key, int , int )
 // Initialize GLUT & OpenSG and set up the scene
 int main (int argc, char **argv)
 {
+    float from[2]       = { 100,100 };
+    float to[2]         = { 1180,924 };
+    float center[2]     = { 640,512 };
+    float distortion    = 5250;
+    int   resX=20,resY=20;
+    MultiDisplayWindowPtr clusterWindow;
+
     // OSG init
     osgInit(argc,argv);
 
@@ -206,6 +262,7 @@ int main (int argc, char **argv)
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(key);
+    glutFullScreen();
 
     // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
@@ -213,12 +270,51 @@ int main (int argc, char **argv)
     gwin->init();
 
     // create the scene
-
-    const char *fileName = (argc > 1) ? argv[1] : "test.raw";
-    scene = SceneFileHandler::the().read(fileName);
+    clusterWindow = MultiDisplayWindow::create();
+    calib = DisplayCalibration::create();
+    for(int a=1 ; a<argc ; ++a)
+    {
+        if(strcmp(argv[a] + strlen(argv[a]) - 4,".xml") == 0 ||
+           strcmp(argv[a] + strlen(argv[a]) - 4,".XML") == 0)
+        {
+            std::ifstream in(argv[a]);
+            if(in) 
+                clusterWindow->loadCalibration(in);
+            continue;
+        }
+        if(argv[a][0] != '-')
+        {
+            scene = SceneFileHandler::the().read(argv[a]);
+            continue;
+        }        
+        switch(argv[a][1])
+        {
+            case 'c':
+                if(sscanf(argv[a]+2,"%f,%f,%f,%f,%f,%f,%f",
+                          &from[0],&from[1],
+                          &to[0],&to[1],
+                          &center[0],&center[1],
+                          &distortion) < 7)
+                {
+                    printf("%s fromX,fromY,toX,toY,centerX,centerY,distortion\n",argv[0]);
+                    printf("%s 35,81,1365,969,699,368,5250\n",argv[0]);
+                    printf("%s 35,81,1365,969,699,687,5250\n",argv[0]);
+                }
+                else
+                {
+                    printf("cushion\n");
+                    beginEditCP(calib);
+                    cushion(from,to,
+                            center,
+                            distortion,
+                            resX,resY);
+                    endEditCP(calib);
+                }
+        }
+    }        
     if(scene == NullFC)
     {
-        std::cerr << "Error loading " << fileName << "!" << std::endl;
+        std::cerr << "Error loading scene!" << std::endl;
         scene = makeTorus( .5, 2, 16, 16 );
     }
 
@@ -232,10 +328,11 @@ int main (int argc, char **argv)
     WindowPtr win = mgr->getWindow();
     endEditCP(win);
 
-    calib = DisplayCalibration::create();
-
+    if(clusterWindow->getCalibration().size() > 0)
+        calib = clusterWindow->getCalibration()[0];
+    
     // GLUT main loop
     glutMainLoop();
-
+    
     return 0;
 }
