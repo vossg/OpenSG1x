@@ -231,6 +231,15 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
     {
         // do the ref early, to prevent destroys on getParent(a)->addChild(a)
         addRefCP(childP);
+        // already somebody else's child?
+        // moved it up could be a child of childIndex.
+        NodePtr parent = childP->getParent();
+        if(parent != NullFC)
+        {
+            beginEditCP(parent, Node::ChildrenFieldMask);
+            parent->subChild(childP);
+            endEditCP  (parent, Node::ChildrenFieldMask);
+        }
 
         // remove the current child
         beginEditCP(_mfChildren[childIndex], Node::ParentFieldMask);
@@ -240,15 +249,6 @@ void Node::replaceChild(UInt32 childIndex, const NodePtr &childP)
         endEditCP  (_mfChildren[childIndex], Node::ParentFieldMask);
 
         subRefCP(_mfChildren[childIndex]);
-
-        // already somebody else's child?
-        NodePtr parent = childP->getParent();
-        if(parent != NullFC)
-        {
-            beginEditCP(parent, Node::ChildrenFieldMask);
-            parent->subChild(childP);
-            endEditCP  (parent, Node::ChildrenFieldMask);
-        }
 
         // set the new child
         _mfChildren[childIndex] = childP;
@@ -281,6 +281,15 @@ bool Node::replaceChildBy(const NodePtr &childP,
             // getParent(a)->addChild(a)
 
             addRefCP(newChildP);
+            // already somebody else's child?
+            // moved it up could be a child of childP.
+            NodePtr parent = newChildP->getParent();
+            if(parent != NullFC)
+            {
+                beginEditCP(parent, Node::ChildrenFieldMask);
+                parent->subChild(newChildP);
+                endEditCP  (parent, Node::ChildrenFieldMask);
+            }
 
             beginEditCP(childP, Node::ParentFieldMask);
             {
@@ -289,15 +298,6 @@ bool Node::replaceChildBy(const NodePtr &childP,
             endEditCP  (childP, Node::ParentFieldMask);
 
             subRefCP(childP);
-
-            // already somebody else's child?
-            NodePtr parent = childP->getParent();
-            if(parent != NullFC)
-            {
-                beginEditCP(parent, Node::ChildrenFieldMask);
-                parent->subChild(childP);
-                endEditCP  (parent, Node::ChildrenFieldMask);
-            }
 
             (*childIt) = newChildP;
 
