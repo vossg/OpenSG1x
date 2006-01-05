@@ -37,6 +37,7 @@ int mode;
 SimpleSceneManager *mgr;
 DisplayCalibrationPtr calib;
 NodePtr scene = NullFC;
+bool showTestImage = false;
 
 void cushion(float from[2],float to[2],
              float center[2],
@@ -92,7 +93,91 @@ void display( void )
     mgr->getNavigator()->updateCameraTransformation();
     mgr->getWindow()->activate();
     mgr->getWindow()->frameInit();
-    mgr->getWindow()->renderAllViewports((RenderActionBase*)mgr->getAction());
+
+    if(showTestImage)
+    {
+        int w=mgr->getWindow()->getWidth();
+        int h=mgr->getWindow()->getHeight();
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluOrtho2D(0,w,0,h);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+        glColor3f(1.0, 1.0, 0.0);
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(0,0);   
+        glVertex2f(w-1,0);   
+        glVertex2f(w-1,h-1);   
+        glVertex2f(0,h-1);   
+        glEnd();
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(w/2,0);   
+        glVertex2f(w-1,h/2);   
+        glVertex2f(w/2,h-1);   
+        glVertex2f(0,h/2);   
+        glEnd();
+        glColor3f(0.0, 1.0, 0.0);
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(w/2+h/6, h/2+h/6);
+        glVertex2f(w/2+h/6, h/2-h/6);
+        glVertex2f(w/2-h/6, h/2-h/6);
+        glVertex2f(w/2-h/6, h/2+h/6);
+        glEnd();
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluOrtho2D(0,1,0,1);
+        glMatrixMode(GL_MODELVIEW);
+        float step,x,y;
+        glColor3f(1.0, 1.0, 1.0);
+        glBegin(GL_LINES);
+        step = 1.0/16;
+        for(y=step ; y < 1-step/2 ; y+=step)
+        {
+            glVertex2f(0,y);   
+            glVertex2f(1.0,y);   
+        }
+        for(x=step ; x < 1-step/2 ; x+=step)
+        {
+            glVertex2f(x,0);   
+            glVertex2f(x,1.0);   
+        }
+        glEnd();
+        glColor3f(1.0, 0.0, 0.0);
+        glBegin(GL_LINES);
+        step = 1.0/8;
+        for(y=step ; y < 1-step/2 ; y+=step)
+        {
+            glVertex2f(0,y);   
+            glVertex2f(1.0,y);   
+        }
+        for(x=step ; x < 1-step/2 ; x+=step)
+        {
+            glVertex2f(x,0);   
+            glVertex2f(x,1.0);   
+        }
+        glEnd();
+        glColor3f(0.0, 0.0, 1.0);
+        glBegin(GL_LINES);
+        step = 1.0/4;
+        for(y=step ; y < 1-step/2 ; y+=step)
+        {
+            glVertex2f(0,y);   
+            glVertex2f(1.0,y);   
+        }
+        for(x=step ; x < 1-step/2 ; x+=step)
+        {
+            glVertex2f(x,0);   
+            glVertex2f(x,1.0);   
+        }
+        glEnd();
+    }
+    else
+    {
+        mgr->getWindow()->renderAllViewports((RenderActionBase*)mgr->getAction());
+    }
+
     calib->calibrate(mgr->getWindow(),(RenderActionBase*)mgr->getAction());
     mgr->getWindow()->swap();
     mgr->getWindow()->frameExit();
@@ -228,7 +313,7 @@ key(unsigned char key, int , int )
                                      0,0,0,1));
         endEditCP(calib);
         break;
-    case 'C':
+     case 'C':
         beginEditCP(calib);
         calib->setColorMatrix(Matrix(1,0,0,0,
                                      0,1,0,0,
@@ -236,6 +321,8 @@ key(unsigned char key, int , int )
                                      0,0,0,1));
         endEditCP(calib);
         break;
+     case ' ':
+         showTestImage = !showTestImage;         
     }
     glutPostRedisplay();
 }
