@@ -41,18 +41,19 @@ NodePtr scene = NullFC;
 void cushion(float from[2],float to[2],
              float center[2],
              float distortion,
-             float resX=50,float resY=50)
+             int resX=50,int resY=50)
 {
     float x,y,sx,sy,arg;
     float v,rr,xp,yp,phi;
     float width  = to[0] - from[0];
     float height = to[1] - from[1];
+    int cx,cy;
 
     calib->setGridWidth(resX);
     calib->setGridHeight(resY);
-    for(sy=from[1] ; sy <= to[1] ; sy += height / (resY-1))
+    for(sy=from[1],cy=resY ; cy ; sy += height / (resY-1),cy--)
     {
-        for(sx=from[0] ; sx <= to[0] ; sx += width / (resX-1))
+        for(sx=from[0],cx=resX ; cx ; sx += width / (resX-1),cx--)
         {
             x = sx - center[0];
             y = sy - center[1];
