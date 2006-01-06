@@ -207,6 +207,8 @@ Int32 ChunkMaterial::find(StateChunkPtr chunk)
 /*! Search the list of chunks for a chunk of the given type and the given
 slot. If slot is State::AutoSlotReplace, all slots are searched and the
 first found chunk is returned.
+For searching a specific chunk with a AutoSlotReplace slot,
+the slot parameter is interpreted as a index.
 */
 
 StateChunkPtr ChunkMaterial::find(const FieldContainerType &type, 
