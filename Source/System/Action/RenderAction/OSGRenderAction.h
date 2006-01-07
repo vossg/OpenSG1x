@@ -237,7 +237,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     //DrawTreeNode             *_pRoot;
     typedef std::map<Int32, DrawTreeNode *> SortKeyMap;
     SortKeyMap                  _pMatRoots;
-    SortKeyMap                  _pTransMatRoots;
+    
+    typedef std::map<Real32, DrawTreeNode *> TransSortMap;
+    typedef std::map<Int32, TransSortMap>    TransSortKeyMap;
+    TransSortKeyMap             _pTransMatRoots;
+
     DrawTreeNode               *_pNoStateSortRoot;
     DrawTreeNode               *_pNoStateSortTransRoot;
 

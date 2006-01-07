@@ -487,13 +487,11 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         if(_bSortTrans && pMat->isTransparent())
         {
             DrawTreeNode *pNewElem = _pNodeFactory->create();
-    
             Pnt3f         objPos;
-                
             getActNode()->getVolume().getCenter(objPos);
-            
+
             _currMatrix.second.mult(objPos);
-                
+
             pNewElem->setNode       (getActNode());
                 
             pNewElem->setGeometry   (pGeo);
@@ -502,7 +500,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setState      (pState);
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
-    
+
             if(pMPMat != NULL)
             {
                 if(mpi == mpMatPasses-1)
@@ -512,62 +510,17 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             }
 
             if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
-                _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+            {
+                TransSortMap ts;
+                _pTransMatRoots.insert(std::make_pair(sortKey, ts));
+            }
 
-            if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-            {
-                _pTransMatRoots[sortKey]->addChild(pNewElem);
-                if(pMPMat != NULL)
-                    pLastMultiPass = pNewElem;
-            }
+            TransSortMap &ts = _pTransMatRoots[sortKey];
+            TransSortMap::iterator it = ts.find(pNewElem->getScalar());
+            if(it == ts.end())
+                ts.insert(std::make_pair(pNewElem->getScalar(), pNewElem));
             else
-            {
-                if(mpi > 0)
-                {
-                    // we only sort the first multipass geometrie and append the others!
-                    if(pLastMultiPass != NULL)
-                        pLastMultiPass->addChild(pNewElem); 
-                }
-                else
-                {
-                    DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-                    DrawTreeNode *pLast    = NULL;
-                    bool          bFound   = false;
-        
-                    do
-                    {
-        
-                        if(pNewElem->getScalar() > pCurrent->getScalar())
-                        {
-                            pLast    = pCurrent;
-                            pCurrent = pCurrent->getBrother();
-                        }
-                        else
-                        {
-                            bFound = true;
-                        }
-        
-                    } while(bFound   == false && 
-                            pCurrent != NULL    );
-                    
-                    
-                    if(bFound == true)
-                    {
-                        if(pLast == NULL)
-                        {
-                            _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                        }
-                        else
-                        {
-                            _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                        }
-                    }
-                    else
-                    {
-                        _pTransMatRoots[sortKey]->addChild(pNewElem);
-                    }
-                }
-            }
+                (*it).second->addChild(pNewElem);
 
             _uiNumTransGeometries++;
         }
@@ -739,63 +692,18 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     }
         
                     if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
-                        _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+                    {
+                        TransSortMap ts;
+                        _pTransMatRoots.insert(std::make_pair(sortKey, ts));
+                    }
         
-                    if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-                    {
-                        _pTransMatRoots[sortKey]->addChild(pNewElem);
-                        if(pMPMat != NULL)
-                            pLastMultiPass = pNewElem;
-                    }
+                    TransSortMap &ts = _pTransMatRoots[sortKey];
+                    TransSortMap::iterator it = ts.find(pNewElem->getScalar());
+                    if(it == ts.end())
+                        ts.insert(std::make_pair(pNewElem->getScalar(), pNewElem));
                     else
-                    {
-                        if(mpi > 0)
-                        {
-                            // we only sort the first multipass geometrie and append the others!
-                            if(pLastMultiPass != NULL)
-                                pLastMultiPass->addChild(pNewElem); 
-                        }
-                        else
-                        {
-                            DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-                            DrawTreeNode *pLast    = NULL;
-                            bool          bFound   = false;
-                
-                            do
-                            {
-                
-                                if(pNewElem->getScalar() > pCurrent->getScalar())
-                                {
-                                    pLast    = pCurrent;
-                                    pCurrent = pCurrent->getBrother();
-                                }
-                                else
-                                {
-                                    bFound = true;
-                                }
-                
-                            } while(bFound   == false && 
-                                    pCurrent != NULL    );
-                            
-                            
-                            if(bFound == true)
-                            {
-                                if(pLast == NULL)
-                                {
-                                    _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                                }
-                                else
-                                {
-                                    _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                                }
-                            }
-                            else
-                            {
-                                _pTransMatRoots[sortKey]->addChild(pNewElem);
-                            }
-                            pLastMultiPass = pNewElem;
-                        }
-                    }
+                        (*it).second->addChild(pNewElem);
+
                     _uiNumTransGeometries++;
                 }
                 else
@@ -879,13 +787,11 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         if(_bSortTrans && pMat->isTransparent())
         {
             DrawTreeNode *pNewElem = _pNodeFactory->create();
-
             Pnt3f         objPos;
-                
             getActNode()->getVolume().getCenter(objPos);
-            
+
             _currMatrix.second.mult(objPos);
-                
+
             pNewElem->setNode       (getActNode());
                 
             pNewElem->setFunctor    (func);
@@ -904,63 +810,17 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             }
 
             if(_pTransMatRoots.find(sortKey) == _pTransMatRoots.end())
-                _pTransMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+            {
+                TransSortMap ts;
+                _pTransMatRoots.insert(std::make_pair(sortKey, ts));
+            }
 
-            if(_pTransMatRoots[sortKey]->getFirstChild() == NULL)
-            {
-                _pTransMatRoots[sortKey]->addChild(pNewElem);
-                if(pMPMat != NULL)
-                    pLastMultiPass = pNewElem;
-            }
+            TransSortMap &ts = _pTransMatRoots[sortKey];
+            TransSortMap::iterator it = ts.find(pNewElem->getScalar());
+            if(it == ts.end())
+                ts.insert(std::make_pair(pNewElem->getScalar(), pNewElem));
             else
-            {
-                if(mpi > 0)
-                {
-                    // we only sort the first multipass geometrie and append the others!
-                    if(pLastMultiPass != NULL)
-                        pLastMultiPass->addChild(pNewElem); 
-                }
-                else
-                {
-                    DrawTreeNode *pCurrent = _pTransMatRoots[sortKey]->getFirstChild();
-                    DrawTreeNode *pLast    = NULL;
-                    bool          bFound   = false;
-        
-                    do
-                    {
-        
-                        if(pNewElem->getScalar() > pCurrent->getScalar())
-                        {
-                            pLast    = pCurrent;
-                            pCurrent = pCurrent->getBrother();
-                        }
-                        else
-                        {
-                            bFound = true;
-                        }
-        
-                    } while(bFound   == false && 
-                            pCurrent != NULL    );
-                    
-                    
-                    if(bFound == true)
-                    {
-                        if(pLast == NULL)
-                        {
-                            _pTransMatRoots[sortKey]->insertFirstChild(       pNewElem);
-                        }
-                        else
-                        {
-                            _pTransMatRoots[sortKey]->insertChildAfter(pLast, pNewElem);
-                        }
-                    }
-                    else
-                    {
-                        _pTransMatRoots[sortKey]->addChild(pNewElem);
-                    }
-                    pLastMultiPass = pNewElem;
-                }
-            }
+                (*it).second->addChild(pNewElem);
 
             _uiNumTransGeometries++;
         }
@@ -1765,7 +1625,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
 
     SortKeyMap::iterator matRootsIt = _pMatRoots.begin();
-    SortKeyMap::iterator transMatRootsIt = _pTransMatRoots.begin();
+    TransSortKeyMap::iterator transMatRootsIt = _pTransMatRoots.begin();
 
     while(matRootsIt != _pMatRoots.end() ||
           transMatRootsIt != _pTransMatRoots.end())
@@ -1786,7 +1646,9 @@ Action::ResultE RenderAction::stop(ResultE res)
                 glDepthMask(false);
         
             //printf("_pTransMatRoots: sortKey %d\n", (*transMatRootsIt).first);
-            draw((*transMatRootsIt).second->getFirstChild());
+            TransSortMap &ts = (*transMatRootsIt).second;
+            for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
+                draw((*it).second);
 
             if(!_bZWriteTrans)
                 glDepthMask(true);
