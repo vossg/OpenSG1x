@@ -211,6 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void handleGL(Window* win, UInt32 id);
 
     void onCreate(const Geometry *source = NULL);
+    void onDestroy(void);
 
     bool CompareMaterials(MaterialPtr m1, MaterialPtr m2);
     Int16 MergeIndex( const GeometryPtr other );
