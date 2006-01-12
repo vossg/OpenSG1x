@@ -696,6 +696,20 @@ Real32 setVecLen(Vec3f &vec, Real32 length)
     return length;
 }
 
+Real32 calcTexS(Vec3f &n, Real32 theta)
+{
+    const Real32 TwoPi  = 6.283185307179586;
+    const Real32 HalfPi = 1.570796326794897;
+    
+    Real32 phi = osgatan2(-n[2], n[0]) - HalfPi;
+
+    if (phi <= -Eps)
+        phi += TwoPi;
+    phi /= TwoPi;
+    
+    return phi;
+}
+
 void addPoint(Pnt3f v, UInt32 index, Real32 radius,
               GeoPositions3f::StoredFieldType *p,
               GeoNormals3f::StoredFieldType   *n,
@@ -715,13 +729,7 @@ void addPoint(Pnt3f v, UInt32 index, Real32 radius,
     texCoord[1] = (Pi - osgacos(norm[1])) / Pi;
 
     // Phi -> u
-    Real32 phi = osgatan2(-norm[2], norm[0]);
-
-    if (phi <= -Eps)
-        phi += (2 * Pi);
-    phi /= (2 * Pi);
-
-    texCoord[0] = phi;
+    texCoord[0] = calcTexS(norm, texCoord[1]);
 
     tx->push_back(texCoord);
 }
@@ -806,8 +814,9 @@ NodePtr OSG::makeSphere(UInt16 depth, Real32 radius)
 
 GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 {
-    #define X .525731112119133606
-    #define Z .850650808352039932   
+    const Real32 X = .525731112119133606;
+    const Real32 Z = .850650808352039932;
+    const Real32 HalfPi = 1.570796326794897;
 
     GeoPositions3fPtr   pnts  = GeoPositions3f::create();
     GeoNormals3fPtr     norms = GeoNormals3f::create();
@@ -817,20 +826,20 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     GeoPTypesPtr        types = GeoPTypesUI8::create();     
     UInt32              j,z;
    
-    static Vec3f v[12] = {  Vec3f(-X, 0.,  Z),
-                            Vec3f( X, 0.,  Z),
-                            Vec3f(-X, 0., -Z),
-                            Vec3f( X, 0., -Z),
-                            Vec3f(0.,  Z,  X),
-                            Vec3f(0.,  Z, -X),
-                            Vec3f(0., -Z,  X),
-                            Vec3f(0., -Z, -X),
-                            Vec3f( Z,  X, 0.),
-                            Vec3f(-Z,  X, 0.),
-                            Vec3f( Z, -X, 0.),
-                            Vec3f(-Z, -X, 0.)  };
+    Vec3f v[12] = { Vec3f(-X, 0.,  Z),
+                    Vec3f( X, 0.,  Z),
+                    Vec3f(-X, 0., -Z),
+                    Vec3f( X, 0., -Z),
+                    Vec3f(0.,  Z,  X),
+                    Vec3f(0.,  Z, -X),
+                    Vec3f(0., -Z,  X),
+                    Vec3f(0., -Z, -X),
+                    Vec3f( Z,  X, 0.),
+                    Vec3f(-Z,  X, 0.),
+                    Vec3f( Z, -X, 0.),
+                    Vec3f(-Z, -X, 0.)  };
 
-    Quaternion q(Vec3f(0,1,0), osgacos(Z));
+    Quaternion q(Vec3f(0,1,0), osgacos(Z) + HalfPi);
     Matrix mat;
 
     mat.setTransform(q);
@@ -881,13 +890,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         texCoord[1] = (Pi - osgacos(norm[1])) / Pi;
 
         // Phi -> u
-        Real32 phi = osgatan2(-norm[2], norm[0]);
-
-        if (phi <= -Eps)
-            phi += (2 * Pi);
-        phi /= (2 * Pi);
-
-        texCoord[0] = phi;
+        texCoord[0] = calcTexS(norm, texCoord[1]);
 
         tx->push_back(texCoord);
     }
@@ -928,8 +931,14 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
 
     endEditCP(geo);
 
-    // now check triangles
+    // now check triangles: after having created all vertices,
+    // make sure, that border vertices, intersecting the x=0 plane
+    // in the negative halfspace of the z=0 plane, have duplicate 
+    // texture coordinates (with tex.s=1 for triangles with x>=0)
     beginEditCP(geo);
+    
+    beginEditCP(tex);
+    beginEditCP(index);
 
     for (TriangleIterator ti = geo->beginTriangles();
                           ti != geo->endTriangles(); ++ti)
@@ -939,23 +948,26 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
         q[1] = ti.getNormal(1);
         q[2] = ti.getNormal(2);
 
-        if  ( (osgabs(q[0][2]) <= 0.01 && q[0][0] >= -Eps) ||
-              (osgabs(q[1][2]) <= 0.01 && q[1][0] >= -Eps) ||
-              (osgabs(q[2][2]) <= 0.01 && q[2][0] >= -Eps) )
+        // check if one triangle point lies on this border
+        if  ( (osgabs(q[0][0]) <= 0.01 && q[0][2] <= Eps) ||
+              (osgabs(q[1][0]) <= 0.01 && q[1][2] <= Eps) ||
+              (osgabs(q[2][0]) <= 0.01 && q[2][2] <= Eps) )
         {
             for (UInt16 i=0; i<3; i++)
             {
                 Vec3f norm(q[i]);
 
-                if (osgabs(norm[2]) <= Eps && norm[0] >= -Eps)
+                if (osgabs(norm[0]) <= Eps && norm[2] <= Eps)
                 {
-                    Real32 theta = (Pi - osgacos(norm[1])) / Pi;
-                    
-                    if ( !(q[0][2] < -Eps || q[1][2] < -Eps || q[2][2] < -Eps) )
+                    //Real32 theta = (Pi - osgacos(norm[1])) / Pi;
+                    Real32 theta = ti.getTexCoords(i).y();
+
+                    // triangle lies completely in positive halfspace of x=0 plane
+                    if ( !(q[0][0] <= -Eps || q[1][0] <= -Eps || q[2][0] <= -Eps) )
                     {
                         Vec2f texCoord(1, theta);
 
-                        if (osgabs(osgabs(norm[1]) - 1) <= Eps)
+                        if ( osgabs(osgabs(norm[1]) - 1) <= Eps )
                             texCoord[0] = 0.5;
     
                         tex->push_back(texCoord);
@@ -966,7 +978,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
                     {
                         Vec2f texCoord(0, theta);
 
-                        if (osgabs(osgabs(norm[1]) - 1) <= Eps)
+                        if ( osgabs(osgabs(norm[1]) - 1) <= Eps )
                             texCoord[0] = 0.5;
     
                         tex->push_back(texCoord);
@@ -977,6 +989,9 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
             }
         }
     }
+    
+    endEditCP(tex);
+    endEditCP(index);
     
     endEditCP(geo);
 
