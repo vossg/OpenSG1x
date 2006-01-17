@@ -343,8 +343,16 @@ void MergeGraphOp::processGroups(NodePtr& node)
                             endEditCP(geo);
                             toAdd.push_back(*it2);                            
                         }
-                    } else empty=false;
-                } else empty=false;                
+                    } 
+                    else 
+                    {
+                        empty=false;
+                    }
+                } 
+                else 
+                {
+                    empty=false;
+                }                
             }
             
             if (empty) toSub.push_back(*it);
@@ -486,10 +494,10 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                     beginEditCP( texcoord0 );
                                     for (UInt32 i=0; i<texcoord0->getSize(); i++)
                                     {
-                                        Vec3f v=texcoord0->getField().getValue(i);
+                                        Vec3f v=texcoord0->getField()[i];
                                         m.multMatrixVec(v);
                                         v.normalize();
-                                        texcoord0->getField().setValue(v,i);
+                                        texcoord0->getField()[i] = v;
                                     }
                                     endEditCP( texcoord0 );
                                 }
@@ -499,10 +507,10 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                     beginEditCP( texcoord1 );
                                     for (UInt32 i=0; i<texcoord1->getSize(); i++)
                                     {
-                                        Vec3f v=texcoord1->getField().getValue(i);
+                                        Vec3f v=texcoord1->getField()[i];
                                         m.multMatrixVec(v);
                                         v.normalize();
-                                        texcoord1->getField().setValue(v,i);
+                                        texcoord1->getField()[i] = v;
                                     }
                                     endEditCP( texcoord1 );
                                 }
@@ -512,10 +520,10 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                     beginEditCP( texcoord2 );
                                     for (UInt32 i=0; i<texcoord2->getSize(); i++)
                                     {
-                                        Vec3f v=texcoord2->getField().getValue(i);
+                                        Vec3f v=texcoord2->getField()[i];
                                         m.multMatrixVec(v);
                                         v.normalize();
-                                        texcoord2->getField().setValue(v,i);
+                                        texcoord2->getField()[i] = v;
                                     }
                                     endEditCP( texcoord2 );
                                 }
@@ -525,10 +533,10 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                     beginEditCP( texcoord3 );
                                     for (UInt32 i=0; i<texcoord3->getSize(); i++)
                                     {
-                                        Vec3f v=texcoord3->getField().getValue(i);
+                                        Vec3f v=texcoord3->getField()[i];
                                         m.multMatrixVec(v);
                                         v.normalize();
-                                        texcoord3->getField().setValue(v,i);
+                                        texcoord3->getField()[i] = v;
                                     }
                                     endEditCP( texcoord3 );
                                 }
