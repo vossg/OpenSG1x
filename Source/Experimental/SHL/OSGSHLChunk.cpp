@@ -358,6 +358,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
     if(!win->hasExtension(_shl_extension))
     {
         FWARNING(("OpenGL Shading Language is not supported, couldn't find extension 'GL_ARB_shading_language_100'!\n"));
+        win->setGLObjectId(getGLId(), 0);
         return;
     }
 
@@ -1298,7 +1299,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.42 2005/12/19 12:04:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.43 2006/01/18 12:40:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
