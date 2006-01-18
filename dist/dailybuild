@@ -794,7 +794,7 @@ export LD_LIBRARY_PATH="`pwd`/lib/dbg:$LD_LIBRARY_PATH"
 case $system in
 
     * )    
-                        tar cf - lib include | gzip -9f > $out_html.snapshot.tgz
+                        tar cf - bin lib include | gzip -9f > $out_html.snapshot.tgz
                         ;;
 esac
 
