@@ -1977,12 +1977,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
 */
 void Image::clear(UChar8 pixelValue)
 {
-    unsigned long   n = getSize();
-    UChar8          *d = getData();
-
-    if(n && d)
-        while(n--)
-            *d++ = pixelValue;
+    memset(getData(),pixelValue,getSize());
 }
 
 void Image::clearFloat(Real32 pixelValue)
