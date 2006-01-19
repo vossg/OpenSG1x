@@ -90,6 +90,14 @@ bool mergeRGBA ( ImagePtr rgb,
                  ImagePtr alpha,
                  ImagePtr rgba);
 
+OSG_SYSTEMLIB_DLLMAPPING
+bool blendImage ( ImagePtr canvas, 
+                  ImagePtr brush,
+                  Vec3f    position,
+                  Color4f  color, 
+                  Real32   alphaScale = 1,
+                  Real32   paintZ  = 0 );
+
 OSG_SYSTEMLIB_DLLMAPPING 
 bool createPhongTexture ( ImagePtr image,
                           UInt32   size = 512,

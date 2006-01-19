@@ -60,14 +60,13 @@ OSG_USING_NAMESPACE
  *                            Description                                  *
 \***************************************************************************/
 
-
 //---------------------------------------------------------------------------//
 /*! composes multiple images to one */
 
 OSG_SYSTEMLIB_DLLMAPPING
-bool createComposedImage ( std::vector<ImagePtr> imageVec,
-                           ImagePtr              image,
-                           SliceDataType         sliceDataType )
+bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
+                                ImagePtr              image,
+                                SliceDataType         sliceDataType )
 {
   UInt32 dataSize, i, n = imageVec.size();
   Int32 w, h;
@@ -708,6 +707,160 @@ bool OSG::mergeRGBA(ImagePtr rgb,
     //rgba->dump();
 
     return true;
+}
+
+//---------------------------------------------------------------------------//
+/*! blend the brush on the canvas image */
+
+OSG_SYSTEMLIB_DLLMAPPING
+bool OSG::blendImage ( ImagePtr canvas, 
+                       ImagePtr brush,
+                       Vec3f    position,
+                       Color4f  color, 
+                       Real32   alphaScale,
+                       Real32   paintZ )
+{
+  int x,y,z;
+  int red = 0, green = 0, blue = 0, grey = 0;
+  int alpha = 0;
+  osg::UChar8 *s = 0, *d = 0;
+  
+  osg::beginEditCP(canvas);
+  
+  osg::UChar8 *src  = brush->getData();
+  osg::UChar8 *dest = canvas->getData();
+  
+  const float cred   = color.red();
+  const float cgreen = color.green();
+  const float cblue  = color.blue();
+  const float calpha = color.alpha();
+  const float talpha = alphaScale;
+
+  const int cPF = canvas->getPixelFormat();
+  const int bPF = brush->getPixelFormat();
+
+  const int cBpp = canvas->getBpp();
+  const int bBpp = brush->getBpp();
+
+  const int bW = brush->getWidth();
+  const int bH = brush->getHeight();
+  const int bD = brush->getDepth();
+
+  const int cW = canvas->getWidth();
+  const int cH = canvas->getHeight();
+  const int cD = canvas->getDepth();
+  
+  const int xcOff = int(position.x());
+  const int ycOff = int(position.y());
+  const int zcOff = int(position.z());
+
+  // canvas->setSubData (xcOff,ycOff,zcOff,bW,bH,bD,src);
+
+  const int xcMin = osg::osgMax(0, xcOff);
+  const int ycMin = osg::osgMax(0, ycOff);
+  const int zcMin = osg::osgMax(0, zcOff);
+  
+  const int xcMax = osg::osgMin(cW, xcOff + bW);
+  const int ycMax = osg::osgMin(cH, ycOff + bH);
+  const int zcMax = osg::osgMin(cD, zcOff + bD);
+
+  const int width  = (xcMax - xcMin);
+  const int height = (ycMax - ycMin);
+  const int depth  = (zcMax - zcMin);
+  
+  int xbMin = xcOff < 0 ? -xcOff : 0;
+  int ybMin = ycOff < 0 ? -ycOff : 0;
+  int zbMin = zcOff < 0 ? -zcOff : 0;
+
+  //select slice for volume brush
+  if ((bD > 1) && (depth == 1)) {
+    z = int(osg::osgabs(paintZ) * (bD - 1)) % bD;
+    src += bW * bH * bBpp * z;    
+    zbMin = 0;
+  }
+
+  for (z = 0; z < depth; z++) {
+    for (y = 0; y < height; y++){
+      d = dest + ( ((z+zcMin) * cH + (y+ycMin)) * cW + xcMin) * cBpp;
+      s = src  + ( ((z+zbMin) * bH + (y+ybMin)) * bW + xbMin) * bBpp;
+      for (x = 0; x < width; x++) {
+        switch ( bPF ) {
+        case OSG::Image::OSG_I_PF:
+          grey  = *s++;
+          red   = int(cred   * grey);
+          green = int(cgreen * grey);
+          blue  = int(cblue  * grey);
+          alpha = int(calpha * grey);
+          break;
+        case osg::Image::OSG_L_PF:
+          grey  = *s++;
+          red   = int(cred   * grey);
+          green = int(cgreen * grey);
+          blue  = int(cblue  * grey);
+          alpha = int(calpha * 255);
+          break;
+        case osg::Image::OSG_LA_PF:
+          grey  = *s++;
+          red   = int(cred   * grey);
+          green = int(cgreen * grey);
+          blue  = int(cblue  * grey);
+          alpha = int(calpha * *s++);
+          break;
+        case osg::Image::OSG_RGB_PF:
+          red   = *s++;
+          green = *s++;
+          blue  = *s++;
+          grey  = green; // FIXME
+          alpha = 255;          
+          break;
+        case osg::Image::OSG_RGBA_PF:
+          red   = *s++;
+          green = *s++;
+          blue  = *s++;
+          grey  = green; // FIXME
+          alpha = *s++;
+          break;
+        default:
+          FFATAL (("Invalid Brush PixelFormat\n"));
+          brush->dump();
+          break;
+          return false;
+        }
+        alpha = int(talpha * alpha);
+        switch ( cPF ) {
+        case osg::Image::OSG_I_PF:
+          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
+          break;
+        case osg::Image::OSG_L_PF:
+          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
+          break;
+        case osg::Image::OSG_LA_PF:
+          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
+          d++;
+          break;
+        case osg::Image::OSG_RGB_PF:
+          *d++  = int(*d * (255 - alpha) + red   * alpha) / 255;
+          *d++  = int(*d * (255 - alpha) + green * alpha) / 255;
+          *d++  = int(*d * (255 - alpha) + blue  * alpha) / 255;
+          break;
+        case osg::Image::OSG_RGBA_PF:
+          *d++  = int(*d * (255 - alpha) + red   * alpha) / 255;
+          *d++  = int(*d * (255 - alpha) + green * alpha) / 255;
+          *d++  = int(*d * (255 - alpha) + blue  * alpha) / 255;
+          d++;
+          break;
+        default:
+          FFATAL (("Invalid Canvas PixelFormat\n"));
+          canvas->dump();
+          break;
+          return false;
+        }
+      }
+    }
+  }
+  osg::endEditCP(canvas);
+
+  return true;
 }
 
 //---------------------------------------------------------------------------//
