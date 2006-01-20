@@ -85,11 +85,11 @@ BitVector RenderOptions::getChanged( void )
 
 void RenderOptions::activateOptions(RenderAction *action)
 {
-    if(_changed && PolygonModeFieldMask)
+    if(_changed & PolygonModeFieldMask)
     {
         glPolygonMode(GL_FRONT_AND_BACK, getPolygonMode());
     }
-    if(_changed && BackfaceCullingFieldMask)
+    if(_changed & BackfaceCullingFieldMask)
     {
         if(getBackfaceCulling())
         {
