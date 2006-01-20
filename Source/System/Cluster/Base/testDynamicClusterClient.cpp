@@ -5,7 +5,7 @@
 // 
 // To test it, run 
 //   ./testClusterServer -w pipe0 &
-//   ./testClusterClient pipe0
+//   ./testDynamicClusterClient pipe0
 //
 // press 'c' to connect to the servers and 'd' to disconnect. 
 
@@ -178,12 +178,27 @@ void display(void)
     // redraw the client window
     _mgr->redraw();
 
-    if(_cluster_win != NullFC)
+    try
     {
-        // redraw the server windows
-        _cluster_win->render((RenderAction *) _mgr->getAction());
+        if(_cluster_win != NullFC)
+        {
+            // redraw the server windows
+            _cluster_win->render((RenderAction *) _mgr->getAction());
+        }
     }
     
+    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+    {
+        //printf("error: '%s'\n", e.what());
+        printf("ClusterServer was killed!\n");
+        ViewportPtr vp = _cluster_win->getPort(0);
+        subRefCP(_cluster_win);
+        _cluster_win = NullFC;
+
+        if(vp != NullFC)
+            subRefCP(vp);
+    } 
+
     // merge all created, addRefd, subRefd, destroyed into the created list.
     ChangeList *cl = OSG::Thread::getCurrentChangeList();
     RemoteAspect::storeChangeList(cl);
