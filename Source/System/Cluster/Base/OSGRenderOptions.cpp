@@ -8,6 +8,7 @@
 #include <stdio.h>
 
 #include <OSGConfig.h>
+#include <OSGGLEXT.h>
 
 #include "OSGRenderOptions.h"
 #include "OSGRenderAction.h"
