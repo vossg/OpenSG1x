@@ -39,8 +39,10 @@
 #include <OSGSimpleAttachments.h>
 #include <OSGColorBufferViewport.h>
 
+#ifdef OSG_COMPOSER_SUPPORT
 #include <OSGPipelineComposer.h>
 #include <OSGBinarySwapComposer.h>
+#endif
 
 OSG_USING_NAMESPACE
 
@@ -1312,10 +1314,12 @@ int main(int argc,char **argv)
                         beginEditCP(icPtr);
                         if(subtilesize>0)
                         {
+#ifdef OSG_COMPOSER_SUPPORT
                             if(PipelineComposerPtr::dcast(icPtr) != NullFC)
                                 PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
                             if(BinarySwapComposerPtr::dcast(icPtr) != NullFC)
                                 BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+#endif
                         }
                         icPtr->setStatistics(info);
 //                        icPtr->setShort(false);
