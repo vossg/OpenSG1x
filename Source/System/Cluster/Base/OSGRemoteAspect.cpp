@@ -830,6 +830,34 @@ RemoteAspect::clStoreMap &RemoteAspect::getStore(void)
     return _clStore;
 }
 
+void RemoteAspect::createCurrentStateChangeList(const FieldContainerPtr &start, ChangeList *cl)
+{
+    if(cl == NULL)
+        return;
+
+    cl->clearAll();
+    const std::vector<FieldContainerPtr> &fcs = *FieldContainerFactory::the()->getFieldContainerStore();
+
+    bool found_start = false;
+    for(unsigned int i=0;i<fcs.size();++i)
+    {
+        FieldContainerPtr fc = fcs[i];
+        if(fc != NullFC)
+        {
+            if(fc == start)
+                found_start = true;
+
+            if(found_start)
+            {
+                cl->addCreated(fc.getFieldContainerId());
+                for(UInt32 j=0;j<fc.getRefCount();++j)
+                    cl->addAddRefd(fc);
+                cl->addChanged(fc, FieldBits::AllFields);
+            }
+        }
+    } 
+}
+
 /*-------------------------------------------------------------------------*/
 /*                          statistics                                     */
 

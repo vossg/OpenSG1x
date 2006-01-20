@@ -127,6 +127,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     typedef clStoreMap::iterator clStoreIt;
     static clStoreMap &getStore     (void            );
 
+    static void createCurrentStateChangeList(const FieldContainerPtr &start,
+                                             ChangeList *cl);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Statistics                                 */
