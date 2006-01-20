@@ -28,6 +28,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
     void      setWireframe   (bool value          );
     bool      getWireframe   (void                );
     BitVector getChanged     (void                );
+    BitVector getLastChanged (void                );
     void      activateOptions(RenderAction *action);
 
   protected:
@@ -38,6 +39,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
     virtual ~RenderOptions(void);
 
     BitVector _changed;
+    BitVector _last_changed;
 
   private:
 

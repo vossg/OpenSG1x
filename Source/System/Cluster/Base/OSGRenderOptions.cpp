@@ -22,7 +22,9 @@ OSG_USING_NAMESPACE
  * \return
  */
 RenderOptions::RenderOptions(void) :
-    Inherited()
+    Inherited(),
+    _changed(0),
+    _last_changed(0)
 {
 }
 
@@ -32,7 +34,9 @@ RenderOptions::RenderOptions(void) :
  * \return
  */
 RenderOptions::RenderOptions(const RenderOptions &source) :
-    Inherited(source)
+    Inherited(source),
+    _changed(source._changed),
+    _last_changed(source._last_changed)
 {
 }
 
@@ -81,6 +85,11 @@ bool RenderOptions::getWireframe( void )
 BitVector RenderOptions::getChanged( void )
 {
     return _changed;
+}
+
+BitVector RenderOptions::getLastChanged( void )
+{
+    return _last_changed;
 }
 
 void RenderOptions::activateOptions(RenderAction *action)
@@ -140,5 +149,6 @@ void RenderOptions::activateOptions(RenderAction *action)
                 glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SINGLE_COLOR);
         } 
     }
+    _last_changed = _changed;
     _changed = 0;
 }
