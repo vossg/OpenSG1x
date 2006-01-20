@@ -67,9 +67,8 @@
 
 #include <OSGAttachment.h> // Parent
 
-#include <OSGUInt32Fields.h> // Changed type
 #include <OSGBoolFields.h> // Statistic type
-#include <OSGBoolFields.h> // Wireframe type
+#include <OSGGLenumFields.h> // PolygonMode type
 #include <OSGBoolFields.h> // TwoSidedLighting type
 #include <OSGBoolFields.h> // SpecTexLighting type
 #include <OSGBoolFields.h> // SortTrans type
@@ -105,10 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
 
     enum
     {
-        ChangedFieldId                 = Inherited::NextFieldId,
-        StatisticFieldId               = ChangedFieldId                 + 1,
-        WireframeFieldId               = StatisticFieldId               + 1,
-        TwoSidedLightingFieldId        = WireframeFieldId               + 1,
+        StatisticFieldId               = Inherited::NextFieldId,
+        PolygonModeFieldId             = StatisticFieldId               + 1,
+        TwoSidedLightingFieldId        = PolygonModeFieldId             + 1,
         SpecTexLightingFieldId         = TwoSidedLightingFieldId        + 1,
         SortTransFieldId               = SpecTexLightingFieldId         + 1,
         ZWriteTransFieldId             = SortTransFieldId               + 1,
@@ -123,9 +121,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         NextFieldId                    = BackfaceCullingFieldId         + 1
     };
 
-    static const OSG::BitVector ChangedFieldMask;
     static const OSG::BitVector StatisticFieldMask;
-    static const OSG::BitVector WireframeFieldMask;
+    static const OSG::BitVector PolygonModeFieldMask;
     static const OSG::BitVector TwoSidedLightingFieldMask;
     static const OSG::BitVector SpecTexLightingFieldMask;
     static const OSG::BitVector SortTransFieldMask;
@@ -164,9 +161,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFChanged        (void);
            SFBool              *getSFStatistic      (void);
-           SFBool              *getSFWireframe      (void);
+           SFGLenum            *getSFPolygonMode    (void);
            SFBool              *getSFTwoSidedLighting(void);
            SFBool              *getSFSpecTexLighting(void);
            SFBool              *getSFSortTrans      (void);
@@ -180,12 +176,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFUInt32            *getSFAntialiasingTrigger(void);
            SFBool              *getSFBackfaceCulling(void);
 
-           UInt32              &getChanged        (void);
-     const UInt32              &getChanged        (void) const;
            bool                &getStatistic      (void);
      const bool                &getStatistic      (void) const;
-           bool                &getWireframe      (void);
-     const bool                &getWireframe      (void) const;
+           GLenum              &getPolygonMode    (void);
+     const GLenum              &getPolygonMode    (void) const;
            bool                &getTwoSidedLighting(void);
      const bool                &getTwoSidedLighting(void) const;
            bool                &getSpecTexLighting(void);
@@ -216,9 +210,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setChanged        ( const UInt32 &value );
      void setStatistic      ( const bool &value );
-     void setWireframe      ( const bool &value );
+     void setPolygonMode    ( const GLenum &value );
      void setTwoSidedLighting( const bool &value );
      void setSpecTexLighting( const bool &value );
      void setSortTrans      ( const bool &value );
@@ -273,9 +266,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFUInt32            _sfChanged;
     SFBool              _sfStatistic;
-    SFBool              _sfWireframe;
+    SFGLenum            _sfPolygonMode;
     SFBool              _sfTwoSidedLighting;
     SFBool              _sfSpecTexLighting;
     SFBool              _sfSortTrans;
@@ -365,6 +357,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.1 2006/01/20 10:39:48 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.2 2006/01/20 15:33:44 mroth Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

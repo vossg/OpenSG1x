@@ -61,17 +61,15 @@
 #include "OSGRenderOptionsBase.h"
 #include "OSGRenderOptions.h"
 
+#include <OSGGL.h>                        // PolygonMode default header
 
 OSG_USING_NAMESPACE
-
-const OSG::BitVector  RenderOptionsBase::ChangedFieldMask = 
-    (TypeTraits<BitVector>::One << RenderOptionsBase::ChangedFieldId);
 
 const OSG::BitVector  RenderOptionsBase::StatisticFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::StatisticFieldId);
 
-const OSG::BitVector  RenderOptionsBase::WireframeFieldMask = 
-    (TypeTraits<BitVector>::One << RenderOptionsBase::WireframeFieldId);
+const OSG::BitVector  RenderOptionsBase::PolygonModeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::PolygonModeFieldId);
 
 const OSG::BitVector  RenderOptionsBase::TwoSidedLightingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::TwoSidedLightingFieldId);
@@ -116,13 +114,10 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var UInt32          RenderOptionsBase::_sfChanged
-    
-*/
 /*! \var bool            RenderOptionsBase::_sfStatistic
     
 */
-/*! \var bool            RenderOptionsBase::_sfWireframe
+/*! \var GLenum          RenderOptionsBase::_sfPolygonMode
     
 */
 /*! \var bool            RenderOptionsBase::_sfTwoSidedLighting
@@ -166,21 +161,16 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 
 FieldDescription *RenderOptionsBase::_desc[] = 
 {
-    new FieldDescription(SFUInt32::getClassType(), 
-                     "changed", 
-                     ChangedFieldId, ChangedFieldMask,
-                     false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFChanged),
     new FieldDescription(SFBool::getClassType(), 
                      "statistic", 
                      StatisticFieldId, StatisticFieldMask,
                      false,
                      (FieldAccessMethod) &RenderOptionsBase::getSFStatistic),
-    new FieldDescription(SFBool::getClassType(), 
-                     "wireframe", 
-                     WireframeFieldId, WireframeFieldMask,
+    new FieldDescription(SFGLenum::getClassType(), 
+                     "polygonMode", 
+                     PolygonModeFieldId, PolygonModeFieldMask,
                      false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFWireframe),
+                     (FieldAccessMethod) &RenderOptionsBase::getSFPolygonMode),
     new FieldDescription(SFBool::getClassType(), 
                      "twoSidedLighting", 
                      TwoSidedLightingFieldId, TwoSidedLightingFieldMask,
@@ -316,9 +306,8 @@ void RenderOptionsBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 RenderOptionsBase::RenderOptionsBase(void) :
-    _sfChanged                (UInt32(0)), 
     _sfStatistic              (bool(false)), 
-    _sfWireframe              (bool(false)), 
+    _sfPolygonMode            (GLenum(GL_FILL)), 
     _sfTwoSidedLighting       (bool(false)), 
     _sfSpecTexLighting        (bool(false)), 
     _sfSortTrans              (bool(true)), 
@@ -340,9 +329,8 @@ RenderOptionsBase::RenderOptionsBase(void) :
 #endif
 
 RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
-    _sfChanged                (source._sfChanged                ), 
     _sfStatistic              (source._sfStatistic              ), 
-    _sfWireframe              (source._sfWireframe              ), 
+    _sfPolygonMode            (source._sfPolygonMode            ), 
     _sfTwoSidedLighting       (source._sfTwoSidedLighting       ), 
     _sfSpecTexLighting        (source._sfSpecTexLighting        ), 
     _sfSortTrans              (source._sfSortTrans              ), 
@@ -371,19 +359,14 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        returnValue += _sfChanged.getBinSize();
-    }
-
     if(FieldBits::NoField != (StatisticFieldMask & whichField))
     {
         returnValue += _sfStatistic.getBinSize();
     }
 
-    if(FieldBits::NoField != (WireframeFieldMask & whichField))
+    if(FieldBits::NoField != (PolygonModeFieldMask & whichField))
     {
-        returnValue += _sfWireframe.getBinSize();
+        returnValue += _sfPolygonMode.getBinSize();
     }
 
     if(FieldBits::NoField != (TwoSidedLightingFieldMask & whichField))
@@ -455,19 +438,14 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        _sfChanged.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (StatisticFieldMask & whichField))
     {
         _sfStatistic.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (WireframeFieldMask & whichField))
+    if(FieldBits::NoField != (PolygonModeFieldMask & whichField))
     {
-        _sfWireframe.copyToBin(pMem);
+        _sfPolygonMode.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (TwoSidedLightingFieldMask & whichField))
@@ -538,19 +516,14 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-    {
-        _sfChanged.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (StatisticFieldMask & whichField))
     {
         _sfStatistic.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (WireframeFieldMask & whichField))
+    if(FieldBits::NoField != (PolygonModeFieldMask & whichField))
     {
-        _sfWireframe.copyFromBin(pMem);
+        _sfPolygonMode.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (TwoSidedLightingFieldMask & whichField))
@@ -623,14 +596,11 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-        _sfChanged.syncWith(pOther->_sfChanged);
-
     if(FieldBits::NoField != (StatisticFieldMask & whichField))
         _sfStatistic.syncWith(pOther->_sfStatistic);
 
-    if(FieldBits::NoField != (WireframeFieldMask & whichField))
-        _sfWireframe.syncWith(pOther->_sfWireframe);
+    if(FieldBits::NoField != (PolygonModeFieldMask & whichField))
+        _sfPolygonMode.syncWith(pOther->_sfPolygonMode);
 
     if(FieldBits::NoField != (TwoSidedLightingFieldMask & whichField))
         _sfTwoSidedLighting.syncWith(pOther->_sfTwoSidedLighting);
@@ -678,14 +648,11 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
 
-    if(FieldBits::NoField != (ChangedFieldMask & whichField))
-        _sfChanged.syncWith(pOther->_sfChanged);
-
     if(FieldBits::NoField != (StatisticFieldMask & whichField))
         _sfStatistic.syncWith(pOther->_sfStatistic);
 
-    if(FieldBits::NoField != (WireframeFieldMask & whichField))
-        _sfWireframe.syncWith(pOther->_sfWireframe);
+    if(FieldBits::NoField != (PolygonModeFieldMask & whichField))
+        _sfPolygonMode.syncWith(pOther->_sfPolygonMode);
 
     if(FieldBits::NoField != (TwoSidedLightingFieldMask & whichField))
         _sfTwoSidedLighting.syncWith(pOther->_sfTwoSidedLighting);
@@ -766,7 +733,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.1 2006/01/20 10:39:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.2 2006/01/20 15:33:44 mroth Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

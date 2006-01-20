@@ -58,6 +58,7 @@
 #include "OSGClusterNetwork.h"
 #include "OSGXmlpp.h"
 #include "OSGDisplayCalibration.h"
+#include "OSGRenderOptions.h"
 
 OSG_USING_NAMESPACE
 
@@ -789,7 +790,41 @@ void ClusterWindow::serverRender( WindowPtr window,
 {
     window->activate();
     window->frameInit();
-    window->renderAllViewports( action );
+
+    RenderAction *ract = dynamic_cast<RenderAction *>(action);
+    if(ract != NULL)
+    {
+        MFViewportPtr::iterator       portIt  = _mfPort.begin();
+        MFViewportPtr::const_iterator portEnd = _mfPort.end();
+        // try to find option an attachment at the window
+        OSG::RenderOptionsPtr ro = OSG::RenderOptionsPtr::dcast(
+            window->findAttachment(OSG::RenderOptions::getClassType()));
+        ract->setWindow(window.getCPtr());
+        while(portIt != portEnd)
+        {
+            // try to find option an attachment at the viewport
+            OSG::RenderOptionsPtr vpRo = OSG::RenderOptionsPtr::dcast(
+                (*portIt)->findAttachment(OSG::RenderOptions::getClassType()));
+            if(vpRo != NullFC)
+                ro = vpRo;
+            // try to find option an attachment at the root node
+            if((*portIt)->getRoot() != NullFC)
+            {
+                OSG::RenderOptionsPtr rootRo = OSG::RenderOptionsPtr::dcast(
+                    (*portIt)->getRoot()->findAttachment(OSG::RenderOptions::getClassType()));
+                if(rootRo != NullFC)
+                    ro = rootRo;
+            }
+            if(ro != NullFC)
+                ro->activateOptions(ract);
+            (*portIt)->render(ract);
+            ++portIt;
+        }
+    } else {
+        if(action)
+            window->renderAllViewports(action);
+    }
+
     // do calibration
     UInt32 c;
     DisplayCalibrationPtr calibPtr=NullFC;

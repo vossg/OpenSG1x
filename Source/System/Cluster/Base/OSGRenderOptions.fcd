@@ -12,15 +12,6 @@
 	useLocalIncludes="false"
 >
 	<Field
-		name="changed"
-		type="UInt32"
-		cardinality="single"
-		visibility="external"
-		defaultValue="0"
-		access="public"
-	>
-	</Field>
-	<Field
 		name="statistic"
 		type="bool"
 		cardinality="single"
@@ -30,11 +21,12 @@
 	>
 	</Field>
 	<Field
-		name="wireframe"
-		type="bool"
+		name="polygonMode"
+		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultValue="false"
+		defaultValue="GL_FILL"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	</Field>

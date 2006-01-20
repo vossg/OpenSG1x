@@ -96,13 +96,6 @@ RenderOptionsPtr RenderOptionsBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the RenderOptions::_sfChanged field.
-inline
-SFUInt32 *RenderOptionsBase::getSFChanged(void)
-{
-    return &_sfChanged;
-}
-
 //! Get the RenderOptions::_sfStatistic field.
 inline
 SFBool *RenderOptionsBase::getSFStatistic(void)
@@ -110,11 +103,11 @@ SFBool *RenderOptionsBase::getSFStatistic(void)
     return &_sfStatistic;
 }
 
-//! Get the RenderOptions::_sfWireframe field.
+//! Get the RenderOptions::_sfPolygonMode field.
 inline
-SFBool *RenderOptionsBase::getSFWireframe(void)
+SFGLenum *RenderOptionsBase::getSFPolygonMode(void)
 {
-    return &_sfWireframe;
+    return &_sfPolygonMode;
 }
 
 //! Get the RenderOptions::_sfTwoSidedLighting field.
@@ -202,27 +195,6 @@ SFBool *RenderOptionsBase::getSFBackfaceCulling(void)
 }
 
 
-//! Get the value of the RenderOptions::_sfChanged field.
-inline
-UInt32 &RenderOptionsBase::getChanged(void)
-{
-    return _sfChanged.getValue();
-}
-
-//! Get the value of the RenderOptions::_sfChanged field.
-inline
-const UInt32 &RenderOptionsBase::getChanged(void) const
-{
-    return _sfChanged.getValue();
-}
-
-//! Set the value of the RenderOptions::_sfChanged field.
-inline
-void RenderOptionsBase::setChanged(const UInt32 &value)
-{
-    _sfChanged.setValue(value);
-}
-
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
 bool &RenderOptionsBase::getStatistic(void)
@@ -244,25 +216,25 @@ void RenderOptionsBase::setStatistic(const bool &value)
     _sfStatistic.setValue(value);
 }
 
-//! Get the value of the RenderOptions::_sfWireframe field.
+//! Get the value of the RenderOptions::_sfPolygonMode field.
 inline
-bool &RenderOptionsBase::getWireframe(void)
+GLenum &RenderOptionsBase::getPolygonMode(void)
 {
-    return _sfWireframe.getValue();
+    return _sfPolygonMode.getValue();
 }
 
-//! Get the value of the RenderOptions::_sfWireframe field.
+//! Get the value of the RenderOptions::_sfPolygonMode field.
 inline
-const bool &RenderOptionsBase::getWireframe(void) const
+const GLenum &RenderOptionsBase::getPolygonMode(void) const
 {
-    return _sfWireframe.getValue();
+    return _sfPolygonMode.getValue();
 }
 
-//! Set the value of the RenderOptions::_sfWireframe field.
+//! Set the value of the RenderOptions::_sfPolygonMode field.
 inline
-void RenderOptionsBase::setWireframe(const bool &value)
+void RenderOptionsBase::setPolygonMode(const GLenum &value)
 {
-    _sfWireframe.setValue(value);
+    _sfPolygonMode.setValue(value);
 }
 
 //! Get the value of the RenderOptions::_sfTwoSidedLighting field.
@@ -520,5 +492,5 @@ void RenderOptionsBase::setBackfaceCulling(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.1 2006/01/20 10:39:48 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.2 2006/01/20 15:33:44 mroth Exp $"
 

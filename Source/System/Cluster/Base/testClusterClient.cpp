@@ -22,10 +22,12 @@
 #include <OSGRenderAction.h>
 #include <OSGDrawAction.h>
 #include <OSGMultiDisplayWindow.h>
+#include <OSGBalancedMultiWindow.h>
 #include <OSGSortFirstWindow.h>
 #include <OSGChunkMaterial.h>
+#include <OSGSimpleMaterial.h>
 #include <OSGPolygonChunk.h>
-#include <OSGTriangleIterator.h>
+#include <OSGGeoFunctions.h>
 #include <OSGMaterialGroup.h>
 #include <OSGSortLastWindow.h>
 #include <OSGImageComposer.h>
@@ -37,13 +39,18 @@
 #include <OSGSimpleAttachments.h>
 #include <OSGColorBufferViewport.h>
 
+#include <OSGPipelineComposer.h>
+#include <OSGBinarySwapComposer.h>
+
 OSG_USING_NAMESPACE
 
+int                      winid;
 Trackball                tball;
 int                      mouseb = 0;
 int                      lastx=0, lasty=0;
 int                      winwidth=300, winheight=300;
-NodePtr		             root;
+int                      winx=-1, winy=-1;
+NodePtr		            root;
 TransformPtr             cam_trans;
 PerspectiveCameraPtr     cam;
 ClusterWindowPtr         clusterWindow;
@@ -55,8 +62,10 @@ SortLastWindowPtr        sortlast;
 FrameInterleaveWindowPtr frameinterleave;
 #endif
 MultiDisplayWindowPtr    multidisplay;
+BalancedMultiWindowPtr   balancedmultidisplay;
 bool                     animate=false;
 int                      animLoops=-1;
+int                      frameCount=0;
 int                      animLength=30;
 bool                     multiport=false;
 float                    ca=-1,cb=-1,cc=-1;
@@ -83,7 +92,108 @@ bool                     info = false;
 std::string              connectionDestination="";
 std::string              connectionInterface="";
 OSG::SolidBackgroundPtr  bkgnd;
-UInt32                   subtilesize=32;
+Int32                    subtilesize=-1;
+
+UInt32 primitiveCount(GeometryPtr geoPtr,
+                      UInt32 &triangle,
+                      UInt32 &line,
+                      UInt32 &point)
+{
+    UInt32 lenI;
+    GeoPTypesUI8Ptr geoTypePtr;
+    GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
+    GeoPLengthsPtr lensPtr;
+
+    UInt32 lN, tN, len, type;
+
+    // TODO; should we really reset the values ?
+    triangle = line = point = 0;
+
+    if(geoPtr == OSG::NullFC)
+    {
+        FINFO(("No geo in calcPrimitiveCount\n"));
+    }
+    else
+    {
+        lensPtr = geoPtr->getLengths();
+        lN = (lensPtr == OSG::NullFC) ? 0 : lensPtr->getSize();
+
+        geoTypePtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
+        tN = (geoTypePtr == OSG::NullFC) ? 0 : geoTypePtr->getSize();
+
+        if((tN == 0) || (lN != 0 && tN != lN) || (lN == 0 && tN != 1))
+        {
+            return 0;
+        }
+
+        typeI = geoTypePtr->getField().begin();
+        lenI = 0;
+
+        endTypeI = geoTypePtr->getField().end();
+        while(typeI != endTypeI)
+        {
+            type = *typeI;
+            if(lN != 0)
+            {
+                len = lensPtr->getValue(lenI);
+            }
+            else
+            {
+                GeoPositionsPtr pos = geoPtr->getPositions();
+
+                if(pos == OSG::NullFC)
+                {
+                    FINFO(("calcPrimitiveCount: no Points!\n"));
+                    return 0;
+                }
+
+                len = pos->size();
+            }
+
+            switch(type)
+            {
+            case GL_POINTS:
+                point += len;
+                break;
+            case GL_LINES:
+                line += len / 2;
+                break;
+            case GL_LINE_LOOP:
+                line += len;
+                break;
+            case GL_LINE_STRIP:
+                line += len - 1;
+                break;
+            case GL_TRIANGLES:
+                triangle += len / 3;
+                break;
+            case GL_TRIANGLE_STRIP:
+                triangle += len - 2;
+                break;
+            case GL_TRIANGLE_FAN:
+                triangle += len - 2;
+                break;
+            case GL_QUADS:
+                triangle += len / 2;
+                break;
+            case GL_QUAD_STRIP:
+                triangle += len - 2;
+                break;
+            case GL_POLYGON:
+                triangle += len - 2;
+                break;
+            default:
+                FWARNING(("calcPrimitiveCount(): Invalid geoType: %d\n", type));
+                break;
+            }
+
+            ++typeI;
+            ++lenI;
+        }
+    }
+
+    return triangle + line + point;
+}
 
 /*! Simple show text function
  */
@@ -163,8 +273,6 @@ void displayInfo(int x, int y)
 
 void prepareSceneGraph(NodePtr &node)
 {
-    TriangleIterator f;
-
     if(!prepared)
     {
         polygonChunk = PolygonChunk::create();
@@ -194,8 +302,11 @@ void prepareSceneGraph(NodePtr &node)
             if(positionsPtr != NullFC)
                 sum_positions += positionsPtr->getSize();
             // get num triangles
-            for(f=geo->beginTriangles() ; f!=geo->endTriangles() ; ++f)
-                ++sum_triangles;
+            UInt32 triangle=0;
+            UInt32 line=0;
+            UInt32 point=0;
+            primitiveCount(geo,triangle,line,point);
+            sum_triangles += triangle;
             // sum of geometry nodes
             ++sum_geometries;
         }
@@ -256,6 +367,8 @@ void loadAnim()
 void display(void)
 {
     Time t;
+
+//    std::cout << glutGet(GLUT_WINDOW_WIDTH) << std::endl;
 
     t=-getSystemTime();
 
@@ -319,10 +432,14 @@ void display(void)
                animTime,
                t,1/t);
 
-        animTime += (animPos.size()/(float)animLength);
-        if(int(animTime)+1 >= animPos.size())
+        if(animLength > 1)
+            animTime += ((animPos.size()-1)/(float)(animLength-1));
+        printf("fc %d %d\n",frameCount,animLength);
+        frameCount++;
+        if(frameCount == animLength)
         {
             animTime = 0;
+            frameCount = 0;
 
             if(animLoops > 0)
             {
@@ -335,6 +452,7 @@ void display(void)
                 }
             }
         }
+
     }
 }
 
@@ -617,6 +735,8 @@ void init(std::vector<std::string> &filenames)
     glEnable( GL_DEPTH_TEST );
     glEnable( GL_LIGHTING );
     glEnable( GL_LIGHT0 );
+    GLint twoSide = 1;
+//    glLightModeliv(GL_LIGHT_MODEL_TWO_SIDE,&twoSide);
     glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 
     // create the graph
@@ -720,7 +840,10 @@ void init(std::vector<std::string> &filenames)
                         x*size[0]*1.1,
                         y*size[1]*1.1,
                         z*size[2]*1.1);
-                    node->addChild( osg::cloneTree(scene) );
+                    geoNode = osg::cloneTree(scene);
+                    *geoNode->getSFVolume() = *scene->getSFVolume();
+                    geoNode->getVolume(false).setValid(true);
+                    node->addChild( geoNode );
                     beginEditCP(dlight);
                     dlight->addChild(node);
                     endEditCP(dlight);
@@ -744,8 +867,9 @@ void init(std::vector<std::string> &filenames)
     }
 //    dlight->invalidateVolume();
     OSG::endEditCP(dlight);
-
+    printf("update Volume\n");
     dlight->updateVolume();
+    printf("update Volume OK\n");
 
     // should check first. ok for now.
     const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
@@ -923,18 +1047,19 @@ void init(std::vector<std::string> &filenames)
     // run...
     std::cout << size.length() << std::endl;
     cam->setFar (size.length() * 100.0);
-    cam->setNear(size.length() * 100.0 / 10000.0);
+    cam->setNear(size.length() * 100.0 / 100000.0);
 }
 
 int main(int argc,char **argv)
 {
-    int                      i,winid;
+    int                      i;
     char                    *opt;
     std::vector<std::string> filenames;
     std::vector<std::string> servers;
     std::string              connectionType = "StreamSock";
     std::string              connectionParameters;
     int                      rows=1;
+    int                      cols=-1;
     char                     type='M';
     bool                     clientRendering=true;
     bool                     compose=false;
@@ -981,7 +1106,8 @@ int main(int argc,char **argv)
                     break;
                 case 'r':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
-                    rows=atoi(opt);
+                    if(sscanf(opt,"%d,%d",&rows,&cols) != 2)
+                        sscanf(opt,"%d",&rows);
                     break;
                 case 't':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
@@ -998,6 +1124,9 @@ int main(int argc,char **argv)
                     break;
                 case 'F':
                     type='F';
+                    break;
+                case 'X':
+                    type='X';
                     break;
                 case 'P':
                     type='P';
@@ -1030,7 +1159,7 @@ int main(int argc,char **argv)
                 case 'c':
                     stereoMode=2;
                     break;
-                case 'p':
+                case 'S':
                     info=true;
                     break;
                 case 'e':
@@ -1059,7 +1188,6 @@ int main(int argc,char **argv)
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     animName=opt;
                     loadAnim();
-                    glutIdleFunc(display);       
                     animate=true;
                     break;
                 case 'l':
@@ -1075,7 +1203,9 @@ int main(int argc,char **argv)
                     break;
                 case 'g':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
-                    sscanf(opt,"%d,%d",&winwidth,&winheight);
+                    if(sscanf(opt,"%d,%d,%d,%d",
+                              &winwidth,&winheight,&winx,&winy) != 4)
+                        sscanf(opt,"%d,%d",&winwidth,&winheight);
                     break;
                 case 'G':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
@@ -1085,9 +1215,9 @@ int main(int argc,char **argv)
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     connectionInterface = opt;
                     break;
-                case 'h':
+                default:
                     std::cout << argv[0] 
-                              << "-ffile -m -rrows -C -M"
+                              << "-ffile -m -rrows[,cols] -C -M"
                               << std::endl;
                     std::cout << "-m  use multicast" << std::endl
                               << "-G  multicast group" << std::endl
@@ -1128,14 +1258,21 @@ int main(int argc,char **argv)
         osgInit(argc, argv);
         glutInit(&argc, argv);
         glutInitDisplayMode( GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE );
+        if(winx >=0 && winy >=0)
+            glutInitWindowPosition(winx,winy);
         glutInitWindowSize(winwidth,winheight);
         winid = glutCreateWindow("OpenSG Cluster Client");
         glutKeyboardFunc(key);
         glutReshapeFunc(reshape);
-        glutDisplayFunc(display);       
+        glutDisplayFunc(display);     
+        if(animate)
+            glutIdleFunc(display);       
         glutMouseFunc(mouse);   
         glutMotionFunc(motion); 
         ract = RenderAction::create();
+        ract->setSortTrans(true);
+        ract->setZWriteTrans(true);
+        ract->setLocalLights(true);
 
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
@@ -1146,6 +1283,10 @@ int main(int argc,char **argv)
             case 'M': 
                 multidisplay=MultiDisplayWindow::create();
                 clusterWindow=multidisplay;
+                break;
+            case 'X': 
+                balancedmultidisplay=BalancedMultiWindow::create();
+                clusterWindow=balancedmultidisplay;
                 break;
             case 'F':
                 sortfirst=SortFirstWindow::create();
@@ -1169,12 +1310,13 @@ int main(int argc,char **argv)
                     if(icPtr != NullFC)
                     {
                         beginEditCP(icPtr);
-/*
-                        if(PipelineComposerPtr::dcast(icPtr) != NullFC)
-                            PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
-                        if(BinarySwapComposerPtr::dcast(icPtr) != NullFC)
-                            BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
-*/
+                        if(subtilesize>0)
+                        {
+                            if(PipelineComposerPtr::dcast(icPtr) != NullFC)
+                                PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                            if(BinarySwapComposerPtr::dcast(icPtr) != NullFC)
+                                BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                        }
                         icPtr->setStatistics(info);
 //                        icPtr->setShort(false);
                         sortlast->setComposer(icPtr);
@@ -1209,13 +1351,19 @@ int main(int argc,char **argv)
 
             for(i=0 ; i<servers.size() ; ++i)
                 clusterWindow->getServers().push_back(servers[i]);
+            if(cols < 0)
+                cols = clusterWindow->getServers().size() / rows;
             switch(type)
             {
                 case 'M': 
-                    multidisplay->setHServers(
-                        clusterWindow->getServers().size()/rows);
-                    multidisplay->setVServers(
-                        rows);
+                    multidisplay->setHServers(cols);
+                    multidisplay->setVServers(rows);
+                    break;
+                case 'X': 
+                    balancedmultidisplay->setHServers(cols);
+                    balancedmultidisplay->setVServers(rows);
+//                    balancedmultidisplay->setShowBalancing(true);
+                    balancedmultidisplay->setShowBalancing(info);
                     break;
             }
 #ifdef FRAMEINTERLEAVE
@@ -1243,7 +1391,10 @@ int main(int argc,char **argv)
             clusterWindow->setClientWindow(clientWindow);
         }
         clusterWindow->init();
-        clusterWindow->resize(winwidth,winheight);
+        if(serverx > 0)
+            clusterWindow->resize(serverx,servery);
+        else
+            clusterWindow->resize(winwidth,winheight);
         clientWindow->resize(winwidth,winheight);
         clusterWindow->setConnectionDestination(connectionDestination);
         clusterWindow->setConnectionInterface(connectionInterface);

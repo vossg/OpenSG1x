@@ -13,6 +13,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class RenderAction;
+
 class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
 {
   private:
@@ -23,12 +25,19 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
 
     virtual void changed(BitVector whichField, UInt32 origin);
 
+    void      setWireframe   (bool value          );
+    bool      getVireframe   (void                );
+    BitVector getChanged     (void                );
+    void      activateOptions(RenderAction *action);
+
   protected:
 
     RenderOptions(void);
     RenderOptions(const RenderOptions &source);
 
     virtual ~RenderOptions(void);
+
+    BitVector _changed;
 
   private:
 
