@@ -26,7 +26,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
     virtual void changed(BitVector whichField, UInt32 origin);
 
     void      setWireframe   (bool value          );
-    bool      getVireframe   (void                );
+    bool      getWireframe   (void                );
     BitVector getChanged     (void                );
     void      activateOptions(RenderAction *action);
 

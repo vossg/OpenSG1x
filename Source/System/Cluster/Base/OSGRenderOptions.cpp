@@ -73,7 +73,7 @@ void RenderOptions::setWireframe( bool value )
         setPolygonMode(GL_FILL);
 }
 
-bool RenderOptions::getVireframe( void )
+bool RenderOptions::getWireframe( void )
 {
     return getPolygonMode() == GL_LINE;
 }
