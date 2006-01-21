@@ -823,7 +823,6 @@ bool OSG::blendImage ( ImagePtr canvas,
         default:
           FFATAL (("Invalid Brush PixelFormat\n"));
           brush->dump();
-          break;
           return false;
         }
         alpha = int(talpha * alpha);
@@ -852,7 +851,6 @@ bool OSG::blendImage ( ImagePtr canvas,
         default:
           FFATAL (("Invalid Canvas PixelFormat\n"));
           canvas->dump();
-          break;
           return false;
         }
       }
