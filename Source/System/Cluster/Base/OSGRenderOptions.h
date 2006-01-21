@@ -38,8 +38,13 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptions : public RenderOptionsBase
 
     virtual ~RenderOptions(void);
 
-    BitVector _changed;
-    BitVector _last_changed;
+    BitVector   _changed;
+    BitVector   _last_changed;
+    Real32      _gl_version;
+    GLenum      _polygon_mode;
+    bool        _backface_culling;
+    bool        _two_sided_lighting;
+    bool        _spec_tex_lighting;
 
   private:
 

@@ -24,7 +24,12 @@ OSG_USING_NAMESPACE
 RenderOptions::RenderOptions(void) :
     Inherited(),
     _changed(0),
-    _last_changed(0)
+    _last_changed(0),
+    _gl_version(0.0f),
+    _polygon_mode(GL_FILL),
+    _backface_culling(false),
+    _two_sided_lighting(false),
+    _spec_tex_lighting(false)
 {
 }
 
@@ -36,7 +41,12 @@ RenderOptions::RenderOptions(void) :
 RenderOptions::RenderOptions(const RenderOptions &source) :
     Inherited(source),
     _changed(source._changed),
-    _last_changed(source._last_changed)
+    _last_changed(source._last_changed),
+    _gl_version(source._gl_version),
+    _polygon_mode(source._polygon_mode),
+    _backface_culling(source._backface_culling),
+    _two_sided_lighting(source._two_sided_lighting),
+    _spec_tex_lighting(source._spec_tex_lighting)
 {
 }
 
@@ -94,61 +104,66 @@ BitVector RenderOptions::getLastChanged( void )
 
 void RenderOptions::activateOptions(RenderAction *action)
 {
-    if(_changed & PolygonModeFieldMask)
-    {
-        glPolygonMode(GL_FRONT_AND_BACK, getPolygonMode());
-    }
-    if(_changed & BackfaceCullingFieldMask)
-    {
-        if(getBackfaceCulling())
-        {
-            glEnable(GL_CULL_FACE);
-            glCullFace(GL_BACK);
-        }
-        else
-        {
-            glDisable(GL_CULL_FACE);
-            glCullFace(GL_BACK);
-        } 
-    }
-    if(_changed & CorrectTwoSidedLightingFieldMask)
-    {
-        action->setCorrectTwoSidedLighting(getCorrectTwoSidedLighting());
-    }
-    if(_changed & TwoSidedLightingFieldMask)
-    {
-        if(getTwoSidedLighting())
-            glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-        else
-            glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
-    }
-    if(_changed & SortTransFieldMask)
-    {
-        action->setSortTrans(getSortTrans());
-    }
-    if(_changed & ZWriteTransFieldMask)
-    {
-        action->setZWriteTrans(getZWriteTrans());
-    }
-    if(_changed & LocalLightsFieldMask)
-    {
-        action->setLocalLights(getLocalLights()); 
-    }
-    if(_changed & SpecTexLightingFieldMask)
+    if(_gl_version == 0.0f)
     {
         // detect OpenGL version.
         std::string vstr = (const char *) glGetString(GL_VERSION);
         // remove last .x
         vstr = vstr.substr(0, 3);
-        double opengl_version = atof(vstr.c_str()); 
-        if(opengl_version >= 1.2f)
-        {
-            if(getSpecTexLighting())
-                glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
-            else
-                glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SINGLE_COLOR);
-        } 
+        _gl_version = atof(vstr.c_str());
     }
+
+    if(_changed & PolygonModeFieldMask)
+        _polygon_mode = getPolygonMode();
+
+    if(_changed & BackfaceCullingFieldMask)
+        _backface_culling = getBackfaceCulling();
+
+    if(_changed & CorrectTwoSidedLightingFieldMask)
+        action->setCorrectTwoSidedLighting(getCorrectTwoSidedLighting());
+
+    if(_changed & TwoSidedLightingFieldMask)
+        _two_sided_lighting = getTwoSidedLighting();
+    
+    if(_changed & SortTransFieldMask)
+        action->setSortTrans(getSortTrans());
+
+    if(_changed & ZWriteTransFieldMask)
+        action->setZWriteTrans(getZWriteTrans());
+
+    if(_changed & LocalLightsFieldMask)
+        action->setLocalLights(getLocalLights()); 
+
+    if(_changed & SpecTexLightingFieldMask)
+        _spec_tex_lighting = getSpecTexLighting();
+
+    // we update the gl stuff each frame.
+    glPolygonMode(GL_FRONT_AND_BACK, _polygon_mode);
+
+    if(_backface_culling)
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+    }
+    else
+    {
+        glDisable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+    } 
+
+    if(_two_sided_lighting)
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    else
+        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
+
+    if(_gl_version >= 1.2f)
+    {
+        if(_spec_tex_lighting)
+            glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
+        else
+            glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SINGLE_COLOR);
+    } 
+
     _last_changed = _changed;
     _changed = 0;
 }
