@@ -102,6 +102,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchMaterial : public SwitchMaterialBase
     void subMaterial(MaterialPtr mat);
 
     bool hasMaterial(MaterialPtr mat);
+    MaterialPtr getMaterial(UInt32 index);
+    MaterialPtr getCurrentMaterial(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -145,6 +147,6 @@ OSG_END_NAMESPACE
 #include <OSGSwitchMaterialBase.inl>
 #include <OSGSwitchMaterial.inl>
 
-#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.1 2006/01/20 10:52:15 a-m-z Exp $"
+#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.2 2006/01/23 08:32:32 a-m-z Exp $"
 
 #endif /* _OSGSWITCHMATERIAL_H_ */

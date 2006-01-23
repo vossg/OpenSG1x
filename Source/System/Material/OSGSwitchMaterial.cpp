@@ -184,6 +184,26 @@ bool SwitchMaterial::hasMaterial(MaterialPtr mat)
     return false;
 }
 
+MaterialPtr SwitchMaterial::getMaterial(UInt32 index)
+{
+    if(index >= _mfMaterials.size())
+    {
+        FWARNING(("SwitchMaterial::getMaterial : index %u out of range\n", index));
+        return NullFC;
+    }
+    return _mfMaterials[index];
+}
+
+MaterialPtr SwitchMaterial::getCurrentMaterial(void)
+{
+    UInt32 choice = getChoice();
+    if(choice >= _mfMaterials.size())
+    {
+        FWARNING(("SwitchMaterial::getCurrentMaterial : current choice %u out of range\n", choice));
+        return NullFC;
+    }
+    return _mfMaterials[choice];
+}
 
 /*! Draw the geometry with this material.
 */
@@ -327,7 +347,7 @@ void SwitchMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.1 2006/01/20 10:52:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.2 2006/01/23 08:32:32 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 
