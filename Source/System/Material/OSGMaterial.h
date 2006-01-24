@@ -113,7 +113,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
     virtual void       rebuildState  (void)                    = 0;
 
-            StatePtr   getState      (void);
+    virtual StatePtr   getState      (void);
 
     virtual bool       isTransparent (void) const              = 0;
 
