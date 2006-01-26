@@ -210,11 +210,20 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
     _out->putValue(std::string("cpixel"));
     _out->putValue(std::string("MFUInt8"));
 
+    std::string imageType = getOptions().texturesImageType();
+
     std::vector<UInt8> buffer;
+
+    int factor = 1;
+    // ok jpeg's are always encoded in RGB so we have to allocate
+    // some more memory for one channel images.
+    if(imageType == "jpeg" && img->getBpp() == 1)
+        factor = 3;
+
     // we need to add some extra bytes for the png, jpeg, ... header
-    buffer.resize(OSG::ImageFileHandler::the().getDefaultType()->maxBufferSize(img) + 16384);
+    buffer.resize(OSG::ImageFileHandler::the().getDefaultType()->maxBufferSize(img) * factor + 16384);
     JPGImageFileType::the().setQuality(getOptions().texturesCompressionQuality());
-    UInt64 msize = img->store(getOptions().texturesImageType().c_str(), &buffer[0]);
+    UInt64 msize = img->store(imageType.c_str(), &buffer[0]);
 
     UInt32 noe = (UInt32) msize;
     UInt32 size = sizeof(UInt32) + sizeof(UInt8) * noe;
@@ -256,6 +265,6 @@ bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.7 2006/01/25 12:16:09 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.8 2006/01/26 13:43:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
