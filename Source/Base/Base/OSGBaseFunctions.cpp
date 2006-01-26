@@ -430,7 +430,14 @@ string_token_iterator string_token_iterator::operator++(int)
 
 std::string string_token_iterator::operator*() const
 {
-    return std::string(*_str, _start, _end - _start);
+    if(_end == std::string::npos)
+    {
+        return std::string(*_str, _start);
+    }
+    else
+    {
+        return std::string(*_str, _start, _end - _start);
+    }
 }
 
 bool string_token_iterator::operator==(const string_token_iterator & rhs) const
