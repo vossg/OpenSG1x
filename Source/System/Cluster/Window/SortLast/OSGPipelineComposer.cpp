@@ -47,6 +47,7 @@
 
 #include <OSGConfig.h>
 #include <OSGConnection.h>
+#include <OSGGLEXT.h>
 
 #include "OSGPipelineComposer.h"
 

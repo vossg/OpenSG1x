@@ -46,6 +46,7 @@
 #include <OSGBaseThread.h>
 #include <OSGLock.h>
 #include <OSGBinarySwapComposerBase.h>
+#include <OSGGLEXT.h>
 
 OSG_BEGIN_NAMESPACE
 
