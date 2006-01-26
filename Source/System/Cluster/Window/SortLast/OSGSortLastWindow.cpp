@@ -92,9 +92,13 @@ void SortLastWindow::buildGroups(void)
     if(!rebuild && getGroupNodes().size())
         return;
 
-    groupCount = getComposer()->getUsableServers();
-    if(getComposer()->getClientRendering())
-        groupCount++;
+    groupCount = getServers().size();
+    if(getComposer() != NullFC)
+    {
+        groupCount = getComposer()->getUsableServers();
+        if(getComposer()->getClientRendering())
+            groupCount++;
+    }
 
     // build groups for all viewports
     beginEditCP(ptr,GroupNodesFieldMask|GroupLengthsFieldMask);
@@ -122,9 +126,11 @@ void SortLastWindow::serverInit( WindowPtr serverWindow,
     // create default composer
     if(getComposer() == NullFC)
     {
+/*
         FieldContainerPtr fcPtr = 
             FieldContainerFactory::the()->createFieldContainer("BinarySwapComposer");
         setComposer(ImageComposerPtr::dcast(fcPtr));
+*/
     }
     if(getComposer() != NullFC)
     {
@@ -205,10 +211,12 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         // render
         vp->render( action );
         // compose single viewport
-        getComposer()->composeViewport(vp);
+        if(getComposer() != NullFC)
+            getComposer()->composeViewport(vp);
     }
     // compose whole window
-    getComposer()->composeWindow();
+    if(getComposer() != NullFC)
+        getComposer()->composeWindow();
 }
 
 /*! swap
@@ -216,6 +224,14 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
 void SortLastWindow::serverSwap( WindowPtr window,
                                  UInt32 id)
 {
+    if(getComposer() == NullFC)
+    {
+        Connection *connection=getNetwork()->getMainConnection();
+        // tell client that we are finish
+        connection->signal();
+        // wait for swap
+        connection->wait();
+    }
     Inherited::serverSwap(window,id);
 }
 
@@ -233,9 +249,11 @@ void SortLastWindow::clientInit( void )
     // create default composer
     if(getComposer() == NullFC)
     {
+/*
         FieldContainerPtr fcPtr = 
             FieldContainerFactory::the()->createFieldContainer("BinarySwapComposer");
         setComposer(ImageComposerPtr::dcast(fcPtr));
+*/
     }
     if(getComposer() != NullFC)
     {
@@ -273,11 +291,8 @@ void SortLastWindow::clientPreSync( void )
         getClientWindow()->frameInit();
     }
 
-    if(getComposer() != NullFC)
-    {
-        // rebuild node groups
-        buildGroups();
-    }
+    // rebuild node groups
+    buildGroups();
 }
 
 /*! client rendering
@@ -325,6 +340,14 @@ void SortLastWindow::clientRender( RenderActionBase *action )
  */
 void SortLastWindow::clientSwap( void )
 {
+    if(getComposer() == NullFC)
+    {
+        Connection *connection=getNetwork()->getMainConnection();
+        // wait for all servers to finish
+        connection->wait();
+        // initiate swap
+        connection->signal();
+    }
     Inherited::clientSwap();
 }
 
@@ -546,13 +569,15 @@ void SortLastWindow::setupNodes(UInt32 groupId)
     UInt32  p;
     UInt32  nI,gnI,gI,group;
     UInt32  groupCount;
+    UInt32  usableServers = getServers().size();
 
-    if(!getGroupsChanged() || !getComposer())
+    if(!getGroupsChanged())
         return;
 
     // client and no client rendering 
     if( getServers().size() == groupId &&
-        !getComposer()->getClientRendering())         
+        (getComposer() == NullFC ||
+         !getComposer()->getClientRendering()))
     {
         for(nI = 0 ; nI < getGroupNodes().size() ; ++nI)
         {
@@ -566,9 +591,11 @@ void SortLastWindow::setupNodes(UInt32 groupId)
         }
         return;
     }
+    if(getComposer() != osg::NullFC)
+        usableServers = getComposer()->getUsableServers();
     // server but not usable, then invalidate all nodes
     if( (getServers().size() > groupId &&
-         getComposer()->getUsableServers() <= groupId) )
+         usableServers <= groupId) )
     {
         for(v = 0; v < getPort().size(); ++v)
         {
@@ -580,14 +607,18 @@ void SortLastWindow::setupNodes(UInt32 groupId)
         return;
     }        
 
-    groupCount = getComposer()->getUsableServers();
-    if(getComposer()->getClientRendering())
+    groupCount = usableServers;
+    if(getComposer() != NullFC) 
     {
-        groupCount++;
+        groupCount = getComposer()->getUsableServers();
+        if(getComposer()->getClientRendering())
+        {
+            groupCount++;
+        }
     }
 
     if( getServers().size() == groupId)
-        groupId = getComposer()->getUsableServers();
+        groupId = usableServers;
 
     // setup nodes
     for(nI = 0,gnI = 0,gI = 0,group = 0 ; nI < getGroupNodes().size() ; ++nI)
