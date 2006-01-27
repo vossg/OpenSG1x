@@ -81,6 +81,9 @@
 #include <OSGReal32Fields.h> // AntialiasingScale type
 #include <OSGUInt32Fields.h> // AntialiasingTrigger type
 #include <OSGBoolFields.h> // BackfaceCulling type
+#include <OSGBoolFields.h> // SmallFeatureCulling type
+#include <OSGReal32Fields.h> // SmallFeaturePixels type
+#include <OSGUInt32Fields.h> // SmallFeatureThreshold type
 
 #include <OSGRenderOptionsFields.h>
 
@@ -118,7 +121,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         AntialiasingScaleFieldId       = AntialiasingDistanceFieldId    + 1,
         AntialiasingTriggerFieldId     = AntialiasingScaleFieldId       + 1,
         BackfaceCullingFieldId         = AntialiasingTriggerFieldId     + 1,
-        NextFieldId                    = BackfaceCullingFieldId         + 1
+        SmallFeatureCullingFieldId     = BackfaceCullingFieldId         + 1,
+        SmallFeaturePixelsFieldId      = SmallFeatureCullingFieldId     + 1,
+        SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
+        NextFieldId                    = SmallFeatureThresholdFieldId   + 1
     };
 
     static const OSG::BitVector StatisticFieldMask;
@@ -135,6 +141,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector AntialiasingScaleFieldMask;
     static const OSG::BitVector AntialiasingTriggerFieldMask;
     static const OSG::BitVector BackfaceCullingFieldMask;
+    static const OSG::BitVector SmallFeatureCullingFieldMask;
+    static const OSG::BitVector SmallFeaturePixelsFieldMask;
+    static const OSG::BitVector SmallFeatureThresholdFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -175,6 +184,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFReal32            *getSFAntialiasingScale(void);
            SFUInt32            *getSFAntialiasingTrigger(void);
            SFBool              *getSFBackfaceCulling(void);
+           SFBool              *getSFSmallFeatureCulling(void);
+           SFReal32            *getSFSmallFeaturePixels(void);
+           SFUInt32            *getSFSmallFeatureThreshold(void);
 
            bool                &getStatistic      (void);
      const bool                &getStatistic      (void) const;
@@ -204,6 +216,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const UInt32              &getAntialiasingTrigger(void) const;
            bool                &getBackfaceCulling(void);
      const bool                &getBackfaceCulling(void) const;
+           bool                &getSmallFeatureCulling(void);
+     const bool                &getSmallFeatureCulling(void) const;
+           Real32              &getSmallFeaturePixels(void);
+     const Real32              &getSmallFeaturePixels(void) const;
+           UInt32              &getSmallFeatureThreshold(void);
+     const UInt32              &getSmallFeatureThreshold(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +242,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setAntialiasingScale( const Real32 &value );
      void setAntialiasingTrigger( const UInt32 &value );
      void setBackfaceCulling( const bool &value );
+     void setSmallFeatureCulling( const bool &value );
+     void setSmallFeaturePixels( const Real32 &value );
+     void setSmallFeatureThreshold( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +301,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFReal32            _sfAntialiasingScale;
     SFUInt32            _sfAntialiasingTrigger;
     SFBool              _sfBackfaceCulling;
+    SFBool              _sfSmallFeatureCulling;
+    SFReal32            _sfSmallFeaturePixels;
+    SFUInt32            _sfSmallFeatureThreshold;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -357,6 +381,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.2 2006/01/20 15:33:44 mroth Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.3 2006/01/27 16:20:17 a-m-z Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

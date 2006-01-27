@@ -138,4 +138,28 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="smallFeatureCulling"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="smallFeaturePixels"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="smallFeatureThreshold"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

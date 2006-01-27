@@ -132,10 +132,22 @@ void RenderOptions::activateOptions(RenderAction *action)
         action->setZWriteTrans(getZWriteTrans());
 
     if(_changed & LocalLightsFieldMask)
-        action->setLocalLights(getLocalLights()); 
+        action->setLocalLights(getLocalLights());
 
     if(_changed & SpecTexLightingFieldMask)
         _spec_tex_lighting = getSpecTexLighting();
+
+    if(_changed & OcclusionCullingFieldMask)
+        action->setOcclusionCulling(getOcclusionCulling());
+
+    if(_changed & SmallFeatureCullingFieldMask)
+        action->setSmallFeatureCulling(getSmallFeatureCulling());
+
+    if(_changed & SmallFeaturePixelsFieldMask)
+        action->setSmallFeaturePixels(getSmallFeaturePixels());
+
+    if(_changed & SmallFeatureThresholdFieldMask)
+        action->setSmallFeatureThreshold(getSmallFeatureThreshold());
 
     // we update the gl stuff each frame.
     glPolygonMode(GL_FRONT_AND_BACK, _polygon_mode);

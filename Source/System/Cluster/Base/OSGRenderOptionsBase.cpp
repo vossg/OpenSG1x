@@ -107,6 +107,15 @@ const OSG::BitVector  RenderOptionsBase::AntialiasingTriggerFieldMask =
 const OSG::BitVector  RenderOptionsBase::BackfaceCullingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::BackfaceCullingFieldId);
 
+const OSG::BitVector  RenderOptionsBase::SmallFeatureCullingFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeatureCullingFieldId);
+
+const OSG::BitVector  RenderOptionsBase::SmallFeaturePixelsFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeaturePixelsFieldId);
+
+const OSG::BitVector  RenderOptionsBase::SmallFeatureThresholdFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeatureThresholdFieldId);
+
 const OSG::BitVector RenderOptionsBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -154,6 +163,15 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
     
 */
 /*! \var bool            RenderOptionsBase::_sfBackfaceCulling
+    
+*/
+/*! \var bool            RenderOptionsBase::_sfSmallFeatureCulling
+    
+*/
+/*! \var Real32          RenderOptionsBase::_sfSmallFeaturePixels
+    
+*/
+/*! \var UInt32          RenderOptionsBase::_sfSmallFeatureThreshold
     
 */
 
@@ -230,7 +248,22 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      "backfaceCulling", 
                      BackfaceCullingFieldId, BackfaceCullingFieldMask,
                      false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFBackfaceCulling)
+                     (FieldAccessMethod) &RenderOptionsBase::getSFBackfaceCulling),
+    new FieldDescription(SFBool::getClassType(), 
+                     "smallFeatureCulling", 
+                     SmallFeatureCullingFieldId, SmallFeatureCullingFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFSmallFeatureCulling),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "smallFeaturePixels", 
+                     SmallFeaturePixelsFieldId, SmallFeaturePixelsFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFSmallFeaturePixels),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "smallFeatureThreshold", 
+                     SmallFeatureThresholdFieldId, SmallFeatureThresholdFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFSmallFeatureThreshold)
 };
 
 
@@ -320,6 +353,9 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfAntialiasingScale      (Real32(2.0)), 
     _sfAntialiasingTrigger    (UInt32(0)), 
     _sfBackfaceCulling        (bool(false)), 
+    _sfSmallFeatureCulling    (), 
+    _sfSmallFeaturePixels     (), 
+    _sfSmallFeatureThreshold  (), 
     Inherited() 
 {
 }
@@ -343,6 +379,9 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfAntialiasingScale      (source._sfAntialiasingScale      ), 
     _sfAntialiasingTrigger    (source._sfAntialiasingTrigger    ), 
     _sfBackfaceCulling        (source._sfBackfaceCulling        ), 
+    _sfSmallFeatureCulling    (source._sfSmallFeatureCulling    ), 
+    _sfSmallFeaturePixels     (source._sfSmallFeaturePixels     ), 
+    _sfSmallFeatureThreshold  (source._sfSmallFeatureThreshold  ), 
     Inherited                 (source)
 {
 }
@@ -429,6 +468,21 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBackfaceCulling.getBinSize();
     }
 
+    if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
+    {
+        returnValue += _sfSmallFeatureCulling.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
+    {
+        returnValue += _sfSmallFeaturePixels.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
+    {
+        returnValue += _sfSmallFeatureThreshold.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -506,6 +560,21 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
     {
         _sfBackfaceCulling.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
+    {
+        _sfSmallFeatureCulling.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
+    {
+        _sfSmallFeaturePixels.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
+    {
+        _sfSmallFeatureThreshold.copyToBin(pMem);
     }
 
 
@@ -586,6 +655,21 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBackfaceCulling.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
+    {
+        _sfSmallFeatureCulling.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
+    {
+        _sfSmallFeaturePixels.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
+    {
+        _sfSmallFeatureThreshold.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -637,6 +721,15 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
         _sfBackfaceCulling.syncWith(pOther->_sfBackfaceCulling);
+
+    if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
+        _sfSmallFeatureCulling.syncWith(pOther->_sfSmallFeatureCulling);
+
+    if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
+        _sfSmallFeaturePixels.syncWith(pOther->_sfSmallFeaturePixels);
+
+    if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
+        _sfSmallFeatureThreshold.syncWith(pOther->_sfSmallFeatureThreshold);
 
 
 }
@@ -690,6 +783,15 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
         _sfBackfaceCulling.syncWith(pOther->_sfBackfaceCulling);
 
+    if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
+        _sfSmallFeatureCulling.syncWith(pOther->_sfSmallFeatureCulling);
+
+    if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
+        _sfSmallFeaturePixels.syncWith(pOther->_sfSmallFeaturePixels);
+
+    if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
+        _sfSmallFeatureThreshold.syncWith(pOther->_sfSmallFeatureThreshold);
+
 
 
 }
@@ -733,7 +835,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.2 2006/01/20 15:33:44 mroth Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.3 2006/01/27 16:20:17 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

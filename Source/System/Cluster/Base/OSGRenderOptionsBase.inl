@@ -194,6 +194,27 @@ SFBool *RenderOptionsBase::getSFBackfaceCulling(void)
     return &_sfBackfaceCulling;
 }
 
+//! Get the RenderOptions::_sfSmallFeatureCulling field.
+inline
+SFBool *RenderOptionsBase::getSFSmallFeatureCulling(void)
+{
+    return &_sfSmallFeatureCulling;
+}
+
+//! Get the RenderOptions::_sfSmallFeaturePixels field.
+inline
+SFReal32 *RenderOptionsBase::getSFSmallFeaturePixels(void)
+{
+    return &_sfSmallFeaturePixels;
+}
+
+//! Get the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+SFUInt32 *RenderOptionsBase::getSFSmallFeatureThreshold(void)
+{
+    return &_sfSmallFeatureThreshold;
+}
+
 
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
@@ -489,8 +510,71 @@ void RenderOptionsBase::setBackfaceCulling(const bool &value)
     _sfBackfaceCulling.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfSmallFeatureCulling field.
+inline
+bool &RenderOptionsBase::getSmallFeatureCulling(void)
+{
+    return _sfSmallFeatureCulling.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeatureCulling field.
+inline
+const bool &RenderOptionsBase::getSmallFeatureCulling(void) const
+{
+    return _sfSmallFeatureCulling.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfSmallFeatureCulling field.
+inline
+void RenderOptionsBase::setSmallFeatureCulling(const bool &value)
+{
+    _sfSmallFeatureCulling.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeaturePixels field.
+inline
+Real32 &RenderOptionsBase::getSmallFeaturePixels(void)
+{
+    return _sfSmallFeaturePixels.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeaturePixels field.
+inline
+const Real32 &RenderOptionsBase::getSmallFeaturePixels(void) const
+{
+    return _sfSmallFeaturePixels.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfSmallFeaturePixels field.
+inline
+void RenderOptionsBase::setSmallFeaturePixels(const Real32 &value)
+{
+    _sfSmallFeaturePixels.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+UInt32 &RenderOptionsBase::getSmallFeatureThreshold(void)
+{
+    return _sfSmallFeatureThreshold.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+const UInt32 &RenderOptionsBase::getSmallFeatureThreshold(void) const
+{
+    return _sfSmallFeatureThreshold.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+void RenderOptionsBase::setSmallFeatureThreshold(const UInt32 &value)
+{
+    _sfSmallFeatureThreshold.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.2 2006/01/20 15:33:44 mroth Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.3 2006/01/27 16:20:17 a-m-z Exp $"
 
