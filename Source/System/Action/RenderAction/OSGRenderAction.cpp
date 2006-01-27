@@ -256,6 +256,11 @@ RenderAction::RenderAction(void) :
     _bCorrectTwoSidedLighting(false),
     _bOcclusionCulling       (false),
 
+    _bSmallFeatureCulling   (false),
+    _smallFeaturesPixels    (10.0f),
+    _smallFeaturesThreshold (32),
+    _worldToScreenMatrix    (),
+
     _vLights(),
     _lightsMap(),
     _lightsState(0),
@@ -327,6 +332,11 @@ RenderAction::RenderAction(const RenderAction &source) :
     _bLocalLights            (source._bLocalLights),
     _bCorrectTwoSidedLighting(source._bCorrectTwoSidedLighting),
     _bOcclusionCulling       (source._bOcclusionCulling),
+
+    _bSmallFeatureCulling   (source._bSmallFeatureCulling),
+    _smallFeaturesPixels    (source._smallFeaturesPixels),
+    _smallFeaturesThreshold (source._smallFeaturesThreshold),
+    _worldToScreenMatrix    (source._worldToScreenMatrix),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -1209,6 +1219,65 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     _activeLightsCount = light_id;
 }
 
+bool RenderAction::isSmallFeature(const NodePtr &node)
+{
+    if(node == NullFC)
+        return true;
+
+    if(!_bSmallFeatureCulling)
+        return false;
+
+    //node->updateVolume();
+    DynamicVolume vol = node->getVolume();
+    vol.transform(top_matrix());
+
+    Pnt3f p[8];
+    vol.getBounds(p[0], p[4]);
+    
+    p[1].setValues(p[0][0], p[4][1], p[0][2]);
+    p[2].setValues(p[4][0], p[4][1], p[0][2]);
+    p[3].setValues(p[4][0], p[0][1], p[0][2]);
+    
+    p[5].setValues(p[4][0], p[0][1], p[4][2]);
+    p[6].setValues(p[0][0], p[0][1], p[4][2]);
+    p[7].setValues(p[0][0], p[4][1], p[4][2]);
+
+    for(int i=0;i<8;++i)
+        _worldToScreenMatrix.multFullMatrixPnt(p[i]);
+
+    Pnt2f min(OSG::Inf, OSG::Inf);
+    Pnt2f max(OSG::NegInf, OSG::NegInf);
+
+    for(int i=0;i<8;++i)
+    {
+        if(p[i][0] < min[0])
+            min[0] = p[i][0];
+    
+        if(p[i][1] < min[1])
+            min[1] = p[i][1];
+    
+        if(p[i][0] > max[0])
+            max[0] = p[i][0];
+    
+        if(p[i][1] > max[1])
+            max[1] = p[i][1];
+    }
+
+    //for(int i=0;i<8;++i)
+    //    printf("p%d: %f %f\n", i, p[i][0], p[i][1]);
+
+    Real32 w = ((max[0] - min[0]) / 2.0f) * Real32(_viewport->getPixelWidth());
+    Real32 h = ((max[1] - min[1]) / 2.0f) * Real32(_viewport->getPixelHeight());
+    Real32 f = w * h;
+
+    //printf("%f %f pixels: %f x %f = %f\n", max[0] - min[0], max[1] - min[1], w, h, f);
+
+    if(f <= _smallFeaturesPixels)
+        return true;
+
+    return false;
+}
+
 //#define PRINT_MAT
 
 void RenderAction::draw(DrawTreeNode *pRoot)
@@ -1299,7 +1368,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         {
             // skip occlusion test for small sized geometries
             UInt32 pos_size = 0;
-            if(_bOcclusionCulling && pRoot->getNode()->getCore() != NullFC)
+            if((_bOcclusionCulling || _bSmallFeatureCulling) &&
+                pRoot->getNode()->getCore() != NullFC)
             {
                 GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
                 if(geo != NullFC)
@@ -1309,65 +1379,78 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                 }
             }
 
-            if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
-               pos_size > 64)
-            {
-                //getStatistics()->getElem(statCullTestedNodes)->inc();
-                glDepthMask(GL_FALSE);
-                glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
-                
-                if(_occlusionQuery == 0)
-                    _glGenQueriesARB(1, &_occlusionQuery);
-
-                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
-
-                const DynamicVolume& vol = pRoot->getNode()->getVolume();
-                Pnt3f min,max;
-                vol.getBounds(min, max);
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glEnd();
-        
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glEnd();
-
-                _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-
-                glDepthMask(GL_TRUE);
-                glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-
-                GLuint pixels = 0;
-                _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
-
-                if(pixels > 0)
-                {
-                    pRoot->getFunctor().call(this);
-                    _uiNumGeometries++;
-                }
-                else
+            bool foundSmallFeature = false;
+            if(_bSmallFeatureCulling && pos_size > _smallFeaturesThreshold)
+            {    
+                foundSmallFeature = isSmallFeature(pRoot->getNode());
+                if(foundSmallFeature)
                 {
                     getStatistics()->getElem(statCulledNodes)->inc();
                 }
             }
-            else
+
+            if(!foundSmallFeature)
             {
-                pRoot->getFunctor().call(this);
-                _uiNumGeometries++;
+                if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
+                   pos_size > 64)
+                {
+                    //getStatistics()->getElem(statCullTestedNodes)->inc();
+                    glDepthMask(GL_FALSE);
+                    glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+                    
+                    if(_occlusionQuery == 0)
+                        _glGenQueriesARB(1, &_occlusionQuery);
+    
+                    _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
+    
+                    const DynamicVolume& vol = pRoot->getNode()->getVolume();
+                    Pnt3f min,max;
+                    vol.getBounds(min, max);
+                    glBegin( GL_TRIANGLE_STRIP);
+                    glVertex3f( min[0], min[1], max[2]);
+                    glVertex3f( max[0], min[1], max[2]);
+                    glVertex3f( min[0], max[1], max[2]);
+                    glVertex3f( max[0], max[1], max[2]);
+                    glVertex3f( min[0], max[1], min[2]);
+                    glVertex3f( max[0], max[1], min[2]);
+                    glVertex3f( min[0], min[1], min[2]);
+                    glVertex3f( max[0], min[1], min[2]);
+                    glEnd();
+            
+                    glBegin( GL_TRIANGLE_STRIP);
+                    glVertex3f( max[0], max[1], min[2]);
+                    glVertex3f( max[0], max[1], max[2]);
+                    glVertex3f( max[0], min[1], min[2]);
+                    glVertex3f( max[0], min[1], max[2]);
+                    glVertex3f( min[0], min[1], min[2]);
+                    glVertex3f( min[0], min[1], max[2]);
+                    glVertex3f( min[0], max[1], min[2]);
+                    glVertex3f( min[0], max[1], max[2]);
+                    glEnd();
+    
+                    _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+    
+                    glDepthMask(GL_TRUE);
+                    glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+    
+                    GLuint pixels = 0;
+                    _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+    
+                    if(pixels > 0)
+                    {
+                        pRoot->getFunctor().call(this);
+                        _uiNumGeometries++;
+                    }
+                    else
+                    {
+                        getStatistics()->getElem(statCulledNodes)->inc();
+                    }
+                }
+                else
+                {
+                    pRoot->getFunctor().call(this);
+                    _uiNumGeometries++;
+                }
             }
         }
 
@@ -1442,6 +1525,37 @@ bool RenderAction::getOcclusionCulling(void)
     return _bOcclusionCulling;
 }
 
+void RenderAction::setSmallFeatureCulling(bool bVal)
+{
+    _bSmallFeatureCulling = bVal;
+}
+
+bool RenderAction::getSmallFeatureCulling(void)
+{
+    return _bSmallFeatureCulling;
+}
+
+void RenderAction::setSmallFeaturePixels(Real32 pixels)
+{
+    _smallFeaturesPixels = pixels;
+}
+
+Real32 RenderAction::getSmallFeaturePixels(void)
+{
+    return _smallFeaturesPixels;
+}
+
+void RenderAction::setSmallFeatureThreshold(UInt32 threshold)
+{
+    _smallFeaturesThreshold = threshold;
+}
+
+UInt32 RenderAction::getSmallFeatureThreshold(void)
+{
+    return _smallFeaturesThreshold;
+}
+
+
 // initialisation
 
 Action::ResultE RenderAction::start(void)
@@ -1495,6 +1609,9 @@ Action::ResultE RenderAction::start(void)
 
         if(_camera != NULL)
         {
+            if(_bSmallFeatureCulling)
+                _camera->getWorldToScreen(_worldToScreenMatrix, *_viewport);
+
             _camera->setupProjection(this, *_viewport);
 
             // set the viewing

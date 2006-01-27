@@ -184,8 +184,16 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool getCorrectTwoSidedLighting(void);
     void setOcclusionCulling(bool bVal);
     bool getOcclusionCulling(void);
+    void setSmallFeatureCulling(bool bVal);
+    bool getSmallFeatureCulling(void);
+    void setSmallFeaturePixels(Real32 pixels);
+    Real32 getSmallFeaturePixels(void);
+    void setSmallFeatureThreshold(UInt32 threshold);
+    UInt32 getSmallFeatureThreshold(void);
 
     /*------------------------- comparison ----------------------------------*/
+
+    bool isSmallFeature(const NodePtr &node);
 
     // test a single node
     bool            isVisible( Node* node );
@@ -261,6 +269,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bLocalLights;
     bool                      _bCorrectTwoSidedLighting;
     bool                      _bOcclusionCulling;
+    bool                      _bSmallFeatureCulling;
+    Real32                    _smallFeaturesPixels;
+    UInt32                    _smallFeaturesThreshold;
+    Matrix                    _worldToScreenMatrix;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
