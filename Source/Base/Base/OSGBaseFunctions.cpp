@@ -432,7 +432,7 @@ std::string string_token_iterator::operator*() const
 {
     if(_end == std::string::npos)
     {
-        return std::string(*_str, _start);
+        return std::string(*_str, _start, std::string::npos);
     }
     else
     {
