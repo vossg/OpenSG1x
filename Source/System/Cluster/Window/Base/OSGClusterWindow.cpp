@@ -794,8 +794,8 @@ void ClusterWindow::serverRender( WindowPtr window,
     RenderAction *ract = dynamic_cast<RenderAction *>(action);
     if(ract != NULL)
     {
-        MFViewportPtr::iterator       portIt  = _mfPort.begin();
-        MFViewportPtr::const_iterator portEnd = _mfPort.end();
+        MFViewportPtr::iterator       portIt  = window->getPort().begin();
+        MFViewportPtr::const_iterator portEnd = window->getPort().end();
         // try to find option an attachment at the window
         OSG::RenderOptionsPtr ro = OSG::RenderOptionsPtr::dcast(
             window->findAttachment(OSG::RenderOptions::getClassType()));
