@@ -60,6 +60,13 @@ typedef GeoPTypes   ::PtrType GeoPTypesPtr;
 typedef GeoPLengths ::PtrType GeoPLengthsPtr;
 
 
+typedef RefPtr<GeoPositionsPtr> GeoPositionsRefPtr;
+typedef RefPtr<GeoNormalsPtr>   GeoNormalsRefPtr;
+typedef RefPtr<GeoColorsPtr>    GeoColorsRefPtr;
+typedef RefPtr<GeoTexCoordsPtr> GeoTexCoordsRefPtr;
+typedef RefPtr<GeoIndicesPtr>   GeoIndicesRefPtr;
+typedef RefPtr<GeoPTypesPtr>    GeoPTypesRefPtr;
+typedef RefPtr<GeoPLengthsPtr>  GeoPLengthsRefPtr;
 
 
 #if !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
