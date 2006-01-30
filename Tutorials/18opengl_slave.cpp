@@ -177,7 +177,7 @@ void renderCursor()
 
 
 /* The function called when our window is resized (which shouldn't happen, because we're fullscreen) */
-GLvoid ReSizeGLScene(GLsizei mWidth, GLsizei mHeight)
+void ReSizeGLScene(int mWidth, int mHeight)
 {
     Height = mHeight; 
     Width = mWidth; 
