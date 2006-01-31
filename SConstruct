@@ -643,10 +643,16 @@ class ToolChain:
                 self.env['CGCPPPATH'] = [os.path.join(_po.getOption('cg'), 'include')]
                 self.env['CGLIBPATH'] = [os.path.join(_po.getOption('cg'), 'lib')]
                 if self.env.get('PLATFORM') == 'win32':
-                    self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXParser']
+                    if _po.getOption('contrib_cgfxmaterial'):
+                        self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXParser']
+                    else:
+                        self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL']
                 else:
-                    self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXGL']
-                    
+                    if _po.getOption('contrib_cgfxmaterial'):
+                        self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXGL']
+                    else:
+                        self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL']
+
         if _po.getOption('gv_beta'):
             print 'Compiling with gv beta enabled!'
             self.env.Append(CPPDEFINES = ['OSG_GV_BETA'])
@@ -965,6 +971,14 @@ class linux_gcc(ToolChain):
                              '-ftemplate-depth-100', '-fPIC'],
                    CPPDEFINES=['_GNU_SOURCE', '_OSG_HAVE_CONFIGURED_H_'],
                    LINKFLAGS = ['-Wl,-s'])
+
+        # get gcc version
+        #import commands
+        #dummy, gccversionstr = commands.getstatusoutput('gcc -dumpversion')
+        #gccversion = float(gccversionstr[0:3])
+        # doesn't work on 64bit machines :-( compiler bug ...
+        #if gccversion >= 4.0:
+        #    env.Append(CXXFLAGS=['-fvisibility-inlines-hidden'])
 
         env['OSG_BASE_LIBS'] = ['pthread', 'dl']
         env['OSG_SYSTEM_LIBS'] = ['GLU', 'GL'] + slibs
