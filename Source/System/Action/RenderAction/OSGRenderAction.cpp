@@ -1207,10 +1207,14 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     }
 
     //printf("deactivate lights: ");
+    const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
     {
         //printf("%u,", i);
         _activeLightsMask &= ~(1 << i);
+        // reset diffuse color to black that's quite usefull for shaders.
+        glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
+                  black.getValuesRGBA());
         glDisable(GL_LIGHT0 + i);
     }
     //printf("\n");
