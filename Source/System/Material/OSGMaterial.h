@@ -113,7 +113,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
     virtual void       rebuildState  (void)                    = 0;
 
-    virtual StatePtr   getState      (void);
+    virtual StatePtr   getState      (UInt32 index = 0);
+    virtual bool       isMultiPass   (void) const;
+    virtual UInt32     getNPasses    (void) const;
 
     virtual bool       isTransparent (void) const              = 0;
 

@@ -64,7 +64,6 @@
 #include <OSGDrawTreeNodeFactory.h>
 
 #include <OSGMaterial.h>
-#include <OSGMultiPassMaterial.h>
 
 #include <OSGGeometry.h>
 #include <OSGLog.h>
@@ -422,10 +421,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
-    UInt32 mpMatPasses = 1;
-    MultiPassMaterial *pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
-    if(pMPMat != NULL)
-        mpMatPasses = pMPMat->getNPasses();
+    bool isMultiPass = pMat->isMultiPass();
+    UInt32 mpMatPasses = pMat->getNPasses();
 
     Int32 sortKey = pMat->getSortKey();
 
@@ -435,10 +432,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            if(pMPMat != NULL)
-                pState = pMPMat->getState(mpi).getCPtr();
-            else
-                pState = pMat->getState().getCPtr();
+            pState = pMat->getState(mpi).getCPtr();
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
     
@@ -450,7 +444,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
         
-            if(pMPMat != NULL)
+            if(isMultiPass)
             {
                 if(mpi == mpMatPasses-1)
                     pNewElem->setLastMultiPass();
@@ -489,10 +483,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
-        if(pMPMat != NULL)
-            pState = pMPMat->getState(mpi).getCPtr();
-        else
-            pState = pMat->getState().getCPtr();
+        pState = pMat->getState(mpi).getCPtr();
 
         if(_bSortTrans && pMat->isTransparent())
         {
@@ -511,7 +502,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
 
-            if(pMPMat != NULL)
+            if(isMultiPass)
             {
                 if(mpi == mpMatPasses-1)
                     pNewElem->setLastMultiPass();
@@ -550,7 +541,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
     
-                if(pMPMat != NULL)
+                if(isMultiPass)
                 {
                     // for multipass we have a different state in all draw node
                     // children.
@@ -584,7 +575,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
     
-                if(pMPMat != NULL)
+                if(isMultiPass)
                 {
                     pNewElem->setState(pState);
 
@@ -618,10 +609,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         return;
     }
 
-    UInt32 mpMatPasses = 1;
-    MultiPassMaterial *pMPMat = dynamic_cast<MultiPassMaterial *>(pMat);
-    if(pMPMat != NULL)
-        mpMatPasses = pMPMat->getNPasses();
+    bool isMultiPass = pMat->isMultiPass();
+    UInt32 mpMatPasses = pMat->getNPasses();
 
     Int32 sortKey = pMat->getSortKey();
 
@@ -630,10 +619,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         DrawTreeNode *pLastMultiPass = NULL;
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            if(pMPMat != NULL)
-                pState = pMPMat->getState(mpi).getCPtr();
-            else
-                pState = pMat->getState().getCPtr();
+            pState = pMat->getState(mpi).getCPtr();
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
 
@@ -645,7 +631,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
 
-            if(pMPMat != NULL)
+            if(isMultiPass)
             {
                 if(mpi == mpMatPasses-1)
                     pNewElem->setLastMultiPass();
@@ -693,7 +679,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     _currMatrix.second.mult(objPos);
                     pNewElem->setScalar(objPos[2]);
 
-                    if(pMPMat != NULL)
+                    if(isMultiPass)
                     {
                         if(mpi == mpMatPasses-1)
                             pNewElem->setLastMultiPass();
@@ -734,10 +720,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            if(pMPMat != NULL)
-                pState = pMPMat->getState(mpi).getCPtr();
-            else
-                pState = pMat->getState().getCPtr();
+            pState = pMat->getState(mpi).getCPtr();
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
 
@@ -749,7 +732,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
 
-            if(pMPMat != NULL)
+            if(isMultiPass)
             {
                 if(mpi == mpMatPasses-1)
                     pNewElem->setLastMultiPass();
@@ -789,10 +772,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
-        if(pMPMat != NULL)
-            pState = pMPMat->getState(mpi).getCPtr();
-        else
-            pState = pMat->getState().getCPtr();
+        pState = pMat->getState(mpi).getCPtr();
 
         if(_bSortTrans && pMat->isTransparent())
         {
@@ -811,7 +791,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
 
-            if(pMPMat != NULL)
+            if(isMultiPass)
             {
                 if(mpi == mpMatPasses-1)
                     pNewElem->setLastMultiPass();
@@ -849,7 +829,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 
-                if(pMPMat != NULL)
+                if(isMultiPass)
                 {
                     // for multipass we have a different state in all draw node
                     // children.
@@ -890,7 +870,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 // activate or changeFrom is never called and the OSGActiveLightsMask in
                 // the SHLChunk never updated.
 
-                if(pMPMat != NULL)
+                if(isMultiPass)
                 {
                     // for multipass we have a different state in all draw node
                     // children.

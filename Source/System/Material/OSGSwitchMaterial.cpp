@@ -281,7 +281,7 @@ void SwitchMaterial::rebuildState(void)
             endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
         }
         OSG::getDefaultMaterial()->rebuildState();
-        _pState = OSG::getDefaultMaterial()->getState();
+        //_pState = OSG::getDefaultMaterial()->getState();
         return;
     }
 
@@ -295,7 +295,7 @@ void SwitchMaterial::rebuildState(void)
             endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
         }
         _mfMaterials[choice]->rebuildState();
-        _pState = _mfMaterials[choice]->getState();
+        //_pState = _mfMaterials[choice]->getState();
     }
     else
     {
@@ -307,8 +307,61 @@ void SwitchMaterial::rebuildState(void)
             endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
         }
         OSG::getDefaultMaterial()->rebuildState();
-        _pState = OSG::getDefaultMaterial()->getState();
+        //_pState = OSG::getDefaultMaterial()->getState();
     }
+}
+
+StatePtr SwitchMaterial::getState(UInt32 index)
+{
+    UInt32 choice = getChoice();
+    if(choice >= _mfMaterials.size())
+    {
+        if(!_mfMaterials.empty())
+            SWARNING << "SwitchMaterial::getState: choice index out of range!" << std::endl;
+        return NullFC;
+    }
+
+    if(_mfMaterials[choice] != NullFC)
+    {
+        if(_mfMaterials[choice]->getState(index) == NullFC)
+            rebuildState();
+
+        return _mfMaterials[choice]->getState(index);
+    }
+
+    return NullFC;
+}
+
+bool SwitchMaterial::isMultiPass(void) const
+{
+    UInt32 choice = getChoice();
+    if(choice >= _mfMaterials.size())
+    {
+        if(!_mfMaterials.empty())
+            SWARNING << "SwitchMaterial::isMultiPass: choice index out of range!" << std::endl;
+        return false;
+    }
+
+    if(_mfMaterials[choice] != NullFC)
+        return _mfMaterials[choice]->isMultiPass();
+
+    return false;
+}
+
+UInt32 SwitchMaterial::getNPasses(void) const
+{
+    UInt32 choice = getChoice();
+    if(choice >= _mfMaterials.size())
+    {
+        if(!_mfMaterials.empty())
+            SWARNING << "SwitchMaterial::getNPasses: choice index out of range!" << std::endl;
+        return 1;
+    }
+
+    if(_mfMaterials[choice] != NullFC)
+        return _mfMaterials[choice]->getNPasses();
+
+    return 1;
 }
 
 /*! Check if the Material (i.e. any of its materials) is transparent..
@@ -318,7 +371,8 @@ bool SwitchMaterial::isTransparent(void) const
     UInt32 choice = getChoice();
     if(choice >= _mfMaterials.size())
     {
-        SWARNING << "SwitchMaterial::isTransparent: choice index out of range!" << std::endl;
+        if(!_mfMaterials.empty())
+            SWARNING << "SwitchMaterial::isTransparent: choice index out of range!" << std::endl;
         return false;
     }
 
@@ -347,7 +401,7 @@ void SwitchMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.2 2006/01/23 08:32:32 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.3 2006/02/02 15:15:36 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 

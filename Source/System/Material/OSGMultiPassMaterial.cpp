@@ -217,7 +217,12 @@ StatePtr MultiPassMaterial::getState(UInt32 index)
     return NullFC;
 }
 
-UInt32 MultiPassMaterial::getNPasses(void)
+bool MultiPassMaterial::isMultiPass(void) const
+{
+    return true;
+}
+
+UInt32 MultiPassMaterial::getNPasses(void) const
 {
     return _mfMaterials.size();
 }
@@ -260,7 +265,7 @@ void MultiPassMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.4 2005/05/12 15:23:18 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.5 2006/02/02 15:15:36 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 

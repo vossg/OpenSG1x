@@ -91,6 +91,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchMaterial : public SwitchMaterialBase
 
     virtual void       rebuildState      (void);
 
+    virtual StatePtr   getState          (UInt32 index = 0);
+    virtual bool       isMultiPass       (void) const;
+    virtual UInt32     getNPasses        (void) const;
+
     virtual bool       isTransparent     (void) const;
 
     /*! \}                                                                 */
@@ -147,6 +151,6 @@ OSG_END_NAMESPACE
 #include <OSGSwitchMaterialBase.inl>
 #include <OSGSwitchMaterial.inl>
 
-#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.2 2006/01/23 08:32:32 a-m-z Exp $"
+#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.3 2006/02/02 15:15:36 a-m-z Exp $"
 
 #endif /* _OSGSWITCHMATERIAL_H_ */

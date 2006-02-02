@@ -158,9 +158,19 @@ void Material::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 }
 #endif
 
-StatePtr Material::getState(void)
+StatePtr Material::getState(UInt32 OSG_CHECK_ARG(index))
 {
     return _pState;
+}
+
+bool Material::isMultiPass(void) const
+{
+    return false;
+}
+
+UInt32 Material::getNPasses(void) const
+{
+    return 1;
 }
 
 void Material::changed(BitVector whichField, UInt32 origin)
