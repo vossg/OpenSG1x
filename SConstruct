@@ -848,7 +848,7 @@ class win32_msvc_base(win32):
 
         if _po.buildDbg():
             dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ'],
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ', '/Gi'],
                        LINKFLAGS=['/DEBUG'],
                        CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
@@ -857,18 +857,18 @@ class win32_msvc_base(win32):
             envs.append(dbg)
 
         if _po.buildDbgOpt():
-            dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MD', '/Od', '/ZI', '/GZ'],
-                       LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
-            dbg['OSG_OBJDIR']  = 'dbg'
-            dbg['OSG_LIBSUF']  = ''
-            dbg['OSG_PROGSUF'] = ''
-            envs.append(dbg)
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/Z7', '/MD', '/O2', '/Ob1'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['NDEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'opt'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            envs.append(dbgopt)
 
         if _po.buildOpt():
             opt = env.Copy()
-            opt.Append(CXXFLAGS=['/MD', '/O2', '/Ob1'],
+            opt.Append(CXXFLAGS=['/MD', '/O2', '/Ob1', '/Gi'],
                        LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
                        CPPDEFINES=['NDEBUG'])
             opt['OSG_OBJDIR']  = 'opt'
@@ -883,7 +883,7 @@ class win32_msvc71(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc71')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/GX', '/GR', '/Gi', '/FD', '/Zm1200'])
+        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
 
         # add msvc71 include and lib paths
         import SCons.Tool.msvc

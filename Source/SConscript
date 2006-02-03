@@ -54,7 +54,12 @@ def InstallLibrary(env, lib):
 
     # just want to install .lib and .dll not .exp files!
     if env.get('PLATFORM') == 'win32':
-        tgt = env.Install(dest, [lib[0], lib[1]])
+        if env['type'] == 'dbgopt':
+            pdb = str(lib[0])
+            pdb = pdb[:-3] + 'pdb'
+            tgt = env.Install(dest, [lib[0], lib[1], pdb])
+        else:
+            tgt = env.Install(dest, [lib[0], lib[1]])
     else:
         tgt = env.Install(dest, lib)
 
