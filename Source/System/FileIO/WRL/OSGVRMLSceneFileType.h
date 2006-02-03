@@ -105,8 +105,6 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLSceneFileType : public SceneFileType
     static const Char8             *_suffixA[];
     static       VRMLSceneFileType  _the;
 
-    static       VRMLFile          *_pVRMLLoader;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */

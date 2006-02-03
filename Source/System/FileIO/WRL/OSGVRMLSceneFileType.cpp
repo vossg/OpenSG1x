@@ -61,8 +61,6 @@ VRMLSceneFileType VRMLSceneFileType::_the(_suffixA,
                                           OSG_READ_SUPPORTED | 
                                           OSG_WRITE_SUPPORTED);
 
-VRMLFile *VRMLSceneFileType::_pVRMLLoader = NULL;
-
 /*-------------------------------------------------------------------------*/
 /*                                The                                      */
 
@@ -92,17 +90,15 @@ const Char8 *VRMLSceneFileType::getName(void) const
 
 NodePtr VRMLSceneFileType::read(std::istream &is, const Char8 *) const
 {
-    if(_pVRMLLoader == NULL)
-    {
-        _pVRMLLoader = new VRMLFile();
+    NodePtr root = NullFC;
 
-//        _pVRMLLoader->scanStandardPrototypes("std.wrl", 0);
-        _pVRMLLoader->createStandardPrototypes();
-    }
+    VRMLFile *loader = new VRMLFile();
+    loader->createStandardPrototypes();
+    loader->scanStream(is);
+    root = loader->getRoot();
+    delete loader;
 
-    _pVRMLLoader->scanStream(is);
-
-    return  _pVRMLLoader->getRoot();
+    return root;
 }
 
 /*-------------------------------------------------------------------------*/
