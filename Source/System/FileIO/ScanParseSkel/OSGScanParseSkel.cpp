@@ -156,9 +156,9 @@ void ScanParseSkel::expectType(Int32 iNextType)
 
 void ScanParseSkel::handleError(const Char8 *szErrorText)
 {
-    FWARNING(("-----> %s in Line %d, read\n", 
-              szErrorText, 
-              _pLexer->lineno(), 
+    FWARNING(("-----> %s in Line %d, read '%s'\n",
+              szErrorText,
+              _pLexer->lineno(),
               _pLexer->YYText()));
 }
 
