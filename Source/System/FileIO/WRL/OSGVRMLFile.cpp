@@ -199,6 +199,17 @@ void VRMLFile::scanFile(const Char8 *szFilename)
             useTime));
 }
 
+void VRMLFile::handleError(const Char8 *szErrorText)
+{
+    Inherited::handleError(szErrorText);
+    // on an error we destroy the incomplete scene.
+    if(_pSceneRootNode != NullFC)
+    {
+        subRefCP(_pSceneRootNode);
+        _pSceneRootNode = NullFC;
+    }
+}
+
 void VRMLFile::beginNode(const Char8 *szNodeTypename,
                          const Char8 *szNodename)
 {

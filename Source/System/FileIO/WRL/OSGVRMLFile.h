@@ -131,6 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLFile : public Parent
 
     virtual void   scanFile      (const Char8  *szFilename);
 
+    virtual void   handleError   (const Char8       *szErrorText);
+
     virtual void   beginFieldDecl(const Char8  *szFieldType,
                                   const UInt32  uiFieldTypeId,
                                   const Char8  *szFieldName);
