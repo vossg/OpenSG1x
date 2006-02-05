@@ -74,6 +74,8 @@ ScanParseSkel::ScanParseSkel(void) :
 
 ScanParseSkel::~ScanParseSkel(void)
 {
+    if(_pLexer != NULL)
+        delete _pLexer;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -86,7 +88,8 @@ void ScanParseSkel::scanStream(std::istream &is)
 {
     if(is.good())
     {
-        delete _pLexer;
+        if(_pLexer != NULL)
+            delete _pLexer;
 
         _pLexer = new OSGScanParseLexer(this, &is);
 
@@ -156,6 +159,9 @@ void ScanParseSkel::expectType(Int32 iNextType)
 
 void ScanParseSkel::handleError(const Char8 *szErrorText)
 {
+    if(_pLexer == NULL)
+        return;
+
     FWARNING(("-----> %s in Line %d, read '%s'\n",
               szErrorText,
               _pLexer->lineno(),
