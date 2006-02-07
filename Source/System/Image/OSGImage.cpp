@@ -1047,35 +1047,35 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             case OSG_UINT8_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize;)
                                 {
-                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
                                     srcI++;
                                 }
                                 break;
                             case OSG_UINT16_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize/getComponentSize();)
                                 {
-                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
                                     srcI++;
                                 }
                                 break;
                             case OSG_UINT32_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize/getComponentSize();)
                                 {
-                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
                                     srcI++;
                                 }
                                 break;
                             case OSG_FLOAT32_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize/getComponentSize();)
                                 {
-                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
                                     srcI++;
                                 }
                                 break;
                             case OSG_FLOAT16_IMAGEDATA:
                                 for (srcI = destI = 0; destI < destSize/getComponentSize();)
                                 {
-                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
                                     srcI++;
                                 }
                                 break;
