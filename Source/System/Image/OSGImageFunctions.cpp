@@ -344,10 +344,11 @@ bool OSG::createNormalVolume ( ImagePtr inImage,
     copy = Image::create();
     FLOG (("Create copy to reformat/convert Image\n"));
 
-    if (inImage->getPixelFormat() != Image::OSG_L_PF) 
-      inImage->reformat(Image::OSG_L_PF,copy);      
-    else 
+    if ( (inImage->getPixelFormat() == Image::OSG_L_PF) ||
+         (inImage->getPixelFormat() == Image::OSG_L_PF) )
       copy->set(inImage);    
+    else 
+      inImage->reformat(Image::OSG_L_PF,copy);      
     inImage = copy;
     
     if (inImage->getDataType() != Image::OSG_UINT8_IMAGEDATA) 
