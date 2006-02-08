@@ -1023,9 +1023,12 @@ NodePtr OSG::deepCloneTree(const NodePtr &src,
         // strip leading spaces
         curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
         share.push_back(std::string(curPos, nextComma));
-        curPos = ++nextComma;
+        if(nextComma != shareString.end())
+            curPos = ++nextComma;
+        else
+            break;
     }
-    
+
     return OSG::deepCloneTree(src, share);
 }
 
