@@ -57,6 +57,7 @@
 #include <OSGMatrixCamera.h>
 #include <OSGTransform.h>
 #include <OSGTextureChunk.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGPassiveBackground.h>
 #include <OSGDynamicVolume.h>
@@ -143,6 +144,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
 
+    SimpleMaterialPtr               _unlitMat;
+
     bool                            _trigger_update;
 
     /*---------------------------------------------------------------------*/
@@ -195,6 +198,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.6 2005/08/19 13:51:32 mroth Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.7 2006/02/09 17:46:49 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

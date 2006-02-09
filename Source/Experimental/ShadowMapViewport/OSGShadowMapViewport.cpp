@@ -153,6 +153,7 @@ ShadowMapViewport::ShadowMapViewport(void) :
     _lightStates(),
     _shadowImages(),
     _texChunks(),
+    _unlitMat(NullFC),
     _trigger_update(false)
 {
 }
@@ -177,6 +178,7 @@ ShadowMapViewport::ShadowMapViewport(const ShadowMapViewport &source) :
     _lightStates(source._lightStates),
     _shadowImages(source._shadowImages),
     _texChunks(source._texChunks),
+    _unlitMat(source._unlitMat),
     _trigger_update(source._trigger_update)
 {
     _depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
@@ -242,7 +244,7 @@ void ShadowMapViewport::triggerMapUpdate(void)
 }
 
 
-void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
+void ShadowMapViewport::onCreate(const ShadowMapViewport *)
 {
     // if we're in startup this is the prototype ...
     if(OSG::GlobalSystemState == OSG::Startup)
@@ -290,6 +292,12 @@ void ShadowMapViewport::onCreate(const ShadowMapViewport */*source*/)
         _blender->setAlphaValue(0.99);
     }
     endEditCP(_blender);
+
+    _unlitMat = SimpleMaterial::create();
+    addRefCP(_unlitMat);
+    beginEditCP(_unlitMat);
+        _unlitMat->setLit(false);
+    endEditCP(_unlitMat);
 }
 
 void ShadowMapViewport::onDestroy(void)
@@ -301,6 +309,7 @@ void ShadowMapViewport::onDestroy(void)
     subRefCP(_poly);
     subRefCP(_texGen);
     subRefCP(_dummy);
+    subRefCP(_unlitMat);
 }
 
 void ShadowMapViewport::render(RenderActionBase* action)
@@ -818,12 +827,12 @@ void ShadowMapViewport::initializeLights(RenderActionBase *action)
 
         // Just a Hack until TextureChunk is ready
         // to take the following arguments
-        _texChunks[i]->activate(action, 3);
+        _texChunks[i]->activate(action, getShadowMapTextureIndex());
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
                         GL_COMPARE_R_TO_TEXTURE_ARB);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_INTENSITY);
-        _texChunks[i]->deactivate(action, 3);
+        _texChunks[i]->deactivate(action, getShadowMapTextureIndex());
     }
 
     updateLights();
@@ -877,6 +886,9 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     }
     endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                         BottomFieldMask | TopFieldMask);
+
+    // ok we render only one unlit material for the whole scene in this pass.
+    action->setMaterial(_unlitMat.getCPtr(), getRoot());
 
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
@@ -987,6 +999,9 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
     //glEnable(GL_LIGHTING);
+
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
 }
 //------------------------------------------------- 
 
@@ -1096,9 +1111,9 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
             
             _lights[i]->setOn(true);
         
-            _texChunks[i]->activate(action,3);
+            _texChunks[i]->activate(action, getShadowMapTextureIndex());
 
-            _texGen->activate(action,3);
+            _texGen->activate(action, getShadowMapTextureIndex());
 
             _blender->activate(action,0);
 
@@ -1108,9 +1123,9 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
             _blender->deactivate(action,0);
 
-            _texGen->deactivate(action,3);
+            _texGen->deactivate(action, getShadowMapTextureIndex());
 
-            _texChunks[i]->deactivate(action,3);
+            _texChunks[i]->deactivate(action, getShadowMapTextureIndex());
         
             _lights[i]->setOn(false);
 
@@ -1154,7 +1169,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.12 2005/11/07 21:43:26 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.13 2006/02/09 17:46:49 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

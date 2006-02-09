@@ -93,4 +93,14 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		access="public"
 	>
 	</Field>
+	<Field
+		name="shadowMapTextureIndex"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="3"
+		access="public"
+	>
+	Renders the shadow map in texture unit x default is 3.
+	</Field>
 </FieldContainer>

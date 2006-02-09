@@ -76,6 +76,7 @@
 #include <OSGNodeFields.h> // ExcludeNodes type
 #include <OSGBoolFields.h> // ShadowOn type
 #include <OSGBoolFields.h> // MapAutoUpdate type
+#include <OSGUInt32Fields.h> // ShadowMapTextureIndex type
 
 #include <OSGShadowMapViewportFields.h>
 
@@ -99,16 +100,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
 
     enum
     {
-        OffBiasFieldId       = Inherited::NextFieldId,
-        OffFactorFieldId     = OffBiasFieldId       + 1,
-        SceneRootFieldId     = OffFactorFieldId     + 1,
-        ShadowColorFieldId   = SceneRootFieldId     + 1,
-        MapSizeFieldId       = ShadowColorFieldId   + 1,
-        LightNodesFieldId    = MapSizeFieldId       + 1,
-        ExcludeNodesFieldId  = LightNodesFieldId    + 1,
-        ShadowOnFieldId      = ExcludeNodesFieldId  + 1,
-        MapAutoUpdateFieldId = ShadowOnFieldId      + 1,
-        NextFieldId          = MapAutoUpdateFieldId + 1
+        OffBiasFieldId               = Inherited::NextFieldId,
+        OffFactorFieldId             = OffBiasFieldId               + 1,
+        SceneRootFieldId             = OffFactorFieldId             + 1,
+        ShadowColorFieldId           = SceneRootFieldId             + 1,
+        MapSizeFieldId               = ShadowColorFieldId           + 1,
+        LightNodesFieldId            = MapSizeFieldId               + 1,
+        ExcludeNodesFieldId          = LightNodesFieldId            + 1,
+        ShadowOnFieldId              = ExcludeNodesFieldId          + 1,
+        MapAutoUpdateFieldId         = ShadowOnFieldId              + 1,
+        ShadowMapTextureIndexFieldId = MapAutoUpdateFieldId         + 1,
+        NextFieldId                  = ShadowMapTextureIndexFieldId + 1
     };
 
     static const OSG::BitVector OffBiasFieldMask;
@@ -120,6 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     static const OSG::BitVector ExcludeNodesFieldMask;
     static const OSG::BitVector ShadowOnFieldMask;
     static const OSG::BitVector MapAutoUpdateFieldMask;
+    static const OSG::BitVector ShadowMapTextureIndexFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -155,6 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
            MFNodePtr           *getMFExcludeNodes   (void);
            SFBool              *getSFShadowOn       (void);
            SFBool              *getSFMapAutoUpdate  (void);
+           SFUInt32            *getSFShadowMapTextureIndex(void);
 
            Real32              &getOffBias        (void);
      const Real32              &getOffBias        (void) const;
@@ -170,6 +174,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
      const bool                &getShadowOn       (void) const;
            bool                &getMapAutoUpdate  (void);
      const bool                &getMapAutoUpdate  (void) const;
+           UInt32              &getShadowMapTextureIndex(void);
+     const UInt32              &getShadowMapTextureIndex(void) const;
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
@@ -189,6 +195,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
      void setMapSize        ( const UInt32 &value );
      void setShadowOn       ( const bool &value );
      void setMapAutoUpdate  ( const bool &value );
+     void setShadowMapTextureIndex( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -240,6 +247,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public Viewport
     MFNodePtr           _mfExcludeNodes;
     SFBool              _sfShadowOn;
     SFBool              _sfMapAutoUpdate;
+    SFUInt32            _sfShadowMapTextureIndex;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -317,6 +325,6 @@ typedef RefPtr<ShadowMapViewportPtr> ShadowMapViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.10 2005/07/20 00:09:00 vossg Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.11 2006/02/09 17:46:49 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

@@ -159,6 +159,13 @@ SFBool *ShadowMapViewportBase::getSFMapAutoUpdate(void)
     return &_sfMapAutoUpdate;
 }
 
+//! Get the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+SFUInt32 *ShadowMapViewportBase::getSFShadowMapTextureIndex(void)
+{
+    return &_sfShadowMapTextureIndex;
+}
+
 
 //! Get the value of the ShadowMapViewport::_sfOffBias field.
 inline
@@ -307,6 +314,27 @@ void ShadowMapViewportBase::setMapAutoUpdate(const bool &value)
     _sfMapAutoUpdate.setValue(value);
 }
 
+//! Get the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+UInt32 &ShadowMapViewportBase::getShadowMapTextureIndex(void)
+{
+    return _sfShadowMapTextureIndex.getValue();
+}
+
+//! Get the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+const UInt32 &ShadowMapViewportBase::getShadowMapTextureIndex(void) const
+{
+    return _sfShadowMapTextureIndex.getValue();
+}
+
+//! Set the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+void ShadowMapViewportBase::setShadowMapTextureIndex(const UInt32 &value)
+{
+    _sfShadowMapTextureIndex.setValue(value);
+}
+
 
 //! Get the value of the \a index element the ShadowMapViewport::_mfLightNodes field.
 inline
@@ -352,5 +380,5 @@ const MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.9 2005/07/08 06:32:42 vossg Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.10 2006/02/09 17:46:49 a-m-z Exp $"
 
