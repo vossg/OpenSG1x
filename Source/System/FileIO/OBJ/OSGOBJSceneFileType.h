@@ -88,6 +88,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
                          const Char8 *fileNameOrExtension) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Write                                      */
+    /*! \{                                                                 */
+
+    virtual bool write(const NodePtr &node, std::ostream &os,
+                       const Char8 *fileNameOrExtension) const;
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -178,6 +186,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OBJSceneFileType : public SceneFileType
     Int32 readMTL (const Char8 *fileName,
                    std::map<std::string,
                    SimpleTexturedMaterialPtr> &mtlMap  ) const;
+
+    void write(const NodePtr &node,
+               std::ostream &os,
+               UInt32 &pIndex,
+               UInt32 &nIndex,
+               UInt32 &tIndex) const;
 
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const OBJSceneFileType &source);
