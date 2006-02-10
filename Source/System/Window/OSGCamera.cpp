@@ -230,7 +230,7 @@ void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
 
 /*! Calculate a ray that starts at the camera position and goes through the
 pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
-viewport's upper left corner. 
+parent window's upper left corner. 
 */
 bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
 {
