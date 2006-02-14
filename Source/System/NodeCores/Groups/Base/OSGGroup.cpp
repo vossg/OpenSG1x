@@ -122,7 +122,10 @@ Action::ResultE Group::renderEnter(Action *action)
     if (ra->pushVisibility())
     {
         if(ra->selectVisibles() == 0)
+        {
+            ra->popVisibility();
             return Action::Skip;
+        }
     }
 
     return Action::Continue;
