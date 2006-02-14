@@ -119,8 +119,12 @@ Action::ResultE Group::renderEnter(Action *action)
 {
     RenderAction *ra = dynamic_cast<RenderAction *>(action);
 
-    ra->pushVisibility();
-    
+    if (ra->pushVisibility())
+    {
+        if(ra->selectVisibles() == 0)
+            return Action::Skip;
+    }
+
     return Action::Continue;
 }
 

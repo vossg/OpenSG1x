@@ -145,13 +145,20 @@ Action::ResultE MaterialGroup::renderEnter(Action * action)
 {
     RenderAction *da = dynamic_cast<RenderAction *>(action);
 
+    Action::ResultE r = Group::renderEnter(action);
+
+    // ok all children are culled away so we leave
+    // immediately and don't set the material!
+    if(r == Action::Skip)
+        return r;
+
     if(da != NULL && _sfMaterial.getValue() != NullFC &&
        da->getMaterial() == NULL)
     {
         da->setMaterial(&(*(_sfMaterial.getValue())), action->getActNode());
     }
 
-    return Group::renderEnter(action);
+    return r;
 }
 
 Action::ResultE MaterialGroup::renderLeave(Action * action)
