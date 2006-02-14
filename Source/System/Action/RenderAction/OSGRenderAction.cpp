@@ -260,6 +260,8 @@ RenderAction::RenderAction(void) :
     _smallFeaturesThreshold (32),
     _worldToScreenMatrix    (),
 
+    _useGLFinish            (true),
+
     _vLights(),
     _lightsMap(),
     _lightsState(0),
@@ -336,6 +338,8 @@ RenderAction::RenderAction(const RenderAction &source) :
     _smallFeaturesPixels    (source._smallFeaturesPixels),
     _smallFeaturesThreshold (source._smallFeaturesThreshold),
     _worldToScreenMatrix    (source._worldToScreenMatrix),
+
+    _useGLFinish            (source._useGLFinish),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -1539,6 +1543,16 @@ UInt32 RenderAction::getSmallFeatureThreshold(void)
     return _smallFeaturesThreshold;
 }
 
+void RenderAction::setUseGLFinish(bool s)
+{
+    _useGLFinish = s;
+}
+
+bool RenderAction::getUseGLFinish(void)
+{
+    return _useGLFinish;
+}
+
 
 // initialisation
 
@@ -1775,7 +1789,8 @@ Action::ResultE RenderAction::stop(ResultE res)
             glDisable(GL_LIGHT0 + i);
     }
 
-    glFinish();
+    if(_useGLFinish)
+        glFinish();
 
     StatTimeElem* elemDraw = getStatistics()->getElem(statDrawTime);
     elemDraw->stop();

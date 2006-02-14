@@ -190,6 +190,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     Real32 getSmallFeaturePixels(void);
     void setSmallFeatureThreshold(UInt32 threshold);
     UInt32 getSmallFeatureThreshold(void);
+    void setUseGLFinish(bool s);
+    bool getUseGLFinish(void);
 
     /*------------------------- comparison ----------------------------------*/
 
@@ -273,6 +275,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     Real32                    _smallFeaturesPixels;
     UInt32                    _smallFeaturesThreshold;
     Matrix                    _worldToScreenMatrix;
+    bool                      _useGLFinish;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
