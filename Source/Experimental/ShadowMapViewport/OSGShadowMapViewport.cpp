@@ -465,6 +465,10 @@ Action::ResultE ShadowMapViewport::findLight(NodePtr& node)
 
 Action::ResultE ShadowMapViewport::findTransparent(NodePtr& node)
 {
+    // ignore invisible nodes.
+    if(!node->getActive())
+        return Action::Continue;
+
     if(node->getCore() != NullFC)
     {
         if(node->getCore()->getType() == Geometry::getClassType() ||
@@ -1169,7 +1173,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.13 2006/02/09 17:46:49 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.14 2006/02/15 13:16:31 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
