@@ -1022,8 +1022,6 @@ bool RenderAction::isVisible( Node* node )
 
     // HACK but light sources beneath a LightEnv node can also
     // light it's brothers or parents.
-    // It is not as bad as it looks like, the isVisible() method is only
-    // used for Switch, DistanceLOD and ProxyGroup ...
     if(!_lightEnvsLightsState.empty())
         return true;
 
@@ -1058,7 +1056,12 @@ bool RenderAction::pushVisibility(void)
 {
     if(getFrustumCulling() == false)
         return true;
-    
+
+    // HACK but light sources beneath a LightEnv node can also
+    // light it's brothers or parents.
+    if(!_lightEnvsLightsState.empty())
+        return true;
+
     FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
 
     if(inplanes == FrustumVolume::P_ALL)
