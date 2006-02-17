@@ -1748,29 +1748,64 @@ Action::ResultE RenderAction::stop(ResultE res)
     while(matRootsIt != _pMatRoots.end() ||
           transMatRootsIt != _pTransMatRoots.end())
     {
-        //printf("activeLightsState1: %d\n", _activeLightsState);
+        bool matRootsValid = (matRootsIt != _pMatRoots.end());
+        bool transMatRootsValid = (transMatRootsIt != _pTransMatRoots.end());
 
-        if(matRootsIt != _pMatRoots.end())
+        Int32 matSortKey = matRootsValid ? (*matRootsIt).first : 0;
+        Int32 transSortKey = transMatRootsValid ? (*transMatRootsIt).first : 0;
+
+        if(matRootsValid)
         {
-            //printf("_pMatRoots: sortKey %d\n", (*matRootsIt).first);
-            draw((*matRootsIt).second->getFirstChild());
-            ++matRootsIt;
+            if(transMatRootsValid)
+            {
+                if(matSortKey <= transSortKey)
+                {
+                    //printf("draw opaque %d\n", matSortKey);
+                    draw((*matRootsIt).second->getFirstChild());
+                    ++matRootsIt;
+                }
+            }
+            else
+            {
+                //printf("draw opaque %d\n", matSortKey);
+                draw((*matRootsIt).second->getFirstChild());
+                ++matRootsIt;
+            }
         }
-        //printf("activeLightsState2: %d\n", _activeLightsState);
 
-        if(transMatRootsIt != _pTransMatRoots.end())
+        if(transMatRootsValid)
         {
-            if(!_bZWriteTrans)
-                glDepthMask(false);
+            if(matRootsValid)
+            {
+                if(transSortKey <= matSortKey)
+                {
+                    if(!_bZWriteTrans)
+                        glDepthMask(false);
         
-            //printf("_pTransMatRoots: sortKey %d\n", (*transMatRootsIt).first);
-            TransSortMap &ts = (*transMatRootsIt).second;
-            for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
-                draw((*it).second);
-
-            if(!_bZWriteTrans)
-                glDepthMask(true);
-            ++transMatRootsIt;
+                    TransSortMap &ts = (*transMatRootsIt).second;
+                    for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
+                        draw((*it).second);
+                    //printf("draw transparent %d\n", transSortKey);
+        
+                    if(!_bZWriteTrans)
+                        glDepthMask(true);
+                    ++transMatRootsIt;
+                }
+            }
+            else
+            {
+                if(!_bZWriteTrans)
+                    glDepthMask(false);
+    
+                TransSortMap &ts = (*transMatRootsIt).second;
+                for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
+                    draw((*it).second);
+                //printf("draw transparent %d\n", transSortKey);
+    
+                if(!_bZWriteTrans)
+                    glDepthMask(true);
+                ++transMatRootsIt;
+            }
         }
     }
 
