@@ -145,8 +145,8 @@ class OSG_WINDOWQTLIB_DLLMAPPING QTWindowBase : public XWindow
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
+    //virtual void   executeSync(      FieldContainer    &other,
+    //                           const BitVector         &whichField);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

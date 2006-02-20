@@ -255,6 +255,10 @@ void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
+    if(FieldBits::NoField != (GlWidgetFieldMask & whichField))
+        _sfGlWidget.syncWith(pOther->_sfGlWidget);
+
+    /*
     if(FieldBits::NoField != (DisplayFieldMask & whichField))
         _sfDisplay.syncWith(pOther->_sfDisplay);
 
@@ -263,6 +267,7 @@ void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
 
     if(FieldBits::NoField != (ContextFieldMask & whichField))
         _sfContext.syncWith(pOther->_sfContext);
+    */
 
 
 }
@@ -274,6 +279,10 @@ void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
 
+    if(FieldBits::NoField != (GlWidgetFieldMask & whichField))
+        _sfGlWidget.syncWith(pOther->_sfGlWidget);
+
+    /*
     if(FieldBits::NoField != (DisplayFieldMask & whichField))
         _sfDisplay.syncWith(pOther->_sfDisplay);
 
@@ -282,9 +291,7 @@ void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
 
     if(FieldBits::NoField != (ContextFieldMask & whichField))
         _sfContext.syncWith(pOther->_sfContext);
-
-
-
+    */
 }
 
 void QTWindowBase::execBeginEditImpl (const BitVector &whichField, 
