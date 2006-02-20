@@ -702,14 +702,37 @@ void Log::setLogFile(const Char8 *fileName, bool force)
 
 void Log::doLog(const Char8 * format, ...)
 {
-    Char8   buffer[4096];
+    static Char8   *buffer = NULL;
+    static int      buffer_size = 0;
     va_list args;
     
     va_start( args, format );
 
 #ifdef OSG_HAS_VSNPRINTF
-    vsnprintf(buffer, sizeof(buffer) - 1, format, args);
+    int count;
+    
+    if(!buffer)
+    {
+        buffer_size = 8;
+        buffer = new Char8[buffer_size];
+    }
+    
+    count = vsnprintf(buffer, buffer_size - 1, format, args);
+    
+    if(count >= buffer_size)
+    {
+        buffer_size = osgMax(buffer_size * 2, count + 1);
+        if(buffer) delete [] buffer;
+        buffer = new Char8[buffer_size];
+        vsnprintf(buffer, buffer_size - 1, format, args);
+    }
 #else
+    if(buffer_size < 8192)
+    {
+        buffer_size = 8192;
+        if(buffer) delete [] buffer;
+        buffer = new Char8[buffer_size];
+    }
     vsprintf(buffer, format, args);
 #endif
 

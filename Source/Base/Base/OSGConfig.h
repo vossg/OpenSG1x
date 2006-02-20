@@ -85,6 +85,11 @@
 
 /*!}*/
 
+// Mac Hack
+
+#ifdef __APPLE__
+#define darwin
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              endian general                             */
@@ -460,7 +465,9 @@
 
 # define OSG_STREAM_HAS_ISOPEN
 
-//# define OSG_HAS_VSNPRINTF
+// it's there, it's just called something else
+# define OSG_HAS_VSNPRINTF
+# define vsnprintf _vsnprintf
 
 # define OSG_HAS_NILBUF
 # define OSG_STREAM_RDBUF_HAS_PARAM
@@ -495,7 +502,11 @@
 # define OSG_USE_STDMATH
 
 # define OSG_STREAM_HAS_ISOPEN
-//# define OSG_HAS_VSNPRINTF
+
+// it's there, it's just called something else
+# define OSG_HAS_VSNPRINTF
+# define vsnprintf _vsnprintf
+
 # define OSG_HAS_NILBUF
 # define OSG_STREAM_RDBUF_HAS_PARAM
 
@@ -820,10 +831,10 @@
 
 # else /* OSG_HAS_NAMESPACE */
 
-# define OSG
-# define OSG_BEGIN_NAMESPACE
-# define OSG_END_NAMESPACE
-# define OSG_USING_OSG_NAMESPACE
+# define OSG 
+# define OSG_BEGIN_NAMESPACE 
+# define OSG_END_NAMESPACE 
+# define OSG_USING_NAMESPACE
 
 #endif /*  */
 
