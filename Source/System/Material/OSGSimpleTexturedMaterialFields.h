@@ -89,10 +89,10 @@ struct FieldDataTraits<SimpleTexturedMaterialPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSimpleTexturedMaterialPtr"; }
-    static char     *getMName(void) { return "MFSimpleTexturedMaterialPtr"; }
+    static const char *getSName(void) { return "SFSimpleTexturedMaterialPtr"; }
+    static const char *getMName(void) { return "MFSimpleTexturedMaterialPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
+#define OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGSIMPLETEXTUREDMATERIALFIELDS_H_ */

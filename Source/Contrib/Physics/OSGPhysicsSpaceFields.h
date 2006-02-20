@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsSpacePtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsSpacePtr"; }
-    static char     *getMName(void) { return "MFPhysicsSpacePtr"; }
+    static const char *getSName(void) { return "SFPhysicsSpacePtr"; }
+    static const char *getMName(void) { return "MFPhysicsSpacePtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPACEFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsSpaceFields.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSPACEFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsSpaceFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSSPACEFIELDS_H_ */

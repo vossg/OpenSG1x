@@ -240,5 +240,5 @@ void DepthChunkBase::setReadOnly(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.5 2005/07/08 06:33:19 vossg Exp $"
+#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.6 2006/02/20 17:04:46 dirk Exp $"
 

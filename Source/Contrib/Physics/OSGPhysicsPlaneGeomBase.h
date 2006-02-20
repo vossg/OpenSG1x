@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsPlaneGeomPtr> PhysicsPlaneGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSPLANEGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSPLANEGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSPLANEGEOMBASE_H_ */

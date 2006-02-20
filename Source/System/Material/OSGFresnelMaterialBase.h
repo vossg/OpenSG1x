@@ -341,6 +341,6 @@ typedef RefPtr<FresnelMaterialPtr> FresnelMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.5 2005/07/20 00:09:24 vossg Exp $"
+#define OSGFRESNELMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGFresnelMaterialBase.h,v 1.6 2006/02/20 17:04:43 dirk Exp $"
 
 #endif /* _OSGFRESNELMATERIALBASE_H_ */

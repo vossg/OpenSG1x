@@ -128,5 +128,5 @@ void PhysicsHashSpaceBase::setLevels(const Vec2f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHASHSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.inl,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSHASHSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 

@@ -89,10 +89,10 @@ struct FieldDataTraits<ManipulatorPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFManipulatorPtr"; }
-    static char     *getMName(void) { return "MFManipulatorPtr"; }
+    static const char *getSName(void) { return "SFManipulatorPtr"; }
+    static const char *getMName(void) { return "MFManipulatorPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ManipulatorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGManipulatorFields.h,v 1.3 2005/07/08 06:32:38 vossg Exp $"
+#define OSGMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGManipulatorFields.h,v 1.4 2006/02/20 17:04:35 dirk Exp $"
 
 #endif /* _OSGMANIPULATORFIELDS_H_ */

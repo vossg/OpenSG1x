@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsUniversalJointPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsUniversalJointPtr"; }
-    static char     *getMName(void) { return "MFPhysicsUniversalJointPtr"; }
+    static const char *getSName(void) { return "SFPhysicsUniversalJointPtr"; }
+    static const char *getMName(void) { return "MFPhysicsUniversalJointPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsUniversalJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSUNIVERSALJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJointFields.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSUNIVERSALJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJointFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSUNIVERSALJOINTFIELDS_H_ */

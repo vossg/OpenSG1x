@@ -89,10 +89,10 @@ struct FieldDataTraits<MultiPassMaterialPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFMultiPassMaterialPtr"; }
-    static char     *getMName(void) { return "MFMultiPassMaterialPtr"; }
+    static const char *getSName(void) { return "SFMultiPassMaterialPtr"; }
+    static const char *getMName(void) { return "MFMultiPassMaterialPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, MultiPassMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialFields.h,v 1.4 2005/07/08 06:32:50 vossg Exp $"
+#define OSGMULTIPASSMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialFields.h,v 1.5 2006/02/20 17:04:44 dirk Exp $"
 
 #endif /* _OSGMULTIPASSMATERIALFIELDS_H_ */

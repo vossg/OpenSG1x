@@ -89,9 +89,9 @@ struct FieldDataTraits<CharacterModelPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFCharacterModelPtr"; }
+    static const char *getSName(void) { return "SFCharacterModelPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -115,6 +115,6 @@ OSG_DLLEXPORT_DECL1(SField, CharacterModelPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELFIELDS_HEADER_CVSID "@(#)$Id: OSGCharacterModelFields.h,v 1.1 2005/09/25 21:55:05 dirk Exp $"
+#define OSGCHARACTERMODELFIELDS_HEADER_CVSID "@(#)$Id: OSGCharacterModelFields.h,v 1.2 2006/02/20 17:04:12 dirk Exp $"
 
 #endif /* _OSGCHARACTERMODELFIELDS_H_ */

@@ -128,5 +128,5 @@ const MFShaderParameterPtr &CGFXAnnotationBase::getParameters(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.2 2005/07/08 06:32:32 vossg Exp $"
+#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.3 2006/02/20 17:04:10 dirk Exp $"
 

@@ -219,6 +219,6 @@ typedef RefPtr<MoveManipulatorPtr> MoveManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMOVEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGMoveManipulatorBase.h,v 1.4 2005/07/20 00:08:57 vossg Exp $"
+#define OSGMOVEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGMoveManipulatorBase.h,v 1.5 2006/02/20 17:04:35 dirk Exp $"
 
 #endif /* _OSGMOVEMANIPULATORBASE_H_ */

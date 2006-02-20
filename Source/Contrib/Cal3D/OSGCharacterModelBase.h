@@ -277,6 +277,6 @@ typedef RefPtr<CharacterModelPtr> CharacterModelRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.1 2005/09/25 21:55:05 dirk Exp $"
+#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.2 2006/02/20 17:04:12 dirk Exp $"
 
 #endif /* _OSGCHARACTERMODELBASE_H_ */

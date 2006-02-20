@@ -309,6 +309,6 @@ typedef RefPtr<SimpleMaterialPtr> SimpleMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGSIMPLEMATERIALBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGSIMPLEMATERIALBASE_H_ */

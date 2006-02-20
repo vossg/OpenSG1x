@@ -89,10 +89,10 @@ struct FieldDataTraits<SHLChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSHLChunkPtr"; }
-    static char     *getMName(void) { return "MFSHLChunkPtr"; }
+    static const char *getSName(void) { return "SFSHLChunkPtr"; }
+    static const char *getMName(void) { return "MFSHLChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.10 2005/09/28 22:53:30 dirk Exp $"
+#define OSGSHLCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGSHLChunkFields.h,v 1.11 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHLCHUNKFIELDS_H_ */

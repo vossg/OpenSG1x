@@ -242,7 +242,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.4 2005/07/20 00:08:57 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.5 2006/02/20 17:04:35 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSCALEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCALEMANIPULATORBASE_INLINE_CVSID;
 

@@ -394,7 +394,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.1 2005/09/25 21:55:05 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.2 2006/02/20 17:04:12 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 

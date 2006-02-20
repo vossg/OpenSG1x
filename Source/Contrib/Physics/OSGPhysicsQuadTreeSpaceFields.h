@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsQuadTreeSpacePtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsQuadTreeSpacePtr"; }
-    static char     *getMName(void) { return "MFPhysicsQuadTreeSpacePtr"; }
+    static const char *getSName(void) { return "SFPhysicsQuadTreeSpacePtr"; }
+    static const char *getMName(void) { return "MFPhysicsQuadTreeSpacePtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsQuadTreeSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPI
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSQUADTREESPACEFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceFields.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSQUADTREESPACEFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSQUADTREESPACEFIELDS_H_ */

@@ -285,6 +285,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.3 2005/07/20 00:08:51 vossg Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.4 2006/02/20 17:04:10 dirk Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */

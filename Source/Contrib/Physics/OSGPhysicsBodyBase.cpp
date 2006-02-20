@@ -834,7 +834,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBodyBase.cpp,v 1.1 2005/10/21 15:44:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBodyBase.cpp,v 1.2 2006/02/20 17:04:20 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSBODYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSBODYBASE_INLINE_CVSID;
 

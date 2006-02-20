@@ -89,10 +89,10 @@ struct FieldDataTraits<TiledTerrainPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFTiledTerrainPtr"; }
-    static char     *getMName(void) { return "MFTiledTerrainPtr"; }
+    static const char *getSName(void) { return "SFTiledTerrainPtr"; }
+    static const char *getMName(void) { return "MFTiledTerrainPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, TiledTerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINFIELDS_HEADER_CVSID "@(#)$Id: OSGTiledTerrainFields.h,v 1.5 2005/09/28 02:54:58 dirk Exp $"
+#define OSGTILEDTERRAINFIELDS_HEADER_CVSID "@(#)$Id: OSGTiledTerrainFields.h,v 1.6 2006/02/20 17:04:33 dirk Exp $"
 
 #endif /* _OSGTILEDTERRAINFIELDS_H_ */

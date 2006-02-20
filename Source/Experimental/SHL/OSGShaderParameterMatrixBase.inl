@@ -128,5 +128,5 @@ void ShaderParameterMatrixBase::setValue(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.inl,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.inl,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 

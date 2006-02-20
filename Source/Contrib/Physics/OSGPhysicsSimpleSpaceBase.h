@@ -219,6 +219,6 @@ typedef RefPtr<PhysicsSimpleSpacePtr> PhysicsSimpleSpaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSIMPLESPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSimpleSpaceBase.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSIMPLESPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSimpleSpaceBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSSIMPLESPACEBASE_H_ */

@@ -89,10 +89,10 @@ struct FieldDataTraits<FTGLFontPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFFTGLFontPtr"; }
-    static char     *getMName(void) { return "MFFTGLFontPtr"; }
+    static const char *getSName(void) { return "SFFTGLFontPtr"; }
+    static const char *getMName(void) { return "MFFTGLFontPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, FTGLFontPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTFIELDS_HEADER_CVSID "@(#)$Id: OSGFTGLFontFields.h,v 1.5 2005/11/07 21:43:27 dirk Exp $"
+#define OSGFTGLFONTFIELDS_HEADER_CVSID "@(#)$Id: OSGFTGLFontFields.h,v 1.6 2006/02/20 17:04:14 dirk Exp $"
 
 #endif /* _OSGFTGLFONTFIELDS_H_ */

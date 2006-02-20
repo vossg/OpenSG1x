@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsHashSpacePtr> PhysicsHashSpaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHASHSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSHASHSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSHASHSPACEBASE_H_ */

@@ -277,6 +277,6 @@ typedef RefPtr<PhysicsJointPtr> PhysicsJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsJointBase.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsJointBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSJOINTBASE_H_ */

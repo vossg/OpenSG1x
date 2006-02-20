@@ -147,11 +147,31 @@ UInt32 QTWindowBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void QTWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((QTWindowBase *) &other, whichField);
 }
+#else
+void QTWindowBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((QTWindowBase *) &other, whichField, sInfo);
+}
+void QTWindowBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+void QTWindowBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -228,17 +248,53 @@ void QTWindowBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
                                         const BitVector         &whichField)
 {
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (GlWidgetFieldMask & whichField))
-        _sfGlWidget.syncWith(pOther->_sfGlWidget);
+    if(FieldBits::NoField != (DisplayFieldMask & whichField))
+        _sfDisplay.syncWith(pOther->_sfDisplay);
+
+    if(FieldBits::NoField != (WindowFieldMask & whichField))
+        _sfWindow.syncWith(pOther->_sfWindow);
+
+    if(FieldBits::NoField != (ContextFieldMask & whichField))
+        _sfContext.syncWith(pOther->_sfContext);
 
 
 }
+#else
+void QTWindowBase::executeSyncImpl(      QTWindowBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (DisplayFieldMask & whichField))
+        _sfDisplay.syncWith(pOther->_sfDisplay);
+
+    if(FieldBits::NoField != (WindowFieldMask & whichField))
+        _sfWindow.syncWith(pOther->_sfWindow);
+
+    if(FieldBits::NoField != (ContextFieldMask & whichField))
+        _sfContext.syncWith(pOther->_sfContext);
+
+
+
+}
+
+void QTWindowBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 #include <OSGMFieldTypeDef.inl>

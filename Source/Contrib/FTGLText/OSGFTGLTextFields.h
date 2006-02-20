@@ -89,10 +89,10 @@ struct FieldDataTraits<FTGLTextPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFFTGLTextPtr"; }
-    static char     *getMName(void) { return "MFFTGLTextPtr"; }
+    static const char *getSName(void) { return "SFFTGLTextPtr"; }
+    static const char *getMName(void) { return "MFFTGLTextPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, FTGLTextPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTFIELDS_HEADER_CVSID "@(#)$Id: OSGFTGLTextFields.h,v 1.5 2005/11/07 21:43:27 dirk Exp $"
+#define OSGFTGLTEXTFIELDS_HEADER_CVSID "@(#)$Id: OSGFTGLTextFields.h,v 1.6 2006/02/20 17:04:14 dirk Exp $"
 
 #endif /* _OSGFTGLTEXTFIELDS_H_ */

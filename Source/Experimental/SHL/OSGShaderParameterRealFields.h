@@ -89,10 +89,10 @@ struct FieldDataTraits<ShaderParameterRealPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShaderParameterRealPtr"; }
-    static char     *getMName(void) { return "MFShaderParameterRealPtr"; }
+    static const char *getSName(void) { return "SFShaderParameterRealPtr"; }
+    static const char *getMName(void) { return "MFShaderParameterRealPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderParameterRealPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERREALFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealFields.h,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERREALFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterRealFields.h,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERREALFIELDS_H_ */

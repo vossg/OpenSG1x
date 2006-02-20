@@ -436,5 +436,5 @@ void FresnelMaterialBase::setImage(const ImagePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGFresnelMaterialBase.inl,v 1.4 2005/07/08 06:32:50 vossg Exp $"
+#define OSGFRESNELMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGFresnelMaterialBase.inl,v 1.5 2006/02/20 17:04:43 dirk Exp $"
 

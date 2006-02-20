@@ -102,6 +102,6 @@ struct FieldDataTraits<DrawFunctorCorePtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWFUNCTORCOREFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
+#define OSGDRAWFUNCTORCOREFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGDRAWFUNCTORCOREFIELDS_H_ */

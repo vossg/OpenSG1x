@@ -219,6 +219,6 @@ typedef RefPtr<RotateManipulatorPtr> RotateManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGROTATEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGRotateManipulatorBase.h,v 1.4 2005/07/20 00:08:57 vossg Exp $"
+#define OSGROTATEMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGRotateManipulatorBase.h,v 1.5 2006/02/20 17:04:35 dirk Exp $"
 
 #endif /* _OSGROTATEMANIPULATORBASE_H_ */

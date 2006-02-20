@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsRayGeomPtr> PhysicsRayGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSRAYGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSRAYGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSRAYGEOMBASE_H_ */

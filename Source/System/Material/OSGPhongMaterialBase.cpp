@@ -524,7 +524,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.42 2004/08/03 05:53:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIALBASE_INLINE_CVSID;
 

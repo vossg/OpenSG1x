@@ -89,10 +89,10 @@ struct FieldDataTraits<CGFXChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFCGFXChunkPtr"; }
-    static char     *getMName(void) { return "MFCGFXChunkPtr"; }
+    static const char *getSName(void) { return "SFCGFXChunkPtr"; }
+    static const char *getMName(void) { return "MFCGFXChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, CGFXChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXChunkFields.h,v 1.2 2005/07/08 06:32:32 vossg Exp $"
+#define OSGCGFXCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXChunkFields.h,v 1.3 2006/02/20 17:04:10 dirk Exp $"
 
 #endif /* _OSGCGFXCHUNKFIELDS_H_ */

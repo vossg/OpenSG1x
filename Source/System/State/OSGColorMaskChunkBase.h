@@ -277,6 +277,6 @@ typedef RefPtr<ColorMaskChunkPtr> ColorMaskChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.3 2005/07/20 00:09:40 vossg Exp $"
+#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.4 2006/02/20 17:04:46 dirk Exp $"
 
 #endif /* _OSGCOLORMASKCHUNKBASE_H_ */

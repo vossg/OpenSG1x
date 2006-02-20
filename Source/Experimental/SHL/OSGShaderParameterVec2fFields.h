@@ -89,10 +89,10 @@ struct FieldDataTraits<ShaderParameterVec2fPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShaderParameterVec2fPtr"; }
-    static char     *getMName(void) { return "MFShaderParameterVec2fPtr"; }
+    static const char *getSName(void) { return "SFShaderParameterVec2fPtr"; }
+    static const char *getMName(void) { return "MFShaderParameterVec2fPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderParameterVec2fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC2FFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fFields.h,v 1.4 2005/07/08 06:32:40 vossg Exp $"
+#define OSGSHADERPARAMETERVEC2FFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec2fFields.h,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERVEC2FFIELDS_H_ */

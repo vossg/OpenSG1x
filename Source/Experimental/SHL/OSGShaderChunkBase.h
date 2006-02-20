@@ -245,6 +245,6 @@ typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.6 2005/07/20 00:08:58 vossg Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.7 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

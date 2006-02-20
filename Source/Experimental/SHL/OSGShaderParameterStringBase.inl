@@ -128,5 +128,5 @@ void ShaderParameterStringBase::setValue(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERSTRINGBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterStringBase.inl,v 1.4 2005/07/08 06:32:40 vossg Exp $"
+#define OSGSHADERPARAMETERSTRINGBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterStringBase.inl,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 

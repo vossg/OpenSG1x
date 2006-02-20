@@ -89,10 +89,10 @@ struct FieldDataTraits<ShaderChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShaderChunkPtr"; }
-    static char     *getMName(void) { return "MFShaderChunkPtr"; }
+    static const char *getSName(void) { return "SFShaderChunkPtr"; }
+    static const char *getMName(void) { return "MFShaderChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderChunkFields.h,v 1.5 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderChunkFields.h,v 1.6 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERCHUNKFIELDS_H_ */

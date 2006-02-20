@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsTriMeshGeomPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsTriMeshGeomPtr"; }
-    static char     *getMName(void) { return "MFPhysicsTriMeshGeomPtr"; }
+    static const char *getSName(void) { return "SFPhysicsTriMeshGeomPtr"; }
+    static const char *getMName(void) { return "MFPhysicsTriMeshGeomPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsTriMeshGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSTRIMESHGEOMFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomFields.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSTRIMESHGEOMFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSTRIMESHGEOMFIELDS_H_ */

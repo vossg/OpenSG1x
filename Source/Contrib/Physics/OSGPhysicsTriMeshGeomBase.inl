@@ -128,5 +128,5 @@ void PhysicsTriMeshGeomBase::setGeometryNode(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.inl,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 

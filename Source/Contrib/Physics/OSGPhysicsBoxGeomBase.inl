@@ -128,5 +128,5 @@ void PhysicsBoxGeomBase::setLenghts(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBOXGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.inl,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSBOXGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 

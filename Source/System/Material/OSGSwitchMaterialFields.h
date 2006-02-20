@@ -89,10 +89,10 @@ struct FieldDataTraits<SwitchMaterialPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSwitchMaterialPtr"; }
-    static char     *getMName(void) { return "MFSwitchMaterialPtr"; }
+    static const char *getSName(void) { return "SFSwitchMaterialPtr"; }
+    static const char *getMName(void) { return "MFSwitchMaterialPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, SwitchMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialFields.h,v 1.1 2006/01/20 10:52:15 a-m-z Exp $"
+#define OSGSWITCHMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialFields.h,v 1.2 2006/02/20 17:04:44 dirk Exp $"
 
 #endif /* _OSGSWITCHMATERIALFIELDS_H_ */

@@ -102,5 +102,5 @@ const MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 

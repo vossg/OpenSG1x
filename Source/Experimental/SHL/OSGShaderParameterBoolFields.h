@@ -89,10 +89,10 @@ struct FieldDataTraits<ShaderParameterBoolPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShaderParameterBoolPtr"; }
-    static char     *getMName(void) { return "MFShaderParameterBoolPtr"; }
+    static const char *getSName(void) { return "SFShaderParameterBoolPtr"; }
+    static const char *getMName(void) { return "MFShaderParameterBoolPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderParameterBoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolFields.h,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERBOOLFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolFields.h,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOLFIELDS_H_ */

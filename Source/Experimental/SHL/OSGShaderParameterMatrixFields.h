@@ -89,10 +89,10 @@ struct FieldDataTraits<ShaderParameterMatrixPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShaderParameterMatrixPtr"; }
-    static char     *getMName(void) { return "MFShaderParameterMatrixPtr"; }
+    static const char *getSName(void) { return "SFShaderParameterMatrixPtr"; }
+    static const char *getMName(void) { return "MFShaderParameterMatrixPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShaderParameterMatrixPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixFields.h,v 1.4 2005/07/08 06:32:39 vossg Exp $"
+#define OSGSHADERPARAMETERMATRIXFIELDS_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixFields.h,v 1.5 2006/02/20 17:04:38 dirk Exp $"
 
 #endif /* _OSGSHADERPARAMETERMATRIXFIELDS_H_ */

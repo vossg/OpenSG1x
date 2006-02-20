@@ -219,6 +219,6 @@ typedef RefPtr<TwoSidedLightingChunkPtr> TwoSidedLightingChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.3 2005/07/20 00:09:42 vossg Exp $"
+#define OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.h,v 1.4 2006/02/20 17:04:46 dirk Exp $"
 
 #endif /* _OSGTWOSIDEDLIGHTINGCHUNKBASE_H_ */

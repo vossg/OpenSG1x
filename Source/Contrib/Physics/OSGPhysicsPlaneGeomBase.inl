@@ -128,5 +128,5 @@ void PhysicsPlaneGeomBase::setParams(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSPLANEGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.inl,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSPLANEGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 

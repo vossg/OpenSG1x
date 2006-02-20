@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsAMotorJointPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsAMotorJointPtr"; }
-    static char     *getMName(void) { return "MFPhysicsAMotorJointPtr"; }
+    static const char *getSName(void) { return "SFPhysicsAMotorJointPtr"; }
+    static const char *getMName(void) { return "MFPhysicsAMotorJointPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsAMotorJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSAMOTORJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointFields.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSAMOTORJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSAMOTORJOINTFIELDS_H_ */

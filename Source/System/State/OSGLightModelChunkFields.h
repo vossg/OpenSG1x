@@ -89,10 +89,10 @@ struct FieldDataTraits<LightModelChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFLightModelChunkPtr"; }
-    static char     *getMName(void) { return "MFLightModelChunkPtr"; }
+    static const char *getSName(void) { return "SFLightModelChunkPtr"; }
+    static const char *getMName(void) { return "MFLightModelChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, LightModelChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTMODELCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightModelChunkFields.h,v 1.2 2005/12/16 11:05:45 a-m-z Exp $"
+#define OSGLIGHTMODELCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGLightModelChunkFields.h,v 1.3 2006/02/20 17:04:46 dirk Exp $"
 
 #endif /* _OSGLIGHTMODELCHUNKFIELDS_H_ */

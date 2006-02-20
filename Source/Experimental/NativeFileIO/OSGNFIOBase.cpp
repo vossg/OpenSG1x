@@ -361,8 +361,8 @@ std::string NFIOBase::readFCFields(const FieldContainerPtr &fc,
         }
         else
         {
-            FWARNING(("NFIOBase::readFCPtr: skipping field '%s' with "
-                      "unknown type '%s'!\n", fieldName.c_str(),
+            FNOTICE(("NFIOBase::readFCPtr: skipping unknown field '%s' with "
+                      "type '%s'!\n", fieldName.c_str(),
                       fieldType.c_str()));
             _in->skip(size);
             continue;
@@ -994,6 +994,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.8 2005/10/14 14:11:55 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.9 2006/02/20 17:04:38 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

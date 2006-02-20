@@ -253,6 +253,6 @@ typedef RefPtr<MultiPassMaterialPtr> MultiPassMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.5 2005/07/20 00:09:24 vossg Exp $"
+#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.6 2006/02/20 17:04:44 dirk Exp $"
 
 #endif /* _OSGMULTIPASSMATERIALBASE_H_ */

@@ -89,10 +89,10 @@ struct FieldDataTraits<PhysicsSliderJointPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPhysicsSliderJointPtr"; }
-    static char     *getMName(void) { return "MFPhysicsSliderJointPtr"; }
+    static const char *getSName(void) { return "SFPhysicsSliderJointPtr"; }
+    static const char *getMName(void) { return "MFPhysicsSliderJointPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PhysicsSliderJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSLIDERJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointFields.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSLIDERJOINTFIELDS_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointFields.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
 
 #endif /* _OSGPHYSICSSLIDERJOINTFIELDS_H_ */

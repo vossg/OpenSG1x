@@ -89,10 +89,10 @@ struct FieldDataTraits<SharedFontStyleWrapperPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSharedFontStyleWrapperPtr"; }
-    static char     *getMName(void) { return "MFSharedFontStyleWrapperPtr"; }
+    static const char *getSName(void) { return "SFSharedFontStyleWrapperPtr"; }
+    static const char *getMName(void) { return "MFSharedFontStyleWrapperPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, SharedFontStyleWrapperPtr, OSG_SYSTEMLIB_DLLTMPLMAPP
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERFIELDS_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperFields.h,v 1.6 2005/07/08 06:32:43 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERFIELDS_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperFields.h,v 1.7 2006/02/20 17:04:42 dirk Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERFIELDS_H_ */

@@ -184,5 +184,5 @@ void WIN32WindowBase::setHglrc(const HGLRC &value)
 
 OSG_END_NAMESPACE
 
-#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGWIN32WINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 
