@@ -140,6 +140,9 @@ int main (int argc, char *argv[])
         if(r1 != NullFC) PLOG << "r1 != NullFC" << endLog;
         else            PLOG << "!(r1 != NullFC)" << endLog;
 
+        if(r1)          PLOG << "r1 (unspec bool)" << endLog;
+        else            PLOG << "!r1 (unspec bool)" << endLog;
+
         if(r1 < r2) PLOG << "r1 < r2" << endLog;
         else        PLOG << "!(r1 < r2)" << endLog;
 

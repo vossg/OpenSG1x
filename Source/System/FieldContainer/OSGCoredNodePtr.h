@@ -60,7 +60,7 @@ class /*OSG_SYSTEMLIB_DLLMAPPING*/ CoredNodePtrBase
 {
     /*==========================  PUBLIC  =================================*/
   public: 
-
+ 
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -219,6 +219,6 @@ OSG_END_NAMESPACE
 
 #include "OSGCoredNodePtr.inl"
 
-#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.6 2005/05/31 19:53:45 dirk Exp $"
+#define OSGCOREDNODEPTR_HEADER_CVSID "@(#)$Id: OSGCoredNodePtr.h,v 1.7 2006/02/20 23:31:04 dirk Exp $"
 
 #endif /* _OSGCOREDNODEPTR_H_ */

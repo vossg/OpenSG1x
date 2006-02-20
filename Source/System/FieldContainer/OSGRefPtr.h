@@ -62,6 +62,7 @@ class RefPtr
   public:
  
     typedef  typename Ref::StoredObjectType  StoredObjectType;
+    typedef  const Ref RefPtr::*unspecified_bool_type;
     
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -116,6 +117,8 @@ class RefPtr
     bool operator != (const RefPtr<Ref>           &other) const;
 
     bool operator !  (void                              ) const;
+
+    operator unspecified_bool_type() const;
    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -139,6 +142,6 @@ OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.5 2005/09/03 18:35:01 dirk Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.6 2006/02/20 23:31:05 dirk Exp $"
 
-#endif /* _OSGCOREDNODEPTR_H_ */
+#endif /* _OSGREFPTR_H_ */

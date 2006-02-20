@@ -181,6 +181,12 @@ bool RefPtr<Ref>::operator ! (void) const
     return _ref == NullFC;
 }
 
+template< class Ref >
+RefPtr<Ref>::operator unspecified_bool_type (void) const
+{
+    return  !*this ? 0 : &RefPtr<Ref>::_ref;
+}
+
 
 template< class Ref >
 void RefPtr<Ref>::setRef(const Ref &ref)
@@ -199,5 +205,5 @@ void RefPtr<Ref>::setRef(const Ref &ref)
 
 OSG_END_NAMESPACE
 
-#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.4 2005/09/03 18:35:01 dirk Exp $"
+#define OSGREFPTR_INLINE_CVSID "@(#)$Id: OSGRefPtr.inl,v 1.5 2006/02/20 23:31:05 dirk Exp $"
 
