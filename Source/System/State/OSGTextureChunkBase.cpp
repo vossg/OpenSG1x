@@ -241,6 +241,9 @@ const OSG::BitVector  TextureChunkBase::DirtyMaxZFieldMask =
 const OSG::BitVector  TextureChunkBase::AnisotropyFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::AnisotropyFieldId);
 
+const OSG::BitVector  TextureChunkBase::BorderColorFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::BorderColorFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -397,6 +400,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var Real32          TextureChunkBase::_sfAnisotropy
     texture anisotropy filtering the default 1.0f means isotropic filtering.
+*/
+/*! \var Color4f         TextureChunkBase::_sfBorderColor
+    Texture border color
 */
 
 //! TextureChunk description
@@ -652,7 +658,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "anisotropy", 
                      AnisotropyFieldId, AnisotropyFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFAnisotropy)
+                     (FieldAccessMethod) &TextureChunkBase::getSFAnisotropy),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "borderColor", 
+                     BorderColorFieldId, BorderColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFBorderColor)
 };
 
 
@@ -779,6 +790,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfDirtyMinZ              (Int32(-1)), 
     _sfDirtyMaxZ              (Int32(-1)), 
     _sfAnisotropy             (Real32(1.0f)), 
+    _sfBorderColor            (Color4f(0,0,0,0)), 
     Inherited() 
 {
 }
@@ -838,6 +850,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfDirtyMinZ              (source._sfDirtyMinZ              ), 
     _sfDirtyMaxZ              (source._sfDirtyMaxZ              ), 
     _sfAnisotropy             (source._sfAnisotropy             ), 
+    _sfBorderColor            (source._sfBorderColor            ), 
     Inherited                 (source)
 {
 }
@@ -1104,6 +1117,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAnisotropy.getBinSize();
     }
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        returnValue += _sfBorderColor.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1361,6 +1379,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
     {
         _sfAnisotropy.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        _sfBorderColor.copyToBin(pMem);
     }
 
 
@@ -1621,6 +1644,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAnisotropy.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        _sfBorderColor.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1781,6 +1809,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
         _sfAnisotropy.syncWith(pOther->_sfAnisotropy);
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+        _sfBorderColor.syncWith(pOther->_sfBorderColor);
+
 
 }
 #else
@@ -1937,6 +1968,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (AnisotropyFieldMask & whichField))
         _sfAnisotropy.syncWith(pOther->_sfAnisotropy);
+
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+        _sfBorderColor.syncWith(pOther->_sfBorderColor);
 
 
     if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))

@@ -532,4 +532,14 @@
 	>
 	texture anisotropy filtering the default 1.0f means isotropic filtering.
 	</Field>
+	<Field
+		name="borderColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+		access="public"
+	>
+	Texture border color
+	</Field>
 </FieldContainer>

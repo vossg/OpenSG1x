@@ -446,6 +446,13 @@ SFReal32 *TextureChunkBase::getSFAnisotropy(void)
     return &_sfAnisotropy;
 }
 
+//! Get the TextureChunk::_sfBorderColor field.
+inline
+SFColor4f *TextureChunkBase::getSFBorderColor(void)
+{
+    return &_sfBorderColor;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1474,6 +1481,27 @@ inline
 void TextureChunkBase::setAnisotropy(const Real32 &value)
 {
     _sfAnisotropy.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfBorderColor field.
+inline
+Color4f &TextureChunkBase::getBorderColor(void)
+{
+    return _sfBorderColor.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfBorderColor field.
+inline
+const Color4f &TextureChunkBase::getBorderColor(void) const
+{
+    return _sfBorderColor.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfBorderColor field.
+inline
+void TextureChunkBase::setBorderColor(const Color4f &value)
+{
+    _sfBorderColor.setValue(value);
 }
 
 

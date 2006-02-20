@@ -664,7 +664,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_R, getWrapR());
 
             if(getAnisotropy() > 1.0f && win->hasExtension(_extTextureFilterAnisotropic))
-                glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, getAnisotropy());
+                glTexParameterf(paramtarget, GL_TEXTURE_MAX_ANISOTROPY_EXT, getAnisotropy());
+
+            glTexParameterfv(paramtarget, GL_TEXTURE_BORDER_COLOR,
+                             (GLfloat*)getBorderColor().getValuesRGBA());
 
             glErr("TextureChunk::initialize params");
         }
