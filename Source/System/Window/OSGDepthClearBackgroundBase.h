@@ -219,6 +219,6 @@ typedef RefPtr<DepthClearBackgroundPtr> DepthClearBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.5 2005/07/20 00:09:45 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.6 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */

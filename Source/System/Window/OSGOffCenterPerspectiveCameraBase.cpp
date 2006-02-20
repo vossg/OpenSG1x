@@ -148,6 +148,11 @@ void OffCenterPerspectiveCameraBase::execBeginEdit(const BitVector &whichField,
     this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 }
 
+void OffCenterPerspectiveCameraBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
 #endif
 
 /*------------------------- constructors ----------------------------------*/
@@ -285,7 +290,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.1 2005/07/18 18:46:23 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.2 2006/02/20 16:54:30 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID;
 

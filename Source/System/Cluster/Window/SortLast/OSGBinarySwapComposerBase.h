@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGImageComposer.h> // Parent
 
@@ -151,9 +153,6 @@ class OSG_SYSTEMLIB_DLLMAPPING BinarySwapComposerBase : public ImageComposer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -214,8 +213,31 @@ class OSG_SYSTEMLIB_DLLMAPPING BinarySwapComposerBase : public ImageComposer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      BinarySwapComposerBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      BinarySwapComposerBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -238,8 +260,15 @@ class OSG_SYSTEMLIB_DLLMAPPING BinarySwapComposerBase : public ImageComposer
 
 typedef BinarySwapComposerBase *BinarySwapComposerBaseP;
 
+typedef osgIF<BinarySwapComposerBase::isNodeCore,
+              CoredNodePtr<BinarySwapComposer>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet BinarySwapComposerNodePtr;
+
+typedef RefPtr<BinarySwapComposerPtr> BinarySwapComposerRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGBINARYSWAPCOMPOSERBASE_H_ */

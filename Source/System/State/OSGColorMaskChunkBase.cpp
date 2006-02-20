@@ -392,7 +392,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.3 2005/07/20 00:09:40 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.4 2006/02/20 16:54:19 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORMASKCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORMASKCHUNKBASE_INLINE_CVSID;
 

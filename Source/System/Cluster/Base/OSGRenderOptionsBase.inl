@@ -576,5 +576,5 @@ void RenderOptionsBase::setSmallFeatureThreshold(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.3 2006/01/27 16:20:17 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.4 2006/02/20 16:54:20 dirk Exp $"
 

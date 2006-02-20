@@ -324,7 +324,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.1 2005/09/26 00:08:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.2 2006/02/20 16:54:30 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 

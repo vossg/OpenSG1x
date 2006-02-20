@@ -162,11 +162,31 @@ UInt32 PipelineComposerBase::getContainerSize(void) const
 }
 
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PipelineComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
     this->executeSyncImpl((PipelineComposerBase *) &other, whichField);
 }
+#else
+void PipelineComposerBase::executeSync(      FieldContainer &other,
+                                    const BitVector      &whichField,                                    const SyncInfo       &sInfo     )
+{
+    this->executeSyncImpl((PipelineComposerBase *) &other, whichField, sInfo);
+}
+void PipelineComposerBase::execBeginEdit(const BitVector &whichField, 
+                                            UInt32     uiAspect,
+                                            UInt32     uiContainerSize) 
+{
+    this->execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+}
+
+void PipelineComposerBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
+    Inherited::onDestroyAspect(uiId, uiAspect);
+
+}
+#endif
 
 /*------------------------- constructors ----------------------------------*/
 
@@ -288,6 +308,7 @@ void PipelineComposerBase::copyFromBin(      BinaryDataHandler &pMem,
 
 }
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
 void PipelineComposerBase::executeSyncImpl(      PipelineComposerBase *pOther,
                                         const BitVector         &whichField)
 {
@@ -308,6 +329,38 @@ void PipelineComposerBase::executeSyncImpl(      PipelineComposerBase *pOther,
 
 
 }
+#else
+void PipelineComposerBase::executeSyncImpl(      PipelineComposerBase *pOther,
+                                        const BitVector         &whichField,
+                                        const SyncInfo          &sInfo      )
+{
+
+    Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ShortFieldMask & whichField))
+        _sfShort.syncWith(pOther->_sfShort);
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
+
+    if(FieldBits::NoField != (TileSizeFieldMask & whichField))
+        _sfTileSize.syncWith(pOther->_sfTileSize);
+
+    if(FieldBits::NoField != (SortFieldMask & whichField))
+        _sfSort.syncWith(pOther->_sfSort);
+
+
+
+}
+
+void PipelineComposerBase::execBeginEditImpl (const BitVector &whichField, 
+                                                 UInt32     uiAspect,
+                                                 UInt32     uiContainerSize)
+{
+    Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+}
+#endif
 
 
 
@@ -334,7 +387,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.40 2003/03/15 06:15:25 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPIPELINECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPIPELINECOMPOSERBASE_INLINE_CVSID;
 

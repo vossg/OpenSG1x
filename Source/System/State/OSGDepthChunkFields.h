@@ -89,10 +89,10 @@ struct FieldDataTraits<DepthChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFDepthChunkPtr"; }
-    static char     *getMName(void) { return "MFDepthChunkPtr"; }
+    static const char *getSName(void) { return "SFDepthChunkPtr"; }
+    static const char *getMName(void) { return "MFDepthChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, DepthChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGDepthChunkFields.h,v 1.5 2005/07/08 06:33:19 vossg Exp $"
+#define OSGDEPTHCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGDepthChunkFields.h,v 1.6 2006/02/20 16:54:19 dirk Exp $"
 
 #endif /* _OSGDEPTHCHUNKFIELDS_H_ */

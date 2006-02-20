@@ -89,10 +89,10 @@ struct FieldDataTraits<ColorMaskChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFColorMaskChunkPtr"; }
-    static char     *getMName(void) { return "MFColorMaskChunkPtr"; }
+    static const char *getSName(void) { return "SFColorMaskChunkPtr"; }
+    static const char *getMName(void) { return "MFColorMaskChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ColorMaskChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkFields.h,v 1.2 2005/07/08 06:33:19 vossg Exp $"
+#define OSGCOLORMASKCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkFields.h,v 1.3 2006/02/20 16:54:19 dirk Exp $"
 
 #endif /* _OSGCOLORMASKCHUNKFIELDS_H_ */

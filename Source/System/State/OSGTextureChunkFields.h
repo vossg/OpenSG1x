@@ -89,10 +89,10 @@ struct FieldDataTraits<TextureChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFTextureChunkPtr"; }
-    static char     *getMName(void) { return "MFTextureChunkPtr"; }
+    static const char *getSName(void) { return "SFTextureChunkPtr"; }
+    static const char *getMName(void) { return "MFTextureChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

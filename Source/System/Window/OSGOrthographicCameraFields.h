@@ -89,10 +89,10 @@ struct FieldDataTraits<OrthographicCameraPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFOrthographicCameraPtr"; }
-    static char     *getMName(void) { return "MFOrthographicCameraPtr"; }
+    static const char *getSName(void) { return "SFOrthographicCameraPtr"; }
+    static const char *getMName(void) { return "MFOrthographicCameraPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, OrthographicCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraFields.h,v 1.1 2005/09/26 00:08:18 dirk Exp $"
+#define OSGORTHOGRAPHICCAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraFields.h,v 1.2 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGORTHOGRAPHICCAMERAFIELDS_H_ */

@@ -203,6 +203,6 @@ typedef RefPtr<DrawablePtr> DrawableRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.9 2005/07/20 00:09:27 vossg Exp $"
+#define OSGDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGDrawableBase.h,v 1.10 2006/02/20 16:54:27 dirk Exp $"
 
 #endif /* _OSGDRAWABLEBASE_H_ */

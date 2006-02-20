@@ -89,10 +89,10 @@ struct FieldDataTraits<OffCenterPerspectiveCameraPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFOffCenterPerspectiveCameraPtr"; }
-    static char     *getMName(void) { return "MFOffCenterPerspectiveCameraPtr"; }
+    static const char *getSName(void) { return "SFOffCenterPerspectiveCameraPtr"; }
+    static const char *getMName(void) { return "MFOffCenterPerspectiveCameraPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, OffCenterPerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPL
 
 OSG_END_NAMESPACE
 
-#define OSGOFFCENTERPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraFields.h,v 1.1 2005/07/18 18:46:23 dirk Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERAFIELDS_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraFields.h,v 1.2 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGOFFCENTERPERSPECTIVECAMERAFIELDS_H_ */

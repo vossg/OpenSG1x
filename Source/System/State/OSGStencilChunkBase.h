@@ -301,6 +301,6 @@ typedef RefPtr<StencilChunkPtr> StencilChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.5 2005/07/20 00:09:42 vossg Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.6 2006/02/20 16:54:19 dirk Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

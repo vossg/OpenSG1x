@@ -62,6 +62,8 @@
 #include <OSGSystemDef.h>
 
 #include <OSGBaseTypes.h>
+#include <OSGRefPtr.h>
+#include <OSGCoredNodePtr.h>
 
 #include <OSGImageComposer.h> // Parent
 
@@ -158,9 +160,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
-    virtual void   executeSync(      FieldContainer    &other,
-                               const BitVector         &whichField);
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Binary Access                              */
@@ -222,8 +221,31 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
+#if !defined(OSG_FIXED_MFIELDSYNC)
     void executeSyncImpl(      PipelineComposerBase *pOther,
                          const BitVector         &whichField);
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField);
+#else
+    void executeSyncImpl(      PipelineComposerBase *pOther,
+                         const BitVector         &whichField,
+                         const SyncInfo          &sInfo     );
+
+    virtual void   executeSync(      FieldContainer    &other,
+                               const BitVector         &whichField,
+                               const SyncInfo          &sInfo);
+
+    virtual void execBeginEdit     (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+            void execBeginEditImpl (const BitVector &whichField,
+                                          UInt32     uiAspect,
+                                          UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
@@ -246,8 +268,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
 
 typedef PipelineComposerBase *PipelineComposerBaseP;
 
+typedef osgIF<PipelineComposerBase::isNodeCore,
+              CoredNodePtr<PipelineComposer>,
+              FieldContainer::attempt_to_create_CoredNodePtr_on_non_NodeCore_FC
+              >::_IRet PipelineComposerNodePtr;
+
+typedef RefPtr<PipelineComposerPtr> PipelineComposerRefPtr;
+
 OSG_END_NAMESPACE
 
-#define OSGPIPELINECOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.32 2003/07/11 18:39:08 dirk Exp $"
+#define OSGPIPELINECOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGPIPELINECOMPOSERBASE_H_ */

@@ -89,9 +89,9 @@ struct FieldDataTraits<StringAttributeMapPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFStringAttributeMapPtr"; }
+    static const char *getSName(void) { return "SFStringAttributeMapPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -115,6 +115,6 @@ OSG_DLLEXPORT_DECL1(SField, StringAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAPFIELDS_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapFields.h,v 1.1 2005/09/25 23:00:54 dirk Exp $"
+#define OSGSTRINGATTRIBUTEMAPFIELDS_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapFields.h,v 1.2 2006/02/20 16:54:57 dirk Exp $"
 
 #endif /* _OSGSTRINGATTRIBUTEMAPFIELDS_H_ */

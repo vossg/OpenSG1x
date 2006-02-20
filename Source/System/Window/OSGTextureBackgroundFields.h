@@ -89,9 +89,9 @@ struct FieldDataTraits<TextureBackgroundPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFTextureBackgroundPtr"; }
+    static const char *getSName(void) { return "SFTextureBackgroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -115,6 +115,6 @@ OSG_DLLEXPORT_DECL1(SField, TextureBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundFields.h,v 1.5 2005/07/08 06:33:26 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundFields.h,v 1.6 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDFIELDS_H_ */

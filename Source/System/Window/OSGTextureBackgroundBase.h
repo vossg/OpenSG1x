@@ -301,6 +301,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.6 2005/07/20 00:09:48 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.7 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */

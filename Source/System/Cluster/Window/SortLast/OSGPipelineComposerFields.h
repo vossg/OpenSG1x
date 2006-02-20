@@ -102,6 +102,6 @@ struct FieldDataTraits<PipelineComposerPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGPIPELINECOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: $"
+#define OSGPIPELINECOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGPIPELINECOMPOSERFIELDS_H_ */

@@ -285,6 +285,6 @@ typedef RefPtr<DVRIsoSurfacePtr> DVRIsoSurfaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGDVRISOSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGDVRISOSURFACEBASE_H_ */

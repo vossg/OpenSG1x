@@ -123,6 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     
           StatCollector *getStatistics   (void                  );
           void           setStatistics   (StatCollector * stat  );
+    inline bool          hasOwnStat      (void                  );
 
     // frustum culling functions
     // these are just temporary, sooner or later they'll move into a 

@@ -89,10 +89,10 @@ struct FieldDataTraits<PolygonChunkPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPolygonChunkPtr"; }
-    static char     *getMName(void) { return "MFPolygonChunkPtr"; }
+    static const char *getSName(void) { return "SFPolygonChunkPtr"; }
+    static const char *getMName(void) { return "MFPolygonChunkPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

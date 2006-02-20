@@ -219,6 +219,6 @@ typedef RefPtr<LightEnvPtr> LightEnvRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.5 2005/07/20 00:09:34 vossg Exp $"
+#define OSGLIGHTENVBASE_HEADER_CVSID "@(#)$Id: OSGLightEnvBase.h,v 1.6 2006/02/20 16:54:23 dirk Exp $"
 
 #endif /* _OSGLIGHTENVBASE_H_ */

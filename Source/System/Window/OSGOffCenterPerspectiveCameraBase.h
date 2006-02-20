@@ -219,6 +219,8 @@ class OSG_SYSTEMLIB_DLLMAPPING OffCenterPerspectiveCameraBase : public Perspecti
             void execBeginEditImpl (const BitVector &whichField,
                                           UInt32     uiAspect,
                                           UInt32     uiContainerSize);
+
+    virtual void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 #endif
 
     /*! \}                                                                 */
@@ -251,6 +253,6 @@ typedef RefPtr<OffCenterPerspectiveCameraPtr> OffCenterPerspectiveCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.h,v 1.1 2005/07/18 18:46:23 dirk Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.h,v 1.2 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGOFFCENTERPERSPECTIVECAMERABASE_H_ */

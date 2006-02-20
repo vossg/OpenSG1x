@@ -330,7 +330,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.1 2005/09/25 23:00:54 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.2 2006/02/20 16:54:57 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID;
 

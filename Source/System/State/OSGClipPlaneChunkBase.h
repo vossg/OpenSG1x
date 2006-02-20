@@ -269,6 +269,6 @@ typedef RefPtr<ClipPlaneChunkPtr> ClipPlaneChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGCLIPPLANECHUNKBASE_H_ */

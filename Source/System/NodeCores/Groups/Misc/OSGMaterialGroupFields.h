@@ -89,10 +89,10 @@ struct FieldDataTraits<MaterialGroupPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFMaterialGroupPtr"; }
-    static char     *getMName(void) { return "MFMaterialGroupPtr"; }
+    static const char *getSName(void) { return "SFMaterialGroupPtr"; }
+    static const char *getMName(void) { return "MFMaterialGroupPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
+#define OSGMATERIALGROUPFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGMATERIALGROUPFIELDS_H_ */

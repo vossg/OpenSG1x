@@ -156,6 +156,11 @@ StatCollector* DrawActionBase::getStatistics(void)
 
     return _statistics;
 }
+inline
+bool DrawActionBase::hasOwnStat(void)
+{
+    return _ownStat;
+}
 
 inline 
 Material *DrawActionBase::getMaterial(void) const

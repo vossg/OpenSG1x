@@ -89,10 +89,10 @@ struct FieldDataTraits<MaterialPoolPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFMaterialPoolPtr"; }
-    static char     *getMName(void) { return "MFMaterialPoolPtr"; }
+    static const char *getSName(void) { return "SFMaterialPoolPtr"; }
+    static const char *getMName(void) { return "MFMaterialPoolPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, MaterialPoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialPoolFields.h,v 1.4 2005/07/08 06:33:17 vossg Exp $"
+#define OSGMATERIALPOOLFIELDS_HEADER_CVSID "@(#)$Id: OSGMaterialPoolFields.h,v 1.5 2006/02/20 16:54:24 dirk Exp $"
 
 #endif /* _OSGMATERIALPOOLFIELDS_H_ */

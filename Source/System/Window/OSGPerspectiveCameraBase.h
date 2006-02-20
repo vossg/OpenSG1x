@@ -261,6 +261,6 @@ typedef RefPtr<PerspectiveCameraPtr> PerspectiveCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

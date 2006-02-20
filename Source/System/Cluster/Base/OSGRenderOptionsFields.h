@@ -89,10 +89,10 @@ struct FieldDataTraits<RenderOptionsPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFRenderOptionsPtr"; }
-    static char     *getMName(void) { return "MFRenderOptionsPtr"; }
+    static const char *getSName(void) { return "SFRenderOptionsPtr"; }
+    static const char *getMName(void) { return "MFRenderOptionsPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSFIELDS_HEADER_CVSID "@(#)$Id: OSGRenderOptionsFields.h,v 1.3 2006/01/27 16:20:17 a-m-z Exp $"
+#define OSGRENDEROPTIONSFIELDS_HEADER_CVSID "@(#)$Id: OSGRenderOptionsFields.h,v 1.4 2006/02/20 16:54:20 dirk Exp $"
 
 #endif /* _OSGRENDEROPTIONSFIELDS_H_ */

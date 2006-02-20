@@ -89,10 +89,10 @@ struct FieldDataTraits<ParticlesPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFParticlesPtr"; }
-    static char     *getMName(void) { return "MFParticlesPtr"; }
+    static const char *getSName(void) { return "SFParticlesPtr"; }
+    static const char *getMName(void) { return "MFParticlesPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

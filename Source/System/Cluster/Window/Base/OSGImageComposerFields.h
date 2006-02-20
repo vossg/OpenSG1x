@@ -89,10 +89,10 @@ struct FieldDataTraits<ImageComposerPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFImageComposerPtr"; }
-    static char     *getMName(void) { return "MFImageComposerPtr"; }
+    static const char *getSName(void) { return "SFImageComposerPtr"; }
+    static const char *getMName(void) { return "MFImageComposerPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ImageComposerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGECOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.24 2004/08/03 05:53:03 dirk Exp $"
+#define OSGIMAGECOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
 
 #endif /* _OSGIMAGECOMPOSERFIELDS_H_ */

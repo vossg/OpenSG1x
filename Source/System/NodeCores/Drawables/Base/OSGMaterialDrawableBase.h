@@ -237,6 +237,6 @@ typedef RefPtr<MaterialDrawablePtr> MaterialDrawableRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.9 2005/07/20 00:09:27 vossg Exp $"
+#define OSGMATERIALDRAWABLEBASE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawableBase.h,v 1.10 2006/02/20 16:54:27 dirk Exp $"
 
 #endif /* _OSGMATERIALDRAWABLEBASE_H_ */

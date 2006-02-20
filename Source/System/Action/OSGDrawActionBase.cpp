@@ -257,6 +257,12 @@ Action::ResultE DrawActionBase::stop(Action::ResultE res)
     {
         _ownStat = false;        
     }
+#else
+    if(_ownStat)
+    {
+        delete _statistics;
+        _statistics = NULL;
+    }
 #endif
 
     return res; 

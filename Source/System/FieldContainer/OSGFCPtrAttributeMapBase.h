@@ -261,6 +261,6 @@ typedef RefPtr<FCPtrAttributeMapPtr> FCPtrAttributeMapRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.h,v 1.1 2005/09/25 23:00:54 dirk Exp $"
+#define OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.h,v 1.2 2006/02/20 16:54:57 dirk Exp $"
 
 #endif /* _OSGFCPTRATTRIBUTEMAPBASE_H_ */

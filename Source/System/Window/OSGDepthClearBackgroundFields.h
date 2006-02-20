@@ -89,9 +89,9 @@ struct FieldDataTraits<DepthClearBackgroundPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFDepthClearBackgroundPtr"; }
+    static const char *getSName(void) { return "SFDepthClearBackgroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -115,6 +115,6 @@ OSG_DLLEXPORT_DECL1(SField, DepthClearBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundFields.h,v 1.4 2005/07/08 06:33:25 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundFields.h,v 1.5 2006/02/20 16:54:30 dirk Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDFIELDS_H_ */

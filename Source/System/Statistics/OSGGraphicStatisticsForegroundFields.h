@@ -89,10 +89,10 @@ struct FieldDataTraits<GraphicStatisticsForegroundPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFGraphicStatisticsForegroundPtr"; }
-    static char     *getMName(void) { return "MFGraphicStatisticsForegroundPtr"; }
+    static const char *getSName(void) { return "SFGraphicStatisticsForegroundPtr"; }
+    static const char *getMName(void) { return "MFGraphicStatisticsForegroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

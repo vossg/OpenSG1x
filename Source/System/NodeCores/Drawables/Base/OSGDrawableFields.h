@@ -89,10 +89,10 @@ struct FieldDataTraits<DrawablePtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFDrawablePtr"; }
-    static char     *getMName(void) { return "MFDrawablePtr"; }
+    static const char *getSName(void) { return "SFDrawablePtr"; }
+    static const char *getMName(void) { return "MFDrawablePtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.9 2005/07/08 06:32:52 vossg Exp $"
+#define OSGDRAWABLEFIELDS_HEADER_CVSID "@(#)$Id: OSGDrawableFields.h,v 1.10 2006/02/20 16:54:27 dirk Exp $"
 
 #endif /* _OSGDRAWABLEFIELDS_H_ */

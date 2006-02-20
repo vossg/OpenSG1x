@@ -219,6 +219,6 @@ typedef RefPtr<DVRGeometryPtr> DVRGeometryRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGDVRGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGDVRGEOMETRYBASE_H_ */
