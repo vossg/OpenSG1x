@@ -704,7 +704,28 @@ OSG_BASE_DLLMAPPING
 void preloadSharedObject(const Char8 *szName);
 
 OSG_BASE_DLLMAPPING
-bool osgInit(Int32 argc, Char8 **argv);
+bool osgInit(Int32 argc, Char8 **argv, 
+    UInt16 major = OSG_MAJOR_VERSION, UInt16 minor = OSG_MINOR_VERSION, 
+    UInt16 release = OSG_RELEASE_VERSION,
+    bool debug = 
+#ifdef _DEBUG  
+    true,
+#else
+    false,
+#endif
+    bool dll = 
+#ifdef _DLL  
+    true,
+#else
+    false,
+#endif
+    bool mt = 
+#ifdef _MT  
+    true
+#else
+    false
+#endif
+    );
 
 OSG_BASE_DLLMAPPING
 bool osgExit(void);

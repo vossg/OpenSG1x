@@ -68,6 +68,8 @@ OSG_BEGIN_NAMESPACE
 class SharedObjectHandler;
 class SharedObject;
 
+class CompileConfig;
+
 #endif
 
 //---------------------------------------------------------------------------
@@ -288,8 +290,13 @@ class OSG_BASE_DLLMAPPING SharedObjectHandler
     //   friend functions                                                    
     //-----------------------------------------------------------------------
 
-    friend  OSG_BASE_DLLMAPPING bool osgInit(Int32 argc, Char8 **argv);
-    friend  OSG_BASE_DLLMAPPING bool osgExit(void                    );
+    OSG_BASE_DLLMAPPING
+    friend  bool osgInit(Int32 argc, Char8 **argv, 
+                         UInt16 major, UInt16 minor, UInt16 release, 
+                         bool debug, bool dll, bool mt);
+    
+    OSG_BASE_DLLMAPPING         
+    friend  bool osgExit(void);
 
     //-----------------------------------------------------------------------
     //   class variables                                                     
