@@ -717,14 +717,15 @@ void Log::doLog(const Char8 * format, ...)
         buffer = new Char8[buffer_size];
     }
     
-    count = vsnprintf(buffer, buffer_size - 1, format, args);
+    count = vsnprintf(buffer, buffer_size, format, args);
     
     if(count >= buffer_size)
     {
         buffer_size = osgMax(buffer_size * 2, count + 1);
         if(buffer) delete [] buffer;
         buffer = new Char8[buffer_size];
-        vsnprintf(buffer, buffer_size - 1, format, args);
+        va_start( args, format );
+        vsnprintf(buffer, buffer_size, format, args);
     }
 #else
     if(buffer_size < 8192)

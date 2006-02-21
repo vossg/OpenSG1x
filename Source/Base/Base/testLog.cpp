@@ -34,6 +34,19 @@ int main (int argc, char **argv)
     SNOTICE  << "notice test" << OSG::endLog;
     SINFO    << "info test" << OSG::endLog;
 
+    // Long log
+    
+    SLOG << "This is a very long log test that makes no sense at all, but "
+            "it is long and that's the point of making "
+            "a very long log test that makes no sense at all, but "
+            "it is long and that's the point of making "
+            "a very long log test that makes no sense at all, but "
+            "it is long and that's the point of making "
+            "a very long log test that makes no sense at all, but "
+            "it is long and that's the point of making "
+            "a very long log test that makes no sense at all, but "
+            "it is long and that's the point!" << OSG::endLog;
+   
     // C-style log test
 
     FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));
