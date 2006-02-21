@@ -52,6 +52,8 @@
 #include "OSGGIFImageFileType.h"
 #include <OSGLog.h>
 
+#include <iostream>
+
 #ifndef OSG_DO_DOC
 #    ifdef OSG_WITH_GIF
 #        define OSG_GIF_ARG(ARG) ARG
@@ -155,8 +157,7 @@ typedef struct
 } GIFStream;
 
 
-static GIFStream *GIFRead   (char *);
-static GIFStream *GIFReadFP (FILE *);
+static GIFStream *GIFRead   (std::istream &is);
        int        GIFTest   (char *);
        int        GIFWrite  (char *, GIFStream *, int);
 static int        GIFWriteFP(FILE *, GIFStream *, int);
@@ -194,16 +195,16 @@ GIFImageFileType& GIFImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image), 
-                            const Char8    *OSG_GIF_ARG(fileName))
+bool GIFImageFileType::read(ImagePtr &OSG_GIF_ARG(image), std::istream &OSG_GIF_ARG(is),
+                            const std::string &OSG_GIF_ARG(mimetype))
 {
     bool                retCode = false;
 
 #ifdef OSG_WITH_GIF
     Image::PixelFormat  pixelFormat = osg::Image::OSG_INVALID_PF;
-    GIFStream           *gifStream = GIFRead(const_cast <char *> (fileName));
+    GIFStream           *gifStream = GIFRead(is);
     GIFData             *gifData = 0;
     bool                isColor;
     int                 i, j, destI, lineSize, lineEnd;
@@ -466,23 +467,20 @@ bool GIFImageFileType::read(      ImagePtr &OSG_GIF_ARG(image),
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
 */
-bool GIFImageFileType::write(const ImagePtr &, 
-                             const Char8 *OSG_CHECK_ARG(fileName))
+std::string GIFImageFileType::determineMimetypeFromStream(std::istream &is)
 {
-#ifdef OSG_WITH_GIF
-    SWARNING << getMimeType() << " write is not implemented " << endLog;
-
-#else
-    SWARNING <<
-        getMimeType() <<
-        " write is not compiled into the current binary " <<
-        endLog;
-#endif
-    return false;
+    char filecode[4];
+    is.read(filecode, 4);
+    is.seekg(-4, std::ios::cur);
+    return strncmp(filecode, "GIF8", 4) == 0 ?
+        std::string(getMimeType()) : std::string();
 }
+
+//-------------------------------------------------------------------------
 
 bool GIFImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
 {
@@ -515,29 +513,14 @@ Constructor used for the singleton object
 GIFImageFileType::GIFImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-GIFImageFileType::GIFImageFileType(const GIFImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
+    ImageFileType(mimeType, suffixArray, suffixByteCount)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-GIFImageFileType::~GIFImageFileType(void)
-{
-    return;
-}
+GIFImageFileType::~GIFImageFileType(void) {}
 
 /*------------access----------------*/
 /*------------properies-------------*/
@@ -585,7 +568,7 @@ GIFImageFileType::~GIFImageFileType(void)
 #define LOCALCOLORMAP               0x80
 
 #define BitSet(byte, bit)           (((byte) & (bit)) == (bit))
-#define ReadOK(file, buffer, len)   (fread(buffer, len, 1, file) != 0)
+#define ReadOK(is, buffer, len)     (is.read(reinterpret_cast<char*>(buffer), len).gcount() == len)
 #define MKINT(a, b)                 (((b) << 8) | (a))
 #define NEW(x)                      ((x *) malloc(sizeof(x)))
 /***************************************************************************
@@ -610,35 +593,17 @@ GIFImageFileType::~GIFImageFileType(void)
 
 /***************************************************************************/
 
-static int readColorMap(FILE *, int, unsigned char [GIF_MAXCOLORS][3]);
-static int GetDataBlock(FILE *, unsigned char *);
-static void readImage(FILE *, int, int, int, unsigned char *);
+static int readColorMap(std::istream &, int, unsigned char [GIF_MAXCOLORS][3]);
+static int GetDataBlock(std::istream &, unsigned char *);
+static void readImage(std::istream &, int, int, int, unsigned char *);
 
 static jmp_buf                  setjmp_buffer;
 
 static int    verbose = GIF_FALSE;
 //static int    showComment = GIF_FALSE;
 
-int GIFTest(char *file)
-{
-    FILE    *fd = fopen(file, "rb");
-    char    buf[10];
-    int     ret = GIF_FALSE;
-
-    if (fd != NULL && ReadOK(fd, buf, 6)) {
-        if ((strncmp(buf, "GIF", 3) == 0) &&
-            ((strncmp(buf + 3, "87a", 3) != 0) ||
-             (strncmp(buf + 3, "89a", 3) != 0)))
-            ret = GIF_TRUE;
-    }
-
-    fclose(fd);
-
-    return ret;
-}
-
 /* */
-static GIFStream *GIFReadFP(FILE *fd)
+static GIFStream *GIFRead(std::istream &is)
 {
     unsigned char   buf[256];
     unsigned char   c;
@@ -648,13 +613,10 @@ static GIFStream *GIFReadFP(FILE *fd)
     int             resetInfo = GIF_TRUE;
     int             n;
 
-    if(fd == NULL)
-        return NULL;
-
     if(setjmp(setjmp_buffer))
         goto out;
 
-    if(!ReadOK(fd, buf, 6))
+    if(!ReadOK(is, buf, 6))
     {
         GIF_ERROR("error reading magic number");
     }
@@ -668,7 +630,7 @@ static GIFStream *GIFReadFP(FILE *fd)
         GIF_ERROR("bad version number, not '87a' or '89a'");
     }
 
-    if(!ReadOK(fd, buf, 7))
+    if(!ReadOK(is, buf, 7))
     {
         GIF_ERROR("failed to read screen descriptor");
     }
@@ -693,7 +655,7 @@ static GIFStream *GIFReadFP(FILE *fd)
     */
     if(BitSet(buf[4], LOCALCOLORMAP))
     {
-        if(readColorMap(fd, gifStream->cmapSize, gifStream->cmapData))
+        if(readColorMap(is, gifStream->cmapSize, gifStream->cmapData))
         {
             GIF_ERROR("unable to get global colormap");
         }
@@ -709,7 +671,7 @@ static GIFStream *GIFReadFP(FILE *fd)
         INFO_MSG(("warning - non-square pixels"));
     }
 
-    while(ReadOK(fd, &c, 1) && c != ';')
+    while(ReadOK(is, &c, 1) && c != ';')
     {
         if(resetInfo)
         {
@@ -724,21 +686,21 @@ static GIFStream *GIFReadFP(FILE *fd)
 
         if(c == '!')
         {           /* Extension */
-            if(!ReadOK(fd, &c, 1))
+            if(!ReadOK(is, &c, 1))
             {
                 GIF_ERROR("EOF / read error on extention function code");
             }
 
             if(c == 0xf9)
             {       /* graphic control */
-                (void) GetDataBlock(fd, buf);
+                (void) GetDataBlock(is, buf);
                 info.disposal = (GIFDisposalType) ((buf[0] >> 2) & 0x7);
                 info.inputFlag = (buf[0] >> 1) & 0x1;
                 info.delayTime = MKINT(buf[1], buf[2]);
                 if(BitSet(buf[0], 0x1))
                     info.transparent = buf[3];
 
-                while(GetDataBlock(fd, buf) != 0)
+                while(GetDataBlock(is, buf) != 0)
                     ;
             }
             else if(c == 0xfe || c == 0x01)
@@ -754,7 +716,7 @@ static GIFStream *GIFReadFP(FILE *fd)
 
                 if(c == 0x01)
                 {
-                    (void) GetDataBlock(fd, buf);
+                    (void) GetDataBlock(is, buf);
 
                     cur->type = gif_text;
                     cur->info = info;
@@ -777,7 +739,7 @@ static GIFStream *GIFReadFP(FILE *fd)
 
                 text = (char *) malloc(size);
 
-                while((n = GetDataBlock(fd, buf)) != 0)
+                while((n = GetDataBlock(is, buf)) != 0)
                 {
                     if(n + len >= size)
                     {
@@ -804,13 +766,13 @@ static GIFStream *GIFReadFP(FILE *fd)
                 /*
                 **  Unrecogonized extension, consume it.
                 */
-                while(GetDataBlock(fd, buf) > 0)
+                while(GetDataBlock(is, buf) > 0)
                     ;
             }
         }
         else if(c == ',')
         {
-            if(!ReadOK(fd, buf, 9))
+            if(!ReadOK(is, buf, 9))
             {
                 GIF_ERROR("couldn't read left/top/width/height");
             }
@@ -826,7 +788,7 @@ static GIFStream *GIFReadFP(FILE *fd)
             cur->data.image.cmapSize = 1 << ((buf[8] & 0x07) + 1);
             if(BitSet(buf[8], LOCALCOLORMAP))
             {
-                if(readColorMap(fd, cur->data.image.cmapSize,
+                if(readColorMap(is, cur->data.image.cmapSize,
                                          cur->data.image.cmapData))
                 {
                     GIF_ERROR("unable to get local colormap");
@@ -840,7 +802,7 @@ static GIFStream *GIFReadFP(FILE *fd)
             cur->data.image.data = (unsigned char *) 
               malloc(cur->width * cur->height);
             cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
-            readImage(fd, BitSet(buf[8], INTERLACE), cur->width, cur->height,
+            readImage(is, BitSet(buf[8], INTERLACE), cur->width, cur->height,
                       cur->data.image.data);
 
             resetInfo = GIF_TRUE;
@@ -862,21 +824,6 @@ static GIFStream *GIFReadFP(FILE *fd)
         GIF_ERROR("EOF / data stream");
 
 out:
-    return gifStream;
-}
-
-/* */
-static GIFStream *GIFRead(char *file)
-{
-    FILE        *fp = fopen(file, "rb");
-    GIFStream   *gifStream = NULL;
-
-    if(fp != NULL)
-    {
-        gifStream = GIFReadFP(fp);
-        fclose(fp);
-    }
-
     return gifStream;
 }
 
@@ -939,13 +886,13 @@ static int GIFFree(GIFStream *gifStream)
 }
 
 /* */
-static int readColorMap(FILE *fd, int size, unsigned char data[GIF_MAXCOLORS][3])
+static int readColorMap(std::istream &is, int size, unsigned char data[GIF_MAXCOLORS][3])
 {
     int             i;
     unsigned char   rgb[3 * GIF_MAXCOLORS];
     unsigned char   *cp = rgb;
 
-    if(!ReadOK(fd, rgb, size * 3))
+    if(!ReadOK(is, rgb, size * 3))
         return GIF_TRUE;
 
     for(i = 0; i < size; i++)
@@ -965,11 +912,11 @@ static int  ZeroDataBlock = GIF_FALSE;
 
 /* */
 
-static int GetDataBlock(FILE *fd, unsigned char *buf)
+static int GetDataBlock(std::istream &is, unsigned char *buf)
 {
     unsigned char   count;
 
-    if(!ReadOK(fd, &count, 1))
+    if(!ReadOK(is, &count, 1))
     {
         INFO_MSG(("error in getting DataBlock size"));
         return -1;
@@ -977,7 +924,7 @@ static int GetDataBlock(FILE *fd, unsigned char *buf)
 
     ZeroDataBlock = count == 0;
 
-    if((count != 0) && (!ReadOK(fd, buf, count)))
+    if((count != 0) && (!ReadOK(is, buf, count)))
     {
         INFO_MSG(("error in reading DataBlock"));
         return -1;
@@ -1027,7 +974,7 @@ static void initLWZ(int input_code_size)
 }
 
 /* */
-static int nextCode(FILE *fd, int code_size)
+static int nextCode(std::istream &is, int code_size)
 {
     static unsigned char    buf[280];
     static int              maskTbl[16] =
@@ -1076,7 +1023,7 @@ static int nextCode(FILE *fd, int code_size)
         buf[0] = buf[last_byte - 2];
         buf[1] = buf[last_byte - 1];
 
-        if((count = GetDataBlock(fd, &buf[2])) == 0)
+        if((count = GetDataBlock(is, &buf[2])) == 0)
             get_done = GIF_TRUE;
 
         last_byte = 2 + count;
@@ -1108,14 +1055,14 @@ static int nextCode(FILE *fd, int code_size)
 #define readLWZ(fd) ((sp > stack) ? *--sp : nextLWZ(fd))
 
 /* */
-static int nextLWZ(FILE *fd)
+static int nextLWZ(std::istream &is)
 {
     static int      table[2][(1 << MAX_LWZ_BITS)];
     static int      firstcode, oldcode;
     int             code, incode;
     register int    i;
 
-    while((code = nextCode(fd, code_size)) >= 0)
+    while((code = nextCode(is, code_size)) >= 0)
     {
         if(code == clear_code)
         {
@@ -1133,7 +1080,7 @@ static int nextLWZ(FILE *fd)
             sp = stack;
             do
             {
-                firstcode = oldcode = nextCode(fd, code_size);
+                firstcode = oldcode = nextCode(is, code_size);
             } while(firstcode == clear_code);
 
             return firstcode;
@@ -1147,7 +1094,7 @@ static int nextLWZ(FILE *fd)
             if(ZeroDataBlock)
                 return -2;
 
-            while((count = GetDataBlock(fd, buf)) > 0)
+            while((count = GetDataBlock(is, buf)) > 0)
                 ;
 
             if(count != 0)
@@ -1202,7 +1149,7 @@ static int nextLWZ(FILE *fd)
 }
 
 /* */
-static void readImage(FILE *fd, int interlace, int width, int height,
+static void readImage(std::istream &is, int interlace, int width, int height,
                       unsigned char *data)
 {
     unsigned char   *dp, c;
@@ -1213,7 +1160,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
     /*
     **  Initialize the Compression routines
     */
-    if(!ReadOK(fd, &c, 1))
+    if(!ReadOK(is, &c, 1))
     {
         GIF_ERROR("EOF / read error on image data");
     }
@@ -1236,7 +1183,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
             dp = &data[width * ypos];
             for(xpos = 0; xpos < width; xpos++)
             {
-                if((v = readLWZ(fd)) < 0)
+                if((v = readLWZ(is)) < 0)
                     goto fini;
 
                 *dp++ = v;
@@ -1260,7 +1207,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
         {
             for(xpos = 0; xpos < width; xpos++)
             {
-                if((v = readLWZ(fd)) < 0)
+                if((v = readLWZ(is)) < 0)
                     goto fini;
 
                 *dp++ = v;
@@ -1269,7 +1216,7 @@ static void readImage(FILE *fd, int interlace, int width, int height,
     }
 
 fini:
-    if(readLWZ(fd) >= 0)
+    if(readLWZ(is) >= 0)
     {
         INFO_MSG(("too much input data, ignoring extra..."));
     }

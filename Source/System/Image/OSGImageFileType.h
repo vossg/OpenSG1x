@@ -44,6 +44,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGIDString.h>
 #include <OSGImage.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -91,11 +92,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName )       = 0;
+    virtual bool read  (ImagePtr &image, const Char8 *fileName );
 
-    virtual bool write (const ImagePtr &image, const Char8 *fileName ) = 0;
+    virtual bool write (const ImagePtr &image, const Char8 *fileName );
 
     virtual bool validateHeader( const Char8 *fileName, bool &implemented );
+
+    virtual bool read  (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual bool write (const ImagePtr &image, std::ostream &os, const std::string &mimetype);
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -174,16 +181,24 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
                           UInt32  flags = OSG_READ_SUPPORTED );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
 
-    ImageFileType ( const ImageFileType &obj);
+    ImageFileType (const ImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const ImageFileType & operator= (const ImageFileType &obj);
+
+    /*! \}                                                                 */
 
     std::list<IDString> _suffixList;
 

@@ -38,13 +38,14 @@
 
 #ifndef OSGTIFIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGTIFIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -75,11 +76,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName);
-
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
-
     virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual bool write (const ImagePtr &image, std::ostream &os, const std::string &mimetype);
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
 
@@ -95,6 +98,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
                       UInt32 flags );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -102,11 +109,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TIFImageFileType : public ImageFileType
     TIFImageFileType (const TIFImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const TIFImageFileType & operator= (const TIFImageFileType &obj);
 
-    typedef ImageFileType Inherited;
+    /*! \}                                                                 */
 
     static TIFImageFileType _the;
 

@@ -38,6 +38,7 @@
 // System declarations
 #include <OSGConfig.h>
 #include <iostream>
+#include <fstream>
 
 // Class declarations
 #include "OSGImageFileType.h"
@@ -129,10 +130,67 @@ const std::list<IDString> &ImageFileType::getSuffixList(void) const
 
 //-------------------------------------------------------------------------
 
+bool ImageFileType::read(ImagePtr &image, const Char8 *fileName)
+{
+    std::ifstream is(fileName, std::ios::binary);
+    if (is.good() == false)
+        return false;
+    return read(image, is, std::string());
+}
+
+//-------------------------------------------------------------------------
+
+bool ImageFileType::write(const ImagePtr &image, const Char8 *fileName)
+{
+    std::ofstream os(fileName, std::ios::binary);
+    if (os.good() == false)
+        return false;
+    return write(image, os, std::string());
+}
+
+//-------------------------------------------------------------------------
+
 bool ImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
 {
     implemented = false;
     return true;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Tries to fill the image object with the data read from
+the given input stream. Returns true on success.
+*/
+bool ImageFileType::read(ImagePtr &image, std::istream &is, const std::string &mimetype)
+{
+    SWARNING << getMimeType()
+             << " read is not implemented"
+             << endLog;
+    return false;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Tries to write the image object to the given output stream.
+Returns true on success.
+*/
+bool ImageFileType::write(const ImagePtr &image, std::ostream &os, const std::string &mimetype)
+{
+    SWARNING << getMimeType()
+             << " write is not implemented"
+             << endLog;
+    return false;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
+*/
+std::string ImageFileType::determineMimetypeFromStream(std::istream &is)
+{
+    return std::string();
 }
 
 //-------------------------------------------------------------------------
@@ -168,22 +226,9 @@ ImageFileType::ImageFileType( const char *mimeType,
 
 //-------------------------------------------------------------------------
 /*!
-Copy Constructor 
-*/
-ImageFileType::ImageFileType(const ImageFileType &obj) 
-  : _suffixList(obj._suffixList)
-{
-    SWARNING << "In ImageFileType copy constructor" << std::endl;
-}
-
-//-------------------------------------------------------------------------
-/*!
 Destructor
 */
-ImageFileType::~ImageFileType(void)
-{
-  return;
-}
+ImageFileType::~ImageFileType(void) {}
 
 //-------------------------------------------------------------------------
 /*!

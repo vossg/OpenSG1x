@@ -56,6 +56,8 @@
 #include "OSGMNGImageFileType.h"
 #include <OSGLog.h>
 
+#include <iostream>
+
 #ifndef OSG_DO_DOC
 #    ifdef OSG_WITH_MNG
 #        define OSG_MNG_ARG(ARG) ARG
@@ -122,15 +124,13 @@ MNGImageFileType& MNGImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool MNGImageFileType::read(      ImagePtr &OSG_MNG_ARG(image   ),
-                            const Char8    *OSG_MNG_ARG(fileName))
+  /*
+bool MNGImageFileType::read(ImagePtr &OSG_MNG_ARG(image), std::istream &OSG_MNG_ARG(is))
 {
 
 #ifdef MNG_LIB
-
-  /*
 
     png_structp png_ptr;
     png_infop info_ptr;
@@ -215,8 +215,6 @@ bool MNGImageFileType::read(      ImagePtr &OSG_MNG_ARG(image   ),
 
     return retCode;
 
-  */
-
 #else
 
     SWARNING << getMimeType()
@@ -228,32 +226,24 @@ bool MNGImageFileType::read(      ImagePtr &OSG_MNG_ARG(image   ),
 #endif
 
 }
+  */
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
 */
-bool MNGImageFileType::write(const ImagePtr &OSG_MNG_ARG(image   ), 
-                             const Char8    *OSG_MNG_ARG(fileName))
+std::string MNGImageFileType::determineMimetypeFromStream(std::istream &is)
 {
-
-#ifdef MNG_LIB
-
-    SWARNING << getMimeType()
-             << " write is not implemented "
-             << endLog;
-
-#else
-
-    SWARNING << getMimeType()
-             << " write is not compiled into the current binary "
-             << endLog;
-
-  return false;
-
-#endif
-
+    char filecode[4];
+    is.read(filecode, 4);
+    is.seekg(-4, std::ios::cur);
+    if (strncmp(filecode, "\x8aMNG", 4) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "\x8aJNG", 4) == 0)
+        return std::string(getMimeType());
+    return std::string();
 }
 
 //-------------------------------------------------------------------------
@@ -264,26 +254,10 @@ MNGImageFileType::MNGImageFileType ( const Char8 *mimeType,
                                      const Char8 *suffixArray[],
                                      UInt16 suffixByteCount)
   : ImageFileType ( mimeType, suffixArray, suffixByteCount )
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-MNGImageFileType::MNGImageFileType (const MNGImageFileType &obj )
-    : ImageFileType(obj)
-{
-    return;
-}
-
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-MNGImageFileType::~MNGImageFileType (void )
-{
-    return;
-}
+MNGImageFileType::~MNGImageFileType (void) {}

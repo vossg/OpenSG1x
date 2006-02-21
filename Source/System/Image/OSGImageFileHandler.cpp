@@ -95,9 +95,9 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
                                              const char *fileName,
                                              bool validateHeader)
 {
-    IDString                                       suffix;
+    std::string                                    suffix;
     ImageFileType                                 *type = 0;
-    std::map<IDString, ImageFileType *>::iterator  sI;
+    std::map<std::string, ImageFileType *>::iterator sI;
     const char                                     separator = '.';
     int                                            i, l;
     std::ifstream                                  fin;
@@ -138,8 +138,8 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
 
             if(i >= 0)
             {
-                suffix.set(&(fileName[i + 1]));
-                suffix.toLower();
+                suffix.assign(&(fileName[i + 1]));
+                std::transform(suffix.begin(), suffix.end(), suffix.begin(), ::tolower);
                 sI = _suffixTypeMap.find(suffix);
                 type = (sI == _suffixTypeMap.end()) ? 0 : sI->second;
             }
@@ -161,7 +161,7 @@ ImageFileType *ImageFileHandler::getFileType(const char *mimeType,
                 {
                     if(implemented)
                     {
-                        FWARNING (("Autodetected '%s' image type!\n", sI->first.str()));
+                        FWARNING (("Autodetected '%s' image type!\n", sI->first.c_str()));
                         return type;
                     }
                 }
@@ -180,9 +180,9 @@ Returns the default OpenSG ImageFileType
 */
 ImageFileType *ImageFileHandler::getDefaultType(void)
 {
-  IDString        dSuffix("opensg");
+  std::string        dSuffix("opensg");
 
-  std::map<IDString,
+  std::map<std::string,
     ImageFileType *>::iterator sI = _suffixTypeMap.find(dSuffix);
 
 
@@ -191,7 +191,7 @@ ImageFileType *ImageFileHandler::getDefaultType(void)
   if(!type)
     {
       FFATAL(("Can not find any default (suffix:%s) image handler\n",
-              dSuffix.str()));
+              dSuffix.c_str()));
     }
 
   return type;
@@ -206,7 +206,7 @@ Int32 ImageFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
                                       UInt32 flags)
 {
     Int32                                         count = 0;
-    std::map<IDString, ImageFileType *>::iterator sI;
+    std::map<std::string, ImageFileType *>::iterator sI;
 
     suffixList.clear();
 
@@ -215,12 +215,47 @@ Int32 ImageFileHandler::getSuffixList(std::list<const Char8 *> & suffixList,
         ImageFileType *type = sI->second;
         if(type->getFlags() & flags)
         {
-            suffixList.push_back(sI->first.str());
+            suffixList.push_back(sI->first.c_str());
             count++;
         }
     }
 
   return count;
+}
+
+//-------------------------------------------------------------------------
+/*!
+Tries to determine the mime type from the file name.
+*/
+std::string ImageFileHandler::determineMimetypeFromName(const std::string &fileName)
+{
+    // Determine the suffix of the filename
+    std::string::size_type pos = fileName.rfind('.');
+    if (pos == std::string::npos)
+        return std::string();
+    std::string suffix = fileName.substr(pos + 1);
+    std::transform(suffix.begin(), suffix.end(), suffix.begin(), ::tolower);
+
+    // Try to find the suffix in the map of extensions
+    std::map<std::string, ImageFileType *>::iterator it = _suffixTypeMap.find(suffix);
+    return it != _suffixTypeMap.end() ? std::string(it->second->getMimeType()) : std::string();
+}
+
+//-------------------------------------------------------------------------
+/*!
+tries to determine the mimetype of a stream.
+*/
+std::string ImageFileHandler::determineMimetypeFromStream(std::istream &is)
+{
+    std::string mimetype;
+    TypeMap::iterator it;
+    for (it = _typeMap.begin(); it != _typeMap.end(); ++it)
+    {
+        mimetype = it->second->determineMimetypeFromStream(is);
+        if (mimetype.empty() == false)
+            break;
+    }
+    return mimetype;
 }
 
 //-------------------------------------------------------------------------
@@ -379,6 +414,39 @@ bool ImageFileHandler::write(const ImagePtr &image, const char *fileName,
 }
 
 //-------------------------------------------------------------------------
+
+ImagePtr ImageFileHandler::read(std::istream &is, const std::string &mimeType)
+{
+    ImagePtr image = Image::create();
+
+    if (read(image, is, mimeType) == false)
+    {
+        subRefCP(image);
+        image = NullFC;
+    }
+
+    return image;
+}
+
+//-------------------------------------------------------------------------
+
+bool ImageFileHandler::read(ImagePtr &image, std::istream &is,
+                            const std::string &mimeType)
+{
+    ImageFileType *type = getFileType(mimeType.c_str());
+    return type == 0 ? false : type->read(image, is, mimeType);
+}
+
+//-------------------------------------------------------------------------
+
+bool ImageFileHandler::write(const ImagePtr &image, std::ostream &os,
+                             const std::string &mimeType)
+{
+    ImageFileType *type = getFileType(mimeType.c_str());
+    return type == 0 ? false : type->write(image, os, mimeType);
+}
+
+//-------------------------------------------------------------------------
 /*!
 Returns the path handler used
 */
@@ -466,12 +534,12 @@ UChar8 *ImageFileHandler::store(const ImagePtr &image, UInt64 &memSize,
 */
 void ImageFileHandler::dump(void)
 {
-    std::map<IDString, ImageFileType *>::iterator    sI;
+    std::map<std::string, ImageFileType *>::iterator    sI;
 
     for(sI = _suffixTypeMap.begin(); sI != _suffixTypeMap.end(); sI++)
     {
       FLOG (( "Image suffix: %s, mimeType: %s\n",
-              sI->first.str(), sI->second->getMimeType() ));
+              sI->first.c_str(), sI->second->getMimeType() ));
     }
 }
 
@@ -483,8 +551,8 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
 {
     bool                                           retCode = false;
     std::list<IDString                 >::const_iterator sI;
-    std::map <IDString, ImageFileType *>::iterator smI;
-    IDString                                       suffix;
+    std::map<std::string, ImageFileType *>::iterator smI;
+    std::string                                    suffix;
 
     if(!_the)
         _the = new ImageFileHandler;
@@ -493,8 +561,8 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
          sI != fileType.getSuffixList().end();
         ++sI)
     {
-        suffix.set(sI->str());
-        suffix.toLower();
+        suffix.assign(sI->str());
+        std::transform(suffix.begin(), suffix.end(), suffix.begin(), ::tolower);
         smI = _the->_suffixTypeMap.find(suffix);
         if(smI != _the->_suffixTypeMap.end())
         {
@@ -508,6 +576,17 @@ bool ImageFileHandler::addImageFileType(ImageFileType &fileType)
         }
     }
 
+    std::string mimetype = fileType.getMimeType();
+    std::transform(mimetype.begin(), mimetype.end(), mimetype.begin(), ::tolower);
+    TypeMap::iterator tIt = _the->_typeMap.find(mimetype);
+    if (tIt != _the->_typeMap.end())
+    {
+        SWARNING << "Can't add an image file type with mimetype "
+                 << mimetype << " a second time" << std::endl;
+    }
+    else
+        _the->_typeMap[mimetype] = &fileType;
+
     return retCode;
 }
 
@@ -517,31 +596,16 @@ Default Constructor
 */
 ImageFileHandler::ImageFileHandler(void) :
     _suffixTypeMap(),
-    _pPathHandler(NULL),
-    _readFP(NULL)
-{
-}
-
-//-------------------------------------------------------------------------
-/*!
-Invalid Copy Constructor
-*/
-ImageFileHandler::ImageFileHandler(const ImageFileHandler &) :
-    _suffixTypeMap(),
-    _pPathHandler(NULL),
-    _readFP(NULL)
-{
-    FFATAL (("Run Copy Constructor on Singleton ImageFileHandler !\n"));
-}
+    _typeMap(),
+    _pPathHandler(0),
+    _readFP(0)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-ImageFileHandler::~ImageFileHandler(void)
-{
-    return;
-}
+ImageFileHandler::~ImageFileHandler(void) {}
 
 //-------------------------------------------------------------------------
 /*!

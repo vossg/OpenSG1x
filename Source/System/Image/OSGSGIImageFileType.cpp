@@ -48,7 +48,7 @@
 #include "OSGBaseFunctions.h"
 
 #include <iostream>
-#include <fstream>
+#include <vector>
 
 #include <OSGLog.h>
 
@@ -87,50 +87,6 @@ not depend on external libs.
             Dirk
 */
 
-static void
-rgbatorgba(unsigned char *r,unsigned char *g,unsigned char *b,unsigned char *a,
-unsigned char *l,int n) 
-{
-    while(n--) 
-    {
-        l[0] = r[0];
-        l[1] = g[0];
-        l[2] = b[0];
-        l[3] = a[0];
-        l += 4; r++; g++; b++; a++;
-    }
-}
-
-static void
-bwtobw(unsigned char *b,unsigned char *l,int n) 
-{
-    memcpy( l, b, n );
-}
-
-static void
-latola(unsigned char *b, unsigned char *a,unsigned char *l,int n) 
-{
-    while(n--) 
-    {
-        l[0] = *b;
-        l[1] = *a;
-        l += 2; b++; a++;
-    }
-}
-
-static void
-rgbtorgb(unsigned char *r,unsigned char *g,unsigned char *b,unsigned char *l,
-    int n) 
-{
-    while(n--) 
-    {
-        l[0] = r[0];
-        l[1] = g[0];
-        l[2] = b[0];
-        l += 3; r++; g++; b++;
-    }
-}
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
 /*! \hideinhierarchy
@@ -146,11 +102,10 @@ struct ImageRec
     unsigned int wasteBytes;
     char name[80];
     unsigned long colorMap;
-    FILE *file;
-    unsigned char *tmp, *tmpR, *tmpG, *tmpB;
-    unsigned long rleEnd;
-    unsigned int *rowStart;
-    int *rowSize;
+    std::istream *is;
+    std::vector<unsigned char> tmp;
+    std::vector<unsigned int> rowStart;
+    std::vector<unsigned int> rowSize;
 };
 
 #endif
@@ -187,139 +142,121 @@ ConvertLong(unsigned *array, unsigned long length)
     }
 }
 
-static ImageRec *ImageOpen(const char *fileName)
+static bool ImageOpen(ImageRec &image, std::istream &is)
 {
-    ImageRec *image   = NULL;
-    FILE     *pInFile = NULL;
+    image.is = &is;
 
-    int swapFlag;
-    int x;
+    is.read(reinterpret_cast<char*>(&image), 12);
+    if (is.gcount() != 12)
+        return false;
 
-    swapFlag = !osgIsBigEndian();
+    bool swapFlag = !osgIsBigEndian();
+    if (swapFlag == true)
+        ConvertShort(&image.imagic, 6);
 
-    if((pInFile = fopen(fileName, "rb")) == NULL) 
+    if ((image.type & 0xFF00) == 0x0100) 
     {
-        perror(fileName);
-        return image;
-    }
-
-    image = (ImageRec *)malloc(sizeof(ImageRec));
-
-    if (image == NULL) 
-    {
-        fprintf(stderr, "Out of memory!\n");
-        exit(1);
-    }
-
-    image->file = pInFile;
-
-    fread(image, 1, 12, image->file);
-
-    if (swapFlag) 
-    {
-        ConvertShort(&image->imagic, 6);
-    }
-
-    image->tmp = (unsigned char *)malloc(image->xsize*256);
-    image->tmpR = (unsigned char *)malloc(image->xsize*256);
-    image->tmpG = (unsigned char *)malloc(image->xsize*256);
-    image->tmpB = (unsigned char *)malloc(image->xsize*256);
-    if (image->tmp == NULL || image->tmpR == NULL || image->tmpG == NULL ||
-    image->tmpB == NULL) 
-    {
-        fprintf(stderr, "Out of memory!\n");
-        exit(1);
-    }
-
-    if ((image->type & 0xFF00) == 0x0100) 
-    {
-        x = image->ysize * image->zsize * sizeof(unsigned);
-        image->rowStart = (unsigned *)malloc(x);
-        image->rowSize = (int *)malloc(x);
-        if (image->rowStart == NULL || image->rowSize == NULL) 
+        is.ignore(512 - 12);
+        if (is.gcount() != 512 - 12)
+            return false;
+        int n = image.ysize * image.zsize;
+        int len = n * sizeof(unsigned);
+        image.rowStart.resize(n);
+        is.read(reinterpret_cast<char*>(&(image.rowStart.front())), len);
+        if (is.gcount() != len)
+            return false;
+        image.rowSize.resize(n);
+        is.read(reinterpret_cast<char*>(&(image.rowSize.front())), len);
+        if (is.gcount() != len)
+            return false;
+        if (swapFlag == true)
         {
-            fprintf(stderr, "Out of memory!\n");
-            exit(1);
+            ConvertLong(&(image.rowStart.front()), n);
+            ConvertLong(&(image.rowSize.front()), n);
         }
-        image->rleEnd = 512 + (2 * x);
-        fseek(image->file, 512, SEEK_SET);
-        fread(image->rowStart, 1, x, image->file);
-        fread(image->rowSize, 1, x, image->file);
-        if (swapFlag) 
-        {
-            ConvertLong(image->rowStart, x/sizeof(unsigned));
-            ConvertLong((unsigned *)image->rowSize, x/sizeof(int));
-        }
+        unsigned int maxSize = 0;
+        for (int i = 0; i < n; ++i)
+            if (image.rowSize[i] > maxSize)
+                maxSize = image.rowSize[i];
+        image.tmp.resize(maxSize);
     }
     else
-    {
-        image->rowStart = NULL;
-        image->rowSize  = NULL;
-    }
-    return image;
+        image.tmp.resize(image.xsize);
+    return true;
 }
 
-static void
-ImageClose(ImageRec *image) 
+static bool ImageGetRow(ImageRec &image, unsigned char *buf, int y, int z, int stride) 
 {
-    fclose(image->file);
-    free(image->tmp);
-    free(image->tmpR);
-    free(image->tmpG);
-    free(image->tmpB);
-    if(image->rowStart)
-        free(image->rowStart);
-    if(image->rowSize)
-        free(image->rowSize);
-    free(image);
-}
-
-static void
-ImageGetRow(ImageRec *image, unsigned char *buf, int y, int z) 
-{
-    unsigned char *iPtr, *oPtr, pixel;
-    int count;
-
-    if ((image->type & 0xFF00) == 0x0100) 
+    unsigned char *iPtr = &(image.tmp.front());
+    unsigned char *oPtr = buf;
+    if ((image.type & 0xFF00) == 0x0100) 
     {
-        fseek(image->file, (long)image->rowStart[y+z*image->ysize], SEEK_SET);
-        fread(image->tmp, 1, (unsigned int)image->rowSize[y+z*image->ysize],
-              image->file);
+        unsigned int row = y + z * image.ysize;
+        image.is->seekg(image.rowStart[row], std::ios::beg);
+        long len = image.rowSize[row];
+        image.is->read(reinterpret_cast<char*>(iPtr), len);
+        if (image.is->gcount() != len)
+            return false;
 
-        iPtr = image->tmp;
-        oPtr = buf;
-        for(;;)
+        int npix = image.xsize;
+        while (len > 0)
         {
-            pixel = *iPtr++;
-            count = (int)(pixel & 0x7F);
-            if (!count) 
-            {
-                return;
-            }
+            --len;
+            unsigned char pixel = *iPtr++;
+            int count = pixel & 0x7F;
+            if (count == 0)
+                break;
+            if (npix < count)
+                return false;
+            npix -= count;
             if (pixel & 0x80) 
             {
-                while (count--) 
+                if (len < count)
+                    return false;
+                len -= count;
+                while (count--)
                 {
-                    *oPtr++ = *iPtr++;
+                    *oPtr = *iPtr++;
+                    oPtr += stride;
                 }
             } 
             else 
             {
+                if (len < 1)
+                    return false;
+                --len;
                 pixel = *iPtr++;
                 while (count--) 
                 {
-                    *oPtr++ = pixel;
+                    *oPtr = pixel;
+                    oPtr += stride;
                 }
             }
         }
     } 
     else 
     {
-        fseek(image->file, 512+(y*image->xsize)+(z*image->xsize*image->ysize),
-              SEEK_SET);
-        fread(buf, 1, image->xsize, image->file);
+        image.is->seekg(512 + (y + z * image.ysize) * image.xsize, std::ios::beg);
+        image.is->read(reinterpret_cast<char*>(iPtr), image.xsize);
+        if (image.is->gcount() != image.xsize)
+            return false;
+        int count = image.xsize;
+        while (count--)
+        {
+            *oPtr = *iPtr++;
+            oPtr += stride;
+        }
     }
+    return true;
 }
+
+static const UInt32 zsize2pixelformat[] =
+{
+    Image::OSG_L_PF,
+    Image::OSG_LA_PF,
+    Image::OSG_RGB_PF,
+    Image::OSG_RGBA_PF
+};
 
 /*****************************
  *   Types
@@ -351,7 +288,7 @@ Class method to get the singleton Object
 */
 SGIImageFileType& SGIImageFileType::the (void)
 {
-  return _the;
+    return _the;
 }
 
 /*******************************
@@ -361,97 +298,47 @@ SGIImageFileType& SGIImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool SGIImageFileType::read (ImagePtr &image, const char *fileName )
+bool SGIImageFileType::read (ImagePtr &image, std::istream &is, const std::string &mimetype)
 {
- 
-    ImageRec *img = ImageOpen(fileName);
-    
-    if(!img)
-    return false;
-
-    unsigned char *rbuf = (unsigned char *)malloc(img->xsize*
-                                                    sizeof(unsigned char));
-    unsigned char *gbuf = (unsigned char *)malloc(img->xsize*
-                                                    sizeof(unsigned char));
-    unsigned char *bbuf = (unsigned char *)malloc(img->xsize*
-                                                    sizeof(unsigned char));
-    unsigned char *abuf = (unsigned char *)malloc(img->xsize*
-                                                    sizeof(unsigned char));
- 
-    unsigned char *lptr; // pointer to beginning of line in image data
-    int y;
-    
-    switch ( img->zsize )
-    {
-    case 1: image->set( Image::OSG_L_PF, img->xsize, img->ysize );
-            lptr = image->getData();
-        for(y=0; y<img->ysize; y++) 
-        {
-            ImageGetRow(img,rbuf,y,0);
-            bwtobw(rbuf,lptr,img->xsize);
-            lptr += img->xsize;
-        }
-        break;
-    case 2: image->set( Image::OSG_LA_PF, img->xsize, img->ysize );
-            lptr = image->getData();
-        for(y=0; y<img->ysize; y++) 
-        {
-            ImageGetRow(img,rbuf,y,0);
-            ImageGetRow(img,abuf,y,1);
-            latola(rbuf,abuf,lptr,img->xsize);
-            lptr += img->xsize*img->zsize;
-        }
-        break;
-    case 3: image->set( Image::OSG_RGB_PF, img->xsize, img->ysize );
-            lptr = image->getData();
-        for(y=0; y<img->ysize; y++) 
-        {
-            ImageGetRow(img,rbuf,y,0);
-            ImageGetRow(img,gbuf,y,1);
-            ImageGetRow(img,bbuf,y,2);
-            rgbtorgb(rbuf,gbuf,bbuf,lptr,img->xsize);
-            lptr += img->xsize*img->zsize;
-        }
-        break;
-    case 4: image->set( Image::OSG_RGBA_PF, img->xsize, img->ysize );
-            lptr = image->getData();
-        for(y=0; y<img->ysize; y++) 
-        {
-            ImageGetRow(img,rbuf,y,0);
-            ImageGetRow(img,gbuf,y,1);
-            ImageGetRow(img,bbuf,y,2);
-            ImageGetRow(img,abuf,y,3);
-            rgbatorgba(rbuf,gbuf,bbuf,abuf,lptr,img->xsize);
-            lptr += img->xsize*img->zsize;
-        }
-        break;
-    default:FWARNING(( "SGIImageFileType::read: unknown zsize %d!", 
-                img->zsize));
+    ImageRec img;
+	if (ImageOpen(img, is) == false)
         return false;
-    }
 
-    ImageClose(img);
-    free(rbuf);
-    free(gbuf);
-    free(bbuf);
-    free(abuf);
+    if ((img.zsize < 1) || (img.zsize > 4))
+        return false;
+
+    image->set(zsize2pixelformat[img.zsize - 1], img.xsize, img.ysize);
+    unsigned char *lptr = image->getData();
+    unsigned int lineStride = img.xsize * img.zsize;
+    for (int y = 0; y < img.ysize; ++y)
+    {
+        for (int z = 0; z < img.zsize; ++z)
+            if (ImageGetRow(img, lptr + z, y, z, img.zsize) == false)
+                return false;
+        lptr += lineStride;
+    }
 
     return true;
 }
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
 */
-bool SGIImageFileType::write(const ImagePtr &  , 
-                             const char  *OSG_CHECK_ARG(fileName))
-{ 
-    FWARNING(("SGIImageFileType::write: not implemented yet!\n"));
-    return false;
+std::string SGIImageFileType::determineMimetypeFromStream(std::istream &is)
+{
+    char filecode[2];
+    is.read(filecode, 2);
+    is.seekg(-2, std::ios::cur);
+    return strncmp(filecode, "\x01\xda", 2) == 0 ?
+        std::string(getMimeType()) : std::string();
 }
+
+//-------------------------------------------------------------------------
 
 bool SGIImageFileType::validateHeader( const Char8 *fileName, bool &implemented )
 {
@@ -480,29 +367,6 @@ bool SGIImageFileType::validateHeader( const Char8 *fileName, bool &implemented 
     return false;
 }
 
-/******************************
-*protected
-******************************/
-
-
-/******************************
-*private    
-******************************/
-
-
-/***************************
-*instance methodes 
-***************************/
-
-
-/***************************
-*public
-***************************/
-
-
-/**constructors & destructors**/
-
-
 //-------------------------------------------------------------------------
 /*!
 Constructor used for the singleton object
@@ -511,25 +375,10 @@ SGIImageFileType::SGIImageFileType ( const Char8 *mimeType,
                                      const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
     : ImageFileType ( mimeType, suffixArray, suffixByteCount )
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-SGIImageFileType::SGIImageFileType (const SGIImageFileType &obj )
-    : ImageFileType(obj)
-{
-    return;
-}
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-SGIImageFileType::~SGIImageFileType (void )
-{
-    return;
-}
+SGIImageFileType::~SGIImageFileType (void) {}

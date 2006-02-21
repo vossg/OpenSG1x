@@ -45,6 +45,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -65,20 +66,17 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Read/Write                                 */
-    /*! \{                                                                 */
-
-    virtual bool read  (ImagePtr &image, const Char8 *fileName);
-
-
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
     /*! \name                  Get Method                                  */
     /*! \{                                                                 */
 
     static MNGImageFileType & the (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Read/Write                                 */
+    /*! \{                                                                 */
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
 
@@ -93,6 +91,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
                        const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -100,11 +102,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MNGImageFileType : public ImageFileType
     MNGImageFileType (const MNGImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const MNGImageFileType &operator= (const MNGImageFileType &obj);
 
-    typedef ImageFileType Inherited;
+    /*! \}                                                                 */
 
     static MNGImageFileType _the;
 

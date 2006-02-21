@@ -47,8 +47,6 @@
 #include <string>
 
 #include <iostream>
-#include <istream>
-#include <fstream>
 
 #include <OSGLog.h>
 
@@ -194,11 +192,10 @@ NRRDImageFileType& NRRDImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
+bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::string &mimetype)
 {
-    std::ifstream  in(fileName, std::ios::in | std::ios::binary);
     bool     retCode = false;
     bool     isSigned = false, littleEndian = true, rawEncoding = true;
     int      width = 1, height = 1, depth = 1, dimension = 3, channel = 1;
@@ -227,8 +224,8 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
               dataType = mapElem(tokenVec[2]);
               break;
             default:
-              FFATAL (( "%s: Invalid %s/%d in NRRD header\n",
-                        fileName, tokenVec[0].c_str(), n ));
+              FFATAL (( "Invalid %s/%d in NRRD header\n",
+                        tokenVec[0].c_str(), n ));
               break;
             }
             break;
@@ -238,8 +235,8 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
               dimension = atoi(tokenVec[2].c_str());
               break;
             default:
-              FFATAL (( "%s: Invalid %s/%d in NRRD header\n",
-                        fileName, tokenVec[0].c_str(), n ));
+              FFATAL (( "Invalid %s/%d in NRRD header\n",
+                        tokenVec[0].c_str(), n ));
               break;
             }
             break;
@@ -267,8 +264,8 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
               depth  = 1;
               break;
             default:
-              FFATAL (( "%s: Invalid %s/%d in NRRD header\n",
-                        fileName, tokenVec[0].c_str(), n ));
+              FFATAL (( "Invalid %s/%d in NRRD header\n",
+                        tokenVec[0].c_str(), n ));
               break;
             }
             break;
@@ -278,8 +275,8 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
               littleEndian = (mapElem(tokenVec[1]) == LITTLE_HE);
               break;
             default:
-              FFATAL (( "%s: Invalid %s/%d in NRRD header\n",
-                        fileName, tokenVec[0].c_str(), n ));
+              FFATAL (( "Invalid %s/%d in NRRD header\n",
+                        tokenVec[0].c_str(), n ));
               break;
             }
             break;
@@ -289,8 +286,8 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
               rawEncoding = (mapElem(tokenVec[1]) == RAW_HE);
               break;
             default:
-              FFATAL (( "%s: Invalid %s/%d in NRRD header\n",
-                        fileName, tokenVec[0].c_str(), n ));
+              FFATAL (( "Invalid %s/%d in NRRD header\n",
+                        tokenVec[0].c_str(), n ));
               break;              
             }
             break;
@@ -327,8 +324,7 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
       }
 
       if (isSigned) {
-        FFATAL (( "s: Read signed data not supported\n",
-                fileName ));
+        FFATAL (( "Read signed data not supported\n" ));
       }
 
       FINFO(("NRRDImageFileType::read: got %d D %s endian %s data.\n",
@@ -351,62 +347,17 @@ bool NRRDImageFileType::read(ImagePtr &image, const Char8 *fileName)
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
-*/
-bool NRRDImageFileType::write(const ImagePtr &image, const Char8 *fileName)
-{
-    FFATAL (("NRRD Image write is not Impl.\n"));
-
-    return false;
-}
-
-/******************************
-*protected
-******************************/
-
-/******************************
-*private
-******************************/
-
-/***************************
-*instance methodes
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
-
-//-------------------------------------------------------------------------
-/*!
 Constructor used for the singleton object
 */
 NRRDImageFileType::NRRDImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount,
                                    UInt32 flags) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount, flags)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-NRRDImageFileType::NRRDImageFileType(const NRRDImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
+    ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-NRRDImageFileType::~NRRDImageFileType(void)
-{
-    return;
-}
+NRRDImageFileType::~NRRDImageFileType(void) {}

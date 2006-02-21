@@ -54,6 +54,8 @@
 #include "OSGPNGImageFileType.h"
 #include <OSGLog.h>
 
+#include <iostream>
+
 #ifndef OSG_DO_DOC
 #    ifdef OSG_WITH_PNG
 #        define OSG_PNG_ARG(ARG) ARG
@@ -98,6 +100,30 @@ static const Char8 *suffixArray[] = {
 
 #ifdef OSG_WITH_PNG
 
+static void isReadFunc(png_structp png_ptr, png_bytep data, png_size_t length)
+{
+    std::istream *is = reinterpret_cast<std::istream*>(png_get_io_ptr(png_ptr));
+    is->read(reinterpret_cast<char*>(data), length);
+    if (is->gcount() != length)
+        png_error(png_ptr, "Cannot read from input stream");
+}
+
+static void osWriteFunc(png_structp png_ptr, png_bytep data, png_size_t length)
+{
+    std::ostream *os = reinterpret_cast<std::ostream*>(png_get_io_ptr(png_ptr));
+    os->write(reinterpret_cast<char*>(data), length);
+    if (os->good() == false)
+        png_error(png_ptr, "Cannot write to output stream");
+}
+
+static void osFlushFunc(png_structp png_ptr)
+{
+    std::ostream *os = reinterpret_cast<std::ostream*>(png_get_io_ptr(png_ptr));
+    os->flush();
+    if (os->good() == false)
+        png_error(png_ptr, "Cannot flush output stream");
+}
+
 static void errorOutput (png_structp png_ptr, const char *message)
 {
   FFATAL   (("PNG: %s\n", message ));
@@ -134,12 +160,11 @@ PNGImageFileType& PNGImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image), 
-                            const Char8    *OSG_PNG_ARG(fileName))
+bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_ARG(is),
+                            const std::string &OSG_PNG_ARG(mimetype))
 {
-
 #ifdef OSG_WITH_PNG
 
     bool                retCode;
@@ -149,24 +174,16 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
     png_uint_32         width, wc, height, h, i;
     png_byte            bit_depth, channels, color_type;
     png_bytep           *row_pointers, base;
-    FILE                *fd;
-
-    if((fd = fopen(fileName, "rb")) == NULL)
-        return false;
 
     png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, 0, 0, 0);
     if(!png_ptr)
-    {
-        fclose(fd);
         return false;
-    }
 
     png_set_error_fn(png_ptr, 0, &errorOutput, &warningOutput);
 
     info_ptr = png_create_info_struct(png_ptr);
     if(!info_ptr)
     {
-        fclose(fd);
         png_destroy_read_struct(&png_ptr, 0, 0);
         return false;
     }
@@ -174,11 +191,10 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
     if(setjmp(png_ptr->jmpbuf))
     {
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
-        fclose(fd);
         return false;
     }
 
-    png_init_io(png_ptr, fd);
+    png_set_read_fn(png_ptr, &is, &isReadFunc);
 
     png_read_info(png_ptr, info_ptr);
 
@@ -248,8 +264,6 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
 
     png_destroy_read_struct(&png_ptr, &info_ptr, 0);
 
-    fclose(fd);
-
     return retCode;
 
 #else
@@ -266,16 +280,15 @@ bool PNGImageFileType::read(      ImagePtr &OSG_PNG_ARG(image),
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
+Tries to write the image object to the given output stream.
 Returns true on success. Based on the public domain example.c
 from the PNG dist.
 */
-bool PNGImageFileType::write(const ImagePtr &img, 
-                             const Char8 *fileName)
+bool PNGImageFileType::write(const ImagePtr &OSG_PNG_ARG(img), std::ostream &OSG_PNG_ARG(os),
+                             const std::string &OSG_PNG_ARG(mimetype))
 {
 #ifdef OSG_WITH_PNG
 
-    FILE *fp;
     png_structp png_ptr;
     png_infop info_ptr;
 
@@ -286,15 +299,6 @@ bool PNGImageFileType::write(const ImagePtr &img,
         return false;
     }
     
-    /* open the file */
-    fp = fopen(fileName, "wb");
-    if (fp == NULL)
-    {
-        FWARNING(("PNGImageFileType::write: couldn't open %s for writing!\n",
-            fileName));
-        return false;
-    }
-
     /* Create and initialize the png_struct with the desired error handler
     * functions.  If you want to use the default stderr and longjump method,
     * you can supply NULL for the last three parameters.  We also check that
@@ -305,22 +309,18 @@ bool PNGImageFileType::write(const ImagePtr &img,
                                 0, &errorOutput, &warningOutput);
 
     if (png_ptr == NULL)
-    {
-      fclose(fp);
       return false;
-    }
 
     /* Allocate/initialize the image information data.  REQUIRED */
     info_ptr = png_create_info_struct(png_ptr);
     if (info_ptr == NULL)
     {
-      fclose(fp);
       png_destroy_write_struct(&png_ptr,  NULL);
       return false;
     }
 
-    /* set up the output control if you are using standard C streams */
-    png_init_io(png_ptr, fp);
+    /* set up the output handlers */
+    png_set_write_fn(png_ptr, &os, &osWriteFunc, &osFlushFunc);
 
     /* This is the hard way */
 
@@ -466,9 +466,6 @@ bool PNGImageFileType::write(const ImagePtr &img,
 
     delete [] row_pointers;
 
-    /* close the file */
-    fclose(fp);
-
     /* that's it */
     return true;
 
@@ -480,6 +477,23 @@ bool PNGImageFileType::write(const ImagePtr &img,
     return false;
 #endif
 }
+
+//-------------------------------------------------------------------------
+/*!
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
+*/
+std::string PNGImageFileType::determineMimetypeFromStream(std::istream &is)
+{
+    char filecode[4];
+    is.read(filecode, 4);
+    is.seekg(-4, std::ios::cur);
+    return strncmp(filecode, "\x89PNG", 4) == 0 ?
+        std::string(getMimeType()) : std::string();
+}
+
+//-------------------------------------------------------------------------
 
 bool PNGImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
 {
@@ -814,26 +828,10 @@ PNGImageFileType::PNGImageFileType ( const Char8 *mimeType,
                                      UInt16 suffixByteCount,
                                      UInt32 flags) :
     ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-PNGImageFileType::PNGImageFileType(const PNGImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
-
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-PNGImageFileType::~PNGImageFileType(void)
-{
-    return;
-}
+PNGImageFileType::~PNGImageFileType(void) {}

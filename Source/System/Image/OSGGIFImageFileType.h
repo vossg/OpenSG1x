@@ -45,6 +45,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,13 +70,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool         read  (ImagePtr &image,
-                                const Char8 *fileName);
-
-    virtual bool         write (const ImagePtr &image,
-                                const Char8 *fileName);
-
     virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -97,6 +96,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
                        const Char8 *suffixArray[],
                        UInt16 suffixByteCount );
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -104,14 +107,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GIFImageFileType : public ImageFileType
     GIFImageFileType (const GIFImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const GIFImageFileType & operator= (const GIFImageFileType &obj);
 
-    typedef ImageFileType Inherited;
+    /*! \}                                                                 */
 
-    static  GIFImageFileType _the;
-
+    static GIFImageFileType _the;
 
 };
 

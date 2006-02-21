@@ -45,6 +45,7 @@
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,11 +70,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName);
-
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
-
     virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual bool write (const ImagePtr &image, std::ostream &os, const std::string &mimetype);
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -106,24 +109,26 @@ class OSG_SYSTEMLIB_DLLMAPPING PNGImageFileType : public ImageFileType
                        UInt32 flags );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
 
     PNGImageFileType (const PNGImageFileType &obj);
 
-    typedef ImageFileType Inherited;
-
-    static PNGImageFileType _the;
-
     /*! \}                                                                 */
-
     /*---------------------------------------------------------------------*/
-    /*! \name               PNG LIB Helper                                 */
+    /*! \name                Copy Operator                                 */
     /*! \{                                                                 */
 
+    const PNGImageFileType & operator= (const PNGImageFileType &obj);
+
     /*! \}                                                                 */
 
+    static PNGImageFileType _the;
 
 };
 

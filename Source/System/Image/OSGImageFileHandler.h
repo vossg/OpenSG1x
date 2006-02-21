@@ -49,6 +49,7 @@
 #include <OSGBaseTypes.h>
 #include <OSGIDStringLink.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 
 OSG_BEGIN_NAMESPACE
@@ -83,6 +84,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     virtual bool    write ( const ImagePtr &image,
                             const char *fileName, const char *mimeType = 0);
+
+    virtual ImagePtr read  ( std::istream &is, const std::string &mimeType);
+
+    virtual bool     read  ( ImagePtr &image,
+                             std::istream &is, const std::string &mimeType);
+
+    virtual bool    write ( const ImagePtr &image,
+                            std::ostream &os, const std::string &mimeType);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -129,6 +138,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
                             UInt32 flags = ImageFileType::OSG_READ_SUPPORTED |
                                            ImageFileType::OSG_WRITE_SUPPORTED);
 
+    std::string determineMimetypeFromName(const std::string &fileName);
+
+    std::string determineMimetypeFromStream(std::istream &is);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Print                                     */
@@ -153,7 +166,11 @@ private:
 
     static ImageFileHandler             *_the;
 
-    std::map<IDString, ImageFileType *>  _suffixTypeMap;
+    std::map<std::string, ImageFileType *>  _suffixTypeMap;
+
+    typedef std::map<std::string, ImageFileType*> TypeMap;
+
+    TypeMap _typeMap;
 
     static bool addImageFileType (ImageFileType &fileType);
 
@@ -169,7 +186,20 @@ private:
     /*! \{                                                                 */
 
     ImageFileHandler (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Copy Constructor                               */
+    /*! \{                                                                 */
+
     ImageFileHandler(const ImageFileHandler &obj);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               Copy Operator                                  */
+    /*! \{                                                                 */
+
+    const ImageFileHandler & operator= (const ImageFileHandler &obj);
 
     /*! \}                                                                 */
 };

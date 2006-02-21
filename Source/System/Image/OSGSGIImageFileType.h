@@ -38,13 +38,14 @@
 
 #ifndef OSGSGIIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGSGIIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -75,11 +76,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const char *fileName);
-
-    virtual bool write (const ImagePtr &image, const char *fileName);
-
     virtual bool validateHeader( const Char8 *fileName, bool &implemented);
+
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
 
@@ -94,6 +95,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
                        const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -101,9 +106,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SGIImageFileType : public ImageFileType
     SGIImageFileType (const SGIImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const SGIImageFileType & operator= (const SGIImageFileType &obj);
+
+    /*! \}                                                                 */
 
     typedef ImageFileType Inherited;
 

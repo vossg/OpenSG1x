@@ -56,6 +56,8 @@
 #endif
 #include <OSGLog.h>
 
+#include <iostream>
+
 
 OSG_USING_NAMESPACE
 
@@ -86,102 +88,96 @@ TGAImageFileType& TGAImageFileType::the (void)
   return _the;
 }
 
-void TGAImageFileType::readHeader(std::istream &in, TGAHeader &header)
+bool TGAImageFileType::readHeader(std::istream &is, TGAHeader &header)
 {
     UInt8 dum[18];
-
-    in.read(reinterpret_cast<char *>(dum), 18);
+    is.read(reinterpret_cast<char *>(dum), 18);
+    if (is.gcount() != 18)
+        return false;
 
     header.idLength      = dum[ 0];
     header.colorMapType  = dum[ 1];
     header.imageType     = dum[ 2];
+    header.cmapFirst     = dum[ 3] | (dum[ 4] << 8);
+    header.cmapLength    = dum[ 5] | (dum[ 6] << 8);
     header.cmapEntrySize = dum[ 7];
+    header.xOrigin       = dum[ 8] | (dum[ 9] << 8);
+    header.yOrigin       = dum[10] | (dum[11] << 8);
+    header.width         = dum[12] | (dum[13] << 8);
+    header.height        = dum[14] | (dum[15] << 8);
     header.depth         = dum[16];
     header.descriptor    = dum[17];
 
-    if(osgIsBigEndian())
-    {
-        header.cmapFirst  = dum[ 4] + dum[ 3] * 256;
-        header.cmapLength = dum[ 6] + dum[ 5] * 256;
-        header.xOrigin    = dum[ 9] + dum[ 8] * 256;
-        header.yOrigin    = dum[11] + dum[10] * 256;
-        header.width      = dum[13] + dum[12] * 256;
-        header.height     = dum[15] + dum[14] * 256;
-    }
-    else
-    {
-        header.cmapFirst  = dum[ 3] + dum[ 4] * 256;
-        header.cmapLength = dum[ 5] + dum[ 6] * 256;
-        header.xOrigin    = dum[ 8] + dum[ 9] * 256;
-        header.yOrigin    = dum[10] + dum[11] * 256;
-        header.width      = dum[12] + dum[13] * 256;
-        header.height     = dum[14] + dum[15] * 256;
-    }
+    return true;
 }
 
-bool TGAImageFileType::readCompressedImageData(std::istream &in, 
+bool TGAImageFileType::readCompressedImageData(std::istream &is, 
                                                ImagePtr &image)
 {
     UInt32 npix = image->getWidth() * image->getHeight();
-    UInt8   rep;
+    Int32  rep, len;
     UChar8 *data = image->getData();
     UInt16 bpp = image->getBpp();
-    UChar8 r,g,b,a;
+    Char8 c[4];
 
-    while(npix)
+    while (npix > 0)
     {
-        in.read(reinterpret_cast<char *>(&rep), 1);
+        rep = is.get();
+        if (rep == EOF)
+            return false;
+        bool repFlag = (rep & 0x80) != 0;
+        rep = (rep & 0x7f) + 1;
+        if (static_cast<UInt32>(rep) > npix)
+            return false;
+        npix -= rep;
 
-        if(rep & 0x80)
+        if (repFlag == true)
         {
-            rep = (rep & 0x7f) + 1;
-            npix -= rep;
-
-            switch(image->getPixelFormat())
+            switch (image->getPixelFormat())
             {
-                case Image::OSG_L_PF:
-                    in.read(reinterpret_cast<char *>(&a), 1);
-                    while(rep--)
-                    {
-                        *data++ = a;
-                    }
-                    break;
-                case Image::OSG_RGB_PF:
-                    in.read(reinterpret_cast<char *>(&b), 1);
-                    in.read(reinterpret_cast<char *>(&g), 1);
-                    in.read(reinterpret_cast<char *>(&r), 1);
-                    while(rep--)
-                    {
-                        *data++ = b;
-                        *data++ = g;
-                        *data++ = r;
-                    }
-                    break;
-                case Image::OSG_RGBA_PF:
-                    in.read(reinterpret_cast<char *>(&b), 1);
-                    in.read(reinterpret_cast<char *>(&g), 1);
-                    in.read(reinterpret_cast<char *>(&r), 1);
-                    in.read(reinterpret_cast<char *>(&a), 1);
-                    while(rep--)
-                    {
-                        *data++ = b;
-                        *data++ = g;
-                        *data++ = r;
-                        *data++ = a;
-                    }
-                    break;
-                default:
-                    FWARNING(("TGA: unknown pixel "
-                              "format!?!\n"));
+            case Image::OSG_L_PF:
+                is.read(c, 1);
+                if (is.gcount() != 1)
                     return false;
+                for (; rep > 0; --rep)
+                    *data++ = c[0];
+                break;
+            case Image::OSG_RGB_PF:
+                is.read(c, 3);
+                if (is.gcount() != 3)
+                    return false;
+                for (; rep > 0; --rep)
+                {
+                    *data++ = c[0];
+                    *data++ = c[1];
+                    *data++ = c[2];
+                }
+                break;
+            case Image::OSG_RGBA_PF:
+                is.read(c, 4);
+                if (is.gcount() != 4)
+                    return false;
+                for (; rep > 0; --rep)
+                {
+                    *data++ = c[0];
+                    *data++ = c[1];
+                    *data++ = c[2];
+                    *data++ = c[3];
+                }
+                break;
+            default:
+                FWARNING(("TGA: unknown pixel "
+                          "format!?!\n"));
+                return false;
             }
         }
         else // raw packet
         {
-            rep = (rep & 0x7f) + 1;
-            in.read(reinterpret_cast<char *>(data), bpp * rep);
-            data += rep * bpp;
-            npix -= rep;
+            len = bpp * rep;
+            is.read(reinterpret_cast<char *>(data), len);
+            if (is.gcount() != len)
+                return false;
+            data += len;
         }
     }
     return true;
@@ -195,131 +191,123 @@ TGAImageFileType TGAImageFileType::_the("tga",
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool TGAImageFileType::read(      ImagePtr &image,
-                            const Char8    *fileName)
+bool TGAImageFileType::read(ImagePtr &image, std::istream &is, const std::string &mimetype)
 {
-    std::ifstream  in(fileName, std::ios::in | std::ios::binary);
+    // read the header
+    TGAHeader header;
+    if (readHeader(is, header) == false)
+        return false;
 
-    if(! in.rdbuf()->is_open())
+    // determine format
+    Image::PixelFormat format = Image::OSG_INVALID_PF;
+    switch (header.imageType & ~0x8)
     {
-        FWARNING(("Error opening TGA file %s!\n", fileName));
+    case 1: FWARNING(("TGA: 8-bit image not supported!\n"));
+            break;
+
+    case 2: switch (header.depth)
+            {
+            case 24: format = Image::OSG_RGB_PF;
+                     break;
+            case 32: format = Image::OSG_RGBA_PF;
+                     break;
+            default: FWARNING(("TGA: Unknown pixel depth %d!\n",
+                              header.depth));
+                     break;
+            }
+            break;
+
+    case 3: format = Image::OSG_L_PF;
+            break;
+    }
+    if (format == Image::OSG_INVALID_PF)
+    {
+        FWARNING(("Unsupported image type for TGA file!\n"));
         return false;
     }
 
-    TGAHeader header;
-    readHeader(in, header);
-
-    Image::PixelFormat format = Image::OSG_INVALID_PF;
-
-    bool    compressed = (header.imageType & 0x8) != 0;
-
-    switch(header.imageType & ~0x8)
-    {
-    case 1:     FWARNING(("TGA: 8-bit image not supported!\n"));
-                break;
-
-    case 2:     switch(header.depth)
-                {
-                case 24:    format = Image::OSG_RGB_PF;
-                            break;
-                case 32:    format = Image::OSG_RGBA_PF;
-                            break;
-                default:    FWARNING(("TGA: Unknown pixel depth %d!\n",
-                                    header.depth));
-                            break;
-                }
-                break;
-
-    case 3:     format = Image::OSG_L_PF;
-                break;
-    }
-
-    if(format == Image::OSG_INVALID_PF)
-    {
-       FWARNING(("Unsupported image type for TGA file %s!\n", fileName));
-       return false;
-    }
-
-    image->set(format, header.width, header.height);
-
     // read the image ID
     UInt8 imageid[256];
-    in.read(reinterpret_cast<char *>(imageid), header.idLength);
+    is.read(reinterpret_cast<char *>(imageid), header.idLength);
+    if (is.gcount() != header.idLength)
+        return false;
     imageid[header.idLength] = 0;
-
     FDEBUG(("TGA: Image ID '%s'\n", imageid));
 
     // read color map data
-    if(header.colorMapType == 1)
+    if (header.colorMapType == 1)
     {
-        UInt32 len = osgMin(header.cmapEntrySize / 3, 8) * header.cmapLength;
+        Int32 len = osgMin(header.cmapEntrySize / 3, 8) * header.cmapLength;
 
-        UInt8 * dum = new UInt8 [len];
-
-        in.read(reinterpret_cast<char *>(dum), len);
-
-        delete [] dum;
+        //UInt8 * dum = new UInt8 [len];
+        //in.read(reinterpret_cast<char *>(dum), len);
+        //delete [] dum;
+        is.ignore(len);
+        if (is.gcount() != len)
+            return false;
     }
 
     // read image data
-    if(compressed)
+    image->set(format, header.width, header.height);
+    if ((header.imageType & 0x8) != 0)
     {
-        if(!readCompressedImageData(in, image))
+        if (readCompressedImageData(is, image) == false)
         {
-            FWARNING(("Unsupported image type for TGA file %s!\n", fileName));
+            FWARNING(("Unsupported image type for TGA file!\n"));
             return false;
         }
     }
     else
     {
-        in.read(reinterpret_cast<char *>(image->getData()),
-                static_cast<int>(image->getSize()));
+        Int32 len = image->getSize();
+        is.read(reinterpret_cast<char *>(image->getData()), len);
+        if (is.gcount() != len)
+            return false;
     }
 
     // check origin
-    switch(header.descriptor & 0x30)
+    switch (header.descriptor & 0x30)
     {
-    case 0x00:  // bottom left, ok!
-                break;
-    case 0x20:  // top left
-                // do top-bottom swap
-                {
-                    UInt32 bpl = image->getBpp() * image->getWidth();
-                    UChar8 *t = image->getData(), 
-                           *b = t + (image->getHeight() - 1) * bpl,
-                            dum;
+    case 0x00: // bottom left, ok!
+               break;
+    case 0x20: // top left
+               // do top-bottom swap
+               {
+                   UInt32 bpl = image->getBpp() * image->getWidth();
+                   UChar8 *t = image->getData(), 
+                          *b = t + (image->getHeight() - 1) * bpl,
+                           dum;
 
-                    for(UInt32 y = image->getHeight() / 2; y > 0; --y)
-                    {
-                        for(UInt32 x = bpl; x > 0; --x, ++t, ++b)
-                        {
-                            dum = *t;
-                            *t = *b;
-                            *b = dum;
-                        }
-                        b -= bpl * 2;
-                    }
-                }
-                break;
-    case 0x10:  // bottom right
-    case 0x30:  // top right
-                FWARNING(("TGA: origin 0x%d not supported!\n",
-                          header.descriptor & 0x30));
-                return false;
+                   for(UInt32 y = image->getHeight() / 2; y > 0; --y)
+                   {
+                       for(UInt32 x = bpl; x > 0; --x, ++t, ++b)
+                       {
+                           dum = *t;
+                           *t = *b;
+                           *b = dum;
+                       }
+                       b -= bpl * 2;
+                   }
+               }
+               break;
+    case 0x10: // bottom right
+    case 0x30: // top right
+               FWARNING(("TGA: origin 0x%d not supported!\n",
+                         header.descriptor & 0x30));
+               return false;
     }
 
-
     // do BGR -> RGB swap, as GL_BGR_EXT is not supported everywhere
-    if(image->getPixelFormat() == Image::OSG_RGB_PF ||
-       image->getPixelFormat() == Image::OSG_RGBA_PF)
+    if (image->getPixelFormat() == Image::OSG_RGB_PF ||
+        image->getPixelFormat() == Image::OSG_RGBA_PF)
     {
         UChar8 *d    = image->getData(), dum;
         UInt32  npix = image->getWidth() * image->getHeight();
         UInt8   bpp  = image->getBpp();
 
-        while(npix--)
+        while (npix--)
         {
             dum  = d[2];
             d[2] = d[0];
@@ -333,47 +321,16 @@ bool TGAImageFileType::read(      ImagePtr &image,
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
-*/
-bool TGAImageFileType::write(const ImagePtr &,
-                             const Char8    *OSG_CHECK_ARG(fileName))
-{
-    SWARNING <<
-        getMimeType() <<
-        " write is not compiled into the current binary " <<
-        std::endl;
-
-    return true;
-}
-
-//-------------------------------------------------------------------------
-/*!
 Constructor used for the singleton object
 */
 TGAImageFileType::TGAImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-TGAImageFileType::TGAImageFileType(const TGAImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
+    ImageFileType(mimeType, suffixArray, suffixByteCount)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-TGAImageFileType::~TGAImageFileType(void)
-{
-    return;
-}
+TGAImageFileType::~TGAImageFileType(void) {}

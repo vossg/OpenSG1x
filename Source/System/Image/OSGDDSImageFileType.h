@@ -38,13 +38,14 @@
 
 #ifndef OSGDDSIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGDDSIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -75,9 +76,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName);
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
 
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
+    virtual std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
 
@@ -93,6 +94,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
                        UInt32 flags );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -100,13 +105,15 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
     DDSImageFileType (const DDSImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const DDSImageFileType & operator= (const DDSImageFileType &obj);
 
-    typedef ImageFileType    Inherited;
+    /*! \}                                                                 */
 
-    static  DDSImageFileType _the;
+    static DDSImageFileType _the;
 
 };
 

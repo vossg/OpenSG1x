@@ -497,7 +497,6 @@ bool DATImageFileType::write(const ImagePtr &image,
     return true;
 }
 
-
 //-------------------------------------------------------------------------
 /*!
 Tries to restore the image data from the given memblock.
@@ -539,28 +538,13 @@ DATImageFileType::DATImageFileType ( const Char8 *mimeType,
                                      const Char8 *suffixArray[], 
                                      UInt16 suffixByteCount )
     : ImageFileType ( mimeType, suffixArray, suffixByteCount )
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-DATImageFileType::DATImageFileType (const DATImageFileType &obj )
-    : ImageFileType(obj)
-{
-    return;
-}
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-DATImageFileType::~DATImageFileType (void )
-{
-    return;
-}
+DATImageFileType::~DATImageFileType (void ) {}
 
 //-------------------------------------------------------------------------
 /*!

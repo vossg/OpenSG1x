@@ -44,7 +44,6 @@
 #include "OSGConfig.h"
 
 #include <iostream>
-#include <fstream>
 
 #include <OSGLog.h>
 
@@ -113,31 +112,22 @@ PNMImageFileType& PNMImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool PNMImageFileType::read(ImagePtr &image, const Char8 *fileName)
+bool PNMImageFileType::read(ImagePtr &image, std::istream &in, const std::string &mimetype)
 {
     bool           isBinary = true;
     Int16          type = 0, width, height, lineSize, maxValue=0, value, x, y;
     UInt32         i, n;
     UChar8        *imageData = 0;
     UInt8          id, commentKey = '#';
-    std::ifstream  in(fileName, std::ios::in | std::ios::binary);
 
-    if(in.rdbuf()->is_open())
-    {
-        in >> id >> type;
+    in >> id >> type;
+    in.ignore(INT_MAX, '\n');
+    while(in.peek() == commentKey)
         in.ignore(INT_MAX, '\n');
-        while(in.peek() == commentKey)
-            in.ignore(INT_MAX, '\n');
-        in >> width >> height;
-        isBinary = ((type > 3) && (type < 7)) ? true : false;
-    }
-    else
-    {
-        FWARNING(("Error opening PNM file %s!\n", fileName));
-        return false;
-    }
+    in >> width >> height;
+    isBinary = ((type > 3) && (type < 7)) ? true : false;
 
     switch(type)
     {
@@ -167,12 +157,7 @@ bool PNMImageFileType::read(ImagePtr &image, const Char8 *fileName)
         image->set(Image::OSG_RGBA_PF, width, height);
         break;
     default:
-        SWARNING <<
-          "unknown image format type " <<
-          type <<
-          " in " <<
-          fileName <<
-          std::endl;
+        SWARNING << "unknown image format type " << type << std::endl;
         break;
     }
 
@@ -184,8 +169,6 @@ bool PNMImageFileType::read(ImagePtr &image, const Char8 *fileName)
             SWARNING <<
                 "unknown max value " <<
                 maxValue <<
-                " in " <<
-                fileName <<
                 ", can't read the image" <<
                 std::endl;
             maxValue = 0;
@@ -239,83 +222,85 @@ bool PNMImageFileType::read(ImagePtr &image, const Char8 *fileName)
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
+Tries to write the image object to the given output stream.
 Returns true on success.
 */
-bool PNMImageFileType::write(const ImagePtr &image, const Char8 *fileName)
+bool PNMImageFileType::write(const ImagePtr &image, std::ostream &out, const std::string &mimetype)
 {
     Int16          p, y, x, lineSize;
-    std::ofstream  out(fileName, std::ios::out | std::ios::binary);
     UInt16         bpp = image->getBpp();
     UInt8         *data = 0;
 
-    if(out.rdbuf()->is_open())
+    switch(bpp)
     {
-        switch(bpp)
+    case 1:
+    case 2:
+        out << "P5" << std::endl;
+        break;
+    case 3:
+    case 4:
+        out << "P6" << std::endl;
+        break;
+    }
+
+    out << "# PNMImageFileType write" << std::endl;
+    out << image->getWidth() << " " << image->getHeight() << std::endl;
+    out << "255" << std::endl;
+
+    if(bpp & 1)
+    {
+        // with alpha
+        lineSize = image->getBpp() * image->getWidth();
+        for(y = image->getHeight() - 1; y >= 0; y--)
         {
-        case 1:
-        case 2:
-            out << "P5" << std::endl;
-            break;
-        case 3:
-        case 4:
-            out << "P6" << std::endl;
-            break;
+            out.write((char *) (image->getData() + (lineSize * y)), 
+                      lineSize);
         }
-
-        out << "# PNMImageFileType write" << std::endl;
-        out << image->getWidth() << " " << image->getHeight() << std::endl;
-        out << "255" << std::endl;
-
-        if(bpp & 1)
+    }
+    else
+    {
+        // skip alpha
+        lineSize = image->getBpp() * image->getWidth();
+        for(y = image->getHeight() - 1; y >= 0; y--)
         {
-            // with alpha
-            lineSize = image->getBpp() * image->getWidth();
-            for(y = image->getHeight() - 1; y >= 0; y--)
+            data = (UInt8 *) (image->getData() + (lineSize * y));
+            for(x = 0; x < image->getWidth(); x++)
             {
-                out.write((char *) (image->getData() + (lineSize * y)), 
-                          lineSize);
+                for(p = bpp - 1; p--;)
+                    out << *data++;
+                data++;
             }
         }
-        else
-        {
-            // skip alpha
-            lineSize = image->getBpp() * image->getWidth();
-            for(y = image->getHeight() - 1; y >= 0; y--)
-            {
-                data = (UInt8 *) (image->getData() + (lineSize * y));
-                for(x = 0; x < image->getWidth(); x++)
-                {
-                    for(p = bpp - 1; p--;)
-                        out << *data++;
-                    data++;
-                }
-            }
-        }
-
-        out.close();
     }
 
     return data ? true : false;
 }
 
-/******************************
-*protected
-******************************/
-
-/******************************
-*private
-******************************/
-
-/***************************
-*instance methodes
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
+//-------------------------------------------------------------------------
+/*!
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
+*/
+std::string PNMImageFileType::determineMimetypeFromStream(std::istream &is)
+{
+    char filecode[2];
+    is.read(filecode, 2);
+    is.seekg(-2, std::ios::cur);
+    if (strncmp(filecode, "P1", 2) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "P2", 2) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "P3", 2) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "P4", 2) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "P5", 2) == 0)
+        return std::string(getMimeType());
+    if (strncmp(filecode, "P6", 2) == 0)
+        return std::string(getMimeType());
+    return std::string();
+}
 
 //-------------------------------------------------------------------------
 /*!
@@ -325,26 +310,11 @@ PNMImageFileType::PNMImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount,
                                    UInt32 flags) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount, flags)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-PNMImageFileType::PNMImageFileType(const PNMImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
+    ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-PNMImageFileType::~PNMImageFileType(void)
-{
-    return;
-}
+PNMImageFileType::~PNMImageFileType(void) {}

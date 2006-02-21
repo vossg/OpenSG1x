@@ -38,13 +38,14 @@
 
 #ifndef OSGMTDIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGMTDIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -77,8 +78,9 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (      ImagePtr &image, const Char8 *fileName);
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+
+    virtual bool write (const ImagePtr &image, std::ostream &os, const std::string &mimetype);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -103,6 +105,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
                        UInt32 flags );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -110,13 +116,15 @@ class OSG_SYSTEMLIB_DLLMAPPING MTDImageFileType : public ImageFileType
     MTDImageFileType (const MTDImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const MTDImageFileType & operator= (const MTDImageFileType &obj);
 
-    typedef ImageFileType Inherited;
+    /*! \}                                                                 */
 
-    static  MTDImageFileType _the;
+    static MTDImageFileType _the;
 };
 
 typedef MTDImageFileType* MTDImageFileTypeP;

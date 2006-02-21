@@ -62,6 +62,8 @@ extern "C" {
 #include "OSGJPGImageFileType.h"
 #include <OSGLog.h>
 
+#include <iostream>
+
 #ifndef OSG_DO_DOC
 #    ifdef OSG_WITH_JPG
 #        define OSG_JPG_ARG(ARG) ARG
@@ -90,6 +92,106 @@ the singleton object.
 */
 
 #ifdef OSG_WITH_JPG
+
+static const unsigned long BUFFERSIZE = 4096;
+
+typedef struct SourceManager
+{
+    struct jpeg_source_mgr pub;
+    std::istream *is;
+    char *buffer;
+    SourceManager(j_decompress_ptr cinfo, std::istream &is);
+} SourceManager;
+
+static void istream_init_source(j_decompress_ptr cinfo) {} // no action necessary
+
+static boolean istream_fill_input_buffer(j_decompress_ptr cinfo)
+{
+    SourceManager *sourceManager = reinterpret_cast<SourceManager*>(cinfo->src);
+
+    sourceManager->is->read(sourceManager->buffer, BUFFERSIZE);
+
+    cinfo->src->next_input_byte = (const JOCTET*)sourceManager->buffer;
+
+    if (sourceManager->is->gcount() == 0)
+    {
+        /* Insert a fake EOI marker */
+        sourceManager->buffer[0] = (JOCTET) 0xFF;
+        sourceManager->buffer[1] = (JOCTET) JPEG_EOI;
+        cinfo->src->bytes_in_buffer = 2;
+    }
+    else
+        cinfo->src->bytes_in_buffer = sourceManager->is->gcount();
+
+    return TRUE;
+}
+
+static void istream_skip_input_data(j_decompress_ptr cinfo, long num_bytes)
+{
+    if ((unsigned long)num_bytes <= cinfo->src->bytes_in_buffer)
+    {
+        cinfo->src->bytes_in_buffer -= num_bytes;
+        cinfo->src->next_input_byte += num_bytes;
+    }
+    else
+    {
+        num_bytes -= cinfo->src->bytes_in_buffer;
+        SourceManager *sourceManager = reinterpret_cast<SourceManager*>(cinfo->src);
+        sourceManager->is->ignore(num_bytes);
+        cinfo->src->bytes_in_buffer = 0;
+        cinfo->src->next_input_byte = 0;
+    }
+}
+
+static void istream_term_source(j_decompress_ptr cinfo) {} // no action necessary
+
+SourceManager::SourceManager(j_decompress_ptr cinfo, std::istream &is)
+{
+    pub.init_source = istream_init_source;
+    pub.fill_input_buffer = istream_fill_input_buffer;
+    pub.skip_input_data = istream_skip_input_data;
+    pub.resync_to_restart = jpeg_resync_to_restart; /* use default method */
+    pub.term_source = istream_term_source;
+    pub.bytes_in_buffer = 0; /* forces fill_input_buffer on first read */
+    pub.next_input_byte = 0; /* until buffer loaded */
+    this->is = &is;
+    buffer = (char*)(*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_IMAGE, BUFFERSIZE);
+}
+
+typedef struct DestinationManager
+{
+    struct jpeg_destination_mgr pub;
+    std::ostream *os;
+    char *buffer;
+    DestinationManager(j_compress_ptr cinfo, std::ostream &os);
+} DestinationManager;
+
+static void ostream_init_destination(j_compress_ptr cinfo) {} // no action necessary
+
+static boolean ostream_empty_output_buffer(j_compress_ptr cinfo)
+{
+    DestinationManager *destinationManager = reinterpret_cast<DestinationManager*>(cinfo->dest);
+
+    destinationManager->os->write(destinationManager->buffer, BUFFERSIZE - destinationManager->pub.free_in_buffer);
+
+    destinationManager->pub.next_output_byte = (JOCTET*)destinationManager->buffer;
+    destinationManager->pub.free_in_buffer = BUFFERSIZE;
+
+    return destinationManager->os->good() != false ? TRUE : FALSE;
+}
+
+static void ostream_term_destination(j_compress_ptr cinfo) {} // no action necessary
+
+DestinationManager::DestinationManager(j_compress_ptr cinfo, std::ostream &os)
+{
+    pub.init_destination = ostream_init_destination;
+    pub.empty_output_buffer = ostream_empty_output_buffer;
+    pub.term_destination = ostream_term_destination;
+    pub.free_in_buffer = 0; /* forces fill_input_buffer on first read */
+    pub.next_output_byte = 0; /* until buffer loaded */
+    this->os = &os;
+    buffer = (char*)(*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_IMAGE, BUFFERSIZE);
+}
 
 struct jpeg_mem
 {
@@ -231,107 +333,95 @@ UInt32 JPGImageFileType::getQuality(void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool JPGImageFileType::read(      ImagePtr &OSG_JPG_ARG(image), 
-                            const Char8    *OSG_JPG_ARG(fileName))
+bool JPGImageFileType::read(ImagePtr &OSG_JPG_ARG(image), std::istream &OSG_JPG_ARG(is),
+                            const std::string &OSG_JPG_ARG(mimetype))
 {
 #ifdef OSG_WITH_JPG
-    bool    retCode = false;
+
     struct local_error_mgr
     {
-        struct jpeg_error_mgr   pub;
-        jmp_buf                 setjmp_buffer;
-    };
+        struct jpeg_error_mgr pub;
+        jmp_buf setjmp_buffer;
+    } jerr;
 
-    unsigned char                   *destData;
-    Image::PixelFormat              pixelFormat = osg::Image::OSG_INVALID_PF;
+    struct jpeg_decompress_struct cinfo;
 
-    unsigned long                    imageSize;
-    typedef struct local_error_mgr  *local_error_ptr;
-    struct local_error_mgr          jerr;
-    struct jpeg_decompress_struct   cinfo;
-    FILE                            *infile;
-    JSAMPARRAY                      buffer;
-
-    int                             row_stride;
-
-    if((infile = fopen(fileName, "rb")))
+    cinfo.err = jpeg_std_error(&jerr.pub);
+    if (setjmp(jerr.setjmp_buffer))
     {
-        cinfo.err = jpeg_std_error(&jerr.pub);
-        if(setjmp(jerr.setjmp_buffer))
-        {
-            jpeg_destroy_decompress(&cinfo);
-            fclose(infile);
-            return retCode;
-        }
-
-        jpeg_create_decompress(&cinfo);
-        jpeg_stdio_src(&cinfo, infile);
-        jpeg_read_header(&cinfo, TRUE);
-        jpeg_start_decompress(&cinfo);
-
-        switch(cinfo.output_components)
-        {
-        case 1:
-            pixelFormat = Image::OSG_L_PF;
-            break;
-        case 2:
-            pixelFormat = Image::OSG_LA_PF;
-            break;
-        case 3:
-            pixelFormat = Image::OSG_RGB_PF;
-            break;
-        case 4:
-            pixelFormat = Image::OSG_RGBA_PF;
-            break;
-        };
-
-        if(image->set(pixelFormat, cinfo.output_width, cinfo.output_height))
-        {
-            imageSize = image->getSize();
-            destData = image->getData() + imageSize;
-            row_stride = cinfo.output_width * cinfo.output_components;
-            buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr) & cinfo, JPOOL_IMAGE, row_stride, 1);
-            while(cinfo.output_scanline < cinfo.output_height)
-            {
-                destData -= row_stride;
-                jpeg_read_scanlines(&cinfo, buffer, 1);
-                memcpy(destData, *buffer, row_stride);
-            }
-
-            retCode = true;
-        }
-        else
-            retCode = false;
-
-        jpeg_finish_decompress(&cinfo);
         jpeg_destroy_decompress(&cinfo);
-        fclose(infile);
+        return false;
     }
 
-    return retCode;
+    jpeg_create_decompress(&cinfo);
+
+    SourceManager *sourceManager =
+        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_IMAGE, sizeof(SourceManager)))
+        SourceManager(&cinfo, is);
+    cinfo.src = (jpeg_source_mgr*)sourceManager;
+
+    jpeg_read_header(&cinfo, TRUE);
+    jpeg_start_decompress(&cinfo);
+
+    Image::PixelFormat pixelFormat;
+    switch (cinfo.output_components)
+    {
+    case 1:
+        pixelFormat = Image::OSG_L_PF;
+        break;
+    case 3:
+        pixelFormat = Image::OSG_RGB_PF;
+        break;
+    default:
+        pixelFormat = Image::OSG_INVALID_PF;
+        break;
+    };
+
+    bool retCode;
+    if (image->set(pixelFormat, cinfo.output_width, cinfo.output_height) == true)
+    {
+        unsigned char *destData = image->getData() + image->getSize();
+        int row_stride = cinfo.output_width * cinfo.output_components;
+        while (cinfo.output_scanline < cinfo.output_height)
+        {
+            destData -= row_stride;
+            jpeg_read_scanlines(&cinfo, &destData, 1);
+        }
+        retCode = true;
+    }
+	else
+		retCode = false;
+
+    jpeg_finish_decompress(&cinfo);
+    jpeg_destroy_decompress(&cinfo);
+
+	return retCode;
 
 #else
+
     SWARNING <<
         getMimeType() <<
         " read is not compiled into the current binary " <<
         std::endl;
     return false;
+
 #endif
 }
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
+Tries to write the image object to the given output stream.
 Returns true on success.
 */
-bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), 
-                             const Char8    *OSG_JPG_ARG(fileName))
+bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), std::ostream &OSG_JPG_ARG(os),
+                             const std::string &OSG_JPG_ARG(mimetype))
 {
 #ifdef OSG_WITH_JPG
-    if((image->getBpp() != 1 && 
-        image->getBpp() != 3) || image->getDepth() != 1)
+
+    if ((image->getBpp() != 1 && 
+         image->getBpp() != 3) || image->getDepth() != 1)
     {
         SWARNING <<
             getMimeType() <<
@@ -340,38 +430,27 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image),
         return false;
     }
 
-    bool    retCode = false;
-
     struct local_error_mgr
     {
-        struct jpeg_error_mgr   pub;
-        jmp_buf                 setjmp_buffer;
-    };
+        struct jpeg_error_mgr pub;
+        jmp_buf setjmp_buffer;
+    } jerr;
 
-    typedef struct local_error_mgr  *local_error_ptr;
-
-    struct local_error_mgr          jerr;
-    struct jpeg_compress_struct     cinfo;
-    FILE                            *outfile;
-    JSAMPARRAY                      buffer;
-    UChar8                          *data;
-
-    if((outfile = fopen(fileName, "wb")) == NULL)
-    {
-        fprintf(stderr, "can't open %s\n", fileName);
-        return retCode;
-    }
+    struct jpeg_compress_struct cinfo;
 
     cinfo.err = jpeg_std_error(&jerr.pub);
-    if(setjmp(jerr.setjmp_buffer))
+    if (setjmp(jerr.setjmp_buffer))
     {
         jpeg_destroy_compress(&cinfo);
-        fclose(outfile);
-        return 0;
+        return false;
     }
 
     jpeg_create_compress(&cinfo);
-    jpeg_stdio_dest(&cinfo, outfile);
+
+    DestinationManager *destinationManager =
+        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_IMAGE, sizeof(DestinationManager)))
+        DestinationManager(&cinfo, os);
+    cinfo.dest = (jpeg_destination_mgr*)destinationManager;
 
     cinfo.image_width = image->getWidth();
     cinfo.image_height = image->getHeight();
@@ -382,30 +461,46 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image),
     jpeg_set_quality(&cinfo, _quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
-    buffer = &data;
-    while(cinfo.next_scanline < cinfo.image_height)
+    unsigned char *srcData = image->getData() + image->getSize();
+    int row_stride = cinfo.image_width * cinfo.input_components;
+    while (cinfo.next_scanline < cinfo.image_height)
     {
-        data = image->getData() +
-            (image->getHeight() - 1 - cinfo.next_scanline) *
-            image->getWidth() *
-            image->getBpp();
-        jpeg_write_scanlines(&cinfo, buffer, 1);
+        srcData -= row_stride;
+        jpeg_write_scanlines(&cinfo, &srcData, 1);
     }
 
     jpeg_finish_compress(&cinfo);
     jpeg_destroy_compress(&cinfo);
-    fclose(outfile);
 
     return true;
 
 #else
+
     SWARNING <<
         getMimeType() <<
         " write is not compiled into the current binary " <<
         std::endl;
-    return false;
+	return false;
+
 #endif
 }
+
+//-------------------------------------------------------------------------
+/*!
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
+*/
+std::string JPGImageFileType::determineMimetypeFromStream(std::istream &is)
+{
+    char filecode[2];
+    is.read(filecode, 2);
+    is.seekg(-2, std::ios::cur);
+    return strncmp(filecode, "\xff\xd8", 2) == 0 ?
+        std::string(getMimeType()) : std::string();
+}
+
+//-------------------------------------------------------------------------
 
 bool JPGImageFileType::validateHeader( const Char8 *fileName, bool &implemented )
 {
@@ -605,26 +700,10 @@ JPGImageFileType::JPGImageFileType( const Char8 *mimeType,
                                     UInt32 flags) :
     ImageFileType(mimeType, suffixArray, suffixByteCount, flags),
     _quality(90)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-JPGImageFileType::JPGImageFileType(const JPGImageFileType &obj) :
-    ImageFileType(obj),
-    _quality(obj._quality)
-{
-    return;
-}
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-JPGImageFileType::~JPGImageFileType(void)
-{
-    return;
-}
+JPGImageFileType::~JPGImageFileType(void) {}

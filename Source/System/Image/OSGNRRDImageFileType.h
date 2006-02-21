@@ -38,13 +38,14 @@
 
 #ifndef OSGNRRDIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGNRRDIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
 #include <OSGImageFileType.h>
+#include <iosfwd>
 
 OSG_BEGIN_NAMESPACE
 
@@ -75,9 +76,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NRRDImageFileType : public ImageFileType
     /*! \name                   Read/Write                                 */
     /*! \{                                                                 */
 
-    virtual bool read  (ImagePtr &image, const Char8 *fileName);
-
-    virtual bool write (const ImagePtr &image, const Char8 *fileName);
+    virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
 
     /*! \}                                                                 */
 
@@ -93,6 +92,10 @@ class OSG_SYSTEMLIB_DLLMAPPING NRRDImageFileType : public ImageFileType
                        UInt32 flags );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -100,9 +103,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NRRDImageFileType : public ImageFileType
     NRRDImageFileType (const NRRDImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const NRRDImageFileType & operator= (const NRRDImageFileType &obj);
+
+    /*! \}                                                                 */
 
     typedef ImageFileType    Inherited;
 

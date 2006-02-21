@@ -38,7 +38,7 @@
 
 #ifndef OSGDATIMAGEFILETYPE_CLASS_DECLARATION
 #define OSGDATIMAGEFILETYPE_CLASS_DECLARATION
-#ifdef  __sig
+#ifdef  __sgi
 #pragma  once
 #endif
 
@@ -102,6 +102,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
                        const Char8 *suffixArray[], UInt16 suffixByteCount );
 
     /*! \}                                                                 */
+
+    /*==========================  PRIVATE  ================================*/
+  private:
+
     /*---------------------------------------------------------------------*/
     /*! \name                Copy Constructor                              */
     /*! \{                                                                 */
@@ -109,13 +113,15 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
     DATImageFileType (const DATImageFileType &obj);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Copy Operator                                 */
+    /*! \{                                                                 */
 
-    /*==========================  PRIVATE  ================================*/
-  private:
+    const DATImageFileType & operator= (const DATImageFileType &obj);
 
-    typedef ImageFileType Inherited;
+    /*! \}                                                                 */
 
-    static  DATImageFileType _the;
+    static DATImageFileType _the;
 
     enum KeyType 
     { 

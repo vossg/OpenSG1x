@@ -46,7 +46,6 @@
 #include "OSGConfig.h"
 
 #include <iostream>
-#include <fstream>
 
 #include <OSGLog.h>
 
@@ -107,19 +106,16 @@ MTDImageFileType& MTDImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool MTDImageFileType::read (      ImagePtr &image   , 
-                             const Char8    *fileName)
+bool MTDImageFileType::read  (ImagePtr &image, std::istream &in, const std::string &mimetype)
 {
   bool retCode = false;
-  std::ifstream in(fileName, std::ios::in | std::ios::binary);
   Head head;
   void *headData = (void*)(&head);
   unsigned dataSize, headSize = sizeof(Head);
   
-  if ( in &&        
-       in.read(static_cast<char *>(headData), 
+  if ( in.read(static_cast<char *>(headData), 
                headSize) && head.netToHost() &&
        image->set ( Image::PixelFormat(head.pixelFormat), 
                     head.width, head.height, head.depth, head.mipmapCount, 
@@ -138,15 +134,12 @@ bool MTDImageFileType::read (      ImagePtr &image   ,
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
+Tries to write the image object to the given output stream.
 Returns true on success.
 */
-bool MTDImageFileType::write(const ImagePtr &image   , 
-                             const Char8 *fileName)
+bool MTDImageFileType::write (const ImagePtr &image, std::ostream &out, const std::string &mimetype)
 {
     bool retCode = false;
-
-    std::ofstream out(fileName, std::ios::out | std::ios::binary);
 
     Head head;
     const void *headData = (void*)(&head);
@@ -163,7 +156,7 @@ bool MTDImageFileType::write(const ImagePtr &image   ,
     head.dataType     = image->getDataType();
     head.hostToNet();
   
-    if ( out && out.write(static_cast<const char *>(headData), headSize) && 
+    if ( out.write(static_cast<const char *>(headData), headSize) && 
          dataSize && out.write((char *)(image->getData()), dataSize) )
       retCode = true;
     else
@@ -215,25 +208,10 @@ MTDImageFileType::MTDImageFileType ( const Char8 *mimeType,
                                      UInt16 suffixByteCount,
                                      UInt32 flags )
     : ImageFileType ( mimeType, suffixArray, suffixByteCount, flags )
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-MTDImageFileType::MTDImageFileType (const MTDImageFileType &obj )
-    : ImageFileType(obj)
-{
-    return;
-}
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-MTDImageFileType::~MTDImageFileType (void )
-{
-    return;
-}
+MTDImageFileType::~MTDImageFileType (void ) {}

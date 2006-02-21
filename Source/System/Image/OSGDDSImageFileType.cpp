@@ -48,7 +48,6 @@
 #include <vector>
 
 #include <iostream>
-#include <fstream>
 
 #include <OSGLog.h>
 
@@ -224,7 +223,7 @@ public:
   CDDSImage();
   ~CDDSImage();
   
-  bool load(std::string filename, bool flipImage = true);
+  bool load(std::istream &is, bool flipImage = true);
   void clear();
   
   operator char*();
@@ -293,9 +292,9 @@ DDSImageFileType& DDSImageFileType::the (void)
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
-the given fileName. Returns true on success.
+the given input stream. Returns true on success.
 */
-bool DDSImageFileType::read(ImagePtr &image, const Char8 *fileName)
+bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string &mimetype)
 {
   bool validImage = false;
   CDDSImage ddsImage;
@@ -305,9 +304,9 @@ bool DDSImageFileType::read(ImagePtr &image, const Char8 *fileName)
   unsigned char *data;
   unsigned dataSize = 0;
 
-  SINFO << "DDS File Info: " << fileName << ": ";
+  SINFO << "DDS File Info: ";
   
-  if (ddsImage.load(fileName) && (validImage = ddsImage.is_valid())) {
+  if (ddsImage.load(is) && (validImage = ddsImage.is_valid())) {
     components = ddsImage.get_components();
     format = ddsImage.get_format();
     isCompressed = ddsImage.is_compressed();
@@ -394,35 +393,18 @@ bool DDSImageFileType::read(ImagePtr &image, const Char8 *fileName)
 
 //-------------------------------------------------------------------------
 /*!
-Tries to write the image object to the given fileName.
-Returns true on success.
+Tries to determine the mime type of the data provided by an input stream
+by searching for magic bytes. Returns the mime type or an empty string
+when the function could not determine the mime type.
 */
-bool DDSImageFileType::write(const ImagePtr &image, const Char8 *fileName)
+std::string DDSImageFileType::determineMimetypeFromStream(std::istream &is)
 {
-  SWARNING << getMimeType()
-           << " write is not implemented "
-           << endLog;
-  
-  return false;
+    char filecode[4];
+    is.read(filecode, 4);
+    is.seekg(-4, std::ios::cur);
+    return strncmp(filecode, "DDS ", 4) == 0 ?
+        std::string(getMimeType()) : std::string();
 }
-
-/******************************
-*protected
-******************************/
-
-/******************************
-*private
-******************************/
-
-/***************************
-*instance methodes
-***************************/
-
-/***************************
-*public
-***************************/
-
-/**constructors & destructors**/
 
 //-------------------------------------------------------------------------
 /*!
@@ -432,29 +414,14 @@ DDSImageFileType::DDSImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount,
                                    UInt32 flags) :
-    ImageFileType(mimeType,suffixArray, suffixByteCount, flags)
-{
-    return;
-}
-
-//-------------------------------------------------------------------------
-/*!
-Dummy Copy Constructor
-*/
-DDSImageFileType::DDSImageFileType(const DDSImageFileType &obj) :
-    ImageFileType(obj)
-{
-    return;
-}
+    ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
+{}
 
 //-------------------------------------------------------------------------
 /*!
 Destructor
 */
-DDSImageFileType::~DDSImageFileType(void)
-{
-    return;
-}
+DDSImageFileType::~DDSImageFileType(void) {}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -479,34 +446,25 @@ CDDSImage::~CDDSImage()
 ///////////////////////////////////////////////////////////////////////////////
 // loads DDS image
 //
-// filename - fully qualified name of DDS image
+// is - input stream that contains the DDS image
 // flipImage - specifies whether image is flipped on load, default is true
-bool CDDSImage::load(std::string filename, bool flipImage)
+bool CDDSImage::load(std::istream &is, bool flipImage)
 {
     DDS_HEADER ddsh;
     char filecode[4];
-    FILE *fp;
     int width, height, depth;
     int (CDDSImage::*sizefunc)(int, int);
 
     // clear any previously loaded images
     clear();
     
-    // open file
-    fp = fopen(filename.data(), "rb");
-    if (fp == NULL)
-        return false;
-
     // read in file marker, make sure its a DDS file
-    fread(filecode, 1, 4, fp);
+    is.read(filecode, 4);
     if (strncmp(filecode, "DDS ", 4) != 0)
-    {
-        fclose(fp);
         return false;
-    }
 
     // read in DDS header
-    fread(&ddsh, sizeof(ddsh), 1, fp);
+    is.read(reinterpret_cast<char*>(&ddsh), sizeof(ddsh));
 
     swap_endian(&ddsh.dwSize);
     swap_endian(&ddsh.dwFlags);
@@ -550,7 +508,6 @@ bool CDDSImage::load(std::string filename, bool flipImage)
                 compressed = true;
                 break;
             default:
-                fclose(fp);
                 return false;
         }
     }
@@ -581,7 +538,6 @@ bool CDDSImage::load(std::string filename, bool flipImage)
     else 
     {
         SWARNING << "ERROR: unknown image format!" << endLog;
-        fclose(fp);
         return false;
     }
     
@@ -604,7 +560,7 @@ bool CDDSImage::load(std::string filename, bool flipImage)
 
         // load surface
         CTexture img(width, height, depth, size);
-        fread(img, 1, img.size, fp);
+        is.read(img, img.size);
 
         align_memory(&img);
         
@@ -630,8 +586,8 @@ bool CDDSImage::load(std::string filename, bool flipImage)
             size = (this->*sizefunc)(w, h)*d;
 
             CSurface mipmap(w, h, d, size);
-            fread(mipmap, 1, mipmap.size, fp);
-            
+            is.read(mipmap, mipmap.size);
+
             if (flipImage && !cubemap)
             {
                 flip(mipmap, mipmap.width, mipmap.height, mipmap.depth, 
@@ -659,8 +615,6 @@ bool CDDSImage::load(std::string filename, bool flipImage)
         images[2] = tmp;
     }
 #endif
-
-    fclose(fp);
 
     valid = true;
 
