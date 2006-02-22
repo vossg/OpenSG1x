@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#define _MT
 #include <OSGBaseFunctions.h>
 #include <OSGLog.h>
 
