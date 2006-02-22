@@ -175,6 +175,7 @@ checkerror ()
         -e "(ignored)" \
         -e "error-type" \
         -e "error-constant" \
+        -e "ERROR..." \
     > $log_errors || true
     tr -d \0 < $file | $grep -n -i -w failed | \
     $grep -v \
