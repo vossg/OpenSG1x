@@ -737,21 +737,6 @@ $config_shell ./configure --prefix=BUILD --with-compiler=$compiler $stl_args \
     $glut_args $qt_args $tif_args $jpg_args $png_args $extra_args 1>$log_configure 2>&1
 checkerror "Configure" $log_configure
 
-# create the windows source snapshot
-
-case $system in
-
-
-    *-pc-cygwin )    
-                        $make dsp >> $log_install 2>&1
-                        $make dsp7 >> $log_install 2>&1
-                        cd ..
-                        tar cf - OpenSG | \
-                            gzip -9f > $basedir/opensg_dailybuild.$today.win-source.tgz
-                        cd OpenSG
-                        ;;
-esac
-
 # start making the doc
 # takes forever, do it in parallel
 if type doxygen > /dev/null 2>&1
@@ -779,6 +764,21 @@ fi
 
 cd Builds/$system-$compiler
 export OSGSUBPARJOBS=$par_jobs
+
+# create the windows source snapshot
+
+case $system in
+
+
+    *-pc-cygwin )    
+                        $make dsp >> $log_install 2>&1
+                        $make dsp7 >> $log_install 2>&1
+                        cd ../../..
+                        tar cf - --exclude OpenSG/Builds OpenSG | \
+                            gzip -9f > $basedir/opensg_dailybuild.$today.win-source.tgz
+                        cd OpenSG/Builds/$system-$compiler
+                        ;;
+esac
 
 $make dbg 1>$log_make 2>&1
 checkerror "DebugLibs" $log_make
