@@ -60,6 +60,27 @@ OSG_USING_NAMESPACE
 #pragma warning (disable : 383)
 #endif
 
+namespace {
+
+  NodePtr internalRead(const Char8 *fileName)
+  {
+    InventorLoader l;
+
+    l.setFile( fileName );
+
+    // Merge identical materials to one material core
+    l.setMergeMaterials( true );
+    l.setMergeTolerance( 0.0001 );
+
+    // Call createOptimizedPrimitives() from OSGGeoFunctions
+    l.setOptimizePrimitives( true );
+    l.setNumIterations( 3 );
+
+    // Convert the inventor file to OpenSG
+    return l.convertToOSG();
+  }
+  
+}
 
 /*! \class osg::IVSceneFileType
     \ingroup GrpSystemFileIO
@@ -113,33 +134,46 @@ const Char8            *IVSceneFileType::_suffixA[] = {"iv"};
 //
 //------------------------------
 
+NodePtr IVSceneFileType::read(std::istream &, const Char8 *fileNameOrExtension) const
+{
+  return internalRead(fileNameOrExtension);
+}
+
+//----------------------------
+// Function name: read
+//----------------------------
+//
+//Parameters:
+//p: Scene &image, const char *fileName
+//GlobalVars:
+//g:
+//Returns:
+//r:bool
+// Caution
+//c:
+//Assumations:
+//a:
+//Describtions:
+//d: read the image from the given file
+//SeeAlso:
+//s:
+//
+//------------------------------
+
+#ifndef OSG_DISABLE_DEPRECATED
 #ifdef __sgi
 #pragma set woff 1209
 #endif
 
 NodePtr IVSceneFileType::readFile(const Char8 *fileName) const
 {
-    InventorLoader l;
-
-    l.setFile( fileName );
-
-    // Merge identical materials to one material core
-    l.setMergeMaterials( true );
-    l.setMergeTolerance( 0.0001 );
-
-    // Call createOptimizedPrimitives() from OSGGeoFunctions
-    l.setOptimizePrimitives( true );
-    l.setNumIterations( 3 );
-
-    // Convert the inventor file to OpenSG
-    osg::NodePtr root = l.convertToOSG();
-
-    return root;
+  return internalRead(fileName);
 }
 
 #ifdef __sgi
 #pragma reset woff 1209
 #endif
+#endif // #ifndef OSG_DISABLE_DEPRECATED
 
 /******************************
 *protected
@@ -273,7 +307,7 @@ IVSceneFileType::~IVSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static Char8 cvsid_cpp[] = "@(#)$Id$";
     static Char8 cvsid_hpp[] = OSGIVSCENEFILETYPE_HEADER_CVSID;
 }
 

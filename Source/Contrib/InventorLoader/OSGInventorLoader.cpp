@@ -50,7 +50,6 @@
 //------------------------------------------------------------------------------
 
 #include <string>
-using namespace std;
 
 #include <Inventor/SoDB.h>
 #include <Inventor/SoInput.h>
@@ -82,6 +81,8 @@ using namespace std;
 
 #include "OSGInventorLoader.h"
 
+using namespace std;
+
 //------------------------------------------------------------------------------
 //
 //  Construction / Destruction
@@ -101,7 +102,7 @@ mNumIterations( 1 )
     SoDB::init();
 
     // Print inventor version
-    FDEBUG(("Inventor version = %s", SoDB::getVersion()));
+    FDEBUG(("Inventor version = %s\n", SoDB::getVersion()));
 
     // Init state structure
     mCurrentState.Positions     =  NullFC;
@@ -114,16 +115,14 @@ mNumIterations( 1 )
 //------------------------------------------------------------------------------
 
 InventorLoader::~InventorLoader()
-{
-}
-
+{}
 
 //------------------------------------------------------------------------------
 
 void InventorLoader::setFile( std::string File )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::setFile( %s )", File.c_str() ));
+    FINFO(("InventorLoader::setFile( %s )\n", File.c_str() ));
     ////////////////////////////////////////////////////////////////////////////
 
     // Load the inventor file
@@ -132,7 +131,7 @@ void InventorLoader::setFile( std::string File )
     // Open the input file
     if ( !_SceneInput->openFile( File.c_str() ) )
     {
-        FWARNING(("Couldn't open inventor file %s", File.data()));
+        FWARNING(("Couldn't open inventor file %s\n", File.data()));
         return;
     }
 
@@ -140,7 +139,7 @@ void InventorLoader::setFile( std::string File )
     mOIVRoot = SoDB::readAll( _SceneInput );
     if ( mOIVRoot == 0 )
     {
-        FWARNING(("Problems reading inventor file %s",
+        FWARNING(("Problems reading inventor file %s\n",
                     File.data()));
         return;
     }
@@ -158,7 +157,7 @@ void InventorLoader::setFile( std::string File )
 void InventorLoader::setMergeMaterials( bool Merge )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::setMergeMaterials( %d )", Merge ));
+    FINFO(("InventorLoader::setMergeMaterials( %d )\n", Merge ));
     ////////////////////////////////////////////////////////////////////////////
 
     mMergeMaterial = Merge;
@@ -170,7 +169,7 @@ void InventorLoader::setMergeMaterials( bool Merge )
 void InventorLoader::setMergeTolerance( osg::Real32 Tolerance )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::setMergeTolerance( %f )",
+    FINFO(("InventorLoader::setMergeTolerance( %f )\n",
                             Tolerance ));
     ////////////////////////////////////////////////////////////////////////////
 
@@ -183,7 +182,7 @@ void InventorLoader::setMergeTolerance( osg::Real32 Tolerance )
 void InventorLoader::setOptimizePrimitives( bool Optimize )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::setOptimizePrimitives( %d )",
+    FINFO(("InventorLoader::setOptimizePrimitives( %d )\n",
                             Optimize ));
     ////////////////////////////////////////////////////////////////////////////
 
@@ -196,7 +195,7 @@ void InventorLoader::setOptimizePrimitives( bool Optimize )
 void InventorLoader::setNumIterations( osg::UInt32 Iterations )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::setNumIterations( %d )",
+    FINFO(("InventorLoader::setNumIterations( %d )\n",
                             Iterations ));
     ////////////////////////////////////////////////////////////////////////////
 
@@ -209,12 +208,12 @@ void InventorLoader::setNumIterations( osg::UInt32 Iterations )
 void InventorLoader::printSceneGraph( )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::printSceneGraph()" ));
+    FINFO(("InventorLoader::printSceneGraph()\n" ));
     ////////////////////////////////////////////////////////////////////////////
 
     // Traverse the scenegraph
-    FDEBUG(("" ));
-    FDEBUG(("  Root (%d children)",mOIVRoot->getNumChildren() ));
+    FDEBUG(("\n" ));
+    FDEBUG(("  Root (%d children)\n",mOIVRoot->getNumChildren() ));
     printGraph( mOIVRoot, 0 );
 }
 
@@ -224,7 +223,7 @@ void InventorLoader::printSceneGraph( )
 osg::NodePtr InventorLoader::convertToOSG( )
 {
     ////////////////////////////////////////////////////////////////////////////
-    FINFO(("InventorLoader::convertToOSG()" ));
+    FINFO(("InventorLoader::convertToOSG()\n" ));
     ////////////////////////////////////////////////////////////////////////////
 
     // Create OpenSG root
@@ -248,8 +247,8 @@ osg::NodePtr InventorLoader::traverseGraph( SoNode* OIVNode,
                                             osg::NodePtr OSGNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::traverseGraph( %x )",
-//                          OIVNode));
+  FDEBUG(("   InventorLoader::traverseGraph( %x )\n",
+                          OIVNode));
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -448,6 +447,8 @@ osg::NodePtr InventorLoader::traverseGraph( SoNode* OIVNode,
 
 void InventorLoader::checkForRedundancy( osg::NodePtr OSGGroup )
 {
+  return;
+  
     // TODO: Check the type of the node and return, if it's not a node
     // that should be discarded (discardable: group, not discardable: geometry)
 
@@ -494,7 +495,7 @@ void InventorLoader::checkForRedundancy( osg::NodePtr OSGGroup )
 osg::NodePtr InventorLoader::getGroupNode( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::getGroupNode()" ));
+  FDEBUG(("   InventorLoader::getGroupNode()\n" ));
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////
@@ -526,8 +527,8 @@ osg::NodePtr InventorLoader::getGroupNode( SoNode* OIVNode )
 osg::SimpleMaterialPtr InventorLoader::convertMaterial( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::convertMaterial( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::convertMaterial( %x )\n",
+                          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////
@@ -576,8 +577,8 @@ osg::SimpleMaterialPtr InventorLoader::convertMaterial( SoNode* OIVNode )
 osg::GeoPositions3fPtr InventorLoader::convertCoordinates( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::convertCoordinates( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::convertCoordinates( %x )\n",
+                          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
     SoCoordinate3* _Coords = ( SoCoordinate3* ) OIVNode;
@@ -603,8 +604,8 @@ osg::GeoPositions3fPtr InventorLoader::convertCoordinates( SoNode* OIVNode )
 osg::GeoNormals3fPtr InventorLoader::convertNormals( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::convertNormals( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::convertNormals( %x )\n",
+                          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
     SoNormal* _OIVNormalNode = ( SoNormal* ) OIVNode;
@@ -630,8 +631,8 @@ osg::GeoNormals3fPtr InventorLoader::convertNormals( SoNode* OIVNode )
 osg::NodePtr InventorLoader::convertTransformation( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::convertTransformation( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::convertTransformation( %x )\n",
+                          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////
@@ -696,8 +697,8 @@ osg::NodePtr InventorLoader::convertTransformation( SoNode* OIVNode )
 osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::convertGeometry( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::convertGeometry( %x )\n",
+                          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
 
@@ -822,7 +823,7 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
     {
         FWARNING(("InventorLoader::convertGeometry() --> "
                   "Use of vertexProperty in indexedFaceSet "
-                  "not yet implemented." ));
+                  "not yet implemented.\n" ));
 
     }
     else if( mCurrentState.Positions != NullFC )
@@ -832,7 +833,7 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
     else
     {
         FWARNING(("InventorLoader::convertGeometry() --> "
-                  "No GeoPositions in current state." ));
+                  "No GeoPositions in current state.\n" ));
     }
 
     ////////////////
@@ -875,15 +876,15 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
         {
             // Set the index mapping
             if( mMultiIndexMapping )
-            {
                 // Multi-indexmapping
-                _Geometry->getIndexMapping().addValue( Geometry::MapPosition );
-                _Geometry->getIndexMapping().addValue( Geometry::MapNormal );
+            {
+              _Geometry->getIndexMapping().push_back( Geometry::MapPosition );
+              _Geometry->getIndexMapping().push_back( Geometry::MapNormal );
             }
             else
             {
                 // Single-indexmapping
-                _Geometry->getIndexMapping().addValue(  Geometry::MapPosition |
+                _Geometry->getIndexMapping().push_back(  Geometry::MapPosition |
                                                         Geometry::MapNormal );
             }
 
@@ -891,7 +892,7 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
         }
         else
         {
-            _Geometry->getIndexMapping().addValue( Geometry::MapPosition );
+            _Geometry->getIndexMapping().push_back( Geometry::MapPosition );
             calcFaceNormals( _Geometry );
         }
 
@@ -939,8 +940,8 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
 void InventorLoader::copyName( SoNode* OIVNode, osg::NodePtr OSGNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-//  FDEBUG(("   InventorLoader::copyName( %x )",
-//                          OIVNode ));
+  FDEBUG(("   InventorLoader::copyName( %x )\n",
+          OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
     // Return if there is no name
@@ -1110,7 +1111,7 @@ void InventorLoader::printSeparator( SoSeparator* Separator, int Layer )
     // Print debug info
     std::string _NodeName = "Separator";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s ( %x, %d children )",
+    FDEBUG(("% *s ( %x, %d children )\n",
             _Indent, _NodeName.c_str(),
             Separator, Separator->getNumChildren() ));
 }
@@ -1123,7 +1124,7 @@ void InventorLoader::printGroup( SoGroup* Group, int Layer )
     // Print debug info
     std::string _NodeName = "Group";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s ( %x, %d children )",
+    FDEBUG(("% *s ( %x, %d children )\n",
                 _Indent, _NodeName.c_str(),
                 Group, Group->getNumChildren() ));
 }
@@ -1137,7 +1138,7 @@ void InventorLoader::printTransform( SoTransform* Transform, int Layer )
     std::string _NodeName = "Transform";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
     FDEBUG(("% *s ( %x, "
-                            "T: %.2f %.2f %.2f)",
+                            "T: %.2f %.2f %.2f)\n",
                 _Indent, _NodeName.c_str(), Transform,
                 Transform->translation.getValue()[0],
                 Transform->translation.getValue()[1],
@@ -1153,7 +1154,7 @@ void InventorLoader::printCoordinate( SoCoordinate3* Coordinate, int Layer )
     // Print debug info
     std::string _NodeName = "Coordinate";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s (%x)",
+    FDEBUG(("% *s (%x)\n",
                 _Indent, _NodeName.c_str(), Coordinate ));
 }
 
@@ -1165,7 +1166,7 @@ void InventorLoader::printNormal( SoNormal* Normal, int Layer )
     // Print debug info
     std::string _NodeName = "Normal";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s (%x)",
+    FDEBUG(("% *s (%x)\n",
                 _Indent, _NodeName.c_str(), Normal ));
 }
 
@@ -1178,7 +1179,7 @@ void InventorLoader::printIndexedFaceSet( SoIndexedFaceSet* IndexedFaceSet,
     // Print debug info
     std::string _NodeName = "IndexedFaceSet";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s (%x)",
+    FDEBUG(("% *s (%x)\n",
                 _Indent, _NodeName.c_str(), IndexedFaceSet ));
 }
 
@@ -1190,10 +1191,24 @@ void InventorLoader::printOther( SoNode* Node, int Layer )
     // Print debug info
     std::string _NodeName = "Other";
     int _Indent = ( Layer + 1 ) * 2 + _NodeName.size();
-    FDEBUG(("% *s (%x)",
+    FDEBUG(("% *s (%x)\n",
                 _Indent, _NodeName.c_str(), Node ));
 }
 
+/*-------------------------------------------------------------------------*/
+/*                              cvs id's                                   */
 
+#ifdef __sgi
+#pragma set woff 1174
+#endif
 
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
+{
+    static Char8 cvsid_cpp[] = "@(#)$Id$";
+    static Char8 cvsid_hpp[] = OSGINVENTORLOADER_HEADER_CVSID;
+}
 

@@ -68,7 +68,6 @@ OSG_USING_NAMESPACE
 
 #include <set>
 #include <stack>
-using namespace std;
 
 #include <Inventor/SoPath.h>
 
@@ -439,5 +438,7 @@ protected:
 
 		
 };
+
+#define OSGINVENTORLOADER_HEADER_CVSID "@(#)$Id: OSGIVSceneFileType.h,v 1.4 2001/10/08 05:21:54 vossg Exp $"
 
 #endif // InventorLoader_h

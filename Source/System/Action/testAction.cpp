@@ -40,6 +40,11 @@ class Core1 : public NodeCore
         return Action::Continue;        
    }
     
+  virtual void execBeginEdit(const osg::BitVector&, osg::UInt32, osg::UInt32)
+  {
+    std::cerr << "Core1::execBeginEdit: " << this << std::endl;
+  }
+  
   private:
 
     typedef NodeCore Inherited;

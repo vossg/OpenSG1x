@@ -81,7 +81,12 @@ class OSG_SYSTEMLIB_DLLMAPPING IVSceneFileType : public SceneFileType
     /*! \name                   Read                                       */
     /*! \{                                                                 */
 
+    virtual NodePtr    read        (std::istream &is,
+                                    const Char8 *fileNameOrExtension) const;
+    
+#ifndef OSG_DISABLE_DEPRECATED
     virtual NodePtr readFile(const Char8  *fileName) const;
+#endif
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
