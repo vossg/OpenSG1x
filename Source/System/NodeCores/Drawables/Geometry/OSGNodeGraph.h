@@ -340,7 +340,7 @@ class NodeGraph
     inline
     bool setNode (int index, int v0, int v1, int v2)
     {
-        if (v0 != v1 && v1 != v2 && v2 != v1)
+        if (v0 != v1 && v1 != v2 && v2 != v0)
         {
             if (!getEdge(v0,v1) && !getEdge(v1,v2) && !getEdge(v2,v0))
             {                
