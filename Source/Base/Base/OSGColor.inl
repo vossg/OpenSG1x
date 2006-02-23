@@ -486,6 +486,27 @@ bool Color3<ValueTypeT>::equals(const Color3    &other,
 
 
 template <class ValueTypeT> inline
+bool Color3<ValueTypeT>::operator < (const Color3 &other) const
+{
+    bool ret = false;
+
+    for(UInt32 i = 0; i < 3; ++i)
+    {
+        if(_rgb[i] > other._rgb[i])
+        {
+            break;
+        }
+        if(_rgb[i] < other._rgb[i])
+        {
+            ret = true;
+            break;
+        }
+    }
+
+    return ret;
+}
+
+template <class ValueTypeT> inline
 bool Color3<ValueTypeT>::operator ==(const Color3 &other) const
 {
     bool returnValue = true;
@@ -790,6 +811,26 @@ bool Color4<ValueTypeT>::equals(const Color4    &other,
     return returnValue;
 }
 
+template <class ValueTypeT> inline
+bool Color4<ValueTypeT>::operator < (const Color4 &other) const
+{
+    bool ret = false;
+
+    for(UInt32 i = 0; i < 4; ++i)
+    {
+        if(_rgb[i] > other._rgb[i])
+        {
+            break;
+        }
+        if(_rgb[i] < other._rgb[i])
+        {
+            ret = true;
+            break;
+        }
+    }
+
+    return ret;
+}
 
 template <class ValueTypeT> inline
 bool Color4<ValueTypeT>::operator ==(const Color4 &other) const

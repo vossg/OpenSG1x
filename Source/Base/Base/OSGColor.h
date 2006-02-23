@@ -157,6 +157,7 @@ class Color3
            bool      equals     (const Color3    &other, 
                                  const ValueType  tolerance) const;
 
+           bool      operator < (const Color3    &other    ) const;
            bool      operator ==(const Color3    &other    ) const;
            bool      operator !=(const Color3    &other    ) const;
     
@@ -261,6 +262,7 @@ class Color4
           bool       equals     (const Color4    &other, 
                                  const ValueType  tolerance) const;
 
+          bool       operator < (const Color4    &other    ) const;
           bool       operator ==(const Color4    &other    ) const;
           bool       operator !=(const Color4    &other    ) const;
     
