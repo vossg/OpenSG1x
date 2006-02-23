@@ -788,6 +788,8 @@ void ClusterWindow::serverRender( WindowPtr window,
                                   UInt32 id,
                                   RenderActionBase *action )
 {
+    RenderOptionsPtr ro;
+
     window->activate();
     window->frameInit();
 
@@ -796,8 +798,8 @@ void ClusterWindow::serverRender( WindowPtr window,
     {
         MFViewportPtr::iterator       portIt  = window->getPort().begin();
         MFViewportPtr::const_iterator portEnd = window->getPort().end();
-        // try to find option an attachment at the window
-        OSG::RenderOptionsPtr ro = OSG::RenderOptionsPtr::dcast(
+        // try to find option as an attachment of window
+        OSG::RenderOptionsPtr winRo = OSG::RenderOptionsPtr::dcast(
             window->findAttachment(OSG::RenderOptions::getClassType()));
         ract->setWindow(window.getCPtr());
         while(portIt != portEnd)
@@ -805,16 +807,20 @@ void ClusterWindow::serverRender( WindowPtr window,
             // try to find option an attachment at the viewport
             OSG::RenderOptionsPtr vpRo = OSG::RenderOptionsPtr::dcast(
                 (*portIt)->findAttachment(OSG::RenderOptions::getClassType()));
-            if(vpRo != NullFC)
-                ro = vpRo;
             // try to find option an attachment at the root node
+            OSG::RenderOptionsPtr rootRo = NullFC;
             if((*portIt)->getRoot() != NullFC)
             {
-                OSG::RenderOptionsPtr rootRo = OSG::RenderOptionsPtr::dcast(
+                rootRo = OSG::RenderOptionsPtr::dcast(
                     (*portIt)->getRoot()->findAttachment(OSG::RenderOptions::getClassType()));
-                if(rootRo != NullFC)
-                    ro = rootRo;
             }
+            if(rootRo != NullFC)
+                ro = rootRo;
+            else
+                if(vpRo != NullFC)
+                    ro = vpRo;
+                else
+                    ro = winRo;
             if(ro != NullFC)
                 ro->activateOptions(ract);
             (*portIt)->render(ract);
