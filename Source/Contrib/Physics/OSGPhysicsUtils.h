@@ -1,4 +1,10 @@
 
+#ifndef _OSGPHYSICSUTILS_H_
+#define _OSGPHYSICSUTILS_H_
+#ifdef __sgi
+#pragma once
+#endif
+
 // Headers
 #include <OSGConfig.h>
 #include <OSGContribDef.h>
@@ -45,3 +51,5 @@ private:
 };
 
 OSG_END_NAMESPACE
+
+#endif /* _OSGPHYSICSUTILS_H_ */
