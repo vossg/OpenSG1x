@@ -717,15 +717,17 @@ void Log::doLog(const Char8 * format, ...)
         buffer = new Char8[buffer_size];
     }
     
+    // on windows it returns -1 if the output
+    // was truncated due to the buffer size limit.
     count = vsnprintf(buffer, buffer_size, format, args);
     
-    if(count >= buffer_size)
+    while(count >= buffer_size || count == -1)
     {
         buffer_size = osgMax(buffer_size * 2, count + 1);
         if(buffer) delete [] buffer;
         buffer = new Char8[buffer_size];
         va_start( args, format );
-        vsnprintf(buffer, buffer_size, format, args);
+        count = vsnprintf(buffer, buffer_size, format, args);
     }
 #else
     if(buffer_size < 8192)
