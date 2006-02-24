@@ -818,11 +818,11 @@ bool Color4<ValueTypeT>::operator < (const Color4 &other) const
 
     for(UInt32 i = 0; i < 4; ++i)
     {
-        if(_rgb[i] > other._rgb[i])
+        if(_rgba[i] > other._rgba[i])
         {
             break;
         }
-        if(_rgb[i] < other._rgb[i])
+        if(_rgba[i] < other._rgba[i])
         {
             ret = true;
             break;
