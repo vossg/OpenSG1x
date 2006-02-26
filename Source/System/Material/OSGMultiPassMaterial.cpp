@@ -234,16 +234,11 @@ bool MultiPassMaterial::isTransparent(void) const
     MFMaterialPtr::const_iterator it        = _mfMaterials.begin();
     MFMaterialPtr::const_iterator matsEnd = _mfMaterials.end();
 
-    for(; it != matsEnd; ++it)
-    {
-        if((*it) == NullFC)
-            return false;
+    // ok just check the first (base) material.
+    if(it != matsEnd && (*it) != NullFC && (*it)->isTransparent())
+        return true;
 
-        if(!(*it)->isTransparent())
-            return false;
-    }
-
-    return true;
+    return false;
 }
 
 void MultiPassMaterial::dump(      UInt32    , 
@@ -265,7 +260,7 @@ void MultiPassMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.5 2006/02/02 15:15:36 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterial.cpp,v 1.6 2006/02/26 14:50:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 
