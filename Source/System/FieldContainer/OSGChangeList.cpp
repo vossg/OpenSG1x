@@ -250,6 +250,15 @@ void ChangeList::clearAll(void)
     _vDestroyedFieldContainers.clear();
 }
 
+void ChangeList::swap(ChangeList &clist)
+{
+    _vChangedFieldContainers.swap(clist._vChangedFieldContainers);
+    _vAddRefdFieldContainers.swap(clist._vAddRefdFieldContainers);
+    _vSubRefdFieldContainers.swap(clist._vSubRefdFieldContainers);
+    _vCreatedFieldContainers.swap(clist._vCreatedFieldContainers);
+    _vDestroyedFieldContainers.swap(clist._vDestroyedFieldContainers);
+}
+
 bool ChangeList::merge(const ChangeList &clist)
 {
     bool returnValue = true;
@@ -277,6 +286,15 @@ bool ChangeList::merge(const ChangeList &clist)
                                       clist.endDestroyed());
 
     return returnValue;
+}
+
+bool ChangeList::empty() const
+{
+    return _vChangedFieldContainers.empty() &&
+           _vAddRefdFieldContainers.empty() &&
+           _vSubRefdFieldContainers.empty() &&
+           _vCreatedFieldContainers.empty() &&
+           _vDestroyedFieldContainers.empty();
 }
 
 void ChangeList::setAspect(UInt32 uiAspectId)

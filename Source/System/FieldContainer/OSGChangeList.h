@@ -155,7 +155,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     /*! \{                                                                 */
     
            void clearAll           (      void                     );
+           void swap               (      ChangeList &list         );
            bool merge              (const ChangeList &list         );
+           bool empty              (                               ) const;
 
            void setAspect          (      UInt32 uiAspectId        );
 
