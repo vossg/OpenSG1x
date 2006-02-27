@@ -64,6 +64,7 @@
 #include <OSGDrawTreeNodeFactory.h>
 
 #include <OSGMaterial.h>
+#include <OSGMultiPassMaterial.h>
 
 #include <OSGGeometry.h>
 #include <OSGLog.h>
@@ -400,6 +401,27 @@ RenderAction::~RenderAction(void)
 
 /*---------------------------- properties ---------------------------------*/
 
+void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states)
+{
+    if(!mat->isMultiPass())
+    {
+        states.push_back(mat->getState().getCPtr());
+    }
+    else
+    {
+        MultiPassMaterial *mmat = dynamic_cast<MultiPassMaterial *>(mat);
+        if(mmat != NULL)
+        {
+            UInt32 passes = mmat->getNPasses();
+            for(UInt32 i=0;i<passes;++i)
+            {
+                getMaterialStates(mmat->getMaterials(i).getCPtr(), states);
+            }
+        }
+    }
+}
+
+
 // rendering state handling
 
 void RenderAction::dropGeometry(Geometry *pGeo)
@@ -425,8 +447,11 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
-    bool isMultiPass = pMat->isMultiPass();
-    UInt32 mpMatPasses = pMat->getNPasses();
+    std::vector<State *> states;
+    getMaterialStates(pMat, states);
+
+    UInt32 mpMatPasses = states.size();
+    bool isMultiPass = (mpMatPasses > 1);
 
     Int32 sortKey = pMat->getSortKey();
 
@@ -436,7 +461,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            pState = pMat->getState(mpi).getCPtr();
+            pState = states[mpi];
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
     
@@ -444,7 +469,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
-            pNewElem->setState(pMat->getState().getCPtr());
+            pNewElem->setState(pState);
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
         
@@ -487,7 +512,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
 
     for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
-        pState = pMat->getState(mpi).getCPtr();
+        pState = states[mpi];
 
         if(_bSortTrans && pMat->isTransparent())
         {
@@ -613,8 +638,11 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         return;
     }
 
-    bool isMultiPass = pMat->isMultiPass();
-    UInt32 mpMatPasses = pMat->getNPasses();
+    std::vector<State *> states;
+    getMaterialStates(pMat, states);
+
+    UInt32 mpMatPasses = states.size();
+    bool isMultiPass = (mpMatPasses > 1);
 
     Int32 sortKey = pMat->getSortKey();
 
@@ -623,7 +651,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         DrawTreeNode *pLastMultiPass = NULL;
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            pState = pMat->getState(mpi).getCPtr();
+            pState = states[mpi];
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
 
@@ -724,7 +752,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     {
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
-            pState = pMat->getState(mpi).getCPtr();
+            pState = states[mpi];
 
             DrawTreeNode *pNewElem = _pNodeFactory->create();
 
@@ -776,7 +804,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
     {
-        pState = pMat->getState(mpi).getCPtr();
+        pState = states[mpi];
 
         if(_bSortTrans && pMat->isTransparent())
         {

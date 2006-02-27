@@ -331,6 +331,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     inline  void updateTopMatrix(void);
             void activateLocalLights(DrawTreeNode *pRoot);
 
+    void getMaterialStates(Material *mat, std::vector<State *> &states);
+
   private:
 
     //-----------------------------------------------------------------------
