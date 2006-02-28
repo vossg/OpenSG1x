@@ -66,46 +66,66 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel : public ScanParseSkelBase
 
     enum BuildInFieldType
     {
-        OSGsfBool     = TOK_SFBOOL,
-        OSGsfColor    = TOK_SFCOLOR,
-        OSGsfFloat    = TOK_SFFLOAT,
-        OSGsfImage    = TOK_SFIMAGE,
-        OSGsfInt32    = TOK_SFINT32,
-        OSGsfNode     = TOK_SFNODE,
-        OSGsfRotation = TOK_SFROTATION,
-        OSGsfString   = TOK_SFSTRING,
-        OSGsfTime     = TOK_SFTIME,
-        OSGsfVec2f    = TOK_SFVEC2F,
-        OSGsfVec3f    = TOK_SFVEC3F,
-        OSGmfColor    = TOK_MFCOLOR,
-        OSGmfFloat    = TOK_MFFLOAT,
-        OSGmfInt32    = TOK_MFINT32,
-        OSGmfNode     = TOK_MFNODE,
-        OSGmfRotation = TOK_MFROTATION,
-        OSGmfString   = TOK_MFSTRING,
-        OSGmfTime     = TOK_MFTIME,
-        OSGmfVec2f    = TOK_MFVEC2F,
-        OSGmfVec3f    = TOK_MFVEC3F,
+        OSGsfBool      = TOK_SFBOOL,
+        OSGsfColor     = TOK_SFCOLOR,
+        OSGsfColorRGBA = TOK_SFCOLORRGBA,
+        OSGsfDouble    = TOK_SFDOUBLE,
+        OSGsfFloat     = TOK_SFFLOAT,
+        OSGsfImage     = TOK_SFIMAGE,
+        OSGsfInt32     = TOK_SFINT32,
+        OSGsfMatrix3d  = TOK_SFMATRIX3D,
+        OSGsfMatrix3f  = TOK_SFMATRIX3F,
+        OSGsfMatrix4d  = TOK_SFMATRIX4D,
+        OSGsfMatrix4f  = TOK_SFMATRIX4F,
+        OSGsfNode      = TOK_SFNODE,
+        OSGsfRotation  = TOK_SFROTATION,
+        OSGsfString    = TOK_SFSTRING,
+        OSGsfTime      = TOK_SFTIME,
+        OSGsfVec2d     = TOK_SFVEC2D,
+        OSGsfVec2f     = TOK_SFVEC2F,
+        OSGsfVec3d     = TOK_SFVEC3D,
+        OSGsfVec3f     = TOK_SFVEC3F,
+        OSGsfVec4d     = TOK_SFVEC4D,
+        OSGsfVec4f     = TOK_SFVEC4F,
+        OSGmfBool      = TOK_MFBOOL,
+        OSGmfColor     = TOK_MFCOLOR,
+        OSGmfColorRGBA = TOK_MFCOLORRGBA,
+        OSGmfDouble    = TOK_MFDOUBLE,
+        OSGmfFloat     = TOK_MFFLOAT,
+        OSGmfImage     = TOK_MFIMAGE,
+        OSGmfInt32     = TOK_MFINT32,
+        OSGmfMatrix3d  = TOK_MFMATRIX3D,
+        OSGmfMatrix3f  = TOK_MFMATRIX3F,
+        OSGmfMatrix4d  = TOK_MFMATRIX4D,
+        OSGmfMatrix4f  = TOK_MFMATRIX4F,
+        OSGmfNode      = TOK_MFNODE,
+        OSGmfRotation  = TOK_MFROTATION,
+        OSGmfString    = TOK_MFSTRING,
+        OSGmfTime      = TOK_MFTIME,
+        OSGmfVec2d     = TOK_MFVEC2D,
+        OSGmfVec2f     = TOK_MFVEC2F,
+        OSGmfVec3d     = TOK_MFVEC3D,
+        OSGmfVec3f     = TOK_MFVEC3F,
+        OSGmfVec4d     = TOK_MFVEC4D,
+        OSGmfVec4f     = TOK_MFVEC4F,
 
-        OSGmfColor4f  = TOK_MFCOLOR4F,
-        OSGmfColor4i  = TOK_MFCOLOR4I,
-        OSGmfColor3f  = TOK_MFCOLOR3F,
-        OSGmfMatrix   = TOK_MFMATRIX,
-        OSGmfPnt2f    = TOK_MFPNT2F,
-        OSGmfPnt3f    = TOK_MFPNT3F,
-        OSGmfPnt4f    = TOK_MFPNT4F,
-        OSGmfVec4f    = TOK_MFVEC4F,
-        OSGmfPlane    = TOK_MFPLANE,
-        OSGsfColor4f  = TOK_SFCOLOR4F,
-        OSGsfColor4i  = TOK_SFCOLOR4I,
-        OSGsfColor3f  = TOK_SFCOLOR3F,
-        OSGsfMatrix   = TOK_SFMATRIX,
-        OSGsfPnt2f    = TOK_SFPNT2F,
-        OSGsfPnt3f    = TOK_SFPNT3F,
-        OSGsfPnt4f    = TOK_SFPNT4F,
-        OSGsfVec4f    = TOK_SFVEC4F,
-        OSGsfPlane    = TOK_SFPLANE,
-        OSGsfVolume   = TOK_SFVOLUME
+        OSGmfColor4f   = TOK_MFCOLORRGBA,
+        OSGmfColor4i   = TOK_MFCOLOR4I,
+        OSGmfColor3f   = TOK_MFCOLOR,
+        OSGmfMatrix    = TOK_MFMATRIX4F,
+        OSGmfPnt2f     = TOK_MFPNT2F,
+        OSGmfPnt3f     = TOK_MFPNT3F,
+        OSGmfPnt4f     = TOK_MFPNT4F,
+        OSGmfPlane     = TOK_MFPLANE,
+        OSGsfColor4f   = TOK_SFCOLORRGBA,
+        OSGsfColor4i   = TOK_SFCOLOR4I,
+        OSGsfColor3f   = TOK_SFCOLOR,
+        OSGsfMatrix    = TOK_SFMATRIX4F,
+        OSGsfPnt2f     = TOK_SFPNT2F,
+        OSGsfPnt3f     = TOK_SFPNT3F,
+        OSGsfPnt4f     = TOK_SFPNT4F,
+        OSGsfPlane     = TOK_SFPLANE,
+        OSGsfVolume    = TOK_SFVOLUME
     };
 
     enum
@@ -140,7 +160,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel : public ScanParseSkelBase
     virtual       Int32  lex        (      void                    );
     virtual const Char8 *getText    (      void                    );
 
-                  void   expectType (      Int32        iNextType  ); 
+                  void   expectType (      Int32        iNextType  );
 
     virtual       void   handleError(const Char8       *szErrorText);
 
@@ -298,4 +318,3 @@ OSG_END_NAMESPACE
 #define OSGSCANPARSESKEL_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGSCANPARSESKEL_H_ */
-

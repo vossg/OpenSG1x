@@ -114,88 +114,116 @@ void freeName(char *&szName);
 
 %token TOK_SFBOOL
 %token TOK_SFCOLOR
+%token TOK_SFCOLORRGBA
+%token TOK_SFDOUBLE
 %token TOK_SFFLOAT
 %token TOK_SFIMAGE
 %token TOK_SFINT32
+%token TOK_SFMATRIX3D
+%token TOK_SFMATRIX3F
+%token TOK_SFMATRIX4D
+%token TOK_SFMATRIX4F
 %token TOK_SFNODE
 %token TOK_SFROTATION
 %token TOK_SFSTRING
 %token TOK_SFTIME
+%token TOK_SFVEC2D
 %token TOK_SFVEC2F
+%token TOK_SFVEC3D
 %token TOK_SFVEC3F
+%token TOK_SFVEC4D
+%token TOK_SFVEC4F
+%token TOK_MFBOOL
 %token TOK_MFCOLOR
+%token TOK_MFCOLORRGBA
+%token TOK_MFDOUBLE
 %token TOK_MFFLOAT
+%token TOK_MFIMAGE
 %token TOK_MFINT32
+%token TOK_MFMATRIX3D
+%token TOK_MFMATRIX3F
+%token TOK_MFMATRIX4D
+%token TOK_MFMATRIX4F
 %token TOK_MFNODE 
 %token TOK_MFROTATION
 %token TOK_MFSTRING
 %token TOK_MFTIME
+%token TOK_MFVEC2D
 %token TOK_MFVEC2F
+%token TOK_MFVEC3D
 %token TOK_MFVEC3F
+%token TOK_MFVEC4D
+%token TOK_MFVEC4F
 
-%token Tok_MFColor 
-%token Tok_MFFloat 
-%token Tok_MFInt32 
-%token Tok_MFNode 
-%token Tok_MFRotation 
-%token Tok_MFString 
-%token Tok_MFTime 
-%token Tok_MFVec2f 
-%token Tok_MFVec3f 
-%token Tok_SFBool 
-%token Tok_SFColor 
-%token Tok_SFFloat 
-%token Tok_SFImage 
-%token Tok_SFInt32 
-%token Tok_SFNode 
-%token Tok_SFRotation 
-%token Tok_SFString 
-%token Tok_SFTime 
-%token Tok_SFVec2f 
-%token Tok_SFVec3f 
+%token Tok_MFBool
+%token Tok_MFColor
+%token Tok_MFColorRGBA
+%token Tok_MFDouble
+%token Tok_MFFloat
+%token Tok_MFImage
+%token Tok_MFInt32
+%token Tok_MFMatrix3d
+%token Tok_MFMatrix3f
+%token Tok_MFMatrix4d
+%token Tok_MFMatrix4f
+%token Tok_MFNode
+%token Tok_MFRotation
+%token Tok_MFString
+%token Tok_MFTime
+%token Tok_MFVec2d
+%token Tok_MFVec2f
+%token Tok_MFVec3d
+%token Tok_MFVec3f
+%token Tok_MFVec4d
+%token Tok_MFVec4f
+%token Tok_SFBool
+%token Tok_SFColor
+%token Tok_SFColorRGBA
+%token Tok_SFDouble
+%token Tok_SFFloat
+%token Tok_SFImage
+%token Tok_SFInt32
+%token Tok_SFMatrix3d
+%token Tok_SFMatrix3f
+%token Tok_SFMatrix4d
+%token Tok_SFMatrix4f
+%token Tok_SFNode
+%token Tok_SFRotation
+%token Tok_SFString
+%token Tok_SFTime
+%token Tok_SFVec2d
+%token Tok_SFVec2f
+%token Tok_SFVec3d
+%token Tok_SFVec3f
+%token Tok_SFVec4d
+%token Tok_SFVec4f
 
 
-%token TOK_MFCOLOR4F
 %token TOK_MFCOLOR4I
-%token TOK_MFCOLOR3F
-%token TOK_MFMATRIX
 %token TOK_MFPNT2F
 %token TOK_MFPNT3F
 %token TOK_MFPNT4F
-%token TOK_MFVEC4F
 %token TOK_MFPLANE
 
-%token TOK_SFCOLOR4F
 %token TOK_SFCOLOR4I
-%token TOK_SFCOLOR3F
-%token TOK_SFMATRIX
 %token TOK_SFPNT2F
 %token TOK_SFPNT3F
 %token TOK_SFPNT4F
-%token TOK_SFVEC4F
 %token TOK_SFPLANE
 %token TOK_SFVOLUME
 
 
 
-%token Tok_MFColor4f
 %token Tok_MFColor4i
-%token Tok_MFColor3f
-%token Tok_MFMatrix
 %token Tok_MFPnt2f
 %token Tok_MFPnt3f
 %token Tok_MFPnt4f
-%token Tok_MFVec4f
 %token Tok_MFPlane
 
-%token Tok_SFColor4f
 %token Tok_SFColor4i
-%token Tok_SFColor3f
-%token Tok_SFMatrix
 %token Tok_SFPnt2f
 %token Tok_SFPnt3f
 %token Tok_SFPnt4f
-%token Tok_SFVec4f
 %token Tok_SFPlane
 %token Tok_SFVolume
 
@@ -206,7 +234,7 @@ void freeName(char *&szName);
 vrmlScene : profileStatement
 ;
 
-profileStatement : PROFILE 
+profileStatement : PROFILE
                    ID
                    {
                        if(SKEL != NULL)
@@ -254,41 +282,41 @@ metaStatement : OSG_META
                         SKEL->metaElement(szName1, SKELTEXT);
                     }
                     freeName(szName1);
-                }        
+                }
 ;
 
 statementsORempty : statements
                   | empty
 ;
-           
-statements : statements statement 
-           |            statement  
+
+statements : statements statement
+           |            statement
 ;
 
-statement : nodeStatement 
-          | protoStatement 
-          | routeStatement 
+statement : nodeStatement
+          | protoStatement
+          | routeStatement
           | importStatement
           | exportStatement
 ;
 
-nodeStatement : node 
-              | DEF 
+nodeStatement : node
+              | DEF
                 nodeNameId  { setName(szName1, SKELTEXT); }
-                node 
-              | USE 
+                node
+              | USE
                 nodeNameId  { if(SKEL != NULL)
                                   SKEL->use(SKELTEXT); }
 ;
 
-rootNodeStatement : node 
-                  | DEF 
+rootNodeStatement : node
+                  | DEF
                     nodeNameId { setName(szName1, SKELTEXT); }
-                    node 
+                    node
 ;
 
-protoStatement : proto 
-               | externproto 
+protoStatement : proto
+               | externproto
 ;
 
 
@@ -300,20 +328,20 @@ protoStatements : protoStatements protoStatement
                 |                 protoStatement
 ;
 
-protoId : nodeTypeId { if(SKEL != NULL) 
+protoId : nodeTypeId { if(SKEL != NULL)
                         SKEL->beginProto(SKELTEXT); }
-        | SCRIPT     { if(SKEL != NULL) 
+        | SCRIPT     { if(SKEL != NULL)
                         SKEL->beginProto(SKELTEXT); }
 ;
 
-proto : PROTO 
-        protoId 
-        OPENBRACKET 
-        interfaceDeclarationsORempty 
-        CLOSEBRACKET 
-        OPENBRACE 
+proto : PROTO
+        protoId
+        OPENBRACKET
+        interfaceDeclarationsORempty
+        CLOSEBRACKET
+        OPENBRACE
         protoBodyORempty
-        CLOSEBRACE { if(SKEL != NULL) 
+        CLOSEBRACE { if(SKEL != NULL)
 			SKEL->endProto(); }
 ;
 
@@ -328,85 +356,85 @@ interfaceDeclarationsORempty : interfaceDeclarations
                              | empty
 ;
 
-interfaceDeclarations : interfaceDeclarations interfaceDeclaration 
+interfaceDeclarations : interfaceDeclarations interfaceDeclaration
                       |                       interfaceDeclaration
 ;
 
 
-restrictedInterfaceDeclaration : EVENTIN  
-                                 fieldType  { setName(szName1, 
+restrictedInterfaceDeclaration : EVENTIN
+                                 fieldType  { setName(szName1,
                                                       SKELTEXT);}
                                  eventInId  { if(SKEL != NULL)
                                               {
                                                SKEL->beginEventInDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
+                                                SKELTEXT);
 
                                                SKEL->endEventDecl();
                                               }
                                               freeName(szName1); }
                                | EVENTOUT 
-                                 fieldType  { setName(szName1, 
+                                 fieldType  { setName(szName1,
                                                       SKELTEXT);}
                                  eventOutId { if(SKEL != NULL)
                                               {
                                                SKEL->beginEventOutDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
+                                                SKELTEXT);
 
                                                SKEL->endEventDecl();
                                               }
                                               freeName(szName1); }
-                               | FIELD    
-                                 fieldType  { setName(szName1, 
+                               | FIELD
+                                 fieldType  { setName(szName1,
                                                       SKELTEXT);}
-                                 fieldId    { SKEL->expectType(nextType); 
+                                 fieldId    { SKEL->expectType(nextType);
                                               if(SKEL != NULL)
                                                SKEL->beginFieldDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
-                                              freeName(szName1); } 
-                                 fieldValue { nextType = 0; 
+                                                SKELTEXT);
+                                              freeName(szName1); }
+                                 fieldValue { nextType = 0;
                                               if(SKEL != NULL)
                                                SKEL->endFieldDecl();
                                              }
 ;
 
 interfaceDeclaration : restrictedInterfaceDeclaration
-                     | EXPOSEDFIELD 
-                       fieldType    { setName(szName1, 
+                     | EXPOSEDFIELD
+                       fieldType    { setName(szName1,
                                               SKELTEXT); }
-                       fieldId      { SKEL->expectType(nextType);  
+                       fieldId      { SKEL->expectType(nextType);
                                       if(SKEL != NULL)
                                        SKEL->beginExposedFieldDecl(
                                         szName1,
                                         nextType,
-                                        SKELTEXT); 
+                                        SKELTEXT);
                                        freeName(szName1); }
-                       fieldValue   { nextType = 0; 
+                       fieldValue   { nextType = 0;
                                       if(SKEL != NULL)
                                        SKEL->endExposedFieldDecl(); }
 ;
 
-externproto : EXTERNPROTO 
-              nodeTypeId { if(SKEL != NULL) 
+externproto : EXTERNPROTO
+              nodeTypeId { if(SKEL != NULL)
                              SKEL->beginExternProto(SKELTEXT); }
-              OPENBRACKET 
+              OPENBRACKET
               externInterfaceDeclarationsORempty
-              CLOSEBRACKET 
+              CLOSEBRACKET
               {
-                 if(SKEL != NULL) 
-                     SKEL->endExternProtoInterface(); 
+                 if(SKEL != NULL)
+                     SKEL->endExternProtoInterface();
 
-                 SKEL->expectType(TOK_MFSTRING); 
+                 SKEL->expectType(TOK_MFSTRING);
               }
-              URLList 
+              URLList
               {
-                 if(SKEL != NULL) 
-                     SKEL->endExternProto(); 
+                 if(SKEL != NULL)
+                     SKEL->endExternProto();
               }
 ;
 
@@ -414,58 +442,58 @@ externInterfaceDeclarationsORempty : externInterfaceDeclarations
                                    | empty
 ;
 
-externInterfaceDeclarations : 
+externInterfaceDeclarations :
         externInterfaceDeclarations externInterfaceDeclaration
     |                               externInterfaceDeclaration
 ;
 
-externInterfaceDeclaration : EVENTIN      
-                             fieldType { setName(szName1, 
+externInterfaceDeclaration : EVENTIN
+                             fieldType { setName(szName1,
                                                  SKELTEXT); }
                              eventInId { if(SKEL != NULL)
                                                SKEL->addExternEventInDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
+                                                SKELTEXT);
                                          freeName(szName1); }
-                           | EVENTOUT     
-                             fieldType { setName(szName1, 
+                           | EVENTOUT
+                             fieldType { setName(szName1,
                                                  SKELTEXT); }
                              eventOutId { if(SKEL != NULL)
                                                SKEL->addExternEventOutDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
+                                                SKELTEXT);
                                           freeName(szName1); }
-                           | FIELD        
-                             fieldType { setName(szName1, 
+                           | FIELD
+                             fieldType { setName(szName1,
                                                  SKELTEXT); }
                              fieldId   { if(SKEL != NULL)
                                                SKEL->addExternFieldDecl(
                                                 szName1,
                                                 nextType,
-                                                SKELTEXT); 
-                                         freeName(szName1); } 
-                           | EXPOSEDFIELD 
-                             fieldType { setName(szName1, 
+                                                SKELTEXT);
+                                         freeName(szName1); }
+                           | EXPOSEDFIELD
+                             fieldType { setName(szName1,
                                                  SKELTEXT); }
                              fieldId { if(SKEL != NULL)
                                              SKEL->addExternExposedFieldDecl(
                                                  szName1,
                                                  nextType,
-                                                 SKELTEXT); 
+                                                 SKELTEXT);
                                        freeName(szName1); }
 ;
 
-routeStatement : ROUTE 
+routeStatement : ROUTE
                  nodeNameId { setName(szName1, SKELTEXT); }
-                 PERIOD     
+                 PERIOD
                  eventOutId { setName(szName2, SKELTEXT); }
-                 TO 
+                 TO
                  nodeNameId { setName(szName3, SKELTEXT); }
-                 PERIOD 
+                 PERIOD
                  eventInId  { if(SKEL != NULL)
-                                SKEL->addRoute(szName1, 
+                                SKEL->addRoute(szName1,
                                                szName2,
                                                szName3,
                                                SKELTEXT);
@@ -475,8 +503,8 @@ routeStatement : ROUTE
                             }
 ;
 
-exportStatement : EXPORT 
-                  ID 
+exportStatement : EXPORT
+                  ID
                   {
                       setName(szName1, SKELTEXT);
                   }
@@ -492,8 +520,8 @@ exportStatement : EXPORT
                   }
 ;
 
-importStatement : IMPORT 
-                  ID 
+importStatement : IMPORT
+                  ID
                   {
                       setName(szName1, SKELTEXT);
                   }
@@ -508,14 +536,14 @@ importStatement : IMPORT
                       {
                           SKEL->importElement(szName1, szName3, szName2);
                       }
-                    
+
                       freeName(szName1);
                       freeName(szName2);
                       freeName(szName3);
                   }
 ;
 
-importExportEnd : AS ID 
+importExportEnd : AS ID
                   {
                         setName(szName2, SKELTEXT);
                   }
@@ -530,23 +558,23 @@ empty :
 
 node : nodeTypeId { if(SKEL != NULL)
                     {
-                        SKEL->beginNode(SKELTEXT, szName1); 
+                        SKEL->beginNode(SKELTEXT, szName1);
                     }
 
                     freeName(szName1);
                   }
-       OPENBRACE 
-//       nodeBodyORempty   
-       scriptBodyORempty 
+       OPENBRACE
+//       nodeBodyORempty
+       scriptBodyORempty
        CLOSEBRACE { if(SKEL != NULL)
                      SKEL->endNode(); }
      | SCRIPT     { if(SKEL != NULL)
-                     SKEL->beginNode(SKELTEXT, szName1); 
+                     SKEL->beginNode(SKELTEXT, szName1);
 
                     freeName(szName1);
                   }
        OPENBRACE
-       scriptBodyORempty 
+       scriptBodyORempty
        CLOSEBRACE { if(SKEL != NULL)
                      SKEL->endNode(); }
 ;
@@ -556,7 +584,7 @@ nodeBodyORempty : nodeBody
                 | empty
 ;
 
-nodeBody : nodeBody nodeBodyElement 
+nodeBody : nodeBody nodeBodyElement
          |          nodeBodyElement
 ;
 */
@@ -565,66 +593,66 @@ scriptBodyORempty : scriptBody
                   | empty
 ;
 
-scriptBody : scriptBody scriptBodyElement 
+scriptBody : scriptBody scriptBodyElement
            |            scriptBodyElement
 ;
 
-resInterfaceDeclarationScriptEvent : EVENTIN  
-                                     fieldType  { setName(szName1, 
-                                                          SKELTEXT); } 
+resInterfaceDeclarationScriptEvent : EVENTIN
+                                     fieldType  { setName(szName1,
+                                                          SKELTEXT); }
                                      eventInId  { if(SKEL != NULL)
                                                      SKEL->beginEventInDecl(
                                                        szName1,
                                                        nextType,
-                                                       SKELTEXT); 
+                                                       SKELTEXT);
 
                                                  freeName(szName1); }
-                                   | EVENTOUT 
-                                     fieldType  { setName(szName1, 
+                                   | EVENTOUT
+                                     fieldType  { setName(szName1,
                                                           SKELTEXT); }
                                      eventOutId { if(SKEL != NULL)
                                                      SKEL->beginEventOutDecl(
                                                        szName1,
                                                        nextType,
-                                                       SKELTEXT); 
+                                                       SKELTEXT);
 
                                                   freeName(szName1); }
 ;
 
-resInterfaceDeclarationScriptEventEnd : IS eventId 
-                                        { 
+resInterfaceDeclarationScriptEventEnd : IS eventId
+                                        {
                                           if(SKEL != NULL)
                                           {
                                              SKEL->is(SKELTEXT);
-                                             SKEL->endEventDecl(); 
+                                             SKEL->endEventDecl();
                                           }
                                         }
                                       |
-                                        { 
+                                        {
                                             if(SKEL != NULL)
                                             {
-                                                SKEL->endEventDecl(); 
+                                                SKEL->endEventDecl();
                                             }
                                         }
 ;
 
-resInterfaceDeclarationScriptField : FIELD     
-                                     fieldType { setName(szName1, 
+resInterfaceDeclarationScriptField : FIELD
+                                     fieldType { setName(szName1,
                                                          SKELTEXT);
                                                }
-                                     fieldId   { SKEL->expectType(nextType); 
-                                              
+                                     fieldId   { SKEL->expectType(nextType);
+
                                                  if(SKEL != NULL)
                                                      SKEL->beginFieldDecl(
                                                        szName1,
                                                        nextType,
-                                                       SKELTEXT); 
-                                              
+                                                       SKELTEXT);
+
                                                  freeName(szName1);
                                                }
 ;
 
-resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0; 
+resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0;
 
                                                      if(SKEL != NULL)
                                                      {
@@ -632,8 +660,8 @@ resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0;
 
                                                        SKEL->endFieldDecl();
                                                      }
-                                                   } 
-                                      | fieldValue { nextType = 0; 
+                                                   }
+                                      | fieldValue { nextType = 0;
 
                                                      if(SKEL != NULL)
                                                        SKEL->endFieldDecl();
@@ -641,24 +669,24 @@ resInterafceDeclarationScriptFieldEnd : IS fieldId { nextType = 0;
                                                    }
 ;
 
-resInterfaceDeclarationScriptExpField : EXPOSEDFIELD     
-                                        fieldType { setName(szName1, 
+resInterfaceDeclarationScriptExpField : EXPOSEDFIELD
+                                        fieldType { setName(szName1,
                                                             SKELTEXT);
                                                   }
                                         fieldId   { SKEL->expectType(nextType);
-                                                
+
                                                     if(SKEL != NULL)
                                                         SKEL->
                                                          beginExposedFieldDecl(
                                                            szName1,
                                                            nextType,
-                                                           SKELTEXT); 
-                                              
+                                                           SKELTEXT);
+
                                                     freeName(szName1);
                                                   }
 ;
 
-resInterafceDeclarationScriptExpFieldEnd : IS fieldId { nextType = 0; 
+resInterafceDeclarationScriptExpFieldEnd : IS fieldId { nextType = 0;
 
                                                         if(SKEL != NULL)
                                                         {
@@ -667,9 +695,9 @@ resInterafceDeclarationScriptExpFieldEnd : IS fieldId { nextType = 0;
                                                          SKEL->
                                                          endExposedFieldDecl();
                                                         }
-                                                      } 
-                                         | fieldValue { nextType = 0; 
-   
+                                                      }
+                                         | fieldValue { nextType = 0;
+
                                                         if(SKEL != NULL)
                                                          SKEL->
                                                          endExposedFieldDecl();
@@ -677,25 +705,25 @@ resInterafceDeclarationScriptExpFieldEnd : IS fieldId { nextType = 0;
 ;
 
 /*
-scriptBodyElement : nodeBodyElement 
-                  | restrictedInterfaceDeclaration 
-                  | EVENTIN  fieldType eventInId  IS eventInId 
-                  | EVENTOUT fieldType eventOutId IS eventOutId 
-                  | FIELD    fieldType fieldId    IS fieldId 
+scriptBodyElement : nodeBodyElement
+                  | restrictedInterfaceDeclaration
+                  | EVENTIN  fieldType eventInId  IS eventInId
+                  | EVENTOUT fieldType eventOutId IS eventOutId
+                  | FIELD    fieldType fieldId    IS fieldId
 ;
 */
 
-scriptBodyElement : nodeBodyElement 
-                  | resInterfaceDeclarationScriptEvent 
+scriptBodyElement : nodeBodyElement
+                  | resInterfaceDeclarationScriptEvent
                     resInterfaceDeclarationScriptEventEnd
-                  | resInterfaceDeclarationScriptField 
+                  | resInterfaceDeclarationScriptField
                     resInterafceDeclarationScriptFieldEnd
-                  | resInterfaceDeclarationScriptExpField 
+                  | resInterfaceDeclarationScriptExpField
                     resInterafceDeclarationScriptExpFieldEnd
 ;
 
 
-nodeBodyElement : fieldId 
+nodeBodyElement : fieldId
                   { if(SKEL != NULL)
                     {
                      Int32 iFieldTypeId;
@@ -704,31 +732,31 @@ nodeBodyElement : fieldId
 
                      if(SKEL->getMapFieldTypes() == true)
                      {
-                      iFieldTypeId = SKEL->mapExtIntFieldType(    
+                      iFieldTypeId = SKEL->mapExtIntFieldType(
                                         SKELTEXT,
                                         iFieldTypeId);
                      }
-    
-                     SKEL->expectType(iFieldTypeId); 
 
-                     SKEL->beginField(SKELTEXT, 
+                     SKEL->expectType(iFieldTypeId);
+
+                     SKEL->beginField(SKELTEXT,
                                         iFieldTypeId);
-                                        
-                    } 
+
+                    }
                    }
                   fieldEnd
-                | routeStatement 
-                | protoStatement 
+                | routeStatement
+                | protoStatement
 ;
 
-//                | generalId IS generalId 
+//                | generalId IS generalId
 
 fieldEnd : IS generalId { if(SKEL != NULL)
                           {
                             SKEL->is(SKELTEXT);
                             SKEL->endField();
                           }
-                        } 
+                        }
          | fieldValue   { if(SKEL != NULL)
                             SKEL->endField();
                         }
@@ -739,109 +767,137 @@ fieldEnd : IS generalId { if(SKEL != NULL)
 generalId  : ID
 ;
 
-nodeNameId : ID 
+nodeNameId : ID
 ;
 
 nodeTypeId : ID
 ;
 
-fieldId    : ID 
+fieldId    : ID
 ;
 
-eventId    : ID 
+eventId    : ID
 ;
 
-eventInId  : ID 
+eventInId  : ID
 ;
 
 eventOutId : ID ;
 
 
-fieldType : Tok_MFColor     { nextType = TOK_MFCOLOR;    }
-          | Tok_MFFloat     { nextType = TOK_MFFLOAT;    }
-          | Tok_MFInt32     { nextType = TOK_MFINT32;    }
-          | Tok_MFNode      { nextType = TOK_MFNODE;     }
-          | Tok_MFRotation  { nextType = TOK_MFROTATION; }
-          | Tok_MFString    { nextType = TOK_MFSTRING;   }
-          | Tok_MFTime      { nextType = TOK_MFTIME;     }
-          | Tok_MFVec2f     { nextType = TOK_MFVEC2F;    }
-          | Tok_MFVec3f     { nextType = TOK_MFVEC3F;    }
-          | Tok_SFBool      { nextType = TOK_SFBOOL;     }
-          | Tok_SFColor     { nextType = TOK_SFCOLOR;    }
-          | Tok_SFFloat     { nextType = TOK_SFFLOAT;    }
-          | Tok_SFImage     { nextType = TOK_SFIMAGE;    }
-          | Tok_SFInt32     { nextType = TOK_SFINT32;    }
-          | Tok_SFNode      { nextType = TOK_SFNODE;     }
-          | Tok_SFRotation  { nextType = TOK_SFROTATION; }
-          | Tok_SFString    { nextType = TOK_SFSTRING;   }
-          | Tok_SFTime      { nextType = TOK_SFTIME;     }
-          | Tok_SFVec2f     { nextType = TOK_SFVEC2F;    }
-          | Tok_SFVec3f     { nextType = TOK_SFVEC3F;    }
-          | Tok_MFColor4f   { nextType = TOK_MFCOLOR4F;  }
-          | Tok_MFColor4i   { nextType = TOK_MFCOLOR4I;  }
-          | Tok_MFColor3f   { nextType = TOK_MFCOLOR3F;  }
-          | Tok_MFMatrix    { nextType = TOK_MFMATRIX;   }
-          | Tok_MFPnt2f     { nextType = TOK_MFPNT2F;    }
-          | Tok_MFPnt3f     { nextType = TOK_MFPNT3F;    }
-          | Tok_MFPnt4f     { nextType = TOK_MFPNT4F;    }
-          | Tok_MFVec4f     { nextType = TOK_MFVEC4F;    }
-          | Tok_MFPlane     { nextType = TOK_MFPLANE;    }
-          | Tok_SFColor4f   { nextType = TOK_SFCOLOR4F;  }
-          | Tok_SFColor4i   { nextType = TOK_SFCOLOR4I;  }
-          | Tok_SFColor3f   { nextType = TOK_SFCOLOR3F;  }
-          | Tok_SFMatrix    { nextType = TOK_SFMATRIX;   }
-          | Tok_SFPnt2f     { nextType = TOK_SFPNT2F;    }
-          | Tok_SFPnt3f     { nextType = TOK_SFPNT3F;    }
-          | Tok_SFPnt4f     { nextType = TOK_SFPNT4F;    }
-          | Tok_SFVec4f     { nextType = TOK_SFVEC4F;    }
-          | Tok_SFPlane     { nextType = TOK_SFPLANE;    }
-          | Tok_SFVolume    { nextType = TOK_SFVOLUME;   }
+fieldType : Tok_MFBool      { nextType = TOK_MFBOOL;      }
+          | Tok_MFColor     { nextType = TOK_MFCOLOR;     }
+          | Tok_MFColorRGBA { nextType = TOK_MFCOLORRGBA; }
+          | Tok_MFDouble    { nextType = TOK_MFDOUBLE;    }
+          | Tok_MFFloat     { nextType = TOK_MFFLOAT;     }
+          | Tok_MFImage     { nextType = TOK_MFIMAGE;     }
+          | Tok_MFInt32     { nextType = TOK_MFINT32;     }
+          | Tok_MFMatrix3d  { nextType = TOK_MFMATRIX3D;  }
+          | Tok_MFMatrix3f  { nextType = TOK_MFMATRIX3F;  }
+          | Tok_MFMatrix4d  { nextType = TOK_MFMATRIX4D;  }
+          | Tok_MFMatrix4f  { nextType = TOK_MFMATRIX4F;  }
+          | Tok_MFNode      { nextType = TOK_MFNODE;      }
+          | Tok_MFRotation  { nextType = TOK_MFROTATION;  }
+          | Tok_MFString    { nextType = TOK_MFSTRING;    }
+          | Tok_MFTime      { nextType = TOK_MFTIME;      }
+          | Tok_MFVec2d     { nextType = TOK_MFVEC2D;     }
+          | Tok_MFVec2f     { nextType = TOK_MFVEC2F;     }
+          | Tok_MFVec3d     { nextType = TOK_MFVEC3D;     }
+          | Tok_MFVec3f     { nextType = TOK_MFVEC3F;     }
+          | Tok_MFVec4d     { nextType = TOK_MFVEC4D;     }
+          | Tok_MFVec4f     { nextType = TOK_MFVEC4F;     }
+          | Tok_SFBool      { nextType = TOK_SFBOOL;      }
+          | Tok_SFColor     { nextType = TOK_SFCOLOR;     }
+          | Tok_SFColorRGBA { nextType = TOK_SFCOLORRGBA; }
+          | Tok_SFDouble    { nextType = TOK_SFDOUBLE;    }
+          | Tok_SFFloat     { nextType = TOK_SFFLOAT;     }
+          | Tok_SFImage     { nextType = TOK_SFIMAGE;     }
+          | Tok_SFInt32     { nextType = TOK_SFINT32;     }
+          | Tok_SFMatrix3d  { nextType = TOK_SFMATRIX3D;  }
+          | Tok_SFMatrix3f  { nextType = TOK_SFMATRIX3F;  }
+          | Tok_SFMatrix4d  { nextType = TOK_SFMATRIX4D;  }
+          | Tok_SFMatrix4f  { nextType = TOK_SFMATRIX4F;  }
+          | Tok_SFNode      { nextType = TOK_SFNODE;      }
+          | Tok_SFRotation  { nextType = TOK_SFROTATION;  }
+          | Tok_SFString    { nextType = TOK_SFSTRING;    }
+          | Tok_SFTime      { nextType = TOK_SFTIME;      }
+          | Tok_SFVec2d     { nextType = TOK_SFVEC2D;     }
+          | Tok_SFVec2f     { nextType = TOK_SFVEC2F;     }
+          | Tok_SFVec3d     { nextType = TOK_SFVEC3D;     }
+          | Tok_SFVec3f     { nextType = TOK_SFVEC3F;     }
+          | Tok_SFVec4d     { nextType = TOK_SFVEC4D;     }
+          | Tok_SFVec4f     { nextType = TOK_SFVEC4F;     }
+          | Tok_MFColor4i   { nextType = TOK_MFCOLOR4I;   }
+          | Tok_MFPnt2f     { nextType = TOK_MFPNT2F;     }
+          | Tok_MFPnt3f     { nextType = TOK_MFPNT3F;     }
+          | Tok_MFPnt4f     { nextType = TOK_MFPNT4F;     }
+          | Tok_MFPlane     { nextType = TOK_MFPLANE;     }
+          | Tok_SFColor4i   { nextType = TOK_SFCOLOR4I;   }
+          | Tok_SFPnt2f     { nextType = TOK_SFPNT2F;     }
+          | Tok_SFPnt3f     { nextType = TOK_SFPNT3F;     }
+          | Tok_SFPnt4f     { nextType = TOK_SFPNT4F;     }
+          | Tok_SFPlane     { nextType = TOK_SFPLANE;     }
+          | Tok_SFVolume    { nextType = TOK_SFVOLUME;    }
 ;
 
 
 fieldValue : TOK_SFBOOL
            | TOK_SFCOLOR
+           | TOK_SFCOLORRGBA
+           | TOK_SFDOUBLE
            | TOK_SFFLOAT
            | TOK_SFIMAGE
            | TOK_SFINT32
+           | TOK_SFMATRIX3D
+           | TOK_SFMATRIX3F
+           | TOK_SFMATRIX4D
+           | TOK_SFMATRIX4F
            | TOK_SFNODE     sfnodeValue
            | TOK_SFROTATION
            | TOK_SFSTRING
            | TOK_SFTIME
+           | TOK_SFVEC2D
            | TOK_SFVEC2F
+           | TOK_SFVEC3D
            | TOK_SFVEC3F
+           | TOK_SFVEC4D
+           | TOK_SFVEC4F
+           | TOK_MFBOOL
            | TOK_MFCOLOR
+           | TOK_MFCOLORRGBA
+           | TOK_MFDOUBLE
            | TOK_MFFLOAT
+           | TOK_MFIMAGE
            | TOK_MFINT32
+           | TOK_MFMATRIX3D
+           | TOK_MFMATRIX3F
+           | TOK_MFMATRIX4D
+           | TOK_MFMATRIX4F
            | TOK_MFNODE     mfnodeValue
-           | TOK_MFROTATION 
-           | TOK_MFSTRING 
+           | TOK_MFROTATION
+           | TOK_MFSTRING
            | TOK_MFTIME
+           | TOK_MFVEC2D
            | TOK_MFVEC2F
+           | TOK_MFVEC3D
            | TOK_MFVEC3F
-           | TOK_MFCOLOR4F
+           | TOK_MFVEC4D
+           | TOK_MFVEC4F
            | TOK_MFCOLOR4I
-           | TOK_MFCOLOR3F
-           | TOK_MFMATRIX
            | TOK_MFPNT2F
            | TOK_MFPNT3F
            | TOK_MFPNT4F
            | TOK_MFPLANE
-           | TOK_MFVEC4F
-           | TOK_SFCOLOR4F
            | TOK_SFCOLOR4I
-           | TOK_SFCOLOR3F
-           | TOK_SFMATRIX
            | TOK_SFPNT2F
            | TOK_SFPNT3F
            | TOK_SFPNT4F
            | TOK_SFPLANE
            | TOK_SFVOLUME
-           | TOK_SFVEC4F
 ;
 
 
-sfnodeValue : nodeStatement 
+sfnodeValue : nodeStatement
             | IS generalId
               {
                   if(SKEL != NULL)
@@ -852,8 +908,8 @@ sfnodeValue : nodeStatement
             | SFN_NULL
 ;
 
-mfnodeValue : nodeStatement   
-            | IS generalId          
+mfnodeValue : nodeStatement
+            | IS generalId
               {
                   if(SKEL != NULL)
                   {
@@ -867,8 +923,8 @@ nodeStatementsORempty : nodeStatements
                       | empty
 ;
 
-nodeStatements : nodeStatements nodeStatement 
-               |                nodeStatement  
+nodeStatements : nodeStatements nodeStatement
+               |                nodeStatement
 ;
 
 
@@ -882,7 +938,7 @@ void setName (char *&szName, const char *szVal)
 void freeName(char *&szName)
 {
     delete [] szName;
-    
+
     szName = NULL;
 }
 

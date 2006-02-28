@@ -134,9 +134,9 @@ class OSGScanParseLexer : public OSGScanParseSkel_FlexLexer
     //   instance functions                                                  
     //-----------------------------------------------------------------------
 
-    //! prohibit default function (move to 'public' if needed) 
+    //! prohibit default function (move to 'public' if needed)
     OSGScanParseLexer(const OSGScanParseLexer &source);
-    //! prohibit default function (move to 'public' if needed) 
+    //! prohibit default function (move to 'public' if needed)
     void operator =(const OSGScanParseLexer &source);
 
   protected:
@@ -163,10 +163,10 @@ class OSGScanParseLexer : public OSGScanParseSkel_FlexLexer
 
     OSG::ScanParseSkelBase *_pSkelBase;
 
-    OSG::Int32 expectToken;        
-    OSG::Int32 parsing_mf;         
-    OSG::Int32 sfImageIntsExpected;
-    OSG::Int32 sfImageIntsParsed; 
+    OSG::Int32 expectToken;
+    OSG::Int32 parsing_mf;
+    OSG::Int32 imageIntsExpected;
+    OSG::Int32 imageIntsParsed;
 
     OSG::Int32 iCommentDepth;
     OSG::Int32 iLastState;
@@ -186,10 +186,10 @@ class OSGScanParseLexer : public OSGScanParseSkel_FlexLexer
     //-----------------------------------------------------------------------
 
     OSGScanParseLexer(OSG::ScanParseSkelBase *pSkelBase,
-                      std::istream           *arg_yyin  = 0, 
+                      std::istream           *arg_yyin  = 0,
                       std::ostream           *arg_yyout = 0);
 
-    virtual ~OSGScanParseLexer(void); 
+    virtual ~OSGScanParseLexer(void);
 
     /*------------------------- your_category -------------------------------*/
 
