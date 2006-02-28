@@ -65,6 +65,7 @@
 
 #include <OSGMaterial.h>
 #include <OSGMultiPassMaterial.h>
+#include <OSGSwitchMaterial.h>
 
 #include <OSGGeometry.h>
 #include <OSGLog.h>
@@ -409,6 +410,7 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
     }
     else
     {
+        // HACK need to find a nicer solution.
         MultiPassMaterial *mmat = dynamic_cast<MultiPassMaterial *>(mat);
         if(mmat != NULL)
         {
@@ -416,6 +418,14 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
             for(UInt32 i=0;i<passes;++i)
             {
                 getMaterialStates(mmat->getMaterials(i).getCPtr(), states);
+            }
+        }
+        else
+        {
+            SwitchMaterial *swmat = dynamic_cast<SwitchMaterial *>(mat);
+            if(swmat != NULL)
+            {
+                getMaterialStates(swmat->getCurrentMaterial().getCPtr(), states);
             }
         }
     }
