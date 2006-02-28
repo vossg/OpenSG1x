@@ -480,9 +480,12 @@ void OBJSceneFileType::write(const NodePtr &node,
                              UInt32 &tIndex) const
 {
     UInt32 i,pCount=0,nCount=0,tCount=0;
-	GeometryPtr g = GeometryPtr::dcast(node->getCore());
+    GeometryPtr g = GeometryPtr::dcast(node->getCore());
     if(g != NullFC)
     {
+        // HACK separate it in several geometry nodes.
+        os << "g Geometry" << std::endl;
+        os << "usemtl Geometry" << std::endl;
         Matrix mat = node->getToWorld();
         // write vertices
         if(g->getPositions())
