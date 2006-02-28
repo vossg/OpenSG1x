@@ -131,49 +131,51 @@ void MaterialChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 void MaterialChunk::activate(DrawActionBase *, UInt32)
 {
-	glErr("material:activate:precheck");
+    glErr("material:activate:precheck");
 
     GLenum target;
 
     if(getBackMaterial())
     {
         target = GL_FRONT;
-    }
-    else
-    {
-        target = GL_FRONT_AND_BACK;
-    }
-        
-    if(getColorMaterial() == GL_NONE && getBackColorMaterial() == GL_NONE)
-    {
-        glDisable(GL_COLOR_MATERIAL);
-    }
-    else if(getColorMaterial() == GL_NONE)
-    {
-        if(getBackColorMaterial())
+        if(getColorMaterial() == GL_NONE && getBackColorMaterial() == GL_NONE)
+        {
+            glDisable(GL_COLOR_MATERIAL);
+        }
+        else if(getColorMaterial() == GL_NONE)
         {
             glColorMaterial(GL_BACK, getBackColorMaterial());
             glEnable(GL_COLOR_MATERIAL);
         }
-    }
-    else if(getBackColorMaterial() == GL_NONE)
-    {
-        if(getColorMaterial())
+        else if(getBackColorMaterial() == GL_NONE)
         {
-            glColorMaterial(GL_FRONT, getBackColorMaterial());
+            glColorMaterial(GL_FRONT, getColorMaterial());
+            glEnable(GL_COLOR_MATERIAL);
+        }
+        else if(getColorMaterial() != getBackColorMaterial())
+        {
+            FWARNING(("MaterialChunk::activate: can't have different "
+                "back and front colorMaterial types!\n"));
+            glEnable(GL_COLOR_MATERIAL);
+        }
+        else
+        {
+            glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
             glEnable(GL_COLOR_MATERIAL);
         }
     }
-    else if(getColorMaterial() != getBackColorMaterial())
-    {
-        FWARNING(("MaterialChunk::activate: can't have different "
-            "back and front colorMaterial types!\n"));
-        glEnable(GL_COLOR_MATERIAL);
-    }
     else
     {
-        glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
-        glEnable(GL_COLOR_MATERIAL);
+        target = GL_FRONT_AND_BACK;
+        if(getColorMaterial() == GL_NONE)
+        {
+            glDisable(GL_COLOR_MATERIAL);
+        }
+        else
+        {
+            glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
+            glEnable(GL_COLOR_MATERIAL);
+        }
     }
 
     glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
@@ -210,12 +212,12 @@ void MaterialChunk::activate(DrawActionBase *, UInt32)
         glDisable(GL_LIGHTING);
     }
 
-	glErr("material:activate:postcheck");
+    glErr("material:activate:postcheck");
 }
 
 void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
 {
-	glErr("material:changed:precheck");
+    glErr("material:changed:precheck");
 
     MaterialChunk const *old = dynamic_cast<MaterialChunk const*>(old_chunk);
 
@@ -236,36 +238,45 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
        getBackColorMaterial() != old->getBackColorMaterial()
       )
     {
-        if(getColorMaterial() == GL_NONE && getBackColorMaterial() == GL_NONE)
+        if(getBackMaterial())
         {
-            glDisable(GL_COLOR_MATERIAL);
-        }
-        else if(getColorMaterial() == GL_NONE)
-        {
-            if(getBackColorMaterial())
+            if(getColorMaterial() == GL_NONE && getBackColorMaterial() == GL_NONE)
+            {
+                glDisable(GL_COLOR_MATERIAL);
+            }
+            else if(getColorMaterial() == GL_NONE)
             {
                 glColorMaterial(GL_BACK, getBackColorMaterial());
                 glEnable(GL_COLOR_MATERIAL);
             }
-        }
-        else if(getBackColorMaterial() == GL_NONE)
-        {
-            if(getColorMaterial())
+            else if(getBackColorMaterial() == GL_NONE)
             {
-                glColorMaterial(GL_FRONT, getBackColorMaterial());
+                glColorMaterial(GL_FRONT, getColorMaterial());
+                glEnable(GL_COLOR_MATERIAL);
+            }
+            else if(getColorMaterial() != getBackColorMaterial())
+            {
+                FWARNING(("MaterialChunk::changeFrom: can't have different "
+                    "back and front colorMaterial types!\n"));
+                glEnable(GL_COLOR_MATERIAL);
+            }
+            else
+            {
+                glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
                 glEnable(GL_COLOR_MATERIAL);
             }
         }
-        else if(getColorMaterial() != getBackColorMaterial())
-        {
-            FWARNING(("MaterialChunk::changeFrom: can't have different "
-                "back and front colorMaterial types!\n"));
-            glEnable(GL_COLOR_MATERIAL);
-        }
         else
         {
-            glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
-            glEnable(GL_COLOR_MATERIAL);
+            if(getColorMaterial() == GL_NONE)
+            {
+                glDisable(GL_COLOR_MATERIAL);
+            }
+            else
+            {
+                glColorMaterial(GL_FRONT_AND_BACK, getColorMaterial());
+                glEnable(GL_COLOR_MATERIAL);
+            }
         }
     }
     
@@ -320,7 +331,7 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
         }
     }
 
-	glErr("material:changed:precheck");
+    glErr("material:changed:precheck");
 }
 
 void MaterialChunk::deactivate(DrawActionBase *, UInt32)
