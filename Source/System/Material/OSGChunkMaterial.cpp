@@ -288,18 +288,28 @@ void ChunkMaterial::draw(DrawFunctor& func, DrawActionBase * action)
     subRefCP(state); // kill it
 }
 
-/*! Create a osg::State that represents this Material and return it.
+/*! Add chunks to the given state. Needed for ordering in the drived
+materials.
 */
 
-StatePtr ChunkMaterial::makeState(void)
+void ChunkMaterial::addChunks(StatePtr state)
 {
-    StatePtr state = State::create();
     UInt32 i;
     
     for(i = 0; i < _mfChunks.size(); ++i)
         state->addChunk(_mfChunks[i], 
                         (i < _mfSlots.size()) ? _mfSlots[i]
                                                 : State::AutoSlotReplace);
+}
+
+/*! Create a osg::State that represents this Material and return it.
+*/
+
+StatePtr ChunkMaterial::makeState(void)
+{
+    StatePtr state = State::create();
+    
+    addChunks(state);
 
     return state;
 }
@@ -319,13 +329,8 @@ void ChunkMaterial::rebuildState(void)
 
         addRefCP(_pState);
     }
-
-    UInt32 i;
-    
-    for(i = 0; i < _mfChunks.size(); ++i)
-        _pState->addChunk(_mfChunks[i], 
-                          (i < _mfSlots.size()) ? _mfSlots[i]
-                                                  : State::AutoSlotReplace);
+        
+    addChunks(_pState);
 }
 
 /*! Check if the Material (i.e. any of its chunks) is transparent..

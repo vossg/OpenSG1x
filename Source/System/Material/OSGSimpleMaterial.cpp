@@ -203,12 +203,7 @@ StatePtr SimpleMaterial::makeState(void)
         state->addChunk(_blendChunk);
     }
 
-    for(MFStateChunkPtr::iterator i  = _mfChunks.begin();
-                                  i != _mfChunks.end(); 
-                                ++i)
-    {
-        state->addChunk(*i);
-    }
+    addChunks(state); // XXX DR This is a hack. Should call Inherited
 
     return state;
 }
@@ -268,13 +263,7 @@ void SimpleMaterial::rebuildState(void)
         _pState->addChunk(_blendChunk);
     }
 
-    MFStateChunkPtr::iterator it        = _mfChunks.begin();
-    MFStateChunkPtr::iterator chunksEnd = _mfChunks.end();
-
-    for(; it != chunksEnd; ++it)
-    {
-        _pState->addChunk(*it);
-    }
+    addChunks(_pState); // XXX DR This is a hack. Should call Inherited
 }
 
 bool SimpleMaterial::isTransparent(void) const

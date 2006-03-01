@@ -129,6 +129,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     virtual ~ChunkMaterial(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Destructor                                 */
+    /*! \{                                                                 */
+
+    void addChunks(StatePtr state);
+    
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
