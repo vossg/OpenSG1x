@@ -178,7 +178,7 @@ StatePtr CGFXMaterial::getState(UInt32 OSG_CHECK_ARG(index))
     return _pState;
 }
 
-UInt32 CGFXMaterial::getNPasses(void)
+UInt32 CGFXMaterial::getNPasses(void) const
 {
     return _cgfxChunk->getNPasses();
 }
@@ -389,7 +389,7 @@ bool CGFXMaterial::subParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.2 2005/06/25 12:33:53 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.3 2006/03/02 17:45:36 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

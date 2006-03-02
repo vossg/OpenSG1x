@@ -414,10 +414,22 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
         MultiPassMaterial *mmat = dynamic_cast<MultiPassMaterial *>(mat);
         if(mmat != NULL)
         {
-            UInt32 passes = mmat->getNPasses();
-            for(UInt32 i=0;i<passes;++i)
+            // first check for a real multipass material.
+            UInt32 passes = mmat->getMaterials().getSize();
+            if(passes > 0)
             {
-                getMaterialStates(mmat->getMaterials(i).getCPtr(), states);
+                for(UInt32 i=0;i<passes;++i)
+                {
+                    getMaterialStates(mmat->getMaterials(i).getCPtr(), states);
+                }
+            }
+            else
+            {
+                // could be a derived multipass material like CGFXMaterial which overrides
+                // only some virtual methods.
+                passes = mmat->getNPasses();
+                for(UInt32 i=0;i<passes;++i)
+                    states.push_back(mmat->getState(i).getCPtr());
             }
         }
         else
@@ -426,6 +438,12 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
             if(swmat != NULL)
             {
                 getMaterialStates(swmat->getCurrentMaterial().getCPtr(), states);
+            }
+            else
+            {
+                UInt32 passes = mat->getNPasses();
+                for(UInt32 i=0;i<passes;++i)
+                    states.push_back(mat->getState(i).getCPtr());
             }
         }
     }
@@ -461,7 +479,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     getMaterialStates(pMat, states);
 
     UInt32 mpMatPasses = states.size();
-    bool isMultiPass = (mpMatPasses > 1);
+    bool isMultiPass = (mpMatPasses > 1) || pMat->isMultiPass();
 
     Int32 sortKey = pMat->getSortKey();
 
@@ -652,7 +670,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     getMaterialStates(pMat, states);
 
     UInt32 mpMatPasses = states.size();
-    bool isMultiPass = (mpMatPasses > 1);
+    bool isMultiPass = (mpMatPasses > 1) || pMat->isMultiPass();
 
     Int32 sortKey = pMat->getSortKey();
 
