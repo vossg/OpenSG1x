@@ -227,6 +227,9 @@ header (#[^\n]*\n)
     }
 %}
 
+ /* Detect optional UTF8 byte order mark */
+<INITIAL>^\xef\xbb\xbf { return UTF8BOM; }
+
  /* Header der VRML-Datei erkennen */
 <INITIAL>{header} { if(_pSkelBase != NULL)
                     {
@@ -964,7 +967,7 @@ header (#[^\n]*\n)
     /* sfstringValues ::= sfstringValue | sfstringValue sfstringValues; */
 
     /* Parses quoted SFStrings */
-<sfstringValue>\"([^\\\"]*(\\.)*)*\"   {
+<sfstringValue>\"([^\\\"]*(\\(.|\n))*)*\"   {
 
     BEGIN NODE;
 
@@ -991,7 +994,7 @@ header (#[^\n]*\n)
 }
 
     /* Parses quoted MFStrings */
-<mfstringValue>\"([^\\\"]*(\\.)*)*\"   {
+<mfstringValue>\"([^\\\"]*(\\(.|\n))*)*\"   {
 
     removeEscapeSequences(yytext);
     if(_pSkelBase != NULL)

@@ -83,6 +83,8 @@ void freeName(char *&szName);
 
 %}
 
+%token UTF8BOM
+
 %token DEF
 %token USE
 %token ROUTE
@@ -231,7 +233,8 @@ void freeName(char *&szName);
 
 %%
 
-vrmlScene : profileStatement
+vrmlScene : UTF8BOM profileStatement
+          | profileStatement
 ;
 
 profileStatement : PROFILE
