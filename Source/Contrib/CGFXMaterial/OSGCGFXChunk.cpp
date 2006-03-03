@@ -979,7 +979,7 @@ void CGFXChunk::updateParameters(Window *win)
                         }
                     }
 
-                    effect->SetTexture(ph, texc->getGLId());
+                    effect->SetTexture(ph, win->getGLObjectId(texc->getGLId()));
                 }
                 else // a string
                 {
@@ -1715,7 +1715,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.6 2005/06/25 12:33:53 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.7 2006/03/03 17:49:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
