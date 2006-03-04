@@ -2233,7 +2233,13 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         endEditCP(ip);
         
     } // multiIndex
-    
+    else
+    {
+        // add index map for single index.
+        if(im.size() > 0)
+            im[0] |= (mapTan | mapBin);
+    }
+
     endEditCP(geo, Geometry::IndexMappingFieldMask |
                    Geometry::IndicesFieldMask );
     
