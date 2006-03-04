@@ -1450,7 +1450,8 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     
     if(mode == Window::destroy)
     {
-         glDeleteTextures(1, &id);
+        glDeleteTextures(1, &id);
+        win->setGLObjectId(osgid, 0);
     }
     else if(mode == Window::finaldestroy)
     {

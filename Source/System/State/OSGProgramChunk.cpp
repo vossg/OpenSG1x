@@ -372,6 +372,7 @@ void ProgramChunk::handleGL(Window *win, UInt32 idstatus, GLenum target, UInt32 
             win->getFunction(_funcDeletePrograms);
 
         deletePrograms(1, &id);
+        win->setGLObjectId(osgid, 0);
     }
     else if(mode == Window::finaldestroy)
     {

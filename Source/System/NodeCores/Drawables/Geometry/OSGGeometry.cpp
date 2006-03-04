@@ -426,6 +426,7 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
     {
         glid = win->getGLObjectId(id);
         glDeleteLists(glid, 1);
+        win->setGLObjectId(id, 0);
     }
     else if(mode == Window::finaldestroy)
     {

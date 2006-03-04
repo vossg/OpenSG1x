@@ -357,7 +357,7 @@ void CGFXChunk::updateEffect(Window *win)
         EffectS e;
         _effect.push_back(e);
     }
-    
+
     UInt32 id = win->getGLObjectId(getGLId());
     if(id > 0 && id < _effect.size())
     {
@@ -849,7 +849,7 @@ void CGFXChunk::updateParameters(Window *win)
 
     if(id >= _effect.size())
     {
-        printf("CGFXChunk::updateParameters id >= effect size %u %u!\n", id, _effect.size());
+        FFATAL(("CGFXChunk::updateParameters id (%u) >= effect size (%u)!\n", id, _effect.size()));
         return;
     }
 
@@ -1281,7 +1281,7 @@ bool CGFXChunk::updateTechnique(Window *win, ICgFXEffect *effect)
     
         if(id >= _effect.size())
         {
-            printf("CGFXChunk::updateTechnique id >= effect size %u %u!\n", id, _effect.size());
+            FFATAL(("CGFXChunk::updateTechnique id (%u) >= effect size (%u)!\n", id, _effect.size()));
             return false;
         }
     
@@ -1407,7 +1407,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
 
     if(id >= _effect.size())
     {
-        printf("CGFXChunk::updateStateParameters id >= effect size %u %u!\n", id, _effect.size());
+        FFATAL(("CGFXChunk::updateStateParameters id (%u) >= effect size (%u)!\n", id, _effect.size()));
         return;
     }
 
@@ -1550,7 +1550,7 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
 
     if(id >= _effect.size())
     {
-        printf("CGFXChunk::activate id >= effect size %u %u!\n", id, _effect.size());
+        FFATAL(("CGFXChunk::activate id (%u) >= effect size (%u)!\n", id, _effect.size()));
         return;
     }
 
@@ -1631,7 +1631,7 @@ void CGFXChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     if(id >= _effect.size())
     {
-        printf("CGFXChunk::changeFrom id >= effect size %u %u!\n", id, _effect.size());
+        FFATAL(("CGFXChunk::changeFrom id (%u) >= effect size (%u)!\n", id, _effect.size()));
         return;
     }
 
@@ -1666,7 +1666,7 @@ void CGFXChunk::deactivate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
 
     if(id >= _effect.size())
     {
-        printf("CGFXChunk::deactivate id >= effect size %u %u!\n", id, _effect.size());
+        FFATAL(("CGFXChunk::deactivate id (%u) >= effect size (%u)!\n", id, _effect.size()));
         return;
     }
 
@@ -1751,7 +1751,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.8 2006/03/04 12:13:55 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.9 2006/03/04 16:12:07 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
