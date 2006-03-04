@@ -2225,9 +2225,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         beginEditCP(ip);
         {
             ip->clear();
-            if (imsize != indexMapSize)
-                ip->resize(ibSize);
-            
+            ip->resize(ibSize);
+
             for (i=0; i<ibSize; i++) 
                 ip->setValue(indexBuffer[i], i);
         }
