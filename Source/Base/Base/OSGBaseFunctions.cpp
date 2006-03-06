@@ -464,7 +464,8 @@ bool osgExit(void)
 #ifdef OSG_GV_BETA
     returnValue &= FactoryController::the()->terminate();
 #endif
-
+    SharedObjectHandler::the()->terminate();
+    
     if(osgSystemExitFunctions != NULL)
     {
         for(Int32 i = osgSystemExitFunctions->size() - 1; i >= 0; i--)
