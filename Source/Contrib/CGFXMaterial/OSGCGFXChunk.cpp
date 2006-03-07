@@ -675,8 +675,11 @@ void CGFXChunk::updateEffect(Window *win)
                             if(it != _textures.end())
                             {
                                 TextureChunkPtr texc = (*it).second.first;
-                                texc->activate(_action, 0);
-                                texc->deactivate(_action, 0);
+                                if(_action != NULL)
+                                {
+                                    texc->activate(_action, 0);
+                                    texc->deactivate(_action, 0);
+                                }
                             }
                         }
                     }
@@ -979,9 +982,12 @@ void CGFXChunk::updateParameters(Window *win)
                             beginEditCP(texc);
                                 texc->setImage(img);
                             endEditCP(texc);
-                            
-                            texc->activate(_action, 0);
-                            texc->deactivate(_action, 0);
+
+                            if(_action != NULL)
+                            {
+                                texc->activate(_action, 0);
+                                texc->deactivate(_action, 0);
+                            }
                         }
                     }
 
@@ -1751,7 +1757,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.9 2006/03/04 16:12:07 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.10 2006/03/07 17:33:32 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
