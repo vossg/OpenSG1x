@@ -542,20 +542,30 @@ void SHLChunk::updateProgram(Window *win)
         
         GLint success = 0;
         getObjectParameteriv(program, GL_OBJECT_LINK_STATUS_ARB, &success);
-        if(!success)
+        char *debug = NULL;
+        GLint debugLength;
+        getObjectParameteriv(program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+        if(debugLength > 0)
         {
-            char *debug;
-            GLint debugLength;
-            getObjectParameteriv(program, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
-              
             debug = new char[debugLength];
+            debug[0] = 0;
             getInfoLog(program, debugLength, &debugLength, debug);
-        
-            FFATAL(("Couldn't link vertex and fragment program!\n%s\n", debug));
-            delete [] debug;
+        }
+
+        if(success)
+        {
+            if(debug != NULL && debug[0] != 0)
+                FWARNING(("SHLChunk: link status: %s\n", debug));
+        }
+        else
+        {
+            if(debug != NULL && debug[0] != 0)
+                FFATAL(("Couldn't link vertex and fragment program!\n%s\n", debug));
             deleteObject(program);
             win->setGLObjectId(getGLId(), 0);
         }
+        if(debug != NULL)
+            delete [] debug;
     }
     else
     {
@@ -1299,7 +1309,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.43 2006/01/18 12:40:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.44 2006/03/08 10:17:52 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
