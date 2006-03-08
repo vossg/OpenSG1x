@@ -76,7 +76,9 @@ struct DefaultFunctorSizeTraits
     enum SizesE
     { 
         _uiFuncPointerSize = osgStaticMax<sizeof(FuncPointerT),
-                                          sizeof(InstanceFuncPointerT) >::iMax,
+                                          sizeof(InstanceFuncPointerT)
+                                         >::iMax * 2,
+        // !!! The 2 is a nasty kludge to work around problems on Windows :(
 
         _uiObjectSize      = 64
     };
