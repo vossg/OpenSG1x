@@ -179,6 +179,120 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Matrix> :
 #endif
 
 template <>
+struct OSG_BASE_DLLMAPPING FieldDataTraits<Matrix4d> :
+    public FieldTraitsRecurseBase<Matrix4d>
+{
+    static DataType _type;
+
+    enum             { StringConvertable = ToStringConvertable | 
+                                           FromStringConvertable    };
+
+    static DataType &getType      (void) { return _type;            }
+
+    static Char8    *getSName     (void) { return "SFMatrix4d";       }
+    static Char8    *getMName     (void) { return "MFMatrix4d";       }
+
+    static Matrix4d  getDefault   (void) { return Matrix4d();         }
+
+    static bool      getFromString(      Matrix4d   &outVal,
+                                   const Char8     *&inVal)
+    {
+        outVal.setValue(inVal, false);
+        return true;
+    }
+
+    static void      putToString  (const      Matrix4d &inVal,
+                                         std::string   &outStr)
+    {
+        typedef TypeTraits<Matrix4d::ValueType> TypeTrait;
+
+        outStr.assign(TypeTrait::putToString((inVal.getValues())[0]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[4]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[8]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[12]));
+
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[1]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[5]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[9]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[13]));
+
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[2]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[6]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[10]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[14]));
+
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[3]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[7]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[11]));
+        outStr.append(" ");
+        outStr.append(TypeTrait::putToString((inVal.getValues())[15]));
+    }
+
+    static       UInt32    getBinSize (const Matrix4d &)
+    {
+        return sizeof(Real64) * 16;
+    }
+
+    static       UInt32    getBinSize (const Matrix4d  *,
+                                             UInt32  uiNumObjects)
+    {
+        return sizeof(Real64) * 16 * uiNumObjects;
+    }
+
+    static void   copyToBin  (      BinaryDataHandler &pMem, 
+                              const Matrix4d          &oObject)
+    {
+        pMem.putValues(&oObject[0][0], 16);
+    }
+
+
+    static void   copyFromBin(      BinaryDataHandler &pMem, 
+                                    Matrix4d          &oObject)
+    {
+        pMem.getValues(&oObject[0][0], 16);
+    }
+
+    static void copyToBin(      BinaryDataHandler &pMem,
+                                const Matrix4d    *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.putValues(&pObjectStore[0][0][0], uiNumObjects * 16);
+    }
+    
+    static void copyFromBin(    BinaryDataHandler &pMem,
+                                Matrix4d          *pObjectStore,
+                                UInt32             uiNumObjects)
+    {
+        pMem.getValues(&pObjectStore[0][0][0], uiNumObjects * 16);
+    }
+};
+
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \class  FieldTraitsRecurseBase<Matrix4d> */
+/*! \hideinhierarchy                       */
+#endif
+
+/*! \ingroup GrpBaseFieldTraits
+ */
+#if !defined(OSG_DOC_DEV_TRAITS)
+/*! \hideinhierarchy */
+#endif
+
+template <>
 struct OSG_BASE_DLLMAPPING FieldDataTraits<Quaternion> : 
     public FieldTraitsRecurseBase<Quaternion>
 {

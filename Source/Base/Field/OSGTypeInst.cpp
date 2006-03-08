@@ -153,6 +153,7 @@ DataType FieldDataTraits<Pnt4d >::_type("Pnt4d" , "BaseType");
 DataType FieldDataTraits<Pnt4ld>::_type("Pnt4ld", "BaseType");
 
 DataType FieldDataTraits<Matrix    >::_type("Matrix"    , "BaseType");
+DataType FieldDataTraits<Matrix4d  >::_type("Matrix4d"  , "BaseType");
 DataType FieldDataTraits<Quaternion>::_type("Quaternion", "BaseType");
 
 DataType FieldDataTraits<Plane>::_type("Plane", "BaseType");
