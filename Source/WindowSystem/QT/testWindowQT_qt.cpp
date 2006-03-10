@@ -51,7 +51,7 @@ OSG_BEGIN_NAMESPACE
 
 class MyOSGQGLWidget : public OSGQGLWidget
 {
-    Q_OBJECT
+    //Q_OBJECT
 
     public:
         MyOSGQGLWidget( QWidget *parent=0, const char *name=0 );
@@ -364,4 +364,4 @@ int main( int argc, char **argv )
     return ( a->exec() );    // execute QT main loop
 }
 
-#include "testWindowQT_qt_moc.cpp"
+//#include "testWindowQT_qt_moc.cpp"

@@ -59,7 +59,7 @@ using namespace OSG;
 
 class MyOSGQGLWidget : public OSGQGLWidget
 {
-    Q_OBJECT
+    //Q_OBJECT
 
     public:
         MyOSGQGLWidget( QWidget *parent=0, const char *name=0 );
@@ -434,4 +434,4 @@ int main( int argc, char **argv )
     return (retVal);
 }
 
-#include "testWindowMTQT_qt_moc.cpp"
+//#include "testWindowMTQT_qt_moc.cpp"

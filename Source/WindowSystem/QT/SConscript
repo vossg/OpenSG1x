@@ -23,12 +23,18 @@ for source in sources_with_moc:
 InstallHeaders(env, headers)
 
 def custom(env):
-
     env.Append(CPPPATH=env.get('QTCPPPATH'))
     env.Append(LIBPATH=env.get('QTLIBPATH'))
     env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
-
     CreateMocSources(env, headers)
+
+def custom2(env):
+    env.Append(CPPPATH=env.get('QTCPPPATH'))
+    env.Append(LIBPATH=env.get('QTLIBPATH'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
+    env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
+    env['OSG_PROGDIR'] = os.path.join('..', 'WindowQtTest')
 
 if tc.is_win32():
     dep_CPPPATH = ['../WIN32']
@@ -44,3 +50,14 @@ if _po.getOption('qt'):
                  CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + ExperimentalQtDirs + map(Dir, dep_CPPPATH)),
                  CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWQTLIB',
                                'OSG_WITH_QT', 'QT_CLEAN_NAMESPACE'])
+
+    if _po.getOption('tests'):
+        # create test programs
+        testsources = Glob('test*.cpp')
+        for testsource in testsources:
+            target = testsource.name[:-4] # get leafname and remove .cpp
+            BuildProgram(tc, target, [testsource], tools=[],
+                         updates=[custom2, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase', 'OSGWindowQT'])],
+                         CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
+                         CPPDEFINES = ['OSG_BUILD_DLL', 'QT_CLEAN_NAMESPACE',
+                                       'OSG_WITH_QT', 'OSG_WITH_GLUT'])
