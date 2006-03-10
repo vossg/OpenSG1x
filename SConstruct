@@ -185,6 +185,18 @@ def CreateMocSources(env, sources):
 
 Export('CreateMocSources')
 
+def CreateMoc4Sources(env, sources):
+    # create moc source
+    for source in sources:
+        srcname = os.path.basename(str(source))
+        if srcname[-2:] == '.h':
+            # we should scan for Q_OBJECT ...
+            target = srcname[:-2] + "_moc.cpp"
+            include = "-I"+ os.path.join(_po.getOption('qt4'), 'include', 'QtDesigner')
+            env.Command(target, source, ["moc " + include + " -DOSG_WITH_QT $SOURCES -o $TARGET"])
+
+Export('CreateMoc4Sources')
+
 def GetUiSources(sources):
     # create ui source
     new_sources = []
@@ -444,7 +456,8 @@ class PlatformOptions:
         self.de = DefaultEnvironment()
 
         # check the QTDIR variable and set 'yes'
-        opts.Add(PackageOption('qt', 'Enable qt support', 'no'))
+        opts.Add(PackageOption('qt', 'Enable qt3 support', 'no'))
+        opts.Add(PackageOption('qt4', 'Enable qt4 support', 'no'))
 
         opts.Add(PackageOption('cg', 'Enable cg support', 'no'))
 
@@ -496,6 +509,9 @@ class PlatformOptions:
         opts.Add(BoolOption('contrib_drawfunctorcore', 'enable contrib DrawFunctorCore', 0))
         opts.Add(BoolOption('contrib_ply', 'enable ply loader', 0))
         opts.Add(BoolOption('contrib_terrain', 'enable terrain rendering node', 0))
+
+        #tests
+        opts.Add(BoolOption('tests', 'compile test programs', 0))
 
         opts.Update(self.de)
 
@@ -638,6 +654,30 @@ class ToolChain:
             else:
                 self.env['OSG_WINDOW_QT_LIBS'] = ['qt-mt']
 
+        if _po.getOption('qt4'):
+            #if isinstance(_po.getOption('qt4'), str):
+            self.env.PrependENVPath('PATH', os.path.join(_po.getOption('qt4'), 'bin'))
+            self.env['QT4CPPPATH'] = [os.path.join(_po.getOption('qt4'), 'include'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'ActiveQt'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'Qt'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'Qt3Support'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtAssistant'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtCore'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtDesigner'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtGui'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtNetwork'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtOpenGL'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtTest'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtUiTools'),
+                                      os.path.join(_po.getOption('qt4'), 'include', 'QtXml')]
+
+            self.env['QT4LIBPATH'] = [os.path.join(_po.getOption('qt4'), 'lib')]
+
+            if self.env.get('PLATFORM') == 'win32':
+                self.env['OSG_WINDOW_QT4_LIBS'] = ['Qt3Support4', 'QtCore4', 'QtGui4', 'QtNetwork4', 'QtOpenGL4', 'QtXml4', 'QtSql4']
+            else:
+                self.env['OSG_WINDOW_QT4_LIBS'] = ['Qt3Support', 'QtCore', 'QtGui', 'QtNetwork', 'QtOpenGL', 'QtXml', 'QtSql']
+
         if _po.getOption('cg'):
             if isinstance(_po.getOption('cg'), str):
                 self.env['CGCPPPATH'] = [os.path.join(_po.getOption('cg'), 'include')]
@@ -713,7 +753,6 @@ class win32(ToolChain):
         env['OSG_BASE_LIBS'] = []
         env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'glu32.lib', 'gdi32']
-        #env['OSG_WINDOW_QT_LIBS'] = []
 
         # ws2_32
         env.Append(LINKFLAGS=['/NODEFAULTLIB'],
@@ -983,7 +1022,6 @@ class linux_gcc(ToolChain):
         env['OSG_BASE_LIBS'] = ['pthread', 'dl']
         env['OSG_SYSTEM_LIBS'] = ['GLU', 'GL'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut', 'GL']
-        #env['OSG_WINDOW_QT_LIBS'] = []
         env['OSG_WINDOW_X_LIBS'] = []
 
         env['OSG_OBJDIR'] = 'obj'
@@ -1055,7 +1093,6 @@ def SelectToolChain():
 opts = Options('options.cache', ARGUMENTS)
 opts.AddOptions(
     BoolOption('distcc', 'Compile using distcc', 0))
-#('QT_LIB', 'Name of the QT library', 'qt')
 
 _po = PlatformOptions(opts)
 Export('_po')
