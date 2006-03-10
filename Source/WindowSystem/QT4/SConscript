@@ -1,0 +1,67 @@
+# WindowSystem QT4
+
+Import('*')
+
+import os
+
+# add the experimental stuff
+#ExperimentalQtDirs = [Dir('../../Experimental/QTWidgets')]
+#headers, sources_with_moc, tests, generated = ProcessDirs(ExperimentalQtDirs)
+
+# add local sources
+sources_with_moc = Glob('OSG*.cpp')
+headers = Glob('OSG*.h')
+headers += Glob('OSG*.inl')
+
+# exclude moc.cpp files.
+sources = []
+for source in sources_with_moc:
+    srcname = str(source)
+    if srcname.find('_moc.cpp') < 0:
+        sources.append(source)
+
+InstallHeaders(env, headers)
+
+def custom(env):
+    env.Append(CPPPATH=env.get('QT4CPPPATH'))
+    env.Append(LIBPATH=env.get('QT4LIBPATH'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT4_LIBS'))
+    CreateMoc4Sources(env, headers)
+
+def custom2(env):
+    env.Append(CPPPATH=env.get('QT4CPPPATH'))
+    env.Append(LIBPATH=env.get('QT4LIBPATH'))
+    env.Append(LIBS=env.get('OSG_WINDOW_QT4_LIBS'))
+    env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
+    env['OSG_PROGDIR'] = os.path.join('..', 'WindowQt4Test')
+
+
+if tc.is_win32():
+    dep_CPPPATH = ['../WIN32']
+    dep_LIBS    = ['OSGWindowWIN32']
+else:
+    dep_CPPPATH = ['../X']
+    dep_LIBS    = ['OSGWindowX']
+
+if _po.getOption('qt4'):
+    # create lib
+    BuildLibrary(tc, 'OSGWindowQT4', sources, tools=[],
+                 updates=[custom, OpenSGLibrary(dep_LIBS + ['OSGSystem', 'OSGBase'])],
+                 includeGen=1,
+                 CPPPATH = ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + map(Dir, dep_CPPPATH)),
+                 CPPDEFINES = ['QT3_SUPPORT', 'OSG_BUILD_DLL', 'QT_THREAD_SUPPORT',
+                               'QT_ACCESSIBILITY_SUPPORT', 'QT_NO_DEBUG', 'QT_CLEAN_NAMESPACE',
+                               'OSG_COMPILEWINDOWQTLIB', 'OSG_WITH_QT'])
+
+    if _po.getOption('tests'):
+        # create test programs
+        testsources = Glob('test*.cpp')
+        for testsource in testsources:
+            target = testsource.name[:-4] # get leafname and remove .cpp
+            BuildProgram(tc, target, [testsource], tools=[],
+                         updates=[custom2, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase', 'OSGWindowQT4'])],
+                         CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
+                         CPPDEFINES = ['QT3_SUPPORT', 'OSG_BUILD_DLL', 'QT_THREAD_SUPPORT',
+                                   'QT_ACCESSIBILITY_SUPPORT', 'QT_NO_DEBUG', 'QT_CLEAN_NAMESPACE',
+                                   'OSG_WITH_QT', 'OSG_WITH_GLUT'])
