@@ -771,6 +771,11 @@ case $system in
 
 
     *-pc-cygwin )    
+                        # Need to make the FlexLexer.h
+                        cd SystemLib
+                        make ../Base/FlexLexer.h
+                        cd .. 
+                        # Make the dsps
                         $make dsp >> $log_install 2>&1
                         $make dsp7 >> $log_install 2>&1
                         cd ../../..
