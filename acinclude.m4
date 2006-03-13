@@ -1549,6 +1549,13 @@ dnl e15
     case $build_os in
         cygwin*)
             ac_gdz_gl_lib_e15='opengl32.lib glu32.lib gdi32.lib'
+            case "$ac_gdz_compiler" in
+                    cl.net2005)
+                    ac_gdz_gl_incdir_e15='"C:\Program Files\Microsoft Platform SDK\Include"'
+                    ac_gdz_gl_libdir_e15='"C:\Program Files\Microsoft Platform SDK\Lib"'
+                    ;;
+            esac
+            ;;
         ;;
         darwin*)
             ac_gdz_gl_lib_e15='-framework OpenGL'

@@ -137,6 +137,10 @@ if test "yes$inc_gl_path" != "yes"; then
     inc_gl_path="$incdir_pre$inc_gl_path$incdir_suf"
 fi
 
+if test "yes$lib_gl_path" != "yes"; then
+    lib_gl_path="$linkdir_pre$lib_gl_path$linkdir_suf"
+fi
+
 if test "$stlport_libs"X != X; then
     stl_libs=$stlport_libs
 
@@ -551,7 +555,7 @@ fi
 
 if test "$echo_lflags" = "yes"; then
 
-    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path
+    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $lib_gl_path $opensg_lib_path $lib_add_path
 
 fi      
 
@@ -563,7 +567,7 @@ fi
 
 if test "$echo_libs" = "yes"; then
 
-    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs $stl_libs
+    echo $link_flags $img_libs_path $system_libs_path $lib_stl_path $lib_gl_path $opensg_lib_path $lib_add_path $opensg_libs $img_libs $system_libs $stl_libs
 
 fi      
 
