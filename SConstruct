@@ -758,11 +758,6 @@ class win32(ToolChain):
         env.Append(LINKFLAGS=['/NODEFAULTLIB'],
                    LIBS = ['user32', 'kernel32', 'winmm', 'wsock32'])
 
-        if _po.buildDbg():
-            env.Append(LIBS = ['msvcprtd', 'msvcrtd'])
-        else:
-            env.Append(LIBS = ['msvcprt', 'msvcrt'])
-
     def is_win32(self):
         return 1
 
@@ -840,17 +835,19 @@ class win32_icl_base(win32):
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = 'D'
             dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
             envs.append(dbg)
 
         if _po.buildDbgOpt():
-            dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MD', '/Od', '/RTC1', '/Z7'],
-                       LINKFLAGS=['/DEBUG'],
-                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
-            dbg['OSG_OBJDIR']  = 'dbg'
-            dbg['OSG_LIBSUF']  = ''
-            dbg['OSG_PROGSUF'] = ''
-            envs.append(dbg)
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/MD', '/Od', '/RTC1', '/Z7'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'dbg'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(dbgopt)
 
         if _po.buildOpt():
             opt = env.Copy()
@@ -860,6 +857,7 @@ class win32_icl_base(win32):
             opt['OSG_OBJDIR']  = 'opt'
             opt['OSG_LIBSUF']  = ''
             opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
             envs.append(opt)
 
         return envs
@@ -893,6 +891,7 @@ class win32_msvc_base(win32):
             dbg['OSG_OBJDIR']  = 'dbg'
             dbg['OSG_LIBSUF']  = 'D'
             dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
             envs.append(dbg)
 
         if _po.buildDbgOpt():
@@ -903,6 +902,7 @@ class win32_msvc_base(win32):
             dbgopt['OSG_OBJDIR']  = 'opt'
             dbgopt['OSG_LIBSUF']  = ''
             dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
             envs.append(dbgopt)
 
         if _po.buildOpt():
@@ -913,6 +913,7 @@ class win32_msvc_base(win32):
             opt['OSG_OBJDIR']  = 'opt'
             opt['OSG_LIBSUF']  = ''
             opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
             envs.append(opt)
 
         return envs
