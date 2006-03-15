@@ -43,6 +43,18 @@
 OSG_BEGIN_NAMESPACE
 
 inline
+UInt32 SHLChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *SHLChunk::getStaticClass(void)
+{
+    return &SHLChunk::_class;
+}
+
+inline
 UInt32 SHLChunk::getFuncUniform1i(void)
 {
     return _funcUniform1i;
@@ -110,4 +122,4 @@ UInt32 SHLChunk::getFuncGetUniformfv(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.3 2005/07/29 11:39:17 a-m-z Exp $"
+#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.4 2006/03/15 11:51:46 a-m-z Exp $"
