@@ -165,8 +165,16 @@ Cubes::~Cubes(void)
 /** \brief react to field changes
  */
 
-void Cubes::changed(BitVector, UInt32)
+void Cubes::changed(BitVector whichField,
+                       UInt32    origin   )
 {
+    if(whichField & (PositionFieldMask | ParentsFieldMask))
+    {
+        for(UInt32 i = 0; i < _parents.size(); i++)
+        {
+            _parents[i]->invalidateVolume();
+        }
+    }
 }
 
 /*------------------------------- dump ----------------------------------*/

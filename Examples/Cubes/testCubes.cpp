@@ -16,7 +16,8 @@
 // A little helper to simplify scene management and interaction
 #include <OpenSG/OSGSimpleSceneManager.h>
 
-#include <OpenSG/OSGSimpleGeometry.h>
+#include <OpenSG/OSGSimpleGeometry.h> // for the DefaultMaterial
+#include <OpenSG/OSGSceneFileHandler.h>
 
 #include "OSGCubes.h"
 
@@ -29,6 +30,9 @@ OSG_USING_NAMESPACE
 
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
+
+NodePtr scene;
+CubesPtr cubes;
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -49,8 +53,8 @@ int main(int argc, char **argv)
    
     // Create the Cubes node
 
-    NodePtr scene = Node::create();
-    CubesPtr cubes = Cubes::create();
+    scene = Node::create();
+    cubes = Cubes::create();
 
     beginEditCP(cubes);
     cubes->setMaterial( getDefaultMaterial() );  
@@ -132,6 +136,38 @@ void keyboard(unsigned char k, int x, int y)
     switch(k)
     {
     case 27:    exit(1);
+    case ' ':   // Add a new cube
+            beginEditCP(cubes, Cubes::PositionFieldMask | 
+                               Cubes::LengthFieldMask | 
+                               Cubes::ColorFieldMask);
+
+            cubes->getMFPosition()->push_back( Pnt3f( random(-4, 4), 
+                                                      random(-4, 4), 
+                                                      random(-4, 4)) );
+            cubes->getMFLength()->push_back( random(0.5, 2) );
+            
+            cubes->getMFColor()->push_back( Color3f( random(0.5, 1), 
+                                                     random(0.5, 1), 
+                                                     random(0.5, 1)) );
+                                                     
+            endEditCP(cubes, Cubes::PositionFieldMask | 
+                             Cubes::LengthFieldMask | 
+                             Cubes::ColorFieldMask);
+            glutPostRedisplay();
+            break;
+    
+    case 'v':   
+            {
+            bool vd = mgr->getAction()->getVolumeDrawing();
+            mgr->getAction()->setVolumeDrawing(!vd);
+            SLOG << "Volume Drawing set to " << !vd << endLog;
+            }
+            break;
+            
+    case 'w':
+            SceneFileHandler::the().write(scene, "cubestest.osg");
+            SLOG << "Wrote cubestest.osg" << endLog;
+            break;   
     }
 }
 
