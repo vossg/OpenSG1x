@@ -169,7 +169,7 @@ FieldDescription *LightBase::_desc[] =
 
 FieldContainerType LightBase::_type(
     "Light",
-    "NodeCore",
+    "Group",
     NULL,
     NULL, 
     Light::initMethod,
@@ -494,7 +494,7 @@ void LightBase::execBeginEditImpl (const BitVector &whichField,
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<LightPtr>::_type("LightPtr", "NodeCorePtr");
+DataType FieldDataTraits<LightPtr>::_type("LightPtr", "GroupPtr");
 #endif
 
 

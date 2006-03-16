@@ -65,7 +65,7 @@
 #include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
-#include <OSGNodeCore.h> // Parent
+#include <OSGGroup.h> // Parent
 
 #include <OSGColor4fFields.h> // Ambient type
 #include <OSGColor4fFields.h> // Diffuse type
@@ -85,11 +85,11 @@ class BinaryDataHandler;
 
 //! \brief Light Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING LightBase : public NodeCore
+class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
 {
   private:
 
-    typedef NodeCore    Inherited;
+    typedef Group    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:

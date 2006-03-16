@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="Light"
-	parent="NodeCore"
+	parent="Group"
 	library="System"
 	pointerfieldtypes="none"
 	structure="abstract"

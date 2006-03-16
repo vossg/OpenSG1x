@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGNodeCoreFields.h>
+#include <OSGGroupFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class Light;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! LightPtr
 
-typedef FCPtr<NodeCorePtr, Light> LightPtr;
+typedef FCPtr<GroupPtr, Light> LightPtr;
 
 #endif
 
@@ -102,6 +102,6 @@ struct FieldDataTraits<LightPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGLIGHTFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.26 2006/02/20 16:55:35 dirk Exp $"
 
 #endif /* _OSGLIGHTFIELDS_H_ */

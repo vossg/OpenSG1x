@@ -228,7 +228,7 @@ Action::ResultE Light::renderEnter(Action *action)
 
     pAction->dropLight(this);
 
-    return Action::Continue;
+    return Group::renderEnter(action);
 }
 
 Action::ResultE Light::renderLeave(Action *action)
@@ -237,7 +237,7 @@ Action::ResultE Light::renderLeave(Action *action)
 
     pAction->undropLight(this);
 
-    return Action::Continue;
+    return Group::renderLeave(action);
 }
 
 /*-------------------------------------------------------------------------*/
