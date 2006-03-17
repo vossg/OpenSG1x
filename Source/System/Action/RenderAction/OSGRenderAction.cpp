@@ -1113,12 +1113,15 @@ bool RenderAction::pushVisibility(void)
     if(getFrustumCulling() == false)
         return true;
 
+    FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
+
     // HACK but light sources beneath a LightEnv node can also
     // light it's brothers or parents.
     if(!_lightEnvsLightsState.empty())
+    {
+        _visibilityStack.push_back(inplanes);
         return true;
-
-    FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
+    }
 
     if(inplanes == FrustumVolume::P_ALL)
     {
@@ -1161,7 +1164,7 @@ bool RenderAction::pushVisibility(void)
         }
         else
         {
-            col.setValuesRGB(0,0,1);            
+            col.setValuesRGB(0,0,1);
         }
     }
 
@@ -1179,7 +1182,11 @@ void RenderAction::popVisibility(void)
     if(getFrustumCulling() == false)
         return;
 
-    _visibilityStack.pop_back();
+    if(!_visibilityStack.empty())
+        _visibilityStack.pop_back();
+    else
+        SWARNING << "RenderAction::popVisibility: visibility stack is empty looks"
+                    "like a pushVisibility and popVisibility mismatch!" << std::endl;
 }
 
 
