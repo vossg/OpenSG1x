@@ -1,5 +1,7 @@
 # WindowSystem GLUT
 
+import os
+
 Import('*')
 
 sources = []
@@ -33,9 +35,24 @@ InstallHeaders(env, headers)
 def custom(env):
     env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS', []))
 
+def custom2(env):
+    env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
+    env['OSG_PROGDIR'] = os.path.join('..', 'WindowGLUTTest')
+
 BuildLibrary(tc, 'OSGWindowGLUT', sources,
              updates=[custom, OpenSGLibrary(['OSGSystem', 'OSGBase'])],
              CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs + GVBetaDirs, generated),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWGLUTLIB',
                          'OSG_WITH_GLUT'])
+
+if _po.getOption('tests'):
+    # create test programs
+    testsources = Glob('test*.cpp')
+    for testsource in testsources:
+        target = testsource.name[:-4] # get leafname and remove .cpp
+        BuildProgram(tc, target, [testsource], tools=[],
+                     updates=[custom2, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase'])],
+                     CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
+                     CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_WITH_GLUT'])
 
