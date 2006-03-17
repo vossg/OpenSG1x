@@ -10,6 +10,19 @@ InstallHeaders(env, headers)
 def custom(env):
     env.Append(LIBS=env.get('OSG_BASE_LIBS', []))
 
+def custom2(env):
+    env.Append(LIBS=env.get('OSG_BASE_LIBS'))
+    env['OSG_PROGDIR'] = os.path.join('..', 'WindowBaseTest')
+
 BuildLibrary(tc, 'OSGBase', sources, updates=[custom],
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEBASELIB'],
              CPPPATH=ExpandCPPPath(BaseDirs, generated))
+
+if _po.getOption('tests'):
+    # create test programs
+    for testsource in tests:
+        target = testsource.name[:-4] # get leafname and remove .cpp
+        BuildProgram(tc, target, [testsource], tools=[],
+                     updates=[custom2, OpenSGLibrary(['OSGBase'])],
+                     CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
+                     CPPDEFINES = ['OSG_BUILD_DLL'])
