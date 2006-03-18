@@ -805,7 +805,7 @@ void ShadowViewport::updateLights(void)
 				bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
 				
 				angle = deg2rad(0);
-				Real32 angle2;
+				//Real32 angle2;
 				Pnt3f maxAnglePnt1,maxAnglePnt2;
 
 				for(UInt32 j = 0; j<8;j++)
@@ -829,7 +829,7 @@ void ShadowViewport::updateLights(void)
 					if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
 					if(rad2deg(newAngle) > rad2deg(angle)) 
 					{
-						angle2 = newAngle;
+						//angle2 = newAngle;
 						maxAnglePnt2 = bb[j];
 					}
 				}
@@ -974,7 +974,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.1 2006/03/17 17:09:54 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.2 2006/03/18 15:14:12 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
