@@ -311,7 +311,7 @@ void ShadowViewport::triggerMapUpdate(void)
 }
 
 
-void ShadowViewport::onCreate(const ShadowViewport */*source*/)
+void ShadowViewport::onCreate(const ShadowViewport *OSG_CHECK_ARG(source))
 {
     // if we're in startup this is the prototype ...
     if(OSG::GlobalSystemState == OSG::Startup)
@@ -974,7 +974,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.2 2006/03/18 15:14:12 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.3 2006/03/18 19:12:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

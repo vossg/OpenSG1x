@@ -51,57 +51,52 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
   private:
 
     TileCameraDecoratorPtr  _tiledeco;
-	BlendChunkPtr           _blender;
-	MatrixCameraPtr			_matrixCam;
+    BlendChunkPtr           _blender;
+    MatrixCameraPtr         _matrixCam;
 
-	TextureChunkPtr			_colorMap;
-	TextureChunkPtr			_shadowFactorMap;
-	ImagePtr				_colorMapImage;
-	ImagePtr				_shadowFactorMapImage;
+    TextureChunkPtr         _colorMap;
+    TextureChunkPtr         _shadowFactorMap;
+    ImagePtr                _colorMapImage;
+    ImagePtr                _shadowFactorMapImage;
 
-	ChunkMaterialPtr		_shadowCmat;
-	SHLChunkPtr				_shadowSHL;
-	NodePtr					_shadowRoot;
-	MaterialGroupPtr		_shadowShaderGroup;
-	
-	ChunkMaterialPtr		_combineCmat;
-	SHLChunkPtr				_combineSHL;
-	NodePtr					_combineRoot;
-	MaterialGroupPtr		_combineShaderGroup;
+    ChunkMaterialPtr        _shadowCmat;
+    SHLChunkPtr             _shadowSHL;
+    NodePtr                 _shadowRoot;
+    MaterialGroupPtr        _shadowShaderGroup;
+    
+    ChunkMaterialPtr        _combineCmat;
+    SHLChunkPtr             _combineSHL;
+    NodePtr                 _combineRoot;
+    MaterialGroupPtr        _combineShaderGroup;
 
-	FileGrabForegroundPtr	fileGrab;
-	Int32					firstRun;
+    FileGrabForegroundPtr   fileGrab;
+    Int32                   firstRun;
 
-	Matrix					textureVM; 
-	Matrix					texturePM;
+    Matrix                  textureVM; 
+    Matrix                  texturePM;
 
-	GeometryPtr				boxGeo;
-	NodePtr					boxNode;
+    GeometryPtr             boxGeo;
+    NodePtr                 boxNode;
 
-	UInt32					width;
-	UInt32					height;
-
+    UInt32                  width;
+    UInt32                  height;
 
     void createShadowMaps(RenderActionBase* action);
-	void createColorMap(RenderActionBase* action);
-	void drawCombineMap(RenderActionBase* action);
-	void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-	void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
-
+    void createColorMap(RenderActionBase* action);
+    void drawCombineMap(RenderActionBase* action);
+    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
+    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
 
   protected:
-
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-	  PCFShadowMap(void);
-      PCFShadowMap(ShadowViewport *source);
-	  ~PCFShadowMap(void);
+    PCFShadowMap(void);
+    PCFShadowMap(ShadowViewport *source);
+    ~PCFShadowMap(void);
 
-
-	  virtual void render(RenderActionBase* action);
-
+    virtual void render(RenderActionBase* action);
 };
 
 
