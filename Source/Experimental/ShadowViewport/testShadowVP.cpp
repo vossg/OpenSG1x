@@ -69,23 +69,23 @@ UInt16                       _mousebuttons;
 
 UInt32 frameCount;
 Real32 fps = 0.0;
-Real32 startTime;
+Real32 startTime2;
 
 
 //FPS Counter
 void startFpsCounter()
 {
-	startTime = OSG::getSystemTime();
+	startTime2 = OSG::getSystemTime();
 }
 
 void showFpsCounter()
 {
 	frameCount++;
-	if(OSG::getSystemTime() - startTime >= 1.0) 
+	if(OSG::getSystemTime() - startTime2 >= 1.0) 
 	{	
 		printf("aktuelle FPS: %i\n",frameCount);
 		frameCount = 0;
-		startTime = OSG::getSystemTime();
+		startTime2 = OSG::getSystemTime();
 	}
 }
 
