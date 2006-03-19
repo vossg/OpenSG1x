@@ -169,14 +169,14 @@ void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 nu
 	//Near und Far berechnen (Light Space Perspective Shadow Maps)
 	Real32 nearDist = 1.0;//shadowVP->getCamera()->getNear();
 	Real32 factor = 1.0/sinGamma;
-	Real32 z_n = factor*nearDist; 
-	Real32 d = osgabs(max99[1]-min99[1]); 
+	Real32 z_n = factor*nearDist;
+	Real32 d = osgabs(max99[1]-min99[1]);
 	Real32 z_f = z_n + d*sinGamma;
 	Real32 n = (z_n+sqrt(z_f*z_n))/sinGamma;
 	Real32 f = n+d;
 
 	Pnt3f pos99;
-	pos99[0] = eyePos[0] + (up99[0] * (-(n-nearDist)*factor)); 
+	pos99[0] = eyePos[0] + (up99[0] * (-(n-nearDist)*factor));
 	pos99[1] = eyePos[1] + (up99[1] * (-(n-nearDist)*factor));
 	pos99[2] = eyePos[2] + (up99[2] * (-(n-nearDist)*factor));
 
@@ -199,12 +199,12 @@ void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 nu
 	}
 
 	calcCubicHull2(min99,max99,&pointsCopy);
-	
+
 	Matrix lProj;
 	scaleTranslateToFit2(lProj,min99,max99);
 
 	lProj.mult(lispMtx99);
-	
+
 	points.clear();
 	pointsCopy.clear();
 
@@ -253,7 +253,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 		tmpPoint = PointLightPtr::dcast(shadowVP->_lights[num]);
 
 		lPos = tmpPoint->getPosition();
-	
+
 		if(tmpPoint->getBeacon() != NullFC)
 		{
 			Matrix m = tmpPoint->getBeacon()->getToWorld();
@@ -292,18 +292,18 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 
 	//Lichtrichtung im Post-Perspektivischen Raum des Lichtes
 	Vec3f lightDir(0,0,1);
-	
+
 	//Kamerapunkt holen
 	Pnt3f eyePos(0,0,0);
 	Matrix m2 = shadowVP->getCamera()->getBeacon()->getToWorld();
     m2.mult(eyePos);
 	LPVM.multFullMatrixPnt(eyePos,eyePos);
-	
+
 	//Ist die Kamera hinter der Lichtquelle?
 	bool cBehindL = false;
 	if(eyePos[2] < -1) cBehindL = true;
 	else if(eyePos[2] > 1) cBehindL = true;
-	
+
 	if(cBehindL)
 	{
 		//Trick: Near = -Far / Far = Near
@@ -331,7 +331,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
     m3.multMatrixVec(viewDir);
 	LPVM.multMatrixVec(viewDir,viewDir);
 	viewDir.normalize();
-	
+
 	//Body berechnen
 	std::vector<Pnt3f> points;
 	calcHull2(&points, invEyeProjView, sceneMin, sceneMax,LPVM);
@@ -339,7 +339,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 	//Kopie erstellen
 	std::vector<Pnt3f> pointsCopy;
 	for(UInt32 i=0; i<points.size(); i++) pointsCopy.push_back(points[i]);
-	
+
 	bool correctAngle = false;
 	if((osgabs(viewDir[0]) - osgabs(lightDir[0])) < 0.01 && (osgabs(viewDir[1]) - osgabs(lightDir[1])) < 0.01 && (osgabs(viewDir[2]) - osgabs(lightDir[2])) < 0.01)
 	{
@@ -356,7 +356,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 	//up berechnen
 	Vec3f up99;
 	calcUpVec2(up99,viewDir,lightDir);
-	
+
 	Matrix lView22;
 	MatrixLookAt(lView22,eyePos,eyePos+lightDir,up99);
 	lView22.invert();
@@ -377,8 +377,8 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 
 	Real32 nearDist = 1.0-sinGamma;
 	if(nearDist < 0.01) nearDist = 0.01;
-	
-	Real32 z_n = factor*nearDist; //often 1 
+
+	Real32 z_n = factor*nearDist; //often 1
 	Real32 d = osgabs(max99[1]-min99[1]); //perspective transform depth //light space y extents
 	Real32 z_f = z_n + d*sinGamma;
 	Real32 n = (z_n+sqrt(z_f*z_n))/sinGamma;
@@ -413,11 +413,11 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 
 	Matrix lProj;
 	scaleTranslateToFit2(lProj,min99,max99);
-	
+
 	Matrix rh2lh;
 	rh2lh.setIdentity();
 	rh2lh.setScale(1.0,1.0,-1.0);
-	
+
 	lProj.mult(lispMtx99);
 	lProj.multLeft(rh2lh);
 
@@ -433,7 +433,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 }
 
 
-void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Vec3f lightDir) 
+void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Vec3f lightDir)
 {
 	//Unit Cube
 	Pnt3f vf0(-1,-1,-1);
@@ -589,8 +589,8 @@ void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyePro
 		}
 	}
 
-	UInt32 oldSize;
-	oldSize = points->size();
+	//UInt32 oldSize;
+	//oldSize = points->size();
 
 	if(pntInFrontOf(vf0,vf1,vf2,bb0) && pntInFrontOf(vf7,vf6,vf5,bb0) && pntInFrontOf(vf0,vf3,vf7,bb0) && pntInFrontOf(vf2,vf1,vf5,bb0) && pntInFrontOf(vf6,vf7,vf3,bb0) && pntInFrontOf(vf5,vf1,vf0,bb0)) points->push_back(bb0);
 	if(pntInFrontOf(vf0,vf1,vf2,bb1) && pntInFrontOf(vf7,vf6,vf5,bb1) && pntInFrontOf(vf0,vf3,vf7,bb1) && pntInFrontOf(vf2,vf1,vf5,bb1) && pntInFrontOf(vf6,vf7,vf3,bb1) && pntInFrontOf(vf5,vf1,vf0,bb1)) points->push_back(bb1);
@@ -600,7 +600,7 @@ void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyePro
 	if(pntInFrontOf(vf0,vf1,vf2,bb5) && pntInFrontOf(vf7,vf6,vf5,bb5) && pntInFrontOf(vf0,vf3,vf7,bb5) && pntInFrontOf(vf2,vf1,vf5,bb5) && pntInFrontOf(vf6,vf7,vf3,bb5) && pntInFrontOf(vf5,vf1,vf0,bb5)) points->push_back(bb5);
 	if(pntInFrontOf(vf0,vf1,vf2,bb6) && pntInFrontOf(vf7,vf6,vf5,bb6) && pntInFrontOf(vf0,vf3,vf7,bb6) && pntInFrontOf(vf2,vf1,vf5,bb6) && pntInFrontOf(vf6,vf7,vf3,bb6) && pntInFrontOf(vf5,vf1,vf0,bb6)) points->push_back(bb6);
 	if(pntInFrontOf(vf0,vf1,vf2,bb7) && pntInFrontOf(vf7,vf6,vf5,bb7) && pntInFrontOf(vf0,vf3,vf7,bb7) && pntInFrontOf(vf2,vf1,vf5,bb7) && pntInFrontOf(vf6,vf7,vf3,bb7) && pntInFrontOf(vf5,vf1,vf0,bb7)) points->push_back(bb7);
-	
+
 	//Punkte gegen Lichtrichtung hinzufügen
 
 	UInt32 sumPoints = points->size();
@@ -633,7 +633,7 @@ void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyePro
 				pntLine4 = inter - bboxSidesPnts[j][3];
 
 				//Liegt der Punkt auf der BBox-Seite? Dann zufügen
-				if( side1.dot(pntLine1) >= 0 && 
+				if( side1.dot(pntLine1) >= 0 &&
 					side2.dot(pntLine2) >= 0 &&
 					side3.dot(pntLine3) >= 0 &&
 					side4.dot(pntLine4) >= 0)
@@ -647,7 +647,7 @@ void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyePro
 	//printf("\nPoints hat insgesammt %u Punkte!\n",points->size());
 }
 
-void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM) 
+void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM)
 {
 	//Die Funktion clippt das Kamera Frustum mit der Szenen Bounding Box und liefert eine Punktmenge zurück
 
@@ -772,8 +772,8 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyePr
 	}
 
 	//TODO: check, unter der Szene klappts manchmal nicht
-	UInt32 oldSize;
-	oldSize = points->size();
+	//UInt32 oldSize;
+	//oldSize = points->size();
 
 	if(pntInFrontOf(vf0,vf1,vf2,bb0) && pntInFrontOf(vf7,vf6,vf5,bb0) && pntInFrontOf(vf0,vf3,vf7,bb0) && pntInFrontOf(vf2,vf1,vf5,bb0) && pntInFrontOf(vf6,vf7,vf3,bb0) && pntInFrontOf(vf5,vf1,vf0,bb0)) points->push_back(bb0);
 	if(pntInFrontOf(vf0,vf1,vf2,bb1) && pntInFrontOf(vf7,vf6,vf5,bb1) && pntInFrontOf(vf0,vf3,vf7,bb1) && pntInFrontOf(vf2,vf1,vf5,bb1) && pntInFrontOf(vf6,vf7,vf3,bb1) && pntInFrontOf(vf5,vf1,vf0,bb1)) points->push_back(bb1);
@@ -783,7 +783,7 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyePr
 	if(pntInFrontOf(vf0,vf1,vf2,bb5) && pntInFrontOf(vf7,vf6,vf5,bb5) && pntInFrontOf(vf0,vf3,vf7,bb5) && pntInFrontOf(vf2,vf1,vf5,bb5) && pntInFrontOf(vf6,vf7,vf3,bb5) && pntInFrontOf(vf5,vf1,vf0,bb5)) points->push_back(bb5);
 	if(pntInFrontOf(vf0,vf1,vf2,bb6) && pntInFrontOf(vf7,vf6,vf5,bb6) && pntInFrontOf(vf0,vf3,vf7,bb6) && pntInFrontOf(vf2,vf1,vf5,bb6) && pntInFrontOf(vf6,vf7,vf3,bb6) && pntInFrontOf(vf5,vf1,vf0,bb6)) points->push_back(bb6);
 	if(pntInFrontOf(vf0,vf1,vf2,bb7) && pntInFrontOf(vf7,vf6,vf5,bb7) && pntInFrontOf(vf0,vf3,vf7,bb7) && pntInFrontOf(vf2,vf1,vf5,bb7) && pntInFrontOf(vf6,vf7,vf3,bb7) && pntInFrontOf(vf5,vf1,vf0,bb7)) points->push_back(bb7);
-	
+
 	//Body in LK transformieren
 	for(UInt32 i = 0; i<points->size(); i++)
 	{
@@ -802,11 +802,11 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyePr
 }
 
 
-void PerspectiveShadowMap::calcBodyVec(Vec3f &dir, Pnt3f eyePos, std::vector<Pnt3f> *points) 
+void PerspectiveShadowMap::calcBodyVec(Vec3f &dir, Pnt3f eyePos, std::vector<Pnt3f> *points)
 {
 	for(UInt32 i = 0; i < points->size(); i++) {
 		Vec3f p;
-		for(UInt32 j = 0; j < 3; j++) 
+		for(UInt32 j = 0; j < 3; j++)
 		{
 			p[j] = (*points)[i][j]-eyePos[j];
 		}
@@ -830,7 +830,7 @@ void PerspectiveShadowMap::printPoint(Pnt3f p)
 	printf("%f, %f, %f\n",p.x(),p.y(),p.z());
 }
 
-void PerspectiveShadowMap::calcUpVec2(Vec3f &up, Vec3f viewDir, Vec3f lightDir) 
+void PerspectiveShadowMap::calcUpVec2(Vec3f &up, Vec3f viewDir, Vec3f lightDir)
 {
 	Vec3f left;
 	left = lightDir.cross(viewDir);
@@ -839,7 +839,7 @@ void PerspectiveShadowMap::calcUpVec2(Vec3f &up, Vec3f viewDir, Vec3f lightDir)
 }
 
 // p1 bis p3 gegen den Uhrzeigersinn angeben
-bool PerspectiveShadowMap::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p) 
+bool PerspectiveShadowMap::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p)
 {
 	Vec3f dir1, dir2, testdir, norm;
 	dir1 = p2 - p1;
@@ -854,14 +854,14 @@ bool PerspectiveShadowMap::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p)
 	else return true;
 }
 
-void PerspectiveShadowMap::calcCubicHull2(Pnt3f &min, Pnt3f &max, std::vector<Pnt3f> *points) 
+void PerspectiveShadowMap::calcCubicHull2(Pnt3f &min, Pnt3f &max, std::vector<Pnt3f> *points)
 {
 	min = (*points)[0];
 	max = (*points)[0];
-	
-	for(UInt32 i = 1; i < points->size(); i++) 
+
+	for(UInt32 i = 1; i < points->size(); i++)
 	{
-		for(UInt32 j = 0; j < 3; j++) 
+		for(UInt32 j = 0; j < 3; j++)
 		{
 			if((*points)[i][j] < min[j]) min[j] = (*points)[i][j];
 			if((*points)[i][j] > max[j]) max[j] = (*points)[i][j];
@@ -869,7 +869,7 @@ void PerspectiveShadowMap::calcCubicHull2(Pnt3f &min, Pnt3f &max, std::vector<Pn
 	}
 }
 
-void PerspectiveShadowMap::scaleTranslateToFit2(Matrix &mat, const Pnt3f vMin, const Pnt3f vMax) 
+void PerspectiveShadowMap::scaleTranslateToFit2(Matrix &mat, const Pnt3f vMin, const Pnt3f vMax)
 {
 	Real32 output[16];
 	output[ 0] = 2/(vMax[0]-vMin[0]);
@@ -924,7 +924,7 @@ bool PerspectiveShadowMap::bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matri
 	if(bb5[0] < 1 && bb5[0] > -1 && bb5[1] < 1 && bb5[1] > -1 && bb5[2] < 1 && bb5[2] > -1) isIn[5] = true;
 	if(bb6[0] < 1 && bb6[0] > -1 && bb6[1] < 1 && bb6[1] > -1 && bb6[2] < 1 && bb6[2] > -1) isIn[6] = true;
 	if(bb7[0] < 1 && bb7[0] > -1 && bb7[1] < 1 && bb7[1] > -1 && bb7[2] < 1 && bb7[2] > -1) isIn[7] = true;
-	
+
 	if(isIn[0] && isIn[1] && isIn[2] && isIn[3] && isIn[4] && isIn[5] && isIn[6] && isIn[7]) return true;
 	else return false;
 }
@@ -933,7 +933,7 @@ bool PerspectiveShadowMap::bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matri
 void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 {
     Real32 vpTop,vpBottom,vpLeft,vpRight;
-    
+
     // Saving original Viewport-Dimensions
     vpTop = shadowVP->getTop();
     vpBottom = shadowVP->getBottom();
@@ -951,7 +951,7 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -959,7 +959,7 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-    
+
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -971,7 +971,7 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 
 			matrixCam->setProjectionMatrix(_perspectiveLPM[i]);
 			matrixCam->setModelviewMatrix(_perspectiveLVM[i]);
-			
+
 			beginEditCP(_tiledeco);
             _tiledeco->setDecoratee(matrixCam);
             _tiledeco->setFullSize(shadowVP->getMapSize(), shadowVP->getMapSize());
@@ -984,28 +984,28 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 			Real32 imgWidth = shadowVP->getMapSize();
 			Real32 winWidth = shadowVP->getParent()->getWidth();
 			UInt32 x1, x2, y1, y2, tw, th;
-				
+
 			for (y1=0; y1 < imgHeight; y1 += winHeight)
 				{
 					y2 = osgMin((float)(y1+winHeight-1), (float)(imgHeight-1));
 					th = y2 - y1 + 1;
-					
+
 					for (x1=0; x1 < imgWidth; x1 += winWidth)
 					{
 						x2 = osgMin((float)(x1+winWidth-1), (float)(imgWidth-1));
 						tw = x2 - x1 + 1;
-						
+
 						// set tile size to maximal renderable size
 						beginEditCP(_tiledeco);
 							_tiledeco->setSize(  x1/(float)imgWidth,     y1/(float)imgHeight,	(x2+1)/(float)imgWidth, (y2+1)/(float)imgHeight);
 						endEditCP(_tiledeco);
-						
+
 						beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
 											  shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 							shadowVP->setSize(0, 0, tw-1, th-1);
 						endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
 											shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-						
+
 						glClear(GL_DEPTH_BUFFER_BIT);
 						shadowVP->_poly->activate(action,0);
 
@@ -1014,28 +1014,28 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 						action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
 						shadowVP->_poly->deactivate(action,0);
-        
+
 						//----------Shadow-Texture-Parameters and Indices-------------
-                
+
 						//glBindTexture(GL_TEXTURE_2D,shadowVP->_texChunks[i]->getGLId());
                         glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
 						if(glGetError() != GL_NO_ERROR)
-						    SWARNING << "Error on binding Texture!" << endLog;    
+						    SWARNING << "Error on binding Texture!" << endLog;
 
 
 							glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x1, y1, 0, 0, tw, th);
-						
-					
+
+
 							if(glGetError() != GL_NO_ERROR)
-						   SWARNING << "Error on copying Texture!" << endLog;    
-        
+						   SWARNING << "Error on copying Texture!" << endLog;
+
 						glBindTexture(GL_TEXTURE_2D,0);
 						if(glGetError() != GL_NO_ERROR)
-						    SWARNING << "Error on releasing Texture!" << endLog;    
-        
+						    SWARNING << "Error on releasing Texture!" << endLog;
+
 						if(glGetError() != GL_NO_ERROR)
 						    SWARNING << "Error while Texture-Creation!" << endLog;
-						
+
 					}
 				}
 
@@ -1059,7 +1059,7 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
     }
 
     //-------Restoring old states of Window and Viewport----------
-    
+
     beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                           shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
     {
@@ -1069,7 +1069,7 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
                         shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 
     action->setCamera(shadowVP->getCamera().getCPtr());
-    
+
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
 }
@@ -1084,7 +1084,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
     biasMatrix.setScale(0.5);
     biasMatrix.setTranslate(0.5,0.5,0.5);
 
-    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
+    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(),
     pt=shadowVP->getPixelTop();
     GLint pw=pr-pl+1,ph=pt-pb+1;
     bool full = shadowVP->isFullWindow();
@@ -1125,7 +1125,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
         shadowVP->_lights[j]->setSpecular(_light_specular[j]);
         shadowVP->_lights[j]->setDiffuse(_light_diffuse[j]);
         shadowVP->_lights[j]->setAmbient(0.0,0.0,0.0,1.0);
-    } 
+    }
 	for(UInt32 j=0;j<shadowVP->_allLights.size();++j) {
         light_state.push_back(shadowVP->_allLights[j]->getOn());
         shadowVP->_allLights[j]->setOn(false);
@@ -1152,7 +1152,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
 
     glDepthFunc(GL_LESS);
 
-    //---Render-Pass with Shadow-----------------------------    
+    //---Render-Pass with Shadow-----------------------------
     for(UInt32 i=0;i<shadowVP->_lights.size();++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -1160,7 +1160,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
             Matrix textureMatrix = biasMatrix;
 			textureMatrix.mult(_perspectiveLPM[i]);
             textureMatrix.mult(_perspectiveLVM[i]);
-            
+
             textureMatrix.transpose();
             Vec4f ps = textureMatrix[0];
             Vec4f pt = textureMatrix[1];
@@ -1173,9 +1173,9 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
                 shadowVP->_texGen->setGenFuncRPlane(pr);
                 shadowVP->_texGen->setGenFuncQPlane(pq);
             endEditCP(shadowVP->_texGen);
-            
+
             shadowVP->_lights[i]->setOn(true);
-        
+
             shadowVP->_texChunks[i]->activate(action,3);
 
             shadowVP->_texGen->activate(action,3);
@@ -1191,7 +1191,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
             shadowVP->_texGen->deactivate(action,3);
 
             shadowVP->_texChunks[i]->deactivate(action,3);
-        
+
             shadowVP->_lights[i]->setOn(false);
 
 			// increase offset for next light
@@ -1207,16 +1207,16 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
-    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient 
+    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient
     {
         shadowVP->_lights[i]->setAmbient(_light_ambient[i]);
     }
 
-    for(UInt32 j=0;j<shadowVP->_allLights.size();++j) 
+    for(UInt32 j=0;j<shadowVP->_allLights.size();++j)
     {
         shadowVP->_allLights[j]->setOn(light_state[j]);
     }
-	
+
 
 }
 
@@ -1268,7 +1268,7 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
             shadowVP->_trigger_update = false;
         }
     }
-    
+
     if(!shadowVP->_lights.empty() && !shadowVP->_lightCameras.empty())
     {
         projectShadowMaps(action);
@@ -1286,5 +1286,5 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	}
 	_perspectiveLPM.clear();
 	_perspectiveLVM.clear();
-	
+
 }
