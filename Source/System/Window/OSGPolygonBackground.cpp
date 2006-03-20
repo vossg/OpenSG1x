@@ -147,6 +147,14 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glDepthFunc(GL_ALWAYS);
 
     glDepthMask(GL_FALSE);
+
+    Real32 aspectX = 1.0f, aspectY = 1.0f;
+    
+    if (getAspectHeight() && getAspectWidth())
+    {
+        aspectX = ((Real32)port->getPixelHeight()/getAspectHeight()) /
+                  ((Real32)port->getPixelWidth() / getAspectWidth());
+    }
  
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -155,8 +163,10 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
     
+    glScalef(aspectX, aspectY, 1);
+    glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
+
     getMaterial()->getState()->activate(act);
     
     Vec3f *tc  = &getTexCoords()[0];
@@ -176,6 +186,8 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glEnd();
     
     getMaterial()->getState()->deactivate(act);
+
+    glScalef(1, 1, 1);
 
     glClear(GL_DEPTH_BUFFER_BIT);
     
@@ -217,7 +229,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.1 2005/06/06 17:16:01 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.2 2006/03/20 14:54:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

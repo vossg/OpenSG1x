@@ -131,6 +131,20 @@ SFBool *PolygonBackgroundBase::getSFNormalizedY(void)
     return &_sfNormalizedY;
 }
 
+//! Get the PolygonBackground::_sfAspectHeight field.
+inline
+SFUInt16 *PolygonBackgroundBase::getSFAspectHeight(void)
+{
+    return &_sfAspectHeight;
+}
+
+//! Get the PolygonBackground::_sfAspectWidth field.
+inline
+SFUInt16 *PolygonBackgroundBase::getSFAspectWidth(void)
+{
+    return &_sfAspectWidth;
+}
+
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
@@ -195,6 +209,48 @@ void PolygonBackgroundBase::setNormalizedY(const bool &value)
     _sfNormalizedY.setValue(value);
 }
 
+//! Get the value of the PolygonBackground::_sfAspectHeight field.
+inline
+UInt16 &PolygonBackgroundBase::getAspectHeight(void)
+{
+    return _sfAspectHeight.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfAspectHeight field.
+inline
+const UInt16 &PolygonBackgroundBase::getAspectHeight(void) const
+{
+    return _sfAspectHeight.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfAspectHeight field.
+inline
+void PolygonBackgroundBase::setAspectHeight(const UInt16 &value)
+{
+    _sfAspectHeight.setValue(value);
+}
+
+//! Get the value of the PolygonBackground::_sfAspectWidth field.
+inline
+UInt16 &PolygonBackgroundBase::getAspectWidth(void)
+{
+    return _sfAspectWidth.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfAspectWidth field.
+inline
+const UInt16 &PolygonBackgroundBase::getAspectWidth(void) const
+{
+    return _sfAspectWidth.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfAspectWidth field.
+inline
+void PolygonBackgroundBase::setAspectWidth(const UInt16 &value)
+{
+    _sfAspectWidth.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
@@ -240,5 +296,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.3 2006/02/20 16:54:30 dirk Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.4 2006/03/20 14:54:31 yjung Exp $"
 

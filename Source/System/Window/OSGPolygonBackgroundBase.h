@@ -72,6 +72,8 @@
 #include <OSGPnt2fFields.h> // Positions type
 #include <OSGBoolFields.h> // NormalizedX type
 #include <OSGBoolFields.h> // NormalizedY type
+#include <OSGUInt16Fields.h> // AspectHeight type
+#include <OSGUInt16Fields.h> // AspectWidth type
 
 #include <OSGPolygonBackgroundFields.h>
 
@@ -95,12 +97,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
 
     enum
     {
-        MaterialFieldId    = Inherited::NextFieldId,
-        TexCoordsFieldId   = MaterialFieldId    + 1,
-        PositionsFieldId   = TexCoordsFieldId   + 1,
-        NormalizedXFieldId = PositionsFieldId   + 1,
-        NormalizedYFieldId = NormalizedXFieldId + 1,
-        NextFieldId        = NormalizedYFieldId + 1
+        MaterialFieldId     = Inherited::NextFieldId,
+        TexCoordsFieldId    = MaterialFieldId     + 1,
+        PositionsFieldId    = TexCoordsFieldId    + 1,
+        NormalizedXFieldId  = PositionsFieldId    + 1,
+        NormalizedYFieldId  = NormalizedXFieldId  + 1,
+        AspectHeightFieldId = NormalizedYFieldId  + 1,
+        AspectWidthFieldId  = AspectHeightFieldId + 1,
+        NextFieldId         = AspectWidthFieldId  + 1
     };
 
     static const OSG::BitVector MaterialFieldMask;
@@ -108,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     static const OSG::BitVector PositionsFieldMask;
     static const OSG::BitVector NormalizedXFieldMask;
     static const OSG::BitVector NormalizedYFieldMask;
+    static const OSG::BitVector AspectHeightFieldMask;
+    static const OSG::BitVector AspectWidthFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -139,6 +145,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
            MFPnt2f             *getMFPositions      (void);
            SFBool              *getSFNormalizedX    (void);
            SFBool              *getSFNormalizedY    (void);
+           SFUInt16            *getSFAspectHeight   (void);
+           SFUInt16            *getSFAspectWidth    (void);
 
            MaterialPtr         &getMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
@@ -146,6 +154,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
      const bool                &getNormalizedX    (void) const;
            bool                &getNormalizedY    (void);
      const bool                &getNormalizedY    (void) const;
+           UInt16              &getAspectHeight   (void);
+     const UInt16              &getAspectHeight   (void) const;
+           UInt16              &getAspectWidth    (void);
+     const UInt16              &getAspectWidth    (void) const;
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
      const MFVec3f             &getTexCoords      (void) const;
@@ -161,6 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
      void setMaterial       ( const MaterialPtr &value );
      void setNormalizedX    ( const bool &value );
      void setNormalizedY    ( const bool &value );
+     void setAspectHeight   ( const UInt16 &value );
+     void setAspectWidth    ( const UInt16 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,6 +222,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     MFPnt2f             _mfPositions;
     SFBool              _sfNormalizedX;
     SFBool              _sfNormalizedY;
+    SFUInt16            _sfAspectHeight;
+    SFUInt16            _sfAspectWidth;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,6 +301,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.4 2006/02/20 16:54:30 dirk Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.5 2006/03/20 14:54:31 yjung Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

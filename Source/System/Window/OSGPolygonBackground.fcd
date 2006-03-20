@@ -59,4 +59,24 @@ A Background that renders a single polygon using the specified material.
 	>
 	Define whether the y coordinates are normalized (0-1) or pixel-based .
 	</Field>
+	<Field
+		name="aspectHeight"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Useful for keeping aspect ratio when rendering things like images.
+	</Field>
+	<Field
+		name="aspectWidth"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Useful for keeping aspect ratio when rendering things like images.
+	</Field>
 </FieldContainer>
