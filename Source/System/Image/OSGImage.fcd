@@ -200,4 +200,15 @@
         Set to true if using the image to keep unknown data for textures.
         Generally used in conjunction with TextureChunk::externalFormat.
 	</Field>
+	<Field
+		name="forceAlphaBinary"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+        Set to true if using the image to prevent depth sorting for 
+        SimpleTexturedMaterials using this Image.
+	</Field>
 </FieldContainer>

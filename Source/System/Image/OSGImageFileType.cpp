@@ -164,7 +164,7 @@ the given input stream. Returns true on success.
 bool ImageFileType::read(ImagePtr &image, std::istream &is, const std::string &mimetype)
 {
     SWARNING << getMimeType()
-             << " read is not implemented"
+             << " read from stream is not implemented"
              << endLog;
     return false;
 }
@@ -177,7 +177,7 @@ Returns true on success.
 bool ImageFileType::write(const ImagePtr &image, std::ostream &os, const std::string &mimetype)
 {
     SWARNING << getMimeType()
-             << " write is not implemented"
+             << " write to stream is not implemented"
              << endLog;
     return false;
 }

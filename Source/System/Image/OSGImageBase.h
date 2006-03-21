@@ -87,6 +87,7 @@
 #include <OSGBoolFields.h> // ForceCompressedData type
 #include <OSGBoolFields.h> // ForceAlphaChannel type
 #include <OSGBoolFields.h> // ForceColorChannel type
+#include <OSGBoolFields.h> // ForceAlphaBinary type
 
 #include <OSGImageFields.h>
 
@@ -130,7 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
         ForceCompressedDataFieldId = SideSizeFieldId            + 1,
         ForceAlphaChannelFieldId   = ForceCompressedDataFieldId + 1,
         ForceColorChannelFieldId   = ForceAlphaChannelFieldId   + 1,
-        NextFieldId                = ForceColorChannelFieldId   + 1
+        ForceAlphaBinaryFieldId    = ForceColorChannelFieldId   + 1,
+        NextFieldId                = ForceAlphaBinaryFieldId    + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -153,6 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector ForceCompressedDataFieldMask;
     static const OSG::BitVector ForceAlphaChannelFieldMask;
     static const OSG::BitVector ForceColorChannelFieldMask;
+    static const OSG::BitVector ForceAlphaBinaryFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -198,6 +201,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            SFBool              *getSFForceCompressedData(void);
            SFBool              *getSFForceAlphaChannel(void);
            SFBool              *getSFForceColorChannel(void);
+           SFBool              *getSFForceAlphaBinary(void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -233,6 +237,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const bool                &getForceAlphaChannel(void) const;
            bool                &getForceColorChannel(void);
      const bool                &getForceColorChannel(void) const;
+           bool                &getForceAlphaBinary(void);
+     const bool                &getForceAlphaBinary(void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -262,6 +268,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setForceCompressedData( const bool &value );
      void setForceAlphaChannel( const bool &value );
      void setForceColorChannel( const bool &value );
+     void setForceAlphaBinary( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -324,6 +331,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     SFBool              _sfForceCompressedData;
     SFBool              _sfForceAlphaChannel;
     SFBool              _sfForceColorChannel;
+    SFBool              _sfForceAlphaBinary;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

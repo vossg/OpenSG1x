@@ -2779,8 +2779,9 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                 tex = TextureChunkPtr::dcast(cp);
             
             if (pChunkMat->isTransparent() == true ||
-                (tex != NullFC && tex->getImage() != NullFC && 
-                 tex->getImage()->hasAlphaChannel()
+                (  tex != NullFC && tex->getImage() != NullFC && 
+                   tex->getImage()->hasAlphaChannel() &&
+                 ! tex->getImage()->isAlphaBinary()
                ))
             {
                 BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();

@@ -196,7 +196,9 @@ bool SimpleTexturedMaterial::isTransparent(void) const
 {
     return Inherited::isTransparent() ||
            (getImage()!=NullFC &&
-             (getImage()->hasAlphaChannel() && getEnvMode() != GL_DECAL)
+             (  getImage()->hasAlphaChannel() && 
+              ! getImage()->isAlphaBinary() &&
+                getEnvMode() != GL_DECAL)
           );
 }
 

@@ -2864,6 +2864,16 @@ bool Image::hasAlphaChannel(void)
         || getPixelFormat() == OSG_LA_PF;
 }
 
+/*! Method to check, whether the alpha channel is just fully transparent/
+    fully opaque
+ */
+bool Image::isAlphaBinary(void)
+{
+    return 
+        getForceAlphaBinary()
+        || getPixelFormat() == OSG_RGBA_DXT1;
+}
+
 /*! Method to check, whether the data is compressed
  */
 bool Image::hasCompressedData(void)

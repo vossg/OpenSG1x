@@ -259,6 +259,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     inline bool   isValid           (void) const;
            bool   hasAlphaChannel   (void);
+           bool   isAlphaBinary     (void);
            bool   hasColorChannel   (void);
            bool   hasCompressedData (void);
            UInt8  getComponents     (void) const;

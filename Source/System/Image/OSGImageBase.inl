@@ -236,6 +236,13 @@ SFBool *ImageBase::getSFForceColorChannel(void)
     return &_sfForceColorChannel;
 }
 
+//! Get the Image::_sfForceAlphaBinary field.
+inline
+SFBool *ImageBase::getSFForceAlphaBinary(void)
+{
+    return &_sfForceAlphaBinary;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -613,6 +620,27 @@ inline
 void ImageBase::setForceColorChannel(const bool &value)
 {
     _sfForceColorChannel.setValue(value);
+}
+
+//! Get the value of the Image::_sfForceAlphaBinary field.
+inline
+bool &ImageBase::getForceAlphaBinary(void)
+{
+    return _sfForceAlphaBinary.getValue();
+}
+
+//! Get the value of the Image::_sfForceAlphaBinary field.
+inline
+const bool &ImageBase::getForceAlphaBinary(void) const
+{
+    return _sfForceAlphaBinary.getValue();
+}
+
+//! Set the value of the Image::_sfForceAlphaBinary field.
+inline
+void ImageBase::setForceAlphaBinary(const bool &value)
+{
+    _sfForceAlphaBinary.setValue(value);
 }
 
 

@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // DataType default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ImageBase::ParentsFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::ParentsFieldId);
@@ -124,6 +124,9 @@ const OSG::BitVector  ImageBase::ForceAlphaChannelFieldMask =
 
 const OSG::BitVector  ImageBase::ForceColorChannelFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::ForceColorChannelFieldId);
+
+const OSG::BitVector  ImageBase::ForceAlphaBinaryFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ForceAlphaBinaryFieldId);
 
 const OSG::BitVector ImageBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -191,6 +194,9 @@ const OSG::BitVector ImageBase::MTInfluenceMask =
 */
 /*! \var bool            ImageBase::_sfForceColorChannel
     Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
+*/
+/*! \var bool            ImageBase::_sfForceAlphaBinary
+    Set to true if using the image to prevent depth sorting for          SimpleTexturedMaterials using this Image.
 */
 
 //! Image description
@@ -296,7 +302,12 @@ FieldDescription *ImageBase::_desc[] =
                      "forceColorChannel", 
                      ForceColorChannelFieldId, ForceColorChannelFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBase::getSFForceColorChannel)
+                     (FieldAccessMethod) &ImageBase::getSFForceColorChannel),
+    new FieldDescription(SFBool::getClassType(), 
+                     "forceAlphaBinary", 
+                     ForceAlphaBinaryFieldId, ForceAlphaBinaryFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFForceAlphaBinary)
 };
 
 
@@ -394,6 +405,7 @@ ImageBase::ImageBase(void) :
     _sfForceCompressedData    (bool(false)), 
     _sfForceAlphaChannel      (bool(false)), 
     _sfForceColorChannel      (bool(false)), 
+    _sfForceAlphaBinary       (bool(false)), 
     Inherited() 
 {
 }
@@ -423,6 +435,7 @@ ImageBase::ImageBase(const ImageBase &source) :
     _sfForceCompressedData    (source._sfForceCompressedData    ), 
     _sfForceAlphaChannel      (source._sfForceAlphaChannel      ), 
     _sfForceColorChannel      (source._sfForceColorChannel      ), 
+    _sfForceAlphaBinary       (source._sfForceAlphaBinary       ), 
     Inherited                 (source)
 {
 }
@@ -539,6 +552,11 @@ UInt32 ImageBase::getBinSize(const BitVector &whichField)
         returnValue += _sfForceColorChannel.getBinSize();
     }
 
+    if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
+    {
+        returnValue += _sfForceAlphaBinary.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -646,6 +664,11 @@ void ImageBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
     {
         _sfForceColorChannel.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
+    {
+        _sfForceAlphaBinary.copyToBin(pMem);
     }
 
 
@@ -756,6 +779,11 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfForceColorChannel.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
+    {
+        _sfForceAlphaBinary.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -826,6 +854,9 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
     if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
         _sfForceColorChannel.syncWith(pOther->_sfForceColorChannel);
 
+    if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
+        _sfForceAlphaBinary.syncWith(pOther->_sfForceAlphaBinary);
+
 
 }
 #else
@@ -890,6 +921,9 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
     if(FieldBits::NoField != (ForceColorChannelFieldMask & whichField))
         _sfForceColorChannel.syncWith(pOther->_sfForceColorChannel);
 
+    if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
+        _sfForceAlphaBinary.syncWith(pOther->_sfForceAlphaBinary);
+
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))
         _mfParents.syncWith(pOther->_mfParents, sInfo);
@@ -951,4 +985,6 @@ namespace
 
     static Char8 cvsid_fields_hpp[] = OSGIMAGEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 
