@@ -128,7 +128,9 @@ class OSG_BASE_DLLMAPPING FactoryController
     friend int APIENTRY DllMain(HINSTANCE, DWORD dwReason, LPVOID);
 #endif
 
-    friend  bool OSG::osgInit(int argc, char **argv);
+    friend  bool OSG::osgInit(int argc, char **argv, 
+                            UInt16 major, UInt16 minor, UInt16 release, 
+                            bool debug, bool dll, bool mt);
     friend  bool OSG::osgExit(void                 );
 
     //-----------------------------------------------------------------------
