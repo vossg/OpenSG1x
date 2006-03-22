@@ -375,6 +375,10 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(false);
     }
+
+	//deactivate transparent Nodes
+	for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+        shadowVP->_transparent[t]->setActive(false);
     
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -462,6 +466,10 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(true);
     }
+
+	// switch on all transparent geos
+    for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+        shadowVP->_transparent[t]->setActive(true);
 
     // enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
