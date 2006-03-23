@@ -288,33 +288,32 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
         matc->setShininess(m.GetShininess() * 128.0f);
     endEditCP(matc);
 
-    // add a blend chunk for transparency
-    if(t > 0.0)
-    {
-        BlendChunkPtr blendc = BlendChunk::create();
-        beginEditCP(blendc, BlendChunk::SrcFactorFieldMask | BlendChunk::DestFactorFieldMask);
-            blendc->setSrcFactor(GL_SRC_ALPHA);
-            blendc->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
-        endEditCP(blendc, BlendChunk::SrcFactorFieldMask | BlendChunk::DestFactorFieldMask);
-        beginEditCP(cmat);
-            cmat->addChunk(blendc);
-        endEditCP(cmat);
-    }
-
     // create a texture chunk
-    const char *texname = m.GetTextureMap1().mapName;
+    LMap &map = m.GetTextureMap1();
+    const char *texname = map.mapName;
+    ImagePtr image = NullFC;
     if(strlen(texname) > 0)
     {
-        ImagePtr image = Image::create();
+        image = Image::create();
         bool img_ok = image->read(texname);
 
         if(img_ok)
         {
+            beginEditCP(image, Image::ForceAlphaBinaryFieldMask);
+            image->setForceAlphaBinary(image->calcIsAlphaBinary());
+            endEditCP(image, Image::ForceAlphaBinaryFieldMask);
+            
             TextureChunkPtr texc = TextureChunk::create();
             beginEditCP(texc);
                 texc->setImage(image);
-                texc->setWrapS(GL_REPEAT);
-                texc->setWrapT(GL_REPEAT);
+                texc->setWrapS( (map.tiling & 0x1)    ? 
+                                    GL_REPEAT         :
+                                    GL_CLAMP_TO_EDGE
+                              );
+                texc->setWrapT( (map.tiling & 0x2)    ? 
+                                    GL_REPEAT         :
+                                    GL_CLAMP_TO_EDGE
+                              );
                 texc->setEnvMode(GL_MODULATE);
                 texc->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
                 texc->setMagFilter(GL_LINEAR);
@@ -324,6 +323,32 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
                 cmat->addChunk(texc);
             endEditCP(cmat);
         }
+    }
+
+    // add a blend chunk for transparency
+    if(t > 0.0 || 
+       ( image != NullFC && 
+         image->hasAlphaChannel()
+      ))
+    {
+        BlendChunkPtr blendc = BlendChunk::create();
+        beginEditCP(blendc);
+        
+        if(image->isAlphaBinary())
+        {
+            blendc->setAlphaFunc(GL_NOTEQUAL);
+            blendc->setAlphaValue(0);
+        }
+        else
+        {
+            blendc->setSrcFactor(GL_SRC_ALPHA);
+            blendc->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+        }
+        
+        endEditCP(blendc);
+        beginEditCP(cmat);
+            cmat->addChunk(blendc);
+        endEditCP(cmat);
     }
 
     _materials.insert(std::pair<UInt32, MaterialPtr>(id, cmat));

@@ -113,6 +113,7 @@ struct LMap
     float uOffset;
     float vOffset;
     float angle;
+    short tiling;
 };
 
 //------------------------------------------------

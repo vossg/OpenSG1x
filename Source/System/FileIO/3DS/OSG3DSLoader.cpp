@@ -93,6 +93,7 @@
 #define TRI_SMOOTH_GROUP    0x4150
 #define TRI_FACEMAPPING     0x4140
 #define TRI_MATRIX          0x4160
+#define TRI_TEXTURE_INFO    0x4170
 
 #define SPOTLIGHT           0x4610
 
@@ -1810,6 +1811,9 @@ void L3DS::ReadMap(const LChunk &chunk, LMap& map)
         case MAT_MAPNAME:
             ReadASCIIZ(str, 20);
             strcpy(map.mapName, str);
+            break;
+        case MAT_MAP_TILING:
+            map.tiling = ReadShort();
             break;
         case MAT_MAP_USCALE:
             map.uScale = ReadFloat();
