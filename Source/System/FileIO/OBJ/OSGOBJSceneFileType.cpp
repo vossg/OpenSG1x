@@ -857,6 +857,13 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                                     else
                                         fullElemPath = elem.c_str();
                                     image = OSG::ImageFileHandler::the().read(fullElemPath.c_str());
+                                    beginEditCP(image,
+                                       OSG::Image::ForceAlphaBinaryFieldMask);                                   
+                                    image->setForceAlphaBinary(
+                                                image->calcIsAlphaBinary());
+                                    endEditCP(image,
+                                       OSG::Image::ForceAlphaBinaryFieldMask);
+                                    
                                     imageMap[elem] = image;
                                 }
                                 else

@@ -2780,20 +2780,26 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
             
             if (pChunkMat->isTransparent() == true ||
                 (  tex != NullFC && tex->getImage() != NullFC && 
-                   tex->getImage()->hasAlphaChannel() &&
-                 ! tex->getImage()->isAlphaBinary()
+                   tex->getImage()->hasAlphaChannel()
                ))
             {
                 BlendChunkPtr pBlendChunk = OSG::BlendChunk::create();
 
-                beginEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
-                                         BlendChunk::DestFactorFieldMask);
+                beginEditCP(pBlendChunk);
                 {
-                    pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
-                    pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                    if(tex != NullFC && tex->getImage() != NullFC &&
+                       tex->getImage()->isAlphaBinary())
+                    {
+                        pBlendChunk->setAlphaFunc(GL_NOTEQUAL);
+                        pBlendChunk->setAlphaValue(0);
+                    }
+                    else
+                    {
+                       pBlendChunk->setSrcFactor (GL_SRC_ALPHA);
+                       pBlendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                    }
                 }
-                endEditCP(pBlendChunk, BlendChunk::SrcFactorFieldMask |
-                                       BlendChunk::DestFactorFieldMask);
+                endEditCP(pBlendChunk);
 
                 beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
                 {
@@ -3541,6 +3547,10 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
         if(pImage->read(_url[0].c_str()))
         {
+            beginEditCP(pImage, Image::ForceAlphaBinaryFieldMask);
+            pImage->setForceAlphaBinary(pImage->calcIsAlphaBinary());
+            endEditCP(pImage, Image::ForceAlphaBinaryFieldMask);
+
             beginEditCP(pTexture);
             pTexture->setImage(pImage);
 
