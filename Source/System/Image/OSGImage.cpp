@@ -2906,6 +2906,90 @@ UInt8 *Image::getDataByTime(Time   time, UInt32)
     return getData(0, frameNum);
 }
 
+/*! Check all the alpha values to see if they're 0 or 1, return true if they
+are, false if no alpha or intermediate values. No Alpha channel is considered
+0.
+ */
+bool Image::calcIsAlphaBinary(void)
+{
+    if(!hasAlphaChannel() && getPixelFormat() == OSG_RGBA_DXT1)
+        return true;
+    
+    if(getPixelFormat() == OSG_RGBA_DXT3 || getPixelFormat() == OSG_RGBA_DXT5)
+    {
+        FWARNING(("Image::calcIsAlphaBinary: not implemenetd for DXT3 "
+                  "and DXT5 yet, assuming false.\n"));
+        return false;
+    }
+    
+    UInt32 npix = getWidth() * getHeight() * getDepth() * getFrameCount();
+    UInt8 pixelsize = getBpp();
+    
+    UInt8 *data = getData();
+    
+    switch(getPixelFormat())
+    {
+    case OSG_LA_PF:     data += getComponentSize(); break;
+    case OSG_BGRA_PF:
+    case OSG_RGBA_PF:   data += getComponentSize() * 3; break;
+    default:
+                        FWARNING(("Image::calcIsAlphaBinary: found unknown "
+                                  "image format %d, assumning false.\n", 
+                                  getPixelFormat()));
+                        return false;
+    }
+    
+    switch(getDataType())
+    {
+    case OSG_UINT8_IMAGEDATA:
+                        for(; npix > 0; --npix, data += pixelsize)
+                        {
+                            if(*data != 0 && *data != 0xffU)
+                                break;
+                        }
+                        break;
+    case OSG_UINT16_IMAGEDATA:
+                        for(; npix > 0; --npix, data += pixelsize)
+                        {
+                            UInt16 *d = reinterpret_cast<UInt16*>(data);
+                            if(*d != 0 && *d != 0xffffU)
+                                break;
+                        }
+                        break;
+    case OSG_UINT32_IMAGEDATA:
+                        for(; npix > 0; --npix, data += pixelsize)
+                        {
+                            UInt32 *d = reinterpret_cast<UInt32*>(data);
+                            if(*d != 0 && *d != 0xffffffffU)
+                                break;
+                        }
+                        break;
+    case OSG_FLOAT16_IMAGEDATA:
+                        for(; npix > 0; --npix, data += pixelsize)
+                        {
+                            Real16 *d = reinterpret_cast<Real16*>(data);
+                            if(*d != 0 && *d != 1)
+                                break;
+                        }
+                        break;
+    case OSG_FLOAT32_IMAGEDATA:
+                        for(; npix > 0; --npix, data += pixelsize)
+                        {
+                            Real32 *d = reinterpret_cast<Real32*>(data);
+                            if(*d != 0 && *d != 1)
+                                break;
+                        }
+                        break;
+    default:
+                        FWARNING(("Image::calcIsAlphaBinary: found unknown "
+                                  "data type %d, assumning false.\n", 
+                                  getDataType()));
+                        return false;
+    }
+    
+    return npix == 0;
+}
+
 /*! Method which returns the frame number for the given time
  */
 UInt32 Image::calcFrameNum(Time time, bool OSG_CHECK_ARG(loop)) const
