@@ -179,6 +179,36 @@ StatePtr SimpleTexturedMaterial::makeState(void)
     state->addChunk(_textureChunk);
     state->addChunk(_texGenChunk);
 
+    if(getImage() != NullFC &&
+       getImage()->hasAlphaChannel() && 
+       getEnvMode() != GL_DECAL)
+    {
+        if(getImage()->isAlphaBinary())
+        {
+            if(_blendChunk->getSrcFactor() == GL_SRC_ALPHA)
+            {
+                beginEditCP(_blendChunk);
+                _blendChunk->setSrcFactor(GL_ONE);
+                _blendChunk->setDestFactor(GL_ZERO);
+                _blendChunk->setAlphaFunc(GL_NOTEQUAL);
+                _blendChunk->setAlphaValue(0);          
+                endEditCP(_blendChunk);            
+            }
+        }
+        else
+        {
+            if(_blendChunk->getSrcFactor() != GL_SRC_ALPHA)
+            {
+                beginEditCP(_blendChunk);
+                _blendChunk->setSrcFactor(GL_SRC_ALPHA);
+                _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                _blendChunk->setAlphaFunc(GL_NONE);
+                _blendChunk->setAlphaValue(0);          
+                endEditCP(_blendChunk);                        
+            }
+        }
+    }
+
     return state;
 }
 
@@ -190,16 +220,46 @@ void SimpleTexturedMaterial::rebuildState(void)
 
     _pState->addChunk(_textureChunk);
     _pState->addChunk(_texGenChunk);
+
+    if(getImage() != NullFC &&
+       getImage()->hasAlphaChannel() && 
+       getEnvMode() != GL_DECAL)
+    {
+        if(getImage()->isAlphaBinary())
+        {
+            if(_blendChunk->getSrcFactor() == GL_SRC_ALPHA)
+            {
+                beginEditCP(_blendChunk);
+                _blendChunk->setSrcFactor(GL_ONE);
+                _blendChunk->setDestFactor(GL_ZERO);
+                _blendChunk->setAlphaFunc(GL_NOTEQUAL);
+                _blendChunk->setAlphaValue(0);          
+                endEditCP(_blendChunk);            
+            }
+        }
+        else
+        {
+            if(_blendChunk->getSrcFactor() != GL_SRC_ALPHA)
+            {
+                beginEditCP(_blendChunk);
+                _blendChunk->setSrcFactor(GL_SRC_ALPHA);
+                _blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+                _blendChunk->setAlphaFunc(GL_NONE);
+                _blendChunk->setAlphaValue(0);          
+                endEditCP(_blendChunk);                        
+            }
+        }
+    }
 }
 
 bool SimpleTexturedMaterial::isTransparent(void) const
 {
     return Inherited::isTransparent() ||
            (getImage()!=NullFC &&
-             (  getImage()->hasAlphaChannel() && 
-              ! getImage()->isAlphaBinary() &&
-                getEnvMode() != GL_DECAL)
-          );
+             (  getImage()->hasAlphaChannel() &&
+                getEnvMode() != GL_DECAL
+             )
+            );
 }
 
 void SimpleTexturedMaterial::dump(     UInt32    OSG_CHECK_ARG(uiIndent),

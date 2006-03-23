@@ -120,6 +120,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     void prepareLocalChunks(void);
 
     /*! \}                                                                 */
+
+    // these chunks are used for rendering the material
+
+    MaterialChunkPtr _materialChunk;
+    BlendChunkPtr    _blendChunk;
+
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -129,11 +135,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterial : public SimpleMaterialBase
     friend class SimpleMaterialBase;
 
     static void initMethod( void );
-
-    // these chunks are used for rendering the material
-
-    MaterialChunkPtr _materialChunk;
-    BlendChunkPtr    _blendChunk;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const SimpleMaterial &source);
