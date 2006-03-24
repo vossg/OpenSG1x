@@ -1401,16 +1401,27 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         if(pNewState != NULL)
         {
             // for updating the world matrix shader parameter.
+            // not used right now.
+            /*
             StateChunkPtr cgfxChunk = pNewState->getChunk(_cgfxChunkId);
             if(cgfxChunk != NULL)
                 cgfxChunk->update(this);
+            */
 
             if(_pActiveState != NULL)
             {
                 // ok for cgfx I have to call it also for equal states
                 // to update the world matrix.
-                if(pRoot->isMultiPass() || pRoot->isNoStateSorting() ||
-                   pNewState != _pActiveState)
+                // not necessary because the CGFXMaterial is a MultiPassMaterial and
+                // the pRoot->isLastMultiPass() stuff
+                // below already makes sure that pNewState is not equal _pActiveState
+                // in the next draw() call.
+                // Only exception is a CGFXMaterial with more than one pass because
+                // the state is the same for all passes.
+
+                if(pNewState != _pActiveState ||
+                   pNewState->getChunk(_cgfxChunkId) != NULL ||
+                   pRoot->isNoStateSorting())
                 {
                     pNewState->changeFrom(this, _pActiveState);
 
