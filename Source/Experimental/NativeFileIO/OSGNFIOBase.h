@@ -90,7 +90,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NFIOBase
                              const std::string &options);
     static bool     write   (const NodePtr &node, std::ostream &os,
                              const std::string &options);
-  
+
+    static FieldContainerPtr readFC (std::istream &is,
+                                     const std::string &options);
+    static bool              writeFC(const FieldContainerPtr &fc,
+                                     std::ostream &os,
+                                     const std::string &options);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
     
@@ -245,6 +251,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.5 2005/10/14 14:06:08 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.6 2006/03/24 16:50:12 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */

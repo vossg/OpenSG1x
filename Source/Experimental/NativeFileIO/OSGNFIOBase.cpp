@@ -142,6 +142,36 @@ bool NFIOBase::write(const NodePtr &node, std::ostream &os,
     return true;
 }
 
+FieldContainerPtr NFIOBase::readFC(std::istream &is,
+                                   const std::string &options)
+{
+    _options.init(options);
+
+    _in = new BinaryReadHandler(is);
+
+    FieldContainerPtr fc = readFieldContainer();
+
+    delete _in;
+
+    return fc;
+}
+
+bool NFIOBase::writeFC(const FieldContainerPtr &fc,
+                       std::ostream &os,
+                       const std::string &options)
+{
+    _options.init(options);
+    
+    _out = new BinaryWriteHandler(os);
+
+    writeFieldContainer(fc);
+    
+    _out->flush();
+    delete _out;
+    
+    return true;
+}
+
 /*-------------------------------------------------------------------------*\
  -  protected                                                              -
 \*-------------------------------------------------------------------------*/
@@ -994,6 +1024,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.9 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.10 2006/03/24 16:50:12 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
