@@ -42,6 +42,18 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+UInt32 CGFXChunk::getStaticClassId(void)
+{
+    return getStaticClass()->getId();
+}
+
+inline
+const StateChunkClass *CGFXChunk::getStaticClass(void)
+{
+    return &CGFXChunk::_class;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNK_INLINE_CVSID "@(#)$Id: OSGCGFXChunk.inl,v 1.1 2005/06/09 14:53:41 a-m-z Exp $"
+#define OSGCGFXCHUNK_INLINE_CVSID "@(#)$Id: OSGCGFXChunk.inl,v 1.2 2006/03/24 16:04:29 a-m-z Exp $"
