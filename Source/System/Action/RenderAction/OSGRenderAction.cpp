@@ -283,7 +283,9 @@ RenderAction::RenderAction(void) :
     _glDeleteQueriesARB     (NULL),
     _glBeginQueryARB        (NULL),
     _glEndQueryARB          (NULL),
-    _glGetQueryObjectuivARB (NULL)
+    _glGetQueryObjectuivARB (NULL),
+
+    _cgfxChunkId(0)
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
@@ -299,6 +301,14 @@ RenderAction::RenderAction(void) :
     _funcBeginQueryARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBeginQueryARB");
     _funcEndQueryARB            = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glEndQueryARB");
     _funcGetQueryObjectuivARB   = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetQueryObjectuivARB");
+
+    // we can't include OSGCGFXChunk here because it is in Contrib ...
+    StateChunkPtr cgfxChunk = StateChunkPtr::dcast(FieldContainerFactory::the()->createFieldContainer("CGFXChunk"));
+    if(cgfxChunk != NullFC)
+    {
+        _cgfxChunkId = cgfxChunk->getClass()->getId();
+        subRefCP(cgfxChunk);
+    }
 }
 
 
@@ -362,7 +372,9 @@ RenderAction::RenderAction(const RenderAction &source) :
     _glDeleteQueriesARB     (source._glDeleteQueriesARB),
     _glBeginQueryARB        (source._glBeginQueryARB),
     _glEndQueryARB          (source._glEndQueryARB),
-    _glGetQueryObjectuivARB (source._glGetQueryObjectuivARB)
+    _glGetQueryObjectuivARB (source._glGetQueryObjectuivARB),
+
+    _cgfxChunkId(source._cgfxChunkId)
 {
     _pNodeFactory = new DrawTreeNodeFactory;
 }
@@ -1388,6 +1400,11 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         if(pNewState != NULL)
         {
+            // for updating the world matrix shader parameter.
+            StateChunkPtr cgfxChunk = pNewState->getChunk(_cgfxChunkId);
+            if(cgfxChunk != NULL)
+                cgfxChunk->update(this);
+
             if(_pActiveState != NULL)
             {
                 // ok for cgfx I have to call it also for equal states

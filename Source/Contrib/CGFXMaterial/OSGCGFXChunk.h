@@ -143,6 +143,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     /*! \name                       State                                  */
     /*! \{                                                                 */
 
+    virtual void update     ( DrawActionBase * action);
+
     virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
     virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
@@ -249,6 +251,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.4 2006/03/24 16:04:29 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.5 2006/03/24 17:59:39 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

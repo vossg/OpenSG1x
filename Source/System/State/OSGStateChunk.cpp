@@ -235,6 +235,14 @@ void StateChunk::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 /*------------------------------ State ------------------------------------*/
 
+/*! Update the chunk, i.e. for updating shader parameters (world matrix)
+    right now this is used only for the CGFXChunk!
+*/
+
+void StateChunk::update( DrawActionBase *OSG_CHECK_ARG(action))
+{
+}
+
 /*! Activate the chunk, i.e. set the OpenGl state covered by the chunk which is
     different from the default state to the given state.
 */

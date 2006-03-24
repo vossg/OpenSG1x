@@ -1543,6 +1543,12 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
 
 /*------------------------------ State ------------------------------------*/
 
+void CGFXChunk::update(DrawActionBase *action)
+{
+    //printf("CGFXChunk::update: updateStateParameters\n");
+    //updateStateParameters(action);
+}
+
 void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
 {
     _action = action;
@@ -1757,7 +1763,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.10 2006/03/07 17:33:32 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.11 2006/03/24 17:59:39 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
