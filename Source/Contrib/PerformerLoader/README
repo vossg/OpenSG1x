@@ -1,0 +1,32 @@
+
+README for InventorLoader
+=========================
+
+Name:                   PerformerLoader
+License:                LGPL
+Maintainer:             ???
+Initial Author:         Dirk Reiners <dirk@opensg.org>
+Additional Libraries:   pf:pfdu
+Added:                  24/03/2006
+Last modified:          24/03/2006
+Last tested:            24/03/2006
+
+Description:
+
+This is a simple converter from Performer to OpenSG. It loads a model into
+Performer and then traverses the graph, converting nodes into OpenSG. It
+works reasonably well, but it's not complete. It's primarily focused on
+converting polygonal geometry, and given Performer's indexing system there
+might be cases where it doesn't work, but it's a start. The following node
+types are recognizedand converted: Group, LOD (see below), SCS, DCS, Geode.
+Unknown Groups are handled as Groups. The Geode handling is probably
+incomplete, the handling of flat primitives doesn't work too well, and it
+probably doesn't work with some of the more modern Geometry storage options
+of Performer (like GArrays). The GeoState handling ignores quite a lot of
+things (like light models, lights, vertex/fragment programs, cube textures
+etc.)
+
+By default it ignores Level of Detail nodes and only keeps the highest LOD.
+This can be fixed by setting the corresponding flag in the SceneFileType.
+
+What can I say, it's a start.
