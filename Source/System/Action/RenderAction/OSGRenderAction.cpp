@@ -285,7 +285,7 @@ RenderAction::RenderAction(void) :
     _glEndQueryARB          (NULL),
     _glGetQueryObjectuivARB (NULL),
 
-    _cgfxChunkId(0)
+    _cgfxChunkId(-1)
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
@@ -1420,7 +1420,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                 // the state is the same for all passes.
 
                 if(pNewState != _pActiveState ||
-                   pNewState->getChunk(_cgfxChunkId) != NULL ||
+                   (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
                    pRoot->isNoStateSorting())
                 {
                     pNewState->changeFrom(this, _pActiveState);
