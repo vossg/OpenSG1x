@@ -71,15 +71,17 @@ OSG_USING_NAMESPACE
 static std::string _pcf_shadow_vp =
 "//uniform float shadowBias;\n"
 "uniform mat4 lightPM;\n"
+"uniform float texFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {0.5,0.0,0.0,0.0, 0.0,0.5,0.0,0.0, 0.0,0.0,0.5,0.0, 0.5,0.5,0.5,1.0};\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
 "\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
 "  projCoord = lightPM * realPos;\n"
+"  projCoord.x *= texFactor;\n"
 "  texPos = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "\n"
 "  //projCoord.z -= shadowBias;\n"
@@ -106,9 +108,9 @@ static std::string _pcf_shadow_fp =
 "\n"
 "    float blockerCount = 0.0;\n"
 "\n"
-"    for (float i=0.0; i<samples; i++)\n"
+"    for (float i=0.0; i<samples; i+=1.0)\n"
 "    {\n"
-"            for (float j=0.0; j<samples; j++)\n"
+"            for (float j=0.0; j<samples; j+=1.0)\n"
 "        {\n"
 "            projectiveBiased.x += (j*stepSize);\n"
 "            projectiveBiased.y += (i*stepSize);\n"
@@ -132,7 +134,7 @@ static std::string _pcf_shadow_fp =
 "\n"
 "    shadowed = PCF_Filter(projectiveBiased, shadowRange, 4.0);\n"
 "\n"
-"    if(!firstRun)\n"
+"    if(firstRun == 0)\n"
 "        shadowed += texture2DProj(oldFactorMap,texPos.xyw).x;\n"
 "\n"
 "    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
@@ -152,7 +154,7 @@ static std::string _pcf_shadow_combine_fp =
 "uniform sampler2D shadowFactorMap;\n"
 "varying vec4 projCoord;\n"
 "\n"
-"const mat4 bias = {0.5,0.0,0.0,0.0, 0.0,0.5,0.0,0.0, 0.0,0.0,0.5,0.0, 0.5,0.5,0.5,1.0};\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -237,16 +239,20 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 
     _shadowSHL = SHLChunk::create();
     beginEditCP(_shadowSHL);
-        _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-        _shadowSHL->setFragmentProgram(_pcf_shadow_fp);
+        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+		//_shadowSHL->readFragmentProgram("PCF_Shadow.frag");
+		_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+		_shadowSHL->setFragmentProgram(_pcf_shadow_fp);
     endEditCP(_shadowSHL);
 
     //SHL Chunk 2
     _combineSHL = SHLChunk::create();
 
     beginEditCP(_combineSHL);
-        _combineSHL->setVertexProgram(_pcf_shadow_combine_vp);
-        _combineSHL->setFragmentProgram(_pcf_shadow_combine_fp);
+        //_combineSHL->readVertexProgram("PCF_Shadow_combine.vert");
+        //_combineSHL->readFragmentProgram("PCF_Shadow_combine.frag");
+		_combineSHL->setVertexProgram(_pcf_shadow_combine_vp);
+		_combineSHL->setFragmentProgram(_pcf_shadow_combine_fp);
     endEditCP(_combineSHL);
 
     _shadowCmat = ChunkMaterial::create();
@@ -376,11 +382,7 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(false);
     }
 
-	//deactivate transparent Nodes
-	for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-        shadowVP->_transparent[t]->setActive(false);
-    
-    for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
+	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
         {
@@ -467,11 +469,7 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(true);
     }
 
-	// switch on all transparent geos
-    for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-        shadowVP->_transparent[t]->setActive(true);
-
-    // enable all lights.
+	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -512,7 +510,7 @@ void PCFShadowMap::createColorMap(RenderActionBase* action)
 void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
     glClearColor(1.0,1.0,1.0,1.0);
-    if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
@@ -532,6 +530,11 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     Matrix iLVM = LVM;
     iLVM.invert();
 
+	Real32 texFactor;
+	if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() || shadowVP->_lights[num]->getType() == PointLight::getClassType())
+		texFactor = float(width)/float(height);
+	else texFactor = 1.0;
+
     Matrix shadowMatrix = LPM;
     shadowMatrix.mult(LVM);
     shadowMatrix.mult(iCVM);
@@ -541,6 +544,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
         _shadowSHL->setUniformParameter("firstRun", firstRun);
         _shadowSHL->setUniformParameter("intensity", activeLights);
+		_shadowSHL->setUniformParameter("texFactor", texFactor);
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("shadowRange", Real32(1.0/Real32(shadowVP->getMapSize())*2.0));
@@ -641,7 +645,12 @@ void PCFShadowMap::render(RenderActionBase* action)
     if(shadowVP->getMapAutoUpdate())
     {
         createColorMap(action);
-        createShadowMaps(action);
+
+		//deactivate transparent Nodes
+		for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+			shadowVP->_transparent[t]->setActive(false);
+        
+		createShadowMaps(action);
         
         for(int i = 0; i<shadowVP->_lights.size();i++)
         {
@@ -657,6 +666,11 @@ void PCFShadowMap::render(RenderActionBase* action)
         if(shadowVP->_trigger_update)
         {
             createColorMap(action);
+
+			//deactivate transparent Nodes
+			for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+				shadowVP->_transparent[t]->setActive(false);
+
             createShadowMaps(action);
 
             for(int i = 0; i<shadowVP->_lights.size();i++)
@@ -672,4 +686,9 @@ void PCFShadowMap::render(RenderActionBase* action)
     }
 
     drawCombineMap(action);
+
+	// switch on all transparent geos
+    for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+        shadowVP->_transparent[t]->setActive(true);
+
 }
