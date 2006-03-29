@@ -108,14 +108,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    void checkLights(RenderActionBase* action);
-    void updateLights(void);
-    void initializeLights(RenderActionBase *action);
-    void clearLights(UInt32 size);
-    void createShadowMaps(RenderActionBase* action);
-    void projectShadowMaps(RenderActionBase* action);
-    bool extensionCheck();
-    void checkMapResolution();
+    virtual void checkLights(RenderActionBase* action);
+    virtual void updateLights(void);
+    virtual void initializeLights(RenderActionBase *action);
+    virtual void clearLights(UInt32 size);
+    virtual void createShadowMaps(RenderActionBase* action);
+    virtual void projectShadowMaps(RenderActionBase* action);
+    virtual bool extensionCheck();
+    virtual void checkMapResolution();
 
     Action::ResultE findLight(NodePtr& node);
     Action::ResultE findTransparent(NodePtr& node);
@@ -198,6 +198,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.7 2006/02/09 17:46:49 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.8 2006/03/29 15:47:08 a-m-z Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */
