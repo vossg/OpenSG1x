@@ -412,7 +412,7 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image), std::ostream &O
         return false;
     }
 
-    TIFF         *out = TIFFClientOpen("dummy", "rm", (thandle_t)&os,
+    TIFF         *out = TIFFClientOpen("dummy", "wm", (thandle_t)&os,
                                        osReadProc, osWriteProc, osSeekProc, closeProc,
 			                           osSizeProc, mapFileProc, unmapFileProc);
     int           lineSize = image->getWidth() * image->getBpp();
