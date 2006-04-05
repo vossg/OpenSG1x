@@ -2912,7 +2912,7 @@ are, false if no alpha or intermediate values. No Alpha channel is considered
  */
 bool Image::calcIsAlphaBinary(void)
 {
-    if(!hasAlphaChannel() && getPixelFormat() == OSG_RGBA_DXT1)
+    if(!hasAlphaChannel() || getPixelFormat() == OSG_RGBA_DXT1)
         return true;
     
     if(getPixelFormat() == OSG_RGBA_DXT3 || getPixelFormat() == OSG_RGBA_DXT5)
@@ -2934,7 +2934,7 @@ bool Image::calcIsAlphaBinary(void)
     case OSG_RGBA_PF:   data += getComponentSize() * 3; break;
     default:
                         FWARNING(("Image::calcIsAlphaBinary: found unknown "
-                                  "image format %d, assumning false.\n", 
+                                  "image format %x, assumning false.\n", 
                                   getPixelFormat()));
                         return false;
     }
