@@ -297,6 +297,32 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
         image = Image::create();
         bool img_ok = image->read(texname);
 
+        if(!img_ok)
+        {
+            std::string casename(texname);
+            for(std::string::reverse_iterator it = casename.rbegin(); 
+                it != casename.rend() && *it != '/' && *it != '\\'; 
+                ++it)
+            {
+                if(*it >= 'a' && *it <= 'z')
+                {
+                    *it = 'A' + *it - 'a';
+                }
+                else
+                if(*it >= 'A' && *it <= 'Z')
+                {
+                    *it = 'a' + *it - 'A';
+                }
+                
+            }
+            
+            FWARNING(("Couldn't load image '%s', trying case "
+                      "reversed version '%s'! \n", texname,
+                      casename.c_str()));
+                      
+            img_ok = image->read(casename.c_str());
+        }
+        
         if(img_ok)
         {
             beginEditCP(image, Image::ForceAlphaBinaryFieldMask);
