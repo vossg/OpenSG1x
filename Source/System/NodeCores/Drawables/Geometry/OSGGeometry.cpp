@@ -2037,6 +2037,9 @@ bool Geometry::updateLowHighIndices( void )
         
         for (UInt32 j = 0; j < l; ++j, ++cur)
         {
+            if(cur >= indP->size())
+                break;
+
             UInt32 ind;
             indP->getValue(ind, cur);
             
