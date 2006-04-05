@@ -256,6 +256,15 @@ The osg::MatrixCamera is a very low-level camera class that keeps the
 ModelView and Projection matrices directly. It ignores all other parameters it
 has and just uses the given matrices.
 
+Note: The MatrixCamera ignores the beacon's transformation. It really fully 
+replaces the modelview and projection matrices.
+
+Note: The MatrixCamera also ignores the near and far fields for calculating 
+the projection. Nonetheless, other components of the system (e.g. the 
+osg::SkyBackground) may still depend on them. Given that they're necessary
+to calculate the matrix they should be available in the providing system,
+and they should be set on the MatrixCamera to prevent problems.
+
 \subsection PageSystemWindowCameraDecorators Camera Decorators
 
 A osg::CameraDecorator is object that can be used instead of a osg::Camera and
@@ -624,6 +633,10 @@ interaction to the lower-level navigator interfaces.
 
 As a consequence the osg::Navigator is the most useful of the navigators and
 should be used in applications.
+
+Navigators can be run in absolute or relative mode. In absolute mode (the default) 
+they will try to counteract any changes made to matrices above the camera beacon.
+In non-absolute mode they will not do anything about them.
 
 The default active navigator is the osg::TrackballNavigator. For this
 navigator the osg::Navigator will map a left mouse click with motion to a

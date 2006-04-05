@@ -1082,7 +1082,12 @@ void OSG::Window::registerConstant(GLenum val)
 {
     staticAcquire();
    
-    _registeredConstants.push_back(val);
+    if(find(_registeredConstants.begin(), 
+            _registeredConstants.end(),
+            val) ==  _registeredConstants.end())
+    {
+        _registeredConstants.push_back(val);
+    }
     
     staticRelease();
 }

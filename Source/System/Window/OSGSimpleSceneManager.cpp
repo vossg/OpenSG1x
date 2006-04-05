@@ -421,6 +421,14 @@ void SimpleSceneManager::setStatistics(bool on)
  */
 void SimpleSceneManager::initialize(void)
 {
+    // Check necessary stuff
+    if(_win == NullFC)
+    {
+        FWARNING(("SimpleSceneManager::initialize: window not set, "
+                  "ignoring!\n"));
+        return;
+    }
+    
     // the rendering action
     _ownAction = RenderAction::create();
     _action = _ownAction;
@@ -462,11 +470,8 @@ void SimpleSceneManager::initialize(void)
     endEditCP(_camera);
 
     // need a viewport?
-    if(_win != NullFC && _win->getPort().size() == 0)
+    if(_win->getPort().size() == 0)
     {
-        // I'd like this to be a gradient background, but it still has
-        // problems on Linux/nVidia
-
         SolidBackgroundPtr bg = SolidBackground::create();
         beginEditCP(bg);
         bg->setColor(Color3f(0, 0, 0));
