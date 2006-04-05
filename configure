@@ -2437,6 +2437,9 @@ case "$build" in
     powerpc-apple-darwin*)
         build="powerpc-apple-darwin"
     ;;
+    i386-apple-darwin*)
+        build="i386-apple-darwin"
+    ;;
 esac
 
 
