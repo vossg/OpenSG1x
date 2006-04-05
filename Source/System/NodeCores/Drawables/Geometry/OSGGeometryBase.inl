@@ -201,6 +201,34 @@ SFInt32 *GeometryBase::getSFIgnoreGLForAspect(void)
     return &_sfIgnoreGLForAspect;
 }
 
+//! Get the Geometry::_sfMinindex field.
+inline
+SFUInt32 *GeometryBase::getSFMinindex(void)
+{
+    return &_sfMinindex;
+}
+
+//! Get the Geometry::_sfMaxindex field.
+inline
+SFUInt32 *GeometryBase::getSFMaxindex(void)
+{
+    return &_sfMaxindex;
+}
+
+//! Get the Geometry::_mfLowindices field.
+inline
+MFUInt32 *GeometryBase::getMFLowindices(void)
+{
+    return &_mfLowindices;
+}
+
+//! Get the Geometry::_mfHighindices field.
+inline
+MFUInt32 *GeometryBase::getMFHighindices(void)
+{
+    return &_mfHighindices;
+}
+
 
 //! Get the value of the Geometry::_sfTypes field.
 inline
@@ -496,6 +524,48 @@ void GeometryBase::setIgnoreGLForAspect(const Int32 &value)
     _sfIgnoreGLForAspect.setValue(value);
 }
 
+//! Get the value of the Geometry::_sfMinindex field.
+inline
+UInt32 &GeometryBase::getMinindex(void)
+{
+    return _sfMinindex.getValue();
+}
+
+//! Get the value of the Geometry::_sfMinindex field.
+inline
+const UInt32 &GeometryBase::getMinindex(void) const
+{
+    return _sfMinindex.getValue();
+}
+
+//! Set the value of the Geometry::_sfMinindex field.
+inline
+void GeometryBase::setMinindex(const UInt32 &value)
+{
+    _sfMinindex.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfMaxindex field.
+inline
+UInt32 &GeometryBase::getMaxindex(void)
+{
+    return _sfMaxindex.getValue();
+}
+
+//! Get the value of the Geometry::_sfMaxindex field.
+inline
+const UInt32 &GeometryBase::getMaxindex(void) const
+{
+    return _sfMaxindex.getValue();
+}
+
+//! Set the value of the Geometry::_sfMaxindex field.
+inline
+void GeometryBase::setMaxindex(const UInt32 &value)
+{
+    _sfMaxindex.setValue(value);
+}
+
 
 //! Get the value of the \a index element the Geometry::_mfIndexMapping field.
 inline
@@ -516,6 +586,48 @@ inline
 const MFUInt16 &GeometryBase::getIndexMapping(void) const
 {
     return _mfIndexMapping;
+}
+
+//! Get the value of the \a index element the Geometry::_mfLowindices field.
+inline
+UInt32 &GeometryBase::getLowindices(const UInt32 index)
+{
+    return _mfLowindices[index];
+}
+
+//! Get the Geometry::_mfLowindices field.
+inline
+MFUInt32 &GeometryBase::getLowindices(void)
+{
+    return _mfLowindices;
+}
+
+//! Get the Geometry::_mfLowindices field.
+inline
+const MFUInt32 &GeometryBase::getLowindices(void) const
+{
+    return _mfLowindices;
+}
+
+//! Get the value of the \a index element the Geometry::_mfHighindices field.
+inline
+UInt32 &GeometryBase::getHighindices(const UInt32 index)
+{
+    return _mfHighindices[index];
+}
+
+//! Get the Geometry::_mfHighindices field.
+inline
+MFUInt32 &GeometryBase::getHighindices(void)
+{
+    return _mfHighindices;
+}
+
+//! Get the Geometry::_mfHighindices field.
+inline
+const MFUInt32 &GeometryBase::getHighindices(void) const
+{
+    return _mfHighindices;
 }
 
 OSG_END_NAMESPACE

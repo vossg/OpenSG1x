@@ -760,11 +760,11 @@ void GeoPump129(Window   *win,
     pumpSetup(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
     pumpSetup(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
     pumpSetup(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
-    pumpSetup(Normals    , GeoNormalsPtr   , getNormals   );
+    pumpSetup(Normals    , GeoNormalsPtr   , getNormals    );
 
-    pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths  );
-    pumpSetup(Types      , GeoPTypesPtr    , getTypes    );
-    pumpSetup(Indices    , GeoIndicesPtr   , getIndices  );
+    pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
+    pumpSetup(Types      , GeoPTypesPtr    , getTypes      );
+    pumpSetup(Indices    , GeoIndicesPtr   , getIndices    );
 
     if (PositionsData)
     {        
@@ -902,7 +902,7 @@ void GeoPump129(Window   *win,
             (void (OSG_APIENTRY*) (GLint first, GLsizei count))
                 win->getFunction(GeoPumpFactory::_funcglLockArraysEXT);
                 
-            _glLockArraysEXT(0, IndicesSize);
+            _glLockArraysEXT(geo->getMinindex(), geo->getMaxindex());
     }
 
     void (OSG_APIENTRY *osgGLDrawRangeElementsEXT)(GLenum mode, GLuint start,
@@ -927,8 +927,8 @@ void GeoPump129(Window   *win,
             if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
             {
                 osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          0, 
-                                          IndicesSize, 
+                                          geo->getLowindices() [LengthsInd], 
+                                          geo->getHighindices()[LengthsInd], 
                                           count,
                                           IndicesPtr->getFormat(), 
                                           vind);

@@ -1273,6 +1273,14 @@ void Geometry::changed(BitVector whichField,
     }
 #endif
 
+    if(whichField & (IndicesFieldMask | LengthsFieldMask | 
+                     TypesFieldMask   | IndexMappingFieldMask)
+      )
+    {
+        updateLowHighIndices();
+    }
+   
+
     Inherited::changed(whichField, origin);
 }
 
@@ -1992,6 +2000,66 @@ void Geometry::merge6( const GeometryPtr other )
     endEditCP( ind );
 }
 
+
+bool Geometry::updateLowHighIndices( void )
+{
+    // Are we single-indexed or incomplete?
+    if(getTypes() == NullFC ||
+       getLengths() == NullFC ||
+       getIndexMapping().size() > 1 || 
+       getIndices() == NullFC)
+        return true;
+        
+    UInt32 primcount = getTypes()->size();
+    GeoIndicesPtr indP = getIndices();
+    
+    UInt32 low, high, mini, maxi, cur;
+    
+    GeometryPtr self(this);
+    beginEditCP(self, LowindicesFieldMask |
+                      HighindicesFieldMask |
+                      MinindexFieldMask |
+                      MaxindexFieldMask);
+                      
+    
+    getLowindices().resize(primcount);
+    getHighindices().resize(primcount);
+    mini = 0xffffffffU;
+    maxi = 0;
+
+    for (UInt32 i = 0, cur = 0; i < primcount; i++)
+    {
+        UInt32 l;
+        getLengths()->getValue(l, i);
+        
+        low = 0xffffffffU;
+        high = 0;
+        
+        for (UInt32 j = 0; j < l; ++j, ++cur)
+        {
+            UInt32 ind;
+            indP->getValue(ind, cur);
+            
+            if(ind < low ) low  = ind;
+            if(ind > high) high = ind;
+            if(ind < mini) mini = ind;
+            if(ind > maxi) maxi = ind;
+        }
+        
+        getLowindices()[i]  = low;
+        getHighindices()[i] = high;
+    }
+    
+    setMinindex(mini);
+    setMaxindex(maxi);
+    
+    endEditCP(self,   LowindicesFieldMask |
+                      HighindicesFieldMask |
+                      MinindexFieldMask |
+                      MaxindexFieldMask);
+    
+    return false;
+}
 
 
 //#undef copyAttrib

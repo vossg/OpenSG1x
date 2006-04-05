@@ -224,6 +224,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void merge5( const GeometryPtr other );
     void merge6( const GeometryPtr other );
 
+    bool updateLowHighIndices( void );
+
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:

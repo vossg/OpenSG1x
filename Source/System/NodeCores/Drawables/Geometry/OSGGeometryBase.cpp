@@ -62,7 +62,7 @@
 #include "OSGGeometry.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  GeometryBase::TypesFieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::TypesFieldId);
@@ -108,6 +108,18 @@ const OSG::BitVector  GeometryBase::GLIdFieldMask =
 
 const OSG::BitVector  GeometryBase::IgnoreGLForAspectFieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::IgnoreGLForAspectFieldId);
+
+const OSG::BitVector  GeometryBase::MinindexFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::MinindexFieldId);
+
+const OSG::BitVector  GeometryBase::MaxindexFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::MaxindexFieldId);
+
+const OSG::BitVector  GeometryBase::LowindicesFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::LowindicesFieldId);
+
+const OSG::BitVector  GeometryBase::HighindicesFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::HighindicesFieldId);
 
 const OSG::BitVector GeometryBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -160,6 +172,18 @@ const OSG::BitVector GeometryBase::MTInfluenceMask =
 */
 /*! \var Int32           GeometryBase::_sfIgnoreGLForAspect
     The dlist id, if used.
+*/
+/*! \var UInt32          GeometryBase::_sfMinindex
+    The minimum index used (for single-indexed mode only).
+*/
+/*! \var UInt32          GeometryBase::_sfMaxindex
+    The maximum index used (for single-indexed mode only).
+*/
+/*! \var UInt32          GeometryBase::_mfLowindices
+    For each primitive (entry in types) the lowest index used (for single-indexed mode only).
+*/
+/*! \var UInt32          GeometryBase::_mfHighindices
+    For each primitive (entry in types) the highest index used (for single-indexed mode only).
 */
 
 //! Geometry description
@@ -240,7 +264,27 @@ FieldDescription *GeometryBase::_desc[] =
                      "IgnoreGLForAspect", 
                      IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
                      true,
-                     (FieldAccessMethod) &GeometryBase::getSFIgnoreGLForAspect)
+                     (FieldAccessMethod) &GeometryBase::getSFIgnoreGLForAspect),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "minindex", 
+                     MinindexFieldId, MinindexFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getSFMinindex),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "maxindex", 
+                     MaxindexFieldId, MaxindexFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getSFMaxindex),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "lowindices", 
+                     LowindicesFieldId, LowindicesFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getMFLowindices),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "highindices", 
+                     HighindicesFieldId, HighindicesFieldMask,
+                     true,
+                     (FieldAccessMethod) &GeometryBase::getMFHighindices)
 };
 
 
@@ -307,6 +351,8 @@ void GeometryBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
     Inherited::onDestroyAspect(uiId, uiAspect);
 
     _mfIndexMapping.terminateShare(uiAspect, this->getContainerSize());
+    _mfLowindices.terminateShare(uiAspect, this->getContainerSize());
+    _mfHighindices.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -332,6 +378,10 @@ GeometryBase::GeometryBase(void) :
     _sfDlistCache             (bool(true)), 
     _sfGLId                   (Int32(0)), 
     _sfIgnoreGLForAspect      (Int32(-1)), 
+    _sfMinindex               (), 
+    _sfMaxindex               (), 
+    _mfLowindices             (), 
+    _mfHighindices            (), 
     Inherited() 
 {
 }
@@ -356,6 +406,10 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfDlistCache             (source._sfDlistCache             ), 
     _sfGLId                   (source._sfGLId                   ), 
     _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
+    _sfMinindex               (source._sfMinindex               ), 
+    _sfMaxindex               (source._sfMaxindex               ), 
+    _mfLowindices             (source._mfLowindices             ), 
+    _mfHighindices            (source._mfHighindices            ), 
     Inherited                 (source)
 {
 }
@@ -447,6 +501,26 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _sfIgnoreGLForAspect.getBinSize();
     }
 
+    if(FieldBits::NoField != (MinindexFieldMask & whichField))
+    {
+        returnValue += _sfMinindex.getBinSize();
+    }
+
+    if(FieldBits::NoField != (MaxindexFieldMask & whichField))
+    {
+        returnValue += _sfMaxindex.getBinSize();
+    }
+
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+    {
+        returnValue += _mfLowindices.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+    {
+        returnValue += _mfHighindices.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -529,6 +603,26 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
     {
         _sfIgnoreGLForAspect.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MinindexFieldMask & whichField))
+    {
+        _sfMinindex.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaxindexFieldMask & whichField))
+    {
+        _sfMaxindex.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+    {
+        _mfLowindices.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+    {
+        _mfHighindices.copyToBin(pMem);
     }
 
 
@@ -614,6 +708,26 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfIgnoreGLForAspect.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (MinindexFieldMask & whichField))
+    {
+        _sfMinindex.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaxindexFieldMask & whichField))
+    {
+        _sfMaxindex.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+    {
+        _mfLowindices.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+    {
+        _mfHighindices.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -669,6 +783,18 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
         _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
+    if(FieldBits::NoField != (MinindexFieldMask & whichField))
+        _sfMinindex.syncWith(pOther->_sfMinindex);
+
+    if(FieldBits::NoField != (MaxindexFieldMask & whichField))
+        _sfMaxindex.syncWith(pOther->_sfMaxindex);
+
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+        _mfLowindices.syncWith(pOther->_mfLowindices);
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+        _mfHighindices.syncWith(pOther->_mfHighindices);
+
 
 }
 #else
@@ -721,9 +847,21 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
         _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
+    if(FieldBits::NoField != (MinindexFieldMask & whichField))
+        _sfMinindex.syncWith(pOther->_sfMinindex);
+
+    if(FieldBits::NoField != (MaxindexFieldMask & whichField))
+        _sfMaxindex.syncWith(pOther->_sfMaxindex);
+
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
         _mfIndexMapping.syncWith(pOther->_mfIndexMapping, sInfo);
+
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+        _mfLowindices.syncWith(pOther->_mfLowindices, sInfo);
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+        _mfHighindices.syncWith(pOther->_mfHighindices, sInfo);
 
 
 }
@@ -737,10 +875,18 @@ void GeometryBase::execBeginEditImpl (const BitVector &whichField,
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))
         _mfIndexMapping.beginEdit(uiAspect, uiContainerSize);
 
+    if(FieldBits::NoField != (LowindicesFieldMask & whichField))
+        _mfLowindices.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (HighindicesFieldMask & whichField))
+        _mfHighindices.beginEdit(uiAspect, uiContainerSize);
+
 }
 #endif
 
 
+
+OSG_END_NAMESPACE
 
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
@@ -753,8 +899,6 @@ DataType FieldDataTraits<GeometryPtr>::_type("GeometryPtr", "MaterialDrawablePtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -770,10 +914,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGEOMETRYBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGEOMETRYFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

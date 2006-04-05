@@ -159,4 +159,40 @@
 	>
 	The dlist id, if used.
 	</Field>
+	<Field
+		name="minindex"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+        The minimum index used (for single-indexed mode only).
+	</Field>
+	<Field
+		name="maxindex"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		access="public"
+	>
+        The maximum index used (for single-indexed mode only).
+	</Field>
+	<Field
+		name="lowindices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+        For each primitive (entry in types) the lowest index used (for single-indexed mode only).
+	</Field>
+	<Field
+		name="highindices"
+		type="UInt32"
+		cardinality="multi"
+		visibility="internal"
+		access="public"
+	>
+        For each primitive (entry in types) the highest index used (for single-indexed mode only).
+	</Field>
 </FieldContainer>
