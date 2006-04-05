@@ -3263,7 +3263,8 @@ Image &Image::operator=(const Image &image)
               image.getMipMapCount(), image.getFrameCount(),
               image.getFrameDelay(),
               image.getData(),
-              image.getDataType());
+              image.getDataType(),
+              true, image.getSideCount());
 
     return *this;
 }
@@ -3289,7 +3290,8 @@ bool Image::operator==(const Image &image)
        (getFrameCount() == image.getFrameCount()) &&
        (getFrameDelay() == image.getFrameDelay()) &&
        (getPixelFormat() == image.getPixelFormat()) &&
-       (getDataType() == image.getDataType()))
+       (getDataType() == image.getDataType()) &&
+       (getSideCount() == image.getSideCount()))
     {
         for(i = 0; i < s; ++i)
         {
