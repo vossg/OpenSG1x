@@ -474,10 +474,21 @@ then
     # use standard ssh, SF is on ssh2 now anyway
     export CVS_RSH=${tmpdir}/ssh-sf
     rm -f $log_cvs
+    
+    waittime=10
+    repeats=15
+    
     until cvs -z9 -ddirk@cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
     do
-        echo "CVS problem, sleeping and retrying!" >> $log_cvs
-        sleep 10
+        echo "CVS problem, sleeping $waittime seconds and retrying!" >> $log_cvs
+        sleep $waittime
+        (( waittime = $waittime * 14 / 10 ))
+        (( repeats = $repeats - 1 ))
+        if test $repeats == 0
+        then
+            echo "CVS failed!" > $log_errors
+            exit 1
+        fi
     done
 
     # check if the dailybuild script has changed and update myself
