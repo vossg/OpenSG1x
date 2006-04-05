@@ -16,6 +16,12 @@ if _po.getOption('contrib_cgfxmaterial'):
     else:
         print 'Contrib CGFXMaterial needs cgfx lib, add cg=<path> to cmd line.'
 
+if _po.getOption('contrib_cgfxmaterial2'):
+    if _po.getOption('cg'):
+        ContribDirs.append(Dir('CGFXMaterial2'))
+    else:
+        print 'Contrib CGFXMaterial2 needs cgfx lib, add cg=<path> to cmd line.'
+
 if _po.getOption('contrib_ply'):
     ContribDirs.append(Dir('PLY'))
 

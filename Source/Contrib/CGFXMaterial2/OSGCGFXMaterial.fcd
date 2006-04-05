@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="CGFXMaterial"
+	parent="MultiPassMaterial"
+	library="Contrib"
+	pointerfieldtypes="none"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+	<Field
+		name="effectFile"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	cgfx file
+	</Field>
+	<Field
+		name="effectString"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	cgfx source string
+	</Field>
+	<Field
+		name="technique"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="parameters"
+		type="ShaderParameterPtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="images"
+		type="ImagePtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+</FieldContainer>
