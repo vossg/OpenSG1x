@@ -830,7 +830,6 @@ void TextTXFFace::prepareTexture(const TextTXFParam &param)
         {
             // No, so lets try to find another glyph
             HeightMap::iterator hmIt2 = hmIt;
-            ++hmIt2;
             for (++hmIt2; hmIt2 != heightMap.end(); ++hmIt2)
             {
                 if (xpos + hmIt2->second->getPixmapWidth() + param.gap <= textureWidth)
@@ -838,7 +837,7 @@ void TextTXFFace::prepareTexture(const TextTXFParam &param)
             }
             if (hmIt2 == heightMap.end())
             {
-                // There no other glyph
+                // There is no other glyph
                 xpos = param.gap;
                 ypos += heightOfRow + param.gap;
                 heightOfRow = 0;
@@ -898,7 +897,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.6 2005/12/15 14:04:47 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.7 2006/04/05 11:34:30 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }
