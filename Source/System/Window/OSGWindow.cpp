@@ -1082,7 +1082,7 @@ void OSG::Window::registerConstant(GLenum val)
 {
     staticAcquire();
    
-    if(find(_registeredConstants.begin(), 
+    if(std::find(_registeredConstants.begin(), 
             _registeredConstants.end(),
             val) ==  _registeredConstants.end())
     {
