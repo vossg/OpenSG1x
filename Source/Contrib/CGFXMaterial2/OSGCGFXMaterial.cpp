@@ -193,10 +193,24 @@ bool CGFXMaterial::isTextureParameter(const std::string &name)
 
 ImagePtr CGFXMaterial::findImage(const std::string &name)
 {
+    std::string name2 = name;
+    for(UInt32 i=0;i<name2.size();++i)
+    {
+        if(name2[i] == '\\')
+            name2[i] = '/';
+    }
+
     MFImagePtr images = getImages();
     for(UInt32 i=0;i<images.size();++i)
     {
-        if(images[i]->getName() == name)
+        std::string iname = images[i]->getName();
+        for(UInt32 j=0;j<iname.size();++j)
+        {
+            if(iname[j] == '\\')
+                iname[j] = '/';
+        }
+
+        if(iname == name2)
             return images[i];
     }
     return NullFC; // not found
@@ -387,7 +401,7 @@ bool CGFXMaterial::subParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.2 2006/04/06 16:56:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

@@ -441,14 +441,46 @@ void CGFXChunk::updateEffect(Window *win)
         UInt32 ncols = cgGetParameterColumns(param);
         UInt32 components = nrows * ncols;
 
-        std::string paramName = cgGetParameterName(param);
-        std::string paramSemantic = cgGetParameterSemantic(param);
+        std::string paramName = cgGetParameterName(param) ? cgGetParameterName(param) : "";
+        std::string paramSemantic = cgGetParameterSemantic(param) ? cgGetParameterSemantic(param) : "";
         CGtype paramType = cgGetParameterType(param);
 
         //printf("parameter: '%s' '%s'\n", paramSemantic.c_str(), paramName.c_str());
         // get tweakable parameters
         //if(cgGetFirstParameterAnnotation(param) != NULL) // tweakable parameters.
-        if(paramSemantic.empty())
+        //if(paramSemantic.empty())
+
+        if (stringcasecmp(paramSemantic.c_str(), "Projection") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_PROJECTION, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewProjection") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWPROJECTION, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "World") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLD, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldI") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldIT") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDIT, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldInverseTranspose") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDIT, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldView") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEW, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewI") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewInverse") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "View") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_VIEW, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "ViewI") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_VIEWI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "ViewInverse") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_VIEWI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "ViewIT") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_VIEWIT, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "ViewInverseTranspose") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_VIEWIT, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "Time") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_TIME, paramName);
+        else
         {
             switch(paramType)
             {
@@ -571,6 +603,8 @@ void CGFXChunk::updateEffect(Window *win)
                     }
                 break;
                 case CG_STRING:
+                    // ignore strings for now
+#if 0
                 {
                     std::string str;
                     if(!cgfxMat->getParameter(paramName.c_str(), str))
@@ -584,6 +618,7 @@ void CGFXChunk::updateEffect(Window *win)
                     }
                     cgfxParameters.insert(paramName);
                 }
+#endif
                 break;
 
                 case CG_TEXTURE:
@@ -603,9 +638,13 @@ void CGFXChunk::updateEffect(Window *win)
                         if(cgGetFirstParameterAnnotation(param) != NULL)
                         {
                             CGannotation anno = cgGetNamedParameterAnnotation(param, "File");
+                            if(anno == NULL)
+                                anno = cgGetNamedParameterAnnotation(param, "ResourceName");
+
                             if(anno != NULL)
                             {
                                 filename = cgGetStringAnnotationValue(anno);
+                                
                                 cgfxMat->setParameter(paramName.c_str(), filename);
                             }
                         }
@@ -627,6 +666,9 @@ void CGFXChunk::updateEffect(Window *win)
                                        tparamType == CG_TEXTURE)
                                     {
                                         CGannotation anno = cgGetNamedParameterAnnotation(tparam, "File");
+                                        if(anno == NULL)
+                                            anno = cgGetNamedParameterAnnotation(tparam, "ResourceName");
+
                                         if(anno != NULL)
                                         {
                                             filename = cgGetStringAnnotationValue(anno);
@@ -780,30 +822,7 @@ void CGFXChunk::updateEffect(Window *win)
                 }
             }
         }
-        else if (stringcasecmp(paramSemantic.c_str(), "Projection") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_PROJECTION, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewProjection") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWPROJECTION, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "World") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLD, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "WorldI") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLDI, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "WorldIT") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLDIT, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "WorldView") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEW, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewI") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWI, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "View") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_VIEW, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "ViewI") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_VIEWI, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "ViewIT") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_VIEWIT, paramName);
-        else if (stringcasecmp(paramSemantic.c_str(), "Time") == 0)
-            setStateParameter(CGFXChunk::OSG_CG_TIME, paramName);
-        
-        
+
         param = cgGetNextParameter(param);
     } // param while
 
@@ -815,7 +834,7 @@ void CGFXChunk::updateEffect(Window *win)
     std::vector<std::string> remove_params;
     for(UInt32 i=0;i<cgfxMat->getParameters().size();++i)
     {
-        // we can remove the directly in here with subParameter()!
+        // we can not remove them directly in here with subParameter()!
         ShaderParameterPtr p = ShaderParameterPtr::dcast(cgfxMat->getParameters()[i]);
         if(cgfxParameters.count(p->getName()) == 0)
             remove_params.push_back(p->getName());
@@ -932,10 +951,24 @@ void CGFXChunk::updateParameters(Window *win)
 
                     ImagePtr img = texc->getImage();
                     std::string pfilename = p->getValue();
-                    
+
+                    std::string filename2 = filename;
+                    for(UInt32 i=0;i<filename2.size();++i)
+                    {
+                        if(filename2[i] == '\\')
+                            filename2[i] = '/';
+                    }
+
+                    std::string pfilename2 = pfilename;
+                    for(UInt32 i=0;i<pfilename2.size();++i)
+                    {
+                        if(pfilename2[i] == '\\')
+                            pfilename2[i] = '/';
+                    }
+
                     // now check if the image filename has changed or we need
                     // to create a image.
-                    if(img == NullFC || filename != pfilename)
+                    if(img == NullFC || filename2 != pfilename2)
                     {
                         //printf("texture image filename changed '%s' == '%s' !!!\n",
                         //       filename.c_str(), pfilename.c_str());
@@ -981,6 +1014,13 @@ void CGFXChunk::updateParameters(Window *win)
                         {
                             beginEditCP(texc);
                                 texc->setImage(img);
+#if 0
+                                if(img->getDataType() == Image::OSG_FLOAT16_IMAGEDATA ||
+                                    img->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
+                                {
+                                    texc->setInternalFormat(GL_RGBA16F_ARB);
+                                }
+#endif
                             endEditCP(texc);
 
                             if(_action != NULL)
@@ -1100,56 +1140,82 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
     CGparameter param = cgGetFirstEffectParameter(effect);
     while(param)
     {
-        std::string paramName = cgGetParameterName(param);
-        std::string paramSemantic = cgGetParameterSemantic(param);
+        std::string paramName = cgGetParameterName(param) ? cgGetParameterName(param) : "";
+        std::string paramSemantic = cgGetParameterSemantic(param) ? cgGetParameterSemantic(param) : "";
 
-        //printf("parameter: '%s' '%s'\n", param.Semantic, param.Name);
-        // get tweakable parameters
-        if(cgGetFirstParameterAnnotation(param) != NULL) // tweakable parameters.
+        CGtype paramType = cgGetParameterType(param);
+        switch(paramType)
         {
-            CGtype paramType = cgGetParameterType(param);
-            switch(paramType)
+            case CG_SAMPLER1D:
+            case CG_SAMPLER2D:
+            case CG_SAMPLER3D:
+            case CG_SAMPLERRECT:
+            case CG_SAMPLERCUBE:
             {
-                case CG_SAMPLER1D:
-                case CG_SAMPLER2D:
-                case CG_SAMPLER3D:
-                case CG_SAMPLERRECT:
-                case CG_SAMPLERCUBE:
+                std::string filename;
+                
+                // ok first look for a tweakable File parameter in the sampler itself.
+                // get texture filename
+                if(cgGetFirstParameterAnnotation(param) != NULL)
                 {
-                    std::string filename;
-                    // get texture filename
                     CGannotation anno = cgGetNamedParameterAnnotation(param, "File");
+                    if(anno == NULL)
+                        anno = cgGetNamedParameterAnnotation(param, "ResourceName");
                     if(anno != NULL)
-                    {
                         filename = cgGetStringAnnotationValue(anno);
+                }
 
-                        if(!filename.empty())
+                if(filename.empty())
+                {
+                    // ok second look for a tweakable parameter in the texture parameter.
+                    CGstateassignment ss = cgGetFirstSamplerStateAssignment(param);
+                    if(ss)
+                    {
+                        // cgGetSamplerStateAssignmentValue
+                        CGparameter tparam = cgGetTextureStateAssignmentValue(ss);
+                        if(tparam)
                         {
-                            addTextureSearchPaths();
-                            ImagePtr img = OSG::ImageFileHandler::the().read(filename.c_str());
-                            subTextureSearchPaths();
-                            if(img != NullFC)
+                            CGtype tparamType = cgGetParameterType(tparam);
+                
+                            // get tweakable parameters
+                            if(cgGetFirstParameterAnnotation(tparam) != NULL &&
+                               tparamType == CG_TEXTURE)
                             {
-                                beginEditCP(img);
-                                    img->setName(filename);
-                                endEditCP(img);
-                                
-                                newimages.push_back(img);
-                                //printf("CGFXChunk::setEffectFile : created image with name '%s'.\n", fname);
+                                CGannotation anno = cgGetNamedParameterAnnotation(tparam, "File");
+                                if(anno == NULL)
+                                    anno = cgGetNamedParameterAnnotation(tparam, "ResourceName");
+                                if(anno != NULL)
+                                    filename = cgGetStringAnnotationValue(anno);
                             }
-                            else
-                            {
-                                error = true;
-                            }
-                            break;
                         }
                     }
                 }
-                break;
-                default:
-                break;
+
+                if(!filename.empty())
+                {
+                    addTextureSearchPaths();
+                    ImagePtr img = OSG::ImageFileHandler::the().read(filename.c_str());
+                    subTextureSearchPaths();
+                    if(img != NullFC)
+                    {
+                        beginEditCP(img);
+                            img->setName(filename);
+                        endEditCP(img);
+                        
+                        newimages.push_back(img);
+                        //printf("CGFXChunk::setEffectFile : created image with name '%s'.\n", fname);
+                    }
+                    else
+                    {
+                        error = true;
+                    }
+                }
             }
+            break;
+            default:
+            break;
         }
+
         param = cgGetNextParameter(param);
     }
 
@@ -1199,7 +1265,6 @@ bool CGFXChunk::read(const std::string &filename, std::string &data)
     long size = ftell(f);
     fseek(f, 0, SEEK_SET);
 
-    // TODO parse the cgfx file for #include statements and inline the code.
     data.erase();
     data.resize(size);
     int r = fread(&data[0], 1, size, f);
@@ -1218,6 +1283,48 @@ bool CGFXChunk::read(const std::string &filename, std::string &data)
             data[i] = ' ';
     }
 
+    // parse the cgfx string for #include statements and inline the code.
+    std::string::size_type pos;
+    while((pos = data.find("#include")) != std::string::npos)
+    {
+        std::string::size_type p = pos;
+        std::string line;
+        while(true)
+        {
+            std::string str = data.substr(p++, 1);
+            if(str == "\n")
+                break;
+            line += str;
+        }
+
+        // now exclude the filename everything between "" or <>
+        std::string filename;
+        bool found_open = false;
+        for(std::string::size_type i=0;i<line.size();++i)
+        {
+            std::string str = line.substr(i, 1);
+
+            if(!found_open)
+            {
+                if(str == "\"" || str == "<")
+                    found_open = true;
+            }
+            else
+            {
+                if(str == "\"" || str == "<")
+                    break;
+            }
+
+            if(found_open && str != "\"" && str != "<")
+                filename += str;
+        }
+
+        std::string inline_str;
+        // read the include file and inline the code.
+        read(filename, inline_str);
+        data.replace(pos, p - pos, inline_str);
+    }
+
     return true;
 }
 
@@ -1230,6 +1337,11 @@ void CGFXChunk::setEffectString(const std::string &effectString)
         //printf("CGFXChunk::setEffectString : cgfx string didn't change ignoring.\n");
         return;
     }
+
+    CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
+    beginEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
+        cgfxMat->getParameters().clear();
+    endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
 
     _effectString = effectString;
     if(_effectString.empty())
@@ -1767,7 +1879,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.2 2006/04/06 16:56:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
