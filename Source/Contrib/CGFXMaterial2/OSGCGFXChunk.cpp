@@ -991,6 +991,9 @@ void CGFXChunk::updateParameters(Window *win)
 
                             if(img != NullFC)
                             {
+                                // need to add some image conversion for hdr textures in
+                                // CG_SAMPLERCUBE format. Actually convert the cross format
+                                // in 6 images and add them as 6 sides to the image.
                                 beginEditCP(img);
                                     img->setName(pfilename.c_str());
                                 endEditCP(img);
@@ -1010,13 +1013,6 @@ void CGFXChunk::updateParameters(Window *win)
                         {
                             beginEditCP(texc);
                                 texc->setImage(img);
-#if 0
-                                if(img->getDataType() == Image::OSG_FLOAT16_IMAGEDATA ||
-                                    img->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
-                                {
-                                    texc->setInternalFormat(GL_RGBA16F_ARB);
-                                }
-#endif
                             endEditCP(texc);
 
                             if(_action != NULL)
@@ -1773,7 +1769,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.3 2006/04/08 11:17:10 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.4 2006/04/08 17:42:25 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
