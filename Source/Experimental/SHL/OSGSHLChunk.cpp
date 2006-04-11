@@ -116,6 +116,8 @@ UInt32 SHLChunk::_funcGetUniformfv = Window::invalidFunctionID;
 
 Int32 SHLChunk::_clusterId = -1;
 
+SHLChunk::parametercbfp SHLChunk::_userParametersCallback = NULL;
+
 // prototypes
 
 typedef GLuint  (OSG_APIENTRY * OSGGLCREATEPROGRAMOBJECTARBPROC) (void);
@@ -776,77 +778,77 @@ void SHLChunk::checkOSGParameters(void)
             if(parameter->getName() == "OSGCameraOrientation")
             {
                 // .net compiler needs this workaround in opt mode ...
-                paramtercbfp fp = updateCameraOrientation;
+                parametercbfp fp = updateCameraOrientation;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGCameraPosition")
             {
-                paramtercbfp fp = updateCameraPosition;
+                parametercbfp fp = updateCameraPosition;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGViewMatrix")
             {
-                paramtercbfp fp = updateViewMatrix;
+                parametercbfp fp = updateViewMatrix;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGInvViewMatrix")
             {
-                paramtercbfp fp = updateInvViewMatrix;
+                parametercbfp fp = updateInvViewMatrix;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGStereoLeftEye")
             {
-                paramtercbfp fp = updateStereoLeftEye;
+                parametercbfp fp = updateStereoLeftEye;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGClusterId")
             {
-                paramtercbfp fp = updateClusterId;
+                parametercbfp fp = updateClusterId;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGActiveLightsMask")
             {
-                paramtercbfp fp = updateActiveLightsMask;
+                parametercbfp fp = updateActiveLightsMask;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight0Active")
             {
-                paramtercbfp fp = updateLight0Active;
+                parametercbfp fp = updateLight0Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight1Active")
             {
-                paramtercbfp fp = updateLight1Active;
+                parametercbfp fp = updateLight1Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight2Active")
             {
-                paramtercbfp fp = updateLight2Active;
+                parametercbfp fp = updateLight2Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight3Active")
             {
-                paramtercbfp fp = updateLight3Active;
+                parametercbfp fp = updateLight3Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight4Active")
             {
-                paramtercbfp fp = updateLight4Active;
+                parametercbfp fp = updateLight4Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight5Active")
             {
-                paramtercbfp fp = updateLight5Active;
+                parametercbfp fp = updateLight5Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight6Active")
             {
-                paramtercbfp fp = updateLight6Active;
+                parametercbfp fp = updateLight6Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else if(parameter->getName() == "OSGLight7Active")
             {
-                paramtercbfp fp = updateLight7Active;
+                parametercbfp fp = updateLight7Active;
                 _osgParametersCallbacks.push_back(fp);
             }
             else
@@ -856,7 +858,7 @@ void SHLChunk::checkOSGParameters(void)
                     _userParameterCallbacks.find(parameter->getName());
                 if(it != _userParameterCallbacks.end())
                 {
-                    paramtercbfp fp = (*it).second;
+                    parametercbfp fp = (*it).second;
                     _osgParametersCallbacks.push_back(fp);
                 }
                 else
@@ -869,7 +871,7 @@ void SHLChunk::checkOSGParameters(void)
     }
 }
 
-void SHLChunk::addParameterCallback(const char *name, paramtercbfp fp)
+void SHLChunk::addParameterCallback(const char *name, parametercbfp fp)
 {
     if(name == NULL)
         return;
@@ -877,17 +879,25 @@ void SHLChunk::addParameterCallback(const char *name, paramtercbfp fp)
 //    std::string szName(name);
 
     setUniformParameter(name, 0);
-    _userParameterCallbacks.insert(std::make_pair<std::string, paramtercbfp>(name, fp));
+    _userParameterCallbacks.insert(std::make_pair<std::string, parametercbfp>(name, fp));
+}
+
+void SHLChunk::setParameterCallback(parametercbfp fp)
+{
+    _userParametersCallback = fp;
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
 {
-    if(_osgParametersCallbacks.empty())
-        return;
-
     // get "glGetUniformLocationARB" function pointer
     OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation = (OSGGLGETUNIFORMLOCATIONARBPROC)
         action->getWindow()->getFunction(_funcGetUniformLocation);
+
+    if(_userParametersCallback != NULL)
+        _userParametersCallback(getUniformLocation, action, program);
+
+    if(_osgParametersCallbacks.empty())
+        return;
 
     for(UInt32 i=0;i<_osgParametersCallbacks.size();++i)
         _osgParametersCallbacks[i](getUniformLocation, action, program);
@@ -1309,7 +1319,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.44 2006/03/08 10:17:52 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.45 2006/04/11 12:31:52 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

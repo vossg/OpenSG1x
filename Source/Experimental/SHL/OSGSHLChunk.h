@@ -139,10 +139,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
             (GLuint programObj, const char *name);
 
-    typedef void (*paramtercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    typedef void (*parametercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
 
-    void addParameterCallback(const char *name, paramtercbfp fp);
+    void addParameterCallback(const char *name, parametercbfp fp);
+
+    static void setParameterCallback(parametercbfp fp);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -292,12 +294,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static void updateLight7Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
 
-    std::vector<paramtercbfp> _osgParametersCallbacks;
+    std::vector<parametercbfp> _osgParametersCallbacks;
 
     UInt32 _oldParameterSize;
 
-    typedef std::map<std::string, paramtercbfp> userParameterCallbacksMap;
+    typedef std::map<std::string, parametercbfp> userParameterCallbacksMap;
     userParameterCallbacksMap _userParameterCallbacks;
+
+    static parametercbfp       _userParametersCallback;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -307,6 +311,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.22 2006/03/15 11:51:46 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.23 2006/04/11 12:31:52 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
