@@ -263,6 +263,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void checkOSGParameters(void);
     void updateOSGParameters(DrawActionBase *action, GLuint program);
 
+    static void updateWorldMatrix       (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
+    static void updateInvWorldMatrix    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                         DrawActionBase *action, GLuint program);
     static void updateCameraOrientation (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
     static void updateCameraPosition    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
@@ -311,6 +315,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.23 2006/04/11 12:31:52 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.24 2006/04/11 17:35:56 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -223,7 +223,7 @@ public:
   CDDSImage();
   ~CDDSImage();
   
-  bool load(std::istream &is, bool flipImage = true);
+  bool load(std::istream &is, bool flipImage = true, bool swapCubeMap = true);
   void clear();
   
   operator char*();
@@ -289,6 +289,27 @@ DDSImageFileType& DDSImageFileType::the (void)
 *public
 *******************************/
 
+void DDSImageFileType::setFlipImage(bool s)
+{
+    _flipImage = s;
+}
+
+bool DDSImageFileType::getFlipImage(void)
+{
+    return _flipImage;
+}
+
+void DDSImageFileType::setSwapCubeMap(bool s)
+{
+    _swapCubeMap = s;
+}
+
+bool DDSImageFileType::getSwapCubeMap(void)
+{
+    return _swapCubeMap;
+}
+
+
 //-------------------------------------------------------------------------
 /*!
 Tries to fill the image object with the data read from
@@ -306,7 +327,7 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
 
   SINFO << "DDS File Info: ";
   
-  if (ddsImage.load(is) && (validImage = ddsImage.is_valid())) {
+  if (ddsImage.load(is, _flipImage, _swapCubeMap) && (validImage = ddsImage.is_valid())) {
     components = ddsImage.get_components();
     format = ddsImage.get_format();
     isCompressed = ddsImage.is_compressed();
@@ -414,7 +435,9 @@ DDSImageFileType::DDSImageFileType(const Char8 *mimeType,
                                    const Char8 *suffixArray[],
                                    UInt16 suffixByteCount,
                                    UInt32 flags) :
-    ImageFileType(mimeType, suffixArray, suffixByteCount, flags)
+    ImageFileType(mimeType, suffixArray, suffixByteCount, flags),
+    _flipImage(true),
+    _swapCubeMap(true)
 {}
 
 //-------------------------------------------------------------------------
@@ -448,7 +471,7 @@ CDDSImage::~CDDSImage()
 //
 // is - input stream that contains the DDS image
 // flipImage - specifies whether image is flipped on load, default is true
-bool CDDSImage::load(std::istream &is, bool flipImage)
+bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap)
 {
     DDS_HEADER ddsh;
     char filecode[4];
@@ -564,7 +587,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage)
 
         align_memory(&img);
         
-        if (flipImage && !cubemap)
+        if (flipImage /*&& !cubemap*/)
             flip(img, img.width, img.height, img.depth, img.size);
         
         int w = clamp_size(width >> 1);
@@ -588,7 +611,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage)
             CSurface mipmap(w, h, d, size);
             is.read(mipmap, mipmap.size);
 
-            if (flipImage && !cubemap)
+            if (flipImage /*&& !cubemap*/)
             {
                 flip(mipmap, mipmap.width, mipmap.height, mipmap.depth, 
                     mipmap.size);
@@ -605,16 +628,14 @@ bool CDDSImage::load(std::istream &is, bool flipImage)
         images.push_back(img);
     }
 
-#if 0
     // swap cubemaps on y axis (since image is flipped in OGL)
-    if (cubemap && flipImage)
+    if (cubemap && swapCubeMap)
     {
         CTexture tmp;
         tmp = images[3];
         images[3] = images[2];
         images[2] = tmp;
     }
-#endif
 
     valid = true;
 

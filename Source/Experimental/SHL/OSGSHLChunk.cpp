@@ -775,9 +775,20 @@ void SHLChunk::checkOSGParameters(void)
            parameter->getName()[1] == 'S' &&
            parameter->getName()[2] == 'G')
         {
-            if(parameter->getName() == "OSGCameraOrientation")
+            if(parameter->getName() == "OSGWorldMatrix")
             {
                 // .net compiler needs this workaround in opt mode ...
+                parametercbfp fp = updateWorldMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGInvWorldMatrix")
+            {
+                // .net compiler needs this workaround in opt mode ...
+                parametercbfp fp = updateInvWorldMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGCameraOrientation")
+            {
                 parametercbfp fp = updateCameraOrientation;
                 _osgParametersCallbacks.push_back(fp);
             }
@@ -901,6 +912,53 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
 
     for(UInt32 i=0;i<_osgParametersCallbacks.size();++i)
         _osgParametersCallbacks[i](getUniformLocation, action, program);
+}
+
+void SHLChunk::updateWorldMatrix(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                DrawActionBase *action, GLuint program)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateWorldMatrix : Can't update OSGWorldMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    if(ra != NULL)
+        m = ra->top_matrix();
+
+    // get "glUniformMatrix4fvARB" function pointer
+    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    GLint location = getUniformLocation(program, "OSGWorldMatrix");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
+}
+
+void SHLChunk::updateInvWorldMatrix(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+                                   DrawActionBase *action, GLuint program)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateInvWorldMatrix : Can't update OSGInvWorldMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    if(ra != NULL)
+        m = ra->top_matrix();
+    m.invert();
+
+    // get "glUniformMatrix4fvARB" function pointer
+    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    GLint location = getUniformLocation(program, "OSGInvWorldMatrix");
+    if(location != -1)
+        uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
 }
 
 void SHLChunk::updateCameraOrientation(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
@@ -1225,7 +1283,13 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     // SHLChunk didn't change so do nothing.
     if(old == this)
+    {
+        // just update the osg parameters the world matrix could have been changed.
+        GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
+        if(program != 0)
+            updateOSGParameters(action, program);
         return;
+    }
 
     action->getWindow()->validateGLObject(getGLId());
 
@@ -1319,7 +1383,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.45 2006/04/11 12:31:52 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.46 2006/04/11 17:35:56 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

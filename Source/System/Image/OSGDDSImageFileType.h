@@ -69,6 +69,12 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
     /*! \name                  Get Methods                                 */
     /*! \{                                                                 */
 
+    void setFlipImage(bool s);
+    bool getFlipImage(void);
+
+    void setSwapCubeMap(bool s);
+    bool getSwapCubeMap(void);
+
     static DDSImageFileType & the (void);
 
     /*! \}                                                                 */
@@ -113,6 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
 
     /*! \}                                                                 */
 
+    bool _flipImage;
+    bool _swapCubeMap;
+  
     static DDSImageFileType _the;
 
 };
