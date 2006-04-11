@@ -810,6 +810,12 @@ export LD_LIBRARY_PATH="`pwd`/lib/dbg:$LD_LIBRARY_PATH"
 # create the snapshot
 case $system in
 
+    *-pc-cygwin )    
+                        # Include the .pdb files
+                        mkdir pdb 
+                        find . -name '*.pdb' | grep -v 'vc.*\.pdb' | xargs --replace mv {} pdb
+                        tar cf - bin lib pdb include | gzip -9f > $out_html.snapshot.tgz
+                        ;; 
     * )    
                         tar cf - bin lib include | gzip -9f > $out_html.snapshot.tgz
                         ;;
