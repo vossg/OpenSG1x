@@ -285,7 +285,8 @@ RenderAction::RenderAction(void) :
     _glEndQueryARB          (NULL),
     _glGetQueryObjectuivARB (NULL),
 
-    _cgfxChunkId(-1)
+    _cgfxChunkId(-1),
+    _shlChunkId(-1)
 {
     if(_vDefaultEnterFunctors != NULL)
         _enterFunctors = *_vDefaultEnterFunctors;
@@ -308,6 +309,13 @@ RenderAction::RenderAction(void) :
     {
         _cgfxChunkId = cgfxChunk->getClass()->getId();
         subRefCP(cgfxChunk);
+    }
+
+    StateChunkPtr shlChunk = StateChunkPtr::dcast(FieldContainerFactory::the()->createFieldContainer("SHLChunk"));
+    if(shlChunk != NullFC)
+    {
+        _shlChunkId = shlChunk->getClass()->getId();
+        subRefCP(shlChunk);
     }
 }
 
@@ -374,7 +382,8 @@ RenderAction::RenderAction(const RenderAction &source) :
     _glEndQueryARB          (source._glEndQueryARB),
     _glGetQueryObjectuivARB (source._glGetQueryObjectuivARB),
 
-    _cgfxChunkId(source._cgfxChunkId)
+    _cgfxChunkId(source._cgfxChunkId),
+    _shlChunkId(source._shlChunkId)
 {
     _pNodeFactory = new DrawTreeNodeFactory;
 }
@@ -1346,6 +1355,23 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
 
 //#define PRINT_MAT
 
+void RenderAction::updateShader(State *state)
+{
+    if(state == NULL)
+        return;
+
+    if(_cgfxChunkId != -1)
+    {
+        StateChunkPtr cgfxChunk = state->getChunk(_cgfxChunkId);
+        if(cgfxChunk != NULL)
+            cgfxChunk->update(this);
+    }
+
+    StateChunkPtr shlChunk = state->getChunk(_shlChunkId);
+    if(shlChunk != NULL)
+        shlChunk->update(this);
+}
+
 void RenderAction::draw(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
@@ -1400,27 +1426,9 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         if(pNewState != NULL)
         {
-            // for updating the world matrix shader parameter.
-            // not used right now.
-            /*
-            StateChunkPtr cgfxChunk = pNewState->getChunk(_cgfxChunkId);
-            if(cgfxChunk != NULL)
-                cgfxChunk->update(this);
-            */
-
             if(_pActiveState != NULL)
             {
-                // ok for cgfx I have to call it also for equal states
-                // to update the world matrix.
-                // not necessary because the CGFXMaterial is a MultiPassMaterial and
-                // the pRoot->isLastMultiPass() stuff
-                // below already makes sure that pNewState is not equal _pActiveState
-                // in the next draw() call.
-                // Only exception is a CGFXMaterial with more than one pass because
-                // the state is the same for all passes.
-
                 if(pNewState != _pActiveState ||
-                   (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
                    pRoot->isNoStateSorting())
                 {
                     pNewState->changeFrom(this, _pActiveState);
@@ -1428,6 +1436,12 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                     _pActiveState = pNewState;
 
                     _uiNumMaterialChanges++;
+                }
+                else
+                {
+                    // even if the state didn't change we need to update
+                    // the shaders to provide the right world matrix.
+                    updateShader(pNewState);
                 }
             }
             else
@@ -1438,6 +1452,10 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
                 _uiNumMaterialChanges++;
             }
+        }
+        else
+        {
+            updateShader(_pActiveState);
         }
 
         if(pRoot->getGeometry() != NULL)

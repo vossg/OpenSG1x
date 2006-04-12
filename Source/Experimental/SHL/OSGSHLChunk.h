@@ -112,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \name                       State                                  */
     /*! \{                                                                 */
 
+    virtual void update     ( DrawActionBase * action );
+    
     virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
     virtual void changeFrom ( DrawActionBase * action, StateChunk * old,
@@ -315,6 +317,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.24 2006/04/11 17:35:56 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.25 2006/04/12 13:08:25 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

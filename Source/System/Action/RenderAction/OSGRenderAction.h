@@ -301,6 +301,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void (OSG_APIENTRY* _glGetQueryObjectuivARB)(GLuint, GLenum, GLuint*);
 
     Int32 _cgfxChunkId;
+    Int32 _shlChunkId;
 
     static UInt32 _arbOcclusionQuery;
     static UInt32 _funcGenQueriesARB;
@@ -328,6 +329,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     virtual std::vector<Functor> *getDefaultLeaveFunctors(void);
 
             void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
+
+            void updateShader(State *state);
     virtual void draw(DrawTreeNode *pRoot);
 
     inline  void updateTopMatrix(void);

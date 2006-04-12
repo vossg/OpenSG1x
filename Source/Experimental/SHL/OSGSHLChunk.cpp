@@ -1241,6 +1241,17 @@ void SHLChunk::updateLight7Active(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocat
 
 /*------------------------------ State ------------------------------------*/
 
+void SHLChunk::update(DrawActionBase *action)
+{
+    action->getWindow()->validateGLObject(getGLId());
+
+    GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
+    if(program == 0)
+        return;
+
+    updateOSGParameters(action, program);
+}
+
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 {
     //printf("SHLChunk::activate : %p\n", action->getWindow());
@@ -1383,7 +1394,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.46 2006/04/11 17:35:56 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.47 2006/04/12 13:08:25 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

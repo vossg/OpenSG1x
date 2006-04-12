@@ -72,6 +72,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
     void setFlipImage(bool s);
     bool getFlipImage(void);
 
+    void setFlipCubeMap(bool s);
+    bool getFlipCubeMap(void);
+
     void setSwapCubeMap(bool s);
     bool getSwapCubeMap(void);
 
@@ -120,6 +123,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DDSImageFileType : public ImageFileType
     /*! \}                                                                 */
 
     bool _flipImage;
+    bool _flipCubeMap;
     bool _swapCubeMap;
   
     static DDSImageFileType _the;

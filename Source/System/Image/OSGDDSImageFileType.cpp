@@ -223,7 +223,8 @@ public:
   CDDSImage();
   ~CDDSImage();
   
-  bool load(std::istream &is, bool flipImage = true, bool swapCubeMap = true);
+  bool load(std::istream &is, bool flipImage = true, bool swapCubeMap = true,
+            bool flipCubeMap = false);
   void clear();
   
   operator char*();
@@ -299,6 +300,16 @@ bool DDSImageFileType::getFlipImage(void)
     return _flipImage;
 }
 
+void DDSImageFileType::setFlipCubeMap(bool s)
+{
+    _flipCubeMap = s;
+}
+
+bool DDSImageFileType::getFlipCubeMap(void)
+{
+    return _flipCubeMap;
+}
+
 void DDSImageFileType::setSwapCubeMap(bool s)
 {
     _swapCubeMap = s;
@@ -327,7 +338,9 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
 
   SINFO << "DDS File Info: ";
   
-  if (ddsImage.load(is, _flipImage, _swapCubeMap) && (validImage = ddsImage.is_valid())) {
+  if (ddsImage.load(is, _flipImage, _swapCubeMap, _flipCubeMap) &&
+     (validImage = ddsImage.is_valid()))
+  {
     components = ddsImage.get_components();
     format = ddsImage.get_format();
     isCompressed = ddsImage.is_compressed();
@@ -437,7 +450,8 @@ DDSImageFileType::DDSImageFileType(const Char8 *mimeType,
                                    UInt32 flags) :
     ImageFileType(mimeType, suffixArray, suffixByteCount, flags),
     _flipImage(true),
-    _swapCubeMap(true)
+    _flipCubeMap(false),
+    _swapCubeMap(false)
 {}
 
 //-------------------------------------------------------------------------
@@ -471,7 +485,7 @@ CDDSImage::~CDDSImage()
 //
 // is - input stream that contains the DDS image
 // flipImage - specifies whether image is flipped on load, default is true
-bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap)
+bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool flipCubeMap)
 {
     DDS_HEADER ddsh;
     char filecode[4];
@@ -587,7 +601,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap)
 
         align_memory(&img);
         
-        if (flipImage /*&& !cubemap*/)
+        if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
             flip(img, img.width, img.height, img.depth, img.size);
         
         int w = clamp_size(width >> 1);
@@ -611,7 +625,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap)
             CSurface mipmap(w, h, d, size);
             is.read(mipmap, mipmap.size);
 
-            if (flipImage /*&& !cubemap*/)
+            if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
             {
                 flip(mipmap, mipmap.width, mipmap.height, mipmap.depth, 
                     mipmap.size);

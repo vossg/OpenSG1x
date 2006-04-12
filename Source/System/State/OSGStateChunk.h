@@ -142,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunk : public StateChunkBase
     /*! \name                      State                                   */
     /*! \{                                                                 */
 
+    virtual void update        ( DrawActionBase * action );
+
     virtual void activate      ( DrawActionBase * action, UInt32 index = 0 );
 
     virtual void changeFrom    ( DrawActionBase * action, StateChunk * old,
