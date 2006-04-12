@@ -1555,7 +1555,6 @@ dnl e15
                     ac_gdz_gl_libdir_e15='"C:\Program Files\Microsoft Platform SDK\Lib"'
                     ;;
             esac
-            ;;
         ;;
         darwin*)
             ac_gdz_gl_lib_e15='-framework OpenGL'
@@ -1984,7 +1983,7 @@ dnl e15
             ;;
             *)
                 ac_gdz_text_incdir_e15='/usr/include/freetype2'
-                ac_gdz_text_lib_e15='-lfreetype -lfontconfig'
+                ac_gdz_text_lib_e15='"-lfreetype -lfontconfig"'
                 ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DFT2_LIB -DFONTCONFIG_LIB'
             ;;
         esac
@@ -2172,6 +2171,11 @@ dnl e15
     AC_SUBST(ac_gdz_stlport_lib_e15)
     AC_SUBST(ac_gdz_stlport_incdir_e15)
     AC_SUBST(ac_gdz_stlport_libdir_e15)
+
+    AC_SUBST(ac_gdz_text_incdir_e15)
+    AC_SUBST(ac_gdz_text_libdir_e15)
+    AC_SUBST(ac_gdz_text_lib_e15)
+    AC_SUBST(ac_gdz_have_text_e15)
 
     AC_SUBST(ac_gdz_system_win_e15)
     AC_SUBST(ac_gdz_system_unix_e15)

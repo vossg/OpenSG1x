@@ -344,24 +344,24 @@ INSTALL_LIB_DIR := "$$d"
 endif
 
 install-libs: install-test
-	@if [ ! -w $(INSTALL_DIR)/lib ]; then mkdir $(INSTALL_DIR)/lib; fi
+	@if [ ! -w $(INSTALL_DIR)/lib$(LIB_ARCH) ]; then mkdir $(INSTALL_DIR)/lib$(LIB_ARCH); fi
 ifneq ($(OS_BASE),cygwin)
-	@if [ ! -w $(INSTALL_DIR)/lib/dbg ]; then mkdir $(INSTALL_DIR)/lib/dbg; fi
-	@if [ ! -w $(INSTALL_DIR)/lib/opt ]; then mkdir $(INSTALL_DIR)/lib/opt; fi
+	@if [ ! -w $(INSTALL_DIR)/lib$(LIB_ARCH)/dbg ]; then mkdir $(INSTALL_DIR)/lib$(LIB_ARCH)/dbg; fi
+	@if [ ! -w $(INSTALL_DIR)/lib$(LIB_ARCH)/opt ]; then mkdir $(INSTALL_DIR)/lib$(LIB_ARCH)/opt; fi
 endif
 	CURRDIR=`pwd`;								\
 	for s in $(INSTALL_LIB_SUFFIXES);					\
 	do									\
 		for d in dbg opt;						\
 		do								\
-			rm -f $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR)/*$$s;	\
+			rm -f $(INSTALL_DIR)/lib$(LIB_ARCH)/$(INSTALL_LIB_DIR)/*$$s;	\
 		done;								\
 		for d in dbg opt;						\
 		do								\
 			BUILDLIBS=`find $$CURRDIR -follow \( -name "lib-$$d" -o \
                        -name "lib-$${d}lnk" \)	\
                        -exec find {} -name "*$$s" -print \;` ;	\
-			cd $(INSTALL_DIR)/lib/$(INSTALL_LIB_DIR);		\
+			cd $(INSTALL_DIR)/lib$(LIB_ARCH)/$(INSTALL_LIB_DIR);		\
 			for t in $$BUILDLIBS;					\
 			do							\
 			    echo $$t;						\
@@ -421,6 +421,7 @@ install-bin: install-test
 	       -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"                        \
 		   -e "s/MSVCPRTD/MSVCPRT\$$\{dbg_char\}/g"							\
 		   -e "s/MSVCRTD/MSVCRT\$$\{dbg_char\}/g"							\
+		   -e "s/@am_gdz_lib_arch@/$(LIB_ARCH)/g"                           \
 	    > $(INSTALL_DIR)/bin/osg-config
 	@chmod 755 $(INSTALL_DIR)/bin/osg-config
 

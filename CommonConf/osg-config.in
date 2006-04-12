@@ -21,7 +21,7 @@ have_freetype1=@ac_gdz_have_freetype1_e15@
 have_text=@ac_gdz_have_text_e15@
 have_sepia=@ac_gdz_have_sepia_e15@
 
-
+lib_arch=@am_gdz_lib_arch@
 
 if test "$system_win" = "yes"; then
 	prefix=`cygpath -w $prefix`
@@ -550,7 +550,7 @@ fi;
 if test "$system_win" = "yes"; then
     opensg_lib_path=${linkdir_pre}${exec_prefix}/lib${linkdir_suf}
 else
-    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib/${lib_suf}${linkdir_suf}
+    opensg_lib_path=${linkdir_pre}${exec_prefix}/lib${lib_arch}/${lib_suf}${linkdir_suf}
 fi
 
 if test "$echo_lflags" = "yes"; then
