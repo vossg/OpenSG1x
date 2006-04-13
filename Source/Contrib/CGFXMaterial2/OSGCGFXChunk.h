@@ -83,6 +83,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
         OSG_CG_WORLDIT,
         OSG_CG_WORLDVIEW,
         OSG_CG_WORLDVIEWI,
+        OSG_CG_WORLDVIEWIT,
         OSG_CG_VIEW,
         OSG_CG_VIEWI,
         OSG_CG_VIEWIT,
@@ -120,9 +121,19 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     virtual void dump(      UInt32     uiIndent = 0,
                       const BitVector  bvFlags  = 0) const;
 
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Paramerters                            */
+    /*! \name                    Parameter Callbacks                       */
+    /*! \{                                                                 */
+
+    typedef void (*parametercbfp) (DrawActionBase *action, CGeffect effect);
+
+    static void setParameterCallback(parametercbfp fp);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Parameters                            */
     /*! \{                                                                 */
 
     void updateEffect(Window *win);
@@ -253,6 +264,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const CGFXChunk &source);
+
+    static parametercbfp       _userParametersCallback;
 };
 
 typedef CGFXChunk *CGFXChunkP;
@@ -262,6 +275,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.2 2006/04/12 13:08:25 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.3 2006/04/13 16:24:29 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

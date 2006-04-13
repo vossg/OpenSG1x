@@ -1294,13 +1294,7 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     // SHLChunk didn't change so do nothing.
     if(old == this)
-    {
-        // just update the osg parameters the world matrix could have been changed.
-        GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
-        if(program != 0)
-            updateOSGParameters(action, program);
         return;
-    }
 
     action->getWindow()->validateGLObject(getGLId());
 
@@ -1394,7 +1388,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.47 2006/04/12 13:08:25 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.48 2006/04/13 16:24:29 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

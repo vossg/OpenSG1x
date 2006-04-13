@@ -103,11 +103,20 @@ FresnelMaterial::~FresnelMaterial(void)
     if(_sfImage.getValue() != NullFC)
         subRefCP(_sfImage.getValue());
 
-    subRefCP(_materialChunk);
-    subRefCP(_textureChunk);
-    subRefCP(_texGenChunk);
-    subRefCP(_blendChunk);
-    subRefCP(_img);
+    if(_materialChunk != NullFC)
+        subRefCP(_materialChunk);
+
+    if(_textureChunk != NullFC)
+        subRefCP(_textureChunk);
+
+    if(_texGenChunk != NullFC)
+        subRefCP(_texGenChunk);
+
+    if(_blendChunk != NullFC)
+        subRefCP(_blendChunk);
+
+    if(_img != NullFC)
+        subRefCP(_img);
 }
 
 void FresnelMaterial::prepareLocalChunks(void)
@@ -163,17 +172,22 @@ void FresnelMaterial::updateFresnel(void)
         FWARNING(("FresnelMaterial::updateFresnel : pixelformat(%u) not supported\n", getImage()->getPixelFormat()));
         return;
     }
-    
-#if 0
-    // copy original image.
-    beginEditCP(_img);
-        bool ok = getImage()->reformat(Image::OSG_BGRA_PF, _img);
-    endEditCP(_img);
-    
-    beginEditCP(_textureChunk, TextureChunk::ImageFieldMask);
-        _textureChunk->setImage(_img);
-    endEditCP(_textureChunk, TextureChunk::ImageFieldMask);
-#endif
+
+    if(_img->getPixelFormat() != getImage()->getPixelFormat() ||
+       _img->getWidth() != getImage()->getWidth() ||
+       _img->getHeight() != getImage()->getHeight())
+    {
+        beginEditCP(_img);
+            _img->set(Image::OSG_RGBA_PF, getImage()->getWidth(), getImage()->getHeight());
+        endEditCP(_img);
+    }
+
+    if(_textureChunk->getImage() != _img)
+    {
+        beginEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+            _textureChunk->setImage(_img);
+        endEditCP(_textureChunk, TextureChunk::ImageFieldMask);
+    }
 
     // copy the image and calculate the alpha values.
     UInt8 *src = getImage()->getData();
@@ -402,7 +416,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.4 2005/06/29 11:41:13 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.5 2006/04/13 16:24:29 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 

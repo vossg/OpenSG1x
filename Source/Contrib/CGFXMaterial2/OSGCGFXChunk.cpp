@@ -105,6 +105,8 @@ StateChunkClass CGFXChunk::_class("CGFX");
 bool CGFXChunk::_initializedCGFXGL = false;
 Real64  CGFXChunk::_time = -1.0;
 
+CGFXChunk::parametercbfp CGFXChunk::_userParametersCallback = NULL;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -470,6 +472,10 @@ void CGFXChunk::updateEffect(Window *win)
             setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWI, paramName);
         else if (stringcasecmp(paramSemantic.c_str(), "WorldViewInverse") == 0)
             setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWI, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewIT") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWIT, paramName);
+        else if (stringcasecmp(paramSemantic.c_str(), "WorldViewInverseTranspose") == 0)
+            setStateParameter(CGFXChunk::OSG_CG_WORLDVIEWIT, paramName);
         else if (stringcasecmp(paramSemantic.c_str(), "View") == 0)
             setStateParameter(CGFXChunk::OSG_CG_VIEW, paramName);
         else if (stringcasecmp(paramSemantic.c_str(), "ViewI") == 0)
@@ -681,27 +687,26 @@ void CGFXChunk::updateEffect(Window *win)
                             }
                         }
                     }
-        
-                    if(!filename.empty())
+
+                    // we do this also for a empty filename could ne set later
+                    // via setParameter().
+                    if(_cgfx_changed)
                     {
-                        if(_cgfx_changed)
+                        TextureChunkPtr texc = TextureChunk::create();
+                        _textures.insert(std::make_pair(paramName, std::make_pair(texc, filename)));
+                    }
+                    else
+                    {
+                        // just upload the texture for the new context.
+                        TexturesMap::iterator it = _textures.find(paramName);
+                        if(it != _textures.end())
                         {
-                            TextureChunkPtr texc = TextureChunk::create();
-                            _textures.insert(std::make_pair(paramName, std::make_pair(texc, filename)));
-                        }
-                        else
-                        {
-                            // just upload the texture for the new context.
-                            TexturesMap::iterator it = _textures.find(paramName);
-                            if(it != _textures.end())
-                            {
-                                TextureChunkPtr texc = (*it).second.first;
-                                texc->activate(_action, 0);
-                                texc->deactivate(_action, 0);
-                            }
+                            TextureChunkPtr texc = (*it).second.first;
+                            texc->activate(_action, 0);
+                            texc->deactivate(_action, 0);
                         }
                     }
-        
+
                     cgfxParameters.insert(paramName);
                 }
                 break;
@@ -1383,6 +1388,11 @@ void CGFXChunk::setStateParameter(UInt32 type, const std::string &parameterName)
     _state_parameters[type] = parameterName;
 }
 
+void CGFXChunk::setParameterCallback(parametercbfp fp)
+{
+    _userParametersCallback = fp;
+}
+
 void CGFXChunk::updateStateParameters(DrawActionBase *action)
 {
     Viewport *vp = action->getViewport();
@@ -1403,6 +1413,9 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
 
     if(_effect[id].effect == NULL)
         return;
+
+    if(_userParametersCallback != NULL)
+        _userParametersCallback(action, _effect[id].effect);
 
     Matrix m, world, projection, translation, viewing, viewingI;
 
@@ -1495,7 +1508,17 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
                                 _state_parameters[OSG_CG_WORLDVIEWI].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
-    
+
+    if(!_state_parameters[OSG_CG_WORLDVIEWIT].empty())
+    {
+        m = viewing;
+        m.mult(world);
+        m.invert();
+        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+                                _state_parameters[OSG_CG_WORLDVIEWIT].c_str());
+        cgSetMatrixParameterfr(param, m.getValues());
+    }
+
     if(!_state_parameters[OSG_CG_VIEW].empty())
     {
         m = viewing;
@@ -1774,7 +1797,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.5 2006/04/12 13:08:25 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.6 2006/04/13 16:24:29 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

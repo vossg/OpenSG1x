@@ -1428,7 +1428,10 @@ void RenderAction::draw(DrawTreeNode *pRoot)
         {
             if(_pActiveState != NULL)
             {
+                // we need this cgfx test because for multipass cgfx materials
+                // the state doesn't change.
                 if(pNewState != _pActiveState ||
+                   (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
                    pRoot->isNoStateSorting())
                 {
                     pNewState->changeFrom(this, _pActiveState);
