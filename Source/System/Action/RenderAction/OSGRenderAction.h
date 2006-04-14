@@ -171,6 +171,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     std::vector<Light *> getActiveLights(void);
     UInt32 getActiveLightsMask(void);
+    UInt32 getActiveLightsCount(void);
 
     /*------------------------- comparison ----------------------------------*/
 

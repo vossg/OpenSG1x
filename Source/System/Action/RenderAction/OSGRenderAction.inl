@@ -137,6 +137,12 @@ UInt32 RenderAction::getActiveLightsMask(void)
     return _activeLightsMask;
 }
 
+inline
+UInt32 RenderAction::getActiveLightsCount(void)
+{
+    return _activeLightsCount;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/

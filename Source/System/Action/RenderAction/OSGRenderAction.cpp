@@ -1854,6 +1854,17 @@ Action::ResultE RenderAction::stop(ResultE res)
             _vLights[i].first->activate(this, i);
         }
     }
+    else
+    {
+        // reset all lights.
+        const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
+        for(i = 0;i < 8;++i)
+        {
+            glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
+                      black.getValuesRGBA());
+            glDisable(GL_LIGHT0 + i);
+        }
+    }
 
     if(_pNoStateSortRoot != NULL)
     {
@@ -1952,8 +1963,13 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
     else
     {
+        const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
         for(i = 0;i < _activeLightsCount;++i)
+        {
+            glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
+                      black.getValuesRGBA());
             glDisable(GL_LIGHT0 + i);
+        }
     }
 
     if(_useGLFinish)
