@@ -55,10 +55,6 @@
 
 #include "OSGCGFXChunkBase.h"
 
-// HACK I will remove this later!!!!!
-#include <Cg/cg.h>
-#include <Cg/cgGL.h>
-
 OSG_BEGIN_NAMESPACE
 
 /*! \brief CGFXChunk class. See \ref
@@ -127,7 +123,9 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     /*! \name                    Parameter Callbacks                       */
     /*! \{                                                                 */
 
-    typedef void (*parametercbfp) (DrawActionBase *action, CGeffect effect);
+    typedef struct _OSGCGeffect     *OSGCGeffect;
+
+    typedef void (*parametercbfp) (DrawActionBase *action, OSGCGeffect effect);
 
     static void setParameterCallback(parametercbfp fp);
 
@@ -214,16 +212,15 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     typedef struct _OSGCGcontext    *OSGCGcontext;
     typedef struct _OSGCGparameter  *OSGCGparameter;
-    typedef struct _OSGCGeffect     *OSGCGeffect;
     typedef struct _OSGCGtechnique  *OSGCGtechnique;
+    typedef struct _OSGCGpass       *OSGCGpass;
     
     struct EffectS
     {
-        CGcontext context;
-        CGeffect effect;
-        CGtechnique technique;
-        //UInt32 pass;
-        CGpass pass;
+        OSGCGcontext context;
+        OSGCGeffect effect;
+        OSGCGtechnique technique;
+        OSGCGpass pass;
 
         EffectS(void);
         void reset(void);
@@ -260,7 +257,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     void subTextureSearchPaths(void);
     void initCGFXGL(void);
     bool read(const std::string &filename, std::string &data);
-    bool updateTechnique(Window *win, CGeffect effect = NULL);
+    bool updateTechnique(Window *win, OSGCGeffect effect = NULL);
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const CGFXChunk &source);
@@ -275,6 +272,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.3 2006/04/13 16:24:29 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.4 2006/04/14 15:12:24 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

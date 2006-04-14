@@ -144,7 +144,7 @@ void CGParameterChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk
 }
 
 
-void CGParameterChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
+void CGParameterChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), UInt32 OSG_CHECK_ARG(idx))
 {
 }
 
@@ -191,7 +191,7 @@ bool CGParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunk.cpp,v 1.1 2004/08/27 12:49:19 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunk.cpp,v 1.2 2006/04/14 15:12:23 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGPARAMETERCHUNKBASE_INLINE_CVSID;
 

@@ -300,6 +300,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void (OSG_APIENTRY* _glEndQueryARB)(GLenum);
     void (OSG_APIENTRY* _glGetQueryObjectuivARB)(GLuint, GLenum, GLuint*);
 
+    Int32 _cgChunkId;
     Int32 _cgfxChunkId;
     Int32 _shlChunkId;
 

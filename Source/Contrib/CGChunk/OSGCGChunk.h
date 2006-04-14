@@ -85,7 +85,16 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                       Paramerters                            */
+    /*! \name                    Parameter Callbacks                       */
+    /*! \{                                                                 */
+
+    typedef void (*parametercbfp) (DrawActionBase *action, CGChunk *cgchunk);
+
+    static void setParameterCallback(parametercbfp fp);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Parameters                             */
     /*! \{                                                                 */
 
     void updateParameters(Window *win, const MFShaderParameterPtr &parameters,
@@ -93,8 +102,25 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                       CG                                     */
+    /*! \{                                                                 */
+
+    typedef struct _OSGCGcontext    *OSGCGcontext;
+    typedef struct _OSGCGprogram    *OSGCGprogram;
+    typedef struct _OSGCGparameter  *OSGCGparameter;
+
+    OSGCGcontext getContext (void);
+    OSGCGprogram getVP      (void);
+    bool         isVPValid  (void);
+    OSGCGprogram getFP      (void);
+    bool         isFPValid  (void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                       State                                  */
     /*! \{                                                                 */
+
+    virtual void update     ( DrawActionBase * action );
 
     virtual void activate   ( DrawActionBase * action, UInt32 index = 0 );
 
@@ -161,10 +187,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     bool hasVP(void);
     bool hasFP(void);
 
-    typedef struct _OSGCGcontext    *OSGCGcontext;
-    typedef struct _OSGCGprogram    *OSGCGprogram;
-    typedef struct _OSGCGparameter  *OSGCGparameter;
-
     OSGCGcontext                _context;
     OSGCGprogram                _vProgram;
     bool                        _vp_isvalid;
@@ -184,6 +206,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
     typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
             (GLuint programObj, const char *name);
 
+    static void updateWorldMatrix       (DrawActionBase *action, CGChunk *cgchunk);
+    static void updateInvWorldMatrix    (DrawActionBase *action, CGChunk *cgchunk);
     static void updateCameraOrientation (DrawActionBase *action, CGChunk *cgchunk);
     static void updateCameraPosition    (DrawActionBase *action, CGChunk *cgchunk);
     static void updateProjectionMatrix  (DrawActionBase *action, CGChunk *cgchunk);
@@ -200,6 +224,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunk : public CGChunkBase
 #endif
 
     static OSGCGcontext _current_context;
+    static parametercbfp _userParametersCallback;
 };
 
 typedef CGChunk *CGChunkP;

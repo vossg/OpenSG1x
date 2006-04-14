@@ -68,6 +68,7 @@
 OSG_USING_NAMESPACE
 
 CGChunk::OSGCGcontext CGChunk::_current_context = NULL;
+CGChunk::parametercbfp CGChunk::_userParametersCallback = NULL;
 
 /*! \class osg::CGChunk
 
@@ -336,7 +337,7 @@ void CGChunk::updateCGContext(void)
     }
 }
 
-void CGChunk::updateParameters(Window */*win*/,
+void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
                                const MFShaderParameterPtr &parameters,
                                bool force)
 {
@@ -475,7 +476,40 @@ void CGChunk::updateParameters(Window */*win*/,
     }
 }
 
+CGChunk::OSGCGcontext CGChunk::getContext(void)
+{
+    return _context;
+}
+
+CGChunk::OSGCGprogram CGChunk::getVP(void)
+{
+    return _vProgram;
+}
+
+bool CGChunk::isVPValid(void)
+{
+    return _vp_isvalid;
+}
+
+CGChunk::OSGCGprogram CGChunk::getFP(void)
+{
+    return _fProgram;
+}
+
+bool CGChunk::isFPValid(void)
+{
+    return _fp_isvalid;
+}
+
+
 /*------------------------------ State ------------------------------------*/
+
+void CGChunk::update(DrawActionBase *action)
+{
+    action->getWindow()->validateGLObject(getGLId());
+
+    updateOSGParameters(action);
+}
 
 void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 {
@@ -554,7 +588,7 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 }
 
 
-void CGChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
+void CGChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), UInt32 OSG_CHECK_ARG(idx))
 {
     if(_fp_isvalid)
         cgGLDisableProfile((CGprofile) getFragmentProfile());
@@ -641,7 +675,19 @@ void CGChunk::checkOSGParameters(void)
            parameter->getName()[1] == 'S' &&
            parameter->getName()[2] == 'G')
         {
-            if(parameter->getName() == "OSGCameraOrientation")
+            if(parameter->getName() == "OSGWorldMatrix")
+            {
+                // .net compiler needs this workaround in opt mode ...
+                parametercbfp fp = updateWorldMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGInvWorldMatrix")
+            {
+                // .net compiler needs this workaround in opt mode ...
+                parametercbfp fp = updateInvWorldMatrix;
+                _osgParametersCallbacks.push_back(fp);
+            }
+            else if(parameter->getName() == "OSGCameraOrientation")
             {
                 // .net compiler needs this workaround in opt mode ...
                 paramtercbfp fp = updateCameraOrientation;
@@ -696,13 +742,84 @@ void CGChunk::checkOSGParameters(void)
     }
 }
 
+void CGChunk::setParameterCallback(parametercbfp fp)
+{
+    _userParametersCallback = fp;
+}
+
 void CGChunk::updateOSGParameters(DrawActionBase *action)
 {
+    if(_userParametersCallback != NULL)
+        _userParametersCallback(action, this);
+
     if(_osgParametersCallbacks.empty())
         return;
 
     for(UInt32 i=0;i<_osgParametersCallbacks.size();++i)
         _osgParametersCallbacks[i](action, this);
+}
+
+void CGChunk::updateWorldMatrix(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateWorldMatrix : Can't update OSGWorldMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    if(ra != NULL)
+        m = ra->top_matrix();
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGWorldMatrix");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGWorldMatrix");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
+}
+
+void CGChunk::updateInvWorldMatrix(DrawActionBase *action, CGChunk *cgchunk)
+{
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateInvWorldMatrix : Can't update OSGInvWorldMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    if(ra != NULL)
+        m = ra->top_matrix();
+    m.invert();
+
+    if(cgchunk->_vp_isvalid)
+    {
+        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
+                                            "OSGInvWorldMatrix");
+        if(vpparam != 0)
+            cgGLSetMatrixParameterfr(vpparam, m.getValues());
+    }
+    
+    if(cgchunk->_fp_isvalid)
+    {
+        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
+                                            "OSGInvWorldMatrix");
+        if(fpparam != 0)
+            cgGLSetMatrixParameterfr(fpparam, m.getValues());
+    }
 }
 
 void CGChunk::updateCameraOrientation(DrawActionBase *action, CGChunk *cgchunk)

@@ -285,6 +285,7 @@ RenderAction::RenderAction(void) :
     _glEndQueryARB          (NULL),
     _glGetQueryObjectuivARB (NULL),
 
+    _cgChunkId(-1),
     _cgfxChunkId(-1),
     _shlChunkId(-1)
 {
@@ -302,6 +303,14 @@ RenderAction::RenderAction(void) :
     _funcBeginQueryARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBeginQueryARB");
     _funcEndQueryARB            = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glEndQueryARB");
     _funcGetQueryObjectuivARB   = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetQueryObjectuivARB");
+
+    // we can't include OSGCGChunk here because it is in Contrib ...
+    StateChunkPtr cgChunk = StateChunkPtr::dcast(FieldContainerFactory::the()->createFieldContainer("CGChunk"));
+    if(cgChunk != NullFC)
+    {
+        _cgChunkId = cgChunk->getClass()->getId();
+        subRefCP(cgChunk);
+    }
 
     // we can't include OSGCGFXChunk here because it is in Contrib ...
     StateChunkPtr cgfxChunk = StateChunkPtr::dcast(FieldContainerFactory::the()->createFieldContainer("CGFXChunk"));
@@ -383,6 +392,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _glGetQueryObjectuivARB (source._glGetQueryObjectuivARB),
 
     _cgfxChunkId(source._cgfxChunkId),
+    _cgChunkId(source._cgChunkId),
     _shlChunkId(source._shlChunkId)
 {
     _pNodeFactory = new DrawTreeNodeFactory;
@@ -1359,6 +1369,13 @@ void RenderAction::updateShader(State *state)
 {
     if(state == NULL)
         return;
+
+    if(_cgChunkId != -1)
+    {
+        StateChunkPtr cgChunk = state->getChunk(_cgChunkId);
+        if(cgChunk != NULL)
+            cgChunk->update(this);
+    }
 
     if(_cgfxChunkId != -1)
     {

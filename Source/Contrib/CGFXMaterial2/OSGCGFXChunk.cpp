@@ -46,10 +46,8 @@
 #include <set>
 
 // CgFX
-/*
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
-*/
 
 #include <OSGConfig.h>
 
@@ -138,10 +136,10 @@ CGFXChunk::EffectS::EffectS(void) :
 void CGFXChunk::EffectS::reset(void)
 {
     if(effect != NULL)
-        cgDestroyEffect(effect);
+        cgDestroyEffect((CGeffect) effect);
     effect = NULL;
     if(context != NULL)
-        cgDestroyContext(context);
+        cgDestroyContext((CGcontext) context);
     context = NULL;
     pass = NULL;
 }
@@ -413,8 +411,8 @@ void CGFXChunk::updateEffect(Window *win)
         return;
     }
 
-    _effect[id].context = context;
-    _effect[id].effect = effect;
+    _effect[id].context = (OSGCGcontext) context;
+    _effect[id].effect = (OSGCGeffect) effect;
     //printf("created new effect %u %p\n", id, effect);
 
     // clear old parameter states.
@@ -851,7 +849,7 @@ void CGFXChunk::updateEffect(Window *win)
             cgfxMat->subParameter(remove_params[i].c_str());
     endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
 
-    if(!updateTechnique(win, effect))
+    if(!updateTechnique(win, (OSGCGeffect) effect))
     {
         FWARNING(("CGFXChunk : Couldn't find a valid technique!\n"));
         _effect[id].reset();
@@ -882,7 +880,7 @@ void CGFXChunk::updateParameters(Window *win)
         return;
     }
 
-    CGeffect effect = _effect[id].effect;
+    CGeffect effect = (CGeffect) _effect[id].effect;
     
     if(effect == NULL)
         return;
@@ -1265,7 +1263,7 @@ std::string CGFXChunk::getTechniqueString(Int32 index)
     if(_effect.empty())
         return "";
 
-    CGeffect effect = _effect[1].effect;
+    CGeffect effect = (CGeffect) _effect[1].effect;
 
     if(effect == NULL)
         return "";
@@ -1280,7 +1278,7 @@ std::string CGFXChunk::getTechniqueString(Int32 index)
     return cgGetTechniqueName(technique);
 }
 
-bool CGFXChunk::updateTechnique(Window *win, CGeffect effect)
+bool CGFXChunk::updateTechnique(Window *win, OSGCGeffect effect)
 {
     if(effect == NULL)
     {
@@ -1300,7 +1298,7 @@ bool CGFXChunk::updateTechnique(Window *win, CGeffect effect)
     if(effect == NULL)
         return false;
 
-    CGtechnique technique = cgGetFirstTechnique(effect);
+    CGtechnique technique = cgGetFirstTechnique((CGeffect) effect);
     while(technique)
     {
         if(cgValidateTechnique(technique) == CG_FALSE)
@@ -1312,7 +1310,7 @@ bool CGFXChunk::updateTechnique(Window *win, CGeffect effect)
     }
 
     Int32 currentTechnique = 0;
-    technique = cgGetFirstTechnique(effect);
+    technique = cgGetFirstTechnique((CGeffect) effect);
     while(currentTechnique < _technique)
     {
         technique = cgGetNextTechnique(technique);
@@ -1323,7 +1321,7 @@ bool CGFXChunk::updateTechnique(Window *win, CGeffect effect)
     {
         // ok techique is not valid try to find a valid one.
         currentTechnique = 0;
-        technique = cgGetFirstTechnique(effect);
+        technique = cgGetFirstTechnique((CGeffect) effect);
         while(!cgIsTechniqueValidated(technique))
         {
             technique = cgGetNextTechnique(technique);
@@ -1340,7 +1338,7 @@ bool CGFXChunk::updateTechnique(Window *win, CGeffect effect)
     for(UInt32 i=0;i<_effect.size();++i)
     {
         if(_effect[i].effect == effect)
-            _effect[i].technique = technique;
+            _effect[i].technique = (OSGCGtechnique) technique;
     }
 
     // get number of passes
@@ -1439,7 +1437,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     {
         m = projection;
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_PROJECTION].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
         /*
@@ -1455,7 +1453,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m.mult(viewing);
         m.mult(world);
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWPROJECTION].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1464,7 +1462,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     {
         m = world;
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLD].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1474,7 +1472,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m = world;
         m.invert();
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDI].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1483,7 +1481,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     {
         m = world;
         m.invert();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDIT].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1493,7 +1491,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m = viewing;
         m.mult(world);
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEW].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1504,7 +1502,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m.mult(world);
         m.invert();
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWI].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1514,7 +1512,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m = viewing;
         m.mult(world);
         m.invert();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWIT].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1523,7 +1521,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     {
         m = viewing;
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEW].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1532,7 +1530,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     {
         m = viewingI;
         m.transpose();
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEWI].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1540,7 +1538,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     if(!_state_parameters[OSG_CG_VIEWIT].empty())
     {
         m = viewingI;
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEWIT].c_str());
         cgSetMatrixParameterfr(param, m.getValues());
     }
@@ -1557,7 +1555,7 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
             _time = systemTime;
 
         Real32 t = Real32((OSG::getSystemTime() - _time) * 1000.0);
-        CGparameter param = cgGetNamedEffectParameter(_effect[id].effect,
+        CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_TIME].c_str());
         cgSetParameter1f(param, t);
     }
@@ -1606,7 +1604,7 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
 
         //UInt32 numPasses;
         //_effect[id].effect->Begin(&numPasses, 0);
-        _effect[id].pass = cgGetFirstPass(_effect[id].technique);
+        _effect[id].pass = (OSGCGpass) cgGetFirstPass((CGtechnique) _effect[id].technique);
     
         //printf("activate %p %u: begin pass 0 from %u\n", this, id, numPasses);
     }
@@ -1617,7 +1615,7 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
     //_effect[id].effect->Pass(_effect[id].pass);
     //_effect[id].pass++;
     
-    cgSetPassState(_effect[id].pass);
+    cgSetPassState((CGpass) _effect[id].pass);
 }
 
 void CGFXChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
@@ -1653,11 +1651,11 @@ void CGFXChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         if(old->_effect[oldid].effect != NULL)
         {
             if(old != this ||
-               cgGetNextPass(old->_effect[oldid].pass) == NULL)
+               cgGetNextPass((CGpass) old->_effect[oldid].pass) == NULL)
             {
                 //printf("changeFrom %p %u: rendering end pass.\n", old, oldid);
                 //old->_effect[oldid].effect->End();
-                cgResetPassState(old->_effect[oldid].pass);
+                cgResetPassState((CGpass) old->_effect[oldid].pass);
                 old->_effect[oldid].pass = NULL;
             }
         }
@@ -1686,14 +1684,14 @@ void CGFXChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         //_effect[id].effect->Begin(&numPasses, 0);
         //printf("changeFrom %p %u: begin pass 0 from %u\n", this, id, numPasses);
 
-        _effect[id].pass = cgGetFirstPass(_effect[id].technique);
+        _effect[id].pass = (OSGCGpass) cgGetFirstPass((CGtechnique) _effect[id].technique);
     }
 
     // Setup the pass
     //printf("changeFrom %p %u: rendering pass %u\n", this, id, _effect[id].pass);
     
-    _effect[id].pass = cgGetNextPass(_effect[id].pass);
-    cgSetPassState(_effect[id].pass);
+    _effect[id].pass = (OSGCGpass) cgGetNextPass((CGpass) _effect[id].pass);
+    cgSetPassState((CGpass) _effect[id].pass);
 }
 
 
@@ -1734,7 +1732,7 @@ void CGFXChunk::deactivate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
     //_effect[id].effect->End();
     //_effect[id].pass = 0;
 
-    cgResetPassState(_effect[id].pass);
+    cgResetPassState((CGpass) _effect[id].pass);
     _effect[id].pass = NULL;
 
     // restore opengl state.
@@ -1797,7 +1795,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.6 2006/04/13 16:24:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.7 2006/04/14 15:12:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
