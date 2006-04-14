@@ -1802,28 +1802,35 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     if(oldused)
     {
-        if(oldtarget == GL_NONE)
+        if(oldp->getImage()->getSideCount() == 1)
         {
-            if(oldp->getImage()->getDepth() > 1)
+            if(oldtarget == GL_NONE)
             {
-                if(win->hasExtension(_extTex3D))
-                    oldtarget = GL_TEXTURE_3D;
+                if(oldp->getImage()->getDepth() > 1)
+                {
+                    if(win->hasExtension(_extTex3D))
+                        oldtarget = GL_TEXTURE_3D;
+                    else
+                    {
+                        FWARNING(("TextureChunk::changeFrom: 3D textures not "
+                                    "supported for this window!\n"));
+                        oldp->deactivate(action, idx);
+                        return;
+                    }
+                }
+                else if(oldp->getImage()->getHeight() > 1)
+                {
+                    oldtarget = GL_TEXTURE_2D;
+                }
                 else
                 {
-                    FWARNING(("TextureChunk::changeFrom: 3D textures not "
-                                "supported for this window!\n"));
-                    oldp->deactivate(action, idx);
-                    return;
+                    oldtarget = GL_TEXTURE_1D;
                 }
             }
-            else if(oldp->getImage()->getHeight() > 1)
-            {
-                oldtarget = GL_TEXTURE_2D;
-            }
-            else
-            {
-                oldtarget = GL_TEXTURE_1D;
-            }
+        }
+        else
+        {
+            oldtarget = GL_TEXTURE_CUBE_MAP_ARB;
         }
 
         if(target != oldtarget && idx < ntexunits)
