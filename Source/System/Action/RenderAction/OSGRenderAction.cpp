@@ -1288,7 +1288,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
     }
 
     //printf("deactivate lights: ");
-    const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
+    const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
     for(UInt32 i = light_id;i < _activeLightsCount;++i)
     {
         //printf("%u,", i);
@@ -1857,7 +1857,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     else
     {
         // reset all lights.
-        const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
+        const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
         for(i = 0;i < 8;++i)
         {
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
@@ -1963,7 +1963,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
     else
     {
-        const Color4f black(0.0f, 0.0f, 0.0f, 0.0f);
+        const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
         for(i = 0;i < _activeLightsCount;++i)
         {
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
