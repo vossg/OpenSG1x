@@ -59,7 +59,7 @@
 
 //#include <limits>
 #ifndef INT_MAX
-#define INT_MAX numeric_limits<int>::max()
+#define INT_MAX numeric_limits<Int32>::max()
 #endif
 #else
 #include <limits.h>
@@ -67,7 +67,7 @@
 OSG_USING_NAMESPACE
 
 
-/*! \class osg::DDSImageFileType 
+/*! \class osg::DDSImageFileType
     \ingroup GrpSystemImage
 
 Image File Type to read/write and store/restore Image objects as
@@ -75,7 +75,7 @@ DDS data. Should work with binary and ascii dds/pbm/pgm/ppm data.
 
 All the type specific code is included in the class. Does
 not depend on external libs.
-        
+
 */
 
 
@@ -91,7 +91,7 @@ static const Char8 *suffixArray[] =
 
 DDSImageFileType DDSImageFileType::_the("dds",
                                         suffixArray, sizeof(suffixArray),
-                                        OSG_READ_SUPPORTED | 
+                                        OSG_READ_SUPPORTED |
                                         OSG_WRITE_SUPPORTED);
 
 /*****************************
@@ -105,114 +105,114 @@ DDSImageFileType DDSImageFileType::_the("dds",
 #  include <windows.h>
 #endif
 
-const unsigned long DDS_FOURCC = 0x00000004;
-const unsigned long DDS_RGB    = 0x00000040;
-const unsigned long DDS_RGBA   = 0x00000041;
-const unsigned long DDS_DEPTH  = 0x00800000;
+const UInt32 DDS_FOURCC = 0x00000004;
+const UInt32 DDS_RGB    = 0x00000040;
+const UInt32 DDS_RGBA   = 0x00000041;
+const UInt32 DDS_DEPTH  = 0x00800000;
 
-const unsigned long DDS_COMPLEX = 0x00000008;
-const unsigned long DDS_CUBEMAP = 0x00000200;
-const unsigned long DDS_VOLUME  = 0x00200000;
+const UInt32 DDS_COMPLEX = 0x00000008;
+const UInt32 DDS_CUBEMAP = 0x00000200;
+const UInt32 DDS_VOLUME  = 0x00200000;
 
-const unsigned long FOURCC_DXT1 = 0x31545844;
-const unsigned long FOURCC_DXT3 = 0x33545844;
-const unsigned long FOURCC_DXT5 = 0x35545844;
+const UInt32 FOURCC_DXT1 = 0x31545844;
+const UInt32 FOURCC_DXT3 = 0x33545844;
+const UInt32 FOURCC_DXT5 = 0x35545844;
 
 struct DDS_PIXELFORMAT {
-  unsigned long dwSize;
-  unsigned long dwFlags;
-  unsigned long dwFourCC;
-  unsigned long dwRGBBitCount;
-  unsigned long dwRBitMask;
-  unsigned long dwGBitMask;
-  unsigned long dwBBitMask;
-  unsigned long dwABitMask;
+  UInt32 dwSize;
+  UInt32 dwFlags;
+  UInt32 dwFourCC;
+  UInt32 dwRGBBitCount;
+  UInt32 dwRBitMask;
+  UInt32 dwGBitMask;
+  UInt32 dwBBitMask;
+  UInt32 dwABitMask;
 };
 
 struct DXTColBlock {
-  unsigned short col0;
-  unsigned short col1;
-  
-  unsigned char row[4];
+  UInt16 col0;
+  UInt16 col1;
+
+  UInt8 row[4];
 };
 
 struct DXT3AlphaBlock {
-  unsigned short row[4];
+  UInt16 row[4];
 };
 
 struct DXT5AlphaBlock
 {
-  unsigned char alpha0;
-  unsigned char alpha1;
-  
-  unsigned char row[6];
+  UInt8 alpha0;
+  UInt8 alpha1;
+
+  UInt8 row[6];
 };
 
 struct DDS_HEADER {
-  unsigned long dwSize;
-  unsigned long dwFlags;
-  unsigned long dwHeight;
-  unsigned long dwWidth;
-  unsigned long dwPitchOrLinearSize;
-  unsigned long dwDepth;
-  unsigned long dwMipMapCount;
-  unsigned long dwReserved1[11];
+  UInt32 dwSize;
+  UInt32 dwFlags;
+  UInt32 dwHeight;
+  UInt32 dwWidth;
+  UInt32 dwPitchOrLinearSize;
+  UInt32 dwDepth;
+  UInt32 dwMipMapCount;
+  UInt32 dwReserved1[11];
   DDS_PIXELFORMAT ddspf;
-  unsigned long dwCaps1;
-  unsigned long dwCaps2;
-  unsigned long dwReserved2[3];
+  UInt32 dwCaps1;
+  UInt32 dwCaps2;
+  UInt32 dwReserved2[3];
 };
 
 class CSurface
 {
   friend class CTexture;
-  friend class CDDSImage;    
-  
+  friend class CDDSImage;
+
 public:
   CSurface();
-  CSurface(int w, int h, int d, int imgsize);
+  CSurface(Int32 w, Int32 h, Int32 d, Int32 imgsize);
   CSurface(const CSurface &copy);
   CSurface &operator= (const CSurface &rhs);
   virtual ~CSurface();
-  
+
   operator char*();
-  
-  void create(int w, int h, int d, int imgsize);
+
+  void create(Int32 w, Int32 h, Int32 d, Int32 imgsize);
   void clear();
-  
-  inline int   get_width() { return width; }
-  inline int   get_height() { return height; }
-  inline int   get_depth() { return depth; }
-  inline int   get_size() { return size; }
+
+  inline Int32   get_width() { return width; }
+  inline Int32   get_height() { return height; }
+  inline Int32   get_depth() { return depth; }
+  inline Int32   get_size() { return size; }
   inline char* get_pixels() { return pixels; }
 
 protected:
-  int width;
-  int height;
-  int depth;
-  int size;
-  
-  char *pixels;       
+  Int32 width;
+  Int32 height;
+  Int32 depth;
+  Int32 size;
+
+  char *pixels;
 };
 
 class CTexture : public CSurface
 {
   friend class CDDSImage;
-  
+
 public:
   CTexture();
-  CTexture(int w, int h, int d, int imgSize);
+  CTexture(Int32 w, Int32 h, Int32 d, Int32 imgSize);
   CTexture(const CTexture &copy);
   CTexture &operator= (const CTexture &rhs);
   ~CTexture();
-  
-  inline CSurface &get_mipmap(int index) 
-  { 
-    assert(index < (int)mipmaps.size());
-    return mipmaps[index]; 
+
+  inline CSurface &get_mipmap(Int32 index)
+  {
+    assert(index < (Int32)mipmaps.size());
+    return mipmaps[index];
   }
-  
-  inline int get_num_mipmaps() { return (int)mipmaps.size(); }
+
+  inline Int32 get_num_mipmaps() { return (Int32)mipmaps.size(); }
 protected:
   std::vector<CSurface> mipmaps;
 };
@@ -222,54 +222,54 @@ class CDDSImage
 public:
   CDDSImage();
   ~CDDSImage();
-  
+
   bool load(std::istream &is, bool flipImage = true, bool swapCubeMap = true,
             bool flipCubeMap = false);
   void clear();
-  
+
   operator char*();
-  CTexture &operator[](int index);
-    
-  inline int get_num_images(void) { return (int)images.size(); }
-  inline CTexture &get_image(int index) 
+  CTexture &operator[](Int32 index);
+
+  inline Int32 get_num_images(void) { return (Int32)images.size(); }
+  inline CTexture &get_image(Int32 index)
   {
-    assert(index < (int)images.size());
+    assert(index < (Int32)images.size());
     return images[index];
   }
-  
-  inline int get_components() { return components; }
-  inline int get_format() { return format; }
-  
+
+  inline Int32 get_components() { return components; }
+  inline Int32 get_format() { return format; }
+
   inline bool is_compressed() { return compressed; }
   inline bool is_cubemap() { return cubemap; }
   inline bool is_volume() { return volume; }
   inline bool is_valid() { return valid; }
-  
+
 private:
-  int clamp_size(int size);
-  int get_line_width(int width, int bpp);
-  int size_dxtc(int width, int height);
-  int size_rgb(int width, int height);
+  Int32 clamp_size(Int32 size);
+  Int32 get_line_width(Int32 width, Int32 bpp);
+  Int32 size_dxtc(Int32 width, Int32 height);
+  Int32 size_rgb(Int32 width, Int32 height);
   inline void swap_endian(void *val);
   void align_memory(CTexture *surface);
-  
-  void flip(char *image, int width, int height, int depth, int size);
-  
-  void swap(void *byte1, void *byte2, int size);
-  void flip_blocks_dxtc1(DXTColBlock *line, int numBlocks);
-  void flip_blocks_dxtc3(DXTColBlock *line, int numBlocks);
-  void flip_blocks_dxtc5(DXTColBlock *line, int numBlocks);
+
+  void flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 size);
+
+  void swap(void *byte1, void *byte2, Int32 size);
+  void flip_blocks_dxtc1(DXTColBlock *line, Int32 numBlocks);
+  void flip_blocks_dxtc3(DXTColBlock *line, Int32 numBlocks);
+  void flip_blocks_dxtc5(DXTColBlock *line, Int32 numBlocks);
   void flip_dxt5_alpha(DXT5AlphaBlock *block);
-  
-  int format;
-  int components;
+
+  Int32 format;
+  Int32 components;
   bool compressed;
   bool cubemap;
   bool volume;
   bool valid;
-  
+
   std::vector<CTexture> images;
-  
+
 };
 
 
@@ -330,14 +330,14 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
 {
   bool validImage = false;
   CDDSImage ddsImage;
-  int i,j,w,h,d, mm = 0, components, format,size;
-  int width = 0, height = 0, depth = 0, numMipMaps = 0;
+  Int32 i,j,w,h,d, mm = 0, components, format,size;
+  Int32 width = 0, height = 0, depth = 0, numMipMaps = 0;
   bool isCompressed, isCubeMap, isVolume;
-  unsigned char *data;
-  unsigned dataSize = 0;
+  UInt8 *data;
+  UInt32 dataSize = 0;
 
   SINFO << "DDS File Info: ";
-  
+
   if (ddsImage.load(is, _flipImage, _swapCubeMap, _flipCubeMap) &&
      (validImage = ddsImage.is_valid()))
   {
@@ -346,9 +346,9 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
     isCompressed = ddsImage.is_compressed();
     isCubeMap = ddsImage.is_cubemap();
     isVolume = ddsImage.is_volume();
-    SINFO << "cs: " << components 
+    SINFO << "cs: " << components
           << ", f: " << format
-          << ", cd: " << isCompressed 
+          << ", cd: " << isCompressed
           << ", cm: " << isCubeMap
           << ", vo: " << isVolume
           << endLog;
@@ -358,7 +358,7 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
       d = ddsImage[i].get_depth();
       size = ddsImage[i].get_size();
       dataSize += size;
-      mm = ddsImage[i].get_num_mipmaps();    
+      mm = ddsImage[i].get_num_mipmaps();
       if (i) {
         if ( (w != width) || (h != height) || (d != depth) &&
              (mm != numMipMaps) )
@@ -370,9 +370,9 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
         depth = d;
         numMipMaps = mm;
       }
-      SINFO << "  " << i 
-            << ", " << w << "x" << h << "x" << d 
-            << ", size: " << size 
+      SINFO << "  " << i
+            << ", " << w << "x" << h << "x" << d
+            << ", size: " << size
             << ", mm: " << mm
             << endLog;
       for (j = 0; j < mm; ++j) {
@@ -381,22 +381,22 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
         d = ddsImage[i].get_mipmap(j).get_depth();
         size = ddsImage[i].get_mipmap(j).get_size();
         dataSize += size;
-        SINFO << "    " << j 
-              << ", " << w << "x" << h << "x" << d 
-              << ", size: " << size 
+        SINFO << "    " << j
+              << ", " << w << "x" << h << "x" << d
+              << ", size: " << size
               << ", mm: " << mm
               << endLog;
-        
+
       }
     }
     if (validImage) {
-      image->set( osg::Image::PixelFormat(format), 
+      image->set( osg::Image::PixelFormat(format),
                   width, height, depth,
                   numMipMaps + 1,
                   1, 0.0, 0, osg::Image::OSG_UINT8_IMAGEDATA,
-                  true, 
+                  true,
                   ddsImage.get_num_images() );
-      
+
       if (dataSize == image->getSize()) {
         data = image->getData();
 
@@ -489,12 +489,12 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
 {
     DDS_HEADER ddsh;
     char filecode[4];
-    int width, height, depth;
-    int (CDDSImage::*sizefunc)(int, int);
+    Int32 width, height, depth;
+    Int32 (CDDSImage::*sizefunc)(Int32, Int32);
 
     // clear any previously loaded images
     clear();
-    
+
     // read in file marker, make sure its a DDS file
     is.read(filecode, 4);
     if (strncmp(filecode, "DDS ", 4) != 0)
@@ -525,7 +525,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
         volume = true;
 
     // figure out what the image format is
-    if (ddsh.ddspf.dwFlags & DDS_FOURCC) 
+    if (ddsh.ddspf.dwFlags & DDS_FOURCC)
     {
         switch(ddsh.ddspf.dwFourCC)
         {
@@ -545,52 +545,54 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
                 compressed = true;
                 break;
             default:
+                SWARNING << "ERROR: unknown compressed format(" << ddsh.ddspf.dwFourCC
+                         << ")!" << endLog;
                 return false;
         }
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGBA && ddsh.ddspf.dwRGBBitCount == 32)
     {
-        format = Image::OSG_BGRA_PF; 
+        format = Image::OSG_BGRA_PF;
         compressed = false;
         components = 4;
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 32)
     {
-        format = Image::OSG_BGRA_PF; 
+        format = Image::OSG_BGRA_PF;
         compressed = false;
         components = 4;
     }
     else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 24)
     {
-        format = Image::OSG_BGR_PF; 
+        format = Image::OSG_BGR_PF;
         compressed = false;
         components = 3;
     }
     else if (/*ddsh.ddspf.dwFlags == 0x20000  &&*/ ddsh.ddspf.dwRGBBitCount == 8)
     {
-        format = Image::OSG_L_PF; 
+        format = Image::OSG_L_PF;
         compressed = false;
         components = 1;
     }
-    else 
+    else
     {
         SWARNING << "ERROR: unknown image format!" << endLog;
         return false;
     }
-    
+
     // store primary surface width/height/depth
     width = ddsh.dwWidth;
     height = ddsh.dwHeight;
     depth = clamp_size(ddsh.dwDepth);   // set to 1 if 0
-    
-    // use correct size calculation function depending on whether image is 
+
+    // use correct size calculation function depending on whether image is
     // compressed
     sizefunc = (compressed ? &CDDSImage::size_dxtc : &CDDSImage::size_rgb);
 
     // load all surfaces for the image (6 surfaces for cubemaps)
-    for (int n = 0; n < (cubemap ? 6 : 1); n++)
+    for (Int32 n = 0; n < (cubemap ? 6 : 1); n++)
     {
-        int size; 
+        Int32 size;
 
         // calculate surface size
         size = (this->*sizefunc)(width, height)*depth;
@@ -600,24 +602,24 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
         is.read(img, img.size);
 
         align_memory(&img);
-        
+
         if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
             flip(img, img.width, img.height, img.depth, img.size);
-        
-        int w = clamp_size(width >> 1);
-        int h = clamp_size(height >> 1);
-        int d = clamp_size(depth >> 1); 
+
+        Int32 w = clamp_size(width >> 1);
+        Int32 h = clamp_size(height >> 1);
+        Int32 d = clamp_size(depth >> 1);
 
         // store number of mipmaps
-        int numMipmaps = ddsh.dwMipMapCount;
+        Int32 numMipmaps = ddsh.dwMipMapCount;
 
-        // number of mipmaps in file includes main surface so decrease count 
+        // number of mipmaps in file includes main surface so decrease count
         // by one
         if (numMipmaps != 0)
             numMipmaps--;
 
         // load all mipmaps for current surface
-        for (int i = 0; i < numMipmaps && (w || h); i++)
+        for (Int32 i = 0; i < numMipmaps && (w || h); i++)
         {
             // calculate mipmap size
             size = (this->*sizefunc)(w, h)*d;
@@ -627,7 +629,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
 
             if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
             {
-                flip(mipmap, mipmap.width, mipmap.height, mipmap.depth, 
+                flip(mipmap, mipmap.width, mipmap.height, mipmap.depth,
                     mipmap.size);
             }
 
@@ -636,7 +638,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
             // shrink to next power of 2
             w = clamp_size(w >> 1);
             h = clamp_size(h >> 1);
-            d = clamp_size(d >> 1); 
+            d = clamp_size(d >> 1);
         }
 
         images.push_back(img);
@@ -673,28 +675,28 @@ void CDDSImage::clear()
 ///////////////////////////////////////////////////////////////////////////////
 // returns individual texture when multiple textures are loaded (as is the case
 // with volume textures and cubemaps)
-CTexture &CDDSImage::operator[](int index)
-{ 
+CTexture &CDDSImage::operator[](Int32 index)
+{
     // make sure an image has been loaded
     assert(valid);
-    assert(index < (int)images.size());
+    assert(index < (Int32)images.size());
 
-    return images[index]; 
+    return images[index];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // returns pointer to main image
 CDDSImage::operator char*()
-{ 
+{
     assert(valid);
 
-    return images[0]; 
+    return images[0];
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // clamps input size to [1-size]
-inline int CDDSImage::clamp_size(int size)
+inline Int32 CDDSImage::clamp_size(Int32 size)
 {
     if (size <= 0)
         size = 1;
@@ -708,22 +710,22 @@ inline int CDDSImage::clamp_size(int size)
 
 ///////////////////////////////////////////////////////////////////////////////
 // calculates 4-byte aligned width of image
-inline int CDDSImage::get_line_width(int width, int bpp)
+inline Int32 CDDSImage::get_line_width(Int32 width, Int32 bpp)
 {
     return ((width * bpp + 31) & -32) >> 3;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // calculates size of DXTC texture in bytes
-int CDDSImage::size_dxtc(int width, int height)
+Int32 CDDSImage::size_dxtc(Int32 width, Int32 height)
 {
     return ((width+3)/4)*((height+3)/4)*
-        (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ? 8 : 16);   
+        (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ? 8 : 16);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // calculates size of uncompressed RGB texture in bytes
-int CDDSImage::size_rgb(int width, int height)
+Int32 CDDSImage::size_rgb(Int32 width, Int32 height)
 {
     return width*height*components;
 }
@@ -733,7 +735,7 @@ int CDDSImage::size_rgb(int width, int height)
 inline void CDDSImage::swap_endian(void *val)
 {
 #ifdef MACOS
-    unsigned int *ival = (unsigned int *)val;
+    UInt32 *ival = (UInt32 *)val;
 
     *ival = ((*ival >> 24) & 0x000000ff) |
             ((*ival >>  8) & 0x0000ff00) |
@@ -751,29 +753,29 @@ void CDDSImage::align_memory(CTexture *surface)
         return;
 
     // calculate new image size
-    int linesize = get_line_width(surface->width, components*8);
-    int imagesize = linesize*surface->height;
+    Int32 linesize = get_line_width(surface->width, components*8);
+    Int32 imagesize = linesize*surface->height;
 
     // exit if already aligned
     if (surface->size == imagesize)
         return;
 
     // create new image of new size
-    CTexture newSurface(surface->width, surface->height, surface->depth, 
+    CTexture newSurface(surface->width, surface->height, surface->depth,
         imagesize);
 
     // add pad bytes to end of each line
     char *srcimage = (char*)*surface;
     char *dstimage = (char*)newSurface;
-    for (int n = 0; n < surface->depth; n++)
+    for (Int32 n = 0; n < surface->depth; n++)
     {
         char *curline = srcimage;
         char *newline = dstimage;
 
-        int imsize = surface->size / surface->depth;
-        int lnsize = imsize / surface->height;
-        
-        for (int i = 0; i < surface->height; i++)
+        Int32 imsize = surface->size / surface->depth;
+        Int32 lnsize = imsize / surface->height;
+
+        for (Int32 i = 0; i < surface->height; i++)
         {
             memcpy(newline, curline, lnsize);
             newline += linesize;
@@ -787,25 +789,25 @@ void CDDSImage::align_memory(CTexture *surface)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip image around X axis
-void CDDSImage::flip(char *image, int width, int height, int depth, int size)
+void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 size)
 {
-    int linesize;
-    int offset;
+    Int32 linesize;
+    Int32 offset;
 
     if (!compressed)
     {
         assert(depth > 0);
 
-        int imagesize = size/depth;
+        Int32 imagesize = size/depth;
         linesize = imagesize / height;
 
-        for (int n = 0; n < depth; n++)
+        for (Int32 n = 0; n < depth; n++)
         {
             offset = imagesize*n;
             char *top = image + offset;
             char *bottom = top + (imagesize-linesize);
-    
-            for (int i = 0; i < (height >> 1); i++)
+
+            for (Int32 i = 0; i < (height >> 1); i++)
             {
                 swap(bottom, top, linesize);
 
@@ -816,24 +818,24 @@ void CDDSImage::flip(char *image, int width, int height, int depth, int size)
     }
     else
     {
-        void (CDDSImage::*flipblocks)(DXTColBlock*, int);
-        int xblocks = width / 4;
-        int yblocks = height / 4;
-        int blocksize;
+        void (CDDSImage::*flipblocks)(DXTColBlock*, Int32);
+        Int32 xblocks = width / 4;
+        Int32 yblocks = height / 4;
+        Int32 blocksize;
 
         switch (format)
         {
-            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT: 
+            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
                 blocksize = 8;
-                flipblocks = &CDDSImage::flip_blocks_dxtc1; 
+                flipblocks = &CDDSImage::flip_blocks_dxtc1;
                 break;
-            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT: 
+            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
                 blocksize = 16;
-                flipblocks = &CDDSImage::flip_blocks_dxtc3; 
+                flipblocks = &CDDSImage::flip_blocks_dxtc3;
                 break;
-            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT: 
+            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
                 blocksize = 16;
-                flipblocks = &CDDSImage::flip_blocks_dxtc5; 
+                flipblocks = &CDDSImage::flip_blocks_dxtc5;
                 break;
             default:
                 return;
@@ -843,8 +845,8 @@ void CDDSImage::flip(char *image, int width, int height, int depth, int size)
 
         DXTColBlock *top;
         DXTColBlock *bottom;
-    
-        for (int j = 0; j < (yblocks >> 1); j++)
+
+        for (Int32 j = 0; j < (yblocks >> 1); j++)
         {
             top = (DXTColBlock*)(image + j * linesize);
             bottom = (DXTColBlock*)(image + (((yblocks-j)-1) * linesize));
@@ -855,13 +857,13 @@ void CDDSImage::flip(char *image, int width, int height, int depth, int size)
             swap(bottom, top, linesize);
         }
     }
-}    
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // swap to sections of memory
-void CDDSImage::swap(void *byte1, void *byte2, int size)
+void CDDSImage::swap(void *byte1, void *byte2, Int32 size)
 {
-    unsigned char *tmp = new unsigned char[size];
+    UInt8 *tmp = new UInt8[size];
 
     memcpy(tmp, byte1, size);
     memcpy(byte1, byte2, size);
@@ -872,14 +874,14 @@ void CDDSImage::swap(void *byte1, void *byte2, int size)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip a DXT1 color block
-void CDDSImage::flip_blocks_dxtc1(DXTColBlock *line, int numBlocks)
+void CDDSImage::flip_blocks_dxtc1(DXTColBlock *line, Int32 numBlocks)
 {
     DXTColBlock *curblock = line;
 
-    for (int i = 0; i < numBlocks; i++)
+    for (Int32 i = 0; i < numBlocks; i++)
     {
-        swap(&curblock->row[0], &curblock->row[3], sizeof(unsigned char));
-        swap(&curblock->row[1], &curblock->row[2], sizeof(unsigned char));
+        swap(&curblock->row[0], &curblock->row[3], sizeof(UInt8));
+        swap(&curblock->row[1], &curblock->row[2], sizeof(UInt8));
 
         curblock++;
     }
@@ -887,22 +889,22 @@ void CDDSImage::flip_blocks_dxtc1(DXTColBlock *line, int numBlocks)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip a DXT3 color block
-void CDDSImage::flip_blocks_dxtc3(DXTColBlock *line, int numBlocks)
+void CDDSImage::flip_blocks_dxtc3(DXTColBlock *line, Int32 numBlocks)
 {
     DXTColBlock *curblock = line;
     DXT3AlphaBlock *alphablock;
 
-    for (int i = 0; i < numBlocks; i++)
+    for (Int32 i = 0; i < numBlocks; i++)
     {
         alphablock = (DXT3AlphaBlock*)curblock;
 
-        swap(&alphablock->row[0], &alphablock->row[3], sizeof(unsigned short));
-        swap(&alphablock->row[1], &alphablock->row[2], sizeof(unsigned short));
+        swap(&alphablock->row[0], &alphablock->row[3], sizeof(UInt16));
+        swap(&alphablock->row[1], &alphablock->row[2], sizeof(UInt16));
 
         curblock++;
 
-        swap(&curblock->row[0], &curblock->row[3], sizeof(unsigned char));
-        swap(&curblock->row[1], &curblock->row[2], sizeof(unsigned char));
+        swap(&curblock->row[0], &curblock->row[3], sizeof(UInt8));
+        swap(&curblock->row[1], &curblock->row[2], sizeof(UInt8));
 
         curblock++;
     }
@@ -912,48 +914,48 @@ void CDDSImage::flip_blocks_dxtc3(DXTColBlock *line, int numBlocks)
 // flip a DXT5 alpha block
 void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
 {
-    unsigned char gBits[4][4];
-    
-    const unsigned long mask = 0x00000007;          // bits = 00 00 01 11
-    unsigned long bits = 0;
-    memcpy(&bits, &block->row[0], sizeof(unsigned char) * 3);
+    UInt8 gBits[4][4];
 
-    gBits[0][0] = (unsigned char)(bits & mask);
+    const UInt32 mask = 0x00000007;          // bits = 00 00 01 11
+    UInt32 bits = 0;
+    memcpy(&bits, &block->row[0], sizeof(UInt8) * 3);
+
+    gBits[0][0] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[0][1] = (unsigned char)(bits & mask);
+    gBits[0][1] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[0][2] = (unsigned char)(bits & mask);
+    gBits[0][2] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[0][3] = (unsigned char)(bits & mask);
+    gBits[0][3] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[1][0] = (unsigned char)(bits & mask);
+    gBits[1][0] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[1][1] = (unsigned char)(bits & mask);
+    gBits[1][1] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[1][2] = (unsigned char)(bits & mask);
+    gBits[1][2] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[1][3] = (unsigned char)(bits & mask);
+    gBits[1][3] = (UInt8)(bits & mask);
 
     bits = 0;
-    memcpy(&bits, &block->row[3], sizeof(unsigned char) * 3);
+    memcpy(&bits, &block->row[3], sizeof(UInt8) * 3);
 
-    gBits[2][0] = (unsigned char)(bits & mask);
+    gBits[2][0] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[2][1] = (unsigned char)(bits & mask);
+    gBits[2][1] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[2][2] = (unsigned char)(bits & mask);
+    gBits[2][2] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[2][3] = (unsigned char)(bits & mask);
+    gBits[2][3] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[3][0] = (unsigned char)(bits & mask);
+    gBits[3][0] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[3][1] = (unsigned char)(bits & mask);
+    gBits[3][1] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[3][2] = (unsigned char)(bits & mask);
+    gBits[3][2] = (UInt8)(bits & mask);
     bits >>= 3;
-    gBits[3][3] = (unsigned char)(bits & mask);
+    gBits[3][3] = (UInt8)(bits & mask);
 
-    unsigned long *pBits = ((unsigned long*) &(block->row[0]));
+    UInt32 *pBits = ((UInt32*) &(block->row[0]));
 
     *pBits = *pBits | (gBits[3][0] << 0);
     *pBits = *pBits | (gBits[3][1] << 3);
@@ -965,7 +967,7 @@ void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
     *pBits = *pBits | (gBits[2][2] << 18);
     *pBits = *pBits | (gBits[2][3] << 21);
 
-    pBits = ((unsigned long*) &(block->row[3]));
+    pBits = ((UInt32*) &(block->row[3]));
 
 #ifdef MACOS
     *pBits &= 0x000000ff;
@@ -986,21 +988,21 @@ void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip a DXT5 color block
-void CDDSImage::flip_blocks_dxtc5(DXTColBlock *line, int numBlocks)
+void CDDSImage::flip_blocks_dxtc5(DXTColBlock *line, Int32 numBlocks)
 {
     DXTColBlock *curblock = line;
     DXT5AlphaBlock *alphablock;
-    
-    for (int i = 0; i < numBlocks; i++)
+
+    for (Int32 i = 0; i < numBlocks; i++)
     {
         alphablock = (DXT5AlphaBlock*)curblock;
-        
+
         flip_dxt5_alpha(alphablock);
 
         curblock++;
 
-        swap(&curblock->row[0], &curblock->row[3], sizeof(unsigned char));
-        swap(&curblock->row[1], &curblock->row[2], sizeof(unsigned char));
+        swap(&curblock->row[0], &curblock->row[3], sizeof(UInt8));
+        swap(&curblock->row[1], &curblock->row[2], sizeof(UInt8));
 
         curblock++;
     }
@@ -1019,7 +1021,7 @@ CTexture::CTexture()
 
 ///////////////////////////////////////////////////////////////////////////////
 // creates an empty texture
-CTexture::CTexture(int w, int h, int d, int imgSize)
+CTexture::CTexture(Int32 w, Int32 h, Int32 d, Int32 imgSize)
   : CSurface(w, h, d, imgSize)  // initialize base class part
 {
 }
@@ -1029,7 +1031,7 @@ CTexture::CTexture(int w, int h, int d, int imgSize)
 CTexture::CTexture(const CTexture &copy)
   : CSurface(copy)
 {
-    for (unsigned int i = 0; i < copy.mipmaps.size(); i++)
+    for (UInt32 i = 0; i < copy.mipmaps.size(); i++)
         mipmaps.push_back(copy.mipmaps[i]);
 }
 
@@ -1042,7 +1044,7 @@ CTexture &CTexture::operator= (const CTexture &rhs)
         CSurface::operator = (rhs);
 
         mipmaps.clear();
-        for (unsigned int i = 0; i < rhs.mipmaps.size(); i++)
+        for (UInt32 i = 0; i < rhs.mipmaps.size(); i++)
         {
             mipmaps.push_back(rhs.mipmaps[i]);
         }
@@ -1075,7 +1077,7 @@ CSurface::CSurface()
 
 ///////////////////////////////////////////////////////////////////////////////
 // creates an empty image
-CSurface::CSurface(int w, int h, int d, int imgsize)
+CSurface::CSurface(Int32 w, Int32 h, Int32 d, Int32 imgsize)
 {
     pixels = NULL;
     create(w, h, d, imgsize);
@@ -1135,13 +1137,13 @@ CSurface::~CSurface()
 ///////////////////////////////////////////////////////////////////////////////
 // returns a pointer to image
 CSurface::operator char*()
-{ 
-    return pixels; 
+{
+    return pixels;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // creates an empty image
-void CSurface::create(int w, int h, int d, int imgsize)
+void CSurface::create(Int32 w, Int32 h, Int32 d, Int32 imgsize)
 {
     clear();
 
