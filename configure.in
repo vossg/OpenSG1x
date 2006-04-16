@@ -72,6 +72,7 @@ ac_gdz_test_debug_libs=
 ac_gdz_wrote_stl="no"
 
 ac_gdz_stl_suffix=
+ac_gdz_stl_libarch=
 
 AC_CONFIG_AUX_DIR($ac_gdz_commonconf_dir) 
 
@@ -99,6 +100,17 @@ elif test "X$with_suffix" = X; then
 	ac_gdz_suffix=
 else
 	ac_gdz_suffix=-$with_suffix
+fi
+
+dnl ############# LIBARCH Settings #####################
+
+AC_ARG_WITH(libarch,     [  --with-libarch=LIBARCH                add libarch to lib dir (e.g. 64)],
+			,with_libarch=) 
+
+if test "X$with_libarch" = X; then
+	ac_gdz_libarch=
+else
+	ac_gdz_libarch=$with_libarch
 fi
 
 dnl ############# STL Settings #####################
@@ -1579,6 +1591,8 @@ AC_SUBST(ac_gdz_mpatrol_libs_e1)
 
 AC_SUBST(ac_gdz_compiler_logo_e1)
 AC_SUBST(ac_gdz_bison_exe_flags_e1)
+
+AC_SUBST(ac_gdz_libarch)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)

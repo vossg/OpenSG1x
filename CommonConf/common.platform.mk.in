@@ -48,6 +48,7 @@ LNK_LIB_SUFFIX       := $(DEBUG_CHAR)Lnk@ac_gdz_lib_suffix@
 OBJ_SUFFIX           := @ac_gdz_obj_suffix@
 EXE_SUFFIX           := @ac_gdz_exe_suffix@
 
+LIB_ARCH             :=@ac_gdz_libarch@
 
 OS_BASE              := @ac_gdz_os_base@
 OS_BUILD_BASE        := @ac_gdz_os_buildbase@

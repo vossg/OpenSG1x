@@ -20,8 +20,6 @@ DIR_SEP              := /
 
 II_FILESDIR          := 
 
-LIB_ARCH             :=64
-
 ### Defines #######################################################
 
 ifeq ($(CONFIGURED_GVBETA),1)
