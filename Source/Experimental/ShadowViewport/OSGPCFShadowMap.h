@@ -7,6 +7,7 @@
 #include <vector>
 
 #include <OSGConfig.h>
+
 #include <OSGAction.h>
 #include <OSGRenderActionBase.h>
 
@@ -86,6 +87,19 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     void drawCombineMap(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
     void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
+
+
+    void createColorMapFBO(RenderActionBase* action);
+    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+	void createShadowMapsFBO(RenderActionBase* action);
+
+	bool initFBO(Window *win);
+	void reInit(Window *win);
+	bool checkFrameBufferStatus(Window *win);
+
+	GLuint fb;
+	GLuint fb2;
+	GLuint rb_depth;
 
   protected:
 

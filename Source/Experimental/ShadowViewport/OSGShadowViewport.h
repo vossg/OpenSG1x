@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -73,10 +74,13 @@
 
 OSG_BEGIN_NAMESPACE
 
+//class PCSSShadowMap;
 
 class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 {
   private:
+
+	//friend PCSSShadowMap;
 
     typedef ShadowViewportBase Inherited;
 	TreeRenderer *treeRenderer;
@@ -100,7 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
         STD_SHADOW_MAP,
         PERSPECTIVE_SHADOW_MAP,
 		DITHER_SHADOW_MAP,
-		PCF_SHADOW_MAP
+		PCF_SHADOW_MAP,
+		PCSS_SHADOW_MAP
     };
 
     UInt32                  _mapRenderSize;
@@ -128,7 +133,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     bool                            _trigger_update;
 
 
-
+	void setVPSize(UInt32 a,UInt32 b, UInt32 c, UInt32 d);
 
     void render(RenderActionBase* action);
 
@@ -200,6 +205,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.1 2006/03/17 17:09:54 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.2 2006/04/18 12:41:12 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

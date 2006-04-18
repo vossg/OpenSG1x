@@ -24,7 +24,7 @@
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
 
-#include "OSGPCFShadowMap.h"
+#include "OSGPCSSShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
 
@@ -159,8 +159,7 @@
 OSG_USING_NAMESPACE
 
 
-static std::string _pcf_shadow_vp =
-"uniform float shadowBias;\n"
+static std::string _pcss_shadow_vp =
 "uniform mat4 lightPM;\n"
 "uniform float texFactor;\n"
 "varying vec4 projCoord;\n"
@@ -173,52 +172,108 @@ static std::string _pcf_shadow_vp =
 "  projCoord = lightPM * realPos;\n"
 "  projCoord.x *= texFactor;\n"
 "  texPos = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"\n"
 "  projCoord = bias * projCoord;\n"
 "  texPos = bias * texPos;\n"
 "  gl_Position = ftransform();\n"
 "}\n";
 
-static std::string _pcf_shadow_fp =
+static std::string _pcss_shadow_fp =
 "uniform sampler2DShadow shadowMap;\n"
 "uniform sampler2D oldFactorMap;\n"
 "uniform float intensity;\n"
 "uniform int firstRun;\n"
-"uniform float shadowRange;\n"
 "uniform float mapSize;\n"
+"uniform float lightSize;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
+"const float blockerSamples = 6.0;\n"
+"const float PCFsamples = 8.0;\n"
 "\n"
-"float PCF_Filter(vec4 projectiveBiased, float filterWidth, float size)\n"
+"float sumBlocker(vec3 projectiveBiased, float filterWidth, float samples)\n"
 "{\n"
-"	float texelSize = 1.0/size;\n"
-"	projectiveBiased.x -= (0.5*filterWidth)*texelSize;\n"
-"	projectiveBiased.y -= (0.5*filterWidth)*texelSize;\n"
+"	float stepSize = 2.0 * filterWidth / samples;\n"
 "\n"
-"    float blockerCount = 0.0;\n"
+"	projectiveBiased.xy -= vec2(filterWidth,filterWidth);\n"
 "\n"
-"	for (float i=0.0; i<filterWidth; i += 1.0) \n"
+"      float blockerCount = 0.0;\n"
+"	float blockerSum = 0.0;\n"
+"\n"
+"	for (float i=0.0; i<samples; i += 1.0) \n"
 "	{\n"
-"            for (float j=0.0; j<filterWidth; j += 1.0) \n"
+"           for (float j=0.0; j<samples; j += 1.0) \n"
 "		{\n"
-"			blockerCount += shadow2D(shadowMap, vec3(projectiveBiased.xy + vec2(i*texelSize,j*texelSize),projectiveBiased.z)).x;\n"
+"			if(projectiveBiased.z > texture2D(shadowMap, projectiveBiased.xy + vec2(i*stepSize,j*stepSize)).x) \n"
+"			{\n"
+"				blockerCount += 1.0;\n"
+"				blockerSum += texture2D(shadowMap, projectiveBiased.xy + vec2(i*stepSize,j*stepSize)).x;\n"
+"			}\n"
 "       }\n"
 "	}\n"
 "\n"
-"	float result = (blockerCount/(filterWidth*filterWidth)) * intensity;\n"
+"	float result;\n"
+"	if(blockerCount > 0.0) result = blockerSum / blockerCount;\n"
+"	else result = 0.0;\n"
 "	return result;\n"
 "}\n"
 "\n"
+"float PCF(vec3 projectiveBiased, float filterWidth, float samples)\n"
+"{\n"
+"	float stepSize = 2.0 * filterWidth / samples;\n"
+"\n"
+"	projectiveBiased.xy -= vec2(filterWidth,filterWidth);\n"
+"\n"
+"   float blockerCount = 0.0;\n"
+"\n"
+"	for (float i=0.0; i<samples; i += 1.0) \n"
+"	{\n"
+"            for (float j=0.0; j<samples; j += 1.0) \n"
+"		{\n"
+"			if(projectiveBiased.z > texture2D(shadowMap, projectiveBiased.xy + vec2(i*stepSize,j*stepSize)).x) \n"
+"			{\n"
+"				blockerCount += 1.0;\n"
+"			}\n"
+"       }\n"
+"	}\n"
+"\n"
+"	float result = 1.0-((blockerCount/(samples*samples)));\n"
+"	\n"
+"	return result;\n"
+"}\n"
+"\n"
+"float estimatePenumbra(vec3 projectiveBiased, float blocker)\n"
+"{\n"
+"	float penumbra;\n"
+"	if (blocker == 0.0) penumbra = 0.0;\n"
+"	else penumbra = ((projectiveBiased.z - blocker) * lightSize) / blocker;\n"
+"\n"
+"     return penumbra;\n"
+"}\n"
+"\n"
+"\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"	vec3 projectiveBiased = (projCoord.xyz / projCoord.q);\n"
+"\n"
+"	float blockerSearchWidth = 0.01/projectiveBiased.z;\n"
+"	float blocker = sumBlocker(projectiveBiased,blockerSearchWidth,blockerSamples);\n"
+"\n"
+"	float penumbra;\n"
 "	float shadowed;\n"
-"	shadowed = PCF_Filter(projectiveBiased, shadowRange, mapSize);\n"
+"\n"
+"	penumbra = estimatePenumbra(projectiveBiased,blocker);\n"
+"	float maxpen = PCFsamples*(1.0/mapSize);\n"
+"	if(penumbra > maxpen) penumbra = maxpen;\n"
+"	shadowed = PCF(projectiveBiased,penumbra,PCFsamples);\n"
+"\n"
+"	shadowed *= intensity;\n"
+"\n"
 "	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,texPos.xyw).x;\n"
+"	\n"
 "	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
-
-static std::string _pcf_shadow_combine_vp =
+static std::string _pcss_shadow_combine_vp =
 "varying vec4 projCoord;\n"
 "\n"
 "void main(void)\n"
@@ -227,29 +282,28 @@ static std::string _pcf_shadow_combine_vp =
 "  gl_Position = ftransform();\n"
 "}\n";
 
-static std::string _pcf_shadow_combine_fp =
+static std::string _pcss_shadow_combine_fp =
 "uniform sampler2D colorMap;\n"
 "uniform sampler2D shadowFactorMap;\n"
 "varying vec4 projCoord;\n"
-"\n"
 "const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    vec4 colorProj = bias * projCoord;\n"
+"	vec4 colorProj = bias * projCoord;\n"
 "\n"
-"    vec3 color = texture2DProj(colorMap, colorProj.xyw).xyz;\n"
+"	vec3 color = texture2DProj(colorMap, colorProj.xyw).xyz;\n"
+"	color *= texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
 "\n"
-"    color *= texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
-"    gl_FragColor = vec4(color, 1.0);\n"
+"	gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
 
-PCFShadowMap::PCFShadowMap(void)
+PCSSShadowMap::PCSSShadowMap(void)
 {
 }
 
-PCFShadowMap::PCFShadowMap(ShadowViewport *source)
+PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
 	fb = NULL;
@@ -315,27 +369,28 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     beginEditCP(_shadowFactorMapImage);
         _shadowFactorMapImage->set(GL_RGB, width, height);
     endEditCP(_shadowFactorMapImage);
-        
+
     //SHL Chunk 1
 
     _shadowSHL = SHLChunk::create();
     beginEditCP(_shadowSHL);
-        //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-		//_shadowSHL->readFragmentProgram("PCF_Shadow.frag");
-		_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-		_shadowSHL->setFragmentProgram(_pcf_shadow_fp);
+        //_shadowSHL->readVertexProgram("PCSS_Shadow.vert");
+		//_shadowSHL->readFragmentProgram("PCSS_Shadow.frag");
+		_shadowSHL->setVertexProgram(_pcss_shadow_vp);
+		_shadowSHL->setFragmentProgram(_pcss_shadow_fp);
     endEditCP(_shadowSHL);
 
     //SHL Chunk 2
     _combineSHL = SHLChunk::create();
 
     beginEditCP(_combineSHL);
-        //_combineSHL->readVertexProgram("PCF_Shadow_combine.vert");
-        //_combineSHL->readFragmentProgram("PCF_Shadow_combine.frag");
-		_combineSHL->setVertexProgram(_pcf_shadow_combine_vp);
-		_combineSHL->setFragmentProgram(_pcf_shadow_combine_fp);
+        //_combineSHL->readVertexProgram("PCSS_Shadow_combine.vert");
+        //_combineSHL->readFragmentProgram("PCSS_Shadow_combine.frag");
+		_combineSHL->setVertexProgram(_pcss_shadow_combine_vp);
+		_combineSHL->setFragmentProgram(_pcss_shadow_combine_fp);
     endEditCP(_combineSHL);
 
+	//Shadow Shader
     _shadowCmat = ChunkMaterial::create();
     _shadowRoot = Node::create();
 
@@ -344,7 +399,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         _shadowShaderGroup->setMaterial(_shadowCmat);
     endEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
 
-    //Combine Shader
+	//Combine Shader
     _combineCmat = ChunkMaterial::create();
     _combineRoot = Node::create();
 
@@ -357,7 +412,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         _combineRoot->setCore(_combineShaderGroup);
     endEditCP(_combineRoot);
 
-    //Kamera um Texturewürfel zu rendern
+	//Kamera um Texturewürfel zu rendern
     _matrixCam = MatrixCamera::create();
     MatrixOrthogonal(textureVM,-1,1,-1,1,-1,1);
     MatrixLookAt(texturePM,0,1,0,0,0,0,0,1,0);
@@ -372,51 +427,62 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     beginEditCP(boxNode, Node::CoreFieldMask);
         boxNode->setCore(boxGeo);
     endEditCP(boxNode, Node::CoreFieldMask);
-
-
+	
     addRefCP(_shadowSHL);
     addRefCP(_combineSHL);
     addRefCP(_shadowRoot);
-    addRefCP(_combineRoot);
+	addRefCP(_combineRoot);
     addRefCP(_shadowCmat);
-    addRefCP(_combineCmat);
+	addRefCP(_combineCmat);
     addRefCP(_shadowShaderGroup);
-    addRefCP(_combineShaderGroup);
+	addRefCP(_combineShaderGroup);
     addRefCP(_matrixCam);
     addRefCP(shadowVP->getRoot());
     addRefCP(boxGeo);
     addRefCP(boxNode);
 }
 
-PCFShadowMap::~PCFShadowMap(void)
+PCSSShadowMap::~PCSSShadowMap(void)
 {
+	glDeleteFramebuffersEXT(1,&fb);
+	glDeleteRenderbuffersEXT(1,&rb_depth);
     subRefCP(_tiledeco);
     subRefCP(_blender);
 
     subRefCP(_colorMap);
-    subRefCP(_shadowFactorMap);
+	subRefCP(_shadowFactorMap);
     subRefCP(_shadowFactorMap);
     subRefCP(_matrixCam);
     subRefCP(_shadowSHL);
-    subRefCP(_combineSHL);
+	subRefCP(_combineSHL);
     subRefCP(_shadowShaderGroup);
-    subRefCP(_combineShaderGroup);
+	subRefCP(_combineShaderGroup);
 
     subRefCP(_shadowRoot);
-    subRefCP(_combineRoot);
+	subRefCP(_combineRoot);
     subRefCP(_shadowSHL);
-    subRefCP(_combineSHL);
+	subRefCP(_combineSHL);
 
     subRefCP(boxGeo);
     subRefCP(boxNode);
 
-    glDeleteFramebuffersEXT(1, &fb);
+	glDeleteFramebuffersEXT(1, &fb);
 	glDeleteRenderbuffersEXT( 1, &rb_depth);
-    glDeleteFramebuffersEXT(1, &fb2);
+	glDeleteFramebuffersEXT(1, &fb2);
+
+	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+    {
+		beginEditCP(shadowVP->_texChunks[i]);
+        {
+            shadowVP->_texChunks[i]->setMinFilter(GL_LINEAR);
+            shadowVP->_texChunks[i]->setMagFilter(GL_LINEAR);
+		}
+		endEditCP(shadowVP->_texChunks[i]);
+	}
 }
 
 /// Checks if FBO status is ok
-bool PCFShadowMap::checkFrameBufferStatus(Window *win)
+bool PCSSShadowMap::checkFrameBufferStatus(Window *win)
 {
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     
@@ -467,7 +533,7 @@ bool PCFShadowMap::checkFrameBufferStatus(Window *win)
 }
 
 
-bool PCFShadowMap::initFBO(Window *win)
+bool PCSSShadowMap::initFBO(Window *win)
 {
 	initialize(win);
 
@@ -529,7 +595,7 @@ bool PCFShadowMap::initFBO(Window *win)
 	return result;
 }
 
-void PCFShadowMap::reInit(Window *win)
+void PCSSShadowMap::reInit(Window *win)
 {
     Int32 width  = shadowVP->getPixelWidth();
     Int32 height = shadowVP->getPixelHeight();
@@ -548,7 +614,7 @@ void PCFShadowMap::reInit(Window *win)
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
 
-void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat)
+void PCSSShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat)
 {
 	glClearColor(0.0,0.0,0.0,1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -572,9 +638,10 @@ void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialP
     subRefCP(cmat);
 }
 
-void PCFShadowMap::createShadowMaps(RenderActionBase* action)
+
+void PCSSShadowMap::createShadowMaps(RenderActionBase* action)
 {
-        Real32 vpTop,vpBottom,vpLeft,vpRight;
+    Real32 vpTop,vpBottom,vpLeft,vpRight;
     
     //------Setting up Window to fit size of ShadowMap----------------
 
@@ -713,9 +780,10 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
+
 }
 
-void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
+void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
 {
 	UInt32 oldWidth, oldHeight;
 	oldWidth = shadowVP->getPixelWidth();
@@ -805,9 +873,11 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
     glEnable(GL_LIGHTING);
 }
 
-
-void PCFShadowMap::createColorMap(RenderActionBase* action)
+void PCSSShadowMap::createColorMap(RenderActionBase* action)
 {
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     shadowVP->getBackground()->clear(action, shadowVP);
 
     action->apply(shadowVP->getRoot());
@@ -817,9 +887,11 @@ void PCFShadowMap::createColorMap(RenderActionBase* action)
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_colorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D,0);
+
 }
 
-void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
+
+void PCSSShadowMap::createColorMapFBO(RenderActionBase* action)
 {
 
 	glClearColor(0.0,0.0,0.0,1.0);
@@ -844,11 +916,102 @@ void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
 
 }
 
-
-void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
+void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num)
 {
-    glClearColor(1.0,1.0,1.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(1.0,1.0,1.0,1.0);
+
+    //Finde alle aktiven Lichtquellen
+    Real32 activeLights = 0;
+    for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
+    {
+        if (shadowVP->_lightStates[i] != 0) activeLights++;
+    }
+    Color4f shadowColor = shadowVP->getShadowColor(); 
+    activeLights = (1.0-shadowColor[0])/activeLights;
+
+    Matrix LVM,LPM,CVM;
+    shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    Matrix iCVM = CVM;
+    iCVM.invert();
+
+	Real32 texFactor;
+	if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() || shadowVP->_lights[num]->getType() == PointLight::getClassType())
+		texFactor = Real32(width)/Real32(height);
+	else texFactor = 1.0;
+
+    Matrix shadowMatrix = LPM;
+    shadowMatrix.mult(LVM);
+    shadowMatrix.mult(iCVM);
+
+    beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+        _shadowSHL->setUniformParameter("shadowMap", 0);
+        _shadowSHL->setUniformParameter("oldFactorMap", 1);
+        _shadowSHL->setUniformParameter("firstRun", firstRun);
+        _shadowSHL->setUniformParameter("intensity", activeLights);
+		_shadowSHL->setUniformParameter("texFactor", texFactor);
+        //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
+        _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
+        _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+		_shadowSHL->setUniformParameter("lightSize",Real32(shadowVP->getRange()));
+    endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+
+    beginEditCP(_shadowCmat);
+        _shadowCmat->getChunks().clear();
+        _shadowCmat->addChunk(_shadowSHL);
+		_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+		_shadowCmat->addChunk(_shadowFactorMap);
+    endEditCP(_shadowCmat);
+
+    /////////////
+    subRefCP(_shadowSHL);
+    subRefCP(_shadowFactorMap);
+
+    addRefCP(shadowVP->getRoot());
+
+    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
+        _shadowRoot->setCore(_shadowShaderGroup);
+        _shadowRoot->addChild(shadowVP->getRoot());
+    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+
+	GLenum *buffers = NULL;
+	buffers = new GLenum[1];
+	buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
+    
+	//Setup FBO
+	//bind(action->getWindow(),fb);
+	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
+
+	//setTarget(action->getWindow(), action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
+	glDrawBuffersARB(1, buffers);
+
+    //draw the Scene
+	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//shadowVP->_texChunks[num]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[num]->getGLId()));
+    
+    action->apply(_shadowRoot);
+
+	//shadowVP->_texChunks[num]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[num]->getGLId()));
+
+	//stop();
+	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
+
+    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
+        _shadowRoot->subChild(shadowVP->getRoot());
+    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+
+    subRefCP(shadowVP->getRoot());
+
+    glClearColor(0.0,0.0,0.0,1.0);
+	delete[] buffers;
+}
+
+void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
+{
+	glClearColor(1.0,1.0,1.0,1.0);
+	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
@@ -877,9 +1040,6 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     shadowMatrix.mult(LVM);
     shadowMatrix.mult(iCVM);
 
-	Real32 shadowRange = floor(shadowVP->getRange());
-	if(shadowRange == 0.0) shadowRange = 1.0;
-
     beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
@@ -889,19 +1049,21 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-		_shadowSHL->setUniformParameter("shadowRange", Real32(shadowRange));
+		_shadowSHL->setUniformParameter("lightSize",Real32(shadowVP->getRange()));
     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
     beginEditCP(_shadowCmat);
         _shadowCmat->getChunks().clear();
         _shadowCmat->addChunk(_shadowSHL);
-        _shadowCmat->addChunk(shadowVP->_texChunks[num]);
-        _shadowCmat->addChunk(_shadowFactorMap);
+        //_shadowCmat->addChunk(_shadowMap);
+		_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+		_shadowCmat->addChunk(_shadowFactorMap);
     endEditCP(_shadowCmat);
 
     /////////////
     subRefCP(_shadowSHL);
     subRefCP(_shadowFactorMap);
+	//subRefCP(_shadowMap);
 
     addRefCP(shadowVP->getRoot());
 
@@ -909,12 +1071,12 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         _shadowRoot->setCore(_shadowShaderGroup);
         _shadowRoot->addChild(shadowVP->getRoot());
     endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+
+	//draw the Scene
     
-    //draw the Scene
+    action->apply(_shadowRoot);
 
-	action->apply(_shadowRoot);
-
-	action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
+    action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -929,106 +1091,12 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     glClearColor(0.0,0.0,0.0,1.0);
 }
 
-void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num)
-{
-    glClearColor(1.0,1.0,1.0,1.0);
-
-    //Finde alle aktiven Lichtquellen
-    Real32 activeLights = 0;
-    for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-        if (shadowVP->_lightStates[i] != 0) activeLights++;
-    }
-    Color4f shadowColor = shadowVP->getShadowColor(); 
-    activeLights = (1.0-shadowColor[0])/activeLights;
-
-    Matrix LVM,LPM,CVM;
-    shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    Matrix iCVM = CVM;
-    iCVM.invert();
-
-	Real32 texFactor;
-	if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() || shadowVP->_lights[num]->getType() == PointLight::getClassType())
-		texFactor = Real32(width)/Real32(height);
-	else texFactor = 1.0;
-
-    Matrix shadowMatrix = LPM;
-    shadowMatrix.mult(LVM);
-    shadowMatrix.mult(iCVM);
-
-	Real32 shadowRange = floor(shadowVP->getRange());
-	if(shadowRange == 0.0) shadowRange = 1.0;
-
-    beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-        _shadowSHL->setUniformParameter("shadowMap", 0);
-        _shadowSHL->setUniformParameter("oldFactorMap", 1);
-        _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", activeLights);
-		_shadowSHL->setUniformParameter("texFactor", texFactor);
-        //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
-        _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
-        _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-		_shadowSHL->setUniformParameter("shadowRange", Real32(shadowRange));
-    endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-
-    beginEditCP(_shadowCmat);
-        _shadowCmat->getChunks().clear();
-        _shadowCmat->addChunk(_shadowSHL);
-        _shadowCmat->addChunk(shadowVP->_texChunks[num]);
-        _shadowCmat->addChunk(_shadowFactorMap);
-    endEditCP(_shadowCmat);
-
-    /////////////
-    subRefCP(_shadowSHL);
-    subRefCP(_shadowFactorMap);
-
-    addRefCP(shadowVP->getRoot());
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-    
-    	GLenum *buffers = NULL;
-	buffers = new GLenum[1];
-	buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
-    
-	//Setup FBO
-	//bind(action->getWindow(),fb);
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
-
-	//setTarget(action->getWindow(), action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
-	glDrawBuffersARB(1, buffers);
-
-    //draw the Scene
-	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	shadowVP->_texChunks[num]->activate(action, 3);
-
-    action->apply(_shadowRoot);
-
-	shadowVP->_texChunks[num]->deactivate(action, 3);
-
-	//stop();
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    subRefCP(shadowVP->getRoot());
-
-    glClearColor(0.0,0.0,0.0,1.0);
-	delete[] buffers;
-}
-
-void PCFShadowMap::drawCombineMap(RenderActionBase* action)
+void PCSSShadowMap::drawCombineMap(RenderActionBase* action)
 {
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
         _combineSHL->setUniformParameter("colorMap", 0);
         _combineSHL->setUniformParameter("shadowFactorMap", 1);
+		//_combineSHL->setUniformParameter("shadowMap", 2);
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     beginEditCP(_combineCmat);
@@ -1036,6 +1104,7 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
         _combineCmat->addChunk(_combineSHL);
         _combineCmat->addChunk(_colorMap);
         _combineCmat->addChunk(_shadowFactorMap);
+		//_combineCmat->addChunk(_shadowMap);
     endEditCP(_combineCmat);
 
     //draw the Scene
@@ -1046,7 +1115,7 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
     subRefCP(_combineSHL);
 }
 
-void PCFShadowMap::render(RenderActionBase* action)
+void PCSSShadowMap::render(RenderActionBase* action)
 {
 	Window *win = action->getWindow();
 
@@ -1067,12 +1136,21 @@ void PCFShadowMap::render(RenderActionBase* action)
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
 	}
-
-
+	
 
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
     firstRun = 1;
+
+	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+    {
+		beginEditCP(shadowVP->_texChunks[i]);
+        {
+            shadowVP->_texChunks[i]->setMinFilter(GL_NEAREST);
+            shadowVP->_texChunks[i]->setMagFilter(GL_NEAREST);
+		}
+		endEditCP(shadowVP->_texChunks[i]);
+	}
 
     if(shadowVP->getPixelWidth() != width ||
        shadowVP->getPixelHeight() != height)
@@ -1154,5 +1232,5 @@ void PCFShadowMap::render(RenderActionBase* action)
     {
 		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
 	}
-
 }
+

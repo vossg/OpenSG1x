@@ -1,5 +1,6 @@
-#ifndef _OSGDITHERSHADOWMAP_H_
-#define _OSGDITHERSHADOWMAP_H_
+
+#ifndef _OSGPCSSSHADOWMAP_H_
+#define _OSGPCSSSHADOWMAP_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,7 +48,7 @@ OSG_BEGIN_NAMESPACE
 class ShadowViewport;
 class TreeRenderer;
 
-class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
+class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 {
   private:
 
@@ -59,13 +60,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
     TextureChunkPtr         _shadowFactorMap;
     ImagePtr                _colorMapImage;
     ImagePtr                _shadowFactorMapImage;
-
+	
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
     NodePtr                 _shadowRoot;
     MaterialGroupPtr        _shadowShaderGroup;
-    
-    ChunkMaterialPtr        _combineCmat;
+
+	ChunkMaterialPtr        _combineCmat;
     SHLChunkPtr             _combineSHL;
     NodePtr                 _combineRoot;
     MaterialGroupPtr        _combineShaderGroup;
@@ -84,14 +85,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
 
     void createShadowMaps(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
+    void createColorMapFBO(RenderActionBase* action);
+
     void drawCombineMap(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
-
-
-    void createColorMapFBO(RenderActionBase* action);
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+
 	void createShadowMapsFBO(RenderActionBase* action);
+    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
 
 	bool initFBO(Window *win);
 	void reInit(Window *win);
@@ -106,9 +107,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
     /*==========================  PUBLIC  =================================*/
   public:
 
-    DitherShadowMap(void);
-    DitherShadowMap(ShadowViewport *source);
-    ~DitherShadowMap(void);
+    PCSSShadowMap(void);
+    PCSSShadowMap(ShadowViewport *source);
+    ~PCSSShadowMap(void);
 
     virtual void render(RenderActionBase* action);
 };
@@ -120,5 +121,5 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGDITHERSHADOWMAP_H_ */
+#endif /* _OSGPCSSSHADOWMAP_H_ */
 

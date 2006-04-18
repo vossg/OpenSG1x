@@ -9,6 +9,7 @@
 
 #include <OSGConfig.h>
 #include <OSGAction.h>
+
 #include <OSGRenderActionBase.h>
 
 #include <OSGSpotLight.h>
@@ -42,6 +43,13 @@ class TreeRenderer;
 class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 {
   private:
+
+	bool initFBO(Window *win);
+	bool checkFrameBufferStatus(Window *win);
+
+	GLuint fb2;
+
+	void createShadowMapsFBO(RenderActionBase* action);
 
 	void calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num);
 

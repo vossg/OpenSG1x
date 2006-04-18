@@ -341,6 +341,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.1 2006/03/17 17:09:54 a-m-z Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.2 2006/04/18 12:41:12 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

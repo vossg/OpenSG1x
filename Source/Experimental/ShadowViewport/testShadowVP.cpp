@@ -7,11 +7,11 @@
 
 #include <OSGSpotLight.h>
 #include <OSGDirectionalLight.h>
-#include <OSGPointLight.h>
+#include <OSGPointLight.h>            
 
 #include <OSGPerspectiveCamera.h>
 #include <OSGGradientBackground.h>
-#include <OSGSolidBackground.h>
+#include <OSGSolidBackground.h>    
 #include <OSGDrawAction.h>
 #include <OSGRenderAction.h>
 #include <OSGImage.h>
@@ -30,7 +30,7 @@
 
 #include <OSGSimpleSceneManager.h>
 
-#include <OSGSceneFileHandler.h>
+#include <OSGSceneFileHandler.h>   
 
 #include <OSGNavigator.h>
 
@@ -45,7 +45,8 @@ ShadowViewportPtr svp;
 
 
 NodePtr rootNode;
-DirectionalLightPtr _dir1_core;
+//DirectionalLightPtr _dir1_core;
+PointLightPtr _dir1_core;
 
 //SpotLightPtr _dir2_core;
 PointLightPtr _dir2_core;
@@ -75,18 +76,18 @@ Real32 startTime2;
 //FPS Counter
 void startFpsCounter()
 {
-    startTime2 = OSG::getSystemTime();
+	startTime2 = OSG::getSystemTime();
 }
 
 void showFpsCounter()
 {
-    frameCount++;
-    if(OSG::getSystemTime() - startTime2 >= 1.0)
-    {
-        printf("aktuelle FPS: %i\n",frameCount);
-        frameCount = 0;
-        startTime2 = OSG::getSystemTime();
-    }
+	frameCount++;
+	if(OSG::getSystemTime() - startTime2 >= 1.0) 
+	{	
+		printf("aktuelle FPS: %i\n",frameCount);
+		frameCount = 0;
+		startTime2 = OSG::getSystemTime();
+	}
 }
 
 
@@ -97,10 +98,10 @@ int setupGLUT( int *argc, char *argv[] );
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
-    printf("Press key '8' or '9' to switch between light sources. Press key '0' to use both Lights\n");
-    printf("Set the shadow mode with key '1' ... '5'\n");
-    printf("NOTE: Point lights must be placed outside the scene bounding-box or results will be wrong!\n");
-    printf("NOTE: Spot lights must be placed outside the scene bounding-box and see the whole scene or standard Shadow Mapping will be used!\n");
+	printf("Press key '8' or '9' to switch between light sources. Press key '0' to use both lights\n");
+	printf("Set the shadow mode with key '1' ... '6'\n");
+	printf("NOTE: Point lights must be placed outside the scene bounding-box or results will be wrong!\n");
+	printf("NOTE: Spot lights must be placed outside the scene bounding-box and see the whole scene or standard Shadow Mapping will be used!\n");
     // OSG init
     osgInit(argc,argv);
 
@@ -108,12 +109,13 @@ int main(int argc, char **argv)
     int winid = setupGLUT(&argc, argv);
     gwin = GLUTWindow::create();
 
-    //Erstellen der benï¿½igten Komponenten--------------------------------------
+    //Erstellen der benötigten Komponenten--------------------------------------
 
     rootNode = makeCoredNode<Group>();
     NodePtr scene = makeCoredNode<Group>();
 
-    // create lights
+    /*// create lights
+	//Directional Light 1
     TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<DirectionalLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -122,35 +124,51 @@ int main(int argc, char **argv)
     endEditCP(dir1_trans);
 
     beginEditCP(_dir1_core);
-        _dir1_core->setDirection(0.5,0.5,0.8);
+		_dir1_core->setDirection(0.5,0.5,0.8);
         _dir1_core->setAmbient(0.15,0.15,0.15,1);
+        _dir1_core->setDiffuse(0.5,0.5,0.5,1);
+        _dir1_core->setSpecular(0.0,0.0,0.0,1);
+        _dir1_core->setBeacon(dir1_beacon);
+        _dir1_core->setOn(true);
+    endEditCP(_dir1_core);*/
+
+	//Point Light 1
+	TransformPtr dir1_trans;
+    NodePtr dir1 = makeCoredNode<PointLight>(&_dir1_core);
+    NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
+    beginEditCP(dir1_trans);
+        dir1_trans->getMatrix().setTranslate(350.0, 300.0, 300.0);
+    endEditCP(dir1_trans);
+
+    beginEditCP(_dir1_core);
+		_dir1_core->setAmbient(0.15,0.15,0.15,1);
         _dir1_core->setDiffuse(0.5,0.5,0.5,1);
         _dir1_core->setSpecular(0.0,0.0,0.0,1);
         _dir1_core->setBeacon(dir1_beacon);
         _dir1_core->setOn(true);
     endEditCP(_dir1_core);
 
-    /*//Spot Light
-    //TransformPtr dir2_trans;
+	/*//Spot Light 2
+	//TransformPtr dir2_trans;
     NodePtr dir2 = makeCoredNode<SpotLight>(&_dir2_core);
     NodePtr dir2_beacon = makeCoredNode<Transform>(&dir2_trans);
     beginEditCP(dir2_trans);
         //dir2_trans->getMatrix().setTranslate(75.0, 0.0, 25.0);
-        dir2_trans->getMatrix().setTranslate(75.0, -75.0, 250.0);
+		dir2_trans->getMatrix().setTranslate(250.0, -250.0, 300.0);
     endEditCP(dir2_trans);
 
     beginEditCP(_dir2_core);
         _dir2_core->setAmbient(0.15,0.15,0.15,1);
         _dir2_core->setDiffuse(0.5,0.5,0.5,1);
         _dir2_core->setSpecular(0.0,0.0,0.0,1);
-        _dir2_core->setSpotCutOffDeg(60.0);
-        _dir2_core->setSpotDirection(-0.85,0.0,-0.15);
+		_dir2_core->setSpotCutOffDeg(40.0);
+		_dir2_core->setSpotDirection(-0.85,0.85,-1.0);
         _dir2_core->setBeacon(dir2_beacon);
         _dir2_core->setOn(true);
     endEditCP(_dir2_core);*/
 
-    //Point Light
-    //TransformPtr dir2_trans;
+	//Point Light 2
+	//TransformPtr dir2_trans;
     NodePtr dir2 = makeCoredNode<PointLight>(&_dir2_core);
     NodePtr dir2_beacon = makeCoredNode<Transform>(&dir2_trans);
     beginEditCP(dir2_trans);
@@ -174,23 +192,23 @@ int main(int argc, char **argv)
         dir2->addChild(scene);
     endEditCP(dir2);
 
-    //Eigene Kamera erstellen
-    Pcamera = PerspectiveCamera::create();
-    cam_beacon = makeCoredNode<Transform>(&cam_trans);
-    beginEditCP(cam_trans);
-        cam_trans->getMatrix().setTranslate(0.0, 0.0, 25.0);
+	//Eigene Kamera erstellen
+	Pcamera = PerspectiveCamera::create();
+	cam_beacon = makeCoredNode<Transform>(&cam_trans);
+	beginEditCP(cam_trans);
+		cam_trans->getMatrix().setTranslate(0.0, 0.0, 25.0);
     endEditCP(cam_trans);
 
-    beginEditCP(Pcamera);
-        Pcamera->setBeacon( cam_beacon );
-        Pcamera->setFov( deg2rad( 60 ) );
+	beginEditCP(Pcamera);
+		Pcamera->setBeacon( cam_beacon );
+		Pcamera->setFov( deg2rad( 60 ) );
         Pcamera->setNear( 1.0 );
         Pcamera->setFar( 1000 );
-    endEditCP(Pcamera);
+	endEditCP(Pcamera);
 
 
     // create scene
-
+    
     // bottom
     NodePtr plane = makePlane(300.0, 300.0, 256, 256);
 
@@ -219,64 +237,64 @@ int main(int argc, char **argv)
         plane_geo->setMaterial(plane_mat);
     beginEditCP(plane_geo);
 
-    //load Tree Objects
+	//load Tree Objects
 
     NodePtr tree1_trans_node = makeCoredNode<Transform>(&_tree1_trans);
-    NodePtr tree2_trans_node = makeCoredNode<Transform>(&_tree2_trans);
-    NodePtr tree3_trans_node = makeCoredNode<Transform>(&_tree3_trans);
-    NodePtr tree4_trans_node = makeCoredNode<Transform>(&_tree4_trans);
-    NodePtr tree5_trans_node = makeCoredNode<Transform>(&_tree5_trans);
-    NodePtr tree6_trans_node = makeCoredNode<Transform>(&_tree6_trans);
-    NodePtr tree7_trans_node = makeCoredNode<Transform>(&_tree7_trans);
-    NodePtr tree8_trans_node = makeCoredNode<Transform>(&_tree8_trans);
-    NodePtr tree9_trans_node = makeCoredNode<Transform>(&_tree9_trans);
-
+	NodePtr tree2_trans_node = makeCoredNode<Transform>(&_tree2_trans);
+	NodePtr tree3_trans_node = makeCoredNode<Transform>(&_tree3_trans);
+	NodePtr tree4_trans_node = makeCoredNode<Transform>(&_tree4_trans);
+	NodePtr tree5_trans_node = makeCoredNode<Transform>(&_tree5_trans);
+	NodePtr tree6_trans_node = makeCoredNode<Transform>(&_tree6_trans);
+	NodePtr tree7_trans_node = makeCoredNode<Transform>(&_tree7_trans);
+	NodePtr tree8_trans_node = makeCoredNode<Transform>(&_tree8_trans);
+	NodePtr tree9_trans_node = makeCoredNode<Transform>(&_tree9_trans);
+	
     beginEditCP(_tree1_trans);
-        _tree1_trans->getMatrix().setTranslate(-80.0, -80.0, 0.0);
-        _tree1_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	    _tree1_trans->getMatrix().setTranslate(-80.0, -80.0, 0.0);
+		_tree1_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree1_trans);
 
-    beginEditCP(_tree2_trans);
-        _tree2_trans->getMatrix().setTranslate(0.0, -80.0, 0.0);
-        _tree2_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree2_trans);
+	    _tree2_trans->getMatrix().setTranslate(0.0, -80.0, 0.0);
+		_tree2_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree2_trans);
 
-    beginEditCP(_tree3_trans);
-        _tree3_trans->getMatrix().setTranslate(80.0, -80.0, 0.0);
-        _tree3_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree3_trans);
+	    _tree3_trans->getMatrix().setTranslate(80.0, -80.0, 0.0);
+		_tree3_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree3_trans);
 
-    beginEditCP(_tree4_trans);
-        _tree4_trans->getMatrix().setTranslate(-80.0, 0.0, 0.0);
-        _tree4_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree4_trans);
+	    _tree4_trans->getMatrix().setTranslate(-80.0, 0.0, 0.0);
+		_tree4_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree4_trans);
 
-    beginEditCP(_tree5_trans);
-        _tree5_trans->getMatrix().setTranslate(0.0, 0.0, 0.0);
-        _tree5_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree5_trans);
+	    _tree5_trans->getMatrix().setTranslate(0.0, 0.0, 0.0);
+		_tree5_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree5_trans);
 
-    beginEditCP(_tree6_trans);
-        _tree6_trans->getMatrix().setTranslate(80.0, 0.0, 0.0);
-        _tree6_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree6_trans);
+	    _tree6_trans->getMatrix().setTranslate(80.0, 0.0, 0.0);
+		_tree6_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree6_trans);
 
-    beginEditCP(_tree7_trans);
-        _tree7_trans->getMatrix().setTranslate(-80.0, 80.0, 0.0);
-        _tree7_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree7_trans);
+	    _tree7_trans->getMatrix().setTranslate(-80.0, 80.0, 0.0);
+		_tree7_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree7_trans);
 
-    beginEditCP(_tree8_trans);
-        _tree8_trans->getMatrix().setTranslate(0.0, 80.0, 0.0);
-        _tree8_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree8_trans);
+	    _tree8_trans->getMatrix().setTranslate(0.0, 80.0, 0.0);
+		_tree8_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree8_trans);
 
-    beginEditCP(_tree9_trans);
-        _tree9_trans->getMatrix().setTranslate(80.0, 80.0, 0.0);
-        _tree9_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree9_trans);
+	    _tree9_trans->getMatrix().setTranslate(80.0, 80.0, 0.0);
+		_tree9_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree9_trans);
 
-    NodePtr tree1 = SceneFileHandler::the().read("tree1.3ds");
+	NodePtr tree1 = SceneFileHandler::the().read("tree1.3ds");
 
     beginEditCP(tree1_trans_node);
         tree1_trans_node->addChild(tree1);
@@ -291,86 +309,86 @@ int main(int argc, char **argv)
         tree3_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree3_trans_node);
 
-    beginEditCP(tree4_trans_node);
+	beginEditCP(tree4_trans_node);
         tree4_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree4_trans_node);
 
-    beginEditCP(tree5_trans_node);
+	beginEditCP(tree5_trans_node);
         tree5_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree5_trans_node);
 
-    beginEditCP(tree6_trans_node);
+	beginEditCP(tree6_trans_node);
         tree6_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree6_trans_node);
 
-    beginEditCP(tree7_trans_node);
+	beginEditCP(tree7_trans_node);
         tree7_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree7_trans_node);
 
-    beginEditCP(tree8_trans_node);
+	beginEditCP(tree8_trans_node);
         tree8_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree8_trans_node);
 
-    beginEditCP(tree9_trans_node);
+	beginEditCP(tree9_trans_node);
         tree9_trans_node->addChild(cloneTree(tree1));
     endEditCP(tree9_trans_node);
 
     NodePtr trees = makeCoredNode<Group>();
 
-    beginEditCP(trees);
-        trees->addChild(tree1_trans_node);
-        trees->addChild(tree2_trans_node);
-        trees->addChild(tree3_trans_node);
-        trees->addChild(tree4_trans_node);
-        trees->addChild(tree5_trans_node);
-        trees->addChild(tree6_trans_node);
-        trees->addChild(tree7_trans_node);
-        trees->addChild(tree8_trans_node);
-        trees->addChild(tree9_trans_node);
-    endEditCP(trees);
+	beginEditCP(trees);
+		trees->addChild(tree1_trans_node);
+		trees->addChild(tree2_trans_node);
+		trees->addChild(tree3_trans_node);
+		trees->addChild(tree4_trans_node);
+		trees->addChild(tree5_trans_node);
+		trees->addChild(tree6_trans_node);
+		trees->addChild(tree7_trans_node);
+		trees->addChild(tree8_trans_node);
+		trees->addChild(tree9_trans_node);
+	endEditCP(trees);
 
-    //load Airplane Object
+	//load Airplane Object
     NodePtr obj1_trans_node = makeCoredNode<Transform>(&_obj1_trans);
-
+	
     beginEditCP(_obj1_trans);
         _obj1_trans->getMatrix().setTranslate(0.0, 0.0, 10.0);
-        _obj1_trans->getMatrix().setScale(Vec3f(0.15,0.15,0.15));
+		_obj1_trans->getMatrix().setScale(Vec3f(0.15,0.15,0.15));
     endEditCP(_obj1_trans);
 
-    NodePtr object1 = SceneFileHandler::the().read("triplane.3ds");
+	NodePtr object1 = SceneFileHandler::the().read("triplane.3ds");
 
     beginEditCP(obj1_trans_node);
         obj1_trans_node->addChild(object1);
     endEditCP(obj1_trans_node);
 
-    //load Dino Objects
+	//load Dino Objects
 
-    NodePtr dino1_trans_node = makeCoredNode<Transform>(&_dino1_trans);
-    NodePtr dino2_trans_node = makeCoredNode<Transform>(&_dino2_trans);
-    NodePtr dino3_trans_node = makeCoredNode<Transform>(&_dino3_trans);
-    NodePtr dino4_trans_node = makeCoredNode<Transform>(&_dino4_trans);
-
+	NodePtr dino1_trans_node = makeCoredNode<Transform>(&_dino1_trans);
+	NodePtr dino2_trans_node = makeCoredNode<Transform>(&_dino2_trans);
+	NodePtr dino3_trans_node = makeCoredNode<Transform>(&_dino3_trans);
+	NodePtr dino4_trans_node = makeCoredNode<Transform>(&_dino4_trans);
+	
     beginEditCP(_dino1_trans);
-        _dino1_trans->getMatrix().setTranslate(-20.0, -20.0, 10.0);
-        _dino1_trans->getMatrix().setScale(Vec3f(5.0,5.0,5.0));
+		_dino1_trans->getMatrix().setTranslate(-20.0, -20.0, 10.0);
+		_dino1_trans->getMatrix().setScale(Vec3f(5.0,5.0,5.0));
     endEditCP(_dino1_trans);
 
-    beginEditCP(_dino2_trans);
-        _dino2_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-        _dino2_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
+	beginEditCP(_dino2_trans);
+		_dino2_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
+		_dino2_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
     endEditCP(_dino2_trans);
 
-    beginEditCP(_dino3_trans);
-        _dino3_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-        _dino3_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
+	beginEditCP(_dino3_trans);
+		_dino3_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
+		_dino3_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
     endEditCP(_dino3_trans);
 
-    beginEditCP(_dino4_trans);
-        _dino4_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-        _dino4_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
+	beginEditCP(_dino4_trans);
+		_dino4_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
+		_dino4_trans->getMatrix().setScale(Vec3f(3.0,3.0,3.0));
     endEditCP(_dino4_trans);
 
-    NodePtr dino1 = SceneFileHandler::the().read("dinopet.3ds");
+	NodePtr dino1 = SceneFileHandler::the().read("dinopet.3ds");
 
     beginEditCP(dino1_trans_node);
         dino1_trans_node->addChild(dino1);
@@ -388,73 +406,73 @@ int main(int argc, char **argv)
         dino4_trans_node->addChild(cloneTree(dino1));
     endEditCP(dino4_trans_node);
 
-    NodePtr dinos = makeCoredNode<Group>();
+	NodePtr dinos = makeCoredNode<Group>();
 
-    beginEditCP(dinos);
-        dinos->addChild(dino1_trans_node);
-        dinos->addChild(dino2_trans_node);
-        dinos->addChild(dino3_trans_node);
-        dinos->addChild(dino4_trans_node);
-    endEditCP(dinos);
+	beginEditCP(dinos);
+		dinos->addChild(dino1_trans_node);
+		dinos->addChild(dino2_trans_node);
+		dinos->addChild(dino3_trans_node);
+		dinos->addChild(dino4_trans_node);
+	endEditCP(dinos);
 
-    //load Stone Objects
+	//load Stone Objects
 
-    TransformPtr _stone_trans1, _stone_trans2, _stone_trans3, _stone_trans4, _stone_trans5, _stone_trans6, _stone_trans7, _stone_trans8, _stone_trans9;
-    NodePtr stone_trans_node1 = makeCoredNode<Transform>(&_stone_trans1);
-    NodePtr stone_trans_node2 = makeCoredNode<Transform>(&_stone_trans2);
-    NodePtr stone_trans_node3 = makeCoredNode<Transform>(&_stone_trans3);
-    NodePtr stone_trans_node4 = makeCoredNode<Transform>(&_stone_trans4);
-    NodePtr stone_trans_node5 = makeCoredNode<Transform>(&_stone_trans5);
-    NodePtr stone_trans_node6 = makeCoredNode<Transform>(&_stone_trans6);
-    NodePtr stone_trans_node7 = makeCoredNode<Transform>(&_stone_trans7);
-    NodePtr stone_trans_node8 = makeCoredNode<Transform>(&_stone_trans8);
-    NodePtr stone_trans_node9 = makeCoredNode<Transform>(&_stone_trans9);
+	TransformPtr _stone_trans1, _stone_trans2, _stone_trans3, _stone_trans4, _stone_trans5, _stone_trans6, _stone_trans7, _stone_trans8, _stone_trans9;
+	NodePtr stone_trans_node1 = makeCoredNode<Transform>(&_stone_trans1);
+	NodePtr stone_trans_node2 = makeCoredNode<Transform>(&_stone_trans2);
+	NodePtr stone_trans_node3 = makeCoredNode<Transform>(&_stone_trans3);
+	NodePtr stone_trans_node4 = makeCoredNode<Transform>(&_stone_trans4);
+	NodePtr stone_trans_node5 = makeCoredNode<Transform>(&_stone_trans5);
+	NodePtr stone_trans_node6 = makeCoredNode<Transform>(&_stone_trans6);
+	NodePtr stone_trans_node7 = makeCoredNode<Transform>(&_stone_trans7);
+	NodePtr stone_trans_node8 = makeCoredNode<Transform>(&_stone_trans8);
+	NodePtr stone_trans_node9 = makeCoredNode<Transform>(&_stone_trans9);
 
-    beginEditCP(_stone_trans1);
-        _stone_trans1->getMatrix().setTranslate(-70,-70,0);
-    endEditCP(_stone_trans1);
+	beginEditCP(_stone_trans1);
+		_stone_trans1->getMatrix().setTranslate(-70,-70,0);
+	endEditCP(_stone_trans1);
 
-    beginEditCP(_stone_trans2);
-        _stone_trans2->getMatrix().setTranslate(10,-70,0);
-    endEditCP(_stone_trans2);
+	beginEditCP(_stone_trans2);
+		_stone_trans2->getMatrix().setTranslate(10,-70,0);
+	endEditCP(_stone_trans2);
 
-    beginEditCP(_stone_trans3);
-        _stone_trans3->getMatrix().setTranslate(90,-70,0);
-    endEditCP(_stone_trans3);
+	beginEditCP(_stone_trans3);
+		_stone_trans3->getMatrix().setTranslate(90,-70,0);
+	endEditCP(_stone_trans3);
 
-    beginEditCP(_stone_trans4);
-        _stone_trans4->getMatrix().setTranslate(-70,10,0);
-    endEditCP(_stone_trans4);
+	beginEditCP(_stone_trans4);
+		_stone_trans4->getMatrix().setTranslate(-70,10,0);
+	endEditCP(_stone_trans4);
 
-    beginEditCP(_stone_trans5);
-        _stone_trans5->getMatrix().setTranslate(10,10,0);
-    endEditCP(_stone_trans5);
+	beginEditCP(_stone_trans5);
+		_stone_trans5->getMatrix().setTranslate(10,10,0);
+	endEditCP(_stone_trans5);
 
-    beginEditCP(_stone_trans6);
-        _stone_trans6->getMatrix().setTranslate(90,10,0);
-    endEditCP(_stone_trans6);
+	beginEditCP(_stone_trans6);
+		_stone_trans6->getMatrix().setTranslate(90,10,0);
+	endEditCP(_stone_trans6);
 
-    beginEditCP(_stone_trans7);
-        _stone_trans7->getMatrix().setTranslate(-70,90,0);
-    endEditCP(_stone_trans7);
+	beginEditCP(_stone_trans7);
+		_stone_trans7->getMatrix().setTranslate(-70,90,0);
+	endEditCP(_stone_trans7);
 
-    beginEditCP(_stone_trans8);
-        _stone_trans8->getMatrix().setTranslate(10,90,0);
-    endEditCP(_stone_trans8);
+	beginEditCP(_stone_trans8);
+		_stone_trans8->getMatrix().setTranslate(10,90,0);
+	endEditCP(_stone_trans8);
 
-    beginEditCP(_stone_trans9);
-        _stone_trans9->getMatrix().setTranslate(90,90,0);
-    endEditCP(_stone_trans9);
+	beginEditCP(_stone_trans9);
+		_stone_trans9->getMatrix().setTranslate(90,90,0);
+	endEditCP(_stone_trans9);
 
-    NodePtr stone1 = makeSphere(1.0,7.0);
-    NodePtr stone2 = makeSphere(1.0,7.0);
-    NodePtr stone3 = makeSphere(1.0,7.0);
-    NodePtr stone4 = makeSphere(1.0,7.0);
-    NodePtr stone5 = makeSphere(1.0,7.0);
-    NodePtr stone6 = makeSphere(1.0,7.0);
-    NodePtr stone7 = makeSphere(1.0,7.0);
-    NodePtr stone8 = makeSphere(1.0,7.0);
-    NodePtr stone9 = makeSphere(1.0,7.0);
+	NodePtr stone1 = makeSphere(1.0,7.0);
+	NodePtr stone2 = makeSphere(1.0,7.0);
+	NodePtr stone3 = makeSphere(1.0,7.0);
+	NodePtr stone4 = makeSphere(1.0,7.0);
+	NodePtr stone5 = makeSphere(1.0,7.0);
+	NodePtr stone6 = makeSphere(1.0,7.0);
+	NodePtr stone7 = makeSphere(1.0,7.0);
+	NodePtr stone8 = makeSphere(1.0,7.0);
+	NodePtr stone9 = makeSphere(1.0,7.0);
 
     ImagePtr plane_img2 = Image::create();
     plane_img2->read("stone.jpg");
@@ -481,104 +499,104 @@ int main(int argc, char **argv)
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone2->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone2->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone3->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone3->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone4->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone4->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone5->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone5->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone6->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone6->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone7->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone7->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone8->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone8->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
-    plane_geo3 = GeometryPtr::dcast(stone9->getCore());
+	plane_geo3 = GeometryPtr::dcast(stone9->getCore());
     beginEditCP(plane_geo3);
         plane_geo3->setMaterial(plane_mat2);
     beginEditCP(plane_geo3);
 
 
-    beginEditCP(stone_trans_node1);
-        stone_trans_node1->addChild(stone1);
-    endEditCP(stone_trans_node1);
+	beginEditCP(stone_trans_node1);
+		stone_trans_node1->addChild(stone1);
+	endEditCP(stone_trans_node1);
 
-    beginEditCP(stone_trans_node2);
-        stone_trans_node2->addChild(stone2);
-    endEditCP(stone_trans_node2);
+	beginEditCP(stone_trans_node2);
+		stone_trans_node2->addChild(stone2);
+	endEditCP(stone_trans_node2);
 
-    beginEditCP(stone_trans_node3);
-        stone_trans_node3->addChild(stone3);
-    endEditCP(stone_trans_node3);
+	beginEditCP(stone_trans_node3);
+		stone_trans_node3->addChild(stone3);
+	endEditCP(stone_trans_node3);
 
-    beginEditCP(stone_trans_node4);
-        stone_trans_node4->addChild(stone4);
-    endEditCP(stone_trans_node4);
+	beginEditCP(stone_trans_node4);
+		stone_trans_node4->addChild(stone4);
+	endEditCP(stone_trans_node4);
 
-    beginEditCP(stone_trans_node5);
-        stone_trans_node5->addChild(stone5);
-    endEditCP(stone_trans_node5);
+	beginEditCP(stone_trans_node5);
+		stone_trans_node5->addChild(stone5);
+	endEditCP(stone_trans_node5);
 
-    beginEditCP(stone_trans_node6);
-        stone_trans_node6->addChild(stone6);
-    endEditCP(stone_trans_node6);
+	beginEditCP(stone_trans_node6);
+		stone_trans_node6->addChild(stone6);
+	endEditCP(stone_trans_node6);
 
-    beginEditCP(stone_trans_node7);
-        stone_trans_node7->addChild(stone7);
-    endEditCP(stone_trans_node7);
+	beginEditCP(stone_trans_node7);
+		stone_trans_node7->addChild(stone7);
+	endEditCP(stone_trans_node7);
 
-    beginEditCP(stone_trans_node8);
-        stone_trans_node8->addChild(stone8);
-    endEditCP(stone_trans_node8);
+	beginEditCP(stone_trans_node8);
+		stone_trans_node8->addChild(stone8);
+	endEditCP(stone_trans_node8);
 
-    beginEditCP(stone_trans_node9);
-        stone_trans_node9->addChild(stone9);
-    endEditCP(stone_trans_node9);
+	beginEditCP(stone_trans_node9);
+		stone_trans_node9->addChild(stone9);
+	endEditCP(stone_trans_node9);
 
-    NodePtr stones = makeCoredNode<Group>();
+	NodePtr stones = makeCoredNode<Group>();
 
-    beginEditCP(stones);
-        stones->addChild(stone_trans_node1);
-        stones->addChild(stone_trans_node2);
-        stones->addChild(stone_trans_node3);
-        stones->addChild(stone_trans_node4);
-        stones->addChild(stone_trans_node5);
-        stones->addChild(stone_trans_node6);
-        stones->addChild(stone_trans_node7);
-        stones->addChild(stone_trans_node8);
-        stones->addChild(stone_trans_node9);
-    endEditCP(stones);
+	beginEditCP(stones);
+		stones->addChild(stone_trans_node1);
+		stones->addChild(stone_trans_node2);
+		stones->addChild(stone_trans_node3);
+		stones->addChild(stone_trans_node4);
+		stones->addChild(stone_trans_node5);
+		stones->addChild(stone_trans_node6);
+		stones->addChild(stone_trans_node7);
+		stones->addChild(stone_trans_node8);
+		stones->addChild(stone_trans_node9);
+	endEditCP(stones);
 
 
     beginEditCP(scene);
         scene->addChild(plane);
-        scene->addChild(obj1_trans_node);
-        scene->addChild(trees);
-        scene->addChild(stones);
-        scene->addChild(dinos);
+		scene->addChild(obj1_trans_node);
+		scene->addChild(trees);
+		scene->addChild(stones);
+		scene->addChild(dinos);
     endEditCP(scene);
 
     svp = ShadowViewport::create();
@@ -590,11 +608,11 @@ int main(int argc, char **argv)
         gbg->addLine(Color3f(0.0, 0.1, 0.3), 1);
     endEditCP(gbg);
 
-    beginEditCP(rootNode);
+	beginEditCP(rootNode);
         rootNode->addChild(dir1);
         rootNode->addChild(dir1_beacon);
         rootNode->addChild(dir2_beacon);
-        rootNode->addChild(cam_beacon);
+		rootNode->addChild(cam_beacon);
     endEditCP(rootNode);
 
     // Shadow viewport
@@ -603,17 +621,28 @@ int main(int argc, char **argv)
         svp->setRoot(rootNode);
         svp->setSize(0,0,1,1);
         svp->setOffFactor(4.0);
-        svp->setOffBias(4.0);
-        svp->setShadowColor(Color4f(0.0, 0.0, 0.0, 1.0));
-        svp->setMapSize(1024);
-        //defines the Focus Region for Trapezoidal-Shadow-Mapping (0.3 = 30% view range)
-        svp->setRange(0.25);
-        svp->setShadowMode(ShadowViewport::NO_SHADOW);
+        svp->setOffBias(8.0);
+        svp->setShadowColor(Color4f(0.1, 0.1, 0.1, 1.0));
+        svp->setMapSize(2048);
+		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel
+		//Range also used to define the light size for PCSS Soft Shadows
+		svp->setRange(4.0);
+		//svp->setShadowMode(ShadowViewport::NO_SHADOW);
         // you can add the light sources here, as default all light source in
         // the scenegraph are used.
-        svp->getLightNodes().addValue(dir1);
-        svp->getLightNodes().addValue(dir2);
+        svp->getLightNodes().push_back(dir1);
+        svp->getLightNodes().push_back(dir2);
     endEditCP(svp);
+
+	//one active light at startup
+	beginEditCP(_dir2_core);
+                _dir2_core->setOn(false);
+    endEditCP(_dir2_core);
+	beginEditCP(_dir1_core);
+                _dir1_core->setOn(true);
+                _dir1_core->setAmbient(0.3,0.3,0.3,1);
+                _dir1_core->setDiffuse(0.8,0.8,0.8,1);
+    endEditCP(_dir1_core);
 
     beginEditCP(gwin);//Window
         gwin->setId(winid);
@@ -631,10 +660,10 @@ int main(int argc, char **argv)
     mgr->setWindow(gwin);
     mgr->setRoot(rootNode);
 
-    _navigator.setMode(Navigator::TRACKBALL);
+	_navigator.setMode(Navigator::TRACKBALL);
 
-    _navigator.setViewport(svp);
-    _navigator.setCameraTransformation(cam_beacon);
+	_navigator.setViewport(svp);
+	_navigator.setCameraTransformation(cam_beacon);
 
 
     Vec3f up(0,1,0);
@@ -647,11 +676,11 @@ int main(int argc, char **argv)
 
 
     beginEditCP(svp);//Viewport
-        svp->setCamera(Pcamera);
+		svp->setCamera(Pcamera);
     endEditCP(svp);
 
-    //activate Framecounter
-    startFpsCounter();
+	//activate Framecounter
+	startFpsCounter();
 
     mgr->turnHeadlightOff();
 
@@ -665,19 +694,19 @@ int main(int argc, char **argv)
 
 void Animate()
 {
-    //Show FPS
-    showFpsCounter();
+	//Show FPS
+	showFpsCounter();
 
     static Real64 t0 = OSG::getSystemTime();
 
     Real64 t = OSG::getSystemTime() - t0;
 
-    Real32 rot0 = t * 0.25;
-    if(rot0 > 360.0)
+	Real32 rot0 = t * 0.25;
+	if(rot0 > 360.0)
         rot0 -= 360.0;
 
-    Real32 rota = t * 0.5;
-    if(rota > 360.0)
+	Real32 rota = t * 0.5;
+	if(rota > 360.0)
         rota -= 360.0;
 
     Real32 rotb = t * 1.0;
@@ -692,167 +721,167 @@ void Animate()
     if(rotd > 360.0)
         rotd -= 360.0;
 
-    //beginEditCP(dir2_trans);
+	//beginEditCP(dir2_trans);
     //    dir2_trans->getMatrix().setTranslate(-100.0*sin(rota),-100.0*cos(rota), 250.0);
     //endEditCP(dir2_trans);
 
-    //animate Trees
-    Quaternion q;
+	//animate Trees
+	Quaternion q;
 
     beginEditCP(_tree1_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rota));
-        _tree1_trans->getMatrix().setRotate(q);
-        _tree1_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rota));
+		_tree1_trans->getMatrix().setRotate(q);
+		_tree1_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree1_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree2_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
-        _tree2_trans->getMatrix().setRotate(q);
-        _tree2_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree2_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
+		_tree2_trans->getMatrix().setRotate(q);
+		_tree2_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree2_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree3_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
-        _tree3_trans->getMatrix().setRotate(q);
-        _tree3_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree3_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
+		_tree3_trans->getMatrix().setRotate(q);
+		_tree3_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree3_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree4_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
-        _tree4_trans->getMatrix().setRotate(q);
-        _tree4_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree4_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
+		_tree4_trans->getMatrix().setRotate(q);
+		_tree4_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree4_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree5_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
-        _tree5_trans->getMatrix().setRotate(q);
-        _tree5_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree5_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
+		_tree5_trans->getMatrix().setRotate(q);
+		_tree5_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree5_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree6_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
-        _tree6_trans->getMatrix().setRotate(q);
-        _tree6_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree6_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
+		_tree6_trans->getMatrix().setRotate(q);
+		_tree6_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree6_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree7_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotd));
-        _tree7_trans->getMatrix().setRotate(q);
-        _tree7_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree7_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotd));
+		_tree7_trans->getMatrix().setRotate(q);
+		_tree7_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree7_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree8_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
-        _tree8_trans->getMatrix().setRotate(q);
-        _tree8_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree8_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotb));
+		_tree8_trans->getMatrix().setRotate(q);
+		_tree8_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree8_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_tree9_trans);
-        q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
-        _tree9_trans->getMatrix().setRotate(q);
-        _tree9_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
+	beginEditCP(_tree9_trans);
+		q.setValueAsAxisRad(1,1,1, 0.5*sin(rotc));
+		_tree9_trans->getMatrix().setRotate(q);
+		_tree9_trans->getMatrix().setScale(Vec3f(12.0,12.0,10.0));
     endEditCP(_tree9_trans);
 
-    q.setIdentity();
+	q.setIdentity();
 
-    beginEditCP(_obj1_trans);
-    {
-        Matrix m;
-        m.setIdentity();
-        Vec3f scale(0.15,0.15,0.15);
-        Vec3f trans(-40.0*sin(rotb),-40.0*cos(rotb),24.0+16.0*sin(rotd));
-        q.setValueAsAxisRad(0,0,1, -rotb);
-        m.setTransform(trans,q,scale);
-        _obj1_trans->setMatrix(m);
-    }
-    endEditCP(_obj1_trans);
+	beginEditCP(_obj1_trans);
+	{
+		Matrix m;
+		m.setIdentity();
+		Vec3f scale(0.15,0.15,0.15);
+		Vec3f trans(-40.0*sin(rotb),-40.0*cos(rotb),24.0+16.0*sin(rotd));
+		q.setValueAsAxisRad(0,0,1, -rotb);
+		m.setTransform(trans,q,scale);
+		_obj1_trans->setMatrix(m);
+	}
+	endEditCP(_obj1_trans);
+		
+	//animate Dinos
 
-    //animate Dinos
+	beginEditCP(_dino1_trans);
+	{
+		Matrix m;
+		m.setIdentity();
+		Vec3f scale(5.0,5.0,5.0);
+		Real32 ztrans1 = sin(2.0*rotd);
+		if (ztrans1 < 0) ztrans1 *= -1.0;
+		Vec3f trans(-96.0*cos(rot0),-96.0*sin(rot0),10.0+8.0*ztrans1);
+		m.setScale(Vec3f(5.0,5.0,5.0));
+		q.setValueAsAxisRad(0,0,1, rot0-170);
+		m.setTransform(trans,q,scale);
+		_dino1_trans->setMatrix(m);
+	}
+	endEditCP(_dino1_trans);
 
-    beginEditCP(_dino1_trans);
-    {
-        Matrix m;
-        m.setIdentity();
-        Vec3f scale(5.0,5.0,5.0);
-        Real32 ztrans1 = sin(2.0*rotd);
-        if (ztrans1 < 0) ztrans1 *= -1.0;
-        Vec3f trans(-96.0*cos(rot0),-96.0*sin(rot0),10.0+8.0*ztrans1);
-        m.setScale(Vec3f(5.0,5.0,5.0));
-        q.setValueAsAxisRad(0,0,1, rot0-170);
-        m.setTransform(trans,q,scale);
-        _dino1_trans->setMatrix(m);
-    }
-    endEditCP(_dino1_trans);
+	beginEditCP(_dino2_trans);
+	{
+		Matrix m;
+		m.setIdentity();
+		Vec3f scale(3.0,3.0,3.0);
+		Real32 ztrans1 = sin(2.5*rotd);
+		if (ztrans1 < 0) ztrans1 *= -1.0;
+		Vec3f trans(-96.0*cos((rot0-0.5)),-96.0*sin((rot0-0.5)),6.0+8.0*ztrans1);
+		m.setScale(Vec3f(5.0,5.0,5.0));
+		q.setValueAsAxisRad(0,0,1, rot0-169.9);
+		m.setTransform(trans,q,scale);
+		_dino2_trans->setMatrix(m);
+	}
+	endEditCP(_dino2_trans);
 
-    beginEditCP(_dino2_trans);
-    {
-        Matrix m;
-        m.setIdentity();
-        Vec3f scale(3.0,3.0,3.0);
-        Real32 ztrans1 = sin(2.5*rotd);
-        if (ztrans1 < 0) ztrans1 *= -1.0;
-        Vec3f trans(-96.0*cos((rot0-0.5)),-96.0*sin((rot0-0.5)),6.0+8.0*ztrans1);
-        m.setScale(Vec3f(5.0,5.0,5.0));
-        q.setValueAsAxisRad(0,0,1, rot0-169.9);
-        m.setTransform(trans,q,scale);
-        _dino2_trans->setMatrix(m);
-    }
-    endEditCP(_dino2_trans);
+	beginEditCP(_dino3_trans);
+	{
+		Matrix m;
+		m.setIdentity();
+		Vec3f scale(3.0,3.0,3.0);
+		Real32 ztrans1 = sin(3.0*rotd);
+		if (ztrans1 < 0) ztrans1 *= -1.0;
+		Vec3f trans(-96.0*cos((rot0-0.8)),-96.0*sin((rot0-0.8)),6.0+8.0*ztrans1);
+		m.setScale(Vec3f(5.0,5.0,5.0));
+		q.setValueAsAxisRad(0,0,1, rot0-170.1);
+		m.setTransform(trans,q,scale);
+		_dino3_trans->setMatrix(m);
+	}
+	endEditCP(_dino3_trans);
 
-    beginEditCP(_dino3_trans);
-    {
-        Matrix m;
-        m.setIdentity();
-        Vec3f scale(3.0,3.0,3.0);
-        Real32 ztrans1 = sin(3.0*rotd);
-        if (ztrans1 < 0) ztrans1 *= -1.0;
-        Vec3f trans(-96.0*cos((rot0-0.8)),-96.0*sin((rot0-0.8)),6.0+8.0*ztrans1);
-        m.setScale(Vec3f(5.0,5.0,5.0));
-        q.setValueAsAxisRad(0,0,1, rot0-170.1);
-        m.setTransform(trans,q,scale);
-        _dino3_trans->setMatrix(m);
-    }
-    endEditCP(_dino3_trans);
+	beginEditCP(_dino4_trans);
+	{
+		Matrix m;
+		m.setIdentity();
+		Vec3f scale(3.0,3.0,3.0);
+		Real32 ztrans1 = sin(2.75*rotd);
+		if (ztrans1 < 0) ztrans1 *= -1.0;
+		Vec3f trans(-96.0*cos((rot0-1.2)),-96.0*sin((rot0-1.2)),6.0+8.0*ztrans1);
+		m.setScale(Vec3f(5.0,5.0,5.0));
+		q.setValueAsAxisRad(0,0,1, rot0-170.1);
+		m.setTransform(trans,q,scale);
+		_dino4_trans->setMatrix(m);
+	}
+	endEditCP(_dino4_trans);
 
-    beginEditCP(_dino4_trans);
-    {
-        Matrix m;
-        m.setIdentity();
-        Vec3f scale(3.0,3.0,3.0);
-        Real32 ztrans1 = sin(2.75*rotd);
-        if (ztrans1 < 0) ztrans1 *= -1.0;
-        Vec3f trans(-96.0*cos((rot0-1.2)),-96.0*sin((rot0-1.2)),6.0+8.0*ztrans1);
-        m.setScale(Vec3f(5.0,5.0,5.0));
-        q.setValueAsAxisRad(0,0,1, rot0-170.1);
-        m.setTransform(trans,q,scale);
-        _dino4_trans->setMatrix(m);
-    }
-    endEditCP(_dino4_trans);
-
-    _navigator.idle(_mousebuttons,_lastx, _lasty);
+	_navigator.idle(_mousebuttons,_lastx, _lasty);
     mgr->redraw();
 }
 
 // redraw the window
 void display(void)
 {
-    _navigator.updateCameraTransformation();
+	_navigator.updateCameraTransformation();
     mgr->redraw();
 }
 
@@ -866,47 +895,47 @@ void reshape(int w, int h)
 // react to mouse button presses
 void mouse(int button, int state, int x, int y)
 {
-    if ( state )
-    {
+    if ( state ) 
+	{
         mgr->mouseButtonRelease( button, x, y );
-        switch (button)
-            {
-                case 0:     _navigator.buttonRelease(Navigator::LEFT_MOUSE,x,y);
+	    switch (button)
+		    {
+				case 0:     _navigator.buttonRelease(Navigator::LEFT_MOUSE,x,y);
+		        break;
+				case 1:   _navigator.buttonRelease(Navigator::MIDDLE_MOUSE,x,y);
                 break;
-                case 1:   _navigator.buttonRelease(Navigator::MIDDLE_MOUSE,x,y);
+				case 2:    _navigator.buttonRelease(Navigator::RIGHT_MOUSE,x,y);
                 break;
-                case 2:    _navigator.buttonRelease(Navigator::RIGHT_MOUSE,x,y);
+				case 3:       _navigator.buttonRelease(Navigator::UP_MOUSE,x,y);
                 break;
-                case 3:       _navigator.buttonRelease(Navigator::UP_MOUSE,x,y);
+				case 4:     _navigator.buttonRelease(Navigator::DOWN_MOUSE,x,y);
                 break;
-                case 4:     _navigator.buttonRelease(Navigator::DOWN_MOUSE,x,y);
-                break;
-            }
-        _mousebuttons &= ~(1 << button);
-        _lastx = x;
-        _lasty = y;
-    }
+			}
+		_mousebuttons &= ~(1 << button);
+	    _lastx = x;
+		_lasty = y;
+	}
 
     else
-    {
+	{
         mgr->mouseButtonPress( button, x, y );
-        switch (button)
-       {
-            case 0:    _navigator.buttonPress(Navigator::LEFT_MOUSE,x,y);
-            break;
-            case 1:  _navigator.buttonPress(Navigator::MIDDLE_MOUSE,x,y);
-            break;
-            case 2:   _navigator.buttonPress(Navigator::RIGHT_MOUSE,x,y);
-            break;
-            case 3:      _navigator.buttonPress(Navigator::UP_MOUSE,x,y);
-            break;
-            case 4:    _navigator.buttonPress(Navigator::DOWN_MOUSE,x,y);
-            break;
-        }
-        _mousebuttons |= 1 << button;
-        _lastx = x;
-        _lasty = y;
-    }
+	    switch (button)
+	   {
+			case 0:    _navigator.buttonPress(Navigator::LEFT_MOUSE,x,y);
+			break;
+			case 1:  _navigator.buttonPress(Navigator::MIDDLE_MOUSE,x,y);
+			break;
+			case 2:   _navigator.buttonPress(Navigator::RIGHT_MOUSE,x,y);
+			break;
+			case 3:      _navigator.buttonPress(Navigator::UP_MOUSE,x,y);
+			break;
+			case 4:    _navigator.buttonPress(Navigator::DOWN_MOUSE,x,y);
+			break;
+		}
+		_mousebuttons |= 1 << button;
+		_lastx = x;
+		_lasty = y;
+	}
 
     glutPostRedisplay();
 }
@@ -963,7 +992,7 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
-        case '0':
+		case '0':
         {
             beginEditCP(_dir1_core);
                 _dir1_core->setAmbient(0.15,0.15,0.15,1);
@@ -982,40 +1011,40 @@ void keyboard(unsigned char k, int x, int y)
         case 'w':
         {
             Real32 t = svp->getOffBias();
-
+            
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias((t+0.2));
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
             SLOG << "Polygon-OffsetBias is: " << t << endLog;
             break;
         }
-
+        
         case 's':
         {
             Real32 t = svp->getOffBias();
-
+            
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias((t-0.2));
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
             SLOG << "Polygon-OffsetBias is: " << t << endLog;
             break;
         }
-
+        
         case 'e':
         {
             Real32 t = svp->getOffFactor();
-
+            
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(++t);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
             SLOG << "Polygon-OffsetFactor is: " << t << endLog;
             break;
         }
-
+        
         case 'd':
-        {
-            Real32 t = svp->getOffFactor();
-
+        {    
+            Real32 t = svp->getOffFactor();    
+            
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(--t);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
@@ -1028,86 +1057,99 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setShadowOn(!s);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
-            break;
+			break;
         }
         case 'x':
         {
             SceneFileHandler::the().write(rootNode, "shadow.osb.gz", true);
-            break;
+			break;
         }
 
-        case '1':
+		case '1':
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
-            svp->setShadowMode(ShadowViewport::NO_SHADOW);
+				svp->setShadowMode(ShadowViewport::NO_SHADOW);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: NO_SHADOW" << endLog;
             break;
         }
 
-        case '2':
+		case '2':
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
-            svp->setShadowMode(ShadowViewport::STD_SHADOW_MAP);
+				svp->setShadowMode(ShadowViewport::STD_SHADOW_MAP);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: STD_SHADOW_MAP" << endLog;
             break;
         }
 
-        case '3':
+		case '3':
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
-            svp->setShadowMode(ShadowViewport::PERSPECTIVE_SHADOW_MAP);
+				svp->setShadowMode(ShadowViewport::PERSPECTIVE_SHADOW_MAP);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: PERSPECTIVE_SHADOW_MAP" << endLog;
             break;
         }
 
-        case '4':
+		case '4':
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
-            svp->setShadowMode(ShadowViewport::DITHER_SHADOW_MAP);
+				svp->setShadowMode(ShadowViewport::DITHER_SHADOW_MAP);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: DITHER_SHADOW_MAP" << endLog;
             break;
         }
 
-        case '5':
+		case '5':
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
-            svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
+				svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
+				svp->setRange(4.0);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: PCF_SHADOW_MAP" << endLog;
             break;
         }
 
-        case '-':
+		case '6':
         {
-            Real32 focus = svp->getRange();
-            focus -= 0.05;
-            beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(focus);
-            endEditCP(svp, ShadowViewport::RangeFieldMask);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
+				svp->setShadowMode(ShadowViewport::PCSS_SHADOW_MAP);
+				svp->setRange(10.0);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
+            SLOG << "ShadowMode is: PCSS_SHADOW_MAP" << endLog;
             break;
         }
 
-        case '+':
-        {
-            Real32 focus = svp->getRange();
-            focus += 0.05;
+		case '+':
+        {    
+            Real32 t = svp->getRange();    
+            
             beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(focus);
+                svp->setRange(++t);
             endEditCP(svp, ShadowViewport::RangeFieldMask);
+            SLOG << "Range is: " << t << endLog;
             break;
         }
 
-        case 'q':
-        {
-            beginEditCP(svp, ShadowViewport::QualityModeFieldMask);
-                svp->setQualityMode(!svp->getQualityMode());
-            endEditCP(svp, ShadowViewport::QualityModeFieldMask);
+		case '-':
+        {    
+            Real32 t = svp->getRange();    
+            
+            beginEditCP(svp, ShadowViewport::RangeFieldMask);
+                svp->setRange(--t);
+            endEditCP(svp, ShadowViewport::RangeFieldMask);
+            SLOG << "Range is: " << t << endLog;
             break;
         }
+
+		case 'q':
+		{
+			beginEditCP(svp, ShadowViewport::QualityModeFieldMask);
+				svp->setQualityMode(!svp->getQualityMode());
+			endEditCP(svp, ShadowViewport::QualityModeFieldMask);
+			break;
+		}
 
     }
     glutPostRedisplay();
@@ -1120,7 +1162,7 @@ int setupGLUT(int *argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     //Set WindowSize here
-    glutInitWindowSize(512,512);
+    glutInitWindowSize(800,600);
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);

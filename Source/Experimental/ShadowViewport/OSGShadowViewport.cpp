@@ -65,6 +65,7 @@
 #include "OSGPerspectiveShadowMap.h"
 #include "OSGDitherShadowMap.h"
 #include "OSGPCFShadowMap.h"
+#include "OSGPCSSShadowMap.h"
 
 
 //--------------------------------------------------------------------
@@ -231,16 +232,10 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
 	if(whichField & RangeFieldMask)
 	{
-		if (getRange() > 0.8)
+		if (getRange() < 0.0)
 		{
-			printf("No Range > 0.8 allowed!\n");
-			setRange(0.8);
-		}
-
-		if (getRange() <= 0.01)
-		{
-			printf("No Range <= 0 allowed!\n");
-			setRange(0.01);
+			printf("No Range < 0 allowed!\n");
+			setRange(0.0);
 		}
 		printf("Range set to %f\n",getRange());
 	}
@@ -289,6 +284,13 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 		}
 		break;
 
+		case PCSS_SHADOW_MAP:
+		{
+			printf("using PCSS Shadow Mapping...\n");
+			treeRenderer = new PCSSShadowMap(this);
+		}
+		break;
+
 		default: break;
 		}
     }
@@ -302,6 +304,16 @@ void ShadowViewport::dump(      UInt32    ,
     SLOG << "Dump ShadowViewport NI" << std::endl;
 }
 
+void ShadowViewport::setVPSize(UInt32 a,UInt32 b, UInt32 c, UInt32 d)
+{
+	beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
+                          BottomFieldMask | TopFieldMask);
+    {
+        this->setSize(a,b,c,d);
+    }
+    endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
+                        BottomFieldMask | TopFieldMask);
+}
 
 void ShadowViewport::triggerMapUpdate(void)
 {
@@ -928,12 +940,12 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 
         // Just a Hack until TextureChunk is ready
         // to take the following arguments
-        _texChunks[i]->activate(action, 3);
+        /*_texChunks[i]->activate(action, 3);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
                         GL_COMPARE_R_TO_TEXTURE_ARB);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_INTENSITY);
-        _texChunks[i]->deactivate(action, 3);
+        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+        _texChunks[i]->deactivate(action, 3);*/
     }
 
     updateLights();
@@ -974,7 +986,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.3 2006/03/18 19:12:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.4 2006/04/18 12:41:12 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

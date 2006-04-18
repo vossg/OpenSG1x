@@ -39,6 +39,15 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
 {
   private:
 
+	bool initFBO(Window *win);
+
+	GLuint fb2;
+
+	bool checkFrameBufferStatus(Window *win);
+
+	void createShadowMapsFBO(RenderActionBase* action);
+
+
     TileCameraDecoratorPtr  _tiledeco;
 	BlendChunkPtr           _blender;
 
