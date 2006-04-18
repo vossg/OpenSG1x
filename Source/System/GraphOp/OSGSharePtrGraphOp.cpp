@@ -116,11 +116,10 @@ bool SharePtrGraphOp::traverse(NodePtr& root)
     // scenegraph and this only with one special geometry file ...
     fillAttachmentParents(root);
 
-    FINFO(("Shared %u ptrs with types", _share_counter));
+    FINFO(("Shared %u ptrs with types:\n", _share_counter));
 
     for(fcsMap::iterator i = _fctypes.begin();i != _fctypes.end();++i)
-        FINFO((" '%s'", (*i).first.c_str()));
-    FINFO(("\n"));
+        FINFO(("\t'%s'\n", (*i).first.c_str()));
 
     return result;
 }
