@@ -266,7 +266,7 @@ static std::string _pcss_shadow_fp =
 "	if(penumbra > maxpen) penumbra = maxpen;\n"
 "	shadowed = PCF(projectiveBiased,penumbra,PCFsamples);\n"
 "\n"
-"	shadowed *= intensity;\n"
+"	shadowed = (1.0-shadowed) * intensity;\n"
 "\n"
 "	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,texPos.xyw).x;\n"
 "	\n"
@@ -293,7 +293,7 @@ static std::string _pcss_shadow_combine_fp =
 "	vec4 colorProj = bias * projCoord;\n"
 "\n"
 "	vec3 color = texture2DProj(colorMap, colorProj.xyw).xyz;\n"
-"	color *= texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
+"	color *= 1.0 - texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
 "\n"
 "	gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
@@ -918,7 +918,7 @@ void PCSSShadowMap::createColorMapFBO(RenderActionBase* action)
 
 void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num)
 {
-	glClearColor(1.0,1.0,1.0,1.0);
+	glClearColor(0.0,0.0,0.0,1.0);
 
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
@@ -926,8 +926,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Color4f shadowColor = shadowVP->getShadowColor(); 
-    activeLights = (1.0-shadowColor[0])/activeLights;
+    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -949,7 +948,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
         _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", activeLights);
+        _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
@@ -1004,13 +1003,12 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
 
     subRefCP(shadowVP->getRoot());
 
-    glClearColor(0.0,0.0,0.0,1.0);
 	delete[] buffers;
 }
 
 void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
-	glClearColor(1.0,1.0,1.0,1.0);
+	glClearColor(0.0,0.0,0.0,1.0);
 	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //Finde alle aktiven Lichtquellen
@@ -1019,8 +1017,7 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Color4f shadowColor = shadowVP->getShadowColor(); 
-    activeLights = (1.0-shadowColor[0])/activeLights;
+    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -1044,7 +1041,7 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
         _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", activeLights);
+        _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
@@ -1087,8 +1084,6 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
 
     subRefCP(shadowVP->getRoot());
-
-    glClearColor(0.0,0.0,0.0,1.0);
 }
 
 void PCSSShadowMap::drawCombineMap(RenderActionBase* action)

@@ -204,7 +204,7 @@ static std::string _Dither_shadow_fp =
 "	shadowed += depthTest(vec2(0.5*pixSize,1.5*pixSize) + o, projectiveBiased.xyz);\n"
 "	shadowed += depthTest(vec2(-1.5*pixSize,-0.5*pixSize) + o, projectiveBiased.xyz);\n"
 "	shadowed += depthTest(vec2(0.5*pixSize,-0.5*pixSize) + o, projectiveBiased.xyz);\n"
-"	shadowed = shadowed * intensity * 0.25;\n"
+"	shadowed = (1.0-(shadowed * 0.25))*intensity;\n"
 "	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,texPos.xyw).x;\n"
 "	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
@@ -232,7 +232,7 @@ static std::string _Dither_shadow_combine_fp =
 "\n"
 "    vec3 color = texture2DProj(colorMap, colorProj.xyw).xyz;\n"
 "\n"
-"    color *= texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
+"    color *= 1.0 - texture2DProj(shadowFactorMap, colorProj.xyw).x;\n"
 "    gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
@@ -840,17 +840,15 @@ void DitherShadowMap::createColorMapFBO(RenderActionBase* action)
 
 void DitherShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
-    glClearColor(1.0,1.0,1.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	glClearColor(0.0,0.0,0.0,1.0);
+    if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
     for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Color4f shadowColor = shadowVP->getShadowColor(); 
-    activeLights = (1.0-shadowColor[0])/activeLights;
+    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -870,18 +868,19 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num
     shadowMatrix.mult(LVM);
     shadowMatrix.mult(iCVM);
 
-	Real32 shadowRange = floor(shadowVP->getRange());
-	if(shadowRange == 0.0) shadowRange = 1.0;
+	//Real32 shadowRange = floor(shadowVP->getRange());
+	//if(shadowRange == 0.0) shadowRange = 1.0;
 
     beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
         _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", activeLights);
+        _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+		//_shadowSHL->setUniformParameter("shadowRange", Real32(shadowRange));
     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
     beginEditCP(_shadowCmat);
@@ -917,13 +916,11 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num
     endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
 
     subRefCP(shadowVP->getRoot());
-
-    glClearColor(0.0,0.0,0.0,1.0);
 }
 
 void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num)
 {
-    glClearColor(1.0,1.0,1.0,1.0);
+    glClearColor(0.0,0.0,0.0,1.0);
 
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
@@ -931,8 +928,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Color4f shadowColor = shadowVP->getShadowColor(); 
-    activeLights = (1.0-shadowColor[0])/activeLights;
+    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -950,18 +946,19 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
     shadowMatrix.mult(LVM);
     shadowMatrix.mult(iCVM);
 
-	Real32 shadowRange = floor(shadowVP->getRange());
-	if(shadowRange == 0.0) shadowRange = 1.0;
+	//Real32 shadowRange = floor(shadowVP->getRange());
+	//if(shadowRange == 0.0) shadowRange = 1.0;
 
     beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
         _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", activeLights);
+        _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+		//_shadowSHL->setUniformParameter("shadowRange", Real32(shadowRange));
     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
     beginEditCP(_shadowCmat);
@@ -1007,7 +1004,6 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
 
     subRefCP(shadowVP->getRoot());
 
-    glClearColor(0.0,0.0,0.0,1.0);
 	delete[] buffers;
 }
 

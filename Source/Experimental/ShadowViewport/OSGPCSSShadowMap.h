@@ -1,4 +1,3 @@
-
 #ifndef _OSGPCSSSHADOWMAP_H_
 #define _OSGPCSSSHADOWMAP_H_
 #ifdef __sgi
