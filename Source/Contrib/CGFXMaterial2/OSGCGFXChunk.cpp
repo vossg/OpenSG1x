@@ -686,7 +686,7 @@ void CGFXChunk::updateEffect(Window *win)
                         }
                     }
 
-                    // we do this also for a empty filename could ne set later
+                    // we do this also for a empty filename could be set later
                     // via setParameter().
                     if(_cgfx_changed)
                     {
@@ -867,6 +867,133 @@ void CGFXChunk::setParentMaterial(const MultiPassMaterialPtr &parentMat)
     _parentMat = parentMat;
 }
 
+void CGFXChunk::updateImages(void)
+{
+    CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
+    if(cgfxMat == NullFC)
+        return;
+
+    CGcontext context = cgCreateContext();
+
+    if(context == NULL)
+        return;
+
+    cgGLRegisterStates(context);
+
+    CGeffect effect = cgCreateEffect(context, _effectString.c_str(), NULL);
+
+    if(effect == NULL)
+    {
+        cgDestroyContext(context);
+        return;
+    }
+
+    // destroy old TextureChunks and images.
+    for(TexturesMap::iterator it = _textures.begin();it != _textures.end();++it)
+        subRefCP((*it).second.first);
+    _textures.clear();
+    cgfxMat->clearImages();
+
+    CGparameter param = cgGetFirstEffectParameter(effect);
+    while(param)
+    {
+        std::string paramName = cgGetParameterName(param) ? cgGetParameterName(param) : "";
+        std::string paramSemantic = cgGetParameterSemantic(param) ? cgGetParameterSemantic(param) : "";
+        CGtype paramType = cgGetParameterType(param);
+
+        switch(paramType)
+        {
+            case CG_SAMPLER1D:
+            case CG_SAMPLER2D:
+            case CG_SAMPLER3D:
+            case CG_SAMPLERRECT:
+            case CG_SAMPLERCUBE:
+            {
+                std::string filename;
+                if(!cgfxMat->getParameter(paramName.c_str(), filename))
+                {
+                    // ok first look for a tweakable File parameter in the sampler itself.
+                    // get texture filename
+                    if(cgGetFirstParameterAnnotation(param) != NULL)
+                    {
+                        CGannotation anno = cgGetNamedParameterAnnotation(param, "File");
+                        if(anno == NULL)
+                            anno = cgGetNamedParameterAnnotation(param, "ResourceName");
+
+                        if(anno != NULL)
+                        {
+                            filename = cgGetStringAnnotationValue(anno);
+                            
+                            cgfxMat->setParameter(paramName.c_str(), filename);
+                        }
+                    }
+    
+                    if(filename.empty())
+                    {
+                        // ok second look for a tweakable parameter in the texture parameter.
+                        CGstateassignment ss = cgGetFirstSamplerStateAssignment(param);
+                        if(ss)
+                        {
+                            // cgGetSamplerStateAssignmentValue
+                            CGparameter tparam = cgGetTextureStateAssignmentValue(ss);
+                            if(tparam)
+                            {
+                                CGtype tparamType = cgGetParameterType(tparam);
+                    
+                                // get tweakable parameters
+                                if(cgGetFirstParameterAnnotation(tparam) != NULL &&
+                                   tparamType == CG_TEXTURE)
+                                {
+                                    CGannotation anno = cgGetNamedParameterAnnotation(tparam, "File");
+                                    if(anno == NULL)
+                                        anno = cgGetNamedParameterAnnotation(tparam, "ResourceName");
+
+                                    if(anno != NULL)
+                                    {
+                                        filename = cgGetStringAnnotationValue(anno);
+                                        cgfxMat->setParameter(paramName.c_str(), filename);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if(!filename.empty())
+                {
+                    addTextureSearchPaths();
+                    ImagePtr img = OSG::ImageFileHandler::the().read(filename.c_str());
+                    subTextureSearchPaths();
+
+                    if(img != NullFC)
+                    {
+                        beginEditCP(img);
+                            img->setName(filename.c_str());
+                        endEditCP(img);
+
+                        beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+                            cgfxMat->addImage(img);
+                        endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+
+                        TextureChunkPtr texc = TextureChunk::create();
+                        beginEditCP(texc);
+                            texc->setImage(img);
+                        endEditCP(texc);
+                        _textures.insert(std::make_pair(paramName, std::make_pair(texc, filename)));
+                        //printf("added texture '%s'\n", filename.c_str());
+                    }
+                }
+            }
+            break;
+            default:
+            break;
+        }
+        param = cgGetNextParameter(param);
+    }
+
+    cgDestroyEffect(effect);
+}
+
 void CGFXChunk::updateParameters(Window *win)
 {
     //printf("CGFXChunk::updateParameters\n");
@@ -1002,7 +1129,7 @@ void CGFXChunk::updateParameters(Window *win)
                                 endEditCP(img);
 
                                 beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
-                                    cgfxMat->getImages().push_back(img);
+                                    cgfxMat->addImage(img);
                                 endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
                             }
                         }
@@ -1077,9 +1204,9 @@ void CGFXChunk::updateParameters(Window *win)
 
         // recreate new image list.
         beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
-            cgfxMat->getImages().clear();
+            cgfxMat->clearImages();
             for(UInt32 i=0;i<used_images.size();++i)
-                cgfxMat->getImages().push_back(used_images[i]);
+                cgfxMat->addImage(used_images[i]);
         endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
     }
 
@@ -1795,7 +1922,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.7 2006/04/14 15:12:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.8 2006/04/19 10:56:33 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

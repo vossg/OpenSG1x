@@ -138,6 +138,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     void setParentMaterial(const MultiPassMaterialPtr &parentMaterial);
 
+    void updateImages(void);
     void updateParameters(Window *win);
 
     void setEffectFile(const std::string &effectFile);
@@ -146,6 +147,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     std::string getTechniqueString(Int32 index);
 
     bool isTextureParameter(const std::string &name);
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -272,6 +274,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.4 2006/04/14 15:12:24 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.5 2006/04/19 10:56:33 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

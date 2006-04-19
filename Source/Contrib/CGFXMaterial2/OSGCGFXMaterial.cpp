@@ -142,6 +142,8 @@ void CGFXMaterial::onDestroy(void)
 
     if(_parameter_access != NULL)
         delete _parameter_access;
+
+    clearImages();
 }
 
 StatePtr CGFXMaterial::makeState(void)
@@ -388,6 +390,72 @@ bool CGFXMaterial::subParameter(const char *name)
     return _parameter_access->subParameter(name);
 }
 
+// the images are actually created while rendering the first frame if you just
+// want to create a cgfx material and immediately write it out as a osb file you
+// have to call updateImages() without it the cgfx textures are not inlined
+// in the osb file!
+void CGFXMaterial::updateImages(void)
+{
+    _cgfxChunk->updateImages();
+}
+
+void CGFXMaterial::addImage(ImagePtr img)
+{
+    if(img == NullFC)
+        return;
+
+    _mfImages.push_back(img);
+    addRefCP(img);
+}
+
+void CGFXMaterial::subImage(ImagePtr img)
+{
+    if(img == NullFC)
+        return;
+
+    UInt32 i;
+    
+    for(i = 0; i < _mfImages.size(); ++i)
+    {
+        if(_mfImages[i] == img)
+        {
+            subRefCP(img);
+            _mfImages.erase(_mfImages.begin() + i);
+            return;
+        }
+    }
+
+    SWARNING << "CGFXMaterial::subImage(" << this << ") has no image "
+             << img << std::endl;
+}
+
+bool CGFXMaterial::hasImage(ImagePtr img)
+{
+    UInt32 i;
+
+    for(i = 0; i < _mfImages.size(); ++i)
+    {
+        if(_mfImages[i] == img)
+            return true;
+    }
+
+    return false;
+}
+
+void CGFXMaterial::clearImages(void)
+{
+    MFImagePtr::iterator imgIt  = _mfImages.begin();
+    MFImagePtr::iterator imgEnd = _mfImages.end ();
+    
+    while(imgIt != imgEnd)
+    {
+        subRefCP(*imgIt);
+
+        ++imgIt;
+    }
+}
+
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -401,7 +469,7 @@ bool CGFXMaterial::subParameter(const char *name)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.2 2006/04/06 16:56:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.3 2006/04/19 10:56:33 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

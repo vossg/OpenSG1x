@@ -128,6 +128,14 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     bool    subParameter(const char *name);
 
+    void updateImages(void);
+
+    void addImage(ImagePtr img);
+    void subImage(ImagePtr img);
+
+    bool hasImage(ImagePtr img);
+    void clearImages(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                Texture specific                              */
@@ -182,6 +190,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.2 2006/04/19 10:56:33 a-m-z Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */
