@@ -172,7 +172,7 @@ static boolean ostream_empty_output_buffer(j_compress_ptr cinfo)
 {
     DestinationManager *destinationManager = reinterpret_cast<DestinationManager*>(cinfo->dest);
 
-    destinationManager->os->write(destinationManager->buffer, BUFFERSIZE - destinationManager->pub.free_in_buffer);
+    destinationManager->os->write(destinationManager->buffer, BUFFERSIZE);
 
     destinationManager->pub.next_output_byte = (JOCTET*)destinationManager->buffer;
     destinationManager->pub.free_in_buffer = BUFFERSIZE;
@@ -180,17 +180,25 @@ static boolean ostream_empty_output_buffer(j_compress_ptr cinfo)
     return destinationManager->os->good() != false ? TRUE : FALSE;
 }
 
-static void ostream_term_destination(j_compress_ptr cinfo) {} // no action necessary
+static void ostream_term_destination(j_compress_ptr cinfo)
+{
+    DestinationManager *destinationManager = reinterpret_cast<DestinationManager*>(cinfo->dest);
+
+    if(destinationManager->pub.free_in_buffer > 0)
+    {
+        destinationManager->os->write(destinationManager->buffer, BUFFERSIZE - destinationManager->pub.free_in_buffer);
+    }
+}
 
 DestinationManager::DestinationManager(j_compress_ptr cinfo, std::ostream &os)
 {
     pub.init_destination = ostream_init_destination;
     pub.empty_output_buffer = ostream_empty_output_buffer;
     pub.term_destination = ostream_term_destination;
-    pub.free_in_buffer = 0; /* forces fill_input_buffer on first read */
-    pub.next_output_byte = 0; /* until buffer loaded */
     this->os = &os;
     buffer = (char*)(*cinfo->mem->alloc_small)((j_common_ptr)cinfo, JPOOL_IMAGE, BUFFERSIZE);
+    pub.free_in_buffer = BUFFERSIZE;
+    pub.next_output_byte = (JOCTET *) buffer;
 }
 
 struct jpeg_mem
@@ -358,7 +366,7 @@ bool JPGImageFileType::read(ImagePtr &OSG_JPG_ARG(image), std::istream &OSG_JPG_
     jpeg_create_decompress(&cinfo);
 
     SourceManager *sourceManager =
-        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_IMAGE, sizeof(SourceManager)))
+        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_PERMANENT, sizeof(SourceManager)))
         SourceManager(&cinfo, is);
     cinfo.src = (jpeg_source_mgr*)sourceManager;
 
@@ -448,7 +456,7 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), std::ostream &O
     jpeg_create_compress(&cinfo);
 
     DestinationManager *destinationManager =
-        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_IMAGE, sizeof(DestinationManager)))
+        new ((*cinfo.mem->alloc_small)((j_common_ptr)&cinfo, JPOOL_PERMANENT, sizeof(DestinationManager)))
         DestinationManager(&cinfo, os);
     cinfo.dest = (jpeg_destination_mgr*)destinationManager;
 
