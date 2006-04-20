@@ -62,7 +62,7 @@
 #include "OSGLight.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  LightBase::AmbientFieldMask = 
     (TypeTraits<BitVector>::One << LightBase::AmbientFieldId);
@@ -87,6 +87,9 @@ const OSG::BitVector  LightBase::LinearAttenuationFieldMask =
 
 const OSG::BitVector  LightBase::QuadraticAttenuationFieldMask = 
     (TypeTraits<BitVector>::One << LightBase::QuadraticAttenuationFieldId);
+
+const OSG::BitVector  LightBase::ShadowIntensityFieldMask = 
+    (TypeTraits<BitVector>::One << LightBase::ShadowIntensityFieldId);
 
 const OSG::BitVector LightBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -118,6 +121,9 @@ const OSG::BitVector LightBase::MTInfluenceMask =
 */
 /*! \var Real32          LightBase::_sfQuadraticAttenuation
     The light's quadratic attenuation.
+*/
+/*! \var Real32          LightBase::_sfShadowIntensity
+    
 */
 
 //! Light description
@@ -163,7 +169,12 @@ FieldDescription *LightBase::_desc[] =
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFQuadraticAttenuation)
+                     (FieldAccessMethod) &LightBase::getSFQuadraticAttenuation),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "shadowIntensity", 
+                     ShadowIntensityFieldId, ShadowIntensityFieldMask,
+                     false,
+                     (FieldAccessMethod) &LightBase::getSFShadowIntensity)
 };
 
 
@@ -238,6 +249,7 @@ LightBase::LightBase(void) :
     _sfConstantAttenuation    (Real32(1)), 
     _sfLinearAttenuation      (Real32(0)), 
     _sfQuadraticAttenuation   (Real32(0)), 
+    _sfShadowIntensity        (Real32(0.0f)), 
     Inherited() 
 {
 }
@@ -255,6 +267,7 @@ LightBase::LightBase(const LightBase &source) :
     _sfConstantAttenuation    (source._sfConstantAttenuation    ), 
     _sfLinearAttenuation      (source._sfLinearAttenuation      ), 
     _sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
+    _sfShadowIntensity        (source._sfShadowIntensity        ), 
     Inherited                 (source)
 {
 }
@@ -311,6 +324,11 @@ UInt32 LightBase::getBinSize(const BitVector &whichField)
         returnValue += _sfQuadraticAttenuation.getBinSize();
     }
 
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+    {
+        returnValue += _sfShadowIntensity.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -358,6 +376,11 @@ void LightBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
     {
         _sfQuadraticAttenuation.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+    {
+        _sfShadowIntensity.copyToBin(pMem);
     }
 
 
@@ -408,6 +431,11 @@ void LightBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfQuadraticAttenuation.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+    {
+        _sfShadowIntensity.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -441,6 +469,9 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
 
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
         _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
+
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+        _sfShadowIntensity.syncWith(pOther->_sfShadowIntensity);
 
 
 }
@@ -476,6 +507,9 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
     if(FieldBits::NoField != (QuadraticAttenuationFieldMask & whichField))
         _sfQuadraticAttenuation.syncWith(pOther->_sfQuadraticAttenuation);
 
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+        _sfShadowIntensity.syncWith(pOther->_sfShadowIntensity);
+
 
 
 }
@@ -491,14 +525,10 @@ void LightBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LightPtr>::_type("LightPtr", "GroupPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -514,10 +544,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLIGHTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

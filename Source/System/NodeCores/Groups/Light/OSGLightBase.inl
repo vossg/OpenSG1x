@@ -126,6 +126,13 @@ SFReal32 *LightBase::getSFQuadraticAttenuation(void)
     return &_sfQuadraticAttenuation;
 }
 
+//! Get the Light::_sfShadowIntensity field.
+inline
+SFReal32 *LightBase::getSFShadowIntensity(void)
+{
+    return &_sfShadowIntensity;
+}
+
 
 //! Get the value of the Light::_sfAmbient field.
 inline
@@ -293,6 +300,27 @@ inline
 void LightBase::setQuadraticAttenuation(const Real32 &value)
 {
     _sfQuadraticAttenuation.setValue(value);
+}
+
+//! Get the value of the Light::_sfShadowIntensity field.
+inline
+Real32 &LightBase::getShadowIntensity(void)
+{
+    return _sfShadowIntensity.getValue();
+}
+
+//! Get the value of the Light::_sfShadowIntensity field.
+inline
+const Real32 &LightBase::getShadowIntensity(void) const
+{
+    return _sfShadowIntensity.getValue();
+}
+
+//! Set the value of the Light::_sfShadowIntensity field.
+inline
+void LightBase::setShadowIntensity(const Real32 &value)
+{
+    _sfShadowIntensity.setValue(value);
 }
 
 

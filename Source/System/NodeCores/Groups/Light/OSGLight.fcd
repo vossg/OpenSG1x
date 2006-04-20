@@ -8,6 +8,8 @@
 	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
 	<Field
 		name="ambient"
@@ -85,5 +87,14 @@
 		access="public"
 	>
 	The light's quadratic attenuation.
+	</Field>
+	<Field
+		name="shadowIntensity"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0f"
+		access="public"
+	>
 	</Field>
 </FieldContainer>
