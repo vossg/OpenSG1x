@@ -244,8 +244,9 @@ DitherShadowMap::DitherShadowMap(void)
 DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb = NULL;
-	rb_depth = NULL;
+	fb = 0;
+    fb2 = 0;
+	rb_depth = 0;
 
     width = 1;
     height = 1;
@@ -403,9 +404,12 @@ DitherShadowMap::~DitherShadowMap(void)
     subRefCP(boxGeo);
     subRefCP(boxNode);
 
-	glDeleteFramebuffersEXT(1, &fb);
-	glDeleteRenderbuffersEXT( 1, &rb_depth);
-	glDeleteFramebuffersEXT(1, &fb2);
+    if(fb != 0)
+        glDeleteFramebuffersEXT(1, &fb);
+    if(rb_depth != 0)
+        glDeleteRenderbuffersEXT( 1, &rb_depth);
+    if(fb2 != 0)
+        glDeleteFramebuffersEXT(1, &fb2);
 }
 
 /// Checks if FBO status is ok

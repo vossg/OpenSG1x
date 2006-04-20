@@ -157,7 +157,7 @@ StdShadowMap::StdShadowMap(void)
 StdShadowMap::StdShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb2 = NULL;
+	fb2 = 0;
 
     _tiledeco = TileCameraDecorator::create();
     addRefCP(_tiledeco);
@@ -178,7 +178,8 @@ StdShadowMap::~StdShadowMap(void)
 {
 	subRefCP(_tiledeco);
 	subRefCP(_blender);
-	glDeleteFramebuffersEXT(1, &fb2);
+    if(fb2 != 0)
+        glDeleteFramebuffersEXT(1, &fb2);
 }
 
 /// Checks if FBO status is ok
