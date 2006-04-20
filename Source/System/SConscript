@@ -13,7 +13,7 @@ def custom(env):
 def custom2(env):
     env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS'))
     env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
-    env['OSG_PROGDIR'] = os.path.join('..', 'WindowSystemTest')
+    env['OSG_PROGDIR'] = os.path.join('..', 'SystemTest')
 
 BuildLibrary(tc, 'OSGSystem', sources,
              updates=[custom, OpenSGLibrary('OSGBase')],

@@ -12,7 +12,7 @@ def custom(env):
 
 def custom2(env):
     env.Append(LIBS=env.get('OSG_BASE_LIBS'))
-    env['OSG_PROGDIR'] = os.path.join('..', 'WindowBaseTest')
+    env['OSG_PROGDIR'] = os.path.join('..', 'BaseTest')
 
 BuildLibrary(tc, 'OSGBase', sources, updates=[custom],
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEBASELIB'],
