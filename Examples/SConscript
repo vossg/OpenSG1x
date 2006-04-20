@@ -14,4 +14,4 @@ for file in files:
     dir = dir[1:]
     subdirs.append(dir)
 
-SConscript(dirs = ['Raytracer'])
+SConscript(dirs = subdirs)
