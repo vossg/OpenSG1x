@@ -1,1 +1,17 @@
-SConscript(dirs = ['AXPlugin', 'SceneViewer', 'ProxyBuilder'])
+import os, glob
+
+Import('env')
+
+examples = os.path.join(env.GetLaunchDir(), 'Examples')
+filter = os.path.join(examples, '*', 'SConscript')
+
+files = glob.glob(filter)
+
+subdirs = []
+for file in files:
+    dir = os.path.dirname(file)
+    dir = dir.replace(examples, '', 1)
+    dir = dir[1:]
+    subdirs.append(dir)
+
+SConscript(dirs = ['Raytracer'])
