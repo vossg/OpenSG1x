@@ -296,9 +296,8 @@ int main(int argc, char **argv)
         svp->setSize(0,0,1,1);
         svp->setOffFactor(4.0);
         svp->setOffBias(8.0);
-        svp->setShadowColor(Color4f(0.1, 0.1, 0.1, 1.0));
         svp->setMapSize(512);
-		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel
+		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel. Range is limited to 6.0 for PCF_SHADOW_MAPS.
 		//Range also used to define the light size for PCSS Soft Shadows
 		svp->setRange(4.0);
         // you can add the light sources here, as default all light source in
@@ -307,6 +306,8 @@ int main(int argc, char **argv)
 		{
 			svp->getLightNodes().push_back(point1);
 			svp->getLightNodes().push_back(point2);
+			svp->getShadowIntensity().push_back(0.2);
+			svp->getShadowIntensity().push_back(0.2);
 		}
     endEditCP(svp);
 

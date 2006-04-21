@@ -172,12 +172,12 @@ void TreeRenderer::initialize(Window *win)
 	if(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_UNSUPPORTED_EXT)
 	{
 		useFBO=false;
-		FINFO(("framebuffer objects not supportet, try new video drivers! FBO disabled.\n"));
+		FNOTICE(("framebuffer objects not supported, try new video drivers! FBO disabled.\n"));
 	}
 	else
 	{
 		useFBO = true;
-		FINFO(("framebuffer objects supported!\n"));
+		FNOTICE(("framebuffer objects supported!\n"));
 	}
 	initDone = true;
 	}

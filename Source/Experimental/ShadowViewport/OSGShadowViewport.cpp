@@ -570,7 +570,7 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr& node)
 
 void ShadowViewport::checkLights(RenderActionBase* action)
 {
-    //Finding lights by going through whole Scenegraph
+    /*//Finding lights by going through whole Scenegraph
     _allLights.clear();
     traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
              <Action::ResultE, ShadowViewport, NodePtr>
@@ -578,7 +578,7 @@ void ShadowViewport::checkLights(RenderActionBase* action)
 
     //shadow for all lights
     if(getLightNodes().getSize() == 0)
-        _lights = _allLights;
+        _lights = _allLights;*/
 
     _lightStates.clear();
     bool changed = false;
@@ -986,7 +986,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.4 2006/04/18 12:41:12 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.5 2006/04/21 08:16:10 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

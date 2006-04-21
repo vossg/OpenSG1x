@@ -306,9 +306,8 @@ PCSSShadowMap::PCSSShadowMap(void)
 PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb = 0;
-    fb2 = 0;
-	rb_depth = 0;
+	fb = NULL;
+	rb_depth = NULL;
 
     width = 1;
     height = 1;
@@ -467,12 +466,9 @@ PCSSShadowMap::~PCSSShadowMap(void)
     subRefCP(boxGeo);
     subRefCP(boxNode);
 
-    if(fb != 0)
-        glDeleteFramebuffersEXT(1, &fb);
-    if(rb_depth != 0)
-        glDeleteRenderbuffersEXT( 1, &rb_depth);
-    if(fb2 != 0)
-        glDeleteFramebuffersEXT(1, &fb2);
+	glDeleteFramebuffersEXT(1, &fb);
+	glDeleteRenderbuffersEXT( 1, &rb_depth);
+	glDeleteFramebuffersEXT(1, &fb2);
 
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
@@ -582,7 +578,7 @@ bool PCSSShadowMap::initFBO(Window *win)
 
 	glGenFramebuffersEXT(1, &fb2);
 
-	win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
+	//win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
 
@@ -591,12 +587,13 @@ bool PCSSShadowMap::initFBO(Window *win)
 	glDrawBuffer(GL_NONE);	// no color buffer dest
 	glReadBuffer(GL_NONE);	// no color buffer src
 
-	result = checkFrameBufferStatus(win);
+	//result = checkFrameBufferStatus(win);
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
-	return result;
+	//return result;
+	return true;
 }
 
 void PCSSShadowMap::reInit(Window *win)
@@ -930,7 +927,11 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
+    
+    Real32 shadowIntensity;
+	if(shadowVP->getShadowIntensity().size() == 0) shadowIntensity = (1.0/activeLights) - (0.0/activeLights);
+	else if(shadowVP->getShadowIntensity().size() < (num+1)) shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1]/activeLights);
+	else shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[num]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -1021,7 +1022,11 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
+    
+    Real32 shadowIntensity;
+	if(shadowVP->getShadowIntensity().size() == 0) shadowIntensity = (1.0/activeLights) - (0.0/activeLights);
+	else if(shadowVP->getShadowIntensity().size() < (num+1)) shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1]/activeLights);
+	else shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[num]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -1127,6 +1132,11 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	}
 	else useFBO = false;*/
 
+	if(shadowVP->getLightNodes().getSize() == 0) shadowVP->Viewport::render(action);
+	else
+	{
+
+
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
 		shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
@@ -1230,6 +1240,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
 		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+	}
 	}
 }
 

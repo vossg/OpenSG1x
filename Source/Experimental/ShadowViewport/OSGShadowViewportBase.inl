@@ -117,11 +117,11 @@ SFNodePtr *ShadowViewportBase::getSFSceneRoot(void)
     return &_sfSceneRoot;
 }
 
-//! Get the ShadowViewport::_sfShadowColor field.
+//! Get the ShadowViewport::_mfShadowIntensity field.
 inline
-SFColor4f *ShadowViewportBase::getSFShadowColor(void)
+MFReal32 *ShadowViewportBase::getMFShadowIntensity(void)
 {
-    return &_sfShadowColor;
+    return &_mfShadowIntensity;
 }
 
 //! Get the ShadowViewport::_sfMapSize field.
@@ -242,27 +242,6 @@ inline
 void ShadowViewportBase::setSceneRoot(const NodePtr &value)
 {
     _sfSceneRoot.setValue(value);
-}
-
-//! Get the value of the ShadowViewport::_sfShadowColor field.
-inline
-Color4f &ShadowViewportBase::getShadowColor(void)
-{
-    return _sfShadowColor.getValue();
-}
-
-//! Get the value of the ShadowViewport::_sfShadowColor field.
-inline
-const Color4f &ShadowViewportBase::getShadowColor(void) const
-{
-    return _sfShadowColor.getValue();
-}
-
-//! Set the value of the ShadowViewport::_sfShadowColor field.
-inline
-void ShadowViewportBase::setShadowColor(const Color4f &value)
-{
-    _sfShadowColor.setValue(value);
 }
 
 //! Get the value of the ShadowViewport::_sfMapSize field.
@@ -392,6 +371,27 @@ void ShadowViewportBase::setQualityMode(const bool &value)
 }
 
 
+//! Get the value of the \a index element the ShadowViewport::_mfShadowIntensity field.
+inline
+Real32 &ShadowViewportBase::getShadowIntensity(const UInt32 index)
+{
+    return _mfShadowIntensity[index];
+}
+
+//! Get the ShadowViewport::_mfShadowIntensity field.
+inline
+MFReal32 &ShadowViewportBase::getShadowIntensity(void)
+{
+    return _mfShadowIntensity;
+}
+
+//! Get the ShadowViewport::_mfShadowIntensity field.
+inline
+const MFReal32 &ShadowViewportBase::getShadowIntensity(void) const
+{
+    return _mfShadowIntensity;
+}
+
 //! Get the value of the \a index element the ShadowViewport::_mfLightNodes field.
 inline
 NodePtr &ShadowViewportBase::getLightNodes(const UInt32 index)
@@ -436,5 +436,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.2 2006/04/18 12:41:12 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.3 2006/04/21 08:16:10 yjung Exp $"
 

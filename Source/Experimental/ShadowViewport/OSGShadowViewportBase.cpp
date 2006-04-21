@@ -62,7 +62,7 @@
 #include "OSGShadowViewport.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShadowViewportBase::OffBiasFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::OffBiasFieldId);
@@ -73,8 +73,8 @@ const OSG::BitVector  ShadowViewportBase::OffFactorFieldMask =
 const OSG::BitVector  ShadowViewportBase::SceneRootFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::SceneRootFieldId);
 
-const OSG::BitVector  ShadowViewportBase::ShadowColorFieldMask = 
-    (TypeTraits<BitVector>::One << ShadowViewportBase::ShadowColorFieldId);
+const OSG::BitVector  ShadowViewportBase::ShadowIntensityFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::ShadowIntensityFieldId);
 
 const OSG::BitVector  ShadowViewportBase::MapSizeFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::MapSizeFieldId);
@@ -116,8 +116,8 @@ const OSG::BitVector ShadowViewportBase::MTInfluenceMask =
 /*! \var NodePtr         ShadowViewportBase::_sfSceneRoot
     Scene root node.
 */
-/*! \var Color4f         ShadowViewportBase::_sfShadowColor
-    
+/*! \var Real32          ShadowViewportBase::_mfShadowIntensity
+    0.0 = Black Shadows ... 1.0 = No Shadows
 */
 /*! \var UInt32          ShadowViewportBase::_sfMapSize
     
@@ -163,11 +163,11 @@ FieldDescription *ShadowViewportBase::_desc[] =
                      SceneRootFieldId, SceneRootFieldMask,
                      false,
                      (FieldAccessMethod) &ShadowViewportBase::getSFSceneRoot),
-    new FieldDescription(SFColor4f::getClassType(), 
-                     "shadowColor", 
-                     ShadowColorFieldId, ShadowColorFieldMask,
+    new FieldDescription(MFReal32::getClassType(), 
+                     "shadowIntensity", 
+                     ShadowIntensityFieldId, ShadowIntensityFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowViewportBase::getSFShadowColor),
+                     (FieldAccessMethod) &ShadowViewportBase::getMFShadowIntensity),
     new FieldDescription(SFUInt32::getClassType(), 
                      "mapSize", 
                      MapSizeFieldId, MapSizeFieldMask,
@@ -273,6 +273,7 @@ void ShadowViewportBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
+    _mfShadowIntensity.terminateShare(uiAspect, this->getContainerSize());
     _mfLightNodes.terminateShare(uiAspect, this->getContainerSize());
     _mfExcludeNodes.terminateShare(uiAspect, this->getContainerSize());
 }
@@ -288,7 +289,7 @@ ShadowViewportBase::ShadowViewportBase(void) :
     _sfOffBias                (Real32(4)), 
     _sfOffFactor              (Real32(10)), 
     _sfSceneRoot              (), 
-    _sfShadowColor            (Color4f(0,0,0,1)), 
+    _mfShadowIntensity        (), 
     _sfMapSize                (UInt32(512)), 
     _mfLightNodes             (), 
     _mfExcludeNodes           (), 
@@ -309,7 +310,7 @@ ShadowViewportBase::ShadowViewportBase(const ShadowViewportBase &source) :
     _sfOffBias                (source._sfOffBias                ), 
     _sfOffFactor              (source._sfOffFactor              ), 
     _sfSceneRoot              (source._sfSceneRoot              ), 
-    _sfShadowColor            (source._sfShadowColor            ), 
+    _mfShadowIntensity        (source._mfShadowIntensity        ), 
     _sfMapSize                (source._sfMapSize                ), 
     _mfLightNodes             (source._mfLightNodes             ), 
     _mfExcludeNodes           (source._mfExcludeNodes           ), 
@@ -349,9 +350,9 @@ UInt32 ShadowViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfSceneRoot.getBinSize();
     }
 
-    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
     {
-        returnValue += _sfShadowColor.getBinSize();
+        returnValue += _mfShadowIntensity.getBinSize();
     }
 
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
@@ -418,9 +419,9 @@ void ShadowViewportBase::copyToBin(      BinaryDataHandler &pMem,
         _sfSceneRoot.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
     {
-        _sfShadowColor.copyToBin(pMem);
+        _mfShadowIntensity.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
@@ -486,9 +487,9 @@ void ShadowViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSceneRoot.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
     {
-        _sfShadowColor.copyFromBin(pMem);
+        _mfShadowIntensity.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
@@ -550,8 +551,8 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (SceneRootFieldMask & whichField))
         _sfSceneRoot.syncWith(pOther->_sfSceneRoot);
 
-    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
-        _sfShadowColor.syncWith(pOther->_sfShadowColor);
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+        _mfShadowIntensity.syncWith(pOther->_mfShadowIntensity);
 
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
         _sfMapSize.syncWith(pOther->_sfMapSize);
@@ -596,9 +597,6 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (SceneRootFieldMask & whichField))
         _sfSceneRoot.syncWith(pOther->_sfSceneRoot);
 
-    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
-        _sfShadowColor.syncWith(pOther->_sfShadowColor);
-
     if(FieldBits::NoField != (MapSizeFieldMask & whichField))
         _sfMapSize.syncWith(pOther->_sfMapSize);
 
@@ -618,6 +616,9 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
         _sfQualityMode.syncWith(pOther->_sfQualityMode);
 
 
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+        _mfShadowIntensity.syncWith(pOther->_mfShadowIntensity, sInfo);
+
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
         _mfLightNodes.syncWith(pOther->_mfLightNodes, sInfo);
 
@@ -633,6 +634,9 @@ void ShadowViewportBase::execBeginEditImpl (const BitVector &whichField,
 {
     Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 
+    if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
+        _mfShadowIntensity.beginEdit(uiAspect, uiContainerSize);
+
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
         _mfLightNodes.beginEdit(uiAspect, uiContainerSize);
 
@@ -643,6 +647,8 @@ void ShadowViewportBase::execBeginEditImpl (const BitVector &whichField,
 #endif
 
 
+
+OSG_END_NAMESPACE
 
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
@@ -655,8 +661,6 @@ DataType FieldDataTraits<ShadowViewportPtr>::_type("ShadowViewportPtr", "Viewpor
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -672,11 +676,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.2 2006/04/18 12:41:12 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.3 2006/04/21 08:16:10 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID;
 }
 
+OSG_END_NAMESPACE
 

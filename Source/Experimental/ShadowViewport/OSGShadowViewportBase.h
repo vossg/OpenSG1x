@@ -70,7 +70,7 @@
 #include <OSGReal32Fields.h> // OffBias type
 #include <OSGReal32Fields.h> // OffFactor type
 #include <OSGNodeFields.h> // SceneRoot type
-#include <OSGColor4fFields.h> // ShadowColor type
+#include <OSGReal32Fields.h> // ShadowIntensity type
 #include <OSGUInt32Fields.h> // MapSize type
 #include <OSGNodeFields.h> // LightNodes type
 #include <OSGNodeFields.h> // ExcludeNodes type
@@ -102,25 +102,25 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
 
     enum
     {
-        OffBiasFieldId       = Inherited::NextFieldId,
-        OffFactorFieldId     = OffBiasFieldId       + 1,
-        SceneRootFieldId     = OffFactorFieldId     + 1,
-        ShadowColorFieldId   = SceneRootFieldId     + 1,
-        MapSizeFieldId       = ShadowColorFieldId   + 1,
-        LightNodesFieldId    = MapSizeFieldId       + 1,
-        ExcludeNodesFieldId  = LightNodesFieldId    + 1,
-        MapAutoUpdateFieldId = ExcludeNodesFieldId  + 1,
-        ShadowModeFieldId    = MapAutoUpdateFieldId + 1,
-        RangeFieldId         = ShadowModeFieldId    + 1,
-        ShadowOnFieldId      = RangeFieldId         + 1,
-        QualityModeFieldId   = ShadowOnFieldId      + 1,
-        NextFieldId          = QualityModeFieldId   + 1
+        OffBiasFieldId         = Inherited::NextFieldId,
+        OffFactorFieldId       = OffBiasFieldId         + 1,
+        SceneRootFieldId       = OffFactorFieldId       + 1,
+        ShadowIntensityFieldId = SceneRootFieldId       + 1,
+        MapSizeFieldId         = ShadowIntensityFieldId + 1,
+        LightNodesFieldId      = MapSizeFieldId         + 1,
+        ExcludeNodesFieldId    = LightNodesFieldId      + 1,
+        MapAutoUpdateFieldId   = ExcludeNodesFieldId    + 1,
+        ShadowModeFieldId      = MapAutoUpdateFieldId   + 1,
+        RangeFieldId           = ShadowModeFieldId      + 1,
+        ShadowOnFieldId        = RangeFieldId           + 1,
+        QualityModeFieldId     = ShadowOnFieldId        + 1,
+        NextFieldId            = QualityModeFieldId     + 1
     };
 
     static const OSG::BitVector OffBiasFieldMask;
     static const OSG::BitVector OffFactorFieldMask;
     static const OSG::BitVector SceneRootFieldMask;
-    static const OSG::BitVector ShadowColorFieldMask;
+    static const OSG::BitVector ShadowIntensityFieldMask;
     static const OSG::BitVector MapSizeFieldMask;
     static const OSG::BitVector LightNodesFieldMask;
     static const OSG::BitVector ExcludeNodesFieldMask;
@@ -158,7 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
            SFReal32            *getSFOffBias        (void);
            SFReal32            *getSFOffFactor      (void);
            SFNodePtr           *getSFSceneRoot      (void);
-           SFColor4f           *getSFShadowColor    (void);
+           MFReal32            *getMFShadowIntensity(void);
            SFUInt32            *getSFMapSize        (void);
            MFNodePtr           *getMFLightNodes     (void);
            MFNodePtr           *getMFExcludeNodes   (void);
@@ -174,8 +174,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
      const Real32              &getOffFactor      (void) const;
            NodePtr             &getSceneRoot      (void);
      const NodePtr             &getSceneRoot      (void) const;
-           Color4f             &getShadowColor    (void);
-     const Color4f             &getShadowColor    (void) const;
            UInt32              &getMapSize        (void);
      const UInt32              &getMapSize        (void) const;
            bool                &getMapAutoUpdate  (void);
@@ -188,6 +186,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
      const bool                &getShadowOn       (void) const;
            bool                &getQualityMode    (void);
      const bool                &getQualityMode    (void) const;
+           Real32              &getShadowIntensity(const UInt32 index);
+           MFReal32            &getShadowIntensity(void);
+     const MFReal32            &getShadowIntensity(void) const;
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
@@ -203,7 +204,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
      void setOffBias        ( const Real32 &value );
      void setOffFactor      ( const Real32 &value );
      void setSceneRoot      ( const NodePtr &value );
-     void setShadowColor    ( const Color4f &value );
      void setMapSize        ( const UInt32 &value );
      void setMapAutoUpdate  ( const bool &value );
      void setShadowMode     ( const UInt32 &value );
@@ -255,7 +255,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
     SFReal32            _sfOffBias;
     SFReal32            _sfOffFactor;
     SFNodePtr           _sfSceneRoot;
-    SFColor4f           _sfShadowColor;
+    MFReal32            _mfShadowIntensity;
     SFUInt32            _sfMapSize;
     MFNodePtr           _mfLightNodes;
     MFNodePtr           _mfExcludeNodes;
@@ -341,6 +341,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.2 2006/04/18 12:41:12 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.3 2006/04/21 08:16:10 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

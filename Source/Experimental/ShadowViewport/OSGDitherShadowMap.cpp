@@ -244,9 +244,8 @@ DitherShadowMap::DitherShadowMap(void)
 DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb = 0;
-    fb2 = 0;
-	rb_depth = 0;
+	fb = NULL;
+	rb_depth = NULL;
 
     width = 1;
     height = 1;
@@ -404,12 +403,9 @@ DitherShadowMap::~DitherShadowMap(void)
     subRefCP(boxGeo);
     subRefCP(boxNode);
 
-    if(fb != 0)
-        glDeleteFramebuffersEXT(1, &fb);
-    if(rb_depth != 0)
-        glDeleteRenderbuffersEXT( 1, &rb_depth);
-    if(fb2 != 0)
-        glDeleteFramebuffersEXT(1, &fb2);
+	glDeleteFramebuffersEXT(1, &fb);
+	glDeleteRenderbuffersEXT( 1, &rb_depth);
+	glDeleteFramebuffersEXT(1, &fb2);
 }
 
 /// Checks if FBO status is ok
@@ -509,21 +505,22 @@ bool DitherShadowMap::initFBO(Window *win)
 
 	glGenFramebuffersEXT(1, &fb2);
 
-	win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
+	//win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
 
-	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
+	//glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
 
 	glDrawBuffer(GL_NONE);	// no color buffer dest
 	glReadBuffer(GL_NONE);	// no color buffer src
 
-	result = checkFrameBufferStatus(win);
+	//result = checkFrameBufferStatus(win);
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
-	return result;
+	//return result;
+	return true;
 }
 
 void DitherShadowMap::reInit(Window *win)
@@ -852,7 +849,11 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
+
+    Real32 shadowIntensity;
+	if(shadowVP->getShadowIntensity().size() == 0) shadowIntensity = (1.0/activeLights) - (0.0/activeLights);
+	else if(shadowVP->getShadowIntensity().size() < (num+1)) shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1]/activeLights);
+	else shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[num]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -932,7 +933,11 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    Real32 shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowColor()[0]/activeLights);
+    
+    Real32 shadowIntensity;
+	if(shadowVP->getShadowIntensity().size() == 0) shadowIntensity = (1.0/activeLights) - (0.0/activeLights);
+	else if(shadowVP->getShadowIntensity().size() < (num+1)) shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1]/activeLights);
+	else shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[num]/activeLights);
 
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
@@ -1051,6 +1056,11 @@ void DitherShadowMap::render(RenderActionBase* action)
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
     firstRun = 1;
 
+	if(shadowVP->getLightNodes().getSize() == 0) shadowVP->Viewport::render(action);
+	else
+	{
+
+
     if(shadowVP->getPixelWidth() != width ||
        shadowVP->getPixelHeight() != height)
     {
@@ -1141,5 +1151,6 @@ void DitherShadowMap::render(RenderActionBase* action)
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
 		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+	}
 	}
 }
