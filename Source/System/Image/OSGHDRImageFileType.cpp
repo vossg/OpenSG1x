@@ -320,7 +320,7 @@ HDRImageFileType::HDRImageFileType ( const Char8 *mimeType,
                                      UInt32 flags  )
     : ImageFileType ( mimeType, suffixArray, suffixByteCount, flags )
 {
-    FLOG(( "HDRImageFileType: %s %d\n", mimeType, flags ));
+//   FLOG(( "HDRImageFileType: %s %d\n", mimeType, flags ));
 }
 
 //-------------------------------------------------------------------------
