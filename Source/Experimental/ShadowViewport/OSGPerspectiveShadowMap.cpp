@@ -157,7 +157,7 @@ PerspectiveShadowMap::PerspectiveShadowMap(void)
 PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb2 = NULL;
+	fb2 = 0;
 
     _tiledeco = TileCameraDecorator::create();
     addRefCP(_tiledeco);
@@ -186,7 +186,8 @@ PerspectiveShadowMap::~PerspectiveShadowMap(void)
 	subRefCP(_blender);
     subRefCP(_dummy);
 	subRefCP(_matrixdeco);
-	glDeleteFramebuffersEXT(1, &fb2);
+    if(fb2 != 0)
+        glDeleteFramebuffersEXT(1, &fb2);
 }
 
 /// Checks if FBO status is ok
