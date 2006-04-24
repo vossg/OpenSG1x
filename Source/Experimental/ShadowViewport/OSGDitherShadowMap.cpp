@@ -260,7 +260,7 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 
     _tiledeco = TileCameraDecorator::create();
     addRefCP(_tiledeco);
-    
+
     _blender = BlendChunk::create();
     addRefCP(_blender);
     beginEditCP(_blender);
@@ -308,7 +308,7 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
     beginEditCP(_shadowFactorMapImage);
         _shadowFactorMapImage->set(GL_RGB, width, height);
     endEditCP(_shadowFactorMapImage);
-        
+
     //SHL Chunk 1
 
     _shadowSHL = SHLChunk::create();
@@ -416,44 +416,44 @@ DitherShadowMap::~DitherShadowMap(void)
 bool DitherShadowMap::checkFrameBufferStatus(Window *win)
 {
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    
+
     switch(status)
     {
-        case GL_FRAMEBUFFER_COMPLETE_EXT: 
+        case GL_FRAMEBUFFER_COMPLETE_EXT:
         FINFO(("%x: framebuffer complete!\n", status));
-        break; 
-        case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
+        break;
+        case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
         FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
         // choose different formats
         return false;
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
         break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-        break; 
-        case GL_FRAMEBUFFER_BINDING_EXT: 
+        break;
+        case GL_FRAMEBUFFER_BINDING_EXT:
         FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-        break; 
-        default: 
+        break;
+        default:
         return false;
     }
-    
+
     if ((errCode = glGetError()) != GL_NO_ERROR)
     {
         const GLubyte *errString = gluErrorString(errCode);
@@ -473,8 +473,8 @@ bool DitherShadowMap::initFBO(Window *win)
 
     if (width <= 0 || height <= 0)
         return false;
-        
-    if (fb != NULL)
+
+    if (fb != 0)
         return true;
 
     glGenFramebuffersEXT(1, &fb);
@@ -573,7 +573,7 @@ void DitherShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMateri
 void DitherShadowMap::createShadowMaps(RenderActionBase* action)
 {
         Real32 vpTop,vpBottom,vpLeft,vpRight;
-    
+
     //------Setting up Window to fit size of ShadowMap----------------
 
     // Saving original Viewport-Dimensions
@@ -593,7 +593,7 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -621,29 +621,29 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
             Real32 imgWidth = shadowVP->getMapSize();
             Real32 winWidth = shadowVP->getPixelWidth();
             UInt32 x1, x2, y1, y2, tw, th;
-                
+
             for (y1=0; y1 < imgHeight; y1 += winHeight)
                 {
                     y2 = osgMin((Real32)(y1+winHeight-1), (Real32)(imgHeight-1));
                     th = y2 - y1 + 1;
-                    
+
                     for (x1=0; x1 < imgWidth; x1 += winWidth)
                     {
                         x2 = osgMin((Real32)(x1+winWidth-1), (Real32)(imgWidth-1));
                         tw = x2 - x1 + 1;
-                        
+
                         // set tile size to maximal renderable size
                         beginEditCP(_tiledeco);
                             _tiledeco->setSize(  x1/(Real32)imgWidth,     y1/(Real32)imgHeight,    (x2+1)/(Real32)imgWidth, (y2+1)/(Real32)imgHeight);
                         endEditCP(_tiledeco);
-                        
+
                         beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                                               shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
                             shadowVP->setSize(0, 0, tw-1, th-1);
                         endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                                             shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-                        
-                        
+
+
                     glClear(GL_DEPTH_BUFFER_BIT);
                     shadowVP->_poly->activate(action,0);
 
@@ -651,29 +651,29 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
                     // check is this necessary.
 
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
-                    
+
                     shadowVP->_poly->deactivate(action,0);
-        
+
                     //----------Shadow-Texture-Parameters and Indices-------------
 
                     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on binding Texture!" << endLog;    
+                        SWARNING << "Error on binding Texture!" << endLog;
 
 
                         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x1, y1, 0, 0, tw, th);
-                        
-                    
+
+
                         if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on copying Texture!" << endLog;    
-        
+                        SWARNING << "Error on copying Texture!" << endLog;
+
                     glBindTexture(GL_TEXTURE_2D,0);
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on releasing Texture!" << endLog;    
-        
+                        SWARNING << "Error on releasing Texture!" << endLog;
+
                     if(glGetError() != GL_NO_ERROR)
                         SWARNING << "Error while Texture-Creation!" << endLog;
-                        
+
                     }
                 }
 
@@ -697,7 +697,7 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
     }
 
     //-------Restoring old states of Window and Viewport----------
-    
+
     beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                           shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
     {
@@ -707,7 +707,7 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
                         shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 
     action->setCamera(shadowVP->getCamera().getCPtr());
-    
+
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
@@ -736,7 +736,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -765,7 +765,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
             action->apply(shadowVP->getRoot());
-             
+
 			shadowVP->_poly->deactivate(action,0);
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -775,7 +775,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->getCamera().getCPtr());
 		}
 	}
-	
+
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -830,14 +830,14 @@ void DitherShadowMap::createColorMapFBO(RenderActionBase* action)
 	buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-	
+
 	glDrawBuffersARB(1, buffers);
 
 	shadowVP->getBackground()->clear(action, shadowVP);
     action->apply(shadowVP->getRoot());
 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	
+
 	delete[] buffers;
 
 }
@@ -909,9 +909,9 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num
         _shadowRoot->setCore(_shadowShaderGroup);
         _shadowRoot->addChild(shadowVP->getRoot());
     endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-    
+
     //draw the Scene
-    
+
     action->apply(_shadowRoot);
 
     action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
@@ -937,7 +937,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
     {
         if (shadowVP->_lightStates[i] != 0) activeLights++;
     }
-    
+
     Real32 shadowIntensity;
 	if(shadowVP->getShadowIntensity().size() == 0) shadowIntensity = (1.0/activeLights) - (0.0/activeLights);
 	else if(shadowVP->getShadowIntensity().size() < (num+1)) shadowIntensity = (1.0/activeLights) - (shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1]/activeLights);
@@ -991,11 +991,11 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 
         _shadowRoot->setCore(_shadowShaderGroup);
         _shadowRoot->addChild(shadowVP->getRoot());
     endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-    
+
     	GLenum *buffers = NULL;
 	buffers = new GLenum[1];
 	buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
-    
+
 	//Setup FBO
 	//bind(action->getWindow(),fb);
 	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
@@ -1070,7 +1070,7 @@ void DitherShadowMap::render(RenderActionBase* action)
     {
         width = shadowVP->getPixelWidth();
         height = shadowVP->getPixelHeight();
-    
+
         beginEditCP(_colorMap);
         beginEditCP(_colorMapImage);
             _colorMapImage->set(GL_RGB, width, height);
@@ -1104,11 +1104,11 @@ void DitherShadowMap::render(RenderActionBase* action)
 		//deactivate transparent Nodes
 		for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
 			shadowVP->_transparent[t]->setActive(false);
-        
+
 		if(useFBO) createShadowMapsFBO(action);
 		else createShadowMaps(action);
 
-       
+
         for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
         {
             if(shadowVP->_lightStates[i] != 0)
@@ -1132,7 +1132,7 @@ void DitherShadowMap::render(RenderActionBase* action)
 
             if(useFBO) createShadowMapsFBO(action);
 			else createShadowMaps(action);
-			
+
             for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
             {
                 if(shadowVP->_lightStates[i] != 0)

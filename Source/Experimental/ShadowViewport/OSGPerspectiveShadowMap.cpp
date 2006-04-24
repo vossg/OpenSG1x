@@ -194,44 +194,44 @@ PerspectiveShadowMap::~PerspectiveShadowMap(void)
 bool PerspectiveShadowMap::checkFrameBufferStatus(Window *win)
 {
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    
+
     switch(status)
     {
-        case GL_FRAMEBUFFER_COMPLETE_EXT: 
+        case GL_FRAMEBUFFER_COMPLETE_EXT:
         FINFO(("%x: framebuffer complete!\n", status));
-        break; 
-        case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
+        break;
+        case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
         FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
         // choose different formats
         return false;
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
         break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-        break; 
-        case GL_FRAMEBUFFER_BINDING_EXT: 
+        break;
+        case GL_FRAMEBUFFER_BINDING_EXT:
         FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-        break; 
-        default: 
+        break;
+        default:
         return false;
     }
-    
+
     if ((errCode = glGetError()) != GL_NO_ERROR)
     {
         const GLubyte *errString = gluErrorString(errCode);
@@ -246,7 +246,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 {
 	initialize(win);
 
-    if (fb2 != NULL)
+    if (fb2 != 0)
         return true;
 
 	glGenFramebuffersEXT(1, &fb2);
@@ -1268,7 +1268,7 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -1300,7 +1300,7 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			action->setCamera(matrixCam.getCPtr());
             action->apply(shadowVP->getRoot());
-             
+
 			shadowVP->_poly->deactivate(action,0);
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -1310,7 +1310,7 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->getCamera().getCPtr());
 		}
 	}
-	
+
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -1384,8 +1384,8 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
 
 		Real32 shadowCol;
 		if(shadowVP->getShadowIntensity().size() == 0) shadowCol = 0.0;
-		else if(shadowVP->getShadowIntensity().size() < (j+1)) shadowCol = shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1] * (1.0 / activeLights); 
-		else shadowCol = shadowVP->getShadowIntensity()[j] * (1.0 / activeLights); 
+		else if(shadowVP->getShadowIntensity().size() < (j+1)) shadowCol = shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1] * (1.0 / activeLights);
+		else shadowCol = shadowVP->getShadowIntensity()[j] * (1.0 / activeLights);
 
 		Color4f shadow_color = Color4f(shadowCol,shadowCol,shadowCol,1.0);
 

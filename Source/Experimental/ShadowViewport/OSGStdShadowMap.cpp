@@ -185,44 +185,44 @@ StdShadowMap::~StdShadowMap(void)
 bool StdShadowMap::checkFrameBufferStatus(Window *win)
 {
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    
+
     switch(status)
     {
-        case GL_FRAMEBUFFER_COMPLETE_EXT: 
+        case GL_FRAMEBUFFER_COMPLETE_EXT:
         FINFO(("%x: framebuffer complete!\n", status));
-        break; 
-        case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
+        break;
+        case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
         FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
         // choose different formats
         return false;
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-        break; 
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT: 
+        break;
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
         break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT: 
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-        break; 
-        case GL_FRAMEBUFFER_BINDING_EXT: 
+        break;
+        case GL_FRAMEBUFFER_BINDING_EXT:
         FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-        break; 
-        default: 
+        break;
+        default:
         return false;
     }
-    
+
     if ((errCode = glGetError()) != GL_NO_ERROR)
     {
         const GLubyte *errString = gluErrorString(errCode);
@@ -237,7 +237,7 @@ bool StdShadowMap::initFBO(Window *win)
 {
 	initialize(win);
 
-    if (fb2 != NULL)
+    if (fb2 != 0)
         return true;
 	glGenFramebuffersEXT(1, &fb2);
 
@@ -261,7 +261,7 @@ bool StdShadowMap::initFBO(Window *win)
 void StdShadowMap::createShadowMaps(RenderActionBase* action)
 {
     Real32 vpTop,vpBottom,vpLeft,vpRight;
-    
+
     // Saving original Viewport-Dimensions
     vpTop = shadowVP->getTop();
     vpBottom = shadowVP->getBottom();
@@ -279,7 +279,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -287,7 +287,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-    
+
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -307,29 +307,29 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
 			Real32 imgWidth = shadowVP->getMapSize();
 			Real32 winWidth = shadowVP->getParent()->getWidth();
 			UInt32 x1, x2, y1, y2, tw, th;
-				
+
 			for (y1=0; y1 < imgHeight; y1 += winHeight)
 				{
 					y2 = osgMin((Real32)(y1+winHeight-1), (Real32)(imgHeight-1));
 					th = y2 - y1 + 1;
-					
+
 					for (x1=0; x1 < imgWidth; x1 += winWidth)
 					{
 						x2 = osgMin((Real32)(x1+winWidth-1), (Real32)(imgWidth-1));
 						tw = x2 - x1 + 1;
-						
+
 						// set tile size to maximal renderable size
 						beginEditCP(_tiledeco);
 							_tiledeco->setSize(  x1/(Real32)imgWidth,     y1/(Real32)imgHeight,	(x2+1)/(Real32)imgWidth, (y2+1)/(Real32)imgHeight);
 						endEditCP(_tiledeco);
-						
+
 						beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
 											  shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 							shadowVP->setSize(0, 0, tw-1, th-1);
 						endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
 											shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-						
-						
+
+
 					glClear(GL_DEPTH_BUFFER_BIT);
                     shadowVP->_poly->activate(action,0);
 
@@ -338,27 +338,27 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
                     shadowVP->_poly->deactivate(action,0);
-        
+
                     //----------Shadow-Texture-Parameters and Indices-------------
-                
+
                     // action->getWindow()->getGLObjectId(getGLId())
                     //glBindTexture(GL_TEXTURE_2D,shadowVP->_texChunks[i]->getGLId());
                     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on binding Texture!" << endLog;    
+                        SWARNING << "Error on binding Texture!" << endLog;
 
 						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x1, y1, 0, 0, tw, th);
-				
+
 						if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on copying Texture!" << endLog;    
-        
+                        SWARNING << "Error on copying Texture!" << endLog;
+
                     glBindTexture(GL_TEXTURE_2D,0);
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on releasing Texture!" << endLog;    
-        
+                        SWARNING << "Error on releasing Texture!" << endLog;
+
                     if(glGetError() != GL_NO_ERROR)
                         SWARNING << "Error while Texture-Creation!" << endLog;
-						
+
 					}
 				}
 
@@ -381,7 +381,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
     }
 
     //-------Restoring old states of Window and Viewport----------
-    
+
     beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                           shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
     {
@@ -391,7 +391,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
                         shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 
     action->setCamera(shadowVP->getCamera().getCPtr());
-    
+
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
@@ -420,7 +420,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
+
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -449,7 +449,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
             action->apply(shadowVP->getRoot());
-             
+
 			shadowVP->_poly->deactivate(action,0);
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -459,7 +459,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->getCamera().getCPtr());
 		}
 	}
-	
+
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -496,7 +496,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
     biasMatrix.setScale(0.5);
     biasMatrix.setTranslate(0.5,0.5,0.5);
 
-    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
+    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(),
     pt=shadowVP->getPixelTop();
     GLint pw=pr-pl+1,ph=pt-pb+1;
     bool full = shadowVP->isFullWindow();
@@ -532,8 +532,8 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
 
 		Real32 shadowCol;
 		if(shadowVP->getShadowIntensity().size() == 0) shadowCol = 0.0;
-		else if(shadowVP->getShadowIntensity().size() < (j+1)) shadowCol = shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1] * (1.0 / activeLights); 
-		else shadowCol = shadowVP->getShadowIntensity()[j] * (1.0 / activeLights); 
+		else if(shadowVP->getShadowIntensity().size() < (j+1)) shadowCol = shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1] * (1.0 / activeLights);
+		else shadowCol = shadowVP->getShadowIntensity()[j] * (1.0 / activeLights);
 
 		Color4f shadow_color = Color4f(shadowCol,shadowCol,shadowCol,1.0);
 
@@ -551,7 +551,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
         shadowVP->_lights[j]->setSpecular(_light_specular[j]);
         shadowVP->_lights[j]->setDiffuse(_light_diffuse[j]);
         shadowVP->_lights[j]->setAmbient(0.0,0.0,0.0,1.0);
-    }  
+    }
 	for(UInt32 j=0;j<shadowVP->_lights.size();++j) {
         light_state.push_back(shadowVP->_lights[j]->getOn());
         shadowVP->_lights[j]->setOn(false);
@@ -578,7 +578,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
 
     glDepthFunc(GL_LESS);
 
-    //---Render-Pass with Shadow-----------------------------    
+    //---Render-Pass with Shadow-----------------------------
     for(UInt32 i=0;i<shadowVP->_lights.size();++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -591,7 +591,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
             Matrix textureMatrix = biasMatrix;
             textureMatrix.mult(projectionMatrix);
             textureMatrix.mult(viewMatrix);
-            
+
             textureMatrix.transpose();
             Vec4f ps = textureMatrix[0];
             Vec4f pt = textureMatrix[1];
@@ -604,9 +604,9 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
                 shadowVP->_texGen->setGenFuncRPlane(pr);
                 shadowVP->_texGen->setGenFuncQPlane(pq);
             endEditCP(shadowVP->_texGen);
-            
+
             shadowVP->_lights[i]->setOn(true);
-        
+
             shadowVP->_texChunks[i]->activate(action,3);
 
             shadowVP->_texGen->activate(action,3);
@@ -622,9 +622,9 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
             shadowVP->_texGen->deactivate(action,3);
 
             shadowVP->_texChunks[i]->deactivate(action,3);
-        
+
             shadowVP->_lights[i]->setOn(false);
-			
+
 			// increase offset for next light
             beginEditCP(shadowVP->_offset);
             shadowVP->_offset->setOffsetBias(shadowVP->_offset->getOffsetBias() - 1);
@@ -638,12 +638,12 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
-    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient 
+    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient
     {
         shadowVP->_lights[i]->setAmbient(_light_ambient[i]);
     }
 
-    for(UInt32 j=0;j<shadowVP->_lights.size();++j) 
+    for(UInt32 j=0;j<shadowVP->_lights.size();++j)
     {
         shadowVP->_lights[j]->setOn(light_state[j]);
     }
@@ -694,7 +694,7 @@ void StdShadowMap::render(RenderActionBase* action)
             shadowVP->_trigger_update = false;
         }
     }
-    
+
     if(!shadowVP->_lights.empty() || !shadowVP->_lightCameras.empty())
     {
         projectShadowMaps(action);
