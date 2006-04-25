@@ -263,6 +263,8 @@ bool CompileConfig::compare(const CompileConfig& c)
                 _mt?"D":"L", _debug?"d":"", _mt?"L":"D", _debug?"d":""));
         return true;
     }
+    
+#ifdef WIN32
     if(_debug != c._debug)
     {
         FFATAL(("The program is linked against the %sdebug runtime lib, "
@@ -274,6 +276,7 @@ bool CompileConfig::compare(const CompileConfig& c)
                 _mt?"D":"L", _debug?"d":"", _mt?"D":"L", _debug?"d":""));
         return true;
     }
+#endif
 
     return false;
 }
