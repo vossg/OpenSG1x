@@ -83,9 +83,7 @@ void TwoSidedLightingChunk::dump(      UInt32    ,
 
 void TwoSidedLightingChunk::activate ( DrawActionBase * action, UInt32 idx )
 {
-    glGetBooleanv(GL_LIGHT_MODEL_TWO_SIDE, &_state);
-    if(_state == GL_FALSE)
-        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
 
 void TwoSidedLightingChunk::changeFrom( DrawActionBase *action, StateChunk *old_chunk, UInt32 idx )
@@ -101,19 +99,13 @@ void TwoSidedLightingChunk::changeFrom( DrawActionBase *action, StateChunk *old_
     // TwoSidedLightingChunk didn't change so do nothing.
     if(old == this)
         return;
-
-    _state = old->_state;
-
-    if(_state == GL_FALSE)
-        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+    
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 }
 
 void TwoSidedLightingChunk::deactivate ( DrawActionBase * action, UInt32 idx )
 {
-    GLboolean tsl = GL_FALSE;
-    glGetBooleanv(GL_LIGHT_MODEL_TWO_SIDE, &tsl);
-    if(_state != tsl)
-        glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, _state);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE);
 }
 
 
@@ -162,7 +154,7 @@ bool TwoSidedLightingChunk::operator !=(const StateChunk &other) const
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGTwoSidedLightingChunk.cpp,v 1.1 2005/06/09 08:39:27 a-m-z Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGTwoSidedLightingChunk.cpp,v 1.2 2006/04/25 05:49:02 dirk Exp $";
     static char cvsid_hpp[] = OSGTWOSIDEDLIGHTINGCHUNK_HEADER_CVSID;
     static char cvsid_inl[] = OSGTWOSIDEDLIGHTINGCHUNK_HEADER_CVSID;
 }

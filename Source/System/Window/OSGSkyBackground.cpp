@@ -163,17 +163,12 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
 
 void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
-    GLboolean light = glIsEnabled(GL_LIGHTING);
 
-    if (light == GL_TRUE)  
-        glDisable(GL_LIGHTING);
+    glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
+                 GL_LIGHTING_BIT);
 
-    GLint fill[2];
-    glGetIntegerv(GL_POLYGON_MODE, fill);
+    glDisable(GL_LIGHTING);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-    GLint depth;
-    glGetIntegerv(GL_DEPTH_FUNC, &depth);
     glDepthFunc(GL_ALWAYS);
 
     glMatrixMode(GL_MODELVIEW);
@@ -419,11 +414,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    glDepthFunc(depth);
-    glPolygonMode(GL_FRONT, fill[0]);
-    glPolygonMode(GL_BACK , fill[1]);
-    if (light == GL_TRUE)  
-        glEnable(GL_LIGHTING);
+    glPopAttrib();
+
     glColor3f(1.0, 1.0, 1.0);
 
     delete [] sinval;

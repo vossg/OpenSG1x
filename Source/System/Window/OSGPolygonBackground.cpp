@@ -139,13 +139,8 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-    GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
-
-    GLint depthFunc;
-    glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
     glDepthFunc(GL_ALWAYS);
-
     glDepthMask(GL_FALSE);
 
     Real32 aspectX = 1.0f, aspectY = 1.0f;
@@ -190,13 +185,7 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glScalef(1, 1, 1);
 
     glClear(GL_DEPTH_BUFFER_BIT);
-    
-    glDepthMask(GL_TRUE);
-
-    if (depth)    
-        glEnable(GL_DEPTH_TEST);
-    glDepthFunc(depthFunc);
-    
+     
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -229,7 +218,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.2 2006/03/20 14:54:30 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.3 2006/04/25 05:49:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

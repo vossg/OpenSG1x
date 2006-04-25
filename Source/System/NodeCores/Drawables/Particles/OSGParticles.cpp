@@ -1654,8 +1654,7 @@ struct drawLines : public ParticlesDrawer
 
         Real32 s = sizeTrait::size(sizeData, 0)[0];
 
-        GLfloat lw;
-        glGetFloatv(GL_LINE_WIDTH, &lw);
+        glPushAttrib(GL_LINE_BIT);
         glLineWidth(s);
           
         glBegin(GL_LINES);
@@ -1683,8 +1682,7 @@ struct drawLines : public ParticlesDrawer
 
         glEnd();
     
-        if(osgabs(s-lw)>Eps)
-            glLineWidth(lw);
+        glPopAttrib();
     }
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
@@ -1711,8 +1709,7 @@ struct drawLines : public ParticlesDrawer
 
         Real32 s = sizeTrait::size(sizeData, 0)[0];
 
-        GLfloat lw;
-        glGetFloatv(GL_LINE_WIDTH, &lw);
+        glPushAttrib(GL_LINE_BIT);
         glLineWidth(s);
           
         glBegin(GL_LINES);
@@ -1747,8 +1744,7 @@ struct drawLines : public ParticlesDrawer
 
         glEnd();
     
-        if(osgabs(s-lw)>Eps)
-            glLineWidth(lw);
+        glPopAttrib();
     }
 };
 
@@ -1778,8 +1774,7 @@ struct drawPoints : public ParticlesDrawer
         sizeTrait::particle(sizeData, 0);
         Real32 s = sizeTrait::size(sizeData, 0)[0];
 
-        GLfloat ps;
-        glGetFloatv(GL_POINT_SIZE, &ps);
+        glPushAttrib(GL_POINT_BIT);
         glPointSize(s);
           
         glBegin(GL_POINTS);
@@ -1801,8 +1796,7 @@ struct drawPoints : public ParticlesDrawer
 
         glEnd();
     
-        if(osgabs(s-ps)>Eps)
-            glPointSize(ps);
+        glPopAttrib();
     }
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
@@ -1824,8 +1818,7 @@ struct drawPoints : public ParticlesDrawer
         sizeTrait::particle(sizeData, 0);
         Real32 s = sizeTrait::size(sizeData, 0)[0];
 
-        GLfloat ps;
-        glGetFloatv(GL_POINT_SIZE, &ps);
+        glPushAttrib(GL_POINT_BIT);
         glPointSize(s);
           
         glBegin(GL_POINTS);
@@ -1850,8 +1843,7 @@ struct drawPoints : public ParticlesDrawer
 
         glEnd();
     
-        if(osgabs(s-ps)>Eps)
-            glPointSize(ps);
+        glPopAttrib();
     }
 };
 
@@ -2591,7 +2583,7 @@ struct drawShaderStrips : public ParticlesDrawer
          
             glBegin(GL_QUAD_STRIP);
            
-            UInt32 n = s[2];           
+            UInt32 n = static_cast<UInt32>(s[2]);           
             Real32 step = 1.f / (n-1);
             Real32 v = 0.f;
             for(int y = 0; y < n; ++y, v += step)
@@ -2675,7 +2667,7 @@ struct drawShaderStrips : public ParticlesDrawer
          
             glBegin(GL_QUAD_STRIP);
            
-            UInt32 n = s[2];           
+            UInt32 n = static_cast<UInt32>(s[2]);           
             Real32 step = 1.f / (n-1);
             Real32 v = 0.f;
             for(int y = 0; y < n; ++y, v += step)

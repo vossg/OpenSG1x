@@ -187,12 +187,12 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         return;
     }
-    GLboolean light = glIsEnabled(GL_LIGHTING);
-    if (light == GL_TRUE)
-        glDisable(GL_LIGHTING);
 
-    GLint fill[2];
-    glGetIntegerv(GL_POLYGON_MODE, fill);
+    glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
+                 GL_LIGHTING_BIT);
+
+    glDisable(GL_LIGHTING);
+
 #if 1
     // original mode
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -203,13 +203,8 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
 #endif
     glClear(GL_DEPTH_BUFFER_BIT);
 
-    GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
-
-    GLint depthFunc;
-    glGetIntegerv(GL_DEPTH_FUNC, &depthFunc);
     glDepthFunc(GL_ALWAYS);
-
     glDepthMask(GL_FALSE);
 
     glMatrixMode(GL_MODELVIEW);
@@ -310,15 +305,7 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    glDepthMask(GL_TRUE);
-    if(depth)
-        glEnable(GL_DEPTH_TEST);
-    glDepthFunc(depthFunc);
-
-    glPolygonMode(GL_FRONT, fill[0]);
-    glPolygonMode(GL_BACK , fill[1]);
-    if(light)
-        glEnable(GL_LIGHTING);
+    glPopAttrib();
     glColor3f(1.0f, 1.0f, 1.0f);
 }
 
@@ -343,7 +330,7 @@ void TextureBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.6 2005/07/06 16:00:44 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.7 2006/04/25 05:49:03 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

@@ -707,7 +707,7 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
     // store glColor.
     Color4f color;
     if(getColors() != NullFC)
-        glGetFloatv(GL_CURRENT_COLOR, color.getValuesRGBA());
+        glPushAttrib(GL_CURRENT_BIT);
 
     if(getDlistCache() == true)
     {
@@ -734,7 +734,7 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
 
     // restore glColor.
     if(getColors() != NullFC)
-        glColor4fv(color.getValuesRGBA());
+        glPopAttrib();
 
     StatCollector *coll = action->getStatistics();
 

@@ -137,18 +137,14 @@ void ImageForeground::draw(DrawActionBase *, Viewport *vp)
     
     if(i == getPositions().size())   // all images == NULL?
         return; 
-        
-    GLboolean light = glIsEnabled(GL_LIGHTING);
-//      if(light)  glDisable(GL_LIGHTING);
 
-    GLint fill[2];
-    glGetIntegerv(GL_POLYGON_MODE, fill);
+    glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
+                 GL_LIGHTING_BIT);
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-    GLboolean depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
 
-    GLboolean colmat = glIsEnabled(GL_COLOR_MATERIAL);
     glDisable(GL_COLOR_MATERIAL);
 
     glDisable(GL_TEXTURE_2D);
@@ -197,14 +193,7 @@ void ImageForeground::draw(DrawActionBase *, Viewport *vp)
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if(depth == GL_TRUE)    
-        glEnable(GL_DEPTH_TEST);
-    if(light == GL_TRUE)    
-        glEnable(GL_LIGHTING);
-    if(colmat == GL_TRUE)   
-        glEnable(GL_COLOR_MATERIAL);
-    glPolygonMode(GL_FRONT, fill[0]);
-    glPolygonMode(GL_BACK , fill[1]);
+    glPopAttrib();
 }
 
 /*-------------------------------------------------------------------------*/
