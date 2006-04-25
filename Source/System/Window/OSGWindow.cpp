@@ -1287,18 +1287,37 @@ void OSG::Window::frameExit(void)
     
     // Test for OpenGL errors. Just a little precaution to catch
     // stray errors. This is the only OpenGL error test in opt mode
- 
-    GLenum glerr;
-
-    while((glerr = glGetError()) != GL_NO_ERROR)
-    {
-        FWARNING(("Window::frameExit: Caught stray OpenGL error %s (%#x).\n",
-                gluErrorString(glerr),
-                glerr));
+    // and it needs to be enabled using the OSG_TEST_GL_ERRORS envvar.
+    // In debug mode it is always on.
+    static bool inited = false;
 #ifndef OSG_DEBUG
-        FWARNING(("Rerun with debug-libraries to get more accurate "
-                  "information.\n"));
+    static bool testGLErrors = false;
+#else
+    static bool testGLErrors = true;
 #endif
+    
+    if(!inited)
+    {
+        inited = true;
+        char *p = getenv("OSG_DEBUG");
+        if(p)
+            testGLErrors = true;
+    }
+ 
+    if(testGLErrors)
+    {
+        GLenum glerr;
+
+        while((glerr = glGetError()) != GL_NO_ERROR)
+        {
+            FWARNING(("Window::frameExit: Caught stray OpenGL error %s (%#x).\n",
+                    gluErrorString(glerr),
+                    glerr));
+#ifndef OSG_DEBUG
+            FWARNING(("Rerun with debug-libraries to get more accurate "
+                      "information.\n"));
+#endif
+        }
     }
     
 }
