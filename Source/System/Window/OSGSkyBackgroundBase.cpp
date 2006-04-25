@@ -62,7 +62,7 @@
 #include "OSGSkyBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SkyBackgroundBase::SkyColorFieldMask = 
     (TypeTraits<BitVector>::One << SkyBackgroundBase::SkyColorFieldId);
@@ -117,6 +117,9 @@ const OSG::BitVector  SkyBackgroundBase::FrontTexCoordFieldMask =
 
 const OSG::BitVector  SkyBackgroundBase::BackTexCoordFieldMask = 
     (TypeTraits<BitVector>::One << SkyBackgroundBase::BackTexCoordFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::BeaconFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::BeaconFieldId);
 
 const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -178,6 +181,9 @@ const OSG::BitVector SkyBackgroundBase::MTInfluenceMask =
 */
 /*! \var Vec3f           SkyBackgroundBase::_mfBackTexCoord
     back texture coordinates
+*/
+/*! \var NodePtr         SkyBackgroundBase::_sfBeacon
+    The object that defines the orientation of the background.
 */
 
 //! SkyBackground description
@@ -273,7 +279,12 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      "backTexCoord", 
                      BackTexCoordFieldId, BackTexCoordFieldMask,
                      false,
-                     (FieldAccessMethod) &SkyBackgroundBase::getMFBackTexCoord)
+                     (FieldAccessMethod) &SkyBackgroundBase::getMFBackTexCoord),
+    new FieldDescription(SFNodePtr::getClassType(), 
+                     "beacon", 
+                     BeaconFieldId, BeaconFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFBeacon)
 };
 
 
@@ -377,6 +388,7 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
     _mfLeftTexCoord           (), 
     _mfFrontTexCoord          (), 
     _mfBackTexCoord           (), 
+    _sfBeacon                 (), 
     Inherited() 
 {
 }
@@ -404,6 +416,7 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _mfLeftTexCoord           (source._mfLeftTexCoord           ), 
     _mfFrontTexCoord          (source._mfFrontTexCoord          ), 
     _mfBackTexCoord           (source._mfBackTexCoord           ), 
+    _sfBeacon                 (source._sfBeacon                 ), 
     Inherited                 (source)
 {
 }
@@ -510,6 +523,11 @@ UInt32 SkyBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfBackTexCoord.getBinSize();
     }
 
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        returnValue += _sfBeacon.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -607,6 +625,11 @@ void SkyBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
     {
         _mfBackTexCoord.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        _sfBeacon.copyToBin(pMem);
     }
 
 
@@ -707,6 +730,11 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfBackTexCoord.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+    {
+        _sfBeacon.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -771,6 +799,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
     if(FieldBits::NoField != (BackTexCoordFieldMask & whichField))
         _mfBackTexCoord.syncWith(pOther->_mfBackTexCoord);
 
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+        _sfBeacon.syncWith(pOther->_sfBeacon);
+
 
 }
 #else
@@ -804,6 +835,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
     if(FieldBits::NoField != (BoxInsideFieldMask & whichField))
         _sfBoxInside.syncWith(pOther->_sfBoxInside);
+
+    if(FieldBits::NoField != (BeaconFieldMask & whichField))
+        _sfBeacon.syncWith(pOther->_sfBeacon);
 
 
     if(FieldBits::NoField != (SkyColorFieldMask & whichField))
@@ -880,6 +914,8 @@ void SkyBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -889,8 +925,6 @@ DataType FieldDataTraits<SkyBackgroundPtr>::_type("SkyBackgroundPtr", "Backgroun
 #endif
 
 OSG_DLLEXPORT_MFIELD_DEF1(SkyBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -906,10 +940,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSKYBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKYBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSKYBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

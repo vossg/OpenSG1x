@@ -85,6 +85,7 @@
 #include <OSGVec3fFields.h> // LeftTexCoord type
 #include <OSGVec3fFields.h> // FrontTexCoord type
 #include <OSGVec3fFields.h> // BackTexCoord type
+#include <OSGNodeFields.h> // Beacon type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -126,7 +127,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
         LeftTexCoordFieldId   = RightTexCoordFieldId  + 1,
         FrontTexCoordFieldId  = LeftTexCoordFieldId   + 1,
         BackTexCoordFieldId   = FrontTexCoordFieldId  + 1,
-        NextFieldId           = BackTexCoordFieldId   + 1
+        BeaconFieldId         = BackTexCoordFieldId   + 1,
+        NextFieldId           = BeaconFieldId         + 1
     };
 
     static const OSG::BitVector SkyColorFieldMask;
@@ -147,6 +149,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const OSG::BitVector LeftTexCoordFieldMask;
     static const OSG::BitVector FrontTexCoordFieldMask;
     static const OSG::BitVector BackTexCoordFieldMask;
+    static const OSG::BitVector BeaconFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -191,6 +194,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            MFVec3f             *getMFLeftTexCoord   (void);
            MFVec3f             *getMFFrontTexCoord  (void);
            MFVec3f             *getMFBackTexCoord   (void);
+           SFNodePtr           *getSFBeacon         (void);
 
            UInt32              &getSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -208,6 +212,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      const TextureChunkPtr     &getTopTexture     (void) const;
            bool                &getBoxInside      (void);
      const bool                &getBoxInside      (void) const;
+           NodePtr             &getBeacon         (void);
+     const NodePtr             &getBeacon         (void) const;
            Color4f             &getSkyColor       (const UInt32 index);
            MFColor4f           &getSkyColor       (void);
      const MFColor4f           &getSkyColor       (void) const;
@@ -252,6 +258,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      void setRightTexture   ( const TextureChunkPtr &value );
      void setTopTexture     ( const TextureChunkPtr &value );
      void setBoxInside      ( const bool &value );
+     void setBeacon         ( const NodePtr &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -312,6 +319,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     MFVec3f             _mfLeftTexCoord;
     MFVec3f             _mfFrontTexCoord;
     MFVec3f             _mfBackTexCoord;
+    SFNodePtr           _sfBeacon;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -174,14 +174,19 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-    Matrix m,pt;
+    Matrix m,t;
     action->getCamera()->getViewing(m, viewport->getPixelWidth(),
                                         viewport->getPixelHeight());
-    action->getCamera()->getProjectionTranslation(pt, 
+    action->getCamera()->getProjectionTranslation(t, 
                                         viewport->getPixelWidth(),
                                         viewport->getPixelHeight());
-    m.multLeft(pt);
-    
+    m.multLeft(t);
+    if (getBeacon() != NullFC)
+    {
+        getBeacon()->getToWorld(t);
+        m.mult(t);
+    }
+
     m[3][0] = m[3][1] = m[3][2] = 0;
     glLoadMatrixf(m.getValues());         
     Real32 viewscale = (m[0].length() + m[1].length() + m[2].length()) / 3.f;

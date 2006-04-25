@@ -182,4 +182,13 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	>
 	back texture coordinates
 	</Field>
+	<Field
+		name="beacon"
+		type="NodePtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The object that defines the orientation of the background.
+	</Field>
 </FieldContainer>

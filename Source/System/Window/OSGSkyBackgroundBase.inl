@@ -222,6 +222,13 @@ MFVec3f *SkyBackgroundBase::getMFBackTexCoord(void)
     return &_mfBackTexCoord;
 }
 
+//! Get the SkyBackground::_sfBeacon field.
+inline
+SFNodePtr *SkyBackgroundBase::getSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
 
 //! Get the value of the SkyBackground::_sfSphereRes field.
 inline
@@ -389,6 +396,27 @@ inline
 void SkyBackgroundBase::setBoxInside(const bool &value)
 {
     _sfBoxInside.setValue(value);
+}
+
+//! Get the value of the SkyBackground::_sfBeacon field.
+inline
+NodePtr &SkyBackgroundBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+
+//! Get the value of the SkyBackground::_sfBeacon field.
+inline
+const NodePtr &SkyBackgroundBase::getBeacon(void) const
+{
+    return _sfBeacon.getValue();
+}
+
+//! Set the value of the SkyBackground::_sfBeacon field.
+inline
+void SkyBackgroundBase::setBeacon(const NodePtr &value)
+{
+    _sfBeacon.setValue(value);
 }
 
 
