@@ -652,7 +652,7 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
         if(szString != NULL)
         {
 #ifndef WIN32
-            return 0; //UInt64(strtoull(szString, NULL, 0));
+            return UInt64(strtoull(szString, NULL, 0));
 #else
             return _atoi64(szString);
 #endif
@@ -734,7 +734,7 @@ struct TypeTraits<Int64> : public TypeTraitsBase
         if(szString != NULL)
         {
 #ifndef WIN32
-            return  0; //Int64(strtoll(szString, NULL, 0));
+            return  Int64(strtoll(szString, NULL, 0));
 #else
             return _atoi64(szString);
 #endif
