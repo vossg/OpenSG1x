@@ -708,7 +708,7 @@ void Log::doLog(const Char8 * format, ...)
     
     va_start( args, format );
 
-#ifdef OSG_HAS_VSNPRINTF
+#if defined(OSG_HAS_VSNPRINTF) && !defined(__sgi)
     int count;
     
     if(!buffer)
@@ -719,6 +719,7 @@ void Log::doLog(const Char8 * format, ...)
     
     // on windows it returns -1 if the output
     // was truncated due to the buffer size limit.
+    // on irix this returns always buffer_size-1 ????
     count = vsnprintf(buffer, buffer_size, format, args);
     
     while(count >= buffer_size || count == -1)
