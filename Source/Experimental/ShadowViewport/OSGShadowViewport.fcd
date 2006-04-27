@@ -17,7 +17,7 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="4"
+		defaultValue="8"
 		access="public"
 	>
 	Offset-Bias for Polygon-Offset. Needs to be used with Polygon-Chunk
@@ -40,15 +40,6 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		access="public"
 	>
 	Scene root node.
-	</Field>
-	<Field
-		name="shadowIntensity"
-		type="Real32"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	0.0 = Black Shadows ... 1.0 = No Shadows
 	</Field>
 	<Field
 		name="mapSize"
@@ -112,12 +103,23 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	>
 	</Field>
 	<Field
-		name="qualityMode"
+		name="autoSearchForLights"
 		type="bool"
 		cardinality="single"
 		visibility="external"
-		defaultValue="true"
+		defaultValue="false"
 		access="public"
 	>
+	if enabled, all lights in the scenegraph are added to the ShadowViewport
+	</Field>
+	<Field
+		name="globalShadowIntensity"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0"
+		access="public"
+	>
+	Used for every Light if set !=1.0
 	</Field>
 </FieldContainer>

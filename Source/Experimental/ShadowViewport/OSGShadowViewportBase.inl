@@ -117,13 +117,6 @@ SFNodePtr *ShadowViewportBase::getSFSceneRoot(void)
     return &_sfSceneRoot;
 }
 
-//! Get the ShadowViewport::_mfShadowIntensity field.
-inline
-MFReal32 *ShadowViewportBase::getMFShadowIntensity(void)
-{
-    return &_mfShadowIntensity;
-}
-
 //! Get the ShadowViewport::_sfMapSize field.
 inline
 SFUInt32 *ShadowViewportBase::getSFMapSize(void)
@@ -173,11 +166,18 @@ SFBool *ShadowViewportBase::getSFShadowOn(void)
     return &_sfShadowOn;
 }
 
-//! Get the ShadowViewport::_sfQualityMode field.
+//! Get the ShadowViewport::_sfAutoSearchForLights field.
 inline
-SFBool *ShadowViewportBase::getSFQualityMode(void)
+SFBool *ShadowViewportBase::getSFAutoSearchForLights(void)
 {
-    return &_sfQualityMode;
+    return &_sfAutoSearchForLights;
+}
+
+//! Get the ShadowViewport::_sfGlobalShadowIntensity field.
+inline
+SFReal32 *ShadowViewportBase::getSFGlobalShadowIntensity(void)
+{
+    return &_sfGlobalShadowIntensity;
 }
 
 
@@ -349,48 +349,48 @@ void ShadowViewportBase::setShadowOn(const bool &value)
     _sfShadowOn.setValue(value);
 }
 
-//! Get the value of the ShadowViewport::_sfQualityMode field.
+//! Get the value of the ShadowViewport::_sfAutoSearchForLights field.
 inline
-bool &ShadowViewportBase::getQualityMode(void)
+bool &ShadowViewportBase::getAutoSearchForLights(void)
 {
-    return _sfQualityMode.getValue();
+    return _sfAutoSearchForLights.getValue();
 }
 
-//! Get the value of the ShadowViewport::_sfQualityMode field.
+//! Get the value of the ShadowViewport::_sfAutoSearchForLights field.
 inline
-const bool &ShadowViewportBase::getQualityMode(void) const
+const bool &ShadowViewportBase::getAutoSearchForLights(void) const
 {
-    return _sfQualityMode.getValue();
+    return _sfAutoSearchForLights.getValue();
 }
 
-//! Set the value of the ShadowViewport::_sfQualityMode field.
+//! Set the value of the ShadowViewport::_sfAutoSearchForLights field.
 inline
-void ShadowViewportBase::setQualityMode(const bool &value)
+void ShadowViewportBase::setAutoSearchForLights(const bool &value)
 {
-    _sfQualityMode.setValue(value);
+    _sfAutoSearchForLights.setValue(value);
 }
 
-
-//! Get the value of the \a index element the ShadowViewport::_mfShadowIntensity field.
+//! Get the value of the ShadowViewport::_sfGlobalShadowIntensity field.
 inline
-Real32 &ShadowViewportBase::getShadowIntensity(const UInt32 index)
+Real32 &ShadowViewportBase::getGlobalShadowIntensity(void)
 {
-    return _mfShadowIntensity[index];
+    return _sfGlobalShadowIntensity.getValue();
 }
 
-//! Get the ShadowViewport::_mfShadowIntensity field.
+//! Get the value of the ShadowViewport::_sfGlobalShadowIntensity field.
 inline
-MFReal32 &ShadowViewportBase::getShadowIntensity(void)
+const Real32 &ShadowViewportBase::getGlobalShadowIntensity(void) const
 {
-    return _mfShadowIntensity;
+    return _sfGlobalShadowIntensity.getValue();
 }
 
-//! Get the ShadowViewport::_mfShadowIntensity field.
+//! Set the value of the ShadowViewport::_sfGlobalShadowIntensity field.
 inline
-const MFReal32 &ShadowViewportBase::getShadowIntensity(void) const
+void ShadowViewportBase::setGlobalShadowIntensity(const Real32 &value)
 {
-    return _mfShadowIntensity;
+    _sfGlobalShadowIntensity.setValue(value);
 }
+
 
 //! Get the value of the \a index element the ShadowViewport::_mfLightNodes field.
 inline
@@ -436,5 +436,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.3 2006/04/21 08:16:10 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.4 2006/04/27 11:54:13 yjung Exp $"
 

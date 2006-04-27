@@ -176,7 +176,7 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _texChunks(source._texChunks),
     _trigger_update(source._trigger_update)
 {
-    _depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
+	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
     _shadow_extension = Window::registerExtension("GL_ARB_shadow");
 	treeRenderer = 0;
 }
@@ -223,11 +223,11 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
         _trigger_update = true;
     }
 
-	if(whichField & QualityModeFieldMask)
+	if(whichField & AutoSearchForLightsFieldMask)
 	{
-		if (getQualityMode())
-		printf("Quality Mode on\n");
-		else printf("Quality Mode off\n");
+		if (getAutoSearchForLights())
+		printf("auto light search mode on\n");
+		else printf("auto light search mode off\n");
 	}
 
 	if(whichField & RangeFieldMask)
@@ -394,7 +394,7 @@ void ShadowViewport::render(RenderActionBase* action)
 
     if(!getShadowOn())
     {
-        Viewport::render(action);
+		Viewport::render(action);
         return;
     }
 
@@ -532,7 +532,7 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr& node)
                     {
                         if((*it) == NullFC)
                             continue;
-                        if((*it)->isTransparent())
+                        if((*it)->isTransparent() && node->getActive())
                         {
                             _transparent.push_back(node);
                             break;
@@ -541,7 +541,7 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr& node)
                 }
                 else
                 {
-                    if(mat->isTransparent())
+                    if(mat->isTransparent() && node->getActive())
                         _transparent.push_back(node);
                 }
             }
@@ -552,14 +552,16 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr& node)
         {
             osg::GeometryPtr geo = osg::GeometryPtr::dcast(node->getCore());
             if(geo->getMaterial() != NullFC &&
-               geo->getMaterial()->isTransparent())
+               geo->getMaterial()->isTransparent() &&
+			   node->getActive())
                 _transparent.push_back(node);
         }
         else if(node->getCore()->getType() == MaterialGroup::getClassType())
         {
             osg::MaterialGroupPtr matGroup = osg::MaterialGroupPtr::dcast(node->getCore());
             if(matGroup->getMaterial() != NullFC &&
-               matGroup->getMaterial()->isTransparent())
+               matGroup->getMaterial()->isTransparent() &&
+			   node->getActive())
                 _transparent.push_back(node);
         }
     }
@@ -570,15 +572,19 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr& node)
 
 void ShadowViewport::checkLights(RenderActionBase* action)
 {
-    /*//Finding lights by going through whole Scenegraph
-    _allLights.clear();
-    traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
-             <Action::ResultE, ShadowViewport, NodePtr>
-             (this, &ShadowViewport::findLight));
+	if(getAutoSearchForLights())
+	{
+		//Finding lights by going through whole Scenegraph
+		_allLights.clear();
+		_lights.clear();
+		traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+				 <Action::ResultE, ShadowViewport, NodePtr>
+			     (this, &ShadowViewport::findLight));
 
-    //shadow for all lights
-    if(getLightNodes().getSize() == 0)
-        _lights = _allLights;*/
+		//shadow for all lights
+		//if(getLightNodes().getSize() == 0)
+		_lights = _allLights;
+	}
 
     _lightStates.clear();
     bool changed = false;
@@ -986,7 +992,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.5 2006/04/21 08:16:10 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.6 2006/04/27 11:54:13 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

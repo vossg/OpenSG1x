@@ -69,10 +69,6 @@
 
 /* ----------------------- GL_EXT_framebuffer_object ----------------------- */
 
-#ifndef GL_ARB_draw_buffers
-    #define GL_ARB_draw_buffers 1
-#endif
-
 #ifndef GL_EXT_framebuffer_object
     #define GL_INVALID_FRAMEBUFFER_OPERATION_EXT 0x0506
     #define GL_MAX_RENDERBUFFER_SIZE_EXT 0x84E8
@@ -185,44 +181,44 @@ StdShadowMap::~StdShadowMap(void)
 bool StdShadowMap::checkFrameBufferStatus(Window *win)
 {
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-
+    
     switch(status)
     {
-        case GL_FRAMEBUFFER_COMPLETE_EXT:
+        case GL_FRAMEBUFFER_COMPLETE_EXT: 
         FINFO(("%x: framebuffer complete!\n", status));
-        break;
-        case GL_FRAMEBUFFER_UNSUPPORTED_EXT:
+        break; 
+        case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
         FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
         // choose different formats
         return false;
-        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
+        case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-        break;
-        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
+        break; 
+        case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT: 
         FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n", status));
-        break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
+        break; 
+        case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT: 
         FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-        break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT:
+        break; 
+        case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-        break;
-        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
+        break; 
+        case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-        break;
-        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
+        break; 
+        case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
         break;
-        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
+        case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-        break;
-        case GL_FRAMEBUFFER_BINDING_EXT:
+        break; 
+        case GL_FRAMEBUFFER_BINDING_EXT: 
         FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-        break;
-        default:
+        break; 
+        default: 
         return false;
     }
-
+    
     if ((errCode = glGetError()) != GL_NO_ERROR)
     {
         const GLubyte *errString = gluErrorString(errCode);
@@ -237,36 +233,58 @@ bool StdShadowMap::initFBO(Window *win)
 {
 	initialize(win);
 
-    if (fb2 != 0)
-        return true;
-	glGenFramebuffersEXT(1, &fb2);
+	if(useFBO)
+	{
+		if (fb2 != NULL)
+			return true;
+		glGenFramebuffersEXT(1, &fb2);
 
-	//win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
+		//win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
 
-	//glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
+		glDrawBuffer(GL_NONE);	// no color buffer dest
+		glReadBuffer(GL_NONE);	// no color buffer src
 
-	glDrawBuffer(GL_NONE);	// no color buffer dest
-	glReadBuffer(GL_NONE);	// no color buffer src
+		//bool result = checkFrameBufferStatus(win);
 
-	//bool result = checkFrameBufferStatus(win);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+		glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
-
-	return true;
+		return true;
+	}
 }
 
 void StdShadowMap::createShadowMaps(RenderActionBase* action)
 {
+	//Checking for the smallest Window-Dimension
+    UInt32 minSize = shadowVP->getPixelWidth();
+
+    if(shadowVP->getPixelHeight() < minSize)
+		minSize = shadowVP->getPixelHeight();
+
+    //Checking for biggest PowerOf2 that fits in smallest Window-Dimension
+    UInt32 _mapRenderSize = osgnextpower2(minSize + 1) / 2;
+    if(_mapRenderSize == 0)	_mapRenderSize = 128;
+
     Real32 vpTop,vpBottom,vpLeft,vpRight;
+
+    //------Setting up Window to fit size of ShadowMap----------------
 
     // Saving original Viewport-Dimensions
     vpTop = shadowVP->getTop();
     vpBottom = shadowVP->getBottom();
     vpLeft = shadowVP->getLeft();
     vpRight = shadowVP->getRight();
+
+    //Temporarily switching Viewports size to size of ShadowMap | OpenSG-Level
+    beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
+                          shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
+    {
+        shadowVP->setSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
+    }
+    endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
+                        shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
@@ -279,7 +297,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-
+    
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -288,49 +306,34 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(false);
     }
 
-    for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
+	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
+		{
+		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
-
-            // we use a tiledecorator to create shadow maps with
+			// we use a tiledecorator to create shadow maps with
             // a higher resolutions than the viewport or the screen.
-			beginEditCP(_tiledeco);
+            beginEditCP(_tiledeco);
             _tiledeco->setDecoratee(shadowVP->_lightCameras[i]);
             _tiledeco->setFullSize(shadowVP->getMapSize(), shadowVP->getMapSize());
-			endEditCP(_tiledeco);
+            endEditCP(_tiledeco);
 
             action->setCamera    (_tiledeco.getCPtr());
 
-			Real32 imgHeight = shadowVP->getMapSize();
-			Real32 winHeight = shadowVP->getParent()->getHeight();
-			Real32 imgWidth = shadowVP->getMapSize();
-			Real32 winWidth = shadowVP->getParent()->getWidth();
-			UInt32 x1, x2, y1, y2, tw, th;
+            Real32 step = (1.0 / Real32(shadowVP->getMapSize())) * Real32(_mapRenderSize);
 
-			for (y1=0; y1 < imgHeight; y1 += winHeight)
-				{
-					y2 = osgMin((Real32)(y1+winHeight-1), (Real32)(imgHeight-1));
-					th = y2 - y1 + 1;
-
-					for (x1=0; x1 < imgWidth; x1 += winWidth)
-					{
-						x2 = osgMin((Real32)(x1+winWidth-1), (Real32)(imgWidth-1));
-						tw = x2 - x1 + 1;
-
-						// set tile size to maximal renderable size
-						beginEditCP(_tiledeco);
-							_tiledeco->setSize(  x1/(Real32)imgWidth,     y1/(Real32)imgHeight,	(x2+1)/(Real32)imgWidth, (y2+1)/(Real32)imgHeight);
-						endEditCP(_tiledeco);
-
-						beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-											  shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-							shadowVP->setSize(0, 0, tw-1, th-1);
-						endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-											shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-
-
-					glClear(GL_DEPTH_BUFFER_BIT);
+            UInt32 ypos = 0;
+            for(Real32 y=0;y<1.0;y+=step)
+            {
+                UInt32 xpos = 0;
+                for(Real32 x=0;x<1.0;x+=step)
+                {
+                    beginEditCP(_tiledeco);
+                        _tiledeco->setSize(x, y, x+step, y+step);
+                    endEditCP(_tiledeco);
+    
+                    glClear(GL_DEPTH_BUFFER_BIT);
                     shadowVP->_poly->activate(action,0);
 
                     action->apply(shadowVP->getRoot());
@@ -338,32 +341,35 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
                     shadowVP->_poly->deactivate(action,0);
-
+        
                     //----------Shadow-Texture-Parameters and Indices-------------
-
-                    // action->getWindow()->getGLObjectId(getGLId())
-                    //glBindTexture(GL_TEXTURE_2D,shadowVP->_texChunks[i]->getGLId());
-                    glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+                
+                    glBindTexture(GL_TEXTURE_2D,
+                                  action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on binding Texture!" << endLog;
+                        SWARNING << "Error on binding Texture!" << endLog;    
 
-						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, x1, y1, 0, 0, tw, th);
-
-						if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on copying Texture!" << endLog;
-
+                    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xpos, ypos, 0, 0,
+                                        _mapRenderSize, _mapRenderSize);
+        
+                    if(glGetError() != GL_NO_ERROR)
+                        SWARNING << "Error on copying Texture!" << endLog;    
+        
                     glBindTexture(GL_TEXTURE_2D,0);
                     if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on releasing Texture!" << endLog;
-
+                        SWARNING << "Error on releasing Texture!" << endLog;    
+        
                     if(glGetError() != GL_NO_ERROR)
                         SWARNING << "Error while Texture-Creation!" << endLog;
-
-					}
-				}
-
+            
+                    xpos += _mapRenderSize;
+                }
+                ypos += _mapRenderSize;
+            }
         }
+		}
     }
+
 
     // activate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
@@ -373,7 +379,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(true);
     }
 
-    // enable all lights.
+	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -381,7 +387,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
     }
 
     //-------Restoring old states of Window and Viewport----------
-
+    
     beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
                           shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
     {
@@ -391,7 +397,7 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
                         shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
 
     action->setCamera(shadowVP->getCamera().getCPtr());
-
+    
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
@@ -420,7 +426,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-
+    
     // deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
@@ -431,8 +437,11 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
-        if(shadowVP->_lightStates[i] != 0)
+        if(shadowVP->_lightStates[i])
         {
+		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+        {
+
             action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
@@ -449,7 +458,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
             action->apply(shadowVP->getRoot());
-
+             
 			shadowVP->_poly->deactivate(action,0);
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -458,8 +467,9 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			action->setCamera(shadowVP->getCamera().getCPtr());
 		}
+		}
 	}
-
+	
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -496,7 +506,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
     biasMatrix.setScale(0.5);
     biasMatrix.setTranslate(0.5,0.5,0.5);
 
-    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(),
+    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
     pt=shadowVP->getPixelTop();
     GLint pw=pr-pl+1,ph=pt-pb+1;
     bool full = shadowVP->isFullWindow();
@@ -518,11 +528,14 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
     std::vector<Color4f> _light_ambient;
 
     Real32 activeLights = 0;
-    for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-        if (shadowVP->_lightStates[i] != 0) activeLights++;
-    }
-
+	if(shadowVP->getGlobalShadowIntensity() != 0.0) activeLights = shadowVP->_lights.size();
+	else
+	{
+		for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
+		{
+			if (shadowVP->_lightStates[i] != 0 && shadowVP->_lights[i]->getShadowIntensity() != 0.0) activeLights++;
+		}
+	}
 
     for(UInt32 j=0;j<shadowVP->_lights.size();++j) // Switching off specular highlights
     {
@@ -530,15 +543,13 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
         _light_diffuse.push_back(shadowVP->_lights[j]->getDiffuse());
         _light_ambient.push_back(shadowVP->_lights[j]->getAmbient());
 
-		Real32 shadowCol;
-		if(shadowVP->getShadowIntensity().size() == 0) shadowCol = 0.0;
-		else if(shadowVP->getShadowIntensity().size() < (j+1)) shadowCol = shadowVP->getShadowIntensity()[shadowVP->getShadowIntensity().size()-1] * (1.0 / activeLights);
-		else shadowCol = shadowVP->getShadowIntensity()[j] * (1.0 / activeLights);
-
+	    Real32 shadowCol;
+		if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowCol = ((1.0 - shadowVP->getGlobalShadowIntensity()) * (1.0/activeLights));
+		else  shadowCol = ((1.0 - shadowVP->_lights[j]->getShadowIntensity()) * (1.0/activeLights));
 		Color4f shadow_color = Color4f(shadowCol,shadowCol,shadowCol,1.0);
 
-
         shadowVP->_lights[j]->setSpecular(0.0,0.0,0.0,1.0);
+		shadowVP->_lights[j]->setAmbient(0.0,0.0,0.0,1.0);
         shadowVP->_lights[j]->setDiffuse(shadow_color);
     }
 
@@ -548,10 +559,22 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
 	// get all lights
     for(UInt32 j=0;j<shadowVP->_lights.size();++j) // Switching on specular highlights
     {
+		Real32 shadowCol;
+		if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowCol = ((1.0 - shadowVP->getGlobalShadowIntensity()) * (1.0/activeLights));
+		else  shadowCol = ((1.0 - shadowVP->_lights[j]->getShadowIntensity()) * (1.0/activeLights));
+		Color4f shadow_color = Color4f(shadowCol,shadowCol,shadowCol,1.0);
+
+		Color4f lightDiff;
+		lightDiff[0] = _light_diffuse[j][0] - shadow_color[0];
+		lightDiff[1] = _light_diffuse[j][1] - shadow_color[1];
+		lightDiff[2] = _light_diffuse[j][2] - shadow_color[2];
+		lightDiff[3] = 1.0;
+
         shadowVP->_lights[j]->setSpecular(_light_specular[j]);
-        shadowVP->_lights[j]->setDiffuse(_light_diffuse[j]);
-        shadowVP->_lights[j]->setAmbient(0.0,0.0,0.0,1.0);
-    }
+        shadowVP->_lights[j]->setDiffuse(lightDiff);
+        //shadowVP->_lights[j]->setAmbient(0.0,0.0,0.0,1.0);
+		shadowVP->_lights[j]->setAmbient(_light_ambient[j]);
+    }  
 	for(UInt32 j=0;j<shadowVP->_lights.size();++j) {
         light_state.push_back(shadowVP->_lights[j]->getOn());
         shadowVP->_lights[j]->setOn(false);
@@ -578,10 +601,12 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
 
     glDepthFunc(GL_LESS);
 
-    //---Render-Pass with Shadow-----------------------------
+    //---Render-Pass with Shadow-----------------------------    
     for(UInt32 i=0;i<shadowVP->_lights.size();++i)
     {
         if(shadowVP->_lightStates[i] != 0)
+		{
+		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
             shadowVP->_lightCameras[i]->getProjection(projectionMatrix,shadowVP->getMapSize(),shadowVP->getMapSize());
 
@@ -591,7 +616,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
             Matrix textureMatrix = biasMatrix;
             textureMatrix.mult(projectionMatrix);
             textureMatrix.mult(viewMatrix);
-
+            
             textureMatrix.transpose();
             Vec4f ps = textureMatrix[0];
             Vec4f pt = textureMatrix[1];
@@ -604,9 +629,9 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
                 shadowVP->_texGen->setGenFuncRPlane(pr);
                 shadowVP->_texGen->setGenFuncQPlane(pq);
             endEditCP(shadowVP->_texGen);
-
+            
             shadowVP->_lights[i]->setOn(true);
-
+        
             shadowVP->_texChunks[i]->activate(action,3);
 
             shadowVP->_texGen->activate(action,3);
@@ -614,6 +639,12 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
             _blender->activate(action,0);
 
 			shadowVP->_offset->activate(action,0);
+
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+				            GL_COMPARE_R_TO_TEXTURE_ARB);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+			glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+
             action->apply(shadowVP->getRoot());
 			shadowVP->_offset->deactivate(action,0);
 
@@ -622,14 +653,15 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
             shadowVP->_texGen->deactivate(action,3);
 
             shadowVP->_texChunks[i]->deactivate(action,3);
-
+        
             shadowVP->_lights[i]->setOn(false);
-
+			
 			// increase offset for next light
             beginEditCP(shadowVP->_offset);
             shadowVP->_offset->setOffsetBias(shadowVP->_offset->getOffsetBias() - 1);
             endEditCP(shadowVP->_offset);
         }
+		}
     }
 
 	glDepthFunc(GL_LEQUAL);
@@ -638,51 +670,57 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
-    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient
+    for(UInt32 i=0;i<shadowVP->_lights.size();++i) // Switching on ambient 
     {
         shadowVP->_lights[i]->setAmbient(_light_ambient[i]);
     }
 
-    for(UInt32 j=0;j<shadowVP->_lights.size();++j)
+    for(UInt32 j=0;j<shadowVP->_lights.size();++j) 
     {
         shadowVP->_lights[j]->setOn(light_state[j]);
     }
+
+		// get all lights
+    for(UInt32 j=0;j<shadowVP->_lights.size();++j) // Switching on specular highlights
+    {
+        shadowVP->_lights[j]->setSpecular(_light_specular[j]);
+        shadowVP->_lights[j]->setDiffuse(_light_diffuse[j]);
+        shadowVP->_lights[j]->setAmbient(_light_ambient[j]);
+    }  
+
 }
 
 
 void StdShadowMap::render(RenderActionBase* action)
 {
 	Window *win = action->getWindow();
-	if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
-
+	if(useFBO)
+	{
+		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
+	}
+	
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
 
-	/*if(shadowVP->getQualityMode())
-	{
-		useFBO = true;
-		if(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_UNSUPPORTED_EXT) useFBO=false;
-	}
-	else useFBO = false;*/
-
 	//if no lights for shadows are given
-	if(shadowVP->getLightNodes().getSize() == 0) shadowVP->Viewport::render(action);
+	//Any active lights available with intensity > 0 ?
+	bool allLightsZero = true;
+	if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
 	else
 	{
-	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-		shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+		for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
+		{
+			if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
+		}
 	}
-
-
+	
+	if(shadowVP->_lights.size() == 0 || allLightsZero ) shadowVP->Viewport::render(action);
+	else
+	{
 
     if(shadowVP->getMapAutoUpdate())
     {
-        if(useFBO) createShadowMapsFBO(action);
+		if(useFBO) createShadowMapsFBO(action);
 		else createShadowMaps(action);
     }
     else
@@ -694,10 +732,10 @@ void StdShadowMap::render(RenderActionBase* action)
             shadowVP->_trigger_update = false;
         }
     }
-
+    
     if(!shadowVP->_lights.empty() || !shadowVP->_lightCameras.empty())
     {
-        projectShadowMaps(action);
+		projectShadowMaps(action);
     }
     else
     {
@@ -705,16 +743,16 @@ void StdShadowMap::render(RenderActionBase* action)
         shadowVP->Viewport::render(action);
     }
 
-    // render the foregrounds.
+	// render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{
         shadowVP->getForegrounds(i)->draw(action, shadowVP);
 	}
 
-	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+	/*for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
 		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-	}
+	}*/
 	}
 
 }

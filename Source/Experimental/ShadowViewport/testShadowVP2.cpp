@@ -119,6 +119,7 @@ int main(int argc, char **argv)
         _point1_core->setSpecular(0.0,0.0,0.0,1);
         _point1_core->setBeacon(point1_beacon);
         _point1_core->setOn(true);
+		_point1_core->setShadowIntensity(0.5);
     endEditCP(_point1_core);
 
     TransformPtr point2_trans;
@@ -134,6 +135,7 @@ int main(int argc, char **argv)
         _point2_core->setSpecular(0.0,0.0,0.0,1);
         _point2_core->setBeacon(point2_beacon);
         _point2_core->setOn(true);
+		_point2_core->setShadowIntensity(1.0);
     endEditCP(_point2_core);
 
     beginEditCP(point1);
@@ -294,20 +296,26 @@ int main(int argc, char **argv)
         svp->setBackground(gbg);
         svp->setRoot(rootNode);
         svp->setSize(0,0,1,1);
-        svp->setOffFactor(4.0);
-        svp->setOffBias(8.0);
+		//you can set Offset here
+        //svp->setOffFactor(4.0);
+        //svp->setOffBias(8.0);
         svp->setMapSize(512);
+		//if globalShadowIntensity > 0.0, it is used for all lights
+		//svp->setGlobalShadowIntensity(0.3);
 		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel. Range is limited to 6.0 for PCF_SHADOW_MAPS.
 		//Range also used to define the light size for PCSS Soft Shadows
 		svp->setRange(4.0);
-        // you can add the light sources here, as default all light source in
-        // the scenegraph are used.
-		if(argv[1] == NULL)
+		//if set, all lights in the scene will be used
+		svp->setAutoSearchForLights(true);
+        //svp->setOffBias(8.0);
+        // you can add the light sources here
+        if(argv[1] == NULL)
 		{
+			svp->setAutoSearchForLights(false);
 			svp->getLightNodes().push_back(point1);
 			svp->getLightNodes().push_back(point2);
-			svp->getShadowIntensity().push_back(0.2);
-			svp->getShadowIntensity().push_back(0.2);
+			svp->setOffFactor(4.0);
+			svp->setOffBias(8.0);
 		}
     endEditCP(svp);
 
@@ -584,28 +592,7 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
-		case 'q':
-        {    
-            bool quality = svp->getQualityMode();    
-            
-            beginEditCP(svp, ShadowViewport::QualityModeFieldMask);
-                svp->setQualityMode(!quality);
-            endEditCP(svp, ShadowViewport::QualityModeFieldMask);
-            SLOG << "QualityMode changed" << endLog;
-            break;
-        }
-        /*case 'a':
-        {
-            bool s = svp->getShadowOn();
-            beginEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
-                svp->setShadowOn(!s);
-            endEditCP(svp, ShadowMapViewport::OffFactorFieldMask);
-        }
-        case 'x':
-        {
-            SceneFileHandler::the().write(rootNode, "shadow.osb.gz", true);
-        }*/
-    }
+	}
     glutPostRedisplay();
 }
 

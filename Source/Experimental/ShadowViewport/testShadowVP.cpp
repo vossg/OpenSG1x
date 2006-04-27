@@ -146,6 +146,7 @@ int main(int argc, char **argv)
         _dir1_core->setSpecular(0.0,0.0,0.0,1);
         _dir1_core->setBeacon(dir1_beacon);
         _dir1_core->setOn(true);
+		_dir1_core->setShadowIntensity(0.8);
     endEditCP(_dir1_core);
 
 	/*//Spot Light 2
@@ -181,6 +182,7 @@ int main(int argc, char **argv)
         _dir2_core->setSpecular(0.0,0.0,0.0,1);
         _dir2_core->setBeacon(dir2_beacon);
         _dir2_core->setOn(true);
+		_dir2_core->setShadowIntensity(0.4);
     endEditCP(_dir2_core);
 
 
@@ -615,25 +617,24 @@ int main(int argc, char **argv)
 		rootNode->addChild(cam_beacon);
     endEditCP(rootNode);
 
+
     // Shadow viewport
     beginEditCP(svp);
         svp->setBackground(gbg);
         svp->setRoot(rootNode);
         svp->setSize(0,0,1,1);
-        svp->setOffFactor(8.0);
-        svp->setOffBias(8.0);
-		//svp->getShadowIntensity().push_back(0.1);
-        svp->getShadowIntensity().push_back(0.2);
-		svp->getShadowIntensity().push_back(0.2);
+        //svp->setOffFactor(4.0);
+        //svp->setOffBias(8.0);
+		//used to set global shadow intensity, ignores shadow intensity from light sources if != 0.0
+		//svp->setGlobalShadowIntensity(0.8);
         svp->setMapSize(2048);
 		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel. Range is limited to 6.0 for PCF_SHADOW_MAPS.
-		//Range also used to define the light size for PCSS Soft Shadows
+		//Range also used to define the light size for PCSS_SHADOW_MAP
 		svp->setRange(4.0);
-		//svp->setShadowMode(ShadowViewport::NO_SHADOW);
-        // you can add the light sources here, as default all light source in
-        // the scenegraph are used.
+        // add light sources here
         svp->getLightNodes().push_back(dir1);
         svp->getLightNodes().push_back(dir2);
+		//svp->setAutoSearchForLights(true);
     endEditCP(svp);
 
 	//one active light at startup
@@ -1145,14 +1146,7 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
-		case 'q':
-		{
-			beginEditCP(svp, ShadowViewport::QualityModeFieldMask);
-				svp->setQualityMode(!svp->getQualityMode());
-			endEditCP(svp, ShadowViewport::QualityModeFieldMask);
-			break;
-		}
-
+		
     }
     glutPostRedisplay();
 }

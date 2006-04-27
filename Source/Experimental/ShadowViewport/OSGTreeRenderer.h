@@ -132,6 +132,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     ShadowViewport *shadowVP;
     
     bool useFBO;
+	bool useNPOTTextures;
+	bool useGLSL;
     
     void initialize(Window *win);
 };
