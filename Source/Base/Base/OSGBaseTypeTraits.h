@@ -652,7 +652,15 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
         if(szString != NULL)
         {
 #ifndef WIN32
+#ifdef __sgi
+            // on my sgi machine strtoull is defined in the header
+            // but not in the lib. amz
+            UInt64 r = 0;
+            sscanf(szString, "%llu", &r);
+            return r;
+#else
             return UInt64(strtoull(szString, NULL, 0));
+#endif
 #else
             return _atoi64(szString);
 #endif
@@ -734,7 +742,15 @@ struct TypeTraits<Int64> : public TypeTraitsBase
         if(szString != NULL)
         {
 #ifndef WIN32
-            return  Int64(strtoll(szString, NULL, 0));
+#ifdef __sgi
+            // on my sgi machine strtoll is defined in the header
+            // but not in the lib. amz
+            Int64 r = 0;
+            sscanf(szString, "%lld", &r);
+            return r;
+#else
+            return Int64(strtoll(szString, NULL, 0));
+#endif
 #else
             return _atoi64(szString);
 #endif
