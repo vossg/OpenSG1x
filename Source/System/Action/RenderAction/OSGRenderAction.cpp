@@ -1281,7 +1281,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
         //printf("\n");
     }
 
-    if(light_id >= 8)
+    if(light_id > 8)
     {
         SWARNING << "RenderAction::activateLocalLights: maximum light source limit is " <<  8
                  << std::endl;
