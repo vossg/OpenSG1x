@@ -253,6 +253,8 @@ bool StdShadowMap::initFBO(Window *win)
 
 		return true;
 	}
+
+    return true;
 }
 
 void StdShadowMap::createShadowMaps(RenderActionBase* action)

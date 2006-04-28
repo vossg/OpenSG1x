@@ -344,45 +344,42 @@ bool STLSceneFileType::readASCII(std::istream &is, STLFaceList& theFaces, std::s
 //------------------------------
 bool STLSceneFileType::readBinary(std::istream &is, STLFaceList& theFaces, std::string& theName) const
 {
-	if(!is)
+    if(!is)
         return false;
-	else
-	{
-		bool bigEndian = osg::osgIsBigEndian();
 
-		int HeaderSize = 84;	// 80bytes for name and 4 bytes for number of facets 
-		char name[80] = "";
-		is.read( &name[0], 80 );
-		theName = name;
-		is.read(&name[0], 4); // skip the number of facets
-		while (!is.eof())
-		{
-			// a binary facet block has 50 bytes
-			STLFace tmpFace;
-	
-			tmpFace.nx = ReadFloat(is, bigEndian);
-			tmpFace.ny = ReadFloat(is, bigEndian);
-			tmpFace.nz = ReadFloat(is, bigEndian);
+    bool bigEndian = osg::osgIsBigEndian();
 
-			tmpFace.v1x = ReadFloat(is, bigEndian);
-			tmpFace.v1y = ReadFloat(is, bigEndian);
-			tmpFace.v1z = ReadFloat(is, bigEndian);
+    int HeaderSize = 84;	// 80bytes for name and 4 bytes for number of facets 
+    char name[80] = "";
+    is.read( &name[0], 80 );
+    theName = name;
+    is.read(&name[0], 4); // skip the number of facets
+    while (!is.eof())
+    {
+        // a binary facet block has 50 bytes
+        STLFace tmpFace;
 
-			tmpFace.v2x = ReadFloat(is, bigEndian);
-			tmpFace.v2y = ReadFloat(is, bigEndian);
-			tmpFace.v2z = ReadFloat(is, bigEndian);
+        tmpFace.nx = ReadFloat(is, bigEndian);
+        tmpFace.ny = ReadFloat(is, bigEndian);
+        tmpFace.nz = ReadFloat(is, bigEndian);
 
-			tmpFace.v3x = ReadFloat(is, bigEndian);
-			tmpFace.v3y = ReadFloat(is, bigEndian);
-			tmpFace.v3z = ReadFloat(is, bigEndian);
+        tmpFace.v1x = ReadFloat(is, bigEndian);
+        tmpFace.v1y = ReadFloat(is, bigEndian);
+        tmpFace.v1z = ReadFloat(is, bigEndian);
 
-			theFaces.push_back(tmpFace);
-			char buffer[2]; // offset filler
-			is.read (&buffer[0], 2);
-		}
-		return true;
-	}
-	return false;
+        tmpFace.v2x = ReadFloat(is, bigEndian);
+        tmpFace.v2y = ReadFloat(is, bigEndian);
+        tmpFace.v2z = ReadFloat(is, bigEndian);
+
+        tmpFace.v3x = ReadFloat(is, bigEndian);
+        tmpFace.v3y = ReadFloat(is, bigEndian);
+        tmpFace.v3z = ReadFloat(is, bigEndian);
+
+        theFaces.push_back(tmpFace);
+        char buffer[2]; // offset filler
+        is.read (&buffer[0], 2);
+    }
+    return true;
 }
 
 //----------------------------
@@ -542,7 +539,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.1 2006/04/26 23:35:18 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.2 2006/04/28 08:40:42 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 

@@ -244,7 +244,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 
 	if(useFBO)
 	{
-		if (fb2 != NULL)
+		if (fb2 != 0)
 			return true;
 		glGenFramebuffersEXT(1, &fb2);
 
@@ -263,6 +263,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 		return true;
 	}
 
+    return true;
 }
 
 void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num)
