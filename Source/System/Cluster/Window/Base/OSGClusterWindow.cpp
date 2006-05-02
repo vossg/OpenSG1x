@@ -656,7 +656,7 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
         << "<displaycalibration>\n";
     for(c=0 ; c<getCalibration().size() ; ++c)
     {
-        calibPtr = getCalibration()[0];
+        calibPtr = getCalibration()[c];
         out << "<server name=\"" << calibPtr->getServer() << "\">\n";
         out << "<gamma>" << calibPtr->getGamma() << "</gamma>\n";
         out << "<scaledown>" << calibPtr->getScaleDown() << "</scaledown>\n";
