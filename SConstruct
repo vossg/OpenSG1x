@@ -469,7 +469,7 @@ class PlatformOptions:
             print "Not supported yet!"
         elif self.de.get('PLATFORM') == 'win32':
             opts.Add(EnumOption('compiler', 'Use compiler', 'icl',
-                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80')))
+                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'mspsdkx64')))
             
             # try to find the supportslibs directory.
             current_dir = Dir('.').abspath
@@ -979,6 +979,45 @@ class win32_msvc80(win32_msvc_base):
         env.PrependENVPath('LIB', lib_path)
         env.PrependENVPath('PATH', exe_path)
 
+class win32_mspsdkx64(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-mspsdkx64')
+        env = self.get_env()
+
+        env.Tool('msvc')
+        env.Tool('mslib')
+        env.Tool('mslink')
+
+        # this compiler uses the old vc 6.0 header files we need the define
+        # to detect this in OSGConfig.h
+        env.Append(CPPDEFINES =['OSG_PSDK_COMPILER'])
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+                             '/Zm1200', '/Zc:forScope'])
+        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
+
+        # add msvc80 include and lib paths
+        #import SCons.Tool.msvc
+        # doesn't work for 8.0 :-(
+        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
+        # HACK
+        include_path = ['C:/Program Files/Microsoft Platform SDK/Include',
+                        'C:/Program Files/Microsoft Platform SDK/Include/crt',
+                        'C:/Program Files/Microsoft Platform SDK/Include/crt/sys',
+                        'C:/Program Files/Microsoft Platform SDK/Include/mfc', 
+                        'C:/Program Files/Microsoft Platform SDK/Include/atl']
+        lib_path = ['C:/Program Files/Microsoft Platform SDK/Lib/AMD64',
+                    'C:/Program Files/Microsoft Platform SDK/Lib/AMD64/atlmfc']
+        exe_path = ['C:/Program Files/Microsoft Platform SDK/Bin/Win64/x86/AMD64',
+                    'C:/Program Files/Microsoft Platform SDK/Bin',
+                    'C:/Program Files/Microsoft Platform SDK/Bin/WinNT',
+                    'C:/WINDOWS/system32', 'C:/WINDOWS', 'C:/WINDOWS/System32/Wbem']
+
+        env.PrependENVPath('INCLUDE', include_path)
+        env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
+        env.Append(LIBS = ['bufferoverflowu'])
+
 class cygwin_gcc(win32):
     def __init__(self):
         win32.__init__(self, 'cygwin-gcc')
@@ -1080,6 +1119,8 @@ def SelectToolChain():
             return win32_msvc71()
         elif _po.getOption('compiler') == 'msvc80':
             return win32_msvc80()
+        elif _po.getOption('compiler') == 'mspsdkx64':
+            return win32_mspsdkx64()
         else:
             print "WARNING: Unsupported MSVS version found: %s.  Trying defaults." % msvs_version
             return unknown()

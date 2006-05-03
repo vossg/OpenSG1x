@@ -499,7 +499,11 @@
 // general float math
 # define OSG_HAS_FLOATMATH
 
+// HACK need this for the x64 build on windows with the platform sdk compiler
+// it uses the old vc 6.0 headers. amz
+# ifndef OSG_PSDK_COMPILER
 # define OSG_USE_STDMATH
+# endif
 
 # define OSG_STREAM_HAS_ISOPEN
 
