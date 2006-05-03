@@ -74,6 +74,9 @@
 
 OSG_USING_NAMESPACE
 
+UInt32 TreeRenderer::_depth_texture_extension;
+UInt32 TreeRenderer::_shadow_extension;
+
 UInt32 TreeRenderer::_framebuffer_object_extension;
 UInt32 TreeRenderer::_draw_buffers_extension;
 
@@ -107,8 +110,13 @@ TreeRenderer::TreeRenderer(ShadowViewport *source)
 	useFBO = true;
 	useNPOTTextures = true;
 	useGLSL = true;
+	useShadowExt = true;
 
-	shadowVP = source;
+	shadowVP = source; 
+	
+	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
+    
+	_shadow_extension = Window::registerExtension("GL_ARB_shadow");
 
 	_framebuffer_object_extension = Window::registerExtension("GL_EXT_framebuffer_object");
 
@@ -196,6 +204,18 @@ void TreeRenderer::initialize(Window *win)
 {
 	if(!initDone)
 	{
+		//check support for ShadowExtension
+		if(!win->hasExtension(_depth_texture_extension))
+		{
+			SWARNING << "No ARB_depth_texture-Extension available! All shadow modes disabled." << endLog;
+			useShadowExt = false;
+		}
+		else if(!win->hasExtension(_shadow_extension))
+		{
+			SWARNING << "No ARB_shadow-Extension available! All shadow modes disabled." << endLog;
+			useShadowExt = false;
+		}
+
 		//check support for framebuffer objects
 		useFBO = true;
 	
@@ -247,45 +267,72 @@ void TreeRenderer::initialize(Window *win)
 
 		if(useFBO)
 		{
+		GLenum errCode;
+		bool FBOerror = false;
+
 		glBindFramebufferEXT =
 			(OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glBindRenderbufferEXT =
 		    (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glCheckFramebufferStatusEXT =
 		    (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glDeleteFramebuffersEXT =
 		    (OSGGLDELETEFRAMEBUFFERSEXTPROC)win->getFunction(_funcDeleteFramebuffers);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glDeleteRenderbuffersEXT =
 		    (OSGGLDELETERENDERBUFFERSEXTPROC)win->getFunction(_funcDeleteRenderbuffers);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glFramebufferRenderbufferEXT =
 		    (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glFramebufferTexture1DEXT =
 		    (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glFramebufferTexture2DEXT =
 		    (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glFramebufferTexture3DEXT =
 		    (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glGenFramebuffersEXT =
 		    (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glGenRenderbuffersEXT =
 		    (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glGenerateMipmapEXT =
 		    (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glGetFramebufferAttachmentParameterivEXT =
 		    (OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)win->getFunction(_funcGetFramebufferAttachmentParameteriv);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glGetRenderbufferParameterivEXT =
 		    (OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)win->getFunction(_funcGetRenderbufferParameteriv);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glIsFramebufferEXT =
 		    (OSGGLISFRAMEBUFFEREXTPROC)win->getFunction(_funcIsFramebuffer);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glIsRenderbufferEXT =
 		    (OSGGLISRENDERBUFFEREXTPROC)win->getFunction(_funcIsRenderbuffer);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glRenderbufferStorageEXT =
 		    (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 		glDrawBuffersARB =
 		        (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);
+		if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
 
-		GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-   
+		GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+
+		if (FBOerror) 
+		{
+			FNOTICE(("Needed FBO functions could not be initialized, FBOs disabled. Try new video drivers!\n"));
+			useFBO = false;
+		}
+
 		switch(status)
 		{
 			case GL_FRAMEBUFFER_COMPLETE_EXT: 
@@ -294,34 +341,9 @@ void TreeRenderer::initialize(Window *win)
 			case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
 			FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
 			break;
-			/*case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT: 
-			FWARNING(("%x: framebuffer INCOMPLETE_ATTACHMENT\n", status));
-			break; 
-			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT: 
-			FWARNING(("%x: framebuffer FRAMEBUFFER_MISSING_ATTACHMENT\n", status));
-			break; 
-			case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT: 
-			FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
-			break; 
-			case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
-			FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-			break; 
-			case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT: 
-			FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
-			break; 
-			case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT: 
-			FWARNING(("%x: framebuffer INCOMPLETE_DRAW_BUFFER\n", status));
-			break;
-			case GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT: 
-			FWARNING(("%x: framebuffer INCOMPLETE_READ_BUFFER\n", status));
-			break; 
-			case GL_FRAMEBUFFER_BINDING_EXT: 
-			FWARNING(("%x: framebuffer BINDING_EXT\n", status));
-			break; */
 			default: 
 			break;
 		}
-    
 		initDone = true;
 		}
 	}

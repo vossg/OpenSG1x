@@ -105,9 +105,6 @@
 //--------------------------------------------------------------------
 OSG_USING_NAMESPACE
 
-UInt32 ShadowViewport::_depth_texture_extension;
-UInt32 ShadowViewport::_shadow_extension;
-
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
@@ -153,8 +150,6 @@ ShadowViewport::ShadowViewport(void) :
     _texChunks(),
     _trigger_update(false)
 {
-    _depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
-    _shadow_extension = Window::registerExtension("GL_ARB_shadow");
 	treeRenderer = 0;
 }
 
@@ -176,8 +171,6 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _texChunks(source._texChunks),
     _trigger_update(source._trigger_update)
 {
-	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
-    _shadow_extension = Window::registerExtension("GL_ARB_shadow");
 	treeRenderer = 0;
 }
 
@@ -399,61 +392,32 @@ void ShadowViewport::render(RenderActionBase* action)
     }
 
 
-	if(!extensionCheck())
+	if(getSceneRoot() == NullFC)
     {
-        SWARNING << "No Shadowmap-Extensions available!" << endLog;
+       //beginEditCP(getPtr(), SceneRootFieldMask);
+           setSceneRoot(getRoot());
+       //endEditCP(getPtr(), SceneRootFieldMask);
     }
-    else
-    {
-
-		if(getSceneRoot() == NullFC)
-        {
-            //beginEditCP(getPtr(), SceneRootFieldMask);
-                setSceneRoot(getRoot());
-            //endEditCP(getPtr(), SceneRootFieldMask);
-        }
 
 
-        action->setCamera    (getCamera().getCPtr());
-        action->setBackground(_silentBack.getCPtr());
-        action->setViewport  (this);
-        action->setTravMask  (getTravMask());
+    action->setCamera    (getCamera().getCPtr());
+    action->setBackground(_silentBack.getCPtr());
+    action->setViewport  (this);
+    action->setTravMask  (getTravMask());
 
-        checkMapResolution();
-		checkLights(action);
+    //checkMapResolution();
+	checkLights(action);
 
-		// find transparent nodes
-        _transparent.clear();
-        traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
-             <Action::ResultE, ShadowViewport, NodePtr>
-             (this, &ShadowViewport::findTransparent));
-	}
-
+	//find transparent nodes
+    _transparent.clear();
+    traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+         <Action::ResultE, ShadowViewport, NodePtr>
+         (this, &ShadowViewport::findTransparent));
 	_windowW = getParent()->getWidth();
     _windowH = getParent()->getHeight();
 
 	treeRenderer->render(action);
 	}
-}
-
-//Checks if the needed OpenGL-Extensions are supported
-bool ShadowViewport::extensionCheck()
-{
-    if(!this->getParent()->hasExtension(_depth_texture_extension))
-    {
-        SWARNING << "I need ARB_depth_texture-Extension!" << endLog;
-    }
-    else if(!this->getParent()->hasExtension(_shadow_extension))
-    {
-        SWARNING << "I need ARB_shadow-Extension!" << endLog;
-    }
-    else
-    {
-        FDEBUG((" Extensions-Check done!\n"));
-        return true;
-    }
-    
-    return false;
 }
 
 // Checks window-Size and determines best size of ShadowMap. Default is 128
@@ -992,7 +956,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.6 2006/04/27 11:54:13 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.7 2006/05/03 16:20:31 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

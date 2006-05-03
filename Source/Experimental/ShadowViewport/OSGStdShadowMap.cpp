@@ -336,13 +336,16 @@ void StdShadowMap::createShadowMaps(RenderActionBase* action)
                     endEditCP(_tiledeco);
     
                     glClear(GL_DEPTH_BUFFER_BIT);
-                    shadowVP->_poly->activate(action,0);
+                    //shadowVP->_poly->activate(action,0);
+					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+					glEnable( GL_POLYGON_OFFSET_FILL );
 
                     action->apply(shadowVP->getRoot());
                     // check is this necessary.
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-                    shadowVP->_poly->deactivate(action,0);
+                    //shadowVP->_poly->deactivate(action,0);
+					glDisable( GL_POLYGON_OFFSET_FILL );
         
                     //----------Shadow-Texture-Parameters and Indices-------------
                 
@@ -453,7 +456,9 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			glDrawBuffer(GL_NONE);
 			glReadBuffer(GL_NONE);
 
-            shadowVP->_poly->activate(action,0);
+            //shadowVP->_poly->activate(action,0);
+			glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+			glEnable( GL_POLYGON_OFFSET_FILL );
 
 			glClearColor(1.0,1.0,1.0,1.0);
 		    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -461,7 +466,8 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
             action->apply(shadowVP->getRoot());
              
-			shadowVP->_poly->deactivate(action,0);
+			//shadowVP->_poly->deactivate(action,0);
+			glDisable( GL_POLYGON_OFFSET_FILL );
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -716,7 +722,7 @@ void StdShadowMap::render(RenderActionBase* action)
 		}
 	}
 	
-	if(shadowVP->_lights.size() == 0 || allLightsZero ) shadowVP->Viewport::render(action);
+	if(shadowVP->_lights.size() == 0 || allLightsZero || !useShadowExt ) shadowVP->Viewport::render(action);
 	else
 	{
 
@@ -751,10 +757,6 @@ void StdShadowMap::render(RenderActionBase* action)
         shadowVP->getForegrounds(i)->draw(action, shadowVP);
 	}
 
-	/*for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-	}*/
 	}
 
 }

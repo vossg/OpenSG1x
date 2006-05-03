@@ -473,15 +473,6 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     _tiledeco = TileCameraDecorator::create();
     addRefCP(_tiledeco);
     
-    _blender = BlendChunk::create();
-    addRefCP(_blender);
-    beginEditCP(_blender);
-    {
-        _blender->setAlphaFunc(GL_GEQUAL);
-        _blender->setAlphaValue(0.99);
-    }
-    endEditCP(_blender);
-
     //Prepare Color Map grabbing
     _colorMap = TextureChunk::create();
     _colorMapImage = Image::create();
@@ -656,8 +647,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 PCFShadowMap::~PCFShadowMap(void)
 {
     subRefCP(_tiledeco);
-    subRefCP(_blender);
-
+    
     subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);
     subRefCP(_shadowFactorMap);
@@ -944,13 +934,16 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
                     endEditCP(_tiledeco);
     
                     glClear(GL_DEPTH_BUFFER_BIT);
-                    shadowVP->_poly->activate(action,0);
+                    //shadowVP->_poly->activate(action,0);
+					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+					glEnable( GL_POLYGON_OFFSET_FILL );
 
                     action->apply(shadowVP->getRoot());
                     // check is this necessary.
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-                    shadowVP->_poly->deactivate(action,0);
+                    //shadowVP->_poly->deactivate(action,0);
+					glDisable( GL_POLYGON_OFFSET_FILL );
         
                     //----------Shadow-Texture-Parameters and Indices-------------
                 
@@ -1058,7 +1051,9 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			glDrawBuffer(GL_NONE);
 			glReadBuffer(GL_NONE);
 
-			shadowVP->_poly->activate(action,0);
+			//shadowVP->_poly->activate(action,0);
+			glPolygonOffset( 8, 8 );
+			glEnable( GL_POLYGON_OFFSET_FILL );
 
 			glClearColor(1.0,1.0,1.0,1.0);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1066,7 +1061,8 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
 			action->apply(shadowVP->getRoot());
              
-			shadowVP->_poly->deactivate(action,0);
+			//shadowVP->_poly->deactivate(action,0);
+			glDisable( GL_POLYGON_OFFSET_FILL );
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -1408,7 +1404,7 @@ void PCFShadowMap::render(RenderActionBase* action)
 		}
 	}
 
-	if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL) shadowVP->Viewport::render(action);
+	if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL || !useShadowExt) shadowVP->Viewport::render(action);
 	else
 	{
 

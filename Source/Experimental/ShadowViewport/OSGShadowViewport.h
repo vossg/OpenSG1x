@@ -88,7 +88,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     void updateLights(void);
     void initializeLights(RenderActionBase *action);
     void clearLights(UInt32 size);
-    bool extensionCheck();
     void checkMapResolution();
 
     Action::ResultE findLight(NodePtr& node);
@@ -187,9 +186,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     friend class FieldContainer;
     friend class ShadowViewportBase;
 
-	static UInt32 _depth_texture_extension;
-    static UInt32 _shadow_extension;
-
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
@@ -204,6 +200,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.3 2006/04/21 08:16:10 yjung Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.4 2006/05/03 16:20:31 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

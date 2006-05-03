@@ -17,7 +17,7 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="8"
+		defaultValue="6"
 		access="public"
 	>
 	Offset-Bias for Polygon-Offset. Needs to be used with Polygon-Chunk
@@ -27,7 +27,7 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="10"
+		defaultValue="4"
 		access="public"
 	>
 	Offset-Factor for Polygon-Offset. Needs to be used with Polygon-Chunk

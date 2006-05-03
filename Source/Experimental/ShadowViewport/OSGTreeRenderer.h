@@ -107,6 +107,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
     OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB;
 
+	static UInt32 _depth_texture_extension;
+    static UInt32 _shadow_extension;
     static UInt32 _framebuffer_object_extension;
     static UInt32 _draw_buffers_extension;
     static UInt32 _funcDrawBuffers;
@@ -134,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     bool useFBO;
 	bool useNPOTTextures;
 	bool useGLSL;
+	bool useShadowExt;
     
     void initialize(Window *win);
 };
