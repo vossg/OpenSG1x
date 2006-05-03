@@ -197,7 +197,7 @@ int main(int argc, char **argv)
     
     BlendChunkPtr bl = BlendChunk::create();
     beginEditCP(bl);
-    bl->setSrcFactor(GL_SRC_COLOR);
+    bl->setSrcFactor(GL_SRC_ALPHA);
     bl->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
     endEditCP(bl);
     
