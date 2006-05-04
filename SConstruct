@@ -623,7 +623,7 @@ class ToolChain:
         for option in _po.getPackageOptions():
             if isinstance(_po.getOption(option), str):
                 self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include')])
-                self.env.Append(LIBPATHPATH = [os.path.join(_po.getOption(option), 'lib')])
+                self.env.Append(LIBPATH = [os.path.join(_po.getOption(option), 'lib')])
 
         # add OSG_WITH defines
         if _po.getOption('glut'):
