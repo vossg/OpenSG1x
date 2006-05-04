@@ -89,9 +89,10 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="0.25"
+		defaultValue="4"
 		access="public"
 	>
+	Change sample range of pcf and light size for pcss.
 	</Field>
 	<Field
 		name="shadowOn"

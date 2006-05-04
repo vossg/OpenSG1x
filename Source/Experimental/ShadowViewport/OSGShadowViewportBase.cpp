@@ -132,7 +132,7 @@ const OSG::BitVector ShadowViewportBase::MTInfluenceMask =
     
 */
 /*! \var Real32          ShadowViewportBase::_sfRange
-    
+    Change sample range of pcf and light size for pcss.
 */
 /*! \var bool            ShadowViewportBase::_sfShadowOn
     
@@ -293,7 +293,7 @@ ShadowViewportBase::ShadowViewportBase(void) :
     _mfExcludeNodes           (), 
     _sfMapAutoUpdate          (bool(true)), 
     _sfShadowMode             (UInt32(0)), 
-    _sfRange                  (Real32(0.25)), 
+    _sfRange                  (Real32(4)), 
     _sfShadowOn               (bool(true)), 
     _sfAutoSearchForLights    (bool(false)), 
     _sfGlobalShadowIntensity  (Real32(0.0)), 
@@ -672,7 +672,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.5 2006/05/03 16:20:32 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.6 2006/05/04 13:00:41 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
