@@ -1,0 +1,5 @@
+Release
+Debug
+*.dsp
+OSG*.output
+v2s*.output

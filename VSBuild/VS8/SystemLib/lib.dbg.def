@@ -1,0 +1,188 @@
+LIBRARY   OSGSystemD
+DESCRIPTION "System lib"
+EXPORTS
+
+
+    ?begin@?$MField@VNodePtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VNodePtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+    ?end@?$MField@VNodePtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VNodePtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+    ?getValues@?$MField@VNodePtr@osg@@$0A@@osg@@QAEAAV?$MFieldVector@VNodePtr@osg@@V?$allocator@VNodePtr@osg@@@std@@@2@XZ
+    ?push_back@?$MField@VNodePtr@osg@@$0A@@osg@@QAEXABVNodePtr@2@@Z
+    ??0?$MField@VNodePtr@osg@@$0A@@osg@@QAE@XZ
+    ??1?$MField@VNodePtr@osg@@$0A@@osg@@UAE@XZ
+
+    ?getValue@?$SField@V?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@$0A@@osg@@QAEAAV?$map@IVAttachmentPtr@osg@@U?$less@I@std@@V?$allocator@U?$pair@$$CBIVAttachmentPtr@osg@@@std@@@4@@std@@XZ
+    ?rbegin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?rend@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$reverse_iterator@V?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@@std@@XZ
+    ?begin@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+    ?end@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAE?AV?$_Ptrit@VFieldContainerPtr@osg@@HPAV12@AAV12@PAV12@AAV12@@std@@XZ
+
+    ?create@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoColors4ubPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoColorsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoColors4ubPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoIndicesUI16PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoIndicesPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoIndicesUI16PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoIndicesPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoNormalsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoNormals3sPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoNormalsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoNormals3sPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPLengthsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPLengthsUI32PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPLengthsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPLengthsUI32PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPLengthsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPTypesUI8PropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPTypesPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPTypesUI8PropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions2dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions2dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions2fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions2fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions2sPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions2sPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions3dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions3dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions3sPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions3sPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions4dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions4dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions4fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions4fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoPositions4sPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoPositionsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoPositions4sPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords1dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords1dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords2dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords2dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords3dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords3dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords3fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords3fPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords4dPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords4dPropertyDesc@osg@@@2@@2@XZ
+    ?create@?$GeoProperty@UGeoTexCoords4fPropertyDesc@osg@@@osg@@SA?AV?$FCPtr@V?$FCPtr@VAttachmentPtr@osg@@V?$AbstractGeoProperty@UGeoTexCoordsPropertyDesc@osg@@@2@@osg@@V?$GeoProperty@UGeoTexCoords4fPropertyDesc@osg@@@2@@2@XZ
+
+    ?getClassType@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoColors4ubPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoIndicesUI16PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoNormals3sPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPLengthsUI32PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPTypesUI8PropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions2dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions2fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions2sPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions3dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions3sPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions4dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions4fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoPositions4sPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords1dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords2dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords3dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords3fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords4dPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getClassType@?$GeoProperty@UGeoTexCoords4fPropertyDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+
+    ?getField@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color3@M@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color3@E@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color4@M@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoColors4ubPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$Color4@E@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoIndicesUI16PropertyDesc@osg@@@osg@@QAEAAV?$MField@G$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@osg@@QAEAAV?$MField@I$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoNormals3sPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@FV?$VecStorage3@F@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@osg@@QAEAAV?$MField@G$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPLengthsUI32PropertyDesc@osg@@@osg@@QAEAAV?$MField@I$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@osg@@QAEAAV?$MField@E$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPTypesUI8PropertyDesc@osg@@@osg@@QAEAAV?$MField@E$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions2dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@NV?$VecStorage2@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions2fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@MV?$VecStorage2@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions2sPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@FV?$VecStorage2@F@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions3dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@NV?$VecStorage3@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions3sPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@FV?$VecStorage3@F@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions4dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@NV?$VecStorage4@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions4fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@MV?$VecStorage4@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoPositions4sPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$PointInterface@FV?$VecStorage4@F@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords1dPropertyDesc@osg@@@osg@@QAEAAV?$MField@N$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@osg@@QAEAAV?$MField@M$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords2dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@NV?$VecStorage2@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@MV?$VecStorage2@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords3dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@NV?$VecStorage3@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords3fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords4dPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@NV?$VecStorage4@N@osg@@@osg@@$0A@@2@XZ
+    ?getField@?$GeoProperty@UGeoTexCoords4fPropertyDesc@osg@@@osg@@QAEAAV?$MField@V?$VectorInterface@MV?$VecStorage4@M@osg@@@osg@@$0A@@2@XZ
+
+    ?getFieldPtr@?$GeoProperty@UGeoColors3fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$Color3@M@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoColors3ubPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$Color3@E@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoColors4fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$Color4@M@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoColors4ubPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$Color4@E@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoIndicesUI16PropertyDesc@osg@@@osg@@QAEPAV?$MField@G$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoIndicesUI32PropertyDesc@osg@@@osg@@QAEPAV?$MField@I$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoNormals3fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoNormals3sPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@FV?$VecStorage3@F@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPLengthsUI16PropertyDesc@osg@@@osg@@QAEPAV?$MField@G$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPLengthsUI32PropertyDesc@osg@@@osg@@QAEPAV?$MField@I$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPLengthsUI8PropertyDesc@osg@@@osg@@QAEPAV?$MField@E$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPTypesUI8PropertyDesc@osg@@@osg@@QAEPAV?$MField@E$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions2dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@NV?$VecStorage2@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions2fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@MV?$VecStorage2@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions2sPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@FV?$VecStorage2@F@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions3dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@NV?$VecStorage3@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions3fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions3sPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@FV?$VecStorage3@F@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions4dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@NV?$VecStorage4@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions4fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@MV?$VecStorage4@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoPositions4sPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$PointInterface@FV?$VecStorage4@F@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords1dPropertyDesc@osg@@@osg@@QAEPAV?$MField@N$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords1fPropertyDesc@osg@@@osg@@QAEPAV?$MField@M$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords2dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@NV?$VecStorage2@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords2fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@MV?$VecStorage2@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords3dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@NV?$VecStorage3@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords3fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@MV?$VecStorage3@M@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords4dPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@NV?$VecStorage4@N@osg@@@osg@@$0A@@2@XZ
+    ?getFieldPtr@?$GeoProperty@UGeoTexCoords4fPropertyDesc@osg@@@osg@@QAEPAV?$MField@V?$VectorInterface@MV?$VecStorage4@M@osg@@@osg@@$0A@@2@XZ
+
+
+    ?create@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UNameAttachmentDesc@osg@@@2@@2@XZ
+    
+    ?getClassType@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+
+    ?dump@?$SField@VNodePtr@osg@@$0A@@osg@@UBEXXZ
+    ?setAbstrValue@?$SField@VNodePtr@osg@@$0A@@osg@@UAEXABVField@2@@Z
+    ?getValueByStr@?$SField@VNodePtr@osg@@$0A@@osg@@UBEAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z
+    ?pushValueByStr@?$SField@VNodePtr@osg@@$0A@@osg@@UAEXPBD@Z
+    ?isEmpty@?$SField@VNodePtr@osg@@$0A@@osg@@UBE_NXZ
+    ?getType@?$SField@VNodePtr@osg@@$0A@@osg@@UBEABVFieldType@2@XZ
+    ?getValue@?$SField@VNodePtr@osg@@$0A@@osg@@QAEAAVNodePtr@2@XZ
+
+    ?getValueByStr@?$SField@VNodePtr@osg@@$0A@@osg@@UBEAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@AAVStringConversionStateBase@2@@Z
+    ?setValue@?$SField@VNodePtr@osg@@$0A@@osg@@QAEXABVNodePtr@2@@Z
+    ??0?$SField@VNodePtr@osg@@$0A@@osg@@QAE@XZ
+    ??1?$SField@VNodePtr@osg@@$0A@@osg@@UAE@XZ
+
+    ?getFieldPtr@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEPAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
+
+
+    ?getClassType@?$DynFieldAttachment@UGenericAttDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+
+    ??A?$MField@VNodePtr@osg@@$0A@@osg@@QAEAAVNodePtr@1@I@Z
+    ?size@?$MField@VNodePtr@osg@@$0A@@osg@@QBEIXZ
+
+    ??A?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QAEAAVFieldContainerPtr@1@I@Z
+    ?size@?$MField@VFieldContainerPtr@osg@@$0A@@osg@@QBEIXZ
+
+    ?getField@?$SimpleAttachment@UNameAttachmentDesc@osg@@@osg@@QAEAAV?$SField@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@$0A@@2@XZ
+    ?getClassType@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SAAAVFieldContainerType@2@XZ
+    ?getField@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@QAEAAV?$SField@PAX$0A@@2@XZ
+    ?create@?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@osg@@SA?AV?$FCPtr@VAttachmentPtr@osg@@V?$SimpleAttachment@UVoidPAttachmentDesc@osg@@@2@@2@XZ 
+
+    ?findNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEPAVVRMLNodeDesc@2@PBD@Z
+    ?addNodeDesc@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@IAEXPBDPAVVRMLNodeDesc@2@@Z
+
+    ?beginProto@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBD@Z
+    ?endProto@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?beginFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBDI0@Z
+    ?endFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?beginExposedFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXPBDI0@Z
+    ?endExposedFieldDecl@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@UAEXXZ
+
+    ?mapExtIntFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z
+    ?preStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
+    ?postStandardProtos@?$VRMLNodeFactory@V?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@@osg@@MAEXXZ
+	?mapIntExtFieldType@?$ScanParseFieldTypeMapper@VScanParseSkel@osg@@@osg@@UAEHPBDH@Z

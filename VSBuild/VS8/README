@@ -1,0 +1,69 @@
+
+IMPORTANT IMPORTANT --- EXTERNAL TOOLS NEEDED --- IMPORTANT IMPORTANT
+
+sed.exe
+flex.exe
+bison.exe
+moc.exe
+
+Details see below
+
+IMPORTANT IMPORTANT --- EXTERNAL TOOLS NEEDED --- IMPORTANT IMPORTANT
+
+
+This directory contains the first version of out VStudio.NET support.
+As I have not figured out if it is possible to reconfigure parts
+on the fly you currently have to set up your VStudion the way that
+all external used stuff is found as only local references are
+used within these projects (see Requirements below). If not explicitly
+stated the versions required by OpenSG are the ones you should use here
+also.
+
+WARNING WARNING WARNING
+
+The dsp files are created by scripts, so if you intent to change/fix stuff
+PLEASE do not only check in these changes/fixes, mail me 
+(vossg@camtech.ntu.edu.sg) the original dsp file, the changed one and
+a short hint what changed. Otherwise your changes/fixes might get LOST.
+
+Current Requirements :
+
+    You need to configure your VStudio to 
+
+        find the glut headers and libs
+        find the qt headers, libs and the moc executable
+             there is a good chance that you have to patch the qt headers
+             in order to get it working, just move the function definition
+             into the class definition, worked for me
+
+    To configure the path settings in VS7 go to Tools->Options.
+    Open Projects->VC++ Directories and include the header/lib/bin
+    path for glut/qt/...
+
+    You can find precompiled glut, jpeg, png, tif and zlib libraries
+    in OpenSG/dist/win/supportlibs.zip
+
+    For visual studio 2005 you also have to add the platform sdk paths
+    e.g. C:/Programme/Microsoft Platform SDK/Include and
+    C:/Programme/Microsoft Platform SDK/Lib
+
+    If you want to edit any .l or .y file or do a full rebuild your VStudio 
+    additionally has to
+
+        find a flex executable  (> version 2.5.4)
+        find a bison executable (> version 1.30)
+
+    In order to do the install process VStudio must be configured to find
+    a sed.exe executable.
+
+    The Windows GNU tools I use come from gnuwin32.sourceforge.net
+
+What works :
+
+    Currently only the debug and opt Libs could be build.
+
+Further ahead :
+
+    Add test cases
+
+Gerrit
