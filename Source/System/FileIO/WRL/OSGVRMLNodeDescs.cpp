@@ -3784,7 +3784,7 @@ void VRMLPixelTextureDesc::endNode(FieldContainerPtr pFC)
             }
             else
             {
-                pTexture->setWrapS(GL_CLAMP);
+                pTexture->setWrapT(GL_CLAMP);
             }
         }
     }
