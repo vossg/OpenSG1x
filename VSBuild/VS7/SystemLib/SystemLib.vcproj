@@ -43,7 +43,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
+				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
 				OutputFile="..\lib\opt\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
