@@ -29,214 +29,272 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     DEF = 258,
-     USE = 259,
-     ROUTE = 260,
-     PERIOD = 261,
-     TO = 262,
-     OPENBRACE = 263,
-     CLOSEBRACE = 264,
-     ID = 265,
-     PROTO = 266,
-     OPENBRACKET = 267,
-     CLOSEBRACKET = 268,
-     EXTERNPROTO = 269,
-     IS = 270,
-     EXPORT = 271,
-     IMPORT = 272,
-     PROFILE = 273,
-     COMPONENT = 274,
-     OSG_META = 275,
-     AS = 276,
-     EVENTIN = 277,
-     EVENTOUT = 278,
-     EXPOSEDFIELD = 279,
-     FIELD = 280,
-     SCRIPT = 281,
-     SFN_NULL = 282,
-     TOK_SFBOOL = 283,
-     TOK_SFCOLOR = 284,
-     TOK_SFFLOAT = 285,
-     TOK_SFIMAGE = 286,
-     TOK_SFINT32 = 287,
-     TOK_SFNODE = 288,
-     TOK_SFROTATION = 289,
-     TOK_SFSTRING = 290,
-     TOK_SFTIME = 291,
-     TOK_SFVEC2F = 292,
-     TOK_SFVEC3F = 293,
-     TOK_MFCOLOR = 294,
-     TOK_MFFLOAT = 295,
-     TOK_MFINT32 = 296,
-     TOK_MFNODE = 297,
-     TOK_MFROTATION = 298,
-     TOK_MFSTRING = 299,
-     TOK_MFTIME = 300,
-     TOK_MFVEC2F = 301,
-     TOK_MFVEC3F = 302,
-     Tok_MFColor = 303,
-     Tok_MFFloat = 304,
-     Tok_MFInt32 = 305,
-     Tok_MFNode = 306,
-     Tok_MFRotation = 307,
-     Tok_MFString = 308,
-     Tok_MFTime = 309,
-     Tok_MFVec2f = 310,
-     Tok_MFVec3f = 311,
-     Tok_SFBool = 312,
-     Tok_SFColor = 313,
-     Tok_SFFloat = 314,
-     Tok_SFImage = 315,
-     Tok_SFInt32 = 316,
-     Tok_SFNode = 317,
-     Tok_SFRotation = 318,
-     Tok_SFString = 319,
-     Tok_SFTime = 320,
-     Tok_SFVec2f = 321,
-     Tok_SFVec3f = 322,
-     TOK_MFCOLOR4F = 323,
-     TOK_MFCOLOR4I = 324,
-     TOK_MFCOLOR3F = 325,
-     TOK_MFMATRIX = 326,
-     TOK_MFPNT2F = 327,
-     TOK_MFPNT3F = 328,
-     TOK_MFPNT4F = 329,
-     TOK_MFVEC4F = 330,
-     TOK_MFPLANE = 331,
-     TOK_SFCOLOR4F = 332,
-     TOK_SFCOLOR4I = 333,
-     TOK_SFCOLOR3F = 334,
-     TOK_SFMATRIX = 335,
-     TOK_SFPNT2F = 336,
-     TOK_SFPNT3F = 337,
-     TOK_SFPNT4F = 338,
-     TOK_SFVEC4F = 339,
-     TOK_SFPLANE = 340,
-     TOK_SFVOLUME = 341,
-     Tok_MFColor4f = 342,
-     Tok_MFColor4i = 343,
-     Tok_MFColor3f = 344,
-     Tok_MFMatrix = 345,
-     Tok_MFPnt2f = 346,
-     Tok_MFPnt3f = 347,
-     Tok_MFPnt4f = 348,
-     Tok_MFVec4f = 349,
-     Tok_MFPlane = 350,
-     Tok_SFColor4f = 351,
-     Tok_SFColor4i = 352,
-     Tok_SFColor3f = 353,
-     Tok_SFMatrix = 354,
-     Tok_SFPnt2f = 355,
-     Tok_SFPnt3f = 356,
-     Tok_SFPnt4f = 357,
-     Tok_SFVec4f = 358,
-     Tok_SFPlane = 359,
-     Tok_SFVolume = 360
+     UTF8BOM = 258,
+     DEF = 259,
+     USE = 260,
+     ROUTE = 261,
+     PERIOD = 262,
+     TO = 263,
+     OPENBRACE = 264,
+     CLOSEBRACE = 265,
+     ID = 266,
+     PROTO = 267,
+     OPENBRACKET = 268,
+     CLOSEBRACKET = 269,
+     EXTERNPROTO = 270,
+     IS = 271,
+     EXPORT = 272,
+     IMPORT = 273,
+     PROFILE = 274,
+     COMPONENT = 275,
+     OSG_META = 276,
+     AS = 277,
+     EVENTIN = 278,
+     EVENTOUT = 279,
+     EXPOSEDFIELD = 280,
+     FIELD = 281,
+     SCRIPT = 282,
+     SFN_NULL = 283,
+     TOK_SFBOOL = 284,
+     TOK_SFCOLOR = 285,
+     TOK_SFCOLORRGBA = 286,
+     TOK_SFDOUBLE = 287,
+     TOK_SFFLOAT = 288,
+     TOK_SFIMAGE = 289,
+     TOK_SFINT32 = 290,
+     TOK_SFMATRIX3D = 291,
+     TOK_SFMATRIX3F = 292,
+     TOK_SFMATRIX4D = 293,
+     TOK_SFMATRIX4F = 294,
+     TOK_SFNODE = 295,
+     TOK_SFROTATION = 296,
+     TOK_SFSTRING = 297,
+     TOK_SFTIME = 298,
+     TOK_SFVEC2D = 299,
+     TOK_SFVEC2F = 300,
+     TOK_SFVEC3D = 301,
+     TOK_SFVEC3F = 302,
+     TOK_SFVEC4D = 303,
+     TOK_SFVEC4F = 304,
+     TOK_MFBOOL = 305,
+     TOK_MFCOLOR = 306,
+     TOK_MFCOLORRGBA = 307,
+     TOK_MFDOUBLE = 308,
+     TOK_MFFLOAT = 309,
+     TOK_MFIMAGE = 310,
+     TOK_MFINT32 = 311,
+     TOK_MFMATRIX3D = 312,
+     TOK_MFMATRIX3F = 313,
+     TOK_MFMATRIX4D = 314,
+     TOK_MFMATRIX4F = 315,
+     TOK_MFNODE = 316,
+     TOK_MFROTATION = 317,
+     TOK_MFSTRING = 318,
+     TOK_MFTIME = 319,
+     TOK_MFVEC2D = 320,
+     TOK_MFVEC2F = 321,
+     TOK_MFVEC3D = 322,
+     TOK_MFVEC3F = 323,
+     TOK_MFVEC4D = 324,
+     TOK_MFVEC4F = 325,
+     Tok_MFBool = 326,
+     Tok_MFColor = 327,
+     Tok_MFColorRGBA = 328,
+     Tok_MFDouble = 329,
+     Tok_MFFloat = 330,
+     Tok_MFImage = 331,
+     Tok_MFInt32 = 332,
+     Tok_MFMatrix3d = 333,
+     Tok_MFMatrix3f = 334,
+     Tok_MFMatrix4d = 335,
+     Tok_MFMatrix4f = 336,
+     Tok_MFNode = 337,
+     Tok_MFRotation = 338,
+     Tok_MFString = 339,
+     Tok_MFTime = 340,
+     Tok_MFVec2d = 341,
+     Tok_MFVec2f = 342,
+     Tok_MFVec3d = 343,
+     Tok_MFVec3f = 344,
+     Tok_MFVec4d = 345,
+     Tok_MFVec4f = 346,
+     Tok_SFBool = 347,
+     Tok_SFColor = 348,
+     Tok_SFColorRGBA = 349,
+     Tok_SFDouble = 350,
+     Tok_SFFloat = 351,
+     Tok_SFImage = 352,
+     Tok_SFInt32 = 353,
+     Tok_SFMatrix3d = 354,
+     Tok_SFMatrix3f = 355,
+     Tok_SFMatrix4d = 356,
+     Tok_SFMatrix4f = 357,
+     Tok_SFNode = 358,
+     Tok_SFRotation = 359,
+     Tok_SFString = 360,
+     Tok_SFTime = 361,
+     Tok_SFVec2d = 362,
+     Tok_SFVec2f = 363,
+     Tok_SFVec3d = 364,
+     Tok_SFVec3f = 365,
+     Tok_SFVec4d = 366,
+     Tok_SFVec4f = 367,
+     TOK_MFCOLOR4I = 368,
+     TOK_MFPNT2F = 369,
+     TOK_MFPNT3F = 370,
+     TOK_MFPNT4F = 371,
+     TOK_MFPLANE = 372,
+     TOK_SFCOLOR4I = 373,
+     TOK_SFPNT2F = 374,
+     TOK_SFPNT3F = 375,
+     TOK_SFPNT4F = 376,
+     TOK_SFPLANE = 377,
+     TOK_SFVOLUME = 378,
+     Tok_MFColor4i = 379,
+     Tok_MFPnt2f = 380,
+     Tok_MFPnt3f = 381,
+     Tok_MFPnt4f = 382,
+     Tok_MFPlane = 383,
+     Tok_SFColor4i = 384,
+     Tok_SFPnt2f = 385,
+     Tok_SFPnt3f = 386,
+     Tok_SFPnt4f = 387,
+     Tok_SFPlane = 388,
+     Tok_SFVolume = 389
    };
 #endif
-#define DEF 258
-#define USE 259
-#define ROUTE 260
-#define PERIOD 261
-#define TO 262
-#define OPENBRACE 263
-#define CLOSEBRACE 264
-#define ID 265
-#define PROTO 266
-#define OPENBRACKET 267
-#define CLOSEBRACKET 268
-#define EXTERNPROTO 269
-#define IS 270
-#define EXPORT 271
-#define IMPORT 272
-#define PROFILE 273
-#define COMPONENT 274
-#define OSG_META 275
-#define AS 276
-#define EVENTIN 277
-#define EVENTOUT 278
-#define EXPOSEDFIELD 279
-#define FIELD 280
-#define SCRIPT 281
-#define SFN_NULL 282
-#define TOK_SFBOOL 283
-#define TOK_SFCOLOR 284
-#define TOK_SFFLOAT 285
-#define TOK_SFIMAGE 286
-#define TOK_SFINT32 287
-#define TOK_SFNODE 288
-#define TOK_SFROTATION 289
-#define TOK_SFSTRING 290
-#define TOK_SFTIME 291
-#define TOK_SFVEC2F 292
-#define TOK_SFVEC3F 293
-#define TOK_MFCOLOR 294
-#define TOK_MFFLOAT 295
-#define TOK_MFINT32 296
-#define TOK_MFNODE 297
-#define TOK_MFROTATION 298
-#define TOK_MFSTRING 299
-#define TOK_MFTIME 300
-#define TOK_MFVEC2F 301
-#define TOK_MFVEC3F 302
-#define Tok_MFColor 303
-#define Tok_MFFloat 304
-#define Tok_MFInt32 305
-#define Tok_MFNode 306
-#define Tok_MFRotation 307
-#define Tok_MFString 308
-#define Tok_MFTime 309
-#define Tok_MFVec2f 310
-#define Tok_MFVec3f 311
-#define Tok_SFBool 312
-#define Tok_SFColor 313
-#define Tok_SFFloat 314
-#define Tok_SFImage 315
-#define Tok_SFInt32 316
-#define Tok_SFNode 317
-#define Tok_SFRotation 318
-#define Tok_SFString 319
-#define Tok_SFTime 320
-#define Tok_SFVec2f 321
-#define Tok_SFVec3f 322
-#define TOK_MFCOLOR4F 323
-#define TOK_MFCOLOR4I 324
-#define TOK_MFCOLOR3F 325
-#define TOK_MFMATRIX 326
-#define TOK_MFPNT2F 327
-#define TOK_MFPNT3F 328
-#define TOK_MFPNT4F 329
-#define TOK_MFVEC4F 330
-#define TOK_MFPLANE 331
-#define TOK_SFCOLOR4F 332
-#define TOK_SFCOLOR4I 333
-#define TOK_SFCOLOR3F 334
-#define TOK_SFMATRIX 335
-#define TOK_SFPNT2F 336
-#define TOK_SFPNT3F 337
-#define TOK_SFPNT4F 338
-#define TOK_SFVEC4F 339
-#define TOK_SFPLANE 340
-#define TOK_SFVOLUME 341
-#define Tok_MFColor4f 342
-#define Tok_MFColor4i 343
-#define Tok_MFColor3f 344
-#define Tok_MFMatrix 345
-#define Tok_MFPnt2f 346
-#define Tok_MFPnt3f 347
-#define Tok_MFPnt4f 348
-#define Tok_MFVec4f 349
-#define Tok_MFPlane 350
-#define Tok_SFColor4f 351
-#define Tok_SFColor4i 352
-#define Tok_SFColor3f 353
-#define Tok_SFMatrix 354
-#define Tok_SFPnt2f 355
-#define Tok_SFPnt3f 356
-#define Tok_SFPnt4f 357
-#define Tok_SFVec4f 358
-#define Tok_SFPlane 359
-#define Tok_SFVolume 360
+#define UTF8BOM 258
+#define DEF 259
+#define USE 260
+#define ROUTE 261
+#define PERIOD 262
+#define TO 263
+#define OPENBRACE 264
+#define CLOSEBRACE 265
+#define ID 266
+#define PROTO 267
+#define OPENBRACKET 268
+#define CLOSEBRACKET 269
+#define EXTERNPROTO 270
+#define IS 271
+#define EXPORT 272
+#define IMPORT 273
+#define PROFILE 274
+#define COMPONENT 275
+#define OSG_META 276
+#define AS 277
+#define EVENTIN 278
+#define EVENTOUT 279
+#define EXPOSEDFIELD 280
+#define FIELD 281
+#define SCRIPT 282
+#define SFN_NULL 283
+#define TOK_SFBOOL 284
+#define TOK_SFCOLOR 285
+#define TOK_SFCOLORRGBA 286
+#define TOK_SFDOUBLE 287
+#define TOK_SFFLOAT 288
+#define TOK_SFIMAGE 289
+#define TOK_SFINT32 290
+#define TOK_SFMATRIX3D 291
+#define TOK_SFMATRIX3F 292
+#define TOK_SFMATRIX4D 293
+#define TOK_SFMATRIX4F 294
+#define TOK_SFNODE 295
+#define TOK_SFROTATION 296
+#define TOK_SFSTRING 297
+#define TOK_SFTIME 298
+#define TOK_SFVEC2D 299
+#define TOK_SFVEC2F 300
+#define TOK_SFVEC3D 301
+#define TOK_SFVEC3F 302
+#define TOK_SFVEC4D 303
+#define TOK_SFVEC4F 304
+#define TOK_MFBOOL 305
+#define TOK_MFCOLOR 306
+#define TOK_MFCOLORRGBA 307
+#define TOK_MFDOUBLE 308
+#define TOK_MFFLOAT 309
+#define TOK_MFIMAGE 310
+#define TOK_MFINT32 311
+#define TOK_MFMATRIX3D 312
+#define TOK_MFMATRIX3F 313
+#define TOK_MFMATRIX4D 314
+#define TOK_MFMATRIX4F 315
+#define TOK_MFNODE 316
+#define TOK_MFROTATION 317
+#define TOK_MFSTRING 318
+#define TOK_MFTIME 319
+#define TOK_MFVEC2D 320
+#define TOK_MFVEC2F 321
+#define TOK_MFVEC3D 322
+#define TOK_MFVEC3F 323
+#define TOK_MFVEC4D 324
+#define TOK_MFVEC4F 325
+#define Tok_MFBool 326
+#define Tok_MFColor 327
+#define Tok_MFColorRGBA 328
+#define Tok_MFDouble 329
+#define Tok_MFFloat 330
+#define Tok_MFImage 331
+#define Tok_MFInt32 332
+#define Tok_MFMatrix3d 333
+#define Tok_MFMatrix3f 334
+#define Tok_MFMatrix4d 335
+#define Tok_MFMatrix4f 336
+#define Tok_MFNode 337
+#define Tok_MFRotation 338
+#define Tok_MFString 339
+#define Tok_MFTime 340
+#define Tok_MFVec2d 341
+#define Tok_MFVec2f 342
+#define Tok_MFVec3d 343
+#define Tok_MFVec3f 344
+#define Tok_MFVec4d 345
+#define Tok_MFVec4f 346
+#define Tok_SFBool 347
+#define Tok_SFColor 348
+#define Tok_SFColorRGBA 349
+#define Tok_SFDouble 350
+#define Tok_SFFloat 351
+#define Tok_SFImage 352
+#define Tok_SFInt32 353
+#define Tok_SFMatrix3d 354
+#define Tok_SFMatrix3f 355
+#define Tok_SFMatrix4d 356
+#define Tok_SFMatrix4f 357
+#define Tok_SFNode 358
+#define Tok_SFRotation 359
+#define Tok_SFString 360
+#define Tok_SFTime 361
+#define Tok_SFVec2d 362
+#define Tok_SFVec2f 363
+#define Tok_SFVec3d 364
+#define Tok_SFVec3f 365
+#define Tok_SFVec4d 366
+#define Tok_SFVec4f 367
+#define TOK_MFCOLOR4I 368
+#define TOK_MFPNT2F 369
+#define TOK_MFPNT3F 370
+#define TOK_MFPNT4F 371
+#define TOK_MFPLANE 372
+#define TOK_SFCOLOR4I 373
+#define TOK_SFPNT2F 374
+#define TOK_SFPNT3F 375
+#define TOK_SFPNT4F 376
+#define TOK_SFPLANE 377
+#define TOK_SFVOLUME 378
+#define Tok_MFColor4i 379
+#define Tok_MFPnt2f 380
+#define Tok_MFPnt3f 381
+#define Tok_MFPnt4f 382
+#define Tok_MFPlane 383
+#define Tok_SFColor4i 384
+#define Tok_SFPnt2f 385
+#define Tok_SFPnt3f 386
+#define Tok_SFPnt4f 387
+#define Tok_SFPlane 388
+#define Tok_SFVolume 389
 
 
 

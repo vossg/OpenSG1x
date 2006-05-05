@@ -3,7 +3,6 @@
 	ProjectType="Visual C++"
 	Version="7.10"
 	Name="SystemLib"
-	ProjectGUID="{8F487E02-ECBE-4514-A65F-A306B920343B}"
 	SccProjectName=""
 	SccLocalPath="">
 	<Platforms>
@@ -20,34 +19,28 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -EHsc -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/ShadowViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/STL -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window "
 				Optimization="2"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				EnableIntrinsicFunctions="TRUE"
-				OptimizeForProcessor="3"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..,."
 				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
 				StringPooling="TRUE"
 				RuntimeLibrary="2"
-				BufferSecurityCheck="FALSE"
 				EnableFunctionLevelLinking="TRUE"
 				RuntimeTypeInfo="TRUE"
 				PrecompiledHeaderFile=".\Release/SystemLib.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
-				DebugInformationFormat="3"
 				CompileAs="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
+				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
 				OutputFile="..\lib\opt\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
-				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile=".\..\lib\opt/OSGSystem.pdb"
 				GenerateMapFile="TRUE"
 				MapFileName=".\Release/OSGSystem.map"
@@ -90,7 +83,7 @@
 			ATLMinimizesCRunTimeLibraryUsage="FALSE">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window "
+				AdditionalOptions="-w44049 -w44065 -w44251 -w44275 -w44099 -w44250 -w44231 -w44290 -w44996 -EHsc -Zm1060 -I../../../Source/BaseLib -I../../../Source/Base/Base -I../../../Source/Base/Field -I../../../Source/Base/Functors -I../../../Source/Base/Network/Base -I../../../Source/Base/Network/Socket -I../../../Source/Base/StringConversion -I../../../Source/Base/Xml -I../../../Source/Experimental/Manipulators -I../../../Source/Experimental/NativeFileIO -I../../../Source/Experimental/NewAction/Actors -I../../../Source/Experimental/NewAction -I../../../Source/Experimental/SHL -I../../../Source/Experimental/ShadowMapViewport -I../../../Source/Experimental/ShadowViewport -I../../../Source/Experimental/Text -I../../../Source/Experimental/WebInterface -I../../../Source/System/Action/DrawAction -I../../../Source/System/Action/IntersectAction -I../../../Source/System/Action/RenderAction -I../../../Source/System/Action -I../../../Source/System/Cluster/Base -I../../../Source/System/Cluster/Server -I../../../Source/System/Cluster/Window/BalancedMultiWindow -I../../../Source/System/Cluster/Window/Base -I../../../Source/System/Cluster/Window/MultiDisplay -I../../../Source/System/Cluster/Window/SortFirst -I../../../Source/System/Cluster/Window/SortLast -I../../../Source/System/FieldContainer/Impl -I../../../Source/System/FieldContainer -I../../../Source/System/FileIO/3DS -I../../../Source/System/FileIO/BIN -I../../../Source/System/FileIO/Base -I../../../Source/System/FileIO/DXF -I../../../Source/System/FileIO/OBJ -I../../../Source/System/FileIO/OFF -I../../../Source/System/FileIO/OSG -I../../../Source/System/FileIO/RAW -I../../../Source/System/FileIO/SLP -I../../../Source/System/FileIO/STL -I../../../Source/System/FileIO/ScanParseSkel -I../../../Source/System/FileIO/WRL -I../../../Source/System/GraphOp -I../../../Source/System/Image -I../../../Source/System/Material -I../../../Source/System/NodeCores/Drawables/Base -I../../../Source/System/NodeCores/Drawables/Geometry -I../../../Source/System/NodeCores/Drawables/Misc -I../../../Source/System/NodeCores/Drawables/Nurbs/Internal -I../../../Source/System/NodeCores/Drawables/Nurbs -I../../../Source/System/NodeCores/Drawables/Particles -I../../../Source/System/NodeCores/Drawables/VolRen -I../../../Source/System/NodeCores/Groups/Base -I../../../Source/System/NodeCores/Groups/Light -I../../../Source/System/NodeCores/Groups/Misc -I../../../Source/System/RenderingBackend -I../../../Source/System/State -I../../../Source/System/Statistics -I../../../Source/System/Text -I../../../Source/System/Window "
 				Optimization="0"
 				AdditionalIncludeDirectories="..,."
 				PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG"
@@ -107,7 +100,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
+				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
 				OutputFile="..\lib\dbg\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
@@ -437,6 +430,37 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceExperimentalShadowViewport h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGDitherShadowMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCFShadowMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCSSShadowMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPerspectiveShadowMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewport.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGStdShadowMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGTreeRenderer.h">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceExperimentalText h"
 				Filter="">
 				<File
@@ -698,6 +722,24 @@
 				Name="SourceSystemClusterWindowSortLast h"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposer.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposer.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerFields.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGSepiaComposer.h">
 				</File>
 				<File
@@ -754,6 +796,15 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGCoredNodePtr.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapFields.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGFieldContainer.h">
@@ -856,6 +907,15 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGSimpleAttachments.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMap.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapFields.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGSystemDef.h">
@@ -1049,6 +1109,13 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIOSTL h"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\STL\OSGSTLSceneFileType.h">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOScanParseSkel h"
 				Filter="">
 				<File
@@ -1145,6 +1212,9 @@
 					RelativePath="..\..\..\Source\System\Image\OSGGIFImageFileType.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGHDRImageFileType.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGImage.h">
 				</File>
 				<File
@@ -1166,6 +1236,9 @@
 					RelativePath="..\..\..\Source\System\Image\OSGImageGenericAtt.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGImageScaler.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGJPGImageFileType.h">
 				</File>
 				<File
@@ -1178,10 +1251,16 @@
 					RelativePath="..\..\..\Source\System\Image\OSGMTDImageFileType.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGNRRDImageFileType.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGPNGImageFileType.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Image\OSGPNMImageFileType.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Image\OSGPSDImageFileType.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Image\OSGSGIImageFileType.h">
@@ -1258,6 +1337,15 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Material\OSGSimpleTexturedMaterialFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterial.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialFields.h">
 				</File>
 			</Filter>
 			<Filter
@@ -1899,6 +1987,15 @@
 					RelativePath="..\..\..\Source\System\State\OSGLightChunkFields.h">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunk.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkFields.h">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\State\OSGLineChunk.h">
 				</File>
 				<File
@@ -2103,6 +2200,9 @@
 				<File
 					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeElem.h">
 				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeStampElem.h">
+				</File>
 			</Filter>
 			<Filter
 				Name="SourceSystemText h"
@@ -2293,6 +2393,15 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGOffCenterPerspectiveCameraFields.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCamera.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraBase.h">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraFields.h">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGPassiveBackground.h">
@@ -2659,6 +2768,16 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceExperimentalShadowViewport inl"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewport.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportBase.inl">
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceExperimentalText inl"
 				Filter="">
 				<File
@@ -2805,6 +2924,18 @@
 				Name="SourceSystemClusterWindowSortLast inl"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposer.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposer.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerBase.inl">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGSepiaComposerBase.inl">
 				</File>
 				<File
@@ -2821,10 +2952,22 @@
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGCoredNodePtr.inl">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMap.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapBase.inl">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGNodeCore.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGRefPtr.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMap.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapBase.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -2980,6 +3123,12 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Material\OSGSimpleTexturedMaterialBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterial.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialBase.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -3354,6 +3503,12 @@
 					RelativePath="..\..\..\Source\System\State\OSGLightChunkBase.inl">
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunk.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkBase.inl">
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\State\OSGLineChunk.inl">
 				</File>
 				<File
@@ -3488,6 +3643,9 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeElem.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeStampElem.inl">
 				</File>
 			</Filter>
 			<Filter
@@ -3628,6 +3786,12 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGOffCenterPerspectiveCameraBase.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCamera.inl">
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraBase.inl">
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGPassiveBackground.inl">
@@ -5090,6 +5254,170 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceExperimentalShadowViewport cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGDitherShadowMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCFShadowMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCSSShadowMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPerspectiveShadowMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewport.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGStdShadowMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGTreeRenderer.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceExperimentalText cpp"
 				Filter="">
 				<File
@@ -5958,9 +6286,43 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptions.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptionsBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -6287,6 +6649,86 @@
 				Name="SourceSystemClusterWindowSortLast cpp"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposer.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposer.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGSepiaComposer.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -6491,6 +6933,46 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGFieldContainer.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -6652,6 +7134,46 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGSimpleAttachments.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMap.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapBase.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -7328,6 +7850,30 @@
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIOSTL cpp"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\STL\OSGSTLSceneFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOScanParseSkel cpp"
 				Filter="">
 				<File
@@ -7823,6 +8369,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGHDRImageFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGImage.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -7943,6 +8509,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGImageScaler.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGJPGImageFileType.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -8003,6 +8589,26 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGNRRDImageFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGPNGImageFileType.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -8024,6 +8630,26 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Image\OSGPNMImageFileType.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Image\OSGPSDImageFileType.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -8368,6 +8994,46 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Material\OSGSimpleTexturedMaterialBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterial.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialBase.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -11235,6 +11901,46 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunk.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\State\OSGLineChunk.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
@@ -12160,6 +12866,26 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeElem.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeStampElem.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -13108,6 +13834,46 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGOffCenterPerspectiveCameraBase.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCamera.cpp">
+					<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraBase.cpp">
 					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
@@ -16096,6 +16862,171 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGDitherShadowMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGDitherShadowMap.h &gt; ../include/OpenSG/OSGDitherShadowMap.h
+"
+							Outputs="../include/OpenSG/OSGDitherShadowMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCFShadowMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGPCFShadowMap.h &gt; ../include/OpenSG/OSGPCFShadowMap.h
+"
+							Outputs="../include/OpenSG/OSGPCFShadowMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPCSSShadowMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGPCSSShadowMap.h &gt; ../include/OpenSG/OSGPCSSShadowMap.h
+"
+							Outputs="../include/OpenSG/OSGPCSSShadowMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGPerspectiveShadowMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGPerspectiveShadowMap.h &gt; ../include/OpenSG/OSGPerspectiveShadowMap.h
+"
+							Outputs="../include/OpenSG/OSGPerspectiveShadowMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewport.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGShadowViewport.h &gt; ../include/OpenSG/OSGShadowViewport.h
+"
+							Outputs="../include/OpenSG/OSGShadowViewport.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGShadowViewportBase.h &gt; ../include/OpenSG/OSGShadowViewportBase.h
+"
+							Outputs="../include/OpenSG/OSGShadowViewportBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGShadowViewportFields.h &gt; ../include/OpenSG/OSGShadowViewportFields.h
+"
+							Outputs="../include/OpenSG/OSGShadowViewportFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGStdShadowMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGStdShadowMap.h &gt; ../include/OpenSG/OSGStdShadowMap.h
+"
+							Outputs="../include/OpenSG/OSGStdShadowMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGTreeRenderer.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGTreeRenderer.h &gt; ../include/OpenSG/OSGTreeRenderer.h
+"
+							Outputs="../include/OpenSG/OSGTreeRenderer.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewport.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGShadowViewport.inl &gt; ../include/OpenSG/OSGShadowViewport.inl
+"
+							Outputs="../include/OpenSG/OSGShadowViewport.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGShadowViewportBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGShadowViewportBase.inl &gt; ../include/OpenSG/OSGShadowViewportBase.inl
+"
+							Outputs="../include/OpenSG/OSGShadowViewportBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceExperimentalText Install"
 				Filter="">
 				<File
@@ -17029,6 +17960,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemClusterBase Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptions.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Base/OSGRenderOptions.h &gt; ../include/OpenSG/OSGRenderOptions.h
+"
+							Outputs="../include/OpenSG/OSGRenderOptions.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptionsBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Base/OSGRenderOptionsBase.h &gt; ../include/OpenSG/OSGRenderOptionsBase.h
+"
+							Outputs="../include/OpenSG/OSGRenderOptionsBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptionsFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Base/OSGRenderOptionsFields.h &gt; ../include/OpenSG/OSGRenderOptionsFields.h
+"
+							Outputs="../include/OpenSG/OSGRenderOptionsFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterBase Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderNode.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -17037,6 +18013,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Base/OSGRenderNode.inl &gt; ../include/OpenSG/OSGRenderNode.inl
 "
 							Outputs="../include/OpenSG/OSGRenderNode.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterBase Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Base\OSGRenderOptionsBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Base/OSGRenderOptionsBase.inl &gt; ../include/OpenSG/OSGRenderOptionsBase.inl
+"
+							Outputs="../include/OpenSG/OSGRenderOptionsBase.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -17584,6 +18575,96 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemClusterWindowSortLast Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposer.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGBinarySwapComposer.h &gt; ../include/OpenSG/OSGBinarySwapComposer.h
+"
+							Outputs="../include/OpenSG/OSGBinarySwapComposer.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGBinarySwapComposerBase.h &gt; ../include/OpenSG/OSGBinarySwapComposerBase.h
+"
+							Outputs="../include/OpenSG/OSGBinarySwapComposerBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGBinarySwapComposerFields.h &gt; ../include/OpenSG/OSGBinarySwapComposerFields.h
+"
+							Outputs="../include/OpenSG/OSGBinarySwapComposerFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposer.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGPipelineComposer.h &gt; ../include/OpenSG/OSGPipelineComposer.h
+"
+							Outputs="../include/OpenSG/OSGPipelineComposer.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGPipelineComposerBase.h &gt; ../include/OpenSG/OSGPipelineComposerBase.h
+"
+							Outputs="../include/OpenSG/OSGPipelineComposerBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGPipelineComposerFields.h &gt; ../include/OpenSG/OSGPipelineComposerFields.h
+"
+							Outputs="../include/OpenSG/OSGPipelineComposerFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGSepiaComposer.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -17667,6 +18748,66 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGSortLastWindowFields.h &gt; ../include/OpenSG/OSGSortLastWindowFields.h
 "
 							Outputs="../include/OpenSG/OSGSortLastWindowFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposer.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGBinarySwapComposer.inl &gt; ../include/OpenSG/OSGBinarySwapComposer.inl
+"
+							Outputs="../include/OpenSG/OSGBinarySwapComposer.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGBinarySwapComposerBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGBinarySwapComposerBase.inl &gt; ../include/OpenSG/OSGBinarySwapComposerBase.inl
+"
+							Outputs="../include/OpenSG/OSGBinarySwapComposerBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposer.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGPipelineComposer.inl &gt; ../include/OpenSG/OSGPipelineComposer.inl
+"
+							Outputs="../include/OpenSG/OSGPipelineComposer.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemClusterWindowSortLast Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Cluster\Window\SortLast\OSGPipelineComposerBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Cluster/Window/SortLast/OSGPipelineComposerBase.inl &gt; ../include/OpenSG/OSGPipelineComposerBase.inl
+"
+							Outputs="../include/OpenSG/OSGPipelineComposerBase.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -17892,6 +19033,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGCoredNodePtr.h &gt; ../include/OpenSG/OSGCoredNodePtr.h
 "
 							Outputs="../include/OpenSG/OSGCoredNodePtr.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGFCPtrAttributeMap.h &gt; ../include/OpenSG/OSGFCPtrAttributeMap.h
+"
+							Outputs="../include/OpenSG/OSGFCPtrAttributeMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGFCPtrAttributeMapBase.h &gt; ../include/OpenSG/OSGFCPtrAttributeMapBase.h
+"
+							Outputs="../include/OpenSG/OSGFCPtrAttributeMapBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGFCPtrAttributeMapFields.h &gt; ../include/OpenSG/OSGFCPtrAttributeMapFields.h
+"
+							Outputs="../include/OpenSG/OSGFCPtrAttributeMapFields.h"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -18409,6 +19595,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemFieldContainer Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMap.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGStringAttributeMap.h &gt; ../include/OpenSG/OSGStringAttributeMap.h
+"
+							Outputs="../include/OpenSG/OSGStringAttributeMap.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGStringAttributeMapBase.h &gt; ../include/OpenSG/OSGStringAttributeMapBase.h
+"
+							Outputs="../include/OpenSG/OSGStringAttributeMapBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGStringAttributeMapFields.h &gt; ../include/OpenSG/OSGStringAttributeMapFields.h
+"
+							Outputs="../include/OpenSG/OSGStringAttributeMapFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGSystemDef.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -18454,6 +19685,36 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemFieldContainer Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMap.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGFCPtrAttributeMap.inl &gt; ../include/OpenSG/OSGFCPtrAttributeMap.inl
+"
+							Outputs="../include/OpenSG/OSGFCPtrAttributeMap.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGFCPtrAttributeMapBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGFCPtrAttributeMapBase.inl &gt; ../include/OpenSG/OSGFCPtrAttributeMapBase.inl
+"
+							Outputs="../include/OpenSG/OSGFCPtrAttributeMapBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\FieldContainer\OSGNodeCore.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -18477,6 +19738,36 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGRefPtr.inl &gt; ../include/OpenSG/OSGRefPtr.inl
 "
 							Outputs="../include/OpenSG/OSGRefPtr.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMap.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGStringAttributeMap.inl &gt; ../include/OpenSG/OSGStringAttributeMap.inl
+"
+							Outputs="../include/OpenSG/OSGStringAttributeMap.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemFieldContainer Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FieldContainer\OSGStringAttributeMapBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FieldContainer/OSGStringAttributeMapBase.inl &gt; ../include/OpenSG/OSGStringAttributeMapBase.inl
+"
+							Outputs="../include/OpenSG/OSGStringAttributeMapBase.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -19501,6 +20792,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				</File>
 			</Filter>
 			<Filter
+				Name="SourceSystemFileIOSTL Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\FileIO\STL\OSGSTLSceneFileType.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/FileIO/STL/OSGSTLSceneFileType.h &gt; ../include/OpenSG/OSGSTLSceneFileType.h
+"
+							Outputs="../include/OpenSG/OSGSTLSceneFileType.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
 				Name="SourceSystemFileIOScanParseSkel Install"
 				Filter="">
 				<File
@@ -19969,6 +21275,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemImage Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGHDRImageFileType.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Image/OSGHDRImageFileType.h &gt; ../include/OpenSG/OSGHDRImageFileType.h
+"
+							Outputs="../include/OpenSG/OSGHDRImageFileType.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemImage Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGImage.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -20074,6 +21395,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemImage Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGImageScaler.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Image/OSGImageScaler.h &gt; ../include/OpenSG/OSGImageScaler.h
+"
+							Outputs="../include/OpenSG/OSGImageScaler.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemImage Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGJPGImageFileType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -20134,6 +21470,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemImage Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Image\OSGNRRDImageFileType.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Image/OSGNRRDImageFileType.h &gt; ../include/OpenSG/OSGNRRDImageFileType.h
+"
+							Outputs="../include/OpenSG/OSGNRRDImageFileType.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemImage Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Image\OSGPNGImageFileType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -20157,6 +21508,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Image/OSGPNMImageFileType.h &gt; ../include/OpenSG/OSGPNMImageFileType.h
 "
 							Outputs="../include/OpenSG/OSGPNMImageFileType.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemImage Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Image\OSGPSDImageFileType.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Image/OSGPSDImageFileType.h &gt; ../include/OpenSG/OSGPSDImageFileType.h
+"
+							Outputs="../include/OpenSG/OSGPSDImageFileType.h"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -20569,6 +21935,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemMaterial Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterial.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSwitchMaterial.h &gt; ../include/OpenSG/OSGSwitchMaterial.h
+"
+							Outputs="../include/OpenSG/OSGSwitchMaterial.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemMaterial Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSwitchMaterialBase.h &gt; ../include/OpenSG/OSGSwitchMaterialBase.h
+"
+							Outputs="../include/OpenSG/OSGSwitchMaterialBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemMaterial Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSwitchMaterialFields.h &gt; ../include/OpenSG/OSGSwitchMaterialFields.h
+"
+							Outputs="../include/OpenSG/OSGSwitchMaterialFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemMaterial Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Material\OSGChunkMaterial.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -20772,6 +22183,36 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSimpleTexturedMaterialBase.inl &gt; ../include/OpenSG/OSGSimpleTexturedMaterialBase.inl
 "
 							Outputs="../include/OpenSG/OSGSimpleTexturedMaterialBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemMaterial Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterial.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSwitchMaterial.inl &gt; ../include/OpenSG/OSGSwitchMaterial.inl
+"
+							Outputs="../include/OpenSG/OSGSwitchMaterial.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemMaterial Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Material\OSGSwitchMaterialBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Material/OSGSwitchMaterialBase.inl &gt; ../include/OpenSG/OSGSwitchMaterialBase.inl
+"
+							Outputs="../include/OpenSG/OSGSwitchMaterialBase.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -25144,6 +26585,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemState Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunk.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGLightModelChunk.h &gt; ../include/OpenSG/OSGLightModelChunk.h
+"
+							Outputs="../include/OpenSG/OSGLightModelChunk.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGLightModelChunkBase.h &gt; ../include/OpenSG/OSGLightModelChunkBase.h
+"
+							Outputs="../include/OpenSG/OSGLightModelChunkBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGLightModelChunkFields.h &gt; ../include/OpenSG/OSGLightModelChunkFields.h
+"
+							Outputs="../include/OpenSG/OSGLightModelChunkFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\State\OSGLineChunk.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -26044,6 +27530,36 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemState Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunk.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGLightModelChunk.inl &gt; ../include/OpenSG/OSGLightModelChunk.inl
+"
+							Outputs="../include/OpenSG/OSGLightModelChunk.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGLightModelChunkBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGLightModelChunkBase.inl &gt; ../include/OpenSG/OSGLightModelChunkBase.inl
+"
+							Outputs="../include/OpenSG/OSGLightModelChunkBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\State\OSGLineChunk.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -26749,6 +28265,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 				Name="SourceSystemStatistics Install"
 				Filter="">
 				<File
+					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeStampElem.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Statistics/OSGStatTimeStampElem.h &gt; ../include/OpenSG/OSGStatTimeStampElem.h
+"
+							Outputs="../include/OpenSG/OSGStatTimeStampElem.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemStatistics Install"
+				Filter="">
+				<File
 					RelativePath="..\..\..\Source\System\Statistics\OSGStatisticsDefaultFont.h">
 					<FileConfiguration
 						Name="Debug|Win32">
@@ -26982,6 +28513,21 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Statistics/OSGStatTimeElem.inl &gt; ../include/OpenSG/OSGStatTimeElem.inl
 "
 							Outputs="../include/OpenSG/OSGStatTimeElem.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemStatistics Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Statistics\OSGStatTimeStampElem.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Statistics/OSGStatTimeStampElem.inl &gt; ../include/OpenSG/OSGStatTimeStampElem.inl
+"
+							Outputs="../include/OpenSG/OSGStatTimeStampElem.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -28167,6 +29713,51 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOffCenterPerspectiveCameraFields.h &gt; ../include/OpenSG/OSGOffCenterPerspectiveCameraFields.h
 "
 							Outputs="../include/OpenSG/OSGOffCenterPerspectiveCameraFields.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCamera.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOrthographicCamera.h &gt; ../include/OpenSG/OSGOrthographicCamera.h
+"
+							Outputs="../include/OpenSG/OSGOrthographicCamera.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraBase.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOrthographicCameraBase.h &gt; ../include/OpenSG/OSGOrthographicCameraBase.h
+"
+							Outputs="../include/OpenSG/OSGOrthographicCameraBase.h"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraFields.h">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOrthographicCameraFields.h &gt; ../include/OpenSG/OSGOrthographicCameraFields.h
+"
+							Outputs="../include/OpenSG/OSGOrthographicCameraFields.h"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
@@ -29457,6 +31048,36 @@ move OSGScanParseSkel_.output OSGScanParseSkel.tab.output
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOffCenterPerspectiveCameraBase.inl &gt; ../include/OpenSG/OSGOffCenterPerspectiveCameraBase.inl
 "
 							Outputs="../include/OpenSG/OSGOffCenterPerspectiveCameraBase.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCamera.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOrthographicCamera.inl &gt; ../include/OpenSG/OSGOrthographicCamera.inl
+"
+							Outputs="../include/OpenSG/OSGOrthographicCamera.inl"/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				Filter="">
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGOrthographicCameraBase.inl">
+					<FileConfiguration
+						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGOrthographicCameraBase.inl &gt; ../include/OpenSG/OSGOrthographicCameraBase.inl
+"
+							Outputs="../include/OpenSG/OSGOrthographicCameraBase.inl"/>
 					</FileConfiguration>
 				</File>
 			</Filter>
