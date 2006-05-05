@@ -226,9 +226,20 @@ Action::ResultE Light::renderEnter(Action *action)
 {
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
+    // ok we can cull the light only when it is invisible and has
+    // no LightEnv parent!
+    if (pAction->pushVisibility())
+    {
+        if(pAction->getLightEnvsLightsState().empty() && pAction->selectVisibles() == 0)
+        {
+            pAction->popVisibility();
+            return Action::Skip;
+        }
+    }
+
     pAction->dropLight(this);
 
-    return Group::renderEnter(action);
+    return Action::Continue;
 }
 
 Action::ResultE Light::renderLeave(Action *action)
@@ -237,7 +248,9 @@ Action::ResultE Light::renderLeave(Action *action)
 
     pAction->undropLight(this);
 
-    return Group::renderLeave(action);
+    pAction->popVisibility();
+
+    return Action::Continue;
 }
 
 /*-------------------------------------------------------------------------*/

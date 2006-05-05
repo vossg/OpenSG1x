@@ -173,6 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32 getActiveLightsMask(void);
     UInt32 getActiveLightsCount(void);
 
+    const std::vector<UInt32> &getLightEnvsLightsState(void);
+
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);

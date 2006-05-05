@@ -1144,15 +1144,12 @@ bool RenderAction::pushVisibility(void)
     if(getFrustumCulling() == false)
         return true;
 
-    FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
-
     // HACK but light sources beneath a LightEnv node can also
     // light it's brothers or parents.
     if(!_lightEnvsLightsState.empty())
-    {
-        _visibilityStack.push_back(inplanes);
         return true;
-    }
+
+    FrustumVolume::PlaneSet inplanes = _visibilityStack.back();
 
     if(inplanes == FrustumVolume::P_ALL)
     {
@@ -1191,7 +1188,7 @@ bool RenderAction::pushVisibility(void)
     {
         if(inplanes == FrustumVolume::P_ALL)
         {
-            col.setValuesRGB(0,1,0);            
+            col.setValuesRGB(0,1,0);
         }
         else
         {
@@ -1211,6 +1208,9 @@ bool RenderAction::pushVisibility(void)
 void RenderAction::popVisibility(void)
 {
     if(getFrustumCulling() == false)
+        return;
+
+    if(!_lightEnvsLightsState.empty())
         return;
 
     if(!_visibilityStack.empty())

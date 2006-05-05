@@ -143,6 +143,12 @@ UInt32 RenderAction::getActiveLightsCount(void)
     return _activeLightsCount;
 }
 
+inline
+const std::vector<UInt32> &RenderAction::getLightEnvsLightsState(void)
+{
+    return _lightEnvsLightsState;
+}
+
 /*-------------------------- your_category---------------------------------*/
 
 /*-------------------------- assignment -----------------------------------*/
