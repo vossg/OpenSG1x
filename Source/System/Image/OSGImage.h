@@ -128,6 +128,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                          OSG_FLOAT32_IMAGEDATA      = GL_FLOAT
     };
 
+    enum ResUnit {
+                         OSG_RESUNIT_INVALID       = 0,
+                         OSG_RESUNIT_NONE          = 1,
+                         OSG_RESUNIT_INCH          = 2
+    };
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */

@@ -128,6 +128,15 @@ const OSG::BitVector  ImageBase::ForceColorChannelFieldMask =
 const OSG::BitVector  ImageBase::ForceAlphaBinaryFieldMask = 
     (TypeTraits<BitVector>::One << ImageBase::ForceAlphaBinaryFieldId);
 
+const OSG::BitVector  ImageBase::ResXFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ResXFieldId);
+
+const OSG::BitVector  ImageBase::ResYFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ResYFieldId);
+
+const OSG::BitVector  ImageBase::ResUnitFieldMask = 
+    (TypeTraits<BitVector>::One << ImageBase::ResUnitFieldId);
+
 const OSG::BitVector ImageBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -197,6 +206,15 @@ const OSG::BitVector ImageBase::MTInfluenceMask =
 */
 /*! \var bool            ImageBase::_sfForceAlphaBinary
     Set to true if using the image to prevent depth sorting for          SimpleTexturedMaterials using this Image.
+*/
+/*! \var Real32          ImageBase::_sfResX
+    
+*/
+/*! \var Real32          ImageBase::_sfResY
+    
+*/
+/*! \var UInt16          ImageBase::_sfResUnit
+    resolution unit (none=1, inch=2, centimeter=3)
 */
 
 //! Image description
@@ -307,7 +325,22 @@ FieldDescription *ImageBase::_desc[] =
                      "forceAlphaBinary", 
                      ForceAlphaBinaryFieldId, ForceAlphaBinaryFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBase::getSFForceAlphaBinary)
+                     (FieldAccessMethod) &ImageBase::getSFForceAlphaBinary),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "resX", 
+                     ResXFieldId, ResXFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFResX),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "resY", 
+                     ResYFieldId, ResYFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFResY),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "resUnit", 
+                     ResUnitFieldId, ResUnitFieldMask,
+                     false,
+                     (FieldAccessMethod) &ImageBase::getSFResUnit)
 };
 
 
@@ -406,6 +439,9 @@ ImageBase::ImageBase(void) :
     _sfForceAlphaChannel      (bool(false)), 
     _sfForceColorChannel      (bool(false)), 
     _sfForceAlphaBinary       (bool(false)), 
+    _sfResX                   (Real32(72.0f)), 
+    _sfResY                   (Real32(72.0f)), 
+    _sfResUnit                (UInt16(2)), 
     Inherited() 
 {
 }
@@ -436,6 +472,9 @@ ImageBase::ImageBase(const ImageBase &source) :
     _sfForceAlphaChannel      (source._sfForceAlphaChannel      ), 
     _sfForceColorChannel      (source._sfForceColorChannel      ), 
     _sfForceAlphaBinary       (source._sfForceAlphaBinary       ), 
+    _sfResX                   (source._sfResX                   ), 
+    _sfResY                   (source._sfResY                   ), 
+    _sfResUnit                (source._sfResUnit                ), 
     Inherited                 (source)
 {
 }
@@ -557,6 +596,21 @@ UInt32 ImageBase::getBinSize(const BitVector &whichField)
         returnValue += _sfForceAlphaBinary.getBinSize();
     }
 
+    if(FieldBits::NoField != (ResXFieldMask & whichField))
+    {
+        returnValue += _sfResX.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ResYFieldMask & whichField))
+    {
+        returnValue += _sfResY.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ResUnitFieldMask & whichField))
+    {
+        returnValue += _sfResUnit.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -669,6 +723,21 @@ void ImageBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
     {
         _sfForceAlphaBinary.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResXFieldMask & whichField))
+    {
+        _sfResX.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResYFieldMask & whichField))
+    {
+        _sfResY.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResUnitFieldMask & whichField))
+    {
+        _sfResUnit.copyToBin(pMem);
     }
 
 
@@ -784,6 +853,21 @@ void ImageBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfForceAlphaBinary.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ResXFieldMask & whichField))
+    {
+        _sfResX.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResYFieldMask & whichField))
+    {
+        _sfResY.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ResUnitFieldMask & whichField))
+    {
+        _sfResUnit.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -857,6 +941,15 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
     if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
         _sfForceAlphaBinary.syncWith(pOther->_sfForceAlphaBinary);
 
+    if(FieldBits::NoField != (ResXFieldMask & whichField))
+        _sfResX.syncWith(pOther->_sfResX);
+
+    if(FieldBits::NoField != (ResYFieldMask & whichField))
+        _sfResY.syncWith(pOther->_sfResY);
+
+    if(FieldBits::NoField != (ResUnitFieldMask & whichField))
+        _sfResUnit.syncWith(pOther->_sfResUnit);
+
 
 }
 #else
@@ -923,6 +1016,15 @@ void ImageBase::executeSyncImpl(      ImageBase *pOther,
 
     if(FieldBits::NoField != (ForceAlphaBinaryFieldMask & whichField))
         _sfForceAlphaBinary.syncWith(pOther->_sfForceAlphaBinary);
+
+    if(FieldBits::NoField != (ResXFieldMask & whichField))
+        _sfResX.syncWith(pOther->_sfResX);
+
+    if(FieldBits::NoField != (ResYFieldMask & whichField))
+        _sfResY.syncWith(pOther->_sfResY);
+
+    if(FieldBits::NoField != (ResUnitFieldMask & whichField))
+        _sfResUnit.syncWith(pOther->_sfResUnit);
 
 
     if(FieldBits::NoField != (ParentsFieldMask & whichField))

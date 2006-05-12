@@ -276,6 +276,8 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
 			                     isSizeProc, mapFileProc, unmapFileProc);
     UChar8  *data = 0, *line = 0, *dest;
     UInt32  w, h, u, v;
+    Real32  res_x, res_y;
+    UInt16  res_unit;
     UInt16  bpp;
     Char8   errorMessage[1024];
     UInt16  *sampleinfo;
@@ -286,8 +288,11 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
     if(in)
     {
         TIFFGetField(in, TIFFTAG_IMAGEWIDTH, &w);
-
         TIFFGetField(in, TIFFTAG_IMAGELENGTH, &h);
+
+        TIFFGetField(in, TIFFTAG_XRESOLUTION, &res_x);
+        TIFFGetField(in, TIFFTAG_YRESOLUTION, &res_y);
+        TIFFGetField(in, TIFFTAG_RESOLUTIONUNIT, &res_unit);
 
         TIFFGetFieldDefaulted(in, TIFFTAG_SAMPLESPERPIXEL, &bpp);
 
@@ -333,6 +338,16 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
             }
 
             image->set(type, w, h);
+            if(res_unit == RESUNIT_CENTIMETER)
+            {
+                // convert it to dpi.
+                res_x *= 2.54f;
+                res_y *= 2.54f;
+                res_unit = Image::OSG_RESUNIT_INCH;
+            }
+            image->setResX(res_x);
+            image->setResY(res_y);
+            image->setResUnit(res_unit);
             dest = image->getData();
 
 #if defined(__linux) || defined(_WIN32)
@@ -445,6 +460,9 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image), std::ostream &O
     {
         TIFFSetField(out, TIFFTAG_IMAGEWIDTH, image->getWidth());
         TIFFSetField(out, TIFFTAG_IMAGELENGTH, image->getHeight());
+        TIFFSetField(out, TIFFTAG_XRESOLUTION, image->getResX());
+        TIFFSetField(out, TIFFTAG_YRESOLUTION, image->getResY());
+        TIFFSetField(out, TIFFTAG_RESOLUTIONUNIT, image->getResUnit());
         TIFFSetField(out, TIFFTAG_ORIENTATION, ORIENTATION_TOPLEFT);
         TIFFSetField(out, TIFFTAG_SAMPLESPERPIXEL, samplesPerPixel);
         TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);

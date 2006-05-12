@@ -175,8 +175,7 @@
 		defaultValue="false"
 		access="public"
 	>
-        Set to true if using the image to keep unknown data for textures.
-        Generally used in conjunction with TextureChunk::externalFormat.
+	Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
 	</Field>
 	<Field
 		name="forceAlphaChannel"
@@ -186,8 +185,7 @@
 		defaultValue="false"
 		access="public"
 	>
-        Set to true if using the image to keep unknown data for textures.
-        Generally used in conjunction with TextureChunk::externalFormat.
+	Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
 	</Field>
 	<Field
 		name="forceColorChannel"
@@ -197,8 +195,7 @@
 		defaultValue="false"
 		access="public"
 	>
-        Set to true if using the image to keep unknown data for textures.
-        Generally used in conjunction with TextureChunk::externalFormat.
+	Set to true if using the image to keep unknown data for textures.         Generally used in conjunction with TextureChunk::externalFormat.
 	</Field>
 	<Field
 		name="forceAlphaBinary"
@@ -208,7 +205,34 @@
 		defaultValue="false"
 		access="public"
 	>
-        Set to true if using the image to prevent depth sorting for 
-        SimpleTexturedMaterials using this Image.
+	Set to true if using the image to prevent depth sorting for          SimpleTexturedMaterials using this Image.
+	</Field>
+	<Field
+		name="resX"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="72.0f"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="resY"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="72.0f"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="resUnit"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="2"
+		access="public"
+	>
+	resolution unit (invalid=0, none=1, inch=2)
 	</Field>
 </FieldContainer>

@@ -414,6 +414,20 @@ bool JPGImageFileType::read(ImagePtr &OSG_JPG_ARG(image), std::istream &OSG_JPG_
     bool retCode;
     if (image->set(pixelFormat, cinfo.output_width, cinfo.output_height) == true)
     {
+        Real32 res_x = Real32(cinfo.X_density);
+        Real32 res_y = Real32(cinfo.Y_density);
+        UInt16 res_unit = UInt16(cinfo.density_unit);
+        if(res_unit == 2) // centimeter
+        {
+            // convert dpcm to dpi.
+            res_x *= 2.54f;
+            res_y *= 2.54f;
+            res_unit = Image::OSG_RESUNIT_INCH;
+        }
+        image->setResX(res_x);
+        image->setResY(res_y);
+        image->setResUnit(res_unit);
+
         unsigned char *destData = image->getData() + image->getSize();
         int row_stride = cinfo.output_width * cinfo.output_components;
         while (cinfo.output_scanline < cinfo.output_height)
@@ -485,6 +499,15 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), std::ostream &O
 
     jpeg_set_defaults(&cinfo);
     jpeg_set_quality(&cinfo, _quality, TRUE);
+
+    cinfo.density_unit = 1;  // dpi
+    cinfo.X_density = UInt16(image->getResX() < 0.0f ?
+                             image->getResX() - 0.5f :
+                             image->getResX() + 0.5f);
+    cinfo.Y_density = UInt16(image->getResY() < 0.0f ?
+                             image->getResY() - 0.5f :
+                             image->getResY() + 0.5f);
+
     jpeg_start_compress(&cinfo, TRUE);
 
     unsigned char *srcData = image->getData() + image->getSize();

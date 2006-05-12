@@ -171,7 +171,7 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
     Image::PixelFormat  pixelFormat = osg::Image::OSG_INVALID_PF;
     png_structp         png_ptr;
     png_infop           info_ptr;
-    png_uint_32         width, wc, height, h, i;
+    png_uint_32         width, wc, height, h, i, res_x, res_y;
     png_byte            bit_depth, channels, color_type;
     png_bytep           *row_pointers, base;
 
@@ -201,6 +201,8 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
     width = png_get_image_width(png_ptr, info_ptr);
     height = png_get_image_height(png_ptr, info_ptr);
     bit_depth = png_get_bit_depth(png_ptr, info_ptr);
+    res_x = png_get_x_pixels_per_meter(png_ptr, info_ptr);
+    res_y = png_get_y_pixels_per_meter(png_ptr, info_ptr);
     channels = png_get_channels(png_ptr, info_ptr);
     color_type = png_get_color_type(png_ptr, info_ptr);
 
@@ -244,6 +246,19 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
 
     if(image->set(pixelFormat, width, height))
     {
+        // set resolution png supports only pixel per meter,
+        // so we do a conversion to dpi with some rounding.
+        res_x = png_uint_32((Real32(res_x) / 39.37007874f) < 0.0f ?
+                            (Real32(res_x) / 39.37007874f) - 0.5f :
+                            (Real32(res_x) / 39.37007874f) + 0.5f);
+        res_y = png_uint_32((Real32(res_y) / 39.37007874f) < 0.0f ?
+                            (Real32(res_y) / 39.37007874f) - 0.5f :
+                            (Real32(res_y) / 39.37007874f) + 0.5f);
+
+        image->setResX(Real32(res_x));
+        image->setResY(Real32(res_y));
+        image->setResUnit(Image::OSG_RESUNIT_INCH);
+
         // Calculate the row pointers
         row_pointers = new png_bytep[height];
         wc = width * channels;
@@ -364,6 +379,23 @@ bool PNGImageFileType::write(const ImagePtr &OSG_PNG_ARG(img), std::ostream &OSG
     png_set_IHDR(png_ptr, info_ptr, img->getWidth(), img->getHeight(),
         8, ctype,      
         PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_BASE, PNG_FILTER_TYPE_BASE);
+
+    // set resolution png supports only meter per pixel,
+    // so we do a conversion from dpi with some rounding.
+    png_uint_32 res_x = img->getResX();
+    png_uint_32 res_y = img->getResY();
+    if(img->getResUnit() == Image::OSG_RESUNIT_INCH)
+    {
+        res_x = png_uint_32((img->getResX() * 39.37007874f) < 0.0f ?
+                            (img->getResX() * 39.37007874f) - 0.5f :
+                            (img->getResX() * 39.37007874f) + 0.5f);
+        res_y = png_uint_32((img->getResY() * 39.37007874f) < 0.0f ?
+                            (img->getResY() * 39.37007874f) - 0.5f :
+                            (img->getResY() * 39.37007874f) + 0.5f);
+    }
+
+    png_set_pHYs(png_ptr, info_ptr, res_x, res_y,
+                 PNG_RESOLUTION_METER);
 
 #if 0
     /* optional significant bit chunk */

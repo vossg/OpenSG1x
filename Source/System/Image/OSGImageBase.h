@@ -88,6 +88,9 @@
 #include <OSGBoolFields.h> // ForceAlphaChannel type
 #include <OSGBoolFields.h> // ForceColorChannel type
 #include <OSGBoolFields.h> // ForceAlphaBinary type
+#include <OSGReal32Fields.h> // ResX type
+#include <OSGReal32Fields.h> // ResY type
+#include <OSGUInt16Fields.h> // ResUnit type
 
 #include <OSGImageFields.h>
 
@@ -132,7 +135,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
         ForceAlphaChannelFieldId   = ForceCompressedDataFieldId + 1,
         ForceColorChannelFieldId   = ForceAlphaChannelFieldId   + 1,
         ForceAlphaBinaryFieldId    = ForceColorChannelFieldId   + 1,
-        NextFieldId                = ForceAlphaBinaryFieldId    + 1
+        ResXFieldId                = ForceAlphaBinaryFieldId    + 1,
+        ResYFieldId                = ResXFieldId                + 1,
+        ResUnitFieldId             = ResYFieldId                + 1,
+        NextFieldId                = ResUnitFieldId             + 1
     };
 
     static const OSG::BitVector ParentsFieldMask;
@@ -156,6 +162,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     static const OSG::BitVector ForceAlphaChannelFieldMask;
     static const OSG::BitVector ForceColorChannelFieldMask;
     static const OSG::BitVector ForceAlphaBinaryFieldMask;
+    static const OSG::BitVector ResXFieldMask;
+    static const OSG::BitVector ResYFieldMask;
+    static const OSG::BitVector ResUnitFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -202,6 +211,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
            SFBool              *getSFForceAlphaChannel(void);
            SFBool              *getSFForceColorChannel(void);
            SFBool              *getSFForceAlphaBinary(void);
+           SFReal32            *getSFResX           (void);
+           SFReal32            *getSFResY           (void);
+           SFUInt16            *getSFResUnit        (void);
 
            Int32               &getDimension      (void);
      const Int32               &getDimension      (void) const;
@@ -239,6 +251,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      const bool                &getForceColorChannel(void) const;
            bool                &getForceAlphaBinary(void);
      const bool                &getForceAlphaBinary(void) const;
+           Real32              &getResX           (void);
+     const Real32              &getResX           (void) const;
+           Real32              &getResY           (void);
+     const Real32              &getResY           (void) const;
+           UInt16              &getResUnit        (void);
+     const UInt16              &getResUnit        (void) const;
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
      const MFFieldContainerPtr &getParents        (void) const;
@@ -269,6 +287,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
      void setForceAlphaChannel( const bool &value );
      void setForceColorChannel( const bool &value );
      void setForceAlphaBinary( const bool &value );
+     void setResX           ( const Real32 &value );
+     void setResY           ( const Real32 &value );
+     void setResUnit        ( const UInt16 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -332,6 +353,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
     SFBool              _sfForceAlphaChannel;
     SFBool              _sfForceColorChannel;
     SFBool              _sfForceAlphaBinary;
+    SFReal32            _sfResX;
+    SFReal32            _sfResY;
+    SFUInt16            _sfResUnit;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

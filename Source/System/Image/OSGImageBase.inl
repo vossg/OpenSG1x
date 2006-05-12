@@ -243,6 +243,27 @@ SFBool *ImageBase::getSFForceAlphaBinary(void)
     return &_sfForceAlphaBinary;
 }
 
+//! Get the Image::_sfResX field.
+inline
+SFReal32 *ImageBase::getSFResX(void)
+{
+    return &_sfResX;
+}
+
+//! Get the Image::_sfResY field.
+inline
+SFReal32 *ImageBase::getSFResY(void)
+{
+    return &_sfResY;
+}
+
+//! Get the Image::_sfResUnit field.
+inline
+SFUInt16 *ImageBase::getSFResUnit(void)
+{
+    return &_sfResUnit;
+}
+
 
 //! Get the value of the Image::_sfDimension field.
 inline
@@ -641,6 +662,69 @@ inline
 void ImageBase::setForceAlphaBinary(const bool &value)
 {
     _sfForceAlphaBinary.setValue(value);
+}
+
+//! Get the value of the Image::_sfResX field.
+inline
+Real32 &ImageBase::getResX(void)
+{
+    return _sfResX.getValue();
+}
+
+//! Get the value of the Image::_sfResX field.
+inline
+const Real32 &ImageBase::getResX(void) const
+{
+    return _sfResX.getValue();
+}
+
+//! Set the value of the Image::_sfResX field.
+inline
+void ImageBase::setResX(const Real32 &value)
+{
+    _sfResX.setValue(value);
+}
+
+//! Get the value of the Image::_sfResY field.
+inline
+Real32 &ImageBase::getResY(void)
+{
+    return _sfResY.getValue();
+}
+
+//! Get the value of the Image::_sfResY field.
+inline
+const Real32 &ImageBase::getResY(void) const
+{
+    return _sfResY.getValue();
+}
+
+//! Set the value of the Image::_sfResY field.
+inline
+void ImageBase::setResY(const Real32 &value)
+{
+    _sfResY.setValue(value);
+}
+
+//! Get the value of the Image::_sfResUnit field.
+inline
+UInt16 &ImageBase::getResUnit(void)
+{
+    return _sfResUnit.getValue();
+}
+
+//! Get the value of the Image::_sfResUnit field.
+inline
+const UInt16 &ImageBase::getResUnit(void) const
+{
+    return _sfResUnit.getValue();
+}
+
+//! Set the value of the Image::_sfResUnit field.
+inline
+void ImageBase::setResUnit(const UInt16 &value)
+{
+    _sfResUnit.setValue(value);
 }
 
 
