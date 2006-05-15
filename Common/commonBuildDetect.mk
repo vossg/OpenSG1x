@@ -100,6 +100,10 @@ ifeq ($(MAKEMINOR),80)
 MAKE_OLD_DOLLAR := 0
 endif
 
+ifeq ($(MAKEMINOR),81)
+MAKE_OLD_DOLLAR := 0
+endif
+
 else
 $(error Unknown GNU make major version $(MAKEMAJOR) please contact info@opensg.org)
 endif
