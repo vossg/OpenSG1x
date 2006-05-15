@@ -347,18 +347,18 @@ void ParallelComposer::endFrame(UInt32 id)
 
 UInt32 ParallelComposer::beginFrame(void)
 {
-    UInt32 id = 0;
+   UInt32 id = 0;
 #ifdef OSG_WITH_PARALLEL
-    PCerr err;
-    
-    /* start the frame (all framelets are full size thus, NULLs) */  
-    err = pcFrameBegin(_context, &id, 1, NULL, NULL, NULL, NULL, NULL);
-    if(err)
-    {
+   PCerr err;
+
+   /* start the frame (all framelets are full size thus, NULLs) */  
+   err = pcFrameBegin(_context, &id, 1, NULL, NULL, NULL, NULL, NULL);
+   if(err)
+   {
        SLOG << "Error while calling beginFrame" << std::endl;
-    }
+   }
 #endif
-    return(id);
+   return(id);
 }
 
 void ParallelComposer::drawFrame(void)
@@ -402,7 +402,7 @@ void ParallelComposer::renderRead(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposer.cpp,v 1.2 2006/05/12 15:10:41 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposer.cpp,v 1.3 2006/05/15 23:39:58 eysquared Exp $";
     static Char8 cvsid_hpp       [] = OSGPARALLELCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARALLELCOMPOSERBASE_INLINE_CVSID;
 
