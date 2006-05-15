@@ -417,7 +417,7 @@ Action::ResultE DVRVolume::draw(DrawActionBase *action)
         }
 
         // sort bricks
-        Vec3f eyePointWorld(0.f, 0.f, 0.f);
+        Pnt3f eyePointWorld(0.f, 0.f, 0.f);
         action->getCameraToWorld().mult(eyePointWorld);
 
         Matrix modelMat = action->getActNode()->getToWorld();
@@ -428,7 +428,7 @@ Action::ResultE DVRVolume::draw(DrawActionBase *action)
         //    action,modelMat, eyePointWorld, this, mode);
 
         Brick *first = textureManager.sortBricks(
-            action, modelMat, eyePointWorld, this, mode);
+            action, modelMat, eyePointWorld.subZero(), this, mode);
 
         // render brick boundaries
 
