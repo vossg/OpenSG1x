@@ -489,7 +489,7 @@ bool DitherShadowMap::initFBO(Window *win)
     if (width <= 0 || height <= 0)
         return false;
         
-    if (fb != 0)
+    if (fb != NULL)
         return true;
 
     glGenFramebuffersEXT(1, &fb);
@@ -503,8 +503,8 @@ bool DitherShadowMap::initFBO(Window *win)
 
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
-
+	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 
@@ -575,7 +575,8 @@ void DitherShadowMap::reInit(Window *win)
 
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
 
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
@@ -647,15 +648,15 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
-    // deactivate exclude nodes:
+
+	// deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-
+    
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -724,14 +725,6 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
     }
 
 
-    // activate exclude nodes:
-    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = shadowVP->getExcludeNodes()[i];
-        if(exnode != NullFC)
-            exnode->setActive(true);
-    }
-
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -739,6 +732,13 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
             shadowVP->_lights[i]->setOn(true);
     }
 
+	// activate exclude nodes:
+    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = shadowVP->getExcludeNodes()[i];
+        if(exnode != NullFC)
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
+    }
     //-------Restoring old states of Window and Viewport----------
     
     beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
@@ -779,15 +779,15 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
-    // deactivate exclude nodes:
+
+	// deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-
+    
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -827,19 +827,19 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 	
     //-------Restoring old states of Window and Viewport----------
 
-    // activate exclude nodes:
-    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = shadowVP->getExcludeNodes()[i];
-        if(exnode != NullFC)
-            exnode->setActive(true);
-    }
-
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(true);
+    }
+
+	// activate exclude nodes:
+    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = shadowVP->getExcludeNodes()[i];
+        if(exnode != NullFC)
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
 	//glViewport( 0, 0, oldWidth-1, oldHeight-1 );
@@ -1150,6 +1150,11 @@ void DitherShadowMap::drawCombineMap(RenderActionBase* action)
 
 void DitherShadowMap::render(RenderActionBase* action)
 {
+	if(!useGLSL || !useShadowExt ) shadowVP->Viewport::render(action);
+	else
+	{
+
+
 	Window *win = action->getWindow();
 
 	if(useFBO)
@@ -1157,33 +1162,10 @@ void DitherShadowMap::render(RenderActionBase* action)
 		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
 	}
 
-	/*if(shadowVP->getQualityMode())
-	{
-		useFBO = true;
-		if(glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT) == GL_FRAMEBUFFER_UNSUPPORTED_EXT) useFBO=false;
-	}
-	else useFBO = false;*/
-
-
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
 	//Used for ShadowFactorMap
     firstRun = 1;
-
-	//Any active lights available with intensity > 0 ?
-	bool allLightsZero = true;
-	if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
-	else
-	{
-		for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
-		{
-			if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
-		}
-	}
-
-	if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL || !useShadowExt ) shadowVP->Viewport::render(action);
-	else
-	{
 
     if(shadowVP->getPixelWidth() != width ||
        shadowVP->getPixelHeight() != height)
@@ -1228,12 +1210,18 @@ void DitherShadowMap::render(RenderActionBase* action)
 
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
-		shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+			            GL_COMPARE_R_TO_TEXTURE_ARB);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+		glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+		glBindTexture(GL_TEXTURE_2D,0);
+		/*shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
                         GL_COMPARE_R_TO_TEXTURE_ARB);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
 	}
 
 	

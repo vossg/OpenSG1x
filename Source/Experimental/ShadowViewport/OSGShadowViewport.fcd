@@ -85,14 +85,13 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	>
 	</Field>
 	<Field
-		name="range"
+		name="shadowSmoothness"
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="4"
+		defaultValue="0.5"
 		access="public"
 	>
-	Change sample range of pcf and light size for pcss.
 	</Field>
 	<Field
 		name="shadowOn"

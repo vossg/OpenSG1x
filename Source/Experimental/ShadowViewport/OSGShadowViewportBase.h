@@ -75,7 +75,7 @@
 #include <OSGNodeFields.h> // ExcludeNodes type
 #include <OSGBoolFields.h> // MapAutoUpdate type
 #include <OSGUInt32Fields.h> // ShadowMode type
-#include <OSGReal32Fields.h> // Range type
+#include <OSGReal32Fields.h> // ShadowSmoothness type
 #include <OSGBoolFields.h> // ShadowOn type
 #include <OSGBoolFields.h> // AutoSearchForLights type
 #include <OSGReal32Fields.h> // GlobalShadowIntensity type
@@ -110,8 +110,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
         ExcludeNodesFieldId          = LightNodesFieldId            + 1,
         MapAutoUpdateFieldId         = ExcludeNodesFieldId          + 1,
         ShadowModeFieldId            = MapAutoUpdateFieldId         + 1,
-        RangeFieldId                 = ShadowModeFieldId            + 1,
-        ShadowOnFieldId              = RangeFieldId                 + 1,
+        ShadowSmoothnessFieldId      = ShadowModeFieldId            + 1,
+        ShadowOnFieldId              = ShadowSmoothnessFieldId      + 1,
         AutoSearchForLightsFieldId   = ShadowOnFieldId              + 1,
         GlobalShadowIntensityFieldId = AutoSearchForLightsFieldId   + 1,
         NextFieldId                  = GlobalShadowIntensityFieldId + 1
@@ -125,7 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
     static const OSG::BitVector ExcludeNodesFieldMask;
     static const OSG::BitVector MapAutoUpdateFieldMask;
     static const OSG::BitVector ShadowModeFieldMask;
-    static const OSG::BitVector RangeFieldMask;
+    static const OSG::BitVector ShadowSmoothnessFieldMask;
     static const OSG::BitVector ShadowOnFieldMask;
     static const OSG::BitVector AutoSearchForLightsFieldMask;
     static const OSG::BitVector GlobalShadowIntensityFieldMask;
@@ -163,7 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
            MFNodePtr           *getMFExcludeNodes   (void);
            SFBool              *getSFMapAutoUpdate  (void);
            SFUInt32            *getSFShadowMode     (void);
-           SFReal32            *getSFRange          (void);
+           SFReal32            *getSFShadowSmoothness(void);
            SFBool              *getSFShadowOn       (void);
            SFBool              *getSFAutoSearchForLights(void);
            SFReal32            *getSFGlobalShadowIntensity(void);
@@ -180,8 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
      const bool                &getMapAutoUpdate  (void) const;
            UInt32              &getShadowMode     (void);
      const UInt32              &getShadowMode     (void) const;
-           Real32              &getRange          (void);
-     const Real32              &getRange          (void) const;
+           Real32              &getShadowSmoothness(void);
+     const Real32              &getShadowSmoothness(void) const;
            bool                &getShadowOn       (void);
      const bool                &getShadowOn       (void) const;
            bool                &getAutoSearchForLights(void);
@@ -206,7 +206,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
      void setMapSize        ( const UInt32 &value );
      void setMapAutoUpdate  ( const bool &value );
      void setShadowMode     ( const UInt32 &value );
-     void setRange          ( const Real32 &value );
+     void setShadowSmoothness( const Real32 &value );
      void setShadowOn       ( const bool &value );
      void setAutoSearchForLights( const bool &value );
      void setGlobalShadowIntensity( const Real32 &value );
@@ -260,7 +260,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
     MFNodePtr           _mfExcludeNodes;
     SFBool              _sfMapAutoUpdate;
     SFUInt32            _sfShadowMode;
-    SFReal32            _sfRange;
+    SFReal32            _sfShadowSmoothness;
     SFBool              _sfShadowOn;
     SFBool              _sfAutoSearchForLights;
     SFReal32            _sfGlobalShadowIntensity;
@@ -341,6 +341,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.6 2006/05/04 13:00:41 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.7 2006/05/15 16:55:15 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

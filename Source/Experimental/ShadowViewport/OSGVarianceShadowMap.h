@@ -1,5 +1,5 @@
-#ifndef _OSGPCSSSHADOWMAP_H_
-#define _OSGPCSSSHADOWMAP_H_
+#ifndef _OSGVARIANCESHADOWMAP_H_
+#define _OSGVARIANCESHADOWMAP_H_
 #ifdef __sgi
 #pragma once
 #endif
@@ -47,7 +47,7 @@ OSG_BEGIN_NAMESPACE
 class ShadowViewport;
 class TreeRenderer;
 
-class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
+class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
 {
   private:
 
@@ -57,20 +57,26 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;
+
     ImagePtr                _colorMapImage;
     ImagePtr                _shadowFactorMapImage;
-	
+
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
     NodePtr                 _shadowRoot;
     MaterialGroupPtr        _shadowShaderGroup;
-
-	ChunkMaterialPtr        _combineCmat;
+    
+    ChunkMaterialPtr        _combineCmat;
     SHLChunkPtr             _combineSHL;
     NodePtr                 _combineRoot;
     MaterialGroupPtr        _combineShaderGroup;
 
-    FileGrabForegroundPtr   fileGrab;
+    ChunkMaterialPtr        _depthCmat;
+    SHLChunkPtr             _depthSHL;
+    NodePtr                 _depthRoot;
+    MaterialGroupPtr        _depthShaderGroup;
+
+	//FileGrabForegroundPtr   fileGrab;
     Int32                   firstRun;
 
     Matrix                  textureVM; 
@@ -81,18 +87,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 
     UInt32                  width;
     UInt32                  height;
-	UInt32					widthHeightPOT;
-
-    void createShadowMaps(RenderActionBase* action);
-    void createColorMap(RenderActionBase* action);
-    void createColorMapFBO(RenderActionBase* action);
 
     void drawCombineMap(RenderActionBase* action);
-    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
-
-	void createShadowMapsFBO(RenderActionBase* action);
     void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
+
+
+	void createColorMap(RenderActionBase* action);
+    void createColorMapFBO(RenderActionBase* action);
+	void createShadowFactorMap(RenderActionBase* action, UInt32 num);
+    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+	void createShadowMapsFBO(RenderActionBase* action);
+
+
 
 	bool initFBO(Window *win);
 	void reInit(Window *win);
@@ -101,15 +107,20 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 	GLuint fb;
 	GLuint fb2;
 	GLuint rb_depth;
+	GLuint rb_depth2;
+
+	bool texChanged;
+
+	UInt32 widthHeightPOT;
 
   protected:
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-    PCSSShadowMap(void);
-    PCSSShadowMap(ShadowViewport *source);
-    ~PCSSShadowMap(void);
+    VarianceShadowMap(void);
+    VarianceShadowMap(ShadowViewport *source);
+    ~VarianceShadowMap(void);
 
     virtual void render(RenderActionBase* action);
 };
@@ -121,5 +132,5 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 
 OSG_END_NAMESPACE
 
-#endif /* _OSGPCSSSHADOWMAP_H_ */
+#endif /* _OSGVARIANCESHADOWMAP_H_ */
 

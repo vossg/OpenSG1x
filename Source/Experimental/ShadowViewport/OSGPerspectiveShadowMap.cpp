@@ -244,7 +244,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 
 	if(useFBO)
 	{
-		if (fb2 != 0)
+		if (fb2 != NULL)
 			return true;
 		glGenFramebuffersEXT(1, &fb2);
 
@@ -263,7 +263,6 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 		return true;
 	}
 
-    return true;
 }
 
 void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num)
@@ -1139,15 +1138,15 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
-    // deactivate exclude nodes:
+
+	// deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-
+    
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -1221,22 +1220,19 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 		}
     }
 
-
-
-
-    // activate exclude nodes:
-    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = shadowVP->getExcludeNodes()[i];
-        if(exnode != NullFC)
-            exnode->setActive(true);
-    }
-
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(true);
+    }
+
+	// activate exclude nodes:
+    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = shadowVP->getExcludeNodes()[i];
+        if(exnode != NullFC)
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
     //-------Restoring old states of Window and Viewport----------
@@ -1279,15 +1275,15 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(false);
     }
-    
-    // deactivate exclude nodes:
+
+	// deactivate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
             exnode->setActive(false);
     }
-
+    
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i])
@@ -1330,19 +1326,19 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
 	
     //-------Restoring old states of Window and Viewport----------
 
-    // activate exclude nodes:
-    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = shadowVP->getExcludeNodes()[i];
-        if(exnode != NullFC)
-            exnode->setActive(true);
-    }
-
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(true);
+    }
+
+	// activate exclude nodes:
+    for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = shadowVP->getExcludeNodes()[i];
+        if(exnode != NullFC)
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
 	//glViewport( 0, 0, oldWidth-1, oldHeight-1 );
@@ -1469,6 +1465,13 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
 		{
 		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
+			glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+				            GL_COMPARE_R_TO_TEXTURE_ARB);
+			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+			glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+			glBindTexture(GL_TEXTURE_2D,0);
+
             Matrix textureMatrix = biasMatrix;
 			textureMatrix.mult(_perspectiveLPM[i]);
             textureMatrix.mult(_perspectiveLVM[i]);
@@ -1496,12 +1499,7 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
 
 			shadowVP->_offset->activate(action,0);
 
-			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-				            GL_COMPARE_R_TO_TEXTURE_ARB);
-			glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-			glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-
-            action->apply(shadowVP->getRoot());
+			action->apply(shadowVP->getRoot());
 			shadowVP->_offset->deactivate(action,0);
 
             _blender->deactivate(action,0);
@@ -1548,6 +1546,10 @@ void PerspectiveShadowMap::projectShadowMaps(RenderActionBase* action)
 
 void PerspectiveShadowMap::render(RenderActionBase* action)
 {
+	if(!useShadowExt ) shadowVP->Viewport::render(action);
+	else
+	{
+
 	Window *win = action->getWindow();
 
 	if(useFBO)
@@ -1558,21 +1560,6 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
 
-
-	//Any active lights available with intensity > 0 ?
-	bool allLightsZero = true;
-	if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
-	else
-	{
-		for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
-		{
-			if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
-		}
-	}
-
-	if(shadowVP->_lights.size() == 0 || allLightsZero || !useShadowExt ) shadowVP->Viewport::render(action);
-	else
-	{
 
 	for (UInt32 i=0; i<shadowVP->_lights.size(); i++)
 	{

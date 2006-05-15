@@ -89,10 +89,10 @@ struct FieldDataTraits<ShadowViewportPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFShadowViewportPtr"; }
-    static char     *getMName(void) { return "MFShadowViewportPtr"; }
+    static const char *getSName(void) { return "SFShadowViewportPtr"; }
+    static const char *getMName(void) { return "MFShadowViewportPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGShadowViewportFields.h,v 1.6 2006/05/04 13:00:41 yjung Exp $"
+#define OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGShadowViewportFields.h,v 1.7 2006/05/15 16:55:15 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTFIELDS_H_ */

@@ -62,7 +62,7 @@
 #include "OSGShadowViewport.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShadowViewportBase::OffBiasFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::OffBiasFieldId);
@@ -88,8 +88,8 @@ const OSG::BitVector  ShadowViewportBase::MapAutoUpdateFieldMask =
 const OSG::BitVector  ShadowViewportBase::ShadowModeFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::ShadowModeFieldId);
 
-const OSG::BitVector  ShadowViewportBase::RangeFieldMask = 
-    (TypeTraits<BitVector>::One << ShadowViewportBase::RangeFieldId);
+const OSG::BitVector  ShadowViewportBase::ShadowSmoothnessFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::ShadowSmoothnessFieldId);
 
 const OSG::BitVector  ShadowViewportBase::ShadowOnFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::ShadowOnFieldId);
@@ -131,8 +131,8 @@ const OSG::BitVector ShadowViewportBase::MTInfluenceMask =
 /*! \var UInt32          ShadowViewportBase::_sfShadowMode
     
 */
-/*! \var Real32          ShadowViewportBase::_sfRange
-    Change sample range of pcf and light size for pcss.
+/*! \var Real32          ShadowViewportBase::_sfShadowSmoothness
+    
 */
 /*! \var bool            ShadowViewportBase::_sfShadowOn
     
@@ -189,10 +189,10 @@ FieldDescription *ShadowViewportBase::_desc[] =
                      false,
                      (FieldAccessMethod) &ShadowViewportBase::getSFShadowMode),
     new FieldDescription(SFReal32::getClassType(), 
-                     "range", 
-                     RangeFieldId, RangeFieldMask,
+                     "shadowSmoothness", 
+                     ShadowSmoothnessFieldId, ShadowSmoothnessFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowViewportBase::getSFRange),
+                     (FieldAccessMethod) &ShadowViewportBase::getSFShadowSmoothness),
     new FieldDescription(SFBool::getClassType(), 
                      "shadowOn", 
                      ShadowOnFieldId, ShadowOnFieldMask,
@@ -293,7 +293,7 @@ ShadowViewportBase::ShadowViewportBase(void) :
     _mfExcludeNodes           (), 
     _sfMapAutoUpdate          (bool(true)), 
     _sfShadowMode             (UInt32(0)), 
-    _sfRange                  (Real32(4)), 
+    _sfShadowSmoothness       (Real32(0.5)), 
     _sfShadowOn               (bool(true)), 
     _sfAutoSearchForLights    (bool(false)), 
     _sfGlobalShadowIntensity  (Real32(0.0)), 
@@ -314,7 +314,7 @@ ShadowViewportBase::ShadowViewportBase(const ShadowViewportBase &source) :
     _mfExcludeNodes           (source._mfExcludeNodes           ), 
     _sfMapAutoUpdate          (source._sfMapAutoUpdate          ), 
     _sfShadowMode             (source._sfShadowMode             ), 
-    _sfRange                  (source._sfRange                  ), 
+    _sfShadowSmoothness       (source._sfShadowSmoothness       ), 
     _sfShadowOn               (source._sfShadowOn               ), 
     _sfAutoSearchForLights    (source._sfAutoSearchForLights    ), 
     _sfGlobalShadowIntensity  (source._sfGlobalShadowIntensity  ), 
@@ -374,9 +374,9 @@ UInt32 ShadowViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShadowMode.getBinSize();
     }
 
-    if(FieldBits::NoField != (RangeFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowSmoothnessFieldMask & whichField))
     {
-        returnValue += _sfRange.getBinSize();
+        returnValue += _sfShadowSmoothness.getBinSize();
     }
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
@@ -443,9 +443,9 @@ void ShadowViewportBase::copyToBin(      BinaryDataHandler &pMem,
         _sfShadowMode.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (RangeFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowSmoothnessFieldMask & whichField))
     {
-        _sfRange.copyToBin(pMem);
+        _sfShadowSmoothness.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
@@ -511,9 +511,9 @@ void ShadowViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShadowMode.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (RangeFieldMask & whichField))
+    if(FieldBits::NoField != (ShadowSmoothnessFieldMask & whichField))
     {
-        _sfRange.copyFromBin(pMem);
+        _sfShadowSmoothness.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
@@ -565,8 +565,8 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
         _sfShadowMode.syncWith(pOther->_sfShadowMode);
 
-    if(FieldBits::NoField != (RangeFieldMask & whichField))
-        _sfRange.syncWith(pOther->_sfRange);
+    if(FieldBits::NoField != (ShadowSmoothnessFieldMask & whichField))
+        _sfShadowSmoothness.syncWith(pOther->_sfShadowSmoothness);
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
         _sfShadowOn.syncWith(pOther->_sfShadowOn);
@@ -605,8 +605,8 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
         _sfShadowMode.syncWith(pOther->_sfShadowMode);
 
-    if(FieldBits::NoField != (RangeFieldMask & whichField))
-        _sfRange.syncWith(pOther->_sfRange);
+    if(FieldBits::NoField != (ShadowSmoothnessFieldMask & whichField))
+        _sfShadowSmoothness.syncWith(pOther->_sfShadowSmoothness);
 
     if(FieldBits::NoField != (ShadowOnFieldMask & whichField))
         _sfShadowOn.syncWith(pOther->_sfShadowOn);
@@ -644,6 +644,8 @@ void ShadowViewportBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -655,8 +657,6 @@ DataType FieldDataTraits<ShadowViewportPtr>::_type("ShadowViewportPtr", "Viewpor
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -672,10 +672,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.6 2006/05/04 13:00:41 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.7 2006/05/15 16:55:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

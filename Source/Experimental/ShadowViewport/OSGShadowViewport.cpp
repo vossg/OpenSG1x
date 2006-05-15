@@ -66,6 +66,7 @@
 #include "OSGDitherShadowMap.h"
 #include "OSGPCFShadowMap.h"
 #include "OSGPCSSShadowMap.h"
+#include "OSGVarianceShadowMap.h"
 
 
 //--------------------------------------------------------------------
@@ -198,9 +199,9 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & MapSizeFieldMask)
     {
-        FDEBUG(("ShadowViewport::changed : map size changed.\n"));
+        FNOTICE(("ShadowViewport::changed : map size changed.\n"));
         _mapSizeChanged = true;
-		printf("Mapsize set to %d\n", getMapSize());
+		//printf("Mapsize set to %d\n", getMapSize());
     }
 
     if(whichField & LightNodesFieldMask)
@@ -218,19 +219,23 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
 	if(whichField & AutoSearchForLightsFieldMask)
 	{
-		if (getAutoSearchForLights())
-		printf("auto light search mode on\n");
-		else printf("auto light search mode off\n");
+		if (getAutoSearchForLights()) {FNOTICE(("auto light search mode on\n"));}
+		else {FNOTICE(("auto light search mode off\n"));}
 	}
 
-	if(whichField & RangeFieldMask)
+	if(whichField & ShadowSmoothnessFieldMask)
 	{
-		if (getRange() < 0.0)
+		if (getShadowSmoothness() < 0.0)
 		{
-			printf("No Range < 0 allowed!\n");
-			setRange(0.0);
+			FNOTICE(("No ShadowSmoothness < 0 allowed!\n"));
+			setShadowSmoothness(0.0);
 		}
-		printf("Range set to %f\n",getRange());
+		if (getShadowSmoothness() > 1.0)
+		{
+			FNOTICE(("No ShadowSmoothness > 1.0 allowed!\n"));
+			setShadowSmoothness(1.0);
+		}
+		FNOTICE(("ShadowSmoothness set to %f\n",getShadowSmoothness()));
 	}
 
     if(whichField & ShadowModeFieldMask)
@@ -243,21 +248,21 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
 		case NO_SHADOW:
 		{
-			printf("No Shadows\n");
+			FNOTICE(("No Shadows\n"));
 			//Viewport::render(action);
 		}
 		break;
 	
 		case STD_SHADOW_MAP:
 		{
-			printf("using standard Shadow Mapping...\n");
+			FNOTICE(("using standard Shadow Mapping...\n"));
 			treeRenderer = new StdShadowMap(this);			
 		}
 		break;
 
 		case PERSPECTIVE_SHADOW_MAP:
 		{
-			printf("using Lisp Perspective Shadow Mapping...\n");
+			FNOTICE(("using Lisp Perspective Shadow Mapping...\n"));
 			treeRenderer = new PerspectiveShadowMap(this);
 			
 		}
@@ -265,22 +270,29 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
 		case DITHER_SHADOW_MAP:
 		{
-			printf("using Dither Shadow Mapping...\n");
+			FNOTICE(("using Dither Shadow Mapping...\n"));
 			treeRenderer = new DitherShadowMap(this);
 		}
 		break;
 
 		case PCF_SHADOW_MAP:
 		{
-			printf("using PCF Shadow Mapping...\n");
+			FNOTICE(("using PCF Shadow Mapping...\n"));
 			treeRenderer = new PCFShadowMap(this);
 		}
 		break;
 
 		case PCSS_SHADOW_MAP:
 		{
-			printf("using PCSS Shadow Mapping...\n");
+			FNOTICE(("using PCSS Shadow Mapping...\n"));
 			treeRenderer = new PCSSShadowMap(this);
+		}
+		break;
+
+		case VARIANCE_SHADOW_MAP:
+		{
+			FNOTICE(("using Variance Shadow Mapping...\n"));
+			treeRenderer = new VarianceShadowMap(this);
 		}
 		break;
 
@@ -399,6 +411,15 @@ void ShadowViewport::render(RenderActionBase* action)
        //endEditCP(getPtr(), SceneRootFieldMask);
     }
 
+	_excludeNodeActive.clear();
+	//get excludeNode states
+	for(UInt32 i=0; i<getExcludeNodes().getSize(); i++)
+	{
+		NodePtr exnode = getExcludeNodes()[i];
+		if(exnode != NullFC) _excludeNodeActive.push_back(exnode->getActive());
+		else _excludeNodeActive.push_back(false);
+	}
+
 
     action->setCamera    (getCamera().getCPtr());
     action->setBackground(_silentBack.getCPtr());
@@ -408,6 +429,20 @@ void ShadowViewport::render(RenderActionBase* action)
     //checkMapResolution();
 	checkLights(action);
 
+	bool allLightsZero = true;
+	if(getGlobalShadowIntensity() != 0.0) allLightsZero = false;
+	else
+	{
+		for(UInt32 i=0; i<_lights.size(); i++)
+		{
+			if(_lights[i]->getShadowIntensity() != 0.0 && _lightStates[i] != 0) allLightsZero = false;
+		}
+	}
+
+	if(_lights.size() == 0 || allLightsZero) Viewport::render(action);
+	else
+	{
+
 	//find transparent nodes
     _transparent.clear();
     traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
@@ -416,9 +451,50 @@ void ShadowViewport::render(RenderActionBase* action)
 	_windowW = getParent()->getWidth();
     _windowH = getParent()->getHeight();
 
+	Real32 oldFar = getCamera()->getFar();
+	checkCamFar();
+
+	//check if excludeNodes are disabled
+    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = getExcludeNodes()[i];
+		_excludeNodeActive[i] = exnode->getActive();
+    }
+
 	treeRenderer->render(action);
+	getCamera()->setFar(oldFar);
+
+    /*// activate exclude nodes:
+    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    {
+        NodePtr exnode = getExcludeNodes()[i];
+        if(exnode != NullFC)
+            if(_excludeNodeActive[i]) exnode->setActive(true);
+    }*/
+
+	}
 	}
 }
+
+void ShadowViewport::checkCamFar()
+{
+	Pnt3f campos(0,0,0);
+	Matrix m = getCamera()->getBeacon()->getToWorld();
+    m.mult(campos);
+                
+	Pnt3f center;
+    getSceneRoot()->getVolume().getCenter(center);
+    
+	Vec3f dir = campos - center;
+	Real32 dirLength = dir.length();
+
+	Vec3f diff = (getSceneRoot()->getVolume().getMax() - getSceneRoot()->getVolume().getMin());
+	Real32 diffLength = diff.length();
+
+	if(dirLength+diffLength < getCamera()->getFar()) getCamera()->setFar(dirLength+diffLength);
+	
+}
+
 
 // Checks window-Size and determines best size of ShadowMap. Default is 128
 void ShadowViewport::checkMapResolution()
@@ -574,13 +650,13 @@ void ShadowViewport::checkLights(RenderActionBase* action)
 
     if(!changed)
     {
-        updateLights();
+		updateLights();
         return;
     }
 
     _mapSizeChanged = false;
 
-    initializeLights(action);
+	initializeLights(action);
 }
 
 void ShadowViewport::updateLights(void)
@@ -881,10 +957,10 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
 
-        _shadowImages.push_back(Image::create());
+		_shadowImages.push_back(Image::create());
 
         // creates a image without allocating main memory.
-        beginEditCP(_shadowImages[i]);
+		beginEditCP(_shadowImages[i]);
             _shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
                                   1, 1, 1, 0, NULL,
                                   Image::OSG_UINT8_IMAGEDATA, false);
@@ -918,7 +994,7 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
         _texChunks[i]->deactivate(action, 3);*/
     }
 
-    updateLights();
+	updateLights();
 }
 
 void ShadowViewport::clearLights(UInt32 size)
@@ -956,7 +1032,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.7 2006/05/03 16:20:31 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.8 2006/05/15 16:55:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

@@ -229,7 +229,7 @@ void TreeRenderer::initialize(Window *win)
 		}
 		else 
 		{
-			FNOTICE(("framebuffer objects not supported, try new video drivers. FBO disabled.\n"));
+			FNOTICE(("framebuffer objects not supported, try new video drivers. Some shadow modes will be disabled.\n"));
 		}
 
 		//check support for non-power-of-two textures

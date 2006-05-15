@@ -581,9 +581,9 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         boxNode->setCore(boxGeo);
     endEditCP(boxNode, Node::CoreFieldMask);
 
-	oldRange = shadowVP->getRange();
+	oldRange = shadowVP->getShadowSmoothness();
 
-	if(oldRange <= 2.0)
+	if(oldRange <= 0.1999)
 	{
 		beginEditCP(_shadowSHL);
 			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -592,7 +592,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 			_shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
 		endEditCP(_shadowSHL);
 	}
-	else if(oldRange <= 3.0)
+	else if(oldRange <= 0.3999)
 	{
 		beginEditCP(_shadowSHL);
 			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -601,7 +601,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 			_shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
 		endEditCP(_shadowSHL);
 	}
-	else if(oldRange <= 4.0)
+	else if(oldRange <= 0.5999)
 	{
 		beginEditCP(_shadowSHL);
 			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -610,7 +610,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 			_shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
 		endEditCP(_shadowSHL);
 	}
-	else if(oldRange <= 5.0)
+	else if(oldRange <= 0.7999)
 	{
 		beginEditCP(_shadowSHL);
 			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -737,7 +737,7 @@ bool PCFShadowMap::initFBO(Window *win)
     if (width <= 0 || height <= 0)
         return false;
         
-    if (fb != 0)
+    if (fb != NULL)
         return true;
 
     glGenFramebuffersEXT(1, &fb);
@@ -751,8 +751,8 @@ bool PCFShadowMap::initFBO(Window *win)
 
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
-
+	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 
@@ -824,8 +824,8 @@ void PCFShadowMap::reInit(Window *win)
 
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
-
+	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
@@ -979,7 +979,7 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
-            exnode->setActive(true);
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
 	// enable all lights.
@@ -1080,7 +1080,7 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
     {
         NodePtr exnode = shadowVP->getExcludeNodes()[i];
         if(exnode != NullFC)
-            exnode->setActive(true);
+            if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
 	// enable all lights.
@@ -1410,12 +1410,18 @@ void PCFShadowMap::render(RenderActionBase* action)
 
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
-		shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+			            GL_COMPARE_R_TO_TEXTURE_ARB);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+		glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+		glBindTexture(GL_TEXTURE_2D,0);
+		/*shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
                         GL_COMPARE_R_TO_TEXTURE_ARB);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
 	}
 
 
@@ -1466,10 +1472,10 @@ void PCFShadowMap::render(RenderActionBase* action)
 		}
     }    
 
-	if(oldRange != shadowVP->getRange())
+	if(oldRange != shadowVP->getShadowSmoothness())
 	{
-		oldRange = shadowVP->getRange();
-		if(oldRange <= 2.0)
+		oldRange = shadowVP->getShadowSmoothness();
+		if(oldRange <= 0.1999)
 		{
 			beginEditCP(_shadowSHL);
 				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -1478,7 +1484,7 @@ void PCFShadowMap::render(RenderActionBase* action)
 				_shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
 			endEditCP(_shadowSHL);
 		}
-		else if(oldRange <= 3.0)
+		else if(oldRange <= 0.3999)
 		{
 			beginEditCP(_shadowSHL);
 				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -1487,7 +1493,7 @@ void PCFShadowMap::render(RenderActionBase* action)
 				_shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
 			endEditCP(_shadowSHL);
 		}
-		else if(oldRange <= 4.0)
+		else if(oldRange <= 0.5999)
 		{
 			beginEditCP(_shadowSHL);
 				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
@@ -1496,7 +1502,7 @@ void PCFShadowMap::render(RenderActionBase* action)
 				_shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
 			endEditCP(_shadowSHL);
 		}
-		else if(oldRange <= 5.0)
+		else if(oldRange <= 0.7999)
 		{
 			beginEditCP(_shadowSHL);
 				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");

@@ -110,7 +110,7 @@ int main(int argc, char **argv)
     point1 = makeCoredNode<PointLight>(&_point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(0.0, 0.0, 50.0);
+        point1_trans->getMatrix().setTranslate(20.0, -5.0, 50.0);
     endEditCP(point1_trans);
 
     beginEditCP(_point1_core);
@@ -299,12 +299,12 @@ int main(int argc, char **argv)
 		//you can set Offset here
         //svp->setOffFactor(4.0);
         //svp->setOffBias(8.0);
-        svp->setMapSize(512);
+        svp->setMapSize(1024);
 		//if globalShadowIntensity > 0.0, it is used for all lights
-		//svp->setGlobalShadowIntensity(0.3);
-		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel. Range is limited to 6.0 for PCF_SHADOW_MAPS.
-		//Range also used to define the light size for PCSS Soft Shadows
-		svp->setRange(4.0);
+		//svp->setGlobalShadowIntensity(0.8);
+		//ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
+		//ShadowSmoothness also used to define the light size for PCSS Soft Shadows
+		svp->setShadowSmoothness(0.5);
 		//if set, all lights in the scene will be used
 		svp->setAutoSearchForLights(true);
         //svp->setOffBias(8.0);
@@ -512,7 +512,7 @@ void keyboard(unsigned char k, int x, int y)
         {
             beginEditCP(svp);
                 svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
-				svp->setRange(4.0);
+				svp->setShadowSmoothness(0.5);
             endEditCP(svp);
 			break;
         }
@@ -521,7 +521,16 @@ void keyboard(unsigned char k, int x, int y)
         {
             beginEditCP(svp);
                 svp->setShadowMode(ShadowViewport::PCSS_SHADOW_MAP);
-				svp->setRange(2.0);
+				svp->setShadowSmoothness(0.2);
+            endEditCP(svp);
+			break;
+        }
+
+		case '7':
+        {
+            beginEditCP(svp);
+                svp->setShadowMode(ShadowViewport::VARIANCE_SHADOW_MAP);
+				svp->setShadowSmoothness(0.5);
             endEditCP(svp);
 			break;
         }
@@ -533,7 +542,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias(++t);
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
-            SLOG << "Polygon-OffsetBias is: " << t << endLog;
+            SLOG << "Polygon-OffsetBias is: " << ++t << endLog;
             break;
         }
         
@@ -544,7 +553,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias(--t);
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
-            SLOG << "Polygon-OffsetBias is: " << t << endLog;
+            SLOG << "Polygon-OffsetBias is: " << --t << endLog;
             break;
         }
         
@@ -555,7 +564,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(++u);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
-            SLOG << "Polygon-OffsetFactor is: " << u << endLog;
+            SLOG << "Polygon-OffsetFactor is: " << ++u << endLog;
             break;
         }
         
@@ -566,29 +575,29 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(--u);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
-            SLOG << "Polygon-OffsetFactor is: " << u << endLog;
+            SLOG << "Polygon-OffsetFactor is: " << --u << endLog;
             break;
         }
 
 		case '+':
         {    
-            Real32 r = svp->getRange();    
+            Real32 r = svp->getShadowSmoothness();    
             
-            beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(++r);
-            endEditCP(svp, ShadowViewport::RangeFieldMask);
-            SLOG << "Range is: " << r << endLog;
+            beginEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+                svp->setShadowSmoothness(r+0.1);
+            endEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+            //SLOG << "ShadowSmoothness is: " << r << endLog;
             break;
         }
 
 		case '-':
         {    
-            Real32 r = svp->getRange();    
+            Real32 r = svp->getShadowSmoothness();    
             
-            beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(--r);
-            endEditCP(svp, ShadowViewport::RangeFieldMask);
-            SLOG << "Range is: " << r << endLog;
+            beginEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+                svp->setShadowSmoothness(r-0.1);
+            endEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+            //SLOG << "ShadowSmoothness is: " << r << endLog;
             break;
         }
 
@@ -603,7 +612,7 @@ int setupGLUT(int *argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     //Set WindowSize here
-    glutInitWindowSize(512,512);
+    glutInitWindowSize(1024,768);
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);

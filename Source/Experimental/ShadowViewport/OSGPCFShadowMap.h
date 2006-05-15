@@ -102,7 +102,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
 	GLuint fb2;
 	GLuint rb_depth;
 
-	UInt32 oldRange;
+	Real32 oldRange;
 
   protected:
 

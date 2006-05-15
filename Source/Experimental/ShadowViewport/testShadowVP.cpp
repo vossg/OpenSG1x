@@ -114,8 +114,8 @@ int main(int argc, char **argv)
     rootNode = makeCoredNode<Group>();
     NodePtr scene = makeCoredNode<Group>();
 
-    /*// create lights
-	//Directional Light 1
+    // create lights
+	/*//Directional Light 1
     TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<DirectionalLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -129,6 +129,7 @@ int main(int argc, char **argv)
         _dir1_core->setDiffuse(0.5,0.5,0.5,1);
         _dir1_core->setSpecular(0.0,0.0,0.0,1);
         _dir1_core->setBeacon(dir1_beacon);
+		_dir1_core->setShadowIntensity(0.8);
         _dir1_core->setOn(true);
     endEditCP(_dir1_core);*/
 
@@ -182,7 +183,7 @@ int main(int argc, char **argv)
         _dir2_core->setSpecular(0.0,0.0,0.0,1);
         _dir2_core->setBeacon(dir2_beacon);
         _dir2_core->setOn(true);
-		_dir2_core->setShadowIntensity(0.4);
+		_dir2_core->setShadowIntensity(0.6);
     endEditCP(_dir2_core);
 
 
@@ -628,9 +629,9 @@ int main(int argc, char **argv)
 		//used to set global shadow intensity, ignores shadow intensity from light sources if != 0.0
 		//svp->setGlobalShadowIntensity(0.8);
         svp->setMapSize(2048);
-		//Range used for PCF_SHADOW_MAP, defines Filter Width & Samples, i.e. 4.0 = 4x4 Kernel, 16 Samples per Pixel. Range is limited to 6.0 for PCF_SHADOW_MAPS.
-		//Range also used to define the light size for PCSS_SHADOW_MAP
-		svp->setRange(4.0);
+		//ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
+		//ShadowSmoothness also used to define the light size for PCSS_SHADOW_MAP
+		svp->setShadowSmoothness(0.5);
         // add light sources here
         svp->getLightNodes().push_back(dir1);
         svp->getLightNodes().push_back(dir2);
@@ -1018,7 +1019,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias((t+0.2));
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
-            SLOG << "Polygon-OffsetBias is: " << t << endLog;
+            SLOG << "Polygon-OffsetBias is: " << (t+0.2) << endLog;
             break;
         }
         
@@ -1029,7 +1030,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffBiasFieldMask);
                 svp->setOffBias((t-0.2));
             endEditCP(svp, ShadowViewport::OffBiasFieldMask);
-            SLOG << "Polygon-OffsetBias is: " << t << endLog;
+            SLOG << "Polygon-OffsetBias is: " << (t-0.2) << endLog;
             break;
         }
         
@@ -1040,7 +1041,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(++t);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
-            SLOG << "Polygon-OffsetFactor is: " << t << endLog;
+            SLOG << "Polygon-OffsetFactor is: " << ++t << endLog;
             break;
         }
         
@@ -1051,7 +1052,7 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(svp, ShadowViewport::OffFactorFieldMask);
                 svp->setOffFactor(--t);
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
-            SLOG << "Polygon-OffsetFactor is: " << t << endLog;
+            SLOG << "Polygon-OffsetFactor is: " << --t << endLog;
             break;
         }
         case 'o':
@@ -1108,7 +1109,7 @@ void keyboard(unsigned char k, int x, int y)
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 				svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
-				svp->setRange(4.0);
+				svp->setShadowSmoothness(0.5);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: PCF_SHADOW_MAP" << endLog;
             break;
@@ -1118,31 +1119,41 @@ void keyboard(unsigned char k, int x, int y)
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 				svp->setShadowMode(ShadowViewport::PCSS_SHADOW_MAP);
-				svp->setRange(10.0);
+				svp->setShadowSmoothness(1.0);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
             SLOG << "ShadowMode is: PCSS_SHADOW_MAP" << endLog;
             break;
         }
 
+		case '7':
+        {
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
+				svp->setShadowMode(ShadowViewport::VARIANCE_SHADOW_MAP);
+				svp->setShadowSmoothness(0.5);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
+            SLOG << "ShadowMode is: VARIANCE_SHADOW_MAP" << endLog;
+            break;
+        }
+
 		case '+':
         {    
-            Real32 t = svp->getRange();    
+            Real32 t = svp->getShadowSmoothness();    
             
-            beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(++t);
-            endEditCP(svp, ShadowViewport::RangeFieldMask);
-            SLOG << "Range is: " << t << endLog;
+            beginEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+                svp->setShadowSmoothness(t+0.1);
+            endEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+            //SLOG << "ShadowSmoothness is: " << t << endLog;
             break;
         }
 
 		case '-':
         {    
-            Real32 t = svp->getRange();    
+            Real32 t = svp->getShadowSmoothness();    
             
-            beginEditCP(svp, ShadowViewport::RangeFieldMask);
-                svp->setRange(--t);
-            endEditCP(svp, ShadowViewport::RangeFieldMask);
-            SLOG << "Range is: " << t << endLog;
+            beginEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+                svp->setShadowSmoothness(t-0.1);
+            endEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
+            //SLOG << "ShadowSmoothness is: " << t << endLog;
             break;
         }
 

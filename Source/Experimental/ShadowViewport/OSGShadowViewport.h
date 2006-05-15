@@ -89,6 +89,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     void initializeLights(RenderActionBase *action);
     void clearLights(UInt32 size);
     void checkMapResolution();
+	void checkCamFar();
 
     Action::ResultE findLight(NodePtr& node);
     Action::ResultE findTransparent(NodePtr& node);
@@ -103,7 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
         PERSPECTIVE_SHADOW_MAP,
 		DITHER_SHADOW_MAP,
 		PCF_SHADOW_MAP,
-		PCSS_SHADOW_MAP
+		PCSS_SHADOW_MAP,
+		VARIANCE_SHADOW_MAP
     };
 
     UInt32                  _mapRenderSize;
@@ -127,6 +129,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     std::vector<UInt32>             _lightStates;
     std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
+	std::vector<bool>				_excludeNodeActive;
 
     bool                            _trigger_update;
 
@@ -200,6 +203,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.4 2006/05/03 16:20:31 yjung Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.5 2006/05/15 16:55:15 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

@@ -152,11 +152,11 @@ SFUInt32 *ShadowViewportBase::getSFShadowMode(void)
     return &_sfShadowMode;
 }
 
-//! Get the ShadowViewport::_sfRange field.
+//! Get the ShadowViewport::_sfShadowSmoothness field.
 inline
-SFReal32 *ShadowViewportBase::getSFRange(void)
+SFReal32 *ShadowViewportBase::getSFShadowSmoothness(void)
 {
-    return &_sfRange;
+    return &_sfShadowSmoothness;
 }
 
 //! Get the ShadowViewport::_sfShadowOn field.
@@ -307,25 +307,25 @@ void ShadowViewportBase::setShadowMode(const UInt32 &value)
     _sfShadowMode.setValue(value);
 }
 
-//! Get the value of the ShadowViewport::_sfRange field.
+//! Get the value of the ShadowViewport::_sfShadowSmoothness field.
 inline
-Real32 &ShadowViewportBase::getRange(void)
+Real32 &ShadowViewportBase::getShadowSmoothness(void)
 {
-    return _sfRange.getValue();
+    return _sfShadowSmoothness.getValue();
 }
 
-//! Get the value of the ShadowViewport::_sfRange field.
+//! Get the value of the ShadowViewport::_sfShadowSmoothness field.
 inline
-const Real32 &ShadowViewportBase::getRange(void) const
+const Real32 &ShadowViewportBase::getShadowSmoothness(void) const
 {
-    return _sfRange.getValue();
+    return _sfShadowSmoothness.getValue();
 }
 
-//! Set the value of the ShadowViewport::_sfRange field.
+//! Set the value of the ShadowViewport::_sfShadowSmoothness field.
 inline
-void ShadowViewportBase::setRange(const Real32 &value)
+void ShadowViewportBase::setShadowSmoothness(const Real32 &value)
 {
-    _sfRange.setValue(value);
+    _sfShadowSmoothness.setValue(value);
 }
 
 //! Get the value of the ShadowViewport::_sfShadowOn field.
@@ -436,5 +436,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.6 2006/05/04 13:00:41 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.7 2006/05/15 16:55:15 a-m-z Exp $"
 
