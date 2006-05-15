@@ -447,8 +447,11 @@ fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n",
 
 void Node::updateVolume(void)
 {
-    if(_sfVolume.getValue().getInstance().isValid() == true)
+    if(_sfVolume.getValue().getInstance().isValid() == true ||
+       getTravMask()                                == 0x0000)
+    {
         return;             // still valid, nothing to do
+    }
 
     // be careful to not change the real volume. If two threads
     // are updating the same aspect this will lead to chaos
@@ -461,21 +464,18 @@ void Node::updateVolume(void)
 
     vol.getInstance().setEmpty();
 
-    if(getTravMask())
+    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
     {
-        for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
+        if((*it)->getTravMask())
         {
-            if((*it)->getTravMask())
-            {
-                (*it)->updateVolume();
-                vol.getInstance().extendBy((*it)->getVolume());
-            }
+            (*it)->updateVolume();
+            vol.getInstance().extendBy((*it)->getVolume());
         }
-
-        // test for null core. Shouldn't happen, but just in case...
-        if(getCore() != NullFC)
-            getCore()->adjustVolume(vol.getInstance());
     }
+    
+    // test for null core. Shouldn't happen, but just in case...
+    if(getCore() != NullFC)
+        getCore()->adjustVolume(vol.getInstance());
     
     NodePtr thisP = getPtr();
 
