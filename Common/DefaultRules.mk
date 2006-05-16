@@ -367,16 +367,16 @@ endif
 
 ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%_qt_moc.cpp: %_qt.h
-	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+	$(MOC) $(call cnvUnix2Win,$<) -i -DOSG_WITH_QT -o $@
 
 $(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
-	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+	$(MOC) $(call cnvUnix2Win,$<) -i -DOSG_WITH_QT -o $@
 else
 $(OBJDIR)/%_qt_moc.cpp: %_qt.h
-	$(MOC) $< -i -o $@
+	$(MOC) $< -i -DOSG_WITH_QT -I$(INCLUDE_QT4)/QtDesigner -o $@
 
 $(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
-	$(MOC) $< -i -o $@
+	$(MOC) $< -i -DOSG_WITH_QT -I$(INCLUDE_QT4)/QtDesigner -o $@
 endif
 
 #########################################################################

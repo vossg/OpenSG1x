@@ -153,7 +153,7 @@ public:
 
 //OSG_END_NAMESPACE
 
-#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQT4Plugin.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQT4Plugin_qt.h,v 1.1 2006/05/16 02:40:14 vossg Exp $"
 
 #endif /* OSG_WITH_QT */
 

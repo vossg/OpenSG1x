@@ -12,6 +12,7 @@ system_unix=@ac_gdz_system_unix_e15@
 
 have_glut=@ac_gdz_have_glut_e15@
 have_qt=@ac_gdz_have_qt_e15@
+have_qt4=@ac_gdz_have_qt4_e15@
 have_tif=@ac_gdz_have_tif_e15@
 have_jpg=@ac_gdz_have_jpg_e15@
 have_png=@ac_gdz_have_png_e15@
@@ -72,10 +73,15 @@ glut_libs="@ac_gdz_glut_lib_e15@"
 lib_glut_path=@ac_gdz_glut_libdir_e15@
 inc_glut_path=@ac_gdz_glut_incdir_e15@
 
-qt_libs=@ac_gdz_qt_lib_e15@
+qt_libs="@ac_gdz_qt_lib_e15@"
 lib_qt_path=@ac_gdz_qt_libdir_e15@
 inc_qt_path=@ac_gdz_qt_incdir_e15@
 cflags_qt=@am_gdz_qt_cflags@
+
+qt4_libs="@ac_gdz_qt4_lib_e15@"
+lib_qt4_path=@ac_gdz_qt4_libdir_e15@
+inc_qt4_path=@ac_gdz_qt4_incdir_e15@
+cflags_qt4=@am_gdz_qt4_cflags@
 
 tif_libs=@ac_gdz_tif_lib_e15@
 lib_tif_path=@ac_gdz_tif_libdir_e15@
@@ -249,6 +255,8 @@ Options:
     [--compiler-id]
     [--moc]
     [--uic]
+    [--moc4]
+    [--uic4]
     [--exe-linker]
     [--libs]
     [--cflags]
@@ -263,6 +271,7 @@ Libraries:
     X
     GLUT
     QT
+    QT4
     Sepia
     Contrib
 EOF
@@ -329,6 +338,14 @@ while test $# -gt 0; do
       echo "@ac_gdz_qt_uic_e15@"
 	  exit 0
 	  ;;
+    --moc4)
+      echo "@ac_gdz_qt4_moc_e15@"
+          exit 0
+          ;;
+    --uic4)
+      echo "@ac_gdz_qt4_uic_e15@"
+          exit 0
+          ;;
     --exe-linker)
       echo @am_gdz_exe_linker@
 	  exit 0
@@ -395,6 +412,17 @@ while test $# -gt 0; do
       fi;
       lib_QT=yes
       ;;
+    QT4)
+      lib_Base=yes
+      lib_System=yes
+      if test "$system_win" = "yes"; then
+        lib_Win32=yes
+      else
+        lib_X=yes
+      fi;
+      lib_QT4=yes
+      ;;
+
     Sepia)
       lib_Base=yes
       lib_System=yes
@@ -469,6 +497,28 @@ if test "$lib_QT" = "yes"; then
         system_defs="$system_defs -DOSG_WITH_QT $cflags_qt"
     else
         echo "Warning QT not configured, ignoring request"
+    fi;
+fi;
+
+if test "$lib_QT4" = "yes"; then
+    if test "$have_qt4" = "yes"; then
+        opensg_libs="$opensg_libs ${link_pre}OSGWindowQT4${dbg_char}${link_suf}"
+        system_libs="$system_libs $qt4_libs"
+        if test "yes$lib_qt4_path" != "yes"; then
+            system_libs_path="$system_libs_path $linkdir_pre$lib_qt4_path$linkdir_suf"
+        fi
+        if test "yes$inc_qt4_path" != "yes"; then
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/Qt3Support$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/Qt$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/QtCore$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/QtGui$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/QtOpenGL$incdir_suf"
+            system_incs_path="$system_incs_path $incdir_pre$inc_qt4_path/QtXml$incdir_suf"
+        fi
+        system_defs="$system_defs -DOSG_WITH_QT -DQT3_SUPPORT -DQT_THREAD_SUPPORT $cflags_qt4"
+    else
+        echo "Warning QT4 not configured, ignoring request"
     fi;
 fi;
 

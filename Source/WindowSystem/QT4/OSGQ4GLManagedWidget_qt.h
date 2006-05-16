@@ -49,11 +49,6 @@
 #include "OSGQ4GLWidget_qt.h"
 #include "OSGWindow.h"
 #include "OSGSimpleSceneManager.h"
-//Added by qt3to4:
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QCloseEvent>
 
 
 OSG_BEGIN_NAMESPACE
@@ -147,6 +142,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedWidget_qt.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedWidget_qt.h,v 1.2 2006/05/16 02:40:14 vossg Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */

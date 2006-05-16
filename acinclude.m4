@@ -750,6 +750,16 @@ dnl e2
                 ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowQTTest"
             fi
         fi
+        if test ${ac_gdz_package_name} = "WindowQT4"; then
+            if test ${ac_gdz_conf_package_qt4} = 0; then
+                echo Skipping ${ac_gdz_package_name}
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowQT4Lib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowQTTest4"
+            fi
+        fi
+
         if test ${ac_gdz_package_name} = "WindowGLUT"; then
             if test ${ac_gdz_conf_package_glut} = 0; then
                 echo Skipping ${ac_gdz_package_name}
@@ -1160,6 +1170,88 @@ dnl e5
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_qt_e6:$ac_gdz_common_qt_in_e6)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_QT4,
+[
+dnl e5
+
+    changequote(<<, >>)dnl
+
+    ac_gdz_qt4_lib_e6=
+    ac_gdz_qt4_incdir_e6=
+    ac_gdz_qt4_libdir_e6=
+    ac_gdz_qt4_moc_e6=moc
+    ac_gdz_qt4_uic_e6=uic
+
+    if test "$enable_qt4" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_qt4_lib_e6=`cd $ac_gdz_qt4_libdir; ls QtCore4.lib 2> /dev/null`
+                            
+                if test "x"$ac_gdz_qt4_lib_e6 = "x"; then
+                   echo "QT4 configured, but could not find $ac_gdz_qt4_libdir\QtCore4.lib"
+                   exit 1 
+                fi
+            ;;
+            *)
+                echo "Lib dir: $ac_gdz_qt4_libdir"
+                ac_gdz_qt4_lib_e6=`cd $ac_gdz_qt4_libdir;ls libQtCore$ac_gdz_so_suffix 2> /dev/null`
+                echo "Result: $ac_gdz_qt4_lib_e6"
+                if test "x"$ac_gdz_qt4_lib_e6 != "x"; then
+                    ac_gdz_qt4_lib_e6='-lQt3Support -lQtCore -lQtGui -lQtNetwork -lQtOpenGL -lQtXml -lQtSql'
+                    echo "Libs: $ac_gdz_qt4_lib_e6"
+                else
+                    echo "QT configured, but QtCore$ac_gdz_so_suffix could not be found in $ac_gdz_qt4_libdir!"
+                    exit 1
+                fi
+            ;;
+        esac
+
+        if test -n "$ac_gdz_qt4_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt4_incdir_e6='"'`cygpath -w $ac_gdz_qt4_incdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt4_incdir_e6=$ac_gdz_qt4_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt4_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt4_libdir_e6='"'`cygpath -w $ac_gdz_qt4_libdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt4_libdir_e6=$ac_gdz_qt4_libdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt4_bindir"; then
+            ac_gdz_qt4_moc_e6=$ac_gdz_qt4_bindir/moc
+            ac_gdz_qt4_uic_e6=$ac_gdz_qt4_bindir/uic
+        fi
+
+    fi
+
+    changequote([, ])dnl
+
+    ac_gdz_common_qt4_in_e6=$ac_gdz_commonconf_dir/commonQT4.in
+    ac_gdz_common_qt4_e6=$ac_gdz_commonpackage_dir/commonQT4.mk
+
+    AC_SUBST(ac_gdz_qt4_incdir_e6)
+    AC_SUBST(ac_gdz_qt4_libdir_e6)
+    AC_SUBST(ac_gdz_qt4_lib_e6)
+    AC_SUBST(ac_gdz_qt4_moc_e6)
+    AC_SUBST(ac_gdz_qt4_uic_e6)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_qt4_e6:$ac_gdz_common_qt4_in_e6)
 ])
 
 
@@ -1696,6 +1788,73 @@ dnl e15
         ac_gdz_have_qt_e15=no
     fi
 
+
+
+
+    ac_gdz_qt4_lib_e15=
+    ac_gdz_qt4_incdir_e15=
+    ac_gdz_qt4_libdir_e15=
+    ac_gdz_qt4_moc_e15=moc
+    ac_gdz_qt4_uic_e15=uic
+
+    if test "$enable_qt4" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_qt4_lib_e15=`cd $ac_gdz_qt4_libdir; ls QtCore4.lib 2> /dev/null`
+                            
+                if test "x"$ac_gdz_qt4_lib_e15 = "x"; then
+                    echo "QT4 configured, but could not find $ac_gdz_qt4_libdir\QtCore4.lib"
+                    exit 1
+                fi
+            ;;
+            *)
+                echo "Lib dir: $ac_gdz_qt4_libdir"
+                ac_gdz_qt4_lib_e15=`cd $ac_gdz_qt4_libdir; ls libQtCore$ac_gdz_so_suffix 2> /dev/null`
+                echo "Result: $ac_gdz_qt4_lib_e15"
+                if test "x"$ac_gdz_qt4_lib_e15 != "x"; then
+                    ac_gdz_qt4_lib_e15='-lQt3Support -lQtCore -lQtGui -lQtNetwork -lQtOpenGL -lQtXml -lQtSql'
+                    echo "Libs: $ac_gdz_qt4_lib_e15"
+                else
+                    echo "QT4 configured, but could not find $ac_gdz_qt4_libdir\QtCore4.lib"
+                    exit 1
+                fi
+            ;;
+
+        esac
+
+        if test -n "$ac_gdz_qt4_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt4_incdir_e15='"'`cygpath -w $ac_gdz_qt4_incdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt4_incdir_e15=$ac_gdz_qt4_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt4_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_qt4_libdir_e15='"'`cygpath -w $ac_gdz_qt4_libdir`'"'
+                ;;
+                *)
+                   ac_gdz_qt4_libdir_e15=$ac_gdz_qt4_libdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_qt4_bindir"; then
+            ac_gdz_qt4_moc_e15=$ac_gdz_qt4_bindir/moc
+            ac_gdz_qt4_uic_e15=$ac_gdz_qt4_bindir/uic
+        fi
+
+        ac_gdz_have_qt4_e15=yes
+    else
+        ac_gdz_have_qt4_e15=no
+    fi
+
     changequote([, ])dnl
 
 
@@ -2142,6 +2301,14 @@ dnl e15
     AC_SUBST(ac_gdz_qt_moc_e15)
     AC_SUBST(ac_gdz_qt_uic_e15)
     AC_SUBST(ac_gdz_have_qt_e15)
+
+    AC_SUBST(ac_gdz_qt4_incdir_e15)
+    AC_SUBST(ac_gdz_qt4_libdir_e15)
+    AC_SUBST(ac_gdz_qt4_lib_e15)
+    AC_SUBST(ac_gdz_qt4_moc_e15)
+    AC_SUBST(ac_gdz_qt4_uic_e15)
+    AC_SUBST(ac_gdz_have_qt4_e15)
+
 
     AC_SUBST(ac_gdz_tif_incdir_e15)
     AC_SUBST(ac_gdz_tif_libdir_e15)

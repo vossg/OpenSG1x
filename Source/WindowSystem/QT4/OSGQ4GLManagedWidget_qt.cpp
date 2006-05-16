@@ -45,16 +45,17 @@
 
 #include <unistd.h>
 
-#include "OSGConfig.h"
-
-#include "OSGQ4GLManagedWidget_qt.h"
-
-#include "OSGQT4Window.h"
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QKeyEvent>
 #include <QCloseEvent>
+
+#include "OSGConfig.h"
+
+#include "OSGQ4GLManagedWidget_qt.h"
+
+#include "OSGQT4Window.h"
 
 OSG_USING_NAMESPACE
 
@@ -280,6 +281,6 @@ void OSGQGLManagedWidget::closeEvent(QCloseEvent *event)
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: OSGQ4GLManagedWidget_qt.cpp,v 1.1 2006/03/10 18:30:35 a-m-z Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGQ4GLManagedWidget_qt.cpp,v 1.2 2006/05/16 02:40:14 vossg Exp $";
     static char cvsid_hpp[] = OSGQGLMANAGEDWIDGET_HEADER_CVSID;
 }

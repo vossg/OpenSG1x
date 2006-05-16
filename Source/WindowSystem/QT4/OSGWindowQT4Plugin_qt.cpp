@@ -42,7 +42,7 @@
 
 #include "qstring.h"
 
-#include "OSGWindowQT4Plugin.h"
+#include "OSGWindowQT4Plugin_qt.h"
 
 // #include "OSGQ4GLDesignerWidget_qt.h"
 #include "OSGQ4GLManagedDesignerWidget_qt.h"
@@ -352,7 +352,7 @@ QString OSGWindowQTPlugin::codeTemplate() const
     return "";
 }
 
-#include "OSGWindowQT4Plugin_moc.cpp"
+#include "OSGWindowQT4Plugin_qt_moc.cpp"
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
@@ -367,6 +367,6 @@ QString OSGWindowQTPlugin::codeTemplate() const
 
 namespace 
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGWindowQT4Plugin.cpp,v 1.1 2006/03/10 18:30:35 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGWindowQT4Plugin_qt.cpp,v 1.1 2006/05/16 02:40:14 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGWINDOWQTPLUGIN_HEADER_CVSID;
 }

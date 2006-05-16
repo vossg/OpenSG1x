@@ -2,7 +2,7 @@
 ac_gdz_package_order="BaseLib SystemLib"
 ac_gdz_package_order_test="BaseTest SystemTest"
 
-ac_gdz_packages="Base System WindowX WindowWIN32 WindowQT WindowGLUT"
+ac_gdz_packages="Base System WindowX WindowWIN32 WindowQT WindowQT4 WindowGLUT"
 
 #Experimental "
 
@@ -35,7 +35,7 @@ ac_gdz_package_dirs_WindowWIN32="WindowSystem/WIN32@"
 ac_gdz_package_inc_dep_WindowWIN32="@Base@ @System@ GLUT GL" 
 ac_gdz_package_link_dep_WindowWIN32="SystemLib BaseLib" 
 ac_gdz_package_testinc_dep_WindowWIN32="" 
-ac_gdz_package_testlink_dep_WindowWIN32="QT GLUT GL TIF JPG PNG MNG TEXT" 
+ac_gdz_package_testlink_dep_WindowWIN32="GLUT GL TIF JPG PNG MNG TEXT" 
 ac_gdz_package_def_WindowWIN32="OSG_COMPILEWINDOWWIN32LIB" 
 
 ac_gdz_package_name_WindowQT="WindowQT" 
@@ -45,6 +45,14 @@ ac_gdz_package_link_dep_WindowQT="Window@WINDOWSYSTEM@Lib  SystemLib BaseLib"
 ac_gdz_package_testinc_dep_WindowQT="GLUT WindowSystem/GLUT" 
 ac_gdz_package_testlink_dep_WindowQT="QT WindowGLUTLib GLUT GL TIF JPG PNG MNG TEXT" 
 ac_gdz_package_def_WindowQT="OSG_COMPILEWINDOWQTLIB" 
+
+ac_gdz_package_name_WindowQT4="WindowQT4" 
+ac_gdz_package_dirs_WindowQT4="WindowSystem/QT4@" 
+ac_gdz_package_inc_dep_WindowQT4="@Base@ @System@ WindowSystem/@WINDOWSYSTEM@ QT4 GL " 
+ac_gdz_package_link_dep_WindowQT4="Window@WINDOWSYSTEM@Lib  SystemLib BaseLib" 
+ac_gdz_package_testinc_dep_WindowQT4="GLUT WindowSystem/GLUT" 
+ac_gdz_package_testlink_dep_WindowQT4="QT4 WindowGLUTLib GLUT GL TIF JPG PNG MNG TEXT" 
+ac_gdz_package_def_WindowQT4="OSG_COMPILEWINDOWQT4LIB" 
 
 ac_gdz_package_name_WindowGLUT="WindowGLUT" 
 ac_gdz_package_dirs_WindowGLUT="WindowSystem/GLUT@" 

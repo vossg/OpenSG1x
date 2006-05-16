@@ -32,6 +32,8 @@ ac_gdz_compiler_exe=
 ac_gdz_conf_package_defs=
 ac_gdz_conf_package_qt='0'
 ac_gdz_conf_package_qt_e1='0'
+ac_gdz_conf_package_qt4='0'
+ac_gdz_conf_package_qt4_e1='0'
 ac_gdz_conf_package_glut='0'
 ac_gdz_conf_package_glut_e1='0'
 ac_gdz_conf_package_stlport='0'
@@ -367,6 +369,89 @@ else
 	ac_gdz_qt_incdir=
 	ac_gdz_qt_libdir=
 	ac_gdz_qt_bindir=
+fi
+
+dnl ############# QT4 Settings #####################
+
+AC_ARG_ENABLE(qt4,     [  --enable-qt4                         Build with qt4 support],
+                        ,enable_qt4=no) 
+AC_ARG_WITH(qt4,     [  --with-qt4=DIR                       Use DIR/lib DIR/include to find the qt4 files],
+                        ,with_qt4=) 
+AC_ARG_WITH(qt4includedir,     [  --with-qt4includedir=DIR             Use qt4 includes from the given directory],
+                        ,with_qt4includedir=) 
+AC_ARG_WITH(qt4libdir,     [  --with-qt4libdir=DIR                 Use qt4 library from the given directory],
+                        ,with_qt4libdir=) 
+AC_ARG_WITH(qt4bindir,     [  --with-qt4bindir=DIR                 Use qt4 binaries from the given directory],
+                        ,with_qt4bindir=) 
+
+if test "$enable_qt4" = no && test "$with_qt4" = yes; then
+    enable_qt4=yes
+    with_qt4=
+fi
+
+if test "$enable_qt4" = no && test "$with_qt4"X != "X"; then
+    enable_qt4=yes
+fi
+
+if test "$enable_qt4" = yes; then
+        ac_gdz_qt4_incdir=
+        ac_gdz_qt4_libdir=
+        ac_gdz_qt4_bindir=
+        ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT -DQT3_SUPPORT -DQT_THREAD_SUPPORT'
+        ac_gdz_conf_package_qt4='1'
+        ac_gdz_conf_package_qt4_e1='1'
+    	ac_gdz_conf_package_qt_e1='1'
+
+    if test -n "$with_qt4"; then
+                ac_gdz_qt4_incdir=$with_qt4/include
+        ac_gdz_qt4_libdir=$with_qt4/lib
+        ac_gdz_qt4_bindir=$with_qt4/bin
+
+        if ! test -d "$ac_gdz_qt4_incdir" && ! test -n "$with_qt4includedir"; then
+            echo "ERROR qt4 include dir does not seem to exist, please check the given base dir \"$with_qt4\""
+            exit
+        fi
+        if ! test -d "$ac_gdz_qt4_libdir" && ! test -n "$with_qt4libdir"; then
+            echo "ERROR qt4 lib dir does not seem to exist, please check the given base dir \"$with_qt4\""
+            exit
+        fi
+        if ! test -d "$ac_gdz_qt4_bindir" && ! test -n "$with_qt4bindir"; then
+            echo "ERROR qt4 bin dir does not seem to exist, please check the given base dir \"$with_qt4\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_qt4includedir"; then
+                ac_gdz_qt4_incdir=$with_qt4includedir
+
+        if ! test -d "$ac_gdz_qt4_incdir"; then
+            echo "ERROR qt4 include dir does not seem to exist, please check the given dir \"$with_qt4includedir\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_qt4libdir"; then
+            ac_gdz_qt4_libdir=$with_qt4libdir
+
+        if ! test -d "$ac_gdz_qt4_libdir"; then
+            echo "ERROR qt4 lib dir does not seem to exist, please check the given dir \"$with_qt4libdir\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_qt4bindir"; then
+            ac_gdz_qt4_bindir=$with_qt4bindir
+
+        if ! test -d "$ac_gdz_qt4_bindir"; then
+            echo "ERROR qt4 bin dir does not seem to exist, please check the given dir \"$with_qt4bindir\""
+            exit
+        fi
+    fi
+else
+        ac_gdz_qt4_dir=
+        ac_gdz_qt4_incdir=
+        ac_gdz_qt4_libdir=
+        ac_gdz_qt4_bindir=
 fi
 
 dnl ############# TIF Settings #####################
@@ -1647,6 +1732,8 @@ AC_GDZ_WRITE_COMMON_STL()
 AC_GDZ_WRITE_COMMON_GLUT()
 
 AC_GDZ_WRITE_COMMON_QT()
+
+AC_GDZ_WRITE_COMMON_QT4()
 
 AC_GDZ_WRITE_COMMON_TIF()
 

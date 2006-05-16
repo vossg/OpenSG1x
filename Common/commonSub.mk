@@ -494,6 +494,8 @@ include $($(PROJ)POOL)/$($(PROJ)COMMON)/DefaultRules.mk
 ifeq ($(IN_TEST_DIR),1)
 
 help:
+    @echo "LIB_ABSSOURCEDIRS: $(LIB_ABSSOURCEDIRS)"
+    @echo "REQUIRED_PACKAGES: $(REQUIRED_PACKAGES)"
 	@echo 
 	@echo "Targets supported on this level (Test):"
 	@echo "======================================="

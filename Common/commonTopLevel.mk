@@ -416,6 +416,7 @@ install-bin: install-test
 	       -e "s|@am_gdz_compiler@|\"$$ICOMP\"|g"                           \
 	       -e "s/@am_gdz_version@/$$VERSION/g"                              \
 	       -e 's/@am_gdz_qt_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'           \
+           -e 's/@am_gdz_qt4_cflags@/\"$(QT_PLATTFORMDEF_EXT)\"/g'         \
 	       -e 's/@am_gdz_exe_linker@/\"$(LD_SED)\"/g'                       \
 	       -e 's/@am_gdz_compiler_exe_shared@/\"$(LD_SHARED_SED)\"/g'       \
 	       -e "s/@am_gdz_compiler_id@/$(OS_CMPLR)/g"                        \
