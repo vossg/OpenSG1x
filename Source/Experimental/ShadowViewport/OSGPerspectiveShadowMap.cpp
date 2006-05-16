@@ -263,6 +263,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 		return true;
 	}
 
+    return true;
 }
 
 void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num)
@@ -1589,23 +1590,30 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 			_perspectiveLVM.push_back(_LVM);
 		}
 	}
-
+	
+	//deactivate transparent Nodes
+	for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+		shadowVP->_transparent[t]->setActive(false);
 
     if(shadowVP->getMapAutoUpdate())
     {
-   		if(useFBO) createShadowMapsFBO(action);
+		if(useFBO) createShadowMapsFBO(action);
 		else createShadowMaps(action);
     }
     else
     {
         if(shadowVP->_trigger_update)
         {
-            if(useFBO) createShadowMapsFBO(action);
+			if(useFBO) createShadowMapsFBO(action);
 			else createShadowMaps(action);
 
             shadowVP->_trigger_update = false;
         }
     }
+
+	// switch on all transparent geos
+    for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+        shadowVP->_transparent[t]->setActive(true);
 
     if(!shadowVP->_lights.empty() && !shadowVP->_lightCameras.empty())
     {
@@ -1616,6 +1624,10 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
         FDEBUG(("Rendering without Shadows\n"));
         shadowVP->Viewport::render(action);
     }
+
+	// switch on all transparent geos
+    //for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+    //    shadowVP->_transparent[t]->setActive(true);
 
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)

@@ -253,6 +253,7 @@ bool StdShadowMap::initFBO(Window *win)
 
 		return true;
 	}
+    return true;
 }
 
 void StdShadowMap::createShadowMaps(RenderActionBase* action)
@@ -678,7 +679,7 @@ void StdShadowMap::projectShadowMaps(RenderActionBase* action)
 
 	glDepthFunc(GL_LEQUAL);
 
-    // switch on all transparent geos
+    //// switch on all transparent geos
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
@@ -718,6 +719,10 @@ void StdShadowMap::render(RenderActionBase* action)
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
 
+	//deactivate transparent Nodes
+	for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+		shadowVP->_transparent[t]->setActive(false);
+
     if(shadowVP->getMapAutoUpdate())
     {
 		if(useFBO) createShadowMapsFBO(action);
@@ -733,6 +738,10 @@ void StdShadowMap::render(RenderActionBase* action)
         }
     }
     
+	//switch on all transparent geos
+	for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+        shadowVP->_transparent[t]->setActive(true);
+
     if(!shadowVP->_lights.empty() || !shadowVP->_lightCameras.empty())
     {
 		projectShadowMaps(action);

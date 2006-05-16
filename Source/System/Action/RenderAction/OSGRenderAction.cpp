@@ -1048,7 +1048,13 @@ void RenderAction::undropLight(Light *pLight)
         return;
 
     if(_lightEnvsLightsState.empty())
+    {
         _lightsPath.pop_back();
+        if(!_lightsPath.empty())
+            _lightsState = _lightsPath.back();
+        else
+            _lightsState = 0;
+    }
 }
 
 void RenderAction::dropLightEnv(LightEnv *pLightEnv)
