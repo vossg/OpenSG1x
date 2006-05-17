@@ -1052,7 +1052,7 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			glReadBuffer(GL_NONE);
 
 			//shadowVP->_poly->activate(action,0);
-			glPolygonOffset( 8, 8 );
+			glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 			glEnable( GL_POLYGON_OFFSET_FILL );
 
 			glClearColor(1.0,1.0,1.0,1.0);
