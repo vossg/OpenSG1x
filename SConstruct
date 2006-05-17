@@ -120,7 +120,7 @@ class unzip:
 
 def get_timestamp(file):
     if os.path.exists(file):
-        return os.path.getmtime(file)
+        return int(os.path.getmtime(file))
     else:
         return 0
 
@@ -990,7 +990,7 @@ class win32_mspsdkx64(win32_msvc_base):
 
         # this compiler uses the old vc 6.0 header files we need the define
         # to detect this in OSGConfig.h
-        env.Append(CPPDEFINES =['OSG_PSDK_COMPILER'])
+        env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/Zm1200', '/Zc:forScope'])
         env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
