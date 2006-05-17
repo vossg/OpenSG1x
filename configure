@@ -4271,6 +4271,7 @@ echo $ac_gdz_bison_exe_flags_e1 $ac_gdz_compiler_logo_e1
 
 
 
+
 if test "$enable_compiler_pedantic_errors" = yes; then
     ac_gdz_ped_errors_e1=1
 else
@@ -4449,6 +4450,7 @@ s%@ac_gdz_plat_project_praefix@%$ac_gdz_plat_project_praefix%g
 s%@ac_gdz_gen_base_inc_e1@%$ac_gdz_gen_base_inc_e1%g
 s%@ac_gdz_conf_package_defs@%$ac_gdz_conf_package_defs%g
 s%@ac_gdz_conf_package_qt_e1@%$ac_gdz_conf_package_qt_e1%g
+s%@ac_gdz_conf_package_qt4_e1@%$ac_gdz_conf_package_qt4_e1%g
 s%@ac_gdz_conf_package_tif_e1@%$ac_gdz_conf_package_tif_e1%g
 s%@ac_gdz_conf_package_jpg_e1@%$ac_gdz_conf_package_jpg_e1%g
 s%@ac_gdz_conf_package_png_e1@%$ac_gdz_conf_package_png_e1%g

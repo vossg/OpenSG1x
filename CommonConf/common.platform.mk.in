@@ -58,6 +58,7 @@ OS_CMPLR_DEF         := @ac_gdz_compiler_base_def@
 @ac_gdz_common_patterns@
 
 CONFIGURED_QT           :=@ac_gdz_conf_package_qt_e1@
+CONFIGURED_QT4          :=@ac_gdz_conf_package_qt4_e1@
 CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut_e1@
 CONFIGURED_STLPORT      :=@ac_gdz_conf_package_stlport_e1@
 CONFIGURED_GLUT         :=@ac_gdz_conf_package_glut_e1@

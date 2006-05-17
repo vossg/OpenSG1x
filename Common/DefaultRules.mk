@@ -365,6 +365,7 @@ else
 endif
 endif
 
+ifeq ($(CONFIGURED_QT4), 1)
 ifeq ($(OS_BASE), cygwin)
 $(OBJDIR)/%_qt_moc.cpp: %_qt.h
 	$(MOC) $(call cnvUnix2Win,$<) -i -DOSG_WITH_QT -o $@
@@ -377,6 +378,21 @@ $(OBJDIR)/%_qt_moc.cpp: %_qt.h
 
 $(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
 	$(MOC) $< -i -DOSG_WITH_QT -I$(INCLUDE_QT4)/QtDesigner -o $@
+endif
+else
+ifeq ($(OS_BASE), cygwin)
+$(OBJDIR)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+
+$(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
+	$(MOC) $(call cnvUnix2Win,$<) -i -o $@
+else
+$(OBJDIR)/%_qt_moc.cpp: %_qt.h
+	$(MOC) $< -i -o $@
+
+$(OBJDIR)/%_qt_moc.cpp: %_qt.cpp
+	$(MOC) $< -i -o $@
+endif
 endif
 
 #########################################################################

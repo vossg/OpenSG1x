@@ -1657,6 +1657,7 @@ AC_SUBST(ac_gdz_gen_base_inc_e1)
 
 AC_SUBST(ac_gdz_conf_package_defs)
 AC_SUBST(ac_gdz_conf_package_qt_e1)
+AC_SUBST(ac_gdz_conf_package_qt4_e1)
 AC_SUBST(ac_gdz_conf_package_tif_e1)
 AC_SUBST(ac_gdz_conf_package_jpg_e1)
 AC_SUBST(ac_gdz_conf_package_png_e1)
