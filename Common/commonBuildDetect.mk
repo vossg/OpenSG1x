@@ -85,9 +85,8 @@ MAKEMAJOR := \
 	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 3 | cut -d'.' -f 1)
 
 MAKEMINOR := \
-	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 3 | cut -d'.' -f 2)
+	$(shell $(MAKE) --version | head -n 1 | cut -d' ' -f 3 | cut -d'.' -f 2 | sed -e 's/^\([0-9][0-9]*\)[a-bA-B].*$$/\1/')
 endif
-
 
 MAKEMAJOR := $(strip $(MAKEMAJOR))
 MAKEMINOR := $(strip $(MAKEMINOR))
