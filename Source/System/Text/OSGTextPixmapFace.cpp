@@ -126,17 +126,17 @@ const TextPixmapGlyph &TextPixmapFace::getPixmapGlyph(TextGlyph::Index glyphInde
 // Creates a texture image with the result of a layout operation
 // Author: pdaehne
 //----------------------------------------------------------------------
-ImagePtr TextPixmapFace::makeImage(const TextLayoutResult &layoutResult, Vec2f &offset)
+ImagePtr TextPixmapFace::makeImage(const TextLayoutResult &layoutResult, Vec2f &offset, UInt32 border)
 {
     Vec2f lowerLeft, upperRight;
     calculateBoundingBox(layoutResult, lowerLeft, upperRight);
-    offset.setValues(lowerLeft.x(), upperRight.y());
+    offset.setValues(lowerLeft.x() - border, upperRight.y() + border);
 
     ImagePtr imagePtr = Image::create();
     beginEditCP(imagePtr);
     {
-        UInt32 width = static_cast<UInt32>(osgceil(upperRight.x() - lowerLeft.x()));
-        UInt32 height = static_cast<UInt32>(osgceil(upperRight.y() - lowerLeft.y()));
+        UInt32 width = static_cast<UInt32>(osgceil(upperRight.x() - lowerLeft.x())) + (border << 1);
+        UInt32 height = static_cast<UInt32>(osgceil(upperRight.y() - lowerLeft.y())) + (border << 1);
         imagePtr->set(Image::OSG_I_PF, width, height);
         imagePtr->clear();
         UInt8 *buffer = imagePtr->getData();
@@ -147,8 +147,8 @@ ImagePtr TextPixmapFace::makeImage(const TextLayoutResult &layoutResult, Vec2f &
         {
             const TextPixmapGlyph &glyph = getPixmapGlyph(layoutResult.indices[i]);
             const Vec2f &pos = layoutResult.positions[i];
-            Int32 x = static_cast<Int32>(pos.x() - lowerLeft.x() + 0.5f);
-            Int32 y = static_cast<Int32>(pos.y() - lowerLeft.y() + 0.5f);
+            Int32 x = static_cast<Int32>(pos.x() - lowerLeft.x() + 0.5f) + border;
+            Int32 y = static_cast<Int32>(pos.y() - lowerLeft.y() + 0.5f) + border;
             glyph.putPixmap(x, y, buffer, width, height);
         }
     }
@@ -182,7 +182,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.2 2005/06/29 16:25:03 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.3 2006/05/19 09:56:30 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTPIXMAPFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTPIXMAPFACE_INLINE_CVSID;
 }
