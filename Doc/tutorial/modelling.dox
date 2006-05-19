@@ -206,6 +206,6 @@ The BIN file use the reflective interface to be independent of additions to the 
 
 In versions after 1.2 there is a new binary file format called OSB which is not quite as sensitive to changes to the library as BIN. I still wouldn't use it as a storage format, but it doesn't need rewriting files every time the library changes a little bit.
 
-Next Chapter : \ref Solutions
+Next Chapter: \ref TutorialNewAction
 
 */

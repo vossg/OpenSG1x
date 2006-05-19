@@ -304,5 +304,6 @@ A subset of an actors state that is accumulated along a path in the scenegraph.
 When the graph is not depth first traversed these state elements are copied
 and restored accordingly.
 
+Next Chapter: \ref Text
 
 */

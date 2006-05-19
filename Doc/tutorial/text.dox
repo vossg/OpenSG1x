@@ -1,0 +1,584 @@
+#include <OSGConfig.h>
+
+using namespace OSG;
+
+/*! \page Text Text
+\latexonly Starter:NewChapter \endlatexonly
+<IMG SRC="underscore.png" style="border-width:0px">
+
+Written by Patrick D&auml;hne.
+
+<HR>
+Chapter Overview
+<HR>
+<TABLE border="0" cellpadding="0" cellspacing="0" style="margin-left:50px"><tr><td>
+    >\ref TutorialTextIntroduction <BR>
+    >\ref TutorialTextCreateFace <BR>
+    >\ref TutorialTextReferenceCounting <BR>
+    >\ref TutorialTextLayout <BR>
+    >\ref TutorialTextRendering
+</td></tr></table>
+<HR>
+
+\section TutorialTextIntroduction Introduction
+
+This section of the tutorial explains how to use text in your 3D scenes. OpenSG supports three different kinds of text:
+
+\li Text as a 3D geometry. Text is rendered into an OpenSG geometry consisting of polygons. You can put this geometry into the scene graph, transform it, map textures onto it, and do all the things you can do with geometry node cores. This type of text is called "Vector Text".
+
+\image html text-vector.png "Text as a 3D geometry"
+\image latex text-vector.eps "Text as a 3D geometry" width = 12cm
+
+\li Text as a texture. Text is rendered into an OpenSG image that can be used as a texture. You can map the text onto arbitrary geometric objects. This kind of text is called "Pixmap Text".
+
+\image html text-pixmap.png "Text as a texture, mapped onto a torus"
+\image latex text-pixmap.eps "Text as a texture, mapped onto a torus" width = 12cm
+
+\li Text as a mixture between 3D geometry and texture. This approach is taken from the document "A Simple OpenGL-based API for Texture Mapped Text" by Mark Kilgard (available at http://www.opengl.org/resources/code/samples/mjktips/TexFont/TexFont.html). The characters of the font are rendered into a texture. Then, a geometry of quads is created. Each quad is used to render one character of the text by mapping the respective sub-part of the texture onto the quad. This kind of text is called "TXF Text".
+
+\image html text-txf.png "Text as a mixture between 3D geometry and texture"
+\image latex text-txf.eps "Text as a mixture between 3D geometry and texture" width = 12cm
+
+Which kind of text you use for your projects depends on what you want to achieve and what your limitations are. Vector text consists of lots of polygons, but does not take any texture memory. Pixmap text takes texture memory, but in the simplest case you just need one quad to render it. TXF text is an efficient compromise between vector text and pixmap text.
+
+But even though TXF text seems to be the best solution, you have to realize that this kind of text gives the lowest visual quality. The layout engine is limited to the characters available in the texture, i.e. it is not able to improve the visual appearance by combining characters to ligatures etc. Even worse, TXF text does not work well for all kinds of scripts. European scripts are usually ok when they do not have a hand-written appearance, but e.g. Arabic script does not work because it heavily depends on ligatures. So as a rule of thumb, use TXF text only when resources are extremly limited or when the text changes frequently, e.g. for statistic output. Stick to vector or pixmap text whenever possible.
+
+On Windows and Mac OS X, support for text is automatically enabled (the OpenSG text code is based on the native APIs of these operating systems). On Linux (and other Unix systems), you have to enable support for text when configuring OpenSG. The text code for Unix systems is based on two external libraries, "Freetype2" (http://www.freetype.org/) and "Fontconfig" (http://www.fontconfig.org/). On all recent Linux distributions, these libraries are installed by default, so you can enable text support by adding the option "--enable-text" to the "configure" command line. In this case, "configure" expects the libraries and headers in the default locations, and the Freetype2 headers at the path "/usr/include/freetype2". When the libraries and headers are installed in non-default location, you have to use the options "--with-text", "--with-textincludedir" and "--with-textlibdir" on the "configure" command line.
+
+Important: The OpenSG text code is not thread-safe! Only one thread per time is allowed to call any of the text methods. When you have more than a single thread, it is your responsibility to synchronize all access to the text code. This of course does not mean that OpenSG itself is not thread safe. Once you have created your text geometries or textures, you can put them into the scene graph and access them by different threads simultaneously. Just the process of creating text geometry or texture by using the text code is not thread safe. In practice, this should not be a problem.
+
+The OpenSG text code differs from most other 3D text libraries in the way you specify which font to use for your text. Other libraries require the application developer to specify a TrueType or Postscript font file. In contrast, OpenSG requires the developer to specify the name of a font family installed on the system. Well-known font families for example are "Arial", "Times New Roman", or "Courier New". When you specify a font name when creating a font face object (see below), OpenSG (or more precisely the system) searches for an installed font whose name exactly matches the given name. When it does not find a matching font, creating the face fails. For this reason, it is important that you enter the font name exactly as it is registered in the system. Even the case of the name matters. (This is not true when working on Unix systems - the Fontconfig library always returns a face, even when no name matches.)
+
+How to find out which font families are installed on your machine and how to install new fonts depends on the system you are working on. On Windows, you can use the "Fonts" tool, available under "Settings/Control Panel". On Mac OS X, you can use the "Font Book", available in the "Applications" folder. On Linux distributions, you can use the Nautilus file browser (part of the GNOME desktop environment) by entering "fonts:///" in the address bar, or the "Font Installer" applet of the "KDE Control Center".
+
+The OpenSG text code also allows to retrieve the names of all font families installed on the system. The following piece of code demonstrates how to use the "getFontFamilies" method of the "TextFaceFactory" singleton to get the names of all font families:
+
+\code
+// Includes
+#include <OpenSG/OSGTextFaceFactory.h>
+#include <vector>
+#include <string>
+
+// Create a vector of strings.
+std::vector<std::string> families;
+
+// Fill the vector with the names of all font families installed
+// on the system
+OSG::TextFaceFactory::the().getFontFamilies(families);
+
+// Iterate over the names
+std::vector<std::string>::const_iterator it;
+for (it = families.begin(); it != families.end(); ++it)
+  ; // your code
+\endcode
+
+For a complete example that prints the names of all available faces, see the <a href="../../progs/16text_ families.cpp">16text_families.cpp</a>.
+
+There are three special font family names: "SANS", "SERIF" and "TYPEWRITER". "SANS" is mapped to a font on the system that does not have serifs (on Windows and Mac OS X, it is mapped to "Arial"). "SERIF" is mapped to a font that does have serifs (on Windows and Mac OS X, it is mapped to "Times New Roman"). "TYPEWRITER" is mapped to a fixed-pitch font (on Windows and Mac OS X, it is mapped to "Courier New"). Using these special font family names gives a maximum portability when running your application on different machines, but you cannot specify exactly which font to use.
+
+\image html text-abstract-families.png "The three abstract font families SANS, SERIF and TYPEWRITER"
+\image latex text-abstract-families.eps "The three abstract font families SANS, SERIF and TYPEWRITER" width = 6cm
+
+For each font, you can also specify one of the four font styles "plain", "bold", "italic" and "bolditalic".
+
+\image html text-style.png "The four text styles PLAIN, BOLD, ITALIC and BOLDITALIC"
+\image latex text-style.eps "The four text styles PLAIN, BOLD, ITALIC and BOLDITALIC" width = 6cm
+
+Another font parameter you have to specify frequently is the size. The size is measured approximately as the distance between the top of the uppercase letters (the ascent) and the bottoms of the "tails" on glyphs such as "p" or "g" (the descent).
+
+\image html text-size.png "The size of a text"
+\image latex text-size.eps "The size of a text" width = 6cm
+
+\section TutorialTextCreateFace Creating a face
+
+The first step when rendering text is creating a face object. Creating face objects depends on the kind of text you want to use.
+
+\subsection TutorialTextCreateVectorFace Creating a vector face
+
+To create a new vector face, you have to call the static "create()" method of the "TextVectorFace" class. This method takes two arguments:
+
+\li The name of the font family. This is the concrete name of a font family (e.g. "Arial" or "Times New Roman"), or one of the abstract names "SERIF", "SANS" or "TYPEWRITER" for a font with or without serifs, or a fixed-pitch font.
+
+\li The style of the font. This can be one of the constants "STYLE_PLAIN", "STYLE_BOLD", "STYLE_ITALIC" or "STYLE_BOLDITALIC" defined in the "TextFace" class to get a plain, bold or italic font. You can omit this parameter, in this case the default style "STYLE_PLAIN" is used.
+
+\code
+// Includes
+#include <OpenSG/OSGTextVectorFace.h>
+#include <OpenSG/OSGTextFace.h>
+
+// Try to create a new TextVectorFace object. The create
+// method returns 0 in case of an error
+OSG::TextVectorFace *face = OSG::TextVectorFace::create("Arial", OSG::TextFace::STYLE_PLAIN);
+if (face == 0)
+  ; // error handling
+\endcode
+
+\subsection TutorialTextCreatePixmapFace Creating a pixmap face
+
+To create a new pixmap face, you have to call the static "create()" method of the "TextPixmapFace" class. This method takes three arguments:
+
+\li The name of the font family. This is the concrete name of a font family (e.g. "Arial" or "Times New Roman"), or one of the abstract names "SERIF", "SANS" or "TYPEWRITER" for a font with or without serifs, or a fixed-pitch font.
+
+\li The style of the font. This can be one of the constants "STYLE_PLAIN", "STYLE_BOLD", "STYLE_ITALIC" or "STYLE_BOLDITALIC" defined in the "TextFace" class to get a plain, bold or italic font. You can omit this parameter, in this case the default style "STYLE_PLAIN" is used.
+
+\li The size of the font in pixels. The larger the font gets, the better the visual appearance becomes, but the amount of texture memory necessary to keep the text also increases. Please keep in mind that you usually do not get a font that exactly matches the size in pixels that you specify - the size is just a rough estimation, the actual size depends on the metrics provided by the font designer. You can omit this parameter, in this case the default size of 32 pixels is used.
+
+\code
+// Includes
+#include <OpenSG/OSGTextPixmapFace.h>
+#include <OpenSG/OSGTextFace.h>
+
+// Try to create a new TextPixmapFace object. The create
+// method returns 0 in case of an error
+OSG::TextPixmapFace *face = OSG::TextPixmapFace::create("Arial", OSG::TextFace::STYLE_PLAIN, 32);
+if (face == 0)
+  ; // error handling
+\endcode
+
+\subsection TutorialTextCreateTXFFace Creating a TXF face
+
+To create a new TXF face, you have to call one of three static methods of the "TextTXFFace" class: "create()", "createFromFile()", or "createFromStream()".
+
+The "create()" method is used to create a new TXF font from one of the fonts installed on the system. This method takes three arguments:
+
+<ul>
+<li> The name of the font family. This is the concrete name of a font family (e.g. "Arial" or "Times New Roman"), or one of the abstract names "SERIF", "SANS" or "TYPEWRITER" for a font with or without serifs, or a fixed-pitch font.
+
+<li> The style of the font. This can be one of the constants "STYLE_PLAIN", "STYLE_BOLD", "STYLE_ITALIC" or "STYLE_BOLDITALIC" defined in the "TextFace" class to get a plain, bold or italic font. You can omit this parameter, in this case the default style "STYLE_PLAIN" is used.
+
+<li> A "TextTXFParam" object that keeps four more parameters: "size", "characters", "gap" and "textureWidth":
+
+  <ul>
+  <li> "size" specifies the height of the font in pixels. The larger the font gets, the better the visual appearance becomes, but the amount of texture memory necessary to keep the text also increases. Please keep in mind that you usually do not get a font that exactly matches the size in pixels that you specify - the size is just a rough estimation, the actual size depends on the metrics provided by the font designer. The default value of this parameter is 46.
+
+  <li> "characters" specifies which characters in the texture exist. By default, all printable ASCII characters are available in the texture. When you need non-ASCII characters, or when you just need a subset of the ASCII characters, you can specify your own character set by calling the "setCharacters" method of the "TextTXFParam" class. This method automatically ensures that characters exist only once in the character set, and it automatically sorts the characters. So for example when you only want to render the text "Hello World!", simply call the "setCharacters" method with exactly that text, and it automatically creates a texture that contains only the characters needed to render that text ("!HWdelor").
+
+  <li> "gap" specifies how many pixels are inserted between the characters in the texture. The default value of this parameter is 1. When the textures are filtered, it might happen that characters bleed into the neighbouring characters. In this case, increase the number of pixels between the characters.
+
+  <li> "textureWidth" specifies the width of the texture in pixels. The default value of this parameter is 0, i.e. the OpenSG text code automatically tries to determine an optimal width that leads to a more or less quadratic texture. Usually there is no need to adjust this parameter.
+  </ul>
+</ul>
+
+\image html text-txf-param.png "The gap and the textureWidth parameters"
+\image latex text-txf-param.eps "The gap and the textureWidth parameters" width = 8cm
+
+\code
+// Includes
+#include <OpenSG/OSGTextTXFFace.h>
+#include <OpenSG/OSGTextFace.h>
+
+// Try to create a new TextTXFFace object. The create
+// method returns 0 in case of an error
+OSG::TextTXFParam txfParam;
+//txfParam.size = 46;
+//txfParam.gap = 1;
+//txfParam.setCharacters("Hello World!");
+//txfParam.textureWidth = 0;
+OSG::TextTXFFace *face = OSG::TextTXFFace::create("Arial", OSG::TextFace::STYLE_PLAIN, txfParam);
+if (face == 0)
+  ; // error handling
+\endcode
+
+The "createFromFile()" method is used to create a new TXF font from a TXF file. This method takes only one argument, the name of the TXF file:
+
+\code
+// Includes
+#include <OpenSG/OSGTextTXFFace.h>
+#include <OpenSG/OSGTextFace.h>
+
+// Try to create a new TextTXFFace object. The create
+// method returns 0 in case of an error
+OSG::TextTXFFace *face = OSG::TextTXFFace::createFromFile("arial.txf");
+if (face == 0)
+  ; // error handling
+\endcode
+
+The "createFromStream()" method is used to create a new TXF font from an input stream. This is especially useful when creating TXF fonts from TXF files already stored in memory. This method takes as an argument the input stream:
+
+\code
+// Includes
+#include <OpenSG/OSGTextTXFFace.h>
+#include <OpenSG/OSGTextFace.h>
+#include <string>
+#include <sstream>
+
+// A string containing a TXF font
+extern std::string txf;
+
+// Create an input stream from the txf string
+std::istringstream is(txf);
+
+// Try to create a new TextTXFFace object. The create
+// method returns 0 in case of an error
+OSG::TextTXFFace *face = OSG::TextTXFFace::createFromStream(is);
+if (face == 0)
+  ; // error handling
+\endcode
+
+
+\section TutorialTextReferenceCounting Reference Counting
+
+All face objects returned by the "create()" methods are automatically cached by OpenSG, i.e. when you call any of the "create()" methods more than once with the same parameters, you will always get the same face object. For this reason, you are not allowed to destroy face objects (the destructors of all face classes are protected). Instead, a reference counting mechanism is used to make sure that face objects are destroyed only when there is no more reference to the object. Whenever you create a new reference to a face object, i.e. when you create a pointer variable that points to a face object, you have to increment the reference counter by calling "addRefP()" on the pointer. When you do not need the reference to the face object anymore, you have to decrement the reference counter by calling "subRefP()" on the pointer. "subRefP()" automatically sets the the pointer to 0, and destroys the face object when the reference counter becomes 0. The following piece of code demonstrates how to use "addRefP()" and "subRefP()":
+
+\code
+// Increment the reference counter of the face object.
+// Faces are cached, and we might not be the only ones
+// using the face object
+addRefP(face);
+
+// ... code that uses the face object ...
+
+// We do not need the face object anymore, so we decrement
+// the reference counter. Do not use the face object beyond
+// this point anymore!
+subRefP(face);
+\endcode
+
+Actually, for performance reasons OpenSG currently never destroys face objects, but keeps them in the cache until your application terminates. You can clear the cache manually by calling the "clearCache()" method of the "TextFaceFactory" singleton:
+
+\code
+// Clears the cache of face objects
+TextFaceFactory::the().clearCache();
+\endcode
+
+\section TutorialTextLayout Layout
+
+The most complex step when rendering text is the layout. At this point, you transfer your text to the layout engine. The layout engine
+
+\li transforms the characters of the text to glyphs (i.e. character shapes) contained in the font, and
+\li calculates the position of each glyph.
+
+The layout process can be parametrised in many ways. The parameters are documented in the following text. When the explanations in this document are unclear, you can also have a look at the specification of the VRML/X3D "Text" and "FontStyle" nodes. The design of the OpenSG text API closely follows the design of these nodes, and you will find exactly the same parameters used to control the layout process in OpenSG as well as in VRML/X3D. Parts of the following text have been copied directly from the X3D specification.
+
+To perform the layout process, you have to call the "layout()" method of the face object. This method takes three arguments:
+
+\li The text you want to render,
+\li a "TextLayoutParam" object that specifies all parameters used to control the layout process,
+\li and a "TextLayoutResult" object that gets filled by the layout method with the results of the layout process.
+
+The layout method of the face object is actually overloaded by four versions that differ in the way how to specify the text. The first version takes a STL string that contains a single, UTF-8 encoded line of text. (UTF-8 is a special encoding of Unicode. In this encoding, you can use the normal ASCII character set without changes. Unicode characters that are not contained in the ASCII character set have to be encoded using multi-byte sequences.) The following piece of code shows how to call this version of the layout method:
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+
+// Lay out the text
+std::string line = "Hello World!";
+TextLayoutParam layoutParam;
+TextLayoutResult layoutResult;
+face->layout(line, layoutParam, layoutResult);
+\endcode
+
+The second version of the layout method takes a STL vector of STL strings. Each string represents a line of the text, again encoded in UTF-8:
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+
+// Lay out the text
+std::vector<std::string> lines;
+lines.push_back("Hello World!");
+lines.push_back("OpenSG");
+TextLayoutParam layoutParam;
+TextLayoutResult layoutResult;
+face->layout(lines, layoutParam, layoutResult);
+\endcode
+
+Both versions of the layout method, the single-line-version and the multiple-lines-version, are additionally overloaded by two versions that take STL wide strings that contain Unicode text. The single line version looks like this (mind the "L" in front of the text constant - this modifier tells the compiler to create a text constant consisting of a "wchar_t" array instead of a "char" array):
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+
+// Lay out the text
+std::wstring line = L"Hello World!";
+TextLayoutParam layoutParam;
+TextLayoutResult layoutResult;
+face->layout(line, layoutParam, layoutResult);
+\endcode
+
+And finally, the layout method that takes multiple lines of wide strings looks like this:
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+
+// Lay out the text
+std::vector<std::wstring> lines;
+lines.push_back(L"Hello World!");
+lines.push_back(L"OpenSG");
+TextLayoutParam layoutParam;
+TextLayoutResult layoutResult;
+face->layout(lines, layoutParam, layoutResult);
+\endcode
+
+Whenever you do the layout of your text, try do transfer as much text as possible in one call to the layout method. I.e. when you have multiple lines, call the version of the layout method that takes multiple lines, instead of calling the single-line version in a loop. Do never call the layout method for single words of a line, or even worse for each character - this is extremly inefficient, and it prevents the layout engine from using sophisticated layout techniques like ligatures that improve the visual appearance of the text.
+
+As mentioned before, you can control the layout process by setting parameters using a "TextLayoutParam" object. In the examples above, we used the default set of parameters that is usually ok to render European scripts.
+
+The "spacing" parameter determines the line spacing between adjacent lines of text. The distance between the baseline of each line of text is (size * spacing) in the appropriate direction (depending on other parameters described below). The default value of spacing is 1.0, i.e. there should be no space between the lines. In practice the amount of space depends on the on the font you are using - it is up to the font designer to decide how much space he puts around the characters. It is even possible that the font contains characters that extend beyond the character cell defined in the font, which might result in lines that overwrite each other. Therefore, you will have to adjust the spacing parameter to the individual font you are using.
+
+\image html text-spacing.png "The spacing parameter determines the distance between adjacent lines"
+\image latex text-spacing.eps "The spacing parameter determines the distance between adjacent lines" width = 8cm
+
+The "horizontal", "leftToRight", and "topToBottom" boolean parameters indicate the direction of the text. The horizontal parameter indicates whether the text advances horizontally in its major direction (horizontal = true, the default) or vertically in its major direction (horizontal = false). The leftToRight and topToBottom parameters indicate direction of text advance in the major (characters within a single string) and minor (successive strings) axes of layout. Which parameter is used for the major direction and which is used for the minor direction is determined by the horizontal parameter.
+
+For horizontal text (horizontal = true), characters on each line of text advance in the positive X direction if leftToRight is true (the default) or in the negative X direction if leftToRight is false. Characters are advanced according to their natural advance width. Each line of characters is advanced in the negative Y direction if topToBottom is true (the default) or in the positive Y direction if topToBottom is false. Lines are advanced by the amount of size * spacing.
+
+For vertical text (horizontal = true), characters on each line of text advance in the negative Y direction if topToBottom is true or in the positive Y direction if topToBottom is false. Characters are advanced according to their natural advance height. Each line of characters is advanced in the positive X direction if leftToRight is false or in the negative X direction if leftToRight is false. Lines are advanced by the amount of size * spacing.
+
+This is the theory. In practice, the layout engines on Windows and Mac OS X automatically determine the direction of the script, i.e. they automatically lay out European text from left to right and Arabic text from right to left. It is not possible to force these engines to use a specific direction. For this reason, these parameters only work on Unix systems and for TXF fonts, where a simple layout engine integrated into OpenSG is used. Use these parameters as a hint to the layout engine which direction to use, but do not expect to actually be able to force the script into a direction that conflicts with its native direction.
+
+The "majorAlignment" and "minorAlignment" parameters determine the alignment of the above text layout relative to the origin of the object coordinate system. "majorAlignment" specifies alignment along the major axis, and "minorAlignment" specifies alignment along the minor axis, as determined by the "horizontal" parameter.
+
+The major alignment is along the X-axis when horizontal is true and along the Y-axis when horizontal is false. The minor alignment is along the Y-axis when horizontal is true and along the X-axis when horizontal is false. The possible values for each parameter are the enumeration values "ALIGN_FIRST", "ALIGN_BEGIN", "ALIGN_MIDDLE", and "ALIGN_END" defined in the TextLayoutParam class. For major alignment, each line of text is positioned individually according to the major alignment enumerant. For minor alignment, the block of text representing all lines together is positioned according to the minor alignment enumerant. The default value for both parameters is "ALIGN_FIRST". 
+
+The following images show the resulting layout and the location of the coordinate origin depending on the different parameters:
+
+\image html text-alignment-key.png "Key for the following two tables"
+\image latex text-alignment-key.eps "Key for the following two tables" width = 6cm
+
+\image html text-alignment-horizontal.png "Alignment of horizontal text"
+\image latex text-alignment-horizontal.eps "Alignment of horizontal text" width = 12cm
+
+\image html text-alignment-vertical.png "Alignment of vertical text"
+\image latex text-alignment-vertical.eps "Alignment of vertical text" width = 12cm
+
+The maxExtent parameter limits and compresses all of the text strings if the length of the maximum string is longer than the maximum extent. If the text string with the maximum length is shorter than the maxExtent, then there is no compressing. The maximum extent is measured horizontally for horizontal text and vertically for vertical text. The maxExtent parameter shall be greater than or equal to zero. Important: This parameter is not used by the current implementation of the OpenSG text API!
+
+The length parameter contains a STL vector of OSG::Real32 values that specifies the length of each text string. If the string is too short, it is stretched (by adding space between the words and the characters). If the string is too long, it is compressed (by subtracting space between the words and the characters). If a length value is missing (for example, if there are four strings but only three length values), the missing values are considered to be 0. The length field shall be greater than or equal to zero.
+
+Specifying a value of 0 for both the maxExtent and length parameters (that is the default) indicates that the string may be any length.
+
+For vector and TXF text, the layout is calculated for characters that have a size of one unit. For this reason, you have to adjust the length and maxExtend parameters accordingly. E.g. when you are rendering a text that is three units high and want to limit the length to 12 units, you have to specify the length as 12 / 3 = 4 units.
+
+For pixmap text, the layout is calculated for the actual character size in pixels you specified when creating the face. Therefore, you also have to specify the length and maxExtend parameters in pixels.
+
+Important: Make sure that you do not specify a length that is too small to accommodate all characters. The behaviour in this case differs for the different operating system platforms. On Mac OS X and Unix systems, the characters start to overlap. On Windows, the layout engine simply drops characters that do not fit any more.
+
+The following piece of code demonstrate how to set all parameters available in the TextLayoutParam object:
+
+\code
+TextLayoutParam layoutParam;
+layoutParam.horizontal = true;
+layoutParam.leftToRight = true;
+layoutParam.topToBottom = true;
+layoutParam.majorAlignment = TextLayoutParam::ALIGN_FIRST;
+layoutParam.minorAlignment = TextLayoutParam::ALIGN_FIRST;
+layoutParam.spacing = 1.f;
+layoutParam.length.push_back(0.f);
+layoutParam.maxExtend = 0.f;
+\endcode
+
+The result of the layout operation, i.e. the glyph indices and the corresponding positions, are stored in a TextLayoutResult object. It is perfectly ok for your code to modify the positions calculated by the layout engine before rendering the text, e.g. to fit the text to a given path - but keep in mind that it is currently not possible to change the orientations of the individual glyphs. The positions are stored in a STL vector of OSG::Vec2f objects that define the upper left corner of the character cell.
+
+Unfortunatly, there is no one-to-one mapping between the characters of the text and the glyph indices. The glyph indices are different for each font, and the number of glyph indices might not be the same as the number of characters (the layout engine might combine two or more characters to ligatures, or it might construct one character from more than one glyph). For this reason, you should not use or modify the glyph indices in any way.
+
+Because the glyph indices differ for each font, you cannot reuse the results of one layout operation for different fonts. Each time you change the font, you have to recalculate the layout.
+
+The layout result contains two more pieces of information: "lineBounds", a STL vector of OSG::Vec2f object that specify the sizes (width and height) of the individual lines, and "textBounds", an OSG::Vec2f object that specifies the size of the whole text. The following image explains these members of the "TextLayoutResult" object:
+
+\image html text-bounds.png "The bounds of the resulting text layout"
+\image latex text-bounds.eps "The bounds of the resulting text layout" width = 12cm
+
+Again, keep in mind that the layout of vector and TXF text is calculated for text that has a size of one, and the bounds are calculated for that size. When you plan to render the text in a different size (see the rendering section), you will have to adjust the bounds accordingly. For pixmap text, the bounds are calculated in pixels for the concrete pixel size you specified when creating the face.
+
+\section TutorialTextRendering Rendering
+
+After creating a face object and laying out one or more lines of text, you finally have to render the text. Rendering again differs for the three kinds of text.
+
+\subsection TutorialTextRenderingVectorFace Rendering a vector face
+
+The "TextVectorFace" class provides three methods for rendering text: "fillGeo()", "makeGeo()", and "makeNode()".
+
+"fillGeo()" fills an existing "Geometry" node core with the new text geometry. Use this method when you have to change the text frequently - it is the most efficient of the three methods because it tries to recycle all existing fields of the node core. You do not have to initialize the fields of the node core - when a field is not initialized yet, "fillGeo()" automatically creates it.
+
+The "fillGeo()" method takes six arguments:
+
+\li "geo" is the "Geometry" node core that gets filled with the text geometry.
+
+\li "layoutResult" is a "TextLayoutResult" object containing the result of a previous layout operation.
+
+\li "scale" determines the size of the text geometry in world coordinate units. The OpenSG text code internally scales all glyphs to a height of one unit. All vertices of the geometry are multiplied with this parameter to scale the glyphs to another size. You can omit this parameter, in which case the default value of 1 is used.
+
+\li "depth" is the depth of the text geometry in world coordinate units. You can omit this parameter, in which case the default value of 0 is used, resulting in a flat, single-sided text geometry.
+
+\li "level" controls the number of subdivisions used for the bezier splines that form the outlines of the glyphs. The larger this parameter is, the better the visual appearance of the glyphs becomes, but the number of triangles also increases drastically. You can omit this parameter, in which case the default value of 2 is used. Usually you should leave this parameter at its default value.
+
+\li "creaseAngle" affects the generation of normals. If the angle between two adjacent faces is less than the crease angle, the normals are calculated so that the faces are shaded smoothly across the edge, otherwise, a lighting discontinuity across the edge is produced. You can omit this parameter, in which case the default value of Pi / 4 (45 degrees) is used. Usually you should leave this parameter at its default value.
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+OSG::TextLayoutResult layoutResult;
+OSG::GeometryPtr geo;
+
+// ... code that creates the face, lays out the text and creates
+// the "Geometry" node core ...
+
+// Create a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+OSG::Real32 depth = 0.f;
+OSG::UInt32 level = 2;
+OSG::Real32 creaseAngle = OSG::Pi / 4.f;
+face->fillGeo(geo, layoutResult, scale, depth, level, creaseAngle);
+
+// ... put the "Geometry" node core into the scene graph ...
+\endcode
+
+The text geometry is positioned in the z=0 plane of the local coordinate system, with its origin in the origin of the coordinate system and the front pointing towards the positive z axis. When the depth is 0, the geometry is flat and single-sided. When the depth is >0, the geometry is created with the front side at z=+depth/2 and the back side at z=-depth/2. All vertex coordinates are ordered counterclockwise, the text geometry fully supports backface culling. The origin of the texture coordinates is at the origin of the first line. The texture is scaled equally in both S and T dimensions, with the font height representing one unit. S increases to the right, and T increases up.
+
+It is not necessary to do any optimisations on the created geometry, for example to apply a graph operator like "Stripe" to the geometry. The geometry is already stripped, and vertex and texture coordinates are shared.
+
+"makeGeo()" and "makeNode()" are both convenience methods that internally call the "fillGeo()" method. They take more or less the same parameters as "fillGeo()".
+
+The "makeGeo()" method creates a new "Geometry" node core and fills that core with the text geometry. See the "fillGeo()" method for a description of the parameters.
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+OSG::TextLayoutResult layoutResult;
+
+// ... code that creates the face and lays out the text ...
+
+// Create a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+OSG::Real32 depth = 0.f;
+OSG::UInt32 level = 2;
+OSG::Real32 creaseAngle = OSG::Pi / 4.f;
+OSG::GeometryPtr geo = face->makeGeo(layoutResult, scale, depth, level, creaseAngle);
+
+// ... put the "Geometry" node core into the scene graph ...
+\endcode
+
+The "makeNode()" method creates a new node that contains a new "Geometry" node core. It fills the core with the text geometry. See the "fillGeo()" method for a description of the parameters.
+
+\code
+// Variable definitions
+OSG::TextVectorFace *face;
+OSG::TextLayoutResult layoutResult;
+
+// ... code that creates the face and lays out the text ...
+
+// Create a new node with a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+OSG::Real32 depth = 0.f;
+OSG::UInt32 level = 2;
+OSG::Real32 creaseAngle = OSG::Pi / 4.f;
+OSG::NodePtr node = face->makeNode(layoutResult, scale, depth, level, creaseAngle);
+
+// ... put the node into the scene graph ...
+\endcode
+
+For a complete example that demonstrates how to use vector faces, see <a href="../../progs/16text_vector.cpp">16text_vector.cpp</a>.
+
+
+\subsection TutorialTextRenderingPixmapFace Rendering a pixmap face
+
+To render a pixmap face, you have to call the "makeImage()" method of the "TextPixmapFace" class. This class returns an "Image" object that you can add to any material node core. The pixel format of the image is "OSG_I_PF", i.e. it is an intensity texture that contains one single gray channel. This channel is used for modulating the material color as well as for the alpha channel, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
+
+The "makeImage()" method takes three parameters:
+
+\li "layoutResult" is a "TextLayoutResult" object containing the result of a previous layout operation.
+
+\li "offset" is a "Vec2f" object that gets filled with the offset from the origin of the text to the upper left corner of the texture in pixel coordinates.
+
+\li "border" specifies the number of clear pixels around the text.
+
+\code
+// Variable definitions
+OSG::TextPixmapFace *face;
+OSG::TextLayoutResult layoutResult;
+
+// ... code that creates the face and lays out the text ...
+
+// Render the text into a texture
+OSG::Vec2f offset;
+OSG::UInt32 border = 1;
+OSG::ImapePtr image = face->makeImage(layoutResult, offset, border);
+
+// ... put the texture into a material node core ...
+\endcode
+
+For a complete example that demonstrates how to use pixmap faces, see <a href="../../progs/16text_pixmap.cpp">16text_pixmap.cpp</a>.
+
+\subsection TutorialTextRenderingTXFFace Rendering a TXF face
+
+To render a TXF face, you have to create the text geometry, and you have to retrieve the texture from the TXF face.
+
+The "TextTXFFace" class provides three methods to create the geometry: "fillGeo()", "makeGeo()" and "makeNode()".
+
+"fillGeo" fills an existing "Geometry" node core with the new text geometry. This method takes three parameters:
+
+\li "geo" is the "Geometry" node core that gets filled with the text geometry.
+\li "layoutResult" is a "TextLayoutResult" object containing the result of a previous layout operation.
+\li "scale" is the size of the text geometry in world coordinate units. The default value of this parameter is 1.
+
+\code
+// Variable definitions
+OSG::TextTXFFace *face;
+OSG::TextLayoutResult layoutResult;
+OSG::GeometryPtr geo;
+
+// Code that creates the face, lays out the text and creates
+// the "Geometry" node core
+
+// Create a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+face->fillGeo(geo, layoutResult, scale);
+\endcode
+
+The text geometry is positioned in the z=0 plane of the local coordinate system, with its origin in the origin of the coordinate system and the front pointing towards the positive z axis.
+
+The "makeGeo" method is a helper methods that creates a new "Geometry" node core and fills that core with the text geometry:
+
+\code
+// Variable definitions
+OSG::TextTXFFace *face;
+OSG::TextLayoutResult layoutResult;
+
+// Code that creates the face and lays out the text
+
+// Create a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+OSG::GeometryPtr geo = face->makeGeo(layoutResult, scale);
+\endcode
+
+The "makeNode" method is a helper methods that creates a new node that contains a new "Geometry" node core. It fills the core with the text geometry. The parameters are same as for the "makeGeo" method.
+
+\code
+// Variable definitions
+OSG::TextTXFFace *face;
+OSG::TextLayoutResult layoutResult;
+
+// ... code that creates the face and lays out the text ...
+
+// Create a new node with a new "Geometry" node core, filled with the text geometry
+OSG::Real32 scale = 1.f;
+OSG::NodePtr node = face->makeNode(layoutResult, scale);
+
+// ... add the geometry to the scene graph ...
+\endcode
+
+To retrieve the texture, you have to call the "getTexture()" method of the "TextTXFFace" class. This method does not take any parameters and returns the texture as an OpenSG "Image" object. Please keep in mind that you do not get your own private copy of the texture - instead, all callers of this method get the same "Image" object. Therefore, you are not allowed to change the texture in any way. Unfortunately, OpenSG currently does not provide "const" pointers that enforce the correct behaviour, therefore it is you own responsibility not to change the texture.
+
+The pixel format of the image is "OSG_I_PF", i.e. it is an intensity texture that contains one single gray channel. This channel is used for modulating the material color as well as for the alpha channel, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
+
+\code
+// Variable definitions
+OSG::TextPixmapFace *face;
+
+// ... code that creates the face ...
+
+// Get the texture
+OSG::ImapePtr image = face->getTexture();
+
+// ... put the texture on the txf geometry, and add
+// the geometry to the scene graph ...
+\endcode
+
+For a complete example that demonstrates how to use TXF faces, see <a href="../../progs/16text_txf.cpp">16text_txf.cpp</a>.
+
+Next Chapter: \ref Solutions
+
+*/

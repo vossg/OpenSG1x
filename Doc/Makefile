@@ -92,6 +92,7 @@ DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/clustering.dox \
 				tutorial/modelling.dox \
                 tutorial/newaction.dox \
+				tutorial/text.dox \
 				tutorial/solutions.dox \
 				tutorial/qt.dox \
 				tutorial/doxypages.dox \
@@ -283,9 +284,6 @@ Images/%.eps: Images/%.jpg
 #  jpeg2ps gives better results, but is not usually available
 #  jpeg2ps -q $< > $@
 
-Images/%.eps: Images/%.png
-	convert -compress none $< PS:$@
-
 Images/%.eps: Images/%.fig
 	(cd Images && fig2dev -L eps $(notdir $<) $(notdir $@) )
 
@@ -299,6 +297,9 @@ Images/%.eps: Images/%.ps
 Images/%.eps: Images/%.eps.gz
 	gzip -dc $< > $@
 	touch $@
+
+Images/%.eps: Images/%.png
+	convert -compress none $< PS:$@
 
 Images/%.png: Images/%.fig
 	(cd Images && fig2dev -L png $(notdir $<) $(notdir $@) )
