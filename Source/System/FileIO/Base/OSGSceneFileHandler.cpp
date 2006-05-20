@@ -587,10 +587,6 @@ std::string SceneFileHandler::initPathHandler(const Char8 *fileName)
             ImageFileHandler::the().setPathHandler(_pathHandler);
         
         fullFilePath = _pathHandler->findFile(fileName);
-
-        // should we do this also for a user PathHandler?
-        if(_pathHandler == &_defaultPathHandler)
-            _pathHandler->setBaseFile(fullFilePath.c_str());
     }
     else
     {
@@ -598,6 +594,8 @@ std::string SceneFileHandler::initPathHandler(const Char8 *fileName)
         if(ImageFileHandler::the().getPathHandler() == NULL)
             ImageFileHandler::the().setPathHandler(&_defaultPathHandler);
 
+        _defaultPathHandler.clearPathList();
+        _defaultPathHandler.clearBaseFile();
         _defaultPathHandler.push_frontCurrentDir();
         fullFilePath = _defaultPathHandler.findFile(fileName);
         _defaultPathHandler.setBaseFile(fullFilePath.c_str());
