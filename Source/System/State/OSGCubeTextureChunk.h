@@ -134,6 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunk : public CubeTextureChunkBase
     /*! \{                                                                 */
 
     void onCreate(const CubeTextureChunk *source = NULL);
+    void onDestroy(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

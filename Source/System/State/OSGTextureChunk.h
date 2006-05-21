@@ -151,6 +151,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \{                                                                 */
 
     void onCreate(const TextureChunk *source = NULL);
+    void onDestroy(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -234,10 +234,6 @@ TextureChunk::TextureChunk(const TextureChunk &source) :
 
 TextureChunk::~TextureChunk(void)
 {
-    if(_sfImage.getValue() != NullFC)
-        subRefCP(_sfImage.getValue());
-    if(getGLId() > 0)
-        Window::destroyGLObject(getGLId(), 1);
 }
 
 /*------------------------- Chunk Class Access ---------------------------*/
@@ -373,6 +369,15 @@ void TextureChunk::onCreate(const TextureChunk *)
     }
 }
 
+void TextureChunk::onDestroy(void)
+{
+    Inherited::onDestroy();
+
+    if(_sfImage.getValue() != NullFC)
+        subRefCP(_sfImage.getValue());
+    if(getGLId() > 0)
+        Window::destroyGLObject(getGLId(), 1);
+}
 
 /*------------------------------ Output ----------------------------------*/
 

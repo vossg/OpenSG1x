@@ -96,18 +96,6 @@ CubeTextureChunk::CubeTextureChunk(const CubeTextureChunk &source) :
 
 CubeTextureChunk::~CubeTextureChunk(void)
 {
-    if(_sfPosZImage.getValue() != NullFC)
-        subRefCP(_sfPosZImage.getValue());
-
-    if(_sfPosXImage.getValue() != NullFC)
-        subRefCP(_sfPosXImage.getValue());
-    if(_sfNegXImage.getValue() != NullFC)
-        subRefCP(_sfNegXImage.getValue());
-
-    if(_sfPosYImage.getValue() != NullFC)
-        subRefCP(_sfPosYImage.getValue());
-    if(_sfNegYImage.getValue() != NullFC)
-        subRefCP(_sfNegYImage.getValue());
 }
 
 /*------------------------- Chunk Class Access ---------------------------*/
@@ -242,6 +230,24 @@ void CubeTextureChunk::onCreate(const CubeTextureChunk *)
             1));
 
     endEditCP(tmpPtr, CubeTextureChunk::GLIdFieldMask);
+}
+
+void CubeTextureChunk::onDestroy(void)
+{
+    Inherited::onDestroy();
+
+    if(_sfPosZImage.getValue() != NullFC)
+        subRefCP(_sfPosZImage.getValue());
+
+    if(_sfPosXImage.getValue() != NullFC)
+        subRefCP(_sfPosXImage.getValue());
+    if(_sfNegXImage.getValue() != NullFC)
+        subRefCP(_sfNegXImage.getValue());
+
+    if(_sfPosYImage.getValue() != NullFC)
+        subRefCP(_sfPosYImage.getValue());
+    if(_sfNegYImage.getValue() != NullFC)
+        subRefCP(_sfNegYImage.getValue());
 }
 
 /*------------------------------ Output ----------------------------------*/
