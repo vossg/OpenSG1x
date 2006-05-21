@@ -199,6 +199,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     /*------------------------- comparison ----------------------------------*/
 
     bool isSmallFeature(const NodePtr &node);
+    bool isOccluded(DrawTreeNode *pRoot);
 
     // test a single node
     bool            isVisible( Node* node );

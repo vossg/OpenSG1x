@@ -1369,6 +1369,94 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
     return false;
 }
 
+bool RenderAction::isOccluded(DrawTreeNode *pRoot)
+{
+    // skip occlusion test for small sized geometries
+    UInt32 pos_size = 0;
+    if((_bOcclusionCulling || _bSmallFeatureCulling) &&
+        pRoot->getNode()->getCore() != NullFC)
+    {
+        GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+        if(geo != NullFC)
+        {
+            if(geo->getPositions() != NullFC)
+                pos_size = geo->getPositions()->getSize();
+        }
+    }
+
+    bool foundSmallFeature = false;
+    if(_bSmallFeatureCulling && pos_size > _smallFeaturesThreshold)
+    {    
+        foundSmallFeature = isSmallFeature(pRoot->getNode());
+        if(foundSmallFeature)
+        {
+            getStatistics()->getElem(statCulledNodes)->inc();
+            return true;
+        }
+    }
+
+    if(!foundSmallFeature)
+    {
+        if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
+           pos_size > 64)
+        {
+            //getStatistics()->getElem(statCullTestedNodes)->inc();
+            glDepthMask(GL_FALSE);
+            glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+            
+            if(_occlusionQuery == 0)
+                _glGenQueriesARB(1, &_occlusionQuery);
+
+            _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
+
+            const DynamicVolume& vol = pRoot->getNode()->getVolume();
+            Pnt3f min,max;
+            vol.getBounds(min, max);
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glEnd();
+    
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glEnd();
+
+            _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+
+            glDepthMask(GL_TRUE);
+            glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+
+            GLuint pixels = 0;
+            _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+
+            if(pixels > 0)
+            {
+                return false;
+            }
+            else
+            {
+                getStatistics()->getElem(statCulledNodes)->inc();
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 //#define PRINT_MAT
 
 void RenderAction::updateShader(State *state)
@@ -1442,154 +1530,69 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         setActNode(pRoot->getNode());
 
-        if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
-            activateLocalLights(pRoot);
-
-        State *pNewState = pRoot->getState();
-
-        if(pNewState != NULL)
+        if(!isOccluded(pRoot))
         {
-            if(_pActiveState != NULL)
+            if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
+                activateLocalLights(pRoot);
+
+            State *pNewState = pRoot->getState();
+    
+            if(pNewState != NULL)
             {
-                // we need this cgfx test because for multipass cgfx materials
-                // the state doesn't change.
-                if(pNewState != _pActiveState ||
-                   (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
-                   pRoot->isNoStateSorting())
+                if(_pActiveState != NULL)
                 {
-                    pNewState->changeFrom(this, _pActiveState);
-
-                    _pActiveState = pNewState;
-
-                    _uiNumMaterialChanges++;
+                    // we need this cgfx test because for multipass cgfx materials
+                    // the state doesn't change.
+                    if(pNewState != _pActiveState ||
+                       (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
+                       pRoot->isNoStateSorting())
+                    {
+                        pNewState->changeFrom(this, _pActiveState);
+    
+                        _pActiveState = pNewState;
+    
+                        _uiNumMaterialChanges++;
+                    }
+                    else
+                    {
+                        // even if the state didn't change we need to update
+                        // the shaders to provide the right world matrix.
+                        updateShader(pNewState);
+                    }
                 }
                 else
                 {
-                    // even if the state didn't change we need to update
-                    // the shaders to provide the right world matrix.
-                    updateShader(pNewState);
+                    _pActiveState = pRoot->getState();
+                    _pActiveState->activate(this);
+                    _uiNumMaterialChanges++;
                 }
             }
             else
             {
-                _pActiveState = pRoot->getState();
-
-                _pActiveState->activate(this);
-
+                updateShader(_pActiveState);
+            }
+    
+            if(pRoot->getGeometry() != NULL)
+            {
+                pRoot->getGeometry()->drawPrimitives(this);
+                _uiNumGeometries++;
+            }
+            else if(pRoot->hasFunctor())
+            {
+                pRoot->getFunctor().call(this);
+                _uiNumGeometries++;
+            }
+    
+            if(pNewState != NULL && pRoot->isLastMultiPass()) // last pass
+            {
+                // without this the deactivate would be called in the next
+                // changeFrom call, but before the deactivate the activate from
+                // the new state is called this conflicts with the cgfx chunk!
+                _pActiveState = NULL; // force a activate
+    
+                pNewState->deactivate(this);
                 _uiNumMaterialChanges++;
             }
-        }
-        else
-        {
-            updateShader(_pActiveState);
-        }
-
-        if(pRoot->getGeometry() != NULL)
-        {
-            pRoot->getGeometry()->drawPrimitives(this);
-
-            _uiNumGeometries++;
-        }
-        else if(pRoot->hasFunctor())
-        {
-            // skip occlusion test for small sized geometries
-            UInt32 pos_size = 0;
-            if((_bOcclusionCulling || _bSmallFeatureCulling) &&
-                pRoot->getNode()->getCore() != NullFC)
-            {
-                GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
-                if(geo != NullFC)
-                {
-                    if(geo->getPositions() != NullFC)
-                        pos_size = geo->getPositions()->getSize();
-                }
-            }
-
-            bool foundSmallFeature = false;
-            if(_bSmallFeatureCulling && pos_size > _smallFeaturesThreshold)
-            {    
-                foundSmallFeature = isSmallFeature(pRoot->getNode());
-                if(foundSmallFeature)
-                {
-                    getStatistics()->getElem(statCulledNodes)->inc();
-                }
-            }
-
-            if(!foundSmallFeature)
-            {
-                if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
-                   pos_size > 64)
-                {
-                    //getStatistics()->getElem(statCullTestedNodes)->inc();
-                    glDepthMask(GL_FALSE);
-                    glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
-                    
-                    if(_occlusionQuery == 0)
-                        _glGenQueriesARB(1, &_occlusionQuery);
-    
-                    _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
-    
-                    const DynamicVolume& vol = pRoot->getNode()->getVolume();
-                    Pnt3f min,max;
-                    vol.getBounds(min, max);
-                    glBegin( GL_TRIANGLE_STRIP);
-                    glVertex3f( min[0], min[1], max[2]);
-                    glVertex3f( max[0], min[1], max[2]);
-                    glVertex3f( min[0], max[1], max[2]);
-                    glVertex3f( max[0], max[1], max[2]);
-                    glVertex3f( min[0], max[1], min[2]);
-                    glVertex3f( max[0], max[1], min[2]);
-                    glVertex3f( min[0], min[1], min[2]);
-                    glVertex3f( max[0], min[1], min[2]);
-                    glEnd();
-            
-                    glBegin( GL_TRIANGLE_STRIP);
-                    glVertex3f( max[0], max[1], min[2]);
-                    glVertex3f( max[0], max[1], max[2]);
-                    glVertex3f( max[0], min[1], min[2]);
-                    glVertex3f( max[0], min[1], max[2]);
-                    glVertex3f( min[0], min[1], min[2]);
-                    glVertex3f( min[0], min[1], max[2]);
-                    glVertex3f( min[0], max[1], min[2]);
-                    glVertex3f( min[0], max[1], max[2]);
-                    glEnd();
-    
-                    _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-    
-                    glDepthMask(GL_TRUE);
-                    glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-    
-                    GLuint pixels = 0;
-                    _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
-    
-                    if(pixels > 0)
-                    {
-                        pRoot->getFunctor().call(this);
-                        _uiNumGeometries++;
-                    }
-                    else
-                    {
-                        getStatistics()->getElem(statCulledNodes)->inc();
-                    }
-                }
-                else
-                {
-                    pRoot->getFunctor().call(this);
-                    _uiNumGeometries++;
-                }
-            }
-        }
-
-        if(pNewState != NULL && pRoot->isLastMultiPass()) // last pass
-        {
-            // without this the deactivate would be called in the next
-            // changeFrom call, but before the deactivate the activate from
-            // the new state is called this conflicts with the cgfx chunk!
-            _pActiveState = NULL; // force a activate
-
-            pNewState->deactivate(this);
-
-            _uiNumMaterialChanges++;
         }
 
         if(pRoot->getFirstChild() != NULL)
