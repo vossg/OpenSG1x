@@ -62,18 +62,18 @@
 #   define GL_DEPTH_COMPONENT_ARB            0x1902
 #endif
 #if 1 //GL_ARB_texture_float
-#	define	GL_RGBA32F_ARB                      0x8814
-#	define	GL_RGB32F_ARB                       0x8815
-#	define	GL_ALPHA32F_ARB                     0x8816
-#	define	GL_INTENSITY32F_ARB                 0x8817
-#	define	GL_LUMINANCE32F_ARB                 0x8818
-#	define	GL_LUMINANCE_ALPHA32F_ARB           0x8819
-#	define	GL_RGBA16F_ARB                      0x881A
-#	define	GL_RGB16F_ARB                       0x881B
-#	define	GL_ALPHA16F_ARB                     0x881C
-#	define	GL_INTENSITY16F_ARB                 0x881D
-#	define	GL_LUMINANCE16F_ARB                 0x881E
-#	define	GL_LUMINANCE_ALPHA16F_ARB           0x881F
+#    define    GL_RGBA32F_ARB                      0x8814
+#    define    GL_RGB32F_ARB                       0x8815
+#    define    GL_ALPHA32F_ARB                     0x8816
+#    define    GL_INTENSITY32F_ARB                 0x8817
+#    define    GL_LUMINANCE32F_ARB                 0x8818
+#    define    GL_LUMINANCE_ALPHA32F_ARB           0x8819
+#    define    GL_RGBA16F_ARB                      0x881A
+#    define    GL_RGB16F_ARB                       0x881B
+#    define    GL_ALPHA16F_ARB                     0x881C
+#    define    GL_INTENSITY16F_ARB                 0x881D
+#    define    GL_LUMINANCE16F_ARB                 0x881E
+#    define    GL_LUMINANCE_ALPHA16F_ARB           0x881F
 #endif
 
 /* ----------------------- GL_EXT_framebuffer_object ----------------------- */
@@ -187,24 +187,24 @@ static std::string _pcf2_shadow_fp =
 "\n"
 "float depthTest(vec2 texC, vec3 projC)\n"
 "{\n"
-"	texC.x *= xFactor;\n"
-"	texC.y *= yFactor;\n"
-"	float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
-"	return result;\n"
+"    texC.x *= xFactor;\n"
+"    texC.y *= yFactor;\n"
+"    float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
+"    return result;\n"
 "}\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"	float shadowed;\n"
-"	float texelSize = 1.0/mapSize;\n"
-"	shadowed = depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed = (1.0-(shadowed/4.0)) * intensity;\n"
-"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
-"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"    float shadowed;\n"
+"    float texelSize = 1.0/mapSize;\n"
+"    shadowed = depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed = (1.0-(shadowed/4.0)) * intensity;\n"
+"    if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
 static std::string _pcf3_shadow_fp =
@@ -220,31 +220,31 @@ static std::string _pcf3_shadow_fp =
 "\n"
 "float depthTest(vec2 texC, vec3 projC)\n"
 "{\n"
-"	texC.x *= xFactor;\n"
-"	texC.y *= yFactor;\n"
-"	float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
-"	return result;\n"
+"    texC.x *= xFactor;\n"
+"    texC.y *= yFactor;\n"
+"    float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
+"    return result;\n"
 "}\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"	float texelSize = 1.0/mapSize;\n"
-"	float shadowed;\n"
+"    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"    float texelSize = 1.0/mapSize;\n"
+"    float shadowed;\n"
 "\n"
-"	shadowed = depthTest(vec2(0.0,0.0) ,projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed = (1.0-(shadowed/9.0)) * intensity;\n"
+"    shadowed = depthTest(vec2(0.0,0.0) ,projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed = (1.0-(shadowed/9.0)) * intensity;\n"
 "\n"
-"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
-"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"    if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
 static std::string _pcf4_shadow_fp =
@@ -260,38 +260,38 @@ static std::string _pcf4_shadow_fp =
 "\n"
 "float depthTest(vec2 texC, vec3 projC)\n"
 "{\n"
-"	texC.x *= xFactor;\n"
-"	texC.y *= yFactor;\n"
-"	float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
-"	return result;\n"
+"    texC.x *= xFactor;\n"
+"    texC.y *= yFactor;\n"
+"    float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
+"    return result;\n"
 "}\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"	float shadowed;\n"
-"	float texelSize = 1.0/mapSize;\n"
+"    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"    float shadowed;\n"
+"    float texelSize = 1.0/mapSize;\n"
 "\n"
-"	shadowed = depthTest(vec2(-1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed = (1.0-(shadowed/16.0)) * intensity;\n"
+"    shadowed = depthTest(vec2(-1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed = (1.0-(shadowed/16.0)) * intensity;\n"
 "\n"
-"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
-"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"    if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
 static std::string _pcf5_shadow_fp =
@@ -307,47 +307,47 @@ static std::string _pcf5_shadow_fp =
 "\n"
 "float depthTest(vec2 texC, vec3 projC)\n"
 "{\n"
-"	texC.x *= xFactor;\n"
-"	texC.y *= yFactor;\n"
-"	float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
-"	return result;\n"
+"    texC.x *= xFactor;\n"
+"    texC.y *= yFactor;\n"
+"    float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
+"    return result;\n"
 "}\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"	float texelSize = 1.0/mapSize;\n"
-"	float shadowed;\n"
+"    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"    float texelSize = 1.0/mapSize;\n"
+"    float shadowed;\n"
 "\n"
-"	shadowed = depthTest(vec2(-2.0*texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.0*texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.0*texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.0*texelSize,texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.0*texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.0*texelSize,0.0),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.0*texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.0*texelSize,-texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.0*texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.0,-2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.0*texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
-"	shadowed = (1.0-(shadowed/25.0)) * intensity;\n"
+"    shadowed = depthTest(vec2(-2.0*texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.0*texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.0*texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.0*texelSize,texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.0*texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.0*texelSize,0.0),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.0*texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.0*texelSize,-texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.0*texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.0,-2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.0*texelSize,-2.0*texelSize),projectiveBiased.xyz);\n"
+"    shadowed = (1.0-(shadowed/25.0)) * intensity;\n"
 "\n"
-"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
-"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"    if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
 static std::string _pcf6_shadow_fp =
@@ -363,58 +363,58 @@ static std::string _pcf6_shadow_fp =
 "\n"
 "float depthTest(vec2 texC, vec3 projC)\n"
 "{\n"
-"	texC.x *= xFactor;\n"
-"	texC.y *= yFactor;\n"
-"	float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
-"	return result;\n"
+"    texC.x *= xFactor;\n"
+"    texC.y *= yFactor;\n"
+"    float result = shadow2D(shadowMap, vec3(projC.xy + texC, projC.z)).x;\n"
+"    return result;\n"
 "}\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"	float texelSize = 1.0/mapSize;\n"
-"	float shadowed;\n"
+"    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"    float texelSize = 1.0/mapSize;\n"
+"    float shadowed;\n"
 "\n"
-"	shadowed = depthTest(vec2(-2.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-2.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-1.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(-0.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(0.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(1.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed += depthTest(vec2(2.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
-"	shadowed = (1.0-(shadowed/36.0)) * intensity;\n"
+"    shadowed = depthTest(vec2(-2.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,-1.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-2.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-1.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(-0.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(0.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(1.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed += depthTest(vec2(2.5*texelSize,-2.5*texelSize),projectiveBiased.xyz);\n"
+"    shadowed = (1.0-(shadowed/36.0)) * intensity;\n"
 "\n"
-"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
-"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"    if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
 
@@ -440,9 +440,9 @@ static std::string _pcf_shadow_combine_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 colorProj = bias * projCoord;\n"
-"	 vec2 cp = colorProj.xy * vec2(xFactor,yFactor);\n"
-"	 vec3 color = texture2DProj(colorMap, vec3(cp,colorProj.w)).xyz;\n"
-" 	 color *= 1.0-texture2DProj(shadowFactorMap, vec3(cp,colorProj.w)).x;\n"
+"     vec2 cp = colorProj.xy * vec2(xFactor,yFactor);\n"
+"     vec3 color = texture2DProj(colorMap, vec3(cp,colorProj.w)).xyz;\n"
+"      color *= 1.0-texture2DProj(shadowFactorMap, vec3(cp,colorProj.w)).x;\n"
 "    gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
@@ -454,14 +454,14 @@ PCFShadowMap::PCFShadowMap(void)
 PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
-	fb = 0;
+    fb = 0;
     fb2 = 0;
-	rb_depth = 0;
+    rb_depth = 0;
 
     width = 1;
     height = 1;
     
-	if(shadowVP->getParent() != NullFC)
+    if(shadowVP->getParent() != NullFC)
     {
         width = shadowVP->getPixelWidth();
         height = shadowVP->getPixelHeight();
@@ -472,9 +472,9 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     if(height == 0)
         height = 1;
 
-	if(width > height)
+    if(width > height)
         widthHeightPOT = osgnextpower2(width);
-	else
+    else
         widthHeightPOT = osgnextpower2(height);
 
     _tiledeco = TileCameraDecorator::create();
@@ -495,18 +495,18 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     endEditCP(_colorMap);
 
 
-	if(useNPOTTextures)
-	{
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, width, height);
-		endEditCP(_colorMapImage);
-	}
-	else
-	{
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-	}
+    if(useNPOTTextures)
+    {
+        beginEditCP(_colorMapImage);
+            _colorMapImage->set(GL_RGB, width, height);
+        endEditCP(_colorMapImage);
+    }
+    else
+    {
+        beginEditCP(_colorMapImage);
+            _colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+        endEditCP(_colorMapImage);
+    }
 
     //Prepare Shadow Factor Map grabbing
     _shadowFactorMap = TextureChunk::create();
@@ -523,18 +523,18 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         _shadowFactorMap->setTarget(GL_TEXTURE_2D);
     endEditCP(_shadowFactorMap);
 
-	if(useNPOTTextures)
-	{
-	    beginEditCP(_shadowFactorMapImage);
-		    _shadowFactorMapImage->set(GL_RGB, width, height);
-		endEditCP(_shadowFactorMapImage);
-	}
-	else
-	{
-		beginEditCP(_shadowFactorMapImage);
-		    _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-	}
+    if(useNPOTTextures)
+    {
+        beginEditCP(_shadowFactorMapImage);
+            _shadowFactorMapImage->set(GL_RGB, width, height);
+        endEditCP(_shadowFactorMapImage);
+    }
+    else
+    {
+        beginEditCP(_shadowFactorMapImage);
+            _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+        endEditCP(_shadowFactorMapImage);
+    }
         
     //SHL Chunk 1
 
@@ -546,29 +546,23 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     beginEditCP(_combineSHL);
         //_combineSHL->readVertexProgram("PCF_Shadow_combine.vert");
         //_combineSHL->readFragmentProgram("PCF_Shadow_combine.frag");
-		_combineSHL->setVertexProgram(_pcf_shadow_combine_vp);
-		_combineSHL->setFragmentProgram(_pcf_shadow_combine_fp);
+        _combineSHL->setVertexProgram(_pcf_shadow_combine_vp);
+        _combineSHL->setFragmentProgram(_pcf_shadow_combine_fp);
     endEditCP(_combineSHL);
 
     _shadowCmat = ChunkMaterial::create();
-    _shadowRoot = Node::create();
-
-    _shadowShaderGroup = MaterialGroup::create();
-    beginEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
-        _shadowShaderGroup->setMaterial(_shadowCmat);
-    endEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
 
     //Combine Shader
     _combineCmat = ChunkMaterial::create();
     _combineRoot = Node::create();
 
-    _combineShaderGroup = MaterialGroup::create();
-    beginEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
-        _combineShaderGroup->setMaterial(_combineCmat);
-    endEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
+    MaterialGroupPtr combineShaderGroup = MaterialGroup::create();
+    beginEditCP(combineShaderGroup, Geometry::MaterialFieldMask);
+        combineShaderGroup->setMaterial(_combineCmat);
+    endEditCP(combineShaderGroup, Geometry::MaterialFieldMask);
 
     beginEditCP(_combineRoot);
-        _combineRoot->setCore(_combineShaderGroup);
+        _combineRoot->setCore(combineShaderGroup);
     endEditCP(_combineRoot);
 
     //Kamera um Texturewürfel zu rendern
@@ -587,53 +581,53 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         boxNode->setCore(boxGeo);
     endEditCP(boxNode, Node::CoreFieldMask);
 
-	oldRange = shadowVP->getShadowSmoothness();
+    oldRange = shadowVP->getShadowSmoothness();
 
-	if(oldRange <= 0.1999)
-	{
-		beginEditCP(_shadowSHL);
-			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-			//_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
-			_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-			_shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
-		endEditCP(_shadowSHL);
-	}
-	else if(oldRange <= 0.3999)
-	{
-		beginEditCP(_shadowSHL);
-			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-			//_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
-			_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-			_shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
-		endEditCP(_shadowSHL);
-	}
-	else if(oldRange <= 0.5999)
-	{
-		beginEditCP(_shadowSHL);
-			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-			//_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
-			_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-			_shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
-		endEditCP(_shadowSHL);
-	}
-	else if(oldRange <= 0.7999)
-	{
-		beginEditCP(_shadowSHL);
-			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-			//_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
-			_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-			_shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
-		endEditCP(_shadowSHL);
-	}
-	else
-	{
-		beginEditCP(_shadowSHL);
-			//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-			//_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
-			_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-			_shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
-		endEditCP(_shadowSHL);
-	}
+    if(oldRange <= 0.1999)
+    {
+        beginEditCP(_shadowSHL);
+            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+            //_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
+            _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+            _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
+        endEditCP(_shadowSHL);
+    }
+    else if(oldRange <= 0.3999)
+    {
+        beginEditCP(_shadowSHL);
+            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+            //_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
+            _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+            _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
+        endEditCP(_shadowSHL);
+    }
+    else if(oldRange <= 0.5999)
+    {
+        beginEditCP(_shadowSHL);
+            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+            //_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
+            _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+            _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
+        endEditCP(_shadowSHL);
+    }
+    else if(oldRange <= 0.7999)
+    {
+        beginEditCP(_shadowSHL);
+            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+            //_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
+            _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+            _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
+        endEditCP(_shadowSHL);
+    }
+    else
+    {
+        beginEditCP(_shadowSHL);
+            //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+            //_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
+            _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+            _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
+        endEditCP(_shadowSHL);
+    }
 
 
     addRefCP(_tiledeco);
@@ -642,14 +636,11 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 
     addRefCP(_shadowSHL);
     addRefCP(_combineSHL);
-    addRefCP(_shadowRoot);
+
     addRefCP(_combineRoot);
-    
-    addRefCP(_shadowShaderGroup);
-    addRefCP(_combineShaderGroup);
+
     addRefCP(_matrixCam);
 
-    addRefCP(shadowVP->getRoot());
     addRefCP(boxNode);
 }
 
@@ -661,16 +652,11 @@ PCFShadowMap::~PCFShadowMap(void)
 
     subRefCP(_shadowSHL);
     subRefCP(_combineSHL);
-    subRefCP(_shadowRoot);
+
     subRefCP(_combineRoot);
 
-    subRefCP(_shadowShaderGroup);
-    subRefCP(_combineShaderGroup);
     subRefCP(_matrixCam);
 
-    // that's a memleak but the whole viewport stuff is not referenced counted
-    // and if the application didn't call addRefCP(root) this would crash!
-    //subRefCP(shadowVP->getRoot());
     subRefCP(boxNode);
 
     if(fb != 0)
@@ -788,8 +774,8 @@ bool PCFShadowMap::initFBO(Window *win)
     
         //glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
     
-        glDrawBuffer(GL_NONE);	// no color buffer dest
-        glReadBuffer(GL_NONE);	// no color buffer src
+        glDrawBuffer(GL_NONE);    // no color buffer dest
+        glReadBuffer(GL_NONE);    // no color buffer src
     
         //result = checkFrameBufferStatus(win);
     
@@ -797,30 +783,30 @@ bool PCFShadowMap::initFBO(Window *win)
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
     
         //return result;
-	}
+    }
 
-	//if no NPOTTextures supported, resize images
-	if(!useNPOTTextures)
-	{
-		if(width > height)
+    //if no NPOTTextures supported, resize images
+    if(!useNPOTTextures)
+    {
+        if(width > height)
             widthHeightPOT = osgnextpower2(width);
-		else
+        else
             widthHeightPOT = osgnextpower2(height);
 
-		beginEditCP(_colorMap);
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-		endEditCP(_colorMap);
+        beginEditCP(_colorMap);
+        beginEditCP(_colorMapImage);
+            _colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+        endEditCP(_colorMapImage);
+        endEditCP(_colorMap);
 
-		beginEditCP(_shadowFactorMap);
-		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-		endEditCP(_shadowFactorMap);
-	}
+        beginEditCP(_shadowFactorMap);
+        beginEditCP(_shadowFactorMapImage);
+            _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+        endEditCP(_shadowFactorMapImage);
+        endEditCP(_shadowFactorMap);
+    }
 
-	return true;
+    return true;
 }
 
 void PCFShadowMap::reInit(Window *win)
@@ -828,20 +814,20 @@ void PCFShadowMap::reInit(Window *win)
     Int32 width  = shadowVP->getPixelWidth();
     Int32 height = shadowVP->getPixelHeight();
 
-	win->validateGLObject(_colorMap->getGLId());
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
-	win->validateGLObject(_shadowFactorMap->getGLId());
-	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
+    win->validateGLObject(_colorMap->getGLId());
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
+    win->validateGLObject(_shadowFactorMap->getGLId());
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
 
-	//Initialize Depth Renderbuffer
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
-	if(useNPOTTextures)
+    //Initialize Depth Renderbuffer
+    glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
+    if(useNPOTTextures)
         glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, width, height );
-	else
+    else
         glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
-	//Attach Renderbuffer to Framebuffer depth Buffer
-	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
+    //Attach Renderbuffer to Framebuffer depth Buffer
+    glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
 
 void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat)
@@ -866,15 +852,15 @@ void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialP
 
 void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 {
-	//Checking for the smallest Window-Dimension
+    //Checking for the smallest Window-Dimension
     UInt32 minSize = shadowVP->getPixelWidth();
 
     if(shadowVP->getPixelHeight() < minSize)
-		minSize = shadowVP->getPixelHeight();
+        minSize = shadowVP->getPixelHeight();
 
     //Checking for biggest PowerOf2 that fits in smallest Window-Dimension
     UInt32 _mapRenderSize = osgnextpower2(minSize + 1) / 2;
-    if(_mapRenderSize == 0)	_mapRenderSize = 128;
+    if(_mapRenderSize == 0)    _mapRenderSize = 128;
 
     Real32 vpTop,vpBottom,vpLeft,vpRight;
 
@@ -915,13 +901,13 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(false);
     }
 
-	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
+    for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
-		{
-		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
-			
+        if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+        {
+            
             // we use a tiledecorator to create shadow maps with
             // a higher resolutions than the viewport or the screen.
             beginEditCP(_tiledeco);
@@ -945,15 +931,15 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
     
                     glClear(GL_DEPTH_BUFFER_BIT);
                     //shadowVP->_poly->activate(action,0);
-					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
-					glEnable( GL_POLYGON_OFFSET_FILL );
+                    glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+                    glEnable( GL_POLYGON_OFFSET_FILL );
 
                     action->apply(shadowVP->getRoot());
                     // check is this necessary.
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
                     //shadowVP->_poly->deactivate(action,0);
-					glDisable( GL_POLYGON_OFFSET_FILL );
+                    glDisable( GL_POLYGON_OFFSET_FILL );
         
                     //----------Shadow-Texture-Parameters and Indices-------------
                 
@@ -980,7 +966,7 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
                 ypos += _mapRenderSize;
             }
         }
-		}
+        }
     }
 
 
@@ -992,7 +978,7 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
             if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
-	// enable all lights.
+    // enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -1018,20 +1004,20 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 
 void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 {
-	UInt32 oldWidth, oldHeight;
-	oldWidth = shadowVP->getPixelWidth();
-	oldHeight = shadowVP->getPixelHeight();
+    UInt32 oldWidth, oldHeight;
+    oldWidth = shadowVP->getPixelWidth();
+    oldHeight = shadowVP->getPixelHeight();
 
     //------Setting up Window to fit size of ShadowMap----------------
 
-	shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
+    shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
 
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
     glDisable(GL_LIGHTING);
     glDepthMask(GL_TRUE);
 
-	// disable all lights more speed
+    // disable all lights more speed
     for(UInt32 i = 0; i < shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -1046,43 +1032,43 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
             exnode->setActive(false);
     }
 
-	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
+    for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
-		{
-		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
-			action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+        if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+        {
+            action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
+            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
 
-			glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
+            glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
 
-			glDrawBuffer(GL_NONE);
-			glReadBuffer(GL_NONE);
+            glDrawBuffer(GL_NONE);
+            glReadBuffer(GL_NONE);
 
-			//shadowVP->_poly->activate(action,0);
-			glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
-			glEnable( GL_POLYGON_OFFSET_FILL );
+            //shadowVP->_poly->activate(action,0);
+            glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+            glEnable( GL_POLYGON_OFFSET_FILL );
 
-			glClearColor(1.0,1.0,1.0,1.0);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClearColor(1.0,1.0,1.0,1.0);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
-			action->apply(shadowVP->getRoot());
+            action->setCamera(shadowVP->_lightCameras[i].getCPtr());
+            action->apply(shadowVP->getRoot());
              
-			//shadowVP->_poly->deactivate(action,0);
-			glDisable( GL_POLYGON_OFFSET_FILL );
+            //shadowVP->_poly->deactivate(action,0);
+            glDisable( GL_POLYGON_OFFSET_FILL );
 
-			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
-			glClearColor(0.0,0.0,0.0,1.0);
+            glClearColor(0.0,0.0,0.0,1.0);
 
-			action->setCamera(shadowVP->getCamera().getCPtr());
-		}
-		}
-	}
-	
+            action->setCamera(shadowVP->getCamera().getCPtr());
+        }
+        }
+    }
+    
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -1093,17 +1079,17 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
             if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
-	// enable all lights.
+    // enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
             shadowVP->_lights[i]->setOn(true);
     }
 
-	//glViewport( 0, 0, oldWidth-1, oldHeight-1 );
+    //glViewport( 0, 0, oldWidth-1, oldHeight-1 );
 
-	shadowVP->setVPSize(0,0,oldWidth-1,oldHeight-1);
-	shadowVP->setVPSize(0,0,1,1);
+    shadowVP->setVPSize(0,0,oldWidth-1,oldHeight-1);
+    shadowVP->setVPSize(0,0,1,1);
 
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -1113,7 +1099,7 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 void PCFShadowMap::createColorMap(RenderActionBase* action)
 {
-	shadowVP->getBackground()->clear(action, shadowVP);
+    shadowVP->getBackground()->clear(action, shadowVP);
 
     action->apply(shadowVP->getRoot());
 
@@ -1127,121 +1113,116 @@ void PCFShadowMap::createColorMap(RenderActionBase* action)
 void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
 {
 
-	glClearColor(0.0,0.0,0.0,1.0);
+    glClearColor(0.0,0.0,0.0,1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Window *win = action->getWindow();
+    Window *win = action->getWindow();
 
-	GLenum *buffers = NULL;
-	buffers = new GLenum[1];
-	buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
+    GLenum *buffers = NULL;
+    buffers = new GLenum[1];
+    buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
-	
-	glDrawBuffersARB(1, buffers);
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
+    
+    glDrawBuffersARB(1, buffers);
 
-	shadowVP->getBackground()->clear(action, shadowVP);
+    shadowVP->getBackground()->clear(action, shadowVP);
     action->apply(shadowVP->getRoot());
 
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	
-	delete[] buffers;
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    
+    delete[] buffers;
 
 }
 
 void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
-	glClearColor(0.0,0.0,0.0,1.0);
+    glClearColor(0.0,0.0,0.0,1.0);
     if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
-	if(shadowVP->getGlobalShadowIntensity() != 0.0) 
-	{
-		for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
-		{
-			if (shadowVP->_lightStates[i] != 0) activeLights++;
-		}
-	}
-	else
-	{
-		for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
-		{
-			if (shadowVP->_lightStates[i] != 0 && shadowVP->_lights[i]->getShadowIntensity() != 0.0) activeLights++;
-		}
-	}
+    if(shadowVP->getGlobalShadowIntensity() != 0.0) 
+    {
+        for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
+        {
+            if (shadowVP->_lightStates[i] != 0) activeLights++;
+        }
+    }
+    else
+    {
+        for (UInt32 i = 0; i<shadowVP->_lights.size();i++)
+        {
+            if (shadowVP->_lightStates[i] != 0 && shadowVP->_lights[i]->getShadowIntensity() != 0.0) activeLights++;
+        }
+    }
     
     Real32 shadowIntensity;
-	if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
-	else  shadowIntensity = (shadowVP->_lights[num]->getShadowIntensity()/activeLights);
-	if(shadowVP->_lights[num]->getShadowIntensity() != 0.0 || shadowVP->getGlobalShadowIntensity() != 0.0)
-	{
-
-    Matrix LVM,LPM,CVM;
-    shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    Matrix iCVM = CVM;
-    iCVM.invert();
-    Matrix iLVM = LVM;
-    iLVM.invert();
-
-	Real32 texFactor;
-	if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() || shadowVP->_lights[num]->getType() == PointLight::getClassType())
-		texFactor = Real32(width)/Real32(height);
-	else texFactor = 1.0;
-
-    Matrix shadowMatrix = LPM;
-    shadowMatrix.mult(LVM);
-    shadowMatrix.mult(iCVM);
-
-	Real32 xFactor = 1.0;
-	Real32 yFactor = 1.0;
-	if(!useNPOTTextures)
-	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
-	}
-
-	beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-        _shadowSHL->setUniformParameter("shadowMap", 0);
-        _shadowSHL->setUniformParameter("oldFactorMap", 1);
-        _shadowSHL->setUniformParameter("firstRun", firstRun);
-        _shadowSHL->setUniformParameter("intensity", shadowIntensity);
-		_shadowSHL->setUniformParameter("texFactor", texFactor);
-        _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
-        _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-		_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
-		_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
-	endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-
-    beginEditCP(_shadowCmat);
-        _shadowCmat->getChunks().clear();
-        _shadowCmat->addChunk(_shadowSHL);
-        _shadowCmat->addChunk(shadowVP->_texChunks[num]);
-        _shadowCmat->addChunk(_shadowFactorMap);
-    endEditCP(_shadowCmat);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+    if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
+    else  shadowIntensity = (shadowVP->_lights[num]->getShadowIntensity()/activeLights);
+    if(shadowVP->_lights[num]->getShadowIntensity() != 0.0 || shadowVP->getGlobalShadowIntensity() != 0.0)
+    {
+        Matrix LVM,LPM,CVM;
+        shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        Matrix iCVM = CVM;
+        iCVM.invert();
+        Matrix iLVM = LVM;
+        iLVM.invert();
     
-    //draw the Scene
-
-	action->apply(_shadowRoot);
-
-	action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
-
-    glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    glBindTexture(GL_TEXTURE_2D,0);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    firstRun = 0;
+        Real32 texFactor;
+        if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() || shadowVP->_lights[num]->getType() == PointLight::getClassType())
+            texFactor = Real32(width)/Real32(height);
+        else texFactor = 1.0;
+    
+        Matrix shadowMatrix = LPM;
+        shadowMatrix.mult(LVM);
+        shadowMatrix.mult(iCVM);
+    
+        Real32 xFactor = 1.0;
+        Real32 yFactor = 1.0;
+        if(!useNPOTTextures)
+        {
+            xFactor = Real32(width)/Real32(widthHeightPOT);
+            yFactor = Real32(height)/Real32(widthHeightPOT);
+        }
+    
+        beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+            _shadowSHL->setUniformParameter("shadowMap", 0);
+            _shadowSHL->setUniformParameter("oldFactorMap", 1);
+            _shadowSHL->setUniformParameter("firstRun", firstRun);
+            _shadowSHL->setUniformParameter("intensity", shadowIntensity);
+            _shadowSHL->setUniformParameter("texFactor", texFactor);
+            _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
+            _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+            _shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
+            _shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
+        endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+    
+        beginEditCP(_shadowCmat);
+            _shadowCmat->getChunks().clear();
+            _shadowCmat->addChunk(_shadowSHL);
+            _shadowCmat->addChunk(shadowVP->_texChunks[num]);
+            _shadowCmat->addChunk(_shadowFactorMap);
+        endEditCP(_shadowCmat);
+    
+        // we render the whole scene with one material.
+        action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+    
+        //draw the Scene
+        action->apply(shadowVP->getRoot());
+    
+        // reset the material.
+        action->setMaterial(NULL, NullFC);
+    
+        action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
+    
+        glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
+        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        glBindTexture(GL_TEXTURE_2D,0);
+    
+        firstRun = 0;
     }
 }
 
@@ -1329,11 +1310,6 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
             _shadowCmat->addChunk(_shadowFactorMap);
         endEditCP(_shadowCmat);
 
-        beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-            _shadowRoot->setCore(_shadowShaderGroup);
-            _shadowRoot->addChild(shadowVP->getRoot());
-        endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
         GLenum *buffers = NULL;
         buffers = new GLenum[1];
         buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
@@ -1349,15 +1325,17 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
 
         shadowVP->_texChunks[num]->activate(action, 3);
 
-        action->apply(_shadowRoot);
+        // we render the whole scene with one material.
+        action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+
+        action->apply(shadowVP->getRoot());
+    
+        // reset the material.
+        action->setMaterial(NULL, NullFC);
 
         shadowVP->_texChunks[num]->deactivate(action, 3);
 
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
-    
-        beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-            _shadowRoot->subChild(shadowVP->getRoot());
-        endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
 
         delete[] buffers;
         firstRun = 0;
@@ -1366,19 +1344,19 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
 
 void PCFShadowMap::drawCombineMap(RenderActionBase* action)
 {
-	Real32 xFactor = 1.0;
-	Real32 yFactor = 1.0;
-	if(!useNPOTTextures)
-	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
-	}
+    Real32 xFactor = 1.0;
+    Real32 yFactor = 1.0;
+    if(!useNPOTTextures)
+    {
+        xFactor = Real32(width)/Real32(widthHeightPOT);
+        yFactor = Real32(height)/Real32(widthHeightPOT);
+    }
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
         _combineSHL->setUniformParameter("colorMap", 0);
         _combineSHL->setUniformParameter("shadowFactorMap", 1);
-		_combineSHL->setUniformParameter("xFactor",Real32(xFactor));
-		_combineSHL->setUniformParameter("yFactor",Real32(yFactor));
+        _combineSHL->setUniformParameter("xFactor",Real32(xFactor));
+        _combineSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     beginEditCP(_combineCmat);
@@ -1394,160 +1372,160 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
 
 void PCFShadowMap::render(RenderActionBase* action)
 {
-	Window *win = action->getWindow();
+    Window *win = action->getWindow();
 
-	if(useFBO)
-	{
-		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
-	}
-
-	//Any active lights available with intensity > 0 ?
-	bool allLightsZero = true;
-	if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
-	else
-	{
-		for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
-		{
-			if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
-		}
-	}
-
-	if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL || !useShadowExt) shadowVP->Viewport::render(action);
-	else
-	{
-
-	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+    if(useFBO)
     {
-		glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-			            GL_COMPARE_R_TO_TEXTURE_ARB);
-		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-		glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		glBindTexture(GL_TEXTURE_2D,0);
-		/*shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+        if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
+    }
+
+    //Any active lights available with intensity > 0 ?
+    bool allLightsZero = true;
+    if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
+    else
+    {
+        for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
+        {
+            if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
+        }
+    }
+
+    if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL || !useShadowExt) shadowVP->Viewport::render(action);
+    else
+    {
+
+    for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+    {
+        glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
                         GL_COMPARE_R_TO_TEXTURE_ARB);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
         glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
-	}
+        glBindTexture(GL_TEXTURE_2D,0);
+        /*shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+                        GL_COMPARE_R_TO_TEXTURE_ARB);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+        shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
+    }
 
-	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
+    GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
     firstRun = 1;
 
     if(shadowVP->getPixelWidth() != width ||
        shadowVP->getPixelHeight() != height)
-	{
+    {
         width = shadowVP->getPixelWidth();
         height = shadowVP->getPixelHeight();
     
-		if(useNPOTTextures)
-		{
-			beginEditCP(_colorMap);
-			beginEditCP(_colorMapImage);
-				_colorMapImage->set(GL_RGB, width, height);
-			endEditCP(_colorMapImage);
-			endEditCP(_colorMap);
+        if(useNPOTTextures)
+        {
+            beginEditCP(_colorMap);
+            beginEditCP(_colorMapImage);
+                _colorMapImage->set(GL_RGB, width, height);
+            endEditCP(_colorMapImage);
+            endEditCP(_colorMap);
 
-			beginEditCP(_shadowFactorMap);
-			beginEditCP(_shadowFactorMapImage);
-				_shadowFactorMapImage->set(GL_RGB, width, height);
-			endEditCP(_shadowFactorMapImage);
-			endEditCP(_shadowFactorMap);
+            beginEditCP(_shadowFactorMap);
+            beginEditCP(_shadowFactorMapImage);
+                _shadowFactorMapImage->set(GL_RGB, width, height);
+            endEditCP(_shadowFactorMapImage);
+            endEditCP(_shadowFactorMap);
 
-			reInit(win);
-		}
-		else
-		{
-			if(width > height) widthHeightPOT = osgnextpower2(width);
-			else widthHeightPOT = osgnextpower2(height);
+            reInit(win);
+        }
+        else
+        {
+            if(width > height) widthHeightPOT = osgnextpower2(width);
+            else widthHeightPOT = osgnextpower2(height);
 
-			beginEditCP(_colorMap);
-			beginEditCP(_colorMapImage);
-				_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-			endEditCP(_colorMapImage);
-			endEditCP(_colorMap);
+            beginEditCP(_colorMap);
+            beginEditCP(_colorMapImage);
+                _colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+            endEditCP(_colorMapImage);
+            endEditCP(_colorMap);
 
-			beginEditCP(_shadowFactorMap);
-			beginEditCP(_shadowFactorMapImage);
-				_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-			endEditCP(_shadowFactorMapImage);
-			endEditCP(_shadowFactorMap);
+            beginEditCP(_shadowFactorMap);
+            beginEditCP(_shadowFactorMapImage);
+                _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+            endEditCP(_shadowFactorMapImage);
+            endEditCP(_shadowFactorMap);
 
-		}
+        }
     }    
 
-	if(oldRange != shadowVP->getShadowSmoothness())
-	{
-		oldRange = shadowVP->getShadowSmoothness();
-		if(oldRange <= 0.1999)
-		{
-			beginEditCP(_shadowSHL);
-				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-				//_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
-				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-				_shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
-			endEditCP(_shadowSHL);
-		}
-		else if(oldRange <= 0.3999)
-		{
-			beginEditCP(_shadowSHL);
-				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-				//_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
-				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-				_shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
-			endEditCP(_shadowSHL);
-		}
-		else if(oldRange <= 0.5999)
-		{
-			beginEditCP(_shadowSHL);
-				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-				//_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
-				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-				_shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
-			endEditCP(_shadowSHL);
-		}
-		else if(oldRange <= 0.7999)
-		{
-			beginEditCP(_shadowSHL);
-				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-				//_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
-				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-				_shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
-			endEditCP(_shadowSHL);
-		}
-		else
-		{
-			beginEditCP(_shadowSHL);
-				//_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-				//_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
-				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
-				_shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
-			endEditCP(_shadowSHL);
-		}
-	}
-
-	if(shadowVP->getMapAutoUpdate())
+    if(oldRange != shadowVP->getShadowSmoothness())
     {
-		if(useFBO && useNPOTTextures)
+        oldRange = shadowVP->getShadowSmoothness();
+        if(oldRange <= 0.1999)
+        {
+            beginEditCP(_shadowSHL);
+                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+                //_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
+                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+                _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
+            endEditCP(_shadowSHL);
+        }
+        else if(oldRange <= 0.3999)
+        {
+            beginEditCP(_shadowSHL);
+                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+                //_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
+                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+                _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
+            endEditCP(_shadowSHL);
+        }
+        else if(oldRange <= 0.5999)
+        {
+            beginEditCP(_shadowSHL);
+                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+                //_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
+                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+                _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
+            endEditCP(_shadowSHL);
+        }
+        else if(oldRange <= 0.7999)
+        {
+            beginEditCP(_shadowSHL);
+                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+                //_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
+                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+                _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
+            endEditCP(_shadowSHL);
+        }
+        else
+        {
+            beginEditCP(_shadowSHL);
+                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
+                //_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
+                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
+                _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
+            endEditCP(_shadowSHL);
+        }
+    }
+
+    if(shadowVP->getMapAutoUpdate())
+    {
+        if(useFBO && useNPOTTextures)
             createColorMapFBO(action);
-		else
+        else
             createColorMap(action);
 
-		//deactivate transparent Nodes
-		for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-			shadowVP->_transparent[t]->setActive(false);
+        //deactivate transparent Nodes
+        for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+            shadowVP->_transparent[t]->setActive(false);
 
-		if(useFBO)
+        if(useFBO)
             createShadowMapsFBO(action);
-		else
+        else
             createShadowMaps(action);
 
         for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
         {
             if(shadowVP->_lightStates[i] != 0)
-			{
+            {
                 if(shadowVP->getGlobalShadowIntensity() != 0.0 ||
                    shadowVP->_lights[i]->getShadowIntensity() != 0.0)
                 {
@@ -1557,49 +1535,49 @@ void PCFShadowMap::render(RenderActionBase* action)
                         createShadowFactorMap(action, i);
                     //firstRun = 0;
                 }
-			}
+            }
         }
     }
     else
     {
         if(shadowVP->_trigger_update)
         {
-			if(useFBO && useNPOTTextures) createColorMapFBO(action);
-			else createColorMap(action);
+            if(useFBO && useNPOTTextures) createColorMapFBO(action);
+            else createColorMap(action);
 
-			//deactivate transparent Nodes
-			for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-				shadowVP->_transparent[t]->setActive(false);
+            //deactivate transparent Nodes
+            for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+                shadowVP->_transparent[t]->setActive(false);
 
             if(useFBO) createShadowMapsFBO(action);
-			else createShadowMaps(action);
-			
+            else createShadowMaps(action);
+            
             for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
             {
                 if(shadowVP->_lightStates[i] != 0)
-				{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-				{
-					if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
-					else createShadowFactorMap(action, i);
+                {
+                if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+                {
+                    if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
+                    else createShadowFactorMap(action, i);
                     //firstRun = 0;
                 }
-				}
+                }
             }
             shadowVP->_trigger_update = false;
         }
     }
 
-	drawCombineMap(action);
+    drawCombineMap(action);
 
-	// switch on all transparent geos
+    // switch on all transparent geos
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
-	{
+    {
         shadowVP->getForegrounds(i)->draw(action, shadowVP);
-	}
-	}
+    }
+    }
 }
