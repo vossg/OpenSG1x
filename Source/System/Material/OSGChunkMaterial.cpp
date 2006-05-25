@@ -104,15 +104,7 @@ ChunkMaterial::ChunkMaterial(const ChunkMaterial &source) :
 
 ChunkMaterial::~ChunkMaterial(void)
 {
-    MFStateChunkPtr::iterator matIt  = _mfChunks.begin();
-    MFStateChunkPtr::iterator matEnd = _mfChunks.end ();
-    
-    while(matIt != matEnd)
-    {
-        subRefCP(*matIt);
-
-        ++matIt;
-    }
+    clearChunks();
 }
 
 void ChunkMaterial::changed(BitVector whichField, UInt32 origin)
@@ -234,6 +226,19 @@ StateChunkPtr ChunkMaterial::find(const FieldContainerType &type,
         }
     }
     return NullFC;
+}
+
+void ChunkMaterial::clearChunks(void)
+{
+    MFStateChunkPtr::iterator matIt  = _mfChunks.begin();
+    MFStateChunkPtr::iterator matEnd = _mfChunks.end ();
+    
+    while(matIt != matEnd)
+    {
+        subRefCP(*matIt);
+        ++matIt;
+    }
+    _mfChunks.clear();
 }
 
 bool ChunkMaterial::operator==(const Material& other)

@@ -151,7 +151,7 @@ ShadowViewport::ShadowViewport(void) :
     _texChunks(),
     _trigger_update(false)
 {
-	treeRenderer = 0;
+	treeRenderer = NULL;
 }
 
 ShadowViewport::ShadowViewport(const ShadowViewport &source) :
@@ -240,8 +240,14 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ShadowModeFieldMask)
     {
-		delete treeRenderer;
-		treeRenderer = 0;
+        if(treeRenderer != NULL)
+            delete treeRenderer;
+        treeRenderer = NULL;
+
+        // free some memory.
+        clearLights(_lights.size());
+        _oldLights.clear();
+        _lights.clear();
 
 		switch (getShadowMode())
 		{
@@ -264,7 +270,6 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 		{
 			FNOTICE(("using Lisp Perspective Shadow Mapping...\n"));
 			treeRenderer = new PerspectiveShadowMap(this);
-			
 		}
 		break;
 
@@ -334,7 +339,7 @@ void ShadowViewport::onCreate(const ShadowViewport *OSG_CHECK_ARG(source))
     if(OSG::GlobalSystemState == OSG::Startup)
         return;
 
-	treeRenderer = 0;
+	treeRenderer = NULL;
 
     _mapRenderSize = 128;
 
@@ -378,9 +383,12 @@ void ShadowViewport::onDestroy(void)
 
 void ShadowViewport::render(RenderActionBase* action)
 {
-	if (treeRenderer == 0) Viewport::render(action);
-	else
-	{
+    if (treeRenderer == NULL)
+    {
+        Viewport::render(action);
+        return;
+    }
+
     if(getCamera() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no camera!" << std::endl;
@@ -399,26 +407,27 @@ void ShadowViewport::render(RenderActionBase* action)
 
     if(!getShadowOn())
     {
-		Viewport::render(action);
+        Viewport::render(action);
         return;
     }
 
-
-	if(getSceneRoot() == NullFC)
+    if(getSceneRoot() == NullFC)
     {
        //beginEditCP(getPtr(), SceneRootFieldMask);
            setSceneRoot(getRoot());
        //endEditCP(getPtr(), SceneRootFieldMask);
     }
 
-	_excludeNodeActive.clear();
-	//get excludeNode states
-	for(UInt32 i=0; i<getExcludeNodes().getSize(); i++)
-	{
-		NodePtr exnode = getExcludeNodes()[i];
-		if(exnode != NullFC) _excludeNodeActive.push_back(exnode->getActive());
-		else _excludeNodeActive.push_back(false);
-	}
+    _excludeNodeActive.clear();
+    //get excludeNode states
+    for(UInt32 i=0; i<getExcludeNodes().getSize(); i++)
+    {
+        NodePtr exnode = getExcludeNodes()[i];
+        if(exnode != NullFC)
+            _excludeNodeActive.push_back(exnode->getActive());
+        else
+            _excludeNodeActive.push_back(false);
+    }
 
 
     action->setCamera    (getCamera().getCPtr());
@@ -427,42 +436,42 @@ void ShadowViewport::render(RenderActionBase* action)
     action->setTravMask  (getTravMask());
 
     //checkMapResolution();
-	checkLights(action);
+    checkLights(action);
 
-	bool allLightsZero = true;
-	if(getGlobalShadowIntensity() != 0.0) allLightsZero = false;
-	else
-	{
-		for(UInt32 i=0; i<_lights.size(); i++)
-		{
-			if(_lights[i]->getShadowIntensity() != 0.0 && _lightStates[i] != 0) allLightsZero = false;
-		}
-	}
+    bool allLightsZero = true;
+    if(getGlobalShadowIntensity() != 0.0) allLightsZero = false;
+    else
+    {
+        for(UInt32 i=0; i<_lights.size(); i++)
+        {
+            if(_lights[i]->getShadowIntensity() != 0.0 && _lightStates[i] != 0) allLightsZero = false;
+        }
+    }
 
-	if(_lights.size() == 0 || allLightsZero) Viewport::render(action);
-	else
-	{
+    if(_lights.size() == 0 || allLightsZero) Viewport::render(action);
+    else
+    {
 
-	//find transparent nodes
+    //find transparent nodes
     _transparent.clear();
     traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
          <Action::ResultE, ShadowViewport, NodePtr>
          (this, &ShadowViewport::findTransparent));
-	_windowW = getParent()->getWidth();
+    _windowW = getParent()->getWidth();
     _windowH = getParent()->getHeight();
 
-	Real32 oldFar = getCamera()->getFar();
-	checkCamFar();
+    Real32 oldFar = getCamera()->getFar();
+    checkCamFar();
 
-	//check if excludeNodes are disabled
+    //check if excludeNodes are disabled
     for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
     {
         NodePtr exnode = getExcludeNodes()[i];
-		_excludeNodeActive[i] = exnode->getActive();
+        _excludeNodeActive[i] = exnode->getActive();
     }
 
-	treeRenderer->render(action);
-	getCamera()->setFar(oldFar);
+    treeRenderer->render(action);
+    getCamera()->setFar(oldFar);
 
     /*// activate exclude nodes:
     for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
@@ -472,8 +481,7 @@ void ShadowViewport::render(RenderActionBase* action)
             if(_excludeNodeActive[i]) exnode->setActive(true);
     }*/
 
-	}
-	}
+    }
 }
 
 void ShadowViewport::checkCamFar()
@@ -1005,9 +1013,12 @@ void ShadowViewport::clearLights(UInt32 size)
 
         for(UInt32 i=0; i < size; ++i)
         {
-            getRoot()->subChild(_lightCamBeacons[i]);
-            subRefCP(_lightCameras[i]);
-            subRefCP(_texChunks[i]);
+            if(i < _lightCamBeacons.size())
+                getRoot()->subChild(_lightCamBeacons[i]);
+            if(i < _lightCameras.size())
+                subRefCP(_lightCameras[i]);
+            if(i < _texChunks.size())
+                subRefCP(_texChunks[i]);
         }
 
         _lightCameras.clear();
@@ -1032,7 +1043,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.8 2006/05/15 16:55:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.9 2006/05/25 17:11:15 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

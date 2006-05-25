@@ -62,46 +62,41 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
 
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
-    NodePtr                 _shadowRoot;
-    MaterialGroupPtr        _shadowShaderGroup;
-    
-    ChunkMaterialPtr        _combineCmat;
+
     SHLChunkPtr             _combineSHL;
-    NodePtr                 _combineRoot;
 
-    FileGrabForegroundPtr   fileGrab;
-    Int32                   firstRun;
+    Int32                   _firstRun;
 
-    Matrix                  textureVM; 
-    Matrix                  texturePM;
+    Matrix                  _textureVM; 
+    Matrix                  _texturePM;
 
-    GeometryPtr             boxGeo;
-    NodePtr                 boxNode;
+    NodePtr                 _boxNode;
 
-    UInt32                  width;
-    UInt32                  height;
-	UInt32					widthHeightPOT;
+    UInt32                  _width;
+    UInt32                  _height;
+    UInt32                  _widthHeightPOT;
 
     void createShadowMaps(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
     void drawCombineMap(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
-
+    void drawTextureBoxShader(RenderActionBase* action);
 
     void createColorMapFBO(RenderActionBase* action);
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
-	void createShadowMapsFBO(RenderActionBase* action);
+    void createShadowMapsFBO(RenderActionBase* action);
 
-	bool initFBO(Window *win);
-	void reInit(Window *win);
-	bool checkFrameBufferStatus(Window *win);
+    void getCameraViewingMatrix(Matrix &CVM);
 
-	GLuint fb;
-	GLuint fb2;
-	GLuint rb_depth;
+    bool initFBO(Window *win);
+    void reInit(Window *win);
+    bool checkFrameBufferStatus(Window *win);
 
-	Real32 oldRange;
+    GLuint _fb;
+    GLuint _fb2;
+    GLuint _rb_depth;
+
+    Real32 _oldRange;
 
   protected:
 
