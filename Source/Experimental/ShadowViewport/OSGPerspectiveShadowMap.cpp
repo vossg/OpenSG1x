@@ -155,8 +155,7 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source)
 {
 	fb2 = 0;
 
-    _tiledeco = TileCameraDecorator::create();
-    addRefCP(_tiledeco);
+    _tiledeco = NullFC;
 
 	_matrixdeco = MatrixCameraDecorator::create();
 	addRefCP(_matrixdeco);
@@ -178,7 +177,8 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source)
 
 PerspectiveShadowMap::~PerspectiveShadowMap(void)
 {
-	subRefCP(_tiledeco);
+    if(_tiledeco != NullFC)
+        subRefCP(_tiledeco);
 	subRefCP(_blender);
     subRefCP(_dummy);
 	subRefCP(_matrixdeco);
@@ -1099,6 +1099,12 @@ bool PerspectiveShadowMap::bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matri
 
 void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 {
+    if(_tiledeco == NullFC)
+    {
+        _tiledeco = TileCameraDecorator::create();
+        addRefCP(_tiledeco);
+    }
+
 	//Checking for the smallest Window-Dimension
     UInt32 minSize = shadowVP->getPixelWidth();
 

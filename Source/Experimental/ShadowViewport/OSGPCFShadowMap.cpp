@@ -478,7 +478,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     else
         _widthHeightPOT = osgnextpower2(_height);
 
-    _tiledeco = TileCameraDecorator::create();
+    _tiledeco = NullFC;
 
     //Prepare Color Map grabbing
     _colorMap = TextureChunk::create();
@@ -629,8 +629,6 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         endEditCP(_shadowSHL);
     }
 
-
-    addRefCP(_tiledeco);
     addRefCP(_colorMap);
     addRefCP(_shadowFactorMap);
 
@@ -646,7 +644,8 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 
 PCFShadowMap::~PCFShadowMap(void)
 {
-    subRefCP(_tiledeco);
+    if(_tiledeco != NullFC)
+        subRefCP(_tiledeco);
     subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);
 
@@ -848,6 +847,12 @@ void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action)
 
 void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 {
+    if(_tiledeco == NullFC)
+    {
+        _tiledeco = TileCameraDecorator::create();
+        addRefCP(_tiledeco);
+    }
+
     //Checking for the smallest Window-Dimension
     UInt32 minSize = shadowVP->getPixelWidth();
 

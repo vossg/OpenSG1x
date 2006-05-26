@@ -313,9 +313,8 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
 	if(width > height) widthHeightPOT = osgnextpower2(width);
 	else widthHeightPOT = osgnextpower2(height);
 
-	_tiledeco = TileCameraDecorator::create();
-    addRefCP(_tiledeco);
-    
+	_tiledeco = NullFC;
+
     //Prepare Color Map grabbing
     _colorMap = TextureChunk::create();
     _colorMapImage = Image::create();
@@ -471,7 +470,8 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
 
 VarianceShadowMap::~VarianceShadowMap(void)
 {
-    subRefCP(_tiledeco);
+    if(_tiledeco != NullFC)
+        subRefCP(_tiledeco);
 
     subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);

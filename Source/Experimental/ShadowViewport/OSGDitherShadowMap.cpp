@@ -262,9 +262,8 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 	if(width > height) widthHeightPOT = osgnextpower2(width);
 	else widthHeightPOT = osgnextpower2(height);
 
-	_tiledeco = TileCameraDecorator::create();
-    addRefCP(_tiledeco);
-    
+    _tiledeco = NullFC;
+
     //Prepare Color Map grabbing
     _colorMap = TextureChunk::create();
     _colorMapImage = Image::create();
@@ -398,7 +397,8 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 
 DitherShadowMap::~DitherShadowMap(void)
 {
-    subRefCP(_tiledeco);
+    if(_tiledeco != NullFC)
+        subRefCP(_tiledeco);
 
     subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);
@@ -608,6 +608,12 @@ void DitherShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMateri
 
 void DitherShadowMap::createShadowMaps(RenderActionBase* action)
 {
+    if(_tiledeco == NullFC)
+    {
+        _tiledeco = TileCameraDecorator::create();
+        addRefCP(_tiledeco);
+    }
+
 	//Checking for the smallest Window-Dimension
     UInt32 minSize = shadowVP->getPixelWidth();
 

@@ -155,8 +155,7 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 {
 	fb2 = 0;
 
-    _tiledeco = TileCameraDecorator::create();
-    addRefCP(_tiledeco);
+    _tiledeco = NullFC;
 
     _blender = BlendChunk::create();
     addRefCP(_blender);
@@ -171,8 +170,9 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 
 StdShadowMap::~StdShadowMap(void)
 {
-	subRefCP(_tiledeco);
-	subRefCP(_blender);
+    if(_tiledeco != NullFC)
+        subRefCP(_tiledeco);
+    subRefCP(_blender);
     if(fb2 != 0)
         glDeleteFramebuffersEXT(1, &fb2);
 }
@@ -258,6 +258,12 @@ bool StdShadowMap::initFBO(Window *win)
 
 void StdShadowMap::createShadowMaps(RenderActionBase* action)
 {
+    if(_tiledeco == NullFC)
+    {
+        _tiledeco = TileCameraDecorator::create();
+        addRefCP(_tiledeco);
+    }
+
 	//Checking for the smallest Window-Dimension
     UInt32 minSize = shadowVP->getPixelWidth();
 
