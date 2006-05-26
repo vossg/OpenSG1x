@@ -26,6 +26,11 @@ void MyLogCallback(const char *pszText, int size, void
 
 int main (int argc, char **argv)
 {
+    osgLog().setHeaderElem ( osg::LOG_TYPE_HEADER | 
+                             osg::LOG_MODULE_HEADER |
+                             osg::LOG_TAB_HEADER |
+                             osg::LOG_COLOR_HEADER, 
+                             false );
     osgLog().setLogLevel ( OSG::LOG_WARNING );
 
     SLOG     << "log test" << OSG::endLog;

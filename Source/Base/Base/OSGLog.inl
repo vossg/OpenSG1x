@@ -169,7 +169,7 @@ std::ostream &Log::doHeader(      LogLevel  level,
                                   UInt32    line)
 {
     LogOStream &sout = *(_streamVec[level]);
-		const char *sep   = ( (_headerElem & LOG_TAB_HEADER) ? "\t" : ":" );
+    const char *sep   = ( (_headerElem & LOG_TAB_HEADER) ? "\t" : ": " );
     const char *color = ( (_headerElem & LOG_COLOR_HEADER) ?
                            _levelColor[level] : 0 );
     const char *resetColor = "\x1b[0m";
@@ -181,11 +181,16 @@ std::ostream &Log::doHeader(      LogLevel  level,
 
         if(_headerElem & LOG_TYPE_HEADER) 
         {
+    #ifdef WIN32
+            if ( !color || !colorHeader(level, sep) )
+                sout << _levelName[level] << sep;
+    #else
             if (color)
                 sout << color;          
             sout << _levelName[level] << sep;          
             if (color)
                 sout << resetColor;
+    #endif
         }
 
         if(_headerElem & LOG_TIMESTAMP_HEADER) 
