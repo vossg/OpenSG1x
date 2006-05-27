@@ -20,7 +20,6 @@
 #include <OSGImage.h>
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
-#include <OSGProjectionCameraDecorator.h>
 
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
@@ -1145,22 +1144,14 @@ void PCFShadowMap::getCameraViewingMatrix(Matrix &CVM)
     }
     else
     {
-        ProjectionCameraDecoratorPtr pcamd = ProjectionCameraDecoratorPtr::dcast(shadowVP->getCamera());
-        if(pcamd != NullFC)
+        CameraDecoratorPtr camd = CameraDecoratorPtr::dcast(shadowVP->getCamera());
+        if(camd != NullFC)
         {
-            pcamd->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+            camd->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         }
         else
         {
-            CameraDecoratorPtr camd = CameraDecoratorPtr::dcast(shadowVP->getCamera());
-            if(camd != NullFC)
-            {
-                camd->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-            }
-            else
-            {
-                SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
-            }
+            SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
         }
     }
 }
