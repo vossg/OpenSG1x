@@ -100,28 +100,55 @@ void CameraDecorator::dump(      UInt32    ,
 void CameraDecorator::draw(      DrawAction *action, 
                            const Viewport   &port  )
 {
-    getDecoratee()->draw(action, port);
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("CameraDecorator::draw: no decoratee!\n"));
+        return;
+    }
+    camera->draw(action, port);
 }
 
 void CameraDecorator::getProjection(Matrix &result,
                                     UInt32  width ,
                                     UInt32  height)
 {
-    getDecoratee()->getProjection(result, width, height);
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("CameraDecorator::getProjection: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getProjection(result, width, height);
 }
 
 void CameraDecorator::getProjectionTranslation(Matrix &result, 
                                                UInt32  width , 
                                                UInt32  height)
 {
-    getDecoratee()->getProjectionTranslation(result, width, height);
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("CameraDecorator::getProjectionTranslation: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getProjectionTranslation(result, width, height);
 }
 
 void CameraDecorator::getViewing(Matrix &result, 
                                  UInt32  width , 
                                  UInt32  height)
 {
-    getDecoratee()->getViewing(result, width, height);
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("CameraDecorator::getViewing: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getViewing(result, width, height);
 }
 
 /*-------------------------------------------------------------------------*/

@@ -112,26 +112,47 @@ void MatrixCameraDecorator::changed(BitVector whichField, UInt32 origin)
 
 void MatrixCameraDecorator::getProjection(Matrix &result, 
                                           UInt32 width, UInt32 height)
-{        
-    getDecoratee()->getProjection(result, width, height);
-    
+{
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("MatrixCameraDecorator::getProjection: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getProjection(result, width, height);
+
     result.multLeft(getPostProjection());
     result.mult(getPreProjection());
 }                                       
 
 void MatrixCameraDecorator::getProjectionTranslation(Matrix &result, 
                                                      UInt32 width, UInt32 height)
-{        
-    getDecoratee()->getProjectionTranslation(result, width, height);
-    
+{
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("MatrixCameraDecorator::getProjectionTranslation: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getProjectionTranslation(result, width, height);
+
     result.multLeft(getPostProjectionTranslation());
     result.mult(getPreProjectionTranslation());
 }                                       
 
 void MatrixCameraDecorator::getViewing(Matrix &result, 
                                        UInt32 width, UInt32 height)
-{        
-    getDecoratee()->getViewing(result, width, height);
+{
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("MatrixCameraDecorator::getViewing: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+    camera->getViewing(result, width, height);
     
     result.multLeft(getPostViewing());
     result.mult(getPreViewing());

@@ -122,15 +122,23 @@ void TileCameraDecorator::getProjection( Matrix &result,
         result.setIdentity();
         return;
     }
-    
+
+    CameraPtr camera = getDecoratee();
+    if(camera == NullFC)
+    {
+        FWARNING(("TileCameraDecorator::getProjection: no decoratee!\n"));
+        result.setIdentity();
+        return;
+    }
+
     if(getFullWidth() != 0)
         width = getFullWidth();
     
     if(getFullHeight() != 0)
         height = getFullHeight();
         
-    getDecoratee()->getProjection(result, width, height);
-    
+    camera->getProjection(result, width, height);
+
     Real32 left   = getLeft(),
            right  = getRight(),
            top    = getTop(),
