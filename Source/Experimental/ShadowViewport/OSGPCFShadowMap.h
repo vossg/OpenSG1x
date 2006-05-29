@@ -86,8 +86,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
     void createShadowMapsFBO(RenderActionBase* action);
 
-    void getCameraViewingMatrix(Matrix &CVM);
-
     bool initFBO(Window *win);
     void reInit(Window *win);
     bool checkFrameBufferStatus(Window *win);

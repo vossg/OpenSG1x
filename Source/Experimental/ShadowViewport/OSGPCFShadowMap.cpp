@@ -1135,27 +1135,6 @@ void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
 
 }
 
-void PCFShadowMap::getCameraViewingMatrix(Matrix &CVM)
-{
-    PerspectiveCameraPtr pcam = PerspectiveCameraPtr::dcast(shadowVP->getCamera());
-    if(pcam != NullFC)
-    {
-        pcam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    }
-    else
-    {
-        CameraDecoratorPtr camd = CameraDecoratorPtr::dcast(shadowVP->getCamera());
-        if(camd != NullFC)
-        {
-            camd->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-        }
-        else
-        {
-            SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
-        }
-    }
-}
-
 void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
     glClearColor(0.0,0.0,0.0,1.0);
@@ -1186,7 +1165,11 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         Matrix LVM,LPM,CVM;
         shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-        getCameraViewingMatrix(CVM);
+        CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+        if(cam != NullFC)
+            cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        else
+            SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
 
         Matrix iCVM = CVM;
         iCVM.invert();
@@ -1283,7 +1266,12 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
         Matrix LVM,LPM,CVM;
         shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-        getCameraViewingMatrix(CVM);
+        CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+        if(cam != NullFC)
+            cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        else
+            SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
+
         Matrix iCVM = CVM;
         iCVM.invert();
 
