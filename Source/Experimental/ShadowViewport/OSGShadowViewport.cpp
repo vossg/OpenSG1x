@@ -244,10 +244,12 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
             delete treeRenderer;
         treeRenderer = NULL;
 
+#if 0 // this does not work if light nodes are explicitly set 
         // free some memory.
         clearLights(_lights.size());
         _oldLights.clear();
         _lights.clear();
+#endif
 
 		switch (getShadowMode())
 		{
@@ -1043,7 +1045,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.9 2006/05/25 17:11:15 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.10 2006/05/31 10:10:51 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
