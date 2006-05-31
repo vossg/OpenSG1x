@@ -227,10 +227,12 @@ Action::ResultE Light::renderEnter(Action *action)
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
 
     // ok we can cull the light only when it is invisible and has
-    // no LightEnv parent!
+    // no LightEnv parent and local lights are enabled!
     if (pAction->pushVisibility())
     {
-        if(pAction->getLightEnvsLightsState().empty() && pAction->selectVisibles() == 0)
+        if(pAction->getLightEnvsLightsState().empty() &&
+           pAction->selectVisibles() == 0 &&
+           pAction->getLocalLights())
         {
             pAction->popVisibility();
             return Action::Skip;
