@@ -419,9 +419,16 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
 	oldWidth = shadowVP->getPixelWidth();
 	oldHeight = shadowVP->getPixelHeight();
 
+    // Saving original Viewport-Dimensions
+    Real32 vpTop,vpBottom,vpLeft,vpRight;
+    vpTop = shadowVP->getTop();
+    vpBottom = shadowVP->getBottom();
+    vpLeft = shadowVP->getLeft();
+    vpRight = shadowVP->getRight();
+
     //------Setting up Window to fit size of ShadowMap----------------
 
-	shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
+    shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
 
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
@@ -500,10 +507,7 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase* action)
             if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
 
-	//glViewport( 0, 0, oldWidth-1, oldHeight-1 );
-
-	shadowVP->setVPSize(0,0,oldWidth-1,oldHeight-1);
-	shadowVP->setVPSize(0,0,1,1);
+    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -731,15 +735,19 @@ void StdShadowMap::render(RenderActionBase* action)
 
     if(shadowVP->getMapAutoUpdate())
     {
-		if(useFBO) createShadowMapsFBO(action);
-		else createShadowMaps(action);
+		if(useFBO)
+            createShadowMapsFBO(action);
+		else
+            createShadowMaps(action);
     }
     else
     {
         if(shadowVP->_trigger_update)
         {
-			if(useFBO) createShadowMapsFBO(action);
-			else createShadowMaps(action);
+			if(useFBO)
+                createShadowMapsFBO(action);
+			else
+                createShadowMaps(action);
             shadowVP->_trigger_update = false;
         }
     }

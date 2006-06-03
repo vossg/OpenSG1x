@@ -417,15 +417,13 @@ static std::string _pcf6_shadow_fp =
 "    gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
 "}\n";
 
-
-
 static std::string _pcf_shadow_combine_vp =
-"varying vec4 projCoord;\n"
+"varying vec2 texCoord;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"  projCoord = gl_Vertex;\n"
-"  gl_Position = ftransform();\n"
+"    texCoord = gl_MultiTexCoord0.xy;\n"
+"    gl_Position = ftransform();\n"
 "}\n";
 
 static std::string _pcf_shadow_combine_fp =
@@ -433,16 +431,13 @@ static std::string _pcf_shadow_combine_fp =
 "uniform sampler2D shadowFactorMap;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
-"varying vec4 projCoord;\n"
-"\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"varying vec2 texCoord;\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"    vec4 colorProj = bias * projCoord;\n"
-"     vec2 cp = colorProj.xy * vec2(xFactor,yFactor);\n"
-"     vec3 color = texture2DProj(colorMap, vec3(cp,colorProj.w)).xyz;\n"
-"      color *= 1.0-texture2DProj(shadowFactorMap, vec3(cp,colorProj.w)).x;\n"
+"    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
+"    vec3 color = texture2D(colorMap, tc).rgb;\n"
+"    color *= 1.0 - texture2D(shadowFactorMap, tc).r;\n"
 "    gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
@@ -552,6 +547,11 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 
     _shadowCmat = ChunkMaterial::create();
 
+    _unlitMat = SimpleMaterial::create();
+    beginEditCP(_unlitMat);
+        _unlitMat->setLit(false);
+    endEditCP(_unlitMat);
+
     //Combine Shader
     ChunkMaterialPtr combineCmat = ChunkMaterial::create();
     beginEditCP(combineCmat);
@@ -560,25 +560,24 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
         combineCmat->addChunk(_shadowFactorMap);
     endEditCP(combineCmat);
 
-    //Kamera um Texturewürfel zu rendern
-    _matrixCam = MatrixCamera::create();
-    MatrixOrthogonal(_textureVM,-1,1,-1,1,-1,1);
-    MatrixLookAt(_texturePM,0,1,0,0,0,0,0,1,0);
-    _matrixCam->setNear(-1.0);
-    _matrixCam->setFar(1.0);
-    _matrixCam->setProjectionMatrix(_textureVM);
-    _matrixCam->setModelviewMatrix(_texturePM);
+    _pf = PolygonForeground::create();
+    beginEditCP(_pf);
+        _pf->setMaterial(combineCmat);
+        _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
+        _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
 
-    //Box zum Texturzeichnen
-    GeometryPtr boxGeo = makeBoxGeo(2,2,2, 1, 1, 1);
-    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
-        boxGeo->setMaterial(combineCmat);
-    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+        _pf->getTexCoords().push_back(Vec3f(1.0f, 0.0f, 0.0f));
+        _pf->getPositions().push_back(Pnt2f(1.0f, 0.0f));
 
-    _boxNode = Node::create();
-    beginEditCP(_boxNode, Node::CoreFieldMask);
-        _boxNode->setCore(boxGeo);
-    endEditCP(_boxNode, Node::CoreFieldMask);
+        _pf->getTexCoords().push_back(Vec3f(1.0f, 1.0f, 0.0f));
+        _pf->getPositions().push_back(Pnt2f(1.0f, 1.0f));
+
+        _pf->getTexCoords().push_back(Vec3f(0.0f, 1.0f, 0.0f));
+        _pf->getPositions().push_back(Pnt2f(0.0f, 1.0f));
+
+        _pf->setNormalizedX(true);
+        _pf->setNormalizedY(true);
+    endEditCP(_pf);
 
     _oldRange = shadowVP->getShadowSmoothness();
 
@@ -634,11 +633,11 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     addRefCP(_shadowCmat);
 
     addRefCP(_shadowSHL);
+    addRefCP(_unlitMat);
+    
     addRefCP(_combineSHL);
 
-    addRefCP(_matrixCam);
-
-    addRefCP(_boxNode);
+    addRefCP(_pf);
 }
 
 PCFShadowMap::~PCFShadowMap(void)
@@ -651,11 +650,11 @@ PCFShadowMap::~PCFShadowMap(void)
     subRefCP(_shadowCmat);
 
     subRefCP(_shadowSHL);
+    subRefCP(_unlitMat);
+
     subRefCP(_combineSHL);
 
-    subRefCP(_matrixCam);
-
-    subRefCP(_boxNode);
+    subRefCP(_pf);
 
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
@@ -828,22 +827,6 @@ void PCFShadowMap::reInit(Window *win)
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, _rb_depth);
 }
 
-void PCFShadowMap::drawTextureBoxShader(RenderActionBase* action)
-{
-    glClearColor(0.0,0.0,0.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glEnable( GL_DEPTH_TEST );
-
-    action->setCamera(_matrixCam.getCPtr());
-
-    //Render Texturebox
-    action->apply(_boxNode);
-
-    //Restore old Parameters
-    action->setCamera    (shadowVP->getCamera().getCPtr());
-}
-
 void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 {
     if(_tiledeco == NullFC)
@@ -1008,6 +991,13 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
     oldWidth = shadowVP->getPixelWidth();
     oldHeight = shadowVP->getPixelHeight();
 
+    // Saving original Viewport-Dimensions
+    Real32 vpTop,vpBottom,vpLeft,vpRight;
+    vpTop = shadowVP->getTop();
+    vpBottom = shadowVP->getBottom();
+    vpLeft = shadowVP->getLeft();
+    vpRight = shadowVP->getRight();
+
     //------Setting up Window to fit size of ShadowMap----------------
 
     shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
@@ -1032,43 +1022,50 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
             exnode->setActive(false);
     }
 
+    // ok we render only one unlit material for the whole scene in this pass.
+    action->setMaterial(_unlitMat.getCPtr(), shadowVP->getRoot());
+
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
         {
-        if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-        {
-            action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
-
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
-
-            glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
-
-            glDrawBuffer(GL_NONE);
-            glReadBuffer(GL_NONE);
-
-            //shadowVP->_poly->activate(action,0);
-            glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
-            glEnable( GL_POLYGON_OFFSET_FILL );
-
-            glClearColor(1.0,1.0,1.0,1.0);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            action->setCamera(shadowVP->_lightCameras[i].getCPtr());
-            action->apply(shadowVP->getRoot());
-             
-            //shadowVP->_poly->deactivate(action,0);
-            glDisable( GL_POLYGON_OFFSET_FILL );
-
-            glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
-            glClearColor(0.0,0.0,0.0,1.0);
-
-            action->setCamera(shadowVP->getCamera().getCPtr());
-        }
+            if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+            {
+                action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+    
+                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
+    
+                glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
+    
+                glDrawBuffer(GL_NONE);
+                glReadBuffer(GL_NONE);
+    
+                //shadowVP->_poly->activate(action,0);
+                glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+                glEnable( GL_POLYGON_OFFSET_FILL );
+    
+                //glClearColor(1.0,1.0,1.0,1.0);
+                //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                glClear(GL_DEPTH_BUFFER_BIT);
+    
+                action->setCamera(shadowVP->_lightCameras[i].getCPtr());
+                action->apply(shadowVP->getRoot());
+                 
+                //shadowVP->_poly->deactivate(action,0);
+                glDisable( GL_POLYGON_OFFSET_FILL );
+    
+                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    
+                //glClearColor(0.0,0.0,0.0,1.0);
+    
+                action->setCamera(shadowVP->getCamera().getCPtr());
+            }
         }
     }
-    
+
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
+
     //-------Restoring old states of Window and Viewport----------
 
     // activate exclude nodes:
@@ -1086,10 +1083,7 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
             shadowVP->_lights[i]->setOn(true);
     }
 
-    //glViewport( 0, 0, oldWidth-1, oldHeight-1 );
-
-    shadowVP->setVPSize(0,0,oldWidth-1,oldHeight-1);
-    shadowVP->setVPSize(0,0,1,1);
+    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -1099,22 +1093,34 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 void PCFShadowMap::createColorMap(RenderActionBase* action)
 {
+    // HACK but we need this for a correct clear.
+    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
+          pt=shadowVP->getPixelTop();
+    GLint pw=pr-pl+1,ph=pt-pb+1;
+    glViewport(pl, pb, pw, ph);
+    glScissor(pl, pb, pw, ph);
+    glEnable(GL_SCISSOR_TEST);
     shadowVP->getBackground()->clear(action, shadowVP);
+    glDisable(GL_SCISSOR_TEST);
 
     action->apply(shadowVP->getRoot());
 
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_colorMap->getGLId()));
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    //glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D,0);
 }
 
 void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
 {
-
-    glClearColor(0.0,0.0,0.0,1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Real32 vpTop,vpBottom,vpLeft,vpRight;
+    vpTop = shadowVP->getTop();
+    vpBottom = shadowVP->getBottom();
+    vpLeft = shadowVP->getLeft();
+    vpRight = shadowVP->getRight();
+    shadowVP->setVPSize(0,0,shadowVP->getPixelWidth()-1,shadowVP->getPixelHeight()-1);
 
     Window *win = action->getWindow();
 
@@ -1126,20 +1132,39 @@ void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
     
     glDrawBuffersARB(1, buffers);
 
+    GLint pw = shadowVP->getPixelWidth();
+    GLint ph = shadowVP->getPixelHeight();
+    glViewport(0, 0, pw, ph);
+    glScissor(0, 0, pw, ph);
+    glEnable(GL_SCISSOR_TEST);
     shadowVP->getBackground()->clear(action, shadowVP);
+    glDisable(GL_SCISSOR_TEST);
+
     action->apply(shadowVP->getRoot());
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     delete[] buffers;
 
+    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 }
 
 void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 {
     glClearColor(0.0,0.0,0.0,1.0);
-    if(_firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+    if(_firstRun)
+    {
+        // HACK but we need this for a correct clear.
+        GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
+              pt=shadowVP->getPixelTop();
+        GLint pw=pr-pl+1,ph=pt-pb+1;
+        glViewport(pl, pb, pw, ph);
+        glScissor(pl, pb, pw, ph);
+        glEnable(GL_SCISSOR_TEST);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glDisable(GL_SCISSOR_TEST);
+    }
+
     //Finde alle aktiven Lichtquellen
     Real32 activeLights = 0;
     if(shadowVP->getGlobalShadowIntensity() != 0.0) 
@@ -1224,7 +1249,8 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
     
         glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        //glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         glBindTexture(GL_TEXTURE_2D,0);
     
         _firstRun = 0;
@@ -1233,6 +1259,13 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 
 void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num)
 {
+    Real32 vpTop,vpBottom,vpLeft,vpRight;
+    vpTop = shadowVP->getTop();
+    vpBottom = shadowVP->getBottom();
+    vpLeft = shadowVP->getLeft();
+    vpRight = shadowVP->getRight();
+    shadowVP->setVPSize(0,0,shadowVP->getPixelWidth()-1,shadowVP->getPixelHeight()-1);
+
     glClearColor(0.0,0.0,0.0,1.0);
 
     //Finde alle aktiven Lichtquellen
@@ -1324,7 +1357,17 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
 
         //draw the Scene
         if(_firstRun)
+        {
+            // ACHTUNG der fbo kann nur 0,w,0,h rendern
+            // damit es auch mit mehreren viewports klappt ...
+            GLint pw = shadowVP->getPixelWidth();
+            GLint ph = shadowVP->getPixelHeight();
+            glViewport(0, 0, pw, ph);
+            glScissor(0, 0, pw, ph);
+            glEnable(GL_SCISSOR_TEST);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glDisable(GL_SCISSOR_TEST);
+        }
 
         shadowVP->_texChunks[num]->activate(action, 3);
 
@@ -1343,16 +1386,17 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
         delete[] buffers;
         _firstRun = 0;
     }
+    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 }
 
 void PCFShadowMap::drawCombineMap(RenderActionBase* action)
 {
-    Real32 xFactor = 1.0;
-    Real32 yFactor = 1.0;
+    Real32 xFactor = 1.0f;
+    Real32 yFactor = 1.0f;
     if(!useNPOTTextures)
     {
-        xFactor = Real32(_width)/Real32(_widthHeightPOT);
-        yFactor = Real32(_height)/Real32(_widthHeightPOT);
+        xFactor = Real32(_width) / Real32(_widthHeightPOT);
+        yFactor = Real32(_height) / Real32(_widthHeightPOT);
     }
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
@@ -1362,8 +1406,21 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
         _combineSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
-    //draw the Scene
-    drawTextureBoxShader(action);
+    // glViewport is called in the render action but we don't use the renderaction here!
+    GLint pl=shadowVP->getPixelLeft(), pr=shadowVP->getPixelRight(), pb=shadowVP->getPixelBottom(), 
+          pt=shadowVP->getPixelTop();
+    GLint pw=pr-pl+1,ph=pt-pb+1;
+    glViewport(pl, pb, pw, ph);
+    glScissor(pl, pb, pw, ph);
+    glEnable(GL_SCISSOR_TEST);
+
+    //glClearColor(0.0,0.0,0.0,1.0);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable( GL_DEPTH_TEST );
+
+    _pf->draw(action, shadowVP);
+    glDisable(GL_SCISSOR_TEST);
 }
 
 void PCFShadowMap::render(RenderActionBase* action)
@@ -1406,8 +1463,10 @@ void PCFShadowMap::render(RenderActionBase* action)
         shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
     }
 
-    GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
+    GLfloat globalAmbient[4];
+    glGetFloatv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+    GLfloat newGlobalAmbient[] = {0.0,0.0,0.0,1.0};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, newGlobalAmbient);
     _firstRun = 1;
 
     if(shadowVP->getPixelWidth() != _width ||
@@ -1556,8 +1615,10 @@ void PCFShadowMap::render(RenderActionBase* action)
                 {
                 if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
                 {
-                    if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
-                    else createShadowFactorMap(action, i);
+                    if(useFBO && useNPOTTextures)
+                        createShadowFactorMapFBO(action, i);
+                    else
+                        createShadowFactorMap(action, i);
                     //_firstRun = 0;
                 }
                 }
@@ -1565,6 +1626,9 @@ void PCFShadowMap::render(RenderActionBase* action)
             shadowVP->_trigger_update = false;
         }
     }
+
+    // restore global ambient color.
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
     drawCombineMap(action);
 

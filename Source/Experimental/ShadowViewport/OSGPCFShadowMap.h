@@ -18,6 +18,7 @@
 #include <OSGMatrixCamera.h>
 #include <OSGTransform.h>
 #include <OSGTextureChunk.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGPassiveBackground.h>
 #include <OSGSolidBackground.h>
@@ -53,7 +54,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
 
     TileCameraDecoratorPtr  _tiledeco;
     BlendChunkPtr           _blender;
-    MatrixCameraPtr         _matrixCam;
 
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;
@@ -65,12 +65,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
 
     SHLChunkPtr             _combineSHL;
 
+    SimpleMaterialPtr       _unlitMat;
+
+    PolygonForegroundPtr    _pf;
+
     Int32                   _firstRun;
-
-    Matrix                  _textureVM; 
-    Matrix                  _texturePM;
-
-    NodePtr                 _boxNode;
 
     UInt32                  _width;
     UInt32                  _height;
@@ -80,7 +79,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     void createColorMap(RenderActionBase* action);
     void drawCombineMap(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void drawTextureBoxShader(RenderActionBase* action);
 
     void createColorMapFBO(RenderActionBase* action);
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);

@@ -316,7 +316,7 @@ void ShadowViewport::dump(      UInt32    ,
     SLOG << "Dump ShadowViewport NI" << std::endl;
 }
 
-void ShadowViewport::setVPSize(UInt32 a,UInt32 b, UInt32 c, UInt32 d)
+void ShadowViewport::setVPSize(Real32 a,Real32 b, Real32 c, Real32 d)
 {
 	beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                           BottomFieldMask | TopFieldMask);
@@ -431,7 +431,6 @@ void ShadowViewport::render(RenderActionBase* action)
             _excludeNodeActive.push_back(false);
     }
 
-
     action->setCamera    (getCamera().getCPtr());
     action->setBackground(_silentBack.getCPtr());
     action->setViewport  (this);
@@ -441,7 +440,10 @@ void ShadowViewport::render(RenderActionBase* action)
     checkLights(action);
 
     bool allLightsZero = true;
-    if(getGlobalShadowIntensity() != 0.0) allLightsZero = false;
+    if(getGlobalShadowIntensity() != 0.0)
+    {
+        allLightsZero = false;
+    }
     else
     {
         for(UInt32 i=0; i<_lights.size(); i++)
@@ -473,6 +475,7 @@ void ShadowViewport::render(RenderActionBase* action)
     }
 
     treeRenderer->render(action);
+
     getCamera()->setFar(oldFar);
 
     /*// activate exclude nodes:
@@ -1045,7 +1048,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.10 2006/05/31 10:10:51 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.11 2006/06/03 08:55:27 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

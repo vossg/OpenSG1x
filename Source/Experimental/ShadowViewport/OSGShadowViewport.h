@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     bool                            _trigger_update;
 
 
-	void setVPSize(UInt32 a,UInt32 b, UInt32 c, UInt32 d);
+	void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
 
     void render(RenderActionBase* action);
 
@@ -203,6 +203,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.5 2006/05/15 16:55:15 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.6 2006/06/03 08:55:27 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */
