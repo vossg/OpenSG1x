@@ -86,6 +86,7 @@ static void removeEscapeSequences(char *s)
 
 %x NODE
 
+%x COMPONENTNAME
 
 %x sfboolValue     sfcolorValue    sfcolorrgbaValue sfdoubleValue   sffloatValue
 %x sfimageValue    sfint32Value    sfmatrix3dValue  sfmatrix3fValue sfmatrix4dValue
@@ -270,7 +271,7 @@ header (#[^\n]*\n)
 <INITIAL,NODE>EXPORT         { return EXPORT;         }
 <INITIAL,NODE>IMPORT         { return IMPORT;         }
 <INITIAL,NODE>PROFILE        { return PROFILE;        }
-<INITIAL,NODE>COMPONENT      { return COMPONENT;      }
+<INITIAL,NODE>COMPONENT      { BEGIN COMPONENTNAME; return COMPONENT; }
 <INITIAL,NODE>META           { return OSG_META;       }
 <INITIAL,NODE>AS             { return AS;             }
 
@@ -338,6 +339,17 @@ header (#[^\n]*\n)
 <INITIAL,NODE>SFVolume       { return Tok_SFVolume;    }
 
 <INITIAL,NODE>{IdFirstChar}{IdRestChar}* { return ID; }
+
+<COMPONENTNAME>\"([^\\\"]*(\\(.|\n))*)*\" {
+  removeEscapeSequences(yytext);
+  BEGIN NODE;
+  return COMPONENTID; 
+}
+
+<COMPONENTNAME>[^ \t\n\r"]+([ \t]*\.[ \t]*{int32})? {
+  BEGIN NODE;
+  return COMPONENTID; 
+}
 
 <mfboolValue,mfcolorValue,mfcolorrgbaValue,mfdoubleValue,mffloatValue,mfimageValue,mfint32Value>\[ {
 

@@ -102,6 +102,7 @@ void freeName(char *&szName);
 %token IMPORT
 %token PROFILE
 %token COMPONENT
+%token COMPONENTID
 %token OSG_META
 %token AS
 
@@ -259,7 +260,7 @@ componentStatementsRec : componentStatementsRec componentStatement
 ;
 
 componentStatement : COMPONENT
-                     ID
+                     COMPONENTID
                      {
                          if(SKEL != NULL)
                          {
