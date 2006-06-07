@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -90,7 +91,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     void clearLights(UInt32 size);
     void checkMapResolution();
 	void checkCamFar();
-
+	
     Action::ResultE findLight(NodePtr& node);
     Action::ResultE findTransparent(NodePtr& node);
 
@@ -130,8 +131,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
 	std::vector<bool>				_excludeNodeActive;
+	std::vector<bool>				_realPointLight;
+	std::vector<bool*>				_renderSide;
 
     bool                            _trigger_update;
+	Matrix							transforms[6];
 
 
 	void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
@@ -194,6 +198,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const ShadowViewport &source);
+
+	bool	_GLSLsupported;
+	bool	_initDone;
 };
 
 typedef ShadowViewport *ShadowViewportP;
@@ -203,6 +210,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.6 2006/06/03 08:55:27 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.7 2006/06/07 15:12:37 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

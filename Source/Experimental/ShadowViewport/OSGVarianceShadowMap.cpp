@@ -119,8 +119,8 @@
     #define GL_STENCIL_ATTACHMENT_EXT 0x8D20
     #define GL_FRAMEBUFFER_EXT 0x8D40
     #define GL_RENDERBUFFER_EXT 0x8D41
-    #define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
-    #define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
+    #define GL_RENDERBUFFERwidth_EXT 0x8D42
+    #define GL_RENDERBUFFERheight_EXT 0x8D43
     #define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
     #define GL_STENCIL_INDEX_EXT 0x8D45
     #define GL_STENCIL_INDEX1_EXT 0x8D46
@@ -310,8 +310,13 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
         height = shadowVP->getPixelHeight();
     }
 
-	if(width > height) widthHeightPOT = osgnextpower2(width);
-	else widthHeightPOT = osgnextpower2(height);
+    if(width == 0)
+        width = 1;
+    if(height == 0)
+        height = 1;
+
+	if(width > height) widthHeightPOT = osgnextpower2(width-1);
+	else widthHeightPOT = osgnextpower2(height-1);
 
 	_tiledeco = NullFC;
 
@@ -393,27 +398,15 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
 		_combineSHL->setFragmentProgram(_variance_combine_fp);
     endEditCP(_combineSHL);
 
-    _shadowCmat = ChunkMaterial::create();
-    _shadowRoot = Node::create();
-
-    _shadowShaderGroup = MaterialGroup::create();
-    beginEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
-        _shadowShaderGroup->setMaterial(_shadowCmat);
-    endEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
+	_shadowCmat = ChunkMaterial::create();
 
     //Combine Shader
-    _combineCmat = ChunkMaterial::create();
-    _combineRoot = Node::create();
-
-    _combineShaderGroup = MaterialGroup::create();
-    beginEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
-        _combineShaderGroup->setMaterial(_combineCmat);
-    endEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
-
-    beginEditCP(_combineRoot);
-        _combineRoot->setCore(_combineShaderGroup);
-    endEditCP(_combineRoot);
-
+    ChunkMaterialPtr combineCmat = ChunkMaterial::create();
+    beginEditCP(combineCmat);
+        combineCmat->addChunk(_combineSHL);
+        combineCmat->addChunk(_colorMap);
+        combineCmat->addChunk(_shadowFactorMap);
+    endEditCP(combineCmat);
 
 	//SHL Depth
     _depthSHL = SHLChunk::create();
@@ -426,12 +419,6 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
     endEditCP(_depthSHL);
 
     _depthCmat = ChunkMaterial::create();
-    _depthRoot = Node::create();
-
-    _depthShaderGroup = MaterialGroup::create();
-    beginEditCP(_depthShaderGroup, Geometry::MaterialFieldMask);
-        _depthShaderGroup->setMaterial(_depthCmat);
-    endEditCP(_depthShaderGroup, Geometry::MaterialFieldMask);
 
     //Kamera um Texturewürfel zu rendern
     _matrixCam = MatrixCamera::create();
@@ -443,66 +430,47 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
     _matrixCam->setModelviewMatrix(texturePM);
 
     //Box zum Texturzeichnen
-    boxGeo = makeBoxGeo(2,2,2, 1, 1, 1);
+    GeometryPtr boxGeo = makeBoxGeo(2,2,2, 1, 1, 1);
+    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
+        boxGeo->setMaterial(combineCmat);
+    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+
     boxNode = Node::create();
     beginEditCP(boxNode, Node::CoreFieldMask);
         boxNode->setCore(boxGeo);
     endEditCP(boxNode, Node::CoreFieldMask);
 
     addRefCP(_shadowSHL);
-    addRefCP(_combineSHL);
 	addRefCP(_depthSHL);
-	addRefCP(_shadowRoot);
-    addRefCP(_combineRoot);
-	addRefCP(_depthRoot);
-	addRefCP(_shadowCmat);
-    addRefCP(_combineCmat);
-	addRefCP(_depthCmat);
-	addRefCP(_shadowShaderGroup);
-    addRefCP(_combineShaderGroup);
-	addRefCP(_depthShaderGroup);
-	addRefCP(_matrixCam);
-    addRefCP(shadowVP->getRoot());
-    addRefCP(boxGeo);
+    addRefCP(_matrixCam);
     addRefCP(boxNode);
 
 }
 
 VarianceShadowMap::~VarianceShadowMap(void)
 {
+    _shadowCmat->getChunks().clear();
+
     if(_tiledeco != NullFC)
         subRefCP(_tiledeco);
-
-    subRefCP(_colorMap);
+    subRefCP(_blender);
+    
+	subRefCP(boxNode);
     subRefCP(_shadowFactorMap);
-    subRefCP(_shadowFactorMap);
+    subRefCP(_shadowSHL);
+	subRefCP(_depthSHL);
     subRefCP(_matrixCam);
-    subRefCP(_shadowSHL);
-    subRefCP(_combineSHL);
-	subRefCP(_depthSHL);
-	subRefCP(_shadowShaderGroup);
-    subRefCP(_combineShaderGroup);
-	subRefCP(_depthShaderGroup);
 	
-    subRefCP(_shadowRoot);
-    subRefCP(_combineRoot);
-    subRefCP(_shadowSHL);
-    subRefCP(_combineSHL);
-	subRefCP(_depthSHL);
-	
-    subRefCP(boxGeo);
-    subRefCP(boxNode);
-
     if(fb != 0)
         glDeleteFramebuffersEXT(1, &fb);
     if(rb_depth != 0)
         glDeleteRenderbuffersEXT( 1, &rb_depth);
     if(fb2 != 0)
         glDeleteFramebuffersEXT(1, &fb2);
-	if(rb_depth2 != 0)
-        glDeleteRenderbuffersEXT( 1, &rb_depth2);
+	if(_shadowSHL.getRefCount() > 0) subRefCP(_shadowSHL);
+	if(_depthSHL.getRefCount() > 0) subRefCP(_depthSHL);
 
-	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+	/*for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
 		beginEditCP(shadowVP->_texChunks[i]);
 			shadowVP->_texChunks[i]->setImage(shadowVP->_shadowImages[i]);
@@ -515,12 +483,23 @@ VarianceShadowMap::~VarianceShadowMap(void)
 			shadowVP->_texChunks[i]->setTarget(GL_TEXTURE_2D);
 		endEditCP(shadowVP->_texChunks[i]);
 		
-		beginEditCP(shadowVP->_shadowImages[i]);
-			shadowVP->_shadowImages[i]->set(Image::OSG_L_PF,shadowVP->getMapSize(), shadowVP->getMapSize(),
-                                  1, 1, 1, 0, NULL,
-                                  Image::OSG_FLOAT16_IMAGEDATA, false);
-		endEditCP(shadowVP->_shadowImages[i]);
-	}
+		if(useGLSL)
+		{
+			beginEditCP(shadowVP->_shadowImages[i]);
+				shadowVP->_shadowImages[i]->set(Image::OSG_L_PF,maxTexSize, maxTexSize/2,
+					                  1, 1, 1, 0, NULL,
+						              Image::OSG_UINT8_IMAGEDATA, false);
+			endEditCP(shadowVP->_shadowImages[i]);
+		}
+		else
+		{
+			beginEditCP(shadowVP->_shadowImages[i]);
+				shadowVP->_shadowImages[i]->set(Image::OSG_L_PF,shadowVP->getMapSize(), shadowVP->getMapSize(),
+					                  1, 1, 1, 0, NULL,
+						              Image::OSG_UINT8_IMAGEDATA, false);
+			endEditCP(shadowVP->_shadowImages[i]);
+		}
+	}*/
 }
 
 /// Checks if FBO status is ok
@@ -670,8 +649,8 @@ bool VarianceShadowMap::initFBO(Window *win)
 	//if no NPOTTextures supported, resize images
 	if(!useNPOTTextures)
 	{
-		if(width > height) widthHeightPOT = osgnextpower2(width);
-		else widthHeightPOT = osgnextpower2(height);
+		if(width > height) widthHeightPOT = osgnextpower2(width-1);
+		else widthHeightPOT = osgnextpower2(height-1);
 
 		beginEditCP(_colorMap);
 		beginEditCP(_colorMapImage);
@@ -709,18 +688,12 @@ void VarianceShadowMap::reInit(Window *win)
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
 
-void VarianceShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat)
+void VarianceShadowMap::drawTextureBoxShader(RenderActionBase* action)
 {
-	glClearColor(0.0,0.0,0.0,1.0);
+    glClearColor(0.0,0.0,0.0,1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glEnable( GL_DEPTH_TEST );
-
-    addRefCP(cmat);
-
-    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
-        boxGeo->setMaterial(cmat);
-    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+    glEnable( GL_DEPTH_TEST );
 
     action->setCamera(_matrixCam.getCPtr());
 
@@ -729,8 +702,6 @@ void VarianceShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMate
 
     //Restore old Parameters
     action->setCamera    (shadowVP->getCamera().getCPtr());
-
-    subRefCP(cmat);
 }
 
 
@@ -859,31 +830,21 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
 			subRefCP(_depthSHL);
 
-			addRefCP(shadowVP->getRoot());
-
-			beginEditCP(_depthRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-				_depthRoot->setCore(_depthShaderGroup);
-				_depthRoot->addChild(shadowVP->getRoot());
-			endEditCP(_depthRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-    
 			//draw the Scene
+			
+			// we render the whole scene with one material.
+			action->setMaterial(_depthCmat.getCPtr(), shadowVP->getRoot());
+
+			action->apply(shadowVP->getRoot());
     
-			action->apply(_depthRoot);
+			// reset the material.
+			action->setMaterial(NULL, NullFC);
 
-			beginEditCP(_depthRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-				_depthRoot->subChild(shadowVP->getRoot());
-			endEditCP(_depthRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+			//shadowVP->_texChunks[num]->deactivate(action, 3);
 
-			subRefCP(shadowVP->getRoot());
+			glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
-            //action->apply(shadowVP->getRoot());
-             
-			//shadowVP->_poly->deactivate(action,0);
-			//glDisable( GL_POLYGON_OFFSET_FILL );
-
-			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-
-			delete[] buffers;
+	        delete[] buffers;
 
 			glClearColor(0.0,0.0,0.0,1.0);
 
@@ -1097,32 +1058,25 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 n
         _shadowCmat->addChunk(_shadowFactorMap);
     endEditCP(_shadowCmat);
 
-    /////////////
     subRefCP(_shadowSHL);
-    subRefCP(_shadowFactorMap);
+	subRefCP(shadowVP->_texChunks[num]);
+	subRefCP(_shadowFactorMap);
 
-    addRefCP(shadowVP->getRoot());
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+	// we render the whole scene with one material.
+    action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
     
-//draw the Scene
-
-	action->apply(_shadowRoot);
-
-	action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
-
+    //draw the Scene
+    action->apply(shadowVP->getRoot());
+    
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
+    
+    action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
+    
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D,0);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    subRefCP(shadowVP->getRoot());
+    
 	firstRun = 0;
 	}
 }
@@ -1274,38 +1228,36 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt3
     endEditCP(_shadowCmat);
 
     subRefCP(_shadowSHL);
-    subRefCP(_shadowFactorMap);
+	subRefCP(shadowVP->_texChunks[num]);
+	subRefCP(_shadowFactorMap);
 
-    addRefCP(shadowVP->getRoot());
+    GLenum *buffers = NULL;
+    buffers = new GLenum[1];
+    buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
 
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+    //Setup FBO
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
+
+    glDrawBuffersARB(1, buffers);
+
+	//draw the Scene
+    if(firstRun)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //shadowVP->_texChunks[num]->activate(action, 3);
+
+    // we render the whole scene with one material.
+    action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+
+    action->apply(shadowVP->getRoot());
     
-    	GLenum *buffers = NULL;
-	buffers = new GLenum[1];
-	buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
-    
-	//Setup FBO
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
 
-	glDrawBuffersARB(1, buffers);
+    //shadowVP->_texChunks[num]->deactivate(action, 3);
 
-    //draw the Scene
-	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    action->apply(_shadowRoot);
-
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    subRefCP(shadowVP->getRoot());
-
-	delete[] buffers;
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
+    delete[] buffers;
 	firstRun = 0;
 	}
 }
@@ -1313,33 +1265,22 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt3
 void VarianceShadowMap::drawCombineMap(RenderActionBase* action)
 {
 	Real32 xFactor = 1.0;
-	Real32 yFactor = 1.0;
-	if(!useNPOTTextures)
-	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
-	}
+    Real32 yFactor = 1.0;
+    if(!useNPOTTextures)
+    {
+        xFactor = Real32(width)/Real32(widthHeightPOT);
+        yFactor = Real32(height)/Real32(widthHeightPOT);
+    }
 
-	beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
+    beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
         _combineSHL->setUniformParameter("colorMap", 0);
         _combineSHL->setUniformParameter("shadowFactorMap", 1);
-		_combineSHL->setUniformParameter("xFactor",Real32(xFactor));
-		_combineSHL->setUniformParameter("yFactor",Real32(yFactor));
+        _combineSHL->setUniformParameter("xFactor",Real32(xFactor));
+        _combineSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
-    beginEditCP(_combineCmat);
-        _combineCmat->getChunks().clear();
-        _combineCmat->addChunk(_combineSHL);
-        _combineCmat->addChunk(_colorMap);
-        _combineCmat->addChunk(_shadowFactorMap);
-    endEditCP(_combineCmat);
-
     //draw the Scene
-    drawTextureBoxShader(action, _combineCmat);
-
-    subRefCP(_colorMap);
-    subRefCP(_shadowFactorMap);
-    subRefCP(_combineSHL);
+    drawTextureBoxShader(action);
 }
 
 void VarianceShadowMap::render(RenderActionBase* action)
@@ -1384,8 +1325,8 @@ void VarianceShadowMap::render(RenderActionBase* action)
 		}
 		else
 		{
-			if(width > height) widthHeightPOT = osgnextpower2(width);
-			else widthHeightPOT = osgnextpower2(height);
+			if(width > height) widthHeightPOT = osgnextpower2(width-1);
+			else widthHeightPOT = osgnextpower2(height-1);
 
 			beginEditCP(_colorMap);
 			beginEditCP(_colorMapImage);

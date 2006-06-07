@@ -8,8 +8,8 @@
 #include <vector>
 
 #include <OSGConfig.h>
-#include <OSGAction.h>
 
+#include <OSGAction.h>
 #include <OSGRenderActionBase.h>
 
 #include <OSGSpotLight.h>
@@ -19,16 +19,33 @@
 #include <OSGMatrixCamera.h>
 #include <OSGTransform.h>
 #include <OSGTextureChunk.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGPassiveBackground.h>
+#include <OSGSolidBackground.h>
 #include <OSGDynamicVolume.h>
 
+#include <OSGChunkMaterial.h>
+#include <OSGMaterialChunk.h>
+#include <OSGMaterialGroup.h>
+#include <OSGSHLChunk.h>
+
+#include <OSGForeground.h>
+#include <OSGPolygonForeground.h>
+#include <OSGGrabForeground.h>
+#include <OSGTextureGrabForeground.h>
+#include <OSGFileGrabForeground.h>
+#include <OSGImageForeground.h>
 
 #include <OSGTexGenChunk.h>
 #include <OSGTextureTransformChunk.h>
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
+#include <OSGSimpleTexturedMaterial.h>
+
+
 #include <OSGTileCameraDecorator.h>
+#include <OSGPolygonForeground.h>
 #include <OSGMatrixCameraDecorator.h>
 
 #include "OSGTreeRenderer.h"
@@ -45,11 +62,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
   private:
 
 	bool initFBO(Window *win);
-	bool checkFrameBufferStatus(Window *win);
+	void reInit(Window *win);
 
+
+	GLuint fb;
 	GLuint fb2;
+	GLuint rb_depth;
 
-	void createShadowMapsFBO(RenderActionBase* action);
+	UInt32 widthHeightPOT;
+
+	Matrix transforms[6];
 
 	void calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num);
 
@@ -58,15 +80,43 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 
     TileCameraDecoratorPtr		_tiledeco;
 	BlendChunkPtr				_blender;
-	NodePtr						_dummy;
-	MatrixCameraDecoratorPtr	_matrixdeco;
-	MatrixCameraPtr				matrixCam;
+	MatrixCameraPtr				matrixCam2;
+
+    TextureChunkPtr			    _colorMap;
+    TextureChunkPtr				_shadowFactorMap;
+    ImagePtr					_colorMapImage;
+    ImagePtr					_shadowFactorMapImage;
+
+    ChunkMaterialPtr			_shadowCmat;
+    SHLChunkPtr					_shadowSHL;
+    SHLChunkPtr					_shadowCubeSHL;
+    
+    SHLChunkPtr					_combineSHL;
+
+    SimpleMaterialPtr			_unlitMat;
+
+    PolygonForegroundPtr		_pf;
+
+    UInt32						width;
+    UInt32						height;
+
+	Int32	                    firstRun;
 	
-	std::vector<Matrix>  _perspectiveLPM;
-	std::vector<Matrix>  _perspectiveLVM;
+	bool checkFrameBufferStatus(Window *win);
+	void createShadowMapsFBO(RenderActionBase* action);
+
+	std::vector<Matrix>			_perspectiveLPM;
+	std::vector<Matrix>			_perspectiveLVM;
 
     void createShadowMaps(RenderActionBase* action);
+	void createShadowMapsNOGLSL(RenderActionBase* action);
 	void projectShadowMaps(RenderActionBase* action);
+    void createColorMapFBO(RenderActionBase* action);
+    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
+    void createColorMap(RenderActionBase* action);
+    void drawCombineMap(RenderActionBase* action);
+
 
 	void calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num);
 	bool bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM);

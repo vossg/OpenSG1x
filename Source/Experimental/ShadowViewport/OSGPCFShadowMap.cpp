@@ -20,6 +20,8 @@
 #include <OSGImage.h>
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
+#include <OSGMatrixCameraDecorator.h>
+
 
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
@@ -182,6 +184,8 @@ static std::string _pcf2_shadow_fp =
 "uniform float mapSize;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
+"uniform float mapFactor;\n"
+"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -196,8 +200,9 @@ static std::string _pcf2_shadow_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"	projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor), projectiveBiased.zw);\n"
 "    float shadowed;\n"
-"    float texelSize = 1.0/mapSize;\n"
+"	 float texelSize = (1.0/mapSize)*mapFactor;\n"
 "    shadowed = depthTest(vec2(0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
 "    shadowed += depthTest(vec2(-0.5*texelSize,0.5*texelSize),projectiveBiased.xyz);\n"
 "    shadowed += depthTest(vec2(0.5*texelSize,-0.5*texelSize),projectiveBiased.xyz);\n"
@@ -215,6 +220,8 @@ static std::string _pcf3_shadow_fp =
 "uniform float mapSize;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
+"uniform float mapFactor;\n"
+"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -229,7 +236,8 @@ static std::string _pcf3_shadow_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"    float texelSize = 1.0/mapSize;\n"
+"	projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor), projectiveBiased.zw);\n"
+"	 float texelSize = (1.0/mapSize)*mapFactor;\n"
 "    float shadowed;\n"
 "\n"
 "    shadowed = depthTest(vec2(0.0,0.0) ,projectiveBiased.xyz);\n"
@@ -255,6 +263,8 @@ static std::string _pcf4_shadow_fp =
 "uniform float mapSize;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
+"uniform float mapFactor;\n"
+"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -269,8 +279,9 @@ static std::string _pcf4_shadow_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
+"	projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor), projectiveBiased.zw);\n"
 "    float shadowed;\n"
-"    float texelSize = 1.0/mapSize;\n"
+"	 float texelSize = (1.0/mapSize)*mapFactor;\n"
 "\n"
 "    shadowed = depthTest(vec2(-1.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
 "    shadowed += depthTest(vec2(-0.5*texelSize,1.5*texelSize),projectiveBiased.xyz);\n"
@@ -302,6 +313,8 @@ static std::string _pcf5_shadow_fp =
 "uniform float mapSize;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
+"uniform float mapFactor;\n"
+"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -316,7 +329,8 @@ static std::string _pcf5_shadow_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"    float texelSize = 1.0/mapSize;\n"
+" 	 projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor), projectiveBiased.zw);\n"
+"	 float texelSize = (1.0/mapSize)*mapFactor;\n"
 "    float shadowed;\n"
 "\n"
 "    shadowed = depthTest(vec2(-2.0*texelSize,2.0*texelSize),projectiveBiased.xyz);\n"
@@ -358,6 +372,8 @@ static std::string _pcf6_shadow_fp =
 "uniform float mapSize;\n"
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
+"uniform float mapFactor;\n"
+"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -372,7 +388,8 @@ static std::string _pcf6_shadow_fp =
 "void main(void)\n"
 "{\n"
 "    vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"    float texelSize = 1.0/mapSize;\n"
+"	projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor), projectiveBiased.zw);\n"
+"	 float texelSize = (1.0/mapSize)*mapFactor;\n"
 "    float shadowed;\n"
 "\n"
 "    shadowed = depthTest(vec2(-2.5*texelSize,2.5*texelSize),projectiveBiased.xyz);\n"
@@ -441,6 +458,440 @@ static std::string _pcf_shadow_combine_fp =
 "    gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
+static std::string _pcf_shadowCube_vp =
+"uniform float shadowBias;\n"
+"uniform mat4 lightPMOP;\n"
+"uniform mat4 KKtoWK;\n"
+"uniform float texFactor;\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"void main(void)\n"
+"{\n"
+"  realPos = gl_ModelViewMatrix * gl_Vertex;\n"
+"  realPos2 = lightPMOP * (KKtoWK * realPos); \n"
+"  texPos = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
+"  texPos = bias * texPos;\n"
+"  gl_Position = ftransform();\n"
+"}\n";
+
+static std::string _pcf2_shadowCube_fp =
+"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D oldFactorMap;\n"
+"uniform float intensity;\n"
+"uniform int firstRun;\n"
+"uniform float xFactor;\n"
+"uniform float yFactor;\n"
+"\n"
+"uniform mat4 lightPMA;\n"
+"uniform mat4 lightPMB;\n"
+"uniform mat4 lightPMC;\n"
+"uniform mat4 lightPMD;\n"
+"uniform mat4 lightPME;\n"
+"uniform mat4 lightPMF;\n"
+"\n"
+"uniform float texFactor;\n"
+"uniform float mapSize;\n"
+"\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"	float xOffset = 0.0;\n"
+"	float yOffset = 0.0;\n"
+"	float maxStep = 0.25;\n"
+"\n"
+"	vec4 projCoord2;\n"
+"\n"
+"	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"	}\n"
+"	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.y >= 0.0) {projCoord2 = lightPMC * realPos; xOffset = 2.0 * maxStep, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMD * realPos; xOffset = 3.0 * maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if(realPos2.z >= 0.0) {projCoord2 = lightPMA * realPos;  xOffset = 0.0, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMB * realPos; xOffset = maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"\n"
+"	projCoord2.x *= texFactor;\n"
+"	projCoord2 = bias * projCoord2;\n"
+"\n"
+"	vec4 projectiveBiased = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
+"\n"
+"	projectiveBiased.x = projectiveBiased.x/4.0;\n"
+"	projectiveBiased.y = projectiveBiased.y/2.0;\n"
+"	\n"
+"	float pixSize = 1.0/(mapSize*4.0);\n"
+"\n"
+"	float shadowed;\n"
+"	shadowed = shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed = (1.0-(shadowed * 0.25))*intensity;\n"
+"\n"
+"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"}\n";
+
+static std::string _pcf3_shadowCube_fp =
+"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D oldFactorMap;\n"
+"uniform float intensity;\n"
+"uniform int firstRun;\n"
+"uniform float xFactor;\n"
+"uniform float yFactor;\n"
+"\n"
+"uniform mat4 lightPMA;\n"
+"uniform mat4 lightPMB;\n"
+"uniform mat4 lightPMC;\n"
+"uniform mat4 lightPMD;\n"
+"uniform mat4 lightPME;\n"
+"uniform mat4 lightPMF;\n"
+"\n"
+"uniform float texFactor;\n"
+"uniform float mapSize;\n"
+"\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"	float xOffset = 0.0;\n"
+"	float yOffset = 0.0;\n"
+"	float maxStep = 0.25;\n"
+"\n"
+"	vec4 projCoord2;\n"
+"\n"
+"	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"	}\n"
+"	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.y >= 0.0) {projCoord2 = lightPMC * realPos; xOffset = 2.0 * maxStep, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMD * realPos; xOffset = 3.0 * maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if(realPos2.z >= 0.0) {projCoord2 = lightPMA * realPos;  xOffset = 0.0, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMB * realPos; xOffset = maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"\n"
+"	projCoord2.x *= texFactor;\n"
+"	projCoord2 = bias * projCoord2;\n"
+"\n"
+"	vec4 projectiveBiased = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
+"\n"
+"	projectiveBiased.x = projectiveBiased.x/4.0;\n"
+"	projectiveBiased.y = projectiveBiased.y/2.0;\n"
+"	\n"
+"	float pixSize = 1.0/(mapSize*4.0);\n"
+"\n"
+"	float shadowed;\n"
+"	shadowed = shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed = (1.0-(shadowed / 9.0))*intensity;\n"
+"\n"
+"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"}\n";
+
+static std::string _pcf4_shadowCube_fp =
+"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D oldFactorMap;\n"
+"uniform float intensity;\n"
+"uniform int firstRun;\n"
+"uniform float xFactor;\n"
+"uniform float yFactor;\n"
+"\n"
+"uniform mat4 lightPMA;\n"
+"uniform mat4 lightPMB;\n"
+"uniform mat4 lightPMC;\n"
+"uniform mat4 lightPMD;\n"
+"uniform mat4 lightPME;\n"
+"uniform mat4 lightPMF;\n"
+"\n"
+"uniform float texFactor;\n"
+"uniform float mapSize;\n"
+"\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"	float xOffset = 0.0;\n"
+"	float yOffset = 0.0;\n"
+"	float maxStep = 0.25;\n"
+"\n"
+"	vec4 projCoord2;\n"
+"\n"
+"	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"	}\n"
+"	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.y >= 0.0) {projCoord2 = lightPMC * realPos; xOffset = 2.0 * maxStep, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMD * realPos; xOffset = 3.0 * maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if(realPos2.z >= 0.0) {projCoord2 = lightPMA * realPos;  xOffset = 0.0, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMB * realPos; xOffset = maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"\n"
+"	projCoord2.x *= texFactor;\n"
+"	projCoord2 = bias * projCoord2;\n"
+"\n"
+"	vec4 projectiveBiased = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
+"\n"
+"	projectiveBiased.x = projectiveBiased.x/4.0;\n"
+"	projectiveBiased.y = projectiveBiased.y/2.0;\n"
+"	\n"
+"	float pixSize = 1.0/(mapSize*4.0);\n"
+"\n"
+"	float shadowed;\n"
+"	shadowed = shadow2D(shadowMap,vec3(vec2(projectiveBiased.xy + vec2(xOffset,yOffset)+ vec2(-1.5*pixSize,-1.5*pixSize/2.0)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"\n"
+"	shadowed = (1.0-(shadowed / 16.0))*intensity;\n"
+"\n"
+"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"}\n";
+
+static std::string _pcf5_shadowCube_fp =
+"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D oldFactorMap;\n"
+"uniform float intensity;\n"
+"uniform int firstRun;\n"
+"uniform float xFactor;\n"
+"uniform float yFactor;\n"
+"\n"
+"uniform mat4 lightPMA;\n"
+"uniform mat4 lightPMB;\n"
+"uniform mat4 lightPMC;\n"
+"uniform mat4 lightPMD;\n"
+"uniform mat4 lightPME;\n"
+"uniform mat4 lightPMF;\n"
+"\n"
+"uniform float texFactor;\n"
+"uniform float mapSize;\n"
+"\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"	float xOffset = 0.0;\n"
+"	float yOffset = 0.0;\n"
+"	float maxStep = 0.25;\n"
+"\n"
+"	vec4 projCoord2;\n"
+"\n"
+"	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"	}\n"
+"	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.y >= 0.0) {projCoord2 = lightPMC * realPos; xOffset = 2.0 * maxStep, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMD * realPos; xOffset = 3.0 * maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if(realPos2.z >= 0.0) {projCoord2 = lightPMA * realPos;  xOffset = 0.0, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMB * realPos; xOffset = maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"\n"
+"	projCoord2.x *= texFactor;\n"
+"	projCoord2 = bias * projCoord2;\n"
+"\n"
+"	vec4 projectiveBiased = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
+"\n"
+"	projectiveBiased.x = projectiveBiased.x/4.0;\n"
+"	projectiveBiased.y = projectiveBiased.y/2.0;\n"
+"	\n"
+"	float pixSize = 1.0/(mapSize*4.0);\n"
+"\n"
+"	float shadowed;\n"
+"	shadowed = shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.0*pixSize,2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.0*pixSize,2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.0*pixSize,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.0*pixSize,pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.0*pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.0*pixSize,0.0)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.0*pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.0*pixSize,-pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.0*pixSize,-2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-pixSize,-2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.0,-2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(pixSize,-2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.0*pixSize,-2.0*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed = (1.0-(shadowed / 25.0))*intensity;\n"
+"\n"
+"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"}\n";
+
+static std::string _pcf6_shadowCube_fp =
+"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D oldFactorMap;\n"
+"uniform float intensity;\n"
+"uniform int firstRun;\n"
+"uniform float xFactor;\n"
+"uniform float yFactor;\n"
+"\n"
+"uniform mat4 lightPMA;\n"
+"uniform mat4 lightPMB;\n"
+"uniform mat4 lightPMC;\n"
+"uniform mat4 lightPMD;\n"
+"uniform mat4 lightPME;\n"
+"uniform mat4 lightPMF;\n"
+"\n"
+"uniform float texFactor;\n"
+"uniform float mapSize;\n"
+"\n"
+"varying vec4 texPos;\n"
+"varying vec4 realPos;\n"
+"varying vec4 realPos2;\n"
+"\n"
+"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"\n"
+"void main(void)\n"
+"{\n"
+"	float xOffset = 0.0;\n"
+"	float yOffset = 0.0;\n"
+"	float maxStep = 0.25;\n"
+"\n"
+"	vec4 projCoord2;\n"
+"\n"
+"	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"	}\n"
+"	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
+"	{\n"
+"		if(realPos2.y >= 0.0) {projCoord2 = lightPMC * realPos; xOffset = 2.0 * maxStep, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMD * realPos; xOffset = 3.0 * maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"	else\n"
+"	{\n"
+"		if(realPos2.z >= 0.0) {projCoord2 = lightPMA * realPos;  xOffset = 0.0, yOffset = 0.0;}\n"
+"		else {projCoord2 = lightPMB * realPos; xOffset = maxStep, yOffset = 0.0;}\n"
+"	}\n"
+"\n"
+"	projCoord2.x *= texFactor;\n"
+"	projCoord2 = bias * projCoord2;\n"
+"\n"
+"	vec4 projectiveBiased = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
+"\n"
+"	projectiveBiased.x = projectiveBiased.x/4.0;\n"
+"	projectiveBiased.y = projectiveBiased.y/2.0;\n"
+"	\n"
+"	float pixSize = 1.0/(mapSize*4.0);\n"
+"\n"
+"	float shadowed;\n"
+"	shadowed = shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,-0.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,-1.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-2.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-1.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(-0.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(0.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(1.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed += shadow2D(shadowMap,vec3(vec2(vec2(projectiveBiased.xy + vec2(2.5*pixSize,-2.5*pixSize)) + vec2(xOffset,yOffset)),projectiveBiased.z)).x;\n"
+"	shadowed = (1.0-(shadowed / 36.0))*intensity;\n"
+"\n"
+"	if(firstRun == 0) shadowed += texture2DProj(oldFactorMap,vec3(texPos.xy * vec2(xFactor,yFactor),texPos.w)).x;\n"
+"	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
+"}\n";
 
 PCFShadowMap::PCFShadowMap(void)
 {
@@ -538,6 +989,9 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     //SHL Chunk 2
     _combineSHL = SHLChunk::create();
 
+	//SHL Chunk 3
+	_shadowCubeSHL = SHLChunk::create();
+
     beginEditCP(_combineSHL);
         //_combineSHL->readVertexProgram("PCF_Shadow_combine.vert");
         //_combineSHL->readFragmentProgram("PCF_Shadow_combine.frag");
@@ -589,6 +1043,12 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
         endEditCP(_shadowSHL);
+		beginEditCP(_shadowCubeSHL);
+			//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+			//_shadowCubeSHL->readFragmentProgram("PCF2_CubeShadow.frag");
+			_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+			_shadowCubeSHL->setFragmentProgram(_pcf2_shadowCube_fp);
+		endEditCP(_shadowCubeSHL);
     }
     else if(_oldRange <= 0.3999)
     {
@@ -598,6 +1058,12 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
         endEditCP(_shadowSHL);
+		beginEditCP(_shadowCubeSHL);
+			//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+			//_shadowCubeSHL->readFragmentProgram("PCF3_CubeShadow.frag");
+			_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+			_shadowCubeSHL->setFragmentProgram(_pcf3_shadowCube_fp);
+		endEditCP(_shadowCubeSHL);
     }
     else if(_oldRange <= 0.5999)
     {
@@ -607,6 +1073,12 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
         endEditCP(_shadowSHL);
+		beginEditCP(_shadowCubeSHL);
+			//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+			//_shadowCubeSHL->readFragmentProgram("PCF4_CubeShadow.frag");
+			_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+			_shadowCubeSHL->setFragmentProgram(_pcf4_shadowCube_fp);
+		endEditCP(_shadowCubeSHL);
     }
     else if(_oldRange <= 0.7999)
     {
@@ -616,6 +1088,12 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
         endEditCP(_shadowSHL);
+		beginEditCP(_shadowCubeSHL);
+			//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+			//_shadowCubeSHL->readFragmentProgram("PCF5_CubeShadow.frag");
+			_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+			_shadowCubeSHL->setFragmentProgram(_pcf5_shadowCube_fp);
+		endEditCP(_shadowCubeSHL);
     }
     else
     {
@@ -625,43 +1103,80 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
             _shadowSHL->setVertexProgram(_pcf_shadow_vp);
             _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
         endEditCP(_shadowSHL);
+		beginEditCP(_shadowCubeSHL);
+			//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+			//_shadowCubeSHL->readFragmentProgram("PCF6_CubeShadow.frag");
+			_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+			_shadowCubeSHL->setFragmentProgram(_pcf6_shadowCube_fp);
+		endEditCP(_shadowCubeSHL);
     }
 
-    addRefCP(_colorMap);
-    addRefCP(_shadowFactorMap);
+	_transforms[0] = Matrix( 1, 0, 0, 0, 
+                            0,-1, 0, 0,
+                            0, 0,-1, 0,
+                            0, 0, 0, 1 );
+                                     
+	_transforms[1] = Matrix( 1, 0, 0, 0,
+                            0, 1, 0, 0,
+                            0, 0, 1, 0,
+                            0, 0, 0, 1 );
+                                     
+	_transforms[2] = Matrix( 1, 0, 0, 0,
+                            0, 0, 1, 0,
+                            0,-1, 0, 0,
+                            0, 0, 0, 1 );
+                                     
+	_transforms[3] = Matrix(  1, 0, 0, 0,
+                             0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    _transforms[4] = Matrix(  0, 0, 1, 0,
+                             0, 1, 0, 0,
+                            -1, 0, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    _transforms[5] = Matrix(  0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             1, 0, 0, 0,
+                             0, 0, 0, 1 );
 
-    addRefCP(_shadowCmat);
-
-    addRefCP(_shadowSHL);
+	addRefCP(_shadowSHL);
+	addRefCP(_shadowCubeSHL);
     addRefCP(_unlitMat);
-    
-    addRefCP(_combineSHL);
+	addRefCP(_pf);
 
-    addRefCP(_pf);
 }
 
 PCFShadowMap::~PCFShadowMap(void)
 {
+	_shadowCmat->getChunks().clear();
+
     if(_tiledeco != NullFC)
         subRefCP(_tiledeco);
-    subRefCP(_colorMap);
+    subRefCP(_blender);
+    
     subRefCP(_shadowFactorMap);
-
-    subRefCP(_shadowCmat);
-
     subRefCP(_shadowSHL);
+	subRefCP(_shadowCubeSHL);
     subRefCP(_unlitMat);
-
-    subRefCP(_combineSHL);
-
-    subRefCP(_pf);
-
+	subRefCP(_pf);
+	
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
     if(_rb_depth != 0)
         glDeleteRenderbuffersEXT( 1, &_rb_depth);
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
+	if(_shadowSHL.getRefCount() > 0) subRefCP(_shadowSHL);
+	if(_shadowCubeSHL.getRefCount() > 0) subRefCP(_shadowCubeSHL);
+
+	subRefCP(_combineSHL);
+	subRefCP(_combineSHL);
+	subRefCP(_colorMap);
+	subRefCP(_colorMap);
+	subRefCP(_shadowFactorMap);
+	subRefCP(_shadowFactorMap);
 }
 
 /// Checks if FBO status is ok
@@ -855,15 +1370,6 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
     vpLeft = shadowVP->getLeft();
     vpRight = shadowVP->getRight();
 
-    //Temporarily switching Viewports size to size of ShadowMap | OpenSG-Level
-    beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                          shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-    {
-        shadowVP->setSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
-    }
-    endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                        shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
     glDisable(GL_LIGHTING);
@@ -887,69 +1393,178 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
+		{
+		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
-        if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-        {
-            
-            // we use a tiledecorator to create shadow maps with
-            // a higher resolutions than the viewport or the screen.
-            beginEditCP(_tiledeco);
-            _tiledeco->setDecoratee(shadowVP->_lightCameras[i]);
-            _tiledeco->setFullSize(shadowVP->getMapSize(), shadowVP->getMapSize());
-            endEditCP(_tiledeco);
+			if(shadowVP->_lights[i]->getType() != PointLight::getClassType() || !shadowVP->_realPointLight[i])
+			{
+				if(_mapRenderSize > shadowVP->getMapSize()) _mapRenderSize = shadowVP->getMapSize();
+				shadowVP->setVPSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
+				//printf("Detected NO Pointlight\n");
+				// we use a tiledecorator to create shadow maps with
+				// a higher resolutions than the viewport or the screen.
+				beginEditCP(_tiledeco);
+					_tiledeco->setDecoratee(shadowVP->_lightCameras[i]);
+					_tiledeco->setFullSize(shadowVP->getMapSize(), shadowVP->getMapSize());
+				endEditCP(_tiledeco);
 
-            action->setCamera    (_tiledeco.getCPtr());
+				action->setCamera    (_tiledeco.getCPtr());
 
-            Real32 step = (1.0 / Real32(shadowVP->getMapSize())) * Real32(_mapRenderSize);
+				Real32 step = (1.0 / Real32(shadowVP->getMapSize())) * Real32(_mapRenderSize);
 
-            UInt32 ypos = 0;
-            for(Real32 y=0;y<1.0;y+=step)
-            {
-                UInt32 xpos = 0;
-                for(Real32 x=0;x<1.0;x+=step)
-                {
-                    beginEditCP(_tiledeco);
-                        _tiledeco->setSize(x, y, x+step, y+step);
-                    endEditCP(_tiledeco);
+				UInt32 ypos = 0;
+				for(Real32 y=0;y<1.0;y+=step)
+				{
+					UInt32 xpos = 0;
+					for(Real32 x=0;x<1.0;x+=step)
+					{
+						beginEditCP(_tiledeco);
+							_tiledeco->setSize(x, y, x+step, y+step);
+						endEditCP(_tiledeco);
     
-                    glClear(GL_DEPTH_BUFFER_BIT);
-                    //shadowVP->_poly->activate(action,0);
-                    glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
-                    glEnable( GL_POLYGON_OFFSET_FILL );
+						glClear(GL_DEPTH_BUFFER_BIT);
+						//shadowVP->_poly->activate(action,0);
+						glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+						glEnable( GL_POLYGON_OFFSET_FILL );
 
-                    action->apply(shadowVP->getRoot());
-                    // check is this necessary.
-                    action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+						action->apply(shadowVP->getRoot());
+						action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-                    //shadowVP->_poly->deactivate(action,0);
-                    glDisable( GL_POLYGON_OFFSET_FILL );
+						//shadowVP->_poly->deactivate(action,0);
+						glDisable( GL_POLYGON_OFFSET_FILL );
         
-                    //----------Shadow-Texture-Parameters and Indices-------------
+						//----------Shadow-Texture-Parameters and Indices-------------
                 
-                    glBindTexture(GL_TEXTURE_2D,
-                                  action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-                    if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on binding Texture!" << endLog;    
+						glBindTexture(GL_TEXTURE_2D,
+							          action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+						if(glGetError() != GL_NO_ERROR)
+							SWARNING << "Error on binding Texture!" << endLog;    
 
-                    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xpos, ypos, 0, 0,
-                                        _mapRenderSize, _mapRenderSize);
+						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xpos, ypos, 0, 0,
+							                _mapRenderSize, _mapRenderSize);
         
-                    if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on copying Texture!" << endLog;    
+						if(glGetError() != GL_NO_ERROR)
+							SWARNING << "Error on copying Texture!" << endLog;    
         
-                    glBindTexture(GL_TEXTURE_2D,0);
-                    if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error on releasing Texture!" << endLog;    
+						glBindTexture(GL_TEXTURE_2D,0);
+						if(glGetError() != GL_NO_ERROR)
+	                        SWARNING << "Error on releasing Texture!" << endLog;    
         
-                    if(glGetError() != GL_NO_ERROR)
-                        SWARNING << "Error while Texture-Creation!" << endLog;
+		                if(glGetError() != GL_NO_ERROR)
+			                SWARNING << "Error while Texture-Creation!" << endLog;
             
-                    xpos += _mapRenderSize;
-                }
-                ypos += _mapRenderSize;
-            }
-        }
-        }
+				        xpos += _mapRenderSize;
+	                }
+		            ypos += _mapRenderSize;
+			    }
+			}
+			else
+			{
+				if(_mapRenderSize > PLMapSize) _mapRenderSize = PLMapSize;
+				shadowVP->setVPSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
+
+				MatrixCameraDecoratorPtr deco = MatrixCameraDecorator::create();
+				
+				for (UInt32 j=0; j<6; j++)
+				{
+					//Offset berechnen
+					UInt32 xOffset,yOffset;
+					if(j == 0)
+					{
+						xOffset = 0;
+						yOffset = 0;
+					}
+					else if(j == 1)
+					{
+						xOffset = PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 2)
+					{
+						xOffset = 2*PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 3)
+					{
+						xOffset = 3*PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 4)
+					{
+						xOffset = 0;
+						yOffset = PLMapSize;
+					}
+					else
+					{
+						xOffset = PLMapSize;
+						yOffset = PLMapSize;
+					}
+
+					beginEditCP(deco);
+							deco->setDecoratee(shadowVP->_lightCameras[i]);
+							deco->setPreProjection(_transforms[j]);
+					endEditCP(deco);
+
+					// we use a tiledecorator to create shadow maps with
+		            // a higher resolutions than the viewport or the screen.
+					beginEditCP(_tiledeco);
+						_tiledeco->setDecoratee(deco);
+						_tiledeco->setFullSize(PLMapSize, PLMapSize);
+					endEditCP(_tiledeco);
+
+					action->setCamera    (_tiledeco.getCPtr());
+		
+				    Real32 step = (1.0 / Real32(PLMapSize)) * Real32(_mapRenderSize);
+		
+				    UInt32 ypos = 0;
+					for(Real32 y=0;y<1.0;y+=step)
+					{
+						UInt32 xpos = 0;
+						for(Real32 x=0;x<1.0;x+=step)
+						{
+							beginEditCP(_tiledeco);
+								_tiledeco->setSize(x, y, x+step, y+step);
+							endEditCP(_tiledeco);
+    
+							glClear(GL_DEPTH_BUFFER_BIT);
+				            //shadowVP->_poly->activate(action,0);
+							glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+							glEnable( GL_POLYGON_OFFSET_FILL );
+
+							action->apply(shadowVP->getRoot());
+							action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+
+						  //shadowVP->_poly->deactivate(action,0);
+							glDisable( GL_POLYGON_OFFSET_FILL );
+	        
+			                //----------Shadow-Texture-Parameters and Indices-------------
+					    
+							glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+							if(glGetError() != GL_NO_ERROR)
+								SWARNING << "Error on binding Texture!" << endLog;    
+
+							glCopyTexSubImage2D(GL_TEXTURE_2D, 0, xpos+xOffset, ypos+yOffset, 0, 0,
+				                                _mapRenderSize, _mapRenderSize);
+				
+						    if(glGetError() != GL_NO_ERROR)
+								SWARNING << "Error on copying Texture!" << endLog;    
+        
+							glBindTexture(GL_TEXTURE_2D, 0);
+							if(glGetError() != GL_NO_ERROR)
+								SWARNING << "Error on releasing Texture!" << endLog;    
+        
+							if(glGetError() != GL_NO_ERROR)
+								SWARNING << "Error while Texture-Creation!" << endLog;
+            
+							xpos += _mapRenderSize;
+						}
+						ypos += _mapRenderSize;
+					}
+				}
+				subRefCP(deco);
+			}
+			}
+		}
     }
 
 
@@ -970,15 +1585,9 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 
     //-------Restoring old states of Window and Viewport----------
     
-    beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                          shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-    {
-        shadowVP->setSize(vpLeft,vpBottom,vpRight,vpTop);
-    }
-    endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                        shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
+	shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 
-    action->setCamera(shadowVP->getCamera().getCPtr());
+	action->setCamera(shadowVP->getCamera().getCPtr());
     
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -987,10 +1596,6 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 
 void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 {
-    UInt32 oldWidth, oldHeight;
-    oldWidth = shadowVP->getPixelWidth();
-    oldHeight = shadowVP->getPixelHeight();
-
     // Saving original Viewport-Dimensions
     Real32 vpTop,vpBottom,vpLeft,vpRight;
     vpTop = shadowVP->getTop();
@@ -1027,41 +1632,125 @@ void PCFShadowMap::createShadowMapsFBO(RenderActionBase* action)
 
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
-        if(shadowVP->_lightStates[i] != 0)
+        if(shadowVP->_lightStates[i])
         {
-            if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-            {
-                action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
-    
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
-    
-                glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
-    
-                glDrawBuffer(GL_NONE);
-                glReadBuffer(GL_NONE);
-    
-                //shadowVP->_poly->activate(action,0);
-                glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
-                glEnable( GL_POLYGON_OFFSET_FILL );
-    
-                //glClearColor(1.0,1.0,1.0,1.0);
-                //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                glClear(GL_DEPTH_BUFFER_BIT);
-    
-                action->setCamera(shadowVP->_lightCameras[i].getCPtr());
-                action->apply(shadowVP->getRoot());
-                 
-                //shadowVP->_poly->deactivate(action,0);
-                glDisable( GL_POLYGON_OFFSET_FILL );
-    
-                glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-    
-                //glClearColor(0.0,0.0,0.0,1.0);
-    
-                action->setCamera(shadowVP->getCamera().getCPtr());
-            }
-        }
-    }
+		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+        {
+			//------Setting up Window to fit size of ShadowMap----------------
+
+			shadowVP->setVPSize(0,0,shadowVP->_texChunks[i]->getImage()->getWidth()-1,shadowVP->_texChunks[i]->getImage()->getHeight()-1);
+
+			if(shadowVP->_lights[i]->getType() != PointLight::getClassType() || !shadowVP->_realPointLight[i])
+			{
+
+				action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+
+				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
+	
+				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
+
+				glDrawBuffer(GL_NONE);
+				glReadBuffer(GL_NONE);
+
+			    //shadowVP->_poly->activate(action,0);
+				glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+				glEnable( GL_POLYGON_OFFSET_FILL );
+
+				glClearColor(1.0,1.0,1.0,1.0);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				shadowVP->setVPSize(0,0, shadowVP->getMapSize(), shadowVP->getMapSize());
+
+				action->setCamera(shadowVP->_lightCameras[i].getCPtr());
+				action->apply(shadowVP->getRoot());
+             
+				//shadowVP->_poly->deactivate(action,0);
+				glDisable( GL_POLYGON_OFFSET_FILL );
+
+				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+
+				glClearColor(0.0,0.0,0.0,1.0);
+
+				action->setCamera(shadowVP->getCamera().getCPtr());
+			}
+			else
+			{
+				MatrixCameraDecoratorPtr deco = MatrixCameraDecorator::create();
+				action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
+
+				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
+	
+				glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()), 0);
+
+				glDrawBuffer(GL_NONE);
+				glReadBuffer(GL_NONE);
+				
+				glClearColor(1.0,1.0,1.0,1.0);
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+				for (UInt32 j=0; j<6; j++)
+				{
+					//Offset berechnen
+					UInt32 xOffset,yOffset;
+					if(j == 0)
+					{
+						xOffset = 0;
+						yOffset = 0;
+					}
+					else if(j == 1)
+					{
+						xOffset = PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 2)
+					{
+						xOffset = 2*PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 3)
+					{
+						xOffset = 3*PLMapSize;
+						yOffset = 0;
+					}
+					else if(j == 4)
+					{
+						xOffset = 0;
+						yOffset = PLMapSize;
+					}
+					else
+					{
+						xOffset = PLMapSize;
+						yOffset = PLMapSize;
+					}
+
+					shadowVP->setVPSize(xOffset,yOffset, xOffset+PLMapSize, yOffset+PLMapSize);
+					
+					beginEditCP(deco);
+						deco->setDecoratee(shadowVP->_lightCameras[i]);
+						deco->setPreProjection(_transforms[j]);
+					endEditCP(deco);
+					
+					//shadowVP->_poly->activate(action,0);
+					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
+					glEnable( GL_POLYGON_OFFSET_FILL );
+
+					action->setCamera(deco.getCPtr());
+
+					action->apply(shadowVP->getRoot());
+             
+					//shadowVP->_poly->deactivate(action,0);
+					glDisable( GL_POLYGON_OFFSET_FILL );
+					
+				}
+				
+				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+				glClearColor(0.0,0.0,0.0,1.0);
+				subRefCP(deco);
+				action->setCamera(shadowVP->getCamera().getCPtr());
+			}
+		}
+		}
+	}
 
     // reset the material.
     action->setMaterial(NULL, NullFC);
@@ -1218,24 +1907,111 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
             yFactor = Real32(_height)/Real32(_widthHeightPOT);
         }
     
-        beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-            _shadowSHL->setUniformParameter("shadowMap", 0);
-            _shadowSHL->setUniformParameter("oldFactorMap", 1);
-            _shadowSHL->setUniformParameter("firstRun", _firstRun);
-            _shadowSHL->setUniformParameter("intensity", shadowIntensity);
-            _shadowSHL->setUniformParameter("texFactor", texFactor);
-            _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
-            _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-            _shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
-            _shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
-        endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-    
-        beginEditCP(_shadowCmat);
-            _shadowCmat->clearChunks();
-            _shadowCmat->addChunk(_shadowSHL);
-            _shadowCmat->addChunk(shadowVP->_texChunks[num]);
-            _shadowCmat->addChunk(_shadowFactorMap);
-        endEditCP(_shadowCmat);
+        if(shadowVP->_lights[num]->getType() != PointLight::getClassType() || !shadowVP->_realPointLight[num])
+		{
+			Real32 mapFactor;
+			mapFactor = Real32(shadowVP->getMapSize()) / Real32(shadowVP->_shadowImages[num]->getWidth());
+			//PLFactor is used to scale the non-quadratic ShadowMap Image (i.e. 1024x512) -> PLFactor = 2.0
+			Real32 PLFactor = 1.0;
+			if(shadowVP->_lights[num]->getType() == PointLight::getClassType()) PLFactor = 2.0;
+	
+			beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+			    _shadowSHL->setUniformParameter("shadowMap", 0);
+				_shadowSHL->setUniformParameter("oldFactorMap", 1);
+				_shadowSHL->setUniformParameter("firstRun", _firstRun);
+				_shadowSHL->setUniformParameter("intensity", shadowIntensity);
+				_shadowSHL->setUniformParameter("texFactor", texFactor);
+				_shadowSHL->setUniformParameter("lightPM", shadowMatrix);
+				_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
+				_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
+				_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+				_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactor));
+				_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactor));
+			endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+	
+			beginEditCP(_shadowCmat);
+		        _shadowCmat->getChunks().clear();
+				_shadowCmat->addChunk(_shadowSHL);
+				_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+				_shadowCmat->addChunk(_shadowFactorMap);
+			endEditCP(_shadowCmat);
+
+			subRefCP(_shadowSHL);
+			subRefCP(shadowVP->_texChunks[num]);
+			subRefCP(_shadowFactorMap);
+		
+		}
+		else
+		{	
+			Matrix m = action->getCamera()->getBeacon()->getToWorld();
+	
+			Matrix shadowMatrixOP = LVM;
+			shadowMatrix.mult(iCVM);
+	
+			Matrix shadowMatrixA = LPM;
+			shadowMatrixA.mult(_transforms[0]);
+			shadowMatrixA.mult(LVM);
+			shadowMatrixA.mult(iCVM);
+	
+			Matrix shadowMatrixB = LPM;
+			shadowMatrixB.mult(_transforms[1]);
+			shadowMatrixB.mult(LVM);
+			shadowMatrixB.mult(iCVM);
+	
+			Matrix shadowMatrixC = LPM;
+			shadowMatrixC.mult(_transforms[2]);
+			shadowMatrixC.mult(LVM);
+			shadowMatrixC.mult(iCVM);
+	
+			Matrix shadowMatrixD = LPM;
+			shadowMatrixD.mult(_transforms[3]);
+			shadowMatrixD.mult(LVM);
+			shadowMatrixD.mult(iCVM);
+	
+			Matrix shadowMatrixE = LPM;
+			shadowMatrixE.mult(_transforms[4]);
+			shadowMatrixE.mult(LVM);
+			shadowMatrixE.mult(iCVM);
+	
+			Matrix shadowMatrixF = LPM;
+			shadowMatrixF.mult(_transforms[5]);
+			shadowMatrixF.mult(LVM);
+			shadowMatrixF.mult(iCVM);
+	
+			PointLightPtr tmpPoint;
+			tmpPoint = PointLightPtr::dcast(shadowVP->_lights[num]);
+	
+			beginEditCP(_shadowCubeSHL, ShaderChunk::ParametersFieldMask);
+				_shadowCubeSHL->setUniformParameter("shadowMap", 0);
+				_shadowCubeSHL->setUniformParameter("oldFactorMap", 1);
+				_shadowCubeSHL->setUniformParameter("firstRun", _firstRun);
+				_shadowCubeSHL->setUniformParameter("intensity", shadowIntensity);
+				_shadowCubeSHL->setUniformParameter("texFactor", texFactor);
+				_shadowCubeSHL->setUniformParameter("lightPMA", shadowMatrixA);
+				_shadowCubeSHL->setUniformParameter("lightPMB", shadowMatrixB);
+				_shadowCubeSHL->setUniformParameter("lightPMC", shadowMatrixC);
+				_shadowCubeSHL->setUniformParameter("lightPMD", shadowMatrixD);
+				_shadowCubeSHL->setUniformParameter("lightPME", shadowMatrixE);
+				_shadowCubeSHL->setUniformParameter("lightPMF", shadowMatrixF);
+				_shadowCubeSHL->setUniformParameter("lightPMOP", shadowMatrixOP);
+				_shadowCubeSHL->setUniformParameter("KKtoWK", m);
+				_shadowCubeSHL->setUniformParameter("mapSize", Real32(PLMapSize));
+				_shadowCubeSHL->setUniformParameter("xFactor",Real32(xFactor));
+				_shadowCubeSHL->setUniformParameter("yFactor",Real32(yFactor));
+			endEditCP(_shadowCubeSHL, ShaderChunk::ParametersFieldMask);
+	
+			beginEditCP(_shadowCmat);
+		        _shadowCmat->getChunks().clear();
+				_shadowCmat->addChunk(_shadowCubeSHL);
+				_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+				_shadowCmat->addChunk(_shadowFactorMap);
+			endEditCP(_shadowCmat);
+
+			subRefCP(_shadowCubeSHL);
+			subRefCP(shadowVP->_texChunks[num]);
+			subRefCP(_shadowFactorMap);
+		}
+	
     
         // we render the whole scene with one material.
         action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
@@ -1249,7 +2025,6 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
     
         glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-        //glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
         glBindTexture(GL_TEXTURE_2D,0);
     
@@ -1327,24 +2102,111 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 num
             yFactor = Real32(_height)/Real32(_widthHeightPOT);
         }
 
-        beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
-            _shadowSHL->setUniformParameter("shadowMap", 0);
-            _shadowSHL->setUniformParameter("oldFactorMap", 1);
-            _shadowSHL->setUniformParameter("firstRun", _firstRun);
-            _shadowSHL->setUniformParameter("intensity", shadowIntensity);
-            _shadowSHL->setUniformParameter("texFactor", texFactor);
-            _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
-            _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-            _shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
-            _shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
-        endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+        if(shadowVP->_lights[num]->getType() != PointLight::getClassType() || !shadowVP->_realPointLight[num])
+		{
+			Real32 mapFactor;
+			mapFactor = Real32(shadowVP->getMapSize()) / Real32(shadowVP->_shadowImages[num]->getWidth());
+			//PLFactor is used to scale the non-quadratic ShadowMap Image (i.e. 1024x512) -> PLFactor = 2.0
+			Real32 PLFactor = 1.0;
+			if(shadowVP->_lights[num]->getType() == PointLight::getClassType()) PLFactor = 2.0;
+				
+			beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+			    _shadowSHL->setUniformParameter("shadowMap", 0);
+				_shadowSHL->setUniformParameter("oldFactorMap", 1);
+				_shadowSHL->setUniformParameter("firstRun", _firstRun);
+				_shadowSHL->setUniformParameter("intensity", shadowIntensity);
+				_shadowSHL->setUniformParameter("texFactor", texFactor);
+				_shadowSHL->setUniformParameter("lightPM", shadowMatrix);
+				_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
+				_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
+				_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+				_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactor));
+				_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactor));
+			endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+	
+			beginEditCP(_shadowCmat);
+		        _shadowCmat->getChunks().clear();
+				_shadowCmat->addChunk(_shadowSHL);
+				_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+				_shadowCmat->addChunk(_shadowFactorMap);
+			endEditCP(_shadowCmat);
 
-        beginEditCP(_shadowCmat);
-            _shadowCmat->clearChunks();
-            _shadowCmat->addChunk(_shadowSHL);
-            _shadowCmat->addChunk(shadowVP->_texChunks[num]);
-            _shadowCmat->addChunk(_shadowFactorMap);
-        endEditCP(_shadowCmat);
+			subRefCP(_shadowSHL);
+			subRefCP(shadowVP->_texChunks[num]);
+			subRefCP(_shadowFactorMap);
+		
+		}
+		else
+		{
+			Matrix m = action->getCamera()->getBeacon()->getToWorld();
+	
+			Matrix shadowMatrixOP = LVM;
+			shadowMatrix.mult(iCVM);
+	
+			Matrix shadowMatrixA = LPM;
+			shadowMatrixA.mult(_transforms[0]);
+			shadowMatrixA.mult(LVM);
+			shadowMatrixA.mult(iCVM);
+	
+			Matrix shadowMatrixB = LPM;
+			shadowMatrixB.mult(_transforms[1]);
+			shadowMatrixB.mult(LVM);
+			shadowMatrixB.mult(iCVM);
+	
+			Matrix shadowMatrixC = LPM;
+			shadowMatrixC.mult(_transforms[2]);
+			shadowMatrixC.mult(LVM);
+			shadowMatrixC.mult(iCVM);
+	
+			Matrix shadowMatrixD = LPM;
+			shadowMatrixD.mult(_transforms[3]);
+			shadowMatrixD.mult(LVM);
+			shadowMatrixD.mult(iCVM);
+	
+			Matrix shadowMatrixE = LPM;
+			shadowMatrixE.mult(_transforms[4]);
+			shadowMatrixE.mult(LVM);
+			shadowMatrixE.mult(iCVM);
+	
+			Matrix shadowMatrixF = LPM;
+			shadowMatrixF.mult(_transforms[5]);
+			shadowMatrixF.mult(LVM);
+			shadowMatrixF.mult(iCVM);
+	
+			PointLightPtr tmpPoint;
+			tmpPoint = PointLightPtr::dcast(shadowVP->_lights[num]);
+	
+			beginEditCP(_shadowCubeSHL, ShaderChunk::ParametersFieldMask);
+				_shadowCubeSHL->setUniformParameter("shadowMap", 0);
+				_shadowCubeSHL->setUniformParameter("oldFactorMap", 1);
+				_shadowCubeSHL->setUniformParameter("firstRun", _firstRun);
+				_shadowCubeSHL->setUniformParameter("intensity", shadowIntensity);
+				_shadowCubeSHL->setUniformParameter("texFactor", texFactor);
+				_shadowCubeSHL->setUniformParameter("lightPMA", shadowMatrixA);
+				_shadowCubeSHL->setUniformParameter("lightPMB", shadowMatrixB);
+				_shadowCubeSHL->setUniformParameter("lightPMC", shadowMatrixC);
+				_shadowCubeSHL->setUniformParameter("lightPMD", shadowMatrixD);
+				_shadowCubeSHL->setUniformParameter("lightPME", shadowMatrixE);
+				_shadowCubeSHL->setUniformParameter("lightPMF", shadowMatrixF);
+				_shadowCubeSHL->setUniformParameter("lightPMOP", shadowMatrixOP);
+				_shadowCubeSHL->setUniformParameter("KKtoWK", m);
+				_shadowCubeSHL->setUniformParameter("mapSize", Real32(PLMapSize));
+				_shadowCubeSHL->setUniformParameter("xFactor",Real32(xFactor));
+				_shadowCubeSHL->setUniformParameter("yFactor",Real32(yFactor));
+			endEditCP(_shadowCubeSHL, ShaderChunk::ParametersFieldMask);
+
+			beginEditCP(_shadowCmat);
+			    _shadowCmat->getChunks().clear();
+				_shadowCmat->addChunk(_shadowCubeSHL);
+				_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+				_shadowCmat->addChunk(_shadowFactorMap);
+			endEditCP(_shadowCmat);
+
+			subRefCP(_shadowCubeSHL);
+			subRefCP(shadowVP->_texChunks[num]);
+			subRefCP(_shadowFactorMap);
+	
+		}
 
         GLenum *buffers = NULL;
         buffers = new GLenum[1];
@@ -1425,48 +2287,33 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
 
 void PCFShadowMap::render(RenderActionBase* action)
 {
-    Window *win = action->getWindow();
+	if(!useGLSL || !useShadowExt ) shadowVP->Viewport::render(action);
+	else
+	{
 
-    if(useFBO)
+	if(shadowVP->getMapSize()/2 > maxPLMapSize) PLMapSize = maxPLMapSize;
+	else PLMapSize = shadowVP->getMapSize()/2;
+
+	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
-        if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
-    }
+		glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
+			            GL_COMPARE_R_TO_TEXTURE_ARB);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
+		glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
+		glBindTexture(GL_TEXTURE_2D,0);
+	}
 
-    //Any active lights available with intensity > 0 ?
-    bool allLightsZero = true;
-    if(shadowVP->getGlobalShadowIntensity() != 0.0) allLightsZero = false;
-    else
-    {
-        for(UInt32 i=0; i<shadowVP->_lights.size(); i++)
-        {
-            if(shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_lightStates[i] != 0) allLightsZero = false;
-        }
-    }
+	Window *win = action->getWindow();
 
-    if(shadowVP->_lights.size() == 0 || allLightsZero || !useGLSL || !useShadowExt) shadowVP->Viewport::render(action);
-    else
-    {
+	if(useFBO)
+	{
+		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
+	}
 
-    for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-        glBindTexture(GL_TEXTURE_2D,action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-        glBindTexture(GL_TEXTURE_2D,0);
-        /*shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-        shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));*/
-    }
-
-    GLfloat globalAmbient[4];
-    glGetFloatv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
-    GLfloat newGlobalAmbient[] = {0.0,0.0,0.0,1.0};
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, newGlobalAmbient);
+	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
+	//Used for ShadowFactorMap
     _firstRun = 1;
 
     if(shadowVP->getPixelWidth() != _width ||
@@ -1475,171 +2322,190 @@ void PCFShadowMap::render(RenderActionBase* action)
         _width = shadowVP->getPixelWidth();
         _height = shadowVP->getPixelHeight();
     
-        if(useNPOTTextures)
-        {
-            beginEditCP(_colorMap);
-            beginEditCP(_colorMapImage);
-                _colorMapImage->set(GL_RGB, _width, _height);
-            endEditCP(_colorMapImage);
-            endEditCP(_colorMap);
+		if(useNPOTTextures)
+		{
+			beginEditCP(_colorMap);
+			beginEditCP(_colorMapImage);
+				_colorMapImage->set(GL_RGB, _width, _height);
+			endEditCP(_colorMapImage);
+			endEditCP(_colorMap);
 
-            beginEditCP(_shadowFactorMap);
-            beginEditCP(_shadowFactorMapImage);
-                _shadowFactorMapImage->set(GL_RGB, _width, _height);
-            endEditCP(_shadowFactorMapImage);
-            endEditCP(_shadowFactorMap);
+			beginEditCP(_shadowFactorMap);
+			beginEditCP(_shadowFactorMapImage);
+				_shadowFactorMapImage->set(GL_RGB, _width, _height);
+			endEditCP(_shadowFactorMapImage);
+			endEditCP(_shadowFactorMap);
 
-            reInit(win);
-        }
-        else
-        {
-            if(_width > _height)
-                _widthHeightPOT = osgnextpower2(_width);
-            else
-                _widthHeightPOT = osgnextpower2(_height);
+			reInit(win);
+		}
+		else
+		{
+			if(_width > _height) _widthHeightPOT = osgnextpower2(_width-1);
+			else _widthHeightPOT = osgnextpower2(_height-1);
 
-            beginEditCP(_colorMap);
-            beginEditCP(_colorMapImage);
-                _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-            endEditCP(_colorMapImage);
-            endEditCP(_colorMap);
+			beginEditCP(_colorMap);
+			beginEditCP(_colorMapImage);
+				_colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+			endEditCP(_colorMapImage);
+			endEditCP(_colorMap);
 
-            beginEditCP(_shadowFactorMap);
-            beginEditCP(_shadowFactorMapImage);
-                _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-            endEditCP(_shadowFactorMapImage);
-            endEditCP(_shadowFactorMap);
-
-        }
-    }    
-
-    if(_oldRange != shadowVP->getShadowSmoothness())
-    {
-        _oldRange = shadowVP->getShadowSmoothness();
-        if(_oldRange <= 0.1999)
-        {
-            beginEditCP(_shadowSHL);
-                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-                //_shadowSHL->readFragmentProgram("PCF2_Shadow.frag");
-                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-                _shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
-            endEditCP(_shadowSHL);
-        }
-        else if(_oldRange <= 0.3999)
-        {
-            beginEditCP(_shadowSHL);
-                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-                //_shadowSHL->readFragmentProgram("PCF3_Shadow.frag");
-                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-                _shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
-            endEditCP(_shadowSHL);
-        }
-        else if(_oldRange <= 0.5999)
-        {
-            beginEditCP(_shadowSHL);
-                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-                //_shadowSHL->readFragmentProgram("PCF4_Shadow.frag");
-                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-                _shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
-            endEditCP(_shadowSHL);
-        }
-        else if(_oldRange <= 0.7999)
-        {
-            beginEditCP(_shadowSHL);
-                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-                //_shadowSHL->readFragmentProgram("PCF5_Shadow.frag");
-                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-                _shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
-            endEditCP(_shadowSHL);
-        }
-        else
-        {
-            beginEditCP(_shadowSHL);
-                //_shadowSHL->readVertexProgram("PCF_Shadow.vert");
-                //_shadowSHL->readFragmentProgram("PCF6_Shadow.frag");
-                _shadowSHL->setVertexProgram(_pcf_shadow_vp);
-                _shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
-            endEditCP(_shadowSHL);
-        }
+			beginEditCP(_shadowFactorMap);
+			beginEditCP(_shadowFactorMapImage);
+				_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+			endEditCP(_shadowFactorMapImage);
+			endEditCP(_shadowFactorMap);
+		}
     }
 
-    if(shadowVP->getMapAutoUpdate())
+	if(_oldRange != shadowVP->getShadowSmoothness())
+	{
+		_oldRange = shadowVP->getShadowSmoothness();
+		if(_oldRange <= 0.1999)
+		{
+			beginEditCP(_shadowCubeSHL);
+			beginEditCP(_shadowSHL);
+				//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+				//_shadowCubeSHL->readFragmentProgram("PCF2_CubeShadow.frag");
+				_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+				_shadowCubeSHL->setFragmentProgram(_pcf2_shadowCube_fp);
+				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+				_shadowSHL->setFragmentProgram(_pcf2_shadow_fp);
+				//_shadowCubeSHL->setVertexProgram(_pcf_shadow_vp);
+				//_shadowCubeSHL->setFragmentProgram(_pcf2_shadow_fp);
+			endEditCP(_shadowCubeSHL);
+			endEditCP(_shadowSHL);
+		}
+		else if(_oldRange <= 0.3999)
+		{
+			beginEditCP(_shadowCubeSHL);
+			beginEditCP(_shadowSHL);
+				//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+				//_shadowCubeSHL->readFragmentProgram("PCF3_CubeShadow.frag");
+				_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+				_shadowCubeSHL->setFragmentProgram(_pcf3_shadowCube_fp);
+				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+				_shadowSHL->setFragmentProgram(_pcf3_shadow_fp);
+				//_shadowCubeSHL->setVertexProgram(_pcf_shadow_vp);
+				//_shadowCubeSHL->setFragmentProgram(_pcf3_shadow_fp);
+			endEditCP(_shadowCubeSHL);
+			endEditCP(_shadowSHL);
+		}
+		else if(_oldRange <= 0.5999)
+		{
+			beginEditCP(_shadowCubeSHL);
+			beginEditCP(_shadowSHL);
+				//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+				//_shadowCubeSHL->readFragmentProgram("PCF4_CubeShadow.frag");
+				_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+				_shadowCubeSHL->setFragmentProgram(_pcf4_shadowCube_fp);
+				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+				_shadowSHL->setFragmentProgram(_pcf4_shadow_fp);
+				//_shadowCubeSHL->setVertexProgram(_pcf_shadow_vp);
+				//_shadowCubeSHL->setFragmentProgram(_pcf4_shadow_fp);
+			endEditCP(_shadowCubeSHL);
+			endEditCP(_shadowSHL);
+		}
+		else if(_oldRange <= 0.7999)
+		{
+			beginEditCP(_shadowCubeSHL);
+			beginEditCP(_shadowSHL);
+				//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+				//_shadowCubeSHL->readFragmentProgram("PCF5_CubeShadow.frag");
+				_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+				_shadowCubeSHL->setFragmentProgram(_pcf5_shadowCube_fp);
+				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+				_shadowSHL->setFragmentProgram(_pcf5_shadow_fp);
+				//_shadowCubeSHL->setVertexProgram(_pcf_shadow_vp);
+				//_shadowCubeSHL->setFragmentProgram(_pcf5_shadow_fp);
+			endEditCP(_shadowCubeSHL);
+			endEditCP(_shadowSHL);
+		}
+		else
+		{
+			beginEditCP(_shadowCubeSHL);
+			beginEditCP(_shadowSHL);
+				//_shadowCubeSHL->readVertexProgram("PCF_CubeShadow.vert");
+				//_shadowCubeSHL->readFragmentProgram("PCF6_CubeShadow.frag");
+				_shadowCubeSHL->setVertexProgram(_pcf_shadowCube_vp);
+				_shadowCubeSHL->setFragmentProgram(_pcf6_shadowCube_fp);
+				_shadowSHL->setVertexProgram(_pcf_shadow_vp);
+				_shadowSHL->setFragmentProgram(_pcf6_shadow_fp);
+				//_shadowCubeSHL->setVertexProgram(_pcf_shadow_vp);
+				//_shadowCubeSHL->setFragmentProgram(_pcf6_shadow_fp);
+			endEditCP(_shadowCubeSHL);
+			endEditCP(_shadowSHL);
+		}
+	}
+
+	if(shadowVP->getMapAutoUpdate())
     {
-        if(useFBO && useNPOTTextures)
-            createColorMapFBO(action);
-        else
-            createColorMap(action);
+		if(useFBO && useNPOTTextures) createColorMapFBO(action);
+		else createColorMap(action);
 
-        //deactivate transparent Nodes
-        for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-            shadowVP->_transparent[t]->setActive(false);
+		//deactivate transparent Nodes
+		for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+			shadowVP->_transparent[t]->setActive(false);
+        
+		if(useFBO) createShadowMapsFBO(action);
+		else createShadowMaps(action);
 
-        if(useFBO)
-            createShadowMapsFBO(action);
-        else
-            createShadowMaps(action);
-
+       
         for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
         {
             if(shadowVP->_lightStates[i] != 0)
-            {
-                if(shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                   shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-                {
-                    if(useFBO && useNPOTTextures)
-                        createShadowFactorMapFBO(action, i);
-                    else
-                        createShadowFactorMap(action, i);
-                    //_firstRun = 0;
-                }
-            }
+			{
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+			{
+				if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
+				else createShadowFactorMap(action, i);
+                //firstRun = 0;
+			}
+			}
         }
     }
     else
     {
         if(shadowVP->_trigger_update)
         {
-            if(useFBO && useNPOTTextures) createColorMapFBO(action);
-            else createColorMap(action);
+			if(useFBO && useNPOTTextures) createColorMapFBO(action);
+			else createColorMap(action);
 
-            //deactivate transparent Nodes
-            for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
-                shadowVP->_transparent[t]->setActive(false);
+			//deactivate transparent Nodes
+			for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
+				shadowVP->_transparent[t]->setActive(false);
 
             if(useFBO) createShadowMapsFBO(action);
-            else createShadowMaps(action);
-            
+			else createShadowMaps(action);
+			
             for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
             {
                 if(shadowVP->_lightStates[i] != 0)
-                {
-                if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
-                {
-                    if(useFBO && useNPOTTextures)
-                        createShadowFactorMapFBO(action, i);
-                    else
-                        createShadowFactorMap(action, i);
-                    //_firstRun = 0;
+				{
+				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+				{
+					if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
+					else createShadowFactorMap(action, i);
+                    //firstRun = 0;
                 }
-                }
+				}
             }
             shadowVP->_trigger_update = false;
         }
     }
 
-    // restore global ambient color.
-    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
-    drawCombineMap(action);
+	drawCombineMap(action);
 
-    // switch on all transparent geos
+	// switch on all transparent geos
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
-    {
+	{
         shadowVP->getForegrounds(i)->draw(action, shadowVP);
-    }
-    }
+	}
+
+	}
 }

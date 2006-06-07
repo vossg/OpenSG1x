@@ -119,8 +119,8 @@
     #define GL_STENCIL_ATTACHMENT_EXT 0x8D20
     #define GL_FRAMEBUFFER_EXT 0x8D40
     #define GL_RENDERBUFFER_EXT 0x8D41
-    #define GL_RENDERBUFFER_WIDTH_EXT 0x8D42
-    #define GL_RENDERBUFFER_HEIGHT_EXT 0x8D43
+    #define GL_RENDERBUFFERwidth_EXT 0x8D42
+    #define GL_RENDERBUFFERheight_EXT 0x8D43
     #define GL_RENDERBUFFER_INTERNAL_FORMAT_EXT 0x8D44
     #define GL_STENCIL_INDEX_EXT 0x8D45
     #define GL_STENCIL_INDEX1_EXT 0x8D46
@@ -320,6 +320,11 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
         height = shadowVP->getPixelHeight();
     }
 
+    if(width == 0)
+        width = 1;
+    if(height == 0)
+        height = 1;
+
 	if(width > height) widthHeightPOT = osgnextpower2(width);
 	else widthHeightPOT = osgnextpower2(height);
 
@@ -403,28 +408,19 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
 
 	//Shadow Shader
     _shadowCmat = ChunkMaterial::create();
-    _shadowRoot = Node::create();
 
-    _shadowShaderGroup = MaterialGroup::create();
-    beginEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
-        _shadowShaderGroup->setMaterial(_shadowCmat);
-    endEditCP(_shadowShaderGroup, Geometry::MaterialFieldMask);
-
-	//Combine Shader
-    _combineCmat = ChunkMaterial::create();
-    _combineRoot = Node::create();
-
-    _combineShaderGroup = MaterialGroup::create();
-    beginEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
-        _combineShaderGroup->setMaterial(_combineCmat);
-    endEditCP(_combineShaderGroup, Geometry::MaterialFieldMask);
-
-    beginEditCP(_combineRoot);
-        _combineRoot->setCore(_combineShaderGroup);
-    endEditCP(_combineRoot);
+    //Combine Shader
+    ChunkMaterialPtr combineCmat = ChunkMaterial::create();
+    beginEditCP(combineCmat);
+        combineCmat->addChunk(_combineSHL);
+        combineCmat->addChunk(_colorMap);
+        combineCmat->addChunk(_shadowFactorMap);
+    endEditCP(combineCmat);
 
 	//Kamera um Texturewürfel zu rendern
     _matrixCam = MatrixCamera::create();
+	Matrix textureVM; 
+    Matrix texturePM;
     MatrixOrthogonal(textureVM,-1,1,-1,1,-1,1);
     MatrixLookAt(texturePM,0,1,0,0,0,0,0,1,0);
     _matrixCam->setNear(-1.0);
@@ -433,48 +429,33 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
     _matrixCam->setModelviewMatrix(texturePM);
 
     //Box zum Texturzeichnen
-    boxGeo = makeBoxGeo(2,2,2, 1, 1, 1);
+    GeometryPtr boxGeo = makeBoxGeo(2,2,2, 1, 1, 1);
+    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
+        boxGeo->setMaterial(combineCmat);
+    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+
     boxNode = Node::create();
     beginEditCP(boxNode, Node::CoreFieldMask);
         boxNode->setCore(boxGeo);
     endEditCP(boxNode, Node::CoreFieldMask);
 	
     addRefCP(_shadowSHL);
-    addRefCP(_combineSHL);
-    addRefCP(_shadowRoot);
-	addRefCP(_combineRoot);
-    addRefCP(_shadowCmat);
-	addRefCP(_combineCmat);
-    addRefCP(_shadowShaderGroup);
-	addRefCP(_combineShaderGroup);
-    addRefCP(_matrixCam);
-    addRefCP(shadowVP->getRoot());
-    addRefCP(boxGeo);
+	addRefCP(_matrixCam);
     addRefCP(boxNode);
 }
 
 PCSSShadowMap::~PCSSShadowMap(void)
 {
-    if(_tiledeco != NullFC)
+	_shadowCmat->getChunks().clear();
+
+	if(_tiledeco != NullFC)
         subRefCP(_tiledeco);
-
-    subRefCP(_colorMap);
-	subRefCP(_shadowFactorMap);
+    subRefCP(_blender);
+    
+	subRefCP(boxNode);
     subRefCP(_shadowFactorMap);
+    subRefCP(_shadowSHL);
     subRefCP(_matrixCam);
-    subRefCP(_shadowSHL);
-	subRefCP(_combineSHL);
-    subRefCP(_shadowShaderGroup);
-	subRefCP(_combineShaderGroup);
-
-    subRefCP(_shadowRoot);
-	subRefCP(_combineRoot);
-    subRefCP(_shadowSHL);
-	subRefCP(_combineSHL);
-
-    subRefCP(boxGeo);
-    subRefCP(boxNode);
-
     if(fb != 0)
         glDeleteFramebuffersEXT(1, &fb);
     if(rb_depth != 0)
@@ -482,24 +463,7 @@ PCSSShadowMap::~PCSSShadowMap(void)
     if(fb2 != 0)
         glDeleteFramebuffersEXT(1, &fb2);
 
-
-	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-		beginEditCP(shadowVP->_texChunks[i]);
-        {
-            shadowVP->_texChunks[i]->setMinFilter(GL_LINEAR);
-            shadowVP->_texChunks[i]->setMagFilter(GL_LINEAR);
-		}
-		endEditCP(shadowVP->_texChunks[i]);
-
-		//shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-        //glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-        //                GL_COMPARE_R_TO_TEXTURE_ARB);
-        //glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        //glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		//shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-	}
-
+	if(_shadowSHL.getRefCount() > 0) subRefCP(_shadowSHL);
 }
 
 /// Checks if FBO status is ok
@@ -659,18 +623,12 @@ void PCSSShadowMap::reInit(Window *win)
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
 
-void PCSSShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat)
+void PCSSShadowMap::drawTextureBoxShader(RenderActionBase* action)
 {
-	glClearColor(0.0,0.0,0.0,1.0);
+    glClearColor(0.0,0.0,0.0,1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glEnable( GL_DEPTH_TEST );
-
-    addRefCP(cmat);
-
-    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
-        boxGeo->setMaterial(cmat);
-    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+    glEnable( GL_DEPTH_TEST );
 
     action->setCamera(_matrixCam.getCPtr());
 
@@ -679,8 +637,6 @@ void PCSSShadowMap::drawTextureBoxShader(RenderActionBase* action, ChunkMaterial
 
     //Restore old Parameters
     action->setCamera    (shadowVP->getCamera().getCPtr());
-
-    subRefCP(cmat);
 }
 
 
@@ -712,15 +668,6 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase* action)
     vpLeft = shadowVP->getLeft();
     vpRight = shadowVP->getRight();
 
-    //Temporarily switching Viewports size to size of ShadowMap | OpenSG-Level
-    beginEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                          shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-    {
-        shadowVP->setSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
-    }
-    endEditCP(shadowVP->getCamera(), shadowVP->LeftFieldMask | shadowVP->RightFieldMask |
-                        shadowVP->BottomFieldMask | shadowVP->TopFieldMask);
-
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
     glDisable(GL_LIGHTING);
@@ -747,6 +694,8 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase* action)
 		{
 		if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0)
         {
+			if(_mapRenderSize > shadowVP->getMapSize()) _mapRenderSize = shadowVP->getMapSize();
+			shadowVP->setVPSize(0,0,_mapRenderSize-1,_mapRenderSize-1);
 			// we use a tiledecorator to create shadow maps with
             // a higher resolutions than the viewport or the screen.
             beginEditCP(_tiledeco);
@@ -1052,47 +1001,37 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
 		_shadowCmat->addChunk(_shadowFactorMap);
     endEditCP(_shadowCmat);
 
-    /////////////
     subRefCP(_shadowSHL);
     subRefCP(_shadowFactorMap);
+	subRefCP(shadowVP->_texChunks[num]);
 
-    addRefCP(shadowVP->getRoot());
+    GLenum *buffers = NULL;
+    buffers = new GLenum[1];
+    buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
 
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
+    //Setup FBO
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
 
-	GLenum *buffers = NULL;
-	buffers = new GLenum[1];
-	buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
-    
-	//Setup FBO
-	//bind(action->getWindow(),fb);
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, fb);
-
-	//setTarget(action->getWindow(), action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
-	glDrawBuffersARB(1, buffers);
+    glDrawBuffersARB(1, buffers);
 
     //draw the Scene
-	if(firstRun) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if(firstRun)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//shadowVP->_texChunks[num]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[num]->getGLId()));
+    //shadowVP->_texChunks[num]->activate(action, 3);
+
+    // we render the whole scene with one material.
+    action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+
+    action->apply(shadowVP->getRoot());
     
-    action->apply(_shadowRoot);
+	// reset the material.
+    action->setMaterial(NULL, NullFC);
 
-	//shadowVP->_texChunks[num]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[num]->getGLId()));
+    //shadowVP->_texChunks[num]->deactivate(action, 3);
+    glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
-	//stop();
-	glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    subRefCP(shadowVP->getRoot());
-
-	delete[] buffers;
+    delete[] buffers;
 	firstRun = 0;
 	}
 }
@@ -1168,38 +1107,29 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     beginEditCP(_shadowCmat);
         _shadowCmat->getChunks().clear();
         _shadowCmat->addChunk(_shadowSHL);
-        //_shadowCmat->addChunk(_shadowMap);
-		_shadowCmat->addChunk(shadowVP->_texChunks[num]);
+        _shadowCmat->addChunk(shadowVP->_texChunks[num]);
 		_shadowCmat->addChunk(_shadowFactorMap);
     endEditCP(_shadowCmat);
 
-    /////////////
     subRefCP(_shadowSHL);
     subRefCP(_shadowFactorMap);
-	//subRefCP(_shadowMap);
+	subRefCP(shadowVP->_texChunks[num]);
 
-    addRefCP(shadowVP->getRoot());
-
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->setCore(_shadowShaderGroup);
-        _shadowRoot->addChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-	//draw the Scene
+    // we render the whole scene with one material.
+    action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
     
-    action->apply(_shadowRoot);
-
+    //draw the Scene
+    action->apply(shadowVP->getRoot());
+    
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
+    
     action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
-
+    
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D,0);
 
-    beginEditCP(_shadowRoot, Node::CoreFieldMask | Node::ChildrenFieldMask);
-        _shadowRoot->subChild(shadowVP->getRoot());
-    endEditCP(_shadowRoot, Node::ChildrenFieldMask | Node::ChildrenFieldMask);
-
-    subRefCP(shadowVP->getRoot());
 	firstRun = 0;
 	}
 }
@@ -1207,35 +1137,22 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 void PCSSShadowMap::drawCombineMap(RenderActionBase* action)
 {
 	Real32 xFactor = 1.0;
-	Real32 yFactor = 1.0;
-	if(!useNPOTTextures)
-	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
-	}
+    Real32 yFactor = 1.0;
+    if(!useNPOTTextures)
+    {
+        xFactor = Real32(width)/Real32(widthHeightPOT);
+        yFactor = Real32(height)/Real32(widthHeightPOT);
+    }
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
         _combineSHL->setUniformParameter("colorMap", 0);
         _combineSHL->setUniformParameter("shadowFactorMap", 1);
-		//_combineSHL->setUniformParameter("shadowMap", 2);
-		_combineSHL->setUniformParameter("xFactor",Real32(xFactor));
-		_combineSHL->setUniformParameter("yFactor",Real32(yFactor));
+        _combineSHL->setUniformParameter("xFactor",Real32(xFactor));
+        _combineSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
-    beginEditCP(_combineCmat);
-        _combineCmat->getChunks().clear();
-        _combineCmat->addChunk(_combineSHL);
-        _combineCmat->addChunk(_colorMap);
-        _combineCmat->addChunk(_shadowFactorMap);
-		//_combineCmat->addChunk(_shadowMap);
-    endEditCP(_combineCmat);
-
     //draw the Scene
-    drawTextureBoxShader(action, _combineCmat);
-
-    subRefCP(_colorMap);
-    subRefCP(_shadowFactorMap);
-    subRefCP(_combineSHL);
+    drawTextureBoxShader(action);
 }
 
 void PCSSShadowMap::render(RenderActionBase* action)

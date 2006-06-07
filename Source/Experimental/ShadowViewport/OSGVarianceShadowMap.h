@@ -63,18 +63,11 @@ class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
 
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
-    NodePtr                 _shadowRoot;
-    MaterialGroupPtr        _shadowShaderGroup;
     
-    ChunkMaterialPtr        _combineCmat;
     SHLChunkPtr             _combineSHL;
-    NodePtr                 _combineRoot;
-    MaterialGroupPtr        _combineShaderGroup;
 
     ChunkMaterialPtr        _depthCmat;
     SHLChunkPtr             _depthSHL;
-    NodePtr                 _depthRoot;
-    MaterialGroupPtr        _depthShaderGroup;
 
 	//FileGrabForegroundPtr   fileGrab;
     Int32                   firstRun;
@@ -82,14 +75,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
     Matrix                  textureVM; 
     Matrix                  texturePM;
 
-    GeometryPtr             boxGeo;
     NodePtr                 boxNode;
 
     UInt32                  width;
     UInt32                  height;
 
     void drawCombineMap(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
+    void drawTextureBoxShader(RenderActionBase* action);
 
 
 	void createColorMap(RenderActionBase* action);

@@ -45,8 +45,8 @@ ShadowViewportPtr svp;
 
 
 NodePtr rootNode;
-//DirectionalLightPtr _dir1_core;
-PointLightPtr _dir1_core;
+DirectionalLightPtr _dir1_core;
+//PointLightPtr _dir1_core;
 
 //SpotLightPtr _dir2_core;
 PointLightPtr _dir2_core;
@@ -99,9 +99,9 @@ int setupGLUT( int *argc, char *argv[] );
 int main(int argc, char **argv)
 {
 	printf("Press key '8' or '9' to switch between light sources. Press key '0' to use both lights\n");
-	printf("Set the shadow mode with key '1' ... '6'\n");
-	printf("NOTE: Point lights must be placed outside the scene bounding-box or results will be wrong!\n");
-	printf("NOTE: Spot lights must be placed outside the scene bounding-box and see the whole scene or standard Shadow Mapping will be used!\n");
+	printf("Set the shadow mode with key '1' ... '7'\n");
+	printf("Change MapSize with keys 'y' = 512, 'x' = 1024, 'c' = 2048\n");
+	printf("NOTE: Real point lights only supported for ShadowMode 1...5!\n");
     // OSG init
     osgInit(argc,argv);
 
@@ -115,7 +115,7 @@ int main(int argc, char **argv)
     NodePtr scene = makeCoredNode<Group>();
 
     // create lights
-	/*//Directional Light 1
+	//Directional Light 1
     TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<DirectionalLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -129,11 +129,11 @@ int main(int argc, char **argv)
         _dir1_core->setDiffuse(0.5,0.5,0.5,1);
         _dir1_core->setSpecular(0.0,0.0,0.0,1);
         _dir1_core->setBeacon(dir1_beacon);
-		_dir1_core->setShadowIntensity(0.8);
+		_dir1_core->setShadowIntensity(0.7);
         _dir1_core->setOn(true);
-    endEditCP(_dir1_core);*/
+    endEditCP(_dir1_core);
 
-	//Point Light 1
+	/*//Point Light 1
 	TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<PointLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -148,7 +148,7 @@ int main(int argc, char **argv)
         _dir1_core->setBeacon(dir1_beacon);
         _dir1_core->setOn(true);
 		_dir1_core->setShadowIntensity(0.8);
-    endEditCP(_dir1_core);
+    endEditCP(_dir1_core);*/
 
 	/*//Spot Light 2
 	//TransformPtr dir2_trans;
@@ -174,7 +174,7 @@ int main(int argc, char **argv)
     NodePtr dir2 = makeCoredNode<PointLight>(&_dir2_core);
     NodePtr dir2_beacon = makeCoredNode<Transform>(&dir2_trans);
     beginEditCP(dir2_trans);
-        dir2_trans->getMatrix().setTranslate(250.0, -250.0, 300.0);
+        dir2_trans->getMatrix().setTranslate(40.0, 0.0, 40.0);
     endEditCP(dir2_trans);
 
     beginEditCP(_dir2_core);
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
         _dir2_core->setSpecular(0.0,0.0,0.0,1);
         _dir2_core->setBeacon(dir2_beacon);
         _dir2_core->setOn(true);
-		_dir2_core->setShadowIntensity(0.6);
+		_dir2_core->setShadowIntensity(0.7);
     endEditCP(_dir2_core);
 
 
@@ -350,7 +350,7 @@ int main(int argc, char **argv)
 		trees->addChild(tree9_trans_node);
 	endEditCP(trees);
 
-	//load Airplane Object
+	/*//load Airplane Object
     NodePtr obj1_trans_node = makeCoredNode<Transform>(&_obj1_trans);
 	
     beginEditCP(_obj1_trans);
@@ -362,6 +362,29 @@ int main(int argc, char **argv)
 
     beginEditCP(obj1_trans_node);
         obj1_trans_node->addChild(object1);
+    endEditCP(obj1_trans_node);*/
+
+	//Load a Quad as Pointlight
+	GeometryPtr boxGeo = makeBoxGeo(15,15,15, 1, 1, 1);
+    NodePtr boxNode = Node::create();
+    beginEditCP(boxNode, Node::CoreFieldMask);
+        boxNode->setCore(boxGeo);
+    endEditCP(boxNode, Node::CoreFieldMask);
+
+	SimpleMaterialPtr box_mat = SimpleMaterial::create();
+    beginEditCP(box_mat);
+        box_mat->setAmbient(Color3f(0.95,1.0,0.2));
+        box_mat->setDiffuse(Color3f(0.95,1.0,0.2));
+    endEditCP(box_mat);
+
+    beginEditCP(boxGeo);
+        boxGeo->setMaterial(box_mat);
+    beginEditCP(boxGeo);
+
+	NodePtr obj1_trans_node = makeCoredNode<Transform>(&_obj1_trans);
+
+	beginEditCP(obj1_trans_node);
+        obj1_trans_node->addChild(boxNode);
     endEditCP(obj1_trans_node);
 
 	//load Dino Objects
@@ -628,24 +651,27 @@ int main(int argc, char **argv)
         //svp->setOffBias(8.0);
 		//used to set global shadow intensity, ignores shadow intensity from light sources if != 0.0
 		//svp->setGlobalShadowIntensity(0.8);
-        svp->setMapSize(2048);
+        svp->setMapSize(1024);
 		//ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
 		//ShadowSmoothness also used to define the light size for PCSS_SHADOW_MAP
 		svp->setShadowSmoothness(0.5);
         // add light sources here
         svp->getLightNodes().push_back(dir1);
         svp->getLightNodes().push_back(dir2);
+		svp->getExcludeNodes().push_back(obj1_trans_node);
 		//svp->setAutoSearchForLights(true);
     endEditCP(svp);
 
 	//one active light at startup
 	beginEditCP(_dir2_core);
-                _dir2_core->setOn(false);
+                _dir2_core->setOn(true);
+				_dir2_core->setAmbient(0.3,0.3,0.3,1);
+                _dir2_core->setDiffuse(0.8,0.8,0.8,1);
     endEditCP(_dir2_core);
 	beginEditCP(_dir1_core);
-                _dir1_core->setOn(true);
-                _dir1_core->setAmbient(0.3,0.3,0.3,1);
-                _dir1_core->setDiffuse(0.8,0.8,0.8,1);
+                _dir1_core->setOn(false);
+                //_dir1_core->setAmbient(0.3,0.3,0.3,1);
+                //_dir1_core->setDiffuse(0.8,0.8,0.8,1);
     endEditCP(_dir1_core);
 
     beginEditCP(gwin);//Window
@@ -809,12 +835,19 @@ void Animate()
 		Matrix m;
 		m.setIdentity();
 		Vec3f scale(0.15,0.15,0.15);
-		Vec3f trans(-40.0*sin(rotb),-40.0*cos(rotb),24.0+16.0*sin(rotd));
+		Vec3f trans(-40.0*sin(rotb),-40.0*cos(rotb),50.0+25.0*sin(rotd));
 		q.setValueAsAxisRad(0,0,1, -rotb);
 		m.setTransform(trans,q,scale);
 		_obj1_trans->setMatrix(m);
 	}
 	endEditCP(_obj1_trans);
+
+
+	beginEditCP(dir2_trans);
+	{
+		dir2_trans->getMatrix().setTranslate(-40.0*sin(rotb),-40.0*cos(rotb),50.0+25.0*sin(rotd));
+	}
+	endEditCP(dir2_trans);
 		
 	//animate Dinos
 
@@ -968,7 +1001,7 @@ void keyboard(unsigned char k, int x, int y)
         }
         break;
 
-        case '8':
+        case '9':
         {
             beginEditCP(_dir1_core);
                 _dir1_core->setOn(true);
@@ -982,7 +1015,7 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
-        case '9':
+        case '8':
         {
             beginEditCP(_dir1_core);
                 _dir1_core->setOn(false);
@@ -1063,11 +1096,11 @@ void keyboard(unsigned char k, int x, int y)
             endEditCP(svp, ShadowViewport::OffFactorFieldMask);
 			break;
         }
-        case 'x':
+        /*case 'x':
         {
             SceneFileHandler::the().write(rootNode, "shadow.osb.gz", true);
 			break;
-        }
+        }*/
 
 		case '1':
         {
@@ -1135,6 +1168,32 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
+		case 'y':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(512);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            break;
+        }
+
+		case 'x':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(1024);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            SLOG << "ShadowMode is: NO_SHADOW" << endLog;
+            break;
+        }
+
+		case 'c':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(2048);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            SLOG << "ShadowMode is: NO_SHADOW" << endLog;
+            break;
+        }
+
 		case '+':
         {    
             Real32 t = svp->getShadowSmoothness();    
@@ -1169,7 +1228,7 @@ int setupGLUT(int *argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     //Set WindowSize here
-    glutInitWindowSize(800,600);
+    glutInitWindowSize(640,512);
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);

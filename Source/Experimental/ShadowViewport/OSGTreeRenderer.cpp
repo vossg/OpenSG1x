@@ -112,6 +112,16 @@ TreeRenderer::TreeRenderer(ShadowViewport *source)
 	useGLSL = true;
 	useShadowExt = true;
 
+	GLint max_tex_size = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
+
+	maxTexSize = max_tex_size;
+	maxPLMapSize = maxTexSize/4;
+	PLMapSize = 1;
+	
+
+	//printf("Max MapSize und PLMapSize ist %u, %u\n",maxTexSize,maxPLMapSize);
+
 	shadowVP = source; 
 	
 	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
@@ -222,7 +232,7 @@ void TreeRenderer::initialize(Window *win)
 		if(!win->hasExtension("GL_EXT_framebuffer_object")) useFBO = false;
 		//ist das nötig?
 		//if(!win->hasExtension("GL_ARB_draw_buffers")) useFBO = false;
-	
+
 		if(useFBO) 	
 		{
 			FNOTICE(("framebuffer objects supported.\n"));
@@ -252,10 +262,10 @@ void TreeRenderer::initialize(Window *win)
 			!win->hasExtension("GL_ARB_fragment_shader") ||
 			!win->hasExtension("GL_ARB_vertex_shader") ||
 			!win->hasExtension("GL_ARB_shader_objects") )	useGLSL = false;
-		
+
 		if(!useGLSL)
 		{
-			FNOTICE(("GLSL not supported, some shadow modes will be disabled.\n"));
+			FNOTICE(("GLSL not supported, some shadow modes and real point lights will be disabled.\n"));
 		}
 		else
 		{

@@ -18,6 +18,7 @@
 #include <OSGMatrixCamera.h>
 #include <OSGTransform.h>
 #include <OSGTextureChunk.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGPassiveBackground.h>
 #include <OSGSolidBackground.h>
@@ -53,7 +54,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
 
     TileCameraDecoratorPtr  _tiledeco;
     BlendChunkPtr           _blender;
-    MatrixCameraPtr         _matrixCam;
 
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;
@@ -62,46 +62,41 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
 
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
-    NodePtr                 _shadowRoot;
-    MaterialGroupPtr        _shadowShaderGroup;
-    
-    ChunkMaterialPtr        _combineCmat;
+	SHLChunkPtr             _shadowCubeSHL;
+
     SHLChunkPtr             _combineSHL;
-    NodePtr                 _combineRoot;
-    MaterialGroupPtr        _combineShaderGroup;
 
-    FileGrabForegroundPtr   fileGrab;
-    Int32                   firstRun;
+    SimpleMaterialPtr       _unlitMat;
 
-    Matrix                  textureVM; 
-    Matrix                  texturePM;
+    PolygonForegroundPtr    _pf;
 
-    GeometryPtr             boxGeo;
-    NodePtr                 boxNode;
+    Int32                   _firstRun;
 
-    UInt32                  width;
-    UInt32                  height;
+    Matrix                  _textureVM; 
+    Matrix                  _texturePM;
+
+    UInt32                  _width;
+    UInt32                  _height;
+    UInt32                  _widthHeightPOT;
 
     void createShadowMaps(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
     void drawCombineMap(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
-
 
     void createColorMapFBO(RenderActionBase* action);
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
-	void createShadowMapsFBO(RenderActionBase* action);
+    void createShadowMapsFBO(RenderActionBase* action);
 
-	bool initFBO(Window *win);
-	void reInit(Window *win);
-	bool checkFrameBufferStatus(Window *win);
+    bool initFBO(Window *win);
+    void reInit(Window *win);
+    bool checkFrameBufferStatus(Window *win);
 
-	GLuint fb;
-	GLuint fb2;
-	GLuint rb_depth;
+    GLuint _fb;
+    GLuint _fb2;
+    GLuint _rb_depth;
 
-	UInt32 widthHeightPOT;
+	Matrix _transforms[6];
 
   protected:
 

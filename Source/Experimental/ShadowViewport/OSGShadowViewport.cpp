@@ -1,3 +1,4 @@
+
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -152,6 +153,38 @@ ShadowViewport::ShadowViewport(void) :
     _trigger_update(false)
 {
 	treeRenderer = NULL;
+	_initDone = false;
+	
+	transforms[0] = Matrix( 1, 0, 0, 0, 
+                            0,-1, 0, 0,
+                            0, 0,-1, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[1] = Matrix( 1, 0, 0, 0,
+                            0, 1, 0, 0,
+                            0, 0, 1, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[2] = Matrix( 1, 0, 0, 0,
+                            0, 0, 1, 0,
+                            0,-1, 0, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[3] = Matrix(  1, 0, 0, 0,
+                             0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    transforms[4] = Matrix(  0, 0, 1, 0,
+                             0, 1, 0, 0,
+                            -1, 0, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    transforms[5] = Matrix(  0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             1, 0, 0, 0,
+                             0, 0, 0, 1 );
+
 }
 
 ShadowViewport::ShadowViewport(const ShadowViewport &source) :
@@ -173,6 +206,38 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _trigger_update(source._trigger_update)
 {
 	treeRenderer = 0;
+	_initDone = false;
+	
+	transforms[0] = Matrix( 1, 0, 0, 0,
+                            0,-1, 0, 0,
+                            0, 0,-1, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[1] = Matrix( 1, 0, 0, 0,
+                            0, 1, 0, 0,
+                            0, 0, 1, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[2] = Matrix( 1, 0, 0, 0,
+                            0, 0, 1, 0,
+                            0,-1, 0, 0,
+                            0, 0, 0, 1 );
+                                     
+	transforms[3] = Matrix(  1, 0, 0, 0,
+                             0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    transforms[4] = Matrix(  0, 0, 1, 0,
+                             0, 1, 0, 0,
+                            -1, 0, 0, 0,
+                             0, 0, 0, 1 );
+                                     
+    transforms[5] = Matrix(  0, 0,-1, 0,
+                             0, 1, 0, 0,
+                             1, 0, 0, 0,
+                             0, 0, 0, 1 );
+
 }
 
 ShadowViewport::~ShadowViewport(void)
@@ -197,16 +262,19 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
         endEditCP(_poly);
     }
 
-    if(whichField & MapSizeFieldMask)
+    /*if(whichField & MapSizeFieldMask)
     {
         FNOTICE(("ShadowViewport::changed : map size changed.\n"));
-        _mapSizeChanged = true;
+		//clearLights(_oldLights.size());
+        //_mapSizeChanged = true;
+		beginEditCP(this, ShadowModeFieldMask);
+		endEditCP(this, ShadowModeFieldMask);
 		//printf("Mapsize set to %d\n", getMapSize());
-    }
+    }*/
 
     if(whichField & LightNodesFieldMask)
     {
-        FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
+		FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
         _lights.clear();
         for(UInt32 i=0;i<getLightNodes().getSize();++i)
             _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
@@ -238,18 +306,14 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 		FNOTICE(("ShadowSmoothness set to %f\n",getShadowSmoothness()));
 	}
 
-    if(whichField & ShadowModeFieldMask)
+    if(whichField & ShadowModeFieldMask || whichField & MapSizeFieldMask)
     {
         if(treeRenderer != NULL)
             delete treeRenderer;
         treeRenderer = NULL;
 
-#if 0 // this does not work if light nodes are explicitly set 
-        // free some memory.
-        clearLights(_lights.size());
-        _oldLights.clear();
-        _lights.clear();
-#endif
+		clearLights(_oldLights.size());
+		_mapSizeChanged = true;
 
 		switch (getShadowMode())
 		{
@@ -305,9 +369,10 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
 		default: break;
 		}
+		
     }
 
-    Inherited::changed(whichField, origin);
+	Inherited::changed(whichField, origin);
 }
 
 void ShadowViewport::dump(      UInt32    , 
@@ -385,33 +450,43 @@ void ShadowViewport::onDestroy(void)
 
 void ShadowViewport::render(RenderActionBase* action)
 {
-    if (treeRenderer == NULL)
+	if (treeRenderer == NULL)
     {
-        Viewport::render(action);
+		Viewport::render(action);
         return;
     }
 
     if(getCamera() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no camera!" << std::endl;
-        return;
+		return;
     }
     if(getBackground() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no Background!" << std::endl;
-        return;
+		return;
     }
     if(getRoot() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no root!" << std::endl;
-        return;
+		return;
     }
 
     if(!getShadowOn())
     {
-        Viewport::render(action);
+		Viewport::render(action);
         return;
     }
+
+	if(!_initDone)
+	{
+		_GLSLsupported = true;
+		if(	!action->getWindow()->hasExtension("GL_ARB_shading_language_100") ||
+			!action->getWindow()->hasExtension("GL_ARB_fragment_shader") ||
+			!action->getWindow()->hasExtension("GL_ARB_vertex_shader") ||
+			!action->getWindow()->hasExtension("GL_ARB_shader_objects") ) _GLSLsupported = false;
+		_initDone = true;
+	}
 
     if(getSceneRoot() == NullFC)
     {
@@ -421,6 +496,7 @@ void ShadowViewport::render(RenderActionBase* action)
     }
 
     _excludeNodeActive.clear();
+	_realPointLight.clear();
     //get excludeNode states
     for(UInt32 i=0; i<getExcludeNodes().getSize(); i++)
     {
@@ -431,19 +507,20 @@ void ShadowViewport::render(RenderActionBase* action)
             _excludeNodeActive.push_back(false);
     }
 
+
     action->setCamera    (getCamera().getCPtr());
     action->setBackground(_silentBack.getCPtr());
     action->setViewport  (this);
     action->setTravMask  (getTravMask());
 
     //checkMapResolution();
-    checkLights(action);
+	checkLights(action);
 
     bool allLightsZero = true;
     if(getGlobalShadowIntensity() != 0.0)
-    {
-        allLightsZero = false;
-    }
+	{
+		allLightsZero = false;
+	}
     else
     {
         for(UInt32 i=0; i<_lights.size(); i++)
@@ -452,7 +529,10 @@ void ShadowViewport::render(RenderActionBase* action)
         }
     }
 
-    if(_lights.size() == 0 || allLightsZero) Viewport::render(action);
+    if(_lights.size() == 0 || allLightsZero) 
+	{
+		Viewport::render(action); 
+	}
     else
     {
 
@@ -464,8 +544,8 @@ void ShadowViewport::render(RenderActionBase* action)
     _windowW = getParent()->getWidth();
     _windowH = getParent()->getHeight();
 
-    Real32 oldFar = getCamera()->getFar();
-    checkCamFar();
+    //Real32 oldFar = getCamera()->getFar();
+    //checkCamFar();
 
     //check if excludeNodes are disabled
     for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
@@ -474,17 +554,10 @@ void ShadowViewport::render(RenderActionBase* action)
         _excludeNodeActive[i] = exnode->getActive();
     }
 
-    treeRenderer->render(action);
-
-    getCamera()->setFar(oldFar);
-
-    /*// activate exclude nodes:
-    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = getExcludeNodes()[i];
-        if(exnode != NullFC)
-            if(_excludeNodeActive[i]) exnode->setActive(true);
-    }*/
+	//check if all sides of a pointlight are needed
+	_renderSide.clear();
+	
+	treeRenderer->render(action);
 
     }
 }
@@ -550,7 +623,7 @@ void ShadowViewport::checkMapResolution()
 
 Action::ResultE ShadowViewport::findLight(NodePtr& node)
 {
-    if(node->getCore()->getType().isDerivedFrom(Light::getClassType()))
+	if(node->getCore()->getType().isDerivedFrom(Light::getClassType()))
          _allLights.push_back(LightPtr::dcast(node->getCore()));
     return Action::Continue;
 }
@@ -643,7 +716,7 @@ void ShadowViewport::checkLights(RenderActionBase* action)
     bool changed = false;
     if(_lights.size() > 0 && _lights.size() == _oldLights.size())
     {
-        for(UInt32 i=0;i<_lights.size();++i)
+		for(UInt32 i=0;i<_lights.size();++i)
         {
             _lightStates.push_back(_lights[i]->getOn()); 
             if(_lights[i] != _oldLights[i])
@@ -652,10 +725,10 @@ void ShadowViewport::checkLights(RenderActionBase* action)
     }
     else
     {
-        changed = true;
+		changed = true;
     }
 
-    if(!changed)
+	if(!changed)
     {
         if(_mapSizeChanged)
             changed = true;
@@ -674,13 +747,14 @@ void ShadowViewport::checkLights(RenderActionBase* action)
 
 void ShadowViewport::updateLights(void)
 {
-    SpotLightPtr tmpSpot;
+	SpotLightPtr tmpSpot;
     DirectionalLightPtr tmpDir;
     PointLightPtr tmpPoint;
     Matrix tmpMatrix;
     bool isSpot, isDirect;
     Real32 sceneWidth = 0.0;
     Real32 sceneHeight = 0.0;
+	Real32 PLangle = 0.0;
 
     for(UInt32 i = 0; i < _lights.size(); ++i)
     {
@@ -712,6 +786,7 @@ void ShadowViewport::updateLights(void)
                 //<-- ???
                 q.setValue(Vec3f(0,0,-1), lightdir);
                 tmpMatrix.setTransform(Vec3f(lightpos),q);
+				_realPointLight.push_back(false);
             }
             else if(_lights[i]->getType() == DirectionalLight::getClassType())
             {
@@ -742,6 +817,7 @@ void ShadowViewport::updateLights(void)
                 MatrixLookAt(tmpMatrix,center + lightdir,
                              center,Vec3f(0,1,0));
                 tmpMatrix.invert();
+				_realPointLight.push_back(false);
             }
             else // Preparation for PointLight -- In this version just a hack
             {
@@ -763,22 +839,175 @@ void ShadowViewport::updateLights(void)
                 */
 
                 Pnt3f lightpos = tmpPoint->getPosition();
-                if(tmpPoint->getBeacon() != NullFC)
+				if(tmpPoint->getBeacon() != NullFC)
                 {
                     Matrix m = tmpPoint->getBeacon()->getToWorld();
                     m.mult(lightpos);
                 }
 
-                getSceneRoot()->getVolume().getCenter(center);
-                
-                dir = lightpos - center;
-                dir.normalize();
-                dir.negate();
+				if(	(getShadowMode() == STD_SHADOW_MAP || 
+					getShadowMode() == PERSPECTIVE_SHADOW_MAP || 
+					getShadowMode() == DITHER_SHADOW_MAP || 
+					getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
+				{
+					//Lightpos inside Scene BB?
+					Pnt3f sceneMin = getSceneRoot()->getVolume().getMin();
+					Pnt3f sceneMax = getSceneRoot()->getVolume().getMax();
 
-                q.setValue(Vec3f(0,0,-1),dir);
+					if((lightpos[0] < sceneMin[0] || lightpos[1] < sceneMin[1] || lightpos[2] < sceneMin[2]) || (lightpos[0] > sceneMax[0] || lightpos[1] > sceneMax[1] || lightpos[2] > sceneMax[2]))
+					{
+						//printf("AUSSEN\n");
+						//check if angle is ok to use one Side
+						Vec3f dist,diff;
+						Pnt3f center;
+						
+						getSceneRoot()->getVolume().getCenter(center);
+						
+						//angle = atan((diff.length()* 0.5)/dist.length());
+						//Scene Bounding Box Points
+	
+						Pnt3f bb[8];
+						bb[0]=Pnt3f(sceneMin[0],sceneMin[1],sceneMin[2]);
+						bb[1]=Pnt3f(sceneMax[0],sceneMin[1],sceneMin[2]);
+						bb[2]=Pnt3f(sceneMax[0],sceneMax[1],sceneMin[2]);
+						bb[3]=Pnt3f(sceneMin[0],sceneMax[1],sceneMin[2]);
+						bb[4]=Pnt3f(sceneMin[0],sceneMin[1],sceneMax[2]);
+						bb[5]=Pnt3f(sceneMax[0],sceneMin[1],sceneMax[2]);
+						bb[6]=Pnt3f(sceneMax[0],sceneMax[1],sceneMax[2]);
+						bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
+				
+						PLangle = deg2rad(0);
+						//Real32 angle2;
+						Pnt3f maxAnglePnt1,maxAnglePnt2;
 
-                tmpMatrix.setTransform(Vec3f(lightpos),q);
+						for(UInt32 j = 0; j<8;j++)
+						{
+							Vec3f vector1(lightpos - center);
+							Vec3f vector2(lightpos - bb[j]);
+							Real32 newAngle = vector1.enclosedAngle(vector2);
+							if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
+							if(rad2deg(newAngle) > rad2deg(PLangle)) 
+							{
+								PLangle = newAngle;
+								maxAnglePnt1 = bb[j];
+							}
+						}
 
+						for(UInt32 j = 0; j<8;j++)
+						{
+							Vec3f vector1(lightpos - maxAnglePnt1);
+							Vec3f vector2(lightpos - bb[j]);
+							Real32 newAngle = vector1.enclosedAngle(vector2);
+							if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
+							if(rad2deg(newAngle) > rad2deg(PLangle)) 
+							{
+								PLangle = newAngle;
+								maxAnglePnt2 = bb[j];
+							}
+						}
+	
+						//printf("Winkel: %f\n",rad2deg(PLangle));
+						if(rad2deg(PLangle) < 120) //Use one Side only
+						{
+							//printf("\nFAKE!\n");
+							getSceneRoot()->getVolume().getCenter(center);
+                			dir = lightpos - center;
+							dir.normalize();
+							dir.negate();
+							q.setValue(Vec3f(0,0,-1),dir);
+							tmpMatrix.setTransform(Vec3f(lightpos),q);
+							_realPointLight.push_back(false);
+						}
+						else //use 6 side Pointlight
+						{
+							//printf("Winkel zu gross!\n");
+							dir = Vec3f(0.0,0.0,-1.0);//lightpos - center;
+							dir.negate();
+							q.setValue(Vec3f(0,0,-1),dir);
+							tmpMatrix.setTransform(Vec3f(lightpos),q);
+							_realPointLight.push_back(true);
+						}
+					}
+					else
+					{
+						//printf("INNEN\n");
+						dir = Vec3f(0.0,0.0,-1.0);//lightpos - center;
+						dir.negate();
+						q.setValue(Vec3f(0,0,-1),dir);
+						tmpMatrix.setTransform(Vec3f(lightpos),q);
+						_realPointLight.push_back(true);
+					}
+				}
+				else
+				{
+
+					Vec3f dist,diff;
+					Pnt3f center;
+					Pnt3f sceneMin = getSceneRoot()->getVolume().getMin();
+					Pnt3f sceneMax = getSceneRoot()->getVolume().getMax();
+						
+					getSceneRoot()->getVolume().getCenter(center);
+						
+					//angle = atan((diff.length()* 0.5)/dist.length());
+					//Scene Bounding Box Points
+	
+					Pnt3f bb[8];
+					bb[0]=Pnt3f(sceneMin[0],sceneMin[1],sceneMin[2]);
+					bb[1]=Pnt3f(sceneMax[0],sceneMin[1],sceneMin[2]);
+					bb[2]=Pnt3f(sceneMax[0],sceneMax[1],sceneMin[2]);
+					bb[3]=Pnt3f(sceneMin[0],sceneMax[1],sceneMin[2]);
+					bb[4]=Pnt3f(sceneMin[0],sceneMin[1],sceneMax[2]);
+					bb[5]=Pnt3f(sceneMax[0],sceneMin[1],sceneMax[2]);
+					bb[6]=Pnt3f(sceneMax[0],sceneMax[1],sceneMax[2]);
+					bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
+				
+					PLangle = deg2rad(0);
+					//Real32 angle2;
+					Pnt3f maxAnglePnt1,maxAnglePnt2;
+
+					for(UInt32 j = 0; j<8;j++)
+					{
+						Vec3f vector1(lightpos - center);
+						Vec3f vector2(lightpos - bb[j]);
+						Real32 newAngle = vector1.enclosedAngle(vector2);
+						if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
+						if(rad2deg(newAngle) > rad2deg(PLangle)) 
+						{
+							PLangle = newAngle;
+							maxAnglePnt1 = bb[j];
+						}
+					}
+
+					for(UInt32 j = 0; j<8;j++)
+					{
+						Vec3f vector1(lightpos - maxAnglePnt1);
+						Vec3f vector2(lightpos - bb[j]);
+						Real32 newAngle = vector1.enclosedAngle(vector2);
+						if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
+						if(rad2deg(newAngle) > rad2deg(PLangle)) 
+						{
+							PLangle = newAngle;
+							maxAnglePnt2 = bb[j];
+						}
+					}
+	
+					//printf("Winkel: %f\n",rad2deg(PLangle));
+					if(rad2deg(PLangle) > 175) //Use one Side only
+					{
+						PLangle = deg2rad(175);
+					}
+					
+					dir = lightpos - center;
+					dir.normalize();
+					dir.negate();
+
+					q.setValue(Vec3f(0,0,-1),dir);
+
+					tmpMatrix.setTransform(Vec3f(lightpos),q);
+					_realPointLight.push_back(false);
+				}
+				//_realPointLight.push_back(true);
+				
             }
 
             _lightCamTrans[i]->setMatrix(tmpMatrix);
@@ -837,83 +1066,68 @@ void ShadowViewport::updateLights(void)
             }
             else // If none of above the Lightsource must be a PointLight
             {
-                Vec3f dist,diff;
-                Pnt3f center;
-                Real32 angle;
+                if(	(getShadowMode() == STD_SHADOW_MAP || 
+					getShadowMode() == PERSPECTIVE_SHADOW_MAP || 
+					getShadowMode() == DITHER_SHADOW_MAP || 
+					getShadowMode() == PCF_SHADOW_MAP) && _realPointLight[i] && _GLSLsupported)
+				{
+					Vec3f dist,diff;
+					Pnt3f center;
+					Real32 angle;
 
-                getSceneRoot()->getVolume().getCenter(center);
-                Pnt3f lightpos = tmpPoint->getPosition();
-                if(tmpPoint->getBeacon() != NullFC)
-                {
-                    Matrix m = tmpPoint->getBeacon()->getToWorld();
-                    m.mult(lightpos);
-                }
-                
-                dist =  (lightpos - center);
-                diff = (getSceneRoot()->getVolume().getMax() -
-                        getSceneRoot()->getVolume().getMin());
-
-				Pnt3f sceneMin = getSceneRoot()->getVolume().getMin();
-				Pnt3f sceneMax = getSceneRoot()->getVolume().getMax();
-
-				Real32 distLength = dist.length();
-				Real32 diffLength = diff.length();
-
-				_lightCameras[i]->setNear(getCamera()->getNear());
-				_lightCameras[i]->setFar(distLength+diffLength);
-
-                //angle = atan((diff.length()* 0.5)/dist.length());
-				//Scene Bounding Box Points
-
-				Pnt3f bb[8];
-				bb[0]=Pnt3f(sceneMin[0],sceneMin[1],sceneMin[2]);
-				bb[1]=Pnt3f(sceneMax[0],sceneMin[1],sceneMin[2]);
-				bb[2]=Pnt3f(sceneMax[0],sceneMax[1],sceneMin[2]);
-				bb[3]=Pnt3f(sceneMin[0],sceneMax[1],sceneMin[2]);
-				bb[4]=Pnt3f(sceneMin[0],sceneMin[1],sceneMax[2]);
-				bb[5]=Pnt3f(sceneMax[0],sceneMin[1],sceneMax[2]);
-				bb[6]=Pnt3f(sceneMax[0],sceneMax[1],sceneMax[2]);
-				bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
+					getSceneRoot()->getVolume().getCenter(center);
 				
-				angle = deg2rad(0);
-				//Real32 angle2;
-				Pnt3f maxAnglePnt1,maxAnglePnt2;
-
-				for(UInt32 j = 0; j<8;j++)
-				{
-					Vec3f vector1(lightpos - center);
-					Vec3f vector2(lightpos - bb[j]);
-					Real32 newAngle = vector1.enclosedAngle(vector2);
-					if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
-					if(rad2deg(newAngle) > rad2deg(angle)) 
-					{
-						angle = newAngle;
-						maxAnglePnt1 = bb[j];
+					Pnt3f lightpos = tmpPoint->getPosition();
+	
+		            if(tmpPoint->getBeacon() != NullFC)
+			        {
+				        Matrix m = tmpPoint->getBeacon()->getToWorld();
+					    m.mult(lightpos);
 					}
-				}
+				
+	                dist =  (lightpos - center);
+		            diff = (getSceneRoot()->getVolume().getMax() -
+			                getSceneRoot()->getVolume().getMin());
 
-				for(UInt32 j = 0; j<8;j++)
+					Real32 distLength = dist.length();
+					Real32 diffLength = diff.length();
+
+					_lightCameras[i]->setNear(getCamera()->getNear());
+					_lightCameras[i]->setFar(distLength+diffLength);
+					PerspectiveCameraPtr::dcast(_lightCameras[i])->setFov(deg2rad(91));
+				}
+				else
 				{
-					Vec3f vector1(lightpos - maxAnglePnt1);
-					Vec3f vector2(lightpos - bb[j]);
-					Real32 newAngle = vector1.enclosedAngle(vector2);
-					if(osgabs(rad2deg(newAngle)) > 180) newAngle = vector2.enclosedAngle(vector1);
-					if(rad2deg(newAngle) > rad2deg(angle)) 
-					{
-						//angle2 = newAngle;
-						maxAnglePnt2 = bb[j];
+					Vec3f dist,diff;
+					Pnt3f center;
+					getSceneRoot()->getVolume().getCenter(center);
+
+					Pnt3f lightpos = tmpPoint->getPosition();
+	
+		            if(tmpPoint->getBeacon() != NullFC)
+			        {
+				        Matrix m = tmpPoint->getBeacon()->getToWorld();
+					    m.mult(lightpos);
 					}
+						
+					dist =  (lightpos - center);
+					diff = (getSceneRoot()->getVolume().getMax() -
+							getSceneRoot()->getVolume().getMin());
+	
+					Pnt3f sceneMin = getSceneRoot()->getVolume().getMin();
+					Pnt3f sceneMax = getSceneRoot()->getVolume().getMax();
+	
+					Real32 distLength = dist.length();
+					Real32 diffLength = diff.length();
+	
+					_lightCameras[i]->setNear(getCamera()->getNear());
+					_lightCameras[i]->setFar(distLength+diffLength);
+
+					PerspectiveCameraPtr::dcast(_lightCameras[i])->setFov(PLangle);
 				}
-
-				//printf("Maximal noetiger Winkel ist %f\n",rad2deg(angle2));
-
-				if(rad2deg(2*angle) > 175) angle = deg2rad(175);
-
-                PerspectiveCameraPtr::dcast(_lightCameras[i])->setFov(2*angle);
-				//printf("Tatsaechlicher Winkel ist: %f\n",rad2deg(2*angle));
-            }
+			}
             
-             _lightCameras[i]->setBeacon(_lightCamBeacons[i]);
+            _lightCameras[i]->setBeacon(_lightCamBeacons[i]);
         }
         endEditCP(_lightCameras[i]);
     }
@@ -921,14 +1135,14 @@ void ShadowViewport::updateLights(void)
 
 void ShadowViewport::initializeLights(RenderActionBase *action)
 {
-    clearLights(_oldLights.size());
+	clearLights(_oldLights.size());
 
     FDEBUG(("Initialising lights.\n"));
 
     _oldLights = _lights;
 
     //Setting up Light-Cameras, ShadowMaps and TextureChunks
-    for(UInt32 i = 0; i < _lights.size(); ++i)
+	for(UInt32 i = 0; i < _lights.size(); ++i)
     {
         // Remembering initial state of Lights
         _lightStates.push_back(_lights[i]->getOn());
@@ -970,41 +1184,89 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
 
-		_shadowImages.push_back(Image::create());
+		if(_lights[i]->getType() != PointLight::getClassType())
+		{
+			_shadowImages.push_back(Image::create());
 
-        // creates a image without allocating main memory.
-		beginEditCP(_shadowImages[i]);
-            _shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
-                                  1, 1, 1, 0, NULL,
-                                  Image::OSG_UINT8_IMAGEDATA, false);
-        endEditCP(_shadowImages[i]);
+			// creates a image without allocating main memory.
+			beginEditCP(_shadowImages[i]);
+	            _shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
+									1, 1, 1, 0, NULL,
+									Image::OSG_UINT8_IMAGEDATA, false);
+			endEditCP(_shadowImages[i]);
 
-        _texChunks.push_back(TextureChunk::create());
-        addRefCP(_texChunks[i]);
+			_texChunks.push_back(TextureChunk::create());
+			addRefCP(_texChunks[i]);
 
-        // Preparation of Texture be a Depth-Texture
-        beginEditCP(_texChunks[i]);
-        {
-            _texChunks[i]->setImage(_shadowImages[i]);
-            _texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
-            _texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
-            _texChunks[i]->setMinFilter(GL_LINEAR);
-            _texChunks[i]->setMagFilter(GL_LINEAR);
-            _texChunks[i]->setWrapS(GL_CLAMP_TO_BORDER_ARB);
-            _texChunks[i]->setWrapT(GL_CLAMP_TO_BORDER_ARB);
-            _texChunks[i]->setEnvMode(GL_MODULATE);
-            _texChunks[i]->setTarget(GL_TEXTURE_2D);
-        }
-        endEditCP(_texChunks[i]);
+			// Preparation of Texture be a Depth-Texture
+			beginEditCP(_texChunks[i]);
+			{
+	            _texChunks[i]->setImage(_shadowImages[i]);
+				_texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
+				_texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
+				_texChunks[i]->setMinFilter(GL_LINEAR);
+				_texChunks[i]->setMagFilter(GL_LINEAR);
+				_texChunks[i]->setWrapS(GL_CLAMP_TO_EDGE);
+				_texChunks[i]->setWrapT(GL_CLAMP_TO_EDGE);
+				_texChunks[i]->setEnvMode(GL_MODULATE);
+	            _texChunks[i]->setTarget(GL_TEXTURE_2D);
+			}
+			endEditCP(_texChunks[i]);
+			}
+		else //Light is a point light
+		{
+			//TODO: Texturgrösse anpassen, je nach Bedarf
+			GLint max_texture_size;
+			glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
+			//printf("Max Texture Size: %u\n",max_texture_size);
 
-        // Just a Hack until TextureChunk is ready
-        // to take the following arguments
-        /*_texChunks[i]->activate(action, 3);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-        _texChunks[i]->deactivate(action, 3);*/
+			_shadowImages.push_back(Image::create());
+
+	        // creates a image without allocating main memory.
+			if((	getShadowMode() == STD_SHADOW_MAP || 
+					getShadowMode() == PERSPECTIVE_SHADOW_MAP || 
+					getShadowMode() == DITHER_SHADOW_MAP || 
+					getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
+			{
+				/*beginEditCP(_shadowImages[i]);
+					_shadowImages[i]->set(Image::OSG_L_PF,max_texture_size, max_texture_size/2,
+						                  1, 1, 1, 0, NULL,
+							              Image::OSG_UINT8_IMAGEDATA, false);
+				endEditCP(_shadowImages[i]);*/
+				beginEditCP(_shadowImages[i]);
+					_shadowImages[i]->set(Image::OSG_L_PF,getMapSize()*2, getMapSize(),
+						                  1, 1, 1, 0, NULL,
+							              Image::OSG_UINT8_IMAGEDATA, false);
+				endEditCP(_shadowImages[i]);
+			}
+			else
+			{
+				beginEditCP(_shadowImages[i]);
+					_shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
+						                  1, 1, 1, 0, NULL,
+							              Image::OSG_UINT8_IMAGEDATA, false);
+				endEditCP(_shadowImages[i]);
+			}
+
+			_texChunks.push_back(TextureChunk::create());
+			addRefCP(_texChunks[i]);
+
+			// Preparation of Texture be a Depth-Texture
+			beginEditCP(_texChunks[i]);
+			{
+	            _texChunks[i]->setImage(_shadowImages[i]);
+				_texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
+				_texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
+				_texChunks[i]->setMinFilter(GL_LINEAR);
+				_texChunks[i]->setMagFilter(GL_LINEAR);
+				_texChunks[i]->setWrapS(GL_CLAMP_TO_BORDER_ARB);
+				_texChunks[i]->setWrapT(GL_CLAMP_TO_BORDER_ARB);
+				_texChunks[i]->setEnvMode(GL_MODULATE);
+				_texChunks[i]->setTarget(GL_TEXTURE_2D);
+			}
+			endEditCP(_texChunks[i]);
+		}
+
     }
 
 	updateLights();
@@ -1012,10 +1274,10 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 
 void ShadowViewport::clearLights(UInt32 size)
 {
-    if(size > 0)
+	if(size > 0)
     {
         FDEBUG(("Clearing Lightcamera-Garbage!\n"));
-
+		
         for(UInt32 i=0; i < size; ++i)
         {
             if(i < _lightCamBeacons.size())
@@ -1023,7 +1285,8 @@ void ShadowViewport::clearLights(UInt32 size)
             if(i < _lightCameras.size())
                 subRefCP(_lightCameras[i]);
             if(i < _texChunks.size())
-                subRefCP(_texChunks[i]);
+				subRefCP(_texChunks[i]);
+			while(_texChunks[i].getRefCount() > 0) subRefCP(_texChunks[i]);
         }
 
         _lightCameras.clear();
@@ -1032,6 +1295,10 @@ void ShadowViewport::clearLights(UInt32 size)
         _lightStates.clear();
         _texChunks.clear();
         _shadowImages.clear();
+
+		//_lights.clear();
+        //for(UInt32 i=0;i<getLightNodes().getSize();++i)
+        //    _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
     }
 }
 
@@ -1048,7 +1315,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.11 2006/06/03 08:55:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.12 2006/06/07 15:12:37 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

@@ -62,13 +62,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 	
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
-    NodePtr                 _shadowRoot;
-    MaterialGroupPtr        _shadowShaderGroup;
 
-	ChunkMaterialPtr        _combineCmat;
     SHLChunkPtr             _combineSHL;
-    NodePtr                 _combineRoot;
-    MaterialGroupPtr        _combineShaderGroup;
 
     FileGrabForegroundPtr   fileGrab;
     Int32                   firstRun;
@@ -76,7 +71,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     Matrix                  textureVM; 
     Matrix                  texturePM;
 
-    GeometryPtr             boxGeo;
     NodePtr                 boxNode;
 
     UInt32                  width;
@@ -92,7 +86,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
 
 	void createShadowMapsFBO(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action, ChunkMaterialPtr cmat);
+    void drawTextureBoxShader(RenderActionBase* action);
 
 	bool initFBO(Window *win);
 	void reInit(Window *win);

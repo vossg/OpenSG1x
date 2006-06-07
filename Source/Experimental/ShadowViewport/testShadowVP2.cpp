@@ -84,10 +84,10 @@ int main(int argc, char **argv)
 {
 	printf("Load a scene with first param, else a standard scene will be used.\n");
     printf("Press key '8' or '9' to switch between light sources. Press key '0' to use both lights\n");
-	printf("Set the shadow mode with key '1' ... '6'\n");
-	printf("NOTE: Point lights must be placed outside the scene bounding-box or results will be wrong!\n");
-	printf("NOTE: Spot lights must be placed outside the scene bounding-box and see the whole scene or standard Shadow Mapping will be used!\n");
-
+	printf("Set the shadow mode with key '1' ... '7'\n");
+	printf("Change MapSize with keys 'y'(512), 'x'(1024), 'c'(2048)\n");
+	printf("NOTE: Real point lights only supported for ShadowMode 1...5!\n");
+	
     // OSG init
     osgInit(argc,argv);
 
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
         _point1_core->setSpecular(0.0,0.0,0.0,1);
         _point1_core->setBeacon(point1_beacon);
         _point1_core->setOn(true);
-		_point1_core->setShadowIntensity(0.5);
+		_point1_core->setShadowIntensity(0.7);
     endEditCP(_point1_core);
 
     TransformPtr point2_trans;
@@ -135,7 +135,7 @@ int main(int argc, char **argv)
         _point2_core->setSpecular(0.0,0.0,0.0,1);
         _point2_core->setBeacon(point2_beacon);
         _point2_core->setOn(true);
-		_point2_core->setShadowIntensity(1.0);
+		_point2_core->setShadowIntensity(0.7);
     endEditCP(_point2_core);
 
     beginEditCP(point1);
@@ -305,8 +305,7 @@ int main(int argc, char **argv)
 		//ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
 		//ShadowSmoothness also used to define the light size for PCSS Soft Shadows
 		svp->setShadowSmoothness(0.5);
-		//if set, all lights in the scene will be used
-		svp->setAutoSearchForLights(true);
+		
         //svp->setOffBias(8.0);
         // you can add the light sources here
         if(argv[1] == NULL)
@@ -317,6 +316,12 @@ int main(int argc, char **argv)
 			svp->setOffFactor(4.0);
 			svp->setOffBias(8.0);
 		}
+		else
+		{
+			//if set, all lights in the scene will be used
+			svp->setAutoSearchForLights(true);
+		}
+
     endEditCP(svp);
 
     beginEditCP(gwin);//Window
@@ -478,60 +483,60 @@ void keyboard(unsigned char k, int x, int y)
 
 		case '1':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::NO_SHADOW);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '2':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::STD_SHADOW_MAP);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '3':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::PERSPECTIVE_SHADOW_MAP);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '4':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::DITHER_SHADOW_MAP);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '5':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
 				svp->setShadowSmoothness(0.5);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '6':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::PCSS_SHADOW_MAP);
 				svp->setShadowSmoothness(0.2);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
 		case '7':
         {
-            beginEditCP(svp);
+            beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::VARIANCE_SHADOW_MAP);
 				svp->setShadowSmoothness(0.5);
-            endEditCP(svp);
+            endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
 
@@ -598,6 +603,32 @@ void keyboard(unsigned char k, int x, int y)
                 svp->setShadowSmoothness(r-0.1);
             endEditCP(svp, ShadowViewport::ShadowSmoothnessFieldMask);
             //SLOG << "ShadowSmoothness is: " << r << endLog;
+            break;
+        }
+
+		case 'y':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(512);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            break;
+        }
+
+		case 'x':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(1024);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            SLOG << "ShadowMode is: NO_SHADOW" << endLog;
+            break;
+        }
+
+		case 'c':
+        {
+            beginEditCP(svp, ShadowViewport::MapSizeFieldMask);
+				svp->setMapSize(2048);
+            endEditCP(svp, ShadowViewport::MapSizeFieldMask);
+            SLOG << "ShadowMode is: NO_SHADOW" << endLog;
             break;
         }
 
