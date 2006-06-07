@@ -178,6 +178,177 @@ MemoryHandle BinaryMessage::getBuffer(void)
         return 0;
 }
 
+/*---------------------------------------------------------------------*/
+/*                      write message                                  */
+
+void BinaryMessage::putUInt32(const UInt32  value)
+{
+    Int32 net=osghtonl(value);
+    _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
+}
+
+void BinaryMessage::putInt32 (const Int32  value)
+{
+    Int32 net=osghtonl(value);
+    _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
+}
+
+void BinaryMessage::putUInt16(const UInt16  value)
+{
+    Int16 net=osghtons(value);
+    _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
+}
+
+void BinaryMessage::putInt16 (const Int16  value)
+{
+    Int16 net=osghtons(value);
+    _buffer.insert(_buffer.end(),(UInt8*)(&net),((UInt8*)(&net))+sizeof(net));
+}
+
+void BinaryMessage::putUInt8 (const UInt8   value)
+{
+    _buffer.push_back(value);
+}
+
+void BinaryMessage::putInt8  (const Int8   value)
+{
+    UInt8 v=static_cast<UInt8>(value);
+    _buffer.push_back(v);
+}
+
+void BinaryMessage::putString(const std::string &value)
+{
+    putUInt32(value.size());
+    if(value.size())
+    {
+        const UInt8 *s=(const UInt8*)(value.c_str());
+        const UInt8 *e=s+value.size();
+        _buffer.insert(_buffer.end(),s,e);
+    }
+}
+
+void BinaryMessage::putReal32(const Real32  value)
+{
+    putInt32(*((const Int32*)(&value)));
+}
+
+/*---------------------------------------------------------------------*/
+/*                      read message                                   */
+
+void BinaryMessage::getUInt32(UInt32  &value)
+{
+    Int32 net;
+    memcpy(&net,&_buffer[_pos],sizeof(net));
+    value=osgntohl(net);
+    _pos+=sizeof(net);
+}
+
+void BinaryMessage::getInt32 (Int32  &value)
+{
+    Int32 net;
+    memcpy(&net,&_buffer[_pos],sizeof(net));
+    value=osgntohl(net);
+    _pos+=sizeof(net);
+}
+
+void BinaryMessage::getUInt16(UInt16  &value)
+{
+    Int16 net=*((Int16 *)( &_buffer[_pos]));
+    value=osgntohs(net);
+    _pos+=sizeof(net);
+}
+
+void BinaryMessage::getInt16 (Int16  &value)
+{
+    Int16 net=*((Int16 *)( &_buffer[_pos]));
+    value=osgntohs(net);
+    _pos+=sizeof(net);
+}
+
+void BinaryMessage::getUInt8 (UInt8   &value)
+{
+    value=_buffer[_pos++];
+}
+
+void BinaryMessage::getInt8  (Int8   &value)
+{
+    value=_buffer[_pos++];
+}
+
+void BinaryMessage::getString(std::string &value)
+{
+    UInt32 size;
+    getUInt32(size);
+    if(!value.empty())
+        value.erase();
+    if(size)
+    {
+        value = std::string((const char*)&_buffer[_pos],size);
+        _pos+=size;
+    }
+}
+
+void BinaryMessage::getReal32(Real32  &value)
+{
+    getInt32(*((Int32*)(&value)));
+}
+
+UInt32 BinaryMessage::getUInt32(void)
+{
+    UInt32 value;
+    getUInt32(value);
+    return value;
+}
+
+Int32  BinaryMessage::getInt32 (void)
+{
+    Int32 value;
+    getInt32(value);
+    return value;
+}
+
+UInt16 BinaryMessage::getUInt16(void)
+{
+    UInt16 value;
+    getUInt16(value);
+    return value;
+}
+
+Int16  BinaryMessage::getInt16 (void)
+{
+    Int16 value;
+    getInt16(value);
+    return value;
+}
+
+UInt8  BinaryMessage::getUInt8 (void)
+{
+    UInt8 value;
+    getUInt8(value);
+    return value;
+}
+
+Int8   BinaryMessage::getInt8  (void)
+{
+    Int8 value;
+    getInt8(value);
+    return value;
+}
+
+std::string BinaryMessage::getString(void)
+{
+    std::string value;
+    getString(value);
+    return value;
+}
+
+Real32 BinaryMessage::getReal32(void)
+{
+    Real32 value;
+    getReal32(value);
+    return value;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
