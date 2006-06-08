@@ -1390,6 +1390,9 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
             exnode->setActive(false);
     }
 
+    // ok we render only one unlit material for the whole scene in this pass.
+    action->setMaterial(_unlitMat.getCPtr(), shadowVP->getRoot());
+
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
         if(shadowVP->_lightStates[i] != 0)
@@ -1567,6 +1570,8 @@ void PCFShadowMap::createShadowMaps(RenderActionBase* action)
 		}
     }
 
+    // reset the material.
+    action->setMaterial(NULL, NullFC);
 
     // activate exclude nodes:
     for(UInt32 i = 0; i < shadowVP->getExcludeNodes().getSize(); ++i)

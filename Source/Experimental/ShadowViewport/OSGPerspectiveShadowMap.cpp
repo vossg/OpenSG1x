@@ -1716,6 +1716,9 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(false);
     }
+
+	// ok we render only one unlit material for the whole scene in this pass.
+    action->setMaterial(_unlitMat.getCPtr(), shadowVP->getRoot());
     
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -1899,6 +1902,9 @@ void PerspectiveShadowMap::createShadowMaps(RenderActionBase* action)
 		}
     }
 
+	// reset the material.
+    action->setMaterial(NULL, NullFC);
+
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -1956,6 +1962,9 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(exnode != NullFC)
             exnode->setActive(false);
     }
+
+	// ok we render only one unlit material for the whole scene in this pass.
+    action->setMaterial(_unlitMat.getCPtr(), shadowVP->getRoot());
     
 	for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -2081,6 +2090,9 @@ void PerspectiveShadowMap::createShadowMapsFBO(RenderActionBase* action)
 		}
 		}
 	}
+
+	// reset the material.
+    action->setMaterial(NULL, NullFC);
 	
     //-------Restoring old states of Window and Viewport----------
 
