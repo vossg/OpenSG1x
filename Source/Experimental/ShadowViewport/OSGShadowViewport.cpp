@@ -1092,7 +1092,7 @@ void ShadowViewport::updateLights(void)
 					Real32 distLength = dist.length();
 					Real32 diffLength = diff.length();
 
-					_lightCameras[i]->setNear(getCamera()->getNear());
+					_lightCameras[i]->setNear(0.01f);
 					_lightCameras[i]->setFar(distLength+diffLength);
 					PerspectiveCameraPtr::dcast(_lightCameras[i])->setFov(deg2rad(91));
 				}
@@ -1315,7 +1315,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.12 2006/06/07 15:12:37 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.13 2006/06/08 14:44:36 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
