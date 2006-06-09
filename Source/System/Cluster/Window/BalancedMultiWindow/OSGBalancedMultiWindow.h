@@ -195,7 +195,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
             unsigned int height :15;
             unsigned int last   :1 ;
         } header;
-        UInt8  pixel[MW_TILE_SIZE*MW_TILE_SIZE*4*3];
+        UInt8  pixel[MW_TILE_SIZE*MW_TILE_SIZE*3];
     };
     struct Area {
         UInt16 sendToServer;
@@ -212,6 +212,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     struct Worker {
         UInt32                     serverId;
         Real32                     takeLoad;
+        Real32                     assignedLoad;
     };
     struct OpenBBox {
         Real32                     lineLoad;

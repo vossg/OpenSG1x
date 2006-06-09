@@ -114,6 +114,14 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
         return;
     }
 
+    // clear background
+    glDisable(GL_SCISSOR_TEST);
+    glViewport(0,0,
+               serverWindow->getWidth(), 
+               serverWindow->getHeight());
+    glClearColor(0,0,0,0);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     // initialize
     if(_cluster.servers.size() == 0)
     {
@@ -402,7 +410,15 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
         }
         conn->resetSelection();
         frameTime += getSystemTime();
-        printf("Cli %4d L:%2.6lf T:%10d D:%2.6lf P:%2.6lf N:%2.6lf B:%2.6lf F:%2.6lf\n",getServers().size(),_loadTime,_triCount,_drawTime,_pixelTime,_netTime,_balanceTime,frameTime);
+        printf("Cli %4d L:%2.6lf T:%10d D:%2.6lf P:%2.6lf N:%2.6lf B:%2.6lf F:%2.6lf\n",
+               getServers().size(),
+               _loadTime,
+               _triCount,
+               _drawTime,
+               _pixelTime,
+               _netTime,
+               _balanceTime,
+               frameTime);
         printf("end\n");
     }    
 #if 0
@@ -486,6 +502,7 @@ bool BalancedMultiWindow::calculateProjectedBBox(VPort &port,
 
     Int32 width = port.serverPort->getPixelWidth();
     Int32 height = port.serverPort->getPixelHeight();
+#if 1
     Matrix trans = group.node->getToWorld();
     trans.multLeft(proj);
 
@@ -495,6 +512,18 @@ bool BalancedMultiWindow::calculateProjectedBBox(VPort &port,
 
     // get local volume
     DynamicVolume volume = group.node->getVolume();
+#else
+    Matrix trans = proj;
+
+    Pnt4f pnt[8];
+    Int32 cl=0, cb=0, cr=0, ct=0, cn=0, cf=0;
+    Int32 bit = 1;
+
+    // get local volume
+    DynamicVolume volume = group.node->getVolume();
+    volume.transform(group.node->getToWorld());
+
+#endif
     volume.getBounds (vol[0], vol[1]);
 
     for(int i=0;i<8;++i)
@@ -1042,7 +1071,8 @@ void BalancedMultiWindow::balanceServer(void)
     medLoad = load / count;
     low = 0;
     heigh = server.size() - 1;
-    tolerance = medLoad *0.1;
+    tolerance = medLoad * 0.1;
+//    tolerance = medLoad * .8;
     while(low < heigh && server[heigh]->load - tolerance > medLoad)
     {
         worker.clear();
@@ -1077,11 +1107,28 @@ void BalancedMultiWindow::balanceServer(void)
             {
                 VPort &port = _cluster.servers[wo.serverId].viewports[vI];
                 splitViewport(worker,port,port.rect,port.load);
+#if 0
+                for(int i=0 ; i<worker.size() ; ++i)
+                {
+                    printf("%10.6f %10.6f\n",
+                           worker[i].takeLoad,
+                           worker[i].assignedLoad);
+                    server[worker[i].serverId]->load -= worker[i].takeLoad;
+                    server[worker[i].serverId]->load += worker[i].assignedLoad;
+                }
+#endif
             }
         } else {
             // stop no further spilt possible
             break;
         }
+#if 0
+        if(server[low]->load + tolerance >= medLoad)
+        {
+            printf("Avoid overload\n");
+            low++;
+        }
+#endif
         heigh--;
     }
     // others should render there whole viewport
@@ -1382,6 +1429,8 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
                 splitViewport(worker[g],port,resultRect[g],resultLoad[g]);
             else
             {
+                // assigned load
+                worker[g][0].assignedLoad = resultLoad[g];
                 // end of recoursion
                 wp.viewportId   = port.id;
                 wp.drawServer   = worker[g][0].serverId;
@@ -1397,6 +1446,9 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
             }
         }
     }
+    allWorker.clear();
+    allWorker.insert(allWorker.end(),worker[0].begin(),worker[0].end());
+    allWorker.insert(allWorker.end(),worker[1].begin(),worker[1].end());
 }
 
 /*! split viewport
@@ -1455,6 +1507,7 @@ void BalancedMultiWindow::splitAxis(Real32 load[2],
             bl = bl->next;
         }
         leftLoad  += openPixel;
+        rightLoad -= openPixel;
         // loop through open list
         bl = _groupClose[cut];
         while(bl)
@@ -1463,7 +1516,7 @@ void BalancedMultiWindow::splitAxis(Real32 load[2],
             rightLoad -= bl->constant;
             bl = bl->next;
         }
-        rightLoad -= openPixel;
+//        rightLoad -= openPixel;
 /*
         printf("A %d %.10f %.10f\n",cut,leftLoad,rightLoad);
         printf("B %d %.10f %.10f\n",cut,leftLoad*scaleLeft,rightLoad*scaleRight);
@@ -1578,7 +1631,7 @@ void BalancedMultiWindow::clearViewports(WindowPtr         serverWindow,
                    serverWindow->getWidth(), 
                    serverWindow->getHeight());
         glClearColor(0,0,0,0);
-        glClear(GL_COLOR_BUFFER_BIT);
+        // glClear(GL_COLOR_BUFFER_BIT);
     }
 
     for(vp=0 ; vp<_cluster.servers[id].viewports.size() ; ++vp)
@@ -1696,6 +1749,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                                action,
                                wI->viewportId,
                                wI->rect);
+                glFinish();
                 _pixelTime -= getSystemTime();
                 storeViewport (_cluster.areas.back(),getPort()[wI->viewportId],wI->rect);
                 _pixelTime += getSystemTime();
@@ -1854,6 +1908,11 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                 _netTime -= getSystemTime();
             } 
             while(!tile.header.last);
+/*
+            _pixelTime -= getSystemTime();
+            glFinish();
+            _pixelTime += getSystemTime();
+*/
         }
         glPopMatrix();
         glMatrixMode(GL_MODELVIEW);
