@@ -55,15 +55,21 @@ make
 make opt
 
 %install
+%ifarch x86_64
+libsuffix=64
+%else
+libsuffix=''
+%endif
 mkdir -p $RPM_BUILD_ROOT
 rm -rf  $RPM_BUILD_ROOT/usr
 mkdir -p $RPM_BUILD_ROOT/usr
 
 make install > /dev/null
 sed -e "s/prefix=\".*/prefix=\"\/usr\"/" \
-    -e "s|${exec_prefix}/lib/|${exec_prefix}/lib/OpenSG-1.6.0-|" \
+    -e "s|${exec_prefix}/lib/|${exec_prefix}/lib$libsuffix/OpenSG-1.6.0-|" \
     < $RPM_BUILD_ROOT/usr/bin/osg-config > $RPM_BUILD_ROOT/usr/bin/osg-config.sed
 mv $RPM_BUILD_ROOT/usr/bin/osg-config.sed $RPM_BUILD_ROOT/usr/bin/osg-config
+chmod 755 $RPM_BUILD_ROOT/usr/bin/osg-config
 
 cd $RPM_BUILD_ROOT/usr/lib
 
