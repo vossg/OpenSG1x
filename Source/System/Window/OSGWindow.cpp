@@ -1388,11 +1388,22 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             
             if(__GetProcAddress == NULL) 
             {
-                FWARNING(("Neither glXGetProcAddress nor "
-                        "glXGetProcAddressARB found! Disabling all "
-                        " extensions for Window %p!\n")); 
-                _availExtensions.clear();
-                _availExtensions.resize(_registeredExtensions.size(), false);
+                // Fallback to trying glxGetProcAddressARB directly
+#ifdef GLX_ARB_get_proc_address
+                __GetProcAddress = glXGetProcAddressARB;
+#endif
+                if(__GetProcAddress == NULL)
+                {
+                   FWARNING(("Neither glXGetProcAddress nor "
+                           "glXGetProcAddressARB found! Disabling all "
+                           " extensions for Window %p!\n")); 
+                   _availExtensions.clear();
+                   _availExtensions.resize(_registeredExtensions.size(), false);
+                }
+                else
+                {
+                   FDEBUG(("Using glXGetProcAddressARB directly for GL extension handling.\n"));
+                }
             } 
             else
             {
