@@ -346,19 +346,6 @@ EOF
 
 # ' Just to keep the syntax highlighting happy
 
-# Little script to use ssh -1x for SourceForge Access
-cat > ${tmpdir}/ssh-sf << \EOF
-#!/bin/sh
-if ssh -V 2>&1 | fgrep "SSH Version 1." > /dev/null 2>&1
-then
-    ssh    -i ${HOME}/.ssh/sourceforge -x $*
-else
-    ssh -1 -i ${HOME}/.ssh/sourceforge -x $*
-fi
-EOF
-
-chmod 700 ${tmpdir}/ssh-sf
-
 
 extra_args=""
 config_shell=sh
@@ -470,15 +457,13 @@ then
     rm -rf OpenSG
 
     # cvs needs to be in the path!
-    #export CVS_RSH=${tmpdir}/ssh-sf
-    # use standard ssh, SF is on ssh2 now anyway
-    export CVS_RSH=${tmpdir}/ssh-sf
+    export CVS_RSH=ssh
     rm -f $log_cvs
     
     waittime=10
     repeats=15
     
-    until cvs -z9 -ddirk@opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+    until cvs -z9 -ddirk@cvs.opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
     do
         echo "CVS problem, sleeping $waittime seconds and retrying!" >> $log_cvs
         sleep $waittime
