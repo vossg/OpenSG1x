@@ -73,8 +73,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 
 	Matrix transforms[6];
 
-	void calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num);
-
 	void printMatrix(Matrix m);
 	void printPoint(Pnt3f p);
 
@@ -105,6 +103,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 	bool checkFrameBufferStatus(Window *win);
 	void createShadowMapsFBO(RenderActionBase* action);
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
 	std::vector<Matrix>			_perspectiveLPM;
 	std::vector<Matrix>			_perspectiveLVM;
 
@@ -122,7 +123,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 	bool bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM);
 	
 	void calcHull2(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM);
-	void calcHull(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Vec3f lightDir);
 
 	void calcUpVec2(Vec3f &up99,Vec3f viewDir,Vec3f lightDir);
 	void calcCubicHull2(Pnt3f &min99, Pnt3f &max99, std::vector<Pnt3f> *points);

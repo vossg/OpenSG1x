@@ -80,6 +80,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
     UInt32                  width;
     UInt32                  height;
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
     void drawCombineMap(RenderActionBase* action);
     void drawTextureBoxShader(RenderActionBase* action);
 

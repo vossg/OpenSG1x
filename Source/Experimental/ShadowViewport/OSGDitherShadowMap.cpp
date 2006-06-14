@@ -331,6 +331,8 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
     _fb2 = 0;
     _rb_depth = 0;
 
+	initTexturesDone = false;
+
     _width = 1;
     _height = 1;
 
@@ -595,8 +597,6 @@ bool DitherShadowMap::checkFrameBufferStatus(Window *win)
 
 bool DitherShadowMap::initFBO(Window *win)
 {
-    initialize(win);
-
     if(useFBO)
     {
         Int32 width  = shadowVP->getPixelWidth();
@@ -659,27 +659,6 @@ bool DitherShadowMap::initFBO(Window *win)
         //return result;
     }
 
-    //if no NPOTTextures supported, resize images
-    if(!useNPOTTextures)
-    {
-        if(_width > _height)
-            _widthHeightPOT = osgnextpower2(_width);
-        else
-            _widthHeightPOT = osgnextpower2(_height);
-
-        beginEditCP(_colorMap);
-        beginEditCP(_colorMapImage);
-            _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-        endEditCP(_colorMapImage);
-        endEditCP(_colorMap);
-
-        beginEditCP(_shadowFactorMap);
-        beginEditCP(_shadowFactorMapImage);
-            _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
-        endEditCP(_shadowFactorMapImage);
-        endEditCP(_shadowFactorMap);
-    }
-
     return true;
 }
 
@@ -702,6 +681,33 @@ void DitherShadowMap::reInit(Window *win)
         glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, _widthHeightPOT, _widthHeightPOT );
     //Attach Renderbuffer to Framebuffer depth Buffer
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, _rb_depth);
+}
+
+void DitherShadowMap::initTextures(Window *win)
+{
+    initTexturesDone = true;
+
+	Int32 width  = shadowVP->getPixelWidth();
+    Int32 height = shadowVP->getPixelHeight();
+
+	//if no NPOTTextures supported, resize images
+	if(!useNPOTTextures)
+	{
+		if(width > height) _widthHeightPOT = osgnextpower2(width-1);
+		else _widthHeightPOT = osgnextpower2(height-1);
+
+		beginEditCP(_colorMap);
+		beginEditCP(_colorMapImage);
+			_colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+		endEditCP(_colorMapImage);
+		endEditCP(_colorMap);
+
+		beginEditCP(_shadowFactorMap);
+		beginEditCP(_shadowFactorMapImage);
+			_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+		endEditCP(_shadowFactorMapImage);
+		endEditCP(_shadowFactorMap);
+	}
 }
 
 void DitherShadowMap::createShadowMaps(RenderActionBase* action)
@@ -1654,9 +1660,14 @@ void DitherShadowMap::drawCombineMap(RenderActionBase* action)
 
 void DitherShadowMap::render(RenderActionBase* action)
 {
+	Window *win = action->getWindow();
+	initialize(win);
+
 	if(!useGLSL || !useShadowExt ) shadowVP->Viewport::render(action);
 	else
 	{
+
+	if(!initTexturesDone) initTextures(win);
 
 	if(shadowVP->getMapSize()/2 > maxPLMapSize) PLMapSize = maxPLMapSize;
 	else PLMapSize = shadowVP->getMapSize()/2;
@@ -1670,8 +1681,6 @@ void DitherShadowMap::render(RenderActionBase* action)
 		glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
 		glBindTexture(GL_TEXTURE_2D,0);
 	}
-
-	Window *win = action->getWindow();
 
 	if(useFBO)
 	{

@@ -310,6 +310,8 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
     fb2 = 0;
 	rb_depth = 0;
 
+	initTexturesDone = false;
+
     width = 1;
     height = 1;
     //width = shadowVP->getParent()->getWidth();
@@ -520,8 +522,6 @@ bool PCSSShadowMap::checkFrameBufferStatus(Window *win)
 
 bool PCSSShadowMap::initFBO(Window *win)
 {
-	initialize(win);
-
 	if(useFBO)
 	{
     Int32 width  = shadowVP->getPixelWidth();
@@ -582,25 +582,6 @@ bool PCSSShadowMap::initFBO(Window *win)
 	//return result;
 	}
 
-	//if no NPOTTextures supported, resize images
-	if(!useNPOTTextures)
-	{
-		if(width > height) widthHeightPOT = osgnextpower2(width);
-		else widthHeightPOT = osgnextpower2(height);
-
-		beginEditCP(_colorMap);
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-		endEditCP(_colorMap);
-
-		beginEditCP(_shadowFactorMap);
-		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-		endEditCP(_shadowFactorMap);
-	}
-
 	return true;
 }
 
@@ -621,6 +602,33 @@ void PCSSShadowMap::reInit(Window *win)
 	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
+}
+
+void PCSSShadowMap::initTextures(Window *win)
+{
+    initTexturesDone = true;
+
+	Int32 width  = shadowVP->getPixelWidth();
+    Int32 height = shadowVP->getPixelHeight();
+
+	//if no NPOTTextures supported, resize images
+	if(!useNPOTTextures)
+	{
+		if(width > height) widthHeightPOT = osgnextpower2(width-1);
+		else widthHeightPOT = osgnextpower2(height-1);
+
+		beginEditCP(_colorMap);
+		beginEditCP(_colorMapImage);
+			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_colorMapImage);
+		endEditCP(_colorMap);
+
+		beginEditCP(_shadowFactorMap);
+		beginEditCP(_shadowFactorMapImage);
+			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_shadowFactorMapImage);
+		endEditCP(_shadowFactorMap);
+	}
 }
 
 void PCSSShadowMap::drawTextureBoxShader(RenderActionBase* action)
@@ -1157,27 +1165,19 @@ void PCSSShadowMap::drawCombineMap(RenderActionBase* action)
 
 void PCSSShadowMap::render(RenderActionBase* action)
 {
+	Window *win = action->getWindow();
+	initialize(win);
+
 	if(!useGLSL  || !useShadowExt) shadowVP->Viewport::render(action);
 	else
 	{
 
-	Window *win = action->getWindow();
+	if(!initTexturesDone) initTextures(win);
 
 	if(useFBO)
 	{
 		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
 	}
-
-	/*for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-    {
-		shadowVP->_texChunks[i]->activate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_MODE_ARB,
-                        GL_COMPARE_R_TO_TEXTURE_ARB);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_COMPARE_FUNC_ARB,GL_LEQUAL);
-        glTexParameteri(GL_TEXTURE_2D,GL_DEPTH_TEXTURE_MODE_ARB,GL_LUMINANCE);
-		shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(shadowVP->_texChunks[i]->getGLId()));
-	}*/
-	
 
 	GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);

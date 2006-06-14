@@ -92,6 +92,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
     void reInit(Window *win);
     bool checkFrameBufferStatus(Window *win);
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
     GLuint _fb;
     GLuint _fb2;
     GLuint _rb_depth;

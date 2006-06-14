@@ -299,6 +299,7 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source)
 	rb_depth2 = 0;
 
 	texChanged = false;
+	initTexturesDone = false;
 
 	width = 1;
     height = 1;
@@ -470,36 +471,6 @@ VarianceShadowMap::~VarianceShadowMap(void)
 	if(_shadowSHL.getRefCount() > 0) subRefCP(_shadowSHL);
 	if(_depthSHL.getRefCount() > 0) subRefCP(_depthSHL);
 
-	/*for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
-	{
-		beginEditCP(shadowVP->_texChunks[i]);
-			shadowVP->_texChunks[i]->setImage(shadowVP->_shadowImages[i]);
-			shadowVP->_texChunks[i]->setInternalFormat(GL_DEPTH_COMPONENT_ARB);
-			shadowVP->_texChunks[i]->setExternalFormat(GL_DEPTH_COMPONENT_ARB);
-			shadowVP->_texChunks[i]->setMinFilter(GL_LINEAR);
-			shadowVP->_texChunks[i]->setMagFilter(GL_LINEAR);
-			shadowVP->_texChunks[i]->setWrapS(GL_REPEAT);
-			shadowVP->_texChunks[i]->setWrapT(GL_REPEAT);
-			shadowVP->_texChunks[i]->setTarget(GL_TEXTURE_2D);
-		endEditCP(shadowVP->_texChunks[i]);
-		
-		if(useGLSL)
-		{
-			beginEditCP(shadowVP->_shadowImages[i]);
-				shadowVP->_shadowImages[i]->set(Image::OSG_L_PF,maxTexSize, maxTexSize/2,
-					                  1, 1, 1, 0, NULL,
-						              Image::OSG_UINT8_IMAGEDATA, false);
-			endEditCP(shadowVP->_shadowImages[i]);
-		}
-		else
-		{
-			beginEditCP(shadowVP->_shadowImages[i]);
-				shadowVP->_shadowImages[i]->set(Image::OSG_L_PF,shadowVP->getMapSize(), shadowVP->getMapSize(),
-					                  1, 1, 1, 0, NULL,
-						              Image::OSG_UINT8_IMAGEDATA, false);
-			endEditCP(shadowVP->_shadowImages[i]);
-		}
-	}*/
 }
 
 /// Checks if FBO status is ok
@@ -556,8 +527,6 @@ bool VarianceShadowMap::checkFrameBufferStatus(Window *win)
 
 bool VarianceShadowMap::initFBO(Window *win)
 {
-	initialize(win);
-
 	if(!texChanged)
 	{
 		//Set Shadow Map Texture to the needed Format
@@ -646,25 +615,6 @@ bool VarianceShadowMap::initFBO(Window *win)
 	
 	}
 
-	//if no NPOTTextures supported, resize images
-	if(!useNPOTTextures)
-	{
-		if(width > height) widthHeightPOT = osgnextpower2(width-1);
-		else widthHeightPOT = osgnextpower2(height-1);
-
-		beginEditCP(_colorMap);
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-		endEditCP(_colorMap);
-
-		beginEditCP(_shadowFactorMap);
-		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-		endEditCP(_shadowFactorMap);
-	}
-	
 	return true;
 }
 
@@ -686,6 +636,33 @@ void VarianceShadowMap::reInit(Window *win)
 
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
+}
+
+void VarianceShadowMap::initTextures(Window *win)
+{
+    initTexturesDone = true;
+
+	Int32 width  = shadowVP->getPixelWidth();
+    Int32 height = shadowVP->getPixelHeight();
+
+	//if no NPOTTextures supported, resize images
+	if(!useNPOTTextures)
+	{
+		if(width > height) widthHeightPOT = osgnextpower2(width-1);
+		else widthHeightPOT = osgnextpower2(height-1);
+
+		beginEditCP(_colorMap);
+		beginEditCP(_colorMapImage);
+			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_colorMapImage);
+		endEditCP(_colorMap);
+
+		beginEditCP(_shadowFactorMap);
+		beginEditCP(_shadowFactorMapImage);
+			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_shadowFactorMapImage);
+		endEditCP(_shadowFactorMap);
+	}
 }
 
 void VarianceShadowMap::drawTextureBoxShader(RenderActionBase* action)
@@ -1285,11 +1262,14 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase* action)
 
 void VarianceShadowMap::render(RenderActionBase* action)
 {
+	Window *win = action->getWindow();
+	initialize(win);
+
 	if(!useGLSL || !useShadowExt || !useFBO) shadowVP->Viewport::render(action);
 	else
 	{
 
-	Window *win = action->getWindow();
+	if(!initTexturesDone) initTextures(win);
 
 	if(useFBO)
 	{

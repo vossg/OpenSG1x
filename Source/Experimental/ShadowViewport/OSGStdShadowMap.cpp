@@ -309,6 +309,8 @@ StdShadowMap::StdShadowMap(void)
 StdShadowMap::StdShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
+	initTexturesDone = false;
+
 	_blender = BlendChunk::create();
 	addRefCP(_blender);
 	beginEditCP(_blender);
@@ -586,8 +588,6 @@ bool StdShadowMap::checkFrameBufferStatus(Window *win)
 
 bool StdShadowMap::initFBO(Window *win)
 {
-	initialize(win);
-
 	if(useFBO)
 	{
     Int32 width  = shadowVP->getPixelWidth();
@@ -648,24 +648,6 @@ bool StdShadowMap::initFBO(Window *win)
 	//return result;
 	}
 
-	//if no NPOTTextures supported, resize images
-	if(!useNPOTTextures)
-	{
-		if(width > height) widthHeightPOT = osgnextpower2(width);
-		else widthHeightPOT = osgnextpower2(height);
-
-		beginEditCP(_colorMap);
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-		endEditCP(_colorMap);
-
-		beginEditCP(_shadowFactorMap);
-		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-		endEditCP(_shadowFactorMap);
-	}
 	return true;
 }
 
@@ -688,6 +670,34 @@ void StdShadowMap::reInit(Window *win)
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
+
+void StdShadowMap::initTextures(Window *win)
+{
+    initTexturesDone = true;
+
+	Int32 width  = shadowVP->getPixelWidth();
+    Int32 height = shadowVP->getPixelHeight();
+
+	//if no NPOTTextures supported, resize images
+	if(!useNPOTTextures)
+	{
+		if(width > height) widthHeightPOT = osgnextpower2(width-1);
+		else widthHeightPOT = osgnextpower2(height-1);
+
+		beginEditCP(_colorMap);
+		beginEditCP(_colorMapImage);
+			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_colorMapImage);
+		endEditCP(_colorMap);
+
+		beginEditCP(_shadowFactorMap);
+		beginEditCP(_shadowFactorMapImage);
+			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_shadowFactorMapImage);
+		endEditCP(_shadowFactorMap);
+	}
+}
+
 
 void StdShadowMap::createShadowMapsNOGLSL(RenderActionBase* action)
 {
@@ -1965,11 +1975,15 @@ void StdShadowMap::drawCombineMap(RenderActionBase* action)
 
 void StdShadowMap::render(RenderActionBase* action)
 {
+	Window *win = action->getWindow();
+	initialize(win);
+
 	if(!useShadowExt ) shadowVP->Viewport::render(action);
 	else
 	{
 
-	Window *win = action->getWindow();
+	if(!initTexturesDone) initTextures(win);
+
 	if(useFBO)
 	{
 		if(!initFBO(win)) printf("ERROR with FBOBJECT\n");

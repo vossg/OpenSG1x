@@ -77,6 +77,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     UInt32                  height;
 	UInt32					widthHeightPOT;
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
     void createShadowMaps(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
     void createColorMapFBO(RenderActionBase* action);

@@ -93,6 +93,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
     UInt32                  width;
     UInt32                  height;
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
 	bool checkFrameBufferStatus(Window *win);
 
 	void createShadowMapsFBO(RenderActionBase* action);

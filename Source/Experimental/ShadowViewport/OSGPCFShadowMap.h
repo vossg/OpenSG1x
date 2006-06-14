@@ -78,6 +78,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     UInt32                  _height;
     UInt32                  _widthHeightPOT;
 
+	bool initTexturesDone;
+	void initTextures(Window *win);
+
     void createShadowMaps(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
     void drawCombineMap(RenderActionBase* action);

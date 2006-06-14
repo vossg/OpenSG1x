@@ -156,7 +156,6 @@ OSG_USING_NAMESPACE
 
 static std::string _lisp_shadow_vp =
 "uniform mat4 lightPM;\n"
-"uniform float texFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -166,7 +165,6 @@ static std::string _lisp_shadow_vp =
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
 "  projCoord = lightPM * realPos;\n"
-"  projCoord.x *= texFactor;\n"
 "  texPos = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
 "  projCoord = bias * projCoord;\n"
 "  texPos = bias * texPos;\n"
@@ -309,6 +307,8 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source)
 {
     _tiledeco = NullFC;
 
+	initTexturesDone = false;
+
 	_blender = BlendChunk::create();
     addRefCP(_blender);
     beginEditCP(_blender);
@@ -388,12 +388,14 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source)
 
 	if(useNPOTTextures)
 	{
+		printf("NPOT wird unterstützt...\n");
 	    beginEditCP(_shadowFactorMapImage);
 		    _shadowFactorMapImage->set(GL_RGB, width, height);
 		endEditCP(_shadowFactorMapImage);
 	}
 	else
 	{
+		printf("NPOT wird NICHT unterstützt...\n");
 		beginEditCP(_shadowFactorMapImage);
 		    _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
 		endEditCP(_shadowFactorMapImage);
@@ -584,8 +586,6 @@ bool PerspectiveShadowMap::checkFrameBufferStatus(Window *win)
 
 bool PerspectiveShadowMap::initFBO(Window *win)
 {
-	initialize(win);
-
 	if(useFBO)
 	{
     Int32 width  = shadowVP->getPixelWidth();
@@ -646,24 +646,6 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 	//return result;
 	}
 
-	//if no NPOTTextures supported, resize images
-	if(!useNPOTTextures)
-	{
-		if(width > height) widthHeightPOT = osgnextpower2(width-1);
-		else widthHeightPOT = osgnextpower2(height-1);
-
-		beginEditCP(_colorMap);
-		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_colorMapImage);
-		endEditCP(_colorMap);
-
-		beginEditCP(_shadowFactorMap);
-		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
-		endEditCP(_shadowFactorMapImage);
-		endEditCP(_shadowFactorMap);
-	}
 	return true;
 
 }
@@ -688,119 +670,33 @@ void PerspectiveShadowMap::reInit(Window *win)
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 }
 
-void PerspectiveShadowMap::calcPerspective(Matrix &_LPM, Matrix &_LVM, UInt32 num)
+void PerspectiveShadowMap::initTextures(Window *win)
 {
+    initTexturesDone = true;
 
-	Matrix CPM, CVM;
-	shadowVP->getCamera()->getViewing(CVM,shadowVP->getParent()->getWidth(),shadowVP->getParent()->getHeight());
-	shadowVP->getCamera()->getProjection(CPM,shadowVP->getParent()->getWidth(),shadowVP->getParent()->getHeight());
-	Matrix eyeProjView = CPM;
-	eyeProjView.mult(CVM);
-	Matrix invEyeProjView = eyeProjView;
-	invEyeProjView.invert();
+	Int32 width  = shadowVP->getPixelWidth();
+    Int32 height = shadowVP->getPixelHeight();
 
-	//lightDir holen
-	DirectionalLightPtr tmpDir = DirectionalLightPtr::dcast(shadowVP->_lights[num]);
-	Vec3f lightDir = tmpDir->getDirection();
-	if(tmpDir->getBeacon() != NullFC)
+	//if no NPOTTextures supported, resize images
+	if(!useNPOTTextures)
 	{
-	    Matrix m = tmpDir->getBeacon()->getToWorld();
-        m.mult(lightDir);
-    }
-	lightDir.normalize();
+		if(width > height) widthHeightPOT = osgnextpower2(width-1);
+		else widthHeightPOT = osgnextpower2(height-1);
 
-	//ViewDir holen
-	Vec3f viewDir(0,0,-1);
-	Matrix m3 = shadowVP->getCamera()->getBeacon()->getToWorld();
-    m3.mult(viewDir);
-	viewDir.normalize();
+		beginEditCP(_colorMap);
+		beginEditCP(_colorMapImage);
+			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_colorMapImage);
+		endEditCP(_colorMap);
 
-	//Kamerapunkt holen
-	Pnt3f eyePos(0,0,0);
-	Matrix m2 = shadowVP->getCamera()->getBeacon()->getToWorld();
-    m2.mult(eyePos);
-
-	//Scene AABox Extrempunkte holen
-	Pnt3f sceneMax = shadowVP->getSceneRoot()->getVolume().getMax();
-	Pnt3f sceneMin = shadowVP->getSceneRoot()->getVolume().getMin();
-
-	std::vector<Pnt3f> points;
-	calcHull(&points, invEyeProjView, sceneMin, sceneMax, lightDir);
-
-	//Kopie erstellen
-	std::vector<Pnt3f> pointsCopy;
-	for(UInt32 i=0; i<points.size(); i++) pointsCopy.push_back(points[i]);
-
-
-	Real32 dotProd = viewDir.dot(lightDir);
-	Real32 sinGamma;
-	sinGamma = sqrt(1.0-dotProd*dotProd);
-
-	//up berechnen
-	Vec3f up99;
-	calcUpVec2(up99,viewDir,lightDir);
-
-	Matrix lView22;
-	MatrixLookAt(lView22,eyePos,eyePos+lightDir,up99);
-	lView22.invert();
-
-	// Punkte ins neue KKS transformieren
-	for(UInt32 i = 0; i<points.size(); i++)
-	{
-		Pnt3f tmpPnt(points[i][0],points[i][1],points[i][2]);
-		lView22.multFullMatrixPnt(tmpPnt,tmpPnt);
-		points[i] = tmpPnt;
+		beginEditCP(_shadowFactorMap);
+		beginEditCP(_shadowFactorMapImage);
+			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		endEditCP(_shadowFactorMapImage);
+		endEditCP(_shadowFactorMap);
 	}
-
-	// BBox um Punkte bestimmen
-	Pnt3f min99, max99;
-	calcCubicHull2(min99,max99,&points);
-
-	//Near und Far berechnen (Light Space Perspective Shadow Maps)
-	Real32 nearDist = 1.0;//shadowVP->getCamera()->getNear();
-	Real32 factor = 1.0/sinGamma;
-	Real32 z_n = factor*nearDist;
-	Real32 d = osgabs(max99[1]-min99[1]);
-	Real32 z_f = z_n + d*sinGamma;
-	Real32 n = (z_n+sqrt(z_f*z_n))/sinGamma;
-	Real32 f = n+d;
-
-	Pnt3f pos99;
-	pos99[0] = eyePos[0] + (up99[0] * (-(n-nearDist)*factor));
-	pos99[1] = eyePos[1] + (up99[1] * (-(n-nearDist)*factor));
-	pos99[2] = eyePos[2] + (up99[2] * (-(n-nearDist)*factor));
-
-	Matrix lView222;
-	MatrixLookAt(lView222,pos99,pos99+lightDir,up99);
-	lView222.invert();
-
-	// Lisp-Matrix erstellen
-	Matrix lispMtx99(1,0,0,0,
-					 0,(f+n)/(f-n),0,-2*f*n/(f-n),
-					 0,0,1,0,
-					 0,1,0,0);
-
-	for(UInt32 i = 0; i<pointsCopy.size(); i++)
-	{
-		Pnt3f tmpPnt = pointsCopy[i];
-		lView222.multFullMatrixPnt(tmpPnt,tmpPnt);
-		lispMtx99.multFullMatrixPnt(tmpPnt,tmpPnt);
-		pointsCopy[i] = tmpPnt;
-	}
-
-	calcCubicHull2(min99,max99,&pointsCopy);
-
-	Matrix lProj;
-	scaleTranslateToFit2(lProj,min99,max99);
-
-	lProj.mult(lispMtx99);
-
-	points.clear();
-	pointsCopy.clear();
-
-	_LPM = lProj;
-	_LVM.mult(lView222);
 }
+
 
 void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt32 num)
 {
@@ -835,49 +731,58 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 	Pnt3f bb7(sceneMin[0],sceneMax[1],sceneMax[2]);
 
 	//LightPos holen
-	Pnt3f lPos;
+	Pnt3f lPos(0,0,0);
 
-	if(shadowVP->_lights[num]->getType() == PointLight::getClassType())
+	bool isDirect = false;
+	bool useStd = false;
+
+	if(shadowVP->_lights[num]->getType() == DirectionalLight::getClassType()) isDirect = true;
+
+	if(!isDirect)
 	{
-		PointLightPtr tmpPoint;
-		tmpPoint = PointLightPtr::dcast(shadowVP->_lights[num]);
-
-		lPos = tmpPoint->getPosition();
-
-		if(tmpPoint->getBeacon() != NullFC)
+		if(shadowVP->_lights[num]->getType() == PointLight::getClassType())
 		{
-			Matrix m = tmpPoint->getBeacon()->getToWorld();
-			m.mult(lPos);
+			PointLightPtr tmpPoint;
+			tmpPoint = PointLightPtr::dcast(shadowVP->_lights[num]);
+	
+			lPos = tmpPoint->getPosition();
+	
+			if(tmpPoint->getBeacon() != NullFC)
+			{
+				Matrix m = tmpPoint->getBeacon()->getToWorld();
+				m.mult(lPos);
+			}
+		}
+	
+		if(shadowVP->_lights[num]->getType() == SpotLight::getClassType())
+	    {
+			SpotLightPtr tmpSpot;
+			tmpSpot = SpotLightPtr::dcast(shadowVP->_lights[num]);
+			lPos = tmpSpot->getPosition();
+			if(tmpSpot->getBeacon() != NullFC)
+			{
+				Matrix m = tmpSpot->getBeacon()->getToWorld();
+				m.mult(lPos);
+			}
+		}
+	
+		//Wenn Lichtposition innerhalb der Scene-BB ist standard Shadow Mapping verwenden
+		if(lPos[0] > sceneMin[0] && lPos[1] > sceneMin[1] && lPos[2] > sceneMin[2] && lPos[0] < sceneMax[0] && lPos[1] < sceneMax[1] && lPos[2] < sceneMax[2])
+		{
+			_LPM = LPM;
+			_LVM = LVM;
+			useStd = true;
+		}
+		//beleuchtet das Spotlight die komplette Szene? Wenn nicht -> standard Shadow Mapping
+		else if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() && !bbInsideFrustum(sceneMin,sceneMax,LPVM))
+		{
+			_LPM = LPM;
+			_LVM = LVM;
+			useStd = true;
 		}
 	}
 
-	if(shadowVP->_lights[num]->getType() == SpotLight::getClassType())
-    {
-        SpotLightPtr tmpSpot;
-        tmpSpot = SpotLightPtr::dcast(shadowVP->_lights[num]);
-        lPos = tmpSpot->getPosition();
-        if(tmpSpot->getBeacon() != NullFC)
-        {
-			Matrix m = tmpSpot->getBeacon()->getToWorld();
-            m.mult(lPos);
-        }
-    }
-
-	//Wenn Lichtposition innerhalb der Scene-BB ist standard Shadow Mapping verwenden
-	if(lPos[0] > sceneMin[0] && lPos[1] > sceneMin[1] && lPos[2] > sceneMin[2] && lPos[0] < sceneMax[0] && lPos[1] < sceneMax[1] && lPos[2] < sceneMax[2])
-	{
-		_LPM = LPM;
-		_LVM = LVM;
-	}
-
-	//beleuchtet das Spotlight die komplette Szene? Wenn nicht -> standard Shadow Mapping
-	else if(shadowVP->_lights[num]->getType() == SpotLight::getClassType() && !bbInsideFrustum(sceneMin,sceneMax,LPVM))
-	{
-		_LPM = LPM;
-		_LVM = LVM;
-	}
-
-	else
+	if(!useStd)
 	{
 
 	//Lichtrichtung im Post-Perspektivischen Raum des Lichtes
@@ -1019,221 +924,6 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM, UInt3
 	_LVM = LVM;
 	}
 	}
-}
-
-
-void PerspectiveShadowMap::calcHull(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Vec3f lightDir)
-{
-	//Unit Cube
-	Pnt3f vf0(-1,-1,-1);
-	Pnt3f vf1(1,-1,-1);
-	Pnt3f vf2(1,1,-1);
-	Pnt3f vf3(-1,1,-1);
-	Pnt3f vf4(-1,-1,1);
-	Pnt3f vf5(1,-1,1);
-	Pnt3f vf6(1,1,1);
-	Pnt3f vf7(-1,1,1);
-
-	//transform to World Coordinates
-	invEyeProjMatrix.multFullMatrixPnt(vf0);
-	invEyeProjMatrix.multFullMatrixPnt(vf1);
-	invEyeProjMatrix.multFullMatrixPnt(vf2);
-	invEyeProjMatrix.multFullMatrixPnt(vf3);
-	invEyeProjMatrix.multFullMatrixPnt(vf4);
-	invEyeProjMatrix.multFullMatrixPnt(vf5);
-	invEyeProjMatrix.multFullMatrixPnt(vf6);
-	invEyeProjMatrix.multFullMatrixPnt(vf7);
-
-	//Scene Bounding Box Points
-	Pnt3f bb0(sceneMin[0],sceneMin[1],sceneMin[2]);
-	Pnt3f bb1(sceneMax[0],sceneMin[1],sceneMin[2]);
-	Pnt3f bb2(sceneMax[0],sceneMax[1],sceneMin[2]);
-	Pnt3f bb3(sceneMin[0],sceneMax[1],sceneMin[2]);
-	Pnt3f bb4(sceneMin[0],sceneMin[1],sceneMax[2]);
-	Pnt3f bb5(sceneMax[0],sceneMin[1],sceneMax[2]);
-	Pnt3f bb6(sceneMax[0],sceneMax[1],sceneMax[2]);
-	Pnt3f bb7(sceneMin[0],sceneMax[1],sceneMax[2]);
-
-	Pnt3f bboxSidesPnts[6][4];
-	//Front
-	bboxSidesPnts[0][0] = bb0;
-	bboxSidesPnts[0][1] = bb1;
-	bboxSidesPnts[0][2] = bb2;
-	bboxSidesPnts[0][3] = bb3;
-	//Back
-	bboxSidesPnts[1][0] = bb4;
-	bboxSidesPnts[1][1] = bb5;
-	bboxSidesPnts[1][2] = bb6;
-	bboxSidesPnts[1][3] = bb7;
-	//Left
-	bboxSidesPnts[2][0] = bb0;
-	bboxSidesPnts[2][1] = bb4;
-	bboxSidesPnts[2][2] = bb7;
-	bboxSidesPnts[2][3] = bb3;
-	//Right
-	bboxSidesPnts[3][0] = bb1;
-	bboxSidesPnts[3][1] = bb5;
-	bboxSidesPnts[3][2] = bb6;
-	bboxSidesPnts[3][3] = bb2;
-	//Top
-	bboxSidesPnts[4][0] = bb3;
-	bboxSidesPnts[4][1] = bb2;
-	bboxSidesPnts[4][2] = bb6;
-	bboxSidesPnts[4][3] = bb7;
-	//Bottom
-	bboxSidesPnts[5][0] = bb0;
-	bboxSidesPnts[5][1] = bb1;
-	bboxSidesPnts[5][2] = bb5;
-	bboxSidesPnts[5][3] = bb4;
-
-
-
-	//Build Planes of BBox
-	Plane bboxSides[6];
-	//Front
-	bboxSides[0] = Plane(bb0,bb1,bb2);
-	//Back
-	bboxSides[1] = Plane(bb7,bb6,bb5);
-	//Left
-	bboxSides[2] = Plane(bb0,bb3,bb7);
-	//Right
-	bboxSides[3] = Plane(bb2,bb1,bb5);
-	//Top
-	bboxSides[4] = Plane(bb6,bb7,bb3);
-	//Bottom
-	bboxSides[5] = Plane(bb5,bb1,bb0);
-
-	//Build Planes of View Frustum
-	//Front
-	Pnt3f vfI[6][20];
-	Pnt3f vfO[20];
-	UInt32 outCount;
-
-	//Define View Frustum as Clip Polygons
-	//Front
-	vfI[0][0] = vf0;
-	vfI[0][1] = vf1;
-	vfI[0][2] = vf2;
-	vfI[0][3] = vf3;
-	//Back
-	vfI[1][0] = vf4;
-	vfI[1][1] = vf5;
-	vfI[1][2] = vf6;
-	vfI[1][3] = vf7;
-	//Left
-	vfI[2][0] = vf0;
-	vfI[2][1] = vf4;
-	vfI[2][2] = vf7;
-	vfI[2][3] = vf3;
-	//Right
-	vfI[3][0] = vf1;
-	vfI[3][1] = vf5;
-	vfI[3][2] = vf6;
-	vfI[3][3] = vf2;
-	//Top
-	vfI[4][0] = vf3;
-	vfI[4][1] = vf2;
-	vfI[4][2] = vf6;
-	vfI[4][3] = vf7;
-	//Bottom
-	vfI[5][0] = vf0;
-	vfI[5][1] = vf1;
-	vfI[5][2] = vf5;
-	vfI[5][3] = vf4;
-
-	//Punktgroesse merken
-	UInt32 vfSize[6];
-	for(UInt32 i=0;i<6;i++) vfSize[i] = 4;
-
-	UInt32 sum = 0;
-	Pnt3f allPoints[100];
-
-	// speichert die anzahl der durchgeführten Clips
-	UInt32 sumClip = 0;
-
-	for (UInt32 i = 0; i<6; i++)
-	{
-	//Kamerafrustum
-	outCount = vfSize[i];
-
-		for (UInt32 j = 0; j<6; j++)
-		{
-		//BBox
-			if (vfSize[i] != 0)
-			{
-				outCount = bboxSides[j].clip(vfI[i],vfO,vfSize[i]);
-				sumClip++;
-				vfSize[i] = outCount;
-
-				for (UInt32 k=0;k<outCount;k++)
-				{
-					vfI[i][k] = vfO[k];
-				}
-			}
-		}
-
-		for (UInt32 k=0;k<vfSize[i];k++)
-		{
-			points->push_back(vfO[k]);
-		}
-	}
-
-	//UInt32 oldSize;
-	//oldSize = points->size();
-
-	if(pntInFrontOf(vf0,vf1,vf2,bb0) && pntInFrontOf(vf7,vf6,vf5,bb0) && pntInFrontOf(vf0,vf3,vf7,bb0) && pntInFrontOf(vf2,vf1,vf5,bb0) && pntInFrontOf(vf6,vf7,vf3,bb0) && pntInFrontOf(vf5,vf1,vf0,bb0)) points->push_back(bb0);
-	if(pntInFrontOf(vf0,vf1,vf2,bb1) && pntInFrontOf(vf7,vf6,vf5,bb1) && pntInFrontOf(vf0,vf3,vf7,bb1) && pntInFrontOf(vf2,vf1,vf5,bb1) && pntInFrontOf(vf6,vf7,vf3,bb1) && pntInFrontOf(vf5,vf1,vf0,bb1)) points->push_back(bb1);
-	if(pntInFrontOf(vf0,vf1,vf2,bb2) && pntInFrontOf(vf7,vf6,vf5,bb2) && pntInFrontOf(vf0,vf3,vf7,bb2) && pntInFrontOf(vf2,vf1,vf5,bb2) && pntInFrontOf(vf6,vf7,vf3,bb2) && pntInFrontOf(vf5,vf1,vf0,bb2)) points->push_back(bb2);
-	if(pntInFrontOf(vf0,vf1,vf2,bb3) && pntInFrontOf(vf7,vf6,vf5,bb3) && pntInFrontOf(vf0,vf3,vf7,bb3) && pntInFrontOf(vf2,vf1,vf5,bb3) && pntInFrontOf(vf6,vf7,vf3,bb3) && pntInFrontOf(vf5,vf1,vf0,bb3)) points->push_back(bb3);
-	if(pntInFrontOf(vf0,vf1,vf2,bb4) && pntInFrontOf(vf7,vf6,vf5,bb4) && pntInFrontOf(vf0,vf3,vf7,bb4) && pntInFrontOf(vf2,vf1,vf5,bb4) && pntInFrontOf(vf6,vf7,vf3,bb4) && pntInFrontOf(vf5,vf1,vf0,bb4)) points->push_back(bb4);
-	if(pntInFrontOf(vf0,vf1,vf2,bb5) && pntInFrontOf(vf7,vf6,vf5,bb5) && pntInFrontOf(vf0,vf3,vf7,bb5) && pntInFrontOf(vf2,vf1,vf5,bb5) && pntInFrontOf(vf6,vf7,vf3,bb5) && pntInFrontOf(vf5,vf1,vf0,bb5)) points->push_back(bb5);
-	if(pntInFrontOf(vf0,vf1,vf2,bb6) && pntInFrontOf(vf7,vf6,vf5,bb6) && pntInFrontOf(vf0,vf3,vf7,bb6) && pntInFrontOf(vf2,vf1,vf5,bb6) && pntInFrontOf(vf6,vf7,vf3,bb6) && pntInFrontOf(vf5,vf1,vf0,bb6)) points->push_back(bb6);
-	if(pntInFrontOf(vf0,vf1,vf2,bb7) && pntInFrontOf(vf7,vf6,vf5,bb7) && pntInFrontOf(vf0,vf3,vf7,bb7) && pntInFrontOf(vf2,vf1,vf5,bb7) && pntInFrontOf(vf6,vf7,vf3,bb7) && pntInFrontOf(vf5,vf1,vf0,bb7)) points->push_back(bb7);
-
-	//Punkte gegen Lichtrichtung hinzufügen
-
-	UInt32 sumPoints = points->size();
-	for (UInt32 i = 0; i<sumPoints; i++)
-	{
-		for(UInt32 j=0; j<6; j++)
-		{
-			//schneitet ein Vektor von dem Punkt gegen die Lichtrichtung die BBox? Eventuell zufügen!
-			Pnt3f pntCut1,pntCut2;
-			pntCut1 = (*points)[i];
-			pntCut2 = (*points)[i];
-			pntCut2[0] += (-1000*lightDir[0]);
-			pntCut2[1] += (-1000*lightDir[1]);
-			pntCut2[2] += (-1000*lightDir[2]);
-
-			Line line(pntCut2,pntCut1);
-			Pnt3f inter;
-			if(bboxSides[j].intersect(line,inter))
-			{
-				Vec3f side1,side2,side3,side4;
-				side1 = bboxSidesPnts[j][1]-bboxSidesPnts[j][0];
-				side2 = bboxSidesPnts[j][2]-bboxSidesPnts[j][1];
-				side3 = bboxSidesPnts[j][3]-bboxSidesPnts[j][2];
-				side4 = bboxSidesPnts[j][0]-bboxSidesPnts[j][3];
-
-				Vec3f pntLine1,pntLine2,pntLine3,pntLine4;
-				pntLine1 = inter - bboxSidesPnts[j][0];
-				pntLine2 = inter - bboxSidesPnts[j][1];
-				pntLine3 = inter - bboxSidesPnts[j][2];
-				pntLine4 = inter - bboxSidesPnts[j][3];
-
-				//Liegt der Punkt auf der BBox-Seite? Dann zufügen
-				if( side1.dot(pntLine1) >= 0 &&
-					side2.dot(pntLine2) >= 0 &&
-					side3.dot(pntLine3) >= 0 &&
-					side4.dot(pntLine4) >= 0)
-				{
-					points->push_back(inter);
-				}
-			}
-		}
-	}
-
-	//printf("\nPoints hat insgesammt %u Punkte!\n",points->size());
 }
 
 void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points, Matrix invEyeProjMatrix, Pnt3f sceneMin, Pnt3f sceneMax, Matrix LPVM)
@@ -2414,7 +2104,9 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action, UInt3
 	{
 		xFactor = Real32(width)/Real32(widthHeightPOT);
 		yFactor = Real32(height)/Real32(widthHeightPOT);
-
+	}
+	if(!useFBO)
+	{
 		if(shadowVP->_lights[num]->getType() == PointLight::getClassType() || shadowVP->_lights[num]->getType() == SpotLight::getClassType())
 			texFactor = Real32(width)/Real32(height);
 	}
@@ -2454,7 +2146,6 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action, UInt3
 			_shadowSHL->setUniformParameter("oldFactorMap", 1);
 			_shadowSHL->setUniformParameter("firstRun", firstRun);
 			_shadowSHL->setUniformParameter("intensity", shadowIntensity);
-			_shadowSHL->setUniformParameter("texFactor", texFactor);
 			_shadowSHL->setUniformParameter("lightPM", shadowMatrix);
 			_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
 			_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
@@ -2622,7 +2313,10 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UI
 	{
 		xFactor = Real32(width)/Real32(widthHeightPOT);
 		yFactor = Real32(height)/Real32(widthHeightPOT);
+	}
 
+	if(!useFBO)
+	{
 		if(shadowVP->_lights[num]->getType() == PointLight::getClassType() || shadowVP->_lights[num]->getType() == SpotLight::getClassType())
 			texFactor = Real32(width)/Real32(height);
 	}
@@ -2656,7 +2350,6 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UI
 			_shadowSHL->setUniformParameter("oldFactorMap", 1);
 			_shadowSHL->setUniformParameter("firstRun", firstRun);
 			_shadowSHL->setUniformParameter("intensity", shadowIntensity);
-			_shadowSHL->setUniformParameter("texFactor", texFactor);
 			_shadowSHL->setUniformParameter("lightPM", shadowMatrix);
 			_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
 			_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
@@ -2839,11 +2532,14 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase* action)
 
 void PerspectiveShadowMap::render(RenderActionBase* action)
 {
+	Window *win = action->getWindow();
+	initialize(win);
+
 	if(!useShadowExt ) shadowVP->Viewport::render(action);
 	else
 	{
 
-		Window *win = action->getWindow();
+		if(!initTexturesDone) initTextures(win);
 
 		if(useFBO)
 		{
@@ -2870,22 +2566,13 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 		{
 			for (UInt32 i=0; i<shadowVP->_lights.size(); i++)
 			{
-				if(shadowVP->_lightStates[i] != 0)
+				if(shadowVP->_lightStates[i] != 0 && (shadowVP->_lights[i]->getShadowIntensity() != 0.0 || shadowVP->getGlobalShadowIntensity() != 0.0))
 				{
-					if(shadowVP->_lights[i]->getType() == DirectionalLight::getClassType())
-					{
-						Matrix _LPM, _LVM;
-						calcPerspective(_LPM,_LVM,i);
-						_perspectiveLPM.push_back(_LPM);
-						_perspectiveLVM.push_back(_LVM);
-					}
-					else
-					{
-						Matrix _LPM, _LVM;
-						calcPerspectiveSpot(_LPM,_LVM,i);
-						_perspectiveLPM.push_back(_LPM);
-						_perspectiveLVM.push_back(_LVM);
-					}
+					Matrix _LPM, _LVM;
+					calcPerspectiveSpot(_LPM,_LVM,i);
+					_perspectiveLPM.push_back(_LPM);
+					_perspectiveLVM.push_back(_LVM);
+					
 				}
 				else
 				{
@@ -2968,30 +2655,13 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 			//Matrizen für alle Lichter berechnen
 			for (UInt32 i=0; i<shadowVP->_lights.size(); i++)
 			{
-				if(shadowVP->_lightStates[i] != 0)
+				if(shadowVP->_lightStates[i] != 0 && (shadowVP->_lights[i]->getShadowIntensity() != 0.0 || shadowVP->getGlobalShadowIntensity() != 0.0))
 				{
-					if(shadowVP->_lights[i]->getType() == DirectionalLight::getClassType())
-					{
-						Matrix _LPM, _LVM;
-						calcPerspective(_LPM,_LVM,i);
-						_perspectiveLPM.push_back(_LPM);
-						_perspectiveLVM.push_back(_LVM);
-					}
-					else if(shadowVP->_lights[i]->getType() == SpotLight::getClassType() || !shadowVP->_realPointLight[i])
-					{
-						Matrix _LPM, _LVM;
-						calcPerspectiveSpot(_LPM,_LVM,i);
-						_perspectiveLPM.push_back(_LPM);
-						_perspectiveLVM.push_back(_LVM);
-					}
-					else
-					{
-						Matrix _LPM, _LVM;
-						_LPM.setIdentity();
-						_LVM.setIdentity();
-						_perspectiveLPM.push_back(_LPM);
-						_perspectiveLVM.push_back(_LVM);
-					}
+					Matrix _LPM, _LVM;
+					calcPerspectiveSpot(_LPM,_LVM,i);
+					_perspectiveLPM.push_back(_LPM);
+					_perspectiveLVM.push_back(_LVM);
+					
 				}
 				else
 				{
