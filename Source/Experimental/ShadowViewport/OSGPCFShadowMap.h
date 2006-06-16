@@ -53,7 +53,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
   private:
 
     TileCameraDecoratorPtr  _tiledeco;
-    BlendChunkPtr           _blender;
 
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;

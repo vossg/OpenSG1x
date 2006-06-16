@@ -1285,8 +1285,9 @@ void ShadowViewport::clearLights(UInt32 size)
             if(i < _lightCameras.size())
                 subRefCP(_lightCameras[i]);
             if(i < _texChunks.size())
-				subRefCP(_texChunks[i]);
-			while(_texChunks[i].getRefCount() > 0) subRefCP(_texChunks[i]);
+            {
+                subRefCP(_texChunks[i]);
+            }
         }
 
         _lightCameras.clear();
@@ -1315,7 +1316,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.13 2006/06/08 14:44:36 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.14 2006/06/16 16:57:47 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
