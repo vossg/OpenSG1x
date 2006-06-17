@@ -63,9 +63,9 @@ OSG_USING_NAMESPACE
 /*! Constructor
  */
 
-TileGeometryLoad::TileGeometryLoad(NodePtr node,
+TileGeometryLoad::TileGeometryLoad(UInt32 nodeId,
                                    bool useFaceDistribution):
-    _node(node),
+    _nodeId(nodeId),
     _faces(0),
     _useFaceDistribution(useFaceDistribution)
 {
@@ -104,13 +104,13 @@ TileGeometryLoad::TileGeometryLoad(NodePtr node,
 
     }
     updateGeometry();
-} 
+}
 
 /*! copy Constructor
  */
 
 TileGeometryLoad::TileGeometryLoad(const TileGeometryLoad &source):
-    _node(source._node),
+    _nodeId(source._nodeId),
     _useFaceDistribution(source._useFaceDistribution)
 {
     _min[0]           = source._min[0];
@@ -151,12 +151,16 @@ void TileGeometryLoad::updateView(Matrix &viewing,
     Real32                       bestScalY;
     UInt32                       bestDirY = 0;
 
+    NodePtr node = NodePtr::dcast(FieldContainerFactory::the()->getContainer(_nodeId));
+    if(node == NullFC)
+        return;
+
     // get whole transformation
-    Matrix m=_node->getToWorld();
+    Matrix m=node->getToWorld();
     m.multLeft(viewing);
     // get transformed volume
-    _node->updateVolume();
-    DynamicVolume volume=_node->getVolume();
+    node->updateVolume();
+    DynamicVolume volume=node->getVolume();
     // bug in osg base
     /*
     if(volume.isEmpty())
@@ -226,7 +230,7 @@ void TileGeometryLoad::updateView(Matrix &viewing,
     else
     {
         // volume lays on the visible side of the clipping plane
-        _node->getVolume().getBounds(vol[0], vol[1]);
+        node->getVolume().getBounds(vol[0], vol[1]);
         m.multLeft(projection);
         p=&m;
     }
@@ -266,7 +270,7 @@ void TileGeometryLoad::updateView(Matrix &viewing,
         _min[1]=(Int32)miny;
         _max[1]=(Int32)maxy;
 
-        _areaSize = 
+        _areaSize =
             (Real32)( _max[0] - _min[0] + 1 ) *
             (Real32)( _max[1] - _min[1] + 1 );
         /* Don't clip!
@@ -280,7 +284,7 @@ void TileGeometryLoad::updateView(Matrix &viewing,
 }
 
 /** Update geometry dependend load parameters
- * 
+ *
  * This funciton should only be called when geometies have changed.
  *
  * todo: Use a simple cost estimation mechanism for rapidly changeing
@@ -289,7 +293,11 @@ void TileGeometryLoad::updateView(Matrix &viewing,
  **/
 void TileGeometryLoad::updateGeometry()
 {
-    const OSG::Volume *volume = &(_node->getVolume().getInstance());
+    NodePtr node = NodePtr::dcast(FieldContainerFactory::the()->getContainer(_nodeId));
+    if(node == NullFC)
+        return;
+
+    const OSG::Volume *volume = &(node->getVolume().getInstance());
     TriangleIterator   f;
     int                p,s;
     Vec3f              vmin,vmax;
@@ -302,8 +310,8 @@ void TileGeometryLoad::updateGeometry()
     const Real32       sq3=osgsqrt(3.0f);
 
     _faces = 0;
-    core=_node->getCore();
-    if(_node->getCore() == NullFC)
+    core=node->getCore();
+    if(node->getCore() == NullFC)
         return;
     geo=GeometryPtr::dcast(core);
     if(geo == NullFC)
@@ -332,7 +340,7 @@ void TileGeometryLoad::updateGeometry()
                 _faceDistribution[d*2+1][s]=0;
             }
             // loop over all faces
-            for(f=geo->beginTriangles() ; 
+            for(f=geo->beginTriangles() ;
                 f!=geo->endTriangles() ;
                 ++f)
             {
@@ -393,7 +401,7 @@ void TileGeometryLoad::updateGeometry()
                 printf("%4.3f ",_faceDistribution[d*2+1][s]);
             printf("\n");
 #endif
-        }    
+        }
     }
 }
 
@@ -415,7 +423,7 @@ TileGeometryLoad& TileGeometryLoad::operator=(const TileGeometryLoad &source)
     _faceDistribution    = source._faceDistribution;
     _faceDistDirX        = source._faceDistDirX;
     _faceDistDirY        = source._faceDistDirY;
-    _node                = source._node;
+    _nodeId              = source._nodeId;
     _useFaceDistribution = source._useFaceDistribution;
     _areaSize            = source._areaSize;
 
@@ -429,13 +437,13 @@ void TileGeometryLoad::dump(void)
 {
     if(_visible)
     {
-        SLOG << "Min/Max     :"  
+        SLOG << "Min/Max     :"
              << _min[0] << " " << _min[1] << " / "
              << _max[0] << " " << _max[1] << std::endl;
     }
     else
     {
-        SLOG << "invisible " << std::endl; 
+        SLOG << "invisible " << std::endl;
     }
     SLOG << "Faces       :" << _faces << std::endl;
 }
@@ -468,7 +476,7 @@ bool TileGeometryLoad::isVisible() const
  **/
 NodePtr TileGeometryLoad::getNode() const
 {
-    return _node;
+    return NodePtr::dcast(FieldContainerFactory::the()->getContainer(_nodeId));
 }
 
 /** Get number of faces in the geometry
@@ -513,7 +521,7 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
             (getFaceDistribution(_faceDistDirX^1,
                                  1.0f - (viswmin[0] - _min[0]    ) * x) +
              getFaceDistribution(_faceDistDirX,
-                                       (viswmax[0] - _min[0] + 1) * x) - 1) 
+                                       (viswmax[0] - _min[0] + 1) * x) - 1)
             *
             (getFaceDistribution(_faceDistDirY^1,
                                  1.0f - (viswmin[1] - _min[1]    ) * y) +
@@ -522,7 +530,7 @@ Real32 TileGeometryLoad::getVisibleFraction( const Int32 wmin[2],
     }
     else
     {
-        return 
+        return
             ((Real32)(viswmax[0] - viswmin[0] + 1) *
              (Real32)(viswmax[1] - viswmin[1] + 1)) / _areaSize;
     }

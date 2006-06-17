@@ -117,12 +117,24 @@ TileLoadBalancer& TileLoadBalancer::operator = (const TileLoadBalancer &source)
 void TileLoadBalancer::update(NodePtr node)
 {
     TileGeometryLoadMapT loadMap;
+    std::vector<TileGeometryLoadLstT::iterator> invalid_nodes;
 
     // collect old load obects
     for(TileGeometryLoadLstT::iterator gI=_tileGeometryLoad.begin();gI!=_tileGeometryLoad.end();++gI)
     {
-        loadMap[gI->getNode().getFieldContainerId()] = gI;
+        if(gI->getNode() != NullFC)
+            loadMap[gI->getNode().getFieldContainerId()] = gI;
+        else
+            invalid_nodes.push_back(gI);
     }
+
+    // remove invalid nodes.
+    for(std::vector<TileGeometryLoadLstT::iterator>::iterator it=invalid_nodes.begin();
+        it != invalid_nodes.end();++it)
+    {
+        _tileGeometryLoad.erase(*it);
+    }
+
     updateSubtree(node,loadMap);
     // remove unused load objects
     for(TileGeometryLoadMapT::iterator mI=loadMap.begin();mI!=loadMap.end();++mI)
@@ -132,7 +144,7 @@ void TileLoadBalancer::update(NodePtr node)
 }
 
 /** load balance
- * 
+ *
  *  \param vp        current viewport
  *  \param shrink    shrink to max area of visible objects
  *  \param result    resulting regions
@@ -170,13 +182,13 @@ void TileLoadBalancer::balance(ViewportPtr    vp,
             visible.push_back(RegionLoad(&(*l)));
             if(shrink)
             {
-                if(l->getMin()[0] < wmin[0]) 
+                if(l->getMin()[0] < wmin[0])
                     wmin[0]=l->getMin()[0];
-                if(l->getMin()[1] < wmin[1]) 
+                if(l->getMin()[1] < wmin[1])
                     wmin[1]=l->getMin()[1];
-                if(l->getMax()[0] > wmax[0]) 
+                if(l->getMax()[0] > wmax[0])
                     wmax[0]=l->getMax()[0];
-                if(l->getMax()[1] > wmax[1]) 
+                if(l->getMax()[1] > wmax[1])
                     wmax[1]=l->getMax()[1];
             }
         }
@@ -184,17 +196,17 @@ void TileLoadBalancer::balance(ViewportPtr    vp,
     if(shrink)
     {
         // handle invisible area
-        if(wmax[0]<wmin[0] || 
+        if(wmax[0]<wmin[0] ||
            wmax[1]<wmin[1] )
             wmin[0]=wmax[0]=wmin[1]=wmax[1]=0;
         // clamp to viewable area
-        if(wmin[0]<0) 
+        if(wmin[0]<0)
             wmin[0]=0;
-        if(wmin[1]<0) 
+        if(wmin[1]<0)
             wmin[1]=0;
-        if(wmax[0]>=width ) 
+        if(wmax[0]>=width )
             wmax[0]=width -1;
-        if(wmax[1]>=height) 
+        if(wmax[1]>=height)
             wmax[1]=height-1;
     }
     else
@@ -249,7 +261,7 @@ void TileLoadBalancer::setRegionStatistics(ViewportPtr     vp,
         resultI->culledFaces=0;
         resultI->pixel=0;
     }
-    for(l=_tileGeometryLoad.begin() ; 
+    for(l=_tileGeometryLoad.begin() ;
         l!=_tileGeometryLoad.end() ;
         ++l)
     {
@@ -292,7 +304,7 @@ void TileLoadBalancer::setRegionStatistics(ViewportPtr     vp,
 }
 
 /** Add new render node
- * 
+ *
  **/
 void TileLoadBalancer::addRenderNode(const RenderNode &rn,UInt32 id)
 {
@@ -302,7 +314,7 @@ void TileLoadBalancer::addRenderNode(const RenderNode &rn,UInt32 id)
 }
 
 /** Draw recangular volume projection
- * 
+ *
  **/
 void TileLoadBalancer::drawVolumes(WindowPtr win)
 {
@@ -348,7 +360,7 @@ void TileLoadBalancer::updateSubtree(NodePtr &node,TileGeometryLoadMapT &loadMap
         TileGeometryLoadMapT::iterator mI=loadMap.find(node.getFieldContainerId());
         if(mI==loadMap.end())
         {
-            _tileGeometryLoad.push_back(TileGeometryLoad(node,_useFaceDistribution));
+            _tileGeometryLoad.push_back(TileGeometryLoad(node.getFieldContainerId(),_useFaceDistribution));
         }
         else
         {
@@ -532,7 +544,7 @@ Real32 TileLoadBalancer::findBestCut (const RenderNode &renderNodeA,
                         costA+=vi->getCost(renderNodeA,wmin,maxA);
                         costB+=vi->getCost(renderNodeB,minB,wmax);
                     }
-                
+
             }
             newCost= osgMax( costA, costB );
             if(newCost<bestCost)
@@ -550,7 +562,7 @@ Real32 TileLoadBalancer::findBestCut (const RenderNode &renderNodeA,
         while(t-f > 2);
     }
     return bestCost;
-}    
+}
 
 
 /*-------------------------------------------------------------------------*/

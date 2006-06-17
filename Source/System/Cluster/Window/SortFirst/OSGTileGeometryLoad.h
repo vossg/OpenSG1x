@@ -54,7 +54,7 @@ OSG_BEGIN_NAMESPACE
 
 #define FACE_DISTRIBUTION_SAMPLING_COUNT 8
 
-class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad 
+class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
 {
     /*==========================  PUBLIC  =================================*/
   public:
@@ -63,7 +63,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    TileGeometryLoad(NodePtr node,bool useFaceDistribution=false);
+    TileGeometryLoad(UInt32 nodeId,bool useFaceDistribution=false);
     TileGeometryLoad(const TileGeometryLoad &source);
 
     /*! \}                                                                 */
@@ -155,7 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                        Members                               */
     /*! \{                                                                 */
 
-    NodePtr                            _node;
+    UInt32                             _nodeId;
     GeometryPtr                        _geometry;
     UInt32                             _faces;
     Int32                              _min[2];

@@ -60,13 +60,13 @@ OSG_USING_NAMESPACE
 
 const BitVector Node::VolumeFieldMask      =
         (TypeTraits<BitVector>::One << Node::VolumeFieldId     );
-const BitVector Node::TravMaskFieldMask      = 
+const BitVector Node::TravMaskFieldMask      =
         (TypeTraits<BitVector>::One << Node::TravMaskFieldId   );
-const BitVector Node::ParentFieldMask      = 
+const BitVector Node::ParentFieldMask      =
         (TypeTraits<BitVector>::One << Node::ParentFieldId     );
-const BitVector Node::ChildrenFieldMask    = 
+const BitVector Node::ChildrenFieldMask    =
         (TypeTraits<BitVector>::One << Node::ChildrenFieldId   );
-const BitVector Node::CoreFieldMask        = 
+const BitVector Node::CoreFieldMask        =
         (TypeTraits<BitVector>::One << Node::CoreFieldId       );
 
 FieldDescription *Node::_desc[] =
@@ -277,7 +277,7 @@ bool Node::replaceChildBy(const NodePtr &childP,
     {
         if(childIt != _mfChildren.end())
         {
-            // do the ref early, to prevent destroys on 
+            // do the ref early, to prevent destroys on
             // getParent(a)->addChild(a)
 
             addRefCP(newChildP);
@@ -353,7 +353,7 @@ void Node::subChild(const NodePtr &childP)
     }
     else
     {
-        SWARNING << "Node(" << this << ")::subChild: " << childP 
+        SWARNING << "Node(" << this << ")::subChild: " << childP
                  << " is not one of my children!" << std::endl;
     }
 
@@ -412,7 +412,8 @@ void Node::getToWorld(Matrix &result)
         result.setIdentity();
     }
 
-    getCore()->accumulateMatrix(result);
+    if(getCore() != NullFC)
+        getCore()->accumulateMatrix(result);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -437,10 +438,10 @@ void Node::getWorldVolume(DynamicVolume &result)
     result.transform(m);
 /*
 Pnt3f low,high;
-result.getBounds(low,high);     
-fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n", 
+result.getBounds(low,high);
+fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n",
             Thread::getCurrent(), this,
-            low[0], low[1], low[2], 
+            low[0], low[1], low[2],
             high[0], high[1], high[2] );
 */
 }
@@ -455,7 +456,7 @@ void Node::updateVolume(void)
 
     // be careful to not change the real volume. If two threads
     // are updating the same aspect this will lead to chaos
-    
+
     DynamicVolume vol = _sfVolume.getValue();
 
 //fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
@@ -472,26 +473,26 @@ void Node::updateVolume(void)
             vol.getInstance().extendBy((*it)->getVolume());
         }
     }
-    
+
     // test for null core. Shouldn't happen, but just in case...
     if(getCore() != NullFC)
         getCore()->adjustVolume(vol.getInstance());
-    
+
     NodePtr thisP = getPtr();
 
     beginEditCP(thisP, VolumeFieldMask);
-   
+
     vol.instanceChanged();
-    
+
     _sfVolume.setValue(vol);
-    
+
     endEditCP(thisP, VolumeFieldMask);
 }
 
 void Node::invalidateVolume(void)
 {
     Volume &vol=_sfVolume.getValue().getInstance();
-    
+
     if(vol.isValid() == true && vol.isStatic() == false)
     {
         NodePtr thisP = getPtr();
@@ -500,7 +501,7 @@ void Node::invalidateVolume(void)
 
         vol.setValid(false);
         _sfVolume.getValue().instanceChanged();
-        
+
         endEditCP(thisP, VolumeFieldMask);
 
         if(getParent() != NullFC)
@@ -526,9 +527,9 @@ void Node::dump(      UInt32    uiIndent,
          << "("
          << thisP.getFieldContainerId()
          << ") : "
-         << _mfChildren.size() 
+         << _mfChildren.size()
          << " children | "
-         << _attachmentMap.getValue().size() 
+         << _attachmentMap.getValue().size()
          << " attachments | "
          << "Parent : " << std::hex;
 
@@ -697,11 +698,11 @@ NodePtr OSG::cloneTree(const NodePtr &pRootNode)
         {
             returnValue->setTravMask(pRootNode->getTravMask());
             returnValue->setCore    (pRootNode->getCore());
-            
+
             for(UInt32 i = 0; i < pRootNode->getNChildren(); i++)
             {
                 pChildClone = cloneTree(pRootNode->getChild(i));
-                
+
                 returnValue->addChild(pChildClone);
             }
         }
@@ -718,7 +719,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
 {
     if(src == NullFC)
         return NullFC;
-    
+
     const FieldContainerType &type = src->getType();
 
     //FDEBUG(("deepClone: fieldcontainertype = %s\n", type.getCName()));
@@ -728,29 +729,29 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
     //UInt32 fcount = type.getNumFieldDescs();
     // ignore dynamic fields.
     UInt32 fcount = osgMin(type.getNumFieldDescs(), dst->getType().getNumFieldDescs());
-    
-    
+
+
     for(UInt32 i=1;i <= fcount;++i)
     {
         const FieldDescription* fdesc = type.getFieldDescription(i);
-    
+
         if(fdesc->isInternal())
             continue;
-    
+
         BitVector mask = fdesc->getFieldMask();
 
         Field *src_field = src->getField(i);
         Field *dst_field = dst->getField(i);
-    
+
         const FieldType &ftype = src_field->getType();
-    
+
         std::string fieldType = ftype.getName().str();
-  
+
         // attachements
         if(strcmp(fdesc->getCName(), "attachments") == 0)
         {
             SFAttachmentMap *amap = (SFAttachmentMap *) src_field;
-            
+
             AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
             AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
 
@@ -771,17 +772,17 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                         break;
                     }
                 }
-                
+
                 if(!shareit)
                     fc = OSG::deepClone(fc, share);
-                
+
                 if(fc != NullFC)
                     AttachmentContainerPtr::dcast(dst)->addAttachment(AttachmentPtr::dcast(fc));
             }
             endEditCP(dst, mask);
             continue;
         }
-        
+
         // field
         if(strstr(ftype.getCName(), "Ptr") == NULL)
         {
@@ -795,7 +796,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
             if(src_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
                 FieldContainerPtr fc = ((SFFieldContainerPtr *) src_field)->getValue();
-                
+
                 bool shareit = false;
                 for(UInt32 k=0;k<share.size();++k)
                 {
@@ -808,10 +809,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                         break;
                     }
                 }
-                
+
                 if(!shareit)
                     fc = OSG::deepClone(fc, share);
-                
+
                 if(fc != NullFC)
                 {
                     // increment reference counter!
@@ -827,7 +828,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                     for(UInt32 j=0;j < ((MFFieldContainerPtr*)src_field)->size();++j)
                     {
                         FieldContainerPtr fc = (*(((MFFieldContainerPtr *)src_field)))[j];
-                        
+
                         bool shareit = false;
                         for(UInt32 k=0;k<share.size();++k)
                         {
@@ -840,10 +841,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                                 break;
                             }
                         }
-                        
+
                         if(!shareit)
                             fc = OSG::deepClone(fc, share);
-                        
+
                         if(fc != NullFC)
                         {
                             // increment reference counter!
@@ -878,7 +879,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                                  const std::string &shareString)
 {
     std::vector<std::string> share;
-    
+
     // parse comma separated names.
     std::string::const_iterator nextComma;
     std::string::const_iterator curPos = shareString.begin();
@@ -890,7 +891,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         share.push_back(std::string(curPos, nextComma));
         curPos = ++nextComma;
     }
-    
+
     return OSG::deepClone(src, share);
 }
 
@@ -899,7 +900,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
                                const std::vector<std::string> &share)
 {
     SFAttachmentMap *amap = (SFAttachmentMap *) src->getSFAttachments();
-            
+
     AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
     AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
 
@@ -920,10 +921,10 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
                 break;
             }
         }
-        
+
         if(!shareit)
             fc = OSG::deepClone(fc, share);
-        
+
         if(fc != NullFC)
             dst->addAttachment(AttachmentPtr::dcast(fc));
     }
@@ -951,7 +952,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
                                const std::string &shareString)
 {
     std::vector<std::string> share;
-    
+
     // parse comma separated names.
     std::string::const_iterator nextComma;
     std::string::const_iterator curPos = shareString.begin();
@@ -963,7 +964,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         share.push_back(std::string(curPos, nextComma));
         curPos = ++nextComma;
     }
-    
+
     OSG::deepCloneAttachments(src, dst, share);
 }
 
@@ -977,13 +978,13 @@ NodePtr OSG::deepCloneTree(const NodePtr &src,
     {
         dst = Node::create();
         deepCloneAttachments(src, dst, share);
-        
+
         beginEditCP(dst);
         {
             dst->setActive(src->getActive());
             dst->setTravMask(src->getTravMask());
             dst->setCore(NodeCorePtr::dcast(OSG::deepClone(src->getCore(), share)));
-            
+
             for(UInt32 i = 0; i < src->getNChildren(); i++)
                 dst->addChild(deepCloneTree(src->getChild(i), share));
         }
@@ -1013,7 +1014,7 @@ NodePtr OSG::deepCloneTree(const NodePtr &src,
                            const std::string &shareString)
 {
     std::vector<std::string> share;
-    
+
     // parse comma separated names.
     std::string::const_iterator nextComma;
     std::string::const_iterator curPos = shareString.begin();
