@@ -93,6 +93,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     /*! \name                      Set                                     */
     /*! \{                                                                 */
 
+    void             setValid(bool s);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
@@ -110,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
                                           const Int32 wmax[2],
                                                 Int32 viswmin[2],
                                                 Int32 viswmax[2] );
+
+    bool              isInvalid(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -166,6 +170,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
     bool                               _visible;
     bool                               _useFaceDistribution;
     Real32                             _areaSize;
+    bool                               _valid;
 
     /*! \}                                                                 */
 

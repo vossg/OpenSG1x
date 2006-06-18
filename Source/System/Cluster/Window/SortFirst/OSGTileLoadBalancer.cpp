@@ -42,6 +42,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+
+#include <functional>
+
 #include <OSGGLU.h>
 
 #include <algorithm>
@@ -117,30 +120,25 @@ TileLoadBalancer& TileLoadBalancer::operator = (const TileLoadBalancer &source)
 void TileLoadBalancer::update(NodePtr node)
 {
     TileGeometryLoadMapT loadMap;
-    std::vector<TileGeometryLoadLstT::iterator> invalid_nodes;
 
-    // collect old load obects
+    // collect old load objects
     for(TileGeometryLoadLstT::iterator gI=_tileGeometryLoad.begin();gI!=_tileGeometryLoad.end();++gI)
     {
         if(gI->getNode() != NullFC)
             loadMap[gI->getNode().getFieldContainerId()] = gI;
         else
-            invalid_nodes.push_back(gI);
-    }
-
-    // remove invalid nodes.
-    for(std::vector<TileGeometryLoadLstT::iterator>::iterator it=invalid_nodes.begin();
-        it != invalid_nodes.end();++it)
-    {
-        _tileGeometryLoad.erase(*it);
+            gI->setValid(false);
     }
 
     updateSubtree(node,loadMap);
-    // remove unused load objects
+
+    // mark unused load objects as invalid.
     for(TileGeometryLoadMapT::iterator mI=loadMap.begin();mI!=loadMap.end();++mI)
-    {
-        _tileGeometryLoad.erase(mI->second);
-    }
+        mI->second->setValid(false);
+
+    // remove all invalid objects.
+    _tileGeometryLoad.erase(std::remove_if(_tileGeometryLoad.begin(), _tileGeometryLoad.end(),
+                            std::mem_fun_ref(&TileGeometryLoad::isInvalid)));
 }
 
 /** load balance

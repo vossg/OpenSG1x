@@ -67,7 +67,8 @@ TileGeometryLoad::TileGeometryLoad(UInt32 nodeId,
                                    bool useFaceDistribution):
     _nodeId(nodeId),
     _faces(0),
-    _useFaceDistribution(useFaceDistribution)
+    _useFaceDistribution(useFaceDistribution),
+    _valid(false)
 {
     if(_directions.size()==0)
     {
@@ -111,7 +112,8 @@ TileGeometryLoad::TileGeometryLoad(UInt32 nodeId,
 
 TileGeometryLoad::TileGeometryLoad(const TileGeometryLoad &source):
     _nodeId(source._nodeId),
-    _useFaceDistribution(source._useFaceDistribution)
+    _useFaceDistribution(source._useFaceDistribution),
+    _valid(source._valid)
 {
     _min[0]           = source._min[0];
     _min[1]           = source._min[1];
@@ -571,6 +573,16 @@ bool TileGeometryLoad::checkRegion( Int32 min[2],
         return false;
     else
         return true;
+}
+
+void TileGeometryLoad::setValid(bool s)
+{
+    _valid = s;
+}
+
+bool TileGeometryLoad::isInvalid(void) const
+{
+    return !_valid;
 }
 
 /*-------------------------------------------------------------------------*/
