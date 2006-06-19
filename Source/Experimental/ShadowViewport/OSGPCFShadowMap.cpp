@@ -904,7 +904,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     _fb2 = 0;
     _rb_depth = 0;
 
-	initTexturesDone = false;
+    initTexturesDone = false;
 
     _width = 1;
     _height = 1;
@@ -1008,16 +1008,16 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     endEditCP(_unlitMat);
 
     //Combine Shader
-    ChunkMaterialPtr combineCmat = ChunkMaterial::create();
-    beginEditCP(combineCmat);
-        combineCmat->addChunk(_combineSHL);
-        combineCmat->addChunk(_colorMap);
-        combineCmat->addChunk(_shadowFactorMap);
-    endEditCP(combineCmat);
+    _combineCmat = ChunkMaterial::create();
+    beginEditCP(_combineCmat);
+        _combineCmat->addChunk(_combineSHL);
+        _combineCmat->addChunk(_colorMap);
+        _combineCmat->addChunk(_shadowFactorMap);
+    endEditCP(_combineCmat);
 
     _pf = PolygonForeground::create();
     beginEditCP(_pf);
-        _pf->setMaterial(combineCmat);
+        _pf->setMaterial(_combineCmat);
         _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
         _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
 
@@ -1148,7 +1148,8 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
     addRefCP(_shadowSHL);
     addRefCP(_combineSHL);
     addRefCP(_shadowCubeSHL);
-    
+
+    addRefCP(_combineCmat);
     addRefCP(_shadowCmat);
     
     addRefCP(_unlitMat);
@@ -1167,8 +1168,9 @@ PCFShadowMap::~PCFShadowMap(void)
     subRefCP(_combineSHL);
     subRefCP(_shadowCubeSHL);
 
+    subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
-    
+
     subRefCP(_unlitMat);
     subRefCP(_pf);
 
