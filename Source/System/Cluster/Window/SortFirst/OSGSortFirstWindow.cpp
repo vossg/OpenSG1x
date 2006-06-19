@@ -170,7 +170,8 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         if(serverWindow->getPort().size() <= sv)
         {
             // create new port
-            serverPort = StereoBufferViewport::create();
+            //serverPort = StereoBufferViewport::create();
+            serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
             deco=TileCameraDecorator::create();
             beginEditCP(serverWindow);
             serverWindow->addPort(serverPort);
@@ -181,6 +182,23 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         {
             serverPort = serverWindow->getPort()[sv];
             deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+            if(serverWindow->getPort()[sv]->getType() != 
+               clientPort->getType())
+            {
+                // there is a viewport with the wrong type
+                subRefCP(serverWindow->getPort()[sv]);
+                serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+                beginEditCP(serverWindow);
+                serverWindow->getPort()[sv] = serverPort;
+                serverPort->setCamera(deco);
+                endEditCP(serverWindow);
+            }
+            else
+            {
+                deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+            }
+            //serverPort = serverWindow->getPort()[sv];
+            //deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
         }
 
         // duplicate values
@@ -217,6 +235,9 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
     {
         serverWindow->subPort(sv);
     }
+
+    Inherited::serverRender(serverWindow,id,action);
+
     // compression type
     if(getCompose())
     {
