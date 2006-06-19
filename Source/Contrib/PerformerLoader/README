@@ -6,7 +6,7 @@ Name:                   PerformerLoader
 License:                LGPL
 Maintainer:             ???
 Initial Author:         Dirk Reiners <dirk@opensg.org>
-Additional Libraries:   pf:pfdu
+Additional Libraries:   pf:pfutil:pfdu
 Added:                  24/03/2006
 Last modified:          24/03/2006
 Last tested:            24/03/2006
