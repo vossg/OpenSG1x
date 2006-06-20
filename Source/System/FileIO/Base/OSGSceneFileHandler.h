@@ -195,6 +195,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     static SceneFileHandler *_the;
 
+    static GraphOpSeq      *_defaultgraphOpSeq;
+
            FileTypeMap       _suffixTypeMap;
 
 
@@ -242,8 +244,6 @@ class OSG_SYSTEMLIB_DLLMAPPING SceneFileHandler
 
     fileioreadcbfp  _readFP;
     fileiowritecbfp _writeFP;
-
-    static GraphOpSeq      *_defaultgraphOpSeq;
     
 };
 
