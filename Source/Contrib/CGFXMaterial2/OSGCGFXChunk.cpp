@@ -1563,10 +1563,9 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
     if(!_state_parameters[OSG_CG_PROJECTION].empty())
     {
         m = projection;
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_PROJECTION].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
         /*
         cgGLSetStateMatrixParameter(param, CG_GL_MODELVIEW_PROJECTION_MATRIX,
                                 CG_GL_MATRIX_IDENTITY);
@@ -1579,48 +1578,45 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m.mult(translation);
         m.mult(viewing);
         m.mult(world);
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWPROJECTION].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_WORLD].empty())
     {
         m = world;
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLD].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_WORLDI].empty())
     {
         m = world;
         m.invert();
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDI].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_WORLDIT].empty())
     {
         m = world;
         m.invert();
+        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDIT].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_WORLDVIEW].empty())
     {
         m = viewing;
         m.mult(world);
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEW].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
     
     if(!_state_parameters[OSG_CG_WORLDVIEWI].empty())
@@ -1628,10 +1624,9 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m = viewing;
         m.mult(world);
         m.invert();
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWI].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_WORLDVIEWIT].empty())
@@ -1639,35 +1634,35 @@ void CGFXChunk::updateStateParameters(DrawActionBase *action)
         m = viewing;
         m.mult(world);
         m.invert();
+        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_WORLDVIEWIT].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_VIEW].empty())
     {
         m = viewing;
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEW].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_VIEWI].empty())
     {
         m = viewingI;
-        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEWI].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_VIEWIT].empty())
     {
         m = viewingI;
+        m.transpose();
         CGparameter param = cgGetNamedEffectParameter((CGeffect) _effect[id].effect,
                                 _state_parameters[OSG_CG_VIEWIT].c_str());
-        cgSetMatrixParameterfr(param, m.getValues());
+        cgSetMatrixParameterfc(param, m.getValues());
     }
 
     if(!_state_parameters[OSG_CG_TIME].empty())
@@ -1922,7 +1917,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.8 2006/04/19 10:56:33 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.9 2006/06/21 14:07:20 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
