@@ -138,10 +138,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \name                    Parameter Callbacks                       */
     /*! \{                                                                 */
 
-    typedef GLint (OSG_APIENTRY * PFNGLGETUNIFORMLOCATIONARBPROC)
+    typedef GLint (OSG_APIENTRY * OSGGLGETUNIFORMLOCATIONARBPROC)
             (GLuint programObj, const char *name);
 
-    typedef void (*parametercbfp) (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    typedef void (*parametercbfp) (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
 
     void addParameterCallback(const char *name, parametercbfp fp);
@@ -265,39 +265,39 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void checkOSGParameters(void);
     void updateOSGParameters(DrawActionBase *action, GLuint program);
 
-    static void updateWorldMatrix       (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateWorldMatrix       (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateInvWorldMatrix    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateInvWorldMatrix    (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateCameraOrientation (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateCameraOrientation (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateCameraPosition    (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateCameraPosition    (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateViewMatrix        (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateViewMatrix        (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateInvViewMatrix     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateInvViewMatrix     (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateStereoLeftEye     (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateStereoLeftEye     (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateClusterId         (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateClusterId         (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateActiveLightsMask  (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateActiveLightsMask  (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight0Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight0Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight1Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight1Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight2Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight2Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight3Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight3Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight4Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight4Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight5Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight5Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight6Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight6Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight7Active      (PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight7Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                          DrawActionBase *action, GLuint program);
 
     std::vector<parametercbfp> _osgParametersCallbacks;
@@ -317,6 +317,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.25 2006/04/12 13:08:25 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.26 2006/06/21 11:35:42 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

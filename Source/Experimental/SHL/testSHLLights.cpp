@@ -155,9 +155,9 @@ int setupGLUT( int *argc, char *argv[] );
 
 // Shows how to add your own parameter callbacks.
 
-typedef void   (OSG_APIENTRY * PFNGLUNIFORMMATRIXFVARBPROC) (GLint location, GLsizei count, GLboolean transpose, GLfloat *value);
+typedef void   (OSG_APIENTRY * OSGGLUNIFORMMATRIXFVARBPROC) (GLint location, GLsizei count, GLboolean transpose, GLfloat *value);
 
-static void updateSpecialParameter(SHLChunk::PFNGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+static void updateSpecialParameter(SHLChunk::OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                    DrawActionBase *action, GLuint program)
 {
     if(action->getCamera() == NULL || action->getViewport() == NULL)
@@ -178,7 +178,7 @@ static void updateSpecialParameter(SHLChunk::PFNGLGETUNIFORMLOCATIONARBPROC getU
     //std::cout << "uploading matrix " << m << std::endl;
 
     // get "glUniformMatrix4fvARB" function pointer
-    PFNGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (PFNGLUNIFORMMATRIXFVARBPROC)
+    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
         action->getWindow()->getFunction(SHLChunk::getFuncUniformMatrix4fv());
     GLint location = getUniformLocation(program, "OSGSpecialParameter");
     if(location != -1)
