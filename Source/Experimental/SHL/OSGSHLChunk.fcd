@@ -28,13 +28,22 @@
 		defaultValue="false"
 		access="public"
 	>
-        Flag to set whether the shader can change the point size.
+	Flag to set whether the shader can change the point size.
 	</Field>
 	<Field
 		name="GLId"
 		type="UInt32"
 		cardinality="single"
 		visibility="internal"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="IgnoreGLForAspect"
+		type="Int32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="-1"
 		access="public"
 	>
 	</Field>

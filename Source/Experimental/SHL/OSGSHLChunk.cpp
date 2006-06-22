@@ -301,10 +301,14 @@ void SHLChunk::onCreate(const SHLChunk *source)
     RemoteAspect::addFieldFilter(SHLChunk::getClassType().getId(), SHLChunk::GLIdFieldMask);
 
     SHLChunkPtr tmpPtr(*this);
-    beginEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
-        setGLId(Window::registerGLObject(osgTypedMethodVoidFunctor2ObjCPtrPtr<SHLChunkPtr,
-                                         Window , UInt32>(tmpPtr, &SHLChunk::handleGL), 1));
-    endEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
+
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        beginEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
+            setGLId(Window::registerGLObject(osgTypedMethodVoidFunctor2ObjCPtrPtr<SHLChunkPtr,
+                                             Window , UInt32>(tmpPtr, &SHLChunk::handleGL), 1));
+        endEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
+    }
 
     //printf("SHLChunk::onCreate : glId %u\n", getGLId());
 }
@@ -326,16 +330,43 @@ const StateChunkClass *SHLChunk::getClass(void) const
 
 void SHLChunk::changed(BitVector whichField, UInt32 origin)
 {
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        if(getGLId() == 0)
+        {
+            SHLChunkPtr tmpPtr(*this);
+
+            beginEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
+            
+            setGLId(
+                Window::registerGLObject(
+                    osgTypedMethodVoidFunctor2ObjCPtrPtr<SHLChunkPtr,
+                                                 Window ,
+                                                 UInt32>(
+                                                     tmpPtr,
+                                                     &SHLChunk::handleGL),
+                    1));
+            
+            endEditCP(tmpPtr, SHLChunk::GLIdFieldMask);
+        }
+    }
+
     if((whichField & VertexProgramFieldMask) ||
        (whichField & FragmentProgramFieldMask) ||
        (whichField & CgFrontEndFieldMask))
     {
-        Window::reinitializeGLObject(getGLId());
+        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+        {
+            Window::reinitializeGLObject(getGLId());
+        }
     }
 
     if(whichField & ParametersFieldMask)
     {
-        Window::refreshGLObject(getGLId());
+        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+        {
+            Window::refreshGLObject(getGLId());
+        }
     }
 
     Inherited::changed(whichField, origin);
@@ -1388,7 +1419,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.48 2006/04/13 16:24:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.49 2006/06/22 17:06:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

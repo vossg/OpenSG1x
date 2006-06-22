@@ -62,7 +62,7 @@
 #include "OSGSHLChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SHLChunkBase::CgFrontEndFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::CgFrontEndFieldId);
@@ -72,6 +72,9 @@ const OSG::BitVector  SHLChunkBase::PointSizeFieldMask =
 
 const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
+
+const OSG::BitVector  SHLChunkBase::IgnoreGLForAspectFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::IgnoreGLForAspectFieldId);
 
 const OSG::BitVector SHLChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -87,6 +90,9 @@ const OSG::BitVector SHLChunkBase::MTInfluenceMask =
     Flag to set whether the shader can change the point size.
 */
 /*! \var UInt32          SHLChunkBase::_sfGLId
+    
+*/
+/*! \var Int32           SHLChunkBase::_sfIgnoreGLForAspect
     
 */
 
@@ -108,7 +114,12 @@ FieldDescription *SHLChunkBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &SHLChunkBase::getSFGLId)
+                     (FieldAccessMethod) &SHLChunkBase::getSFGLId),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "IgnoreGLForAspect", 
+                     IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
+                     true,
+                     (FieldAccessMethod) &SHLChunkBase::getSFIgnoreGLForAspect)
 };
 
 
@@ -187,6 +198,7 @@ SHLChunkBase::SHLChunkBase(void) :
     _sfCgFrontEnd             (bool(false)), 
     _sfPointSize              (bool(false)), 
     _sfGLId                   (), 
+    _sfIgnoreGLForAspect      (Int32(-1)), 
     Inherited() 
 {
 }
@@ -199,6 +211,7 @@ SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
     _sfCgFrontEnd             (source._sfCgFrontEnd             ), 
     _sfPointSize              (source._sfPointSize              ), 
     _sfGLId                   (source._sfGLId                   ), 
+    _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
     Inherited                 (source)
 {
 }
@@ -230,6 +243,11 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGLId.getBinSize();
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        returnValue += _sfIgnoreGLForAspect.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -252,6 +270,11 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyToBin(pMem);
     }
 
 
@@ -277,6 +300,11 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGLId.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+    {
+        _sfIgnoreGLForAspect.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -295,6 +323,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
+
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
 
 }
@@ -315,6 +346,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
 
+    if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
+        _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
+
 
 
 }
@@ -330,6 +364,8 @@ void SHLChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +377,6 @@ DataType FieldDataTraits<SHLChunkPtr>::_type("SHLChunkPtr", "ShaderChunkPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +392,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.12 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.13 2006/06/22 17:06:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHLCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

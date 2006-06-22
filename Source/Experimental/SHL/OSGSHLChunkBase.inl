@@ -117,6 +117,13 @@ SFUInt32 *SHLChunkBase::getSFGLId(void)
     return &_sfGLId;
 }
 
+//! Get the SHLChunk::_sfIgnoreGLForAspect field.
+inline
+SFInt32 *SHLChunkBase::getSFIgnoreGLForAspect(void)
+{
+    return &_sfIgnoreGLForAspect;
+}
+
 
 //! Get the value of the SHLChunk::_sfCgFrontEnd field.
 inline
@@ -181,8 +188,29 @@ void SHLChunkBase::setGLId(const UInt32 &value)
     _sfGLId.setValue(value);
 }
 
+//! Get the value of the SHLChunk::_sfIgnoreGLForAspect field.
+inline
+Int32 &SHLChunkBase::getIgnoreGLForAspect(void)
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Get the value of the SHLChunk::_sfIgnoreGLForAspect field.
+inline
+const Int32 &SHLChunkBase::getIgnoreGLForAspect(void) const
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+
+//! Set the value of the SHLChunk::_sfIgnoreGLForAspect field.
+inline
+void SHLChunkBase::setIgnoreGLForAspect(const Int32 &value)
+{
+    _sfIgnoreGLForAspect.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.11 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.12 2006/06/22 17:06:46 a-m-z Exp $"
 
