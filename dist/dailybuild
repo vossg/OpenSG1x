@@ -463,7 +463,7 @@ then
     waittime=10
     repeats=15
     
-    until cvs -z9 -ddirk@cvs.opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+    until cvs -z9 -ddirk@opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
     do
         echo "CVS problem, sleeping $waittime seconds and retrying!" >> $log_cvs
         sleep $waittime
