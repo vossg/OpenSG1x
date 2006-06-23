@@ -1547,10 +1547,9 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                        (_cgfxChunkId != -1 && pNewState->getChunk(_cgfxChunkId) != NULL) ||
                        pRoot->isNoStateSorting())
                     {
-                        pNewState->changeFrom(this, _pActiveState);
-    
+                        State *previous_state = _pActiveState;
                         _pActiveState = pNewState;
-    
+                        pNewState->changeFrom(this, previous_state);
                         _uiNumMaterialChanges++;
                     }
                     else

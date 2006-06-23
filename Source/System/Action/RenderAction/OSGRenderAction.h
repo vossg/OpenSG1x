@@ -164,8 +164,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void dropLightEnv  (LightEnv  *pLightEnv);
     void undropLightEnv(LightEnv  *pLightEnv);
     
-    
-
     void setStateSorting(bool s);
     bool getStateSorting(void);
 
@@ -174,6 +172,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32 getActiveLightsCount(void);
 
     const std::vector<UInt32> &getLightEnvsLightsState(void);
+
+    inline State *getCurrentState(void);
 
     /*------------------------- comparison ----------------------------------*/
 
