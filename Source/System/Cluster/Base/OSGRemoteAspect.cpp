@@ -211,7 +211,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
     UInt32                              len;
 
     // hack. No materialchange after image chagne
-    std::vector<MaterialPtr>            materials;
+    std::vector<std::pair<FieldContainerPtr,BitVector> > changedFCs;
 
     if(_statistics)
     {
@@ -391,10 +391,9 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                         // do we need to call this?
                         changedCP(fcPtr, mask);
                     }
-                    MaterialPtr mat=MaterialPtr::dcast(fcPtr);
-                    if(mat != NullFC)
-                        materials.push_back(mat);
-                    callChanged(fcPtr);
+                    changedFCs.push_back(
+                        std::pair<FieldContainerPtr,BitVector>(
+                            fcPtr,mask));
                 }
                 else
                 {
@@ -478,16 +477,14 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
     } 
     while(!finish);
 
-    // chunks don't tell the material if they where changed.
-    // This causes problems if textures are loaded after
-    // the first matieral change. The Material is not aware
-    // of a trasnparency. 
-    // Force rebuildState.
-    for(std::vector<MaterialPtr>::iterator mI=materials.begin();
-        mI != materials.end();
-        ++mI) 
+    // call changed for all changed field containers after all values
+    // are set
+    for(std::vector<std::pair<FieldContainerPtr,BitVector> >::iterator cI=changedFCs.begin();
+        cI != changedFCs.end();
+        ++cI) 
     {
-        changedCP(*mI);
+        changedCP(cI->first,cI->second);
+        callChanged(cI->first);
     }
 
     // unregister mapper into factory
