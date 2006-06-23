@@ -70,6 +70,34 @@ OSG::UInt32 StateChunkBase::getClassTypeId(void)
 
 /*------------------------------ get -----------------------------------*/
 
+//! Get the StateChunk::_sfIgnore field.
+inline
+SFBool *StateChunkBase::getSFIgnore(void)
+{
+    return &_sfIgnore;
+}
+
+
+//! Get the value of the StateChunk::_sfIgnore field.
+inline
+bool &StateChunkBase::getIgnore(void)
+{
+    return _sfIgnore.getValue();
+}
+
+//! Get the value of the StateChunk::_sfIgnore field.
+inline
+const bool &StateChunkBase::getIgnore(void) const
+{
+    return _sfIgnore.getValue();
+}
+
+//! Set the value of the StateChunk::_sfIgnore field.
+inline
+void StateChunkBase::setIgnore(const bool &value)
+{
+    _sfIgnore.setValue(value);
+}
 
 
 OSG_END_NAMESPACE

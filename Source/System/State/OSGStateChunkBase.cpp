@@ -62,12 +62,32 @@
 #include "OSGStateChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
+
+const OSG::BitVector  StateChunkBase::IgnoreFieldMask = 
+    (TypeTraits<BitVector>::One << StateChunkBase::IgnoreFieldId);
 
 const OSG::BitVector StateChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
 
+
+// Field descriptions
+
+/*! \var bool            StateChunkBase::_sfIgnore
+    Enables / disables a chunk
+*/
+
+//! StateChunk description
+
+FieldDescription *StateChunkBase::_desc[] = 
+{
+    new FieldDescription(SFBool::getClassType(), 
+                     "ignore", 
+                     IgnoreFieldId, IgnoreFieldMask,
+                     false,
+                     (FieldAccessMethod) &StateChunkBase::getSFIgnore)
+};
 
 
 FieldContainerType StateChunkBase::_type(
@@ -76,8 +96,8 @@ FieldContainerType StateChunkBase::_type(
     NULL,
     NULL, 
     StateChunk::initMethod,
-    NULL,
-    0);
+    _desc,
+    sizeof(_desc));
 
 //OSG_FIELD_CONTAINER_DEF(StateChunkBase, StateChunkPtr)
 
@@ -133,6 +153,7 @@ void StateChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 StateChunkBase::StateChunkBase(void) :
+    _sfIgnore                 (bool(false)), 
     Inherited() 
 {
 }
@@ -142,6 +163,7 @@ StateChunkBase::StateChunkBase(void) :
 #endif
 
 StateChunkBase::StateChunkBase(const StateChunkBase &source) :
+    _sfIgnore                 (source._sfIgnore                 ), 
     Inherited                 (source)
 {
 }
@@ -158,6 +180,11 @@ UInt32 StateChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
+    if(FieldBits::NoField != (IgnoreFieldMask & whichField))
+    {
+        returnValue += _sfIgnore.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -167,6 +194,11 @@ void StateChunkBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
+    if(FieldBits::NoField != (IgnoreFieldMask & whichField))
+    {
+        _sfIgnore.copyToBin(pMem);
+    }
+
 
 }
 
@@ -174,6 +206,11 @@ void StateChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
+
+    if(FieldBits::NoField != (IgnoreFieldMask & whichField))
+    {
+        _sfIgnore.copyFromBin(pMem);
+    }
 
 
 }
@@ -185,6 +222,9 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
+    if(FieldBits::NoField != (IgnoreFieldMask & whichField))
+        _sfIgnore.syncWith(pOther->_sfIgnore);
+
 
 }
 #else
@@ -194,6 +234,9 @@ void StateChunkBase::executeSyncImpl(      StateChunkBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (IgnoreFieldMask & whichField))
+        _sfIgnore.syncWith(pOther->_sfIgnore);
 
 
 
@@ -210,6 +253,8 @@ void StateChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -221,8 +266,6 @@ DataType FieldDataTraits<StateChunkPtr>::_type("StateChunkPtr", "AttachmentPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StateChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -238,10 +281,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATECHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATECHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

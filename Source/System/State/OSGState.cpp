@@ -184,7 +184,7 @@ void State::activate(DrawActionBase *action)
     for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
           ++it, ++cind)
     {
-        if(*it != NullFC)
+        if(*it != NullFC && !(*it)->getIgnore())
         {
             (*it)->activate(action, UInt32(ind));
         }
@@ -211,15 +211,17 @@ void State::changeFrom(DrawActionBase *action, State *old)
         StateChunkPtr o = old->getChunk(cind);
         StateChunkPtr n = *it;
 
-        if(n != NullFC)
+        if(n != NullFC && !n->getIgnore())
         {
-            if(o != NullFC)
+            if(o != NullFC && !o->getIgnore())
                 n->changeFrom(action, o.getCPtr(), UInt32(ind));
             else
                 n->activate(action, UInt32(ind));
         }
-        else if(o != NullFC)
+        else if(o != NullFC && !o->getIgnore())
+        {
             o->deactivate(action, UInt32(ind));
+        }
 
         if(++ind >= StateChunkClass::getNumSlots(cind))
             ind = 0;
@@ -232,7 +234,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
     {
         StateChunkPtr o = old->getChunk(i);
 
-        if(o != NullFC)
+        if(o != NullFC && !o->getIgnore())
         {
             o->deactivate(action, UInt32(ind));
         }
@@ -258,7 +260,7 @@ void State::deactivate(DrawActionBase *action)
     for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
           ++it, ++cind)
     {
-        if(*it != NullFC)
+        if(*it != NullFC && !(*it)->getIgnore())
             (*it)->deactivate(action, UInt32(ind));
         if(++ind >= StateChunkClass::getNumSlots(cind))
             ind = 0;

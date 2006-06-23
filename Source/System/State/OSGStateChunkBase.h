@@ -67,6 +67,7 @@
 
 #include <OSGAttachment.h> // Parent
 
+#include <OSGBoolFields.h> // Ignore type
 
 #include <OSGStateChunkFields.h>
 
@@ -87,6 +88,14 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
   public:
 
     typedef StateChunkPtr  Ptr;
+
+    enum
+    {
+        IgnoreFieldId = Inherited::NextFieldId,
+        NextFieldId   = IgnoreFieldId + 1
+    };
+
+    static const OSG::BitVector IgnoreFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -110,6 +119,23 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFIgnore         (void);
+
+           bool                &getIgnore         (void);
+     const bool                &getIgnore         (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setIgnore         ( const bool &value );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                       Sync                                   */
     /*! \{                                                                 */
 
@@ -129,6 +155,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool              _sfIgnore;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -180,6 +213,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 

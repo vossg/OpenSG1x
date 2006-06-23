@@ -1233,6 +1233,13 @@ void Geometry::changed(BitVector whichField,
         }
     }
 
+    if(whichField & (IndicesFieldMask | LengthsFieldMask | 
+                     TypesFieldMask   | IndexMappingFieldMask)
+      )
+    {
+        updateLowHighIndices();
+    }
+
 #if 1
 
     if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
@@ -1272,14 +1279,6 @@ void Geometry::changed(BitVector whichField,
         }
     }
 #endif
-
-    if(whichField & (IndicesFieldMask | LengthsFieldMask | 
-                     TypesFieldMask   | IndexMappingFieldMask)
-      )
-    {
-        updateLowHighIndices();
-    }
-   
 
     Inherited::changed(whichField, origin);
 }

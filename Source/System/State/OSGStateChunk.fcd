@@ -1,12 +1,24 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="StateChunk"
 	parent="Attachment"
 	library="System"
-	structure="abstract"
 	pointerfieldtypes="both"
+	structure="abstract"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
+	<Field
+		name="ignore"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Enables / disables a chunk
+	</Field>
 </FieldContainer>
