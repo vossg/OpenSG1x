@@ -902,7 +902,7 @@ void GeoPump129(Window   *win,
             (void (OSG_APIENTRY*) (GLint first, GLsizei count))
                 win->getFunction(GeoPumpFactory::_funcglLockArraysEXT);
                 
-            _glLockArraysEXT(geo->getMinindex(), geo->getMaxindex());
+            _glLockArraysEXT(geo->getMinindex(), geo->getMaxindex() + 1);
     }
 
     void (OSG_APIENTRY *osgGLDrawRangeElementsEXT)(GLenum mode, GLuint start,
