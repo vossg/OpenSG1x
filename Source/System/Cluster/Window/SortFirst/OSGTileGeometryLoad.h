@@ -113,7 +113,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
                                                 Int32 viswmin[2],
                                                 Int32 viswmax[2] );
 
-    bool              isInvalid(void) const;
+    bool              isInvalid(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -138,7 +138,7 @@ void TileLoadBalancer::update(NodePtr node)
 
     // remove all invalid objects.
     _tileGeometryLoad.erase(std::remove_if(_tileGeometryLoad.begin(), _tileGeometryLoad.end(),
-                            std::mem_fun_ref(&TileGeometryLoad::isInvalid)));
+                            std::mem_fun_ref(&TileGeometryLoad::isInvalid)), _tileGeometryLoad.end());
 }
 
 /** load balance

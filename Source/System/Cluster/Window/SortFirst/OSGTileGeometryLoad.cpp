@@ -580,7 +580,7 @@ void TileGeometryLoad::setValid(bool s)
     _valid = s;
 }
 
-bool TileGeometryLoad::isInvalid(void) const
+bool TileGeometryLoad::isInvalid(void)
 {
     return !_valid;
 }
