@@ -842,7 +842,10 @@ void CGFXChunk::updateEffect(Window *win)
         // we can not remove them directly in here with subParameter()!
         ShaderParameterPtr p = ShaderParameterPtr::dcast(cgfxMat->getParameters()[i]);
         if(cgfxParameters.count(p->getName()) == 0)
+        {
+            //printf("removing old parameter: '%s'\n", p->getName().c_str());
             remove_params.push_back(p->getName());
+        }
     }
     beginEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
         for(UInt32 i=0;i<remove_params.size();++i)
@@ -1029,7 +1032,9 @@ void CGFXChunk::updateParameters(Window *win)
                       parameter->getName().c_str()));
             continue;
         }
-        
+
+        //printf("updating parameter '%s'\n", parameter->getName().c_str());
+
         switch(parameter->getTypeId())
         {
             case ShaderParameter::SHPTypeBool:
@@ -1106,8 +1111,13 @@ void CGFXChunk::updateParameters(Window *win)
                     // to create a image.
                     if(img == NullFC || filename2 != pfilename2)
                     {
-                        //printf("texture image filename changed '%s' == '%s' !!!\n",
-                        //       filename.c_str(), pfilename.c_str());
+                        /*
+                        if(img == NullFC)
+                            printf("texture image is NULL\n");
+                        else
+                            printf("texture image filename changed '%s' == '%s' !!!\n",
+                                   filename2.c_str(), pfilename2.c_str());
+                        */
                         
                         // ok now look in our own images list.
 
@@ -1357,11 +1367,6 @@ void CGFXChunk::setEffectString(const std::string &effectString)
         //printf("CGFXChunk::setEffectString : cgfx string didn't change ignoring.\n");
         return;
     }
-
-    CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
-    beginEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
-        cgfxMat->getParameters().clear();
-    endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
 
     _effectString = effectString;
     if(_effectString.empty())
@@ -1917,7 +1922,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.9 2006/06/21 14:07:20 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.10 2006/06/24 13:52:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

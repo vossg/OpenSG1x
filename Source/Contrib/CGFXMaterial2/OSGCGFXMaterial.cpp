@@ -446,13 +446,14 @@ void CGFXMaterial::clearImages(void)
 {
     MFImagePtr::iterator imgIt  = _mfImages.begin();
     MFImagePtr::iterator imgEnd = _mfImages.end ();
-    
+
     while(imgIt != imgEnd)
     {
         subRefCP(*imgIt);
-
         ++imgIt;
     }
+
+    _mfImages.clear();
 }
 
 
@@ -469,7 +470,7 @@ void CGFXMaterial::clearImages(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.3 2006/04/19 10:56:33 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.4 2006/06/24 13:52:46 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 
