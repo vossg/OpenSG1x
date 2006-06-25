@@ -10,6 +10,115 @@
 # you need cvs in your path and doxygen/dot to make the docs
 # search for LOCAL to see where it needs to be adapted to your local environment
 
+
+# Command Line parsing
+
+scriptname=$0
+allargs=$@
+
+extra_args=""
+config_shell=sh
+mail=echo
+grep=grep
+
+loginfo=""
+make=make
+
+# Are we restarting from a script update?
+restarting=0
+
+while test $# -gt 0 
+do
+    case $1 in
+        --compiler)
+            compiler=$2
+            shift
+            shift
+            ;;
+        --extra-args)
+            extra_args="$extra_args $2"
+            shift
+            shift
+            ;;
+        --with-qt)
+            qt_args="--with-qt=$2"
+            qt_dir=$2
+            shift
+            shift
+            ;;
+        --with-glut)
+            glut_args="--with-glut=$2"
+            shift
+            shift
+            ;;
+        --with-tif)
+            tif_args="--with-tif=$2"
+            shift
+            shift
+            ;;
+        --with-jpg)
+            jpg_args="--with-jpg=$2"
+            shift
+            shift
+            ;;
+        --with-png)
+            png_args="--with-png=$2"
+            shift
+            shift
+            ;;
+        --par_jobs)
+            par_jobs=$2
+            shift
+            shift
+            ;;
+        --upload-key )        
+            do_copy="cd \$basedir; tar cf - \$out_files* | ssh -i $2 -l osgdb www.opensg.org tar xf - -C dailybuild_logs"
+            shift
+            shift
+            ;;
+        --no-doc )
+            has_doxygen=0
+            shift
+            ;;
+        --restart )
+            restarting=1
+            shift
+            ;;
+        --dist-name-suffix)
+            suffix=.$2
+            shift
+            shift
+            ;;
+         *) 
+            break 2
+            ;;
+    esac
+done
+
+# Script bootstrapping. Do this as early as possible to avoid problems with syntax errors in function defs
+
+if test $restarting == 0
+then
+    # Get the latest version from the website
+
+    wget -q http://www.dirkreiners.com/osgdb/dailybuild.new
+
+    # check if the dailybuild script has changed and update myself
+    if test -f dailybuild.new 
+    then
+        if ! diff -q $scriptname dailybuild.new >> /dev/null;
+        then
+            echo "dailybuild changed, restarting..."
+            (chmod a+x dailybuild.new && mv dailybuild.new $scriptname && /bin/bash $scriptname --restart $allargs)
+            exit 0
+        else
+            rm -f dailybuild.new
+        fi
+    else
+        echo "Error downloading new dailybuild script, using old one!"
+    fi
+fi
+
 # utility functions
 
 cleanup ()
@@ -347,87 +456,6 @@ EOF
 # ' Just to keep the syntax highlighting happy
 
 
-extra_args=""
-config_shell=sh
-mail=echo
-grep=grep
-
-loginfo=""
-make=make
-
-scriptname=$0
-allargs=$@
-
-# Are we restarting from a script update?
-restarting=0
-
-while test $# -gt 0 
-do
-    case $1 in
-        --compiler)
-            compiler=$2
-            shift
-            shift
-            ;;
-        --extra-args)
-            extra_args="$extra_args $2"
-            shift
-            shift
-            ;;
-        --with-qt)
-            qt_args="--with-qt=$2"
-            qt_dir=$2
-            shift
-            shift
-            ;;
-        --with-glut)
-            glut_args="--with-glut=$2"
-            shift
-            shift
-            ;;
-        --with-tif)
-            tif_args="--with-tif=$2"
-            shift
-            shift
-            ;;
-        --with-jpg)
-            jpg_args="--with-jpg=$2"
-            shift
-            shift
-            ;;
-        --with-png)
-            png_args="--with-png=$2"
-            shift
-            shift
-            ;;
-        --par_jobs)
-            par_jobs=$2
-            shift
-            shift
-            ;;
-        --upload-key )        
-            do_copy="cd \$basedir; tar cf - \$out_files* | ssh -i $2 -l osgdb www.opensg.org tar xf - -C dailybuild_logs"
-            shift
-            shift
-            ;;
-        --no-doc )
-            has_doxygen=0
-            shift
-            ;;
-        --restart )
-            restarting=1
-            shift
-            ;;
-        --dist-name-suffix)
-            suffix=.$2
-            shift
-            shift
-            ;;
-         *) 
-            break 2
-            ;;
-    esac
-done
 
 # LOCAL change to your local directory
 log_destination=/igd/a4/www/opensg/dailybuild_logs/
@@ -449,43 +477,28 @@ host=`hostname`
 
 # Check out the sources
 
-# Are we restarting? In that we don't have to do CVS
+#cleanup what's left
+rm -rf OpenSG
 
-if test $restarting == 0
-then
-    #cleanup what's left
-    rm -rf OpenSG
+# cvs needs to be in the path!
+export CVS_RSH=ssh
+rm -f $log_cvs
 
-    # cvs needs to be in the path!
-    export CVS_RSH=ssh
-    rm -f $log_cvs
-    
-    waittime=10
-    repeats=15
-    
-    until cvs -z9 -ddirk@opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
-    do
-        echo "CVS problem, sleeping $waittime seconds and retrying!" >> $log_cvs
-        sleep $waittime
-        (( waittime = $waittime * 14 / 10 ))
-        (( repeats = $repeats - 1 ))
-        if test $repeats == 0
-        then
-            echo "CVS failed!" > $log_errors
-            exit 1
-        fi
-    done
+waittime=10
+repeats=15
 
-    # check if the dailybuild script has changed and update myself
-    if ! diff -q $scriptname OpenSG/dist/dailybuild >> /dev/null;
+until cvs -z9 -ddirk@opensg.cvs.sourceforge.net:/cvsroot/opensg co -P OpenSG >> $log_cvs 2>&1
+do
+    echo "CVS problem, sleeping $waittime seconds and retrying!" >> $log_cvs
+    sleep $waittime
+    (( waittime = $waittime * 14 / 10 ))
+    (( repeats = $repeats - 1 ))
+    if test $repeats == 0
     then
-        echo "dailybuild changed, restarting..."
-# exec doesn't seem to work on the cygwin in Darmstadt. Works fine on mine...
-#        (cp OpenSG/dist/dailybuild $scriptname && exec $scriptname --restart $allargs)
-        (cp OpenSG/dist/dailybuild $scriptname && /bin/bash $scriptname --restart $allargs)
-        exit 0
+        echo "CVS failed!" > $log_errors
+        exit 1
     fi
-fi
+done
 
 # find the right parameters for this system
 
