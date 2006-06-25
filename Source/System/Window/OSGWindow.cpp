@@ -1380,17 +1380,24 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(__GetProcAddress == NULL) 
     { 
-        __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddressARB"); 
+        __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                            dlsym(libHandle, "glXGetProcAddressARB"); 
 
         if(__GetProcAddress == NULL) 
         { 
-            __GetProcAddress = (void (*(*)(const GLubyte*))()) dlsym(libHandle, "glXGetProcAddress"); 
+            __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                                dlsym(libHandle, "glXGetProcAddress"); 
             
             if(__GetProcAddress == NULL) 
             {
                 // Fallback to trying glxGetProcAddressARB directly
+                // Avoids problems for dynamically bound OpenSG
 #ifdef GLX_ARB_get_proc_address
-                __GetProcAddress = glXGetProcAddressARB;
+                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                                        glXGetProcAddressARB;
+#elif defined(GLX_VERSION_1_4)
+                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                                        glXGetProcAddress;
 #endif
                 if(__GetProcAddress == NULL)
                 {
@@ -1402,7 +1409,11 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
                 }
                 else
                 {
+#ifdef GLX_VERSION_1_4
+                   FDEBUG(("Using glXGetProcAddress directly for GL extension handling.\n"));
+#else
                    FDEBUG(("Using glXGetProcAddressARB directly for GL extension handling.\n"));
+#endif
                 }
             } 
             else
