@@ -65,7 +65,7 @@
 #include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
-#include <OSGMultiPassMaterial.h> // Parent
+#include <OSGChunkMaterial.h> // Parent
 
 #include <OSGStringFields.h> // EffectFile type
 #include <OSGStringFields.h> // EffectString type
@@ -82,11 +82,11 @@ class BinaryDataHandler;
 
 //! \brief CGFXMaterial Base Class.
 
-class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public MultiPassMaterial
+class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 {
   private:
 
-    typedef MultiPassMaterial    Inherited;
+    typedef ChunkMaterial    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -285,6 +285,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.2 2006/06/25 09:43:04 a-m-z Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */

@@ -47,7 +47,7 @@
 #include <OSGWindow.h>
 #include <OSGTextureChunk.h>
 #include <OSGMaterial.h>
-#include <OSGMultiPassMaterial.h>
+#include <OSGChunkMaterial.h>
 
 #include <string>
 #include <vector>
@@ -136,7 +136,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     void updateEffect(Window *win);
 
-    void setParentMaterial(const MultiPassMaterialPtr &parentMaterial);
+    void setParentMaterial(const ChunkMaterialPtr &parentMaterial);
 
     void updateImages(void);
     void updateParameters(Window *win);
@@ -237,7 +237,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     std::vector<std::string> _state_parameters;
     DrawActionBase          *_action;
-    MultiPassMaterialPtr     _parentMat;
+    ChunkMaterialPtr         _parentMat;
     std::string              _effectFile;
     std::string              _effectFilePath;
     std::string              _effectString;
@@ -274,6 +274,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.5 2006/04/19 10:56:33 a-m-z Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.6 2006/06/25 09:43:04 a-m-z Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

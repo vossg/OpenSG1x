@@ -865,7 +865,7 @@ void CGFXChunk::updateEffect(Window *win)
     //printf("updateEffect ready\n");
 }
 
-void CGFXChunk::setParentMaterial(const MultiPassMaterialPtr &parentMat)
+void CGFXChunk::setParentMaterial(const ChunkMaterialPtr &parentMat)
 {
     _parentMat = parentMat;
 }
@@ -1922,7 +1922,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.10 2006/06/24 13:52:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.11 2006/06/25 09:43:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

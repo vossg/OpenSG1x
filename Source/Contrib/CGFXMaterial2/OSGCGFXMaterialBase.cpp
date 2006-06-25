@@ -136,7 +136,7 @@ FieldDescription *CGFXMaterialBase::_desc[] =
 
 FieldContainerType CGFXMaterialBase::_type(
     "CGFXMaterial",
-    "MultiPassMaterial",
+    "ChunkMaterial",
     NULL,
     (PrototypeCreateF) &CGFXMaterialBase::createEmpty,
     CGFXMaterial::initMethod,
@@ -407,7 +407,7 @@ void CGFXMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "MultiPassMaterialPtr");
+DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMaterialPtr");
 #endif
 
 
@@ -425,7 +425,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "MultiPassMa
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.2 2006/06/25 09:43:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

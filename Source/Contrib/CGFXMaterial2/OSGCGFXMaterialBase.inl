@@ -240,5 +240,5 @@ const MFImagePtr &CGFXMaterialBase::getImages(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.2 2006/06/25 09:43:04 a-m-z Exp $"
 

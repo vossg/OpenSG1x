@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGContribDef.h>
 
-#include <OSGMultiPassMaterialFields.h>
+#include <OSGChunkMaterialFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class CGFXMaterial;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! CGFXMaterialPtr
 
-typedef FCPtr<MultiPassMaterialPtr, CGFXMaterial> CGFXMaterialPtr;
+typedef FCPtr<ChunkMaterialPtr, CGFXMaterial> CGFXMaterialPtr;
 
 #endif
 
@@ -102,6 +102,6 @@ struct FieldDataTraits<CGFXMaterialPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialFields.h,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialFields.h,v 1.2 2006/06/25 09:43:04 a-m-z Exp $"
 
 #endif /* _OSGCGFXMATERIALFIELDS_H_ */

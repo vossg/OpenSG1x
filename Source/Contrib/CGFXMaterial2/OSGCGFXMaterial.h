@@ -85,6 +85,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
     virtual StatePtr    makeState       (void);
     virtual void        rebuildState    (void);
     virtual StatePtr    getState        (UInt32 index);
+    virtual bool        isMultiPass     (void) const;
     virtual UInt32      getNPasses      (void) const;
     virtual bool        isTransparent   (void) const;
 
@@ -190,6 +191,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.2 2006/04/19 10:56:33 a-m-z Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.3 2006/06/25 09:43:04 a-m-z Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */

@@ -150,8 +150,8 @@ StatePtr CGFXMaterial::makeState(void)
 {
     StatePtr state = State::create();
 
-    if(_cgfxChunk != NullFC)
-        state->addChunk(_cgfxChunk);
+    addChunks(state);
+    state->addChunk(_cgfxChunk);
 
     return state;
 }
@@ -165,17 +165,21 @@ void CGFXMaterial::rebuildState(void)
     else
     {
         _pState = State::create();
-
         addRefCP(_pState);
     }
 
-    if(_cgfxChunk != NullFC)
-        _pState->addChunk(_cgfxChunk);
+    addChunks(_pState);
+    _pState->addChunk(_cgfxChunk);
 }
 
 StatePtr CGFXMaterial::getState(UInt32 OSG_CHECK_ARG(index))
 {
     return _pState;
+}
+
+bool CGFXMaterial::isMultiPass(void) const
+{
+    return true;
 }
 
 UInt32 CGFXMaterial::getNPasses(void) const
@@ -470,7 +474,7 @@ void CGFXMaterial::clearImages(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.4 2006/06/24 13:52:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.5 2006/06/25 09:43:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 
