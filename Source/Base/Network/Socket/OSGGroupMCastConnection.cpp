@@ -597,7 +597,9 @@ void GroupMCastConnection::initialize()
         message.putUInt32(_seqNumber);
         // tell the point from wich port requests are comming
         hostname[255] = '\0';
-        gethostname(hostname,255);
+        
+        osgGetHostname(hostname,255);
+
         message.putString(hostname);
         message.putUInt32(_mcastSocket.getAddress().getPort());
         // send the message

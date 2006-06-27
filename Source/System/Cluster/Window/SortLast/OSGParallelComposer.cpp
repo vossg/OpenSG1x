@@ -146,7 +146,7 @@ void ParallelComposer::open(void)
     for(UInt32 i=0 ; i <= serverCount() ; ++i)
         clusterWindow()->getNetwork()->getConnection(i)->forceDirectIO();	
     // populate server list from inherited cluster window
-    gethostname(_serviceAddr, sizeof(_serviceAddr));
+    osgGetHostname(_serviceAddr, sizeof(_serviceAddr));
 
     _serverList = new char*[_usableServers+2];
     _serverList[0]  = _serviceAddr;
@@ -402,7 +402,7 @@ void ParallelComposer::renderRead(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposer.cpp,v 1.3 2006/05/15 23:39:58 eysquared Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposer.cpp,v 1.4 2006/06/27 03:00:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARALLELCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARALLELCOMPOSERBASE_INLINE_CVSID;
 

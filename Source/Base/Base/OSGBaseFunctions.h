@@ -538,6 +538,9 @@ Real32 osgrand(void);
 inline
 bool osgIsBigEndian(void);
 
+inline
+void osgGetHostname(char *szBuffer, UInt32 uiSize);
+
 #if defined(WIN32) && defined(_MSC_VER) && _MSC_VER <= 1200  // VC6
 
 inline

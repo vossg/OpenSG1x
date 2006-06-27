@@ -119,9 +119,9 @@ else
 CC = $(shell $(OSGCONFIG) --compiler) 
 endif
 
-CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System GLUT)
+CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System X GLUT)
 
-LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System X GLUT)
 
 
 # all tutorials in this directory

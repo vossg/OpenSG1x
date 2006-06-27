@@ -190,7 +190,7 @@ std::string PointSockConnection::bind(const std::string &address)
     std::string boundedAddress;
 
     // get local host name
-    gethostname(localhost,255);
+    osgGetHostname(localhost,255);
     if(!getInterface().empty())
         interf = getInterface();
     else

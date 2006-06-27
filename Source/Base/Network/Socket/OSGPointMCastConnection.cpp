@@ -695,7 +695,7 @@ void PointMCastConnection::initialize()
 
     // tell the group from wich port requests are comming
     hostname[255] = '\0';
-    gethostname(hostname,255);
+    osgGetHostname(hostname,255);
     message.clear();
     message.putString(hostname);
     message.putUInt32(_responseSocket.getAddress().getPort());

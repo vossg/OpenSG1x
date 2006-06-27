@@ -1383,6 +1383,20 @@ bool osgIsBigEndian(void)
     return (BYTE_ORDER) == (BIG_ENDIAN);   
 }
 
+inline
+void osgGetHostname(char *szBuffer, UInt32 uiSize)
+{
+    // get local host name
+    if(getenv("OSG_HOSTNAME") != NULL)
+    {
+        strncpy(szBuffer, getenv("OSG_HOSTNAME"), uiSize);
+    }
+    else
+    {
+        gethostname(szBuffer, uiSize);
+    }
+}
+
 #if defined(WIN32) && defined(_MSC_VER) && _MSC_VER <= 1200  // VC6
 inline
 std::ostream &operator<<(std::ostream &os, UInt64 v)
