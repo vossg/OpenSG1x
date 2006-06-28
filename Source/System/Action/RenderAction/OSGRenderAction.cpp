@@ -1874,6 +1874,8 @@ Action::ResultE RenderAction::stop(ResultE res)
         }
     }
 
+    glDepthMask(GL_TRUE);
+
     if(_pNoStateSortRoot != NULL)
     {
         draw(_pNoStateSortRoot);
@@ -1928,7 +1930,7 @@ Action::ResultE RenderAction::stop(ResultE res)
                 if(transSortKey <= matSortKey)
                 {
                     if(!_bZWriteTrans)
-                        glDepthMask(false);
+                        glDepthMask(GL_FALSE);
         
                     TransSortMap &ts = (*transMatRootsIt).second;
                     for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
@@ -1936,14 +1938,14 @@ Action::ResultE RenderAction::stop(ResultE res)
                     //printf("draw transparent %d\n", transSortKey);
         
                     if(!_bZWriteTrans)
-                        glDepthMask(true);
+                        glDepthMask(GL_TRUE);
                     ++transMatRootsIt;
                 }
             }
             else
             {
                 if(!_bZWriteTrans)
-                    glDepthMask(false);
+                    glDepthMask(GL_FALSE);
     
                 TransSortMap &ts = (*transMatRootsIt).second;
                 for(TransSortMap::iterator it = ts.begin();it != ts.end();++it)
@@ -1951,7 +1953,7 @@ Action::ResultE RenderAction::stop(ResultE res)
                 //printf("draw transparent %d\n", transSortKey);
     
                 if(!_bZWriteTrans)
-                    glDepthMask(true);
+                    glDepthMask(GL_TRUE);
                 ++transMatRootsIt;
             }
         }
@@ -1979,6 +1981,8 @@ Action::ResultE RenderAction::stop(ResultE res)
             glDisable(GL_LIGHT0 + i);
         }
     }
+
+    glDepthMask(GL_TRUE);
 
     if(_useGLFinish)
         glFinish();
