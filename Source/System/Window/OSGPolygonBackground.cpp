@@ -45,6 +45,8 @@
 
 #include <OSGConfig.h>
 #include <OSGMaterial.h>
+#include <OSGCamera.h>
+#include <OSGTileCameraDecorator.h>
 
 #include "OSGPolygonBackground.h"
 
@@ -122,7 +124,8 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     if (port->getPixelWidth()  == 0 ||
         port->getPixelHeight() == 0 ) 
     {   
-        FWARNING(("Port has zero size: nothing to render to!\n"));
+        FWARNING(("PolygonBackground::clear: "
+                  "Port has zero size: nothing to render to!\n"));
         return;
     }
         
@@ -159,9 +162,64 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glPushMatrix();
     glLoadIdentity();
     
-    glScalef(aspectX, aspectY, 1);
-    glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
+    Camera *cP = act->getCamera();
+    TileCameraDecorator *cdP = dynamic_cast<TileCameraDecorator*>(cP);
+    
+    Real32 sFac = getScale() > 0 ? getScale() : 1.0f;
+    
+    if (cdP)
+    {
+        UInt32 width  = cdP->getFullWidth() ?
+                        cdP->getFullWidth() : port->getPixelWidth(),
+               height = cdP->getFullHeight() ?
+                        cdP->getFullHeight() : port->getPixelHeight();
+        Real32 t = 0,
+               left   = cdP->getLeft(),
+               right  = cdP->getRight(),
+               top    = cdP->getTop(),
+               bottom = cdP->getBottom();
+        
+        if (getAspectHeight() && getAspectWidth() &&
+            height != 0 && width != 0)
+        {
+            aspectX = ((Real32)height/getAspectHeight()) /
+                      ((Real32)width / getAspectWidth());
+            t  = (Real32)width * (1 - aspectX) * 0.5f;
+            t *= (Real32)port->getPixelWidth() / width;
 
+            //std::cerr << "w: " << width << ", h: " << height
+            //          << ", x: " << aspectX << ", t: "  << t
+            //          << std::endl;
+        }
+
+        // Ausschnittsmatrix des Tiledecorators -> auf die erst die Ortho drauf
+        // TODO sauber in allen Decoratoren impl und Verschachtelungen beachten
+        Real32  xs = 1.f / (right - left),
+                ys = 1.f / (top - bottom);
+        Matrix sm(  xs, 0, 0, -(left*2-1)*xs-1,
+                    0, ys, 0, -(bottom*2-1)*ys-1,
+                    0, 0, 1, 0, 
+                    0, 0, 0, 1);
+        
+        glLoadMatrixf(sm.getValues());
+        glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
+        
+        glTranslatef(t, 0, 0);
+        glScalef(aspectX, aspectY, 1);
+
+        float t1 = (1 - sFac) * 0.5f * (Real32)port->getPixelWidth();
+        float t2 = (1 - sFac) * 0.5f * (Real32)port->getPixelHeight();
+        glTranslatef(t1, t2, 0);
+        glScalef(sFac,sFac,1);
+    }
+    else
+    {
+        glScalef(sFac,sFac,1);
+        
+        glScalef(aspectX, aspectY, 1);
+        glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);    
+    }
+            
     getMaterial()->getState()->activate(act);
     
     Vec3f *tc  = &getTexCoords()[0];
@@ -218,7 +276,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.3 2006/04/25 05:49:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.4 2006/06/28 15:57:27 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

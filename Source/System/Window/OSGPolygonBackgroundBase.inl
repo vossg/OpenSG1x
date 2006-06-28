@@ -145,6 +145,13 @@ SFUInt16 *PolygonBackgroundBase::getSFAspectWidth(void)
     return &_sfAspectWidth;
 }
 
+//! Get the PolygonBackground::_sfScale field.
+inline
+SFReal32 *PolygonBackgroundBase::getSFScale(void)
+{
+    return &_sfScale;
+}
+
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
@@ -251,6 +258,27 @@ void PolygonBackgroundBase::setAspectWidth(const UInt16 &value)
     _sfAspectWidth.setValue(value);
 }
 
+//! Get the value of the PolygonBackground::_sfScale field.
+inline
+Real32 &PolygonBackgroundBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfScale field.
+inline
+const Real32 &PolygonBackgroundBase::getScale(void) const
+{
+    return _sfScale.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfScale field.
+inline
+void PolygonBackgroundBase::setScale(const Real32 &value)
+{
+    _sfScale.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
@@ -296,5 +324,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.5 2006/03/21 22:33:15 dirk Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.6 2006/06/28 15:57:27 yjung Exp $"
 

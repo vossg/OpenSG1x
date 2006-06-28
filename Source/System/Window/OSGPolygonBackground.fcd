@@ -79,4 +79,14 @@ A Background that renders a single polygon using the specified material.
 	>
 	Useful for keeping aspect ratio when rendering things like images.
 	</Field>
+	<Field
+		name="scale"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0"
+		access="public"
+	>
+	Scale factor for zooming.
+	</Field>
 </FieldContainer>

@@ -62,7 +62,7 @@
 #include "OSGPolygonBackground.h"
 
 
-OSG_BEGIN_NAMESPACE
+OSG_USING_NAMESPACE
 
 const OSG::BitVector  PolygonBackgroundBase::MaterialFieldMask = 
     (TypeTraits<BitVector>::One << PolygonBackgroundBase::MaterialFieldId);
@@ -84,6 +84,9 @@ const OSG::BitVector  PolygonBackgroundBase::AspectHeightFieldMask =
 
 const OSG::BitVector  PolygonBackgroundBase::AspectWidthFieldMask = 
     (TypeTraits<BitVector>::One << PolygonBackgroundBase::AspectWidthFieldId);
+
+const OSG::BitVector  PolygonBackgroundBase::ScaleFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonBackgroundBase::ScaleFieldId);
 
 const OSG::BitVector PolygonBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -112,6 +115,9 @@ const OSG::BitVector PolygonBackgroundBase::MTInfluenceMask =
 */
 /*! \var UInt16          PolygonBackgroundBase::_sfAspectWidth
     Useful for keeping aspect ratio when rendering things like images.
+*/
+/*! \var Real32          PolygonBackgroundBase::_sfScale
+    Scale factor for zooming.
 */
 
 //! PolygonBackground description
@@ -152,7 +158,12 @@ FieldDescription *PolygonBackgroundBase::_desc[] =
                      "aspectWidth", 
                      AspectWidthFieldId, AspectWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFAspectWidth)
+                     (FieldAccessMethod) &PolygonBackgroundBase::getSFAspectWidth),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "scale", 
+                     ScaleFieldId, ScaleFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonBackgroundBase::getSFScale)
 };
 
 
@@ -237,6 +248,7 @@ PolygonBackgroundBase::PolygonBackgroundBase(void) :
     _sfNormalizedY            (bool(true)), 
     _sfAspectHeight           (UInt16(0)), 
     _sfAspectWidth            (UInt16(0)), 
+    _sfScale                  (Real32(1.0)), 
     Inherited() 
 {
 }
@@ -253,6 +265,7 @@ PolygonBackgroundBase::PolygonBackgroundBase(const PolygonBackgroundBase &source
     _sfNormalizedY            (source._sfNormalizedY            ), 
     _sfAspectHeight           (source._sfAspectHeight           ), 
     _sfAspectWidth            (source._sfAspectWidth            ), 
+    _sfScale                  (source._sfScale                  ), 
     Inherited                 (source)
 {
 }
@@ -304,6 +317,11 @@ UInt32 PolygonBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAspectWidth.getBinSize();
     }
 
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        returnValue += _sfScale.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -346,6 +364,11 @@ void PolygonBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
     {
         _sfAspectWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _sfScale.copyToBin(pMem);
     }
 
 
@@ -391,6 +414,11 @@ void PolygonBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAspectWidth.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _sfScale.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -422,6 +450,9 @@ void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
     if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
         _sfAspectWidth.syncWith(pOther->_sfAspectWidth);
 
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+        _sfScale.syncWith(pOther->_sfScale);
+
 
 }
 #else
@@ -446,6 +477,9 @@ void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
 
     if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
         _sfAspectWidth.syncWith(pOther->_sfAspectWidth);
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+        _sfScale.syncWith(pOther->_sfScale);
 
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
@@ -474,8 +508,6 @@ void PolygonBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_END_NAMESPACE
-
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -487,6 +519,8 @@ DataType FieldDataTraits<PolygonBackgroundPtr>::_type("PolygonBackgroundPtr", "B
 
 OSG_DLLEXPORT_SFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+
+OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -502,12 +536,10 @@ OSG_DLLEXPORT_MFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.6 2006/03/21 22:33:15 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.7 2006/06/28 15:57:27 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOLYGONBACKGROUNDFIELDS_HEADER_CVSID;
 }
-
-OSG_END_NAMESPACE
 
