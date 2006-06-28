@@ -172,10 +172,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     // addNode() for every node to traverse, or not at all. 
 
     void useNodeList( void ); 
-
-    // for debugging
-    
-    void printTable( void );
     
     /*------------------------- your_operators ------------------------------*/
 
