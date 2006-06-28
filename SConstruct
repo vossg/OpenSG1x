@@ -886,7 +886,7 @@ class win32_msvc_base(win32):
 
         if _po.buildDbg():
             dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ', '/Gi'],
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ'],
                        LINKFLAGS=['/DEBUG'],
                        CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
@@ -908,7 +908,7 @@ class win32_msvc_base(win32):
 
         if _po.buildOpt():
             opt = env.Copy()
-            opt.Append(CXXFLAGS=['/MD', '/O2', '/Ob1', '/Gi'],
+            opt.Append(CXXFLAGS=['/MD', '/O2', '/Ob1'],
                        LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
                        CPPDEFINES=['NDEBUG'])
             opt['OSG_OBJDIR']  = 'opt'
@@ -941,7 +941,7 @@ class win32_msvc70(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc70')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/GX', '/GR', '/Gi', '/FD', '/Zm1200'])
+        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("7.0", 0)
@@ -957,6 +957,8 @@ class win32_msvc80(win32_msvc_base):
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/Zm1200', '/Zc:forScope'])
+
+        #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
         # add msvc80 include and lib paths
         #import SCons.Tool.msvc
