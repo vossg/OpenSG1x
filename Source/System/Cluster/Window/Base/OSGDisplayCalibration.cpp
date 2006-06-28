@@ -120,12 +120,13 @@ DisplayCalibration::~DisplayCalibration(void)
 
 /*! Calibrate display 
  */
-void DisplayCalibration::calibrate(WindowPtr window,RenderActionBase *ract)
+void DisplayCalibration::calibrate(ViewportPtr port,RenderActionBase *ract)
 {
+    WindowPtr window=port->getParent();
     if(!getEnabled())
         return;
 
-    createCMViewports(window);
+    createCMViewports(port);
 
     window->addPort(_cmPort);
     _cmPort->render(ract);
@@ -155,21 +156,27 @@ void DisplayCalibration::dump(      UInt32    ,
     SLOG << "Dump DisplayCalibration NI" << std::endl;
 }
 
-void DisplayCalibration::createCMViewports(WindowPtr window)
+void DisplayCalibration::createCMViewports(ViewportPtr port)
 {
+    WindowPtr window=port->getParent();
+
     // create color management structures
     if(_cmPort != osg::NullFC &&
        !_changed &&
-       _winWidth == window->getWidth() &&
-       _winHeight == window->getHeight())
+       _vpLeft == port->getPixelLeft() &&
+       _vpRight == port->getPixelRight() &&
+       _vpBottom == port->getPixelBottom() &&
+       _vpTop == port->getPixelTop())
         return;
 
     if(getScaleDown()>1.0)
         setScaleDown(1.0);
 
     _changed = false;
-    _winWidth = window->getWidth();
-    _winHeight = window->getHeight();
+    _vpLeft = port->getPixelLeft();
+    _vpBottom = port->getPixelBottom();
+    _vpRight = port->getPixelRight();
+    _vpTop = port->getPixelTop();
 
     // reset
     if(_cmPort != osg::NullFC) {
@@ -544,10 +551,10 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _cmPort->setCamera(_cam);
         _cmPort->setRoot(_cmRoot);
         _cmPort->setBackground(_cmBack);
-        _cmPort->setLeft(0);
-        _cmPort->setRight(1);
-        _cmPort->setBottom(0);
-        _cmPort->setTop(1);
+        _cmPort->setLeft(port->getLeft());
+        _cmPort->setRight(port->getRight());
+        _cmPort->setBottom(port->getBottom());
+        _cmPort->setTop(port->getTop());
     endEditCP(_cmPort);
 
     // create down scale viewport
@@ -580,10 +587,10 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
         _dsPort->setCamera(_cam);
         _dsPort->setRoot(_dsRoot);
         _dsPort->setBackground(_dsBack);
-        _dsPort->setLeft(0);
-        _dsPort->setRight(1);
-        _dsPort->setBottom(0);
-        _dsPort->setTop(1);
+        _dsPort->setLeft(port->getLeft());
+        _dsPort->setRight(port->getRight());
+        _dsPort->setBottom(port->getBottom());
+        _dsPort->setTop(port->getTop());
     endEditCP(_dsPort);
 
     // vp2
@@ -659,10 +666,10 @@ void DisplayCalibration::createCMViewports(WindowPtr window)
 
     UInt32 x,y;
     Int32 left=0,top=1,bottom=0,right=1;
-    left   = 0;
-    right  = window->getWidth() - 1;
-    bottom = 0;
-    top    = window->getHeight() - 1;
+    left   = port->getPixelLeft();
+    right  = port->getPixelRight();
+    bottom = port->getPixelBottom();
+    top    = port->getPixelTop();
 
     Real32 h=top-bottom+1;
     Real32 w=right-left+1;

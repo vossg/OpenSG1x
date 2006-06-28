@@ -832,18 +832,30 @@ void ClusterWindow::serverRender( WindowPtr window,
     }
 
     // do calibration
-    UInt32 c;
+    UInt32 c,p;
     DisplayCalibrationPtr calibPtr=NullFC;
-    for(c=0 ; c<getCalibration().size() ; ++c)
+
+    // for all viewports
+    for(p = 0 ; p<window->getPort().size() ; ++p) 
     {
-        if(getCalibration()[c]->getServer() == getServers()[id])
+        // search calibration 
+        for(c=0 ; c<getCalibration().size() ; ++c)
         {
-            calibPtr = getCalibration()[c];
-            break;
+            std::string name = getServers()[id];
+            char portName[64];
+            if(window->getPort().size() > 1)
+            {
+                sprintf(portName,"[%d]",p);
+                name = name + portName;
+            }
+            if(getCalibration()[c]->getServer() == name)
+            {
+                calibPtr = getCalibration()[c];
+                calibPtr->calibrate(window->getPort()[p],action);
+                break;
+            }
         }
     }
-    if(calibPtr != NullFC)
-        calibPtr->calibrate(window,action);
 }
 
 /** swap server window

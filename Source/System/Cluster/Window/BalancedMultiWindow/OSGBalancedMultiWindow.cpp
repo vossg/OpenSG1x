@@ -195,18 +195,30 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     drawSendAndRecv(serverWindow,action,id);
 
     // do calibration
-    UInt32 c;
+    UInt32 c,p;
     DisplayCalibrationPtr calibPtr=NullFC;
-    for(c=0 ; c<getCalibration().size() ; ++c)
+
+    // for all viewports
+    for(p = 0 ; p<serverWindow->getPort().size() ; ++p) 
     {
-        if(getCalibration()[c]->getServer() == getServers()[id])
+        // search calibration 
+        for(c=0 ; c<getCalibration().size() ; ++c)
         {
-            calibPtr = getCalibration()[c];
-            break;
+            std::string name = getServers()[id];
+            char portName[64];
+            if(serverWindow->getPort().size() > 1)
+            {
+                sprintf(portName,"[%d]",p);
+                name = name + portName;
+            }
+            if(getCalibration()[c]->getServer() == name)
+            {
+                calibPtr = getCalibration()[c];
+                calibPtr->calibrate(serverWindow->getPort()[p],action);
+                break;
+            }
         }
     }
-    if(calibPtr != NullFC)
-        calibPtr->calibrate(serverWindow,action);
 
     // send statistics
     if(getShowBalancing())

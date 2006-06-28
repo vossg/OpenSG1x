@@ -79,7 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     /*! \name                      calibration                             */
     /*! \{                                                                 */
 
-    virtual void calibrate(WindowPtr window,RenderActionBase *ract);
+    virtual void calibrate(ViewportPtr port,RenderActionBase *ract);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -122,10 +122,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     /*! \name                   helper                                     */
     /*! \{                                                                 */
 
-    void createCMViewports(WindowPtr window);
+    void createCMViewports(ViewportPtr port);
     void updateMatrix();
     void updateGamma();
-    void updateGrid(WindowPtr window);
+    void updateGrid(ViewportPtr port);
     void createPincushionGrid();
 
     /*! \}                                                                 */
@@ -162,8 +162,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibration : public DisplayCalibrationBas
     TextureGrabBackgroundPtr  _dsBack;
     SolidBackgroundPtr        _ds2Back;
 
-    UInt32                    _winWidth;
-    UInt32                    _winHeight;
+    UInt32                    _vpLeft;
+    UInt32                    _vpRight;
+    UInt32                    _vpBottom;
+    UInt32                    _vpTop;
 
     /*==========================  PRIVATE  ================================*/
   private:
