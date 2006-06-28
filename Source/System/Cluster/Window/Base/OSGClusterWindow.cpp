@@ -275,6 +275,14 @@ void ClusterWindow::init( void )
         SINFO << "Connect to " << (*s) << std::endl;
         serviceSock.open();
         serviceSock.setTTL(8);
+
+        // set interface
+        if(!getConnectionInterface().empty())
+        {
+            serviceSock.setMCastInterface(
+                SocketAddress(getConnectionInterface().c_str()));
+        }
+
         while(retry)
         {
             try
