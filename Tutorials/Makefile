@@ -75,23 +75,29 @@ SYSTEM := $(shell uname)
 # which extension to be used for executables
 EXEEXT :=
 
+# which extension to be used for executables
+ADDLIB :=
+
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
 
 ifeq ($(SYSTEM),IRIX)
-        CCOUT := -o 
-        LDOUT := -o 
-	LINK  := 
+        CCOUT  := -o 
+        LDOUT  := -o 
+	LINK   := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),IRIX64)
-        CCOUT := -o 
-        LDOUT := -o 
-	LINK  := 
+        CCOUT  := -o 
+        LDOUT  := -o 
+	LINK   := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),Linux)
-        CCOUT := -o 
-        LDOUT := -o 
-	LINK  := 
+        CCOUT  := -o 
+        LDOUT  := -o 
+	LINK   := 
+	ADDLIB := X
 endif
 ifeq ($(findstring WIN,$(SYSTEM)),WIN)
         OS := WIN32
@@ -101,9 +107,10 @@ ifeq ($(findstring WIN,$(SYSTEM)),WIN)
 	EXEEXT :=.exe
 endif
 ifeq ($(SYSTEM),HP-UX)
-        CCOUT := -o 
-        LDOUT := -o 
-	LINK  := 
+        CCOUT  := -o 
+        LDOUT  := -o 
+	LINK   := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),Darwin)
         CCOUT := -o 
@@ -119,15 +126,21 @@ else
 CC = $(shell $(OSGCONFIG) --compiler) 
 endif
 
-CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System X GLUT)
+CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System $(ADDLIB) GLUT)
 
-LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System X GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System $(ADDLIB) GLUT)
 
 
 # all tutorials in this directory
 
 TUTS :=  $(wildcard [0-9][0-9]*.cpp) 
 PROGS := $(TUTS:.cpp=$(EXEEXT)) 
+
+ifeq ($(findstring WIN,$(SYSTEM)),WIN)
+TUTS := $(filter-out %X.cpp, $(TUTS))
+endif
+
+$(error $(TUTS))
 
 # program dependencies
 
