@@ -49,7 +49,9 @@
 #include <OSGGL.h>
 
 #if !defined(WIN32) && !defined(darwin)
+#define GLX_GLXEXT_PROTOTYPES
 #include <GL/glx.h>
+#include <GL/glxext.h>
 #endif
 
 #if defined(__sgi) || defined(__hpux) || defined(__linux)
@@ -1392,12 +1394,12 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             {
                 // Fallback to trying glxGetProcAddressARB directly
                 // Avoids problems for dynamically bound OpenSG
-#ifdef GLX_ARB_get_proc_address
-                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                        glXGetProcAddressARB;
-#elif defined(GLX_VERSION_1_4)
+#if defined(GLX_VERSION_1_4)
                 __GetProcAddress = (void (*(*)(const GLubyte*))()) 
                                         glXGetProcAddress;
+#elif defined(GLX_ARB_get_proc_address)
+                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                                        glXGetProcAddressARB;
 #endif
                 if(__GetProcAddress == NULL)
                 {
