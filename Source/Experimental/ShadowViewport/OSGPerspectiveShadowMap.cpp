@@ -3649,7 +3649,6 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -3664,12 +3663,15 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	else
 	{
 
+		glPushAttrib(GL_ENABLE_BIT);
+
 		if(!initTexturesDone) initTextures(win);
 
 		if(useFBO)
 		{
 			if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
 		}
+
 
 		GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
@@ -3841,6 +3843,7 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 				shadowVP->_transparent[t]->setActive(true);
 		}
 		
+		glPopAttrib();
 
 		// render the foregrounds.
 		for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)

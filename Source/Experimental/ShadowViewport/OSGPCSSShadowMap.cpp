@@ -1171,6 +1171,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	if(!useGLSL  || !useShadowExt) shadowVP->Viewport::render(action);
 	else
 	{
+	glPushAttrib(GL_ENABLE_BIT);
 
 	if(!initTexturesDone) initTextures(win);
 
@@ -1296,6 +1297,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
+	glPopAttrib();
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{

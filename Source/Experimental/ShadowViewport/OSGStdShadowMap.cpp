@@ -3251,7 +3251,6 @@ void StdShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -3265,6 +3264,8 @@ void StdShadowMap::render(RenderActionBase* action)
 	if(!useShadowExt ) shadowVP->Viewport::render(action);
 	else
 	{
+
+	glPushAttrib(GL_ENABLE_BIT);
 
 	if(!initTexturesDone) initTextures(win);
 
@@ -3403,6 +3404,8 @@ void StdShadowMap::render(RenderActionBase* action)
 		for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
 	        shadowVP->_transparent[t]->setActive(true);
 	}
+
+	glPopAttrib();
 	
 	// render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
