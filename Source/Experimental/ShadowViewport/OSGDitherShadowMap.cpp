@@ -1581,7 +1581,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
     {
         if(shadowVP->_lightStates[i] != 0)
         {
-            if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+            if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
             {
                 Real32 shadowIntensity;
                 if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -1715,7 +1715,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
     //Jetzt alle normalen Lichtquellen
     for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
-        if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+        if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
         {
 
             Real32 shadowIntensity;
@@ -1777,7 +1777,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
         {
             if(shadowVP->_lightStates[j] != 0)
             {
-                if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+                if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
                 {
                     if(lightNum >= (i*4) && lightNum < ((i+1)*4))
                     {
@@ -1980,7 +1980,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
     {
         if(shadowVP->_lightStates[i] != 0)
         {
-            if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+            if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
             {
                 Real32 shadowIntensity;
                 if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -2139,7 +2139,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
     //Jetzt alle normalen Lichtquellen
     for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
-        if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+        if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
         {
 
             Real32 shadowIntensity;
@@ -2202,7 +2202,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
         {
             if(shadowVP->_lightStates[j] != 0)
             {
-                if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+                if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
                 {
                     if(lightNum >= (i*4) && lightNum < ((i+1)*4))
                     {

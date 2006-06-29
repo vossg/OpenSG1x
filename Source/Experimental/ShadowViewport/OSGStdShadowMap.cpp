@@ -2161,7 +2161,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -2294,7 +2294,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -2356,7 +2356,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -2647,7 +2647,6 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 		}
 	}
 
-	firstRun = 0;
 	shadowIntensityF.clear();
 	texFactorF.clear();
 	PLFactorF.clear();
@@ -2690,7 +2689,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -2805,8 +2804,6 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 
 	
 				//draw the Scene
-                shadowVP->_texChunks[i]->activate(action, 3);
-
 			    // we render the whole scene with one material.
 				action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
 
@@ -2814,8 +2811,6 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		
 				// reset the material.
 				action->setMaterial(NULL, NullFC);
-
-		        shadowVP->_texChunks[i]->deactivate(action, 3);
 
 				glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
@@ -2848,7 +2843,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -2914,7 +2909,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -3219,7 +3214,6 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 
         delete[] buffers;
     }
-	firstRun = 0;
 	shadowIntensityF.clear();
 	texFactorF.clear();
 	PLFactorF.clear();
