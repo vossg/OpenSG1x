@@ -70,7 +70,7 @@
 #include <OSGBoolFields.h> // Short type
 #include <OSGBoolFields.h> // Alpha type
 #include <OSGUInt32Fields.h> // TileSize type
-#include <OSGBoolFields.h> // Sort type
+#include <OSGBoolFields.h> // Pipelined type
 
 #include <OSGPipelineComposerFields.h>
 
@@ -94,17 +94,17 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
 
     enum
     {
-        ShortFieldId    = Inherited::NextFieldId,
-        AlphaFieldId    = ShortFieldId    + 1,
-        TileSizeFieldId = AlphaFieldId    + 1,
-        SortFieldId     = TileSizeFieldId + 1,
-        NextFieldId     = SortFieldId     + 1
+        ShortFieldId     = Inherited::NextFieldId,
+        AlphaFieldId     = ShortFieldId     + 1,
+        TileSizeFieldId  = AlphaFieldId     + 1,
+        PipelinedFieldId = TileSizeFieldId  + 1,
+        NextFieldId      = PipelinedFieldId + 1
     };
 
     static const OSG::BitVector ShortFieldMask;
     static const OSG::BitVector AlphaFieldMask;
     static const OSG::BitVector TileSizeFieldMask;
-    static const OSG::BitVector SortFieldMask;
+    static const OSG::BitVector PipelinedFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -134,7 +134,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
            SFBool              *getSFShort          (void);
            SFBool              *getSFAlpha          (void);
            SFUInt32            *getSFTileSize       (void);
-           SFBool              *getSFSort           (void);
+           SFBool              *getSFPipelined      (void);
 
            bool                &getShort          (void);
      const bool                &getShort          (void) const;
@@ -142,8 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
      const bool                &getAlpha          (void) const;
            UInt32              &getTileSize       (void);
      const UInt32              &getTileSize       (void) const;
-           bool                &getSort           (void);
-     const bool                &getSort           (void) const;
+           bool                &getPipelined      (void);
+     const bool                &getPipelined      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -153,7 +153,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
      void setShort          ( const bool &value );
      void setAlpha          ( const bool &value );
      void setTileSize       ( const UInt32 &value );
-     void setSort           ( const bool &value );
+     void setPipelined      ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -199,7 +199,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
     SFBool              _sfShort;
     SFBool              _sfAlpha;
     SFUInt32            _sfTileSize;
-    SFBool              _sfSort;
+    SFBool              _sfPipelined;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +277,6 @@ typedef RefPtr<PipelineComposerPtr> PipelineComposerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPIPELINECOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGPIPELINECOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
 
 #endif /* _OSGPIPELINECOMPOSERBASE_H_ */

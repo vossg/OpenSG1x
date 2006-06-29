@@ -86,22 +86,32 @@ void PipelineComposer::initMethod (void)
 
 PipelineComposer::PipelineComposer(void) :
     Inherited(),
+    _readTilePtr(&_tileA),
+    _composeTilePtr(&_tileB),
     _barrier(NULL),
+    _composeBarrier(NULL),
     _frameEndBarrier(NULL),
     _lock(NULL),
     _writer(NULL),
-    _waiting(false)
+    _waiting(false),
+    _firstFrame(true)
 {
+//    setPipelined(true);
 }
 
 PipelineComposer::PipelineComposer(const PipelineComposer &source) :
     Inherited(source),
+    _readTilePtr(&_tileA),
+    _composeTilePtr(&_tileB),
     _barrier(NULL),
+    _composeBarrier(NULL),
     _frameEndBarrier(NULL),
     _lock(NULL),
     _writer(NULL),
-    _waiting(false)
+    _waiting(false),
+    _firstFrame(true)
 {
+//    setPipelined(true);
 }
 
 PipelineComposer::~PipelineComposer(void)
@@ -127,6 +137,8 @@ void PipelineComposer::open()
 {
     setShort(true);
 
+    printf("Pipelined %d\n",getPipelined());
+
     // create server cross connection
     _clusterWindow->getNetwork()->connectAllGroupToPoint(clusterId(),
                                                          "StreamSock");
@@ -145,6 +157,14 @@ void PipelineComposer::open()
         // start writer thread
         _writer->runFunction( writeProc, this );
     }
+    if(!_isClient && getPipelined())
+    {
+        _composeBarrier = Barrier::get("PipelineComposerCompose");
+//        _composer = BaseThread::get("PipelineComposerCompose");
+        _composer = dynamic_cast<Thread *>(ThreadManager::the()->getThread(NULL));
+        _composer->runFunction( composeProc,0, this );
+    }    
+
 #ifdef USE_NV_OCCLUSION
     glGenOcclusionQueriesNV(1, &_occlusionQuery);
 #endif
@@ -183,12 +203,18 @@ void PipelineComposer::composeViewport(ViewportPtr port)
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
-    _tilesX = (port->getPixelWidth()  - 1) / getTileSize() + 1;
-    _tilesY = (port->getPixelHeight() - 1) / getTileSize() + 1;
 
+    // only one buffer for the client
+    if(isClient())
+        _composeTilePtr = _readTilePtr;
+
+    _readTilesX = (port->getPixelWidth()  - 1) / getTileSize() + 1;
+    _readTilesY = (port->getPixelHeight() - 1) / getTileSize() + 1;
     _tileBufferSize = getTileSize()*getTileSize()*8+sizeof(TileBuffer);
-    _readTile.resize(_tileBufferSize);
-    _tile.resize(_tileBufferSize * _tilesX * _tilesY);
+    _workingTile.resize(_tileBufferSize);
+
+    // resize
+    _readTilePtr->resize(_tileBufferSize * _readTilesX * _readTilesY);
 
     if(isClient())
     {
@@ -216,7 +242,10 @@ void PipelineComposer::composeViewport(ViewportPtr port)
         _depthType   = GL_UNSIGNED_INT;
         _colorFormat = GL_RGB;
         _colorType   = GL_UNSIGNED_SHORT_5_6_5;
-        startCompose(depthDummy,colorDummy,port);
+        
+        readBuffer(depthDummy,colorDummy,port);
+        if(!getPipelined() || isClient())
+            composeBuffer(depthDummy,colorDummy);
     }
     else
     {
@@ -227,7 +256,9 @@ void PipelineComposer::composeViewport(ViewportPtr port)
             _depthType   = GL_UNSIGNED_INT;
             _colorFormat = GL_RGBA;
             _colorType   = GL_UNSIGNED_BYTE;
-            startCompose(depthDummy,colorDummy,port);
+            readBuffer(depthDummy,colorDummy,port);
+            if(!getPipelined() || isClient())
+                composeBuffer(depthDummy,colorDummy);
         }
         else
         {
@@ -236,7 +267,9 @@ void PipelineComposer::composeViewport(ViewportPtr port)
             _depthType   = GL_UNSIGNED_INT;
             _colorFormat = GL_RGB;
             _colorType   = GL_UNSIGNED_BYTE;
-            startCompose(depthDummy,colorDummy,port);
+            readBuffer(depthDummy,colorDummy,port);
+            if(!getPipelined() || isClient())
+                composeBuffer(depthDummy,colorDummy);
         }
     }
 
@@ -285,7 +318,7 @@ void PipelineComposer::composeViewport(ViewportPtr port)
             printf("Layerd           : %10d\n",_statistics.noDepth);
             printf("Empty            : %10d\n",_statistics.noGeo-clipped);
             printf("Clipped          : %10d\n",clipped);
-            printf("DepthAndColor    : %10d\n",serverCount()*_tilesX*_tilesY-
+            printf("DepthAndColor    : %10d\n",serverCount()*_composeTilesX*_composeTilesY-
                    _statistics.occluded-
                    _statistics.noDepth-
                    _statistics.noGeo);
@@ -332,25 +365,24 @@ void PipelineComposer::close(void)
  */
 bool PipelineComposer::getClientRendering()
 {
-/*
-    if(getSort())
-        return false;
-    else
-        return true;
-*/
     return false;
 }
 
 /*----------------------------- helper ------------------------------------*/
 
-PipelineComposer::TileBuffer *PipelineComposer::getTileBuffer(UInt32 x,UInt32 y)
+PipelineComposer::TileBuffer *PipelineComposer::getComposeTileBuffer(UInt32 x,UInt32 y)
 {
-    return (TileBuffer*)(&_tile[(y*_tilesX + x)*_tileBufferSize]);
+    return (TileBuffer*)(&(*_composeTilePtr)[(y*_composeTilesX + x)*_tileBufferSize]);
 }
 
-PipelineComposer::TileBuffer *PipelineComposer::getTileReadBuffer(void)
+PipelineComposer::TileBuffer *PipelineComposer::getReadTileBuffer(UInt32 x,UInt32 y)
 {
-    return (TileBuffer*)(&_readTile[0]);
+    return (TileBuffer*)(&(*_readTilePtr)[(y*_readTilesX + x)*_tileBufferSize]);
+}
+
+PipelineComposer::TileBuffer *PipelineComposer::getWorkingTileBuffer(void)
+{
+    return (TileBuffer*)(&_workingTile[0]);
 }
 
 /*! Depth order for pipe sort
@@ -369,7 +401,7 @@ bool PipelineComposer::GroupInfoOrder::operator()
 UInt32 PipelineComposer::compressTransInfo(std::vector<TransInfo> &transInfo)
 {
     TransInfo *src    = &transInfo[0];
-    TransInfo *srcEnd = src + _tilesX*_tilesY*serverCount();
+    TransInfo *srcEnd = src + _composeTilesX*_composeTilesY*serverCount();
     TransInfo *dst    = &transInfo[0];
     TransInfo *empty  = NULL;
     while(src != srcEnd) {
@@ -400,11 +432,11 @@ UInt32 PipelineComposer::compressTransInfo(std::vector<TransInfo> &transInfo)
 
 void PipelineComposer::uncompressTransInfo(std::vector<TransInfo> &transInfo,UInt32 infoCount)
 {
-    transInfo.resize(_tilesX*_tilesY*serverCount());
+    transInfo.resize(_composeTilesX*_composeTilesY*serverCount());
 
     TransInfo *src    = &transInfo[infoCount-1];
     TransInfo *srcEnd = &transInfo[0] - 1;
-    TransInfo *dst    = &transInfo[_tilesX*_tilesY*serverCount()-1];
+    TransInfo *dst    = &transInfo[_composeTilesX*_composeTilesY*serverCount()-1];
     while(src != srcEnd) {
         if(src->empty) {
             while(src->sendTo) {
@@ -444,6 +476,37 @@ void PipelineComposer::writeProc(void *arg)
             UInt32 colorDummy;
             UInt32 depthDummy;
             the->writeResult(depthDummy,colorDummy);
+        }
+    }
+}
+
+void PipelineComposer::composeProc(void *arg) 
+{
+    PipelineComposer *the=(PipelineComposer*)arg;
+
+    // TODO stop compose thread
+    for(;;)
+    {
+        if(the->getShort())
+        {
+            UInt16 colorDummy;
+            UInt32 depthDummy;
+            the->composeBuffer(depthDummy,colorDummy);
+        }
+        else
+        {
+            if(the->getAlpha())
+            {
+                RGBValue colorDummy;
+                UInt32   depthDummy;
+                the->composeBuffer(depthDummy,colorDummy);
+            }
+            else
+            {
+                UInt32 colorDummy;
+                UInt32 depthDummy;
+                the->composeBuffer(depthDummy,colorDummy);
+            }
         }
     }
 }

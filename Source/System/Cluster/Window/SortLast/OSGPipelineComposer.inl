@@ -67,11 +67,12 @@ UInt32 PipelineComposer::getMinMaxOcclude(DepthT    &depth,
 
     first->min=0;
     result++;
-    for(y = 0; y < _tilesY ; ++y)
+    for(y = 0; y < _composeTilesY ; ++y)
     {
-        for(x = 0; x < _tilesX ; ++x)
+        for(x = 0; x < _composeTilesX ; ++x)
         {
-            tile = getTileBuffer(x,y);
+            tile = getComposeTileBuffer(x,y);
+
             if(tile->depth.min == (DepthT)-1 &&
                tile->depth.max == (DepthT)-1) {
                 if(!reuseEmpty) {
@@ -90,7 +91,7 @@ UInt32 PipelineComposer::getMinMaxOcclude(DepthT    &depth,
             }
         }
     }
-//    printf("compr %f\n",count*100.0/(_tilesX*_tilesY));
+//    printf("compr %f\n",count*100.0/(_composeTilesX*_composeTilesY));
 
     first->min = count;
     return count+1;
@@ -109,18 +110,19 @@ void PipelineComposer::setTransInfo(DepthT &depth,ColorT &color)
     UInt32                      s;
     UInt32                      count;
 
-    transInfo.resize(_tilesX * _tilesY * serverCount());
-    depthInfo.resize(_tilesX * _tilesY + 1);
+    transInfo.resize(_composeTilesX * _composeTilesY * serverCount());
+    depthInfo.resize(_composeTilesX * _composeTilesY + 1);
     count = getMinMaxOcclude(depth,color,&depthInfo[0]);
 
     _statistics.sortTime = -getSystemTime();
 
     // send depth info
     client = clusterWindow()->getNetwork()->getMainConnection();
+
     client->put(&depthInfo[0],sizeof(DepthInfo)*count);
     _statistics.bytesOut += sizeof(DepthInfo)*count;
     client->flush();
-    
+
     // read transmit info
     readCon = clusterWindow()->getNetwork()->getMainConnection();
     readCon->selectChannel();
@@ -130,13 +132,13 @@ void PipelineComposer::setTransInfo(DepthT &depth,ColorT &color)
     readCon->get(&transInfo[0],sizeof(TransInfo)*infoCount);
     _statistics.bytesIn += sizeof(TransInfo)*infoCount +sizeof(UInt32);
     uncompressTransInfo(transInfo,infoCount);
-    for(y = 0; y < _tilesY ; ++y)
+    for(y = 0; y < _composeTilesY ; ++y)
     {
-        for(x = 0; x < _tilesX ; ++x)
+        for(x = 0; x < _composeTilesX ; ++x)
         {
-            tile = getTileBuffer(x,y);
-            tile->trans = transInfo[x + y*_tilesX + 
-                                    clusterId()*_tilesX*_tilesY];
+            tile = getComposeTileBuffer(x,y);
+            tile->trans = transInfo[x + y*_composeTilesX + 
+                                    clusterId()*_composeTilesX*_composeTilesY];
             // occluded
             if(tile->trans.empty)
                 tile->empty = true;
@@ -164,9 +166,9 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
     std::vector<DepthInfo>      depthInfoTmp;
     UInt32                      c;
 
-    depthInfo.resize(_tilesX * _tilesY * count);
-    depthInfoTmp.resize(_tilesX * _tilesY);
-    transInfo.resize(_tilesX * _tilesY * count);
+    depthInfo.resize(_composeTilesX * _composeTilesY * count);
+    depthInfoTmp.resize(_composeTilesX * _composeTilesY);
+    transInfo.resize(_composeTilesX * _composeTilesY * count);
 
     double tr=-getSystemTime();
 
@@ -177,9 +179,10 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
         DepthInfo depthCount;
         channel = servers->selectChannel();
         servers->get(&depthCount,sizeof(DepthInfo));
+
         servers->get(&depthInfoTmp[0],sizeof(DepthInfo)*depthCount.min);
         DepthInfo *src = &depthInfoTmp[0];
-        DepthInfo *dst = &depthInfo[_tilesX * _tilesY * channel];
+        DepthInfo *dst = &depthInfo[_composeTilesX * _composeTilesY * channel];
         for(c=0; c<depthCount.min ; ++c) {
             if(src->min == (DepthT)-1) {
                 while(src->max--) {
@@ -204,15 +207,15 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
     double t=-getSystemTime();
 
     // sort each group
-    for(y = 0; y < _tilesY ; ++y)
+    for(y = 0; y < _composeTilesY ; ++y)
     {
-        for(x = 0; x < _tilesX ; ++x)
+        for(x = 0; x < _composeTilesX ; ++x)
         {
             for(id = 0 ; id < count ; ++id)
             {
                 _groupInfo[id]->id    = id;
                 _groupInfo[id]->depth = 
-                    depthInfo[x+_tilesX*y + _tilesX*_tilesY*id];
+                    depthInfo[x+_composeTilesX*y + _composeTilesX*_composeTilesY*id];
 
                 if(_groupInfo[id]->depth.min == (DepthT)(-1))
                     _statistics.noGeo++;
@@ -236,10 +239,9 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
                 }
             }
             // sort
-            if(getSort())
-                std::sort(_groupInfo.begin(),
-                          _groupInfo.end(),
-                          GroupInfoOrder());
+            std::sort(_groupInfo.begin(),
+                      _groupInfo.end(),
+                      GroupInfoOrder());
             
             // cummulate min through the pipeline
             dmin = _groupInfo[0]->depth.min;
@@ -254,7 +256,7 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
                 }
             }
 
-            getTileBuffer(x,y)->empty = true;
+            getComposeTileBuffer(x,y)->empty = true;
             // determine send to
             nextGroup = NULL;
             for(id = count-1 ; id >= 0 ; --id)
@@ -284,7 +286,7 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
                         // send to client
                         _groupInfo[id]->trans.sendTo    = count;
                         _groupInfo[id]->trans.sendDepth = false;
-                        getTileBuffer(x,y)->empty = false;
+                        getComposeTileBuffer(x,y)->empty = false;
                         _statistics.noDepth++;
                     }
                     nextGroup = _groupInfo[id];
@@ -293,8 +295,8 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
 
             for(id = 0 ; id < count ; ++id)
             {
-                transInfo[_groupInfo[id]->id * _tilesX * _tilesY +
-                          x + y * _tilesX] = _groupInfo[id]->trans;
+                transInfo[_groupInfo[id]->id * _composeTilesX * _composeTilesY +
+                          x + y * _composeTilesX] = _groupInfo[id]->trans;
             }
 #if 0
             for(id = 0 ; id < count ; ++id)
@@ -325,182 +327,12 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
     printf("\nsetup time %lf\n",t);
     printf("read  time %lf\n",tr);
 */
+
     clusterWindow()->getNetwork()->getMainConnection()->putValue(infoCount);
     clusterWindow()->getNetwork()->getMainConnection()->put(
         &transInfo[0],infoCount*sizeof(TransInfo));
-    _statistics.bytesOut += infoCount*_tilesY*count*sizeof(TransInfo);
+    _statistics.bytesOut += infoCount*_composeTilesY*count*sizeof(TransInfo);
     clusterWindow()->getNetwork()->getMainConnection()->flush();
-}
-
-template<class DepthT,class ColorT>
-void PipelineComposer::readBuffer(DepthT &depthxx,ColorT &color,
-                                  UInt32 left,
-                                  UInt32 bottom,
-                                  UInt32 right,
-                                  UInt32 top,
-                                  UInt32 width,
-                                  UInt32 height)
-{
-    UInt32      tx,ty,x,y,w,h;
-    TileBuffer *tile;
-    DepthT     *depthPtr,*depthEnd;
-    UInt8      *c,*cEnd;
-    DepthT      depthMin;
-    DepthT      depthMax;
-    bool        occlude;
-
-    _statistics.pixelReadTime = -getSystemTime();
-#ifdef USE_NV_OCCLUSION
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glColorMask(false,false,false,false);
-    glDepthMask(false);
-#endif
-
-    for(ty = 0; ty < _tilesY ; ++ty)
-    {
-        for(tx = 0; tx < _tilesX ; ++tx)
-        {
-            occlude = true;
-
-            x = tx * getTileSize();
-            y = ty * getTileSize();
-            w = osgMin(getTileSize(),width - x);
-            h = osgMin(getTileSize(),height - y);
-
-//            w=h=12;
-//            w=h=getTileSize();
-
-            tile = getTileBuffer(tx,ty);
-            tile->header.x = tx;
-            tile->header.y = ty;
-            tile->header.w = w;
-            tile->header.h = h;
-            tile->colorSize = sizeof(ColorT)*w*h;
-            tile->depthSize = sizeof(DepthT)*w*h;
-// !!!!
-            tile->colorSize = sizeof(ColorT)*w*h+3;
-            tile->colorSize -= tile->colorSize & 3;
-            tile->depthSize = sizeof(DepthT)*w*h+3;
-            tile->depthSize -= tile->depthSize & 3;
-//
-            tile->dataSize  = tile->colorSize + tile->depthSize;
-
-            if(x > right || (x+w) <= left ||
-               y > top   || (y+h) <= bottom)
-            {
-                tile->depth.min     = (DepthT)-1;
-                tile->depth.max     = (DepthT)-1;
-                tile->depth.occlude = false;
-                tile->empty = true;
-                _statistics.clipped++;
-                continue;
-            }
-
-            tile->empty = false;
-
-#ifdef USE_NV_OCCLUSION
-            // fast empty test
-            glBeginOcclusionQueryNV(_occlusionQuery);
-            glBegin(GL_QUADS);
-            glColor3f(0,1,0);
-            glVertex3f(x    ,y    ,-1);
-            glVertex3f(x+w  ,y    ,-1);
-            glVertex3f(x+w  ,y+h  ,-1);
-            glVertex3f(x    ,y+h  ,-1);
-            glEnd();
-            glEndOcclusionQueryNV();
-            GLuint samples=-1;
-            glGetOcclusionQueryuivNV(_occlusionQuery, GL_PIXEL_COUNT_NV, &samples);
-            _statistics.occluded+=samples - w*h;
-            if(samples == w*h)
-            {
-                tile->depth.min     = (DepthT)-1;
-                tile->depth.max     = (DepthT)-1;
-                tile->depth.occlude = false;
-                tile->empty = true;
-#if 1
-                glColorMask(true,true,true,true);
-                glBegin(GL_QUADS);
-                glColor3f(1,0,0);
-                glVertex3f(x    ,y    ,-1);
-                glVertex3f(x+w  ,y    ,-1);
-                glVertex3f(x+w  ,y+h  ,-1);
-                glVertex3f(x    ,y+h  ,-1);
-                glEnd();
-                glColorMask(false,false,false,false);
-#endif
-                continue;
-            }
-#endif
-            // read depth
-            glReadPixels(x, y, w, h, 
-                         GL_DEPTH_COMPONENT, _depthType,
-                         tile->data+tile->colorSize);
-
-            // old version
-#if 0
-            depthPtr = (DepthT*)(tile->data + tile->colorSize);
-            depthEnd = (DepthT*)(tile->data + 
-                                 tile->colorSize +
-                                 tile->depthSize);
-
-            for( ; depthPtr != depthEnd && *depthPtr == (DepthT)(-1) ; ++depthPtr)
-                occlude = false;
-            if(depthPtr != depthEnd)
-            {
-                depthMin = depthMax = *depthPtr;
-                for( ; depthPtr != depthEnd ; ++depthPtr)
-                {
-                    if(*depthPtr > depthMax)
-                        if(*depthPtr != (DepthT)(-1))
-                            depthMax = *depthPtr;
-                        else
-                            occlude = false;
-                    else
-                        if(*depthPtr < depthMin)
-                            depthMin = *depthPtr;
-                }
-            }
-            else
-            {
-                depthMin = depthMax = (DepthT)-1;
-                occlude  = false;
-            }
-#else
-            depthPtr = (DepthT*)(tile->data + tile->colorSize);
-            // new version
-            occlude = checkDepth<DepthT,(DepthT)-1>(
-                depthPtr,
-                depthMin,
-                depthMax,
-                w*h);
-#endif
-            if(depthMin == (DepthT)-1)
-                tile->empty = true;
-            else
-                tile->empty = false;
-
-            tile->depth.min     = depthMin;
-            tile->depth.max     = depthMax;
-            tile->depth.occlude = occlude;
-
-            if(!tile->empty)
-            {
-                glReadPixels(x, y, w, h, 
-                             _colorFormat,_colorType,
-                             tile->data);
-            }
-        }
-    }
-
-#ifdef USE_NV_OCCLUSION
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glColorMask(true,true,true,true);
-    glDepthMask(true);
-#endif
-    _statistics.pixelReadTime += getSystemTime();
 }
 
 template<class DepthT,class ColorT>
@@ -509,7 +341,7 @@ void PipelineComposer::clientCompose(DepthT &depth,ColorT &color)
     GroupConnection   *servers;
     UInt32             tx,ty;
     UInt32             recvCount=0;
-    TileBuffer        *readTile = getTileReadBuffer();
+    TileBuffer        *readTile = getWorkingTileBuffer();
 #ifdef COMPRESS_IMAGES
     std::vector<UInt32> src;
     src.resize(512*512*8);
@@ -518,9 +350,9 @@ void PipelineComposer::clientCompose(DepthT &depth,ColorT &color)
 
     servers = clusterWindow()->getNetwork()->getGroupConnection(clusterId());
    
-    for(ty = 0; ty < _tilesY ; ++ty)
-        for(tx = 0; tx < _tilesX ; ++tx)
-            if(!getTileBuffer(tx,ty)->empty)
+    for(ty = 0; ty < _composeTilesY ; ++ty)
+        for(tx = 0; tx < _composeTilesX ; ++tx)
+            if(!getComposeTileBuffer(tx,ty)->empty)
                 recvCount++;
 
 //    printf("expect %d \n",recvCount);
@@ -570,7 +402,7 @@ void PipelineComposer::serverCompose(DepthT &depth,ColorT &color)
     UInt32             sendCount=0;
     UInt32             recvCount=0;
     GroupConnection   *srcConn;
-    TileBuffer        *readTile = getTileReadBuffer();
+    TileBuffer        *readTile = getWorkingTileBuffer();
     DepthT            *srcDepth,*dstDepth,*srcDepthEnd,*dstDepthEnd;
     ColorT            *srcColor=NULL,*dstColor=NULL;
 #ifdef COMPRESS_IMAGES
@@ -580,10 +412,10 @@ void PipelineComposer::serverCompose(DepthT &depth,ColorT &color)
     UInt32 srcLen;
 #endif
 
-    for(ty = 0; ty < _tilesY ; ++ty)
-        for(tx = 0; tx < _tilesX ; ++tx)
+    for(ty = 0; ty < _composeTilesY ; ++ty)
+        for(tx = 0; tx < _composeTilesX ; ++tx)
         {
-            tile = getTileBuffer(tx,ty);
+            tile = getComposeTileBuffer(tx,ty);
             if(!tile->empty)
             {
                 sendCount++;
@@ -593,11 +425,11 @@ void PipelineComposer::serverCompose(DepthT &depth,ColorT &color)
         }
 
     // semd all tiles 
-    for(ty = 0; ty < _tilesY ; ++ty)
+    for(ty = 0; ty < _composeTilesY ; ++ty)
     {
-        for(tx = 0; tx < _tilesX ; ++tx)
+        for(tx = 0; tx < _composeTilesX ; ++tx)
         {
-            tile = getTileBuffer(tx,ty);
+            tile = getComposeTileBuffer(tx,ty);
             if(!tile->empty && tile->trans.first)
             {
                 // send first tiles 
@@ -638,7 +470,7 @@ void PipelineComposer::serverCompose(DepthT &depth,ColorT &color)
         _statistics.bytesIn += sizeof(readTile->header);
 #endif
 
-        tile = getTileBuffer(readTile->header.x,readTile->header.y);
+        tile = getComposeTileBuffer(readTile->header.x,readTile->header.y);
         srcDepth    = (DepthT*)(readTile->data + tile->colorSize);
         srcColor    = (ColorT*)(readTile->data);
         dstDepth    = (DepthT*)(tile->data + tile->colorSize);
@@ -772,11 +604,29 @@ void PipelineComposer::writeResult(DepthT &depth,ColorT &color)
 }
 
 template<class DepthT,class ColorT>
-void PipelineComposer::startCompose(DepthT &depth,ColorT &color,
-                                    ViewportPtr port)
+void PipelineComposer::readBuffer(DepthT &depth,ColorT &color,
+                                  ViewportPtr port)
 {
     UInt32      left,bottom,top,right,front,back;
     UInt32      width,height;
+    UInt32      tx,ty,x,y,w,h;
+    TileBuffer *tile;
+    DepthT     *depthPtr,*depthEnd;
+    UInt8      *c,*cEnd;
+    DepthT      depthMin;
+    DepthT      depthMax;
+    bool        occlude;
+
+    if(isClient())
+    {
+        // transfer tile size
+        _composeTilesX  = _readTilesX;
+        _composeTilesY  = _readTilesY;
+        return;
+    }
+
+    if(getPipelined()) 
+        _composeBarrier->enter(2);
 
     width  = port->getPixelWidth();
     height = port->getPixelHeight();
@@ -789,10 +639,189 @@ void PipelineComposer::startCompose(DepthT &depth,ColorT &color,
     }
     width = port->getPixelWidth();
     height = port->getPixelHeight();
-    // read buffer into tiles
-    if(!isClient() || !getSort())
-        readBuffer(depth,color,left,bottom,right,top,width,height);
 
+    _statistics.pixelReadTime = -getSystemTime();
+#ifdef USE_NV_OCCLUSION
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glColorMask(false,false,false,false);
+    glDepthMask(false);
+#endif
+
+    for(ty = 0; ty < _readTilesY ; ++ty)
+    {
+        for(tx = 0; tx < _readTilesX ; ++tx)
+        {
+            occlude = true;
+
+            x = tx * getTileSize();
+            y = ty * getTileSize();
+            w = osgMin(getTileSize(),width - x);
+            h = osgMin(getTileSize(),height - y);
+
+//            w=h=12;
+//            w=h=getTileSize();
+
+            tile = getReadTileBuffer(tx,ty);
+            tile->header.x = tx;
+            tile->header.y = ty;
+            tile->header.w = w;
+            tile->header.h = h;
+            tile->colorSize = sizeof(ColorT)*w*h;
+            tile->depthSize = sizeof(DepthT)*w*h;
+// !!!!
+            tile->colorSize = sizeof(ColorT)*w*h+3;
+            tile->colorSize -= tile->colorSize & 3;
+            tile->depthSize = sizeof(DepthT)*w*h+3;
+            tile->depthSize -= tile->depthSize & 3;
+//
+            tile->dataSize  = tile->colorSize + tile->depthSize;
+
+            if(x > right || (x+w) <= left ||
+               y > top   || (y+h) <= bottom)
+            {
+                tile->depth.min     = (DepthT)-1;
+                tile->depth.max     = (DepthT)-1;
+                tile->depth.occlude = false;
+                tile->empty = true;
+                _statistics.clipped++;
+                continue;
+            }
+
+            tile->empty = false;
+
+#ifdef USE_NV_OCCLUSION
+            // fast empty test
+            glBeginOcclusionQueryNV(_occlusionQuery);
+            glBegin(GL_QUADS);
+            glColor3f(0,1,0);
+            glVertex3f(x    ,y    ,-1);
+            glVertex3f(x+w  ,y    ,-1);
+            glVertex3f(x+w  ,y+h  ,-1);
+            glVertex3f(x    ,y+h  ,-1);
+            glEnd();
+            glEndOcclusionQueryNV();
+            GLuint samples=-1;
+            glGetOcclusionQueryuivNV(_occlusionQuery, GL_PIXEL_COUNT_NV, &samples);
+            _statistics.occluded+=samples - w*h;
+            if(samples == w*h)
+            {
+                tile->depth.min     = (DepthT)-1;
+                tile->depth.max     = (DepthT)-1;
+                tile->depth.occlude = false;
+                tile->empty = true;
+#if 1
+                glColorMask(true,true,true,true);
+                glBegin(GL_QUADS);
+                glColor3f(1,0,0);
+                glVertex3f(x    ,y    ,-1);
+                glVertex3f(x+w  ,y    ,-1);
+                glVertex3f(x+w  ,y+h  ,-1);
+                glVertex3f(x    ,y+h  ,-1);
+                glEnd();
+                glColorMask(false,false,false,false);
+#endif
+                continue;
+            }
+#endif
+            // read depth
+            glReadPixels(x, y, w, h, 
+                         GL_DEPTH_COMPONENT, _depthType,
+                         tile->data+tile->colorSize);
+
+            // old version
+#if 0
+            depthPtr = (DepthT*)(tile->data + tile->colorSize);
+            depthEnd = (DepthT*)(tile->data + 
+                                 tile->colorSize +
+                                 tile->depthSize);
+
+            for( ; depthPtr != depthEnd && *depthPtr == (DepthT)(-1) ; ++depthPtr)
+                occlude = false;
+            if(depthPtr != depthEnd)
+            {
+                depthMin = depthMax = *depthPtr;
+                for( ; depthPtr != depthEnd ; ++depthPtr)
+                {
+                    if(*depthPtr > depthMax)
+                        if(*depthPtr != (DepthT)(-1))
+                            depthMax = *depthPtr;
+                        else
+                            occlude = false;
+                    else
+                        if(*depthPtr < depthMin)
+                            depthMin = *depthPtr;
+                }
+            }
+            else
+            {
+                depthMin = depthMax = (DepthT)-1;
+                occlude  = false;
+            }
+#else
+            depthPtr = (DepthT*)(tile->data + tile->colorSize);
+            // new version
+            occlude = checkDepth<DepthT,(DepthT)-1>(
+                depthPtr,
+                depthMin,
+                depthMax,
+                w*h);
+#endif
+            if(depthMin == (DepthT)-1)
+                tile->empty = true;
+            else
+                tile->empty = false;
+
+            tile->depth.min     = depthMin;
+            tile->depth.max     = depthMax;
+            tile->depth.occlude = occlude;
+
+            if(!tile->empty)
+            {
+                glReadPixels(x, y, w, h, 
+                             _colorFormat,_colorType,
+                             tile->data);
+            }
+        }
+    }
+
+#ifdef USE_NV_OCCLUSION
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+    glColorMask(true,true,true,true);
+    glDepthMask(true);
+#endif
+    _statistics.pixelReadTime += getSystemTime();
+
+    // sync with compose thread
+    if(getPipelined()) 
+        _composeBarrier->enter(2);
+
+    // swap buffers
+    std::vector<UInt8> *save = _composeTilePtr;
+    _composeTilePtr = _readTilePtr;
+    _readTilePtr = save;
+
+    // transfer tile size
+    _composeTilesX  = _readTilesX;
+    _composeTilesY  = _readTilesY;
+    
+}
+
+template<class DepthT,class ColorT>
+void PipelineComposer::composeBuffer(DepthT &depth,ColorT &color)
+{
+    // TODO use firstframe flag!!
+    if(getPipelined() && _firstFrame) 
+    {
+        if(!isClient()) 
+        {
+            _composeBarrier->enter(2);
+            _composeBarrier->enter(2);
+        }
+        _firstFrame = false;
+        return;
+    }
     if(isClient())
     {
         calculateTransInfo(depth,color);
@@ -802,8 +831,13 @@ void PipelineComposer::startCompose(DepthT &depth,ColorT &color,
     }
     else
     {
+        // sync with read thread
+        if(getPipelined()) 
+            _composeBarrier->enter(2);
         setTransInfo(depth,color);
         serverCompose(depth,color);
+        if(getPipelined()) 
+            _composeBarrier->enter(2);
     }
 }
 

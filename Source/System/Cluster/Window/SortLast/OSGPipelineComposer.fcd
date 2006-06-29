@@ -39,11 +39,11 @@
 	>
 	</Field>
 	<Field
-		name="sort"
+		name="pipelined"
 		type="bool"
 		cardinality="single"
 		visibility="external"
-		defaultValue="true"
+		defaultValue="false"
 		access="public"
 	>
 	</Field>

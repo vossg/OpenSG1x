@@ -62,7 +62,7 @@
 #include "OSGPipelineComposer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PipelineComposerBase::ShortFieldMask = 
     (TypeTraits<BitVector>::One << PipelineComposerBase::ShortFieldId);
@@ -73,8 +73,8 @@ const OSG::BitVector  PipelineComposerBase::AlphaFieldMask =
 const OSG::BitVector  PipelineComposerBase::TileSizeFieldMask = 
     (TypeTraits<BitVector>::One << PipelineComposerBase::TileSizeFieldId);
 
-const OSG::BitVector  PipelineComposerBase::SortFieldMask = 
-    (TypeTraits<BitVector>::One << PipelineComposerBase::SortFieldId);
+const OSG::BitVector  PipelineComposerBase::PipelinedFieldMask = 
+    (TypeTraits<BitVector>::One << PipelineComposerBase::PipelinedFieldId);
 
 const OSG::BitVector PipelineComposerBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -92,7 +92,7 @@ const OSG::BitVector PipelineComposerBase::MTInfluenceMask =
 /*! \var UInt32          PipelineComposerBase::_sfTileSize
     
 */
-/*! \var bool            PipelineComposerBase::_sfSort
+/*! \var bool            PipelineComposerBase::_sfPipelined
     
 */
 
@@ -116,10 +116,10 @@ FieldDescription *PipelineComposerBase::_desc[] =
                      false,
                      (FieldAccessMethod) &PipelineComposerBase::getSFTileSize),
     new FieldDescription(SFBool::getClassType(), 
-                     "sort", 
-                     SortFieldId, SortFieldMask,
+                     "pipelined", 
+                     PipelinedFieldId, PipelinedFieldMask,
                      false,
-                     (FieldAccessMethod) &PipelineComposerBase::getSFSort)
+                     (FieldAccessMethod) &PipelineComposerBase::getSFPipelined)
 };
 
 
@@ -198,7 +198,7 @@ PipelineComposerBase::PipelineComposerBase(void) :
     _sfShort                  (bool(true)), 
     _sfAlpha                  (bool(false)), 
     _sfTileSize               (UInt32(44)), 
-    _sfSort                   (bool(true)), 
+    _sfPipelined              (bool(false)), 
     Inherited() 
 {
 }
@@ -211,7 +211,7 @@ PipelineComposerBase::PipelineComposerBase(const PipelineComposerBase &source) :
     _sfShort                  (source._sfShort                  ), 
     _sfAlpha                  (source._sfAlpha                  ), 
     _sfTileSize               (source._sfTileSize               ), 
-    _sfSort                   (source._sfSort                   ), 
+    _sfPipelined              (source._sfPipelined              ), 
     Inherited                 (source)
 {
 }
@@ -243,9 +243,9 @@ UInt32 PipelineComposerBase::getBinSize(const BitVector &whichField)
         returnValue += _sfTileSize.getBinSize();
     }
 
-    if(FieldBits::NoField != (SortFieldMask & whichField))
+    if(FieldBits::NoField != (PipelinedFieldMask & whichField))
     {
-        returnValue += _sfSort.getBinSize();
+        returnValue += _sfPipelined.getBinSize();
     }
 
 
@@ -272,9 +272,9 @@ void PipelineComposerBase::copyToBin(      BinaryDataHandler &pMem,
         _sfTileSize.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (SortFieldMask & whichField))
+    if(FieldBits::NoField != (PipelinedFieldMask & whichField))
     {
-        _sfSort.copyToBin(pMem);
+        _sfPipelined.copyToBin(pMem);
     }
 
 
@@ -300,9 +300,9 @@ void PipelineComposerBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTileSize.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (SortFieldMask & whichField))
+    if(FieldBits::NoField != (PipelinedFieldMask & whichField))
     {
-        _sfSort.copyFromBin(pMem);
+        _sfPipelined.copyFromBin(pMem);
     }
 
 
@@ -324,8 +324,8 @@ void PipelineComposerBase::executeSyncImpl(      PipelineComposerBase *pOther,
     if(FieldBits::NoField != (TileSizeFieldMask & whichField))
         _sfTileSize.syncWith(pOther->_sfTileSize);
 
-    if(FieldBits::NoField != (SortFieldMask & whichField))
-        _sfSort.syncWith(pOther->_sfSort);
+    if(FieldBits::NoField != (PipelinedFieldMask & whichField))
+        _sfPipelined.syncWith(pOther->_sfPipelined);
 
 
 }
@@ -346,8 +346,8 @@ void PipelineComposerBase::executeSyncImpl(      PipelineComposerBase *pOther,
     if(FieldBits::NoField != (TileSizeFieldMask & whichField))
         _sfTileSize.syncWith(pOther->_sfTileSize);
 
-    if(FieldBits::NoField != (SortFieldMask & whichField))
-        _sfSort.syncWith(pOther->_sfSort);
+    if(FieldBits::NoField != (PipelinedFieldMask & whichField))
+        _sfPipelined.syncWith(pOther->_sfPipelined);
 
 
 
@@ -364,14 +364,10 @@ void PipelineComposerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PipelineComposerPtr>::_type("PipelineComposerPtr", "ImageComposerPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -387,10 +383,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPIPELINECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPIPELINECOMPOSERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPIPELINECOMPOSERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

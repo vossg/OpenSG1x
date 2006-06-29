@@ -117,11 +117,11 @@ SFUInt32 *PipelineComposerBase::getSFTileSize(void)
     return &_sfTileSize;
 }
 
-//! Get the PipelineComposer::_sfSort field.
+//! Get the PipelineComposer::_sfPipelined field.
 inline
-SFBool *PipelineComposerBase::getSFSort(void)
+SFBool *PipelineComposerBase::getSFPipelined(void)
 {
-    return &_sfSort;
+    return &_sfPipelined;
 }
 
 
@@ -188,29 +188,29 @@ void PipelineComposerBase::setTileSize(const UInt32 &value)
     _sfTileSize.setValue(value);
 }
 
-//! Get the value of the PipelineComposer::_sfSort field.
+//! Get the value of the PipelineComposer::_sfPipelined field.
 inline
-bool &PipelineComposerBase::getSort(void)
+bool &PipelineComposerBase::getPipelined(void)
 {
-    return _sfSort.getValue();
+    return _sfPipelined.getValue();
 }
 
-//! Get the value of the PipelineComposer::_sfSort field.
+//! Get the value of the PipelineComposer::_sfPipelined field.
 inline
-const bool &PipelineComposerBase::getSort(void) const
+const bool &PipelineComposerBase::getPipelined(void) const
 {
-    return _sfSort.getValue();
+    return _sfPipelined.getValue();
 }
 
-//! Set the value of the PipelineComposer::_sfSort field.
+//! Set the value of the PipelineComposer::_sfPipelined field.
 inline
-void PipelineComposerBase::setSort(const bool &value)
+void PipelineComposerBase::setPipelined(const bool &value)
 {
-    _sfSort.setValue(value);
+    _sfPipelined.setValue(value);
 }
 
 
 OSG_END_NAMESPACE
 
-#define OSGPIPELINECOMPOSERBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGPIPELINECOMPOSERBASE_INLINE_CVSID "@(#)$Id: $"
 

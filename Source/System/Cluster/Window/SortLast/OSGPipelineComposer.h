@@ -165,12 +165,16 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    UInt32                      _tilesX;
-    UInt32                      _tilesY;
-    UInt32                      _tileCount;
     UInt32                      _tileBufferSize;
-    std::vector<UInt8>          _tile;
-    std::vector<UInt8>          _readTile;
+    std::vector<UInt8>          _tileA;
+    std::vector<UInt8>          _tileB;
+    std::vector<UInt8>          _workingTile;
+    std::vector<UInt8>         *_readTilePtr;
+    std::vector<UInt8>         *_composeTilePtr;
+    UInt32                      _readTilesX;
+    UInt32                      _readTilesY;
+    UInt32                      _composeTilesX;
+    UInt32                      _composeTilesY;
 
     std::vector< TransInfo              > _transInfo;
     std::list  < GroupInfo              > _groupInfoPool;
@@ -183,12 +187,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
     Statistics                  _statistics;
 
     BaseThread                 *_writer;
+    Thread                     *_composer;
     Barrier                    *_barrier;
+    Barrier                    *_composeBarrier;
     Barrier                    *_frameEndBarrier;
     Lock                       *_lock;
     QueueT                      _queue;
     bool                        _waiting;
     GLuint                      _occlusionQuery;
+    bool                        _firstFrame;
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
@@ -230,16 +237,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
 
     template<class DepthT,class ColorT>
     void readBuffer(DepthT &depth,ColorT &color,
-                    UInt32 left,
-                    UInt32 bottom,
-                    UInt32 right,
-                    UInt32 top,
-                    UInt32 width,
-                    UInt32 height);
-
-    template<class DepthT,class ColorT>
-    void startCompose(DepthT &depth,ColorT &color,
                       ViewportPtr port);
+    template<class DepthT,class ColorT>
+    void composeBuffer(DepthT &depth,ColorT &color);
 
     UInt32 compressTransInfo(std::vector<TransInfo> &transInfo);
     void   uncompressTransInfo(std::vector<TransInfo> &transInfo,UInt32 infoCount);
@@ -247,8 +247,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
     template <class T,T empty>
     static bool checkDepth(T *buffer,T &front,T &back,int size);
 
-    TileBuffer *getTileBuffer(UInt32 x,UInt32 y);
-    TileBuffer *getTileReadBuffer(void);
+    TileBuffer *getComposeTileBuffer(UInt32 x,UInt32 y);
+    TileBuffer *getReadTileBuffer(UInt32 x,UInt32 y);
+    TileBuffer *getWorkingTileBuffer(void);
 
     /*! \}                                                                 */
     
@@ -259,6 +260,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
     friend class PipelineComposerBase;
 
     static void writeProc(void *arg);
+    static void composeProc(void *arg);
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
