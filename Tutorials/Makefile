@@ -140,8 +140,6 @@ ifeq ($(findstring WIN,$(SYSTEM)),WIN)
 TUTS := $(filter-out %X.cpp, $(TUTS))
 endif
 
-$(error $(TUTS))
-
 # program dependencies
 
 default:	$(PROGS)
