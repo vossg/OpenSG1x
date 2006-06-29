@@ -257,7 +257,6 @@ void PointMCastConnection::read(MemoryHandle mem,UInt32 size)
 
     if(!_initialized)
         initialize();
-
     while(size)
     {
         if(_lastDgram)
@@ -626,7 +625,6 @@ bool PointMCastConnection::recvQueue(void)
         while(id != _seqNumber || missing);
         _seqNumber++;
     }    
-
 //    return true;
 }
 
@@ -651,7 +649,6 @@ void PointMCastConnection::initialize()
     std::string   group;
     Channel       channel;
     BinaryMessage message;
-    char          hostname[256];
     std::string   fromHost;
     UInt32        fromPort;
     UInt32        combineCount;
@@ -669,10 +666,12 @@ void PointMCastConnection::initialize()
     // get seq number
     _seqNumber = message.getUInt32();
     _maxAck = _seqNumber - 1;
-    // server port
-    fromHost = message.getString();
+    // get port
     fromPort = message.getUInt32();
-    _sender = SocketAddress(fromHost.c_str(),fromPort);
+
+    _sender = SocketAddress(_remoteAddress.getHost().c_str(),fromPort);
+
+    std::cout << _remoteAddress.getHost() << " " << fromPort << std::endl;
 
     // prepare socket to receive mcast packages
     _mcastSocket.open();
@@ -694,10 +693,7 @@ void PointMCastConnection::initialize()
     _responseSocket.bind(SocketAddress(SocketAddress::ANY,0));
 
     // tell the group from wich port requests are comming
-    hostname[255] = '\0';
-    osgGetHostname(hostname,255);
     message.clear();
-    message.putString(hostname);
     message.putUInt32(_responseSocket.getAddress().getPort());
     _socket.send(message);
 
@@ -715,6 +711,8 @@ void PointMCastConnection::initialize()
 
     host=message.getString();
     port=message.getUInt32();
+    if(host.empty())
+        host = _remoteAddress.getHost();
     _ackDestination = SocketAddress(host.c_str(),port);
 
     // start reader thread

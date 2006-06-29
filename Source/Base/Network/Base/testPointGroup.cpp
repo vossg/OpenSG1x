@@ -30,7 +30,7 @@ void findPoints(std::set<std::string> &address,int count)
     sock.bind();
     while(address.size()<count)
     {
-        sock.sendTo(&connectionType[0],255,SocketAddress("230.12.32.50",23344));
+        sock.sendTo(&connectionType[0],255,SocketAddress("239.12.32.50",23344));
         if(!sock.waitReadable(.5))
             if(address.size() < count)
                 continue;
@@ -145,25 +145,29 @@ void testSocketPoint()
     PointConnection *point = NULL;
     std::string address;
     sock.open();
-    sock.setTTL(2);
+    sock.setTTL(1);
     sock.setReusePort(true);
     sock.bind(SocketAddress(SocketAddress::ANY,23344));
-    sock.join(SocketAddress("230.12.32.50"));
+    sock.join(SocketAddress("239.12.32.50"));
     do
     {
         if(sock.waitReadable(0.2))
         {
             sock.recvFrom(&connectionType[0],255,client);
             newType = connectionType;
+            printf("%s\n",connectionType);
+            std::cout << newType << " " << lastType << std::endl;
             if(lastType != newType)
             {
+                printf("create point %p\n",point);
                 if(point)
                     delete point;
                 point = ConnectionFactory::the().createPoint(connectionType);
+                printf("create point %p\n",point);
                 address = point->bind("");
                 lastType = newType;
             }
-
+            printf("bb\n");
             sprintf(response,"%.255s%c",address.c_str(),0);
             sock.sendTo(response,256,client);
             printf("%s %d\n",client.getHost().c_str(),client.getPort());
