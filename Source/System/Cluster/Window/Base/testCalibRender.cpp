@@ -178,7 +178,7 @@ void display( void )
         mgr->getWindow()->renderAllViewports((RenderActionBase*)mgr->getAction());
     }
 
-    calib->calibrate(mgr->getWindow(),(RenderActionBase*)mgr->getAction());
+    calib->calibrate(mgr->getWindow()->getPort()[0],(RenderActionBase*)mgr->getAction());
     mgr->getWindow()->swap();
     mgr->getWindow()->frameExit();
 
