@@ -74,6 +74,7 @@
 #include <OSGStringFields.h> // ConnectionParams type
 #include <OSGUInt32Fields.h> // ServicePort type
 #include <OSGStringFields.h> // ServiceAddress type
+#include <OSGStringFields.h> // ServiceInterface type
 #include <OSGWindowFields.h> // ClientWindow type
 #include <OSGUInt32Fields.h> // Interleave type
 #include <OSGUInt32Fields.h> // FrameCount type
@@ -110,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
         ConnectionParamsFieldId      = ConnectionDestinationFieldId + 1,
         ServicePortFieldId           = ConnectionParamsFieldId      + 1,
         ServiceAddressFieldId        = ServicePortFieldId           + 1,
-        ClientWindowFieldId          = ServiceAddressFieldId        + 1,
+        ServiceInterfaceFieldId      = ServiceAddressFieldId        + 1,
+        ClientWindowFieldId          = ServiceInterfaceFieldId      + 1,
         InterleaveFieldId            = ClientWindowFieldId          + 1,
         FrameCountFieldId            = InterleaveFieldId            + 1,
         ComposerFieldId              = FrameCountFieldId            + 1,
@@ -126,6 +128,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     static const OSG::BitVector ConnectionParamsFieldMask;
     static const OSG::BitVector ServicePortFieldMask;
     static const OSG::BitVector ServiceAddressFieldMask;
+    static const OSG::BitVector ServiceInterfaceFieldMask;
     static const OSG::BitVector ClientWindowFieldMask;
     static const OSG::BitVector InterleaveFieldMask;
     static const OSG::BitVector FrameCountFieldMask;
@@ -165,6 +168,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            SFString            *getSFConnectionParams(void);
            SFUInt32            *getSFServicePort    (void);
            SFString            *getSFServiceAddress (void);
+           SFString            *getSFServiceInterface(void);
            SFWindowPtr         *getSFClientWindow   (void);
            SFUInt32            *getSFInterleave     (void);
            SFUInt32            *getSFFrameCount     (void);
@@ -184,6 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      const UInt32              &getServicePort    (void) const;
            std::string         &getServiceAddress (void);
      const std::string         &getServiceAddress (void) const;
+           std::string         &getServiceInterface(void);
+     const std::string         &getServiceInterface(void) const;
            WindowPtr           &getClientWindow   (void);
      const WindowPtr           &getClientWindow   (void) const;
            UInt32              &getInterleave     (void);
@@ -213,6 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
      void setConnectionParams( const std::string &value );
      void setServicePort    ( const UInt32 &value );
      void setServiceAddress ( const std::string &value );
+     void setServiceInterface( const std::string &value );
      void setClientWindow   ( const WindowPtr &value );
      void setInterleave     ( const UInt32 &value );
      void setFrameCount     ( const UInt32 &value );
@@ -266,6 +273,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     SFString            _sfConnectionParams;
     SFUInt32            _sfServicePort;
     SFString            _sfServiceAddress;
+    SFString            _sfServiceInterface;
     SFWindowPtr         _sfClientWindow;
     SFUInt32            _sfInterleave;
     SFUInt32            _sfFrameCount;
@@ -349,6 +357,6 @@ typedef RefPtr<ClusterWindowPtr> ClusterWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

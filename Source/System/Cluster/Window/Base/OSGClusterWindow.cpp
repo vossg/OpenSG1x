@@ -59,6 +59,7 @@
 #include "OSGXmlpp.h"
 #include "OSGDisplayCalibration.h"
 #include "OSGRenderOptions.h"
+#include "OSGGroupSockConnection.h"
 
 OSG_USING_NAMESPACE
 
@@ -277,10 +278,10 @@ void ClusterWindow::init( void )
         serviceSock.setTTL(8);
 
         // set interface
-        if(!getConnectionInterface().empty())
+        if(!getServiceInterface().empty())
         {
             serviceSock.setMCastInterface(
-                SocketAddress(getConnectionInterface().c_str()));
+                SocketAddress(getServiceInterface().c_str()));
         }
 
         while(retry)
@@ -339,11 +340,24 @@ void ClusterWindow::init( void )
                                       getServicePort()));
                 if(serviceSock.waitReadable(0.1))
                 {
-                    serviceSock.recv(msg);
+                    SocketAddress from;
+                    serviceSock.recvFrom(msg,from);
                     msg.getString(respServer);
                     msg.getString(respAddress);
                     if(respServer == *s)
                     {
+                        GroupSockConnection *pointSock =
+                            dynamic_cast<GroupSockConnection*> (connection);
+                        if(pointSock)
+                        {
+                            /* for all socket connections ignore the
+                               incomming host and use the host from
+                               the last response. */
+                            char port[16];
+                            if(sscanf(respAddress.c_str(),
+                                      "%*[^:]:%15s",port) == 1)
+                                respAddress = from.getHost() + ":" + port;
+                        }
                         SINFO << "Found at address " << respAddress << std::endl;
                         // connect to server
                         channel = connection->connectPoint(respAddress);

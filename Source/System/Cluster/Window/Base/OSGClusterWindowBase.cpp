@@ -62,7 +62,7 @@
 #include "OSGClusterWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ClusterWindowBase::ServersFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ServersFieldId);
@@ -84,6 +84,9 @@ const OSG::BitVector  ClusterWindowBase::ServicePortFieldMask =
 
 const OSG::BitVector  ClusterWindowBase::ServiceAddressFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ServiceAddressFieldId);
+
+const OSG::BitVector  ClusterWindowBase::ServiceInterfaceFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::ServiceInterfaceFieldId);
 
 const OSG::BitVector  ClusterWindowBase::ClientWindowFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::ClientWindowFieldId);
@@ -130,6 +133,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
 */
 /*! \var std::string     ClusterWindowBase::_sfServiceAddress
     Broadcast or Multicast address used for server search
+*/
+/*! \var std::string     ClusterWindowBase::_sfServiceInterface
+    Ethernet interface to be used for server seach
 */
 /*! \var WindowPtr       ClusterWindowBase::_sfClientWindow
     Window for client rendering
@@ -189,6 +195,11 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      ServiceAddressFieldId, ServiceAddressFieldMask,
                      false,
                      (FieldAccessMethod) &ClusterWindowBase::getSFServiceAddress),
+    new FieldDescription(SFString::getClassType(), 
+                     "serviceInterface", 
+                     ServiceInterfaceFieldId, ServiceInterfaceFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFServiceInterface),
     new FieldDescription(SFWindowPtr::getClassType(), 
                      "clientWindow", 
                      ClientWindowFieldId, ClientWindowFieldMask,
@@ -304,6 +315,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfConnectionParams       (), 
     _sfServicePort            (UInt32(8437)), 
     _sfServiceAddress         (std::string("224.245.211.234")), 
+    _sfServiceInterface       (), 
     _sfClientWindow           (), 
     _sfInterleave             (UInt32(0)), 
     _sfFrameCount             (UInt32(0)), 
@@ -326,6 +338,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfConnectionParams       (source._sfConnectionParams       ), 
     _sfServicePort            (source._sfServicePort            ), 
     _sfServiceAddress         (source._sfServiceAddress         ), 
+    _sfServiceInterface       (source._sfServiceInterface       ), 
     _sfClientWindow           (source._sfClientWindow           ), 
     _sfInterleave             (source._sfInterleave             ), 
     _sfFrameCount             (source._sfFrameCount             ), 
@@ -381,6 +394,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
     {
         returnValue += _sfServiceAddress.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ServiceInterfaceFieldMask & whichField))
+    {
+        returnValue += _sfServiceInterface.getBinSize();
     }
 
     if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
@@ -457,6 +475,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
         _sfServiceAddress.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ServiceInterfaceFieldMask & whichField))
+    {
+        _sfServiceInterface.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
     {
         _sfClientWindow.copyToBin(pMem);
@@ -530,6 +553,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfServiceAddress.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ServiceInterfaceFieldMask & whichField))
+    {
+        _sfServiceInterface.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
     {
         _sfClientWindow.copyFromBin(pMem);
@@ -591,6 +619,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
         _sfServiceAddress.syncWith(pOther->_sfServiceAddress);
 
+    if(FieldBits::NoField != (ServiceInterfaceFieldMask & whichField))
+        _sfServiceInterface.syncWith(pOther->_sfServiceInterface);
+
     if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
         _sfClientWindow.syncWith(pOther->_sfClientWindow);
 
@@ -637,6 +668,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (ServiceAddressFieldMask & whichField))
         _sfServiceAddress.syncWith(pOther->_sfServiceAddress);
 
+    if(FieldBits::NoField != (ServiceInterfaceFieldMask & whichField))
+        _sfServiceInterface.syncWith(pOther->_sfServiceInterface);
+
     if(FieldBits::NoField != (ClientWindowFieldMask & whichField))
         _sfClientWindow.syncWith(pOther->_sfClientWindow);
 
@@ -682,6 +716,8 @@ void ClusterWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -693,8 +729,6 @@ DataType FieldDataTraits<ClusterWindowPtr>::_type("ClusterWindowPtr", "WindowPtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -710,10 +744,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCLUSTERWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLUSTERWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCLUSTERWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

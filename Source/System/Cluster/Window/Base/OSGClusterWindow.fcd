@@ -78,6 +78,15 @@ The base class for all windows.
 	Broadcast or Multicast address used for server search
 	</Field>
 	<Field
+		name="serviceInterface"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Ethernet interface to be used for server seach
+	</Field>
+	<Field
 		name="clientWindow"
 		type="WindowPtr"
 		cardinality="single"

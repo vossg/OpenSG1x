@@ -145,6 +145,13 @@ SFString *ClusterWindowBase::getSFServiceAddress(void)
     return &_sfServiceAddress;
 }
 
+//! Get the ClusterWindow::_sfServiceInterface field.
+inline
+SFString *ClusterWindowBase::getSFServiceInterface(void)
+{
+    return &_sfServiceInterface;
+}
+
 //! Get the ClusterWindow::_sfClientWindow field.
 inline
 SFWindowPtr *ClusterWindowBase::getSFClientWindow(void)
@@ -314,6 +321,27 @@ void ClusterWindowBase::setServiceAddress(const std::string &value)
     _sfServiceAddress.setValue(value);
 }
 
+//! Get the value of the ClusterWindow::_sfServiceInterface field.
+inline
+std::string &ClusterWindowBase::getServiceInterface(void)
+{
+    return _sfServiceInterface.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfServiceInterface field.
+inline
+const std::string &ClusterWindowBase::getServiceInterface(void) const
+{
+    return _sfServiceInterface.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfServiceInterface field.
+inline
+void ClusterWindowBase::setServiceInterface(const std::string &value)
+{
+    _sfServiceInterface.setValue(value);
+}
+
 //! Get the value of the ClusterWindow::_sfClientWindow field.
 inline
 WindowPtr &ClusterWindowBase::getClientWindow(void)
@@ -464,5 +492,5 @@ const MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: $"
 
