@@ -114,6 +114,9 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
         return;
     }
 
+    serverWindow->activate();
+    serverWindow->frameInit();
+
     // clear background
     glDisable(GL_SCISSOR_TEST);
     glViewport(0,0,
@@ -491,7 +494,7 @@ void BalancedMultiWindow::dump(      UInt32    ,
 
 /*! get number of tiles for the given area
  */
-UInt32 BalancedMultiWindow::calcTileCount(Int32 rect[4])
+UInt32 BalancedMultiWindow::calcTileCount(Int32 const (&rect)[4])
 {
     UInt32 x = (rect[RIGHT] - rect[LEFT  ]) / MW_TILE_SIZE + 1;
     UInt32 y = (rect[TOP  ] - rect[BOTTOM]) / MW_TILE_SIZE + 1;
@@ -829,7 +832,7 @@ void BalancedMultiWindow::collectVisibleViewports(Server &server)
     is visible
  */
 bool BalancedMultiWindow::calculateServerPort(VPort &port,
-                                              Int32 rect[4])
+                                              Int32 const (&rect)[4])
 {
     Int32 cleft,cright,ctop,cbottom;
     ViewportPtr serverPort,clientPort;
@@ -1175,7 +1178,8 @@ void BalancedMultiWindow::balanceServer(void)
 
 /*! sort bboxes
  */
-void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4])
+void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,
+                                     Int32 const (&rect)[4])
 {
     std::vector<BBox>::iterator     bI;
     BBoxList                       *freeList;
@@ -1256,7 +1260,7 @@ void BalancedMultiWindow::sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4])
  */
 void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
                                         VPort &port,
-                                        Int32 rect[4],
+                                        Int32 const (&rect)[4],
                                         Real32 portLoad)
 {
     UInt32 i;
@@ -1458,19 +1462,27 @@ void BalancedMultiWindow::splitViewport(std::vector<Worker> &allWorker,
             }
         }
     }
+
     allWorker.clear();
+    allWorker.reserve(worker[0].size() + worker[1].size());
+    allWorker.assign(worker[0].begin(), worker[0].end());
+    std::copy(worker[1].begin(), worker[1].end(),
+              std::back_insert_iterator<std::vector<Worker> >(allWorker));
+
+    /*
     allWorker.insert(allWorker.end(),worker[0].begin(),worker[0].end());
     allWorker.insert(allWorker.end(),worker[1].begin(),worker[1].end());
+    */
 }
 
 /*! split viewport
  */
-void BalancedMultiWindow::splitAxis(Real32 load[2],
+void BalancedMultiWindow::splitAxis(Real32 const (&load)[2],
                                     VPort &port,
-                                    Int32 rect[4],
+                                    Int32 const (&rect)[4],
                                     int axis,
-                                    Real32 resultLoad[2],
-                                    Int32 resultRect[2][4])
+                                    Real32 (&resultLoad)[2],
+                                    Int32 (&resultRect)[2][4])
 {
     Int32 from,to,cut; // ,lastCut;
     BBoxList *bl;
@@ -1592,7 +1604,7 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
                                          UInt32            id,
                                          RenderActionBase *action,
                                          UInt32            portId,
-                                         Int32             rect[4])
+                                         Int32 const (&rect)[4])
 {
     // create temporary viewport
     _foreignPort.id       = portId;
@@ -1673,7 +1685,8 @@ void BalancedMultiWindow::clearViewports(WindowPtr         serverWindow,
 
 /*! store viewport
  */
-void BalancedMultiWindow::storeViewport(Area &area,ViewportPtr vp,Int32 rect[4])
+void BalancedMultiWindow::storeViewport(Area &area,ViewportPtr vp,
+                                        Int32 const (&rect)[4])
 {
     UInt32 x,y,w,h;
     UInt32 tI=0; 
@@ -1682,27 +1695,34 @@ void BalancedMultiWindow::storeViewport(Area &area,ViewportPtr vp,Int32 rect[4])
     printf("rect  pos %d %d\n",rect[0],rect[1]);
 */
     area.tiles.resize(calcTileCount(rect));
+
     for(y = rect[BOTTOM] ; y <= rect[TOP] ; y += MW_TILE_SIZE)
     {
         for(x = rect[LEFT] ; x <= rect[RIGHT] ; x += MW_TILE_SIZE)
         {
             w = osgMin((UInt32)MW_TILE_SIZE,rect[RIGHT] - x + 1);
             h = osgMin((UInt32)MW_TILE_SIZE,rect[TOP]   - y + 1);
+
             area.tiles[tI].header.x      = x;
             area.tiles[tI].header.y      = y;
             area.tiles[tI].header.width  = w;
             area.tiles[tI].header.height = h;
             area.tiles[tI].header.last  = false;
+
             if(getShort())
+            {
                 glReadPixels(area.tiles[tI].header.x,
                              area.tiles[tI].header.y,
                              w, h, GL_RGB, GL_UNSIGNED_SHORT_5_6_5,
                              area.tiles[tI].pixel);
+            }
             else
+            {
                 glReadPixels(area.tiles[tI].header.x,
                              area.tiles[tI].header.y,
                              w, h, GL_RGB, GL_UNSIGNED_BYTE,
                              area.tiles[tI].pixel);
+            }
             tI++;
         }
     }

@@ -44,7 +44,7 @@ OSG_BEGIN_NAMESPACE
 
 /*! calculate the load for a given group rendered into the given rectangle
  */
-inline Real32 BalancedMultiWindow::getVisibleLoad(Int32      rect[4],
+inline Real32 BalancedMultiWindow::getVisibleLoad(Int32 const (&rect)[4],
                                                   BBox      &bbox)
 {
     LoadGroup &group=_cluster.loadGroups[bbox.groupId];

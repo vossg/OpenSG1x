@@ -246,10 +246,10 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     bool                   _rebuildLoadGroups;
 
     // calculate rendering load 
-    inline Real32 getVisibleLoad(Int32      rect[4],
+    inline Real32 getVisibleLoad(Int32 const (&rect)[4],
                                  BBox      &bbox);
     // get number of tiles for the given area
-    UInt32 calcTileCount(Int32 rect[4]);
+    UInt32 calcTileCount(Int32 const (&rect)[4]);
     // project group and calculate bounding box
     bool calculateProjectedBBox(VPort &port,
                                 LoadGroup &group,
@@ -262,7 +262,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     // collect visible viewports
     void collectVisibleViewports(Server &server);
     // calculate server viewport
-    bool calculateServerPort(VPort &port,Int32 rect[4]);
+    bool calculateServerPort(VPort &port, Int32 const (&rect)[4]);
     // create view dependent bboxes
     void createBBoxes(Server &server);
     // do load balancing for all servers
@@ -270,29 +270,29 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     // split viewport
     void splitViewport(std::vector<Worker> &worker,
                        VPort &port,
-                       Int32 rect[4],
+                       Int32 const (&rect)[4],
                        Real32 load);
     // sort bboxes
-    void sortBBoxes(VPort &port,UInt32 axis,Int32 rect[4]);
+    void sortBBoxes(VPort &port,UInt32 axis, Int32 const (&rect)[4]);
     // split load at a given axis
-    void splitAxis(Real32 load[2],
+    void splitAxis(Real32 const (&load)[2],
                    VPort &port,
-                   Int32 rect[4],
+                   Int32 const (&rect)[4],
                    int axis,
-                   Real32 resultLoad[2],
-                   Int32 resultRect[2][4]);
+                   Real32 (&resultLoad)[2],
+                   Int32 (&resultRect)[2][4]);
     // render part of a viewport viewport 
     void renderViewport(WindowPtr         serverWindow,
                         UInt32            id,
                         RenderActionBase *action,
                         UInt32            portId,
-                        Int32             rect[4]);
+                        Int32 const (&rect)[4]);
     // clear local ports
     void clearViewports(WindowPtr         serverWindow,
                         UInt32            id,
                         RenderActionBase *action);
     // store viewport
-    void storeViewport(Area &area,ViewportPtr vp,Int32 rect[4]);
+    void storeViewport(Area &area,ViewportPtr vp, Int32 const (&rect)[4]);
 
     // do rendering and network transfer
     void drawSendAndRecv(WindowPtr serverWindow,
