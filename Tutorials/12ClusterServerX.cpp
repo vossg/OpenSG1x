@@ -26,6 +26,7 @@ XWindowPtr   window;
 RenderAction   *ract;
 // pointer the the cluster server instance
 ClusterServer  *server;
+bool            exitOnError = false;
 
 // forward declaration so we can have the interesting stuff upfront
 void display();
@@ -40,11 +41,14 @@ int wait_for_map_notify(Display *, XEvent *event, char *arg)
 int main(int argc,char **argv)
 {
     int             winid;
-    char           *name          ="ClusterServer";
-    char           *connectionType="StreamSock";
-    bool            fullscreen     =true;
-    std::string     address        ="";
+    char           *name           = "ClusterServer";
+    char           *connectionType = "StreamSock";
+    bool            fullscreen     = true;
+    std::string     address        = "";
     char           *opt;
+    bool            doStereo       = false;
+    UInt32          servicePort    = 8437;
+    std::string     serviceGroup   = "224.245.211.234";
 
 
     // evaluate params
@@ -54,12 +58,22 @@ int main(int argc,char **argv)
         {
             switch(argv[a][1])
             {
-                case 'm': connectionType="Multicast";
+                case 'm': 
+                    connectionType="Multicast";
                           break;
-                case 'p': connectionType="SockPipeline";
-                          break;
-                case 'w': fullscreen=false;
-                          break;
+
+                case 's':
+                    doStereo=true;
+                    break;
+
+                case 'w': 
+                    fullscreen=false;
+                    break;
+
+                case 'e':
+                    exitOnError=true;
+                    break;
+
                 case 'a': address = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(address == argv[argc])
                           { 
@@ -68,13 +82,45 @@ int main(int argc,char **argv)
                           }
                           std::cout << address << endLog;
                           break;
-                default:  std::cout << argv[0] 
-                                    << "-m "
-                                    << "-p "
-                                    << "-w "
-                                    << "-a address "
-                                    << endLog;
-                          return 0;
+
+
+                case 'p':
+                    if(argv[a][2] != '\0')
+                        servicePort=atoi(argv[a]+2);
+                    else
+                        servicePort=atoi(argv[++a]);
+                    break;
+
+                case 'j':
+                    if(argv[a][2] != '\0')
+                        serviceGroup=argv[a]+2;
+                    else
+                        serviceGroup=argv[++a];
+                    break;
+              
+                case 'h':
+                default:  
+                    std::cout << argv[0] 
+                              << "-m "
+                              << "-s "
+                              << "-w "
+                              << "-e "
+                              << "-a Address "
+                              << "-j group "
+                              << "-p servicePort "
+                              << std::endl;
+                    std::cout << "-m         use multicast" << std::endl;
+                    std::cout << "-s         enable stereo" << std::endl;
+                    std::cout << "-w         no fullscreen" << std::endl;
+                    std::cout << "-e         exit after closed connection" 
+                              << std::endl;
+                    std::cout << "-a Address Server network address"
+                              << std::endl;
+                    std::cout << "-m Address wait for requests on "
+                              << "multicast group" << std::endl;
+                    std::cout << "-p port    wait for requests on port"
+                              << std::endl;
+                    return 0;
             }
         }
         else
@@ -89,13 +135,18 @@ int main(int argc,char **argv)
         // init OpenSG
         osgInit(argc, argv);
 
-        static int snglBuf[] = {GLX_RGBA, 
-                                GLX_DEPTH_SIZE, 16, 
-                                None};
-        static int dblBuf [] = {GLX_RGBA, 
-                                GLX_DEPTH_SIZE, 16, 
-                                GLX_DOUBLEBUFFER, 
-                                None};
+        int snglBuf[] = {GLX_RGBA, 
+                         GLX_DEPTH_SIZE, 16, 
+                         None};
+        
+        int dblBuf[16];
+
+        dblBuf[0] = GLX_RGBA;
+        dblBuf[1] = GLX_DEPTH_SIZE;
+        dblBuf[2] = 16;
+        dblBuf[3] = GLX_DOUBLEBUFFER;
+        dblBuf[4] = (doStereo == true) ? GLX_STEREO : None;
+        dblBuf[5] = None;
 
         GLboolean doubleBuffer = GL_FALSE;
 
@@ -313,11 +364,28 @@ void display()
     } 
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
     {
-        SLOG << e.what() << endLog;
-        // try to restart server
-        server->stop();
-        // start server, wait for client to connect
-        server->start();
+        if(exitOnError)
+        {
+            SLOG << e.what() << std::endl;
+            try
+            {
+                delete server;
+            }
+            catch(...)
+            {
+            }
+            printf("Exit on error %s",e.what());
+            osgExit();
+            exit(0);
+        }
+        else
+        {
+            SLOG << e.what() << endLog;
+            // try to restart server
+            server->stop();
+            // start server, wait for client to connect
+            server->start();
+        }
     }
 }
 
