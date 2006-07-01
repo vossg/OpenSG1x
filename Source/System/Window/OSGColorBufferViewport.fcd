@@ -16,7 +16,7 @@ A viewport used to restrict rendering to specific color channels.
 		type="bool"
 		cardinality="single"
 		visibility="external"
-                defaultHeader="<OSGGL.h>"
+                defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_TRUE"
 		access="public"
 	>
@@ -27,7 +27,7 @@ A viewport used to restrict rendering to specific color channels.
 		type="bool"
 		cardinality="single"
 		visibility="external"
-                defaultHeader="<OSGGL.h>"
+                defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_TRUE"
 		access="public"
 	>
@@ -38,7 +38,7 @@ A viewport used to restrict rendering to specific color channels.
 		type="bool"
 		cardinality="single"
 		visibility="external"
-                defaultHeader="<OSGGL.h>"
+                defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_TRUE"
 		access="public"
 	>
@@ -49,7 +49,7 @@ A viewport used to restrict rendering to specific color channels.
 		type="bool"
 		cardinality="single"
 		visibility="external"
-                defaultHeader="<OSGGL.h>"
+                defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_TRUE"
 		access="public"
 	>

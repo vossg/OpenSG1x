@@ -44,7 +44,7 @@ Attachment for storing and handling Lookup-Tables for volume rendering.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_GREATER"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>

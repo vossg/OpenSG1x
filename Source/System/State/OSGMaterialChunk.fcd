@@ -65,7 +65,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_DIFFUSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
         The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 	</Field>
@@ -126,7 +126,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_DIFFUSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
         The mode for using Geometry colors in lighting. Defaults to GL_DIFFUSE.
 	</Field>       

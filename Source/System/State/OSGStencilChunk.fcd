@@ -18,7 +18,7 @@ The stencil chunk handles OpenGL stencil tests by wrapping glStencilFunc() and g
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The stencilFunc defines how fragments which do not fulfill a certain condition are handled.          See glStencilFunc() for details. GL_NONE is used to disable stencil.
@@ -49,7 +49,7 @@ The stencil chunk handles OpenGL stencil tests by wrapping glStencilFunc() and g
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_KEEP"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The stencilFunc defines how fragments which do not fulfill a certain condition are handled.          See glStencilFunc() for details. GL_NONE is used to disable stencil.
@@ -60,7 +60,7 @@ The stencil chunk handles OpenGL stencil tests by wrapping glStencilFunc() and g
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_KEEP"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The stencilFunc defines how fragments which do not fulfill a certain condition are handled.          See glStencilFunc() for details. GL_NONE is used to disable stencil.
@@ -71,7 +71,7 @@ The stencil chunk handles OpenGL stencil tests by wrapping glStencilFunc() and g
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_KEEP"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The stencilFunc defines how fragments which do not fulfill a certain condition are handled.          See glStencilFunc() for details. GL_NONE is used to disable stencil.

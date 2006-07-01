@@ -34,7 +34,7 @@
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_NONE"
 		access="public"
 	>
@@ -45,7 +45,7 @@
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_NONE"
 		access="public"
 	>

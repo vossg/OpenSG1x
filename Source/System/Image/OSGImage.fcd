@@ -134,7 +134,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_UNSIGNED_BYTE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	Type of image data

@@ -18,7 +18,7 @@ Chunk for texture coordinate generation functions.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>
@@ -28,7 +28,7 @@ Chunk for texture coordinate generation functions.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>
@@ -38,7 +38,7 @@ Chunk for texture coordinate generation functions.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>
@@ -48,7 +48,7 @@ Chunk for texture coordinate generation functions.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>

@@ -28,7 +28,7 @@ The depth chunk contains the parameters that are specific for depth control.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LEQUAL"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The depth function to use. If GL_NONE, it's not changed. The         default is LEQUAL.

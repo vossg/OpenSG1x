@@ -17,7 +17,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Defines which side of the polygon is invisible. Set to GL_NONE to not cull anything.
 	</Field>
@@ -27,7 +27,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CCW"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Defines which side of the polygon is considered the front side, 
         defaults to GL_CCW.
@@ -38,7 +38,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Defines if polygon front sides are rendered filled (default), outlined or as points.
 	</Field>
@@ -48,7 +48,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Defines if polygon front sides are rendered filled (default), outlined or as points.
 	</Field>
@@ -58,7 +58,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Defines if polygon antialiasing is used.
 	</Field>
@@ -86,7 +86,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Enables offsetting for points.
 	</Field>
@@ -96,7 +96,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Enables offsetting for lines.
 	</Field>
@@ -106,7 +106,7 @@ i.e. polygons.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 	>
 	Enables offsetting for polygons.
 	</Field>

@@ -29,7 +29,7 @@ plane. See glClipPlane for details.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_TRUE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	Defines activation state of the clip plane.

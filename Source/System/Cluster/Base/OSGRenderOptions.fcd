@@ -26,7 +26,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>

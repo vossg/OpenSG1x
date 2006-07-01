@@ -130,7 +130,7 @@ OpenSG NodeCore for direct volume rendering
 		cardinality="single"
 		visibility="internal"
 		defaultValue="TextureManager::BRICK_SUBDIVIDE_ON_TEXTURE_MEMORY"
-		defaultHeader="<OSGTextureManager.h>"
+		defaultHeader="&lt;OSGTextureManager.h&gt;"
 		access="protected"
 	>
 	FIXME: temporary parameter. Bricking mode - specifies how bricking is computed.

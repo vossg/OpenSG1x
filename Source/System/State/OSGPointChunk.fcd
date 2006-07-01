@@ -27,7 +27,7 @@ The point chunk contains the parameters that are specific set for points.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	Defines if line antialiasing is used.
@@ -98,7 +98,7 @@ The point chunk contains the parameters that are specific set for points.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	Flag to enable point sprites, see NV_point_sprite for details.
@@ -109,7 +109,7 @@ The point chunk contains the parameters that are specific set for points.
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_ZERO"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	</Field>

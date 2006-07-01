@@ -15,7 +15,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_ONE"
 		access="public"
 	>
@@ -26,7 +26,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_ZERO"
 		access="public"
 	>
@@ -37,7 +37,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="GL_NONE"
 		access="public"
 	>
@@ -59,7 +59,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		access="public"
 	>
 	The alphaFunc defines how fragments which do not fulfill a certain condition are handled. 
@@ -80,7 +80,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="OSG_GL_UNUSED"
 		access="public"
 	>
@@ -93,7 +93,7 @@ The blending chunk handles OpenGL blending, i.e. the definition how incoming pix
 		type="GLenum"
 		cardinality="single"
 		visibility="external"
-		defaultHeader="<OSGGL.h>"
+		defaultHeader="&lt;OSGGL.h&gt;"
 		defaultValue="OSG_GL_UNUSED"
 		access="public"
 	>
