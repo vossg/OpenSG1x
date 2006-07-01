@@ -671,6 +671,28 @@ char *escapeQuot(char *c)
         delete [] n;
         n = n2;
     }
+
+    while(r = strchr(n, '<'))
+    {
+        char * n2 = new char [strlen(n) + 4];
+        memcpy(n2, n, r - n);
+        n2[r-n] = 0;
+        strcat(n2, "&lt;");
+        strcat(n2, r+1);
+        delete [] n;
+        n = n2;
+    }
+
+    while(r = strchr(n, '>'))
+    {
+        char * n2 = new char [strlen(n) + 4];
+        memcpy(n2, n, r - n);
+        n2[r-n] = 0;
+        strcat(n2, "&gt;");
+        strcat(n2, r+1);
+        delete [] n;
+        n = n2;
+    }
     
     return n;
 }
