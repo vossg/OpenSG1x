@@ -7,6 +7,8 @@
 //
 // See the ClusterClient.cpp for an example of how to use them.
 
+#ifndef WIN32
+
 #include <iostream>
 
 // General OpenSG configuration, needed everywhere
@@ -395,3 +397,5 @@ void reshape( int width, int height )
     // set new window size
 	window->resize( width, height );
 }
+
+#endif // WIN32
