@@ -889,7 +889,10 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         // strip leading spaces
         curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
         share.push_back(std::string(curPos, nextComma));
-        curPos = ++nextComma;
+        if(nextComma != shareString.end())
+            curPos = ++nextComma;
+        else
+            break;
     }
 
     return OSG::deepClone(src, share);
@@ -962,7 +965,10 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         // strip leading spaces
         curPos = std::find_if(curPos, nextComma, std::not1(std::ptr_fun(isspace)));
         share.push_back(std::string(curPos, nextComma));
-        curPos = ++nextComma;
+        if(nextComma != shareString.end())
+            curPos = ++nextComma;
+        else
+            break;
     }
 
     OSG::deepCloneAttachments(src, dst, share);
