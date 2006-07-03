@@ -398,4 +398,12 @@ void reshape( int width, int height )
 	window->resize( width, height );
 }
 
+#else
+
+#include <iostream>
+
+int main(int argc,char **argv)
+{
+    std::cerr << "Not supported on windows platform!" << std::endl;
+}
 #endif // WIN32
