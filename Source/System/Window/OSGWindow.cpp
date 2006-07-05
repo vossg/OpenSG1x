@@ -1392,6 +1392,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             
             if(__GetProcAddress == NULL) 
             {
+#if 0 // Can't get this to work reliably... :(
                 // Fallback to trying glxGetProcAddressARB directly
                 // Avoids problems for dynamically bound OpenSG
 #if defined(GLX_VERSION_1_4)
@@ -1400,6 +1401,7 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 #elif defined(GLX_ARB_get_proc_address)
                 __GetProcAddress = (void (*(*)(const GLubyte*))()) 
                                         glXGetProcAddressARB;
+#endif
 #endif
                 if(__GetProcAddress == NULL)
                 {
