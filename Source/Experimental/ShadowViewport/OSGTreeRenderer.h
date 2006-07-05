@@ -137,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
 	bool useNPOTTextures;
 	bool useGLSL;
 	bool useShadowExt;
+	bool useShaderModel3;
 	UInt32 maxPLMapSize;
 	UInt32 PLMapSize;
 	UInt32 maxTexSize;

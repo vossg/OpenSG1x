@@ -42,11 +42,27 @@ ShadowViewportPtr svp;
 NodePtr rootNode;
 NodePtr point1;
 NodePtr point2;
+NodePtr point3;
+NodePtr point4;
+NodePtr point5;
+NodePtr point6;
+NodePtr point7;
 SpotLightPtr spot1_core;
 SpotLightPtr spot2_core;
+SpotLightPtr spot3_core;
+SpotLightPtr spot4_core;
+SpotLightPtr spot5_core;
+SpotLightPtr spot6_core;
+SpotLightPtr spot7_core;
 DirectionalLightPtr raumlicht_core;
-PointLightPtr _point1_core;
+//PointLightPtr _point1_core;
+DirectionalLightPtr _point1_core;
 PointLightPtr _point2_core;
+PointLightPtr _point3_core;
+PointLightPtr _point4_core;
+PointLightPtr _point5_core;
+PointLightPtr _point6_core;
+PointLightPtr _point7_core;
 TransformPtr _box_trans;
 TransformPtr _cylinder1_trans;
 TransformPtr _cylinder2_trans;
@@ -83,7 +99,7 @@ int setupGLUT( int *argc, char *argv[] );
 int main(int argc, char **argv)
 {
 	printf("Load a scene with first param, else a standard scene will be used.\n");
-    printf("Press key '8' or '9' to switch between light sources. Press key '0' to use both lights\n");
+    printf("Press key 'u', 'i', 'o' ,'p', 'j', 'k', 'l' to switch between 1...7 light sources.\n");
 	printf("Set the shadow mode with key '1' ... '7'\n");
 	printf("Change MapSize with keys 'y'(512), 'x'(1024), 'c'(2048)\n");
 	printf("NOTE: Real point lights only supported for ShadowMode 1...5!\n");
@@ -107,10 +123,10 @@ int main(int argc, char **argv)
 
     // create lights
     TransformPtr point1_trans;
-    point1 = makeCoredNode<PointLight>(&_point1_core);
+    point1 = makeCoredNode<DirectionalLight>(&_point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(20.0, -5.0, 50.0);
+        point1_trans->getMatrix().setTranslate(0.0, 0.0, 100.0);
     endEditCP(point1_trans);
 
     beginEditCP(_point1_core);
@@ -120,13 +136,14 @@ int main(int argc, char **argv)
         _point1_core->setBeacon(point1_beacon);
         _point1_core->setOn(true);
 		_point1_core->setShadowIntensity(0.7);
+		_point1_core->setDirection(0.4,0.2,0.8);
     endEditCP(_point1_core);
 
     TransformPtr point2_trans;
     point2 = makeCoredNode<PointLight>(&_point2_core);
     NodePtr point2_beacon = makeCoredNode<Transform>(&point2_trans);
     beginEditCP(point2_trans);
-        point2_trans->getMatrix().setTranslate(20.0, -30.0, 50.0);
+        point2_trans->getMatrix().setTranslate(20.0, -30.0, 100.0);
     endEditCP(point2_trans);
 
     beginEditCP(_point2_core);
@@ -138,8 +155,93 @@ int main(int argc, char **argv)
 		_point2_core->setShadowIntensity(0.7);
     endEditCP(_point2_core);
 
+	TransformPtr point3_trans;
+    point3 = makeCoredNode<PointLight>(&_point3_core);
+    NodePtr point3_beacon = makeCoredNode<Transform>(&point3_trans);
+    beginEditCP(point3_trans);
+        point3_trans->getMatrix().setTranslate(10.0, -15.0, 100.0);
+    endEditCP(point3_trans);
+
+    beginEditCP(_point3_core);
+        _point3_core->setAmbient(0.15,0.15,0.15,1);
+        _point3_core->setDiffuse(0.4,0.4,0.4,1);
+        _point3_core->setSpecular(0.0,0.0,0.0,1);
+        _point3_core->setBeacon(point3_beacon);
+        _point3_core->setOn(true);
+		_point3_core->setShadowIntensity(0.7);
+    endEditCP(_point3_core);
+
+	TransformPtr point4_trans;
+    point4 = makeCoredNode<PointLight>(&_point4_core);
+    NodePtr point4_beacon = makeCoredNode<Transform>(&point4_trans);
+    beginEditCP(point4_trans);
+        point4_trans->getMatrix().setTranslate(35.0, -45.0, 100.0);
+    endEditCP(point4_trans);
+
+    beginEditCP(_point4_core);
+        _point4_core->setAmbient(0.15,0.15,0.15,1);
+        _point4_core->setDiffuse(0.4,0.4,0.4,1);
+        _point4_core->setSpecular(0.0,0.0,0.0,1);
+        _point4_core->setBeacon(point4_beacon);
+        _point4_core->setOn(true);
+		_point4_core->setShadowIntensity(0.7);
+    endEditCP(_point4_core);
+
+	TransformPtr point5_trans;
+    point5 = makeCoredNode<PointLight>(&_point5_core);
+    NodePtr point5_beacon = makeCoredNode<Transform>(&point5_trans);
+    beginEditCP(point5_trans);
+        point5_trans->getMatrix().setTranslate(40.0, -60.0, 100.0);
+    endEditCP(point5_trans);
+
+    beginEditCP(_point5_core);
+        _point5_core->setAmbient(0.15,0.15,0.15,1);
+        _point5_core->setDiffuse(0.4,0.4,0.4,1);
+        _point5_core->setSpecular(0.0,0.0,0.0,1);
+        _point5_core->setBeacon(point5_beacon);
+        _point5_core->setOn(true);
+		_point5_core->setShadowIntensity(0.7);
+    endEditCP(_point5_core);
+
+	TransformPtr point6_trans;
+    point6 = makeCoredNode<PointLight>(&_point6_core);
+    NodePtr point6_beacon = makeCoredNode<Transform>(&point6_trans);
+    beginEditCP(point6_trans);
+        point6_trans->getMatrix().setTranslate(17.0, -55.0, 100.0);
+    endEditCP(point6_trans);
+
+    beginEditCP(_point6_core);
+        _point6_core->setAmbient(0.15,0.15,0.15,1);
+        _point6_core->setDiffuse(0.4,0.4,0.4,1);
+        _point6_core->setSpecular(0.0,0.0,0.0,1);
+        _point6_core->setBeacon(point6_beacon);
+        _point6_core->setOn(true);
+		_point6_core->setShadowIntensity(0.7);
+    endEditCP(_point6_core);
+
+	TransformPtr point7_trans;
+    point7 = makeCoredNode<PointLight>(&_point7_core);
+    NodePtr point7_beacon = makeCoredNode<Transform>(&point7_trans);
+    beginEditCP(point7_trans);
+        point7_trans->getMatrix().setTranslate(5.0, -42.0, 100.0);
+    endEditCP(point7_trans);
+
+    beginEditCP(_point7_core);
+        _point7_core->setAmbient(0.15,0.15,0.15,1);
+        _point7_core->setDiffuse(0.4,0.4,0.4,1);
+        _point7_core->setSpecular(0.0,0.0,0.0,1);
+        _point7_core->setBeacon(point7_beacon);
+        _point7_core->setOn(true);
+		_point7_core->setShadowIntensity(0.7);
+    endEditCP(_point7_core);
+
     beginEditCP(point1);
         point1->addChild(point2);
+		point1->addChild(point3);
+		point1->addChild(point4);
+		point1->addChild(point5);
+		point1->addChild(point6);
+		point1->addChild(point7);
     endEditCP(point1);
 
     beginEditCP(point2);
@@ -260,6 +362,11 @@ int main(int argc, char **argv)
         rootNode->addChild(point1);
         rootNode->addChild(point1_beacon);
         rootNode->addChild(point2_beacon);
+		rootNode->addChild(point3_beacon);
+		rootNode->addChild(point4_beacon);
+		rootNode->addChild(point5_beacon);
+		rootNode->addChild(point6_beacon);
+		rootNode->addChild(point7_beacon);
 		rootNode->addChild(scene);
     endEditCP(rootNode);
 
@@ -291,6 +398,7 @@ int main(int argc, char **argv)
         gbg->addLine(Color3f(0.0, 0.1, 0.3), 1);
     endEditCP(gbg);
 
+
     // Shadow viewport
     beginEditCP(svp);
         svp->setBackground(gbg);
@@ -299,7 +407,7 @@ int main(int argc, char **argv)
 		//you can set Offset here
         //svp->setOffFactor(4.0);
         //svp->setOffBias(8.0);
-        svp->setMapSize(1024);
+        svp->setMapSize(512);
 		//if globalShadowIntensity > 0.0, it is used for all lights
 		//svp->setGlobalShadowIntensity(0.8);
 		//ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
@@ -313,6 +421,11 @@ int main(int argc, char **argv)
 			svp->setAutoSearchForLights(false);
 			svp->getLightNodes().push_back(point1);
 			svp->getLightNodes().push_back(point2);
+			svp->getLightNodes().push_back(point3);
+			svp->getLightNodes().push_back(point4);
+			svp->getLightNodes().push_back(point5);
+			svp->getLightNodes().push_back(point6);
+			svp->getLightNodes().push_back(point7);
 			svp->setOffFactor(4.0);
 			svp->setOffBias(8.0);
 		}
@@ -451,7 +564,7 @@ void keyboard(unsigned char k, int x, int y)
         }
         break;
 
-        case '8':
+        case 'u':
         {
             beginEditCP(_point1_core);
                 _point1_core->setOn(true);
@@ -462,10 +575,30 @@ void keyboard(unsigned char k, int x, int y)
             beginEditCP(_point2_core);
                 _point2_core->setOn(false);
             endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setOn(false);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(false);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(false);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(false);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
             break;
         }
 
-        case '9':
+        case 'i':
         {
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.15,0.15,0.15,1);
@@ -478,6 +611,236 @@ void keyboard(unsigned char k, int x, int y)
                 _point2_core->setDiffuse(0.4,0.4,0.4,1);
                 _point2_core->setOn(true);
             endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setOn(false);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(false);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(false);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(false);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
+            break;
+        }
+
+		case 'o':
+        {
+            beginEditCP(_point1_core);
+                _point1_core->setAmbient(0.3/3.0,0.3/3.0,0.3/3.0,1);
+                _point1_core->setDiffuse(0.8/3.0,0.8/3.0,0.8/3.0,1);
+                _point1_core->setOn(true);
+            endEditCP(_point1_core);
+
+            beginEditCP(_point2_core);
+                _point2_core->setAmbient(0.3/3.0,0.3/3.0,0.3/3.0,1);
+                _point2_core->setDiffuse(0.8/3.0,0.8/3.0,0.8/3.0,1);
+                _point2_core->setOn(true);
+            endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setAmbient(0.3/3.0,0.3/3.0,0.3/3.0,1);
+                _point3_core->setDiffuse(0.8/3.0,0.8/3.0,0.8/3.0,1);
+                _point3_core->setOn(true);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(false);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(false);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(false);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
+            break;
+        }
+
+		case 'p':
+        {
+            beginEditCP(_point1_core);
+                _point1_core->setAmbient(0.3/4.0,0.3/4.0,0.3/4.0,1);
+                _point1_core->setDiffuse(0.8/4.0,0.8/4.0,0.8/4.0,1);
+                _point1_core->setOn(true);
+            endEditCP(_point1_core);
+
+            beginEditCP(_point2_core);
+                _point2_core->setAmbient(0.3/4.0,0.3/4.0,0.3/4.0,1);
+                _point2_core->setDiffuse(0.8/4.0,0.8/4.0,0.8/4.0,1);
+                _point2_core->setOn(true);
+            endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setAmbient(0.3/4.0,0.3/4.0,0.3/4.0,1);
+                _point3_core->setDiffuse(0.8/4.0,0.8/4.0,0.8/4.0,1);
+                _point3_core->setOn(true);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(true);
+                _point4_core->setAmbient(0.3/4.0,0.3/4.0,0.3/4.0,1);
+                _point4_core->setDiffuse(0.8/4.0,0.8/4.0,0.8/4.0,1);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(false);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(false);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
+            break;
+        }
+
+		case 'j':
+        {
+            beginEditCP(_point1_core);
+                _point1_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
+                _point1_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
+                _point1_core->setOn(true);
+            endEditCP(_point1_core);
+
+            beginEditCP(_point2_core);
+                _point2_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
+                _point2_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
+                _point2_core->setOn(true);
+            endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
+                _point3_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
+                _point3_core->setOn(true);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(true);
+                _point4_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
+                _point4_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(true);
+                _point5_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
+                _point5_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(false);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
+            break;
+        }
+
+		case 'k':
+        {
+            beginEditCP(_point1_core);
+                _point1_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point1_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+                _point1_core->setOn(true);
+            endEditCP(_point1_core);
+
+            beginEditCP(_point2_core);
+                _point2_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point2_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+                _point2_core->setOn(true);
+            endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point3_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+                _point3_core->setOn(true);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(true);
+                _point4_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point4_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(true);
+                _point5_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point5_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(true);
+                _point6_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
+                _point6_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(false);
+            endEditCP(_point7_core);
+            break;
+        }
+
+		case 'l':
+        {
+            beginEditCP(_point1_core);
+                _point1_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point1_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+                _point1_core->setOn(true);
+            endEditCP(_point1_core);
+
+            beginEditCP(_point2_core);
+                _point2_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point2_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+                _point2_core->setOn(true);
+            endEditCP(_point2_core);
+
+			beginEditCP(_point3_core);
+                _point3_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point3_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+                _point3_core->setOn(true);
+            endEditCP(_point3_core);
+
+			beginEditCP(_point4_core);
+                _point4_core->setOn(true);
+                _point4_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point4_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+            endEditCP(_point4_core);
+
+			beginEditCP(_point5_core);
+                _point5_core->setOn(true);
+                _point5_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point5_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+            endEditCP(_point5_core);
+
+			beginEditCP(_point6_core);
+                _point6_core->setOn(true);
+                _point6_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point6_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+            endEditCP(_point6_core);
+
+			beginEditCP(_point7_core);
+                _point7_core->setOn(true);
+                _point7_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
+                _point7_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
+            endEditCP(_point7_core);
             break;
         }
 
@@ -517,7 +880,7 @@ void keyboard(unsigned char k, int x, int y)
         {
             beginEditCP(svp, ShadowViewport::ShadowModeFieldMask);
                 svp->setShadowMode(ShadowViewport::PCF_SHADOW_MAP);
-				svp->setShadowSmoothness(0.5);
+				//svp->setShadowSmoothness(0.5);
             endEditCP(svp, ShadowViewport::ShadowModeFieldMask);
 			break;
         }
@@ -632,6 +995,12 @@ void keyboard(unsigned char k, int x, int y)
             break;
         }
 
+		case 'a':
+        {
+            animateScene = !animateScene;
+            break;
+        }
+
 	}
     glutPostRedisplay();
 }
@@ -643,7 +1012,7 @@ int setupGLUT(int *argc, char *argv[])
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
     //Set WindowSize here
-    glutInitWindowSize(1024,768);
+    glutInitWindowSize(512,512);
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);

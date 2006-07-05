@@ -161,7 +161,7 @@ static std::string _pcss_shadow_vp =
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -175,7 +175,7 @@ static std::string _pcss_shadow_vp =
 "}\n";
 
 static std::string _pcss_shadow_fp =
-"uniform sampler2DShadow shadowMap;\n"
+"uniform sampler2D shadowMap;\n"
 "uniform sampler2D oldFactorMap;\n"
 "uniform float intensity;\n"
 "uniform int firstRun;\n"
@@ -287,7 +287,7 @@ static std::string _pcss_shadow_combine_fp =
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
 "varying vec4 projCoord;\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -988,6 +988,10 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
 		yFactor = Real32(height)/Real32(widthHeightPOT);
 	}
 
+	Real32 lightSize;
+	if(shadowVP->_lights[num]->getType() != DirectionalLight::getClassType()) lightSize = shadowVP->getShadowSmoothness()*10.0;
+	else lightSize = shadowVP->getShadowSmoothness()/25.0;
+
     beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
@@ -997,7 +1001,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-		_shadowSHL->setUniformParameter("lightSize",Real32(shadowVP->getShadowSmoothness()*10.0));
+		_shadowSHL->setUniformParameter("lightSize",Real32(lightSize));
 		_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
 		_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
@@ -1098,6 +1102,10 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
 		yFactor = Real32(height)/Real32(widthHeightPOT);
 	}
 
+	Real32 lightSize;
+	if(shadowVP->_lights[num]->getType() != DirectionalLight::getClassType()) lightSize = shadowVP->getShadowSmoothness()*10.0;
+	else lightSize = shadowVP->getShadowSmoothness()/25.0;
+
     beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
         _shadowSHL->setUniformParameter("shadowMap", 0);
         _shadowSHL->setUniformParameter("oldFactorMap", 1);
@@ -1107,7 +1115,7 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
-		_shadowSHL->setUniformParameter("lightSize",Real32(shadowVP->getShadowSmoothness()*10.0));
+		_shadowSHL->setUniformParameter("lightSize",Real32(lightSize));
 		_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
 		_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
@@ -1171,7 +1179,6 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	if(!useGLSL  || !useShadowExt) shadowVP->Viewport::render(action);
 	else
 	{
-	glPushAttrib(GL_ENABLE_BIT);
 
 	if(!initTexturesDone) initTextures(win);
 
@@ -1297,7 +1304,6 @@ void PCSSShadowMap::render(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
-	glPopAttrib();
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{

@@ -159,7 +159,7 @@ static std::string _lisp_shadow_vp =
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -199,7 +199,7 @@ static std::string _lisp_shadow2_vp =
 "varying vec4 projCoord2;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -250,7 +250,7 @@ static std::string _lisp_shadow3_vp =
 "varying vec4 projCoord3;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -313,7 +313,7 @@ static std::string _lisp_shadow4_vp =
 "varying vec4 projCoord4;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -386,7 +386,7 @@ static std::string _lisp_shadow5_vp =
 "varying vec4 projCoord5;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -470,7 +470,7 @@ static std::string _lisp_shadow6_vp =
 "varying vec4 projCoord6;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -565,7 +565,7 @@ static std::string _lisp_shadow7_vp =
 "varying vec4 projCoord7;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -661,7 +661,7 @@ static std::string _lisp_shadowCube_vp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -692,7 +692,7 @@ static std::string _lisp_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -1657,8 +1657,10 @@ bool PerspectiveShadowMap::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p)
 
 void PerspectiveShadowMap::calcCubicHull2(Pnt3f &min, Pnt3f &max, std::vector<Pnt3f> *points)
 {
-	min = (*points)[0];
-	max = (*points)[0];
+	//min = (*points)[0];
+	//max = (*points)[0];
+	min = Pnt3f(1000000.0,1000000.0,1000000.0);
+	max = Pnt3f(-1000000.0,-1000000.0,-1000000.0);
 
 	for(UInt32 i = 1; i < points->size(); i++)
 	{
@@ -2625,7 +2627,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -2759,7 +2761,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i])
 			{
     
 			    Real32 shadowIntensity;
@@ -2811,7 +2813,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
+				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -3115,7 +3117,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -3274,7 +3276,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i])
 			{
     
 			    Real32 shadowIntensity;
@@ -3330,7 +3332,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
+				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -3649,6 +3651,7 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -3663,15 +3666,12 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	else
 	{
 
-		glPushAttrib(GL_ENABLE_BIT);
-
 		if(!initTexturesDone) initTextures(win);
 
 		if(useFBO)
 		{
 			if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
 		}
-
 
 		GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
@@ -3843,7 +3843,6 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 				shadowVP->_transparent[t]->setActive(true);
 		}
 		
-		glPopAttrib();
 
 		// render the foregrounds.
 		for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)

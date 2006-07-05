@@ -111,6 +111,7 @@ TreeRenderer::TreeRenderer(ShadowViewport *source)
 	useNPOTTextures = true;
 	useGLSL = true;
 	useShadowExt = true;
+	useShaderModel3 = false;
 
 	GLint max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -272,6 +273,20 @@ void TreeRenderer::initialize(Window *win)
 			FNOTICE(("GLSL supported.\n"));
 		}
 
+		//check for Shader Model 3.0
+		useShaderModel3 = false;
+
+		if(win->hasExtension("GL_NV_vertex_program3") || win->hasExtension("GL_ATI_shader_texture_lod")) useShaderModel3 = true;
+
+		if(!useShaderModel3)
+		{
+			FNOTICE(("Shader Model 3.0 NOT supported.\n"));
+		}
+		else
+		{
+			FNOTICE(("Shader Model 3.0 supported.\n"));
+		}
+		
 		//No NPOTTextures supportet if FBOs are disabled
 		if(!useFBO) useNPOTTextures = false;
 

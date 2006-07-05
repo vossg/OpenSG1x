@@ -199,7 +199,7 @@ static std::string _variance_vp =
 "varying vec4 texPos;\n"
 "varying vec4 realPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -274,7 +274,7 @@ static std::string _variance_combine_fp =
 "uniform float xFactor;\n"
 "uniform float yFactor;\n"
 "varying vec4 projCoord;\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -1269,8 +1269,6 @@ void VarianceShadowMap::render(RenderActionBase* action)
 	else
 	{
 
-	glPushAttrib(GL_ENABLE_BIT);
-
 	if(!initTexturesDone) initTextures(win);
 
 	if(useFBO)
@@ -1386,7 +1384,6 @@ void VarianceShadowMap::render(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
-	glPopAttrib();
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{

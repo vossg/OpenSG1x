@@ -163,7 +163,7 @@ static std::string _dither_shadow_vp =
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -215,7 +215,7 @@ static std::string _dither_shadow2_vp =
 "varying vec4 projCoord2;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -293,7 +293,7 @@ static std::string _dither_shadow3_vp =
 "varying vec4 projCoord3;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -393,7 +393,7 @@ static std::string _dither_shadow4_vp =
 "varying vec4 projCoord4;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -506,7 +506,7 @@ static std::string _dither_cubeshadow_vp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -539,7 +539,7 @@ static std::string _dither_cubeshadow_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -1753,10 +1753,10 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 			lightCounter++;
 		}
-		else
-		{
-		}
 	}
+
+	if(useShaderModel3)
+	{
 
 	if(lightCounter != 0)
 	{
@@ -1935,6 +1935,60 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 		_firstRun = 0;
 		}
+	}
+	}
+	else //No Shader Model 3.0 supported, Nuber of Instructions is limited...
+	{
+	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+	{
+	if(lightCounter != 0 && shadowVP->_lightStates[i] != 0)
+	{
+		if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
+		{
+		//clear chunk and add Textures
+		beginEditCP(_shadowCmat);
+			_shadowCmat->clearChunks();
+			_shadowCmat->addChunk(_shadowSHL);
+			_shadowCmat->addChunk(shadowVP->_texChunks[i]);
+			_shadowCmat->addChunk(_shadowFactorMap);
+		endEditCP(_shadowCmat);
+
+		beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+			_shadowSHL->setUniformParameter("oldFactorMap", 1);
+			_shadowSHL->setUniformParameter("shadowMap", 0);
+			_shadowSHL->setUniformParameter("firstRun", _firstRun);
+			_shadowSHL->setUniformParameter("intensity", shadowIntensityF[i]);
+			_shadowSHL->setUniformParameter("texFactor", texFactorF[i]);
+			_shadowSHL->setUniformParameter("lightPM", shadowMatrixF[i]);
+			_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
+			_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
+			_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+			_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactorF[i]));
+			_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactorF[i]));
+		endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+	
+		UInt32 lightNum = 0;
+
+		// we render the whole scene with one material.
+		action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+    
+		//draw the Scene
+		action->apply(shadowVP->getRoot());
+    
+		// reset the material.
+		action->setMaterial(NULL, NullFC);
+
+		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
+
+		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+		glBindTexture(GL_TEXTURE_2D,0);
+
+		_firstRun = 0;
+		}
+
+	}
+	}
 	}
 
 	_firstRun = 0;

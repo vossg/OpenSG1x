@@ -27,7 +27,6 @@
 #include <OSGQuaternion.h>
 #include <OSGVector.h>
 
-
 #include <OSGSimpleSceneManager.h>
 
 #include <OSGSceneFileHandler.h>   
@@ -45,8 +44,8 @@ ShadowViewportPtr svp;
 
 
 NodePtr rootNode;
-DirectionalLightPtr _dir1_core;
-//PointLightPtr _dir1_core;
+//DirectionalLightPtr _dir1_core;
+PointLightPtr _dir1_core;
 
 //SpotLightPtr _dir2_core;
 PointLightPtr _dir2_core;
@@ -115,7 +114,7 @@ int main(int argc, char **argv)
     NodePtr scene = makeCoredNode<Group>();
 
     // create lights
-	//Directional Light 1
+	/*//Directional Light 1
     TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<DirectionalLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -131,9 +130,9 @@ int main(int argc, char **argv)
         _dir1_core->setBeacon(dir1_beacon);
 		_dir1_core->setShadowIntensity(0.7);
         _dir1_core->setOn(true);
-    endEditCP(_dir1_core);
+    endEditCP(_dir1_core);*/
 
-	/*//Point Light 1
+	//Point Light 1
 	TransformPtr dir1_trans;
     NodePtr dir1 = makeCoredNode<PointLight>(&_dir1_core);
     NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
@@ -148,7 +147,7 @@ int main(int argc, char **argv)
         _dir1_core->setBeacon(dir1_beacon);
         _dir1_core->setOn(true);
 		_dir1_core->setShadowIntensity(0.8);
-    endEditCP(_dir1_core);*/
+    endEditCP(_dir1_core);
 
 	/*//Spot Light 2
 	//TransformPtr dir2_trans;

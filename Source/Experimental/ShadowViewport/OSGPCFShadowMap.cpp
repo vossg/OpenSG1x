@@ -163,7 +163,7 @@ static std::string _pcf_shadow_vp =
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -1979,7 +1979,7 @@ static std::string _pcf_shadow2_vp =
 "varying vec4 projCoord2;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2006,7 +2006,7 @@ static std::string _pcf_shadow3_vp =
 "varying vec4 projCoord3;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2039,7 +2039,7 @@ static std::string _pcf_shadow4_vp =
 "varying vec4 projCoord4;\n"
 "varying vec4 texPos;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2092,7 +2092,7 @@ static std::string _pcf_shadowCube_vp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "void main(void)\n"
 "{\n"
 "  realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2124,7 +2124,7 @@ static std::string _pcf2_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -2193,7 +2193,7 @@ static std::string _pcf3_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -2267,7 +2267,7 @@ static std::string _pcf4_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -2349,7 +2349,7 @@ static std::string _pcf5_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -2439,7 +2439,7 @@ static std::string _pcf6_shadowCube_fp =
 "varying vec4 realPos;\n"
 "varying vec4 realPos2;\n"
 "\n"
-"const mat4 bias = {vec4(0.5,0.0,0.0,0.0), vec4(0.0,0.5,0.0,0.0), vec4(0.0,0.0,0.5,0.0), vec4(0.5,0.5,0.5,1.0)};\n"
+"const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
 "\n"
 "void main(void)\n"
 "{\n"
@@ -3639,7 +3639,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -3773,7 +3773,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -3811,10 +3811,10 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 			lightCounter++;
 		}
-		else
-		{
-		}
 	}
+
+	if(useShaderModel3)
+	{
 
 	if(lightCounter != 0)
 	{
@@ -3835,7 +3835,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
+				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*4) && lightNum < ((i+1)*4))
 					{
@@ -3994,6 +3994,58 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 		_firstRun = 0;
 		}
 	}
+	}
+	else //No Shader Model 3.0 supported, Nuber of Instructions is limited...
+	{
+	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
+	{
+	if(lightCounter != 0 && shadowVP->_lightStates[i] != 0)
+	{
+		if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
+		{
+		//clear chunk and add Textures
+		beginEditCP(_shadowCmat);
+			_shadowCmat->clearChunks();
+			_shadowCmat->addChunk(_shadowSHL);
+			_shadowCmat->addChunk(shadowVP->_texChunks[i]);
+			_shadowCmat->addChunk(_shadowFactorMap);
+		endEditCP(_shadowCmat);
+
+		beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+			_shadowSHL->setUniformParameter("oldFactorMap", 1);
+			_shadowSHL->setUniformParameter("shadowMap", 0);
+			_shadowSHL->setUniformParameter("firstRun", _firstRun);
+			_shadowSHL->setUniformParameter("intensity", shadowIntensityF[i]);
+			_shadowSHL->setUniformParameter("texFactor", texFactorF[i]);
+			_shadowSHL->setUniformParameter("lightPM", shadowMatrixF[i]);
+			_shadowSHL->setUniformParameter("xFactor",Real32(xFactor));
+			_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
+			_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
+			_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactorF[i]));
+			_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactorF[i]));
+		endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
+	
+		// we render the whole scene with one material.
+		action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
+    
+		//draw the Scene
+		action->apply(shadowVP->getRoot());
+    
+		// reset the material.
+		action->setMaterial(NULL, NullFC);
+
+		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
+
+		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+		glBindTexture(GL_TEXTURE_2D,0);
+
+		_firstRun = 0;
+		}
+
+	}
+	}
+	}
 
 	_firstRun = 0;
 	shadowIntensityF.clear();
@@ -4038,7 +4090,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
+			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -4197,7 +4249,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -4260,7 +4312,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
+				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*4) && lightNum < ((i+1)*4))
 					{
@@ -4477,6 +4529,7 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
+    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -4493,9 +4546,6 @@ void PCFShadowMap::render(RenderActionBase* action)
     }
     else
     {
-
-		glPushAttrib(GL_ENABLE_BIT);
-
         if(!initTexturesDone)
             initTextures(win);
 
@@ -4817,8 +4867,6 @@ void PCFShadowMap::render(RenderActionBase* action)
         // switch on all transparent geos
         for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
             shadowVP->_transparent[t]->setActive(true);
-
-		glPopAttrib();
 
         // render the foregrounds.
         for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
