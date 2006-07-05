@@ -2003,13 +2003,17 @@ void Geometry::merge6( const GeometryPtr other )
 bool Geometry::updateLowHighIndices( void )
 {
     // Are we single-indexed or incomplete?
-    if(getTypes() == NullFC ||
-       getLengths() == NullFC ||
-       getIndexMapping().size() > 1 || 
-       getIndices() == NullFC)
+    if(getTypes  () == NullFC || getTypes  ()->size() == 0)
+        return true;
+
+    UInt32 primcount = getTypes()->size();
+        
+    if(getLengths() == NullFC || getLengths()->size() < primcount ||
+       getIndices() == NullFC || getIndices()->size() == 0 ||
+       getIndexMapping().size() > 1 
+      )
         return true;
         
-    UInt32 primcount = getTypes()->size();
     GeoIndicesPtr indP = getIndices();
     
     UInt32 low, high, mini, maxi, cur;
