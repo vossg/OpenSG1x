@@ -757,7 +757,6 @@ static std::string _lisp_shadowCombine_fp =
 "    gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
-
 PerspectiveShadowMap::PerspectiveShadowMap(void)
 {
 }
@@ -1657,8 +1656,6 @@ bool PerspectiveShadowMap::pntInFrontOf(Pnt3f p1, Pnt3f p2, Pnt3f p3, Pnt3f p)
 
 void PerspectiveShadowMap::calcCubicHull2(Pnt3f &min, Pnt3f &max, std::vector<Pnt3f> *points)
 {
-	//min = (*points)[0];
-	//max = (*points)[0];
 	min = Pnt3f(1000000.0,1000000.0,1000000.0);
 	max = Pnt3f(-1000000.0,-1000000.0,-1000000.0);
 
@@ -2627,7 +2624,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -2761,7 +2758,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
 			{
     
 			    Real32 shadowIntensity;
@@ -2813,7 +2810,7 @@ void PerspectiveShadowMap::createShadowFactorMap(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -3117,7 +3114,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -3276,7 +3273,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i])
 			{
     
 			    Real32 shadowIntensity;
@@ -3332,7 +3329,7 @@ void PerspectiveShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*7) && lightNum < ((i+1)*7))
 					{
@@ -3651,7 +3648,6 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -3666,12 +3662,15 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	else
 	{
 
+		glPushAttrib(GL_ENABLE_BIT);
+
 		if(!initTexturesDone) initTextures(win);
 
 		if(useFBO)
 		{
 			if(!initFBO(win)) printf("ERROR with FBOBJECT\n");
 		}
+
 
 		GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
@@ -3843,6 +3842,7 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 				shadowVP->_transparent[t]->setActive(true);
 		}
 		
+		glPopAttrib();
 
 		// render the foregrounds.
 		for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)

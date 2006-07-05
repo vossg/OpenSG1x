@@ -3639,7 +3639,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -3773,7 +3773,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -3811,6 +3811,9 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 			lightCounter++;
 		}
+		else
+		{
+		}
 	}
 
 	if(useShaderModel3)
@@ -3835,7 +3838,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*4) && lightNum < ((i+1)*4))
 					{
@@ -3993,7 +3996,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 		_firstRun = 0;
 		}
-	}
+		}
 	}
 	else //No Shader Model 3.0 supported, Nuber of Instructions is limited...
 	{
@@ -4090,7 +4093,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	{
 		if(shadowVP->_lightStates[i] != 0)
 		{
-			if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && shadowVP->_realPointLight[i])
+			if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && shadowVP->_realPointLight[i])
 			{
 				Real32 shadowIntensity;
 				if(shadowVP->getGlobalShadowIntensity() != 0.0) shadowIntensity = (shadowVP->getGlobalShadowIntensity()/activeLights);
@@ -4249,7 +4252,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
 	{
-		if(shadowVP->_lightStates[i] != 0 && (shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[i]))
+		if(shadowVP->_lightStates[i] != 0 && ((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[i]))
 		{
     
 		    Real32 shadowIntensity;
@@ -4312,7 +4315,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if(shadowVP->_lightStates[j] != 0)
 			{
-				if(shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[i]->getShadowIntensity() != 0.0 && !shadowVP->_realPointLight[j])
+				if((shadowVP->getGlobalShadowIntensity() != 0.0 || shadowVP->_lights[j]->getShadowIntensity() != 0.0) && !shadowVP->_realPointLight[j])
 				{
 					if(lightNum >= (i*4) && lightNum < ((i+1)*4))
 					{
@@ -4529,7 +4532,6 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
     //glClearColor(0.0,0.0,0.0,1.0);
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glEnable( GL_DEPTH_TEST );
 
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
@@ -4546,6 +4548,9 @@ void PCFShadowMap::render(RenderActionBase* action)
     }
     else
     {
+
+		glPushAttrib(GL_ENABLE_BIT);
+
         if(!initTexturesDone)
             initTextures(win);
 
@@ -4867,6 +4872,8 @@ void PCFShadowMap::render(RenderActionBase* action)
         // switch on all transparent geos
         for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
             shadowVP->_transparent[t]->setActive(true);
+
+		glPopAttrib();
 
         // render the foregrounds.
         for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)

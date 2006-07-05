@@ -285,7 +285,6 @@ static std::string _variance_combine_fp =
 "	gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
-
 VarianceShadowMap::VarianceShadowMap(void)
 {
 }
@@ -1269,6 +1268,8 @@ void VarianceShadowMap::render(RenderActionBase* action)
 	else
 	{
 
+	glPushAttrib(GL_ENABLE_BIT);
+
 	if(!initTexturesDone) initTextures(win);
 
 	if(useFBO)
@@ -1384,6 +1385,7 @@ void VarianceShadowMap::render(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
+	glPopAttrib();
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{

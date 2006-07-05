@@ -298,7 +298,6 @@ static std::string _pcss_shadow_combine_fp =
 "	gl_FragColor = vec4(color, 1.0);\n"
 "}\n";
 
-
 PCSSShadowMap::PCSSShadowMap(void)
 {
 }
@@ -1179,6 +1178,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	if(!useGLSL  || !useShadowExt) shadowVP->Viewport::render(action);
 	else
 	{
+	glPushAttrib(GL_ENABLE_BIT);
 
 	if(!initTexturesDone) initTextures(win);
 
@@ -1304,6 +1304,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
     for(UInt32 t=0;t<shadowVP->_transparent.size();++t)
         shadowVP->_transparent[t]->setActive(true);
 
+	glPopAttrib();
     // render the foregrounds.
     for(UInt16 i=0; i < shadowVP->getForegrounds().size(); ++i)
 	{
