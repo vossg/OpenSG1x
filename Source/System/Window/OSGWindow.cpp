@@ -1392,17 +1392,32 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
             
             if(__GetProcAddress == NULL) 
             {
-#if 0 // Can't get this to work reliably... :(
-                // Fallback to trying glxGetProcAddressARB directly
-                // Avoids problems for dynamically bound OpenSG
-#if defined(GLX_VERSION_1_4)
+                // Couldn't find it linked to the executable. Try to open
+                // libGL.so directly.
+                
+                dlclose(libHandle);
+                
+                libHandle = dlopen("libGL.so", RTLD_NOW | RTLD_GLOBAL); 
+
+                if(!libHandle) 
+                { 
+                    FWARNING(("Error in dlopen: %s\n",dlerror())); 
+                    abort(); 
+                } 
+                else
+                {
+                    FDEBUG(("Opened lib libGL.so for GL extension handling.\n"));
+                }
+                
                 __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                        glXGetProcAddress;
-#elif defined(GLX_ARB_get_proc_address)
-                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                        glXGetProcAddressARB;
-#endif
-#endif
+                                    dlsym(libHandle, "glXGetProcAddressARB"); 
+
+                if(__GetProcAddress == NULL) 
+                { 
+                    __GetProcAddress = (void (*(*)(const GLubyte*))()) 
+                                        dlsym(libHandle, "glXGetProcAddress"); 
+                }
+                
                 if(__GetProcAddress == NULL)
                 {
                    FWARNING(("Neither glXGetProcAddress nor "
@@ -1410,14 +1425,6 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
                            " extensions for Window %p!\n")); 
                    _availExtensions.clear();
                    _availExtensions.resize(_registeredExtensions.size(), false);
-                }
-                else
-                {
-#ifdef GLX_VERSION_1_4
-                   FDEBUG(("Using glXGetProcAddress directly for GL extension handling.\n"));
-#else
-                   FDEBUG(("Using glXGetProcAddressARB directly for GL extension handling.\n"));
-#endif
                 }
             } 
             else
