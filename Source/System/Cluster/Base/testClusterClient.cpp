@@ -39,10 +39,8 @@
 #include <OSGSimpleAttachments.h>
 #include <OSGColorBufferViewport.h>
 
-#ifdef OSG_COMPOSER_SUPPORT
 #include <OSGPipelineComposer.h>
 #include <OSGBinarySwapComposer.h>
-#endif
 
 OSG_USING_NAMESPACE
 
@@ -78,8 +76,8 @@ std::vector<Quaternion>  animOri;
 std::vector<Vec3f     >  animPos;
 std::string              animName="animation.txt";
 Real32                   animTime=0;
-std::string              serviceAddress;
-bool                     serviceAddressValid = false;
+std::string              serviceInterface;
+bool                     serviceInterfaceValid = false;
 UInt32                   interleave=0;
 Real32                   _dsFactor = 1.0; // scale down factor.
 bool                     _enablecc = true; // enable color correction.
@@ -95,6 +93,7 @@ std::string              connectionDestination="";
 std::string              connectionInterface="";
 OSG::SolidBackgroundPtr  bkgnd;
 Int32                    subtilesize=-1;
+bool                     pipelinedBufferRead = false;
 
 UInt32 primitiveCount(GeometryPtr geoPtr,
                       UInt32 &triangle,
@@ -884,6 +883,7 @@ void init(std::vector<std::string> &filenames)
     size = max - min;
 
     std::cout << "Volume: from " << min << " to " << max << std::endl;
+    std::cout << "Center: " << center << std::endl;
 
     // Camera
 
@@ -1021,11 +1021,11 @@ void init(std::vector<std::string> &filenames)
     if(multiport || stereoMode > 0)
         clusterWindow->addPort( vp2 );
 
-    if(serviceAddressValid == true)
+    if(serviceInterfaceValid == true)
     {
-        clusterWindow->setServiceAddress(serviceAddress);
+        clusterWindow->setServiceInterface(serviceInterface);
 
-        fprintf(stderr, "tcclient use ba %s\n", serviceAddress.c_str());
+        fprintf(stderr, "tcclient use ba %s\n", serviceInterface.c_str());
     }
 
 	endEditCP(clusterWindow);
@@ -1095,8 +1095,8 @@ int main(int argc,char **argv)
                     break;
                 case 'b':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
-                    serviceAddress.assign(opt);
-                    serviceAddressValid = true;
+                    serviceInterface.assign(opt);
+                    serviceInterfaceValid = true;
                     break;
                 case 'f':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
@@ -1145,6 +1145,8 @@ int main(int argc,char **argv)
                             composerType = "PipelineComposer";
                         if(argv[i][lpos] == 'S')
                             composerType = "SepiaComposer";
+                        if(argv[i][lpos] == 'p')
+                            pipelinedBufferRead = true;
                         ++lpos;
                     }
                     break;
@@ -1224,6 +1226,7 @@ int main(int argc,char **argv)
                     std::cout << "-m  use multicast" << std::endl
                               << "-G  multicast group" << std::endl
                               << "-i  interface" << std::endl
+                              << "-b  service interface" << std::endl
                               << "-M  multi display" << std::endl
 #ifdef FRAMEINTERLEAVE
                               << "-I  frame interleave" << std::endl
@@ -1275,6 +1278,7 @@ int main(int argc,char **argv)
         ract->setSortTrans(true);
         ract->setZWriteTrans(true);
         ract->setLocalLights(true);
+        ract->setCorrectTwoSidedLighting(true);
 
         // clear changelist from prototypes
         OSG::Thread::getCurrentChangeList()->clearAll();
@@ -1312,15 +1316,17 @@ int main(int argc,char **argv)
                     if(icPtr != NullFC)
                     {
                         beginEditCP(icPtr);
-                        if(subtilesize>0)
-                        {
-#ifdef OSG_COMPOSER_SUPPORT
                             if(PipelineComposerPtr::dcast(icPtr) != NullFC)
-                                PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                            {
+                                if(subtilesize>0)
+                                    PipelineComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                                PipelineComposerPtr::dcast(icPtr)->setPipelined(pipelinedBufferRead);
+                            }
                             if(BinarySwapComposerPtr::dcast(icPtr) != NullFC)
-                                BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
-#endif
-                        }
+                            {
+                                if(subtilesize>0)
+                                    BinarySwapComposerPtr::dcast(icPtr)->setTileSize(subtilesize);
+                            }
                         icPtr->setStatistics(info);
 //                        icPtr->setShort(false);
                         sortlast->setComposer(icPtr);
@@ -1394,14 +1400,14 @@ int main(int argc,char **argv)
         {
             clusterWindow->setClientWindow(clientWindow);
         }
+        clusterWindow->setConnectionDestination(connectionDestination);
+        clusterWindow->setConnectionInterface(connectionInterface);
         clusterWindow->init();
         if(serverx > 0)
             clusterWindow->resize(serverx,servery);
         else
             clusterWindow->resize(winwidth,winheight);
         clientWindow->resize(winwidth,winheight);
-        clusterWindow->setConnectionDestination(connectionDestination);
-        clusterWindow->setConnectionInterface(connectionInterface);
         glutMainLoop();
     }
     catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
