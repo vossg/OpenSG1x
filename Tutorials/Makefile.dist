@@ -17,6 +17,9 @@ SYSTEM := $(shell uname)
 # which extension to be used for executables
 EXEEXT :=
 
+# which extension to be used for executables
+ADDLIB :=
+
 # be very careful with these lines. There needs to be a space after the Unix
 # lines and nothing after the win lines!!
 
@@ -24,16 +27,19 @@ ifeq ($(SYSTEM),IRIX)
         CCOUT := -o 
         LDOUT := -o 
 	LINK  := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),IRIX64)
         CCOUT := -o 
         LDOUT := -o 
 	LINK  := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),Linux)
         CCOUT := -o 
         LDOUT := -o 
 	LINK  := 
+	ADDLIB := X
 endif
 ifeq ($(findstring WIN,$(SYSTEM)),WIN)
         OS := WIN32
@@ -46,6 +52,7 @@ ifeq ($(SYSTEM),HP-UX)
         CCOUT := -o 
         LDOUT := -o 
 	LINK  := 
+	ADDLIB := X
 endif
 ifeq ($(SYSTEM),Darwin)
         CCOUT := -o 
@@ -57,9 +64,9 @@ endif
 
 CC = "$(shell $(OSGROOT)/bin/osg-config --prefix=$(OSGROOT) --compiler)"
 
-CCFLAGS = $(shell $(OSGROOT)/bin/osg-config --prefix=$(OSGROOT) --cflags --$(LIBTYPE) Base System GLUT)
+CCFLAGS = $(shell $(OSGROOT)/bin/osg-config --prefix=$(OSGROOT) --cflags --$(LIBTYPE) $(ADDLIB) Base System GLUT)
 
-LDFLAGS = $(LINK) $(shell $(OSGROOT)/bin/osg-config --prefix=$(OSGROOT) --libs --$(LIBTYPE) Base System GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGROOT)/bin/osg-config --prefix=$(OSGROOT) --libs --$(LIBTYPE) $(ADDLIB) Base System GLUT)
 
 
 # all tutorials in this directory
