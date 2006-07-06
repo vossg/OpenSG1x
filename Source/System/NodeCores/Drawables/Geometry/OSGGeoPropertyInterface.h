@@ -91,6 +91,7 @@ class GeoPropertyArrayInterface
 
     virtual void  clear  (void          ) = 0;
     virtual void  resize (size_t newsize) = 0;
+    virtual void  shrink (void          ) = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

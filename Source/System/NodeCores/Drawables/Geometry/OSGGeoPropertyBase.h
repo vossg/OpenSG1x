@@ -124,6 +124,8 @@ class AbstractGeoProperty :
     virtual void        resize   (      size_t      newsize)       = 0;
     virtual void        push_back(const GenericType &val   )       = 0;
 
+    virtual void        shrink   (void                     )       = 0;
+
     /*! \}                                                                 */
 #endif
     /*---------------------------------------------------------------------*/
@@ -262,7 +264,9 @@ class GeoProperty :
     virtual void    resize(size_t newsize);
 
     virtual void    push_back(const StoredGenericType &val);
-    
+
+    virtual void    shrink(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Assigment                               */

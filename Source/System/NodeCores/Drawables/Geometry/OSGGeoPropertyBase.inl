@@ -466,6 +466,12 @@ void GeoProperty<GeoPropertyDesc>::resize( size_t newsize )
 }
 
 template <class GeoPropertyDesc> inline
+void GeoProperty<GeoPropertyDesc>::shrink( void )
+{
+    StoredFieldType(_field).swap(_field);
+}
+
+template <class GeoPropertyDesc> inline
 void GeoProperty<GeoPropertyDesc>::dump(      UInt32    uiIndent, 
                                         const BitVector bvFlags) const
 {
