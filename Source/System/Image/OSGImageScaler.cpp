@@ -246,6 +246,7 @@ struct ValueHandlerTempl : public ValueHandler
             y * (width*channels) +
             x * (channels) +
             c;
+
         *valueP = (ValueT)value;
     }
 };
@@ -415,7 +416,7 @@ bool ImageScaler::scale(ImagePtr &srcImg,
                     srcImg->getFrameCount(),
                     srcImg->getFrameDelay(),
                     NULL,
-                    Image::OSG_UINT8_IMAGEDATA,
+                    srcImg->getDataType(),
                     true,
                     srcImg->getSideCount()))
     {
@@ -469,6 +470,7 @@ bool ImageScaler::scale(ImagePtr &srcImg,
                                                            x1,y1,z1,
                                                            x2,y2,z2,
                                                            weightX,weightY,weightZ);
+
                             valueHandler->setValue(value,
                                                    dstImgData,
                                                    channels,width,height,
@@ -485,7 +487,7 @@ bool ImageScaler::scale(ImagePtr &srcImg,
 
     // rebuild mipmaps
     if(srcImg->getMipMapCount() > 1)
-        srcImg->createMipmap(-1);
+        dstImg->createMipmap(-1);
 
     endEditCP(dstImg);
 
