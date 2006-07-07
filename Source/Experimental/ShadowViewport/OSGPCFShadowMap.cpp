@@ -3648,8 +3648,13 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				Matrix iCVM = CVM;
+				CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+                if(cam != NullFC)
+                    cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+                else
+                    SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
+
+                Matrix iCVM = CVM;
 				iCVM.invert();
 
 				Real32 texFactor;
@@ -3784,8 +3789,13 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			Matrix iCVM = CVM;
+			CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+            if(cam != NullFC)
+                cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+            else
+                SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
+
+            Matrix iCVM = CVM;
 			iCVM.invert();
 
 			Real32 texFactor;
@@ -4102,8 +4112,13 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				Matrix iCVM = CVM;
+				CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+                if(cam != NullFC)
+                    cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+                else
+                    SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
+
+                Matrix iCVM = CVM;
 				iCVM.invert();
 
 				Real32 texFactor;
@@ -4263,8 +4278,13 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			Matrix iCVM = CVM;
+			CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+            if(cam != NullFC)
+                cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+            else
+                SWARNING << "PCFShadowMap::createShadowFactorMapFBO: no camera found!" << std::endl;
+
+            Matrix iCVM = CVM;
 			iCVM.invert();
 
 			Real32 texFactor;
