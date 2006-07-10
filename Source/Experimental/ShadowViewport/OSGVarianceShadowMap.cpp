@@ -918,7 +918,7 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 n
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     Matrix iCVM = CVM;
     iCVM.invert();
 
@@ -1087,7 +1087,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt3
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     Matrix iCVM = CVM;
     iCVM.invert();
 

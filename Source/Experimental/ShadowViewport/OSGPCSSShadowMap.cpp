@@ -966,7 +966,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     Matrix iCVM = CVM;
     iCVM.invert();
 
@@ -1078,7 +1078,7 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
     Matrix LVM,LPM,CVM;
     shadowVP->_lightCameras[num]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     shadowVP->_lightCameras[num]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-    PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+    shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     Matrix iCVM = CVM;
     iCVM.invert();
     Matrix iLVM = LVM;

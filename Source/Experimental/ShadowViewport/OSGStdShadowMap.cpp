@@ -2162,7 +2162,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+				shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				Matrix iCVM = CVM;
 				iCVM.invert();
 
@@ -2297,7 +2297,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+			shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			Matrix iCVM = CVM;
 			iCVM.invert();
 
@@ -2690,7 +2690,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+				shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				Matrix iCVM = CVM;
 				iCVM.invert();
 
@@ -2846,7 +2846,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			PerspectiveCameraPtr::dcast(shadowVP->getCamera())->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+			shadowVP->getCamera()->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			Matrix iCVM = CVM;
 			iCVM.invert();
 
