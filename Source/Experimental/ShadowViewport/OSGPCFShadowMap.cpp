@@ -3596,13 +3596,6 @@ void PCFShadowMap::createColorMapFBO(RenderActionBase* action)
 
 void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 {
-	Real32 vpTop,vpBottom,vpLeft,vpRight;
-    vpTop = shadowVP->getTop();
-    vpBottom = shadowVP->getBottom();
-    vpLeft = shadowVP->getLeft();
-    vpRight = shadowVP->getRight();
-    shadowVP->setVPSize(0,0,shadowVP->getPixelWidth()-1,shadowVP->getPixelHeight()-1);
-
     glClearColor(0.0,0.0,0.0,1.0);
     if(_firstRun)
     {
@@ -3648,7 +3641,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+				CameraPtr cam = shadowVP->getCamera();
                 if(cam != NullFC)
                     cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
                 else
@@ -3748,8 +3741,8 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 				action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 				glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				glBindTexture(GL_TEXTURE_2D,0);
+				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+                glBindTexture(GL_TEXTURE_2D,0);
 		        _firstRun = 0;
 			}
 		}
@@ -3789,7 +3782,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+			CameraPtr cam = shadowVP->getCamera();
             if(cam != NullFC)
                 cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
             else
@@ -4001,8 +3994,8 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-		glBindTexture(GL_TEXTURE_2D,0);
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        glBindTexture(GL_TEXTURE_2D,0);
 
 		_firstRun = 0;
 		}
@@ -4050,8 +4043,8 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-		glBindTexture(GL_TEXTURE_2D,0);
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+        glBindTexture(GL_TEXTURE_2D,0);
 
 		_firstRun = 0;
 		}
@@ -4066,8 +4059,6 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase* action)
 	PLFactorF.clear();
 	mapFactorF.clear();
 	shadowMatrixF.clear();
-
-    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 }
 
 void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
@@ -4112,7 +4103,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				Matrix LVM,LPM,CVM;
 				shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-				CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+				CameraPtr cam = shadowVP->getCamera();
                 if(cam != NullFC)
                     cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
                 else
@@ -4278,7 +4269,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 			Matrix LVM,LPM,CVM;
 			shadowVP->_lightCameras[i]->getViewing(LVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 			shadowVP->_lightCameras[i]->getProjection(LPM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
-			CameraPtr cam = CameraPtr::dcast(shadowVP->getCamera());
+			CameraPtr cam = shadowVP->getCamera();
             if(cam != NullFC)
                 cam->getViewing(CVM, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
             else
