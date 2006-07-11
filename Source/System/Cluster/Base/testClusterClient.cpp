@@ -376,14 +376,26 @@ void display(void)
     beginEditCP( cam_trans );
     if(animate && animPos.size()>1)
     {
+        if(animLength>0)
+            animTime = frameCount * (animPos.size())/(float)(animLength);
+
         UInt32 i=(UInt32)animTime;
         Real32 a=animTime-i;
 
-        printf("%d %d\n",i,animPos.size());
-        Vec3f v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
+        Vec3f v;
+        Quaternion q;
+        if(i+1 < animPos.size())
+        {
+            v = animPos[i] + (animPos[i+1] - animPos[i]) * a; 
+            q = Quaternion::slerp(animOri[i],animOri[i+1],a);
+        }
+        else
+        {
+            v = animPos[i];
+            q = animOri[i];
+        }
         cam_trans->getMatrix().setTranslate(v[0],v[1],v[2]);
-        cam_trans->getMatrix().setRotate(
-            Quaternion::slerp(animOri[i],animOri[i+1],a));
+        cam_trans->getMatrix().setRotate(q);
     }
     else
     {
@@ -424,7 +436,7 @@ void display(void)
     t+=getSystemTime();
     frame_time = t;
 
-    if(animate)
+    if(animate && animPos.size()>1)
     {
         Real32 a;
         Vec3f v;
@@ -433,9 +445,6 @@ void display(void)
                animTime,
                t,1/t);
 
-        if(animLength > 1)
-            animTime += ((animPos.size()-1)/(float)(animLength-1));
-        printf("fc %d %d\n",frameCount,animLength);
         frameCount++;
         if(frameCount == animLength)
         {
@@ -560,6 +569,8 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             fclose(file);
             animOri.clear();
             animPos.clear();
+            frameCount = 0;
+            animTime = 0;
             break;
         }
         case 's':
@@ -578,6 +589,8 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                     m[3][1],
                     m[3][2]);
             fclose(file);
+            frameCount = 0;
+            animTime = 0;
             break;
         }
         case 'S':
@@ -677,6 +690,8 @@ void key(unsigned char key, int /*x*/, int /*y*/)
                 glutIdleFunc(display);       
                 animate=true;
             }
+            frameCount = 0;
+            animTime = 0;
             break;
         case 'd':
             // remove tree
