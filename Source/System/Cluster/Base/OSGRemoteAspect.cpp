@@ -52,6 +52,7 @@
 #include "OSGMaterial.h"
 #include "OSGVertexProgramChunk.h"
 #include "OSGFragmentProgramChunk.h"
+#include "OSGStateChunk.h"
 
 #include <map>
 
@@ -339,13 +340,26 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                             }
                         }
 
-                        // subref until the factory hat no 
-                        // knolage of the node
-                        do
+                        // HACK we can't destroy the StateChunk's here because they are
+                        // referenced in the state and in the next rebuildState of the material
+                        // the old already invalid chunk ptr is destroyed again!
+                        StateChunkPtr chunk = StateChunkPtr::dcast(fcPtr);
+                        if(chunk != NullFC)
                         {
-                            subRefCP(fcPtr);
-                            fcPtr = factory->getContainer(localId);
-                        } while(fcPtr != NullFC);
+                            // keep it alive in the next rebuildState call it will be destroyed.
+                            while(fcPtr.getRefCount() > 1)
+                                subRefCP(fcPtr);
+                        }
+                        else
+                        {
+                            // subref until the factory hat no 
+                            // knolage of the node
+                            do
+                            {
+                                subRefCP(fcPtr);
+                                fcPtr = factory->getContainer(localId);
+                            } while(fcPtr != NullFC);
+                        }
                     }
                 }
                 else
