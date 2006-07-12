@@ -52,7 +52,6 @@
 #include "OSGMaterial.h"
 #include "OSGVertexProgramChunk.h"
 #include "OSGFragmentProgramChunk.h"
-#include "OSGStateChunk.h"
 
 #include <map>
 
@@ -340,26 +339,21 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                             }
                         }
 
-                        // HACK we can't destroy the StateChunk's here because they are
-                        // referenced in the state and in the next rebuildState of the material
+                        // subref until the factory hat no 
+                        // knowlage of the node
+                        // we can do this here because in sendSync the destroys are coming
+                        // after the changes, that's important because if
+                        // rebuildState would be called
+                        // after the StateChunk has been destroyed this would lead to some
+                        // problems because the StateChunk is also referenced
+                        // in the state and in the next rebuildState of the material
                         // the old already invalid chunk ptr is destroyed again!
-                        StateChunkPtr chunk = StateChunkPtr::dcast(fcPtr);
-                        if(chunk != NullFC)
+                        do
                         {
-                            // keep it alive in the next rebuildState call it will be destroyed.
-                            while(fcPtr.getRefCount() > 1)
-                                subRefCP(fcPtr);
+                            subRefCP(fcPtr);
+                            fcPtr = factory->getContainer(localId);
                         }
-                        else
-                        {
-                            // subref until the factory hat no 
-                            // knolage of the node
-                            do
-                            {
-                                subRefCP(fcPtr);
-                                fcPtr = factory->getContainer(localId);
-                            } while(fcPtr != NullFC);
-                        }
+                        while(fcPtr != NullFC);
                     }
                 }
                 else
@@ -586,22 +580,6 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
 
     }
 
-    // destroy fct
-    for(destroyedI = changeList->beginDestroyed();
-        destroyedI != changeList->endDestroyed(); destroyedI++)
-    {
-        UInt32  id = (*destroyedI);
-
-        // is it a known container
-        if(_mappedFC.count(id))
-        {
-            clearFCMapping(id,0);
-            cmd = DESTROYED;
-            connection.putValue(cmd);
-            connection.putValue(id);
-        }
-    }
-
     // changed fields
     // first create a condensed map, where each container is stored
     // only once
@@ -660,6 +638,23 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
                     fcPtr->getType().getName().str(),
                     fcPtr.getFieldContainerId(), 
                     mask))
+        }
+    }
+
+    // destroy fct
+    // needs to be called after the changes (see receiveSync for more info)!!!
+    for(destroyedI = changeList->beginDestroyed();
+        destroyedI != changeList->endDestroyed(); destroyedI++)
+    {
+        UInt32  id = (*destroyedI);
+
+        // is it a known container
+        if(_mappedFC.count(id))
+        {
+            clearFCMapping(id,0);
+            cmd = DESTROYED;
+            connection.putValue(cmd);
+            connection.putValue(id);
         }
     }
 
