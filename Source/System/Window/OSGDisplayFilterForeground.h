@@ -155,7 +155,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForeground : public DisplayFilterFor
 
     std::vector<ViewportPtr>                  _port;
     std::map<std::string,DisplayFilterGroup*> _group;
-    std::vector<bool>                         _enabledState;
+    std::vector<UInt32>                       _changedState;
     bool                                      _hasNonPowTwoTex;
 
     friend class FieldContainer;

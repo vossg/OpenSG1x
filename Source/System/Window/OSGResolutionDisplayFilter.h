@@ -104,14 +104,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ResolutionDisplayFilter : public ResolutionDispla
 
     virtual void createFilter(DisplayFilterForeground *fg,
                               Viewport *port);
-    virtual void destroyFilter(DisplayFilterForeground *fg);
-    virtual void updateDownScale();
 
     /*! \}                                                                 */
 
-    DisplayFilterForeground::DisplayFilterGroup *_color;
-    DisplayFilterForeground::DisplayFilterGroup *_resolution;
-    
     /*==========================  PRIVATE  ================================*/
   private:
 

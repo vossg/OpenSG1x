@@ -86,8 +86,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilter : public DisplayFilterBase
 
     virtual void createFilter(DisplayFilterForeground *fg,
                               Viewport *port) = 0;
-    virtual void destroyFilter(DisplayFilterForeground *fg) = 0;
     virtual void updateFilter(Viewport *port);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   changed handling                           */
+    /*! \{                                                                 */
+
+    UInt32 getChanged( void );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -110,6 +116,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilter : public DisplayFilterBase
     virtual ~DisplayFilter(void); 
 
     /*! \}                                                                 */
+
+    UInt32 _changed;
     
     /*==========================  PRIVATE  ================================*/
   private:

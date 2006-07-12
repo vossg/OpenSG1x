@@ -98,11 +98,6 @@ DistortionDisplayFilter::~DistortionDisplayFilter(void)
 
 void DistortionDisplayFilter::changed(BitVector whichField, UInt32 origin)
 {
-    if(whichField & (RowsFieldMask|ColumnsFieldMask|PositionsFieldMask))
-    {
-        if(getEnabled() && _group)
-            updateGrid();
-    }
     Inherited::changed(whichField, origin);
 }
 
@@ -115,19 +110,8 @@ void DistortionDisplayFilter::dump(      UInt32    ,
 void DistortionDisplayFilter::createFilter(DisplayFilterForeground *fg,
                                            Viewport *port)
 {
-    _group = fg->findReadbackGroup("ColorDisplayFilter");
+    DisplayFilterForeground::DisplayFilterGroup *group = fg->findReadbackGroup("ColorDisplayFilter");
 
-    updateGrid();
-
-}
-
-void DistortionDisplayFilter::destroyFilter(DisplayFilterForeground *)
-{
-    _group = NULL;
-}
-
-void DistortionDisplayFilter::updateGrid()
-{
     if(getColumns() < 2 ||
        getRows() < 2)
     {
@@ -143,9 +127,9 @@ void DistortionDisplayFilter::updateGrid()
     }
        
     // prepare grid
-    _group->createGrid(getColumns(),getRows());
+    group->createGrid(getColumns(),getRows());
 
-    GeoPositionsPtr pos = _group->getGeometry()->getPositions();
+    GeoPositionsPtr pos = group->getGeometry()->getPositions();
 
     beginEditCP(pos,Geometry::PositionsFieldMask);
     for(UInt32 p = 0 ; p < getPositions().size() ; ++p)
@@ -155,12 +139,7 @@ void DistortionDisplayFilter::updateGrid()
                             0),p);
     }
     endEditCP(pos,Geometry::PositionsFieldMask);
-
-
 }
-
-
-
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

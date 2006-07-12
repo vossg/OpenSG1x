@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 
 #include <OSGTextureGrabBackground.h>
+#include <OSGPassiveBackground.h>
 #include <OSGSolidBackground.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGMaterialChunk.h>
@@ -116,7 +117,7 @@ void DisplayFilterForeground::changed(BitVector whichField, UInt32 origin)
 }
 
 void DisplayFilterForeground::dump(      UInt32    , 
-                         const BitVector ) const
+                                   const BitVector ) const
 {
     SLOG << "Dump DisplayFilterForeground NI" << std::endl;
 }
@@ -136,7 +137,7 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     // rebuild filter, if enabled state changed
-    if(_enabledState.size() != getFilter().size())
+    if(_changedState.size() != getFilter().size())
     {
         clearGroups();
     }
@@ -144,7 +145,7 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     {
         for(f = 0 ; f < getFilter().size() ; ++f)
         {
-            if(_enabledState[f] != getFilter()[f]->getEnabled())
+            if(_changedState[f] != getFilter()[f]->getChanged())
             {
                 clearGroups();
                 break;
@@ -160,11 +161,11 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
             _hasNonPowTwoTex = true;
         else
             _hasNonPowTwoTex = false;
-        _enabledState.resize(getFilter().size());
+        _changedState.resize(getFilter().size());
         for(f = 0 ; f < getFilter().size() ; ++f)
         {
-            _enabledState[f] =  getFilter()[f]->getEnabled();
-            if(_enabledState[f])
+            _changedState[f] =  getFilter()[f]->getChanged();
+            if(getFilter()[f]->getEnabled())
                 getFilter()[f]->createFilter(this,port);
         }
     }
@@ -256,13 +257,6 @@ DisplayFilterForeground::DisplayFilterGroup *DisplayFilterForeground::findOverla
 
 void DisplayFilterForeground::clearGroups()
 {
-    for(UInt32 f = 0 ; f < getFilter().size() ; ++f)
-    {
-        // clear, if filter was enabl
-        if(_enabledState.size() > f && _enabledState[f])
-            getFilter()[f]->destroyFilter(this);
-    }
-
     std::map<std::string,DisplayFilterGroup*>::iterator cI;
     for(cI = _group.begin() ;
         cI != _group.end() ;
@@ -334,10 +328,7 @@ DisplayFilterForeground::DisplayFilterGroup::DisplayFilterGroup(
     if(!readback)
     {
         // no readback, create black solid backgrounds
-        SolidBackgroundPtr back = SolidBackground::create();
-        beginEditCP(back);
-        back->setColor(Color3f(0,0,0));
-        endEditCP(back);
+        PassiveBackgroundPtr back = PassiveBackground::create();
         _vp->setBackground(back);
     }
     else
@@ -357,7 +348,6 @@ DisplayFilterForeground::DisplayFilterGroup::DisplayFilterGroup(
         _texture->setMagFilter(GL_LINEAR);
         _texture->setScale(false);
         _texture->setEnvMode(GL_REPLACE);
-//        _texture->setInternalFormat(GL_RGB8);
         
         endEditCP(_texture);
         // texture grep background

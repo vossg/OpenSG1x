@@ -81,12 +81,14 @@ void DisplayFilter::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 DisplayFilter::DisplayFilter(void) :
-    Inherited()
+    Inherited(),
+    _changed(0)
 {
 }
 
 DisplayFilter::DisplayFilter(const DisplayFilter &source) :
-    Inherited(source)
+    Inherited(source),
+    _changed(0)
 {
 }
 
@@ -98,17 +100,23 @@ DisplayFilter::~DisplayFilter(void)
 
 void DisplayFilter::changed(BitVector whichField, UInt32 origin)
 {
+    _changed++;
     Inherited::changed(whichField, origin);
 }
 
 void DisplayFilter::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump DisplayFilter NI" << std::endl;
+    SLOG << "enabled = " << getEnabled() << std::endl;
 }
 
 void DisplayFilter::updateFilter(Viewport *port)
 {
+}
+
+UInt32 DisplayFilter::getChanged( void )
+{
+    return _changed;
 }
 
 /*------------------------------------------------------------------------*/

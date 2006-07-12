@@ -81,16 +81,12 @@ void ResolutionDisplayFilter::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 ResolutionDisplayFilter::ResolutionDisplayFilter(void) :
-    Inherited(),
-    _color(NULL),
-    _resolution(NULL)
+    Inherited()
 {
 }
 
 ResolutionDisplayFilter::ResolutionDisplayFilter(const ResolutionDisplayFilter &source) :
-    Inherited(source),
-    _color(NULL),
-    _resolution(NULL)
+    Inherited(source)
 {
 }
 
@@ -102,52 +98,36 @@ ResolutionDisplayFilter::~ResolutionDisplayFilter(void)
 
 void ResolutionDisplayFilter::changed(BitVector whichField, UInt32 origin)
 {
-    if(whichField & DownScaleFieldMask)
-    {
-        if(getEnabled() && _color && _resolution)
-            updateDownScale();
-    }
     Inherited::changed(whichField, origin);
 }
 
 void ResolutionDisplayFilter::dump(      UInt32    , 
-                         const BitVector ) const
+                                   const BitVector ) const
 {
     SLOG << "Dump ResolutionDisplayFilter NI" << std::endl;
 }
 
 
-void ResolutionDisplayFilter::updateDownScale()
+void ResolutionDisplayFilter::createFilter(DisplayFilterForeground *fg,
+                                           Viewport *)
 {
+    DisplayFilterForeground::DisplayFilterGroup *color      = fg->findReadbackGroup("ColorDisplayFilter");
+    DisplayFilterForeground::DisplayFilterGroup *resolution = fg->findReadbackGroup("ResolutionDisplayFilter");
+
     Real32 downScale = getDownScale();
     if(downScale > 1)
         downScale = 1;
     if(downScale < 0)
         downScale = 0;
 
-    beginEditCP(_color->getTransform());
-    _color->getTransform()->setScale(Vec3f(downScale,
-                                           downScale, 1.0));
-    endEditCP(_color->getTransform());
-    beginEditCP(_resolution->getTransform());
-    _resolution->getTransform()->setScale(Vec3f(1/downScale,
-                                                1/downScale, 1.0));
-    endEditCP(_resolution->getTransform());
-}
-
-void ResolutionDisplayFilter::createFilter(DisplayFilterForeground *fg,
-                                           Viewport *)
-{
-    _color      = fg->findReadbackGroup("ColorDisplayFilter");
-    _resolution = fg->findReadbackGroup("ResolutionDisplayFilter");
-
-    updateDownScale();
-}
-
-void ResolutionDisplayFilter::destroyFilter(DisplayFilterForeground *)
-{
-    _color      = NULL;
-    _resolution = NULL;
+    beginEditCP(color->getTransform());
+    color->getTransform()->setScale(Vec3f(downScale,
+                                          downScale, 1.0));
+    endEditCP(color->getTransform());
+    beginEditCP(resolution->getTransform());
+    resolution->getTransform()->setScale(Vec3f(1/downScale,
+                                               1/downScale, 1.0));
+    endEditCP(resolution->getTransform());
 }
 
 /*------------------------------------------------------------------------*/

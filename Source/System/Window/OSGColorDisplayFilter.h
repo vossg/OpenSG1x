@@ -104,18 +104,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilter : public ColorDisplayFilterBas
     /*! \name                   filter handling                            */
     /*! \{                                                                 */
 
-    virtual void createFilter(DisplayFilterForeground *fg,
-                              Viewport *port);
-    virtual void destroyFilter(DisplayFilterForeground *fg);
-            void createChunks();
-            void createFragmentProgramm();
-            void createRegisterCombiner();
+    virtual void createFilter          (DisplayFilterForeground *fg,
+                                        Viewport *port);
+            void createFragmentProgramm(DisplayFilterForeground::DisplayFilterGroup *group);
+            void createRegisterCombiner(DisplayFilterForeground::DisplayFilterGroup *group);
     
     /*! \}                                                                 */
-
-    DisplayFilterForeground::DisplayFilterGroup *_group;
-    std::vector<StateChunkPtr>                   _chunks;
-    Viewport                                    *_port;
 
     /*==========================  PRIVATE  ================================*/
   private:

@@ -104,12 +104,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistortionDisplayFilter : public DistortionDispla
 
     virtual void createFilter(DisplayFilterForeground *fg,
                               Viewport *port);
-    virtual void destroyFilter(DisplayFilterForeground *fg);
-            void updateGrid();
 
     /*! \}                                                                 */
-
-    DisplayFilterForeground::DisplayFilterGroup *_group;
     
     /*==========================  PRIVATE  ================================*/
   private:

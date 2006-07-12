@@ -91,14 +91,12 @@ void ColorDisplayFilter::initMethod (void)
 /*----------------------- constructors & destructors ----------------------*/
 
 ColorDisplayFilter::ColorDisplayFilter(void) :
-    Inherited(),
-    _group(NULL)
+    Inherited()
 {
 }
 
 ColorDisplayFilter::ColorDisplayFilter(const ColorDisplayFilter &source) :
-    Inherited(source),
-    _group(NULL)
+    Inherited(source)
 {
 }
 
@@ -111,20 +109,6 @@ ColorDisplayFilter::~ColorDisplayFilter(void)
 void ColorDisplayFilter::changed(BitVector whichField, UInt32 origin)
 {
     Inherited::changed(whichField, origin);
-
-    if(whichField & MatrixFieldMask) 
-    {
-        if(getEnabled() && _group)
-        {
-            // reset
-            UInt32 c;
-            for(c = 0 ; c < _chunks.size() ; ++c)
-                _group->getMaterial()->subChunk(_chunks[c]);
-            _chunks.clear();
-            createChunks();
-        }
-    }
-
 }
 
 void ColorDisplayFilter::dump(      UInt32    , 
@@ -133,19 +117,7 @@ void ColorDisplayFilter::dump(      UInt32    ,
     SLOG << "Dump ColorDisplayFilter NI" << std::endl;
 }
 
-void ColorDisplayFilter::createChunks()
-{
-    WindowPtr window = _port->getParent();
-
-    int extension;
-    extension = osg::Window::registerExtension("GL_ARB_fragment_program");
-    if(window->hasExtension(extension))
-        createFragmentProgramm();
-    else
-        createRegisterCombiner();
-}
-
-void ColorDisplayFilter::createFragmentProgramm()
+void ColorDisplayFilter::createFragmentProgramm(DisplayFilterForeground::DisplayFilterGroup *group)
 {
     // Texture Chunks for gamma mapping
         
@@ -275,23 +247,19 @@ void ColorDisplayFilter::createFragmentProgramm()
     fragProgram->setParameter(5, Vec4f(getGamma(),getGamma(),getGamma(),0));   
     endEditCP(fragProgram);
 
-    _chunks.push_back(rgammachunk);
-    _chunks.push_back(ggammachunk);
-    _chunks.push_back(bgammachunk);
-    _chunks.push_back(fragProgram);
-    beginEditCP(_group->getMaterial());
-    _group->getMaterial()->addChunk(rgammachunk);
-    _group->getMaterial()->addChunk(ggammachunk);
-    _group->getMaterial()->addChunk(bgammachunk);
-    _group->getMaterial()->addChunk(fragProgram);
-    endEditCP(_group->getMaterial());
+    beginEditCP(group->getMaterial());
+    group->getMaterial()->addChunk(rgammachunk);
+    group->getMaterial()->addChunk(ggammachunk);
+    group->getMaterial()->addChunk(bgammachunk);
+    group->getMaterial()->addChunk(fragProgram);
+    endEditCP(group->getMaterial());
 }
 
-void ColorDisplayFilter::createRegisterCombiner()
+void ColorDisplayFilter::createRegisterCombiner(DisplayFilterForeground::DisplayFilterGroup *group)
 {
     UInt16 x,y;
     UInt16 ncomb = 0;
-    TextureChunkPtr tex = _group->getTexture();
+    TextureChunkPtr tex = group->getTexture();
     UInt32 res = getRamp().size();
     UInt8 *data;
 
@@ -501,31 +469,26 @@ void ColorDisplayFilter::createRegisterCombiner()
     gbgammachunk->setImage(gbgammaimg);
     endEditCP(gbgammachunk);
 
-    _chunks.push_back(argammachunk);
-    _chunks.push_back(gbgammachunk);
-    _chunks.push_back(regCombiner);
-    beginEditCP(_group->getMaterial());
-    _group->getMaterial()->addChunk(argammachunk);
-    _group->getMaterial()->addChunk(gbgammachunk);
-    _group->getMaterial()->addChunk(regCombiner);
-    endEditCP(_group->getMaterial());
+    beginEditCP(group->getMaterial());
+    group->getMaterial()->addChunk(argammachunk);
+    group->getMaterial()->addChunk(gbgammachunk);
+    group->getMaterial()->addChunk(regCombiner);
+    endEditCP(group->getMaterial());
 
 }
 
 void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
                                       Viewport *port)
 {
-    _group = fg->findReadbackGroup("ColorDisplayFilter");
-    _port = port;
+    DisplayFilterForeground::DisplayFilterGroup *group = fg->findReadbackGroup("ColorDisplayFilter");
+    WindowPtr window = port->getParent();
 
-    _chunks.clear();
-    createChunks();
-}
-
-void ColorDisplayFilter::destroyFilter(DisplayFilterForeground *)
-{
-    _group = NULL;
-    _chunks.clear();
+    int extension;
+    extension = osg::Window::registerExtension("GL_ARB_fragment_program");
+    if(window->hasExtension(extension))
+        createFragmentProgramm(group);
+    else
+        createRegisterCombiner(group);
 }
 
 /*------------------------------------------------------------------------*/
