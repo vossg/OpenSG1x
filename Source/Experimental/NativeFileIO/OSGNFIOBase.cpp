@@ -271,14 +271,14 @@ void NFIOBase::chargeFieldPtr(const fcInfo &info)
         UInt32 id = info._id;
         if(id != 0)
         {
-            fcMap::iterator i = _fcMap.find(id);
-            if(i == _fcMap.end())
+            fcMap::iterator it = _fcMap.find(id);
+            if(it == _fcMap.end())
             {
                 FWARNING(("NFIOBase::chargeFieldPtr: couldn't find "
                           "FieldContainer with id %u\n", id));
                 return;
             }
-            fc = (*i).second;
+            fc = (*it).second;
             if(fc == NullFC)
                 return;
         }
@@ -313,21 +313,21 @@ void NFIOBase::chargeFieldPtr(const fcInfo &info)
         }
         
         beginEditCP(info._fc, info._mask);
-        for(std::list<UInt32>::const_iterator i = info._ids.begin();
-            i != info._ids.end(); ++i)
+        bool has_ids_binding = (info._ids.size() == info._ids_binding.size());
+        for(UInt32 i=0;i<info._ids.size();++i)
         {
-            UInt32 id = *i;
+            UInt32 id = info._ids[i];
             FieldContainerPtr fc = NullFC;
             if(id != 0)
             {
-                fcMap::iterator i = _fcMap.find(id);
-                if(i == _fcMap.end())
+                fcMap::iterator it = _fcMap.find(id);
+                if(it == _fcMap.end())
                 {
                     FWARNING(("NFIOBase::chargeFieldPtr: couldn't find "
                               "FieldContainer with id %u\n", id));
                     continue;
                 }
-                fc = (*i).second;
+                fc = (*it).second;
                 if(fc == NullFC)
                     continue;
             }
@@ -339,7 +339,10 @@ void NFIOBase::chargeFieldPtr(const fcInfo &info)
             else if(attachment)
             {
                 AttachmentPtr pAtt  = AttachmentPtr::dcast(fc);
-                attContainer->addAttachment(pAtt);
+                if(has_ids_binding)
+                    attContainer->addAttachment(pAtt, info._ids_binding[i]);
+                else
+                    attContainer->addAttachment(pAtt);
             }
             else
             {
@@ -415,12 +418,21 @@ std::string NFIOBase::readFCFields(const FieldContainerPtr &fc,
             }
             else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
             {
-                readMFFieldContainerPtr(fc, mask, field);
+                UInt32 noe;
+                _in->getValue(noe);
+                readMFFieldContainerPtr(fc, mask, field, noe);
             }
         }
         else if(!strcmp(fieldName.c_str(), "attachments"))
         {
-            readMFFieldContainerPtr(fc, mask, field);
+            UInt32 noe;
+            _in->getValue(noe);
+            // old buggy format without binding info but we want to keep the
+            // osb format backward and forward compatible!
+            if(size == sizeof(UInt32) + sizeof(UInt32) * noe)
+                readMFFieldContainerPtr(fc, mask, field, noe);
+            else
+                readSFAttachmentMap(fc, mask, field, noe);
         }
         else
         {
@@ -443,10 +455,9 @@ void NFIOBase::readSFFieldContainerPtr(const FieldContainerPtr &fc,
 
 
 void NFIOBase::readMFFieldContainerPtr(const FieldContainerPtr &fc,
-                                       const BitVector &mask, Field *field)
+                                       const BitVector &mask, Field *field,
+                                       UInt32 noe)
 {
-    UInt32 noe;
-    _in->getValue(noe);
     _fieldList.push_back(fcInfo(fc, mask, field));
     fcInfo &info = _fieldList.back();
     UInt32 id;
@@ -457,6 +468,26 @@ void NFIOBase::readMFFieldContainerPtr(const FieldContainerPtr &fc,
     }
 }
 
+void NFIOBase::readSFAttachmentMap(const FieldContainerPtr &fc,
+                                   const BitVector &mask, Field *field,
+                                   UInt32 noe)
+{
+    _fieldList.push_back(fcInfo(fc, mask, field));
+    fcInfo &info = _fieldList.back();
+    UInt32 id;
+    for(UInt32 j=0;j<noe;++j)
+    {
+        _in->getValue(id);
+        info._ids.push_back(id);
+    }
+
+    UInt16 id_binding;
+    for(UInt32 j=0;j<noe;++j)
+    {
+        _in->getValue(id_binding);
+        info._ids_binding.push_back(id_binding);
+    }
+}
 
 /***************************************************************************\
  *                            Writer                                       *
@@ -655,6 +686,14 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
                 if(!amap->getValue().empty())
                 {
                     UInt32 size = sizeof(UInt32) + sizeof(UInt32) * amap->getValue().size();
+
+                    AttachmentMap::const_iterator mapIt = amap->getValue().begin();
+                    UInt16 id_binding = UInt16(mapIt->first & 0x0000ffff);
+                    // we write the binding only if we have more than one attachment or
+                    // the binding is not zero to keep it compatible to the old format!
+                    if(amap->getValue().size() > 1 || id_binding != 0)
+                        size += sizeof(UInt16) * amap->getValue().size();
+
                     _out->putValue(fieldName);
                     _out->putValue(fieldType);
                     _out->putValue(size);
@@ -702,9 +741,27 @@ void NFIOBase::writeSFAttachmentMap(SFAttachmentMap *amap)
     
     UInt32 noe = amap->getValue().size();
     _out->putValue(noe);
+
     for(; mapIt != mapEnd; ++mapIt)
     {
         writeFCId(mapIt->second);
+    }
+
+    // now write the bindings
+    if(noe >= 1)
+    {
+        mapIt = amap->getValue().begin();
+        UInt16 id_binding = UInt16(mapIt->first & 0x0000ffff);
+        // we write the binding only if we have more than one attachment or
+        // the binding is not zero to keep it compatible to the old format!
+        if(noe > 1 || id_binding != 0)
+        {
+            for(; mapIt != mapEnd; ++mapIt)
+            {
+                id_binding = UInt16(mapIt->first & 0x0000ffff);
+                _out->putValue(id_binding);
+            }
+        }
     }
 }
 
@@ -927,7 +984,8 @@ NFIOBase::fcInfo::fcInfo(const FieldContainerPtr &fc, const BitVector &mask,
     _mask(mask),
     _id(id),
     _field(field),
-    _ids()
+    _ids(),
+    _ids_binding()
 {
 }
 
@@ -937,7 +995,8 @@ NFIOBase::fcInfo::fcInfo(const FieldContainerPtr &fc, const BitVector &mask,
     _mask(mask),
     _id(0),
     _field(field),
-    _ids()
+    _ids(),
+    _ids_binding()
 {
 }
 
@@ -1024,6 +1083,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.10 2006/03/24 16:50:12 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.11 2006/07/12 13:33:34 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

@@ -45,6 +45,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <vector>
 #include <set>
 #include <iostream>
 
@@ -122,7 +123,11 @@ protected:
                                         Field *field                );
     static void readMFFieldContainerPtr(const FieldContainerPtr &fc,
                                         const BitVector &mask,
-                                        Field *field                );
+                                        Field *field, UInt32 noe    );
+
+    static void readSFAttachmentMap    (const FieldContainerPtr &fc,
+                                        const BitVector &mask,
+                                        Field *field, UInt32 noe    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -216,7 +221,8 @@ private:
         BitVector           _mask;
         UInt32              _id;
         Field               *_field;
-        std::list<UInt32>   _ids;
+        std::vector<UInt32>  _ids;
+        std::vector<UInt16>  _ids_binding;
     };
 
     static void addReadFieldContainer  (const FieldContainerPtr &fc,
@@ -251,6 +257,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.6 2006/03/24 16:50:12 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.7 2006/07/12 13:33:34 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */
