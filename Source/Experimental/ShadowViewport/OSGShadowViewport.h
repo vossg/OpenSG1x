@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -44,43 +43,43 @@
 #endif
 
 #include <vector>
-
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGRenderActionBase.h>
-
 #include <OSGSpotLight.h>
 #include <OSGDirectionalLight.h>
 #include <OSGNode.h>
 #include "OSGShadowViewportBase.h"
-
 #include <OSGPerspectiveCamera.h>
 #include <OSGMatrixCamera.h>
 #include <OSGTransform.h>
 #include <OSGTextureChunk.h>
-
 #include <OSGPassiveBackground.h>
 #include <OSGDynamicVolume.h>
-
-
 #include <OSGTexGenChunk.h>
 #include <OSGTextureTransformChunk.h>
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
-
 #include "OSGTreeRenderer.h"
 
-
 OSG_BEGIN_NAMESPACE
-
-//class PCSSShadowMap;
 
 class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 {
   private:
 
-	//friend PCSSShadowMap;
+    friend class FieldContainer;
+    friend class ShadowViewportBase;
+
+    static void initMethod(void);
+
+    // prohibit default functions (move to 'public' if you need one)
+
+    void operator =(const ShadowViewport &source);
+
+	bool	_GLSLsupported;
+	bool	_initDone;
 
     typedef ShadowViewportBase Inherited;
 	TreeRenderer *treeRenderer;
@@ -89,8 +88,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     void updateLights(void);
     void initializeLights(RenderActionBase *action);
     void clearLights(UInt32 size);
-    void checkMapResolution();
-	void checkCamFar();
 	
     Action::ResultE findLight(NodePtr& node);
     Action::ResultE findTransparent(NodePtr& node);
@@ -139,7 +136,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 
 
 	void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
-
     void render(RenderActionBase* action);
 
     /*---------------------------------------------------------------------*/
@@ -187,20 +183,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 
     /*! \}                                                                 */
     
-    /*==========================  PRIVATE  ================================*/
-  private:
-
-    friend class FieldContainer;
-    friend class ShadowViewportBase;
-
-    static void initMethod(void);
-
-    // prohibit default functions (move to 'public' if you need one)
-
-    void operator =(const ShadowViewport &source);
-
-	bool	_GLSLsupported;
-	bool	_initDone;
 };
 
 typedef ShadowViewport *ShadowViewportP;
@@ -210,6 +192,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.7 2006/06/07 15:12:37 yjung Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.8 2006/07/12 12:56:15 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

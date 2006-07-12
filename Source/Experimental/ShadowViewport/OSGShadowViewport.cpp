@@ -1,4 +1,3 @@
-
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -43,24 +42,19 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <OSGConfig.h>
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
 #include <OSGMultiPassMaterial.h>
-
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
-
 #include <OSGBackground.h>
 #include <OSGForeground.h>
 #include <OSGImage.h>
 #include <OSGMaterialGroup.h>
 #include <OSGGeometry.h>
-
 #include <OSGLight.h>
-
 #include "OSGShadowViewport.h"
 #include "OSGStdShadowMap.h"
 #include "OSGPerspectiveShadowMap.h"
@@ -68,7 +62,6 @@
 #include "OSGPCFShadowMap.h"
 #include "OSGPCSSShadowMap.h"
 #include "OSGVarianceShadowMap.h"
-
 
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
@@ -261,16 +254,6 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
         }
         endEditCP(_poly);
     }
-
-    /*if(whichField & MapSizeFieldMask)
-    {
-        FNOTICE(("ShadowViewport::changed : map size changed.\n"));
-		//clearLights(_oldLights.size());
-        //_mapSizeChanged = true;
-		beginEditCP(this, ShadowModeFieldMask);
-		endEditCP(this, ShadowModeFieldMask);
-		//printf("Mapsize set to %d\n", getMapSize());
-    }*/
 
     if(whichField & LightNodesFieldMask)
     {
@@ -513,8 +496,7 @@ void ShadowViewport::render(RenderActionBase* action)
     action->setViewport  (this);
     action->setTravMask  (getTravMask());
 
-    //checkMapResolution();
-	checkLights(action);
+    checkLights(action);
 
     bool allLightsZero = true;
     if(getGlobalShadowIntensity() != 0.0)
@@ -544,9 +526,6 @@ void ShadowViewport::render(RenderActionBase* action)
     _windowW = getParent()->getWidth();
     _windowH = getParent()->getHeight();
 
-    //Real32 oldFar = getCamera()->getFar();
-    //checkCamFar();
-
     //check if excludeNodes are disabled
     for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
     {
@@ -555,70 +534,12 @@ void ShadowViewport::render(RenderActionBase* action)
     }
 
 	//check if all sides of a pointlight are needed
+	//TODO: Not implemented yet ...
 	_renderSide.clear();
 	
 	treeRenderer->render(action);
 
     }
-}
-
-void ShadowViewport::checkCamFar()
-{
-	Pnt3f campos(0,0,0);
-	Matrix m = getCamera()->getBeacon()->getToWorld();
-    m.mult(campos);
-                
-	Pnt3f center;
-    getSceneRoot()->getVolume().getCenter(center);
-    
-	Vec3f dir = campos - center;
-	Real32 dirLength = dir.length();
-
-	Vec3f diff = (getSceneRoot()->getVolume().getMax() - getSceneRoot()->getVolume().getMin());
-	Real32 diffLength = diff.length();
-
-	if(dirLength+diffLength < getCamera()->getFar()) getCamera()->setFar(dirLength+diffLength);
-	
-}
-
-
-// Checks window-Size and determines best size of ShadowMap. Default is 128
-void ShadowViewport::checkMapResolution()
-{
-    UInt32 minSize = 0;
-    
-    if(this->getParent() != NullFC)
-    {
-        //Checking for the smallest Window-Dimension
-        minSize = this->getPixelWidth();
-
-        if(this->getPixelHeight() < minSize)
-            minSize = this->getPixelHeight();
-
-        //Checking for biggest PowerOf2 that fits in smallest Window-Dimension
-        _mapRenderSize = osgnextpower2(minSize + 1) / 2;
-        if(_mapRenderSize == 0)
-            _mapRenderSize = 128;
-    }
-    else
-    {
-        _mapRenderSize = 128;
-        FDEBUG(("Could not find Window. Map will be set to 128\n"));
-    }
-
-    UInt32 mapSize = osgnextpower2(getMapSize() + 1) / 2;
-    if(mapSize < _mapRenderSize)
-        mapSize = _mapRenderSize;
-
-    GLint max_tex_size = 0;
-    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
-    
-    if(mapSize > max_tex_size)
-        mapSize = max_tex_size;
-    
-    beginEditCP(getPtr(), ShadowViewport::MapSizeFieldMask);
-        setMapSize(mapSize);
-    beginEditCP(getPtr(), ShadowViewport::MapSizeFieldMask);
 }
 
 Action::ResultE ShadowViewport::findLight(NodePtr& node)
@@ -707,8 +628,6 @@ void ShadowViewport::checkLights(RenderActionBase* action)
 				 <Action::ResultE, ShadowViewport, NodePtr>
 			     (this, &ShadowViewport::findLight));
 
-		//shadow for all lights
-		//if(getLightNodes().getSize() == 0)
 		_lights = _allLights;
 	}
 
@@ -856,14 +775,12 @@ void ShadowViewport::updateLights(void)
 
 					if((lightpos[0] < sceneMin[0] || lightpos[1] < sceneMin[1] || lightpos[2] < sceneMin[2]) || (lightpos[0] > sceneMax[0] || lightpos[1] > sceneMax[1] || lightpos[2] > sceneMax[2]))
 					{
-						//printf("AUSSEN\n");
 						//check if angle is ok to use one Side
 						Vec3f dist,diff;
 						Pnt3f center;
 						
 						getSceneRoot()->getVolume().getCenter(center);
 						
-						//angle = atan((diff.length()* 0.5)/dist.length());
 						//Scene Bounding Box Points
 	
 						Pnt3f bb[8];
@@ -877,7 +794,6 @@ void ShadowViewport::updateLights(void)
 						bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
 				
 						PLangle = deg2rad(0);
-						//Real32 angle2;
 						Pnt3f maxAnglePnt1,maxAnglePnt2;
 
 						for(UInt32 j = 0; j<8;j++)
@@ -906,10 +822,8 @@ void ShadowViewport::updateLights(void)
 							}
 						}
 	
-						//printf("Winkel: %f\n",rad2deg(PLangle));
 						if(rad2deg(PLangle) < 120) //Use one Side only
 						{
-							//printf("\nFAKE!\n");
 							getSceneRoot()->getVolume().getCenter(center);
                 			dir = lightpos - center;
 							dir.normalize();
@@ -920,7 +834,6 @@ void ShadowViewport::updateLights(void)
 						}
 						else //use 6 side Pointlight
 						{
-							//printf("Winkel zu gross!\n");
 							dir = Vec3f(0.0,0.0,-1.0);//lightpos - center;
 							dir.negate();
 							q.setValue(Vec3f(0,0,-1),dir);
@@ -930,7 +843,6 @@ void ShadowViewport::updateLights(void)
 					}
 					else
 					{
-						//printf("INNEN\n");
 						dir = Vec3f(0.0,0.0,-1.0);//lightpos - center;
 						dir.negate();
 						q.setValue(Vec3f(0,0,-1),dir);
@@ -948,9 +860,6 @@ void ShadowViewport::updateLights(void)
 						
 					getSceneRoot()->getVolume().getCenter(center);
 						
-					//angle = atan((diff.length()* 0.5)/dist.length());
-					//Scene Bounding Box Points
-	
 					Pnt3f bb[8];
 					bb[0]=Pnt3f(sceneMin[0],sceneMin[1],sceneMin[2]);
 					bb[1]=Pnt3f(sceneMax[0],sceneMin[1],sceneMin[2]);
@@ -962,7 +871,6 @@ void ShadowViewport::updateLights(void)
 					bb[7]=Pnt3f(sceneMin[0],sceneMax[1],sceneMax[2]);	
 				
 					PLangle = deg2rad(0);
-					//Real32 angle2;
 					Pnt3f maxAnglePnt1,maxAnglePnt2;
 
 					for(UInt32 j = 0; j<8;j++)
@@ -991,7 +899,6 @@ void ShadowViewport::updateLights(void)
 						}
 					}
 	
-					//printf("Winkel: %f\n",rad2deg(PLangle));
 					if(rad2deg(PLangle) > 175) //Use one Side only
 					{
 						PLangle = deg2rad(175);
@@ -1006,7 +913,6 @@ void ShadowViewport::updateLights(void)
 					tmpMatrix.setTransform(Vec3f(lightpos),q);
 					_realPointLight.push_back(false);
 				}
-				//_realPointLight.push_back(true);
 				
             }
 
@@ -1218,7 +1124,6 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 			//TODO: Texturgrösse anpassen, je nach Bedarf
 			GLint max_texture_size;
 			glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
-			//printf("Max Texture Size: %u\n",max_texture_size);
 
 			_shadowImages.push_back(Image::create());
 
@@ -1228,13 +1133,8 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 					getShadowMode() == DITHER_SHADOW_MAP || 
 					getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
 			{
-				/*beginEditCP(_shadowImages[i]);
-					_shadowImages[i]->set(Image::OSG_L_PF,max_texture_size, max_texture_size/2,
-						                  1, 1, 1, 0, NULL,
-							              Image::OSG_UINT8_IMAGEDATA, false);
-				endEditCP(_shadowImages[i]);*/
 				beginEditCP(_shadowImages[i]);
-					_shadowImages[i]->set(Image::OSG_L_PF,getMapSize()*2, getMapSize(),
+					_shadowImages[i]->set(Image::OSG_L_PF,getMapSize(), getMapSize(),
 						                  1, 1, 1, 0, NULL,
 							              Image::OSG_UINT8_IMAGEDATA, false);
 				endEditCP(_shadowImages[i]);
@@ -1296,10 +1196,6 @@ void ShadowViewport::clearLights(UInt32 size)
         _lightStates.clear();
         _texChunks.clear();
         _shadowImages.clear();
-
-		//_lights.clear();
-        //for(UInt32 i=0;i<getLightNodes().getSize();++i)
-        //    _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
     }
 }
 
@@ -1316,7 +1212,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.14 2006/06/16 16:57:47 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.15 2006/07/12 12:56:14 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

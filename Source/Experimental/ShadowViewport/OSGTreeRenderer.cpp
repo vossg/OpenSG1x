@@ -1,19 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <OSGConfig.h>
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
-
 #include <OSGBackground.h>
 #include <OSGForeground.h>
 #include <OSGImage.h>
-
 #include <OSGLight.h>
-
 #include "OSGTreeRenderer.h"
 #include "OSGShadowViewport.h"
 
@@ -76,12 +72,9 @@ OSG_USING_NAMESPACE
 
 UInt32 TreeRenderer::_depth_texture_extension;
 UInt32 TreeRenderer::_shadow_extension;
-
 UInt32 TreeRenderer::_framebuffer_object_extension;
 UInt32 TreeRenderer::_draw_buffers_extension;
-
 UInt32 TreeRenderer::_funcDrawBuffers                         = Window::invalidFunctionID;
-
 UInt32 TreeRenderer::_funcBindFramebuffer                     = Window::invalidFunctionID;
 UInt32 TreeRenderer::_funcBindRenderbuffer                    = Window::invalidFunctionID;
 UInt32 TreeRenderer::_funcCheckFramebufferStatus              = Window::invalidFunctionID;
@@ -120,9 +113,6 @@ TreeRenderer::TreeRenderer(ShadowViewport *source)
 	maxPLMapSize = maxTexSize/4;
 	PLMapSize = 1;
 	
-
-	//printf("Max MapSize und PLMapSize ist %u, %u\n",maxTexSize,maxPLMapSize);
-
 	shadowVP = source; 
 	
 	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
@@ -231,8 +221,6 @@ void TreeRenderer::initialize(Window *win)
 		useFBO = true;
 	
 		if(!win->hasExtension("GL_EXT_framebuffer_object")) useFBO = false;
-		//ist das nötig?
-		//if(!win->hasExtension("GL_ARB_draw_buffers")) useFBO = false;
 
 		if(useFBO) 	
 		{

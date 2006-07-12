@@ -1,14 +1,11 @@
 #include <OSGGLUT.h>
 #include <OSGConfig.h>
-
 #include <OSGSimpleGeometry.h>
 #include <OSGGLUTWindow.h>
 #include <OSGBaseFunctions.h>
-
 #include <OSGSpotLight.h>
 #include <OSGDirectionalLight.h>
 #include <OSGPointLight.h>            
-
 #include <OSGPerspectiveCamera.h>
 #include <OSGGradientBackground.h>
 #include <OSGSolidBackground.h>    
@@ -17,22 +14,16 @@
 #include <OSGImage.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGTextureChunk.h>
-
 #include <OSGTransform.h>
 #include <OSGGroup.h>
 #include <OSGTrackball.h>
-
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
 #include <OSGQuaternion.h>
 #include <OSGVector.h>
-
 #include <OSGSimpleSceneManager.h>
-
 #include <OSGSceneFileHandler.h>   
-
 #include <OSGNavigator.h>
-
 #include "OSGShadowViewport.h"
 
 OSG_USING_NAMESPACE
@@ -1214,8 +1205,6 @@ void keyboard(unsigned char k, int x, int y)
             //SLOG << "ShadowSmoothness is: " << t << endLog;
             break;
         }
-
-		
     }
     glutPostRedisplay();
 }

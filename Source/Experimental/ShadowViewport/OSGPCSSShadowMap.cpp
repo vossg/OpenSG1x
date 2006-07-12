@@ -1,14 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <OSGConfig.h>
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
-
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
-
 #include <OSGBackground.h>
 #include <OSGForeground.h>
 #include <OSGGrabForeground.h>
@@ -20,10 +17,8 @@
 #include <OSGImage.h>
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
-
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
-
 #include "OSGPCSSShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -151,9 +146,7 @@
     #define GL_COMPARE_R_TO_TEXTURE_ARB 0x884E
 #endif
 
-
 OSG_USING_NAMESPACE
-
 
 static std::string _pcss_shadow_vp =
 "uniform mat4 lightPM;\n"
@@ -252,7 +245,6 @@ static std::string _pcss_shadow_fp =
 "void main(void)\n"
 "{\n"
 "	vec3 projectiveBiased = (projCoord.xyz / projCoord.q);\n"
-//"	projectiveBiased = vec3(vec2(projectiveBiased.xy) * vec2(xFactor,yFactor),projectiveBiased.z);\n"
 "\n"
 "	float blockerSearchWidth = 0.01/projectiveBiased.z;\n"
 "	float blocker = sumBlocker(projectiveBiased,blockerSearchWidth,blockerSamples);\n"
@@ -313,8 +305,6 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
 
     width = 1;
     height = 1;
-    //width = shadowVP->getParent()->getWidth();
-    //height = shadowVP->getParent()->getHeight();
     if(shadowVP->getParent() != NullFC)
     {
         width = shadowVP->getPixelWidth();
@@ -326,8 +316,8 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source)
     if(height == 0)
         height = 1;
 
-	if(width > height) widthHeightPOT = osgnextpower2(width);
-	else widthHeightPOT = osgnextpower2(height);
+	if(width > height) widthHeightPOT = osgnextpower2(width-1);
+	else widthHeightPOT = osgnextpower2(height-1);
 
     _tiledeco = NullFC;
 
@@ -549,13 +539,10 @@ bool PCSSShadowMap::initFBO(Window *win)
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 
 	win->validateGLObject(_colorMap->getGLId());
-	//setTarget(win, win->getGLObjectId(_colorMap->getGLId()), 0, GL_TEXTURE_2D);
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
 
 	win->validateGLObject(_shadowFactorMap->getGLId());
-	//setTarget(win, win->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
-
 
 	bool result = checkFrameBufferStatus(win);
 
@@ -563,22 +550,14 @@ bool PCSSShadowMap::initFBO(Window *win)
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
 	glGenFramebuffersEXT(1, &fb2);
-
-	//win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
-
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
-
-	//glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
 
 	glDrawBuffer(GL_NONE);	// no color buffer dest
 	glReadBuffer(GL_NONE);	// no color buffer src
 
-	//result = checkFrameBufferStatus(win);
-
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
-	//return result;
 	}
 
 	return true;
@@ -725,15 +704,12 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase* action)
                     endEditCP(_tiledeco);
     
                     glClear(GL_DEPTH_BUFFER_BIT);
-                    //shadowVP->_poly->activate(action,0);
 					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 					glEnable( GL_POLYGON_OFFSET_FILL );
 
                     action->apply(shadowVP->getRoot());
-                    // check is this necessary.
                     action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 					
-                    //shadowVP->_poly->deactivate(action,0);
 					glDisable( GL_POLYGON_OFFSET_FILL );
         
                     //----------Shadow-Texture-Parameters and Indices-------------
@@ -811,8 +787,6 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
     glDisable(GL_LIGHTING);
     glDepthMask(GL_TRUE);
 
-
-
 	// disable all lights more speed
     for(UInt32 i = 0; i < shadowVP->_lights.size(); ++i)
     {
@@ -844,7 +818,6 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			glDrawBuffer(GL_NONE);
 			glReadBuffer(GL_NONE);
 
-            //shadowVP->_poly->activate(action,0);
 			glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 			glEnable( GL_POLYGON_OFFSET_FILL );
 
@@ -854,7 +827,6 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
 			action->setCamera(shadowVP->_lightCameras[i].getCPtr());
             action->apply(shadowVP->getRoot());
              
-			//shadowVP->_poly->deactivate(action,0);
 			glDisable( GL_POLYGON_OFFSET_FILL );
 
 			glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -867,7 +839,6 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
 	}
 	
     //-------Restoring old states of Window and Viewport----------
-
 	// enable all lights.
     for(UInt32 i = 0; i< shadowVP->_lights.size(); ++i)
     {
@@ -882,8 +853,6 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase* action)
         if(exnode != NullFC)
             if(shadowVP->_excludeNodeActive[i]) exnode->setActive(true);
     }
-
-	//glViewport( 0, 0, oldWidth-1, oldHeight-1 );
 
 	shadowVP->setVPSize(0,0,oldWidth-1,oldHeight-1);
 	shadowVP->setVPSize(0,0,1,1);
@@ -909,7 +878,6 @@ void PCSSShadowMap::createColorMap(RenderActionBase* action)
     glBindTexture(GL_TEXTURE_2D,0);
 
 }
-
 
 void PCSSShadowMap::createColorMapFBO(RenderActionBase* action)
 {
@@ -997,7 +965,6 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
         _shadowSHL->setUniformParameter("firstRun", firstRun);
         _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
-        //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 		_shadowSHL->setUniformParameter("lightSize",Real32(lightSize));
@@ -1029,8 +996,6 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
     if(firstRun)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //shadowVP->_texChunks[num]->activate(action, 3);
-
     // we render the whole scene with one material.
     action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
 
@@ -1039,7 +1004,6 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase* action, UInt32 nu
 	// reset the material.
     action->setMaterial(NULL, NullFC);
 
-    //shadowVP->_texChunks[num]->deactivate(action, 3);
     glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
     delete[] buffers;
@@ -1111,7 +1075,6 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase* action, UInt32 num)
         _shadowSHL->setUniformParameter("firstRun", firstRun);
         _shadowSHL->setUniformParameter("intensity", shadowIntensity);
 		_shadowSHL->setUniformParameter("texFactor", texFactor);
-        //_shadowSHL->setUniformParameter("shadowBias", 0.0075f);
         _shadowSHL->setUniformParameter("lightPM", shadowMatrix);
         _shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 		_shadowSHL->setUniformParameter("lightSize",Real32(lightSize));
@@ -1225,8 +1188,8 @@ void PCSSShadowMap::render(RenderActionBase* action)
 		}
 		else
 		{
-			if(width > height) widthHeightPOT = osgnextpower2(width);
-			else widthHeightPOT = osgnextpower2(height);
+			if(width > height) widthHeightPOT = osgnextpower2(width-1);
+			else widthHeightPOT = osgnextpower2(height-1);
 
 			beginEditCP(_colorMap);
 			beginEditCP(_colorMapImage);
@@ -1290,7 +1253,6 @@ void PCSSShadowMap::render(RenderActionBase* action)
 				{
 					if(useFBO && useNPOTTextures) createShadowFactorMapFBO(action, i);
 					else createShadowFactorMap(action, i);
-                    //firstRun = 0;
                 }
 				}
             }

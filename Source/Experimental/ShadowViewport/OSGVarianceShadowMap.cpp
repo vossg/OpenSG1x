@@ -548,8 +548,10 @@ bool VarianceShadowMap::initFBO(Window *win)
 				shadowVP->_texChunks[i]->setTarget(GL_TEXTURE_2D);
 			endEditCP(shadowVP->_texChunks[i]);
 
+			UInt32 mSize = shadowVP->getMapSize();
+			if (mSize > 2048) mSize = 2048;
 			beginEditCP(shadowVP->_shadowImages[i]);
-				shadowVP->_shadowImages[i]->set(Image::OSG_RGBA_PF, shadowVP->getMapSize(), shadowVP->getMapSize(), 1,1,1,0,0,Image::OSG_FLOAT16_IMAGEDATA,false);
+				shadowVP->_shadowImages[i]->set(Image::OSG_RGBA_PF, mSize, mSize, 1,1,1,0,0,Image::OSG_FLOAT16_IMAGEDATA,false);
 			endEditCP(shadowVP->_shadowImages[i]);
 		}
 		texChanged = true;
@@ -601,10 +603,13 @@ bool VarianceShadowMap::initFBO(Window *win)
 	glGenFramebuffersEXT(1, &fb2);
 	glGenRenderbuffersEXT( 1, &rb_depth2);
 
+	UInt32 mSize = shadowVP->getMapSize();
+	if (mSize > 2048) mSize = 2048;
+
 	//Initialize Depth Renderbuffer
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb2);
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth2);
-	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getMapSize(), shadowVP->getMapSize() );
+	glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, mSize, mSize );
 
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth2);
@@ -687,9 +692,11 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase* action)
 	oldWidth = shadowVP->getPixelWidth();
 	oldHeight = shadowVP->getPixelHeight();
 
+	UInt32 mSize = shadowVP->getMapSize();
+	if (mSize > 2048) mSize = 2048;
     //------Setting up Window to fit size of ShadowMap----------------
 
-	shadowVP->setVPSize(0,0,shadowVP->getMapSize()-1,shadowVP->getMapSize()-1);
+	shadowVP->setVPSize(0,0,mSize-1,mSize-1);
 
 	// disable all lights more speed
     for(UInt32 i = 0; i < shadowVP->_lights.size(); ++i)

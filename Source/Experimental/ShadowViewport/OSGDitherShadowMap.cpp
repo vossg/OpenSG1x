@@ -1,14 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <OSGConfig.h>
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
-
 #include <OSGMatrix.h>
 #include <OSGMatrixUtility.h>
-
 #include <OSGBackground.h>
 #include <OSGForeground.h>
 #include <OSGGrabForeground.h>
@@ -21,11 +18,8 @@
 #include <OSGGeometry.h>
 #include <OSGSimpleGeometry.h>
 #include <OSGMatrixCameraDecorator.h>
-
-
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
-
 #include "OSGDitherShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -185,7 +179,6 @@ static std::string _dither_shadow_fp =
 "uniform float yFactor;\n"
 "uniform float mapSize;\n"
 "uniform float mapFactor;\n"
-"uniform float PLFactor;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 texPos;\n"
 "\n"
@@ -194,7 +187,7 @@ static std::string _dither_shadow_fp =
 "	float pixSize = (1.0/mapSize)*mapFactor;\n"
 "	vec2 o = mod(floor(gl_FragCoord.xy),2.0)*pixSize;\n"
 "	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
-"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,PLFactor*mapFactor) + o, projectiveBiased.zw);\n"
+"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor,mapFactor) + o, projectiveBiased.zw);\n"
 "	float shadowed;\n"
 "	shadowed = shadow2D(shadowMap, vec3(projectiveBiased.xy + vec2(-1.5*pixSize,1.5*pixSize),projectiveBiased.z)).x;\n"
 "	shadowed += shadow2D(shadowMap, vec3(projectiveBiased.xy + vec2(0.5*pixSize,1.5*pixSize),projectiveBiased.z)).x;\n"
@@ -243,8 +236,6 @@ static std::string _dither_shadow2_fp =
 "uniform float mapSize;\n"
 "uniform float mapFactor1;\n"
 "uniform float mapFactor2;\n"
-"uniform float PLFactor1;\n"
-"uniform float PLFactor2;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 projCoord2;\n"
 "varying vec4 texPos;\n"
@@ -258,8 +249,8 @@ static std::string _dither_shadow2_fp =
 "	vec2 o2 = mod(floor(frag_xy),2.0)*pixSize2;\n"
 "	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
 "	vec4 projectiveBiased2 = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
-"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,PLFactor1*mapFactor1) + o1, projectiveBiased.zw);\n"
-"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,PLFactor2*mapFactor2) + o2, projectiveBiased2.zw);\n"
+"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,mapFactor1) + o1, projectiveBiased.zw);\n"
+"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,mapFactor2) + o2, projectiveBiased2.zw);\n"
 "	float shadowed;\n"
 "	float shadowed2;\n"
 "\n"
@@ -327,9 +318,6 @@ static std::string _dither_shadow3_fp =
 "uniform float mapFactor1;\n"
 "uniform float mapFactor2;\n"
 "uniform float mapFactor3;\n"
-"uniform float PLFactor1;\n"
-"uniform float PLFactor2;\n"
-"uniform float PLFactor3;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 projCoord2;\n"
 "varying vec4 projCoord3;\n"
@@ -347,9 +335,9 @@ static std::string _dither_shadow3_fp =
 "	vec4 projectiveBiased = vec4((projCoord.xyz / projCoord.q),1.0);\n"
 "	vec4 projectiveBiased2 = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
 "	vec4 projectiveBiased3 = vec4((projCoord3.xyz / projCoord3.q),1.0);\n"
-"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,PLFactor1*mapFactor1) + o1, projectiveBiased.zw);\n"
-"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,PLFactor2*mapFactor2) + o2, projectiveBiased2.zw);\n"
-"   projectiveBiased3 = vec4(projectiveBiased3.xy * vec2(mapFactor3,PLFactor3*mapFactor3) + o3, projectiveBiased3.zw);\n"
+"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,mapFactor1) + o1, projectiveBiased.zw);\n"
+"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,mapFactor2) + o2, projectiveBiased2.zw);\n"
+"   projectiveBiased3 = vec4(projectiveBiased3.xy * vec2(mapFactor3,mapFactor3) + o3, projectiveBiased3.zw);\n"
 "	float shadowed;\n"
 "	float shadowed2;\n"
 "	float shadowed3;\n"
@@ -433,10 +421,6 @@ static std::string _dither_shadow4_fp =
 "uniform float mapFactor2;\n"
 "uniform float mapFactor3;\n"
 "uniform float mapFactor4;\n"
-"uniform float PLFactor1;\n"
-"uniform float PLFactor2;\n"
-"uniform float PLFactor3;\n"
-"uniform float PLFactor4;\n"
 "varying vec4 projCoord;\n"
 "varying vec4 projCoord2;\n"
 "varying vec4 projCoord3;\n"
@@ -458,10 +442,10 @@ static std::string _dither_shadow4_fp =
 "	vec4 projectiveBiased2 = vec4((projCoord2.xyz / projCoord2.q),1.0);\n"
 "	vec4 projectiveBiased3 = vec4((projCoord3.xyz / projCoord3.q),1.0);\n"
 "	vec4 projectiveBiased4 = vec4((projCoord4.xyz / projCoord4.q),1.0);\n"
-"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,PLFactor1*mapFactor1) + o1, projectiveBiased.zw);\n"
-"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,PLFactor2*mapFactor2) + o2, projectiveBiased2.zw);\n"
-"   projectiveBiased3 = vec4(projectiveBiased3.xy * vec2(mapFactor3,PLFactor3*mapFactor3) + o3, projectiveBiased3.zw);\n"
-"   projectiveBiased4 = vec4(projectiveBiased4.xy * vec2(mapFactor4,PLFactor4*mapFactor4) + o4, projectiveBiased4.zw);\n"
+"   projectiveBiased = vec4(projectiveBiased.xy * vec2(mapFactor1,mapFactor1) + o1, projectiveBiased.zw);\n"
+"   projectiveBiased2 = vec4(projectiveBiased2.xy * vec2(mapFactor2,mapFactor2) + o2, projectiveBiased2.zw);\n"
+"   projectiveBiased3 = vec4(projectiveBiased3.xy * vec2(mapFactor3,mapFactor3) + o3, projectiveBiased3.zw);\n"
+"   projectiveBiased4 = vec4(projectiveBiased4.xy * vec2(mapFactor4,mapFactor4) + o4, projectiveBiased4.zw);\n"
 "	float shadowed;\n"
 "	float shadowed2;\n"
 "	float shadowed3;\n"
@@ -551,8 +535,8 @@ static std::string _dither_cubeshadow_fp =
 "\n"
 "	if(abs(realPos2.x) > abs(realPos2.y) && abs(realPos2.x) > abs(realPos2.z))\n"
 "	{\n"
-"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep*2.0;}\n"
-"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep*2.0;}\n"
+"		if(realPos2.x >= 0.0) {projCoord2 = lightPME * realPos; xOffset = 0.0, yOffset = maxStep;}\n"
+"		else {projCoord2 = lightPMF * realPos; xOffset = maxStep, yOffset = maxStep;}\n"
 "	}\n"
 "	else if(abs(realPos2.y) > abs(realPos2.x) && abs(realPos2.y) > abs(realPos2.z))\n"
 "	{\n"
@@ -573,7 +557,7 @@ static std::string _dither_cubeshadow_fp =
 "	float pixSize = 1.0/(mapSize*4.0);\n"
 "	vec2 o = mod(floor(gl_FragCoord.xy),2.0)*pixSize;\n"
 "	projectiveBiased.x = projectiveBiased.x/4.0 + xOffset + o.x;\n"
-"	projectiveBiased.y = projectiveBiased.y/2.0 + yOffset + o.y;\n"
+"	projectiveBiased.y = projectiveBiased.y/4.0 + yOffset + o.y;\n"
 "	\n"
 "\n"
 "	float shadowed;\n"
@@ -640,13 +624,12 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
         _height = 1;
 
     if(_width > _height)
-        _widthHeightPOT = osgnextpower2(_width);
+        _widthHeightPOT = osgnextpower2(_width-1);
     else
-        _widthHeightPOT = osgnextpower2(_height);
+        _widthHeightPOT = osgnextpower2(_height-1);
 
     _tiledeco = NullFC;
 
-    //Prepare Color Map grabbing
     _colorMap = TextureChunk::create();
     _colorMapImage = Image::create();
 
@@ -661,7 +644,6 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
         _colorMap->setTarget(GL_TEXTURE_2D);
     endEditCP(_colorMap);
 
-
     if(useNPOTTextures)
     {
         beginEditCP(_colorMapImage);
@@ -675,7 +657,6 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
         endEditCP(_colorMapImage);
     }
 
-    //Prepare Shadow Factor Map grabbing
     _shadowFactorMap = TextureChunk::create();
     _shadowFactorMapImage = Image::create();
 
@@ -702,6 +683,33 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
             _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
         endEditCP(_shadowFactorMapImage);
     }
+
+	_shadowFactorMap2 = TextureChunk::create();
+    _shadowFactorMapImage2 = Image::create();
+
+	beginEditCP(_shadowFactorMap2);
+        _shadowFactorMap2->setImage(_shadowFactorMapImage2);
+        _shadowFactorMap2->setInternalFormat(GL_RGB);
+        _shadowFactorMap2->setExternalFormat(GL_RGB);
+        _shadowFactorMap2->setMinFilter(GL_LINEAR);
+        _shadowFactorMap2->setMagFilter(GL_LINEAR);
+        _shadowFactorMap2->setWrapS(GL_REPEAT);
+        _shadowFactorMap2->setWrapT(GL_REPEAT);
+        _shadowFactorMap2->setTarget(GL_TEXTURE_2D);
+    endEditCP(_shadowFactorMap2);
+
+	if(useNPOTTextures)
+	{
+	    beginEditCP(_shadowFactorMapImage2);
+		    _shadowFactorMapImage2->set(GL_RGB, _width, _height);
+		endEditCP(_shadowFactorMapImage2);
+	}
+	else
+	{
+		beginEditCP(_shadowFactorMapImage2);
+		    _shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+		endEditCP(_shadowFactorMapImage2);
+	}
         
     //SHL Chunk 2
     _combineSHL = SHLChunk::create();
@@ -822,17 +830,15 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source)
 
     addRefCP(_colorMap);
     addRefCP(_shadowFactorMap);
-
+	addRefCP(_shadowFactorMap2);
 	addRefCP(_shadowSHL);
 	addRefCP(_shadowSHL2);
 	addRefCP(_shadowSHL3);
 	addRefCP(_shadowSHL4);
 	addRefCP(_combineSHL);
 	addRefCP(_shadowCubeSHL);
-
 	addRefCP(_combineCmat);
     addRefCP(_shadowCmat);
-
     addRefCP(_unlitMat);
 	addRefCP(_pf);
 
@@ -845,10 +851,9 @@ DitherShadowMap::~DitherShadowMap(void)
     if(_tiledeco != NullFC)
         subRefCP(_tiledeco);
     subRefCP(_blender);
-    
     subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);
-
+	subRefCP(_shadowFactorMap2);
     subRefCP(_shadowSHL);
 	subRefCP(_shadowSHL2);
 	subRefCP(_shadowSHL3);
@@ -857,7 +862,6 @@ DitherShadowMap::~DitherShadowMap(void)
 	subRefCP(_shadowCubeSHL);
 	subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
-
     subRefCP(_unlitMat);
 	subRefCP(_pf);
 	
@@ -942,6 +946,8 @@ bool DitherShadowMap::initFBO(Window *win)
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
         win->validateGLObject(_shadowFactorMap->getGLId());
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
+		win->validateGLObject(_shadowFactorMap2->getGLId());
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap2->getGLId()), 0);
     
         //Initialize Depth Renderbuffer
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _rb_depth);
@@ -953,13 +959,13 @@ bool DitherShadowMap::initFBO(Window *win)
         glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, _rb_depth);
     
         win->validateGLObject(_colorMap->getGLId());
-        //setTarget(win, win->getGLObjectId(_colorMap->getGLId()), 0, GL_TEXTURE_2D);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
     
         win->validateGLObject(_shadowFactorMap->getGLId());
-        //setTarget(win, win->getGLObjectId(_shadowFactorMap->getGLId()), 1, GL_TEXTURE_2D);
         glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
-    
+
+		win->validateGLObject(_shadowFactorMap2->getGLId());
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap2->getGLId()), 0);
     
         bool result = checkFrameBufferStatus(win);
     
@@ -968,23 +974,15 @@ bool DitherShadowMap::initFBO(Window *win)
     
         glGenFramebuffersEXT(1, &_fb2);
     
-        //win->validateGLObject(shadowVP->_texChunks[0]->getGLId());
-    
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb2);
-    
-        //glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_TEXTURE_2D, win->getGLObjectId(shadowVP->_texChunks[0]->getGLId()), 0);
     
         glDrawBuffer(GL_NONE);    // no color buffer dest
         glReadBuffer(GL_NONE);    // no color buffer src
     
-        //result = checkFrameBufferStatus(win);
-    
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
     
-        //return result;
     }
-
     return true;
 }
 
@@ -998,6 +996,8 @@ void DitherShadowMap::reInit(Window *win)
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, win->getGLObjectId(_colorMap->getGLId()), 0);
     win->validateGLObject(_shadowFactorMap->getGLId());
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT1_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap->getGLId()), 0);
+	win->validateGLObject(_shadowFactorMap2->getGLId());
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT2_EXT, GL_TEXTURE_2D, win->getGLObjectId(_shadowFactorMap2->getGLId()), 0);
 
     //Initialize Depth Renderbuffer
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _rb_depth);
@@ -1033,6 +1033,12 @@ void DitherShadowMap::initTextures(Window *win)
 			_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_shadowFactorMapImage);
 		endEditCP(_shadowFactorMap);
+
+		beginEditCP(_shadowFactorMap2);
+		beginEditCP(_shadowFactorMapImage2);
+			_shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+		endEditCP(_shadowFactorMapImage2);
+		endEditCP(_shadowFactorMap2);
 	}
 }
 
@@ -1119,14 +1125,12 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
 						endEditCP(_tiledeco);
     
 						glClear(GL_DEPTH_BUFFER_BIT);
-						//shadowVP->_poly->activate(action,0);
 						glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 						glEnable( GL_POLYGON_OFFSET_FILL );
 
 						action->apply(shadowVP->getRoot());
 						action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-						//shadowVP->_poly->deactivate(action,0);
 						glDisable( GL_POLYGON_OFFSET_FILL );
         
 						//----------Shadow-Texture-Parameters and Indices-------------
@@ -1223,14 +1227,12 @@ void DitherShadowMap::createShadowMaps(RenderActionBase* action)
 							endEditCP(_tiledeco);
     
 							glClear(GL_DEPTH_BUFFER_BIT);
-				            //shadowVP->_poly->activate(action,0);
 							glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 							glEnable( GL_POLYGON_OFFSET_FILL );
 
 							action->apply(shadowVP->getRoot());
 							action->getWindow()->validateGLObject(shadowVP->_texChunks[i]->getGLId());
 
-						  //shadowVP->_poly->deactivate(action,0);
 							glDisable( GL_POLYGON_OFFSET_FILL );
 	        
 			                //----------Shadow-Texture-Parameters and Indices-------------
@@ -1350,7 +1352,6 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 				glDrawBuffer(GL_NONE);
 				glReadBuffer(GL_NONE);
 
-			    //shadowVP->_poly->activate(action,0);
 				glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 				glEnable( GL_POLYGON_OFFSET_FILL );
 
@@ -1362,7 +1363,6 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 				action->setCamera(shadowVP->_lightCameras[i].getCPtr());
 				action->apply(shadowVP->getRoot());
              
-				//shadowVP->_poly->deactivate(action,0);
 				glDisable( GL_POLYGON_OFFSET_FILL );
 
 				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -1428,19 +1428,13 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase* action)
 						deco->setPreProjection(_transforms[j]);
 					endEditCP(deco);
 					
-					//shadowVP->_poly->activate(action,0);
 					glPolygonOffset( shadowVP->getOffFactor(), shadowVP->getOffBias() );
 					glEnable( GL_POLYGON_OFFSET_FILL );
 
 					action->setCamera(deco.getCPtr());
-
 					action->apply(shadowVP->getRoot());
-             
-					//shadowVP->_poly->deactivate(action,0);
 					glDisable( GL_POLYGON_OFFSET_FILL );
-					
 				}
-				
 				glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 				glClearColor(0.0,0.0,0.0,1.0);
 				subRefCP(deco);
@@ -1491,11 +1485,9 @@ void DitherShadowMap::createColorMap(RenderActionBase* action)
     glDisable(GL_SCISSOR_TEST);
 
     action->apply(shadowVP->getRoot());
-
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
     glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_colorMap->getGLId()));
-    //glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D,0);
 }
@@ -1516,7 +1508,6 @@ void DitherShadowMap::createColorMapFBO(RenderActionBase* action)
     buffers[0] = GL_COLOR_ATTACHMENT0_EXT;
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
-    
     glDrawBuffersARB(1, buffers);
 
     GLint pw = shadowVP->getPixelWidth();
@@ -1538,13 +1529,6 @@ void DitherShadowMap::createColorMapFBO(RenderActionBase* action)
 
 void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 {
-	Real32 vpTop,vpBottom,vpLeft,vpRight;
-    vpTop = shadowVP->getTop();
-    vpBottom = shadowVP->getBottom();
-    vpLeft = shadowVP->getLeft();
-    vpRight = shadowVP->getRight();
-    shadowVP->setVPSize(0,0,shadowVP->getPixelWidth()-1,shadowVP->getPixelHeight()-1);
-
     glClearColor(0.0,0.0,0.0,1.0);
     if(_firstRun)
     {
@@ -1685,7 +1669,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 				action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 				glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+				glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 				glBindTexture(GL_TEXTURE_2D,0);
 		        _firstRun = 0;
 			}
@@ -1694,7 +1678,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 	std::vector<Real32> shadowIntensityF;
 	std::vector<Real32> texFactorF;
-	std::vector<Real32> PLFactorF;
 	std::vector<Real32> mapFactorF;
 	std::vector<Matrix> shadowMatrixF;
 
@@ -1708,9 +1691,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 		xFactor = Real32(_width)/Real32(_widthHeightPOT);
 		yFactor = Real32(_height)/Real32(_widthHeightPOT);
 	}
-
-	//beginEditCP(_shadowCmat);
-	//	_shadowCmat->getChunks().clear();
 
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
@@ -1746,11 +1726,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			Real32 mapFactor;
 			mapFactor = Real32(shadowVP->getMapSize()) / Real32(shadowVP->_shadowImages[i]->getWidth());
 			mapFactorF.push_back(mapFactor);
-			//PLFactor is used to scale the non-quadratic ShadowMap Image (i.e. 1024x512) -> PLFactor = 2.0
-			Real32 PLFactor = 1.0;
-			if(shadowVP->_lights[i]->getType() == PointLight::getClassType()) PLFactor = 2.0;
-			PLFactorF.push_back(PLFactor);
-
 			lightCounter++;
 		}
 	}
@@ -1793,9 +1768,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			_shadowCmat->addChunk(_shadowSHL);
 			_shadowCmat->addChunk(_shadowFactorMap);
 
-			//subRefCP(_shadowSHL);
-			//subRefCP(_shadowFactorMap);
-
 			beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 				_shadowSHL->setUniformParameter("oldFactorMap", 1);
 			    _shadowSHL->setUniformParameter("shadowMap", 0);
@@ -1807,7 +1779,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 				_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
 				_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 				_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactorF[0+(i*4)]));
-				_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactorF[0+(i*4)]));
 			endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 		}	
 
@@ -1816,9 +1787,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			_shadowCmat->addChunk(_shadowSHL2);
 			_shadowCmat->addChunk(_shadowFactorMap);
 
-			//subRefCP(_shadowSHL2);
-			//subRefCP(_shadowFactorMap);
-	
 			beginEditCP(_shadowSHL2, ShaderChunk::ParametersFieldMask);
 				_shadowSHL2->setUniformParameter("oldFactorMap", 2);
 				_shadowSHL2->setUniformParameter("shadowMap1", 0);
@@ -1835,8 +1803,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 				_shadowSHL2->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 				_shadowSHL2->setUniformParameter("mapFactor1",Real32(mapFactorF[0+(i*4)]));
 				_shadowSHL2->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
-				_shadowSHL2->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL2->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
 			endEditCP(_shadowSHL2, ShaderChunk::ParametersFieldMask);
 		}
 
@@ -1845,9 +1811,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			_shadowCmat->addChunk(_shadowSHL3);
 			_shadowCmat->addChunk(_shadowFactorMap);
 
-			//subRefCP(_shadowSHL3);
-			//subRefCP(_shadowFactorMap);
-	
 			beginEditCP(_shadowSHL3, ShaderChunk::ParametersFieldMask);
 				_shadowSHL3->setUniformParameter("oldFactorMap", 3);
 				_shadowSHL3->setUniformParameter("shadowMap1", 0);
@@ -1869,9 +1832,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 				_shadowSHL3->setUniformParameter("mapFactor1",Real32(mapFactorF[0+(i*4)]));
 				_shadowSHL3->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
 				_shadowSHL3->setUniformParameter("mapFactor3",Real32(mapFactorF[2+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor3",Real32(PLFactorF[2+(i*4)]));
 			endEditCP(_shadowSHL3, ShaderChunk::ParametersFieldMask);
 		}
 
@@ -1880,9 +1840,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			_shadowCmat->addChunk(_shadowSHL4);
 			_shadowCmat->addChunk(_shadowFactorMap);
 
-			//subRefCP(_shadowSHL4);
-			//subRefCP(_shadowFactorMap);
-	
 			beginEditCP(_shadowSHL4, ShaderChunk::ParametersFieldMask);
 				_shadowSHL4->setUniformParameter("oldFactorMap", 4);
 				_shadowSHL4->setUniformParameter("shadowMap1", 0);
@@ -1909,10 +1866,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 				_shadowSHL4->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
 				_shadowSHL4->setUniformParameter("mapFactor3",Real32(mapFactorF[2+(i*4)]));
 				_shadowSHL4->setUniformParameter("mapFactor4",Real32(mapFactorF[3+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor3",Real32(PLFactorF[2+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor4",Real32(PLFactorF[3+(i*4)]));
 			endEditCP(_shadowSHL4, ShaderChunk::ParametersFieldMask);
 		}
 
@@ -1930,7 +1883,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 		glBindTexture(GL_TEXTURE_2D,0);
 
 		_firstRun = 0;
@@ -1964,7 +1917,6 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 			_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
 			_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 			_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactorF[i]));
-			_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactorF[i]));
 		endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 	
 		UInt32 lightNum = 0;
@@ -1981,7 +1933,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 		action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
 		glBindTexture(GL_TEXTURE_2D, action->getWindow()->getGLObjectId(_shadowFactorMap->getGLId()));
-		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
+		glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, shadowVP->getPixelLeft(), shadowVP->getPixelBottom(), shadowVP->getPixelWidth(), shadowVP->getPixelHeight());
 		glBindTexture(GL_TEXTURE_2D,0);
 
 		_firstRun = 0;
@@ -1994,11 +1946,8 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase* action)
 	_firstRun = 0;
 	shadowIntensityF.clear();
 	texFactorF.clear();
-	PLFactorF.clear();
 	mapFactorF.clear();
 	shadowMatrixF.clear();
-
-    shadowVP->setVPSize(vpLeft,vpBottom,vpRight,vpTop);
 }
 
 void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
@@ -2010,6 +1959,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
     vpRight = shadowVP->getRight();
     shadowVP->setVPSize(0,0,shadowVP->getPixelWidth()-1,shadowVP->getPixelHeight()-1);
 
+	activeFactorMap = 0;
     glClearColor(0.0,0.0,0.0,1.0);
 
     //Finde alle aktiven Lichtquellen
@@ -2027,6 +1977,47 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		{
 			if (shadowVP->_lightStates[i] != 0 && shadowVP->_lights[i]->getShadowIntensity() != 0.0) activeLights++;
 		}
+	}
+
+	{
+		//clear all ShadowFactorMaps
+		GLenum *buffers = NULL;
+		buffers = new GLenum[1];
+		buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
+
+		//Setup FBO
+		glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, _fb);
+		glDrawBuffersARB(1, buffers);
+		
+		//clear all ShadowFactorMaps
+		// ACHTUNG der fbo kann nur 0,w,0,h rendern
+		// damit es auch mit mehreren viewports klappt ...
+		GLint pw = shadowVP->getPixelWidth();
+		GLint ph = shadowVP->getPixelHeight();
+		glViewport(0, 0, pw, ph);
+		glScissor(0, 0, pw, ph);
+		glEnable(GL_SCISSOR_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_SCISSOR_TEST);
+
+		delete[] buffers;
+
+		buffers = new GLenum[1];
+		buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
+
+		//Setup FBO
+		glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, _fb);
+		glDrawBuffersARB(1, buffers);
+		
+		// ACHTUNG der fbo kann nur 0,w,0,h rendern
+		// damit es auch mit mehreren viewports klappt ...
+		glViewport(0, 0, pw, ph);
+		glScissor(0, 0, pw, ph);
+		glEnable(GL_SCISSOR_TEST);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_SCISSOR_TEST);
+
+		delete[] buffers;
 	}
 
 	//Zuerst alle echte Pointlights
@@ -2123,34 +2114,19 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 					_shadowCmat->clearChunks();
 					_shadowCmat->addChunk(_shadowCubeSHL);
 					_shadowCmat->addChunk(shadowVP->_texChunks[i]);
-					_shadowCmat->addChunk(_shadowFactorMap);
+					if (activeFactorMap == 0) _shadowCmat->addChunk(_shadowFactorMap2);
+					else _shadowCmat->addChunk(_shadowFactorMap);
 				endEditCP(_shadowCmat);
 
 				GLenum *buffers = NULL;
 				buffers = new GLenum[1];
-				buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
+				if (activeFactorMap == 0) buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
+				else buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
     
 				//Setup FBO
 				glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, _fb);
 
 				glDrawBuffersARB(1, buffers);
-
-				if(_firstRun)
-				{
-					// ACHTUNG der fbo kann nur 0,w,0,h rendern
-					// damit es auch mit mehreren viewports klappt ...
-					GLint pw = shadowVP->getPixelWidth();
-					GLint ph = shadowVP->getPixelHeight();
-					glViewport(0, 0, pw, ph);
-					glScissor(0, 0, pw, ph);
-					glEnable(GL_SCISSOR_TEST);
-					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-					glDisable(GL_SCISSOR_TEST);
-				}
-
-	
-				//draw the Scene
-                shadowVP->_texChunks[i]->activate(action, 3);
 
 			    // we render the whole scene with one material.
 				action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
@@ -2160,19 +2136,18 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				// reset the material.
 				action->setMaterial(NULL, NullFC);
 
-		        shadowVP->_texChunks[i]->deactivate(action, 3);
-
 				glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
 		        delete[] buffers;
 		        _firstRun = 0;
+				if (activeFactorMap == 0) activeFactorMap = 1;
+				else activeFactorMap = 0;
 			}
 		}
 	}
 
 	std::vector<Real32> shadowIntensityF;
 	std::vector<Real32> texFactorF;
-	std::vector<Real32> PLFactorF;
 	std::vector<Real32> mapFactorF;
 	std::vector<Matrix> shadowMatrixF;
 
@@ -2186,9 +2161,6 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		xFactor = Real32(_width)/Real32(_widthHeightPOT);
 		yFactor = Real32(_height)/Real32(_widthHeightPOT);
 	}
-
-	//beginEditCP(_shadowCmat);
-	//	_shadowCmat->getChunks().clear();
 
 	//Jetzt alle normalen Lichtquellen
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
@@ -2224,26 +2196,22 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 			Real32 mapFactor;
 			mapFactor = Real32(shadowVP->getMapSize()) / Real32(shadowVP->_shadowImages[i]->getWidth());
 			mapFactorF.push_back(mapFactor);
-			//PLFactor is used to scale the non-quadratic ShadowMap Image (i.e. 1024x512) -> PLFactor = 2.0
-			Real32 PLFactor = 1.0;
-			if(shadowVP->_lights[i]->getType() == PointLight::getClassType()) PLFactor = 2.0;
-			PLFactorF.push_back(PLFactor);
-
 			lightCounter++;
 		}
 	}
 
 	if(lightCounter != 0)
 	{
-		GLenum *buffers = NULL;
-		buffers = new GLenum[1];
-		buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
-
 		UInt32 renderTimes = 1;
 		if(lightCounter > 4) renderTimes = ceil(Real32(lightCounter)/4.0f);
 
 		for(UInt32 i=0; i<renderTimes; i++)
 		{
+
+		GLenum *buffers = NULL;
+		buffers = new GLenum[1];
+		if (activeFactorMap == 0) buffers[0] = GL_COLOR_ATTACHMENT1_EXT;
+		else buffers[0] = GL_COLOR_ATTACHMENT2_EXT;
 
 		UInt32 lightOffset = lightCounter - (i*4);
 		
@@ -2270,7 +2238,8 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		if(lightOffset == 1)
 		{
 			_shadowCmat->addChunk(_shadowSHL);
-			_shadowCmat->addChunk(_shadowFactorMap);
+			if(activeFactorMap == 0) _shadowCmat->addChunk(_shadowFactorMap2);
+			else _shadowCmat->addChunk(_shadowFactorMap);
 
 			beginEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 				_shadowSHL->setUniformParameter("oldFactorMap", 1);
@@ -2283,14 +2252,14 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				_shadowSHL->setUniformParameter("yFactor",Real32(yFactor));
 				_shadowSHL->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 				_shadowSHL->setUniformParameter("mapFactor",Real32(mapFactorF[0+(i*4)]));
-				_shadowSHL->setUniformParameter("PLFactor",Real32(PLFactorF[0+(i*4)]));
 			endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 		}	
 
 		else if(lightOffset == 2)
 		{
 			_shadowCmat->addChunk(_shadowSHL2);
-			_shadowCmat->addChunk(_shadowFactorMap);
+			if(activeFactorMap == 0) _shadowCmat->addChunk(_shadowFactorMap2);
+			else _shadowCmat->addChunk(_shadowFactorMap);
 
 			beginEditCP(_shadowSHL2, ShaderChunk::ParametersFieldMask);
 				_shadowSHL2->setUniformParameter("oldFactorMap", 2);
@@ -2308,15 +2277,14 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				_shadowSHL2->setUniformParameter("mapSize", Real32(shadowVP->getMapSize()));
 				_shadowSHL2->setUniformParameter("mapFactor1",Real32(mapFactorF[0+(i*4)]));
 				_shadowSHL2->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
-				_shadowSHL2->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL2->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
 			endEditCP(_shadowSHL2, ShaderChunk::ParametersFieldMask);
 		}
 
 		else if(lightOffset == 3)
 		{
 			_shadowCmat->addChunk(_shadowSHL3);
-			_shadowCmat->addChunk(_shadowFactorMap);
+			if(activeFactorMap == 0) _shadowCmat->addChunk(_shadowFactorMap2);
+			else _shadowCmat->addChunk(_shadowFactorMap);
 
 			beginEditCP(_shadowSHL3, ShaderChunk::ParametersFieldMask);
 				_shadowSHL3->setUniformParameter("oldFactorMap", 3);
@@ -2339,16 +2307,14 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				_shadowSHL3->setUniformParameter("mapFactor1",Real32(mapFactorF[0+(i*4)]));
 				_shadowSHL3->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
 				_shadowSHL3->setUniformParameter("mapFactor3",Real32(mapFactorF[2+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
-				_shadowSHL3->setUniformParameter("PLFactor3",Real32(PLFactorF[2+(i*4)]));
 			endEditCP(_shadowSHL3, ShaderChunk::ParametersFieldMask);
 		}
 
 		else
 		{
 			_shadowCmat->addChunk(_shadowSHL4);
-			_shadowCmat->addChunk(_shadowFactorMap);
+			if(activeFactorMap == 0) _shadowCmat->addChunk(_shadowFactorMap2);
+			else _shadowCmat->addChunk(_shadowFactorMap);
 
 			beginEditCP(_shadowSHL4, ShaderChunk::ParametersFieldMask);
 				_shadowSHL4->setUniformParameter("oldFactorMap", 4);
@@ -2376,10 +2342,6 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				_shadowSHL4->setUniformParameter("mapFactor2",Real32(mapFactorF[1+(i*4)]));
 				_shadowSHL4->setUniformParameter("mapFactor3",Real32(mapFactorF[2+(i*4)]));
 				_shadowSHL4->setUniformParameter("mapFactor4",Real32(mapFactorF[3+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor1",Real32(PLFactorF[0+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor2",Real32(PLFactorF[1+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor3",Real32(PLFactorF[2+(i*4)]));
-				_shadowSHL4->setUniformParameter("PLFactor4",Real32(PLFactorF[3+(i*4)]));
 			endEditCP(_shadowSHL4, ShaderChunk::ParametersFieldMask);
 		}
 
@@ -2389,19 +2351,6 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, _fb);
 
 		glDrawBuffersARB(1, buffers);
-
-		if(_firstRun)
-	    {
-			// ACHTUNG der fbo kann nur 0,w,0,h rendern
-	        // damit es auch mit mehreren viewports klappt ...
-			GLint pw = shadowVP->getPixelWidth();
-			GLint ph = shadowVP->getPixelHeight();
-			glViewport(0, 0, pw, ph);
-			glScissor(0, 0, pw, ph);
-			glEnable(GL_SCISSOR_TEST);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glDisable(GL_SCISSOR_TEST);
-	    }
 
 	    // we render the whole scene with one material.
         action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
@@ -2414,14 +2363,14 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
 		_firstRun = 0;
-		}
-
+		if (activeFactorMap == 0) activeFactorMap = 1;
+		else activeFactorMap = 0;
         delete[] buffers;
+		}
     }
 	_firstRun = 0;
 	shadowIntensityF.clear();
 	texFactorF.clear();
-	PLFactorF.clear();
 	mapFactorF.clear();
 	shadowMatrixF.clear();
 
@@ -2438,6 +2387,14 @@ void DitherShadowMap::drawCombineMap(RenderActionBase* action)
         yFactor = Real32(_height) / Real32(_widthHeightPOT);
     }
 
+	beginEditCP(_combineCmat);
+		_combineCmat->clearChunks();
+        _combineCmat->addChunk(_combineSHL);
+        _combineCmat->addChunk(_colorMap);
+		if(activeFactorMap == 0) _combineCmat->addChunk(_shadowFactorMap2);
+		else _combineCmat->addChunk(_shadowFactorMap);
+    endEditCP(_combineCmat);
+
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
         _combineSHL->setUniformParameter("colorMap", 0);
         _combineSHL->setUniformParameter("shadowFactorMap", 1);
@@ -2452,11 +2409,7 @@ void DitherShadowMap::drawCombineMap(RenderActionBase* action)
     glViewport(pl, pb, pw, ph);
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
-
-    //glClearColor(0.0,0.0,0.0,1.0);
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
-
     _pf->draw(action, shadowVP);
     glDisable(GL_SCISSOR_TEST);
 }
@@ -2474,8 +2427,8 @@ void DitherShadowMap::render(RenderActionBase* action)
 
 	if(!initTexturesDone) initTextures(win);
 
-	if(shadowVP->getMapSize()/2 > maxPLMapSize) PLMapSize = maxPLMapSize;
-	else PLMapSize = shadowVP->getMapSize()/2;
+	if(shadowVP->getMapSize()/4 > maxPLMapSize) PLMapSize = maxPLMapSize;
+	else PLMapSize = shadowVP->getMapSize()/4;
 
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
     {
@@ -2517,6 +2470,12 @@ void DitherShadowMap::render(RenderActionBase* action)
 			endEditCP(_shadowFactorMapImage);
 			endEditCP(_shadowFactorMap);
 
+			beginEditCP(_shadowFactorMap2);
+			beginEditCP(_shadowFactorMapImage2);
+				_shadowFactorMapImage2->set(GL_RGB, _width, _height);
+			endEditCP(_shadowFactorMapImage2);
+			endEditCP(_shadowFactorMap2);
+
 			reInit(win);
 		}
 		else
@@ -2535,6 +2494,12 @@ void DitherShadowMap::render(RenderActionBase* action)
 				_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 			endEditCP(_shadowFactorMapImage);
 			endEditCP(_shadowFactorMap);
+
+			beginEditCP(_shadowFactorMap2);
+			beginEditCP(_shadowFactorMapImage2);
+				_shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+			endEditCP(_shadowFactorMapImage2);
+			endEditCP(_shadowFactorMap2);
 		}
     }
 

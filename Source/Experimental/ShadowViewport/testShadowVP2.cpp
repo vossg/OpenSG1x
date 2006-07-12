@@ -68,6 +68,7 @@ TransformPtr _cylinder1_trans;
 TransformPtr _cylinder2_trans;
 
 bool animateScene;
+bool useStandardScene;
 
 UInt32 frameCount;
 Real32 fps = 0.0;
@@ -111,10 +112,11 @@ int main(int argc, char **argv)
     int winid = setupGLUT(&argc, argv);
     gwin = GLUTWindow::create();
 
-
+	useStandardScene = false;
 
 	if(argv[1] == NULL)
 	{
+	useStandardScene = true;
 	animateScene = true;
     //Erstellen der benötigten Komponenten--------------------------------------
 
@@ -566,6 +568,8 @@ void keyboard(unsigned char k, int x, int y)
 
         case 'u':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setOn(true);
                 _point1_core->setAmbient(0.3,0.3,0.3,1);
@@ -595,11 +599,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
         case 'i':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.15,0.15,0.15,1);
                 _point1_core->setDiffuse(0.4,0.4,0.4,1);
@@ -631,11 +638,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
 		case 'o':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.3/3.0,0.3/3.0,0.3/3.0,1);
                 _point1_core->setDiffuse(0.8/3.0,0.8/3.0,0.8/3.0,1);
@@ -669,11 +679,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
 		case 'p':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.3/4.0,0.3/4.0,0.3/4.0,1);
                 _point1_core->setDiffuse(0.8/4.0,0.8/4.0,0.8/4.0,1);
@@ -709,11 +722,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
 		case 'j':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.3/5.0,0.3/5.0,0.3/5.0,1);
                 _point1_core->setDiffuse(0.8/5.0,0.8/5.0,0.8/5.0,1);
@@ -751,11 +767,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
 		case 'k':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.3/6.0,0.3/6.0,0.3/6.0,1);
                 _point1_core->setDiffuse(0.8/6.0,0.8/6.0,0.8/6.0,1);
@@ -795,11 +814,14 @@ void keyboard(unsigned char k, int x, int y)
 			beginEditCP(_point7_core);
                 _point7_core->setOn(false);
             endEditCP(_point7_core);
+			}
             break;
         }
 
 		case 'l':
         {
+			if(useStandardScene)
+			{
             beginEditCP(_point1_core);
                 _point1_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
                 _point1_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
@@ -841,6 +863,7 @@ void keyboard(unsigned char k, int x, int y)
                 _point7_core->setAmbient(0.3/7.0,0.3/7.0,0.3/7.0,1);
                 _point7_core->setDiffuse(0.8/7.0,0.8/7.0,0.8/7.0,1);
             endEditCP(_point7_core);
+			}
             break;
         }
 
@@ -997,7 +1020,10 @@ void keyboard(unsigned char k, int x, int y)
 
 		case 'a':
         {
-            animateScene = !animateScene;
+			if(useStandardScene)
+			{
+				animateScene = !animateScene;
+			}
             break;
         }
 
