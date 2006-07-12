@@ -147,6 +147,7 @@ ShadowViewport::ShadowViewport(void) :
 {
 	treeRenderer = NULL;
 	_initDone = false;
+	_restart = false;
 	
 	transforms[0] = Matrix( 1, 0, 0, 0, 
                             0,-1, 0, 0,
@@ -200,6 +201,7 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
 {
 	treeRenderer = 0;
 	_initDone = false;
+	_restart = false;
 	
 	transforms[0] = Matrix( 1, 0, 0, 0,
                             0,-1, 0, 0,
@@ -291,68 +293,7 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
 
     if(whichField & ShadowModeFieldMask || whichField & MapSizeFieldMask)
     {
-        if(treeRenderer != NULL)
-            delete treeRenderer;
-        treeRenderer = NULL;
-
-		clearLights(_oldLights.size());
-		_mapSizeChanged = true;
-
-		switch (getShadowMode())
-		{
-
-		case NO_SHADOW:
-		{
-			FNOTICE(("No Shadows\n"));
-			//Viewport::render(action);
-		}
-		break;
-	
-		case STD_SHADOW_MAP:
-		{
-			FNOTICE(("using standard Shadow Mapping...\n"));
-			treeRenderer = new StdShadowMap(this);			
-		}
-		break;
-
-		case PERSPECTIVE_SHADOW_MAP:
-		{
-			FNOTICE(("using Lisp Perspective Shadow Mapping...\n"));
-			treeRenderer = new PerspectiveShadowMap(this);
-		}
-		break;
-
-		case DITHER_SHADOW_MAP:
-		{
-			FNOTICE(("using Dither Shadow Mapping...\n"));
-			treeRenderer = new DitherShadowMap(this);
-		}
-		break;
-
-		case PCF_SHADOW_MAP:
-		{
-			FNOTICE(("using PCF Shadow Mapping...\n"));
-			treeRenderer = new PCFShadowMap(this);
-		}
-		break;
-
-		case PCSS_SHADOW_MAP:
-		{
-			FNOTICE(("using PCSS Shadow Mapping...\n"));
-			treeRenderer = new PCSSShadowMap(this);
-		}
-		break;
-
-		case VARIANCE_SHADOW_MAP:
-		{
-			FNOTICE(("using Variance Shadow Mapping...\n"));
-			treeRenderer = new VarianceShadowMap(this);
-		}
-		break;
-
-		default: break;
-		}
-		
+		_restart = true;
     }
 
 	Inherited::changed(whichField, origin);
@@ -433,6 +374,73 @@ void ShadowViewport::onDestroy(void)
 
 void ShadowViewport::render(RenderActionBase* action)
 {
+	if(_restart)
+	{
+		if(treeRenderer != NULL)
+            delete treeRenderer;
+        treeRenderer = NULL;
+
+		clearLights(_oldLights.size());
+		_mapSizeChanged = true;
+
+		switch (getShadowMode())
+		{
+
+		case NO_SHADOW:
+		{
+			FNOTICE(("No Shadows\n"));
+			//Viewport::render(action);
+		}
+		break;
+	
+		case STD_SHADOW_MAP:
+		{
+			FNOTICE(("using standard Shadow Mapping...\n"));
+			treeRenderer = new StdShadowMap(this);			
+		}
+		break;
+
+		case PERSPECTIVE_SHADOW_MAP:
+		{
+			FNOTICE(("using Lisp Perspective Shadow Mapping...\n"));
+			treeRenderer = new PerspectiveShadowMap(this);
+		}
+		break;
+
+		case DITHER_SHADOW_MAP:
+		{
+			FNOTICE(("using Dither Shadow Mapping...\n"));
+			treeRenderer = new DitherShadowMap(this);
+		}
+		break;
+
+		case PCF_SHADOW_MAP:
+		{
+			FNOTICE(("using PCF Shadow Mapping...\n"));
+			treeRenderer = new PCFShadowMap(this);
+		}
+		break;
+
+		case PCSS_SHADOW_MAP:
+		{
+			FNOTICE(("using PCSS Shadow Mapping...\n"));
+			treeRenderer = new PCSSShadowMap(this);
+		}
+		break;
+
+		case VARIANCE_SHADOW_MAP:
+		{
+			FNOTICE(("using Variance Shadow Mapping...\n"));
+			treeRenderer = new VarianceShadowMap(this);
+		}
+		break;
+
+		default: break;
+		}
+		_restart = false;
+		return;
+	}
+
 	if (treeRenderer == NULL)
     {
 		Viewport::render(action);
@@ -1212,7 +1220,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.15 2006/07/12 12:56:14 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.16 2006/07/12 14:04:15 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

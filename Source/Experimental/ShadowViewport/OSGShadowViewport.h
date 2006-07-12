@@ -80,6 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 
 	bool	_GLSLsupported;
 	bool	_initDone;
+	bool	_restart;
 
     typedef ShadowViewportBase Inherited;
 	TreeRenderer *treeRenderer;
@@ -192,6 +193,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.8 2006/07/12 12:56:15 yjung Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.9 2006/07/12 14:04:15 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */
