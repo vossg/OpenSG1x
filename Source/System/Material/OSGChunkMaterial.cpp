@@ -75,6 +75,14 @@ field's functions.
 */
 
 /***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+const Int32 ChunkMaterial::TransparencyAutoDetection = 0;
+const Int32 ChunkMaterial::TransparencyForceTransparent = 1;
+const Int32 ChunkMaterial::TransparencyForceOpaque = 2;
+
+/***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
 
@@ -343,7 +351,13 @@ void ChunkMaterial::rebuildState(void)
 
 bool ChunkMaterial::isTransparent(void) const
 {
-    bool             returnValue = false;
+    Int32 tm = getTransparencyMode();
+    if(tm != ChunkMaterial::TransparencyAutoDetection)
+    {
+        return (tm == ChunkMaterial::TransparencyForceTransparent);
+    }
+
+    bool returnValue = false;
 
     MFStateChunkPtr::const_iterator it        = _mfChunks.begin();
     MFStateChunkPtr::const_iterator chunksEnd = _mfChunks.end();

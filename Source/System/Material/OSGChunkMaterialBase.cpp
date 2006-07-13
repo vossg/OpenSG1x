@@ -62,13 +62,16 @@
 #include "OSGChunkMaterial.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ChunkMaterialBase::ChunksFieldMask = 
     (TypeTraits<BitVector>::One << ChunkMaterialBase::ChunksFieldId);
 
 const OSG::BitVector  ChunkMaterialBase::SlotsFieldMask = 
     (TypeTraits<BitVector>::One << ChunkMaterialBase::SlotsFieldId);
+
+const OSG::BitVector  ChunkMaterialBase::TransparencyModeFieldMask = 
+    (TypeTraits<BitVector>::One << ChunkMaterialBase::TransparencyModeFieldId);
 
 const OSG::BitVector ChunkMaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -81,6 +84,9 @@ const OSG::BitVector ChunkMaterialBase::MTInfluenceMask =
     
 */
 /*! \var Int32           ChunkMaterialBase::_mfSlots
+    
+*/
+/*! \var Int32           ChunkMaterialBase::_sfTransparencyMode
     
 */
 
@@ -97,7 +103,12 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      "slots", 
                      SlotsFieldId, SlotsFieldMask,
                      false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots)
+                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "transparencyMode", 
+                     TransparencyModeFieldId, TransparencyModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &ChunkMaterialBase::getSFTransparencyMode)
 };
 
 
@@ -177,6 +188,7 @@ void ChunkMaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 ChunkMaterialBase::ChunkMaterialBase(void) :
     _mfChunks                 (), 
     _mfSlots                  (), 
+    _sfTransparencyMode       (Int32(0)), 
     Inherited() 
 {
 }
@@ -188,6 +200,7 @@ ChunkMaterialBase::ChunkMaterialBase(void) :
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
     _mfChunks                 (source._mfChunks                 ), 
     _mfSlots                  (source._mfSlots                  ), 
+    _sfTransparencyMode       (source._sfTransparencyMode       ), 
     Inherited                 (source)
 {
 }
@@ -214,6 +227,11 @@ UInt32 ChunkMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _mfSlots.getBinSize();
     }
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        returnValue += _sfTransparencyMode.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -231,6 +249,11 @@ void ChunkMaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SlotsFieldMask & whichField))
     {
         _mfSlots.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        _sfTransparencyMode.copyToBin(pMem);
     }
 
 
@@ -251,6 +274,11 @@ void ChunkMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfSlots.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        _sfTransparencyMode.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -267,6 +295,9 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
     if(FieldBits::NoField != (SlotsFieldMask & whichField))
         _mfSlots.syncWith(pOther->_mfSlots);
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
+
 
 }
 #else
@@ -276,6 +307,9 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
 
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))
@@ -304,6 +338,8 @@ void ChunkMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -315,8 +351,6 @@ DataType FieldDataTraits<ChunkMaterialPtr>::_type("ChunkMaterialPtr", "MaterialP
 
 OSG_DLLEXPORT_SFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ChunkMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -332,10 +366,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCHUNKMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHUNKMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCHUNKMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 
