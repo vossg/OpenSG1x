@@ -757,7 +757,7 @@ class win32(ToolChain):
 
         # ws2_32
         env.Append(LINKFLAGS=['/NODEFAULTLIB'],
-                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32'])
+                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
 
     def is_win32(self):
         return 1
