@@ -130,7 +130,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
 
     static void initMethod(void);
 
-    static void initText(void);
+    static void initText(const std::string &family);
 
     // prohibit default functions (move to 'public' if you need one)
 

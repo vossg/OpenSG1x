@@ -73,6 +73,12 @@ const OSG::BitVector  SimpleStatisticsForegroundBase::SizeFieldMask =
 const OSG::BitVector  SimpleStatisticsForegroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::ColorFieldId);
 
+const OSG::BitVector  SimpleStatisticsForegroundBase::BgColorFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::BgColorFieldId);
+
+const OSG::BitVector  SimpleStatisticsForegroundBase::FamilyFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::FamilyFieldId);
+
 const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +94,12 @@ const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask =
 */
 /*! \var Color4f         SimpleStatisticsForegroundBase::_sfColor
     Color of the text.
+*/
+/*! \var Color4f         SimpleStatisticsForegroundBase::_sfBgColor
+    Color of the background.
+*/
+/*! \var std::string     SimpleStatisticsForegroundBase::_sfFamily
+    The font family to be used, e.g. "SANS", default if unset.
 */
 
 //! SimpleStatisticsForeground description
@@ -108,7 +120,17 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFColor)
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFColor),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "bgColor", 
+                     BgColorFieldId, BgColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFBgColor),
+    new FieldDescription(SFString::getClassType(), 
+                     "family", 
+                     FamilyFieldId, FamilyFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFFamily)
 };
 
 
@@ -188,6 +210,8 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
     _mfFormats                (), 
     _sfSize                   (Real32(25)), 
     _sfColor                  (Color4f(1,1,1,1)), 
+    _sfBgColor                (Color4f(0,0,0,0)), 
+    _sfFamily                 (), 
     Inherited() 
 {
 }
@@ -200,6 +224,8 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStati
     _mfFormats                (source._mfFormats                ), 
     _sfSize                   (source._sfSize                   ), 
     _sfColor                  (source._sfColor                  ), 
+    _sfBgColor                (source._sfBgColor                ), 
+    _sfFamily                 (source._sfFamily                 ), 
     Inherited                 (source)
 {
 }
@@ -231,6 +257,16 @@ UInt32 SimpleStatisticsForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (BgColorFieldMask & whichField))
+    {
+        returnValue += _sfBgColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FamilyFieldMask & whichField))
+    {
+        returnValue += _sfFamily.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -253,6 +289,16 @@ void SimpleStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
         _sfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BgColorFieldMask & whichField))
+    {
+        _sfBgColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FamilyFieldMask & whichField))
+    {
+        _sfFamily.copyToBin(pMem);
     }
 
 
@@ -278,6 +324,16 @@ void SimpleStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BgColorFieldMask & whichField))
+    {
+        _sfBgColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FamilyFieldMask & whichField))
+    {
+        _sfFamily.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -297,6 +353,12 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
 
+    if(FieldBits::NoField != (BgColorFieldMask & whichField))
+        _sfBgColor.syncWith(pOther->_sfBgColor);
+
+    if(FieldBits::NoField != (FamilyFieldMask & whichField))
+        _sfFamily.syncWith(pOther->_sfFamily);
+
 
 }
 #else
@@ -312,6 +374,12 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
+
+    if(FieldBits::NoField != (BgColorFieldMask & whichField))
+        _sfBgColor.syncWith(pOther->_sfBgColor);
+
+    if(FieldBits::NoField != (FamilyFieldMask & whichField))
+        _sfFamily.syncWith(pOther->_sfFamily);
 
 
     if(FieldBits::NoField != (FormatsFieldMask & whichField))

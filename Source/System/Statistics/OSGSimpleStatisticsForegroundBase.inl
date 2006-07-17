@@ -117,6 +117,20 @@ SFColor4f *SimpleStatisticsForegroundBase::getSFColor(void)
     return &_sfColor;
 }
 
+//! Get the SimpleStatisticsForeground::_sfBgColor field.
+inline
+SFColor4f *SimpleStatisticsForegroundBase::getSFBgColor(void)
+{
+    return &_sfBgColor;
+}
+
+//! Get the SimpleStatisticsForeground::_sfFamily field.
+inline
+SFString *SimpleStatisticsForegroundBase::getSFFamily(void)
+{
+    return &_sfFamily;
+}
+
 
 //! Get the value of the SimpleStatisticsForeground::_sfSize field.
 inline
@@ -158,6 +172,48 @@ inline
 void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
 {
     _sfColor.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBgColor field.
+inline
+Color4f &SimpleStatisticsForegroundBase::getBgColor(void)
+{
+    return _sfBgColor.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBgColor field.
+inline
+const Color4f &SimpleStatisticsForegroundBase::getBgColor(void) const
+{
+    return _sfBgColor.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfBgColor field.
+inline
+void SimpleStatisticsForegroundBase::setBgColor(const Color4f &value)
+{
+    _sfBgColor.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfFamily field.
+inline
+std::string &SimpleStatisticsForegroundBase::getFamily(void)
+{
+    return _sfFamily.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfFamily field.
+inline
+const std::string &SimpleStatisticsForegroundBase::getFamily(void) const
+{
+    return _sfFamily.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfFamily field.
+inline
+void SimpleStatisticsForegroundBase::setFamily(const std::string &value)
+{
+    _sfFamily.setValue(value);
 }
 
 

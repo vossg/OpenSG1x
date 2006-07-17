@@ -70,6 +70,8 @@
 #include <OSGStringFields.h> // Formats type
 #include <OSGReal32Fields.h> // Size type
 #include <OSGColor4fFields.h> // Color type
+#include <OSGColor4fFields.h> // BgColor type
+#include <OSGStringFields.h> // Family type
 
 #include <OSGSimpleStatisticsForegroundFields.h>
 
@@ -96,12 +98,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
         FormatsFieldId = Inherited::NextFieldId,
         SizeFieldId    = FormatsFieldId + 1,
         ColorFieldId   = SizeFieldId    + 1,
-        NextFieldId    = ColorFieldId   + 1
+        BgColorFieldId = ColorFieldId   + 1,
+        FamilyFieldId  = BgColorFieldId + 1,
+        NextFieldId    = FamilyFieldId  + 1
     };
 
     static const OSG::BitVector FormatsFieldMask;
     static const OSG::BitVector SizeFieldMask;
     static const OSG::BitVector ColorFieldMask;
+    static const OSG::BitVector BgColorFieldMask;
+    static const OSG::BitVector FamilyFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -131,11 +137,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
            MFString            *getMFFormats        (void);
            SFReal32            *getSFSize           (void);
            SFColor4f           *getSFColor          (void);
+           SFColor4f           *getSFBgColor        (void);
+           SFString            *getSFFamily         (void);
 
            Real32              &getSize           (void);
      const Real32              &getSize           (void) const;
            Color4f             &getColor          (void);
      const Color4f             &getColor          (void) const;
+           Color4f             &getBgColor        (void);
+     const Color4f             &getBgColor        (void) const;
+           std::string         &getFamily         (void);
+     const std::string         &getFamily         (void) const;
            std::string         &getFormats        (const UInt32 index);
            MFString            &getFormats        (void);
      const MFString            &getFormats        (void) const;
@@ -147,6 +159,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
 
      void setSize           ( const Real32 &value );
      void setColor          ( const Color4f &value );
+     void setBgColor        ( const Color4f &value );
+     void setFamily         ( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -192,6 +206,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     MFString            _mfFormats;
     SFReal32            _sfSize;
     SFColor4f           _sfColor;
+    SFColor4f           _sfBgColor;
+    SFString            _sfFamily;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

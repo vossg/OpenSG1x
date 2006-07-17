@@ -132,7 +132,7 @@ void SimpleStatisticsForeground::addElement(Int32 id, const char *format)
 /*! Initialize the text used. It is compiled into the library as
     StatisticsDefaultFontData and used as a TXF font.
 */
-void SimpleStatisticsForeground::initText(void)
+void SimpleStatisticsForeground::initText(const std::string &family)
 {
     // create the text needed
 #ifdef OSG_HAS_SSTREAM
@@ -141,9 +141,19 @@ void SimpleStatisticsForeground::initText(void)
                               std::istringstream::out);
 #else
     std::istrstream stream((char *) StatisticsDefaultFontData,
-                           StatisticsDefaultFontDataSize);
+                                    StatisticsDefaultFontDataSize);
 #endif
-    _face = TextTXFFace::createFromStream(stream);
+
+    if ( !family.empty() )
+    {
+        TextTXFParam param;
+        param.gap = 2;
+        _face = TextTXFFace::create(family, TextFace::STYLE_PLAIN, param);
+    }
+    else
+    {
+        _face = TextTXFFace::createFromStream(stream);
+    }
     addRefP(_face);
 
     ImagePtr texture = _face->getTexture();
@@ -155,7 +165,6 @@ void SimpleStatisticsForeground::initText(void)
         _texchunk->setWrapT(GL_CLAMP);
         _texchunk->setEnvMode(GL_MODULATE);
     }
-
     endEditCP(_texchunk);
 }
 
@@ -164,7 +173,7 @@ void SimpleStatisticsForeground::initText(void)
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
     if (_face == 0)
-        initText();
+        initText( getFamily() );
 
     Real32  pw = Real32(port->getPixelWidth ());
     Real32  ph = Real32(port->getPixelHeight());
@@ -195,7 +204,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     Real32  aspect = pw / ph;
     Real32  size = getSize();
 
-    glOrtho(-0.5, -0.5 + ph / size * aspect, 0.5 - ph / size, 0.5, 0, 1);
+    glOrtho(0, -0.5 + ph / size * aspect, 0.5 - ph / size, 0, 0, 1);
+    //glOrtho(-0.5, -0.5 + ph / size * aspect, 0.5 - ph / size, 0.5, 0, 1);
 
     glAlphaFunc(GL_NOTEQUAL, 0);
     glEnable(GL_ALPHA_TEST);
@@ -252,35 +262,70 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     TextLayoutParam layoutParam;
     layoutParam.majorAlignment = TextLayoutParam::ALIGN_BEGIN;
     layoutParam.minorAlignment = TextLayoutParam::ALIGN_BEGIN;
+    layoutParam.spacing = 1.1;
+    
     TextLayoutResult layoutResult;
     _face->layout(stat, layoutParam, layoutResult);
 
-    _texchunk->activate(action);
-
-    glColor4fv((GLfloat *) getColor().getValuesRGBA());
-
-    glBegin(GL_QUADS);
+    Real32 posLeft, posTop, posRight, posBottom,
+           posRMax=0, width, height;
     UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
+
     for(i = 0; i < numGlyphs; ++i)
     {
         const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
-        Real32 width = glyph.getWidth();
-        Real32 height = glyph.getHeight();
+        const Vec2f &pos = layoutResult.positions[i];
+        width  = glyph.getWidth();
+        height = glyph.getHeight();
+        
+        posBottom = pos.y() - height;
+        posRight  = pos.x() + width;
+
+        if (posRMax < posRight)
+            posRMax = posRight;
+    }
+
+    size = osgMax(width, height);
+    size = (size > 0) ? size : 1;
+    posBottom -= size;
+    posRMax   += size;
+
+    glColor4fv((GLfloat*)getBgColor().getValuesRGBA());
+    
+    glBegin(GL_QUADS);
+        glVertex2f(0, posBottom);
+        glVertex2f(posRMax, posBottom);
+        glVertex2f(posRMax, 0);
+        glVertex2f(0, 0);
+    glEnd();
+
+    glColor4fv((GLfloat*)getColor().getValuesRGBA());
+    glTranslatef(0.5*size, -0.5*size, 0.0);
+        
+    _texchunk->activate(action);
+    
+    glBegin(GL_QUADS);
+        
+    for(i = 0; i < numGlyphs; ++i)
+    {
+        const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
+        width = glyph.getWidth();
+        height = glyph.getHeight();
         // No need to draw invisible glyphs
         if ((width <= 0.f) || (height <= 0.f))
             continue;
 
         // Calculate coordinates
         const Vec2f &pos = layoutResult.positions[i];
-        Real32 posLeft = pos.x();
-        Real32 posTop = pos.y();
-        Real32 posRight = pos.x() + width;
-        Real32 posBottom = pos.y() - height;
+        posLeft = pos.x();
+        posTop = pos.y();
+        posRight = pos.x() + width;
+        posBottom = pos.y() - height;
         Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
         Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
         Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
         Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
-
+        
         // lower left corner
         glTexCoord2f(texCoordLeft, texCoordBottom);
         glVertex2f(posLeft, posBottom);
@@ -300,7 +345,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glEnd();
 
     _texchunk->deactivate(action);
-
+    
     glDisable(GL_ALPHA_TEST);
     glDisable(GL_BLEND);
 

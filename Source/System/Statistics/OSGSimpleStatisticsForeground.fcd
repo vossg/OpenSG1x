@@ -9,8 +9,9 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
-Simpe Statistics display. Just print all the selected elements in the upper right corner of the screen.
+Simpe Statistics display. Just print all the selected elements in the upper left corner of the screen.
 	<Field
 		name="formats"
 		type="std::string"
@@ -39,5 +40,24 @@ Simpe Statistics display. Just print all the selected elements in the upper righ
 		access="public"
 	>
 	Color of the text.
+	</Field>
+	<Field
+		name="bgColor"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0,0,0,0"
+		access="public"
+	>
+	Color of the background.
+	</Field>
+	<Field
+		name="family"
+		type="std::string"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The font family to be used, e.g. "SANS", default if unset.
 	</Field>
 </FieldContainer>
