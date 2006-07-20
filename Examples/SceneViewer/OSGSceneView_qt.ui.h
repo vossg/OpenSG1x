@@ -302,9 +302,12 @@ void OSGSceneView::createView( osg::NodePtr node )
       widget->getManager().setStatistics( statState );
       widget->getManager().showAll();
       widget->getManager().useOpenSGLogo();
-			widget->getManager().setHighlight(activeNode);
+      widget->getManager().setHighlight(activeNode);
       // widget->showFullScreen();
-      
+      osg::RenderAction *ract = (osg::RenderAction *) widget->getManager().getAction();
+      ract->setLocalLights(true);
+      ract->setCorrectTwoSidedLighting(true);
+
       viewList.push_back(widget);
       connect ( widget, SIGNAL ( closed     (QWidget *) ),
                 this,   SLOT   ( removeView (QWidget *) ) );
