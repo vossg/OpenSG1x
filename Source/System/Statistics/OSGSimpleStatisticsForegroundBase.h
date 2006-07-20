@@ -72,6 +72,8 @@
 #include <OSGColor4fFields.h> // Color type
 #include <OSGColor4fFields.h> // BgColor type
 #include <OSGStringFields.h> // Family type
+#include <OSGUInt8Fields.h> // HorizontalAlign type
+#include <OSGUInt8Fields.h> // VerticalAlign type
 
 #include <OSGSimpleStatisticsForegroundFields.h>
 
@@ -95,12 +97,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
 
     enum
     {
-        FormatsFieldId = Inherited::NextFieldId,
-        SizeFieldId    = FormatsFieldId + 1,
-        ColorFieldId   = SizeFieldId    + 1,
-        BgColorFieldId = ColorFieldId   + 1,
-        FamilyFieldId  = BgColorFieldId + 1,
-        NextFieldId    = FamilyFieldId  + 1
+        FormatsFieldId         = Inherited::NextFieldId,
+        SizeFieldId            = FormatsFieldId         + 1,
+        ColorFieldId           = SizeFieldId            + 1,
+        BgColorFieldId         = ColorFieldId           + 1,
+        FamilyFieldId          = BgColorFieldId         + 1,
+        HorizontalAlignFieldId = FamilyFieldId          + 1,
+        VerticalAlignFieldId   = HorizontalAlignFieldId + 1,
+        NextFieldId            = VerticalAlignFieldId   + 1
     };
 
     static const OSG::BitVector FormatsFieldMask;
@@ -108,6 +112,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector BgColorFieldMask;
     static const OSG::BitVector FamilyFieldMask;
+    static const OSG::BitVector HorizontalAlignFieldMask;
+    static const OSG::BitVector VerticalAlignFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -139,6 +145,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
            SFColor4f           *getSFColor          (void);
            SFColor4f           *getSFBgColor        (void);
            SFString            *getSFFamily         (void);
+           SFUInt8             *getSFHorizontalAlign(void);
+           SFUInt8             *getSFVerticalAlign  (void);
 
            Real32              &getSize           (void);
      const Real32              &getSize           (void) const;
@@ -148,6 +156,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
      const Color4f             &getBgColor        (void) const;
            std::string         &getFamily         (void);
      const std::string         &getFamily         (void) const;
+           UInt8               &getHorizontalAlign(void);
+     const UInt8               &getHorizontalAlign(void) const;
+           UInt8               &getVerticalAlign  (void);
+     const UInt8               &getVerticalAlign  (void) const;
            std::string         &getFormats        (const UInt32 index);
            MFString            &getFormats        (void);
      const MFString            &getFormats        (void) const;
@@ -161,6 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
      void setColor          ( const Color4f &value );
      void setBgColor        ( const Color4f &value );
      void setFamily         ( const std::string &value );
+     void setHorizontalAlign( const UInt8 &value );
+     void setVerticalAlign  ( const UInt8 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -208,6 +222,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     SFColor4f           _sfColor;
     SFColor4f           _sfBgColor;
     SFString            _sfFamily;
+    SFUInt8             _sfHorizontalAlign;
+    SFUInt8             _sfVerticalAlign;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

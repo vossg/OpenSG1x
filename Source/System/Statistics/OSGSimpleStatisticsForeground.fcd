@@ -60,4 +60,24 @@ Simpe Statistics display. Just print all the selected elements in the upper left
 	>
 	The font family to be used, e.g. "SANS", default if unset.
 	</Field>
+	<Field
+		name="horizontalAlign"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Simple form of layout management, 0 defaults to left.
+	</Field>
+	<Field
+		name="verticalAlign"
+		type="UInt8"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Simple form of layout management, 0 defaults to top.
+	</Field>
 </FieldContainer>

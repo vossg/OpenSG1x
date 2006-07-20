@@ -131,6 +131,20 @@ SFString *SimpleStatisticsForegroundBase::getSFFamily(void)
     return &_sfFamily;
 }
 
+//! Get the SimpleStatisticsForeground::_sfHorizontalAlign field.
+inline
+SFUInt8 *SimpleStatisticsForegroundBase::getSFHorizontalAlign(void)
+{
+    return &_sfHorizontalAlign;
+}
+
+//! Get the SimpleStatisticsForeground::_sfVerticalAlign field.
+inline
+SFUInt8 *SimpleStatisticsForegroundBase::getSFVerticalAlign(void)
+{
+    return &_sfVerticalAlign;
+}
+
 
 //! Get the value of the SimpleStatisticsForeground::_sfSize field.
 inline
@@ -214,6 +228,48 @@ inline
 void SimpleStatisticsForegroundBase::setFamily(const std::string &value)
 {
     _sfFamily.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfHorizontalAlign field.
+inline
+UInt8 &SimpleStatisticsForegroundBase::getHorizontalAlign(void)
+{
+    return _sfHorizontalAlign.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfHorizontalAlign field.
+inline
+const UInt8 &SimpleStatisticsForegroundBase::getHorizontalAlign(void) const
+{
+    return _sfHorizontalAlign.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfHorizontalAlign field.
+inline
+void SimpleStatisticsForegroundBase::setHorizontalAlign(const UInt8 &value)
+{
+    _sfHorizontalAlign.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfVerticalAlign field.
+inline
+UInt8 &SimpleStatisticsForegroundBase::getVerticalAlign(void)
+{
+    return _sfVerticalAlign.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfVerticalAlign field.
+inline
+const UInt8 &SimpleStatisticsForegroundBase::getVerticalAlign(void) const
+{
+    return _sfVerticalAlign.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfVerticalAlign field.
+inline
+void SimpleStatisticsForegroundBase::setVerticalAlign(const UInt8 &value)
+{
+    _sfVerticalAlign.setValue(value);
 }
 
 

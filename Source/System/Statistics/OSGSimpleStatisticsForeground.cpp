@@ -129,6 +129,22 @@ void SimpleStatisticsForeground::addElement(Int32 id, const char *format)
     getFormats().push_back(format ? format : "");
 }
 
+/*! Convenience function to add a line of text.
+*/
+void SimpleStatisticsForeground::addText( const char *text )
+{
+    addElement( -1, text );
+}
+
+/*! Convenience function to clear all elements.
+*/
+void SimpleStatisticsForeground::clearElems( void )
+{
+    getElementIDs().clear();
+    getFormats().clear();
+    getCollector().clearElems();
+}
+
 /*! Initialize the text used. It is compiled into the library as
     StatisticsDefaultFontData and used as a TXF font.
 */
@@ -175,10 +191,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if (_face == 0)
         initText( getFamily() );
 
+    if (!getCollector().getNumOfElems() && !getElementIDs().size())
+        return; // nothing to do
+
     Real32  pw = Real32(port->getPixelWidth ());
     Real32  ph = Real32(port->getPixelHeight());
 
-    if(pw < 1 || ph < 1)
+    if (pw < 1 || ph < 1)
         return;
 
     GLboolean    light = glIsEnabled(GL_LIGHTING);
@@ -201,18 +220,17 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glPushMatrix();
     glLoadIdentity();
 
-    Real32  aspect = pw / ph;
+    // set viewport
     Real32  size = getSize();
 
-    glOrtho(0, -0.5 + ph / size * aspect, 0.5 - ph / size, 0, 0, 1);
-    //glOrtho(-0.5, -0.5 + ph / size * aspect, 0.5 - ph / size, 0.5, 0, 1);
+    glOrtho(0, pw / size, -ph / size, 0, 0, 1);
 
     glAlphaFunc(GL_NOTEQUAL, 0);
     glEnable(GL_ALPHA_TEST);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    // draw text
+    // retrieve text
     std::vector < std::string > stat;
 
     StatCollector   *col = &getCollector();
@@ -268,9 +286,10 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     _face->layout(stat, layoutParam, layoutResult);
 
     Real32 posLeft, posTop, posRight, posBottom,
-           posRMax=0, width, height;
+           posRMax=0, width, height, off;
     UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
 
+    // get bbox size first
     for(i = 0; i < numGlyphs; ++i)
     {
         const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
@@ -285,11 +304,42 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             posRMax = posRight;
     }
 
-    size = osgMax(width, height);
-    size = (size > 0) ? size : 1;
-    posBottom -= size;
-    posRMax   += size;
+    off = osgMax(width, height);
+    off = (off > 0) ? off : 1.f;
+    posBottom -= off;
+    posRMax   += off;
 
+    // Let's do some simple form of layout management
+    Real32 orthoX = 0, orthoY = 0;
+
+    switch ( getHorizontalAlign() )
+    {
+        case Right:
+            orthoX = pw / size - posRMax;
+            break;
+        case Middle:
+            orthoX = (pw / size - posRMax) * 0.5;
+            break;
+        case Left:
+        default:
+            break;
+    }
+
+    switch ( getVerticalAlign() )
+    {
+        case Bottom:
+            orthoY = -ph / size - posBottom;
+            break;
+        case Center:
+            orthoY = (-ph / size - posBottom) * 0.5;
+            break;
+        case Top:
+        default:
+            break;
+    }
+
+    glTranslatef(orthoX, orthoY, 0.0);
+    
     glColor4fv((GLfloat*)getBgColor().getValuesRGBA());
     
     glBegin(GL_QUADS);
@@ -299,9 +349,10 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         glVertex2f(0, 0);
     glEnd();
 
+    // draw text
     glColor4fv((GLfloat*)getColor().getValuesRGBA());
-    glTranslatef(0.5*size, -0.5*size, 0.0);
-        
+    glTranslatef(0.5*off, -0.5*off, 0.0);
+    
     _texchunk->activate(action);
     
     glBegin(GL_QUADS);

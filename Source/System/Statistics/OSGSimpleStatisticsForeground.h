@@ -65,7 +65,15 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
 
     /*==========================  PUBLIC  =================================*/
   public:
+  
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Modes                                    */
+    /*! \{                                                                 */
 
+    enum { Left=0, Middle, Right } HorizontalAlignE;
+    enum { Top=0, Center, Bottom } VerticalAlignE;
+       
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -95,6 +103,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
 
     void addElement( StatElemDescBase &desc, const char *format = NULL);
     void addElement( Int32            id,    const char *format = NULL);
+    void addText   ( const char *text );
+    void clearElems( void );
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

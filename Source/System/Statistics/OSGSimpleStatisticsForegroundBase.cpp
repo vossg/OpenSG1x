@@ -79,6 +79,12 @@ const OSG::BitVector  SimpleStatisticsForegroundBase::BgColorFieldMask =
 const OSG::BitVector  SimpleStatisticsForegroundBase::FamilyFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::FamilyFieldId);
 
+const OSG::BitVector  SimpleStatisticsForegroundBase::HorizontalAlignFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::HorizontalAlignFieldId);
+
+const OSG::BitVector  SimpleStatisticsForegroundBase::VerticalAlignFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::VerticalAlignFieldId);
+
 const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -100,6 +106,12 @@ const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask =
 */
 /*! \var std::string     SimpleStatisticsForegroundBase::_sfFamily
     The font family to be used, e.g. "SANS", default if unset.
+*/
+/*! \var UInt8           SimpleStatisticsForegroundBase::_sfHorizontalAlign
+    Simple form of layout management, 0 defaults to left.
+*/
+/*! \var UInt8           SimpleStatisticsForegroundBase::_sfVerticalAlign
+    Simple form of layout management, 0 defaults to top.
 */
 
 //! SimpleStatisticsForeground description
@@ -130,7 +142,17 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      "family", 
                      FamilyFieldId, FamilyFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFFamily)
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFFamily),
+    new FieldDescription(SFUInt8::getClassType(), 
+                     "horizontalAlign", 
+                     HorizontalAlignFieldId, HorizontalAlignFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFHorizontalAlign),
+    new FieldDescription(SFUInt8::getClassType(), 
+                     "verticalAlign", 
+                     VerticalAlignFieldId, VerticalAlignFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFVerticalAlign)
 };
 
 
@@ -212,6 +234,8 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
     _sfColor                  (Color4f(1,1,1,1)), 
     _sfBgColor                (Color4f(0,0,0,0)), 
     _sfFamily                 (), 
+    _sfHorizontalAlign        (UInt8(0)), 
+    _sfVerticalAlign          (UInt8(0)), 
     Inherited() 
 {
 }
@@ -226,6 +250,8 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStati
     _sfColor                  (source._sfColor                  ), 
     _sfBgColor                (source._sfBgColor                ), 
     _sfFamily                 (source._sfFamily                 ), 
+    _sfHorizontalAlign        (source._sfHorizontalAlign        ), 
+    _sfVerticalAlign          (source._sfVerticalAlign          ), 
     Inherited                 (source)
 {
 }
@@ -267,6 +293,16 @@ UInt32 SimpleStatisticsForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFamily.getBinSize();
     }
 
+    if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
+    {
+        returnValue += _sfHorizontalAlign.getBinSize();
+    }
+
+    if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
+    {
+        returnValue += _sfVerticalAlign.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -299,6 +335,16 @@ void SimpleStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
     {
         _sfFamily.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
+    {
+        _sfHorizontalAlign.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
+    {
+        _sfVerticalAlign.copyToBin(pMem);
     }
 
 
@@ -334,6 +380,16 @@ void SimpleStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFamily.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
+    {
+        _sfHorizontalAlign.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
+    {
+        _sfVerticalAlign.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -359,6 +415,12 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
         _sfFamily.syncWith(pOther->_sfFamily);
 
+    if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
+        _sfHorizontalAlign.syncWith(pOther->_sfHorizontalAlign);
+
+    if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
+        _sfVerticalAlign.syncWith(pOther->_sfVerticalAlign);
+
 
 }
 #else
@@ -380,6 +442,12 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
 
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
         _sfFamily.syncWith(pOther->_sfFamily);
+
+    if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
+        _sfHorizontalAlign.syncWith(pOther->_sfHorizontalAlign);
+
+    if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
+        _sfVerticalAlign.syncWith(pOther->_sfVerticalAlign);
 
 
     if(FieldBits::NoField != (FormatsFieldMask & whichField))
