@@ -469,7 +469,7 @@ class PlatformOptions:
             print "Not supported yet!"
         elif self.de.get('PLATFORM') == 'win32':
             opts.Add(EnumOption('compiler', 'Use compiler', 'icl',
-                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'mspsdkx64')))
+                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'msvc80x64', 'mspsdkx64')))
             
             # try to find the supportslibs directory.
             current_dir = Dir('.').abspath
@@ -983,6 +983,52 @@ class win32_msvc80(win32_msvc_base):
         env.PrependENVPath('LIB', lib_path)
         env.PrependENVPath('PATH', exe_path)
 
+class win32_msvc80x64(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-msvc80x64')
+        env = self.get_env()
+
+        env.Tool('msvc')
+        env.Tool('mslib')
+        env.Tool('mslink')
+
+        env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+                             '/bigobj', '/Zm1200', '/Zc:forScope'])
+
+        #env.Append(LINKFLAGS=['/MANIFEST:NO'])
+
+        # add msvc80 include and lib paths
+        #import SCons.Tool.msvc
+        # doesn't work for 8.0 :-(
+        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
+        # HACK
+        vsinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/'
+        vcinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/VC/'
+
+        include_path = [vcinstalldir + 'ATLMFC/INCLUDE',
+                        vcinstalldir + 'INCLUDE',
+                        vcinstalldir + 'PlatformSDK/include',
+                        vsinstalldir + 'SDK/v2.0/include']
+        lib_path = [vcinstalldir + 'ATLMFC/LIB/amd64',
+                    vcinstalldir + 'LIB/amd64',
+                    vcinstalldir + 'PlatformSDK/lib/amd64',
+                    vsinstalldir + 'SDK/v2.0/LIB/AMD64']
+        exe_path = [vcinstalldir + 'BIN/amd64',
+                    vcinstalldir + 'PlatformSDK/bin/win64/amd64',
+                    vcinstalldir + 'PlatformSDK/bin',
+                    vcinstalldir + 'VCPackages',
+                    vsinstalldir + 'Common7/IDE',
+                    vsinstalldir + 'Common7/Tools',
+                    vsinstalldir + 'Common7/Tools/bin',
+                    vsinstalldir + 'SDK/v2.0/bin']
+
+        env.PrependENVPath('INCLUDE', include_path)
+        env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
+        env.Append(LIBS = ['bufferoverflowu'])
+
 class win32_mspsdkx64(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-mspsdkx64')
@@ -1123,6 +1169,8 @@ def SelectToolChain():
             return win32_msvc71()
         elif _po.getOption('compiler') == 'msvc80':
             return win32_msvc80()
+        elif _po.getOption('compiler') == 'msvc80x64':
+            return win32_msvc80x64()
         elif _po.getOption('compiler') == 'mspsdkx64':
             return win32_mspsdkx64()
         else:
