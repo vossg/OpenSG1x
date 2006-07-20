@@ -1,6 +1,7 @@
 # Contrib
 
 Import('*')
+import os
 
 ContribDirs = []
 
@@ -31,6 +32,9 @@ if _po.getOption('contrib_drawfunctorcore'):
 if _po.getOption('contrib_terrain'):
     ContribDirs.append(Dir('Terrain'))
 
+if _po.getOption('contrib_performer_loader'):
+    ContribDirs.append(Dir('PerformerLoader'))
+
 headers, sources, tests, generated = ProcessDirs(ContribDirs)
 # don't forget the OSGContribDef.h file.
 headers += Glob('OSG*.h')
@@ -42,6 +46,19 @@ def custom(env):
         env.Append(CPPPATH=env.get('CGCPPPATH'))
         env.Append(LIBPATH=env.get('CGLIBPATH'))
         env.Append(LIBS=env.get('OSG_CG_LIBS'))
+
+    if _po.getOption('contrib_performer_loader'):
+        if isinstance(_po.getOption('contrib_performer_loader'), str):
+                performer_cpp_path = [os.path.join(_po.getOption('contrib_performer_loader'), 'include'),
+                                      os.path.join(_po.getOption('contrib_performer_loader'), 'include', 'Performer')]
+                performer_lib_path = [os.path.join(_po.getOption('contrib_performer_loader'), 'lib')]
+                env.Append(CPPPATH=performer_cpp_path)
+                env.Append(LIBPATH=performer_lib_path)
+                if env.get('PLATFORM') == 'win32':
+                    env.Append(LIBS=['libpf', 'libpfdu-util'])
+                else:
+                    env.Append(LIBS=['pf', 'pfutil', 'pfdu'])
+
     env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
 
 if len(sources) > 0:

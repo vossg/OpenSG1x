@@ -511,6 +511,8 @@ class PlatformOptions:
         opts.Add(BoolOption('contrib_ply', 'enable ply loader', 0))
         opts.Add(BoolOption('contrib_terrain', 'enable terrain rendering node', 0))
 
+        opts.Add(PackageOption('contrib_performer_loader', 'Enable contrib performer loader', 'no'))
+
         #tests
         opts.Add(BoolOption('tests', 'compile test programs', 0))
 
