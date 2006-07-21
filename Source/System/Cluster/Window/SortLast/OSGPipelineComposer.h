@@ -150,7 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
     /*! \name      composition                                             */
     /*! \{                                                                 */
 
-    virtual void open           (                  );
+    virtual void open           ( void             );
+    virtual void startViewport  ( ViewportPtr port );
     virtual void composeViewport( ViewportPtr port );
     virtual void close          ( void             );
     

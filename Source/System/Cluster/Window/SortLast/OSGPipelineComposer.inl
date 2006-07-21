@@ -179,7 +179,6 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
         DepthInfo depthCount;
         channel = servers->selectChannel();
         servers->get(&depthCount,sizeof(DepthInfo));
-
         servers->get(&depthInfoTmp[0],sizeof(DepthInfo)*depthCount.min);
         DepthInfo *src = &depthInfoTmp[0];
         DepthInfo *dst = &depthInfo[_composeTilesX * _composeTilesY * channel];
@@ -201,7 +200,6 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
         servers->subSelection(channel);
     }
     servers->resetSelection();
-
     tr += getSystemTime();
 
     double t=-getSystemTime();
@@ -319,7 +317,7 @@ void PipelineComposer::calculateTransInfo(DepthT &depth,ColorT &color)
 #endif
         }
     }
-    std::vector<TransInfo> ti=transInfo;
+//    std::vector<TransInfo> ti=transInfo;
     UInt32 infoCount = compressTransInfo(transInfo);
 
     t+=getSystemTime();
@@ -349,7 +347,7 @@ void PipelineComposer::clientCompose(DepthT &depth,ColorT &color)
 #endif
 
     servers = clusterWindow()->getNetwork()->getGroupConnection(clusterId());
-   
+
     for(ty = 0; ty < _composeTilesY ; ++ty)
         for(tx = 0; tx < _composeTilesX ; ++tx)
             if(!getComposeTileBuffer(tx,ty)->empty)
@@ -369,7 +367,7 @@ void PipelineComposer::clientCompose(DepthT &depth,ColorT &color)
         servers->get(&(readTile->header),
                      sizeof(readTile->header));
 #endif
-//        printf("%d from %d %d\n",recvCount,c,readTile->header.count);
+        // printf("%d from %d %d\n",recvCount,c,readTile->header.count);
 
 #ifndef COMPRESS_IMAGES
         servers->get(&(readTile->data),
@@ -579,6 +577,7 @@ void PipelineComposer::writeResult(DepthT &depth,ColorT &color)
             tile->dstConnection->put(&dst[0],dst[0]+sizeof(UInt32));
             _statistics.bytesOut += dst[0]+sizeof(UInt32);
 #else
+
             tile->dstConnection->put(&(tile->header),
                                      tile->dataSize +
                                      sizeof(tile->header));
@@ -618,16 +617,7 @@ void PipelineComposer::readBuffer(DepthT &depth,ColorT &color,
     bool        occlude;
 
     if(isClient())
-    {
-        // transfer tile size
-        _composeTilesX  = _readTilesX;
-        _composeTilesY  = _readTilesY;
         return;
-    }
-
-    if(getPipelined()) 
-        _composeBarrier->enter(2);
-
     width  = port->getPixelWidth();
     height = port->getPixelHeight();
     if(!getScreenAlignedBBox(port->getRoot(),
@@ -659,9 +649,6 @@ void PipelineComposer::readBuffer(DepthT &depth,ColorT &color,
             w = osgMin(getTileSize(),width - x);
             h = osgMin(getTileSize(),height - y);
 
-//            w=h=12;
-//            w=h=getTileSize();
-
             tile = getReadTileBuffer(tx,ty);
             tile->header.x = tx;
             tile->header.y = ty;
@@ -669,12 +656,6 @@ void PipelineComposer::readBuffer(DepthT &depth,ColorT &color,
             tile->header.h = h;
             tile->colorSize = sizeof(ColorT)*w*h;
             tile->depthSize = sizeof(DepthT)*w*h;
-// !!!!
-            tile->colorSize = sizeof(ColorT)*w*h+3;
-            tile->colorSize -= tile->colorSize & 3;
-            tile->depthSize = sizeof(DepthT)*w*h+3;
-            tile->depthSize -= tile->depthSize & 3;
-//
             tile->dataSize  = tile->colorSize + tile->depthSize;
 
             if(x > right || (x+w) <= left ||

@@ -55,6 +55,8 @@
 #include <OSGMaterialGroup.h>
 #include <OSGRemoteAspect.h>
 #include <OSGImageComposer.h>
+#include <OSGStatisticsForeground.h>
+#include <OSGRenderAction.h>
 
 #include "OSGSortLastWindow.h"
 
@@ -173,6 +175,7 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
 
         // duplicate values
         beginEditCP(serverPort);
+
         if(getWidth() && getHeight())
            serverPort->setSize( 
                clientPort->getPixelLeft(),
@@ -185,7 +188,15 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         serverPort->setCamera    ( clientPort->getCamera()     );
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
-        serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );
+        // ignore statistics foreground
+        serverPort->getForegrounds().clear();
+        for(UInt32 f=0 ; f<serverPort->getForegrounds().size() ; ++f)
+        {
+            ForegroundPtr fg=clientPort->getForegrounds()[f];
+            StatisticsForegroundPtr sfg=StatisticsForegroundPtr::dcast(fg);
+            if(sfg == NullFC)
+                serverPort->getForegrounds().push_back(fg);
+        }
         serverPort->setTravMask  ( clientPort->getTravMask()   );
         endEditCP(serverPort);
 
@@ -204,10 +215,14 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
     serverWindow->activate();
     serverWindow->frameInit();
     action->setWindow( serverWindow.getCPtr() );
+    if(getComposer() != NullFC)
+        getComposer()->startFrame();
     for(sv = 0; sv < serverWindow->getPort().size(); ++sv)
     {
         ViewportPtr  vp         =serverWindow->getPort()[sv];
         NodePtr      root       =vp->getRoot();
+        if(getComposer() != NullFC)
+            getComposer()->startViewport(vp);
         // render
         vp->render( action );
         // compose single viewport
@@ -276,6 +291,10 @@ void SortLastWindow::clientPreSync( void )
     {
         UInt32 width =getClientWindow()->getWidth();
         UInt32 height=getClientWindow()->getHeight();
+        if(width == 0)
+            width = 2;
+        if(height == 0)
+            height = 2;
         if(width  != getWidth() ||
            height != getHeight())
         {
@@ -318,15 +337,34 @@ void SortLastWindow::clientRender( RenderActionBase *action )
             getClientWindow()->frameInit();
 */
             action->setWindow( getClientWindow().getCPtr() );
+            if(getComposer() != NullFC)
+                getComposer()->startFrame();
             // render all viewports
             for(p = 0; p < getPort().size() ; ++p)
             {
                 ViewportPtr vp=getPort()[p];
-                vp->render( action );
-                // compose single viewport
                 if(getComposer() != NullFC)
                 {
+                    getComposer()->startViewport(vp);
+
+                    action->setCamera    (vp->getCamera    ().getCPtr());
+                    action->setBackground(vp->getBackground().getCPtr());
+                    action->setViewport  (vp.getCPtr()                );
+                    action->setTravMask  (vp->getTravMask()            );
+                    action->apply(vp->getRoot());
+
+                    for(UInt16 i=0; i < vp->getForegrounds().size(); i++)
+                        if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) == NullFC)
+                            vp->getForegrounds(i)->draw(action, vp.getCPtr());
                     getComposer()->composeViewport(vp);
+                    for(UInt16 i=0; i < vp->getForegrounds().size(); i++)
+                        if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) != NullFC)
+                            vp->getForegrounds(i)->draw(action, vp.getCPtr());
+
+                }
+                else
+                {
+                    vp->render( action );
                 }
             }
             // compose whole window

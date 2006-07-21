@@ -96,7 +96,6 @@ PipelineComposer::PipelineComposer(void) :
     _waiting(false),
     _firstFrame(true)
 {
-//    setPipelined(true);
 }
 
 PipelineComposer::PipelineComposer(const PipelineComposer &source) :
@@ -111,7 +110,6 @@ PipelineComposer::PipelineComposer(const PipelineComposer &source) :
     _waiting(false),
     _firstFrame(true)
 {
-//    setPipelined(true);
 }
 
 PipelineComposer::~PipelineComposer(void)
@@ -136,8 +134,6 @@ void PipelineComposer::dump(      UInt32    ,
 void PipelineComposer::open()
 {
     setShort(true);
-
-    printf("Pipelined %d\n",getPipelined());
 
     // create server cross connection
     _clusterWindow->getNetwork()->connectAllGroupToPoint(clusterId(),
@@ -168,6 +164,23 @@ void PipelineComposer::open()
 #ifdef USE_NV_OCCLUSION
     glGenOcclusionQueriesNV(1, &_occlusionQuery);
 #endif
+}
+
+void PipelineComposer::startViewport(ViewportPtr)
+{
+    if(getPipelined())
+    {
+        if(!isClient()) 
+        {
+            _composeBarrier->enter(2);
+        }
+        else
+        {
+            // transfer tile size
+            _composeTilesX  = _readTilesX;
+            _composeTilesY  = _readTilesY;
+        }
+    }
 }
 
 void PipelineComposer::composeViewport(ViewportPtr port)
@@ -210,6 +223,7 @@ void PipelineComposer::composeViewport(ViewportPtr port)
 
     _readTilesX = (port->getPixelWidth()  - 1) / getTileSize() + 1;
     _readTilesY = (port->getPixelHeight() - 1) / getTileSize() + 1;
+
     _tileBufferSize = getTileSize()*getTileSize()*8+sizeof(TileBuffer);
     _workingTile.resize(_tileBufferSize);
 
@@ -232,7 +246,12 @@ void PipelineComposer::composeViewport(ViewportPtr port)
     _statistics.noDepth  = 0;
     _statistics.noGeo    = 0;
     _statistics.clipped  = 0;
-    
+
+    if(!getPipelined())
+    {
+        _composeTilesX  = _readTilesX;
+        _composeTilesY  = _readTilesY;
+    }
     if(getShort())
     {
         UInt16 colorDummy;

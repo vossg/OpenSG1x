@@ -378,9 +378,11 @@ BinarySwapComposer::TileBuffer *BinarySwapComposer::getTileReadBuffer(void)
 void BinarySwapComposer::writeProc(void *arg) 
 {
     BinarySwapComposer *the=(BinarySwapComposer*)arg;
-    while(!the->_stopWriter)
+    for(;;)
     {
         the->_barrier->enter(2);
+        if(the->_stopWriter)
+            break;
         if(the->getShort())
         {
             UInt16 colorDummy;
