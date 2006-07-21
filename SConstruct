@@ -995,6 +995,7 @@ class win32_msvc80x64(win32_msvc_base):
         env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
+        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
 
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
