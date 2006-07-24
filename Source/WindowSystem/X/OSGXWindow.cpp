@@ -175,15 +175,21 @@ OSG_BEGIN_NAMESPACE
 #ifndef OSG_DO_DOC 
 
 DataType FieldDataTraits<DisplayP>   ::_type("DisplayP", NULL);
+#if ( (!defined(__GNUC__) && !defined(__ICL)) || !defined(__linux) || ( !defined(__ia64) && !defined(__x86_64) ) ) && (!defined(_MIPS_SZPTR) || _MIPS_SZPTR != 64) 
 DataType FieldDataTraits<X11Window>  ::_type("X11Window", NULL);
+#endif
 DataType FieldDataTraits1<GLXContext>::_type("GLXContext", NULL);
 
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING);
+
+#if ( (!defined(__GNUC__) && !defined(__ICL)) || !defined(__linux) || ( !defined(__ia64) && !defined(__x86_64) ) ) && (!defined(_MIPS_SZPTR) || _MIPS_SZPTR != 64) 
 OSG_DLLEXPORT_SFIELD_DEF1(X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING);
+#endif
+
 OSG_DLLEXPORT_SFIELD_DEF2(GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 

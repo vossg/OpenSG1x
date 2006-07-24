@@ -52,7 +52,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
-
+#include <OSGSFSysTypes.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -193,7 +193,6 @@ typedef MField<DisplayP> MFDisplayP;
 
 /*! \ingroup GrpWindowXFieldSingle
  */
-
 typedef SField<X11Window> SFX11Window;
 
 /*! \ingroup GrpWindowXFieldMulti
@@ -206,12 +205,12 @@ typedef MField<X11Window> MFX11Window;
 /*! \ingroup GrpWindowXFieldSingle
  */
 
-typedef SField<UInt64> SFX11Window;
+typedef SFUInt64 SFX11Window;
 
 /*! \ingroup GrpWindowXFieldMulti
  */
 
-typedef MField<UInt64> MFX11Window;
+typedef MFUInt64 MFX11Window;
 
 #endif
 
@@ -231,11 +230,14 @@ typedef MField<GLXContext, 1> MFGLXContext;
 
 #ifndef OSG_COMPILEWINDOWXINST
 OSG_DLLEXPORT_DECL1(SField, DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL1(SField, X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING)
-OSG_DLLEXPORT_DECL2(SField, GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING)
-
 OSG_DLLEXPORT_DECL1(MField, DisplayP,      OSG_WINDOWXLIB_DLLTMPLMAPPING)
+
+#if ( (!defined(__GNUC__) && !defined(__ICL)) || !defined(__linux) || ( !defined(__ia64) && !defined(__x86_64) ) ) && (!defined(_MIPS_SZPTR) || _MIPS_SZPTR != 64) 
+OSG_DLLEXPORT_DECL1(SField, X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL1(MField, X11Window,     OSG_WINDOWXLIB_DLLTMPLMAPPING)
+#endif
+
+OSG_DLLEXPORT_DECL2(SField, GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 OSG_DLLEXPORT_DECL2(MField, GLXContext, 1, OSG_WINDOWXLIB_DLLTMPLMAPPING)
 #endif
 
