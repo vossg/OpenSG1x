@@ -49,7 +49,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-class ValueEditorRegistrator
+class OSG_WINDOWQTLIB_DLLMAPPING ValueEditorRegistrator
 {
   public:
     typedef QOSGWidgetFactory::ValueEditorCF ValueEditorCF;
@@ -66,7 +66,7 @@ class ValueEditorRegistrator
                                  ValueEditorCF       cFunc        );
 };
 
-class FieldEditorRegistrator
+class OSG_WINDOWQTLIB_DLLMAPPING FieldEditorRegistrator
 {
   public:
     typedef QOSGWidgetFactory::FieldEditorCF FieldEditorCF;
@@ -88,6 +88,6 @@ OSG_END_NAMESPACE
 
 //#include "OSGQOSGWidgetFactoryHelper.inl"
 
-#define OSGQOSGWIDGETFACTORYHELPER_HEADER_CVSID "@(#)$Id: OSGQOSGWidgetFactoryHelper.h,v 1.1 2004/07/30 15:31:57 neumannc Exp $"
+#define OSGQOSGWIDGETFACTORYHELPER_HEADER_CVSID "@(#)$Id: OSGQOSGWidgetFactoryHelper.h,v 1.2 2006/07/24 16:00:37 a-m-z Exp $"
 
 #endif /* _OSGQOSGWIDGETFACTORYHELPER_H_ */

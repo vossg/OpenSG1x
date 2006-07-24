@@ -289,11 +289,11 @@ QAttachmentMapEditor::updateDisplay(const AttachmentMap &attMap)
             strGroupName += QString::number(groupId);
             strGroupName += ")";
         }
-            
-        SLOG << " attCount: "         << attCount
-             << " groupId: "          << groupId
-             << " itAttMap->second: " << itAttMap->second
-             << " strGroupName: "     << strGroupName << endLog;
+
+        //SLOG << " attCount: "         << attCount
+        //     << " groupId: "          << groupId
+        //     << " itAttMap->second: " << itAttMap->second
+        //     << " strGroupName: "     << strGroupName << endLog;
 
         _indexLabels      [attCount]->setText (QString::number(attCount) + ".");
         _groupLabels      [attCount]->setText (strGroupName                   );
@@ -344,7 +344,7 @@ QAttachmentMapEditor::updateData(AttachmentMap &attMap) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAttachmentMapEditor_qt.cpp,v 1.2 2005/03/18 13:04:26 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQAttachmentMapEditor_qt.cpp,v 1.3 2006/07/24 16:00:37 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQATTACHMENTMAPEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQATTACHMENTMAPEDITORQT_INLINE_CVSID;
 }
