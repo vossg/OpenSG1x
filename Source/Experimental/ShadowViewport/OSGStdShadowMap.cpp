@@ -1145,7 +1145,7 @@ bool StdShadowMap::initFBO(Window *win)
     if (width <= 0 || height <= 0)
         return false;
         
-    if (fb != NULL)
+    if (fb != 0)
         return true;
 
     glGenFramebuffersEXT(1, &fb);
