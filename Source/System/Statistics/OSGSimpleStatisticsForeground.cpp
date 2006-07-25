@@ -80,6 +80,15 @@ SimpleStatisticsForeground::SimpleStatisticsForeground(void) :
 {
 }
 
+SimpleStatisticsForeground::SimpleStatisticsForeground(const SimpleStatisticsForeground &source) :
+    Inherited(), _face(source._face), _texchunk(source._texchunk)
+{
+    if (_face != 0)
+        addRefP(_face);
+    if (_texchunk != NullFC)
+        addRefCP(_texchunk);
+}
+
 /* */
 SimpleStatisticsForeground::~SimpleStatisticsForeground(void)
 {
