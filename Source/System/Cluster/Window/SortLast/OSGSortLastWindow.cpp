@@ -215,14 +215,14 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
     serverWindow->activate();
     serverWindow->frameInit();
     action->setWindow( serverWindow.getCPtr() );
-    //if(getComposer() != NullFC)
-    //    getComposer()->startFrame();
+    if(getComposer() != NullFC)
+        getComposer()->startFrame();
     for(sv = 0; sv < serverWindow->getPort().size(); ++sv)
     {
         ViewportPtr  vp         =serverWindow->getPort()[sv];
         NodePtr      root       =vp->getRoot();
-        //if(getComposer() != NullFC)
-        //    getComposer()->startViewport(vp);
+        if(getComposer() != NullFC)
+            getComposer()->startViewport(vp);
         // render
         vp->render( action );
         // compose single viewport
@@ -337,15 +337,15 @@ void SortLastWindow::clientRender( RenderActionBase *action )
             getClientWindow()->frameInit();
 */
             action->setWindow( getClientWindow().getCPtr() );
-            //if(getComposer() != NullFC)
-            //    getComposer()->startFrame();
+            if(getComposer() != NullFC)
+                getComposer()->startFrame();
             // render all viewports
             for(p = 0; p < getPort().size() ; ++p)
             {
                 ViewportPtr vp=getPort()[p];
                 if(getComposer() != NullFC)
                 {
-                    //getComposer()->startViewport(vp);
+                    getComposer()->startViewport(vp);
 
                     action->setCamera    (vp->getCamera    ().getCPtr());
                     action->setBackground(vp->getBackground().getCPtr());
