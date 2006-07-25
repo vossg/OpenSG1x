@@ -230,7 +230,7 @@ void SimpleStatisticsForegroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspec
 
 SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
     _mfFormats                (), 
-    _sfSize                   (Real32(25)), 
+    _sfSize                   (Real32(16)), 
     _sfColor                  (Color4f(1,1,1,1)), 
     _sfBgColor                (Color4f(0,0,0,0)), 
     _sfFamily                 (), 

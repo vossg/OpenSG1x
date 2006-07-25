@@ -26,7 +26,7 @@ Simpe Statistics display. Just print all the selected elements in the upper left
 		type="Real32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="25"
+		defaultValue="16"
 		access="public"
 	>
 	Height of a single line, in  pixel.

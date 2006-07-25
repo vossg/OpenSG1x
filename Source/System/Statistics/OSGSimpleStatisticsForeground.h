@@ -131,16 +131,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static TextTXFFace*    _face;
+    TextTXFFace *_face;
 
-    static TextureChunkPtr _texchunk;
+    TextureChunkPtr _texchunk;
 
     friend class FieldContainer;
     friend class SimpleStatisticsForegroundBase;
 
     static void initMethod(void);
 
-    static void initText(const std::string &family);
+    void initText(const std::string &family, Real32 size);
 
     // prohibit default functions (move to 'public' if you need one)
 

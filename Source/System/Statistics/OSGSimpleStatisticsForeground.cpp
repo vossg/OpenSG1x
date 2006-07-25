@@ -73,26 +73,20 @@ See \ref PageSystemWindowForegroundStatisticsSimple for a description.
 The format string for the given elements are stored in the _mfFormats Field,
 the size and color used for all lines in _sfSize and _sfColor.
 */
-/* static vars */
-TextTXFFace *SimpleStatisticsForeground::       _face = 0;
-
-TextureChunkPtr SimpleStatisticsForeground::    _texchunk;
 
 /*----------------------- constructors & destructors ----------------------*/
 SimpleStatisticsForeground::SimpleStatisticsForeground(void) :
-    Inherited()
-{
-}
-
-/* */
-SimpleStatisticsForeground::SimpleStatisticsForeground(const SimpleStatisticsForeground &source) :
-        Inherited(source)
+    Inherited(), _face(0), _texchunk()
 {
 }
 
 /* */
 SimpleStatisticsForeground::~SimpleStatisticsForeground(void)
 {
+    if (_face != 0)
+        subRefP(_face);
+    if (_texchunk != NullFC)
+        subRefCP(_texchunk);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -148,37 +142,45 @@ void SimpleStatisticsForeground::clearElems( void )
 /*! Initialize the text used. It is compiled into the library as
     StatisticsDefaultFontData and used as a TXF font.
 */
-void SimpleStatisticsForeground::initText(const std::string &family)
+void SimpleStatisticsForeground::initText(const std::string &family, Real32 size)
 {
-    // create the text needed
-#ifdef OSG_HAS_SSTREAM
-    std::istringstream stream(StatisticsDefaultFontString,
-                              std::istringstream::in |
-                              std::istringstream::out);
-#else
-    std::istrstream stream((char *) StatisticsDefaultFontData,
-                                    StatisticsDefaultFontDataSize);
-#endif
+    if (_face != 0)
+        subRefP(_face);
 
-    if ( !family.empty() )
+    // create the text needed
+    if (!family.empty())
     {
         TextTXFParam param;
-        param.gap = 2;
+        param.size = static_cast<UInt32>(size);
         _face = TextTXFFace::create(family, TextFace::STYLE_PLAIN, param);
     }
-    else
+    if (_face == 0)
     {
+#ifdef OSG_HAS_SSTREAM
+        std::istringstream stream(StatisticsDefaultFontString,
+                                  std::istringstream::in |
+                                  std::istringstream::out);
+#else
+        std::istrstream stream((char *) StatisticsDefaultFontData,
+                                        StatisticsDefaultFontDataSize);
+#endif
         _face = TextTXFFace::createFromStream(stream);
     }
     addRefP(_face);
 
-    ImagePtr texture = _face->getTexture();
-    _texchunk = TextureChunk::create();
+    if (_texchunk == NullFC)
+    {
+        _texchunk = TextureChunk::create();
+        addRefCP(_texchunk);
+    }
     beginEditCP(_texchunk);
     {
+        ImagePtr texture = _face->getTexture();
         _texchunk->setImage(texture);
         _texchunk->setWrapS(GL_CLAMP);
         _texchunk->setWrapT(GL_CLAMP);
+        _texchunk->setMinFilter(GL_NEAREST);
+        _texchunk->setMagFilter(GL_NEAREST);
         _texchunk->setEnvMode(GL_MODULATE);
     }
     endEditCP(_texchunk);
@@ -189,7 +191,7 @@ void SimpleStatisticsForeground::initText(const std::string &family)
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
     if (_face == 0)
-        initText( getFamily() );
+        initText(getFamily(), getSize());
 
     if (!getCollector().getNumOfElems() && !getElementIDs().size())
         return; // nothing to do
@@ -220,10 +222,11 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glPushMatrix();
     glLoadIdentity();
 
-    // set viewport
-    Real32  size = getSize();
-
-    glOrtho(0, pw / size, -ph / size, 0, 0, 1);
+    // Set viewport. We want to map one unit to one pixel on the
+    // screen. Some sources in the internet say that we should
+    // add an offset of -0.375 to prevent rounding errors. Don't
+    // know if that is true, but it seems to work.
+    glOrtho(0 - 0.375, pw - 0.375, 0 - 0.375, ph - 0.375, 0, 1);
 
     glAlphaFunc(GL_NOTEQUAL, 0);
     glEnable(GL_ALPHA_TEST);
@@ -266,10 +269,10 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             if(el)
             {
                 std::string desc(el->getDesc()->getName().str()), eltext;
-                
+
                 el->putToString(eltext);
                 desc = desc + " : " + eltext;
-                
+
                 stat.resize(stat.size() + 1);
                 std::vector < std::string >::iterator str = stat.end() - 1;
                 *str = desc;
@@ -280,45 +283,25 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     TextLayoutParam layoutParam;
     layoutParam.majorAlignment = TextLayoutParam::ALIGN_BEGIN;
     layoutParam.minorAlignment = TextLayoutParam::ALIGN_BEGIN;
-    layoutParam.spacing = 1.1;
-    
+
     TextLayoutResult layoutResult;
     _face->layout(stat, layoutParam, layoutResult);
 
-    Real32 posLeft, posTop, posRight, posBottom,
-           posRMax=0, width, height, off;
-    UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
-
-    // get bbox size first
-    for(i = 0; i < numGlyphs; ++i)
-    {
-        const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
-        const Vec2f &pos = layoutResult.positions[i];
-        width  = glyph.getWidth();
-        height = glyph.getHeight();
-        
-        posBottom = pos.y() - height;
-        posRight  = pos.x() + width;
-
-        if (posRMax < posRight)
-            posRMax = posRight;
-    }
-
-    off = osgMax(width, height);
-    off = (off > 0) ? off : 1.f;
-    posBottom -= off;
-    posRMax   += off;
+    Real32 scale = _face->getScale();
+    Real32 size = _face->getParam().size;
+    Real32 textWidth = layoutResult.textBounds.x() / scale + size;
+    Real32 textHeight = layoutResult.textBounds.y() / scale + size;
 
     // Let's do some simple form of layout management
-    Real32 orthoX = 0, orthoY = 0;
+    Real32 orthoX = 0, orthoY = ph;
 
     switch ( getHorizontalAlign() )
     {
         case Right:
-            orthoX = pw / size - posRMax;
+            orthoX = pw - textWidth;
             break;
         case Middle:
-            orthoX = (pw / size - posRMax) * 0.5;
+            orthoX = (pw - textWidth) * 0.5;
             break;
         case Left:
         default:
@@ -328,10 +311,10 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     switch ( getVerticalAlign() )
     {
         case Bottom:
-            orthoY = -ph / size - posBottom;
+            orthoY = textHeight;
             break;
         case Center:
-            orthoY = (-ph / size - posBottom) * 0.5;
+            orthoY = (ph - textHeight) * 0.5 + textHeight;
             break;
         case Top:
         default:
@@ -339,24 +322,27 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     }
 
     glTranslatef(orthoX, orthoY, 0.0);
-    
+
     glColor4fv((GLfloat*)getBgColor().getValuesRGBA());
-    
+
     glBegin(GL_QUADS);
-        glVertex2f(0, posBottom);
-        glVertex2f(posRMax, posBottom);
-        glVertex2f(posRMax, 0);
+        glVertex2f(0, -textHeight);
+        glVertex2f(textWidth, -textHeight);
+        glVertex2f(textWidth, 0);
         glVertex2f(0, 0);
     glEnd();
 
     // draw text
     glColor4fv((GLfloat*)getColor().getValuesRGBA());
-    glTranslatef(0.5*off, -0.5*off, 0.0);
-    
+    glTranslatef(0.5 * size, -0.5 * size, 0.0);
+    glScalef(1 / scale, 1 / scale, 1);
+
     _texchunk->activate(action);
-    
+
     glBegin(GL_QUADS);
-        
+
+    UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
+    Real32 width, height;
     for(i = 0; i < numGlyphs; ++i)
     {
         const TextTXFGlyph &glyph = _face->getTXFGlyph(layoutResult.indices[i]);
@@ -368,15 +354,15 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
         // Calculate coordinates
         const Vec2f &pos = layoutResult.positions[i];
-        posLeft = pos.x();
-        posTop = pos.y();
-        posRight = pos.x() + width;
-        posBottom = pos.y() - height;
+        Real32 posLeft = pos.x();
+        Real32 posTop = pos.y();
+        Real32 posRight = pos.x() + width;
+        Real32 posBottom = pos.y() - height;
         Real32 texCoordLeft = glyph.getTexCoord(TextTXFGlyph::COORD_LEFT);
         Real32 texCoordTop = glyph.getTexCoord(TextTXFGlyph::COORD_TOP);
         Real32 texCoordRight = glyph.getTexCoord(TextTXFGlyph::COORD_RIGHT);
         Real32 texCoordBottom = glyph.getTexCoord(TextTXFGlyph::COORD_BOTTOM);
-        
+
         // lower left corner
         glTexCoord2f(texCoordLeft, texCoordBottom);
         glVertex2f(posLeft, posBottom);
