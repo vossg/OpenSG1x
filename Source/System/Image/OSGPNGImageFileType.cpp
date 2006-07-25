@@ -211,6 +211,7 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
     {
       png_set_palette_to_rgb(png_ptr);
       channels = 3;
+      bit_depth = 8;
     }
 
     // Convert < 8 bit to 8 bit
@@ -663,6 +664,7 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
     {
         png_set_palette_to_rgb(png_ptr);
         channels = 3;
+        bit_depth = 8;
     }
 
     // Convert < 8 bit to 8 bit
