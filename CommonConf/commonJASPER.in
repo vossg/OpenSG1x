@@ -1,0 +1,18 @@
+
+INCLUDE_JASPER := @ac_gdz_jasper_incdir_e25@
+LINK_JASPER    := @ac_gdz_jasper_libdir_e25@
+LIB_JASPER     := @ac_gdz_jasper_lib_e25@
+
+ifneq ($(INCLUDE_JASPER),)
+INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_JASPER)
+endif
+
+ifneq ($(LINK_JASPER),)
+LIBPATHS_JASPER := $(LIBPATH_OPTION)$(LINK_JASPER)
+endif
+
+ifneq ($(LIB_JASPER),)
+LIB_FILE_JASPER     := $(LIB_JASPER)
+LIB_FILE_JASPER_LNK := $(LIB_JASPER)
+OSG_LIB_EXT         := $(OSG_LIB_EXT) $(LIB_JASPER)
+endif

@@ -1945,6 +1945,49 @@ dnl e15
 
 
 
+    ac_gdz_jasper_lib_e15=
+    ac_gdz_jasper_incdir_e15=
+    ac_gdz_jasper_libdir_e15=
+
+    if test "$enable_jasper" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_jasper_lib_e15='libjasper.lib'
+            ;;
+            *)
+                ac_gdz_jasper_lib_e15='-ljasper'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_jasper_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jasper_incdir_e15='"'`cygpath -w $ac_gdz_jasper_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_jasper_incdir_e15=$ac_gdz_jasper_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_jasper_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jasper_libdir_e15='"'`cygpath -w $ac_gdz_jasper_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_jasper_libdir_e15=$ac_gdz_jasper_libdir
+                ;;
+            esac
+        fi
+        ac_gdz_have_jasper_e15=yes
+    else    
+        ac_gdz_have_jasper_e15=no
+    fi
+
+
+
     ac_gdz_png_lib_e15=
     ac_gdz_png_incdir_e15=
     ac_gdz_png_libdir_e15=
@@ -2320,6 +2363,11 @@ dnl e15
     AC_SUBST(ac_gdz_jpg_lib_e15)
     AC_SUBST(ac_gdz_have_jpg_e15)
 
+    AC_SUBST(ac_gdz_jasper_incdir_e15)
+    AC_SUBST(ac_gdz_jasper_libdir_e15)
+    AC_SUBST(ac_gdz_jasper_lib_e15)
+    AC_SUBST(ac_gdz_have_jasper_e15)
+
     AC_SUBST(ac_gdz_png_incdir_e15)
     AC_SUBST(ac_gdz_png_libdir_e15)
     AC_SUBST(ac_gdz_png_lib_e15)
@@ -2665,3 +2713,59 @@ dnl e24
 
     AC_OUTPUT($ac_gdz_common_text_e24:$ac_gdz_common_text_in_e24)
 ])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_JASPER,
+[
+dnl e25
+
+    ac_gdz_jasper_lib_e25=
+    ac_gdz_jasper_incdir_e25=
+    ac_gdz_jasper_libdir_e25=
+
+    if test "$enable_jasper" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_jasper_lib_e25='libjasper.lib'
+            ;;
+            *)
+                ac_gdz_jasper_lib_e25='-ljasper'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_jasper_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jasper_incdir_e25='"'`cygpath -w $ac_gdz_jasper_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_jasper_incdir_e25=$ac_gdz_jasper_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_jasper_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_jasper_libdir_e25='"'`cygpath -w $ac_gdz_jasper_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_jasper_libdir_e25=$ac_gdz_jasper_libdir
+                ;;
+            esac
+        fi
+
+    fi
+
+    ac_gdz_common_jasper_in_e25=$ac_gdz_commonconf_dir/commonJASPER.in
+    ac_gdz_common_jasper_e25=$ac_gdz_commonpackage_dir/commonJASPER.mk
+
+    AC_SUBST(ac_gdz_jasper_incdir_e25)
+    AC_SUBST(ac_gdz_jasper_libdir_e25)
+    AC_SUBST(ac_gdz_jasper_lib_e25)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_jasper_e25:$ac_gdz_common_jasper_in_e25)
+])
+

@@ -41,7 +41,9 @@ ac_gdz_conf_package_stlport_e1='0'
 ac_gdz_conf_package_tif='0'
 ac_gdz_conf_package_tif_e1='0'
 ac_gdz_conf_package_jpg='0'
-ac_gdz_conf_package_jpg_e1='0'CommonConf/
+ac_gdz_conf_package_jpg_e1='0'
+ac_gdz_conf_package_jasper='0'
+ac_gdz_conf_package_jasper_e1='0'
 ac_gdz_conf_package_png='0'
 ac_gdz_conf_package_png_e1='0'
 ac_gdz_conf_package_mng='0'
@@ -582,6 +584,71 @@ else
 	ac_gdz_jpg_dir=
 	ac_gdz_jpg_incdir=
 	ac_gdz_jpg_libdir=
+fi
+
+dnl ############# JasPer Settings #####################
+
+AC_ARG_ENABLE(jasper,     [  --enable-jasper                     Build with JasPer support],
+			,enable_jasper=no) 
+AC_ARG_WITH(jasper,     [  --with-jasper=DIR                   Use DIR/lib DIR/include to find the JasPer files],
+			,with_jasper=) 
+AC_ARG_WITH(jasperincludedir,     [  --with-jasperincludedir=DIR         Use JasPer includes from the given directory],
+			,with_jasperincludedir=) 
+AC_ARG_WITH(jasperlibdir,     [  --with-jasperlibdir=DIR             Use JasPer lib from the given directory],
+			,with_jasperlibdir=) 
+
+if test "$enable_jasper" = no && test "$with_jasper" = yes; then
+    enable_jasper=yes
+    with_jasper=
+fi
+
+if test "$enable_jasper" = no && test "$with_jasper"X != "X"; then
+    enable_jasper=yes
+fi
+
+if test "$enable_jasper" = yes; then
+	ac_gdz_jasper_incdir=
+	ac_gdz_jasper_libdir=
+	ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_JASPER'
+	ac_gdz_conf_package_jasper='1'
+	ac_gdz_conf_package_jasper_e1='1'
+
+    if test -n "$with_jasper"; then
+		ac_gdz_jasper_incdir=$with_jasper/include
+
+        ac_gdz_jasper_libdir=$with_jasper/lib
+
+        if ! test -d "$ac_gdz_jasper_incdir" && ! test -n "$with_jasperincludedir"; then
+            echo "ERROR JasPer include dir does not seem to exist, please check the given base dir \"$with_jasper\""
+            exit
+        fi
+        if ! test -d "$ac_gdz_jasper_libdir" && ! test -n "$with_jasperlibdir"; then
+            echo "ERROR JasPer lib dir does not seem to exist, please check the given base dir \"$with_jasper\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_jasperincludedir"; then
+		ac_gdz_jasper_incdir=$with_jasperincludedir
+
+        if ! test -d "$ac_gdz_jasper_incdir"; then
+            echo "ERROR JasPer include dir does not seem to exist, please check the given dir \"$with_jasperincludedir\""
+            exit
+        fi
+    fi
+
+    if test -n "$with_jasperlibdir"; then
+	    ac_gdz_jasper_libdir=$with_jasperlibdir
+
+        if ! test -d "$ac_gdz_jasper_libdir"; then
+            echo "ERROR JasPer lib dir does not seem to exist, please check the given dir \"$with_jasperlibdir\""
+            exit
+        fi
+    fi
+else
+	ac_gdz_jasper_dir=
+	ac_gdz_jasper_incdir=
+	ac_gdz_jasper_libdir=
 fi
 
 dnl ############# PNG Settings #####################
@@ -1660,6 +1727,7 @@ AC_SUBST(ac_gdz_conf_package_qt_e1)
 AC_SUBST(ac_gdz_conf_package_qt4_e1)
 AC_SUBST(ac_gdz_conf_package_tif_e1)
 AC_SUBST(ac_gdz_conf_package_jpg_e1)
+AC_SUBST(ac_gdz_conf_package_jasper_e1)
 AC_SUBST(ac_gdz_conf_package_png_e1)
 AC_SUBST(ac_gdz_conf_package_mng_e1)
 AC_SUBST(ac_gdz_conf_package_sepia_e1)
@@ -1739,6 +1807,8 @@ AC_GDZ_WRITE_COMMON_QT4()
 AC_GDZ_WRITE_COMMON_TIF()
 
 AC_GDZ_WRITE_COMMON_JPG()
+
+AC_GDZ_WRITE_COMMON_JASPER()
 
 AC_GDZ_WRITE_COMMON_PNG()
 
