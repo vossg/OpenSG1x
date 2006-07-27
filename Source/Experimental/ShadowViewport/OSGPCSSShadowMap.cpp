@@ -1138,7 +1138,7 @@ void PCSSShadowMap::render(RenderActionBase* action)
 	Window *win = action->getWindow();
 	initialize(win);
 
-	if(!useGLSL  || !useShadowExt) shadowVP->Viewport::render(action);
+	if(!useGLSL  || !useShadowExt) shadowVP->StereoBufferViewport::render(action);
 	else
 	{
 	glPushAttrib(GL_ENABLE_BIT);

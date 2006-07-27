@@ -60,7 +60,7 @@
 #include <OSGNodeCoreFieldDataType.h>
 #include <OSGSystemDef.h>
 
-#include <OSGViewportFields.h>
+#include <OSGStereoBufferViewportFields.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,7 +69,7 @@ class ShadowViewport;
 #if !defined(OSG_DO_DOC)   // created as a dummy class, remove to prevent doubles
 //! ShadowViewportPtr
 
-typedef FCPtr<ViewportPtr, ShadowViewport> ShadowViewportPtr;
+typedef FCPtr<StereoBufferViewportPtr, ShadowViewport> ShadowViewportPtr;
 
 #endif
 
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGShadowViewportFields.h,v 1.8 2006/06/07 15:12:37 yjung Exp $"
+#define OSGSHADOWVIEWPORTFIELDS_HEADER_CVSID "@(#)$Id: OSGShadowViewportFields.h,v 1.9 2006/07/27 13:43:09 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTFIELDS_H_ */

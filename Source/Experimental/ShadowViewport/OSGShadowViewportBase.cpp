@@ -213,7 +213,7 @@ FieldDescription *ShadowViewportBase::_desc[] =
 
 FieldContainerType ShadowViewportBase::_type(
     "ShadowViewport",
-    "Viewport",
+    "StereoBufferViewport",
     NULL,
     (PrototypeCreateF) &ShadowViewportBase::createEmpty,
     ShadowViewport::initMethod,
@@ -652,7 +652,7 @@ OSG_END_NAMESPACE
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<ShadowViewportPtr>::_type("ShadowViewportPtr", "ViewportPtr");
+DataType FieldDataTraits<ShadowViewportPtr>::_type("ShadowViewportPtr", "StereoBufferViewportPtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
@@ -672,7 +672,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.8 2006/06/07 15:12:37 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.9 2006/07/27 13:43:09 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

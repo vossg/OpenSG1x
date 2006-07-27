@@ -1271,7 +1271,7 @@ void VarianceShadowMap::render(RenderActionBase* action)
 	Window *win = action->getWindow();
 	initialize(win);
 
-	if(!useGLSL || !useShadowExt || !useFBO) shadowVP->Viewport::render(action);
+	if(!useGLSL || !useShadowExt || !useFBO) shadowVP->StereoBufferViewport::render(action);
 	else
 	{
 

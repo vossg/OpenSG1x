@@ -3553,7 +3553,7 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 	Window *win = action->getWindow();
 	initialize(win);
 
-	if(!useShadowExt ) shadowVP->Viewport::render(action);
+	if(!useShadowExt ) shadowVP->StereoBufferViewport::render(action);
 	else
 	{
 
@@ -3625,7 +3625,7 @@ void PerspectiveShadowMap::render(RenderActionBase* action)
 			else
 			{
 				FDEBUG(("Rendering without Shadows\n"));
-				shadowVP->Viewport::render(action);
+				shadowVP->StereoBufferViewport::render(action);
 			}
 		}
 		else

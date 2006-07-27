@@ -2,7 +2,7 @@
 
 <FieldContainer
 	name="ShadowViewport"
-	parent="Viewport"
+	parent="StereoBufferViewport"
 	library="System"
 	pointerfieldtypes="both"
 	structure="concrete"

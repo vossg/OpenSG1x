@@ -65,7 +65,7 @@
 #include <OSGRefPtr.h>
 #include <OSGCoredNodePtr.h>
 
-#include <OSGViewport.h> // Parent
+#include <OSGStereoBufferViewport.h> // Parent
 
 #include <OSGReal32Fields.h> // OffBias type
 #include <OSGReal32Fields.h> // OffFactor type
@@ -89,11 +89,11 @@ class BinaryDataHandler;
 
 //! \brief ShadowViewport Base Class.
 
-class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public Viewport
+class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
 {
   private:
 
-    typedef Viewport    Inherited;
+    typedef StereoBufferViewport    Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -341,6 +341,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.8 2006/06/07 15:12:37 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.9 2006/07/27 13:43:09 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

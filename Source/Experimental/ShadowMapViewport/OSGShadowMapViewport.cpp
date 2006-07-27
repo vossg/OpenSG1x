@@ -332,8 +332,31 @@ void ShadowMapViewport::render(RenderActionBase* action)
 
     if(!getShadowOn())
     {
-        Viewport::render(action);
+        StereoBufferViewport::render(action);
         return;
+    }
+
+    if(getLeftBuffer())
+    {
+        if(getRightBuffer())
+        {
+            glDrawBuffer(GL_BACK);
+        }
+        else
+        {
+            glDrawBuffer(GL_BACK_LEFT);
+        }
+    }
+    else
+    {
+        if(getRightBuffer())
+        {
+            glDrawBuffer(GL_BACK_RIGHT);
+        }
+        else
+        {
+            glDrawBuffer(GL_NONE);
+        }
     }
 
     GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
@@ -394,6 +417,8 @@ void ShadowMapViewport::render(RenderActionBase* action)
     // render the foregrounds.
     for(UInt16 i=0; i < getForegrounds().size(); ++i)
         getForegrounds(i)->draw(action, this);
+
+    glDrawBuffer(GL_BACK);
 }
 
 //Checks if the needed OpenGL-Extensions are supported
@@ -1173,7 +1198,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.14 2006/02/15 13:16:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.15 2006/07/27 13:43:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

@@ -62,7 +62,7 @@
 #include "OSGShadowMapViewport.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShadowMapViewportBase::OffBiasFieldMask = 
     (TypeTraits<BitVector>::One << ShadowMapViewportBase::OffBiasFieldId);
@@ -191,7 +191,7 @@ FieldDescription *ShadowMapViewportBase::_desc[] =
 
 FieldContainerType ShadowMapViewportBase::_type(
     "ShadowMapViewport",
-    "Viewport",
+    "StereoBufferViewport",
     NULL,
     (PrototypeCreateF) &ShadowMapViewportBase::createEmpty,
     ShadowMapViewport::initMethod,
@@ -576,19 +576,19 @@ void ShadowMapViewportBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-DataType FieldDataTraits<ShadowMapViewportPtr>::_type("ShadowMapViewportPtr", "ViewportPtr");
+DataType FieldDataTraits<ShadowMapViewportPtr>::_type("ShadowMapViewportPtr", "StereoBufferViewportPtr");
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShadowMapViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShadowMapViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -604,10 +604,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.12 2006/02/20 17:04:42 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.13 2006/07/27 13:43:08 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADOWMAPVIEWPORTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

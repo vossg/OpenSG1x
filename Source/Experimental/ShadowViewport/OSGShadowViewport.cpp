@@ -389,7 +389,6 @@ void ShadowViewport::render(RenderActionBase* action)
 		case NO_SHADOW:
 		{
 			FNOTICE(("No Shadows\n"));
-			//Viewport::render(action);
 		}
 		break;
 	
@@ -443,7 +442,7 @@ void ShadowViewport::render(RenderActionBase* action)
 
 	if (treeRenderer == NULL)
     {
-		Viewport::render(action);
+		StereoBufferViewport::render(action);
         return;
     }
 
@@ -465,7 +464,7 @@ void ShadowViewport::render(RenderActionBase* action)
 
     if(!getShadowOn())
     {
-		Viewport::render(action);
+		StereoBufferViewport::render(action);
         return;
     }
 
@@ -521,32 +520,56 @@ void ShadowViewport::render(RenderActionBase* action)
 
     if(_lights.size() == 0 || allLightsZero) 
 	{
-		Viewport::render(action); 
+		StereoBufferViewport::render(action); 
 	}
     else
     {
 
-    //find transparent nodes
-    _transparent.clear();
-    traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
-         <Action::ResultE, ShadowViewport, NodePtr>
-         (this, &ShadowViewport::findTransparent));
-    _windowW = getParent()->getWidth();
-    _windowH = getParent()->getHeight();
+        //find transparent nodes
+        _transparent.clear();
+        traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+             <Action::ResultE, ShadowViewport, NodePtr>
+             (this, &ShadowViewport::findTransparent));
+        _windowW = getParent()->getWidth();
+        _windowH = getParent()->getHeight();
+    
+        //check if excludeNodes are disabled
+        for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+        {
+            NodePtr exnode = getExcludeNodes()[i];
+            _excludeNodeActive[i] = exnode->getActive();
+        }
+    
+        //check if all sides of a pointlight are needed
+        //TODO: Not implemented yet ...
+        _renderSide.clear();
 
-    //check if excludeNodes are disabled
-    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
-    {
-        NodePtr exnode = getExcludeNodes()[i];
-        _excludeNodeActive[i] = exnode->getActive();
-    }
+        if(getLeftBuffer())
+        {
+            if(getRightBuffer())
+            {
+                glDrawBuffer(GL_BACK);
+            }
+            else
+            {
+                glDrawBuffer(GL_BACK_LEFT);
+            }
+        }
+        else
+        {
+            if(getRightBuffer())
+            {
+                glDrawBuffer(GL_BACK_RIGHT);
+            }
+            else
+            {
+                glDrawBuffer(GL_NONE);
+            }
+        }
 
-	//check if all sides of a pointlight are needed
-	//TODO: Not implemented yet ...
-	_renderSide.clear();
-	
-	treeRenderer->render(action);
+        treeRenderer->render(action);
 
+        glDrawBuffer(GL_BACK);
     }
 }
 
@@ -1220,7 +1243,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.16 2006/07/12 14:04:15 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.17 2006/07/27 13:43:09 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
