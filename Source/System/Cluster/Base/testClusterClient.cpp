@@ -78,6 +78,8 @@ std::string              animName="animation.txt";
 Real32                   animTime=0;
 std::string              serviceInterface;
 bool                     serviceInterfaceValid = false;
+std::string              serviceAddress;
+bool                     serviceAddressValid = false;
 UInt32                   interleave=0;
 Real32                   _dsFactor = 1.0; // scale down factor.
 bool                     _enablecc = true; // enable color correction.
@@ -1040,7 +1042,14 @@ void init(std::vector<std::string> &filenames)
     {
         clusterWindow->setServiceInterface(serviceInterface);
 
-        fprintf(stderr, "tcclient use ba %s\n", serviceInterface.c_str());
+        fprintf(stderr, "tcclient use if %s\n", serviceInterface.c_str());
+    }
+
+    if(serviceAddressValid == true)
+    {
+        clusterWindow->setServiceAddress(serviceAddress);
+
+        fprintf(stderr, "tcclient use ba %s\n", serviceAddress.c_str());
     }
 
 	endEditCP(clusterWindow);
@@ -1112,6 +1121,11 @@ int main(int argc,char **argv)
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
                     serviceInterface.assign(opt);
                     serviceInterfaceValid = true;
+                    break;
+                case 'B':
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
+                    serviceAddress.assign(opt);
+                    serviceAddressValid = true;
                     break;
                 case 'f':
                     opt = argv[i][2] ? argv[i]+2 : argv[++i];
