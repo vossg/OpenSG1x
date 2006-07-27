@@ -46,6 +46,7 @@
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
 
+using namespace std;
 // The SimpleSceneManager to manage simple applications
 SimpleSceneManager *mgr;
 
@@ -80,12 +81,18 @@ int main(int argc, char **argv)
             switch(argv[a][1])
             {
                 case 'm': mwin->setConnectionType("Multicast");
+cout << "Connection type set to Multicast" << endl;
                           break;
                 case 'p': mwin->setConnectionType("SockPipeline");
+cout << "Connection type set to SockPipeline" << endl;
                           break;
                 case 'i': opt = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(opt != argv[argc])
                               mwin->setConnectionInterface(opt);
+                          break;
+                case 'a': opt = argv[a][2] ? argv[a]+2 : argv[++a];
+                          if(opt != argv[argc])
+                              mwin->setServiceAddress(opt);
                           break;
                 case 'f': opt = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(opt != argv[argc])
