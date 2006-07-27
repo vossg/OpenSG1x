@@ -4468,7 +4468,7 @@ void PCFShadowMap::render(RenderActionBase* action)
 
     if(!useGLSL || !useShadowExt )
     {
-        shadowVP->StereoBufferViewport::render(action);
+        shadowVP->Viewport::render(action);
     }
     else
     {
