@@ -544,6 +544,7 @@ void ShadowViewport::render(RenderActionBase* action)
         //TODO: Not implemented yet ...
         _renderSide.clear();
 
+        // active stereo support.
         if(getLeftBuffer())
         {
             if(getRightBuffer())
@@ -1243,7 +1244,7 @@ void ShadowViewport::clearLights(UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.17 2006/07/27 13:43:09 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewport.cpp,v 1.18 2006/07/27 13:53:54 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
