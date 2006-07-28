@@ -106,8 +106,13 @@ class OSG_BASE_DLLMAPPING SocketSelection
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+#ifdef WIN32
     struct fd_set *_fdSetRead;
     struct fd_set *_fdSetWrite;
+#else
+    fd_set *_fdSetRead;
+    fd_set *_fdSetWrite;
+#endif
 
     /*==========================  PRIVATE  ================================*/
 };
