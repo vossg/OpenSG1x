@@ -1217,6 +1217,7 @@ int setupGLUT(int *argc, char *argv[])
 
     //Set WindowSize here
     glutInitWindowSize(640,512);
+
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);

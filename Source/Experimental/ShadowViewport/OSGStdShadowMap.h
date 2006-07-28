@@ -53,7 +53,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
 	GLuint fb2;
 	GLuint rb_depth;
 	UInt32 activeFactorMap;
-	UInt32 widthHeightPOT;
+	UInt32 _widthHeightPOT;
 	Matrix transforms[6];
 
     TileCameraDecoratorPtr  _tiledeco;
@@ -78,8 +78,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
 	SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
     Int32                   firstRun;
-    UInt32                  width;
-    UInt32                  height;
+    UInt32                  _width;
+    UInt32                  _height;
 
 	bool initTexturesDone;
 	void initTextures(Window *win);

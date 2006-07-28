@@ -2475,6 +2475,8 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source)
 
     initTexturesDone = false;
 
+    activeFactorMap = 1;
+
     _width = 1;
     _height = 1;
 
@@ -4433,12 +4435,14 @@ void PCFShadowMap::drawCombineMap(RenderActionBase* action)
         yFactor = Real32(_height) / Real32(_widthHeightPOT);
     }
 
-	beginEditCP(_combineCmat);
-		_combineCmat->clearChunks();
+    beginEditCP(_combineCmat);
+        _combineCmat->clearChunks();
         _combineCmat->addChunk(_combineSHL);
         _combineCmat->addChunk(_colorMap);
-		if(activeFactorMap == 0) _combineCmat->addChunk(_shadowFactorMap2);
-		else _combineCmat->addChunk(_shadowFactorMap);
+        if(activeFactorMap == 0 && useFBO)
+            _combineCmat->addChunk(_shadowFactorMap2);
+        else
+            _combineCmat->addChunk(_shadowFactorMap);
     endEditCP(_combineCmat);
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);

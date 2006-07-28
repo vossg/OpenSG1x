@@ -781,6 +781,7 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 : TreeRenderer(source)
 {
 	initTexturesDone = false;
+    activeFactorMap = 1;
 	_blender = BlendChunk::create();
 	addRefCP(_blender);
 	beginEditCP(_blender);
@@ -793,24 +794,24 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
     fb = 0;
     fb2 = 0;
     rb_depth = 0;
-    width = 1;
-    height = 1;
+    _width = 1;
+    _height = 1;
 
     if(shadowVP->getParent() != NullFC)
     {
-        width = shadowVP->getPixelWidth();
-        height = shadowVP->getPixelHeight();
+        _width = shadowVP->getPixelWidth();
+        _height = shadowVP->getPixelHeight();
     }
 
-    if(width == 0)
-        width = 1;
-    if(height == 0)
-        height = 1;
+    if(_width == 0)
+        _width = 1;
+    if(_height == 0)
+        _height = 1;
 
-    if(width > height)
-        widthHeightPOT = osgnextpower2(width-1);
+    if(_width > _height)
+        _widthHeightPOT = osgnextpower2(_width-1);
     else
-        widthHeightPOT = osgnextpower2(height-1);
+        _widthHeightPOT = osgnextpower2(_height-1);
 
     _tiledeco = NullFC;
    
@@ -831,13 +832,13 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 	if(useNPOTTextures)
 	{
 		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, width, height);
+			_colorMapImage->set(GL_RGB, _width, _height);
 		endEditCP(_colorMapImage);
 	}
 	else
 	{
 		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+			_colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_colorMapImage);
 	}
 
@@ -858,13 +859,13 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 	if(useNPOTTextures)
 	{
 	    beginEditCP(_shadowFactorMapImage);
-		    _shadowFactorMapImage->set(GL_RGB, width, height);
+		    _shadowFactorMapImage->set(GL_RGB, _width, _height);
 		endEditCP(_shadowFactorMapImage);
 	}
 	else
 	{
 		beginEditCP(_shadowFactorMapImage);
-		    _shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		    _shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_shadowFactorMapImage);
 	}
 
@@ -885,13 +886,13 @@ StdShadowMap::StdShadowMap(ShadowViewport *source)
 	if(useNPOTTextures)
 	{
 	    beginEditCP(_shadowFactorMapImage2);
-		    _shadowFactorMapImage2->set(GL_RGB, width, height);
+		    _shadowFactorMapImage2->set(GL_RGB, _width, _height);
 		endEditCP(_shadowFactorMapImage2);
 	}
 	else
 	{
 		beginEditCP(_shadowFactorMapImage2);
-		    _shadowFactorMapImage2->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+		    _shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_shadowFactorMapImage2);
 	}
         
@@ -1162,7 +1163,7 @@ bool StdShadowMap::initFBO(Window *win)
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
 	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
-	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, _widthHeightPOT, _widthHeightPOT );
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
 
@@ -1207,7 +1208,7 @@ void StdShadowMap::reInit(Window *win)
 	//Initialize Depth Renderbuffer
 	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, rb_depth);
 	if(useNPOTTextures) glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, shadowVP->getPixelWidth(), shadowVP->getPixelHeight() );
-	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, widthHeightPOT, widthHeightPOT );
+	else glRenderbufferStorageEXT( GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB, _widthHeightPOT, _widthHeightPOT );
 
 	//Attach Renderbuffer to Framebuffer depth Buffer
 	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT,  GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, rb_depth);
@@ -1223,24 +1224,24 @@ void StdShadowMap::initTextures(Window *win)
 	//if no NPOTTextures supported, resize images
 	if(!useNPOTTextures)
 	{
-		if(width > height) widthHeightPOT = osgnextpower2(width-1);
-		else widthHeightPOT = osgnextpower2(height-1);
+		if(width > height) _widthHeightPOT = osgnextpower2(width-1);
+		else _widthHeightPOT = osgnextpower2(height-1);
 
 		beginEditCP(_colorMap);
 		beginEditCP(_colorMapImage);
-			_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+			_colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_colorMapImage);
 		endEditCP(_colorMap);
 
 		beginEditCP(_shadowFactorMap);
 		beginEditCP(_shadowFactorMapImage);
-			_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+			_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_shadowFactorMapImage);
 		endEditCP(_shadowFactorMap);
 
 		beginEditCP(_shadowFactorMap2);
 		beginEditCP(_shadowFactorMapImage2);
-			_shadowFactorMapImage2->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+			_shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 		endEditCP(_shadowFactorMapImage2);
 		endEditCP(_shadowFactorMap2);
 	}
@@ -2109,7 +2110,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 				Real32 texFactor;
 				if(shadowVP->_lights[i]->getType() == PointLight::getClassType() || shadowVP->_lights[i]->getType() == SpotLight::getClassType())
-					texFactor = Real32(width)/Real32(height);
+					texFactor = Real32(_width)/Real32(_height);
 				else texFactor = 1.0;
 
 				Matrix shadowMatrix = LPM;
@@ -2121,8 +2122,8 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 	
 				if(!useNPOTTextures)
 				{
-					xFactor = Real32(width)/Real32(widthHeightPOT);
-					yFactor = Real32(height)/Real32(widthHeightPOT);
+					xFactor = Real32(_width)/Real32(_widthHeightPOT);
+					yFactor = Real32(_height)/Real32(_widthHeightPOT);
 				}
 
 				Matrix m = action->getCamera()->getBeacon()->getToWorld();
@@ -2216,8 +2217,8 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 	
 	if(!useNPOTTextures)
 	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
+		xFactor = Real32(_width)/Real32(_widthHeightPOT);
+		yFactor = Real32(_height)/Real32(_widthHeightPOT);
 	}
 
 	for(UInt32 i = 0; i<shadowVP->_lights.size();i++)
@@ -2239,7 +2240,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase* action)
 
 			Real32 texFactor;
 			if(shadowVP->_lights[i]->getType() == PointLight::getClassType() || shadowVP->_lights[i]->getType() == SpotLight::getClassType())
-				texFactor = Real32(width)/Real32(height);
+				texFactor = Real32(_width)/Real32(_height);
 			else texFactor = 1.0;
 
 			texFactorF.push_back(texFactor);
@@ -2634,7 +2635,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 
 				Real32 texFactor;
 				if(shadowVP->_lights[i]->getType() == PointLight::getClassType() || shadowVP->_lights[i]->getType() == SpotLight::getClassType())
-					texFactor = Real32(width)/Real32(height);
+					texFactor = Real32(_width)/Real32(_height);
 				else texFactor = 1.0;
 
 				Matrix shadowMatrix = LPM;
@@ -2646,8 +2647,8 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	
 				if(!useNPOTTextures)
 				{
-					xFactor = Real32(width)/Real32(widthHeightPOT);
-					yFactor = Real32(height)/Real32(widthHeightPOT);
+					xFactor = Real32(_width)/Real32(_widthHeightPOT);
+					yFactor = Real32(_height)/Real32(_widthHeightPOT);
 				}
 
 				Matrix m = action->getCamera()->getBeacon()->getToWorld();
@@ -2752,8 +2753,8 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 	
 	if(!useNPOTTextures)
 	{
-		xFactor = Real32(width)/Real32(widthHeightPOT);
-		yFactor = Real32(height)/Real32(widthHeightPOT);
+		xFactor = Real32(_width)/Real32(_widthHeightPOT);
+		yFactor = Real32(_height)/Real32(_widthHeightPOT);
 	}
 
 	//Jetzt alle normalen Lichtquellen
@@ -2776,7 +2777,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 
 			Real32 texFactor;
 			if(shadowVP->_lights[i]->getType() == PointLight::getClassType() || shadowVP->_lights[i]->getType() == SpotLight::getClassType())
-				texFactor = Real32(width)/Real32(height);
+				texFactor = Real32(_width)/Real32(_height);
 			else texFactor = 1.0;
 
 			texFactorF.push_back(texFactor);
@@ -3103,16 +3104,18 @@ void StdShadowMap::drawCombineMap(RenderActionBase* action)
     Real32 yFactor = 1.0f;
     if(!useNPOTTextures)
     {
-        xFactor = Real32(width) / Real32(widthHeightPOT);
-        yFactor = Real32(height) / Real32(widthHeightPOT);
+        xFactor = Real32(_width) / Real32(_widthHeightPOT);
+        yFactor = Real32(_height) / Real32(_widthHeightPOT);
     }
 
-	beginEditCP(_combineCmat);
-		_combineCmat->clearChunks();
+    beginEditCP(_combineCmat);
+        _combineCmat->clearChunks();
         _combineCmat->addChunk(_combineSHL);
         _combineCmat->addChunk(_colorMap);
-		if(activeFactorMap == 0) _combineCmat->addChunk(_shadowFactorMap2);
-		else _combineCmat->addChunk(_shadowFactorMap);
+        if(activeFactorMap == 0  && useFBO)
+            _combineCmat->addChunk(_shadowFactorMap2);
+        else
+            _combineCmat->addChunk(_shadowFactorMap);
     endEditCP(_combineCmat);
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
@@ -3199,29 +3202,29 @@ void StdShadowMap::render(RenderActionBase* action)
 	{
 	    firstRun = 1;
 		
-		if(shadowVP->getPixelWidth() != width ||
-		shadowVP->getPixelHeight() != height)
+		if(shadowVP->getPixelWidth() != _width ||
+		shadowVP->getPixelHeight() != _height)
 		{
-			width = shadowVP->getPixelWidth();
-			height = shadowVP->getPixelHeight();
+			_width = shadowVP->getPixelWidth();
+			_height = shadowVP->getPixelHeight();
     
 			if(useNPOTTextures)
 			{
 				beginEditCP(_colorMap);
 				beginEditCP(_colorMapImage);
-					_colorMapImage->set(GL_RGB, width, height);
+					_colorMapImage->set(GL_RGB, _width, _height);
 				endEditCP(_colorMapImage);
 				endEditCP(_colorMap);
 
 				beginEditCP(_shadowFactorMap);
 				beginEditCP(_shadowFactorMapImage);
-					_shadowFactorMapImage->set(GL_RGB, width, height);
+					_shadowFactorMapImage->set(GL_RGB, _width, _height);
 				endEditCP(_shadowFactorMapImage);
 				endEditCP(_shadowFactorMap);
 
 				beginEditCP(_shadowFactorMap2);
 				beginEditCP(_shadowFactorMapImage2);
-					_shadowFactorMapImage2->set(GL_RGB, width, height);
+					_shadowFactorMapImage2->set(GL_RGB, _width, _height);
 				endEditCP(_shadowFactorMapImage2);
 				endEditCP(_shadowFactorMap2);
 	
@@ -3229,24 +3232,24 @@ void StdShadowMap::render(RenderActionBase* action)
 			}
 			else
 			{
-				if(width > height) widthHeightPOT = osgnextpower2(width);
-				else widthHeightPOT = osgnextpower2(height);
+				if(_width > _height) _widthHeightPOT = osgnextpower2(_width-1);
+				else _widthHeightPOT = osgnextpower2(_height-1);
 
 				beginEditCP(_colorMap);
 				beginEditCP(_colorMapImage);
-					_colorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+					_colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 				endEditCP(_colorMapImage);
 				endEditCP(_colorMap);
 
 				beginEditCP(_shadowFactorMap);
 				beginEditCP(_shadowFactorMapImage);
-					_shadowFactorMapImage->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+					_shadowFactorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 				endEditCP(_shadowFactorMapImage);
 				endEditCP(_shadowFactorMap);
 
 				beginEditCP(_shadowFactorMap2);
 				beginEditCP(_shadowFactorMapImage2);
-					_shadowFactorMapImage2->set(GL_RGB, widthHeightPOT, widthHeightPOT);
+					_shadowFactorMapImage2->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
 				endEditCP(_shadowFactorMapImage2);
 				endEditCP(_shadowFactorMap2);
 			}
