@@ -44,10 +44,13 @@
 #define BSD_COMP
 #endif
 
+#include "OSGConfig.h"
 
 #include <sys/types.h>
 #ifdef WIN32
-#include <windows.h>
+#ifdef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>  
+#endif
 #include <io.h>
 #else
 #include <sys/socket.h>

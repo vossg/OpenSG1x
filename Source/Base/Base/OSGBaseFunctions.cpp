@@ -42,13 +42,16 @@
 
 #include "OSGConfig.h"
 
+#if defined(WIN32_LEAN_AND_MEAN)
+#include "winsock2.h"
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
 #include <locale.h>
 
 #include <string.h>
-
 
 #include <vector>
 
@@ -76,6 +79,19 @@ static std::vector<std::string>  *osgPreloadSharedObject = NULL;
 
 OSG_BASE_DLLMAPPING 
 SystemState GlobalSystemState = Startup;
+
+void osgGetHostname(char *szBuffer, UInt32 uiSize)
+{
+    // get local host name
+    if(getenv("OSG_HOSTNAME") != NULL)
+    {
+        strncpy(szBuffer, getenv("OSG_HOSTNAME"), uiSize);
+    }
+    else
+    {
+        gethostname(szBuffer, uiSize);
+    }
+}
 
 /*---------------------------------------------------------------------*/
 /*! \name add init functions                                           */

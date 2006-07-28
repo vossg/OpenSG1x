@@ -44,6 +44,9 @@
 #ifdef WIN32
 #include <windows.h>
 #include <io.h>
+#ifdef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>
+#endif
 #else
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -113,18 +116,28 @@ OSG_USING_NAMESPACE
 /** \brief Constructor
  */
 
-SocketSelection::SocketSelection()
+SocketSelection::SocketSelection() :
+    _fdSetRead (NULL),
+    _fdSetWrite(NULL)
 {
+    _fdSetRead  = new fd_set;
+    _fdSetWrite = new fd_set;
+
     clear();
 }
 
 /** \brief Copy constructor
  */
 
-SocketSelection::SocketSelection(const SocketSelection &source):
-    _fdSetRead (source._fdSetRead),
-    _fdSetWrite(source._fdSetWrite)
+SocketSelection::SocketSelection(const SocketSelection &source) :
+    _fdSetRead (NULL),
+    _fdSetWrite(NULL)
 {
+    _fdSetRead  = new fd_set;
+    _fdSetWrite = new fd_set;
+
+    *_fdSetRead  = *(source._fdSetRead);
+    *_fdSetWrite = *(source._fdSetWrite);
 }
 
 /** \brief Destructor
@@ -132,6 +145,8 @@ SocketSelection::SocketSelection(const SocketSelection &source):
 
 SocketSelection::~SocketSelection()
 {
+    delete _fdSetRead;
+    delete _fdSetWrite;
 }
 
 /** \brief Clear all settings
@@ -139,8 +154,8 @@ SocketSelection::~SocketSelection()
 
 void SocketSelection::clear()
 {
-    FD_ZERO(&_fdSetRead);
-    FD_ZERO(&_fdSetWrite);
+    FD_ZERO(_fdSetRead);
+    FD_ZERO(_fdSetWrite);
 }
 
 /** \brief Clear read settings for the given socket
@@ -149,7 +164,7 @@ void SocketSelection::clear()
  */
 void SocketSelection::clearRead(const Socket &sock)
 {
-    FD_CLR(sock._sd,&_fdSetRead);
+    FD_CLR(sock._sd,_fdSetRead);
 }
 
 /** \brief Clear write settings for the given socket
@@ -158,7 +173,7 @@ void SocketSelection::clearRead(const Socket &sock)
  */
 void SocketSelection::clearWrite(const Socket &sock)
 {
-    FD_CLR(sock._sd,&_fdSetWrite);
+    FD_CLR(sock._sd,_fdSetWrite);
 }
 
 /** \brief Set read flag for the given socket
@@ -167,7 +182,7 @@ void SocketSelection::clearWrite(const Socket &sock)
  */
 void SocketSelection::setRead(const Socket &sock)
 {
-    FD_SET(sock._sd,&_fdSetRead);
+    FD_SET(sock._sd,_fdSetRead);
 }
 
 /** \brief Set write flag for the given socket
@@ -176,7 +191,7 @@ void SocketSelection::setRead(const Socket &sock)
  */
 void SocketSelection::setWrite(const Socket &sock)
 {
-    FD_SET(sock._sd,&_fdSetWrite);
+    FD_SET(sock._sd,_fdSetWrite);
 }
 
 /** \brief Start selection
@@ -206,8 +221,8 @@ int SocketSelection::select(double duration)
     do
     {
         count=::select(FD_SETSIZE, 
-                       &_fdSetRead, 
-                       &_fdSetWrite,
+                       _fdSetRead, 
+                       _fdSetWrite,
                        NULL,
                        tValP);
         if(count < 0)
@@ -248,7 +263,7 @@ int SocketSelection::select(double duration,SocketSelection &result) const
  */
 bool SocketSelection::isSetRead(const Socket &sock)
 {
-    if(FD_ISSET(sock._sd, &_fdSetRead))
+    if(FD_ISSET(sock._sd, _fdSetRead))
         return true;
     else
         return false;
@@ -260,7 +275,7 @@ bool SocketSelection::isSetRead(const Socket &sock)
  */
 bool SocketSelection::isSetWrite(const Socket &sock)
 {
-    if(FD_ISSET(sock._sd, &_fdSetWrite))
+    if(FD_ISSET(sock._sd, _fdSetWrite))
         return true;
     else
         return false;
@@ -273,8 +288,9 @@ bool SocketSelection::isSetWrite(const Socket &sock)
 
 const SocketSelection & SocketSelection::operator =(const SocketSelection &source)
 {
-    _fdSetRead =source._fdSetRead;
-    _fdSetWrite=source._fdSetWrite;
+    *_fdSetRead  = *(source._fdSetRead);
+    *_fdSetWrite = *(source._fdSetWrite);
+
     return *this;
 }
 

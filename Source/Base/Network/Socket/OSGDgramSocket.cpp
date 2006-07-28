@@ -40,9 +40,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include "OSGConfig.h"
+
 #include <sys/types.h>
 #ifdef WIN32
-#include <windows.h>
+#ifdef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>  
+#endif
 #ifndef IP_ADD_MEMBERSHIP // VS.Net defines this within winsock2.h
 #include <WS2TCPIP.h>
 #endif
