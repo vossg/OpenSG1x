@@ -111,6 +111,13 @@ class OSG_BASE_DLLMAPPING SocketAddress
     /*! \name                   Comparision                                */
     /*! \{                                                                 */
 
+    void operator = (const SocketAddress &other) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Comparision                                */
+    /*! \{                                                                 */
+
     bool operator == (const SocketAddress &other) const;
     bool operator != (const SocketAddress &other) const;
     bool operator <  (const SocketAddress &other) const;
@@ -123,6 +130,7 @@ class OSG_BASE_DLLMAPPING SocketAddress
     /*! \{                                                                 */
 
     struct sockaddr_in *_sockaddr;
+//    struct sockaddr_in _sockaddr;
 
     /*! \}                                                                 */
 };

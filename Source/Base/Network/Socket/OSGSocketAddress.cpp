@@ -92,9 +92,12 @@ SocketAddress::SocketAddress(const char *host,int port) :
     _sockaddr = new sockaddr_in;
 
     memset(_sockaddr,0,sizeof(sockaddr_in));
+
     _sockaddr->sin_family = AF_INET;
+
     if(host)
         setHost(std::string(host));
+
     setPort(port);
 }
 
@@ -107,7 +110,10 @@ SocketAddress::SocketAddress(SocketAddress::Type type,int port) :
 {
     _sockaddr = new sockaddr_in;
 
+    memset(_sockaddr,0,sizeof(sockaddr_in));
+
     _sockaddr->sin_family = AF_INET;
+
     switch(type)
     {
         case ANY:       _sockaddr->sin_addr.s_addr = osghtonl(INADDR_ANY);
@@ -227,7 +233,7 @@ sockaddr *SocketAddress::getSockAddr(void) const
  */
 int SocketAddress::getSockAddrSize(void) const
 {
-    return sizeof(struct sockaddr_in);
+    return sizeof(sockaddr_in);
 }
 
 /*! Get port number
@@ -239,6 +245,14 @@ int SocketAddress::getPort(void) const
 
 /*-------------------------------------------------------------------------*/
 /*                              Comparision                                */
+
+void SocketAddress::operator = (const SocketAddress &other) const
+{
+    if(this != &other)
+    {
+        *_sockaddr = *(other._sockaddr);
+    }
+}
 
 /*! compare equal
  */
