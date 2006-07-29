@@ -248,6 +248,8 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
 	    geo->setIndices(indices);
 	    geo->setLengths(lengths);
 	    geo->setTypes(types);
+        geo->getIndexMapping().push_back(Geometry::MapPosition | Geometry::MapNormal |
+                                         Geometry::MapTexCoords);
 	endEditCP(geo);
 
 
