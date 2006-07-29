@@ -4165,7 +4165,6 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 				glDrawBuffersARB(1, buffers);
 
 				//draw the Scene
-                shadowVP->_texChunks[i]->activate(action, 3);
 
 			    // we render the whole scene with one material.
 				action->setMaterial(_shadowCmat.getCPtr(), shadowVP->getRoot());
@@ -4174,8 +4173,6 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
 		
 				// reset the material.
 				action->setMaterial(NULL, NullFC);
-
-		        shadowVP->_texChunks[i]->deactivate(action, 3);
 
 				glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
@@ -4405,8 +4402,6 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase* action)
     
         // reset the material.
         action->setMaterial(NULL, NullFC);
-
-        //shadowVP->_texChunks[0]->deactivate(action, 3);
 
         glBindFramebufferEXT( GL_FRAMEBUFFER_EXT, 0);
 
