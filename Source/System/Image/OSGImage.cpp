@@ -73,6 +73,7 @@ OSG_USING_NAMESPACE
 */
 Int32 Image::_formatDic[][2] =
 {
+    { OSG_A_PF, 1 },
     { OSG_I_PF, 1 },
     { OSG_L_PF, 1 },
     { OSG_LA_PF, 2 },
@@ -2860,6 +2861,7 @@ bool Image::hasAlphaChannel(void)
         || getPixelFormat() == OSG_RGBA_DXT1
         || getPixelFormat() == OSG_RGBA_DXT3
         || getPixelFormat() == OSG_RGBA_DXT5
+        || getPixelFormat() == OSG_A_PF
         || getPixelFormat() == OSG_I_PF
         || getPixelFormat() == OSG_LA_PF;
 }
@@ -2891,7 +2893,8 @@ bool Image::hasCompressedData(void)
  */
 bool Image::hasColorChannel(void)
 {
-    return !( getPixelFormat() == OSG_I_PF ||
+    return !( getPixelFormat() == OSG_A_PF ||
+              getPixelFormat() == OSG_I_PF ||
               getPixelFormat() == OSG_L_PF ||
               getPixelFormat() == OSG_LA_PF) 
            || getForceColorChannel();
