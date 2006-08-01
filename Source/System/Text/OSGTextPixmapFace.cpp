@@ -137,7 +137,7 @@ ImagePtr TextPixmapFace::makeImage(const TextLayoutResult &layoutResult, Vec2f &
     {
         UInt32 width = static_cast<UInt32>(osgceil(upperRight.x() - lowerLeft.x())) + (border << 1);
         UInt32 height = static_cast<UInt32>(osgceil(upperRight.y() - lowerLeft.y())) + (border << 1);
-        imagePtr->set(Image::OSG_I_PF, width, height);
+        imagePtr->set(Image::OSG_A_PF, width, height);
         imagePtr->clear();
         UInt8 *buffer = imagePtr->getData();
 
@@ -182,7 +182,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.3 2006/05/19 09:56:30 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.4 2006/08/01 16:38:26 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTPIXMAPFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTPIXMAPFACE_INLINE_CVSID;
 }

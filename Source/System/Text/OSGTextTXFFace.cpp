@@ -498,7 +498,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
     face->_texture = Image::create();
     addRefCP(face->_texture);
     beginEditCP(face->_texture);
-    face->_texture->set(Image::OSG_I_PF, textureWidth, textureHeight);
+    face->_texture->set(Image::OSG_A_PF, textureWidth, textureHeight);
     face->_texture->clear();
 
     // Parse texture
@@ -870,7 +870,7 @@ void TextTXFFace::prepareTexture(const TextTXFParam &param)
     addRefCP(_texture);
     beginEditCP(_texture);
     {
-        _texture->set(Image::OSG_I_PF, textureWidth, textureHeight);
+        _texture->set(Image::OSG_A_PF, textureWidth, textureHeight);
         _texture->clear();
     }
     endEditCP(_texture);
@@ -897,7 +897,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.7 2006/04/05 11:34:30 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.8 2006/08/01 16:38:26 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }
