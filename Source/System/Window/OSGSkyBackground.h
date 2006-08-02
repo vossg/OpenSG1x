@@ -130,6 +130,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
 
     static void initMethod(void);
 
+    std::vector<Real32> _cosval;
+    std::vector<Real32> _sinval;
+
     // prohibit default functions (move to 'public' if you need one)
 
     void operator =(const SkyBackground &source);
