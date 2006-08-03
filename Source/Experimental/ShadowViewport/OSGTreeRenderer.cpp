@@ -342,7 +342,7 @@ void TreeRenderer::initialize(Window *win)
 	
 			if (FBOerror) 
 			{
-				FNOTICE(("Needed FBO functions could not be initialized, FBOs disabled. Try new video drivers!\n"));
+				FNOTICE(("Needed FBO functions could not be initialized (error code %d), FBOs disabled. Try new video drivers!\n", errCode));
 				useFBO = false;
 			}
 	
