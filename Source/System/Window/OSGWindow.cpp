@@ -49,9 +49,7 @@
 #include <OSGGL.h>
 
 #if !defined(WIN32) && !defined(darwin)
-#define GLX_GLXEXT_PROTOTYPES
 #include <GL/glx.h>
-#include <GL/glxext.h>
 #endif
 
 #if defined(__sgi) || defined(__hpux) || defined(__linux)
