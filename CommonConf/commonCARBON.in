@@ -1,7 +1,7 @@
 
 INCLUDE_CARBON := 
 LINK_CARBON    := 
-LIB_CARBON     := -framework AGL
+LIB_CARBON     := -framework AGL -framework Carbon
 
 ifneq ($(INCLUDE_CARBON),)
 INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_CARBON)
