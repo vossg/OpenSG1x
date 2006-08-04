@@ -113,10 +113,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveShadowMap : public TreeRenderer
 
   public:
 
-	  PerspectiveShadowMap(void);
-      PerspectiveShadowMap(ShadowViewport *source);
-	  ~PerspectiveShadowMap(void);
-	  virtual void render(RenderActionBase* action);
+    PerspectiveShadowMap(ShadowViewport *source);
+    ~PerspectiveShadowMap(void);
+    virtual void render(RenderActionBase* action);
 };
 
 OSG_END_NAMESPACE

@@ -82,7 +82,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     /*==========================  PUBLIC  =================================*/
   public:
 
-    PCSSShadowMap(void);
     PCSSShadowMap(ShadowViewport *source);
     ~PCSSShadowMap(void);
     virtual void render(RenderActionBase* action);

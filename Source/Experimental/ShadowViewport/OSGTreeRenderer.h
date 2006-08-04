@@ -28,14 +28,10 @@ class ShadowViewport;
 
 class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
 {
-  private:
-
-    bool initDone;
 
 /*==========================  PUBLIC  =================================*/
   public:
 
-    TreeRenderer(void);
     TreeRenderer(ShadowViewport *source);
     
     virtual ~TreeRenderer(void);
@@ -100,7 +96,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT;
     OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB;
 
-	static UInt32 _depth_texture_extension;
+    static UInt32 _depth_texture_extension;
     static UInt32 _shadow_extension;
     static UInt32 _framebuffer_object_extension;
     static UInt32 _draw_buffers_extension;
@@ -124,18 +120,22 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     static UInt32 _funcRenderbufferStorage;
 
     // reference to parent
-    ShadowViewport *shadowVP;
-    
-    bool useFBO;
-	bool useNPOTTextures;
-	bool useGLSL;
-	bool useShadowExt;
-	bool useShaderModel3;
-	UInt32 maxPLMapSize;
-	UInt32 PLMapSize;
-	UInt32 maxTexSize;
-	    
+    ShadowViewport *_shadowVP;
+
+    bool _useFBO;
+    bool _useNPOTTextures;
+    bool _useGLSL;
+    bool _useShadowExt;
+    bool _useShaderModel3;
+    UInt32 _maxPLMapSize;
+    UInt32 _PLMapSize;
+    UInt32 _maxTexSize;
+
     void initialize(Window *win);
+
+private:
+
+    bool _initDone;
 };
 
 OSG_END_NAMESPACE

@@ -40,7 +40,27 @@ class TreeRenderer;
 
 class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
 {
-  private:
+
+    /*==========================  PUBLIC  =================================*/
+  public:
+
+    VarianceShadowMap(ShadowViewport *source);
+    ~VarianceShadowMap(void);
+    virtual void render(RenderActionBase* action);
+
+private:
+
+    void initTextures(Window *win);
+    void drawCombineMap(RenderActionBase* action);
+    void drawTextureBoxShader(RenderActionBase* action);
+    void createColorMap(RenderActionBase* action);
+    void createColorMapFBO(RenderActionBase* action);
+    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
+    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+    void createShadowMapsFBO(RenderActionBase* action);
+    bool initFBO(Window *win);
+    void reInit(Window *win);
+    bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorPtr  _tiledeco;
     BlendChunkPtr           _blender;
@@ -54,40 +74,20 @@ class OSG_SYSTEMLIB_DLLMAPPING VarianceShadowMap : public TreeRenderer
     SHLChunkPtr             _combineSHL;
     ChunkMaterialPtr        _depthCmat;
     SHLChunkPtr             _depthSHL;
-    Int32                   firstRun;
-    Matrix                  textureVM; 
-    Matrix                  texturePM;
-    NodePtr                 boxNode;
-    UInt32                  width;
-    UInt32                  height;
+    Int32                   _firstRun;
+    Matrix                  _textureVM; 
+    Matrix                  _texturePM;
+    NodePtr                 _boxNode;
+    UInt32                  _width;
+    UInt32                  _height;
 
-	bool initTexturesDone;
-	void initTextures(Window *win);
-    void drawCombineMap(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action);
-	void createColorMap(RenderActionBase* action);
-    void createColorMapFBO(RenderActionBase* action);
-	void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
-	void createShadowMapsFBO(RenderActionBase* action);
-	bool initFBO(Window *win);
-	void reInit(Window *win);
-	bool checkFrameBufferStatus(Window *win);
-
-	GLuint fb;
-	GLuint fb2;
-	GLuint rb_depth;
-	GLuint rb_depth2;
-	bool texChanged;
-	UInt32 widthHeightPOT;
-
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    VarianceShadowMap(void);
-    VarianceShadowMap(ShadowViewport *source);
-    ~VarianceShadowMap(void);
-    virtual void render(RenderActionBase* action);
+    GLuint                  _fb;
+    GLuint                  _fb2;
+    GLuint                  _rb_depth;
+    GLuint                  _rb_depth2;
+    bool                    _texChanged;
+    UInt32                  _widthHeightPOT;
+    bool                    _initTexturesDone;
 };
 
 OSG_END_NAMESPACE

@@ -90,7 +90,6 @@ class OSG_SYSTEMLIB_DLLMAPPING DitherShadowMap : public TreeRenderer
     /*==========================  PUBLIC  =================================*/
   public:
 
-    DitherShadowMap(void);
     DitherShadowMap(ShadowViewport *source);
     ~DitherShadowMap(void);
     virtual void render(RenderActionBase* action);

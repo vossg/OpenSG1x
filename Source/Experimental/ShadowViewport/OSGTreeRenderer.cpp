@@ -93,33 +93,29 @@ UInt32 TreeRenderer::_funcIsFramebuffer                       = Window::invalidF
 UInt32 TreeRenderer::_funcIsRenderbuffer                      = Window::invalidFunctionID;
 UInt32 TreeRenderer::_funcRenderbufferStorage                 = Window::invalidFunctionID;
 
-
-TreeRenderer::TreeRenderer(void)
+TreeRenderer::TreeRenderer(ShadowViewport *source) :
+    _initDone(false),
+    _shadowVP(source),
+    _useFBO(true),
+    _useNPOTTextures(true),
+    _useGLSL(true),
+    _useShadowExt(true),
+    _useShaderModel3(false),
+    _maxPLMapSize(0),
+    _PLMapSize(1),
+    _maxTexSize(0)
 {
-}
-
-TreeRenderer::TreeRenderer(ShadowViewport *source)
-{
-	useFBO = true;
-	useNPOTTextures = true;
-	useGLSL = true;
-	useShadowExt = true;
-	useShaderModel3 = false;
-
-	GLint max_tex_size = 0;
+    GLint max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
 
-	maxTexSize = max_tex_size;
-	maxPLMapSize = maxTexSize/4;
-	PLMapSize = 1;
-	
-	shadowVP = source; 
-	
-	_depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
-    
-	_shadow_extension = Window::registerExtension("GL_ARB_shadow");
+    _maxTexSize = max_tex_size;
+    _maxPLMapSize = _maxTexSize / 4;
 
-	_framebuffer_object_extension = Window::registerExtension("GL_EXT_framebuffer_object");
+    _depth_texture_extension = Window::registerExtension("GL_ARB_depth_texture");
+    
+    _shadow_extension = Window::registerExtension("GL_ARB_shadow");
+    
+    _framebuffer_object_extension = Window::registerExtension("GL_EXT_framebuffer_object");
 
     _draw_buffers_extension = Window::registerExtension("GL_ARB_draw_buffers");
 
@@ -193,7 +189,6 @@ TreeRenderer::TreeRenderer(ShadowViewport *source)
     _funcRenderbufferStorage =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glRenderbufferStorageEXT", 
                                   _framebuffer_object_extension);
-	initDone = false;
 }
 
 
@@ -203,163 +198,170 @@ TreeRenderer::~TreeRenderer(void)
 
 void TreeRenderer::initialize(Window *win)
 {
-	if(!initDone)
-	{
-		//check support for ShadowExtension
-		if(!win->hasExtension(_depth_texture_extension))
-		{
-			SWARNING << "No ARB_depth_texture-Extension available! All shadow modes disabled." << endLog;
-			useShadowExt = false;
-		}
-		else if(!win->hasExtension(_shadow_extension))
-		{
-			SWARNING << "No ARB_shadow-Extension available! All shadow modes disabled." << endLog;
-			useShadowExt = false;
-		}
+    if(!_initDone)
+    {
+        //check support for ShadowExtension
+        if(!win->hasExtension(_depth_texture_extension))
+        {
+            SWARNING << "No ARB_depth_texture-Extension available! All shadow modes disabled." << endLog;
+            _useShadowExt = false;
+        }
+        else if(!win->hasExtension(_shadow_extension))
+        {
+            SWARNING << "No ARB_shadow-Extension available! All shadow modes disabled." << endLog;
+            _useShadowExt = false;
+        }
+    
+        //check support for framebuffer objects
+        _useFBO = true;
+    
+        if(!win->hasExtension("GL_EXT_framebuffer_object"))
+            _useFBO = false;
+    
+        if(_useFBO)
+        {
+            FNOTICE(("framebuffer objects supported.\n"));
+        }
+        else 
+        {
+            FNOTICE(("framebuffer objects not supported, try new video drivers. Some shadow modes will be disabled.\n"));
+        }
+    
+        //check support for non-power-of-two textures
+        _useNPOTTextures = true;
+    
+        if(!win->hasExtension("GL_ARB_texture_non_power_of_two"))
+            _useNPOTTextures = false;
 
-		//check support for framebuffer objects
-		useFBO = true;
-	
-		if(!win->hasExtension("GL_EXT_framebuffer_object")) useFBO = false;
+        if(_useNPOTTextures)
+        {
+            FNOTICE(("texture_non_power_of_two supported.\n"));
+        }
+        else 
+        {
+            FNOTICE(("texture_non_power_of_two not supported by hardware.\n"));
+        }
 
-		if(useFBO) 	
-		{
-			FNOTICE(("framebuffer objects supported.\n"));
-		}
-		else 
-		{
-			FNOTICE(("framebuffer objects not supported, try new video drivers. Some shadow modes will be disabled.\n"));
-		}
+        //check if GLSL is available
+        _useGLSL = true;
+        if(	!win->hasExtension("GL_ARB_shading_language_100") ||
+            !win->hasExtension("GL_ARB_fragment_shader") ||
+            !win->hasExtension("GL_ARB_vertex_shader") ||
+            !win->hasExtension("GL_ARB_shader_objects"))
+        {
+            _useGLSL = false;
+        }
 
-		//check support for non-power-of-two textures
-		useNPOTTextures = true;
+        if(!_useGLSL)
+        {
+            FNOTICE(("GLSL not supported, some shadow modes and real point lights will be disabled.\n"));
+        }
+        else
+        {
+            FNOTICE(("GLSL supported.\n"));
+        }
 
-		if(!win->hasExtension("GL_ARB_texture_non_power_of_two")) useNPOTTextures = false;
+        //check for Shader Model 3.0
+        _useShaderModel3 = false;
 
-		if(useNPOTTextures)
-		{
-			FNOTICE(("texture_non_power_of_two supported.\n"));
-		}
-		else 
-		{
-			FNOTICE(("texture_non_power_of_two not supported by hardware.\n"));
-		}
+        if(win->hasExtension("GL_NV_vertex_program3") || win->hasExtension("GL_ATI_shader_texture_lod"))
+            _useShaderModel3 = true;
 
-		//check if GLSL is available
-		useGLSL = true;
-		if(	!win->hasExtension("GL_ARB_shading_language_100") ||
-			!win->hasExtension("GL_ARB_fragment_shader") ||
-			!win->hasExtension("GL_ARB_vertex_shader") ||
-			!win->hasExtension("GL_ARB_shader_objects") )	useGLSL = false;
-
-		if(!useGLSL)
-		{
-			FNOTICE(("GLSL not supported, some shadow modes and real point lights will be disabled.\n"));
-		}
-		else
-		{
-			FNOTICE(("GLSL supported.\n"));
-		}
-
-		//check for Shader Model 3.0
-		useShaderModel3 = false;
-
-		if(win->hasExtension("GL_NV_vertex_program3") || win->hasExtension("GL_ATI_shader_texture_lod")) useShaderModel3 = true;
-
-		if(!useShaderModel3)
-		{
-			FNOTICE(("Shader Model 3.0 NOT supported.\n"));
-		}
-		else
-		{
-			FNOTICE(("Shader Model 3.0 supported.\n"));
-		}
-		
-		//No NPOTTextures supportet if FBOs are disabled
-		if(!useFBO) useNPOTTextures = false;
-
-		if(useFBO)
-		{
-			GLenum errCode;
-			bool FBOerror = false;
-
-			glBindFramebufferEXT =
-				(OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glBindRenderbufferEXT =
-			    (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glCheckFramebufferStatusEXT =
-			    (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glDeleteFramebuffersEXT =
-			    (OSGGLDELETEFRAMEBUFFERSEXTPROC)win->getFunction(_funcDeleteFramebuffers);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glDeleteRenderbuffersEXT =
-			    (OSGGLDELETERENDERBUFFERSEXTPROC)win->getFunction(_funcDeleteRenderbuffers);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glFramebufferRenderbufferEXT =
-			    (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glFramebufferTexture1DEXT =
-			    (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glFramebufferTexture2DEXT =
-			    (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glFramebufferTexture3DEXT =
-			    (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glGenFramebuffersEXT =
-			    (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glGenRenderbuffersEXT =
-			    (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glGenerateMipmapEXT =
-			    (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glGetFramebufferAttachmentParameterivEXT =
-			    (OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)win->getFunction(_funcGetFramebufferAttachmentParameteriv);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glGetRenderbufferParameterivEXT =
-			    (OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)win->getFunction(_funcGetRenderbufferParameteriv);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glIsFramebufferEXT =
-				(OSGGLISFRAMEBUFFEREXTPROC)win->getFunction(_funcIsFramebuffer);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glIsRenderbufferEXT =
-			    (OSGGLISRENDERBUFFEREXTPROC)win->getFunction(_funcIsRenderbuffer);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glRenderbufferStorageEXT =
-			    (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-			glDrawBuffersARB =
-					(OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);
-			if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
-	
-			GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-	
-			if (FBOerror) 
-			{
-				FNOTICE(("Needed FBO functions could not be initialized (error code %d), FBOs disabled. Try new video drivers!\n", errCode));
-				useFBO = false;
-			}
-	
-			switch(status)
-			{
-				case GL_FRAMEBUFFER_COMPLETE_EXT: 
-				FINFO(("%x: framebuffer complete!\n", status));
-				break; 
-				case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
-				FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
-				break;
-				default: 
-				break;
-			}
-		}
-		initDone = true;
-	}
+        if(!_useShaderModel3)
+        {
+            FNOTICE(("Shader Model 3.0 NOT supported.\n"));
+        }
+        else
+        {
+            FNOTICE(("Shader Model 3.0 supported.\n"));
+        }
+        
+        //No NPOTTextures supportet if FBOs are disabled
+        if(!_useFBO)
+            _useNPOTTextures = false;
+    
+        if(_useFBO)
+        {
+            GLenum errCode;
+            bool FBOerror = false;
+    
+            glBindFramebufferEXT =
+                (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glBindRenderbufferEXT =
+                (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glCheckFramebufferStatusEXT =
+                (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glDeleteFramebuffersEXT =
+                (OSGGLDELETEFRAMEBUFFERSEXTPROC)win->getFunction(_funcDeleteFramebuffers);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glDeleteRenderbuffersEXT =
+                (OSGGLDELETERENDERBUFFERSEXTPROC)win->getFunction(_funcDeleteRenderbuffers);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glFramebufferRenderbufferEXT =
+                (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glFramebufferTexture1DEXT =
+                (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glFramebufferTexture2DEXT =
+                (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glFramebufferTexture3DEXT =
+                (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glGenFramebuffersEXT =
+                (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glGenRenderbuffersEXT =
+                (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glGenerateMipmapEXT =
+                (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glGetFramebufferAttachmentParameterivEXT =
+                (OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)win->getFunction(_funcGetFramebufferAttachmentParameteriv);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glGetRenderbufferParameterivEXT =
+                (OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)win->getFunction(_funcGetRenderbufferParameteriv);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glIsFramebufferEXT =
+                (OSGGLISFRAMEBUFFEREXTPROC)win->getFunction(_funcIsFramebuffer);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glIsRenderbufferEXT =
+                (OSGGLISRENDERBUFFEREXTPROC)win->getFunction(_funcIsRenderbuffer);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glRenderbufferStorageEXT =
+                (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+            glDrawBuffersARB =
+                    (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);
+            if ((errCode = glGetError()) != GL_NO_ERROR) FBOerror = true;
+    
+            GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+    
+            if (FBOerror) 
+            {
+                FNOTICE(("Needed FBO functions could not be initialized (error code %d), FBOs disabled. Try new video drivers!\n", errCode));
+                _useFBO = false;
+            }
+    
+            switch(status)
+            {
+                case GL_FRAMEBUFFER_COMPLETE_EXT: 
+                FINFO(("%x: framebuffer complete!\n", status));
+                break; 
+                case GL_FRAMEBUFFER_UNSUPPORTED_EXT: 
+                FWARNING(("%x: framebuffer GL_FRAMEBUFFER_UNSUPPORTED_EXT\n", status));
+                break;
+                default: 
+                break;
+            }
+        }
+        _initDone = true;
+    }
 }
  
 

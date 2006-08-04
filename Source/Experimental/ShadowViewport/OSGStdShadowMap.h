@@ -96,10 +96,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
 
   public:
 
-	  StdShadowMap(void);
-      StdShadowMap(ShadowViewport *source);
-	  ~StdShadowMap(void);
-	  virtual void render(RenderActionBase* action);
+    StdShadowMap(ShadowViewport *source);
+    ~StdShadowMap(void);
+    virtual void render(RenderActionBase* action);
 };
 
 OSG_END_NAMESPACE
