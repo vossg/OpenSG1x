@@ -2256,19 +2256,22 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     indexVec.resize(3);    
     
     beginEditCP(ip);
-   
+
+    // calc max index.
+    UInt32 maxindex = 0;
+    for(i=0;i<ip->size();++i)
+        maxindex = ip->getValue(i) > maxindex ? ip->getValue(i) : maxindex;
+
     // init property arrays
-    for (i=0; i<nind; i++) 
-    {
-        tangent.push_back(Vec3f::Null);
-        binormal.push_back(Vec3f::Null);
-        normal.push_back(Vec3f::Null);    
-    }
-    
+    // amz we can't use the indices size (nind) here!
+    tangent.resize(maxindex + 1);
+    binormal.resize(maxindex + 1);
+    normal.resize(maxindex + 1);
+
     for (tI=geo->beginTriangles(), i=0; tI!=geo->endTriangles(); ++tI, ++i) 
     {         
         // first, get index for every vertex
-        for (k=0; k<3; k++) 
+        for (k=0; k<3; ++k) 
         {
             index = tI.getIndexIndex(k);
             
@@ -2331,7 +2334,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         // set value for every vertex
         int tanOffset = (imsize == 0) ? 0 : imsize-1;
         
-        for (k=0; k<3; k++) 
+        for (k=0; k<3; ++k) 
         {
             tangent[v[k]] += sdir;
             binormal[v[k]] += tdir;
@@ -2349,12 +2352,13 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
 
     beginEditCP(tangentP);
     beginEditCP(binormalP);
-        
-    for (i=0; i<nind; i++) 
+
+    for (i=0;i < tangent.size();++i)
     {
         T = tangent [i];
         B = binormal[i];
         N = normal  [i];    // must be normalized: n*n = 1
+
         sign = ((N.cross(T)).dot(B) < 0) ? -1 : 1;
         
         T = T - N.dot(T) * N;
