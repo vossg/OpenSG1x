@@ -1,0 +1,24 @@
+Import('*')
+
+sources = Split("""
+    OSGCarbonWindow.cpp
+    OSGCarbonWindowBase.cpp
+    OSGCarbonWindowDataFields.cpp
+""")
+
+headers = Split("""
+    OSGCarbonWindow.h
+    OSGCarbonWindow.inl
+    OSGCarbonWindowBase.h
+    OSGCarbonWindowBase.inl
+    OSGCarbonWindowDataFields.h
+    OSGCarbonWindowFields.h
+    OSGWindowCarbonDef.h
+""")
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGWindowCarbon', sources,
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWCARBONLIB'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

@@ -741,6 +741,15 @@ dnl e2
                 ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowWIN32Test"
             fi
         fi
+        if test ${ac_gdz_package_name} = "WindowCarbon"; then
+            if test ${build_os} != "darwin"; then
+                echo Skipping ${ac_gdz_package_name}
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowCarbonLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowCarbonTest"
+            fi
+        fi
         if test ${ac_gdz_package_name} = "WindowQT"; then
             if test ${ac_gdz_conf_package_qt} = 0; then
                 echo Skipping ${ac_gdz_package_name}
@@ -2769,3 +2778,14 @@ dnl e25
     AC_OUTPUT($ac_gdz_common_jasper_e25:$ac_gdz_common_jasper_in_e25)
 ])
 
+AC_DEFUN(AC_GDZ_WRITE_COMMON_CARBON,
+[
+dnl e26
+
+    ac_gdz_common_carbon_in_e26=$ac_gdz_commonconf_dir/commonCARBON.in
+    ac_gdz_common_carbon_e26=$ac_gdz_commonpackage_dir/commonCARBON.mk
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_carbon_e26:$ac_gdz_common_carbon_in_e26)
+])

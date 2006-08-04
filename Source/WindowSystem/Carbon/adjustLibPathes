@@ -1,0 +1,12 @@
+# This script adjusts the search pathes for the libraries in the test
+# application and the libraries. Go into the directory
+# "testWindowCarbon.app/Contents/MacOS", copy "testWindowCarbon",
+# "libOSGBase.dylib", "libOSGSystem.dylib" and "libOSGWindowCarbon.dylib"
+# into that directory, and call this script.
+
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib testWindowCarbon
+install_name_tool -change libOSGSystem.dylib @executable_path/libOSGSystem.dylib testWindowCarbon
+install_name_tool -change libOSGWindowCarbon.dylib @executable_path/libOSGWindowCarbon.dylib testWindowCarbon
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib libOSGSystem.dylib
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib libOSGWindowCarbon.dylib
+install_name_tool -change libOSGSystem.dylib @executable_path/libOSGSystem.dylib libOSGWindowCarbon.dylib
