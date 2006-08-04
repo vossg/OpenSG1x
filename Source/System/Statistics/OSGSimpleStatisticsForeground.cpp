@@ -290,6 +290,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     }
 
     TextLayoutParam layoutParam;
+    layoutParam.spacing = 1.1;
     layoutParam.majorAlignment = TextLayoutParam::ALIGN_BEGIN;
     layoutParam.minorAlignment = TextLayoutParam::ALIGN_BEGIN;
 
