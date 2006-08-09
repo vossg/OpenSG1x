@@ -209,11 +209,11 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 
     Matrix cameraMat;   
     Viewport *vp = action->getViewport();
-	if(vp != NULL)
-	{
-		action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
+    if(vp != NULL && action->getCamera() != NULL)
+    {
+        action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
                                         vp->getPixelHeight());
-	}
+    }
 
     // genfuncs
     setGenFunc(GL_S, GL_TEXTURE_GEN_S, getGenFuncS(), getGenFuncSPlane(),
@@ -314,12 +314,12 @@ void TexGenChunk::changeFrom(   DrawActionBase *action,
  
     Matrix cameraMat;   
     Viewport *vp = action->getViewport();
-	if(vp != NULL)
-	{
-		action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
+    if(vp != NULL && action->getCamera() != NULL)
+    {
+        action->getCamera()->getViewing(cameraMat, vp->getPixelWidth(), 
                                         vp->getPixelHeight());
-	}
-   
+    }
+
     TextureChunk::activateTexture(win, idx);
 
     changeGenFunc(oldp->getGenFuncS(), oldp->getSBeacon(), GL_S, 
