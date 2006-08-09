@@ -153,46 +153,45 @@ void SimpleStatisticsForeground::clearElems( void )
 */
 void SimpleStatisticsForeground::initText(const std::string &family, Real32 size)
 {
+    // Cleanup
     if (_face != 0)
         subRefP(_face);
+    if (_texchunk != NullFC)
+        subRefCP(_texchunk);
 
-    // create the text needed
-    if (!family.empty())
+    // Create the font
+    if (family.empty() == false)
     {
         TextTXFParam param;
         param.size = static_cast<UInt32>(size);
         _face = TextTXFFace::create(family, TextFace::STYLE_PLAIN, param);
+        if (_face != 0)
+        {
+            _texchunk = TextureChunk::create();
+            beginEditCP(_texchunk);
+            {
+                ImagePtr texture = _face->getTexture();
+                _texchunk->setImage(texture);
+                _texchunk->setWrapS(GL_CLAMP);
+                _texchunk->setWrapT(GL_CLAMP);
+                _texchunk->setMinFilter(GL_NEAREST);
+                _texchunk->setMagFilter(GL_NEAREST);
+                _texchunk->setEnvMode(GL_MODULATE);
+            }
+            endEditCP(_texchunk);
+        }
     }
+
+    // We failed to create the font - fallback to the default font
     if (_face == 0)
     {
-#ifdef OSG_HAS_SSTREAM
-        std::istringstream stream(StatisticsDefaultFontString,
-                                  std::istringstream::in |
-                                  std::istringstream::out);
-#else
-        std::istrstream stream((char *) StatisticsDefaultFontData,
-                                        StatisticsDefaultFontDataSize);
-#endif
-        _face = TextTXFFace::createFromStream(stream);
+        _face = getStatisticsDefaultFont();
+        _texchunk = getStatisticsDefaultFontTexture();
     }
-    addRefP(_face);
 
-    if (_texchunk == NullFC)
-    {
-        _texchunk = TextureChunk::create();
-        addRefCP(_texchunk);
-    }
-    beginEditCP(_texchunk);
-    {
-        ImagePtr texture = _face->getTexture();
-        _texchunk->setImage(texture);
-        _texchunk->setWrapS(GL_CLAMP);
-        _texchunk->setWrapT(GL_CLAMP);
-        _texchunk->setMinFilter(GL_NEAREST);
-        _texchunk->setMagFilter(GL_NEAREST);
-        _texchunk->setEnvMode(GL_MODULATE);
-    }
-    endEditCP(_texchunk);
+    // Increment reference counters
+    addRefP(_face);
+    addRefCP(_texchunk);
 }
 
 /*! Draw the statistics lines.
@@ -211,17 +210,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if (pw < 1 || ph < 1)
         return;
 
-    GLboolean    light = glIsEnabled(GL_LIGHTING);
+    glPushAttrib(GL_LIGHTING_BIT | GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-    GLint   fill[2];
-    glGetIntegerv(GL_POLYGON_MODE, fill);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-    GLboolean    depth = glIsEnabled(GL_DEPTH_TEST);
     glDisable(GL_DEPTH_TEST);
-
-    GLboolean    colmat = glIsEnabled(GL_COLOR_MATERIAL);
     glDisable(GL_COLOR_MATERIAL);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -236,11 +231,6 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     // add an offset of -0.375 to prevent rounding errors. Don't
     // know if that is true, but it seems to work.
     glOrtho(0 - 0.375, pw - 0.375, 0 - 0.375, ph - 0.375, 0, 1);
-
-    glAlphaFunc(GL_NOTEQUAL, 0);
-    glEnable(GL_ALPHA_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_BLEND);
 
     // retrieve text
     std::vector < std::string > stat;
@@ -393,23 +383,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     _texchunk->deactivate(action);
     
-    glDisable(GL_ALPHA_TEST);
-    glDisable(GL_BLEND);
-
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
-    if(depth == GL_TRUE)
-        glEnable(GL_DEPTH_TEST);
-    if(light == GL_TRUE)
-        glEnable(GL_LIGHTING);
-    if(colmat == GL_TRUE)
-        glEnable(GL_COLOR_MATERIAL);
-
-    glPolygonMode(GL_FRONT_AND_BACK, fill[0]);
+    glPopAttrib();
 }
 
 /*-------------------------------------------------------------------------*/
