@@ -44,6 +44,7 @@
 #include <OSGConfig.h>
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
+#include <OSGTextureChunk.h>
 
 #include <string>
 
@@ -56,11 +57,18 @@ OSG_BEGIN_NAMESPACE
 /*! \brief font data for default font 
  *  \ingroup Statistics
  */
+
 extern OSG_SYSTEMLIB_DLLMAPPING UChar8 StatisticsDefaultFontData[];
 
 extern OSG_SYSTEMLIB_DLLMAPPING UInt32 StatisticsDefaultFontDataSize;
 
 extern OSG_SYSTEMLIB_DLLMAPPING std::string StatisticsDefaultFontString;
+
+class TextTXFFace;
+
+OSG_SYSTEMLIB_DLLMAPPING TextTXFFace *getStatisticsDefaultFont();
+
+OSG_SYSTEMLIB_DLLMAPPING TextureChunkPtr getStatisticsDefaultFontTexture();
 
 /*! \}                                                                      */
 

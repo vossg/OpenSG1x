@@ -39,6 +39,14 @@
 //---------------------------------------------------------------------------
 
 #include "OSGStatisticsDefaultFont.h"
+#include <OSGTextTXFFace.h>
+#include <iostream>
+#ifdef OSG_HAS_SSTREAM
+#include <sstream>
+#else
+#include <strstream>
+#endif
+
 
 OSG_BEGIN_NAMESPACE
 
@@ -49,8 +57,59 @@ OSG_BEGIN_NAMESPACE
 // Gap: 1
 // TextureSize: 128x64
 
-// Vera Sans Mono is part of the X11 package on Linux as well as Mac OS X,
-// so hopefully it is okay to include it here -pdaehne
+/*
+Bitstream Vera Fonts Copyright
+
+The fonts have a generous copyright, allowing derivative works (as long as
+"Bitstream" or "Vera" are not in the names), and full redistribution (so long
+as they are not *sold* by themselves). They can be be bundled, redistributed
+and sold with any software. 
+
+The fonts are distributed under the following copyright: 
+
+Copyright
+
+Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is a
+trademark of Bitstream, Inc. 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+the fonts accompanying this license ("Fonts") and associated documentation
+files (the "Font Software"), to reproduce and distribute the Font Software,
+including without limitation the rights to use, copy, merge, publish,
+distribute, and/or sell copies of the Font Software, and to permit persons to
+whom the Font Software is furnished to do so, subject to the following
+conditions: 
+
+The above copyright and trademark notices and this permission notice shall be
+included in all copies of one or more of the Font Software typefaces.
+
+The Font Software may be modified, altered, or added to, and in particular the
+designs of glyphs or characters in the Fonts may be modified and additional
+glyphs or characters may be added to the Fonts, only if the fonts are renamed
+to names not containing either the words "Bitstream" or the word "Vera".
+
+This License becomes null and void to the extent applicable to Fonts or Font
+Software that has been modified and is distributed under the "Bitstream Vera"
+names. 
+
+The Font Software may be sold as part of a larger software package but no copy
+of one or more of the Font Software typefaces may be sold by itself. 
+
+THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF COPYRIGHT, PATENT,
+TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL BITSTREAM OR THE GNOME FOUNDATION
+BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, INCLUDING ANY GENERAL,
+SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO
+USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE. 
+
+Except as contained in this notice, the names of Gnome, the Gnome Foundation,
+and Bitstream Inc., shall not be used in advertising or otherwise to promote
+the sale, use or other dealings in this Font Software without prior written
+authorization from the Gnome Foundation or Bitstream Inc., respectively. For
+further information, contact: fonts at gnome dot org. 
+*/
 
 UInt32 StatisticsDefaultFontDataSize = 9364;
 
@@ -530,5 +589,79 @@ UChar8 StatisticsDefaultFontData[9364] = {
 
 std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 
                                         StatisticsDefaultFontDataSize     );
+
+class DefaultFontInitializer
+{
+public:
+
+    DefaultFontInitializer(): _face(0), _texchunk() {}
+
+    ~DefaultFontInitializer()
+    {
+        if (_texchunk != NullFC)
+            subRefCP(_texchunk);
+        if (_face != 0)
+            subRefP(_face);
+    };
+
+    TextTXFFace *getFont()
+    {
+        if (_face != 0)
+            return _face;
+
+#ifdef OSG_HAS_SSTREAM
+        std::istringstream is(StatisticsDefaultFontString);
+#else
+        std::istrstream is(
+            (char *) StatisticsDefaultFontData,
+                     StatisticsDefaultFontDataSize);
+#endif
+        _face = TextTXFFace::createFromStream(is, "Bitstream Vera Sans Mono", TextFace::STYLE_PLAIN);
+        addRefP(_face);
+
+        return _face;
+    }
+
+    TextureChunkPtr getTexture()
+    {
+        if (_texchunk != NullFC)
+            return _texchunk;
+
+        _texchunk = TextureChunk::create();
+        addRefCP(_texchunk);
+        beginEditCP(_texchunk);
+        {
+            getFont();
+            ImagePtr texture = _face->getTexture();
+            _texchunk->setImage(texture);
+            _texchunk->setWrapS(GL_CLAMP);
+            _texchunk->setWrapT(GL_CLAMP);
+            _texchunk->setMinFilter(GL_NEAREST);
+            _texchunk->setMagFilter(GL_NEAREST);
+            _texchunk->setEnvMode(GL_MODULATE);
+        }
+        endEditCP(_texchunk);
+
+        return _texchunk;
+    };
+
+private:
+
+    TextTXFFace *_face;
+
+    TextureChunkPtr _texchunk;
+};
+
+static DefaultFontInitializer initializer;
+
+TextTXFFace *getStatisticsDefaultFont()
+{
+    return initializer.getFont();
+}
+
+TextureChunkPtr getStatisticsDefaultFontTexture()
+{
+    return initializer.getTexture();
+}
 
 OSG_END_NAMESPACE
