@@ -43,11 +43,6 @@
 
 #include <OSGConfig.h>
 
-#ifdef OSG_HAS_SSTREAM
-#include <sstream>
-#else
-#include <strstream>
-#endif
 #include <OSGNodePtr.h>
 #include <OSGImage.h>
 
