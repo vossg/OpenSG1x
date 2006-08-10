@@ -330,9 +330,9 @@ static void jpeg_memory_src(struct jpeg_decompress_struct *cinfo,
  *  Classvariables
  *****************************/
 // Static Class Varible implementations:
-static const Char8                  *suffixArray[] = { "jpg", "jpeg" };
+static const Char8                  *suffixArray[] = { "jpg", "jpeg", "jpe", "jfif" };
 
-JPGImageFileType JPGImageFileType:: _the("jpeg",
+JPGImageFileType JPGImageFileType:: _the("image/jpeg",
                                          suffixArray, sizeof(suffixArray),
                                          OSG_READ_SUPPORTED | 
                                          OSG_WRITE_SUPPORTED );

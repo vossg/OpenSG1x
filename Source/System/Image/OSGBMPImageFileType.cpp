@@ -608,10 +608,10 @@ bool parse24bitImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, Image
 
 // Static Class Variable implementations:
 static const Char8 *suffixArray[] = {
-    "bmp", "dib"
+    "bmp", "dib", "rle"
 };
 
-BMPImageFileType BMPImageFileType::_the("bmp",
+BMPImageFileType BMPImageFileType::_the("image/bmp",
                                         suffixArray, sizeof(suffixArray),
                                         OSG_READ_SUPPORTED);
 

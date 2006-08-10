@@ -140,6 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     std::string determineMimetypeFromName(const std::string &fileName);
 
+    std::string determineMimetypeFromSuffix(const std::string &suffix);
+
     std::string determineMimetypeFromStream(std::istream &is);
 
     /*! \}                                                                 */
@@ -173,6 +175,10 @@ private:
     TypeMap _typeMap;
 
     static bool addImageFileType (ImageFileType &fileType);
+
+    static void normalizeMimetype(std::string &mimetype);
+
+    static void normalizeSuffix(std::string &suffix);
 
     PathHandler* _pPathHandler;
     readcbfp _readFP;

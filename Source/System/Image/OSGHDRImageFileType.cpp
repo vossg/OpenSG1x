@@ -92,7 +92,7 @@ static const Char8 *suffixArray[] =
     "hdr"
 };
 
-HDRImageFileType HDRImageFileType::_the( "hdr",
+HDRImageFileType HDRImageFileType::_the( "image/x-hdr",
                                          suffixArray, sizeof(suffixArray),
                                          OSG_READ_SUPPORTED | 
                                          OSG_WRITE_SUPPORTED );

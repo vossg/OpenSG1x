@@ -79,7 +79,7 @@ static const Char8 *suffixArray[] =
     "dat"
 };
 
-DATImageFileType DATImageFileType::_the( "dat",
+DATImageFileType DATImageFileType::_the( "image/x-dat",
                                          suffixArray, sizeof(suffixArray) );
 
 std::map<std::string, 

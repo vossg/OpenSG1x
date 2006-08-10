@@ -413,7 +413,7 @@ static const Char8 *suffixArray[] = {
   "psd"
 };
 
-PSDImageFileType PSDImageFileType::_the("psd",
+PSDImageFileType PSDImageFileType::_the("image/x-photoshop",
                                         suffixArray, sizeof(suffixArray),
                                         OSG_READ_SUPPORTED);
 

@@ -268,7 +268,7 @@ static const Char8 *suffixArray[] =
     "rgb", "rgba", "sgi", "bw"
 };
 
-SGIImageFileType SGIImageFileType::_the ( "sgi",
+SGIImageFileType SGIImageFileType::_the ( "image/x-sgi",
                                           suffixArray,
                                           sizeof(suffixArray) );
 

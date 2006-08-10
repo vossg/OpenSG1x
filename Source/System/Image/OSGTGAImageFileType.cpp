@@ -76,7 +76,7 @@ not depend on external libs.
 
 // Static Class Varible implementations:
 static const Char8 *suffixArray[] = {
-  "tga"
+  "tga", "targa"
 };
 
 //-------------------------------------------------------------------------
@@ -184,7 +184,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &is,
 }
 
 
-TGAImageFileType TGAImageFileType::_the("tga",
+TGAImageFileType TGAImageFileType::_the("image/x-targa",
                                         suffixArray, sizeof(suffixArray));
 
 

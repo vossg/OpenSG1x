@@ -179,7 +179,7 @@ static const Char8 *suffixArray[] = {
     "gif"
 };
 
-GIFImageFileType GIFImageFileType::_the ( "gif",
+GIFImageFileType GIFImageFileType::_the ( "image/gif",
                                           suffixArray, sizeof(suffixArray) );
 
 

@@ -273,7 +273,7 @@ UInt64 ImageFileType::restore( ImagePtr &image,
     Head            head;
     const UChar8    *data = buffer ? (buffer + headSize) : 0;
     ImageFileType   *type;
-    const char      *mimeType;
+    std::string     mimeType;
     Image::Type     dataType;
 
     if ((image != osg::NullFC) && buffer && (memSize >= headSize)) {
@@ -282,9 +282,9 @@ UInt64 ImageFileType::restore( ImagePtr &image,
         // data structur.
         memcpy(&head,buffer,sizeof(Head));
         head.netToHost();
-        mimeType = head.mimeType;
+        mimeType = ImageFileHandler::the().determineMimetypeFromSuffix(head.suffix);
         
-        if((type = ImageFileHandler::the().getFileType(mimeType, 0)))
+        if((type = ImageFileHandler::the().getFileType(mimeType.c_str(), 0)))
         {
             if (head.dataType)
               dataType = Image::Type(head.dataType);
@@ -331,7 +331,7 @@ UInt64 ImageFileType::restore( ImagePtr &image,
         {
             imageSize = 0;
             FWARNING(("Can not restore image data, invalid mimeType: %s\n",
-                      mimeType ? mimeType : "Unknown"));
+                      mimeType.empty() == false ? mimeType.c_str() : "Unknown"));
         }
 
       
@@ -417,7 +417,7 @@ UInt64 ImageFileType::store(const ImagePtr &image,
         head->attachmentSize = static_cast<unsigned short>(attachmentSize);
         head->hostToNet();
       
-        strcpy(head->mimeType, getMimeType());
+        strcpy(head->suffix, _suffixList.front().str());
       
         dest = (UChar8 *) (buffer + headSize);
 

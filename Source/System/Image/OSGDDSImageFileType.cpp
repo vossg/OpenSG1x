@@ -89,7 +89,7 @@ static const Char8 *suffixArray[] =
 };
 
 
-DDSImageFileType DDSImageFileType::_the("dds",
+DDSImageFileType DDSImageFileType::_the("image/x-dds",
                                         suffixArray, sizeof(suffixArray),
                                         OSG_READ_SUPPORTED |
                                         OSG_WRITE_SUPPORTED);

@@ -213,7 +213,7 @@ static const Char8 *suffixArray[] = {
   "tif", "tiff"
 };
 
-TIFImageFileType TIFImageFileType:: _the("tiff",
+TIFImageFileType TIFImageFileType:: _the("image/tiff",
                                          suffixArray, sizeof(suffixArray),
                                          OSG_READ_SUPPORTED | 
                                          OSG_WRITE_SUPPORTED);

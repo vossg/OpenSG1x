@@ -86,7 +86,7 @@ static const Char8 *suffixArray[] =
 };
 
 
-NRRDImageFileType NRRDImageFileType::_the("nrrd",
+NRRDImageFileType NRRDImageFileType::_the("image/x-nrrd",
                                         suffixArray, sizeof(suffixArray),
                                         OSG_READ_SUPPORTED | 
                                         OSG_WRITE_SUPPORTED);

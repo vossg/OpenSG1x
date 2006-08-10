@@ -150,7 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     /*! \{                                                                 */
 
     struct Head {
-      Char8          mimeType[8];
+      Char8          suffix[8];
       unsigned short pixelFormat;
       unsigned short width;
       unsigned short height;

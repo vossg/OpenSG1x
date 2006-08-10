@@ -139,7 +139,7 @@ static void warningOutput (png_structp OSG_CHECK_ARG(png_ptr),
 
 #endif
 
-PNGImageFileType PNGImageFileType:: _the("png",
+PNGImageFileType PNGImageFileType:: _the("image/png",
                                          suffixArray, sizeof(suffixArray),
                                          OSG_READ_SUPPORTED | 
                                          OSG_WRITE_SUPPORTED);
