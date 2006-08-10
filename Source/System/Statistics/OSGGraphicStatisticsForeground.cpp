@@ -44,12 +44,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#ifdef OSG_HAS_SSTREAM
-#include <sstream>
-#else
-#include <strstream>
-#endif
-
 #include <OSGImage.h>
 
 #include <OSGTextTXFFace.h>
@@ -58,18 +52,13 @@
 
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
-#include "OSGGraphicStatisticsFont.h"
+#include "OSGStatisticsDefaultFont.h"
 
 #include "OSGStatElem.h"
 #include "OSGGraphicStatisticsForeground.h"
 #include "OSGGL.h"
 
-//#include "GL/glut.h"
 OSG_USING_NAMESPACE
-
-/* static vars */
-TextTXFFace *GraphicStatisticsForeground::      _face = 0;
-TextureChunkPtr GraphicStatisticsForeground::   _texchunk;
 
 /*! \class osg::GraphicStatisticsForeground
     \ingroup GrpSystemWindowForegroundsStatistics
@@ -88,19 +77,27 @@ Fields control the parameters used for all displays.
 
 /*----------------------- constructors & destructors ----------------------*/
 GraphicStatisticsForeground::GraphicStatisticsForeground(void) :
-    Inherited()
+    Inherited(), _face(0), _texchunk()
 {
 }
 
 /* */
 GraphicStatisticsForeground::GraphicStatisticsForeground(const GraphicStatisticsForeground &source) :
-        Inherited(source)
+        Inherited(source), _face(source._face), _texchunk(source._texchunk)
 {
+    if (_face != 0)
+        addRefP(_face);
+    if (_texchunk != NullFC)
+        addRefCP(_texchunk);
 }
 
 /* */
 GraphicStatisticsForeground::~GraphicStatisticsForeground(void)
 {
+    if (_face != 0)
+        subRefP(_face);
+    if (_texchunk != NullFC)
+        subRefCP(_texchunk);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -1091,7 +1088,7 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
     /*
       Calculate the size
     */
-    Vec2f   size(getSize()[id][0], getSize()[id][1]);   // Temp Size
+    Vec2f size = getSize(id); // Temp Size
 
     // Check for values < 0
     // If both values a <0 fall back to
@@ -1124,7 +1121,7 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
     /*
       calculate the position
     */
-    Vec2f   pos(getPos()[id][0], getPos()[id][1]);      // Temp Position
+    Vec2f pos = getPos(id); // Temp Position
 
     // Hack the floats
     bool    xneg = false;
@@ -1163,30 +1160,18 @@ void GraphicStatisticsForeground::calcPosAndSize(const UInt32 &id,
 //! initialize the text
 void GraphicStatisticsForeground::initText(void)
 {
-    // create the text needed
-#ifdef OSG_HAS_SSTREAM
-    std::istringstream stream(GraphicsStatisticsFontString,
-                              std::istringstream::in |
-                              std::istringstream::out);
-#else
-    std::istrstream stream(
-        (char *) GraphicsStatisticsFontData,
-                 GraphicsStatisticsFontDataSize);
-#endif
+    // Cleanup
+    if (_face != 0)
+        subRefP(_face);
+    if (_texchunk != NullFC)
+        subRefCP(_texchunk);
 
-    _face = TextTXFFace::createFromStream(stream);
+    _face = getStatisticsDefaultFont();
+    _texchunk = getStatisticsDefaultFontTexture();
+
+    // Increment reference counters
     addRefP(_face);
-
-    ImagePtr texture = _face->getTexture();
-    _texchunk = TextureChunk::create();
-    beginEditCP(_texchunk);
-    {
-        _texchunk->setImage(texture);
-        _texchunk->setWrapS(GL_CLAMP);
-        _texchunk->setWrapT(GL_CLAMP);
-        _texchunk->setEnvMode(GL_MODULATE);
-    }
-    endEditCP(_texchunk);
+    addRefCP(_texchunk);
 }
 
 //! Draws a String

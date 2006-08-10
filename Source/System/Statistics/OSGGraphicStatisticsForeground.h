@@ -199,9 +199,9 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
     /*==========================  PRIVATE  ================================*/
   private:
 
-    static TextTXFFace*    _face;
+    TextTXFFace*    _face;
 
-    static TextureChunkPtr _texchunk;
+    TextureChunkPtr _texchunk;
 
 
     friend class FieldContainer;
