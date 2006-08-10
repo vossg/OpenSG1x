@@ -475,7 +475,7 @@ For a complete example that demonstrates how to use vector faces, see <a href=".
 
 \subsection TutorialTextRenderingPixmapFace Rendering a pixmap face
 
-To render a pixmap face, you have to call the "makeImage()" method of the "TextPixmapFace" class. This class returns an "Image" object that you can add to any material node core. The pixel format of the image is "OSG_I_PF", i.e. it is an intensity texture that contains one single gray channel. This channel is used for modulating the material color as well as for the alpha channel, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
+To render a pixmap face, you have to call the "makeImage()" method of the "TextPixmapFace" class. This class returns an "Image" object that you can add to any material node core. The pixel format of the image is "OSG_A_PF", i.e. it is an alpha texture that contains one single alpha channel. This channel is used for modulating the material transparency, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
 
 The "makeImage()" method takes three parameters:
 
@@ -562,7 +562,7 @@ OSG::NodePtr node = face->makeNode(layoutResult, scale);
 
 To retrieve the texture, you have to call the "getTexture()" method of the "TextTXFFace" class. This method does not take any parameters and returns the texture as an OpenSG "Image" object. Please keep in mind that you do not get your own private copy of the texture - instead, all callers of this method get the same "Image" object. Therefore, you are not allowed to change the texture in any way. Unfortunately, OpenSG currently does not provide "const" pointers that enforce the correct behaviour, therefore it is you own responsibility not to change the texture.
 
-The pixel format of the image is "OSG_I_PF", i.e. it is an intensity texture that contains one single gray channel. This channel is used for modulating the material color as well as for the alpha channel, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
+The pixel format of the image is "OSG_A_PF", i.e. it is an alpha texture that contains one single alpha channel. This channel is used for modulating the material transparency, i.e. the resulting glyphs are rendered in the color of the geometry on a transparent background.
 
 \code
 // Variable definitions
