@@ -40,7 +40,26 @@ class TreeRenderer;
 
 class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
 {
+  public:
+
+    PCSSShadowMap(ShadowViewport *source);
+    ~PCSSShadowMap(void);
+    virtual void render(RenderActionBase* action);
+
   private:
+
+    void initTextures(Window *win);
+    void createShadowMaps(RenderActionBase* action);
+    void createColorMap(RenderActionBase* action);
+    void createColorMapFBO(RenderActionBase* action);
+    void drawCombineMap(RenderActionBase* action);
+    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
+    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
+    void createShadowMapsFBO(RenderActionBase* action);
+    void drawTextureBoxShader(RenderActionBase* action);
+    bool initFBO(Window *win);
+    void reInit(Window *win);
+    bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorPtr  _tiledeco;
     BlendChunkPtr           _blender;
@@ -52,39 +71,15 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
     SHLChunkPtr             _combineSHL;
-    FileGrabForegroundPtr   fileGrab;
-    Int32                   firstRun;
-    Matrix                  textureVM; 
-    Matrix                  texturePM;
-    NodePtr                 boxNode;
-    UInt32                  width;
-    UInt32                  height;
-	UInt32					widthHeightPOT;
-
-	bool initTexturesDone;
-	void initTextures(Window *win);
-    void createShadowMaps(RenderActionBase* action);
-    void createColorMap(RenderActionBase* action);
-    void createColorMapFBO(RenderActionBase* action);
-    void drawCombineMap(RenderActionBase* action);
-    void createShadowFactorMap(RenderActionBase* action, UInt32 num);
-    void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
-	void createShadowMapsFBO(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action);
-	bool initFBO(Window *win);
-	void reInit(Window *win);
-	bool checkFrameBufferStatus(Window *win);
-
-	GLuint fb;
-	GLuint fb2;
-	GLuint rb_depth;
-
-    /*==========================  PUBLIC  =================================*/
-  public:
-
-    PCSSShadowMap(ShadowViewport *source);
-    ~PCSSShadowMap(void);
-    virtual void render(RenderActionBase* action);
+    Int32                   _firstRun;
+    NodePtr                 _boxNode;
+    UInt32                  _width;
+    UInt32                  _height;
+    UInt32                  _widthHeightPOT;
+    GLuint                  _fb;
+    GLuint                  _fb2;
+    GLuint                  _rb_depth;
+    bool                    _initTexturesDone;
 };
 
 OSG_END_NAMESPACE

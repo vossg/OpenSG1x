@@ -78,33 +78,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 
     void operator =(const ShadowViewport &source);
 
-	bool	_GLSLsupported;
-	bool	_initDone;
-	bool	_restart;
+    bool            _GLSLsupported;
+    bool            _initDone;
+    bool            _restart;
+    TreeRenderer    *_treeRenderer;
 
     typedef ShadowViewportBase Inherited;
-	TreeRenderer *treeRenderer;
 
     void checkLights(RenderActionBase* action);
     void updateLights(void);
     void initializeLights(RenderActionBase *action);
     void clearLights(UInt32 size);
-	
+
     Action::ResultE findLight(NodePtr& node);
     Action::ResultE findTransparent(NodePtr& node);
 
     /*==========================  PUBLIC  =================================*/
   public:
 
-	enum Mode
+    enum Mode
     {
         NO_SHADOW=0,
         STD_SHADOW_MAP,
         PERSPECTIVE_SHADOW_MAP,
-		DITHER_SHADOW_MAP,
-		PCF_SHADOW_MAP,
-		PCSS_SHADOW_MAP,
-		VARIANCE_SHADOW_MAP
+        DITHER_SHADOW_MAP,
+        PCF_SHADOW_MAP,
+        PCSS_SHADOW_MAP,
+        VARIANCE_SHADOW_MAP
     };
 
     UInt32                  _mapRenderSize;
@@ -112,10 +112,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
 
     TexGenChunkPtr          _texGen;
     PolygonChunkPtr         _poly;
-	PolygonChunkPtr         _offset;
+    PolygonChunkPtr         _offset;
     NodePtr                 _dummy;
     PassiveBackgroundPtr    _silentBack;
-	UInt32                  _windowW;
+    UInt32                  _windowW;
     UInt32                  _windowH;
 
     std::vector<NodePtr>            _transparent;
@@ -128,15 +128,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     std::vector<UInt32>             _lightStates;
     std::vector<ImagePtr>           _shadowImages;
     std::vector<TextureChunkPtr>    _texChunks;
-	std::vector<bool>				_excludeNodeActive;
-	std::vector<bool>				_realPointLight;
-	std::vector<bool*>				_renderSide;
+    std::vector<bool>               _excludeNodeActive;
+    std::vector<bool>               _realPointLight;
+    std::vector<bool*>              _renderSide;
 
     bool                            _trigger_update;
-	Matrix							transforms[6];
+    Matrix                          _transforms[6];
 
 
-	void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
+    void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
     void render(RenderActionBase* action);
 
     /*---------------------------------------------------------------------*/
@@ -193,6 +193,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.9 2006/07/12 14:04:15 yjung Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.10 2006/08/11 13:45:51 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */
