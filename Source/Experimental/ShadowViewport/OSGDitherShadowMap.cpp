@@ -946,10 +946,10 @@ bool DitherShadowMap::initFBO(Window *win)
 {
     if(_useFBO)
     {
-        Int32   _width = _shadowVP->getPixelWidth();
-        Int32   _height = _shadowVP->getPixelHeight();
+        Int32   width = _shadowVP->getPixelWidth();
+        Int32   height = _shadowVP->getPixelHeight();
 
-        if(_width <= 0 || _height <= 0)
+        if(width <= 0 || height <= 0)
             return false;
 
         if(_fb != 0)
@@ -978,7 +978,7 @@ bool DitherShadowMap::initFBO(Window *win)
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _rb_depth);
         if(_useNPOTTextures)
             glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB
-                                     , _width, _height);
+                                     , width, height);
         else
             glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB
                                      , _widthHeightPOT, _widthHeightPOT);
@@ -1024,8 +1024,8 @@ bool DitherShadowMap::initFBO(Window *win)
 
 void DitherShadowMap::reInit(Window *win)
 {
-    Int32   _width = _shadowVP->getPixelWidth();
-    Int32   _height = _shadowVP->getPixelHeight();
+    Int32 width = _shadowVP->getPixelWidth();
+    Int32 height = _shadowVP->getPixelHeight();
 
     win->validateGLObject(_colorMap->getGLId());
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
@@ -1047,7 +1047,7 @@ void DitherShadowMap::reInit(Window *win)
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, _rb_depth);
     if(_useNPOTTextures)
         glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB,
-                                 _width, _height);
+                                 width, height);
     else
         glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24_ARB,
                                  _widthHeightPOT, _widthHeightPOT);
@@ -1060,16 +1060,16 @@ void DitherShadowMap::initTextures(Window *win)
 {
     _initTexturesDone = true;
 
-    Int32   _width = _shadowVP->getPixelWidth();
-    Int32   _height = _shadowVP->getPixelHeight();
+    Int32   width = _shadowVP->getPixelWidth();
+    Int32   height = _shadowVP->getPixelHeight();
 
     //if no NPOTTextures supported, resize images
     if(!_useNPOTTextures)
     {
-        if(_width > _height)
-            _widthHeightPOT = osgnextpower2(_width - 1);
+        if(width > height)
+            _widthHeightPOT = osgnextpower2(width - 1);
         else
-            _widthHeightPOT = osgnextpower2(_height - 1);
+            _widthHeightPOT = osgnextpower2(height - 1);
 
         beginEditCP(_colorMap);
         beginEditCP(_colorMapImage);

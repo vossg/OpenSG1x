@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include <OSGGLUT.h>
 #include <OSGConfig.h>
 
@@ -117,7 +119,7 @@ int main(int argc, char **argv)
 
     useStandardScene = false;
 
-    if(argv[1] == NULL)
+    if(argc <= 1)
     {
         useStandardScene = true;
         animateScene = true;
@@ -1105,8 +1107,16 @@ int setupGLUT(int *argc, char *argv[])
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
+    int w = 640, h = 512;
+
+    if(*argc == 4)
+    {
+        w = atoi(argv[2]);
+        h = atoi(argv[3]);
+    }
+    
     //Set WindowSize here
-    glutInitWindowSize(640, 512);
+    glutInitWindowSize(w, h);
     int winid = glutCreateWindow("Shadow-Scene");
 
     glutReshapeFunc(reshape);
