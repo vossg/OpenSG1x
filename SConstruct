@@ -757,10 +757,6 @@ class win32(ToolChain):
         env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'glu32.lib', 'gdi32']
 
-        # ws2_32
-        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
-                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
-
     def is_win32(self):
         return 1
 
@@ -825,6 +821,9 @@ class win32_icl_base(win32):
         # '__STDC__'
         env.Append(CPPDEFINES=['__INTEL_COMPILER_VERSION=' + iclversion])
 
+        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
+                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
+
     def get_env_list(self):
         env = self.get_env()
 
@@ -875,11 +874,18 @@ class win32_msvc_base(win32):
         win32.__init__(self, name)
         env = self.get_env()
 
+        env.Tool('msvc')
+        env.Tool('mslib')
+        env.Tool('mslink')
+
         env.AppendENVPath('PATH', GetCygwinPath('/bin'))
 
         env.Append(CPPDEFINES=win32_defines)
 
         env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
+
+        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
+                   LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
 
     def get_env_list(self):
         env = self.get_env()
@@ -988,14 +994,9 @@ class win32_msvc80x64(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc80x64')
         env = self.get_env()
 
-        env.Tool('msvc')
-        env.Tool('mslib')
-        env.Tool('mslink')
-
-        env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
+        env.Append(CPPDEFINES =['WIN64'])
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
-        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
 
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
@@ -1035,16 +1036,11 @@ class win32_mspsdkx64(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-mspsdkx64')
         env = self.get_env()
 
-        env.Tool('msvc')
-        env.Tool('mslib')
-        env.Tool('mslink')
-
         # this compiler uses the old vc 6.0 header files we need the define
         # to detect this in OSGConfig.h
         env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/Zm1200', '/Zc:forScope'])
-        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
 
         # add msvc80 include and lib paths
         #import SCons.Tool.msvc
