@@ -115,11 +115,17 @@ Action::ResultE FTGLText::drawPrimitives(DrawActionBase *action )
         FWARNING(("FTGLText::drawPrimitives: no font set!\n"));
         return Action::Continue;
     }
-    
+   
     action->getWindow()->validateGLObject(font->getGLId());
     
     FTFont *ftf = font->_fonts[action->getWindow()];
     
+    if(ftf == NULL)
+    {
+        FWARNING(("FTGLText::drawPrimitives: invalid font set!\n"));
+        return Action::Continue;        
+    }
+
     switch(font->getDrawType())
     {
     case FTGLFont::Texture:   
@@ -220,7 +226,7 @@ void FTGLText::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.2 2004/09/07 00:05:43 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.3 2006/08/15 09:32:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 

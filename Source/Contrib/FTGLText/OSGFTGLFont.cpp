@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 
 #include "OSGFTGLFont.h"
+#include "OSGRemoteAspect.h"
 
 #include <FTGL/FTLibrary.h>
 #include <FTGL/FTGLExtrdFont.h>
@@ -119,7 +120,12 @@ void FTGLFont::onCreate(const FTGLFont *)
 
     // !!! this temporary is needed to work around compiler problems (sgi)
     // CHECK CHECK
-    //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
+    //  TextureChunkPtr tmpPtr =
+    // FieldContainer::getPtr<TextureChunkPtr>(*this);
+
+    RemoteAspect::addFieldFilter(FTGLFont::getClassType().getId(), 
+                                 FTGLFont::GLIdFieldMask);
+
     FTGLFontPtr tmpPtr(*this);
 
     beginEditCP(tmpPtr, FTGLFont::GLIdFieldMask);
@@ -169,8 +175,15 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
 
     Window::unpackIdStatus(idstatus, id, mode);
 
-    FTFont *font = _fonts[win];    
-    
+    std::map<Window *, FTFont *>::iterator fIt = _fonts.find(win);
+
+    FTFont *font = NULL;
+
+    if(fIt != _fonts.end())
+    {
+        font = fIt->second;    
+    }
+
     if(mode == Window::initialize || mode == Window::reinitialize)
     {
         if(font != NULL)
@@ -219,7 +232,7 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
         SWARNING << "FTGLFont(" << this << ")::handleGL: Illegal mode: "
                  << mode << " for id " << id << std::endl;
     }
-    
+
     _fonts[win] = font;  
 }
 
@@ -236,7 +249,7 @@ void FTGLFont::handleGL(Window *win, UInt32 idstatus)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.4 2005/11/07 21:43:27 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFont.cpp,v 1.5 2006/08/15 09:32:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 
