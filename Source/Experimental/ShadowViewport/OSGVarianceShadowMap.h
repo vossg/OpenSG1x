@@ -52,7 +52,6 @@ private:
 
     void initTextures(Window *win);
     void drawCombineMap(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action);
     void createColorMap(RenderActionBase* action);
     void createColorMapFBO(RenderActionBase* action);
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
@@ -63,8 +62,6 @@ private:
     bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorPtr  _tiledeco;
-    BlendChunkPtr           _blender;
-    MatrixCameraPtr         _matrixCam;
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;
     ImagePtr                _colorMapImage;
@@ -74,10 +71,9 @@ private:
     SHLChunkPtr             _combineSHL;
     ChunkMaterialPtr        _depthCmat;
     SHLChunkPtr             _depthSHL;
+    ChunkMaterialPtr        _combineCmat;
+    PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
-    Matrix                  _textureVM; 
-    Matrix                  _texturePM;
-    NodePtr                 _boxNode;
     UInt32                  _width;
     UInt32                  _height;
 

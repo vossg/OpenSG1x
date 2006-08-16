@@ -143,7 +143,6 @@ ShadowViewport::ShadowViewport(void) :
     _windowW(0),
     _windowH(0),
     _transparent(),
-    _allLights(),
     _lights(),
     _oldLights(),
     _lightCameras(),
@@ -156,7 +155,8 @@ ShadowViewport::ShadowViewport(void) :
     _realPointLight(),
     _renderSide(),
     _trigger_update(false),
-    _transforms()
+    _transforms(),
+    _light_render_transform(NullFC)
 {
     _transforms[0] = Matrix(1, 0, 0, 0,
                             0, -1, 0, 0,
@@ -187,7 +187,6 @@ ShadowViewport::ShadowViewport(void) :
                             0, 1, 0, 0,
                             1, 0, 0, 0,
                             0, 0, 0, 1);
-
 }
 
 ShadowViewport::ShadowViewport(const ShadowViewport &source) :
@@ -206,7 +205,6 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _windowW(source._windowW),
     _windowH(source._windowH),
     _transparent(source._transparent),
-    _allLights(source._allLights),
     _lights(source._lights),
     _oldLights(source._oldLights),
     _lightCameras(source._lightCameras),
@@ -219,7 +217,8 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _realPointLight(source._realPointLight),
     _renderSide(source._renderSide),
     _trigger_update(source._trigger_update),
-    _transforms()
+    _transforms(),
+    _light_render_transform(source._light_render_transform)
 {
     _treeRenderer = NULL;
     _initDone = false;
@@ -259,6 +258,8 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
 
 ShadowViewport::~ShadowViewport(void)
 {
+    if(_light_render_transform != NullFC)
+        subRefCP(_light_render_transform);
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -284,7 +285,7 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
         FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
         _lights.clear();
         for(UInt32 i = 0;i < getLightNodes().getSize();++i)
-            _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
+            _lights.push_back(std::make_pair(getLightNodes()[i], LightPtr::dcast(getLightNodes()[i]->getCore())));
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -544,7 +545,7 @@ void ShadowViewport::render(RenderActionBase *action)
     {
         for(UInt32 i = 0;i < _lights.size();i++)
         {
-            if(_lights[i]->getShadowIntensity() != 0.0 && _lightStates[i] != 0)
+            if(_lights[i].second->getShadowIntensity() != 0.0 && _lightStates[i] != 0)
                 allLightsZero = false;
         }
     }
@@ -608,7 +609,7 @@ void ShadowViewport::render(RenderActionBase *action)
 Action::ResultE ShadowViewport::findLight(NodePtr &node)
 {
     if(node->getCore()->getType().isDerivedFrom(Light::getClassType()))
-        _allLights.push_back(LightPtr::dcast(node->getCore()));
+        _lights.push_back(std::make_pair(node, LightPtr::dcast(node->getCore())));
     return Action::Continue;
 }
 
@@ -690,13 +691,10 @@ void ShadowViewport::checkLights(RenderActionBase *action)
     if(getAutoSearchForLights())
     {
         //Finding lights by going through whole Scenegraph
-        _allLights.clear();
         _lights.clear();
         traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
                  <Action::ResultE, ShadowViewport, NodePtr>
                  (this, &ShadowViewport::findLight));
-
-        _lights = _allLights;
     }
 
     _lightStates.clear();
@@ -705,7 +703,7 @@ void ShadowViewport::checkLights(RenderActionBase *action)
     {
         for(UInt32 i = 0;i < _lights.size();++i)
         {
-            _lightStates.push_back(_lights[i]->getOn());
+            _lightStates.push_back(_lights[i].second->getOn());
             if(_lights[i] != _oldLights[i])
                 changed = true;
         }
@@ -753,10 +751,10 @@ void ShadowViewport::updateLights(void)
             tmpMatrix.setIdentity();
 
             //Is the Lightsource a Spotlight?
-            if(_lights[i]->getType() == SpotLight::getClassType())
+            if(_lights[i].second->getType() == SpotLight::getClassType())
             {
                 //Casting to Spotlight
-                tmpSpot = SpotLightPtr::dcast(_lights[i]);
+                tmpSpot = SpotLightPtr::dcast(_lights[i].second);
                 FDEBUG(("Found Spotlight!\n"));
                 isSpot = true;
                 isDirect = false;
@@ -775,24 +773,24 @@ void ShadowViewport::updateLights(void)
                 tmpMatrix.setTransform(Vec3f(lightpos), q);
                 _realPointLight.push_back(false);
             }
-            else if(_lights[i]->getType() == DirectionalLight::getClassType())
+            else if(_lights[i].second->getType() == DirectionalLight::getClassType())
             {
                 Vec3f   diff;
                 Pnt3f   center;
 
-                tmpDir = DirectionalLightPtr::dcast(_lights[i]);
+                tmpDir = DirectionalLightPtr::dcast(_lights[i].second);
                 FDEBUG(("Found Directionallight!\n"));
                 isSpot = false;
                 isDirect = true;
 
-                diff = (getSceneRoot()->getVolume().getMax() -
-                        getSceneRoot()->getVolume().getMin());
+                diff = (getLightRoot(i)->getVolume().getMax() -
+                        getLightRoot(i)->getVolume().getMin());
 
                 sceneWidth = diff.length() * 0.5;
                 // Not final values. May get tweaked in the future
                 sceneHeight = diff.length() * 0.5;
 
-                getSceneRoot()->getVolume().getCenter(center);
+                getLightRoot(i)->getVolume().getCenter(center);
 
                 Vec3f   lightdir = tmpDir->getDirection();
                 if(tmpDir->getBeacon() != NullFC)
@@ -812,7 +810,7 @@ void ShadowViewport::updateLights(void)
                 Vec3f   dir;
                 Pnt3f   center;
 
-                tmpPoint = PointLightPtr::dcast(_lights[i]);
+                tmpPoint = PointLightPtr::dcast(_lights[i].second);
                 FDEBUG(("Found PointLight!\n"));
                 isSpot = false;
                 isDirect = false;
@@ -839,8 +837,8 @@ void ShadowViewport::updateLights(void)
                     getShadowMode() == PCF_SHADOW_MAP) && _GLSLsupported)
                 {
                     //Lightpos inside Scene BB?
-                    Pnt3f   sceneMin = getSceneRoot()->getVolume().getMin();
-                    Pnt3f   sceneMax = getSceneRoot()->getVolume().getMax();
+                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
+                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
 
                     if((lightpos[0] < sceneMin[0] ||
                         lightpos[1] < sceneMin[1] ||
@@ -852,11 +850,11 @@ void ShadowViewport::updateLights(void)
                         //check if angle is ok to use one Side
                         Vec3f   dist, diff;
                         Pnt3f   center;
-						
-                        getSceneRoot()->getVolume().getCenter(center);
-						
+
+                        getLightRoot(i)->getVolume().getCenter(center);
+
                         //Scene Bounding Box Points
-	
+
                         Pnt3f   bb[8];
                         bb[0] = Pnt3f(sceneMin[0], sceneMin[1], sceneMin[2]);
                         bb[1] = Pnt3f(sceneMax[0], sceneMin[1], sceneMin[2]);
@@ -866,7 +864,7 @@ void ShadowViewport::updateLights(void)
                         bb[5] = Pnt3f(sceneMax[0], sceneMin[1], sceneMax[2]);
                         bb[6] = Pnt3f(sceneMax[0], sceneMax[1], sceneMax[2]);
                         bb[7] = Pnt3f(sceneMin[0], sceneMax[1], sceneMax[2]);	
-				
+
                         PLangle = deg2rad(0);
                         Pnt3f   maxAnglePnt1, maxAnglePnt2;
 
@@ -900,7 +898,7 @@ void ShadowViewport::updateLights(void)
 	
                         if(rad2deg(PLangle) < 120) //Use one Side only
                         {
-                            getSceneRoot()->getVolume().getCenter(center);
+                            getLightRoot(i)->getVolume().getCenter(center);
                             dir = lightpos - center;
                             dir.normalize();
                             dir.negate();
@@ -932,11 +930,11 @@ void ShadowViewport::updateLights(void)
 
                     Vec3f   dist, diff;
                     Pnt3f   center;
-                    Pnt3f   sceneMin = getSceneRoot()->getVolume().getMin();
-                    Pnt3f   sceneMax = getSceneRoot()->getVolume().getMax();
-						
-                    getSceneRoot()->getVolume().getCenter(center);
-						
+                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
+                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
+
+                    getLightRoot(i)->getVolume().getCenter(center);
+
                     Pnt3f   bb[8];
                     bb[0] = Pnt3f(sceneMin[0], sceneMin[1], sceneMin[2]);
                     bb[1] = Pnt3f(sceneMax[0], sceneMin[1], sceneMin[2]);
@@ -945,8 +943,8 @@ void ShadowViewport::updateLights(void)
                     bb[4] = Pnt3f(sceneMin[0], sceneMin[1], sceneMax[2]);
                     bb[5] = Pnt3f(sceneMax[0], sceneMin[1], sceneMax[2]);
                     bb[6] = Pnt3f(sceneMax[0], sceneMax[1], sceneMax[2]);
-                    bb[7] = Pnt3f(sceneMin[0], sceneMax[1], sceneMax[2]);	
-				
+                    bb[7] = Pnt3f(sceneMin[0], sceneMax[1], sceneMax[2]);
+
                     PLangle = deg2rad(0);
                     Pnt3f   maxAnglePnt1, maxAnglePnt2;
 
@@ -977,12 +975,12 @@ void ShadowViewport::updateLights(void)
                             maxAnglePnt2 = bb[j];
                         }
                     }
-	
+
                     if(rad2deg(PLangle) > 175) //Use one Side only
                     {
                         PLangle = deg2rad(175);
                     }
-					
+
                     dir = lightpos - center;
                     dir.normalize();
                     dir.negate();
@@ -992,7 +990,6 @@ void ShadowViewport::updateLights(void)
                     tmpMatrix.setTransform(Vec3f(lightpos), q);
                     _realPointLight.push_back(false);
                 }
-				
             }
 
             _lightCamTrans[i]->setMatrix(tmpMatrix);
@@ -1005,11 +1002,10 @@ void ShadowViewport::updateLights(void)
             // Is the Lightsource a Spotlight?
             if(isSpot)
             {
-                tmpSpot = SpotLightPtr::dcast(_lights[i]);
+                tmpSpot = SpotLightPtr::dcast(_lights[i].second);
 
                 _lightCameras[i]->setNear(getCamera()->getNear());
 
-				
                 Pnt3f   lightpos = tmpSpot->getPosition();
                 if(tmpSpot->getBeacon() != NullFC)
                 {
@@ -1018,12 +1014,12 @@ void ShadowViewport::updateLights(void)
                 }
 
                 Pnt3f   center;
-                getSceneRoot()->getVolume().getCenter(center);
+                getLightRoot(i)->getVolume().getCenter(center);
                 Vec3f   dir = lightpos - center;
                 Real32  dirLength = dir.length();
 
-                Vec3f   diff = (getSceneRoot()->getVolume().getMax() -
-                                getSceneRoot()->getVolume().getMin());
+                Vec3f   diff = (getLightRoot(i)->getVolume().getMax() -
+                                getLightRoot(i)->getVolume().getMin());
                 Real32  diffLength = diff.length();
 
                 _lightCameras[i]->setFar(dirLength + diffLength);
@@ -1065,19 +1061,19 @@ void ShadowViewport::updateLights(void)
                     Pnt3f   center;
                     Real32  angle;
 
-                    getSceneRoot()->getVolume().getCenter(center);
-				
+                    getLightRoot(i)->getVolume().getCenter(center);
+
                     Pnt3f   lightpos = tmpPoint->getPosition();
-	
+
                     if(tmpPoint->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpPoint->getBeacon()->getToWorld();
                         m.mult(lightpos);
                     }
-				
+
                     dist = (lightpos - center);
-                    diff = (getSceneRoot()->getVolume().getMax() -
-                            getSceneRoot()->getVolume().getMin());
+                    diff = (getLightRoot(i)->getVolume().getMax() -
+                            getLightRoot(i)->getVolume().getMin());
 
                     Real32  distLength = dist.length();
                     Real32  diffLength = diff.length();
@@ -1091,26 +1087,26 @@ void ShadowViewport::updateLights(void)
                 {
                     Vec3f   dist, diff;
                     Pnt3f   center;
-                    getSceneRoot()->getVolume().getCenter(center);
+                    getLightRoot(i)->getVolume().getCenter(center);
 
                     Pnt3f   lightpos = tmpPoint->getPosition();
-	
+
                     if(tmpPoint->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpPoint->getBeacon()->getToWorld();
                         m.mult(lightpos);
                     }
-						
+
                     dist = (lightpos - center);
-                    diff = (getSceneRoot()->getVolume().getMax() -
-                            getSceneRoot()->getVolume().getMin());
-	
-                    Pnt3f   sceneMin = getSceneRoot()->getVolume().getMin();
-                    Pnt3f   sceneMax = getSceneRoot()->getVolume().getMax();
-	
+                    diff = (getLightRoot(i)->getVolume().getMax() -
+                            getLightRoot(i)->getVolume().getMin());
+
+                    Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
+                    Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
+
                     Real32  distLength = dist.length();
                     Real32  diffLength = diff.length();
-	
+
                     _lightCameras[i]->setNear(getCamera()->getNear());
                     _lightCameras[i]->setFar(distLength + diffLength);
 
@@ -1137,7 +1133,7 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
     for(UInt32 i = 0;i < _lights.size();++i)
     {
         // Remembering initial state of Lights
-        _lightStates.push_back(_lights[i]->getOn());
+        _lightStates.push_back(_lights[i].second->getOn());
         //Fill Transformation-List, so it can be used later on
         _lightCamTrans.push_back(NullFC);
         //Creation of Lightcam-Beacon
@@ -1148,12 +1144,12 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
         beginEditCP(_lightCamTrans[i]);
         {
             //Is the Lightsource a Spotlight?
-            if(_lights[i]->getType() == SpotLight::getClassType())
+            if(_lights[i].second->getType() == SpotLight::getClassType())
             {
                 //Creation of new Perspective-LightCam
                 _lightCameras.push_back(PerspectiveCamera::create());
             }
-            else if(_lights[i]->getType() == DirectionalLight::getClassType())
+            else if(_lights[i].second->getType() == DirectionalLight::getClassType())
             {
                 _lightCameras.push_back(MatrixCamera::create());
             }
@@ -1178,7 +1174,7 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
 
         //----------Shadowtexture-Images and Texture-Chunks-----------
 
-        if(_lights[i]->getType() != PointLight::getClassType())
+        if(_lights[i].second->getType() != PointLight::getClassType())
         {
             _shadowImages.push_back(Image::create());
 
@@ -1268,7 +1264,7 @@ void ShadowViewport::clearLights(UInt32 size)
     if(size > 0)
     {
         FDEBUG(("Clearing Lightcamera-Garbage!\n"));
-		
+
         for(UInt32 i = 0;i < size;++i)
         {
             if(i < _lightCamBeacons.size())
@@ -1290,6 +1286,58 @@ void ShadowViewport::clearLights(UInt32 size)
     }
 }
 
+void ShadowViewport::renderLight(RenderActionBase *action, Material *mat, UInt32 index)
+{
+    if(_light_render_transform == NullFC)
+    {
+        _light_render_transform = Node::create();
+        addRefCP(_light_render_transform);
+        beginEditCP(_light_render_transform, Node::CoreFieldMask);
+            _light_render_transform->setCore(Transform::create());
+        endEditCP(_light_render_transform, Node::CoreFieldMask);
+    }
+
+    NodePtr light = _lights[index].first;
+    NodePtr parent = light->getParent();
+
+    if(parent != NullFC)
+    {
+        TransformPtr trans = TransformPtr::dcast(_light_render_transform->getCore());
+        beginEditCP(trans);
+            trans->setMatrix(parent->getToWorld());
+        endEditCP(trans);
+
+        addRefCP(light);
+        beginEditCP(_light_render_transform, Node::ChildrenFieldMask);
+            _light_render_transform->addChild(light);
+        endEditCP(_light_render_transform, Node::ChildrenFieldMask);
+
+        // ok we render only one unlit material for the whole scene in this pass.
+        action->setMaterial(mat, _light_render_transform);
+        action->apply(_light_render_transform);
+
+        beginEditCP(parent, Node::ChildrenFieldMask);
+            parent->addChild(light);
+        endEditCP(parent, Node::ChildrenFieldMask);
+        subRefCP(light);
+    }
+    else
+    {
+        // ok we render only one unlit material for the whole scene in this pass.
+        action->setMaterial(mat, light);
+        action->apply(light);
+    }
+
+    // reset material.
+    action->setMaterial(NULL, NullFC);
+}
+
+NodePtr ShadowViewport::getLightRoot(UInt32 index)
+{
+    // return getSceneRoot();
+    return _lights[index].first;
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -1304,7 +1352,7 @@ void ShadowViewport::clearLights(UInt32 size)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.20 2006/08/11 13:45:51 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.21 2006/08/16 15:19:26 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

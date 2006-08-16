@@ -407,6 +407,11 @@ int main(int argc, char **argv)
     {
         animateScene = false;
         rootNode = SceneFileHandler::the().read(argv[1]);
+        if(rootNode == NullFC)
+        {
+            fprintf(stderr, "Couldn't load '%s'!\n", argv[1]);
+            exit(1);
+        }
     }
 
 

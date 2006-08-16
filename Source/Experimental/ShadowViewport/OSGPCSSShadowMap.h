@@ -31,6 +31,7 @@
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
+#include <OSGSimpleMaterial.h>
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -56,14 +57,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     void createShadowFactorMap(RenderActionBase* action, UInt32 num);
     void createShadowFactorMapFBO(RenderActionBase* action, UInt32 num);
     void createShadowMapsFBO(RenderActionBase* action);
-    void drawTextureBoxShader(RenderActionBase* action);
     bool initFBO(Window *win);
     void reInit(Window *win);
     bool checkFrameBufferStatus(Window *win);
 
     TileCameraDecoratorPtr  _tiledeco;
-    BlendChunkPtr           _blender;
-    MatrixCameraPtr         _matrixCam;
     TextureChunkPtr         _colorMap;
     TextureChunkPtr         _shadowFactorMap;
     ImagePtr                _colorMapImage;
@@ -71,8 +69,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
     SHLChunkPtr             _combineSHL;
+    ChunkMaterialPtr        _combineCmat;
+    SimpleMaterialPtr       _unlitMat;
+    PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
-    NodePtr                 _boxNode;
     UInt32                  _width;
     UInt32                  _height;
     UInt32                  _widthHeightPOT;

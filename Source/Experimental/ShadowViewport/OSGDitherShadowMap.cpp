@@ -1129,7 +1129,7 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(false);
+            _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -1140,17 +1140,14 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
             exnode->setActive(false);
     }
 
-    // ok we render only one unlit material for the whole scene in this pass.
-    action->setMaterial(_unlitMat.getCPtr(), _shadowVP->getRoot());
-
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
         {
             if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
             {
-                if(_shadowVP->_lights[i]->getType() != PointLight::getClassType
+                if(_shadowVP->_lights[i].second->getType() != PointLight::getClassType
                    () || !_shadowVP->_realPointLight[i])
                 {
                     if(_mapRenderSize > _shadowVP->getMapSize())
@@ -1185,7 +1182,8 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
                                             _shadowVP->getOffBias());
                             glEnable(GL_POLYGON_OFFSET_FILL);
 
-                            action->apply(_shadowVP->getRoot());
+                            _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
+
                             action->getWindow()->validateGLObject(
                                 _shadowVP->_texChunks[i]->getGLId());
 
@@ -1301,7 +1299,8 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
                                                 _shadowVP->getOffBias());
                                 glEnable(GL_POLYGON_OFFSET_FILL);
 
-                                action->apply(_shadowVP->getRoot());
+                                _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
+
                                 action->getWindow()->validateGLObject(
                                     _shadowVP->_texChunks[i]->getGLId());
 
@@ -1349,9 +1348,6 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
         }
     }
 
-    // reset the material.
-    action->setMaterial(NULL, NullFC);
-
     // activate exclude nodes:
     for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
     {
@@ -1365,7 +1361,7 @@ void DitherShadowMap::createShadowMaps(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(true);
+            _shadowVP->_lights[i].second->setOn(true);
     }
 
     //-------Restoring old states of Window and Viewport----------
@@ -1402,7 +1398,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(false);
+            _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -1413,15 +1409,12 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
             exnode->setActive(false);
     }
 
-    // ok we render only one unlit material for the whole scene in this pass.
-    action->setMaterial(_unlitMat.getCPtr(), _shadowVP->getRoot());
-
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i])
         {
             if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
             {
                 //------Setting up Window to fit size of ShadowMap----------------
 
@@ -1431,7 +1424,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
                                      _shadowVP->_texChunks[i]->getImage
                                      ()->getHeight() - 1);
 
-                if(_shadowVP->_lights[i]->getType() != PointLight::getClassType
+                if(_shadowVP->_lights[i].second->getType() != PointLight::getClassType
                    () || !_shadowVP->_realPointLight[i])
                 {
 
@@ -1461,7 +1454,8 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
                                          _shadowVP->getMapSize());
 
                     action->setCamera(_shadowVP->_lightCameras[i].getCPtr());
-                    action->apply(_shadowVP->getRoot());
+
+                    _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
 
                     glDisable(GL_POLYGON_OFFSET_FILL);
 
@@ -1542,7 +1536,9 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
                         glEnable(GL_POLYGON_OFFSET_FILL);
 
                         action->setCamera(deco.getCPtr());
-                        action->apply(_shadowVP->getRoot());
+
+                        _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
+
                         glDisable(GL_POLYGON_OFFSET_FILL);
                     }
                     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -1553,9 +1549,6 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
             }
         }
     }
-
-    // reset the material.
-    action->setMaterial(NULL, NullFC);
 
     //-------Restoring old states of Window and Viewport----------
 
@@ -1572,7 +1565,7 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(true);
+            _shadowVP->_lights[i].second->setOn(true);
     }
 
     _shadowVP->setVPSize(vpLeft, vpBottom, vpRight, vpTop);
@@ -1676,7 +1669,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(_shadowVP->_lightStates[i] != 0 &&
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                 activeLights++;
         }
     }
@@ -1687,7 +1680,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
         if(_shadowVP->_lightStates[i] != 0)
         {
             if((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                _shadowVP->_lights[i]->getShadowIntensity() != 0.0) &&
+                _shadowVP->_lights[i].second->getShadowIntensity() != 0.0) &&
                _shadowVP->_realPointLight[i])
             {
                 Real32  shadowIntensity;
@@ -1696,7 +1689,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                                        activeLights);
                 else
                     shadowIntensity =
-                        (_shadowVP->_lights[i]->getShadowIntensity() /
+                        (_shadowVP->_lights[i].second->getShadowIntensity() /
                          activeLights);
 
                 Matrix  LVM, LPM, CVM;
@@ -1712,8 +1705,8 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                 iCVM.invert();
 
                 Real32  texFactor;
-                if(_shadowVP->_lights[i]->getType() == PointLight::getClassType
-                   () || _shadowVP->_lights[i]->getType() ==
+                if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
+                   () || _shadowVP->_lights[i].second->getType() ==
                    SpotLight::getClassType())
                     texFactor = Real32(_width) / Real32(_height);
                 else
@@ -1798,15 +1791,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                 _shadowCmat->addChunk(_shadowFactorMap);
                 endEditCP(_shadowCmat);
 
-                // we render the whole scene with one material.
-                action->setMaterial(_shadowCmat.getCPtr(),
-                                    _shadowVP->getRoot());
-
-                //draw the Scene
-                action->apply(_shadowVP->getRoot());
-
-                // reset the material.
-                action->setMaterial(NULL, NullFC);
+                _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
                 action->getWindow()->validateGLObject(_shadowFactorMap->getGLId
                                                       ());
@@ -1846,7 +1831,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
     {
         if(_shadowVP->_lightStates[i] != 0 &&
            ((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-             _shadowVP->_lights[i]->getShadowIntensity() != 0.0) &&
+             _shadowVP->_lights[i].second->getShadowIntensity() != 0.0) &&
             !_shadowVP->_realPointLight[i]))
         {
 
@@ -1855,7 +1840,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                 shadowIntensity = (_shadowVP->getGlobalShadowIntensity() /
                                    activeLights);
             else
-                shadowIntensity = (_shadowVP->_lights[i]->getShadowIntensity
+                shadowIntensity = (_shadowVP->_lights[i].second->getShadowIntensity
                                    () / activeLights);
             shadowIntensityF.push_back(shadowIntensity);
 
@@ -1874,8 +1859,8 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
             iCVM.invert();
 
             Real32  texFactor;
-            if(_shadowVP->_lights[i]->getType() == PointLight::getClassType
-               () || _shadowVP->_lights[i]->getType() ==
+            if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
+               () || _shadowVP->_lights[i].second->getType() ==
                SpotLight::getClassType())
                 texFactor = Real32(_width) / Real32(_height);
             else
@@ -1921,7 +1906,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                     if(_shadowVP->_lightStates[j] != 0)
                     {
                         if((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                            _shadowVP->_lights[j]->getShadowIntensity() !=
+                            _shadowVP->_lights[j].second->getShadowIntensity() !=
                             0.0) && !_shadowVP->_realPointLight[j])
                         {
                             if(lightNum >= (i * 4) && lightNum < ((i + 1) * 4))
@@ -2147,15 +2132,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
 
                 endEditCP(_shadowCmat);
 
-                // we render the whole scene with one material.
-                action->setMaterial(_shadowCmat.getCPtr(),
-                                    _shadowVP->getRoot());
-
-                //draw the Scene
-                action->apply(_shadowVP->getRoot());
-
-                // reset the material.
-                action->setMaterial(NULL, NullFC);
+                _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
                 action->getWindow()->validateGLObject(_shadowFactorMap->getGLId
                                                       ());
@@ -2182,7 +2159,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
             if(lightCounter != 0 && _shadowVP->_lightStates[i] != 0)
             {
                 if((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                    _shadowVP->_lights[i]->getShadowIntensity() != 0.0) &&
+                    _shadowVP->_lights[i].second->getShadowIntensity() != 0.0) &&
                    !_shadowVP->_realPointLight[i])
                 {
                     //clear chunk and add Textures
@@ -2216,15 +2193,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
 
                     UInt32  lightNum = 0;
 
-                    // we render the whole scene with one material.
-                    action->setMaterial(_shadowCmat.getCPtr(),
-                                        _shadowVP->getRoot());
-
-                    //draw the Scene
-                    action->apply(_shadowVP->getRoot());
-
-                    // reset the material.
-                    action->setMaterial(NULL, NullFC);
+                    _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
                     action->getWindow()->validateGLObject(
                         _shadowFactorMap->getGLId());
@@ -2281,7 +2250,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(_shadowVP->_lightStates[i] != 0 &&
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                 activeLights++;
         }
     }
@@ -2333,7 +2302,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
         if(_shadowVP->_lightStates[i] != 0)
         {
             if((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                _shadowVP->_lights[i]->getShadowIntensity() != 0.0) &&
+                _shadowVP->_lights[i].second->getShadowIntensity() != 0.0) &&
                _shadowVP->_realPointLight[i])
             {
                 Real32  shadowIntensity;
@@ -2342,7 +2311,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
                                        activeLights);
                 else
                     shadowIntensity =
-                        (_shadowVP->_lights[i]->getShadowIntensity() /
+                        (_shadowVP->_lights[i].second->getShadowIntensity() /
                          activeLights);
 
                 Matrix  LVM, LPM, CVM;
@@ -2358,8 +2327,8 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
                 iCVM.invert();
 
                 Real32  texFactor;
-                if(_shadowVP->_lights[i]->getType() == PointLight::getClassType
-                   () || _shadowVP->_lights[i]->getType() ==
+                if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
+                   () || _shadowVP->_lights[i].second->getType() ==
                    SpotLight::getClassType())
                     texFactor = Real32(_width) / Real32(_height);
                 else
@@ -2459,14 +2428,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
 
                 glDrawBuffersARB(1, buffers);
 
-                // we render the whole scene with one material.
-                action->setMaterial(_shadowCmat.getCPtr(),
-                                    _shadowVP->getRoot());
-
-                action->apply(_shadowVP->getRoot());
-
-                // reset the material.
-                action->setMaterial(NULL, NullFC);
+                _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -2501,7 +2463,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
     {
         if(_shadowVP->_lightStates[i] != 0 &&
            ((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-             _shadowVP->_lights[i]->getShadowIntensity() != 0.0) &&
+             _shadowVP->_lights[i].second->getShadowIntensity() != 0.0) &&
             !_shadowVP->_realPointLight[i]))
         {
 
@@ -2510,7 +2472,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
                 shadowIntensity = (_shadowVP->getGlobalShadowIntensity() /
                                    activeLights);
             else
-                shadowIntensity = (_shadowVP->_lights[i]->getShadowIntensity
+                shadowIntensity = (_shadowVP->_lights[i].second->getShadowIntensity
                                    () / activeLights);
             shadowIntensityF.push_back(shadowIntensity);
 
@@ -2529,8 +2491,8 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
             iCVM.invert();
 
             Real32  texFactor;
-            if(_shadowVP->_lights[i]->getType() == PointLight::getClassType
-               () || _shadowVP->_lights[i]->getType() ==
+            if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
+               () || _shadowVP->_lights[i].second->getType() ==
                SpotLight::getClassType())
                 texFactor = Real32(_width) / Real32(_height);
             else
@@ -2580,7 +2542,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
                 if(_shadowVP->_lightStates[j] != 0)
                 {
                     if((_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                        _shadowVP->_lights[j]->getShadowIntensity() != 0.0) &&
+                        _shadowVP->_lights[j].second->getShadowIntensity() != 0.0) &&
                        !_shadowVP->_realPointLight[j])
                     {
                         if(lightNum >= (i * 4) && lightNum < ((i + 1) * 4))
@@ -2784,13 +2746,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
 
             glDrawBuffersARB(1, buffers);
 
-            // we render the whole scene with one material.
-            action->setMaterial(_shadowCmat.getCPtr(), _shadowVP->getRoot());
-
-            action->apply(_shadowVP->getRoot());
-
-            // reset the material.
-            action->setMaterial(NULL, NullFC);
+            _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 

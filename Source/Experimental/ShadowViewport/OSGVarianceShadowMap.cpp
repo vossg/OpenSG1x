@@ -260,12 +260,12 @@ static std::string _variance_fp =
     "}\n";
 
 static std::string _variance_combine_vp =
-    "varying vec4 projCoord;\n"
+    "varying vec2 texCoord;\n"
     "\n"
     "void main(void)\n"
     "{\n"
-    " projCoord = gl_Vertex;\n"
-    "  gl_Position = ftransform();\n"
+    "    texCoord = gl_MultiTexCoord0.xy;\n"
+    "    gl_Position = ftransform();\n"
     "}\n";
 
 static std::string _variance_combine_fp =
@@ -273,36 +273,32 @@ static std::string _variance_combine_fp =
     "uniform sampler2D shadowFactorMap;\n"
     "uniform float xFactor;\n"
     "uniform float yFactor;\n"
-    "varying vec4 projCoord;\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+    "varying vec2 texCoord;\n"
     "\n"
     "void main(void)\n"
     "{\n"
-    "	vec4 colorProj = bias * projCoord;\n"
-    "	vec2 cp = colorProj.xy * vec2(xFactor,yFactor);\n"
-    "	vec3 color = texture2DProj(colorMap, vec3(cp,colorProj.w)).xyz;\n"
-    "	color *= 1.0-texture2DProj(shadowFactorMap, vec3(cp,colorProj.w)).x;\n"
-    "	gl_FragColor = vec4(color, 1.0);\n"
+    "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
+    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
+    "    color *= 1.0 - texture2D(shadowFactorMap, tc).r;\n"
+    "    gl_FragColor = vec4(color, 1.0);\n"
     "}\n";
+
 
 VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     TreeRenderer(source),
     _tiledeco(NullFC),
-    _blender(NullFC),
-    _matrixCam(NullFC),
     _colorMap(NullFC),
     _shadowFactorMap(NullFC),
     _colorMapImage(NullFC),
     _shadowFactorMapImage(NullFC),
-    _shadowCmat(NullFC),
     _shadowSHL(NullFC),
     _combineSHL(NullFC),
     _depthCmat(NullFC),
     _depthSHL(NullFC),
+    _combineCmat(NullFC),
+    _shadowCmat(NullFC),
+    _pf(NullFC),
     _firstRun(1),
-    _textureVM(),
-    _texturePM(),
-    _boxNode(NullFC),
     _width(1),
     _height(1),
     _fb(0),
@@ -411,12 +407,12 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     _shadowCmat = ChunkMaterial::create();
 
     //Combine Shader
-    ChunkMaterialPtr    combineCmat = ChunkMaterial::create();
-    beginEditCP(combineCmat);
-    combineCmat->addChunk(_combineSHL);
-    combineCmat->addChunk(_colorMap);
-    combineCmat->addChunk(_shadowFactorMap);
-    endEditCP(combineCmat);
+    _combineCmat = ChunkMaterial::create();
+    beginEditCP(_combineCmat);
+    _combineCmat->addChunk(_combineSHL);
+    _combineCmat->addChunk(_colorMap);
+    _combineCmat->addChunk(_shadowFactorMap);
+    endEditCP(_combineCmat);
 
     //SHL Depth
     _depthSHL = SHLChunk::create();
@@ -430,58 +426,60 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
 
     _depthCmat = ChunkMaterial::create();
 
-    //Kamera um Texturewürfel zu rendern
-    _matrixCam = MatrixCamera::create();
-    MatrixOrthogonal(_textureVM, -1, 1, -1, 1, -1, 1);
-    MatrixLookAt(_texturePM, 0, 1, 0, 0, 0, 0, 0, 1, 0);
-    _matrixCam->setNear(-1.0);
-    _matrixCam->setFar(1.0);
-    _matrixCam->setProjectionMatrix(_textureVM);
-    _matrixCam->setModelviewMatrix(_texturePM);
+    _pf = PolygonForeground::create();
+    beginEditCP(_pf);
+    _pf->setMaterial(_combineCmat);
+    _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
+    _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
 
-    //Box zum Texturzeichnen
-    GeometryPtr         boxGeo = makeBoxGeo(2, 2, 2, 1, 1, 1);
-    beginEditCP(boxGeo, Geometry::MaterialFieldMask);
-    boxGeo->setMaterial(combineCmat);
-    endEditCP(boxGeo, Geometry::MaterialFieldMask);
+    _pf->getTexCoords().push_back(Vec3f(1.0f, 0.0f, 0.0f));
+    _pf->getPositions().push_back(Pnt2f(1.0f, 0.0f));
 
-    _boxNode = Node::create();
-    beginEditCP(_boxNode, Node::CoreFieldMask);
-    _boxNode->setCore(boxGeo);
-    endEditCP(_boxNode, Node::CoreFieldMask);
+    _pf->getTexCoords().push_back(Vec3f(1.0f, 1.0f, 0.0f));
+    _pf->getPositions().push_back(Pnt2f(1.0f, 1.0f));
 
+    _pf->getTexCoords().push_back(Vec3f(0.0f, 1.0f, 0.0f));
+    _pf->getPositions().push_back(Pnt2f(0.0f, 1.0f));
+
+    _pf->setNormalizedX(true);
+    _pf->setNormalizedY(true);
+    endEditCP(_pf);
+
+    addRefCP(_colorMap);
+    addRefCP(_shadowFactorMap);
     addRefCP(_shadowSHL);
     addRefCP(_depthSHL);
-    addRefCP(_matrixCam);
-    addRefCP(_boxNode);
+    addRefCP(_combineSHL);
+    addRefCP(_combineCmat);
+    addRefCP(_shadowCmat);
+    addRefCP(_depthCmat);
+    addRefCP(_pf);
 
 }
 
 VarianceShadowMap::~VarianceShadowMap(void)
 {
-    _shadowCmat->getChunks().clear();
-
     if(_tiledeco != NullFC)
         subRefCP(_tiledeco);
-    subRefCP(_blender);
 
-    subRefCP(_boxNode);
+    subRefCP(_colorMap);
     subRefCP(_shadowFactorMap);
     subRefCP(_shadowSHL);
     subRefCP(_depthSHL);
-    subRefCP(_matrixCam);
+    subRefCP(_combineSHL);
+    subRefCP(_combineCmat);
+    subRefCP(_shadowCmat);
+    subRefCP(_depthCmat);
+    subRefCP(_pf);
 
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
-    if(_rb_depth != 0)
-        glDeleteRenderbuffersEXT(1, &_rb_depth);
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
-    if(_shadowSHL.getRefCount() > 0)
-        subRefCP(_shadowSHL);
-    if(_depthSHL.getRefCount() > 0)
-        subRefCP(_depthSHL);
-
+    if(_rb_depth != 0)
+        glDeleteRenderbuffersEXT(1, &_rb_depth);
+    if(_rb_depth2 != 0)
+        glDeleteRenderbuffersEXT(1, &_rb_depth2);
 }
 
 /// Checks if FBO status is ok
@@ -720,23 +718,6 @@ void VarianceShadowMap::initTextures(Window *win)
     }
 }
 
-void VarianceShadowMap::drawTextureBoxShader(RenderActionBase *action)
-{
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glEnable(GL_DEPTH_TEST);
-
-    action->setCamera(_matrixCam.getCPtr());
-
-    //Render Texturebox
-    action->apply(_boxNode);
-
-    //Restore old Parameters
-    action->setCamera(_shadowVP->getCamera().getCPtr());
-}
-
-
 void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
 {
     UInt32  oldWidth, oldHeight;
@@ -754,7 +735,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(false);
+            _shadowVP->_lights[i].second->setOn(false);
     }
 
     // activate exclude nodes:
@@ -771,7 +752,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
         if(_shadowVP->_lightStates[i] != 0)
         {
             if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
             {
                 //action->getWindow()->validateGLObject(_shadowVP->_texChunks[i]->getGLId());
 
@@ -807,11 +788,11 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 bool    isDirLight;
                 Real32  sceneDiagLength;
 
-                if(_shadowVP->_lights[i]->getType() == PointLight::getClassType
+                if(_shadowVP->_lights[i].second->getType() == PointLight::getClassType
                    ())
                 {
                     PointLightPtr   tmpPoint;
-                    tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[i]);
+                    tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[i].second);
 
                     lPos = tmpPoint->getPosition();
 
@@ -823,24 +804,24 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                     isDirLight = false;
 
                     Pnt3f           center;
-                    _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+                    _shadowVP->getLightRoot(i)->getVolume().getCenter(center);
 
                     Vec3f           dir = lPos - center;
                     Real32          dirLength = dir.length();
 
                     Vec3f           diff =
-                        (_shadowVP->getSceneRoot()->getVolume().getMax() -
+                        (_shadowVP->getLightRoot(i)->getVolume().getMax() -
                          center);
                     Real32          diffLength = diff.length();
 
                     sceneDiagLength = dirLength + diffLength;
                 }
 
-                else if(_shadowVP->_lights[i]->getType() ==
+                else if(_shadowVP->_lights[i].second->getType() ==
                         SpotLight::getClassType())
                 {
                     SpotLightPtr    tmpSpot;
-                    tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[i]);
+                    tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[i].second);
                     lPos = tmpSpot->getPosition();
                     if(tmpSpot->getBeacon() != NullFC)
                     {
@@ -849,13 +830,13 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                     }
                     isDirLight = false;
                     Pnt3f           center;
-                    _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+                    _shadowVP->getLightRoot(i)->getVolume().getCenter(center);
 
                     Vec3f           dir = lPos - center;
                     Real32          dirLength = dir.length();
 
                     Vec3f           diff =
-                        (_shadowVP->getSceneRoot()->getVolume().getMax() -
+                        (_shadowVP->getLightRoot(i)->getVolume().getMax() -
                          center);
                     Real32          diffLength = diff.length();
 
@@ -875,24 +856,11 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 endEditCP(_depthSHL, ShaderChunk::ParametersFieldMask);
 
                 beginEditCP(_depthCmat);
-                _depthCmat->getChunks().clear();
+                _depthCmat->clearChunks();
                 _depthCmat->addChunk(_depthSHL);
                 endEditCP(_depthCmat);
 
-                subRefCP(_depthSHL);
-
-                //draw the Scene
-
-                // we render the whole scene with one material.
-                action->setMaterial(_depthCmat.getCPtr(),
-                                    _shadowVP->getRoot());
-
-                action->apply(_shadowVP->getRoot());
-
-                // reset the material.
-                action->setMaterial(NULL, NullFC);
-
-                //_shadowVP->_texChunks[num]->deactivate(action, 3);
+                _shadowVP->renderLight(action, _depthCmat.getCPtr(), i);
 
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -911,7 +879,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
         if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i]->setOn(true);
+            _shadowVP->_lights[i].second->setOn(true);
     }
 
     // activate exclude nodes:
@@ -989,7 +957,7 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(_shadowVP->_lightStates[i] != 0 &&
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                 activeLights++;
         }
     }
@@ -999,9 +967,9 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         shadowIntensity = (_shadowVP->getGlobalShadowIntensity() /
                            activeLights);
     else
-        shadowIntensity = (_shadowVP->_lights[num]->getShadowIntensity() /
+        shadowIntensity = (_shadowVP->_lights[num].second->getShadowIntensity() /
                            activeLights);
-    if(_shadowVP->_lights[num]->getShadowIntensity() != 0.0 ||
+    if(_shadowVP->_lights[num].second->getShadowIntensity() != 0.0 ||
        _shadowVP->getGlobalShadowIntensity() != 0.0)
     {
 
@@ -1020,8 +988,8 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         iCVM.invert();
 
         Real32  texFactor;
-        if(_shadowVP->_lights[num]->getType() == SpotLight::getClassType() ||
-           _shadowVP->_lights[num]->getType() == PointLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType() ||
+           _shadowVP->_lights[num].second->getType() == PointLight::getClassType())
             texFactor = Real32(_width) / Real32(_height);
         else
             texFactor = 1.0;
@@ -1046,10 +1014,10 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         bool    isDirLight;
         Real32  sceneDiagLength;
 
-        if(_shadowVP->_lights[num]->getType() == PointLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == PointLight::getClassType())
         {
             PointLightPtr   tmpPoint;
-            tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[num]);
+            tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[num].second);
 
             lPos = tmpPoint->getPosition();
 
@@ -1060,23 +1028,23 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
             }
             isDirLight = false;
             Pnt3f           center;
-            _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+            _shadowVP->getLightRoot(num)->getVolume().getCenter(center);
 
             Vec3f           dir = lPos - center;
             Real32          dirLength = dir.length();
 
-            Vec3f           diff = (_shadowVP->getSceneRoot()->getVolume
+            Vec3f           diff = (_shadowVP->getLightRoot(num)->getVolume
                                     ().getMax() - center);
             Real32          diffLength = diff.length();
 
             sceneDiagLength = dirLength + diffLength;
         }
 
-        else if(_shadowVP->_lights[num]->getType() == SpotLight::getClassType
+        else if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType
                 ())
         {
             SpotLightPtr    tmpSpot;
-            tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[num]);
+            tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[num].second);
             lPos = tmpSpot->getPosition();
             if(tmpSpot->getBeacon() != NullFC)
             {
@@ -1085,12 +1053,12 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
             }
             isDirLight = false;
             Pnt3f           center;
-            _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+            _shadowVP->getLightRoot(num)->getVolume().getCenter(center);
 
             Vec3f           dir = lPos - center;
             Real32          dirLength = dir.length();
 
-            Vec3f           diff = (_shadowVP->getSceneRoot()->getVolume
+            Vec3f           diff = (_shadowVP->getLightRoot(num)->getVolume
                                     ().getMax() - center);
             Real32          diffLength = diff.length();
 
@@ -1136,24 +1104,13 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
         beginEditCP(_shadowCmat);
-        _shadowCmat->getChunks().clear();
+        _shadowCmat->clearChunks();
         _shadowCmat->addChunk(_shadowSHL);
         _shadowCmat->addChunk(_shadowVP->_texChunks[num]);
         _shadowCmat->addChunk(_shadowFactorMap);
         endEditCP(_shadowCmat);
 
-        subRefCP(_shadowSHL);
-        subRefCP(_shadowVP->_texChunks[num]);
-        subRefCP(_shadowFactorMap);
-
-        // we render the whole scene with one material.
-        action->setMaterial(_shadowCmat.getCPtr(), _shadowVP->getRoot());
-
-        //draw the Scene
-        action->apply(_shadowVP->getRoot());
-
-        // reset the material.
-        action->setMaterial(NULL, NullFC);
+        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
 
         action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
@@ -1189,7 +1146,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(_shadowVP->_lightStates[i] != 0 &&
-               _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+               _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                 activeLights++;
         }
     }
@@ -1199,9 +1156,9 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         shadowIntensity = (_shadowVP->getGlobalShadowIntensity() /
                            activeLights);
     else
-        shadowIntensity = (_shadowVP->_lights[num]->getShadowIntensity() /
+        shadowIntensity = (_shadowVP->_lights[num].second->getShadowIntensity() /
                            activeLights);
-    if(_shadowVP->_lights[num]->getShadowIntensity() != 0.0 ||
+    if(_shadowVP->_lights[num].second->getShadowIntensity() != 0.0 ||
        _shadowVP->getGlobalShadowIntensity() != 0.0)
     {
 
@@ -1220,8 +1177,8 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         iCVM.invert();
 
         Real32  texFactor;
-        if(_shadowVP->_lights[num]->getType() == SpotLight::getClassType() ||
-           _shadowVP->_lights[num]->getType() == PointLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType() ||
+           _shadowVP->_lights[num].second->getType() == PointLight::getClassType())
             texFactor = Real32(_width) / Real32(_height);
         else
             texFactor = 1.0;
@@ -1246,10 +1203,10 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         bool    isDirLight;
         Real32  sceneDiagLength;
 
-        if(_shadowVP->_lights[num]->getType() == PointLight::getClassType())
+        if(_shadowVP->_lights[num].second->getType() == PointLight::getClassType())
         {
             PointLightPtr   tmpPoint;
-            tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[num]);
+            tmpPoint = PointLightPtr::dcast(_shadowVP->_lights[num].second);
 
             lPos = tmpPoint->getPosition();
 
@@ -1260,23 +1217,23 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
             }
             isDirLight = false;
             Pnt3f           center;
-            _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+            _shadowVP->getLightRoot(num)->getVolume().getCenter(center);
 
             Vec3f           dir = lPos - center;
             Real32          dirLength = dir.length();
 
-            Vec3f           diff = (_shadowVP->getSceneRoot()->getVolume
+            Vec3f           diff = (_shadowVP->getLightRoot(num)->getVolume
                                     ().getMax() - center);
             Real32          diffLength = diff.length();
 
             sceneDiagLength = dirLength + diffLength;
         }
 
-        else if(_shadowVP->_lights[num]->getType() == SpotLight::getClassType
+        else if(_shadowVP->_lights[num].second->getType() == SpotLight::getClassType
                 ())
         {
             SpotLightPtr    tmpSpot;
-            tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[num]);
+            tmpSpot = SpotLightPtr::dcast(_shadowVP->_lights[num].second);
             lPos = tmpSpot->getPosition();
             if(tmpSpot->getBeacon() != NullFC)
             {
@@ -1285,12 +1242,12 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
             }
             isDirLight = false;
             Pnt3f           center;
-            _shadowVP->getSceneRoot()->getVolume().getCenter(center);
+            _shadowVP->getLightRoot(num)->getVolume().getCenter(center);
 
             Vec3f           dir = lPos - center;
             Real32          dirLength = dir.length();
 
-            Vec3f           diff = (_shadowVP->getSceneRoot()->getVolume
+            Vec3f           diff = (_shadowVP->getLightRoot(num)->getVolume
                                     ().getMax() - center);
             Real32          diffLength = diff.length();
 
@@ -1336,15 +1293,11 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
         beginEditCP(_shadowCmat);
-        _shadowCmat->getChunks().clear();
+        _shadowCmat->clearChunks();
         _shadowCmat->addChunk(_shadowSHL);
         _shadowCmat->addChunk(_shadowVP->_texChunks[num]);
         _shadowCmat->addChunk(_shadowFactorMap);
         endEditCP(_shadowCmat);
-
-        subRefCP(_shadowSHL);
-        subRefCP(_shadowVP->_texChunks[num]);
-        subRefCP(_shadowFactorMap);
 
         GLenum  *buffers = NULL;
         buffers = new GLenum[1];
@@ -1359,17 +1312,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         if(_firstRun)
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //_shadowVP->_texChunks[num]->activate(action, 3);
-
-        // we render the whole scene with one material.
-        action->setMaterial(_shadowCmat.getCPtr(), _shadowVP->getRoot());
-
-        action->apply(_shadowVP->getRoot());
-
-        // reset the material.
-        action->setMaterial(NULL, NullFC);
-
-        //_shadowVP->_texChunks[num]->deactivate(action, 3);
+        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         delete[] buffers;
@@ -1395,7 +1338,17 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase *action)
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     //draw the Scene
-    drawTextureBoxShader(action);
+    // glViewport is called in the render action but we don't use the renderaction here!
+    GLint   pl = _shadowVP->getPixelLeft(), pr = _shadowVP->getPixelRight(),
+            pb = _shadowVP->getPixelBottom(),
+            pt = _shadowVP->getPixelTop();
+    GLint   pw = pr - pl + 1, ph = pt - pb + 1;
+    glViewport(pl, pb, pw, ph);
+    glScissor(pl, pb, pw, ph);
+    glEnable(GL_SCISSOR_TEST);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    _pf->draw(action, _shadowVP);
+    glDisable(GL_SCISSOR_TEST);
 }
 
 void VarianceShadowMap::render(RenderActionBase *action)
@@ -1493,7 +1446,7 @@ void VarianceShadowMap::render(RenderActionBase *action)
                 if(_shadowVP->_lightStates[i] != 0)
                 {
                     if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                       _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+                       _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                     {
                         if(_useNPOTTextures)
                             createShadowFactorMapFBO(action, i);
@@ -1525,7 +1478,7 @@ void VarianceShadowMap::render(RenderActionBase *action)
                     if(_shadowVP->_lightStates[i] != 0)
                     {
                         if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
-                           _shadowVP->_lights[i]->getShadowIntensity() != 0.0)
+                           _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                         {
                             if(_useNPOTTextures)
                                 createShadowFactorMapFBO(action, i);

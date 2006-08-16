@@ -43,6 +43,8 @@
 #endif
 
 #include <vector>
+#include <utility>
+
 #include <OSGConfig.h>
 #include <OSGAction.h>
 #include <OSGRenderActionBase.h>
@@ -118,22 +120,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     UInt32                  _windowW;
     UInt32                  _windowH;
 
-    std::vector<NodePtr>            _transparent;
-    std::vector<LightPtr>           _allLights;
-    std::vector<LightPtr>           _lights;
-    std::vector<LightPtr>           _oldLights;
-    std::vector<CameraPtr>          _lightCameras;
-    std::vector<TransformPtr>       _lightCamTrans;
-    std::vector<NodePtr>            _lightCamBeacons;
-    std::vector<UInt32>             _lightStates;
-    std::vector<ImagePtr>           _shadowImages;
-    std::vector<TextureChunkPtr>    _texChunks;
-    std::vector<bool>               _excludeNodeActive;
-    std::vector<bool>               _realPointLight;
-    std::vector<bool*>              _renderSide;
+    std::vector<NodePtr>                        _transparent;
+    std::vector<std::pair<NodePtr, LightPtr> >  _lights;
+    std::vector<std::pair<NodePtr, LightPtr> >  _oldLights;
+    std::vector<CameraPtr>                      _lightCameras;
+    std::vector<TransformPtr>                   _lightCamTrans;
+    std::vector<NodePtr>                        _lightCamBeacons;
+    std::vector<UInt32>                         _lightStates;
+    std::vector<ImagePtr>                       _shadowImages;
+    std::vector<TextureChunkPtr>                _texChunks;
+    std::vector<bool>                           _excludeNodeActive;
+    std::vector<bool>                           _realPointLight;
+    std::vector<bool*>                          _renderSide;
 
     bool                            _trigger_update;
     Matrix                          _transforms[6];
+
+    NodePtr                         _light_render_transform;
 
 
     void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
@@ -155,6 +158,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
                       const BitVector  bvFlags  = 0) const;
 
     void triggerMapUpdate(void);
+
+    void renderLight(RenderActionBase *action, Material *mat, UInt32 index);
+    NodePtr getLightRoot(UInt32 index);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -193,6 +199,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.10 2006/08/11 13:45:51 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.11 2006/08/16 15:19:26 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */
