@@ -733,6 +733,7 @@ int main(int argc, char **argv)
     //activate Framecounter
     startFpsCounter();
 
+    ((RenderAction *)mgr->getAction())->setLocalLights(true);
     mgr->turnHeadlightOff();
 
     mgr->showAll();

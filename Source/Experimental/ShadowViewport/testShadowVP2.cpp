@@ -251,16 +251,31 @@ int main(int argc, char **argv)
 
         beginEditCP(point1);
         point1->addChild(point2);
-        point1->addChild(point3);
-        point1->addChild(point4);
-        point1->addChild(point5);
-        point1->addChild(point6);
-        point1->addChild(point7);
         endEditCP(point1);
 
         beginEditCP(point2);
-        point2->addChild(scene);
+        point2->addChild(point3);
         endEditCP(point2);
+
+        beginEditCP(point3);
+        point3->addChild(point4);
+        endEditCP(point3);
+
+        beginEditCP(point4);
+        point4->addChild(point5);
+        endEditCP(point4);
+
+        beginEditCP(point5);
+        point5->addChild(point6);
+        endEditCP(point5);
+
+        beginEditCP(point6);
+        point6->addChild(point7);
+        endEditCP(point6);
+
+        beginEditCP(point7);
+        point7->addChild(scene);
+        endEditCP(point7);
 
         // create scene
 
@@ -381,7 +396,6 @@ int main(int argc, char **argv)
 
 
         beginEditCP(rootNode);
-        rootNode->addChild(point1);
         rootNode->addChild(point1_beacon);
         rootNode->addChild(point2_beacon);
         rootNode->addChild(point3_beacon);
@@ -389,7 +403,7 @@ int main(int argc, char **argv)
         rootNode->addChild(point5_beacon);
         rootNode->addChild(point6_beacon);
         rootNode->addChild(point7_beacon);
-        rootNode->addChild(scene);
+        rootNode->addChild(point1);
         endEditCP(rootNode);
 
         //one active light at startup
@@ -485,6 +499,7 @@ int main(int argc, char **argv)
 
     startFpsCounter();
 
+    ((RenderAction *)mgr->getAction())->setLocalLights(true);
     mgr->turnHeadlightOff();
 
     mgr->showAll();
