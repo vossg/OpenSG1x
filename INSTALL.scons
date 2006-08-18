@@ -1,0 +1,39 @@
+
+   How to build OpenSG with the scons build system
+   ===============================================
+
+Supported platforms are linux and windows in 32 bit and 64 bit.
+
+Linux
+-----
+
+Supported compilers are gcc 3.x and 4.x.
+
+- install scons version 0.96.1 (http://prdownloads.sourceforge.net/scons/scons-0.96.1.tar.gz)
+- go into the OpenSG directory and type "scons"
+
+
+Windows
+-------
+
+Supported compilers are visual studio 2003 and 2005.
+The image libs (jpeg, png, tiff) are automatically unzipped into OpenSG/supportlibs and linked into
+the OSGSystem.dll.
+
+- install python (www.python.org)
+- install scons version 0.96.1 (http://prdownloads.sourceforge.net/scons/scons-0.96.1.win32.exe)
+- install cygwin (www.cygwin.com)
+- go into the OpenSG directory and type "scons.bat compiler=msvc71"
+
+type "scons -h" to see all possible options.
+
+
+TODO
+----
+
+Add a special local version of scons to the OpenSG cvs so it is not
+necessary to install scons.
+
+On windows get rid of the cygwin dependency just use a standard cmd shell.
+We need the cygwin shell right now for sed, flex, ... utilities but we
+can add these executables also to the cvs.
