@@ -162,6 +162,23 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
         uiIndexMask |= geo->getIndexMapping()[i];
     }
 
+    // ok the multi index table supports only 4 texcoord units!
+    if((uiIndexMask & Geometry::MapTexCoords4 &&
+       geo->getTexCoords4() != NullFC         &&
+       geo->getTexCoords4()->getData()          ) ||
+       (uiIndexMask & Geometry::MapTexCoords5 &&
+       geo->getTexCoords5() != NullFC         &&
+       geo->getTexCoords5()->getData()          ) ||
+       (uiIndexMask & Geometry::MapTexCoords6 &&
+       geo->getTexCoords6() != NullFC         &&
+       geo->getTexCoords6()->getData()          ) ||
+       (uiIndexMask & Geometry::MapTexCoords7 &&
+       geo->getTexCoords7() != NullFC         &&
+       geo->getTexCoords7()->getData()          ))
+    {
+        return 130; // Needd to use the master pump
+    }
+
     int a[7];
 
     if(uiIndexMask & Geometry::MapColor &&
@@ -505,6 +522,10 @@ static UInt32 TexCoords1IDs[numFormats][4];
 
 #define TexCoords2IDs TexCoords1IDs
 #define TexCoords3IDs TexCoords1IDs
+#define TexCoords4IDs TexCoords1IDs
+#define TexCoords5IDs TexCoords1IDs
+#define TexCoords6IDs TexCoords1IDs
+#define TexCoords7IDs TexCoords1IDs
 
 #endif      // remove from all but dev docs
 
@@ -546,6 +567,10 @@ void GeoPump128(Window   *win,
     pumpSetup(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
     pumpSetup(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
     pumpSetup(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
+    pumpSetup(TexCoords4 , GeoTexCoordsPtr , getTexCoords4 );
+    pumpSetup(TexCoords5 , GeoTexCoordsPtr , getTexCoords5 );
+    pumpSetup(TexCoords6 , GeoTexCoordsPtr , getTexCoords6 );
+    pumpSetup(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
     pumpSetup(Normals    , GeoNormalsPtr   , getNormals    );
 
     pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
@@ -662,6 +687,70 @@ void GeoPump128(Window   *win,
             FWARNING(("GeoPump128: Window has no MultitextureARB extension\n"));
     }
 
+    if (TexCoords4Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+            glTexCoordPointer (TexCoords4Ptr->getDimension(), TexCoords4Ptr->getFormat(),
+                               TexCoords4Stride, TexCoords4Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<8);
+        }
+        else
+            FWARNING(("GeoPump128: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords5Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+            glTexCoordPointer (TexCoords5Ptr->getDimension(), TexCoords5Ptr->getFormat(),
+                               TexCoords5Stride, TexCoords5Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<9);
+        }
+        else
+            FWARNING(("GeoPump128: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords6Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+            glTexCoordPointer (TexCoords6Ptr->getDimension(), TexCoords6Ptr->getFormat(),
+                               TexCoords6Stride, TexCoords6Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<10);
+        }
+        else
+            FWARNING(("GeoPump128: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords7Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+            glTexCoordPointer (TexCoords7Ptr->getDimension(), TexCoords7Ptr->getFormat(),
+                               TexCoords7Stride, TexCoords7Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<11);
+        }
+        else
+            FWARNING(("GeoPump128: Window has no MultitextureARB extension\n"));
+    }
+
     UInt32 lendummy;
     UInt32 LengthsSize;
     UInt32 LengthsFormatSize;
@@ -738,6 +827,30 @@ void GeoPump128(Window   *win,
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
+
+        if(modified&(1<<8))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<9))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<10))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<11))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
     }
     else
     {
@@ -760,6 +873,10 @@ void GeoPump129(Window   *win,
     pumpSetup(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
     pumpSetup(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
     pumpSetup(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
+    pumpSetup(TexCoords4 , GeoTexCoordsPtr , getTexCoords4 );
+    pumpSetup(TexCoords5 , GeoTexCoordsPtr , getTexCoords5 );
+    pumpSetup(TexCoords6 , GeoTexCoordsPtr , getTexCoords6 );
+    pumpSetup(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
     pumpSetup(Normals    , GeoNormalsPtr   , getNormals    );
 
     pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
@@ -872,6 +989,70 @@ void GeoPump129(Window   *win,
                                TexCoords3Stride, TexCoords3Data);
             glEnableClientState(GL_TEXTURE_COORD_ARRAY);
             modified|=(1<<7);
+        }
+        else
+            FWARNING(("GeoPump129: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords4Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+            glTexCoordPointer (TexCoords4Ptr->getDimension(), TexCoords4Ptr->getFormat(),
+                               TexCoords4Stride, TexCoords4Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<8);
+        }
+        else
+            FWARNING(("GeoPump129: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords5Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+            glTexCoordPointer (TexCoords5Ptr->getDimension(), TexCoords5Ptr->getFormat(),
+                               TexCoords5Stride, TexCoords5Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<9);
+        }
+        else
+            FWARNING(("GeoPump129: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords6Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+            glTexCoordPointer (TexCoords6Ptr->getDimension(), TexCoords6Ptr->getFormat(),
+                               TexCoords6Stride, TexCoords6Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<10);
+        }
+        else
+            FWARNING(("GeoPump129: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords7Data)
+    {
+        if (win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+            glTexCoordPointer (TexCoords7Ptr->getDimension(), TexCoords7Ptr->getFormat(),
+                               TexCoords7Stride, TexCoords7Data);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<11);
         }
         else
             FWARNING(("GeoPump129: Window has no MultitextureARB extension\n"));
@@ -1021,6 +1202,30 @@ void GeoPump129(Window   *win,
         if(modified&(1<<7))
         {
             _glClientActiveTextureARB(GL_TEXTURE3_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<8))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<9))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<10))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<11))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
             glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         }
     }
@@ -1216,6 +1421,18 @@ void GeoPump129(Window   *win,
 #define iT3 pumpMultiGLExtSetup ( TexCoords3, GeoTexCoordsPtr, getTexCoords3     )\
             Int16 TexCoords3Index = geo->calcMappingIndex(Geometry::MapTexCoords3);
 
+#define iT4 pumpMultiGLExtSetup ( TexCoords4, GeoTexCoordsPtr, getTexCoords4     )\
+            Int16 TexCoords4Index = geo->calcMappingIndex(Geometry::MapTexCoords4);
+
+#define iT5 pumpMultiGLExtSetup ( TexCoords5, GeoTexCoordsPtr, getTexCoords5     )\
+            Int16 TexCoords5Index = geo->calcMappingIndex(Geometry::MapTexCoords5);
+
+#define iT6 pumpMultiGLExtSetup ( TexCoords6, GeoTexCoordsPtr, getTexCoords6     )\
+            Int16 TexCoords6Index = geo->calcMappingIndex(Geometry::MapTexCoords6);
+
+#define iT7 pumpMultiGLExtSetup ( TexCoords7, GeoTexCoordsPtr, getTexCoords7     )\
+            Int16 TexCoords7Index = geo->calcMappingIndex(Geometry::MapTexCoords7);
+
 #define rC ColorFunc     ( ColorData     + ColorStride     * vind[ColorIndex]     );
 #define rS SecColorFunc  ( SecColorData  + SecColorStride  * vind[SecColorIndex]  );
 #define rN NormalFunc    ( NormalData    + NormalStride    * vind[NormalIndex]    );
@@ -1223,6 +1440,10 @@ void GeoPump129(Window   *win,
 #define rT1 TexCoords1Func( GL_TEXTURE1_ARB , TexCoords1Data + TexCoords1Stride * vind[TexCoords1Index] );
 #define rT2 TexCoords2Func( GL_TEXTURE2_ARB , TexCoords2Data + TexCoords2Stride * vind[TexCoords2Index] );
 #define rT3 TexCoords3Func( GL_TEXTURE3_ARB , TexCoords3Data + TexCoords3Stride * vind[TexCoords3Index] );
+#define rT4 TexCoords4Func( GL_TEXTURE4_ARB , TexCoords4Data + TexCoords4Stride * vind[TexCoords4Index] );
+#define rT5 TexCoords5Func( GL_TEXTURE5_ARB , TexCoords5Data + TexCoords5Stride * vind[TexCoords5Index] );
+#define rT6 TexCoords6Func( GL_TEXTURE6_ARB , TexCoords6Data + TexCoords6Stride * vind[TexCoords6Index] );
+#define rT7 TexCoords7Func( GL_TEXTURE7_ARB , TexCoords7Data + TexCoords7Stride * vind[TexCoords7Index] );
 
 /*
     nmappings for sure is greater or equal than two because this is multi
@@ -1455,6 +1676,10 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
     pumpMultiGLExtSetup( TexCoords1, GeoTexCoordsPtr, getTexCoords1     );
     pumpMultiGLExtSetup( TexCoords2, GeoTexCoordsPtr, getTexCoords2     );
     pumpMultiGLExtSetup( TexCoords3, GeoTexCoordsPtr, getTexCoords3     );
+    pumpMultiGLExtSetup( TexCoords4, GeoTexCoordsPtr, getTexCoords4     );
+    pumpMultiGLExtSetup( TexCoords5, GeoTexCoordsPtr, getTexCoords5     );
+    pumpMultiGLExtSetup( TexCoords6, GeoTexCoordsPtr, getTexCoords6     );
+    pumpMultiGLExtSetup( TexCoords7, GeoTexCoordsPtr, getTexCoords7     );
 
     // check if the node is empty
     if(! TypeData || TypePtr->getSize() == 0)
@@ -1477,7 +1702,11 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
           TexCoordsIndex  = -1,
           TexCoords1Index = -1,
           TexCoords2Index = -1,
-          TexCoords3Index = -1;
+          TexCoords3Index = -1,
+          TexCoords4Index = -1,
+          TexCoords5Index = -1,
+          TexCoords6Index = -1,
+          TexCoords7Index = -1;
 
     if(nmappings)
     {
@@ -1489,6 +1718,10 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
         TexCoords1Index = geo->calcMappingIndex(Geometry::MapTexCoords1    );
         TexCoords2Index = geo->calcMappingIndex(Geometry::MapTexCoords2    );
         TexCoords3Index = geo->calcMappingIndex(Geometry::MapTexCoords3    );
+        TexCoords4Index = geo->calcMappingIndex(Geometry::MapTexCoords4    );
+        TexCoords5Index = geo->calcMappingIndex(Geometry::MapTexCoords5    );
+        TexCoords6Index = geo->calcMappingIndex(Geometry::MapTexCoords6    );
+        TexCoords7Index = geo->calcMappingIndex(Geometry::MapTexCoords7    );
 
         if(! PositionData)
         {
@@ -1510,7 +1743,11 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
         TexCoordsIndex =
         TexCoords1Index =
         TexCoords2Index =
-        TexCoords3Index = 0;
+        TexCoords3Index = 
+        TexCoords4Index =
+        TexCoords5Index =
+        TexCoords6Index =
+        TexCoords7Index = 0;
     }
 
     // overall color?
@@ -1613,6 +1850,34 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
                                      vind[TexCoords3Index]);
                 }
 
+                if(TexCoords4Data && TexCoords4Index >= 0)
+                {
+                    TexCoords4Func(GL_TEXTURE4_ARB,
+                                     TexCoords4Data + TexCoords4Stride *
+                                     vind[TexCoords4Index]);
+                }
+
+                if(TexCoords5Data && TexCoords5Index >= 0)
+                {
+                    TexCoords5Func(GL_TEXTURE5_ARB,
+                                     TexCoords5Data + TexCoords5Stride *
+                                     vind[TexCoords5Index]);
+                }
+
+                if(TexCoords6Data && TexCoords6Index >= 0)
+                {
+                    TexCoords6Func(GL_TEXTURE6_ARB,
+                                     TexCoords6Data + TexCoords6Stride *
+                                     vind[TexCoords6Index]);
+                }
+
+                if(TexCoords7Data && TexCoords7Index >= 0)
+                {
+                    TexCoords7Func(GL_TEXTURE7_ARB,
+                                     TexCoords7Data + TexCoords7Stride *
+                                     vind[TexCoords7Index]);
+                }
+
                 PositionFunc(PositionData + PositionStride * vind[PositionIndex]);
             }
             else if(IndexData && ind16)
@@ -1665,6 +1930,34 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
                                      vind[TexCoords3Index]);
                 }
 
+                if(TexCoords4Data && TexCoords4Index >= 0)
+                {
+                    TexCoords4Func(GL_TEXTURE4_ARB,
+                                     TexCoords4Data + TexCoords4Stride *
+                                     vind[TexCoords4Index]);
+                }
+
+                if(TexCoords5Data && TexCoords5Index >= 0)
+                {
+                    TexCoords5Func(GL_TEXTURE5_ARB,
+                                     TexCoords5Data + TexCoords5Stride *
+                                     vind[TexCoords5Index]);
+                }
+
+                if(TexCoords6Data && TexCoords6Index >= 0)
+                {
+                    TexCoords6Func(GL_TEXTURE6_ARB,
+                                     TexCoords6Data + TexCoords6Stride *
+                                     vind[TexCoords6Index]);
+                }
+
+                if(TexCoords7Data && TexCoords7Index >= 0)
+                {
+                    TexCoords7Func(GL_TEXTURE7_ARB,
+                                     TexCoords7Data + TexCoords7Stride *
+                                     vind[TexCoords7Index]);
+                }
+
                 PositionFunc(PositionData + PositionStride * vind[PositionIndex]);
             }
             else
@@ -1708,6 +2001,34 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
                 {
                     TexCoords3Func(GL_TEXTURE3_ARB,
                                    TexCoords3Data + TexCoords3Stride *
+                                                    PositionInd);
+                }
+
+                if(TexCoords4Data)
+                {
+                    TexCoords4Func(GL_TEXTURE4_ARB,
+                                   TexCoords4Data + TexCoords4Stride *
+                                                    PositionInd);
+                }
+
+                if(TexCoords5Data)
+                {
+                    TexCoords5Func(GL_TEXTURE5_ARB,
+                                   TexCoords5Data + TexCoords5Stride *
+                                                    PositionInd);
+                }
+
+                if(TexCoords6Data)
+                {
+                    TexCoords6Func(GL_TEXTURE6_ARB,
+                                   TexCoords6Data + TexCoords6Stride *
+                                                    PositionInd);
+                }
+
+                if(TexCoords7Data)
+                {
+                    TexCoords7Func(GL_TEXTURE7_ARB,
+                                   TexCoords7Data + TexCoords7Stride *
                                                     PositionInd);
                 }
 

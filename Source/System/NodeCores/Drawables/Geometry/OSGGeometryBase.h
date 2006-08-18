@@ -77,6 +77,10 @@
 #include <OSGGeoTexCoordsFields.h> // TexCoords1 type
 #include <OSGGeoTexCoordsFields.h> // TexCoords2 type
 #include <OSGGeoTexCoordsFields.h> // TexCoords3 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords4 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords5 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords6 type
+#include <OSGGeoTexCoordsFields.h> // TexCoords7 type
 #include <OSGGeoIndicesFields.h> // Indices type
 #include <OSGUInt16Fields.h> // IndexMapping type
 #include <OSGBoolFields.h> // DlistCache type
@@ -119,7 +123,11 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
         TexCoords1FieldId        = TexCoordsFieldId         + 1,
         TexCoords2FieldId        = TexCoords1FieldId        + 1,
         TexCoords3FieldId        = TexCoords2FieldId        + 1,
-        IndicesFieldId           = TexCoords3FieldId        + 1,
+        TexCoords4FieldId        = TexCoords3FieldId        + 1,
+        TexCoords5FieldId        = TexCoords4FieldId        + 1,
+        TexCoords6FieldId        = TexCoords5FieldId        + 1,
+        TexCoords7FieldId        = TexCoords6FieldId        + 1,
+        IndicesFieldId           = TexCoords7FieldId        + 1,
         IndexMappingFieldId      = IndicesFieldId           + 1,
         DlistCacheFieldId        = IndexMappingFieldId      + 1,
         GLIdFieldId              = DlistCacheFieldId        + 1,
@@ -141,6 +149,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     static const OSG::BitVector TexCoords1FieldMask;
     static const OSG::BitVector TexCoords2FieldMask;
     static const OSG::BitVector TexCoords3FieldMask;
+    static const OSG::BitVector TexCoords4FieldMask;
+    static const OSG::BitVector TexCoords5FieldMask;
+    static const OSG::BitVector TexCoords6FieldMask;
+    static const OSG::BitVector TexCoords7FieldMask;
     static const OSG::BitVector IndicesFieldMask;
     static const OSG::BitVector IndexMappingFieldMask;
     static const OSG::BitVector DlistCacheFieldMask;
@@ -186,6 +198,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
            SFGeoTexCoordsPtr   *getSFTexCoords1     (void);
            SFGeoTexCoordsPtr   *getSFTexCoords2     (void);
            SFGeoTexCoordsPtr   *getSFTexCoords3     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords4     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords5     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords6     (void);
+           SFGeoTexCoordsPtr   *getSFTexCoords7     (void);
            SFGeoIndicesPtr     *getSFIndices        (void);
            MFUInt16            *getMFIndexMapping   (void);
            SFBool              *getSFDlistCache     (void);
@@ -215,6 +231,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      const GeoTexCoordsPtr     &getTexCoords2     (void) const;
            GeoTexCoordsPtr     &getTexCoords3     (void);
      const GeoTexCoordsPtr     &getTexCoords3     (void) const;
+           GeoTexCoordsPtr     &getTexCoords4     (void);
+     const GeoTexCoordsPtr     &getTexCoords4     (void) const;
+           GeoTexCoordsPtr     &getTexCoords5     (void);
+     const GeoTexCoordsPtr     &getTexCoords5     (void) const;
+           GeoTexCoordsPtr     &getTexCoords6     (void);
+     const GeoTexCoordsPtr     &getTexCoords6     (void) const;
+           GeoTexCoordsPtr     &getTexCoords7     (void);
+     const GeoTexCoordsPtr     &getTexCoords7     (void) const;
            GeoIndicesPtr       &getIndices        (void);
      const GeoIndicesPtr       &getIndices        (void) const;
            bool                &getDlistCache     (void);
@@ -250,6 +274,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      void setTexCoords1     ( const GeoTexCoordsPtr &value );
      void setTexCoords2     ( const GeoTexCoordsPtr &value );
      void setTexCoords3     ( const GeoTexCoordsPtr &value );
+     void setTexCoords4     ( const GeoTexCoordsPtr &value );
+     void setTexCoords5     ( const GeoTexCoordsPtr &value );
+     void setTexCoords6     ( const GeoTexCoordsPtr &value );
+     void setTexCoords7     ( const GeoTexCoordsPtr &value );
      void setIndices        ( const GeoIndicesPtr &value );
      void setDlistCache     ( const bool &value );
      void setIgnoreGLForAspect( const Int32 &value );
@@ -307,6 +335,10 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     SFGeoTexCoordsPtr   _sfTexCoords1;
     SFGeoTexCoordsPtr   _sfTexCoords2;
     SFGeoTexCoordsPtr   _sfTexCoords3;
+    SFGeoTexCoordsPtr   _sfTexCoords4;
+    SFGeoTexCoordsPtr   _sfTexCoords5;
+    SFGeoTexCoordsPtr   _sfTexCoords6;
+    SFGeoTexCoordsPtr   _sfTexCoords7;
     SFGeoIndicesPtr     _sfIndices;
     MFUInt16            _mfIndexMapping;
     SFBool              _sfDlistCache;

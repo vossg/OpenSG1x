@@ -84,6 +84,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     static const UInt16 MapTexCoords1;
     static const UInt16 MapTexCoords2;
     static const UInt16 MapTexCoords3;
+    static const UInt16 MapTexCoords4;
+    static const UInt16 MapTexCoords5;
+    static const UInt16 MapTexCoords6;
+    static const UInt16 MapTexCoords7;
     static const UInt16 MapEmpty;
 
     /*! \}                                                                 */
@@ -141,6 +145,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     void setTexCoords1     (const GeoTexCoordsPtr &value);
     void setTexCoords2     (const GeoTexCoordsPtr &value);
     void setTexCoords3     (const GeoTexCoordsPtr &value);
+    void setTexCoords4     (const GeoTexCoordsPtr &value);
+    void setTexCoords5     (const GeoTexCoordsPtr &value);
+    void setTexCoords6     (const GeoTexCoordsPtr &value);
+    void setTexCoords7     (const GeoTexCoordsPtr &value);
     void setIndices        (const GeoIndicesPtr   &value);
     void setMaterial       (const MaterialPtr     &value);
 

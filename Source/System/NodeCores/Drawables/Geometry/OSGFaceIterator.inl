@@ -203,7 +203,7 @@ Vec2f FaceIterator::getTexCoords2(Int32 which) const
     return getGeometry()->getTexCoords2()->getValue(ind);
 }
 
-inline       
+inline
 Int32 FaceIterator::getTexCoordsIndex3(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)
@@ -212,7 +212,7 @@ Int32 FaceIterator::getTexCoordsIndex3(Int32 which) const
         return -1;
 }
 
-inline 
+inline
 Vec2f FaceIterator::getTexCoords3(Int32 which) const
 {   
     Int32 ind = getTexCoordsIndex3(which);
@@ -223,7 +223,87 @@ Vec2f FaceIterator::getTexCoords3(Int32 which) const
     return getGeometry()->getTexCoords3()->getValue(ind);
 }
 
-inline       
+inline
+Int32 FaceIterator::getTexCoordsIndex4(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return Inherited::getTexCoordsIndex4(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline
+Vec2f FaceIterator::getTexCoords4(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex4(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords4()->getValue(ind);
+}
+
+inline
+Int32 FaceIterator::getTexCoordsIndex5(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return Inherited::getTexCoordsIndex5(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline
+Vec2f FaceIterator::getTexCoords5(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex5(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords5()->getValue(ind);
+}
+
+inline
+Int32 FaceIterator::getTexCoordsIndex6(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return Inherited::getTexCoordsIndex6(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline
+Vec2f FaceIterator::getTexCoords6(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex6(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords6()->getValue(ind);
+}
+
+inline
+Int32 FaceIterator::getTexCoordsIndex7(Int32 which) const
+{
+    if(_facePntIndex[which] >= 0)
+        return Inherited::getTexCoordsIndex7(_facePntIndex[which]);
+    else 
+        return -1;
+}
+
+inline
+Vec2f FaceIterator::getTexCoords7(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex7(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords7()->getValue(ind);
+}
+
+inline
 Int32 FaceIterator::getIndexIndex(Int32 which) const
 {
     if(_facePntIndex[which] >= 0)

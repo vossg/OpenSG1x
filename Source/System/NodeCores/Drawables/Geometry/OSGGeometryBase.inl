@@ -166,6 +166,34 @@ SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords3(void)
     return &_sfTexCoords3;
 }
 
+//! Get the Geometry::_sfTexCoords4 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords4(void)
+{
+    return &_sfTexCoords4;
+}
+
+//! Get the Geometry::_sfTexCoords5 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords5(void)
+{
+    return &_sfTexCoords5;
+}
+
+//! Get the Geometry::_sfTexCoords6 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords6(void)
+{
+    return &_sfTexCoords6;
+}
+
+//! Get the Geometry::_sfTexCoords7 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords7(void)
+{
+    return &_sfTexCoords7;
+}
+
 //! Get the Geometry::_sfIndices field.
 inline
 SFGeoIndicesPtr *GeometryBase::getSFIndices(void)
@@ -438,6 +466,90 @@ inline
 void GeometryBase::setTexCoords3(const GeoTexCoordsPtr &value)
 {
     _sfTexCoords3.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfTexCoords4 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords4(void)
+{
+    return _sfTexCoords4.getValue();
+}
+
+//! Get the value of the Geometry::_sfTexCoords4 field.
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords4(void) const
+{
+    return _sfTexCoords4.getValue();
+}
+
+//! Set the value of the Geometry::_sfTexCoords4 field.
+inline
+void GeometryBase::setTexCoords4(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords4.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfTexCoords5 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords5(void)
+{
+    return _sfTexCoords5.getValue();
+}
+
+//! Get the value of the Geometry::_sfTexCoords5 field.
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords5(void) const
+{
+    return _sfTexCoords5.getValue();
+}
+
+//! Set the value of the Geometry::_sfTexCoords5 field.
+inline
+void GeometryBase::setTexCoords5(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords5.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfTexCoords6 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords6(void)
+{
+    return _sfTexCoords6.getValue();
+}
+
+//! Get the value of the Geometry::_sfTexCoords6 field.
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords6(void) const
+{
+    return _sfTexCoords6.getValue();
+}
+
+//! Set the value of the Geometry::_sfTexCoords6 field.
+inline
+void GeometryBase::setTexCoords6(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords6.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfTexCoords7 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords7(void)
+{
+    return _sfTexCoords7.getValue();
+}
+
+//! Get the value of the Geometry::_sfTexCoords7 field.
+inline
+const GeoTexCoordsPtr &GeometryBase::getTexCoords7(void) const
+{
+    return _sfTexCoords7.getValue();
+}
+
+//! Set the value of the Geometry::_sfTexCoords7 field.
+inline
+void GeometryBase::setTexCoords7(const GeoTexCoordsPtr &value)
+{
+    _sfTexCoords7.setValue(value);
 }
 
 //! Get the value of the Geometry::_sfIndices field.

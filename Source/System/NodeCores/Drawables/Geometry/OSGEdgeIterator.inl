@@ -61,10 +61,10 @@ Int32 EdgeIterator::getIndex(void) const
 inline       
 UInt32 EdgeIterator::getLength(void) const
 {
-	if ( getType() == GL_LINES )
-		return 2;
-	else
-		return Inherited::getLength();
+    if ( getType() == GL_LINES )
+        return 2;
+    else
+        return Inherited::getLength();
 }
 
 
@@ -100,16 +100,16 @@ UInt32 EdgeIterator::getLength(void) const
 inline       
 Int32 EdgeIterator::getPositionIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getPositionIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getPositionIndex(_edgePntIndex[which]);
+    else
         return Inherited::getPositionIndex(which);
 }
 
 inline
 Pnt3f EdgeIterator::getPosition(Int32 which) const
 { 
-	Int32 ind = getPositionIndex(which);
+    Int32 ind = getPositionIndex(which);
 
     return getGeometry()->getPositions()->getValue(ind);
 }
@@ -117,16 +117,16 @@ Pnt3f EdgeIterator::getPosition(Int32 which) const
 inline       
 Int32 EdgeIterator::getNormalIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getNormalIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getNormalIndex(_edgePntIndex[which]);
+    else
         return Inherited::getNormalIndex(which);
 }
 
 inline
 Vec3f EdgeIterator::getNormal(Int32 which) const
 { 
-	Int32 ind = getNormalIndex(which);
+    Int32 ind = getNormalIndex(which);
 
     return getGeometry()->getNormals()->getValue(ind);
 }
@@ -134,16 +134,16 @@ Vec3f EdgeIterator::getNormal(Int32 which) const
 inline       
 Int32 EdgeIterator::getColorIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getColorIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getColorIndex(_edgePntIndex[which]);
+    else
         return Inherited::getColorIndex(which);
 }
 
 inline
 Color3f EdgeIterator::getColor(Int32 which) const
 { 
-	Int32 ind = getColorIndex(which);
+    Int32 ind = getColorIndex(which);
 
     return getGeometry()->getColors()->getValue(ind);
 }
@@ -151,16 +151,16 @@ Color3f EdgeIterator::getColor(Int32 which) const
 inline       
 Int32 EdgeIterator::getSecondaryColorIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getSecondaryColorIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getSecondaryColorIndex(_edgePntIndex[which]);
+    else
         return Inherited::getSecondaryColorIndex(which);
 }
 
 inline
 Color3f EdgeIterator::getSecondaryColor(Int32 which) const
 { 
-	Int32 ind = getSecondaryColorIndex(which);
+    Int32 ind = getSecondaryColorIndex(which);
 
     return getGeometry()->getSecondaryColors()->getValue(ind);
 }
@@ -168,16 +168,16 @@ Color3f EdgeIterator::getSecondaryColor(Int32 which) const
 inline       
 Int32 EdgeIterator::getTexCoordsIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getTexCoordsIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex(_edgePntIndex[which]);
+    else
         return Inherited::getTexCoordsIndex(which);
 }
 
 inline
 Vec2f EdgeIterator::getTexCoords(Int32 which) const
 { 
-	Int32 ind = getTexCoordsIndex(which);
+    Int32 ind = getTexCoordsIndex(which);
 
     return getGeometry()->getTexCoords()->getValue(ind);
 }
@@ -186,16 +186,16 @@ Vec2f EdgeIterator::getTexCoords(Int32 which) const
 inline       
 Int32 EdgeIterator::getTexCoordsIndex1(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getTexCoordsIndex1(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex1(_edgePntIndex[which]);
+    else
         return Inherited::getTexCoordsIndex1(which);
 }
 
 inline
 Vec2f EdgeIterator::getTexCoords1(Int32 which) const
 { 
-	Int32 ind = getTexCoordsIndex1(which);
+    Int32 ind = getTexCoordsIndex1(which);
 
     return getGeometry()->getTexCoords1()->getValue(ind);
 }
@@ -203,16 +203,16 @@ Vec2f EdgeIterator::getTexCoords1(Int32 which) const
 inline       
 Int32 EdgeIterator::getTexCoordsIndex2(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getTexCoordsIndex2(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex2(_edgePntIndex[which]);
+    else
         return Inherited::getTexCoordsIndex2(which);
 }
 
 inline
 Vec2f EdgeIterator::getTexCoords2(Int32 which) const
 { 
-	Int32 ind = getTexCoordsIndex2(which);
+    Int32 ind = getTexCoordsIndex2(which);
 
     return getGeometry()->getTexCoords2()->getValue(ind);
 }
@@ -220,26 +220,94 @@ Vec2f EdgeIterator::getTexCoords2(Int32 which) const
 inline       
 Int32 EdgeIterator::getTexCoordsIndex3(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getTexCoordsIndex3(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex3(_edgePntIndex[which]);
+    else
         return Inherited::getTexCoordsIndex3(which);
 }
 
 inline
 Vec2f EdgeIterator::getTexCoords3(Int32 which) const
 { 
-	Int32 ind = getTexCoordsIndex3(which);
+    Int32 ind = getTexCoordsIndex3(which);
 
     return getGeometry()->getTexCoords3()->getValue(ind);
 }
 
 inline       
+Int32 EdgeIterator::getTexCoordsIndex4(Int32 which) const
+{
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex4(_edgePntIndex[which]);
+    else
+        return Inherited::getTexCoordsIndex4(which);
+}
+
+inline
+Vec2f EdgeIterator::getTexCoords4(Int32 which) const
+{ 
+    Int32 ind = getTexCoordsIndex4(which);
+
+    return getGeometry()->getTexCoords4()->getValue(ind);
+}
+
+inline       
+Int32 EdgeIterator::getTexCoordsIndex5(Int32 which) const
+{
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex5(_edgePntIndex[which]);
+    else
+        return Inherited::getTexCoordsIndex5(which);
+}
+
+inline
+Vec2f EdgeIterator::getTexCoords5(Int32 which) const
+{ 
+    Int32 ind = getTexCoordsIndex5(which);
+
+    return getGeometry()->getTexCoords5()->getValue(ind);
+}
+
+inline       
+Int32 EdgeIterator::getTexCoordsIndex6(Int32 which) const
+{
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex6(_edgePntIndex[which]);
+    else
+        return Inherited::getTexCoordsIndex6(which);
+}
+
+inline
+Vec2f EdgeIterator::getTexCoords6(Int32 which) const
+{ 
+    Int32 ind = getTexCoordsIndex6(which);
+
+    return getGeometry()->getTexCoords6()->getValue(ind);
+}
+
+inline       
+Int32 EdgeIterator::getTexCoordsIndex7(Int32 which) const
+{
+    if ( getType() == GL_LINES )
+        return Inherited::getTexCoordsIndex7(_edgePntIndex[which]);
+    else
+        return Inherited::getTexCoordsIndex7(which);
+}
+
+inline
+Vec2f EdgeIterator::getTexCoords7(Int32 which) const
+{ 
+    Int32 ind = getTexCoordsIndex7(which);
+
+    return getGeometry()->getTexCoords7()->getValue(ind);
+}
+
+inline       
 Int32 EdgeIterator::getIndexIndex(Int32 which) const
 {
-	if ( getType() == GL_LINES )
-		return Inherited::getIndexIndex(_edgePntIndex[which]);
-	else
+    if ( getType() == GL_LINES )
+        return Inherited::getIndexIndex(_edgePntIndex[which]);
+    else
         return Inherited::getIndexIndex(which);
 }
 

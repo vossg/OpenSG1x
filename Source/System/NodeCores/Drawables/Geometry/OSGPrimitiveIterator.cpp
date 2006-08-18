@@ -167,6 +167,30 @@ OSG_USING_NAMESPACE
     coordinates for the iterated osg::Geometry .
 */
 
+/*! \var osg::PrimitiveIterator::_texcoordsIndex4;
+
+    Cache variable for quick access to the mapping index of fifth texture 
+    coordinates for the iterated osg::Geometry .
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex5;
+
+    Cache variable for quick access to the mapping index of sixth texture 
+    coordinates for the iterated osg::Geometry .
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex6;
+
+    Cache variable for quick access to the mapping index of seventh texture 
+    coordinates for the iterated osg::Geometry .
+*/
+
+/*! \var osg::PrimitiveIterator::_texcoordsIndex7;
+
+    Cache variable for quick access to the mapping index of eighth texture 
+    coordinates for the iterated osg::Geometry .
+*/
+
 #endif // only include in dev docs
 
 /***************************************************************************\
@@ -203,7 +227,11 @@ PrimitiveIterator::PrimitiveIterator(void) :
     _texcoordsIndex     (    -1),
     _texcoordsIndex1    (    -1),
     _texcoordsIndex2    (    -1),
-    _texcoordsIndex3    (    -1)
+    _texcoordsIndex3    (    -1),
+    _texcoordsIndex4    (    -1),
+    _texcoordsIndex5    (    -1),
+    _texcoordsIndex6    (    -1),
+    _texcoordsIndex7    (    -1)
 {
 }
 
@@ -230,7 +258,11 @@ PrimitiveIterator::PrimitiveIterator(const GeometryPtr& geo) :
     _texcoordsIndex     (    -1),
     _texcoordsIndex1    (    -1),
     _texcoordsIndex2    (    -1),
-    _texcoordsIndex3    (    -1)
+    _texcoordsIndex3    (    -1),
+    _texcoordsIndex4    (    -1),
+    _texcoordsIndex5    (    -1),
+    _texcoordsIndex6    (    -1),
+    _texcoordsIndex7    (    -1)
 {
     setGeo(geo);
 }
@@ -258,7 +290,11 @@ PrimitiveIterator::PrimitiveIterator(const NodePtr& geo) :
     _texcoordsIndex     (    -1),
     _texcoordsIndex1    (    -1),
     _texcoordsIndex2    (    -1),
-    _texcoordsIndex3    (    -1)
+    _texcoordsIndex3    (    -1),
+    _texcoordsIndex4    (    -1),
+    _texcoordsIndex5    (    -1),
+    _texcoordsIndex6    (    -1),
+    _texcoordsIndex7    (    -1)
 {
     setGeo(geo);
 }
@@ -282,7 +318,11 @@ PrimitiveIterator::PrimitiveIterator(const PrimitiveIterator &source) :
     _texcoordsIndex     (source._texcoordsIndex     ),
     _texcoordsIndex1    (source._texcoordsIndex1    ),
     _texcoordsIndex2    (source._texcoordsIndex2    ),
-    _texcoordsIndex3    (source._texcoordsIndex3    )  
+    _texcoordsIndex3    (source._texcoordsIndex3    ),
+    _texcoordsIndex4    (source._texcoordsIndex4    ),
+    _texcoordsIndex5    (source._texcoordsIndex5    ),
+    _texcoordsIndex6    (source._texcoordsIndex6    ),
+    _texcoordsIndex7    (source._texcoordsIndex7    )
 {
 }
 
@@ -386,6 +426,10 @@ void PrimitiveIterator::setToBegin(void)
     _texcoordsIndex1     = _geo->calcMappingIndex(Geometry::MapTexCoords1);
     _texcoordsIndex2     = _geo->calcMappingIndex(Geometry::MapTexCoords2);
     _texcoordsIndex3     = _geo->calcMappingIndex(Geometry::MapTexCoords3);
+    _texcoordsIndex4     = _geo->calcMappingIndex(Geometry::MapTexCoords4);
+    _texcoordsIndex5     = _geo->calcMappingIndex(Geometry::MapTexCoords5);
+    _texcoordsIndex6     = _geo->calcMappingIndex(Geometry::MapTexCoords6);
+    _texcoordsIndex7     = _geo->calcMappingIndex(Geometry::MapTexCoords7);
 
     if(_nmappings == 0)
         _nmappings = 1;
@@ -479,6 +523,10 @@ PrimitiveIterator& PrimitiveIterator::operator =(const PrimitiveIterator &source
     this->_texcoordsIndex1      = source._texcoordsIndex1;
     this->_texcoordsIndex2      = source._texcoordsIndex2;
     this->_texcoordsIndex3      = source._texcoordsIndex3;
+    this->_texcoordsIndex4      = source._texcoordsIndex4;
+    this->_texcoordsIndex5      = source._texcoordsIndex5;
+    this->_texcoordsIndex6      = source._texcoordsIndex6;
+    this->_texcoordsIndex7      = source._texcoordsIndex7;
 
     return *this;
 }

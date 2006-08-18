@@ -9,6 +9,7 @@
 	systemcomponent="true"
 	parentsystemcomponent="true"
 	decoratable="false"
+	useLocalIncludes="false"
 >
 	<Field
 		name="types"
@@ -17,9 +18,7 @@
 		visibility="external"
 		access="public"
 	>
-        The types property contains the primitive's types. Legal values are 
-        everything that can be passed to glBegin(). There have to be as many 
-        types as lengths.
+	The types property contains the primitive's types. Legal values are          everything that can be passed to glBegin(). There have to be as many          types as lengths.
 	</Field>
 	<Field
 		name="lengths"
@@ -28,8 +27,7 @@
 		visibility="external"
 		access="public"
 	>
-        The lengths property contains the number of vertices to use for the 
-        corresponding primitive. There have to be as many  lengths as types.
+	The lengths property contains the number of vertices to use for the          corresponding primitive. There have to be as many  lengths as types.
 	</Field>
 	<Field
 		name="positions"
@@ -38,7 +36,7 @@
 		visibility="external"
 		access="public"
 	>
-        The positions property contains the position data.
+	The positions property contains the position data.
 	</Field>
 	<Field
 		name="normals"
@@ -47,7 +45,7 @@
 		visibility="external"
 		access="public"
 	>
-        The normals property contains the normal data.
+	The normals property contains the normal data.
 	</Field>
 	<Field
 		name="colors"
@@ -56,8 +54,7 @@
 		visibility="external"
 		access="public"
 	>
-        The colors property contains the color data. See \ref 
-        PageSystemMaterialChunk for details on when these colors are used.
+	The colors property contains the color data. See \ref          PageSystemMaterialChunk for details on when these colors are used.
 	</Field>
 	<Field
 		name="secondaryColors"
@@ -66,8 +63,7 @@
 		visibility="external"
 		access="public"
 	>
-        The secondaryColors property contains the secondary colors data.
-        Secondary colors are used for some higher level shaders.
+	The secondaryColors property contains the secondary colors data.         Secondary colors are used for some higher level shaders.
 	</Field>
 	<Field
 		name="texCoords"
@@ -76,7 +72,7 @@
 		visibility="external"
 		access="public"
 	>
-        The texCoords property contains the texture coordinate data.
+	The texCoords property contains the texture coordinate data.
 	</Field>
 	<Field
 		name="texCoords1"
@@ -85,8 +81,7 @@
 		visibility="external"
 		access="public"
 	>
-        The texCoords1 property contains the texture coordinate data for the
-        second texture. See \ref PageSystemTextureChunk for multi-texturing.
+	The texCoords1 property contains the texture coordinate data for the         second texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="texCoords2"
@@ -95,8 +90,7 @@
 		visibility="external"
 		access="public"
 	>
-        The texCoords2 property contains the texture coordinate data for the
-        third texture. See \ref PageSystemTextureChunk for multi-texturing.
+	The texCoords2 property contains the texture coordinate data for the         third texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="texCoords3"
@@ -105,8 +99,43 @@
 		visibility="external"
 		access="public"
 	>
-        The texCoords3 property contains the texture coordinate data for the
-        fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
+	The texCoords3 property contains the texture coordinate data for the         fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
+	</Field>
+	<Field
+		name="texCoords4"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The texCoords4 property contains the texture coordinate data for the         fifth texture. See \ref PageSystemTextureChunk for multi-texturing.
+	</Field>
+	<Field
+		name="texCoords5"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The texCoords5 property contains the texture coordinate data for the         sixth texture. See \ref PageSystemTextureChunk for multi-texturing.
+	</Field>
+	<Field
+		name="texCoords6"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The texCoords6 property contains the texture coordinate data for the         seventh texture. See \ref PageSystemTextureChunk for multi-texturing.
+	</Field>
+	<Field
+		name="texCoords7"
+		type="GeoTexCoordsPtr"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The texCoords7 property contains the texture coordinate data for the         eighth texture. See \ref PageSystemTextureChunk for multi-texturing.
 	</Field>
 	<Field
 		name="indices"
@@ -115,8 +144,7 @@
 		visibility="external"
 		access="public"
 	>
-        The indices property contains the index data. See \ref 
-        PageSystemGeoIndexing for a description of the indexing options.
+	The indices property contains the index data. See \ref          PageSystemGeoIndexing for a description of the indexing options.
 	</Field>
 	<Field
 		name="indexMapping"
@@ -125,9 +153,7 @@
 		visibility="external"
 		access="public"
 	>
-        The indexMapping property contains the definition which index element
-        is used for which attribute data. See \ref PageSystemGeoIndexing for
-        a description of the indexing options.
+	The indexMapping property contains the definition which index element         is used for which attribute data. See \ref PageSystemGeoIndexing for         a description of the indexing options.
 	</Field>
 	<Field
 		name="dlistCache"
@@ -166,7 +192,7 @@
 		visibility="internal"
 		access="public"
 	>
-        The minimum index used (for single-indexed mode only).
+	The minimum index used (for single-indexed mode only).
 	</Field>
 	<Field
 		name="maxindex"
@@ -175,7 +201,7 @@
 		visibility="internal"
 		access="public"
 	>
-        The maximum index used (for single-indexed mode only).
+	The maximum index used (for single-indexed mode only).
 	</Field>
 	<Field
 		name="lowindices"
@@ -184,7 +210,7 @@
 		visibility="internal"
 		access="public"
 	>
-        For each primitive (entry in types) the lowest index used (for single-indexed mode only).
+	For each primitive (entry in types) the lowest index used (for single-indexed mode only).
 	</Field>
 	<Field
 		name="highindices"
@@ -193,6 +219,6 @@
 		visibility="internal"
 		access="public"
 	>
-        For each primitive (entry in types) the highest index used (for single-indexed mode only).
+	For each primitive (entry in types) the highest index used (for single-indexed mode only).
 	</Field>
 </FieldContainer>

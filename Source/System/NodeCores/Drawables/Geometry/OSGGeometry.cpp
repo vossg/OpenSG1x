@@ -96,7 +96,11 @@ const UInt16 Geometry::MapTexCoords      = Geometry::MapSecondaryColor << 1;
 const UInt16 Geometry::MapTexCoords1     = Geometry::MapTexCoords << 1;
 const UInt16 Geometry::MapTexCoords2     = Geometry::MapTexCoords1 << 1;
 const UInt16 Geometry::MapTexCoords3     = Geometry::MapTexCoords2 << 1;
-const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords3 << 1;
+const UInt16 Geometry::MapTexCoords4     = Geometry::MapTexCoords3 << 1;
+const UInt16 Geometry::MapTexCoords5     = Geometry::MapTexCoords4 << 1;
+const UInt16 Geometry::MapTexCoords6     = Geometry::MapTexCoords5 << 1;
+const UInt16 Geometry::MapTexCoords7     = Geometry::MapTexCoords6 << 1;
+const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords7 << 1;
 
 
 /***************************************************************************\
@@ -330,6 +334,50 @@ void Geometry::onDestroy(void)
         subRefCP(_sfTexCoords3.getValue());
     }
 
+    if(_sfTexCoords4.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords4.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords4.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfTexCoords4.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords4.getValue());
+    }
+
+    if(_sfTexCoords5.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords5.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords5.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfTexCoords5.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords5.getValue());
+    }
+
+    if(_sfTexCoords6.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords6.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords6.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfTexCoords6.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords6.getValue());
+    }
+
+    if(_sfTexCoords7.getValue() != NullFC)
+    {
+        beginEditCP(_sfTexCoords7.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTexCoords7.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfTexCoords7.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTexCoords7.getValue());
+    }
+
     if(_sfIndices.getValue() != NullFC)
     {
         beginEditCP(_sfIndices.getValue(), Attachment::ParentsFieldMask);
@@ -537,6 +585,26 @@ void Geometry::dump(      UInt32    uiIndent,
         getTexCoords3()->dump(uiIndent, bvFlags);
     }
 
+    if(getTexCoords4() != NullFC)
+    {
+        getTexCoords4()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords5() != NullFC)
+    {
+        getTexCoords5()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords6() != NullFC)
+    {
+        getTexCoords6()->dump(uiIndent, bvFlags);
+    }
+
+    if(getTexCoords7() != NullFC)
+    {
+        getTexCoords7()->dump(uiIndent, bvFlags);
+    }
+
     uiIndent -= 4;
 
     AttachmentContainer::dump(uiIndent, bvFlags);
@@ -582,6 +650,18 @@ GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
             break;
         case MapTexCoords3:
             pP =(getTexCoords3()      == NullFC) ? 0 : &(*getTexCoords3());
+            break;
+        case MapTexCoords4:
+            pP =(getTexCoords4()      == NullFC) ? 0 : &(*getTexCoords4());
+            break;
+        case MapTexCoords5:
+            pP =(getTexCoords5()      == NullFC) ? 0 : &(*getTexCoords5());
+            break;
+        case MapTexCoords6:
+            pP =(getTexCoords6()      == NullFC) ? 0 : &(*getTexCoords6());
+            break;
+        case MapTexCoords7:
+            pP =(getTexCoords7()      == NullFC) ? 0 : &(*getTexCoords7());
             break;
         default:
             FFATAL(("Invalid mapID(%d) in Geometry::getProperty()\n",
@@ -668,6 +748,18 @@ bool Geometry::merge( const GeometryPtr other )
 
         if (other->getTexCoords3()!=NullFC)
             setTexCoords3(other->getTexCoords3()->clone());
+
+        if (other->getTexCoords4()!=NullFC)
+            setTexCoords4(other->getTexCoords4()->clone());
+
+        if (other->getTexCoords5()!=NullFC)
+            setTexCoords5(other->getTexCoords5()->clone());
+
+        if (other->getTexCoords6()!=NullFC)
+            setTexCoords6(other->getTexCoords6()->clone());
+
+        if (other->getTexCoords7()!=NullFC)
+            setTexCoords7(other->getTexCoords7()->clone());
 
         if(other->getIndices()!=NullFC)
             setIndices(other->getIndices()->clone());
@@ -1181,6 +1273,138 @@ void Geometry::changed(BitVector whichField,
         }
     }
 
+    if(whichField & TexCoords4FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+
+                if(_sfTexCoords4.getValue()                    != NullFC &&
+                   _sfTexCoords4.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords4.getValue();
+
+                    _sfTexCoords4.setValue(NullFC);
+
+                    setTexCoords4(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords4.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords4.getValue();
+
+                _sfTexCoords4.setValue(NullFC);
+
+                setTexCoords4(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & TexCoords5FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+
+                if(_sfTexCoords5.getValue()                    != NullFC &&
+                   _sfTexCoords5.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords5.getValue();
+
+                    _sfTexCoords5.setValue(NullFC);
+
+                    setTexCoords5(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords5.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords5.getValue();
+
+                _sfTexCoords5.setValue(NullFC);
+
+                setTexCoords5(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & TexCoords6FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+
+                if(_sfTexCoords6.getValue()                    != NullFC &&
+                   _sfTexCoords6.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords6.getValue();
+
+                    _sfTexCoords6.setValue(NullFC);
+
+                    setTexCoords6(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords6.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords6.getValue();
+
+                _sfTexCoords6.setValue(NullFC);
+
+                setTexCoords6(pTexCoord);
+            }
+        }
+    }
+
+    if(whichField & TexCoords7FieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                GeometryPtr thisP = getPtr();
+
+                if(_sfTexCoords7.getValue()                    != NullFC &&
+                   _sfTexCoords7.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTexCoords7.getValue();
+
+                    _sfTexCoords7.setValue(NullFC);
+
+                    setTexCoords7(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTexCoords7.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTexCoords7.getValue();
+
+                _sfTexCoords7.setValue(NullFC);
+
+                setTexCoords7(pTexCoord);
+            }
+        }
+    }
+
     if(whichField & IndicesFieldMask)
     {
         if(origin & ChangedOrigin::Abstract)
@@ -1467,6 +1691,26 @@ GeometryPtr Geometry::clone(void)
             geo->setTexCoords3(getTexCoords3()->clone());
         }
 
+        if(getTexCoords4() != NullFC)
+        {
+            geo->setTexCoords4(getTexCoords4()->clone());
+        }
+
+        if(getTexCoords5() != NullFC)
+        {
+            geo->setTexCoords5(getTexCoords5()->clone());
+        }
+
+        if(getTexCoords6() != NullFC)
+        {
+            geo->setTexCoords6(getTexCoords6()->clone());
+        }
+
+        if(getTexCoords7() != NullFC)
+        {
+            geo->setTexCoords7(getTexCoords7()->clone());
+        }
+
         if(getIndices() != NullFC)
         {
             geo->setIndices(getIndices()->clone());
@@ -1577,6 +1821,18 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
         ) ||
         ( (        getTexCoords3()          != NullFC ) ^
           ( other->getTexCoords3()          != NullFC )
+        ) ||
+        ( (        getTexCoords4()          != NullFC ) ^
+          ( other->getTexCoords4()          != NullFC )
+        ) ||
+        ( (        getTexCoords5()          != NullFC ) ^
+          ( other->getTexCoords5()          != NullFC )
+        ) ||
+        ( (        getTexCoords6()          != NullFC ) ^
+          ( other->getTexCoords6()          != NullFC )
+        ) ||
+        ( (        getTexCoords7()          != NullFC ) ^
+          ( other->getTexCoords7()          != NullFC )
         ) )
         return -1;
 
@@ -1643,6 +1899,10 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     copyAttrib( texcoord1, GeoTexCoordsPtr, getTexCoords1 );        \
     copyAttrib( texcoord2, GeoTexCoordsPtr, getTexCoords2 );        \
     copyAttrib( texcoord3, GeoTexCoordsPtr, getTexCoords3 );        \
+    copyAttrib( texcoord4, GeoTexCoordsPtr, getTexCoords4 );        \
+    copyAttrib( texcoord5, GeoTexCoordsPtr, getTexCoords5 );        \
+    copyAttrib( texcoord6, GeoTexCoordsPtr, getTexCoords6 );        \
+    copyAttrib( texcoord7, GeoTexCoordsPtr, getTexCoords7 );        \
     beginEditCP((GeometryPtr)this);                                 \
     setDlistCache(other->getDlistCache());                          \
     endEditCP((GeometryPtr)this);                                   \
@@ -1653,8 +1913,9 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
 void Geometry::merge0( const GeometryPtr other )
 {
     UInt32 posBase = 0,typeBase = 0,lengthBase = 0,normalBase = 0,colorBase = 0,
-        seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
-        texcoord3Base = 0;
+           seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
+           texcoord3Base = 0, texcoord4Base = 0, texcoord5Base = 0, texcoord6Base = 0,
+           texcoord7Base = 0;
 
     // append the data
     UInt32 i;
@@ -1710,6 +1971,17 @@ void Geometry::merge0( const GeometryPtr other )
             if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
                 offsets[ mind ] = texcoord3Base;
 
+            if ( ( mind = calcMappingIndex( MapTexCoords4 ) ) >= 0 )
+                offsets[ mind ] = texcoord4Base;
+
+            if ( ( mind = calcMappingIndex( MapTexCoords5 ) ) >= 0 )
+                offsets[ mind ] = texcoord5Base;
+
+            if ( ( mind = calcMappingIndex( MapTexCoords6 ) ) >= 0 )
+                offsets[ mind ] = texcoord6Base;
+
+            if ( ( mind = calcMappingIndex( MapTexCoords7 ) ) >= 0 )
+                offsets[ mind ] = texcoord7Base;
 
             // bump every index by its offset
             for ( i = 0, j = 0; i < oind->getSize();
@@ -1731,8 +2003,9 @@ void Geometry::merge0( const GeometryPtr other )
 void Geometry::merge1( const GeometryPtr other )
 {
     UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
+           texcoord7Base;
 
     UInt32 i;
 
@@ -1756,8 +2029,9 @@ void Geometry::merge1( const GeometryPtr other )
 void Geometry::merge2( const GeometryPtr other )
 {
     UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
+           texcoord7Base;
 
     UInt32 i;
 
@@ -1787,8 +2061,9 @@ void Geometry::merge2( const GeometryPtr other )
 void Geometry::merge3( const GeometryPtr other )
 {
     UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
+           texcoord7Base;
 
     UInt32 i;
 
@@ -1828,6 +2103,18 @@ void Geometry::merge3( const GeometryPtr other )
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
             ind->setValue(texcoord3Base + i, indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords4 ) ) >= 0 )
+            ind->setValue(texcoord4Base + i, indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords5 ) ) >= 0 )
+            ind->setValue(texcoord5Base + i, indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords6 ) ) >= 0 )
+            ind->setValue(texcoord6Base + i, indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords7 ) ) >= 0 )
+            ind->setValue(texcoord7Base + i, indBase + i*nmap + mind);
     }
 
     endEditCP( ind );
@@ -1838,8 +2125,9 @@ void Geometry::merge3( const GeometryPtr other )
 void Geometry::merge4( const GeometryPtr other )
 {
     UInt32 posBase = 0,typeBase = 0,lengthBase = 0,normalBase = 0,colorBase = 0,
-        seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
-        texcoord3Base = 0;
+           seccolorBase = 0,texcoordBase = 0,texcoord1Base = 0,texcoord2Base = 0,
+           texcoord3Base = 0, texcoord4Base = 0, texcoord5Base = 0, texcoord6Base = 0,
+           texcoord7Base = 0;
 
     UInt32 i;
 
@@ -1878,6 +2166,18 @@ void Geometry::merge4( const GeometryPtr other )
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
             indices->setValue(i, i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords4 ) ) >= 0 )
+            indices->setValue(i, i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords5 ) ) >= 0 )
+            indices->setValue(i, i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords6 ) ) >= 0 )
+            indices->setValue(i, i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords7 ) ) >= 0 )
+            indices->setValue(i, i*nmap + mind);
     }
 
     for (i = 0; i < other->getIndices()->getSize(); i++)
@@ -1896,8 +2196,9 @@ void Geometry::merge4( const GeometryPtr other )
 void Geometry::merge5( const GeometryPtr other )
 {
     UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
+           texcoord7Base;
 
     UInt32 i;
 
@@ -1938,6 +2239,18 @@ void Geometry::merge5( const GeometryPtr other )
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
             ind->setValue(texcoord3Base + oind->getValue(i), indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords4 ) ) >= 0 )
+            ind->setValue(texcoord4Base + oind->getValue(i), indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords5 ) ) >= 0 )
+            ind->setValue(texcoord5Base + oind->getValue(i), indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords6 ) ) >= 0 )
+            ind->setValue(texcoord6Base + oind->getValue(i), indBase + i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords7 ) ) >= 0 )
+            ind->setValue(texcoord7Base + oind->getValue(i), indBase + i*nmap + mind);
     }
 
     endEditCP( ind );
@@ -1948,8 +2261,9 @@ void Geometry::merge5( const GeometryPtr other )
 void Geometry::merge6( const GeometryPtr other )
 {
     UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-        seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-        texcoord3Base;
+           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
+           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
+           texcoord7Base;
 
     UInt32 i;
 
@@ -1990,6 +2304,18 @@ void Geometry::merge6( const GeometryPtr other )
             ind->setValue(indclone->getValue(i), i*nmap + mind);
 
         if ( ( mind = calcMappingIndex( MapTexCoords3 ) ) >= 0 )
+            ind->setValue(indclone->getValue(i), i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords4 ) ) >= 0 )
+            ind->setValue(indclone->getValue(i), i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords5 ) ) >= 0 )
+            ind->setValue(indclone->getValue(i), i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords6 ) ) >= 0 )
+            ind->setValue(indclone->getValue(i), i*nmap + mind);
+
+        if ( ( mind = calcMappingIndex( MapTexCoords7 ) ) >= 0 )
             ind->setValue(indclone->getValue(i), i*nmap + mind);
     }
 

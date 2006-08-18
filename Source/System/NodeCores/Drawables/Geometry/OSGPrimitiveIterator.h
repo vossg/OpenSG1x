@@ -135,6 +135,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     inline Int32        getTexCoordsIndex3     (Int32 which) const;
     inline Vec2f        getTexCoords3          (Int32 which) const;
 
+    inline Int32        getTexCoordsIndex4      (Int32 which) const;
+    inline Vec2f        getTexCoords4           (Int32 which) const;
+
+    inline Int32        getTexCoordsIndex5      (Int32 which) const;
+    inline Vec2f        getTexCoords5           (Int32 which) const;
+
+    inline Int32        getTexCoordsIndex6      (Int32 which) const;
+    inline Vec2f        getTexCoords6           (Int32 which) const;
+
+    inline Int32        getTexCoordsIndex7      (Int32 which) const;
+    inline Vec2f        getTexCoords7           (Int32 which) const;
+
     inline Int32        getIndexIndex          (Int32 which) const;
 
     inline GeometryPtr  getGeometry            (void        ) const;
@@ -188,6 +200,10 @@ class OSG_SYSTEMLIB_DLLMAPPING PrimitiveIterator
     Int16           _texcoordsIndex1;
     Int16           _texcoordsIndex2;
     Int16           _texcoordsIndex3;
+    Int16           _texcoordsIndex4;
+    Int16           _texcoordsIndex5;
+    Int16           _texcoordsIndex6;
+    Int16           _texcoordsIndex7;
 
     /*! \}                                                                 */
 };

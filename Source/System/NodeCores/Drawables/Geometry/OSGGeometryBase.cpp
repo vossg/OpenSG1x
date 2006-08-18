@@ -94,6 +94,18 @@ const OSG::BitVector  GeometryBase::TexCoords2FieldMask =
 const OSG::BitVector  GeometryBase::TexCoords3FieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::TexCoords3FieldId);
 
+const OSG::BitVector  GeometryBase::TexCoords4FieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords4FieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords5FieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords5FieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords6FieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords6FieldId);
+
+const OSG::BitVector  GeometryBase::TexCoords7FieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::TexCoords7FieldId);
+
 const OSG::BitVector  GeometryBase::IndicesFieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::IndicesFieldId);
 
@@ -157,6 +169,18 @@ const OSG::BitVector GeometryBase::MTInfluenceMask =
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords3
     The texCoords3 property contains the texture coordinate data for the         fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords4
+    The texCoords3 property contains the texture coordinate data for the         fifth texture. See \ref PageSystemTextureChunk for multi-texturing.
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords5
+    The texCoords3 property contains the texture coordinate data for the         sixth texture. See \ref PageSystemTextureChunk for multi-texturing.
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords6
+    The texCoords3 property contains the texture coordinate data for the         seventh texture. See \ref PageSystemTextureChunk for multi-texturing.
+*/
+/*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords7
+    The texCoords3 property contains the texture coordinate data for the         eighth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoIndicesPtr   GeometryBase::_sfIndices
     The indices property contains the index data. See \ref          PageSystemGeoIndexing for a description of the indexing options.
@@ -240,6 +264,26 @@ FieldDescription *GeometryBase::_desc[] =
                      TexCoords3FieldId, TexCoords3FieldMask,
                      false,
                      (FieldAccessMethod) &GeometryBase::getSFTexCoords3),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords4", 
+                     TexCoords4FieldId, TexCoords4FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords4),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords5", 
+                     TexCoords5FieldId, TexCoords5FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords5),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords6", 
+                     TexCoords6FieldId, TexCoords6FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords6),
+    new FieldDescription(SFGeoTexCoordsPtr::getClassType(), 
+                     "texCoords7", 
+                     TexCoords7FieldId, TexCoords7FieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFTexCoords7),
     new FieldDescription(SFGeoIndicesPtr::getClassType(), 
                      "indices", 
                      IndicesFieldId, IndicesFieldMask,
@@ -373,6 +417,10 @@ GeometryBase::GeometryBase(void) :
     _sfTexCoords1             (), 
     _sfTexCoords2             (), 
     _sfTexCoords3             (), 
+    _sfTexCoords4             (), 
+    _sfTexCoords5             (), 
+    _sfTexCoords6             (), 
+    _sfTexCoords7             (), 
     _sfIndices                (), 
     _mfIndexMapping           (), 
     _sfDlistCache             (bool(true)), 
@@ -401,6 +449,10 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfTexCoords1             (source._sfTexCoords1             ), 
     _sfTexCoords2             (source._sfTexCoords2             ), 
     _sfTexCoords3             (source._sfTexCoords3             ), 
+    _sfTexCoords4             (source._sfTexCoords4             ), 
+    _sfTexCoords5             (source._sfTexCoords5             ), 
+    _sfTexCoords6             (source._sfTexCoords6             ), 
+    _sfTexCoords7             (source._sfTexCoords7             ), 
     _sfIndices                (source._sfIndices                ), 
     _mfIndexMapping           (source._mfIndexMapping           ), 
     _sfDlistCache             (source._sfDlistCache             ), 
@@ -474,6 +526,26 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
     {
         returnValue += _sfTexCoords3.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords4FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords4.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords5FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords5.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords6FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords6.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TexCoords7FieldMask & whichField))
+    {
+        returnValue += _sfTexCoords7.getBinSize();
     }
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
@@ -580,6 +652,26 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
         _sfTexCoords3.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (TexCoords4FieldMask & whichField))
+    {
+        _sfTexCoords4.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords5FieldMask & whichField))
+    {
+        _sfTexCoords5.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords6FieldMask & whichField))
+    {
+        _sfTexCoords6.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords7FieldMask & whichField))
+    {
+        _sfTexCoords7.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
     {
         _sfIndices.copyToBin(pMem);
@@ -683,6 +775,26 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfTexCoords3.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TexCoords4FieldMask & whichField))
+    {
+        _sfTexCoords4.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords5FieldMask & whichField))
+    {
+        _sfTexCoords5.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords6FieldMask & whichField))
+    {
+        _sfTexCoords6.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TexCoords7FieldMask & whichField))
+    {
+        _sfTexCoords7.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
     {
         _sfIndices.copyFromBin(pMem);
@@ -768,6 +880,18 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
         _sfTexCoords3.syncWith(pOther->_sfTexCoords3);
 
+    if(FieldBits::NoField != (TexCoords4FieldMask & whichField))
+        _sfTexCoords4.syncWith(pOther->_sfTexCoords4);
+
+    if(FieldBits::NoField != (TexCoords5FieldMask & whichField))
+        _sfTexCoords5.syncWith(pOther->_sfTexCoords5);
+
+    if(FieldBits::NoField != (TexCoords6FieldMask & whichField))
+        _sfTexCoords6.syncWith(pOther->_sfTexCoords6);
+
+    if(FieldBits::NoField != (TexCoords7FieldMask & whichField))
+        _sfTexCoords7.syncWith(pOther->_sfTexCoords7);
+
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
         _sfIndices.syncWith(pOther->_sfIndices);
 
@@ -834,6 +958,18 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
     if(FieldBits::NoField != (TexCoords3FieldMask & whichField))
         _sfTexCoords3.syncWith(pOther->_sfTexCoords3);
+
+    if(FieldBits::NoField != (TexCoords4FieldMask & whichField))
+        _sfTexCoords4.syncWith(pOther->_sfTexCoords4);
+
+    if(FieldBits::NoField != (TexCoords5FieldMask & whichField))
+        _sfTexCoords5.syncWith(pOther->_sfTexCoords5);
+
+    if(FieldBits::NoField != (TexCoords6FieldMask & whichField))
+        _sfTexCoords6.syncWith(pOther->_sfTexCoords6);
+
+    if(FieldBits::NoField != (TexCoords7FieldMask & whichField))
+        _sfTexCoords7.syncWith(pOther->_sfTexCoords7);
 
     if(FieldBits::NoField != (IndicesFieldMask & whichField))
         _sfIndices.syncWith(pOther->_sfIndices);

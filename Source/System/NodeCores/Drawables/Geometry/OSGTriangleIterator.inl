@@ -176,13 +176,13 @@ Vec2f TriangleIterator::getTexCoords2(Int32 which) const
 }
 
 
-inline       
+inline
 Int32 TriangleIterator::getTexCoordsIndex3(Int32 which) const
 {
     return Inherited::getTexCoordsIndex3(_triPntIndex[which]);
 }
 
-inline 
+inline
 Vec2f TriangleIterator::getTexCoords3(Int32 which) const
 {   
     Int32 ind = getTexCoordsIndex3(which);
@@ -193,8 +193,75 @@ Vec2f TriangleIterator::getTexCoords3(Int32 which) const
     return getGeometry()->getTexCoords3()->getValue(ind);
 }
 
+inline
+Int32 TriangleIterator::getTexCoordsIndex4(Int32 which) const
+{
+    return Inherited::getTexCoordsIndex4(_triPntIndex[which]);
+}
 
-inline       
+inline
+Vec2f TriangleIterator::getTexCoords4(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex4(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords4()->getValue(ind);
+}
+
+inline
+Int32 TriangleIterator::getTexCoordsIndex5(Int32 which) const
+{
+    return Inherited::getTexCoordsIndex5(_triPntIndex[which]);
+}
+
+inline
+Vec2f TriangleIterator::getTexCoords5(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex5(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords5()->getValue(ind);
+}
+
+inline
+Int32 TriangleIterator::getTexCoordsIndex6(Int32 which) const
+{
+    return Inherited::getTexCoordsIndex6(_triPntIndex[which]);
+}
+
+inline
+Vec2f TriangleIterator::getTexCoords6(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex6(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords6()->getValue(ind);
+}
+
+inline
+Int32 TriangleIterator::getTexCoordsIndex7(Int32 which) const
+{
+    return Inherited::getTexCoordsIndex7(_triPntIndex[which]);
+}
+
+inline
+Vec2f TriangleIterator::getTexCoords7(Int32 which) const
+{   
+    Int32 ind = getTexCoordsIndex7(which);
+    
+    if(ind < 0)
+        return Vec2f::Null;
+        
+    return getGeometry()->getTexCoords7()->getValue(ind);
+}
+
+inline
 Int32 TriangleIterator::getIndexIndex(Int32 which) const
 {
     if(_triPntIndex[which] >= 0)
