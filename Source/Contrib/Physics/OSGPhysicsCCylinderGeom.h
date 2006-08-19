@@ -60,20 +60,20 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsCCylinderGeom : public PhysicsCCylinderG
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Vec2f getParams(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setParams(const Vec2f &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
 	  /*! \{																*/
       void initCCylinderGeom();
 	  Real32 getPointDepth(const Vec3f& p);
-	  /*! \}
+	  /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -116,7 +116,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsCCylinderGeom : public PhysicsCCylinderG
 	/*! \{                                                                 */
 	void onCreate(const PhysicsCCylinderGeom *id = NULL);
 	void onDestroy();
-	/*! \}	
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -137,6 +137,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsCCylinderGeomBase.inl>
 #include <OSGPhysicsCCylinderGeom.inl>
 
-#define OSGPHYSICSCCYLINDERGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeom.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSCCYLINDERGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSCCYLINDERGEOM_H_ */

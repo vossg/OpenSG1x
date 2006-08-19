@@ -70,7 +70,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsGeom : public PhysicsGeomBase
       PhysicsSpacePtr getSpace(void);
       bool getEnable(void);
       dGeomID getGeomID(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -84,7 +84,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsGeom : public PhysicsGeomBase
       void setSpace(const PhysicsSpacePtr &value );
       void setEnable(const bool &value );
       void setGeomID(const dGeomID &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -97,7 +97,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsGeom : public PhysicsGeomBase
 	  void* getData(void);
 	  void Collide2(dGeomID  otherGID, void* someData, dNearCallback* callback);
       void initGeom();
-	  /*! \} 
+	  /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -137,13 +137,13 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsGeom : public PhysicsGeomBase
 
     virtual ~PhysicsGeom(void); 
 
-    /*! \}
+    /*! \}                                                                 */
 	/*---------------------------------------------------------------------*/
 	/*! \name                   Class Specific                             */
 	/*! \{                                                                 */
 	void onCreate(const PhysicsGeom *id = NULL);
 	void onDestroy();
-    /*! \}
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -164,6 +164,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsGeomBase.inl>
 #include <OSGPhysicsGeom.inl>
 
-#define OSGPHYSICSGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsGeom.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSGEOM_H_ */

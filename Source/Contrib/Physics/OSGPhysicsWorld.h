@@ -74,7 +74,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsWorld : public PhysicsWorldBase
 	Real32	getWorldContactSurfaceLayer(void);
     dWorldID getWorldID(void);
 
-	/*! \} 
+	/*! \}                                                                 */
 	/*---------------------------------------------------------------------*/
 	/*! \name                   Class Specific Set Field                    */
 	/*! \{                                                                 */
@@ -89,7 +89,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsWorld : public PhysicsWorldBase
 	void setWorldQuickStepNumIterations(const Int32 &value );
 	void setWorldContactMaxCorrectingVel(const Real32 &value );
 	void setWorldContactSurfaceLayer(const Real32 &value );
-	/*! \} 
+	/*! \}                                                                 */
 	/*---------------------------------------------------------------------*/
 	/*! \name                   Class Specific                             */
 	/*! \{                                                                 */
@@ -97,7 +97,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsWorld : public PhysicsWorldBase
 	void worldStep(Real32 stepsize);
 	void worldQuickStep(Real32 stepsize);
     void initWorld();
-	/*! \} 
+	/*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -141,7 +141,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsWorld : public PhysicsWorldBase
 	void onCreate(const PhysicsWorld *id = NULL);
 	void onDestroy();
 	
-    /*! \} 
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -165,6 +165,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsWorldBase.inl>
 #include <OSGPhysicsWorld.inl>
 
-#define OSGPHYSICSWORLD_HEADER_CVSID "@(#)$Id: OSGPhysicsWorld.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSWORLD_HEADER_CVSID "@(#)$Id: OSGPhysicsWorld.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 
 #endif /* _OSGPHYSICSWORLD_H_ */

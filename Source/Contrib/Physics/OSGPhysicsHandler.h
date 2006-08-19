@@ -71,13 +71,13 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHandler : public PhysicsHandlerBase
 	/*! \name                   Class Specific Get Field                    */
 	/*! \{                                                                 */
 	
-	/*! \} 		
+	/*! \}                                                                 */
 
 	/*---------------------------------------------------------------------*/
 	/*! \name                   Class Specific Set Field                    */
 	/*! \{                                                                 */
 	
-	/*! \} 
+	/*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Specific                             */
     /*! \{																*/
@@ -86,7 +86,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHandler : public PhysicsHandlerBase
       static void physCollisionCallback(void* somedata, dGeomID o1, dGeomID o2);*/
       void odeInit(NodePtr node);
       void updateWorld(NodePtr node);
-    /*! \} 
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -127,7 +127,7 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHandler : public PhysicsHandlerBase
     /*! \{                                                                 */
     void onCreate(const PhysicsHandler *id = NULL);
     void onDestroy();
-    /*! \}
+    /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -148,6 +148,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsHandlerBase.inl>
 #include <OSGPhysicsHandler.inl>
 
-#define OSGPHYSICSHANDLER_HEADER_CVSID "@(#)$Id: OSGPhysicsHandler.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSHANDLER_HEADER_CVSID "@(#)$Id: OSGPhysicsHandler.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSHANDLER_H_ */

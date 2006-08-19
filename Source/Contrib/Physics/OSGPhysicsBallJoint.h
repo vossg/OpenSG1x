@@ -60,14 +60,14 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBallJoint : public PhysicsBallJointBase
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Vec3f getAnchor(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setAnchor(const Vec3f &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -75,7 +75,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBallJoint : public PhysicsBallJointBase
       void initBallJoint();
 	  Vec3f getAnchor2(void);
 
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -117,7 +117,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBallJoint : public PhysicsBallJointBase
 	/*! \{                                                                 */
 	void onCreate(const PhysicsBallJoint *id = NULL);
 	void onDestroy();
-	/*! \}	
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -138,6 +138,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsBallJointBase.inl>
 #include <OSGPhysicsBallJoint.inl>
 
-#define OSGPHYSICSBALLJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsBallJoint.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSBALLJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsBallJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSBALLJOINT_H_ */

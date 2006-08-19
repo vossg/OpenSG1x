@@ -79,7 +79,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBody : public PhysicsBodyBase
       PhysicsWorldPtr getWorld(void);
       dBodyID getBodyID(void);
 
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -102,7 +102,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBody : public PhysicsBodyBase
 	  void setGravityMode(const bool &value );
       void setBodyID(const dBodyID &value );
       void setWorld(const PhysicsWorldPtr &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -147,7 +147,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBody : public PhysicsBodyBase
       void translateMass( const Vec3f& );
       void rotateMass( const Matrix& );
       void addMassOf( dBodyID otherBody );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 
 
@@ -194,7 +194,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBody : public PhysicsBodyBase
 	void onCreate(const PhysicsBody *Id = NULL);
 	void onDestroy();
 	
-	/*! \}	
+	/*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:
@@ -218,6 +218,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsBodyBase.inl>
 #include <OSGPhysicsBody.inl>
 
-#define OSGPHYSICSBODY_HEADER_CVSID "@(#)$Id: OSGPhysicsBody.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSBODY_HEADER_CVSID "@(#)$Id: OSGPhysicsBody.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSBODY_H_ */

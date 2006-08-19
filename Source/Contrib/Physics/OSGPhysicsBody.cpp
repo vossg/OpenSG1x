@@ -255,9 +255,9 @@ void PhysicsBody::setRotation(const Matrix &value )
 {
 	PhysicsBodyPtr tmpPtr(*this);
 	dMatrix3 rotation;
-	Vec3f v1 =  value[0];
-	Vec3f v2 =  value[1];
-	Vec3f v3 =  value[2];
+	Vec4f v1 =  value[0];
+	Vec4f v2 =  value[1];
+	Vec4f v3 =  value[2];
 	rotation[0]   = v1.x();
 	rotation[1]   = v1.y();
 	rotation[2]   = v1.z();
@@ -621,9 +621,9 @@ void PhysicsBody::translateMass( const Vec3f& t)
 void PhysicsBody::rotateMass( const Matrix& R)
 {
     dMatrix3 rotation;
-    Vec3f v1 =  R[0];
-    Vec3f v2 =  R[1];
-    Vec3f v3 =  R[2];
+    Vec4f v1 =  R[0];
+    Vec4f v2 =  R[1];
+    Vec4f v3 =  R[2];
     rotation[0]   = v1.x();
     rotation[1]   = v1.y();
     rotation[2]   = v1.z();
@@ -701,7 +701,7 @@ void PhysicsBody::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBody.cpp,v 1.1 2005/10/21 15:44:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBody.cpp,v 1.2 2006/08/19 00:21:46 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSBODYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSBODYBASE_INLINE_CVSID;
 

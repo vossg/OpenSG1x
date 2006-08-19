@@ -60,20 +60,20 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBoxGeom : public PhysicsBoxGeomBase
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Vec3f getLenghts(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setLenghts(const Vec3f &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
 	  /*! \{																*/
       void initBoxGeom();
 	  Real32 getPointDepth(const Vec3f& p);
-	  /*! \}
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -115,7 +115,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsBoxGeom : public PhysicsBoxGeomBase
 	/*! \{                                                                 */
 	void onCreate(const PhysicsBoxGeom *id = NULL);
 	void onDestroy();
-	/*! \}	
+	/*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
@@ -137,6 +137,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsBoxGeomBase.inl>
 #include <OSGPhysicsBoxGeom.inl>
 
-#define OSGPHYSICSBOXGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeom.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSBOXGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSBOXGEOM_H_ */

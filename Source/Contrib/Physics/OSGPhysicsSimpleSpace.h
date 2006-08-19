@@ -98,7 +98,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSimpleSpace : public PhysicsSimpleSpaceB
 	/*! \{                                                                 */
 	void onCreate(const PhysicsSimpleSpace *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -119,6 +119,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsSimpleSpaceBase.inl>
 #include <OSGPhysicsSimpleSpace.inl>
 
-#define OSGPHYSICSSIMPLESPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsSimpleSpace.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSIMPLESPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsSimpleSpace.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSSIMPLESPACE_H_ */

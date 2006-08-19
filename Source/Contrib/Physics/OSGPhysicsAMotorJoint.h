@@ -61,7 +61,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsAMotorJoint : public PhysicsAMotorJointB
 	  /*! \{                                                                 */
 	  Int32 getMode(void);
 	  Int32 getNumAxes(void);
-	  /*! \} 		
+	  /*! \} 		                                                       */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -69,7 +69,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsAMotorJoint : public PhysicsAMotorJointB
 	  void setMode(const Int32 &value );
 	  void setNumAxes(const Int32 &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \} 		                                                       */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -85,7 +85,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsAMotorJoint : public PhysicsAMotorJointB
 	  virtual void setParam(Int32 param, Real32 value );
 	  virtual Real32 getParam(Int32 param );
 
-	  /*! \} 
+	  /*! \} 		                                                       */
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -128,7 +128,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsAMotorJoint : public PhysicsAMotorJointB
 	/*! \{                                                                 */
 	void onCreate(const PhysicsAMotorJoint *id = NULL);
 	void onDestroy();
-	/*! \}	
+    /*! \} 		                                                       */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -149,6 +149,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsAMotorJointBase.inl>
 #include <OSGPhysicsAMotorJoint.inl>
 
-#define OSGPHYSICSAMOTORJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJoint.h,v 1.1 2005/10/21 15:44:24 a-m-z Exp $"
+#define OSGPHYSICSAMOTORJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSAMOTORJOINT_H_ */

@@ -60,20 +60,20 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSphereGeom : public PhysicsSphereGeomBas
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Real32 getRadius(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setRadius(const Real32 &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
 	  /*! \{																*/
       void initSphereGeom();
 	  Real32 getPointDepth(const Vec3f& p);
-	  /*! \}
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -115,7 +115,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSphereGeom : public PhysicsSphereGeomBas
 	/*! \{                                                                 */
 	void onCreate(const PhysicsSphereGeom *id = NULL);
 	void onDestroy();
-	/*! \}	
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -136,6 +136,6 @@ OSG_END_NAMESPACE
 #include "OSGPhysicsSphereGeomBase.inl"
 #include "OSGPhysicsSphereGeom.inl"
 
-#define OSGPHYSICSSPHEREGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeom.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSPHEREGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeom.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 
 #endif /* _OSGPHYSICSSPHEREGEOM_H_ */

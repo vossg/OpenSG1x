@@ -60,20 +60,20 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsPlaneGeom : public PhysicsPlaneGeomBase
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Vec4f getParams(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setParams(const Vec4f &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
 	  /*! \{																*/
       void initPlaneGeom();
 	  Real32 getPointDepth(const Vec3f& p);
-	  /*! \}
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -115,7 +115,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsPlaneGeom : public PhysicsPlaneGeomBase
 	/*! \{                                                                 */
 	void onCreate(const PhysicsPlaneGeom *id = NULL);
 	void onDestroy();
-	/*! \}	
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -136,6 +136,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsPlaneGeomBase.inl>
 #include <OSGPhysicsPlaneGeom.inl>
 
-#define OSGPHYSICSPLANEGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeom.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSPLANEGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSPLANEGEOM_H_ */

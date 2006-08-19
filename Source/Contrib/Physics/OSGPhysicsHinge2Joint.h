@@ -62,7 +62,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHinge2Joint : public PhysicsHinge2JointB
 	  Vec3f getAnchor(void);
 	  Vec3f getAxis1(void);
 	  Vec3f getAxis2(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -71,7 +71,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHinge2Joint : public PhysicsHinge2JointB
 	  void setAxis1(const Vec3f &value );
 	  void setAxis2(const Vec3f &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -84,7 +84,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHinge2Joint : public PhysicsHinge2JointB
 
 	  virtual void setParam(Int32 param, Real32 value );
 	  virtual Real32 getParam(Int32 param );
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -126,7 +126,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHinge2Joint : public PhysicsHinge2JointB
 	/*! \{                                                                 */
 	void onCreate(const PhysicsHinge2Joint *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -147,6 +147,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsHinge2JointBase.inl>
 #include <OSGPhysicsHinge2Joint.inl>
 
-#define OSGPHYSICSHINGE2JOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsHinge2Joint.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSHINGE2JOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsHinge2Joint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSHINGE2JOINT_H_ */

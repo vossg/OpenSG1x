@@ -62,7 +62,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsUniversalJoint : public PhysicsUniversal
 	  Vec3f getAnchor(void);
 	  Vec3f getAxis1(void);
 	  Vec3f getAxis2(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -71,7 +71,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsUniversalJoint : public PhysicsUniversal
 	  void setAxis1(const Vec3f &value );
 	  void setAxis2(const Vec3f &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -81,7 +81,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsUniversalJoint : public PhysicsUniversal
 
 	  virtual void setParam(Int32 param, Real32 value );
 	  virtual Real32 getParam(Int32 param );
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -123,7 +123,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsUniversalJoint : public PhysicsUniversal
 	/*! \{                                                                 */
 	void onCreate(const PhysicsUniversalJoint *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -144,6 +144,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsUniversalJointBase.inl>
 #include <OSGPhysicsUniversalJoint.inl>
 
-#define OSGPHYSICSUNIVERSALJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJoint.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSUNIVERSALJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJoint.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 
 #endif /* _OSGPHYSICSUNIVERSALJOINT_H_ */

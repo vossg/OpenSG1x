@@ -62,20 +62,20 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSpace : public PhysicsSpaceBase
 	  /*! \{                                                                 */
 	  void onCreate(const PhysicsSpace *id = NULL);
 	  void onDestroy();
-	  /*! \}	
+	  /*! \}                                                                 */
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  bool getCleanup(void);
       dSpaceID getSpaceID(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
 	  /*! \{                                                                 */
 	  void setCleanup(const bool &value );
       void setSpaceID(const dSpaceID &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -91,7 +91,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSpace : public PhysicsSpaceBase
 	  dGeomID GetGeom( Int32 i );
 
 	  void Collide( void* somedata, dNearCallback* callback );
-	  /*! \} 
+	  /*! \}                                                                 */
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -151,6 +151,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsSpaceBase.inl>
 #include <OSGPhysicsSpace.inl>
 
-#define OSGPHYSICSSPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsSpace.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsSpace.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 
 #endif /* _OSGPHYSICSSPACE_H_ */

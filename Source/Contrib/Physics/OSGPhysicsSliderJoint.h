@@ -60,7 +60,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSliderJoint : public PhysicsSliderJointB
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  Vec3f getAxis(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -68,7 +68,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSliderJoint : public PhysicsSliderJointB
 
 	  void setAxis(const Vec3f &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -79,7 +79,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSliderJoint : public PhysicsSliderJointB
 
 	  virtual void setParam(Int32 param, Real32 value );
 	  virtual Real32 getParam(Int32 param );
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -121,7 +121,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsSliderJoint : public PhysicsSliderJointB
 	/*! \{                                                                 */
 	void onCreate(const PhysicsSliderJoint *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -142,6 +142,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsSliderJointBase.inl>
 #include <OSGPhysicsSliderJoint.inl>
 
-#define OSGPHYSICSSLIDERJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJoint.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSSLIDERJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSSLIDERJOINT_H_ */

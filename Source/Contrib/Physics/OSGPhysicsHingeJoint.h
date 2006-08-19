@@ -61,7 +61,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHingeJoint : public PhysicsHingeJointBas
 	  /*! \{                                                                 */
 	  Vec3f getAnchor(void);
 	  Vec3f getAxis(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -69,7 +69,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHingeJoint : public PhysicsHingeJointBas
 	  void setAnchor(const Vec3f &value );
 	  void setAxis(const Vec3f &value );
       void setWorld(const PhysicsWorldPtr &value);
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -82,7 +82,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHingeJoint : public PhysicsHingeJointBas
 	  virtual void setParam(Int32 param, Real32 value );
 	  virtual Real32 getParam(Int32 param );
 
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -124,7 +124,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsHingeJoint : public PhysicsHingeJointBas
 	/*! \{                                                                 */
 	void onCreate(const PhysicsHingeJoint *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
@@ -145,6 +145,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsHingeJointBase.inl>
 #include <OSGPhysicsHingeJoint.inl>
 
-#define OSGPHYSICSHINGEJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsHingeJoint.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSHINGEJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsHingeJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSHINGEJOINT_H_ */

@@ -62,7 +62,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsJoint : public PhysicsJointBase
 	  /*! \name                   Class Specific Get Field                    */
 	  /*! \{                                                                 */
 	  dJointID getJointID(void);
-	  /*! \} 		
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific Set Field                    */
@@ -70,7 +70,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsJoint : public PhysicsJointBase
       void setJointID(const dJointID &value );
       void setFirstBody(const PhysicsBodyPtr &value );
       void setSecondBody(const PhysicsBodyPtr &value );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -90,7 +90,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsJoint : public PhysicsJointBase
 	  virtual void setParam( Int32 param, Real32 value );
 	  /// get a joint parameter
 	  virtual Real32 getParam( Int32 param );
-	  /*! \} 
+	  /*! \}                                                                 */
 
 
     /*---------------------------------------------------------------------*/
@@ -127,7 +127,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsJoint : public PhysicsJointBase
 	/*! \{                                                                 */
 	void onCreate(const PhysicsJoint *id = NULL);
 	void onDestroy();
-	/*! \}	  
+	/*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
@@ -156,6 +156,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsJointBase.inl>
 #include <OSGPhysicsJoint.inl>
 
-#define OSGPHYSICSJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsJoint.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 
 #endif /* _OSGPHYSICSJOINT_H_ */

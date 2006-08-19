@@ -64,13 +64,13 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsTriMeshGeom : public PhysicsTriMeshGeomB
       /*! \name                   Class Specific Get Field                    */
       /*! \{                                                                 */
       NodePtr getGeometryNode(void);
-      /*! \} 		
+      /*! \}                                                                 */
 
       /*---------------------------------------------------------------------*/
       /*! \name                   Class Specific Set Field                    */
       /*! \{                                                                 */
       void setGeometryNode(NodePtr& node);
-      /*! \} 
+      /*! \}                                                                 */
 
 	  /*---------------------------------------------------------------------*/
 	  /*! \name                   Class Specific                             */
@@ -89,7 +89,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsTriMeshGeom : public PhysicsTriMeshGeomB
 	  void clearTCCache();
 	  void getTriangle( Int32 index, Vec3f& v0, Vec3f& v1, Vec3f& v2 );
 	  void getPoint( Int32 index, Real32 u, Real32 v, Vec3f& out );
-	  /*! \} 
+	  /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
     /*! \{                                                                 */
@@ -131,7 +131,7 @@ class  OSG_CONTRIBLIB_DLLMAPPING PhysicsTriMeshGeom : public PhysicsTriMeshGeomB
 	/*! \{                                                                 */
 	void onCreate(const PhysicsTriMeshGeom *id = NULL);
 	void onDestroy();
-	/*! \}
+	/*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
       UInt32 numVertices, numFaces;
@@ -157,6 +157,6 @@ OSG_END_NAMESPACE
 #include <OSGPhysicsTriMeshGeomBase.inl>
 #include <OSGPhysicsTriMeshGeom.inl>
 
-#define OSGPHYSICSTRIMESHGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeom.h,v 1.1 2005/10/21 15:44:25 a-m-z Exp $"
+#define OSGPHYSICSTRIMESHGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeom.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 
 #endif /* _OSGPHYSICSTRIMESHGEOM_H_ */

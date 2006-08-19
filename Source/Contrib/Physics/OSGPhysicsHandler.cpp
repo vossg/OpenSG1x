@@ -326,7 +326,7 @@ void PhysicsHandler::odeInit(NodePtr node)
 /************************************************************************/
 /* the callback function for collision handling                         */
 /************************************************************************/
-/*
+#if 0
 void PhysicsHandler::physCollisionCallback(void* somedata, dGeomID o1, dGeomID o2)
 {
     PhysicsHandlerPtr app = PhysicsHandlerPtr(somedata);
@@ -344,10 +344,11 @@ void PhysicsHandler::physCollisionCallback(void* somedata, dGeomID o1, dGeomID o
         dJointAttach(jointId, dGeomGetBody(o1), dGeomGetBody(o2));
     }
 }
+#endif
 /************************************************************************/
 /* this method should be called whenever you want to update the physics */
 /************************************************************************/
-/*
+#if 0
 void PhysicsHandler::doPhysicsOnNode(NodePtr rootNode)
 {
     PhysicsHandlerPtr tmpPtr(*this);
@@ -363,6 +364,8 @@ void PhysicsHandler::doPhysicsOnNode(NodePtr rootNode)
         osgTypedFunctionFunctor1CPtrRef<Action::ResultE,
         NodePtr        >(updateOsgOde));
 }
+#endif
+
 /*-------------------------------------------------------------------------*\
  -  private                                                                 -
 \*-------------------------------------------------------------------------*/
@@ -410,7 +413,7 @@ void PhysicsHandler::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandler.cpp,v 1.1 2005/10/21 15:44:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandler.cpp,v 1.2 2006/08/19 00:21:46 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHANDLERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHANDLERBASE_INLINE_CVSID;
 
