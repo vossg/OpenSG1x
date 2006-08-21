@@ -1043,7 +1043,8 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
     Int32 minPType; //  = (faceSet ? 3 : 2);
     Int32 beginIndex, endIndex, step, len, sysPType = 0;
     Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
-    Int32 pN = 0, nN = 0, cN = 0, tN = 0, tN1 = 0, tN2 = 0, tN3 = 0;
+    Int32 pN = 0, nN = 0, cN = 0, tN = 0, tN1 = 0, tN2 = 0, tN3 = 0,
+          tN4 = 0, tN5 = 0, tN6 = 0, tN7 = 0;
     IndexType indexType[4];
     IndexType &coordIT = indexType[0];
     IndexType &normalIT = indexType[1];
@@ -1139,6 +1140,18 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
 
     texCoordsPtr = geoPtr->getTexCoords3();
     tN3 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords4();
+    tN4 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords5();
+    tN5 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords6();
+    tN6 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
+
+    texCoordsPtr = geoPtr->getTexCoords7();
+    tN7 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
 
     FDEBUG(("vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN));
 
@@ -1480,6 +1493,26 @@ else
                     {
                         indexMap[i] |= Geometry::MapTexCoords3;
                     }
+                    
+                    if(tN4 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords4;
+                    }
+                    
+                    if(tN5 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords5;
+                    }
+                    
+                    if(tN6 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords6;
+                    }
+                    
+                    if(tN7 != 0)
+                    {
+                        indexMap[i] |= Geometry::MapTexCoords7;
+                    }
                 }
 
                 geoPtr->getIndexMapping().push_back(indexMap[i]);
@@ -1512,6 +1545,38 @@ else
                     {
                         geoPtr->getIndexMapping().push_back(
                             Geometry::MapTexCoords3);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN4 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords4);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN5 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords5);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN6 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords6);
+                        
+                        ++uiNumTextures;
+                    }
+                    
+                    if(tN7 != 0)
+                    {
+                        geoPtr->getIndexMapping().push_back(
+                            Geometry::MapTexCoords7);
                         
                         ++uiNumTextures;
                     }
@@ -1865,8 +1930,64 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTexCoords(GeometryPtr geo, Int32 te
             }
             mapTex = Geometry::MapTexCoords3;
             break;
+        case 4:
+            if (geo->getTexCoords4() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords4(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords4();
+            }
+            mapTex = Geometry::MapTexCoords4;
+            break;
+        case 5:
+            if (geo->getTexCoords5() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords5(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords5();
+            }
+            mapTex = Geometry::MapTexCoords5;
+            break;
+        case 6:
+            if (geo->getTexCoords6() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords6(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords6();
+            }
+            mapTex = Geometry::MapTexCoords6;
+            break;
+        case 7:
+            if (geo->getTexCoords7() == osg::NullFC)
+            {
+                texP = GeoTexCoords2f::create();
+                beginEditCP(geo);
+                    geo->setTexCoords7(texP);
+                endEditCP(geo);
+            }
+            else
+            {
+                texP = geo->getTexCoords7();
+            }
+            mapTex = Geometry::MapTexCoords7;
+            break;
         default:
-            FWARNING(("Parameters are [0|1|2|3] in calcVertexTexCoords()\n"));
+            FWARNING(("Parameters are [0|1|2|3|4|5|6|7] in calcVertexTexCoords()\n"));
             return;
     }
 
@@ -1978,8 +2099,20 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         case 3:
             mapTex = Geometry::MapTexCoords3;
             break;
+        case 4:
+            mapTex = Geometry::MapTexCoords4;
+            break;
+        case 5:
+            mapTex = Geometry::MapTexCoords5;
+            break;
+        case 6:
+            mapTex = Geometry::MapTexCoords6;
+            break;
+        case 7:
+            mapTex = Geometry::MapTexCoords7;
+            break;
         default:
-            FWARNING(("Currently only 4 TexCoords allowed in GeoPtr\n"));  
+            FWARNING(("Currently only 8 TexCoords allowed in GeoPtr\n"));  
             srcTexIndex = 0;
             mapTex = Geometry::MapTexCoords;
             break;
@@ -2025,7 +2158,43 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             endEditCP(geo);
             mapTan = Geometry::MapTexCoords3;
             break;
-        
+        case Geometry::TexCoords4FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords4(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords4;
+            break;
+        case Geometry::TexCoords5FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords5(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords5;
+            break;
+        case Geometry::TexCoords6FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords6(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords6;
+            break;
+        case Geometry::TexCoords7FieldId:
+            beginEditCP(geo);
+            {
+                tangentP = GeoTexCoords4f::create();
+                geo->setTexCoords7(tangentP);
+            }
+            endEditCP(geo);
+            mapTan = Geometry::MapTexCoords7;
+            break;
+
         case Geometry::PositionsFieldId:
         case Geometry::NormalsFieldId:
         case Geometry::ColorsFieldId:
@@ -2076,7 +2245,43 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             endEditCP(geo);
             mapBin = Geometry::MapTexCoords3;
             break;
-        
+        case Geometry::TexCoords4FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords4(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords4;
+            break;
+        case Geometry::TexCoords5FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords5(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords5;
+            break;
+        case Geometry::TexCoords6FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords6(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords6;
+            break;
+        case Geometry::TexCoords7FieldId:
+            beginEditCP(geo);
+            {
+                binormalP = GeoTexCoords4f::create();
+                geo->setTexCoords7(binormalP);
+            }
+            endEditCP(geo);
+            mapBin = Geometry::MapTexCoords7;
+            break;
+
         case Geometry::PositionsFieldId:
         case Geometry::NormalsFieldId:
         case Geometry::ColorsFieldId:
@@ -2319,6 +2524,26 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
                 t0 = tI.getTexCoords3(0);
                 t1 = tI.getTexCoords3(1);
                 t2 = tI.getTexCoords3(2);
+                break;
+            case 4:
+                t0 = tI.getTexCoords4(0);
+                t1 = tI.getTexCoords4(1);
+                t2 = tI.getTexCoords4(2);
+                break;
+            case 5:
+                t0 = tI.getTexCoords5(0);
+                t1 = tI.getTexCoords5(1);
+                t2 = tI.getTexCoords5(2);
+                break;
+            case 6:
+                t0 = tI.getTexCoords6(0);
+                t1 = tI.getTexCoords6(1);
+                t2 = tI.getTexCoords6(2);
+                break;
+            case 7:
+                t0 = tI.getTexCoords7(0);
+                t1 = tI.getTexCoords7(1);
+                t2 = tI.getTexCoords7(2);
                 break;
         }
         
@@ -3751,5 +3976,9 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::separateProperties(GeometryPtr geo)
     separateProperty(TexCoords, TexCoords1)
     separateProperty(TexCoords, TexCoords2)
     separateProperty(TexCoords, TexCoords3)
+    separateProperty(TexCoords, TexCoords4)
+    separateProperty(TexCoords, TexCoords5)
+    separateProperty(TexCoords, TexCoords6)
+    separateProperty(TexCoords, TexCoords7)
     separateProperty(Indices, Indices)
 }
