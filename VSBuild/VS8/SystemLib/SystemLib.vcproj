@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="SystemLib"
 	ProjectGUID="{661D804F-042B-4266-B35E-212E62D78550}"
 	>
@@ -73,7 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
+				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib wsock32.lib oldnames.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
 				OutputFile="..\lib\opt\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
@@ -617,6 +617,10 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGTreeRenderer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGVarianceShadowMap.h"
 					>
 				</File>
 			</Filter>
@@ -6956,6 +6960,31 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGTreeRenderer.cpp"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGVarianceShadowMap.cpp"
 					>
 					<FileConfiguration
 						Name="Release|Win32"
@@ -15873,31 +15902,6 @@
 				Name="SourceSystemStatistics cpp"
 				>
 				<File
-					RelativePath="..\..\..\Source\System\Statistics\OSGGraphicStatisticsFont.cpp"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="2"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-						/>
-					</FileConfiguration>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							Optimization="0"
-							AdditionalIncludeDirectories=""
-							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
-							BasicRuntimeChecks="3"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
 					RelativePath="..\..\..\Source\System\Statistics\OSGGraphicStatisticsForeground.cpp"
 					>
 					<FileConfiguration
@@ -21134,6 +21138,23 @@
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGTreeRenderer.h &gt; ../include/OpenSG/OSGTreeRenderer.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGTreeRenderer.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalShadowViewport Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\ShadowViewport\OSGVarianceShadowMap.h"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/ShadowViewport/OSGVarianceShadowMap.h &gt; ../include/OpenSG/OSGVarianceShadowMap.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGVarianceShadowMap.h"
 						/>
 					</FileConfiguration>
 				</File>
