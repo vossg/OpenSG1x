@@ -180,6 +180,11 @@ void Material::changed(BitVector whichField, UInt32 origin)
     rebuildState();
 }
 
+Int32 Material::getRealSortKey(void) const
+{
+    return _sfSortKey.getValue();
+}
+
 /*------------------------------- dump ----------------------------------*/
 
 void Material::dump(      UInt32    ,

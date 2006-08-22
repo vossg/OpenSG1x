@@ -97,6 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchMaterial : public SwitchMaterialBase
 
     virtual bool       isTransparent     (void) const;
 
+    virtual Int32      getRealSortKey(void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Access                                    */
@@ -151,6 +153,6 @@ OSG_END_NAMESPACE
 #include <OSGSwitchMaterialBase.inl>
 #include <OSGSwitchMaterial.inl>
 
-#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.3 2006/02/02 15:15:36 a-m-z Exp $"
+#define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.4 2006/08/22 10:11:44 a-m-z Exp $"
 
 #endif /* _OSGSWITCHMATERIAL_H_ */

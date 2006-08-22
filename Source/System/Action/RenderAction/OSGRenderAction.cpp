@@ -512,7 +512,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     UInt32 mpMatPasses = states.size();
     bool isMultiPass = (mpMatPasses > 1) || pMat->isMultiPass();
 
-    Int32 sortKey = pMat->getSortKey();
+    Int32 sortKey = pMat->getRealSortKey();
 
     if(!_stateSorting ||
        (sortKey == Material::NoStateSorting && 
@@ -703,7 +703,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
     UInt32 mpMatPasses = states.size();
     bool isMultiPass = (mpMatPasses > 1) || pMat->isMultiPass();
 
-    Int32 sortKey = pMat->getSortKey();
+    Int32 sortKey = pMat->getRealSortKey();
 
     if(_bOcclusionCulling && _stateSorting)
     {

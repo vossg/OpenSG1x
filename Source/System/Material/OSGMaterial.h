@@ -119,6 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
 
     virtual bool       isTransparent (void) const              = 0;
 
+    virtual Int32      getRealSortKey(void) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Comparison                                */

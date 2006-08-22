@@ -231,35 +231,14 @@ StatePtr SwitchMaterial::makeState(void)
     {
         if(!_mfMaterials.empty())
             SWARNING << "SwitchMaterial::makeState: choice index (" << choice << ") out of range!" << std::endl;
-        if(getSortKey() != OSG::getDefaultMaterial()->getSortKey())
-        {
-            SwitchMaterialPtr tmpPtr(*this);
-            beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-                setSortKey(OSG::getDefaultMaterial()->getSortKey());
-            endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-        }
         return OSG::getDefaultMaterial()->makeState();
     }
 
     if(_mfMaterials[choice] != NullFC)
     {
-        if(getSortKey() != _mfMaterials[choice]->getSortKey())
-        {
-            SwitchMaterialPtr tmpPtr(*this);
-            beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-                setSortKey(_mfMaterials[choice]->getSortKey());
-            endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-        }
         return _mfMaterials[choice]->makeState();
     }
 
-    if(getSortKey() != OSG::getDefaultMaterial()->getSortKey())
-    {
-        SwitchMaterialPtr tmpPtr(*this);
-        beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-            setSortKey(OSG::getDefaultMaterial()->getSortKey());
-        endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-    }
     return OSG::getDefaultMaterial()->makeState();
 }
 
@@ -273,13 +252,6 @@ void SwitchMaterial::rebuildState(void)
     {
         if(!_mfMaterials.empty())
             SWARNING << "SwitchMaterial::rebuildState: choice index (" << choice << ") out of range!" << std::endl;
-        if(getSortKey() != OSG::getDefaultMaterial()->getSortKey())
-        {
-            SwitchMaterialPtr tmpPtr(*this);
-            beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-                setSortKey(OSG::getDefaultMaterial()->getSortKey());
-            endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-        }
         OSG::getDefaultMaterial()->rebuildState();
         //_pState = OSG::getDefaultMaterial()->getState();
         return;
@@ -287,25 +259,11 @@ void SwitchMaterial::rebuildState(void)
 
     if(_mfMaterials[choice] != NullFC)
     {
-        if(getSortKey() != _mfMaterials[choice]->getSortKey())
-        {
-            SwitchMaterialPtr tmpPtr(*this);
-            beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-                setSortKey(_mfMaterials[choice]->getSortKey());
-            endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-        }
         _mfMaterials[choice]->rebuildState();
         //_pState = _mfMaterials[choice]->getState();
     }
     else
     {
-        if(getSortKey() != OSG::getDefaultMaterial()->getSortKey())
-        {
-            SwitchMaterialPtr tmpPtr(*this);
-            beginEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-                setSortKey(OSG::getDefaultMaterial()->getSortKey());
-            endEditCP(tmpPtr, SwitchMaterial::SortKeyFieldMask);
-        }
         OSG::getDefaultMaterial()->rebuildState();
         //_pState = OSG::getDefaultMaterial()->getState();
     }
@@ -382,6 +340,22 @@ bool SwitchMaterial::isTransparent(void) const
     return false;
 }
 
+Int32 SwitchMaterial::getRealSortKey(void) const
+{
+    UInt32 choice = getChoice();
+    if(choice >= _mfMaterials.size())
+    {
+        if(!_mfMaterials.empty())
+            SWARNING << "SwitchMaterial::isTransparent: choice index out of range!" << std::endl;
+        return Inherited::getRealSortKey();
+    }
+
+    if(_mfMaterials[choice] != NullFC)
+        return _mfMaterials[choice]->getRealSortKey();
+
+    return Inherited::getRealSortKey();
+}
+
 void SwitchMaterial::dump(      UInt32    , 
                          const BitVector ) const
 {
@@ -401,7 +375,7 @@ void SwitchMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.3 2006/02/02 15:15:36 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.4 2006/08/22 10:11:44 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 
