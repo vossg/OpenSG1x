@@ -31,6 +31,6 @@ LIB_FILE_TEXT   := $(LIB_TEXT)
 OSG_LIB_EXT     := $(OSG_LIB_EXT) $(LIB_TEXT)
 endif
 
-ifneq ($(LIB_TEXT),)
+ifneq ($(DEFINE_TEXT),)
 INCL_$(OS_BASE) += $(DEFINE_TEXT)
 endif
