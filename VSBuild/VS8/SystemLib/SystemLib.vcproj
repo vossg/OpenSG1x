@@ -165,7 +165,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib wsock32.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
+				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib wsock32.lib oldnames.lib opengl32.lib glu32.lib libjpeg.lib libpng.lib zlib.lib tif32.lib"
 				OutputFile="..\lib\dbg\OSGSystem.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
