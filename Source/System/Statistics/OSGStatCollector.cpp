@@ -237,6 +237,8 @@ void StatCollector::clearElems(void)
             *i = NULL;
         }
     }
+	
+	_elemVec.clear();
 }
 
 
