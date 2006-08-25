@@ -1183,6 +1183,7 @@ print "Detected environment: %s" % tc.get_name()
 Export('tc')
 
 env = tc.get_env()
+env['OSG_ROOT_DIR'] = _root_dir
 env['BUILD_DIR'] = Dir(os.path.join('Build', tc.get_name()))
 env['PREFIX'] = env['BUILD_DIR'].Dir('installed')
 Default(env['PREFIX'])

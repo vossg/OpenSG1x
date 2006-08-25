@@ -31,9 +31,9 @@ InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
 
 if env['PLATFORM'] == 'win32':
     # Install() doesn't work on windows why???
-    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS6/FlexLexer.h')
-    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS8/SystemLib/bison.simple')
-    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS8/SystemLib/bison.hairy')
+    MyInstall(os.path.join(os.getcwd(), 'FlexLexer.h'), '../../../../../../VSBuild/VS6/FlexLexer.h')
+    MyInstall(os.path.join(os.getcwd(), 'bison.simple'), '../../../../../../dist/win/bin/bison.simple')
+    MyInstall(os.path.join(os.getcwd(), 'bison.hairy'), '../../../../../../dist/win/bin/bison.hairy')
 else:
     Install('.', '/usr/include/FlexLexer.h')
 

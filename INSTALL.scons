@@ -21,7 +21,7 @@ the OSGSystem.dll.
 
 - install python (www.python.org)
 - add the python install directory (e.g. C:\Python24) to the PATH environment variable.
-- open a cmd shell and go into the OpenSG directory and type "scons compiler=msvc71"
+- open a cmd shell and go into the OpenSG directory and type ".\scons compiler=msvc71"
 
 type "scons -h" to see all possible options.
 
