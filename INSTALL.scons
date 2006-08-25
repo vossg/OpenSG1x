@@ -25,7 +25,22 @@ the OSGSystem.dll.
 
 type "scons -h" to see all possible options.
 
+The visual studio 2005 detection is not perfect yet, if your visual studio
+installation directory differs from C:/Programme/Microsoft Visual Studio 8 you
+have to modify the following two lines in the OpenSG/SConstruct file. The mspsdk_path
+is only necessary for the express edition!
+
+msvc80_path = 'C:/Programme/Microsoft Visual Studio 8/'
+mspsdk_path = 'C:/Programme/Microsoft Platform SDK/'
+
+In the visual studio 2005 express edition the PlaformSDK is missing so
+it is necessary to install the platform sdk from
+http://www.microsoft.com/downloads/details.aspx?FamilyId=0BAF2B35-C656-4969-ACE8-E4C0C0716ADB&displaylang=en
+
+
 TODO
 ----
 
 better visual studio 2005 detection.
+
+

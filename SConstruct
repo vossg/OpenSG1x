@@ -962,17 +962,21 @@ class win32_msvc80(win32_msvc_base):
         # doesn't work for 8.0 :-(
         #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
         # HACK
-        include_path = ['C:/Programme/Microsoft Visual Studio 8/VC/include',
-                        'C:/Programme/Microsoft Platform SDK/Include']
-        lib_path = ['C:/Programme/Microsoft Visual Studio 8/VC/lib',
-                    'C:/Programme/Microsoft Visual Studio 8/SDK/v2.0/lib',
-                    'C:/Programme/Microsoft Platform SDK/Lib']
-        exe_path = ['C:/Programme/Microsoft Visual Studio 8/Common7/IDE',
-                    'C:/Programme/Microsoft Visual Studio 8/VC/bin',
-                    'C:/Programme/Microsoft Visual Studio 8/Common7/Tools',
-                    'C:/Programme/Microsoft Visual Studio 8/SDK/v2.0/bin',
+        msvc80_path = 'C:/Programme/Microsoft Visual Studio 8/'
+        mspsdk_path = 'C:/Programme/Microsoft Platform SDK/'
+
+        include_path = [msvc80_path + 'VC/include',
+                        msvc80_path + 'VC/PlatformSDK/include',
+                        mspsdk_path + 'Include']
+        lib_path = [msvc80_path + 'VC/lib',
+                    msvc80_path + 'SDK/v2.0/lib',
+                    mspsdk_path + 'Lib']
+        exe_path = [msvc80_path + 'Common7/IDE',
+                    msvc80_path + 'VC/bin',
+                    msvc80_path + 'Common7/Tools',
+                    msvc80_path + 'SDK/v2.0/bin',
                     'C:/WINDOWS/Microsoft.NET/Framework/v2.0.50727',
-                    'C:/Programme/Microsoft Visual Studio 8/VC/VCPackages']
+                    msvc80_path + 'VC/VCPackages']
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('LIB', lib_path)

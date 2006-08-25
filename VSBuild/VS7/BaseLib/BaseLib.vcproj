@@ -2112,6 +2112,14 @@
 "
 							Outputs="../include/OpenSG/OSGBarrier.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBarrier.h &gt; ../include/OpenSG/OSGBarrier.h
+"
+							Outputs="../include/OpenSG/OSGBarrier.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2121,6 +2129,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBase.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBase.h &gt; ../include/OpenSG/OSGBase.h
+"
+							Outputs="../include/OpenSG/OSGBase.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBase.h &gt; ../include/OpenSG/OSGBase.h
@@ -2142,6 +2158,14 @@
 "
 							Outputs="../include/OpenSG/OSGBaseFunctions.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseFunctions.h &gt; ../include/OpenSG/OSGBaseFunctions.h
+"
+							Outputs="../include/OpenSG/OSGBaseFunctions.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2151,6 +2175,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBaseThread.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseThread.h &gt; ../include/OpenSG/OSGBaseThread.h
+"
+							Outputs="../include/OpenSG/OSGBaseThread.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseThread.h &gt; ../include/OpenSG/OSGBaseThread.h
@@ -2172,6 +2204,14 @@
 "
 							Outputs="../include/OpenSG/OSGBaseTypeTraits.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseTypeTraits.h &gt; ../include/OpenSG/OSGBaseTypeTraits.h
+"
+							Outputs="../include/OpenSG/OSGBaseTypeTraits.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2181,6 +2221,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBaseTypes.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseTypes.h &gt; ../include/OpenSG/OSGBaseTypes.h
+"
+							Outputs="../include/OpenSG/OSGBaseTypes.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseTypes.h &gt; ../include/OpenSG/OSGBaseTypes.h
@@ -2202,6 +2250,14 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryDataHandler.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBinaryDataHandler.h &gt; ../include/OpenSG/OSGBinaryDataHandler.h
+"
+							Outputs="../include/OpenSG/OSGBinaryDataHandler.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2211,6 +2267,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBoxVolume.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBoxVolume.h &gt; ../include/OpenSG/OSGBoxVolume.h
+"
+							Outputs="../include/OpenSG/OSGBoxVolume.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBoxVolume.h &gt; ../include/OpenSG/OSGBoxVolume.h
@@ -2232,6 +2296,14 @@
 "
 							Outputs="../include/OpenSG/OSGColor.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGColor.h &gt; ../include/OpenSG/OSGColor.h
+"
+							Outputs="../include/OpenSG/OSGColor.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2241,6 +2313,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGConceptPropertyChecks.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGConceptPropertyChecks.h &gt; ../include/OpenSG/OSGConceptPropertyChecks.h
+"
+							Outputs="../include/OpenSG/OSGConceptPropertyChecks.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGConceptPropertyChecks.h &gt; ../include/OpenSG/OSGConceptPropertyChecks.h
@@ -2262,6 +2342,14 @@
 "
 							Outputs="../include/OpenSG/OSGConfig.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGConfig.h &gt; ../include/OpenSG/OSGConfig.h
+"
+							Outputs="../include/OpenSG/OSGConfig.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2271,6 +2359,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGCylinderVolume.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGCylinderVolume.h &gt; ../include/OpenSG/OSGCylinderVolume.h
+"
+							Outputs="../include/OpenSG/OSGCylinderVolume.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGCylinderVolume.h &gt; ../include/OpenSG/OSGCylinderVolume.h
@@ -2292,6 +2388,14 @@
 "
 							Outputs="../include/OpenSG/OSGDataType.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDataType.h &gt; ../include/OpenSG/OSGDataType.h
+"
+							Outputs="../include/OpenSG/OSGDataType.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2301,6 +2405,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGDate.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDate.h &gt; ../include/OpenSG/OSGDate.h
+"
+							Outputs="../include/OpenSG/OSGDate.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDate.h &gt; ../include/OpenSG/OSGDate.h
@@ -2322,6 +2434,14 @@
 "
 							Outputs="../include/OpenSG/OSGDynamicVolume.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDynamicVolume.h &gt; ../include/OpenSG/OSGDynamicVolume.h
+"
+							Outputs="../include/OpenSG/OSGDynamicVolume.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2331,6 +2451,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGException.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGException.h &gt; ../include/OpenSG/OSGException.h
+"
+							Outputs="../include/OpenSG/OSGException.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGException.h &gt; ../include/OpenSG/OSGException.h
@@ -2352,6 +2480,14 @@
 "
 							Outputs="../include/OpenSG/OSGExportDefines.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGExportDefines.h &gt; ../include/OpenSG/OSGExportDefines.h
+"
+							Outputs="../include/OpenSG/OSGExportDefines.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2361,6 +2497,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFileSystem.h &gt; ../include/OpenSG/OSGFileSystem.h
+"
+							Outputs="../include/OpenSG/OSGFileSystem.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFileSystem.h &gt; ../include/OpenSG/OSGFileSystem.h
@@ -2382,6 +2526,14 @@
 "
 							Outputs="../include/OpenSG/OSGFrustumVolume.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFrustumVolume.h &gt; ../include/OpenSG/OSGFrustumVolume.h
+"
+							Outputs="../include/OpenSG/OSGFrustumVolume.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2391,6 +2543,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGGL.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGL.h &gt; ../include/OpenSG/OSGGL.h
+"
+							Outputs="../include/OpenSG/OSGGL.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGL.h &gt; ../include/OpenSG/OSGGL.h
@@ -2412,6 +2572,14 @@
 "
 							Outputs="../include/OpenSG/OSGGLEXT.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGLEXT.h &gt; ../include/OpenSG/OSGGLEXT.h
+"
+							Outputs="../include/OpenSG/OSGGLEXT.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2421,6 +2589,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGGLU.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGLU.h &gt; ../include/OpenSG/OSGGLU.h
+"
+							Outputs="../include/OpenSG/OSGGLU.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGLU.h &gt; ../include/OpenSG/OSGGLU.h
@@ -2442,6 +2618,14 @@
 "
 							Outputs="../include/OpenSG/OSGGLUT.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGGLUT.h &gt; ../include/OpenSG/OSGGLUT.h
+"
+							Outputs="../include/OpenSG/OSGGLUT.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2451,6 +2635,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGIDString.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDString.h &gt; ../include/OpenSG/OSGIDString.h
+"
+							Outputs="../include/OpenSG/OSGIDString.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDString.h &gt; ../include/OpenSG/OSGIDString.h
@@ -2472,6 +2664,14 @@
 "
 							Outputs="../include/OpenSG/OSGIDStringLink.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDStringLink.h &gt; ../include/OpenSG/OSGIDStringLink.h
+"
+							Outputs="../include/OpenSG/OSGIDStringLink.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2481,6 +2681,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGLine.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLine.h &gt; ../include/OpenSG/OSGLine.h
+"
+							Outputs="../include/OpenSG/OSGLine.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLine.h &gt; ../include/OpenSG/OSGLine.h
@@ -2502,6 +2710,14 @@
 "
 							Outputs="../include/OpenSG/OSGLinearTransform.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLinearTransform.h &gt; ../include/OpenSG/OSGLinearTransform.h
+"
+							Outputs="../include/OpenSG/OSGLinearTransform.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2511,6 +2727,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGLock.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLock.h &gt; ../include/OpenSG/OSGLock.h
+"
+							Outputs="../include/OpenSG/OSGLock.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLock.h &gt; ../include/OpenSG/OSGLock.h
@@ -2532,6 +2756,14 @@
 "
 							Outputs="../include/OpenSG/OSGLog.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLog.h &gt; ../include/OpenSG/OSGLog.h
+"
+							Outputs="../include/OpenSG/OSGLog.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2541,6 +2773,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGMPBase.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMPBase.h &gt; ../include/OpenSG/OSGMPBase.h
+"
+							Outputs="../include/OpenSG/OSGMPBase.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMPBase.h &gt; ../include/OpenSG/OSGMPBase.h
@@ -2562,6 +2802,14 @@
 "
 							Outputs="../include/OpenSG/OSGMatrix.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMatrix.h &gt; ../include/OpenSG/OSGMatrix.h
+"
+							Outputs="../include/OpenSG/OSGMatrix.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2571,6 +2819,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGMatrixUtility.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMatrixUtility.h &gt; ../include/OpenSG/OSGMatrixUtility.h
+"
+							Outputs="../include/OpenSG/OSGMatrixUtility.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMatrixUtility.h &gt; ../include/OpenSG/OSGMatrixUtility.h
@@ -2592,6 +2848,14 @@
 "
 							Outputs="../include/OpenSG/OSGMemoryObject.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMemoryObject.h &gt; ../include/OpenSG/OSGMemoryObject.h
+"
+							Outputs="../include/OpenSG/OSGMemoryObject.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2601,6 +2865,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGNormalQuantifier.h &gt; ../include/OpenSG/OSGNormalQuantifier.h
+"
+							Outputs="../include/OpenSG/OSGNormalQuantifier.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGNormalQuantifier.h &gt; ../include/OpenSG/OSGNormalQuantifier.h
@@ -2622,6 +2894,14 @@
 "
 							Outputs="../include/OpenSG/OSGPathHandler.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPathHandler.h &gt; ../include/OpenSG/OSGPathHandler.h
+"
+							Outputs="../include/OpenSG/OSGPathHandler.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2631,6 +2911,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGPlane.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPlane.h &gt; ../include/OpenSG/OSGPlane.h
+"
+							Outputs="../include/OpenSG/OSGPlane.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPlane.h &gt; ../include/OpenSG/OSGPlane.h
@@ -2652,6 +2940,14 @@
 "
 							Outputs="../include/OpenSG/OSGPolytopeVolume.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPolytopeVolume.h &gt; ../include/OpenSG/OSGPolytopeVolume.h
+"
+							Outputs="../include/OpenSG/OSGPolytopeVolume.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2661,6 +2957,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGQuaternion.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGQuaternion.h &gt; ../include/OpenSG/OSGQuaternion.h
+"
+							Outputs="../include/OpenSG/OSGQuaternion.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGQuaternion.h &gt; ../include/OpenSG/OSGQuaternion.h
@@ -2682,6 +2986,14 @@
 "
 							Outputs="../include/OpenSG/OSGReal16.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGReal16.h &gt; ../include/OpenSG/OSGReal16.h
+"
+							Outputs="../include/OpenSG/OSGReal16.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2691,6 +3003,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGSharedLibrary.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSharedLibrary.h &gt; ../include/OpenSG/OSGSharedLibrary.h
+"
+							Outputs="../include/OpenSG/OSGSharedLibrary.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSharedLibrary.h &gt; ../include/OpenSG/OSGSharedLibrary.h
@@ -2712,6 +3032,14 @@
 "
 							Outputs="../include/OpenSG/OSGSharedObjectHandler.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSharedObjectHandler.h &gt; ../include/OpenSG/OSGSharedObjectHandler.h
+"
+							Outputs="../include/OpenSG/OSGSharedObjectHandler.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2721,6 +3049,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSphereVolume.h &gt; ../include/OpenSG/OSGSphereVolume.h
+"
+							Outputs="../include/OpenSG/OSGSphereVolume.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSphereVolume.h &gt; ../include/OpenSG/OSGSphereVolume.h
@@ -2742,6 +3078,14 @@
 "
 							Outputs="../include/OpenSG/OSGThreadManager.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGThreadManager.h &gt; ../include/OpenSG/OSGThreadManager.h
+"
+							Outputs="../include/OpenSG/OSGThreadManager.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2751,6 +3095,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGTime.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTime.h &gt; ../include/OpenSG/OSGTime.h
+"
+							Outputs="../include/OpenSG/OSGTime.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTime.h &gt; ../include/OpenSG/OSGTime.h
@@ -2772,6 +3124,14 @@
 "
 							Outputs="../include/OpenSG/OSGTypeBase.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTypeBase.h &gt; ../include/OpenSG/OSGTypeBase.h
+"
+							Outputs="../include/OpenSG/OSGTypeBase.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2781,6 +3141,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGTypeFactory.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTypeFactory.h &gt; ../include/OpenSG/OSGTypeFactory.h
+"
+							Outputs="../include/OpenSG/OSGTypeFactory.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTypeFactory.h &gt; ../include/OpenSG/OSGTypeFactory.h
@@ -2802,6 +3170,14 @@
 "
 							Outputs="../include/OpenSG/OSGVector.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVector.h &gt; ../include/OpenSG/OSGVector.h
+"
+							Outputs="../include/OpenSG/OSGVector.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2811,6 +3187,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGVolume.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolume.h &gt; ../include/OpenSG/OSGVolume.h
+"
+							Outputs="../include/OpenSG/OSGVolume.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolume.h &gt; ../include/OpenSG/OSGVolume.h
@@ -2832,6 +3216,14 @@
 "
 							Outputs="../include/OpenSG/OSGVolumeFunctions.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolumeFunctions.h &gt; ../include/OpenSG/OSGVolumeFunctions.h
+"
+							Outputs="../include/OpenSG/OSGVolumeFunctions.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2841,6 +3233,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBarrier.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBarrier.inl &gt; ../include/OpenSG/OSGBarrier.inl
+"
+							Outputs="../include/OpenSG/OSGBarrier.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBarrier.inl &gt; ../include/OpenSG/OSGBarrier.inl
@@ -2862,6 +3262,14 @@
 "
 							Outputs="../include/OpenSG/OSGBaseFunctions.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBaseFunctions.inl &gt; ../include/OpenSG/OSGBaseFunctions.inl
+"
+							Outputs="../include/OpenSG/OSGBaseFunctions.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2871,6 +3279,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGBinaryDataHandler.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBinaryDataHandler.inl &gt; ../include/OpenSG/OSGBinaryDataHandler.inl
+"
+							Outputs="../include/OpenSG/OSGBinaryDataHandler.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBinaryDataHandler.inl &gt; ../include/OpenSG/OSGBinaryDataHandler.inl
@@ -2892,6 +3308,14 @@
 "
 							Outputs="../include/OpenSG/OSGBoxVolume.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGBoxVolume.inl &gt; ../include/OpenSG/OSGBoxVolume.inl
+"
+							Outputs="../include/OpenSG/OSGBoxVolume.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2901,6 +3325,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGColor.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGColor.inl &gt; ../include/OpenSG/OSGColor.inl
+"
+							Outputs="../include/OpenSG/OSGColor.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGColor.inl &gt; ../include/OpenSG/OSGColor.inl
@@ -2922,6 +3354,14 @@
 "
 							Outputs="../include/OpenSG/OSGCylinderVolume.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGCylinderVolume.inl &gt; ../include/OpenSG/OSGCylinderVolume.inl
+"
+							Outputs="../include/OpenSG/OSGCylinderVolume.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2931,6 +3371,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGDate.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDate.inl &gt; ../include/OpenSG/OSGDate.inl
+"
+							Outputs="../include/OpenSG/OSGDate.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDate.inl &gt; ../include/OpenSG/OSGDate.inl
@@ -2952,6 +3400,14 @@
 "
 							Outputs="../include/OpenSG/OSGDynamicVolume.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGDynamicVolume.inl &gt; ../include/OpenSG/OSGDynamicVolume.inl
+"
+							Outputs="../include/OpenSG/OSGDynamicVolume.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2961,6 +3417,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGFileSystem.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFileSystem.inl &gt; ../include/OpenSG/OSGFileSystem.inl
+"
+							Outputs="../include/OpenSG/OSGFileSystem.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFileSystem.inl &gt; ../include/OpenSG/OSGFileSystem.inl
@@ -2982,6 +3446,14 @@
 "
 							Outputs="../include/OpenSG/OSGFrustumVolume.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGFrustumVolume.inl &gt; ../include/OpenSG/OSGFrustumVolume.inl
+"
+							Outputs="../include/OpenSG/OSGFrustumVolume.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -2991,6 +3463,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGIDString.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDString.inl &gt; ../include/OpenSG/OSGIDString.inl
+"
+							Outputs="../include/OpenSG/OSGIDString.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDString.inl &gt; ../include/OpenSG/OSGIDString.inl
@@ -3012,6 +3492,14 @@
 "
 							Outputs="../include/OpenSG/OSGIDStringLink.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGIDStringLink.inl &gt; ../include/OpenSG/OSGIDStringLink.inl
+"
+							Outputs="../include/OpenSG/OSGIDStringLink.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3021,6 +3509,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGLine.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLine.inl &gt; ../include/OpenSG/OSGLine.inl
+"
+							Outputs="../include/OpenSG/OSGLine.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLine.inl &gt; ../include/OpenSG/OSGLine.inl
@@ -3042,6 +3538,14 @@
 "
 							Outputs="../include/OpenSG/OSGLinearTransform.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLinearTransform.inl &gt; ../include/OpenSG/OSGLinearTransform.inl
+"
+							Outputs="../include/OpenSG/OSGLinearTransform.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3051,6 +3555,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGLog.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLog.inl &gt; ../include/OpenSG/OSGLog.inl
+"
+							Outputs="../include/OpenSG/OSGLog.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGLog.inl &gt; ../include/OpenSG/OSGLog.inl
@@ -3072,6 +3584,14 @@
 "
 							Outputs="../include/OpenSG/OSGMatrix.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGMatrix.inl &gt; ../include/OpenSG/OSGMatrix.inl
+"
+							Outputs="../include/OpenSG/OSGMatrix.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3081,6 +3601,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGNormalQuantifier.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGNormalQuantifier.inl &gt; ../include/OpenSG/OSGNormalQuantifier.inl
+"
+							Outputs="../include/OpenSG/OSGNormalQuantifier.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGNormalQuantifier.inl &gt; ../include/OpenSG/OSGNormalQuantifier.inl
@@ -3102,6 +3630,14 @@
 "
 							Outputs="../include/OpenSG/OSGPlane.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPlane.inl &gt; ../include/OpenSG/OSGPlane.inl
+"
+							Outputs="../include/OpenSG/OSGPlane.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3111,6 +3647,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGPolytopeVolume.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPolytopeVolume.inl &gt; ../include/OpenSG/OSGPolytopeVolume.inl
+"
+							Outputs="../include/OpenSG/OSGPolytopeVolume.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGPolytopeVolume.inl &gt; ../include/OpenSG/OSGPolytopeVolume.inl
@@ -3132,6 +3676,14 @@
 "
 							Outputs="../include/OpenSG/OSGQuaternion.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGQuaternion.inl &gt; ../include/OpenSG/OSGQuaternion.inl
+"
+							Outputs="../include/OpenSG/OSGQuaternion.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3141,6 +3693,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGSphereVolume.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSphereVolume.inl &gt; ../include/OpenSG/OSGSphereVolume.inl
+"
+							Outputs="../include/OpenSG/OSGSphereVolume.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGSphereVolume.inl &gt; ../include/OpenSG/OSGSphereVolume.inl
@@ -3162,6 +3722,14 @@
 "
 							Outputs="../include/OpenSG/OSGThreadManager.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGThreadManager.inl &gt; ../include/OpenSG/OSGThreadManager.inl
+"
+							Outputs="../include/OpenSG/OSGThreadManager.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3171,6 +3739,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGTime.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTime.inl &gt; ../include/OpenSG/OSGTime.inl
+"
+							Outputs="../include/OpenSG/OSGTime.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGTime.inl &gt; ../include/OpenSG/OSGTime.inl
@@ -3192,6 +3768,14 @@
 "
 							Outputs="../include/OpenSG/OSGVector.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVector.inl &gt; ../include/OpenSG/OSGVector.inl
+"
+							Outputs="../include/OpenSG/OSGVector.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3201,6 +3785,14 @@
 					RelativePath="..\..\..\Source\Base\Base\OSGVolume.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolume.inl &gt; ../include/OpenSG/OSGVolume.inl
+"
+							Outputs="../include/OpenSG/OSGVolume.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolume.inl &gt; ../include/OpenSG/OSGVolume.inl
@@ -3222,6 +3814,14 @@
 "
 							Outputs="../include/OpenSG/OSGVolumeFunctions.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Base/OSGVolumeFunctions.inl &gt; ../include/OpenSG/OSGVolumeFunctions.inl
+"
+							Outputs="../include/OpenSG/OSGVolumeFunctions.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3231,6 +3831,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGBaseFieldDataType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGBaseFieldDataType.h &gt; ../include/OpenSG/OSGBaseFieldDataType.h
+"
+							Outputs="../include/OpenSG/OSGBaseFieldDataType.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGBaseFieldDataType.h &gt; ../include/OpenSG/OSGBaseFieldDataType.h
@@ -3252,6 +3860,14 @@
 "
 							Outputs="../include/OpenSG/OSGBoolFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGBoolFields.h &gt; ../include/OpenSG/OSGBoolFields.h
+"
+							Outputs="../include/OpenSG/OSGBoolFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3261,6 +3877,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGColor3fFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor3fFields.h &gt; ../include/OpenSG/OSGColor3fFields.h
+"
+							Outputs="../include/OpenSG/OSGColor3fFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor3fFields.h &gt; ../include/OpenSG/OSGColor3fFields.h
@@ -3282,6 +3906,14 @@
 "
 							Outputs="../include/OpenSG/OSGColor3ubFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor3ubFields.h &gt; ../include/OpenSG/OSGColor3ubFields.h
+"
+							Outputs="../include/OpenSG/OSGColor3ubFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3291,6 +3923,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGColor4fFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor4fFields.h &gt; ../include/OpenSG/OSGColor4fFields.h
+"
+							Outputs="../include/OpenSG/OSGColor4fFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor4fFields.h &gt; ../include/OpenSG/OSGColor4fFields.h
@@ -3312,6 +3952,14 @@
 "
 							Outputs="../include/OpenSG/OSGColor4ubFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGColor4ubFields.h &gt; ../include/OpenSG/OSGColor4ubFields.h
+"
+							Outputs="../include/OpenSG/OSGColor4ubFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3321,6 +3969,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGDynamicVolumeFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGDynamicVolumeFields.h &gt; ../include/OpenSG/OSGDynamicVolumeFields.h
+"
+							Outputs="../include/OpenSG/OSGDynamicVolumeFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGDynamicVolumeFields.h &gt; ../include/OpenSG/OSGDynamicVolumeFields.h
@@ -3342,6 +3998,14 @@
 "
 							Outputs="../include/OpenSG/OSGField.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGField.h &gt; ../include/OpenSG/OSGField.h
+"
+							Outputs="../include/OpenSG/OSGField.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3351,6 +4015,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGFieldDataType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGFieldDataType.h &gt; ../include/OpenSG/OSGFieldDataType.h
+"
+							Outputs="../include/OpenSG/OSGFieldDataType.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGFieldDataType.h &gt; ../include/OpenSG/OSGFieldDataType.h
@@ -3372,6 +4044,14 @@
 "
 							Outputs="../include/OpenSG/OSGFieldFactory.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGFieldFactory.h &gt; ../include/OpenSG/OSGFieldFactory.h
+"
+							Outputs="../include/OpenSG/OSGFieldFactory.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3381,6 +4061,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGFieldType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGFieldType.h &gt; ../include/OpenSG/OSGFieldType.h
+"
+							Outputs="../include/OpenSG/OSGFieldType.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGFieldType.h &gt; ../include/OpenSG/OSGFieldType.h
@@ -3402,6 +4090,14 @@
 "
 							Outputs="../include/OpenSG/OSGGLenumFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGGLenumFields.h &gt; ../include/OpenSG/OSGGLenumFields.h
+"
+							Outputs="../include/OpenSG/OSGGLenumFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3411,6 +4107,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGInt16Fields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt16Fields.h &gt; ../include/OpenSG/OSGInt16Fields.h
+"
+							Outputs="../include/OpenSG/OSGInt16Fields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt16Fields.h &gt; ../include/OpenSG/OSGInt16Fields.h
@@ -3432,6 +4136,14 @@
 "
 							Outputs="../include/OpenSG/OSGInt32Fields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt32Fields.h &gt; ../include/OpenSG/OSGInt32Fields.h
+"
+							Outputs="../include/OpenSG/OSGInt32Fields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3441,6 +4153,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGInt64Fields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt64Fields.h &gt; ../include/OpenSG/OSGInt64Fields.h
+"
+							Outputs="../include/OpenSG/OSGInt64Fields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt64Fields.h &gt; ../include/OpenSG/OSGInt64Fields.h
@@ -3462,6 +4182,14 @@
 "
 							Outputs="../include/OpenSG/OSGInt8Fields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGInt8Fields.h &gt; ../include/OpenSG/OSGInt8Fields.h
+"
+							Outputs="../include/OpenSG/OSGInt8Fields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3471,6 +4199,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMFBaseTypes.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFBaseTypes.h &gt; ../include/OpenSG/OSGMFBaseTypes.h
+"
+							Outputs="../include/OpenSG/OSGMFBaseTypes.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFBaseTypes.h &gt; ../include/OpenSG/OSGMFBaseTypes.h
@@ -3492,6 +4228,14 @@
 "
 							Outputs="../include/OpenSG/OSGMFMathTypes.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFMathTypes.h &gt; ../include/OpenSG/OSGMFMathTypes.h
+"
+							Outputs="../include/OpenSG/OSGMFMathTypes.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3501,6 +4245,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMFSysTypes.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFSysTypes.h &gt; ../include/OpenSG/OSGMFSysTypes.h
+"
+							Outputs="../include/OpenSG/OSGMFSysTypes.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFSysTypes.h &gt; ../include/OpenSG/OSGMFSysTypes.h
@@ -3522,6 +4274,14 @@
 "
 							Outputs="../include/OpenSG/OSGMFVecTypes.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFVecTypes.h &gt; ../include/OpenSG/OSGMFVecTypes.h
+"
+							Outputs="../include/OpenSG/OSGMFVecTypes.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3531,6 +4291,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMField.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMField.h &gt; ../include/OpenSG/OSGMField.h
+"
+							Outputs="../include/OpenSG/OSGMField.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMField.h &gt; ../include/OpenSG/OSGMField.h
@@ -3552,6 +4320,14 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldVector.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldVector.h &gt; ../include/OpenSG/OSGMFieldVector.h
+"
+							Outputs="../include/OpenSG/OSGMFieldVector.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3561,6 +4337,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMathFieldDataType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMathFieldDataType.h &gt; ../include/OpenSG/OSGMathFieldDataType.h
+"
+							Outputs="../include/OpenSG/OSGMathFieldDataType.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMathFieldDataType.h &gt; ../include/OpenSG/OSGMathFieldDataType.h
@@ -3582,6 +4366,14 @@
 "
 							Outputs="../include/OpenSG/OSGMatrixFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMatrixFields.h &gt; ../include/OpenSG/OSGMatrixFields.h
+"
+							Outputs="../include/OpenSG/OSGMatrixFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3591,6 +4383,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGPlaneFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPlaneFields.h &gt; ../include/OpenSG/OSGPlaneFields.h
+"
+							Outputs="../include/OpenSG/OSGPlaneFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPlaneFields.h &gt; ../include/OpenSG/OSGPlaneFields.h
@@ -3612,6 +4412,14 @@
 "
 							Outputs="../include/OpenSG/OSGPnt2fFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPnt2fFields.h &gt; ../include/OpenSG/OSGPnt2fFields.h
+"
+							Outputs="../include/OpenSG/OSGPnt2fFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3621,6 +4429,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGPnt3fFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPnt3fFields.h &gt; ../include/OpenSG/OSGPnt3fFields.h
+"
+							Outputs="../include/OpenSG/OSGPnt3fFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPnt3fFields.h &gt; ../include/OpenSG/OSGPnt3fFields.h
@@ -3642,6 +4458,14 @@
 "
 							Outputs="../include/OpenSG/OSGPnt4fFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGPnt4fFields.h &gt; ../include/OpenSG/OSGPnt4fFields.h
+"
+							Outputs="../include/OpenSG/OSGPnt4fFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3651,6 +4475,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGQuaternionFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGQuaternionFields.h &gt; ../include/OpenSG/OSGQuaternionFields.h
+"
+							Outputs="../include/OpenSG/OSGQuaternionFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGQuaternionFields.h &gt; ../include/OpenSG/OSGQuaternionFields.h
@@ -3672,6 +4504,14 @@
 "
 							Outputs="../include/OpenSG/OSGReal32Fields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGReal32Fields.h &gt; ../include/OpenSG/OSGReal32Fields.h
+"
+							Outputs="../include/OpenSG/OSGReal32Fields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3681,6 +4521,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGReal64Fields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGReal64Fields.h &gt; ../include/OpenSG/OSGReal64Fields.h
+"
+							Outputs="../include/OpenSG/OSGReal64Fields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGReal64Fields.h &gt; ../include/OpenSG/OSGReal64Fields.h
@@ -3702,6 +4550,14 @@
 "
 							Outputs="../include/OpenSG/OSGSFBaseTypes.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFBaseTypes.h &gt; ../include/OpenSG/OSGSFBaseTypes.h
+"
+							Outputs="../include/OpenSG/OSGSFBaseTypes.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3711,6 +4567,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGSFMathTypes.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFMathTypes.h &gt; ../include/OpenSG/OSGSFMathTypes.h
+"
+							Outputs="../include/OpenSG/OSGSFMathTypes.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFMathTypes.h &gt; ../include/OpenSG/OSGSFMathTypes.h
@@ -3732,6 +4596,14 @@
 "
 							Outputs="../include/OpenSG/OSGSFSysTypes.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFSysTypes.h &gt; ../include/OpenSG/OSGSFSysTypes.h
+"
+							Outputs="../include/OpenSG/OSGSFSysTypes.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3741,6 +4613,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGSFVecTypes.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFVecTypes.h &gt; ../include/OpenSG/OSGSFVecTypes.h
+"
+							Outputs="../include/OpenSG/OSGSFVecTypes.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFVecTypes.h &gt; ../include/OpenSG/OSGSFVecTypes.h
@@ -3762,6 +4642,14 @@
 "
 							Outputs="../include/OpenSG/OSGSField.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSField.h &gt; ../include/OpenSG/OSGSField.h
+"
+							Outputs="../include/OpenSG/OSGSField.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3771,6 +4659,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGStringFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGStringFields.h &gt; ../include/OpenSG/OSGStringFields.h
+"
+							Outputs="../include/OpenSG/OSGStringFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGStringFields.h &gt; ../include/OpenSG/OSGStringFields.h
@@ -3792,6 +4688,14 @@
 "
 							Outputs="../include/OpenSG/OSGSysFieldDataType.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSysFieldDataType.h &gt; ../include/OpenSG/OSGSysFieldDataType.h
+"
+							Outputs="../include/OpenSG/OSGSysFieldDataType.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3801,6 +4705,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGTimeFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGTimeFields.h &gt; ../include/OpenSG/OSGTimeFields.h
+"
+							Outputs="../include/OpenSG/OSGTimeFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGTimeFields.h &gt; ../include/OpenSG/OSGTimeFields.h
@@ -3822,6 +4734,14 @@
 "
 							Outputs="../include/OpenSG/OSGUInt16Fields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt16Fields.h &gt; ../include/OpenSG/OSGUInt16Fields.h
+"
+							Outputs="../include/OpenSG/OSGUInt16Fields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3831,6 +4751,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGUInt32Fields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt32Fields.h &gt; ../include/OpenSG/OSGUInt32Fields.h
+"
+							Outputs="../include/OpenSG/OSGUInt32Fields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt32Fields.h &gt; ../include/OpenSG/OSGUInt32Fields.h
@@ -3852,6 +4780,14 @@
 "
 							Outputs="../include/OpenSG/OSGUInt64Fields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt64Fields.h &gt; ../include/OpenSG/OSGUInt64Fields.h
+"
+							Outputs="../include/OpenSG/OSGUInt64Fields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3861,6 +4797,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGUInt8Fields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt8Fields.h &gt; ../include/OpenSG/OSGUInt8Fields.h
+"
+							Outputs="../include/OpenSG/OSGUInt8Fields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGUInt8Fields.h &gt; ../include/OpenSG/OSGUInt8Fields.h
@@ -3882,6 +4826,14 @@
 "
 							Outputs="../include/OpenSG/OSGVec2fFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec2fFields.h &gt; ../include/OpenSG/OSGVec2fFields.h
+"
+							Outputs="../include/OpenSG/OSGVec2fFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3891,6 +4843,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGVec2sFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec2sFields.h &gt; ../include/OpenSG/OSGVec2sFields.h
+"
+							Outputs="../include/OpenSG/OSGVec2sFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec2sFields.h &gt; ../include/OpenSG/OSGVec2sFields.h
@@ -3912,6 +4872,14 @@
 "
 							Outputs="../include/OpenSG/OSGVec2usFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec2usFields.h &gt; ../include/OpenSG/OSGVec2usFields.h
+"
+							Outputs="../include/OpenSG/OSGVec2usFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3921,6 +4889,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGVec3fFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec3fFields.h &gt; ../include/OpenSG/OSGVec3fFields.h
+"
+							Outputs="../include/OpenSG/OSGVec3fFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec3fFields.h &gt; ../include/OpenSG/OSGVec3fFields.h
@@ -3942,6 +4918,14 @@
 "
 							Outputs="../include/OpenSG/OSGVec3sFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec3sFields.h &gt; ../include/OpenSG/OSGVec3sFields.h
+"
+							Outputs="../include/OpenSG/OSGVec3sFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3951,6 +4935,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGVec4fFields.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec4fFields.h &gt; ../include/OpenSG/OSGVec4fFields.h
+"
+							Outputs="../include/OpenSG/OSGVec4fFields.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec4fFields.h &gt; ../include/OpenSG/OSGVec4fFields.h
@@ -3972,6 +4964,14 @@
 "
 							Outputs="../include/OpenSG/OSGVec4ubFields.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVec4ubFields.h &gt; ../include/OpenSG/OSGVec4ubFields.h
+"
+							Outputs="../include/OpenSG/OSGVec4ubFields.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -3981,6 +4981,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGVecFieldDataType.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVecFieldDataType.h &gt; ../include/OpenSG/OSGVecFieldDataType.h
+"
+							Outputs="../include/OpenSG/OSGVecFieldDataType.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGVecFieldDataType.h &gt; ../include/OpenSG/OSGVecFieldDataType.h
@@ -4002,6 +5010,14 @@
 "
 							Outputs="../include/OpenSG/OSGMField.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMField.inl &gt; ../include/OpenSG/OSGMField.inl
+"
+							Outputs="../include/OpenSG/OSGMField.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4011,6 +5027,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMFieldTypeDef.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldTypeDef.inl &gt; ../include/OpenSG/OSGMFieldTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldTypeDef.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldTypeDef.inl &gt; ../include/OpenSG/OSGMFieldTypeDef.inl
@@ -4032,6 +5056,14 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldTypeScanTypeDef.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldTypeScanTypeDef.inl &gt; ../include/OpenSG/OSGMFieldTypeScanTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldTypeScanTypeDef.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4041,6 +5073,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGMFieldVector.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldVector.inl &gt; ../include/OpenSG/OSGMFieldVector.inl
+"
+							Outputs="../include/OpenSG/OSGMFieldVector.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGMFieldVector.inl &gt; ../include/OpenSG/OSGMFieldVector.inl
@@ -4062,6 +5102,14 @@
 "
 							Outputs="../include/OpenSG/OSGSField.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSField.inl &gt; ../include/OpenSG/OSGSField.inl
+"
+							Outputs="../include/OpenSG/OSGSField.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4071,6 +5119,14 @@
 					RelativePath="..\..\..\Source\Base\Field\OSGSFieldTypeDef.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFieldTypeDef.inl &gt; ../include/OpenSG/OSGSFieldTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGSFieldTypeDef.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFieldTypeDef.inl &gt; ../include/OpenSG/OSGSFieldTypeDef.inl
@@ -4092,6 +5148,14 @@
 "
 							Outputs="../include/OpenSG/OSGSFieldTypeScanTypeDef.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Field/OSGSFieldTypeScanTypeDef.inl &gt; ../include/OpenSG/OSGSFieldTypeScanTypeDef.inl
+"
+							Outputs="../include/OpenSG/OSGSFieldTypeScanTypeDef.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4101,6 +5165,14 @@
 					RelativePath="..\..\..\Source\Base\Functors\OSGFunctorBase.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGFunctorBase.h &gt; ../include/OpenSG/OSGFunctorBase.h
+"
+							Outputs="../include/OpenSG/OSGFunctorBase.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGFunctorBase.h &gt; ../include/OpenSG/OSGFunctorBase.h
@@ -4122,6 +5194,14 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctorBase.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctorBase.h &gt; ../include/OpenSG/OSGTypedFunctorBase.h
+"
+							Outputs="../include/OpenSG/OSGTypedFunctorBase.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4131,6 +5211,14 @@
 					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors.h &gt; ../include/OpenSG/OSGTypedFunctors.h
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors.h &gt; ../include/OpenSG/OSGTypedFunctors.h
@@ -4152,6 +5240,14 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors1.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors1.h &gt; ../include/OpenSG/OSGTypedFunctors1.h
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors1.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4161,6 +5257,14 @@
 					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors2.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors2.h &gt; ../include/OpenSG/OSGTypedFunctors2.h
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors2.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors2.h &gt; ../include/OpenSG/OSGTypedFunctors2.h
@@ -4182,6 +5286,14 @@
 "
 							Outputs="../include/OpenSG/OSGFunctorBase.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGFunctorBase.inl &gt; ../include/OpenSG/OSGFunctorBase.inl
+"
+							Outputs="../include/OpenSG/OSGFunctorBase.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4191,6 +5303,14 @@
 					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctorBase.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctorBase.inl &gt; ../include/OpenSG/OSGTypedFunctorBase.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctorBase.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctorBase.inl &gt; ../include/OpenSG/OSGTypedFunctorBase.inl
@@ -4212,6 +5332,14 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors.inl &gt; ../include/OpenSG/OSGTypedFunctors.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4221,6 +5349,14 @@
 					RelativePath="..\..\..\Source\Base\Functors\OSGTypedFunctors1.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors1.inl &gt; ../include/OpenSG/OSGTypedFunctors1.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors1.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors1.inl &gt; ../include/OpenSG/OSGTypedFunctors1.inl
@@ -4242,6 +5378,14 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors2.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Functors/OSGTypedFunctors2.inl &gt; ../include/OpenSG/OSGTypedFunctors2.inl
+"
+							Outputs="../include/OpenSG/OSGTypedFunctors2.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4251,6 +5395,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Base\OSGBinaryMessage.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGBinaryMessage.h &gt; ../include/OpenSG/OSGBinaryMessage.h
+"
+							Outputs="../include/OpenSG/OSGBinaryMessage.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGBinaryMessage.h &gt; ../include/OpenSG/OSGBinaryMessage.h
@@ -4272,6 +5424,14 @@
 "
 							Outputs="../include/OpenSG/OSGConnection.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnection.h &gt; ../include/OpenSG/OSGConnection.h
+"
+							Outputs="../include/OpenSG/OSGConnection.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4281,6 +5441,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnectionFactory.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnectionFactory.h &gt; ../include/OpenSG/OSGConnectionFactory.h
+"
+							Outputs="../include/OpenSG/OSGConnectionFactory.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnectionFactory.h &gt; ../include/OpenSG/OSGConnectionFactory.h
@@ -4302,6 +5470,14 @@
 "
 							Outputs="../include/OpenSG/OSGConnectionType.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnectionType.h &gt; ../include/OpenSG/OSGConnectionType.h
+"
+							Outputs="../include/OpenSG/OSGConnectionType.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4311,6 +5487,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Base\OSGGroupConnection.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGGroupConnection.h &gt; ../include/OpenSG/OSGGroupConnection.h
+"
+							Outputs="../include/OpenSG/OSGGroupConnection.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGGroupConnection.h &gt; ../include/OpenSG/OSGGroupConnection.h
@@ -4332,6 +5516,14 @@
 "
 							Outputs="../include/OpenSG/OSGNetworkMessage.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGNetworkMessage.h &gt; ../include/OpenSG/OSGNetworkMessage.h
+"
+							Outputs="../include/OpenSG/OSGNetworkMessage.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4341,6 +5533,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Base\OSGPointConnection.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGPointConnection.h &gt; ../include/OpenSG/OSGPointConnection.h
+"
+							Outputs="../include/OpenSG/OSGPointConnection.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGPointConnection.h &gt; ../include/OpenSG/OSGPointConnection.h
@@ -4362,6 +5562,14 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryMessage.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGBinaryMessage.inl &gt; ../include/OpenSG/OSGBinaryMessage.inl
+"
+							Outputs="../include/OpenSG/OSGBinaryMessage.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4371,6 +5579,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Base\OSGConnection.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnection.inl &gt; ../include/OpenSG/OSGConnection.inl
+"
+							Outputs="../include/OpenSG/OSGConnection.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Base/OSGConnection.inl &gt; ../include/OpenSG/OSGConnection.inl
@@ -4392,6 +5608,14 @@
 "
 							Outputs="../include/OpenSG/OSGDgram.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgram.h &gt; ../include/OpenSG/OSGDgram.h
+"
+							Outputs="../include/OpenSG/OSGDgram.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4401,6 +5625,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGDgramQueue.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgramQueue.h &gt; ../include/OpenSG/OSGDgramQueue.h
+"
+							Outputs="../include/OpenSG/OSGDgramQueue.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgramQueue.h &gt; ../include/OpenSG/OSGDgramQueue.h
@@ -4422,6 +5654,14 @@
 "
 							Outputs="../include/OpenSG/OSGDgramSocket.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgramSocket.h &gt; ../include/OpenSG/OSGDgramSocket.h
+"
+							Outputs="../include/OpenSG/OSGDgramSocket.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4431,6 +5671,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGGroupMCastConnection.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGGroupMCastConnection.h &gt; ../include/OpenSG/OSGGroupMCastConnection.h
+"
+							Outputs="../include/OpenSG/OSGGroupMCastConnection.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGGroupMCastConnection.h &gt; ../include/OpenSG/OSGGroupMCastConnection.h
@@ -4452,6 +5700,14 @@
 "
 							Outputs="../include/OpenSG/OSGGroupSockConnection.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGGroupSockConnection.h &gt; ../include/OpenSG/OSGGroupSockConnection.h
+"
+							Outputs="../include/OpenSG/OSGGroupSockConnection.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4461,6 +5717,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGGroupSockPipeline.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGGroupSockPipeline.h &gt; ../include/OpenSG/OSGGroupSockPipeline.h
+"
+							Outputs="../include/OpenSG/OSGGroupSockPipeline.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGGroupSockPipeline.h &gt; ../include/OpenSG/OSGGroupSockPipeline.h
@@ -4482,6 +5746,14 @@
 "
 							Outputs="../include/OpenSG/OSGPointMCastConnection.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGPointMCastConnection.h &gt; ../include/OpenSG/OSGPointMCastConnection.h
+"
+							Outputs="../include/OpenSG/OSGPointMCastConnection.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4491,6 +5763,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGPointSockConnection.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGPointSockConnection.h &gt; ../include/OpenSG/OSGPointSockConnection.h
+"
+							Outputs="../include/OpenSG/OSGPointSockConnection.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGPointSockConnection.h &gt; ../include/OpenSG/OSGPointSockConnection.h
@@ -4512,6 +5792,14 @@
 "
 							Outputs="../include/OpenSG/OSGPointSockPipeline.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGPointSockPipeline.h &gt; ../include/OpenSG/OSGPointSockPipeline.h
+"
+							Outputs="../include/OpenSG/OSGPointSockPipeline.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4521,6 +5809,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocket.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocket.h &gt; ../include/OpenSG/OSGSocket.h
+"
+							Outputs="../include/OpenSG/OSGSocket.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocket.h &gt; ../include/OpenSG/OSGSocket.h
@@ -4542,6 +5838,14 @@
 "
 							Outputs="../include/OpenSG/OSGSocketAddress.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocketAddress.h &gt; ../include/OpenSG/OSGSocketAddress.h
+"
+							Outputs="../include/OpenSG/OSGSocketAddress.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4551,6 +5855,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGSocketException.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocketException.h &gt; ../include/OpenSG/OSGSocketException.h
+"
+							Outputs="../include/OpenSG/OSGSocketException.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocketException.h &gt; ../include/OpenSG/OSGSocketException.h
@@ -4572,6 +5884,14 @@
 "
 							Outputs="../include/OpenSG/OSGSocketSelection.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGSocketSelection.h &gt; ../include/OpenSG/OSGSocketSelection.h
+"
+							Outputs="../include/OpenSG/OSGSocketSelection.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4581,6 +5901,14 @@
 					RelativePath="..\..\..\Source\Base\Network\Socket\OSGStreamSocket.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGStreamSocket.h &gt; ../include/OpenSG/OSGStreamSocket.h
+"
+							Outputs="../include/OpenSG/OSGStreamSocket.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGStreamSocket.h &gt; ../include/OpenSG/OSGStreamSocket.h
@@ -4602,6 +5930,14 @@
 "
 							Outputs="../include/OpenSG/OSGDgram.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Network/Socket/OSGDgram.inl &gt; ../include/OpenSG/OSGDgram.inl
+"
+							Outputs="../include/OpenSG/OSGDgram.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4611,6 +5947,14 @@
 					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGIndenter.h &gt; ../include/OpenSG/OSGIndenter.h
+"
+							Outputs="../include/OpenSG/OSGIndenter.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGIndenter.h &gt; ../include/OpenSG/OSGIndenter.h
@@ -4632,6 +5976,14 @@
 "
 							Outputs="../include/OpenSG/OSGStandardStringConversionState.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStandardStringConversionState.h &gt; ../include/OpenSG/OSGStandardStringConversionState.h
+"
+							Outputs="../include/OpenSG/OSGStandardStringConversionState.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4641,6 +5993,14 @@
 					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringConversionStateBase.h &gt; ../include/OpenSG/OSGStringConversionStateBase.h
+"
+							Outputs="../include/OpenSG/OSGStringConversionStateBase.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringConversionStateBase.h &gt; ../include/OpenSG/OSGStringConversionStateBase.h
@@ -4662,6 +6022,14 @@
 "
 							Outputs="../include/OpenSG/OSGStringTokenizer.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringTokenizer.h &gt; ../include/OpenSG/OSGStringTokenizer.h
+"
+							Outputs="../include/OpenSG/OSGStringTokenizer.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4671,6 +6039,14 @@
 					RelativePath="..\..\..\Source\Base\StringConversion\OSGIndenter.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGIndenter.inl &gt; ../include/OpenSG/OSGIndenter.inl
+"
+							Outputs="../include/OpenSG/OSGIndenter.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGIndenter.inl &gt; ../include/OpenSG/OSGIndenter.inl
@@ -4692,6 +6068,14 @@
 "
 							Outputs="../include/OpenSG/OSGStandardStringConversionState.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStandardStringConversionState.inl &gt; ../include/OpenSG/OSGStandardStringConversionState.inl
+"
+							Outputs="../include/OpenSG/OSGStandardStringConversionState.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4701,6 +6085,14 @@
 					RelativePath="..\..\..\Source\Base\StringConversion\OSGStringConversionStateBase.inl">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringConversionStateBase.inl &gt; ../include/OpenSG/OSGStringConversionStateBase.inl
+"
+							Outputs="../include/OpenSG/OSGStringConversionStateBase.inl"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringConversionStateBase.inl &gt; ../include/OpenSG/OSGStringConversionStateBase.inl
@@ -4722,6 +6114,14 @@
 "
 							Outputs="../include/OpenSG/OSGStringTokenizer.inl"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/StringConversion/OSGStringTokenizer.inl &gt; ../include/OpenSG/OSGStringTokenizer.inl
+"
+							Outputs="../include/OpenSG/OSGStringTokenizer.inl"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4731,6 +6131,14 @@
 					RelativePath="..\..\..\Source\Base\Xml\OSGShared_ptr.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGShared_ptr.h &gt; ../include/OpenSG/OSGShared_ptr.h
+"
+							Outputs="../include/OpenSG/OSGShared_ptr.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGShared_ptr.h &gt; ../include/OpenSG/OSGShared_ptr.h
@@ -4752,6 +6160,14 @@
 "
 							Outputs="../include/OpenSG/OSGXmlconfig.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmlconfig.h &gt; ../include/OpenSG/OSGXmlconfig.h
+"
+							Outputs="../include/OpenSG/OSGXmlconfig.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4761,6 +6177,14 @@
 					RelativePath="..\..\..\Source\Base\Xml\OSGXmlparser.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmlparser.h &gt; ../include/OpenSG/OSGXmlparser.h
+"
+							Outputs="../include/OpenSG/OSGXmlparser.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmlparser.h &gt; ../include/OpenSG/OSGXmlparser.h
@@ -4782,6 +6206,14 @@
 "
 							Outputs="../include/OpenSG/OSGXmlpp.h"/>
 					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmlpp.h &gt; ../include/OpenSG/OSGXmlpp.h
+"
+							Outputs="../include/OpenSG/OSGXmlpp.h"/>
+					</FileConfiguration>
 				</File>
 			</Filter>
 			<Filter
@@ -4791,6 +6223,14 @@
 					RelativePath="..\..\..\Source\Base\Xml\OSGXmltokenizer.h">
 					<FileConfiguration
 						Name="Debug|Win32">
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmltokenizer.h &gt; ../include/OpenSG/OSGXmltokenizer.h
+"
+							Outputs="../include/OpenSG/OSGXmltokenizer.h"/>
+					</FileConfiguration>
+<FileConfiguration
+						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
 							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Base/Xml/OSGXmltokenizer.h &gt; ../include/OpenSG/OSGXmltokenizer.h
