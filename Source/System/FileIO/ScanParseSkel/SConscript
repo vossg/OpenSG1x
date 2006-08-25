@@ -1,3 +1,5 @@
+import os
+
 Import('*')
 
 # Hm, straight up Command() doesn't work
@@ -28,8 +30,10 @@ InstallAs('OSGScanParseSkel.tab.h',   'OSGScanParseSkel_.tab.h')
 InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
 
 if env['PLATFORM'] == 'win32':
-    #Install('.', GetCygwinPath('/usr/include/FlexLexer.h'))
-    Install('.', '../../../../VSBuild/VS6/FlexLexer.h')
+    # Install() doesn't work on windows why???
+    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS6/FlexLexer.h')
+    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS8/SystemLib/bison.simple')
+    MyInstall(os.getcwd(), '../../../../../../VSBuild/VS8/SystemLib/bison.hairy')
 else:
     Install('.', '/usr/include/FlexLexer.h')
 

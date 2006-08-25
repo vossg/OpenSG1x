@@ -6,6 +6,8 @@ import shutil
 import zipfile
 import glob
 
+_root_dir = os.getcwd()
+
 SConsignFile()
 #CacheDir('cache')
 
@@ -35,25 +37,6 @@ def Glob(match):
 Export('Glob')
 
 PLATFORM = DefaultEnvironment().get('PLATFORM')
-
-if PLATFORM == 'win32':
-
-    def GetCygwinPath(path):
-        f = os.popen('cygpath -w -p ' + path, 'r')
-        for wpath in f.xreadlines():
-            # remove line feed
-            if wpath[-1:] == '\n':
-                wpath = wpath[:len(wpath)-1]
-        return wpath
-
-    Export('GetCygwinPath')
-
-elif PLATFORM == 'cygwin':
-    
-    def GetCygwinPath(path):
-        return path
-    
-    Export('GetCygwinPath')
 
 class unzip:
     def __init__(self, verbose = False, percent = 10):
@@ -148,6 +131,8 @@ def MyInstall(dst, src):
     except (IOError, os.error), why:
         print "Couldn't install %s: %s" % (`dst`, str(why))
         return -1
+
+Export('MyInstall')
 
 def AppendFilesUnique(files, adds):
     for add in adds:
@@ -805,7 +790,9 @@ class win32_icl_base(win32):
         #print env['ENV']['INCLUDE']
         #print env['ENV']['LIB']
 
-        env.AppendENVPath('PATH', GetCygwinPath('/bin'))
+        # add the tools path for sed.exe, bison.exe, flex.exe ...
+        tools_exe = os.path.join(_root_dir, 'dist', 'win', 'bin')
+        env.AppendENVPath('PATH', tools_exe)
 
         env.Append(CXXFLAGS=['-W4',
                              '-Qwd985', '-Qwd530', '-Qwd981', '-Qwd193',
@@ -878,7 +865,9 @@ class win32_msvc_base(win32):
         env.Tool('mslib')
         env.Tool('mslink')
 
-        env.AppendENVPath('PATH', GetCygwinPath('/bin'))
+        # add the tools path for sed.exe, bison.exe, flex.exe ...
+        tools_exe = os.path.join(_root_dir, 'dist', 'win', 'bin')
+        env.AppendENVPath('PATH', tools_exe)
 
         env.Append(CPPDEFINES=win32_defines)
 
