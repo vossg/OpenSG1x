@@ -46,6 +46,7 @@
 #include "OSGConfig.h"
 
 #include <iostream>
+#include <sstream>
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <fstream>
@@ -54,7 +55,6 @@
 #include "OSGScanParseSkel.h"
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
-#include "OSGScanParseLexer.h"
 
 
 OSG_USING_NAMESPACE
@@ -63,9 +63,11 @@ OSG_USING_NAMESPACE
 /*                            Constructors                                 */
 
 ScanParseSkel::ScanParseSkel(void) :
-    _bMapTypeIds      (false),
-    _szReferenceHeader(NULL ),
-    _pLexer           (NULL )
+    _bMapTypeIds      (false ),
+    _szReferenceHeader(NULL  ),
+    _pLexer           (this  ),
+    _image            (NullFC),
+    _imageDataPtr     (0     )
 {
 }
 
@@ -74,8 +76,8 @@ ScanParseSkel::ScanParseSkel(void) :
 
 ScanParseSkel::~ScanParseSkel(void)
 {
-    if(_pLexer != NULL)
-        delete _pLexer;
+    if (_image != NullFC)
+      subRefCP(_image);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -88,11 +90,7 @@ void ScanParseSkel::scanStream(std::istream &is)
 {
     if(is.good())
     {
-        if(_pLexer != NULL)
-            delete _pLexer;
-
-        _pLexer = new OSGScanParseLexer(this, &is);
-
+        switch_streams(&is, 0);
         OSGScanParseSkel_parse(this);
     }
 }
@@ -130,42 +128,22 @@ void ScanParseSkel::scanFile(const Char8 *szFilename)
 #endif
 }
 
-Int32 ScanParseSkel::lex(void)
+Int32 ScanParseSkel::lex(YYSTYPE *lvalp)
 {
-    Int32 returnValue = -1;
-
-    if(_pLexer != NULL)
-        returnValue = _pLexer->yylex();
-
-    return returnValue;
+    return yylex(lvalp);
 }
 
 const Char8 *ScanParseSkel::getText(void)
 {
-    const Char8 *returnValue = NULL;
-
-    if(_pLexer != NULL)
-        returnValue = _pLexer->YYText();
-
-    return returnValue;
+    return YYText();
 }
-
-void ScanParseSkel::expectType(Int32 iNextType)
-{
-    if(_pLexer != NULL)
-        _pLexer->expectType(iNextType);
-}
-
 
 void ScanParseSkel::handleError(const Char8 *szErrorText)
 {
-    if(_pLexer == NULL)
-        return;
-
     FWARNING(("-----> %s in Line %d, read '%s'\n",
               szErrorText,
-              _pLexer->lineno(),
-              _pLexer->YYText()));
+              lineno(),
+              YYText()));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -365,6 +343,155 @@ void ScanParseSkel::addFieldValue(const Char8 *)
 {
 }
 
+void ScanParseSkel::addBoolValue(bool b)
+{
+    addFieldValue(YYText());
+}
+
+void ScanParseSkel::addColorValue(const Color3f &c)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addColorRGBAValue(const Color4f &c)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addDoubleValue(Real64 d)
+{
+    addFieldValue(YYText());
+}
+
+void ScanParseSkel::addFloatValue(Real32 f)
+{
+    addFieldValue(YYText());
+}
+
+void ScanParseSkel::addImageValue(ImagePtr &img)
+{
+    UInt32 numComponents = img->getComponents();
+    std::ostringstream os;
+    os << img->getWidth() << ' ' << img->getHeight() << ' ' << numComponents;
+    addFieldValue(os.str().c_str());
+    UInt32 numPixels = img->getWidth() * img->getHeight();
+    UInt32 pixel;
+    UInt8 *data = img->getData();
+    for (UInt32 i = 0; i < numPixels; ++i)
+    {
+        pixel = 0;
+        for (UInt32 j = 0; j < numComponents; ++j)
+            pixel = (pixel << 8) | *data++;
+        os.str(std::string());
+        os << pixel;
+        addFieldValue(os.str().c_str());
+    }
+}
+
+void ScanParseSkel::addInt32Value(Int32 i)
+{
+    addFieldValue(YYText());
+}
+
+void ScanParseSkel::addMatrix3dValue(Real64 m00, Real64 m10, Real64 m20,
+                                     Real64 m01, Real64 m11, Real64 m21,
+                                     Real64 m02, Real64 m12, Real64 m22)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addMatrix3fValue(Real32 m00, Real32 m10, Real32 m20,
+                                     Real32 m01, Real32 m11, Real32 m21,
+                                     Real32 m02, Real32 m12, Real32 m22)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addMatrix4dValue(const Matrix4d &m)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addMatrix4fValue(const Matrix4f &m)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addRotationValue(const Vec3f &axis, Real32 angle)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addStringValue(const std::string &s)
+{
+    addFieldValue(s.c_str());
+}
+
+void ScanParseSkel::addTimeValue(Time t)
+{
+    addFieldValue(YYText());
+}
+
+void ScanParseSkel::addVec2dValue(const Vec2d &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVec2fValue(const Vec2f &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVec3dValue(const Vec3d &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVec3fValue(const Vec3f &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVec4dValue(const Vec4d &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVec4fValue(const Vec4f &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addColor4iValue(const Color4ub &c)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addPnt2fValue(const Pnt2f &p)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addPnt3fValue(const Pnt3f &p)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addPnt4fValue(const Pnt4f &p)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addPlaneValue(const Plane &p)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
+void ScanParseSkel::addVolumeValue(const DynamicVolume &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+
 void ScanParseSkel::addRoute(const Char8 *,
                              const Char8 *,
                              const Char8 *,
@@ -407,6 +534,57 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
     stringDup(szReferenceHeader, _szReferenceHeader);
 }
 
+/*-------------------------------------------------------------------------*/
+
+void ScanParseSkel::beginImage(Int32 width, Int32 height, Int32 components)
+{
+    if (_image == NullFC)
+    {
+        _image = Image::create();
+        addRefCP(_image);
+    }
+    UInt32 pixelFormat;
+    switch (components)
+    {
+    case 1:  pixelFormat = Image::OSG_L_PF;       break;
+    case 2:  pixelFormat = Image::OSG_LA_PF;      break;
+    case 3:  pixelFormat = Image::OSG_RGB_PF;     break;
+    case 4:  pixelFormat = Image::OSG_RGBA_PF;    break;
+    default: pixelFormat = Image::OSG_INVALID_PF; break;
+    }
+    _image->set(pixelFormat, width, height);
+    _imageDataPtr = _image->getData();
+    expectImageInts(width * height);
+}
+
+void ScanParseSkel::addImagePixel(Int32 pixel)
+{
+    switch (_image->getPixelFormat())
+    {
+    case Image::OSG_RGBA_PF:
+        *_imageDataPtr++ = pixel >> 24;
+        // Fall through
+    case Image::OSG_RGB_PF:
+        *_imageDataPtr++ = pixel >> 16;
+        // Fall through
+    case Image::OSG_LA_PF:
+        *_imageDataPtr++ = pixel >> 8;
+        // Fall through
+    case Image::OSG_L_PF:
+        *_imageDataPtr++ = pixel;
+        // Fall through
+    default:
+        break;
+    }
+}
+
+void ScanParseSkel::endImage()
+{
+    _imageDataPtr = 0;
+    addImageValue(_image);
+    subRefCP(_image);
+    _image = NullFC;
+}
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
