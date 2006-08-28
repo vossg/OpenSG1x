@@ -24,7 +24,7 @@ env.Command(
 env.Command(
     ['OSGScanParseSkel_.tab.c', 'OSGScanParseSkel_.tab.h', 'OSGScanParseSkel_.output'],
     ['OSGScanParseSkel.y'],
-    'cd $TARGET.dir && bison -d -v -pOSGScanParseSkel_ -bOSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
+    'cd $TARGET.dir && bison -d -l -v -pOSGScanParseSkel_ -bOSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
 InstallAs('OSGScanParseSkel.tab.cpp', 'OSGScanParseSkel_.tab.c')
 InstallAs('OSGScanParseSkel.tab.h',   'OSGScanParseSkel_.tab.h')
 InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
