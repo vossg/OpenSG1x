@@ -293,7 +293,7 @@ interfaceDeclarations:
     interfaceDeclarations interfaceDeclaration
     | /* empty */;
 
-restrictedInterfaceDeclaration:
+interfaceDeclaration:
     TOK_eventIn
     fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     eventInId { SKEL->beginEventInDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->endEventDecl(); }
@@ -303,10 +303,7 @@ restrictedInterfaceDeclaration:
     | TOK_field
       fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
-      fieldValue { SKEL->endFieldDecl(); };
-
-interfaceDeclaration:
-    restrictedInterfaceDeclaration
+      fieldValue { SKEL->endFieldDecl(); }
     | TOK_exposedField
       fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       fieldId { SKEL->beginExposedFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
@@ -390,6 +387,7 @@ scriptBodyElement:
     | eventInDeclaration
     | eventOutDeclaration
     | fieldDeclaration
+    | exposedFieldDeclaration
     | error;
 
 eventInDeclaration:
@@ -413,6 +411,12 @@ fieldDeclaration:
     fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
     fieldDeclarationEnd { SKEL->endFieldDecl(); };
+
+exposedFieldDeclaration:
+    TOK_exposedField
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
+    fieldId { SKEL->beginExposedFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
+    fieldDeclarationEnd { SKEL->endExposedFieldDecl(); };
 
 fieldDeclarationEnd:
     fieldValue
