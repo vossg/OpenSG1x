@@ -421,21 +421,24 @@ bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
               << std::endl;
 #endif
 
-        pDesc = new FieldDescription(*pType,
-                                     szFieldName,
-                                     0, 0,
-                                     false,
-                                     (FieldIndexAccessMethod)
-                                     &GenericAtt::getDynamicField);
-
-        _pGenAtt->addField(*pDesc);
-
-        _pCurrField = getField(_pNodeProto,
-                               _pNodeCoreProto,
-                               _pGenAtt,
-                                szFieldName);
-
-        delete pDesc;
+        if(_pGenAtt != NullFC)
+        {
+            pDesc = new FieldDescription(*pType,
+                                         szFieldName,
+                                         0, 0,
+                                         false,
+                                         (FieldIndexAccessMethod)
+                                         &GenericAtt::getDynamicField);
+    
+            _pGenAtt->addField(*pDesc);
+    
+            _pCurrField = getField(_pNodeProto,
+                                   _pNodeCoreProto,
+                                   _pGenAtt,
+                                    szFieldName);
+    
+            delete pDesc;
+        }
 
 #ifdef OSG_DEBUG_VRML
         indentLog(getIndent(), PINFO);

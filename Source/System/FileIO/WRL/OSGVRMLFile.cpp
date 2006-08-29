@@ -445,6 +445,7 @@ void VRMLFile::endNode(void)
     else
     {
         _pCurrNodeDesc = NULL;
+        _pCurrentField = NULL;
     }
 
     if(_pCurrentFC != NullFC)
