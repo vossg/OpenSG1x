@@ -641,7 +641,7 @@ Normalizes a suffix, i.e. removes whitespaces and transforms it to lowercase
 void ImageFileHandler::normalizeSuffix(std::string &suffix)
 {
     // Remove trailing whitespace
-    std::string::size_type endpos = suffix.find_last_not_of(" \t\r\n", endpos);
+    std::string::size_type endpos = suffix.find_last_not_of(" \t\r\n");
     if (endpos == std::string::npos)
     {
         suffix.erase();
