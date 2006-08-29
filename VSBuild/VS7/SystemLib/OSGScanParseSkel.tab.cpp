@@ -11,162 +11,109 @@
 #define yychar OSGScanParseSkel_char
 #define yydebug OSGScanParseSkel_debug
 #define yynerrs OSGScanParseSkel_nerrs
-#define	UTF8BOM	258
-#define	DEF	259
-#define	USE	260
-#define	ROUTE	261
-#define	PERIOD	262
-#define	TO	263
-#define	OPENBRACE	264
-#define	CLOSEBRACE	265
-#define	ID	266
-#define	PROTO	267
-#define	OPENBRACKET	268
-#define	CLOSEBRACKET	269
-#define	EXTERNPROTO	270
-#define	IS	271
-#define	EXPORT	272
-#define	IMPORT	273
-#define	PROFILE	274
-#define	COMPONENT	275
-#define	COMPONENTID	276
-#define	OSG_META	277
-#define	AS	278
-#define	EVENTIN	279
-#define	EVENTOUT	280
-#define	EXPOSEDFIELD	281
-#define	FIELD	282
-#define	SCRIPT	283
-#define	SFN_NULL	284
-#define	TOK_SFBOOL	285
-#define	TOK_SFCOLOR	286
-#define	TOK_SFCOLORRGBA	287
-#define	TOK_SFDOUBLE	288
-#define	TOK_SFFLOAT	289
-#define	TOK_SFIMAGE	290
-#define	TOK_SFINT32	291
-#define	TOK_SFMATRIX3D	292
-#define	TOK_SFMATRIX3F	293
-#define	TOK_SFMATRIX4D	294
-#define	TOK_SFMATRIX4F	295
-#define	TOK_SFNODE	296
-#define	TOK_SFROTATION	297
-#define	TOK_SFSTRING	298
-#define	TOK_SFTIME	299
-#define	TOK_SFVEC2D	300
-#define	TOK_SFVEC2F	301
-#define	TOK_SFVEC3D	302
-#define	TOK_SFVEC3F	303
-#define	TOK_SFVEC4D	304
-#define	TOK_SFVEC4F	305
-#define	TOK_MFBOOL	306
-#define	TOK_MFCOLOR	307
-#define	TOK_MFCOLORRGBA	308
-#define	TOK_MFDOUBLE	309
-#define	TOK_MFFLOAT	310
-#define	TOK_MFIMAGE	311
-#define	TOK_MFINT32	312
-#define	TOK_MFMATRIX3D	313
-#define	TOK_MFMATRIX3F	314
-#define	TOK_MFMATRIX4D	315
-#define	TOK_MFMATRIX4F	316
-#define	TOK_MFNODE	317
-#define	TOK_MFROTATION	318
-#define	TOK_MFSTRING	319
-#define	TOK_MFTIME	320
-#define	TOK_MFVEC2D	321
-#define	TOK_MFVEC2F	322
-#define	TOK_MFVEC3D	323
-#define	TOK_MFVEC3F	324
-#define	TOK_MFVEC4D	325
-#define	TOK_MFVEC4F	326
-#define	Tok_MFBool	327
-#define	Tok_MFColor	328
-#define	Tok_MFColorRGBA	329
-#define	Tok_MFDouble	330
-#define	Tok_MFFloat	331
-#define	Tok_MFImage	332
-#define	Tok_MFInt32	333
-#define	Tok_MFMatrix3d	334
-#define	Tok_MFMatrix3f	335
-#define	Tok_MFMatrix4d	336
-#define	Tok_MFMatrix4f	337
-#define	Tok_MFNode	338
-#define	Tok_MFRotation	339
-#define	Tok_MFString	340
-#define	Tok_MFTime	341
-#define	Tok_MFVec2d	342
-#define	Tok_MFVec2f	343
-#define	Tok_MFVec3d	344
-#define	Tok_MFVec3f	345
-#define	Tok_MFVec4d	346
-#define	Tok_MFVec4f	347
-#define	Tok_SFBool	348
-#define	Tok_SFColor	349
-#define	Tok_SFColorRGBA	350
-#define	Tok_SFDouble	351
-#define	Tok_SFFloat	352
-#define	Tok_SFImage	353
-#define	Tok_SFInt32	354
-#define	Tok_SFMatrix3d	355
-#define	Tok_SFMatrix3f	356
-#define	Tok_SFMatrix4d	357
-#define	Tok_SFMatrix4f	358
-#define	Tok_SFNode	359
-#define	Tok_SFRotation	360
-#define	Tok_SFString	361
-#define	Tok_SFTime	362
-#define	Tok_SFVec2d	363
-#define	Tok_SFVec2f	364
-#define	Tok_SFVec3d	365
-#define	Tok_SFVec3f	366
-#define	Tok_SFVec4d	367
-#define	Tok_SFVec4f	368
-#define	TOK_MFCOLOR4I	369
-#define	TOK_MFPNT2F	370
-#define	TOK_MFPNT3F	371
-#define	TOK_MFPNT4F	372
-#define	TOK_MFPLANE	373
-#define	TOK_SFCOLOR4I	374
-#define	TOK_SFPNT2F	375
-#define	TOK_SFPNT3F	376
-#define	TOK_SFPNT4F	377
-#define	TOK_SFPLANE	378
-#define	TOK_SFVOLUME	379
-#define	Tok_MFColor4i	380
-#define	Tok_MFPnt2f	381
-#define	Tok_MFPnt3f	382
-#define	Tok_MFPnt4f	383
-#define	Tok_MFPlane	384
-#define	Tok_SFColor4i	385
-#define	Tok_SFPnt2f	386
-#define	Tok_SFPnt3f	387
-#define	Tok_SFPnt4f	388
-#define	Tok_SFPlane	389
-#define	Tok_SFVolume	390
+#define	TOK_HEADER	258
+#define	TOK_PROFILE	259
+#define	TOK_COMPONENT	260
+#define	TOK_META	261
+#define	TOK_PROTO	262
+#define	TOK_EXTERNPROTO	263
+#define	TOK_IS	264
+#define	TOK_DEF	265
+#define	TOK_USE	266
+#define	TOK_ROUTE	267
+#define	TOK_TO	268
+#define	TOK_IMPORT	269
+#define	TOK_EXPORT	270
+#define	TOK_AS	271
+#define	TOK_eventIn	272
+#define	TOK_eventOut	273
+#define	TOK_exposedField	274
+#define	TOK_field	275
+#define	TOK_MFBool	276
+#define	TOK_MFColor	277
+#define	TOK_MFColorRGBA	278
+#define	TOK_MFDouble	279
+#define	TOK_MFFloat	280
+#define	TOK_MFImage	281
+#define	TOK_MFInt32	282
+#define	TOK_MFMatrix3d	283
+#define	TOK_MFMatrix3f	284
+#define	TOK_MFMatrix4d	285
+#define	TOK_MFMatrix4f	286
+#define	TOK_MFNode	287
+#define	TOK_MFRotation	288
+#define	TOK_MFString	289
+#define	TOK_MFTime	290
+#define	TOK_MFVec2d	291
+#define	TOK_MFVec2f	292
+#define	TOK_MFVec3d	293
+#define	TOK_MFVec3f	294
+#define	TOK_MFVec4d	295
+#define	TOK_MFVec4f	296
+#define	TOK_SFBool	297
+#define	TOK_SFColor	298
+#define	TOK_SFColorRGBA	299
+#define	TOK_SFDouble	300
+#define	TOK_SFFloat	301
+#define	TOK_SFImage	302
+#define	TOK_SFInt32	303
+#define	TOK_SFMatrix3d	304
+#define	TOK_SFMatrix3f	305
+#define	TOK_SFMatrix4d	306
+#define	TOK_SFMatrix4f	307
+#define	TOK_SFNode	308
+#define	TOK_SFRotation	309
+#define	TOK_SFString	310
+#define	TOK_SFTime	311
+#define	TOK_SFVec2d	312
+#define	TOK_SFVec2f	313
+#define	TOK_SFVec3d	314
+#define	TOK_SFVec3f	315
+#define	TOK_SFVec4d	316
+#define	TOK_SFVec4f	317
+#define	TOK_MFColor4i	318
+#define	TOK_MFPnt2f	319
+#define	TOK_MFPnt3f	320
+#define	TOK_MFPnt4f	321
+#define	TOK_MFPlane	322
+#define	TOK_SFColor4i	323
+#define	TOK_SFPnt2f	324
+#define	TOK_SFPnt3f	325
+#define	TOK_SFPnt4f	326
+#define	TOK_SFPlane	327
+#define	TOK_SFVolume	328
+#define	TOK_hex	329
+#define	TOK_int32	330
+#define	TOK_double	331
+#define	TOK_string	332
+#define	TOK_bool	333
+#define	TOK_NULL	334
+#define	TOK_Id	335
+#define	TOK_ImageFinished	336
+#define	TOK_Error	337
 
-#line 38 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+
+#line 41 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+typedef union {
+    long intVal;
+    double doubleVal;
+    float floatVal;
+    const char *stringVal;
+    bool boolVal;
+} YYSTYPE;
+#line 49 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
 
 
 #define YYPARSE_PARAM pSkel
 #define YYLEX_PARAM   pSkel
 
-#define YYLTYPE_IS_TRIVIAL 1
-#define YYSTYPE_IS_TRIVIAL 1
-
 #define OSGScanParseSkel_error SKEL->handleError
 
-#ifdef WIN32
-#include <malloc.h>
-#define YYSIZE_T size_t
-#endif
-#include <OSGScanParseSkel.tab.h>
 #include <OSGConfig.h>
-#include <OSGLog.h>
-
 #include <OSGBaseFunctions.h>
-#include <OSGScanParseSkel.h>
-#include <stack>
+#include "OSGScanParseLexer.h"
+#include "OSGScanParseSkel.h"
+#include <iostream>
 
 #if defined(OSG_LINUX_ICC) || defined(OSG_WIN32_ICL)
 #pragma warning( disable : 193 810 177 )
@@ -176,17 +123,7 @@ OSG_USING_NAMESPACE
 
 int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *);
 
-int nextType;
-
-char *szName1    = NULL;
-char *szName2    = NULL;
-char *szName3    = NULL;
-
-void setName (char *&szName, const char *szVal);
-void freeName(char *&szName);
-
 #define SKEL ((ScanParseSkel *) pSkel)
-#define SKELTEXT (SKEL->getText())
 
 #if(!defined(__GNUC__) && defined(__ICL) && __INTEL_COMPILER_VERSION >= 900)
 # define alloca(size)   __builtin_alloca (size)
@@ -209,9 +146,6 @@ typedef
 #define YYLTYPE yyltype
 #endif
 
-#ifndef YYSTYPE
-#define YYSTYPE int
-#endif
 #include <stdio.h>
 
 #ifndef __cplusplus
@@ -222,26 +156,26 @@ typedef
 
 
 
-#define	YYFINAL		329
+#define	YYFINAL		742
 #define	YYFLAG		-32768
-#define	YYNTBASE	136
+#define	YYNTBASE	88
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 390 ? yytranslate[x] : 224)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 337 ? yytranslate[x] : 342)
 
-static const short yytranslate[] = {     0,
+static const char yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,    87,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+    83,     2,    84,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,    85,     2,    86,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -262,456 +196,799 @@ static const short yytranslate[] = {     0,
     46,    47,    48,    49,    50,    51,    52,    53,    54,    55,
     56,    57,    58,    59,    60,    61,    62,    63,    64,    65,
     66,    67,    68,    69,    70,    71,    72,    73,    74,    75,
-    76,    77,    78,    79,    80,    81,    82,    83,    84,    85,
-    86,    87,    88,    89,    90,    91,    92,    93,    94,    95,
-    96,    97,    98,    99,   100,   101,   102,   103,   104,   105,
-   106,   107,   108,   109,   110,   111,   112,   113,   114,   115,
-   116,   117,   118,   119,   120,   121,   122,   123,   124,   125,
-   126,   127,   128,   129,   130,   131,   132,   133,   134,   135
+    76,    77,    78,    79,    80,    81,    82
 };
 
 #if YYDEBUG != 0
 static const short yyprhs[] = {     0,
-     0,     3,     5,     6,    11,    13,    16,    18,    21,    23,
-    26,    29,    31,    34,    36,    37,    42,    44,    46,    49,
-    51,    53,    55,    57,    59,    61,    63,    64,    69,    72,
-    74,    75,    80,    82,    84,    86,    87,    90,    92,    94,
-    96,   105,   107,   109,   113,   115,   117,   120,   122,   123,
-   128,   129,   134,   135,   136,   143,   145,   146,   147,   154,
-   155,   156,   165,   167,   169,   172,   174,   175,   180,   181,
-   186,   187,   192,   193,   198,   199,   200,   201,   213,   214,
-   219,   220,   221,   229,   232,   234,   236,   237,   238,   244,
-   245,   251,   253,   255,   258,   260,   261,   266,   267,   272,
-   275,   276,   277,   282,   285,   287,   288,   293,   296,   298,
-   300,   303,   306,   309,   310,   314,   316,   318,   321,   323,
-   325,   327,   329,   331,   333,   335,   337,   339,   341,   343,
-   345,   347,   349,   351,   353,   355,   357,   359,   361,   363,
-   365,   367,   369,   371,   373,   375,   377,   379,   381,   383,
-   385,   387,   389,   391,   393,   395,   397,   399,   401,   403,
-   405,   407,   409,   411,   413,   415,   417,   419,   421,   423,
-   425,   427,   429,   431,   433,   435,   437,   439,   441,   443,
-   445,   447,   449,   451,   453,   455,   457,   459,   461,   463,
-   465,   468,   470,   472,   474,   476,   478,   480,   482,   484,
-   486,   488,   490,   492,   494,   496,   498,   500,   502,   504,
-   506,   508,   511,   513,   515,   517,   519,   521,   523,   525,
-   527,   529,   531,   533,   535,   537,   539,   541,   543,   545,
-   547,   549,   551,   553,   556,   558,   560,   563,   567,   569,
-   571,   574
+     0,     6,     8,     9,    12,    13,    15,    18,    19,    22,
+    24,    27,    28,    29,    34,    36,    38,    41,    42,    44,
+    46,    48,    50,    52,    53,    57,    58,    59,    66,    69,
+    70,    74,    75,    76,    83,    85,    87,    90,    91,    92,
+   102,   106,   109,   110,   111,   116,   117,   122,   123,   124,
+   131,   133,   134,   135,   142,   143,   144,   153,   156,   157,
+   158,   163,   164,   169,   170,   175,   176,   181,   182,   183,
+   184,   196,   197,   198,   206,   207,   212,   215,   216,   218,
+   222,   225,   226,   228,   230,   232,   234,   236,   237,   238,
+   245,   246,   247,   254,   255,   258,   259,   260,   267,   269,
+   273,   274,   278,   280,   282,   284,   286,   288,   292,   294,
+   296,   298,   300,   302,   304,   306,   308,   310,   312,   314,
+   316,   318,   320,   322,   324,   326,   328,   330,   332,   334,
+   336,   338,   340,   342,   344,   346,   348,   350,   352,   354,
+   356,   358,   360,   362,   364,   366,   368,   370,   372,   374,
+   376,   378,   380,   382,   384,   386,   388,   390,   392,   394,
+   396,   398,   400,   402,   404,   406,   408,   411,   414,   417,
+   420,   423,   426,   429,   432,   435,   438,   441,   444,   447,
+   450,   453,   456,   459,   462,   465,   468,   471,   474,   477,
+   480,   483,   486,   489,   492,   495,   498,   501,   504,   507,
+   510,   513,   516,   519,   522,   525,   528,   531,   534,   537,
+   540,   543,   546,   549,   552,   555,   558,   561,   564,   567,
+   569,   571,   573,   575,   577,   579,   581,   583,   584,   585,
+   591,   592,   593,   594,   602,   604,   606,   607,   608,   609,
+   618,   621,   622,   624,   625,   626,   627,   628,   629,   630,
+   631,   632,   650,   651,   652,   653,   654,   655,   656,   657,
+   658,   676,   677,   678,   679,   680,   681,   682,   683,   684,
+   685,   686,   687,   688,   689,   690,   691,   723,   724,   725,
+   726,   727,   728,   729,   730,   731,   732,   733,   734,   735,
+   736,   737,   738,   770,   772,   774,   775,   776,   777,   785,
+   787,   789,   791,   792,   796,   797,   801,   802,   803,   804,
+   811,   812,   813,   814,   821,   822,   823,   824,   825,   834,
+   835,   836,   837,   838,   847,   849,   853,   856,   857,   859,
+   863,   866,   867,   869,   873,   876,   877,   879,   883,   886,
+   887,   889,   893,   896,   897,   899,   903,   906,   907,   909,
+   913,   916,   917,   919,   923,   926,   927,   929,   933,   936,
+   937,   939,   943,   946,   947,   949,   953,   956,   957,   959,
+   963,   966,   967,   969,   973,   976,   977,   979,   983,   986,
+   987,   989,   993,   996,   997,   999,  1003,  1006,  1007,  1009,
+  1013,  1016,  1017,  1019,  1023,  1026,  1027,  1029,  1033,  1036,
+  1037,  1039,  1043,  1046,  1047,  1049,  1053,  1056,  1057,  1058,
+  1059,  1060,  1068,  1069,  1073,  1074,  1075,  1081,  1082,  1083,
+  1084,  1092,  1093,  1094,  1095,  1103,  1104,  1105,  1106,  1107,
+  1117,  1118,  1122,  1123,  1125,  1129,  1132,  1133,  1135,  1139,
+  1142,  1143,  1145,  1149,  1152,  1153,  1155,  1159,  1162,  1163,
+  1165,  1169,  1172
 };
 
-static const short yyrhs[] = {     3,
-   137,     0,   137,     0,     0,    19,    11,   138,   139,     0,
-   139,     0,   140,   142,     0,   142,     0,   140,   141,     0,
-   141,     0,    20,    21,     0,   143,   146,     0,   146,     0,
-   143,   144,     0,   144,     0,     0,    22,    11,   145,    11,
-     0,   147,     0,   191,     0,   147,   148,     0,   148,     0,
-   149,     0,   153,     0,   180,     0,   186,     0,   184,     0,
-   192,     0,     0,     4,   212,   150,   192,     0,     5,   212,
-     0,   192,     0,     0,     4,   212,   152,   192,     0,   157,
-     0,   170,     0,   155,     0,     0,   155,   153,     0,   153,
-     0,   213,     0,    28,     0,    12,   156,    13,   160,    14,
-     9,   158,    10,     0,   159,     0,   191,     0,   154,   151,
-   146,     0,   161,     0,   191,     0,   161,   167,     0,   167,
-     0,     0,    24,   218,   163,   216,     0,     0,    25,   218,
-   164,   217,     0,     0,     0,    27,   218,   165,   214,   166,
-   219,     0,   162,     0,     0,     0,    26,   218,   168,   214,
-   169,   219,     0,     0,     0,    15,   213,   171,    13,   173,
-    14,   172,   190,     0,   174,     0,   191,     0,   174,   175,
-     0,   175,     0,     0,    24,   218,   176,   216,     0,     0,
-    25,   218,   177,   217,     0,     0,    27,   218,   178,   214,
-     0,     0,    26,   218,   179,   214,     0,     0,     0,     0,
-     6,   212,   181,     7,   217,   182,     8,   212,   183,     7,
-   216,     0,     0,    17,    11,   185,   189,     0,     0,     0,
-    18,    11,   187,     7,    11,   188,   189,     0,    23,    11,
-     0,   191,     0,   219,     0,     0,     0,   213,   193,     9,
-   195,    10,     0,     0,    28,   194,     9,   195,    10,     0,
-   196,     0,   191,     0,   196,   207,     0,   207,     0,     0,
-    24,   218,   198,   216,     0,     0,    25,   218,   199,   217,
-     0,    16,   215,     0,     0,     0,    27,   218,   202,   214,
-     0,    16,   214,     0,   219,     0,     0,    26,   218,   205,
-   214,     0,    16,   214,     0,   219,     0,   208,     0,   197,
-   200,     0,   201,   203,     0,   204,   206,     0,     0,   214,
-   209,   210,     0,   180,     0,   153,     0,    16,   211,     0,
-   219,     0,    11,     0,    11,     0,    11,     0,    11,     0,
-    11,     0,    11,     0,    11,     0,    72,     0,    73,     0,
-    74,     0,    75,     0,    76,     0,    77,     0,    78,     0,
-    79,     0,    80,     0,    81,     0,    82,     0,    83,     0,
-    84,     0,    85,     0,    86,     0,    87,     0,    88,     0,
-    89,     0,    90,     0,    91,     0,    92,     0,    93,     0,
-    94,     0,    95,     0,    96,     0,    97,     0,    98,     0,
-    99,     0,   100,     0,   101,     0,   102,     0,   103,     0,
-   104,     0,   105,     0,   106,     0,   107,     0,   108,     0,
-   109,     0,   110,     0,   111,     0,   112,     0,   113,     0,
-   125,     0,   126,     0,   127,     0,   128,     0,   129,     0,
-   130,     0,   131,     0,   132,     0,   133,     0,   134,     0,
-   135,     0,    30,     0,    31,     0,    32,     0,    33,     0,
-    34,     0,    35,     0,    36,     0,    37,     0,    38,     0,
-    39,     0,    40,     0,    41,   220,     0,    42,     0,    43,
-     0,    44,     0,    45,     0,    46,     0,    47,     0,    48,
-     0,    49,     0,    50,     0,    51,     0,    52,     0,    53,
-     0,    54,     0,    55,     0,    56,     0,    57,     0,    58,
-     0,    59,     0,    60,     0,    61,     0,    62,   221,     0,
-    63,     0,    64,     0,    65,     0,    66,     0,    67,     0,
-    68,     0,    69,     0,    70,     0,    71,     0,   114,     0,
-   115,     0,   116,     0,   117,     0,   118,     0,   119,     0,
-   120,     0,   121,     0,   122,     0,   123,     0,   124,     0,
-   149,     0,    16,   211,     0,    29,     0,   149,     0,    16,
-   211,     0,    13,   222,    14,     0,   223,     0,   191,     0,
-   223,   149,     0,   149,     0
+static const short yyrhs[] = {    89,
+    90,    92,    95,   100,     0,     3,     0,     0,     4,    91,
+     0,     0,    80,     0,    92,    93,     0,     0,     5,    94,
+     0,    80,     0,    95,    96,     0,     0,     0,     6,    98,
+    97,    99,     0,    77,     0,    77,     0,   100,   101,     0,
+     0,   102,     0,   110,     0,   133,     0,   137,     0,   140,
+     0,     0,   162,   103,   144,     0,     0,     0,    10,   161,
+   104,   162,   105,   144,     0,    11,   161,     0,     0,   162,
+   107,   144,     0,     0,     0,    10,   161,   108,   162,   109,
+   144,     0,   112,     0,   124,     0,   111,   110,     0,     0,
+     0,     7,   162,   113,    83,   115,    84,    85,   114,    86,
+     0,   111,   106,   100,     0,   115,   121,     0,     0,     0,
+    17,   166,   117,   164,     0,     0,    18,   166,   118,   165,
+     0,     0,     0,    20,   166,   119,   163,   120,   167,     0,
+   116,     0,     0,     0,    19,   166,   122,   163,   123,   167,
+     0,     0,     0,     8,   162,   125,    83,   127,    84,   126,
+   143,     0,   127,   128,     0,     0,     0,    17,   166,   129,
+   164,     0,     0,    18,   166,   130,   165,     0,     0,    20,
+   166,   131,   163,     0,     0,    19,   166,   132,   163,     0,
+     0,     0,     0,    12,   161,   134,    87,   165,   135,    13,
+   161,   136,    87,   164,     0,     0,     0,    14,   161,   138,
+    87,   161,   139,   142,     0,     0,    15,   161,   141,   142,
+     0,    16,   161,     0,     0,   292,     0,    85,   145,    86,
+     0,   145,   146,     0,     0,   158,     0,   147,     0,   150,
+     0,   154,     0,     1,     0,     0,     0,    17,   166,   148,
+   164,   149,   153,     0,     0,     0,    18,   166,   151,   165,
+   152,   153,     0,     0,     9,   163,     0,     0,     0,    20,
+   166,   155,   163,   156,   157,     0,   167,     0,   166,     9,
+   163,     0,     0,   163,   159,   160,     0,   133,     0,   110,
+     0,   137,     0,   140,     0,   167,     0,   166,     9,   163,
+     0,    80,     0,    80,     0,    80,     0,    80,     0,    80,
+     0,    21,     0,    22,     0,    23,     0,    24,     0,    25,
+     0,    26,     0,    27,     0,    28,     0,    29,     0,    30,
+     0,    31,     0,    32,     0,    33,     0,    34,     0,    35,
+     0,    36,     0,    37,     0,    38,     0,    39,     0,    40,
+     0,    41,     0,    42,     0,    43,     0,    44,     0,    45,
+     0,    46,     0,    47,     0,    48,     0,    49,     0,    50,
+     0,    51,     0,    52,     0,    53,     0,    54,     0,    55,
+     0,    56,     0,    57,     0,    58,     0,    59,     0,    60,
+     0,    61,     0,    62,     0,    63,     0,    64,     0,    65,
+     0,    66,     0,    67,     0,    68,     0,    69,     0,    70,
+     0,    71,     0,    72,     0,    73,     0,    21,   266,     0,
+    22,   268,     0,    23,   270,     0,    24,   272,     0,    25,
+   274,     0,    26,   276,     0,    27,   278,     0,    28,   280,
+     0,    29,   282,     0,    30,   284,     0,    31,   286,     0,
+    32,   288,     0,    33,   290,     0,    34,   292,     0,    35,
+   294,     0,    36,   296,     0,    37,   298,     0,    38,   300,
+     0,    39,   302,     0,    40,   304,     0,    41,   306,     0,
+    42,   171,     0,    43,   172,     0,    44,   175,     0,    45,
+   179,     0,    46,   180,     0,    47,   181,     0,    48,   186,
+     0,    49,   187,     0,    50,   196,     0,    51,   205,     0,
+    52,   221,     0,    53,   237,     0,    54,   238,     0,    55,
+   242,     0,    56,   243,     0,    57,   244,     0,    58,   246,
+     0,    59,   248,     0,    60,   252,     0,    61,   256,     0,
+    62,   261,     0,    63,   332,     0,    64,   334,     0,    65,
+   336,     0,    66,   338,     0,    67,   340,     0,    68,   308,
+     0,    69,   312,     0,    70,   314,     0,    71,   317,     0,
+    72,   321,     0,    73,   325,     0,    74,     0,    75,     0,
+    75,     0,    76,     0,    75,     0,    76,     0,    78,     0,
+    80,     0,     0,     0,   170,   173,   170,   174,   170,     0,
+     0,     0,     0,   170,   176,   170,   177,   170,   178,   170,
+     0,   169,     0,   170,     0,     0,     0,     0,   168,   182,
+   168,   183,   168,   184,   185,    81,     0,   185,   168,     0,
+     0,   168,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,   169,   188,   169,   189,   169,   190,   169,   191,   169,
+   192,   169,   193,   169,   194,   169,   195,   169,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,   170,   197,   170,
+   198,   170,   199,   170,   200,   170,   201,   170,   202,   170,
+   203,   170,   204,   170,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+   169,   206,   169,   207,   169,   208,   169,   209,   169,   210,
+   169,   211,   169,   212,   169,   213,   169,   214,   169,   215,
+   169,   216,   169,   217,   169,   218,   169,   219,   169,   220,
+   169,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,   170,   222,   170,
+   223,   170,   224,   170,   225,   170,   226,   170,   227,   170,
+   228,   170,   229,   170,   230,   170,   231,   170,   232,   170,
+   233,   170,   234,   170,   235,   170,   236,   170,     0,   102,
+     0,    79,     0,     0,     0,     0,   170,   239,   170,   240,
+   170,   241,   170,     0,    77,     0,    80,     0,   169,     0,
+     0,   169,   245,   169,     0,     0,   170,   247,   170,     0,
+     0,     0,     0,   169,   249,   169,   250,   169,   251,     0,
+     0,     0,     0,   170,   253,   170,   254,   170,   255,     0,
+     0,     0,     0,     0,   169,   257,   169,   258,   169,   259,
+   169,   260,     0,     0,     0,     0,     0,   170,   262,   170,
+   263,   170,   264,   170,   265,     0,   171,     0,    83,   267,
+    84,     0,   267,   171,     0,     0,   172,     0,    83,   269,
+    84,     0,   269,   172,     0,     0,   175,     0,    83,   271,
+    84,     0,   271,   175,     0,     0,   179,     0,    83,   273,
+    84,     0,   273,   179,     0,     0,   180,     0,    83,   275,
+    84,     0,   275,   180,     0,     0,   181,     0,    83,   277,
+    84,     0,   277,   181,     0,     0,   186,     0,    83,   279,
+    84,     0,   279,   186,     0,     0,   187,     0,    83,   281,
+    84,     0,   281,   187,     0,     0,   196,     0,    83,   283,
+    84,     0,   283,   196,     0,     0,   205,     0,    83,   285,
+    84,     0,   285,   205,     0,     0,   221,     0,    83,   287,
+    84,     0,   287,   221,     0,     0,   237,     0,    83,   289,
+    84,     0,   289,   237,     0,     0,   238,     0,    83,   291,
+    84,     0,   291,   238,     0,     0,   242,     0,    83,   293,
+    84,     0,   293,   242,     0,     0,   243,     0,    83,   295,
+    84,     0,   295,   243,     0,     0,   244,     0,    83,   297,
+    84,     0,   297,   244,     0,     0,   246,     0,    83,   299,
+    84,     0,   299,   246,     0,     0,   248,     0,    83,   301,
+    84,     0,   301,   248,     0,     0,   252,     0,    83,   303,
+    84,     0,   303,   252,     0,     0,   256,     0,    83,   305,
+    84,     0,   305,   256,     0,     0,   261,     0,    83,   307,
+    84,     0,   307,   261,     0,     0,     0,     0,     0,   168,
+   309,   168,   310,   168,   311,   168,     0,     0,   170,   313,
+   170,     0,     0,     0,   170,   315,   170,   316,   170,     0,
+     0,     0,     0,   170,   318,   170,   319,   170,   320,   170,
+     0,     0,     0,     0,   170,   322,   170,   323,   170,   324,
+   170,     0,     0,     0,     0,     0,   170,   326,   170,   327,
+   170,   328,   170,   329,   330,     0,     0,   170,   331,   170,
+     0,     0,   308,     0,    83,   333,    84,     0,   333,   308,
+     0,     0,   312,     0,    83,   335,    84,     0,   335,   312,
+     0,     0,   314,     0,    83,   337,    84,     0,   337,   314,
+     0,     0,   317,     0,    83,   339,    84,     0,   339,   317,
+     0,     0,   321,     0,    83,   341,    84,     0,   341,   321,
+     0,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   237,   238,   241,   250,   250,   254,   255,   258,   259,   262,
-   272,   273,   276,   277,   280,   283,   292,   293,   296,   297,
-   300,   301,   302,   303,   304,   307,   308,   311,   311,   316,
-   317,   320,   322,   323,   327,   328,   331,   332,   335,   337,
-   341,   352,   353,   356,   359,   360,   363,   364,   368,   371,
-   381,   384,   394,   397,   404,   410,   411,   414,   421,   426,
-   430,   439,   445,   446,   449,   451,   454,   457,   463,   466,
-   472,   475,   481,   484,   492,   495,   497,   499,   510,   516,
-   527,   533,   538,   550,   554,   557,   560,   563,   572,   575,
-   581,   596,   597,   600,   601,   604,   607,   614,   617,   626,
-   634,   643,   647,   659,   668,   676,   680,   693,   703,   720,
-   721,   723,   725,   730,   752,   752,   753,   758,   764,   771,
-   774,   777,   780,   783,   786,   789,   792,   793,   794,   795,
-   796,   797,   798,   799,   800,   801,   802,   803,   804,   805,
-   806,   807,   808,   809,   810,   811,   812,   813,   814,   815,
-   816,   817,   818,   819,   820,   821,   822,   823,   824,   825,
-   826,   827,   828,   829,   830,   831,   832,   833,   834,   835,
-   836,   837,   838,   839,   840,   841,   842,   843,   844,   848,
-   849,   850,   851,   852,   853,   854,   855,   856,   857,   858,
-   859,   860,   861,   862,   863,   864,   865,   866,   867,   868,
-   869,   870,   871,   872,   873,   874,   875,   876,   877,   878,
-   879,   880,   881,   882,   883,   884,   885,   886,   887,   888,
-   889,   890,   891,   892,   893,   894,   895,   896,   897,   898,
-   899,   900,   904,   905,   912,   915,   916,   923,   926,   927,
-   930,   931
+   194,   201,   203,   205,   207,   209,   212,   214,   216,   222,
+   230,   232,   234,   239,   241,   244,   247,   249,   251,   253,
+   254,   255,   256,   258,   261,   261,   263,   265,   265,   268,
+   271,   271,   273,   274,   276,   278,   280,   282,   284,   286,
+   289,   292,   294,   296,   299,   300,   302,   303,   305,   306,
+   308,   310,   312,   313,   315,   317,   318,   320,   322,   324,
+   327,   328,   330,   331,   333,   334,   336,   338,   342,   344,
+   346,   349,   353,   355,   362,   366,   373,   376,   378,   381,
+   384,   386,   388,   390,   391,   392,   393,   395,   398,   399,
+   401,   404,   405,   407,   409,   411,   414,   415,   417,   419,
+   421,   430,   431,   432,   433,   434,   436,   438,   440,   443,
+   446,   449,   452,   455,   457,   458,   459,   460,   461,   462,
+   463,   464,   465,   466,   467,   468,   469,   470,   471,   472,
+   473,   474,   475,   476,   477,   478,   479,   480,   481,   482,
+   483,   484,   485,   486,   487,   488,   489,   490,   491,   492,
+   493,   494,   495,   496,   497,   499,   500,   501,   502,   503,
+   504,   505,   506,   507,   508,   509,   511,   513,   514,   515,
+   516,   517,   518,   519,   520,   521,   522,   523,   524,   525,
+   526,   527,   528,   529,   530,   531,   532,   533,   534,   535,
+   536,   537,   538,   539,   540,   541,   542,   543,   544,   545,
+   546,   547,   548,   549,   550,   551,   552,   553,   555,   556,
+   557,   558,   559,   560,   561,   562,   563,   564,   565,   567,
+   569,   571,   573,   575,   577,   579,   584,   586,   588,   590,
+   595,   597,   598,   600,   605,   611,   617,   619,   621,   625,
+   630,   635,   637,   643,   645,   646,   647,   648,   649,   650,
+   651,   653,   661,   663,   664,   665,   666,   667,   668,   669,
+   671,   679,   681,   682,   683,   684,   685,   686,   687,   688,
+   689,   690,   691,   692,   693,   694,   696,   705,   707,   708,
+   709,   710,   711,   712,   713,   714,   715,   716,   717,   718,
+   719,   720,   722,   731,   733,   735,   737,   738,   740,   745,
+   750,   755,   761,   764,   769,   772,   777,   779,   780,   781,
+   786,   788,   789,   790,   795,   797,   798,   799,   800,   805,
+   807,   808,   809,   810,   815,   817,   819,   821,   823,   825,
+   827,   829,   831,   833,   835,   837,   839,   841,   843,   845,
+   847,   849,   851,   853,   855,   857,   859,   861,   863,   865,
+   867,   869,   871,   873,   875,   877,   879,   881,   883,   885,
+   887,   889,   891,   893,   895,   897,   899,   901,   903,   905,
+   907,   909,   911,   913,   915,   917,   919,   921,   923,   925,
+   927,   929,   931,   933,   935,   937,   939,   941,   943,   945,
+   947,   949,   951,   953,   955,   957,   959,   961,   963,   965,
+   967,   969,   971,   973,   975,   977,   979,   981,   985,   987,
+   988,   990,   996,   999,  1004,  1006,  1008,  1013,  1015,  1016,
+  1018,  1023,  1025,  1026,  1028,  1033,  1035,  1036,  1038,  1043,
+  1045,  1048,  1055,  1063,  1065,  1067,  1069,  1071,  1073,  1075,
+  1077,  1079,  1081,  1083,  1085,  1087,  1089,  1091,  1093,  1095,
+  1097,  1099,  1101
 };
 
-static const char * const yytname[] = {   "$","error","$undefined.","UTF8BOM",
-"DEF","USE","ROUTE","PERIOD","TO","OPENBRACE","CLOSEBRACE","ID","PROTO","OPENBRACKET",
-"CLOSEBRACKET","EXTERNPROTO","IS","EXPORT","IMPORT","PROFILE","COMPONENT","COMPONENTID",
-"OSG_META","AS","EVENTIN","EVENTOUT","EXPOSEDFIELD","FIELD","SCRIPT","SFN_NULL",
-"TOK_SFBOOL","TOK_SFCOLOR","TOK_SFCOLORRGBA","TOK_SFDOUBLE","TOK_SFFLOAT","TOK_SFIMAGE",
-"TOK_SFINT32","TOK_SFMATRIX3D","TOK_SFMATRIX3F","TOK_SFMATRIX4D","TOK_SFMATRIX4F",
-"TOK_SFNODE","TOK_SFROTATION","TOK_SFSTRING","TOK_SFTIME","TOK_SFVEC2D","TOK_SFVEC2F",
-"TOK_SFVEC3D","TOK_SFVEC3F","TOK_SFVEC4D","TOK_SFVEC4F","TOK_MFBOOL","TOK_MFCOLOR",
-"TOK_MFCOLORRGBA","TOK_MFDOUBLE","TOK_MFFLOAT","TOK_MFIMAGE","TOK_MFINT32","TOK_MFMATRIX3D",
-"TOK_MFMATRIX3F","TOK_MFMATRIX4D","TOK_MFMATRIX4F","TOK_MFNODE","TOK_MFROTATION",
-"TOK_MFSTRING","TOK_MFTIME","TOK_MFVEC2D","TOK_MFVEC2F","TOK_MFVEC3D","TOK_MFVEC3F",
-"TOK_MFVEC4D","TOK_MFVEC4F","Tok_MFBool","Tok_MFColor","Tok_MFColorRGBA","Tok_MFDouble",
-"Tok_MFFloat","Tok_MFImage","Tok_MFInt32","Tok_MFMatrix3d","Tok_MFMatrix3f",
-"Tok_MFMatrix4d","Tok_MFMatrix4f","Tok_MFNode","Tok_MFRotation","Tok_MFString",
-"Tok_MFTime","Tok_MFVec2d","Tok_MFVec2f","Tok_MFVec3d","Tok_MFVec3f","Tok_MFVec4d",
-"Tok_MFVec4f","Tok_SFBool","Tok_SFColor","Tok_SFColorRGBA","Tok_SFDouble","Tok_SFFloat",
-"Tok_SFImage","Tok_SFInt32","Tok_SFMatrix3d","Tok_SFMatrix3f","Tok_SFMatrix4d",
-"Tok_SFMatrix4f","Tok_SFNode","Tok_SFRotation","Tok_SFString","Tok_SFTime","Tok_SFVec2d",
-"Tok_SFVec2f","Tok_SFVec3d","Tok_SFVec3f","Tok_SFVec4d","Tok_SFVec4f","TOK_MFCOLOR4I",
-"TOK_MFPNT2F","TOK_MFPNT3F","TOK_MFPNT4F","TOK_MFPLANE","TOK_SFCOLOR4I","TOK_SFPNT2F",
-"TOK_SFPNT3F","TOK_SFPNT4F","TOK_SFPLANE","TOK_SFVOLUME","Tok_MFColor4i","Tok_MFPnt2f",
-"Tok_MFPnt3f","Tok_MFPnt4f","Tok_MFPlane","Tok_SFColor4i","Tok_SFPnt2f","Tok_SFPnt3f",
-"Tok_SFPnt4f","Tok_SFPlane","Tok_SFVolume","vrmlScene","profileStatement","@1",
-"componentStatements","componentStatementsRec","componentStatement","metaStatements",
-"metaStatementsRec","metaStatement","@2","statementsORempty","statements","statement",
-"nodeStatement","@3","rootNodeStatement","@4","protoStatement","protoStatementsORempty",
-"protoStatements","protoId","proto","protoBodyORempty","protoBody","interfaceDeclarationsORempty",
-"interfaceDeclarations","restrictedInterfaceDeclaration","@5","@6","@7","@8",
-"interfaceDeclaration","@9","@10","externproto","@11","@12","externInterfaceDeclarationsORempty",
-"externInterfaceDeclarations","externInterfaceDeclaration","@13","@14","@15",
-"@16","routeStatement","@17","@18","@19","exportStatement","@20","importStatement",
-"@21","@22","importExportEnd","URLList","empty","node","@23","@24","scriptBodyORempty",
-"scriptBody","resInterfaceDeclarationScriptEvent","@25","@26","resInterfaceDeclarationScriptEventEnd",
-"resInterfaceDeclarationScriptField","@27","resInterafceDeclarationScriptFieldEnd",
-"resInterfaceDeclarationScriptExpField","@28","resInterafceDeclarationScriptExpFieldEnd",
-"scriptBodyElement","nodeBodyElement","@29","fieldEnd","generalId","nodeNameId",
-"nodeTypeId","fieldId","eventId","eventInId","eventOutId","fieldType","fieldValue",
-"sfnodeValue","mfnodeValue","nodeStatementsORempty","nodeStatements",""
+static const char * const yytname[] = {   "$","error","$undefined.","TOK_HEADER",
+"TOK_PROFILE","TOK_COMPONENT","TOK_META","TOK_PROTO","TOK_EXTERNPROTO","TOK_IS",
+"TOK_DEF","TOK_USE","TOK_ROUTE","TOK_TO","TOK_IMPORT","TOK_EXPORT","TOK_AS",
+"TOK_eventIn","TOK_eventOut","TOK_exposedField","TOK_field","TOK_MFBool","TOK_MFColor",
+"TOK_MFColorRGBA","TOK_MFDouble","TOK_MFFloat","TOK_MFImage","TOK_MFInt32","TOK_MFMatrix3d",
+"TOK_MFMatrix3f","TOK_MFMatrix4d","TOK_MFMatrix4f","TOK_MFNode","TOK_MFRotation",
+"TOK_MFString","TOK_MFTime","TOK_MFVec2d","TOK_MFVec2f","TOK_MFVec3d","TOK_MFVec3f",
+"TOK_MFVec4d","TOK_MFVec4f","TOK_SFBool","TOK_SFColor","TOK_SFColorRGBA","TOK_SFDouble",
+"TOK_SFFloat","TOK_SFImage","TOK_SFInt32","TOK_SFMatrix3d","TOK_SFMatrix3f",
+"TOK_SFMatrix4d","TOK_SFMatrix4f","TOK_SFNode","TOK_SFRotation","TOK_SFString",
+"TOK_SFTime","TOK_SFVec2d","TOK_SFVec2f","TOK_SFVec3d","TOK_SFVec3f","TOK_SFVec4d",
+"TOK_SFVec4f","TOK_MFColor4i","TOK_MFPnt2f","TOK_MFPnt3f","TOK_MFPnt4f","TOK_MFPlane",
+"TOK_SFColor4i","TOK_SFPnt2f","TOK_SFPnt3f","TOK_SFPnt4f","TOK_SFPlane","TOK_SFVolume",
+"TOK_hex","TOK_int32","TOK_double","TOK_string","TOK_bool","TOK_NULL","TOK_Id",
+"TOK_ImageFinished","TOK_Error","'['","']'","'{'","'}'","'.'","x3dScene","headerStatement",
+"profileStatement","profileNameId","componentStatements","componentStatement",
+"componentNameId","metaStatements","metaStatement","@1","metakey","metavalue",
+"statements","statement","nodeStatement","@2","@3","@4","rootNodeStatement",
+"@5","@6","@7","protoStatement","protoStatements","proto","@8","protoBody","interfaceDeclarations",
+"restrictedInterfaceDeclaration","@9","@10","@11","@12","interfaceDeclaration",
+"@13","@14","externproto","@15","@16","externInterfaceDeclarations","externInterfaceDeclaration",
+"@17","@18","@19","@20","routeStatement","@21","@22","@23","importStatement",
+"@24","@25","exportStatement","@26","asStatement","URLList","node","scriptBody",
+"scriptBodyElement","eventInDeclaration","@27","@28","eventOutDeclaration","@29",
+"@30","eventDeclarationEnd","fieldDeclaration","@31","@32","fieldDeclarationEnd",
+"nodeBodyElement","@33","fieldEnd","nodeNameId","nodeTypeId","fieldId","eventInId",
+"eventOutId","fieldType","fieldValue","int32","double","float","sfboolValue",
+"sfcolorValue","@34","@35","sfcolorRGBAValue","@36","@37","@38","sfdoubleValue",
+"sffloatValue","sfimageValue","@39","@40","@41","pixels","sfint32Value","sfmatrix3dValue",
+"@42","@43","@44","@45","@46","@47","@48","@49","sfmatrix3fValue","@50","@51",
+"@52","@53","@54","@55","@56","@57","sfmatrix4dValue","@58","@59","@60","@61",
+"@62","@63","@64","@65","@66","@67","@68","@69","@70","@71","@72","sfmatrix4fValue",
+"@73","@74","@75","@76","@77","@78","@79","@80","@81","@82","@83","@84","@85",
+"@86","@87","sfnodeValue","sfrotationValue","@88","@89","@90","sfstringValue",
+"sftimeValue","sfvec2dValue","@91","sfvec2fValue","@92","sfvec3dValue","@93",
+"@94","@95","sfvec3fValue","@96","@97","@98","sfvec4dValue","@99","@100","@101",
+"@102","sfvec4fValue","@103","@104","@105","@106","mfboolValue","sfboolValues",
+"mfcolorValue","sfcolorValues","mfcolorRGBAValue","sfcolorRGBAValues","mfdoubleValue",
+"sfdoubleValues","mffloatValue","sffloatValues","mfimageValue","sfimageValues",
+"mfint32Value","sfint32Values","mfmatrix3dValue","sfmatrix3dValues","mfmatrix3fValue",
+"sfmatrix3fValues","mfmatrix4dValue","sfmatrix4dValues","mfmatrix4fValue","sfmatrix4fValues",
+"mfnodeValue","sfnodeValues","mfrotationValue","sfrotationValues","mfstringValue",
+"sfstringValues","mftimeValue","sftimeValues","mfvec2dValue","sfvec2dValues",
+"mfvec2fValue","sfvec2fValues","mfvec3dValue","sfvec3dValues","mfvec3fValue",
+"sfvec3fValues","mfvec4dValue","sfvec4dValues","mfvec4fValue","sfvec4fValues",
+"sfcolor4iValue","@107","@108","@109","sfpnt2fValue","@110","sfpnt3fValue","@111",
+"@112","sfpnt4fValue","@113","@114","@115","sfplaneValue","@116","@117","@118",
+"sfVolumeValue","@119","@120","@121","@122","sfVolumeValueEnd","@123","mfcolor4iValue",
+"sfcolor4iValues","mfpnt2fValue","sfpnt2fValues","mfpnt3fValue","sfpnt3fValues",
+"mfpnt4fValue","sfpnt4fValues","mfplaneValue","sfplaneValues",""
 };
 #endif
 
 static const short yyr1[] = {     0,
-   136,   136,   138,   137,   137,   139,   139,   140,   140,   141,
-   142,   142,   143,   143,   145,   144,   146,   146,   147,   147,
-   148,   148,   148,   148,   148,   149,   150,   149,   149,   151,
-   152,   151,   153,   153,   154,   154,   155,   155,   156,   156,
-   157,   158,   158,   159,   160,   160,   161,   161,   163,   162,
-   164,   162,   165,   166,   162,   167,   168,   169,   167,   171,
-   172,   170,   173,   173,   174,   174,   176,   175,   177,   175,
-   178,   175,   179,   175,   181,   182,   183,   180,   185,   184,
-   187,   188,   186,   189,   189,   190,   191,   193,   192,   194,
-   192,   195,   195,   196,   196,   198,   197,   199,   197,   200,
-   200,   202,   201,   203,   203,   205,   204,   206,   206,   207,
-   207,   207,   207,   209,   208,   208,   208,   210,   210,   211,
-   212,   213,   214,   215,   216,   217,   218,   218,   218,   218,
-   218,   218,   218,   218,   218,   218,   218,   218,   218,   218,
-   218,   218,   218,   218,   218,   218,   218,   218,   218,   218,
-   218,   218,   218,   218,   218,   218,   218,   218,   218,   218,
-   218,   218,   218,   218,   218,   218,   218,   218,   218,   218,
-   218,   218,   218,   218,   218,   218,   218,   218,   218,   219,
-   219,   219,   219,   219,   219,   219,   219,   219,   219,   219,
-   219,   219,   219,   219,   219,   219,   219,   219,   219,   219,
-   219,   219,   219,   219,   219,   219,   219,   219,   219,   219,
-   219,   219,   219,   219,   219,   219,   219,   219,   219,   219,
-   219,   219,   219,   219,   219,   219,   219,   219,   219,   219,
-   219,   219,   220,   220,   220,   221,   221,   221,   222,   222,
-   223,   223
+    88,    89,    89,    90,    90,    91,    92,    92,    93,    94,
+    95,    95,    97,    96,    98,    99,   100,   100,   101,   101,
+   101,   101,   101,   103,   102,   104,   105,   102,   102,   107,
+   106,   108,   109,   106,   110,   110,   111,   111,   113,   112,
+   114,   115,   115,   117,   116,   118,   116,   119,   120,   116,
+   121,   122,   123,   121,   125,   126,   124,   127,   127,   129,
+   128,   130,   128,   131,   128,   132,   128,   134,   135,   136,
+   133,   138,   139,   137,   141,   140,   142,   142,   143,   144,
+   145,   145,   146,   146,   146,   146,   146,   148,   149,   147,
+   151,   152,   150,   153,   153,   155,   156,   154,   157,   157,
+   159,   158,   158,   158,   158,   158,   160,   160,   161,   162,
+   163,   164,   165,   166,   166,   166,   166,   166,   166,   166,
+   166,   166,   166,   166,   166,   166,   166,   166,   166,   166,
+   166,   166,   166,   166,   166,   166,   166,   166,   166,   166,
+   166,   166,   166,   166,   166,   166,   166,   166,   166,   166,
+   166,   166,   166,   166,   166,   166,   166,   166,   166,   166,
+   166,   166,   166,   166,   166,   166,   167,   167,   167,   167,
+   167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
+   167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
+   167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
+   167,   167,   167,   167,   167,   167,   167,   167,   167,   167,
+   167,   167,   167,   167,   167,   167,   167,   167,   167,   168,
+   168,   169,   169,   170,   170,   171,   171,   173,   174,   172,
+   176,   177,   178,   175,   179,   180,   182,   183,   184,   181,
+   185,   185,   186,   188,   189,   190,   191,   192,   193,   194,
+   195,   187,   197,   198,   199,   200,   201,   202,   203,   204,
+   196,   206,   207,   208,   209,   210,   211,   212,   213,   214,
+   215,   216,   217,   218,   219,   220,   205,   222,   223,   224,
+   225,   226,   227,   228,   229,   230,   231,   232,   233,   234,
+   235,   236,   221,   237,   237,   239,   240,   241,   238,   242,
+   242,   243,   245,   244,   247,   246,   249,   250,   251,   248,
+   253,   254,   255,   252,   257,   258,   259,   260,   256,   262,
+   263,   264,   265,   261,   266,   266,   267,   267,   268,   268,
+   269,   269,   270,   270,   271,   271,   272,   272,   273,   273,
+   274,   274,   275,   275,   276,   276,   277,   277,   278,   278,
+   279,   279,   280,   280,   281,   281,   282,   282,   283,   283,
+   284,   284,   285,   285,   286,   286,   287,   287,   288,   288,
+   289,   289,   290,   290,   291,   291,   292,   292,   293,   293,
+   294,   294,   295,   295,   296,   296,   297,   297,   298,   298,
+   299,   299,   300,   300,   301,   301,   302,   302,   303,   303,
+   304,   304,   305,   305,   306,   306,   307,   307,   309,   310,
+   311,   308,   313,   312,   315,   316,   314,   318,   319,   320,
+   317,   322,   323,   324,   321,   326,   327,   328,   329,   325,
+   331,   330,   330,   332,   332,   333,   333,   334,   334,   335,
+   335,   336,   336,   337,   337,   338,   338,   339,   339,   340,
+   340,   341,   341
 };
 
 static const short yyr2[] = {     0,
-     2,     1,     0,     4,     1,     2,     1,     2,     1,     2,
-     2,     1,     2,     1,     0,     4,     1,     1,     2,     1,
-     1,     1,     1,     1,     1,     1,     0,     4,     2,     1,
-     0,     4,     1,     1,     1,     0,     2,     1,     1,     1,
-     8,     1,     1,     3,     1,     1,     2,     1,     0,     4,
-     0,     4,     0,     0,     6,     1,     0,     0,     6,     0,
-     0,     8,     1,     1,     2,     1,     0,     4,     0,     4,
-     0,     4,     0,     4,     0,     0,     0,    11,     0,     4,
-     0,     0,     7,     2,     1,     1,     0,     0,     5,     0,
-     5,     1,     1,     2,     1,     0,     4,     0,     4,     2,
-     0,     0,     4,     2,     1,     0,     4,     2,     1,     1,
-     2,     2,     2,     0,     3,     1,     1,     2,     1,     1,
+     5,     1,     0,     2,     0,     1,     2,     0,     2,     1,
+     2,     0,     0,     4,     1,     1,     2,     0,     1,     1,
+     1,     1,     1,     0,     3,     0,     0,     6,     2,     0,
+     3,     0,     0,     6,     1,     1,     2,     0,     0,     9,
+     3,     2,     0,     0,     4,     0,     4,     0,     0,     6,
+     1,     0,     0,     6,     0,     0,     8,     2,     0,     0,
+     4,     0,     4,     0,     4,     0,     4,     0,     0,     0,
+    11,     0,     0,     7,     0,     4,     2,     0,     1,     3,
+     2,     0,     1,     1,     1,     1,     1,     0,     0,     6,
+     0,     0,     6,     0,     2,     0,     0,     6,     1,     3,
+     0,     3,     1,     1,     1,     1,     1,     3,     1,     1,
      1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
      1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
      1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
      1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
      1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     2,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     2,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-     1,     1,     1,     2,     1,     1,     2,     3,     1,     1,
-     2,     1
+     1,     1,     1,     1,     1,     1,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,     2,     2,     1,
+     1,     1,     1,     1,     1,     1,     1,     0,     0,     5,
+     0,     0,     0,     7,     1,     1,     0,     0,     0,     8,
+     2,     0,     1,     0,     0,     0,     0,     0,     0,     0,
+     0,    17,     0,     0,     0,     0,     0,     0,     0,     0,
+    17,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,    31,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,    31,     1,     1,     0,     0,     0,     7,     1,
+     1,     1,     0,     3,     0,     3,     0,     0,     0,     6,
+     0,     0,     0,     6,     0,     0,     0,     0,     8,     0,
+     0,     0,     0,     8,     1,     3,     2,     0,     1,     3,
+     2,     0,     1,     3,     2,     0,     1,     3,     2,     0,
+     1,     3,     2,     0,     1,     3,     2,     0,     1,     3,
+     2,     0,     1,     3,     2,     0,     1,     3,     2,     0,
+     1,     3,     2,     0,     1,     3,     2,     0,     1,     3,
+     2,     0,     1,     3,     2,     0,     1,     3,     2,     0,
+     1,     3,     2,     0,     1,     3,     2,     0,     1,     3,
+     2,     0,     1,     3,     2,     0,     1,     3,     2,     0,
+     1,     3,     2,     0,     1,     3,     2,     0,     0,     0,
+     0,     7,     0,     3,     0,     0,     5,     0,     0,     0,
+     7,     0,     0,     0,     7,     0,     0,     0,     0,     9,
+     0,     3,     0,     1,     3,     2,     0,     1,     3,     2,
+     0,     1,     3,     2,     0,     1,     3,     2,     0,     1,
+     3,     2,     0
 };
 
-static const short yydefact[] = {    87,
-    87,     0,     0,     0,   122,     0,     0,     0,     0,     0,
-     0,     0,    90,     2,     5,    87,     9,     7,    87,    14,
-    12,    17,    20,    21,    22,    33,    34,    23,    25,    24,
-    18,    26,    88,     1,   121,    27,    29,    75,    40,     0,
-    39,    60,    79,    81,     3,    10,    15,     0,     8,     6,
-    13,    11,    19,     0,     0,     0,    87,     0,    87,     0,
-    87,     0,    87,    87,    28,     0,     0,     0,     0,     0,
-     0,    45,    56,    48,    46,    87,     0,    80,    85,     0,
-     4,    16,   123,     0,     0,     0,     0,   117,   116,    93,
-     0,    92,   101,     0,     0,    95,   110,   114,     0,   126,
-    76,   127,   128,   129,   130,   131,   132,   133,   134,   135,
-   136,   137,   138,   139,   140,   141,   142,   143,   144,   145,
-   146,   147,   148,   149,   150,   151,   152,   153,   154,   155,
-   156,   157,   158,   159,   160,   161,   162,   163,   164,   165,
-   166,   167,   168,   169,   170,   171,   172,   173,   174,   175,
-   176,   177,   178,   179,    49,    51,    57,    53,     0,    47,
-     0,     0,     0,     0,     0,    63,    66,    64,    84,    82,
-    96,    98,   106,   102,    91,    94,     0,   111,     0,   180,
-   181,   182,   183,   184,   185,   186,   187,   188,   189,   190,
-     0,   192,   193,   194,   195,   196,   197,   198,   199,   200,
-   201,   202,   203,   204,   205,   206,   207,   208,   209,   210,
-   211,     0,   213,   214,   215,   216,   217,   218,   219,   220,
-   221,   222,   223,   224,   225,   226,   227,   228,   229,   230,
-   231,   232,   112,   105,     0,   113,   109,     0,    89,     0,
-     0,     0,     0,     0,    36,    67,    69,    73,    71,    61,
-    65,    87,     0,     0,     0,     0,   124,   100,   104,     0,
-   235,   233,   191,    87,     0,   236,   212,   108,     0,   115,
-   119,     0,   125,    50,    52,    58,    54,    38,     0,    35,
-     0,    42,    43,     0,     0,     0,     0,     0,    83,    97,
-    99,   107,   103,   120,   234,   242,   240,     0,   239,   237,
-   118,    77,     0,     0,     0,    87,    30,    37,    41,    68,
-    70,    74,    72,    62,    86,   238,   241,     0,    59,    55,
-    31,    44,     0,     0,    78,    32,     0,     0,     0
+static const short yydefact[] = {     3,
+     2,     5,     0,     8,     6,     4,    12,     0,     7,    18,
+    10,     9,     0,    11,     1,    15,    13,     0,     0,     0,
+     0,     0,     0,     0,   110,    17,    19,    20,    35,    36,
+    21,    22,    23,    24,     0,    39,    55,   109,    26,    29,
+    68,    72,    75,     0,    16,    14,     0,     0,     0,     0,
+     0,    78,    82,    25,    43,    59,    27,     0,     0,     0,
+    76,     0,     0,     0,     0,   113,    69,    73,    77,    87,
+     0,     0,     0,   111,    80,   104,   103,   105,   106,    81,
+    84,    85,    86,    83,   101,     0,     0,     0,     0,     0,
+    51,    42,     0,     0,     0,     0,    56,    58,    28,     0,
+    78,   114,   115,   116,   117,   118,   119,   120,   121,   122,
+   123,   124,   125,   126,   127,   128,   129,   130,   131,   132,
+   133,   134,   135,   136,   137,   138,   139,   140,   141,   142,
+   143,   144,   145,   146,   147,   148,   149,   150,   151,   152,
+   153,   154,   155,   156,   157,   158,   159,   160,   161,   162,
+   163,   164,   165,   166,    88,    91,    96,     0,    44,    46,
+    52,    48,    38,    60,    62,    66,    64,     0,     0,    74,
+     0,     0,     0,   114,   115,   116,   117,   118,   119,   120,
+   121,   122,   123,   124,   125,   126,   127,   128,   129,   130,
+   131,   132,   133,   134,   135,   136,   137,   138,   139,   140,
+   141,   142,   143,   144,   145,   146,   147,   148,   149,   150,
+   151,   152,   153,   154,   155,   156,   157,   158,   159,   160,
+   161,   162,   163,   164,   165,   166,   102,     0,   107,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,   300,
+   301,   380,    57,   377,    79,    70,   112,    89,    92,    97,
+   226,   227,   328,   325,   167,   224,   225,   332,   228,   329,
+   168,   336,   231,   333,   169,   222,   223,   340,   235,   337,
+   170,   344,   236,   341,   171,   220,   221,   348,   237,   345,
+   172,   352,   243,   349,   173,   356,   244,   353,   174,   360,
+   253,   357,   175,   364,   262,   361,   176,   368,   278,   365,
+   177,   295,   372,   294,   369,   178,   376,   296,   373,   179,
+   180,   384,   302,   381,   181,   388,   303,   385,   182,   392,
+   305,   389,   183,   396,   307,   393,   184,   400,   311,   397,
+   185,   404,   315,   401,   186,   408,   320,   405,   187,   188,
+   189,   190,   191,   192,   193,   194,   195,   196,   197,   198,
+   199,   200,   201,   202,   203,   204,   205,   206,   207,   208,
+   437,   409,   434,   209,   441,   413,   438,   210,   445,   415,
+   442,   211,   449,   418,   446,   212,   453,   422,   450,   213,
+   214,   215,   216,   217,   218,   426,   219,     0,    45,    47,
+    53,    49,     0,    18,    37,    30,    40,    61,    63,    67,
+    65,     0,     0,    94,    94,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,   108,     0,     0,    32,    41,     0,   378,   379,     0,
+     0,    90,    93,    98,     0,    99,   326,   327,   330,   331,
+   229,   334,   335,   232,   338,   339,   342,   343,   346,   347,
+   238,   350,   351,   354,   355,   245,   358,   359,   254,   362,
+   363,   263,   366,   367,   279,   370,   371,   374,   375,   297,
+   382,   383,   386,   387,   304,   390,   391,   306,   394,   395,
+   308,   398,   399,   312,   402,   403,   316,   406,   407,   321,
+   435,   436,   410,   439,   440,   414,   443,   444,   416,   447,
+   448,   419,   451,   452,   423,   427,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,    54,
+    50,     0,    31,    71,    95,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,    33,   100,   230,   233,   239,   246,   255,
+   264,   280,   298,   309,   313,   317,   322,   411,   417,   420,
+   424,   428,     0,     0,   242,     0,     0,     0,     0,     0,
+   310,   314,     0,     0,     0,     0,     0,     0,    34,   234,
+     0,   247,   256,   265,   281,   299,   318,   323,   412,   421,
+   425,   429,   240,   241,     0,     0,     0,     0,   319,   324,
+   433,   248,   257,   266,   282,   431,   430,     0,     0,     0,
+     0,     0,   249,   258,   267,   283,   432,     0,     0,     0,
+     0,   250,   259,   268,   284,     0,     0,     0,     0,   251,
+   260,   269,   285,     0,     0,     0,     0,   252,   261,   270,
+   286,     0,     0,   271,   287,     0,     0,   272,   288,     0,
+     0,   273,   289,     0,     0,   274,   290,     0,     0,   275,
+   291,     0,     0,   276,   292,     0,     0,   277,   293,     0,
+     0,     0
 };
 
-static const short yydefgoto[] = {   327,
-    14,    61,    15,    16,    17,    18,    19,    20,    62,    21,
-    22,    23,    24,    55,   306,   324,    25,   279,   280,    40,
-    26,   281,   282,    71,    72,    73,   241,   242,   244,   304,
-    74,   243,   303,    27,    58,   288,   165,   166,   167,   284,
-   285,   287,   286,    28,    56,   240,   318,    29,    59,    30,
-    60,   252,    78,   314,    31,    32,    54,    48,    91,    92,
-    93,   253,   254,   178,    94,   256,   233,    95,   255,   236,
-    96,    97,   238,   270,   295,    36,    33,    98,   258,   274,
-   101,   155,   234,   263,   267,   298,   299
+static const short yydefgoto[] = {   740,
+     2,     4,     6,     7,     9,    12,    10,    14,    35,    17,
+    46,    15,    26,   304,    44,    49,    65,   394,   457,   592,
+   633,    28,   234,    29,    47,   235,    63,    91,   230,   231,
+   233,   454,    92,   232,   453,    30,    48,   168,    64,    98,
+   236,   237,   239,   238,    31,    50,   100,   403,    32,    51,
+   101,    33,    52,    61,   243,    54,    62,    80,    81,   171,
+   404,    82,   172,   405,   462,    83,   173,   406,   464,    84,
+   158,   227,    39,    34,    85,   248,    67,   155,   229,   279,
+   269,   259,   254,   260,   409,   597,   264,   411,   598,   634,
+   270,   274,   280,   415,   599,   635,   651,   284,   288,   418,
+   600,   636,   665,   678,   688,   696,   704,   292,   420,   601,
+   637,   666,   679,   689,   697,   705,   296,   422,   602,   638,
+   667,   680,   690,   698,   706,   712,   716,   720,   724,   728,
+   732,   736,   300,   424,   603,   639,   668,   681,   691,   699,
+   707,   713,   717,   721,   725,   729,   733,   737,   305,   309,
+   427,   604,   640,   244,   314,   318,   430,   322,   432,   326,
+   434,   605,   641,   330,   436,   606,   642,   334,   438,   607,
+   643,   669,   338,   440,   608,   644,   670,   255,   407,   261,
+   408,   265,   410,   271,   412,   275,   413,   281,   414,   285,
+   416,   289,   417,   293,   419,   297,   421,   301,   423,   306,
+   425,   310,   426,   311,   402,   315,   428,   319,   429,   323,
+   431,   327,   433,   331,   435,   335,   437,   339,   439,   363,
+   442,   609,   645,   367,   444,   371,   446,   610,   375,   448,
+   611,   646,   379,   450,   612,   647,   387,   451,   613,   648,
+   671,   677,   682,   364,   441,   368,   443,   372,   445,   376,
+   447,   380,   449
 };
 
-static const short yypact[] = {   133,
-   190,     1,     1,     1,-32768,    -1,     6,     7,    14,    21,
-    58,    81,-32768,-32768,-32768,   218,-32768,-32768,   237,-32768,
--32768,   161,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,    82,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,    87,-32768,-32768,
--32768,-32768,-32768,    92,     2,    90,    88,    96,    79,   103,
-   218,   120,   251,   251,-32768,   121,   464,   464,   464,   464,
-   119,    88,-32768,-32768,-32768,   116,   124,-32768,-32768,   135,
--32768,-32768,-32768,   464,   464,   464,   464,-32768,-32768,-32768,
-   144,   251,   140,     4,   274,-32768,-32768,-32768,   147,-32768,
+static const short yypact[] = {    32,
+-32768,    35,   -32,-32768,-32768,-32768,    71,     0,-32768,    83,
+-32768,-32768,    34,-32768,   118,-32768,-32768,    40,    40,    51,
+    51,    51,    51,    51,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,    65,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,    67,-32768,-32768,    84,    92,    40,    75,
+   127,   165,-32768,-32768,-32768,-32768,-32768,   105,    51,    51,
+-32768,    90,   117,   128,    67,-32768,-32768,-32768,-32768,-32768,
+   554,   554,   554,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,   554,   554,   554,   554,   137,
+-32768,-32768,   554,   554,   554,   554,-32768,-32768,-32768,   216,
+   165,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,   837,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,    26,    51,-32768,
+   146,   105,   161,   375,    -1,   149,   225,   246,    44,    94,
+   268,   277,   279,   281,    61,   371,    26,   373,   376,   393,
+   403,   405,   407,   409,    81,   193,   193,   209,   193,   343,
+   343,   209,   193,   209,   193,    85,   193,   116,   209,   209,
+   193,   209,   193,   209,   193,    97,   421,   424,   427,   436,
+   343,   193,   193,   193,   193,   193,-32768,   235,-32768,   146,
+   105,   161,   161,    78,   163,   146,   105,   161,   161,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,   149,-32768,
-   464,   464,   464,   464,   145,   116,-32768,-32768,-32768,-32768,
--32768,-32768,-32768,-32768,-32768,-32768,   151,-32768,   157,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
-   159,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
--32768,   240,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
--32768,-32768,-32768,-32768,   157,-32768,-32768,   369,-32768,   152,
-   158,   121,   157,   157,     9,-32768,-32768,-32768,-32768,-32768,
--32768,    79,   158,   121,   157,   157,-32768,-32768,-32768,   160,
--32768,-32768,-32768,    89,   160,-32768,-32768,-32768,   160,-32768,
--32768,     1,-32768,-32768,-32768,-32768,-32768,-32768,     3,    11,
-   164,-32768,-32768,   158,   121,   157,   157,   411,-32768,-32768,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,   163,    89,-32768,
--32768,-32768,   411,   411,     1,   161,-32768,-32768,-32768,-32768,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,   173,-32768,-32768,
--32768,-32768,   158,     2,-32768,-32768,   185,   191,-32768
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,   161,-32768,-32768,
+-32768,-32768,    51,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,   437,   173,   270,   270,   837,   -17,    98,   193,   103,
+   193,   108,   113,    76,   343,    79,   115,   209,   119,   193,
+   129,   209,   131,   193,    59,   133,   193,   135,   181,   209,
+   207,   193,   213,   209,   223,   193,   240,   209,   242,   193,
+    82,   343,   252,   193,   262,   193,   264,   193,   266,   193,
+   193,-32768,   890,   890,-32768,   118,    67,-32768,-32768,   146,
+   161,-32768,-32768,-32768,   286,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,   375,    -1,   149,   225,
+   246,    44,    94,   268,   277,   279,   281,    61,   371,    26,
+   373,   376,   393,   403,   405,   407,   409,    81,   193,   193,
+   209,   193,   343,   343,   209,   193,   209,   193,    85,   193,
+   116,   209,   209,   193,   209,   193,   209,   193,    97,   421,
+   424,   427,   436,   343,   193,   193,   193,   193,   193,-32768,
+-32768,    40,-32768,-32768,-32768,   161,   193,   193,   343,   209,
+   193,   209,   193,   193,   209,   193,   209,   193,   343,   193,
+   193,   193,   193,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,    67,   193,-32768,   209,   193,   209,   193,   193,
+-32768,-32768,   209,   193,   343,   193,   193,   193,-32768,-32768,
+   284,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,   209,   193,   209,   193,-32768,-32768,
+   193,-32768,-32768,-32768,-32768,-32768,-32768,   209,   193,   209,
+   193,   193,-32768,-32768,-32768,-32768,-32768,   209,   193,   209,
+   193,-32768,-32768,-32768,-32768,   209,   193,   209,   193,-32768,
+-32768,-32768,-32768,   209,   193,   209,   193,-32768,-32768,-32768,
+-32768,   209,   193,-32768,-32768,   209,   193,-32768,-32768,   209,
+   193,-32768,-32768,   209,   193,-32768,-32768,   209,   193,-32768,
+-32768,   209,   193,-32768,-32768,   209,   193,-32768,-32768,   305,
+   313,-32768
 };
 
 static const short yypgoto[] = {-32768,
-   189,-32768,   131,-32768,   177,   182,-32768,   181,-32768,   -17,
--32768,   184,  -183,-32768,-32768,-32768,   -59,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
-   139,-32768,-32768,-32768,-32768,-32768,-32768,-32768,    37,-32768,
--32768,-32768,-32768,    19,-32768,-32768,-32768,-32768,-32768,-32768,
--32768,-32768,   -39,-32768,   -48,   -52,-32768,-32768,   153,-32768,
+-32768,  -108,-32768,   -11,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,   -34,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
 -32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
-   127,-32768,-32768,-32768,  -189,    -3,    78,  -157,-32768,  -176,
-  -151,    20,   -89,-32768,-32768,-32768,-32768
+-32768,-32768,-32768,-32768,   272,-32768,-32768,-32768,   283,-32768,
+-32768,   285,-32768,   231,-32768,   -63,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,   -56,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,    33,   -18,  -155,  -168,   -82,    28,  -341,  -122,
+   121,  -173,  -189,  -188,-32768,-32768,  -187,-32768,-32768,-32768,
+  -191,  -185,  -184,-32768,-32768,-32768,-32768,  -181,  -190,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,  -180,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,  -179,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,  -178,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,  -177,  -192,
+-32768,-32768,-32768,  -171,  -176,  -174,-32768,  -170,-32768,  -169,
+-32768,-32768,-32768,  -154,-32768,-32768,-32768,  -150,-32768,-32768,
+-32768,-32768,  -149,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,   195,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,  -161,
+-32768,-32768,-32768,  -200,-32768,  -142,-32768,-32768,  -151,-32768,
+-32768,-32768,  -138,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,-32768
 };
 
 
-#define	YYLAST		599
+#define	YYLAST		963
 
 
-static const short yytable[] = {    37,
-    38,    52,    65,    88,    88,   237,   305,   262,    75,     5,
-    79,    35,     5,     5,    90,    90,     5,    43,   -87,   179,
-     6,   259,     6,     7,    44,     7,    39,   168,   266,    13,
-    13,    45,    88,   180,   181,   182,   183,   184,   185,   186,
+static const short yytable[] = {    36,
+    37,    99,   263,    27,   273,   340,   343,   341,   291,   342,
+   299,   347,   308,   344,   352,   345,   321,   250,   329,   346,
+   337,   382,   348,   263,   349,   273,   350,    76,   351,   291,
+    57,   299,   354,   308,     1,   355,   353,   321,     3,   329,
+   356,   337,   357,   366,   370,   374,   378,     5,   366,   370,
+   374,   378,   386,    40,    41,    42,    43,   283,   358,   381,
+   251,   389,   252,   359,   466,   360,   467,   398,    20,    21,
+    20,    21,   384,   256,   257,     8,   391,   392,   283,    11,
+   383,   258,   400,   401,    18,    19,   385,   393,    13,   249,
+    70,    68,    69,   362,    20,    21,    18,    19,   362,   156,
+   157,    22,   240,    23,    24,   241,    71,    72,   242,    73,
+    16,   590,   591,   159,   160,   161,   162,   276,   277,    25,
+   164,   165,   166,   167,    18,    19,   278,    20,    21,    22,
+    38,    23,    24,    86,    87,    88,    89,   302,    25,   302,
+    25,    45,   496,   303,    93,    94,    95,    96,   390,   276,
+   277,    53,   276,   277,   399,   276,   277,    25,   251,   479,
+   252,    58,   482,   302,    25,   521,    55,   276,   277,    74,
+   276,   277,   256,   257,    56,    75,   282,   256,   257,   361,
+    60,   469,   266,   267,    66,   228,   472,   256,   257,   266,
+   267,   475,   240,   256,   257,   241,   477,    25,   484,   395,
+    90,   246,   487,   266,   267,   256,   257,   256,   257,   266,
+   267,    97,   490,    59,   493,   396,   498,   468,   501,   470,
+   476,   163,   473,   256,   257,   247,   485,   478,   169,   480,
+   459,   262,   452,   499,   483,   471,   263,   474,   488,   273,
+    74,   491,   525,   388,   494,   291,   489,   497,   397,   299,
+   495,   502,   308,   500,   504,   266,   267,   321,   508,   460,
+   507,   329,   514,   510,   503,   337,   520,   256,   257,   366,
+   526,   370,   529,   374,   532,   378,   535,   536,   461,   522,
+   513,   256,   257,   266,   267,   456,   516,   266,   267,   519,
+   506,   594,   481,   283,   596,   531,   509,   256,   257,   266,
+   267,   287,   528,   295,   741,   595,   512,   268,   313,   317,
+   534,   325,   742,   333,   266,   267,   256,   257,   362,   523,
+   256,   257,   287,   515,   295,   518,   256,   257,   272,   313,
+   317,   170,   325,    77,   333,   524,   256,   257,   256,   257,
+   256,   257,   266,   267,    78,   527,    79,   530,   463,   533,
+   286,   256,   257,   266,   267,   256,   257,   276,   277,   290,
+     0,   294,   245,   298,   663,   263,     0,   273,   340,   343,
+   341,   291,   342,   299,   347,   308,   344,   352,   345,   321,
+     0,   329,   346,   337,   382,   348,   263,   349,   273,   350,
+     0,   351,   291,   593,   299,   354,   308,     0,   355,   353,
+   321,     0,   329,   356,   337,   357,   366,   370,   374,   378,
+     0,   366,   370,   374,   378,   386,   276,   277,     0,     0,
+   283,   358,   381,   616,   617,   455,   359,   620,   360,   622,
+   623,     0,   625,   465,   627,   384,   629,   630,   631,   632,
+   615,   283,     0,   383,    27,   256,   257,   266,   267,   385,
+   266,   267,   251,   307,   252,   312,   362,   253,   316,     0,
+   650,   362,     0,   653,     0,   655,   656,   256,   257,     0,
+   658,     0,   660,   661,   662,   320,   618,   266,   267,   256,
+   257,   266,   267,   256,   257,   324,   628,   328,     0,   332,
+     0,   336,   673,     0,   675,   256,   257,   676,   256,   257,
+     0,   256,   257,   365,     0,   684,   369,   686,   687,   373,
+   256,   257,     0,   240,     0,   693,   241,   695,   377,     0,
+   458,     0,   659,   701,     0,   703,     0,     0,   664,     0,
+     0,   709,     0,   711,     0,     0,     0,   287,   486,   715,
+     0,   295,   492,   719,     0,     0,     0,   723,   313,   317,
+   505,   727,     0,   325,   511,   731,     0,   333,   517,   735,
+     0,     0,     0,   739,     0,     0,     0,     0,     0,   649,
+     0,     0,     0,   614,   102,   103,   104,   105,   106,   107,
+   108,   109,   110,   111,   112,   113,   114,   115,   116,   117,
+   118,   119,   120,   121,   122,   123,   124,   125,   126,   127,
+   128,   129,   130,   131,   132,   133,   134,   135,   136,   137,
+   138,   139,   140,   141,   142,   143,   144,   145,   146,   147,
+   148,   149,   150,   151,   152,   153,   154,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,   287,     0,   295,     0,     0,     0,
+     0,   313,   317,     0,   325,     0,   333,     0,     0,     0,
+     0,     0,     0,     0,     0,   287,     0,   295,     0,     0,
+     0,     0,   313,   317,     0,   325,     0,   333,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+   619,     0,   621,     0,     0,   624,     0,   626,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,   652,     0,   654,     0,
+     0,     0,     0,   657,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+     0,     0,     0,     0,     0,   672,     0,   674,     0,     0,
+     0,     0,     0,     0,     0,     0,     0,     0,   683,     0,
+   685,     0,     0,     0,     0,     0,     0,     0,   692,     0,
+   694,     0,     0,     0,     0,     0,   700,     0,   702,     0,
+     0,     0,     0,     0,   708,     0,   710,     0,     0,     0,
+     0,     0,   714,     0,     0,     0,   718,     0,     0,     0,
+   722,     0,     0,     0,   726,     0,     0,     0,   730,     0,
+     0,     0,   734,     0,     0,     0,   738,   174,   175,   176,
+   177,   178,   179,   180,   181,   182,   183,   184,   185,   186,
    187,   188,   189,   190,   191,   192,   193,   194,   195,   196,
    197,   198,   199,   200,   201,   202,   203,   204,   205,   206,
    207,   208,   209,   210,   211,   212,   213,   214,   215,   216,
-   217,   218,   219,   220,   221,   300,   290,   268,    46,   301,
-   296,    89,    89,    41,    42,   276,   277,   156,   157,   158,
-   275,    47,     2,     3,    57,    63,    66,   292,   293,     5,
-    64,    77,   291,   171,   172,   173,   174,   310,    76,    80,
-    89,    67,    68,    69,    70,   317,    13,   222,   223,   224,
-   225,   226,   227,   228,   229,   230,   231,   232,   312,   313,
-    82,   100,   159,   311,   169,     1,     2,     3,     4,   161,
-   162,   163,   164,     5,     6,   170,   325,     7,   271,     8,
-     9,    10,    11,   175,    12,   177,   239,   245,   250,   272,
-    13,   257,     2,     3,     2,     3,     4,    83,   273,     5,
-   294,     5,     6,   309,   260,     7,   316,     8,     9,   323,
-   246,   247,   248,   249,   328,   278,    13,   261,    13,    34,
-   329,    81,    49,     2,     3,     4,   283,    50,   315,    51,
-     5,     6,   251,    79,     7,    53,     8,     9,    10,    11,
-   160,    12,   289,   319,   320,   297,    99,    13,   176,     0,
-   308,     2,     3,     4,     0,     0,   307,     0,     5,     6,
-     0,     0,     7,     0,     8,     9,     0,    11,     0,    12,
-     2,     3,     4,     2,     3,    13,     0,     5,     6,     0,
-     5,     7,   264,     8,     9,   265,     4,     0,    12,     0,
-     0,    83,     6,     0,    13,     7,     0,    13,   302,     0,
-     0,   326,     0,     0,    84,    85,    86,    87,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,   322,   235,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,   321,     0,   180,   181,   182,   183,   184,   185,   186,
-   187,   188,   189,   190,   191,   192,   193,   194,   195,   196,
-   197,   198,   199,   200,   201,   202,   203,   204,   205,   206,
-   207,   208,   209,   210,   211,   212,   213,   214,   215,   216,
-   217,   218,   219,   220,   221,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,   269,     0,     0,   222,   223,   224,
-   225,   226,   227,   228,   229,   230,   231,   232,   180,   181,
-   182,   183,   184,   185,   186,   187,   188,   189,   190,   191,
-   192,   193,   194,   195,   196,   197,   198,   199,   200,   201,
-   202,   203,   204,   205,   206,   207,   208,   209,   210,   211,
-   212,   213,   214,   215,   216,   217,   218,   219,   220,   221,
-   180,   181,   182,   183,   184,   185,   186,   187,   188,   189,
-   190,   191,   192,   193,   194,   195,   196,   197,   198,   199,
-   200,   201,   202,   203,   204,   205,   206,   207,   208,   209,
-   210,   211,   212,   213,   214,   215,   216,   217,   218,   219,
-   220,   221,   222,   223,   224,   225,   226,   227,   228,   229,
-   230,   231,   232,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,     0,     0,   222,   223,   224,   225,   226,   227,
-   228,   229,   230,   231,   232,   102,   103,   104,   105,   106,
-   107,   108,   109,   110,   111,   112,   113,   114,   115,   116,
-   117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
-   127,   128,   129,   130,   131,   132,   133,   134,   135,   136,
-   137,   138,   139,   140,   141,   142,   143,     0,     0,     0,
-     0,     0,     0,     0,     0,     0,     0,     0,   144,   145,
-   146,   147,   148,   149,   150,   151,   152,   153,   154
+   217,   218,   219,   220,   221,   222,   223,   224,   225,   226,
+   537,   538,   539,   540,   541,   542,   543,   544,   545,   546,
+   547,   548,   549,   550,   551,   552,   553,   554,   555,   556,
+   557,   558,   559,   560,   561,   562,   563,   564,   565,   566,
+   567,   568,   569,   570,   571,   572,   573,   574,   575,   576,
+   577,   578,   579,   580,   581,   582,   583,   584,   585,   586,
+   587,   588,   589
 };
 
-static const short yycheck[] = {     3,
-     4,    19,    55,    63,    64,    95,     4,   191,    57,    11,
-    59,    11,    11,    11,    63,    64,    11,    11,    10,    16,
-    12,   179,    12,    15,    11,    15,    28,    76,   212,    28,
-    28,    11,    92,    30,    31,    32,    33,    34,    35,    36,
+static const short yycheck[] = {    18,
+    19,    65,   176,    15,   178,   195,   198,   196,   182,   197,
+   184,   202,   186,   199,   207,   200,   190,   173,   192,   201,
+   194,   222,   203,   197,   204,   199,   205,    62,   206,   203,
+    49,   205,   209,   207,     3,   210,   208,   211,     4,   213,
+   211,   215,   212,   217,   218,   219,   220,    80,   222,   223,
+   224,   225,   226,    21,    22,    23,    24,   180,   213,   221,
+    78,   230,    80,   214,   406,   215,    84,   236,    10,    11,
+    10,    11,   224,    75,    76,     5,   232,   233,   201,    80,
+   223,    83,   238,   239,     7,     8,   225,    10,     6,   172,
+     1,    59,    60,   216,    10,    11,     7,     8,   221,    72,
+    73,    12,    77,    14,    15,    80,    17,    18,    83,    20,
+    77,   453,   454,    86,    87,    88,    89,    74,    75,    80,
+    93,    94,    95,    96,     7,     8,    83,    10,    11,    12,
+    80,    14,    15,    17,    18,    19,    20,    79,    80,    79,
+    80,    77,    84,    83,    17,    18,    19,    20,   231,    74,
+    75,    85,    74,    75,   237,    74,    75,    80,    78,    84,
+    80,    87,    84,    79,    80,    84,    83,    74,    75,    80,
+    74,    75,    75,    76,    83,    86,    83,    75,    76,    83,
+    16,    84,    75,    76,    80,   158,    84,    75,    76,    75,
+    76,    84,    77,    75,    76,    80,    84,    80,    84,   234,
+    84,   169,    84,    75,    76,    75,    76,    75,    76,    75,
+    76,    84,    84,    87,    84,   234,    84,   407,    84,   408,
+   412,    85,   410,    75,    76,    80,   417,   413,    13,   414,
+   402,    83,   388,   426,   416,   409,   410,   411,   419,   413,
+    80,   421,   443,     9,   423,   419,   420,   425,    86,   423,
+   424,   428,   426,   427,   429,    75,    76,   431,   432,    87,
+   431,   435,   436,   433,    84,   439,   440,    75,    76,   443,
+   444,   445,   446,   447,   448,   449,   450,   451,     9,   441,
+   435,    75,    76,    75,    76,   394,   437,    75,    76,   439,
+    84,   460,   415,   416,     9,   447,    84,    75,    76,    75,
+    76,   181,   445,   183,     0,   461,    84,    83,   188,   189,
+   449,   191,     0,   193,    75,    76,    75,    76,   441,   442,
+    75,    76,   202,    84,   204,    84,    75,    76,    83,   209,
+   210,   101,   212,    62,   214,    84,    75,    76,    75,    76,
+    75,    76,    75,    76,    62,    84,    62,    84,   405,    84,
+    83,    75,    76,    75,    76,    75,    76,    74,    75,    83,
+    -1,    83,   168,    83,    81,   539,    -1,   541,   558,   561,
+   559,   545,   560,   547,   565,   549,   562,   570,   563,   553,
+    -1,   555,   564,   557,   585,   566,   560,   567,   562,   568,
+    -1,   569,   566,   457,   568,   572,   570,    -1,   573,   571,
+   574,    -1,   576,   574,   578,   575,   580,   581,   582,   583,
+    -1,   585,   586,   587,   588,   589,    74,    75,    -1,    -1,
+   543,   576,   584,   597,   598,   393,   577,   601,   578,   603,
+   604,    -1,   606,   406,   608,   587,   610,   611,   612,   613,
+   596,   564,    -1,   586,   456,    75,    76,    75,    76,   588,
+    75,    76,    78,    83,    80,    83,   579,    83,    83,    -1,
+   634,   584,    -1,   637,    -1,   639,   640,    75,    76,    -1,
+   644,    -1,   646,   647,   648,    83,   599,    75,    76,    75,
+    76,    75,    76,    75,    76,    83,   609,    83,    -1,    83,
+    -1,    83,   666,    -1,   668,    75,    76,   671,    75,    76,
+    -1,    75,    76,    83,    -1,   679,    83,   681,   682,    83,
+    75,    76,    -1,    77,    -1,   689,    80,   691,    83,    -1,
+    84,    -1,   645,   697,    -1,   699,    -1,    -1,   651,    -1,
+    -1,   705,    -1,   707,    -1,    -1,    -1,   417,   418,   713,
+    -1,   421,   422,   717,    -1,    -1,    -1,   721,   428,   429,
+   430,   725,    -1,   433,   434,   729,    -1,   437,   438,   733,
+    -1,    -1,    -1,   737,    -1,    -1,    -1,    -1,    -1,   633,
+    -1,    -1,    -1,   592,    21,    22,    23,    24,    25,    26,
+    27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
     37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
     47,    48,    49,    50,    51,    52,    53,    54,    55,    56,
     57,    58,    59,    60,    61,    62,    63,    64,    65,    66,
-    67,    68,    69,    70,    71,   265,   253,   235,    21,   269,
-   264,    63,    64,     6,     7,   243,   244,    68,    69,    70,
-   242,    11,     4,     5,    13,     9,     7,   255,   256,    11,
-     9,    23,   254,    84,    85,    86,    87,   284,    13,     7,
-    92,    24,    25,    26,    27,   299,    28,   114,   115,   116,
-   117,   118,   119,   120,   121,   122,   123,   124,   286,   287,
-    11,    11,    14,   285,    11,     3,     4,     5,     6,    24,
-    25,    26,    27,    11,    12,    11,   323,    15,   238,    17,
-    18,    19,    20,    10,    22,    16,    10,     9,    14,     8,
-    28,    11,     4,     5,     4,     5,     6,    11,    11,    11,
-    11,    11,    12,    10,    16,    15,    14,    17,    18,     7,
-   161,   162,   163,   164,     0,   245,    28,    29,    28,     1,
-     0,    61,    16,     4,     5,     6,   245,    16,   288,    19,
-    11,    12,   166,   252,    15,    22,    17,    18,    19,    20,
-    72,    22,   252,   303,   304,   264,    64,    28,    92,    -1,
-   280,     4,     5,     6,    -1,    -1,   279,    -1,    11,    12,
-    -1,    -1,    15,    -1,    17,    18,    -1,    20,    -1,    22,
-     4,     5,     6,     4,     5,    28,    -1,    11,    12,    -1,
-    11,    15,    13,    17,    18,    16,     6,    -1,    22,    -1,
-    -1,    11,    12,    -1,    28,    15,    -1,    28,   272,    -1,
-    -1,   324,    -1,    -1,    24,    25,    26,    27,    -1,    -1,
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   306,    16,
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-    -1,   305,    -1,    30,    31,    32,    33,    34,    35,    36,
-    37,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-    47,    48,    49,    50,    51,    52,    53,    54,    55,    56,
-    57,    58,    59,    60,    61,    62,    63,    64,    65,    66,
-    67,    68,    69,    70,    71,    -1,    -1,    -1,    -1,    -1,
+    67,    68,    69,    70,    71,    72,    73,    -1,    -1,    -1,
     -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
     -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
     -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-    -1,    -1,    -1,    -1,    16,    -1,    -1,   114,   115,   116,
-   117,   118,   119,   120,   121,   122,   123,   124,    30,    31,
-    32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
-    42,    43,    44,    45,    46,    47,    48,    49,    50,    51,
-    52,    53,    54,    55,    56,    57,    58,    59,    60,    61,
-    62,    63,    64,    65,    66,    67,    68,    69,    70,    71,
-    30,    31,    32,    33,    34,    35,    36,    37,    38,    39,
-    40,    41,    42,    43,    44,    45,    46,    47,    48,    49,
-    50,    51,    52,    53,    54,    55,    56,    57,    58,    59,
-    60,    61,    62,    63,    64,    65,    66,    67,    68,    69,
-    70,    71,   114,   115,   116,   117,   118,   119,   120,   121,
-   122,   123,   124,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,   544,    -1,   546,    -1,    -1,    -1,
+    -1,   551,   552,    -1,   554,    -1,   556,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,   565,    -1,   567,    -1,    -1,
+    -1,    -1,   572,   573,    -1,   575,    -1,   577,    -1,    -1,
     -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
     -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-    -1,    -1,    -1,    -1,   114,   115,   116,   117,   118,   119,
-   120,   121,   122,   123,   124,    72,    73,    74,    75,    76,
-    77,    78,    79,    80,    81,    82,    83,    84,    85,    86,
-    87,    88,    89,    90,    91,    92,    93,    94,    95,    96,
-    97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
-   107,   108,   109,   110,   111,   112,   113,    -1,    -1,    -1,
-    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   125,   126,
-   127,   128,   129,   130,   131,   132,   133,   134,   135
+   600,    -1,   602,    -1,    -1,   605,    -1,   607,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,    -1,   636,    -1,   638,    -1,
+    -1,    -1,    -1,   643,    -1,    -1,    -1,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,   665,    -1,   667,    -1,    -1,
+    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   678,    -1,
+   680,    -1,    -1,    -1,    -1,    -1,    -1,    -1,   688,    -1,
+   690,    -1,    -1,    -1,    -1,    -1,   696,    -1,   698,    -1,
+    -1,    -1,    -1,    -1,   704,    -1,   706,    -1,    -1,    -1,
+    -1,    -1,   712,    -1,    -1,    -1,   716,    -1,    -1,    -1,
+   720,    -1,    -1,    -1,   724,    -1,    -1,    -1,   728,    -1,
+    -1,    -1,   732,    -1,    -1,    -1,   736,    21,    22,    23,
+    24,    25,    26,    27,    28,    29,    30,    31,    32,    33,
+    34,    35,    36,    37,    38,    39,    40,    41,    42,    43,
+    44,    45,    46,    47,    48,    49,    50,    51,    52,    53,
+    54,    55,    56,    57,    58,    59,    60,    61,    62,    63,
+    64,    65,    66,    67,    68,    69,    70,    71,    72,    73,
+    21,    22,    23,    24,    25,    26,    27,    28,    29,    30,
+    31,    32,    33,    34,    35,    36,    37,    38,    39,    40,
+    41,    42,    43,    44,    45,    46,    47,    48,    49,    50,
+    51,    52,    53,    54,    55,    56,    57,    58,    59,    60,
+    61,    62,    63,    64,    65,    66,    67,    68,    69,    70,
+    71,    72,    73
 };
 #define YYPURE 1
 
@@ -1258,721 +1535,874 @@ yyreduce:
 
   switch (yyn) {
 
-case 3:
-#line 243 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                       if(SKEL != NULL)
-                       {
-                           SKEL->profileElement(SKELTEXT);
-                       }
-                   ;
+case 2:
+#line 202 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->verifyHeader(yyvsp[0].stringVal); ;
     break;}
-case 10:
-#line 264 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                         if(SKEL != NULL)
-                         {
-                             SKEL->componentElement(SKELTEXT);
-                         }
-                     ;
+case 4:
+#line 206 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->profileElement(yyvsp[0].stringVal); ;
     break;}
-case 15:
-#line 281 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1, SKELTEXT); ;
+case 9:
+#line 220 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->componentElement(yyvsp[0].stringVal); ;
     break;}
-case 16:
-#line 283 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                    if(SKEL != NULL)
-                    {
-                        SKEL->metaElement(szName1, SKELTEXT);
-                    }
-                    freeName(szName1);
-                ;
+case 13:
+#line 237 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
+    break;}
+case 14:
+#line 239 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->metaElement(SKEL->_tmpString1.c_str(), yyvsp[0].stringVal); ;
+    break;}
+case 24:
+#line 259 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginNode(yyvsp[0].stringVal, 0); ;
+    break;}
+case 26:
+#line 262 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
     break;}
 case 27:
-#line 309 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1, SKELTEXT); ;
+#line 263 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginNode(yyvsp[0].stringVal, SKEL->_tmpString1.c_str()); ;
     break;}
 case 29:
-#line 312 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                  SKEL->use(SKELTEXT); ;
+#line 266 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->use(yyvsp[0].stringVal); ;
     break;}
-case 31:
-#line 318 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1, SKELTEXT); ;
+case 30:
+#line 269 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginNode(yyvsp[0].stringVal, 0); ;
+    break;}
+case 32:
+#line 272 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
+    break;}
+case 33:
+#line 273 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginNode(yyvsp[0].stringVal, SKEL->_tmpString1.c_str()); ;
     break;}
 case 39:
-#line 335 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                        SKEL->beginProto(SKELTEXT); ;
+#line 285 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginProto(yyvsp[0].stringVal); ;
     break;}
 case 40:
-#line 337 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                        SKEL->beginProto(SKELTEXT); ;
+#line 287 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endProto(); ;
     break;}
-case 41:
-#line 348 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-			SKEL->endProto(); ;
+case 44:
+#line 298 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
+    break;}
+case 45:
+#line 299 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginEventInDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); SKEL->endEventDecl(); ;
+    break;}
+case 46:
+#line 301 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
+    break;}
+case 47:
+#line 302 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginEventOutDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); SKEL->endEventDecl(); ;
+    break;}
+case 48:
+#line 304 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 49:
-#line 369 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                      SKELTEXT);;
+#line 305 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); SKEL->getLexer()->expectType(yyvsp[-2].intVal); ;
     break;}
 case 50:
-#line 371 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                              {
-                                               SKEL->beginEventInDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-
-                                               SKEL->endEventDecl();
-                                              }
-                                              freeName(szName1); ;
-    break;}
-case 51:
-#line 382 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                      SKELTEXT);;
+#line 306 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endFieldDecl(); ;
     break;}
 case 52:
-#line 384 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                              {
-                                               SKEL->beginEventOutDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-
-                                               SKEL->endEventDecl();
-                                              }
-                                              freeName(szName1); ;
+#line 311 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 53:
-#line 395 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                      SKELTEXT);;
+#line 312 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginExposedFieldDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); SKEL->getLexer()->expectType(yyvsp[-2].intVal); ;
     break;}
 case 54:
-#line 397 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ SKEL->expectType(nextType);
-                                              if(SKEL != NULL)
-                                               SKEL->beginFieldDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-                                              freeName(szName1); ;
+#line 313 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endExposedFieldDecl(); ;
     break;}
 case 55:
-#line 404 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-                                              if(SKEL != NULL)
-                                               SKEL->endFieldDecl();
-                                             ;
+#line 316 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginExternProto(yyvsp[0].stringVal); ;
+    break;}
+case 56:
+#line 317 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endExternProtoInterface(); ;
     break;}
 case 57:
-#line 412 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                              SKELTEXT); ;
-    break;}
-case 58:
-#line 414 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ SKEL->expectType(nextType);
-                                      if(SKEL != NULL)
-                                       SKEL->beginExposedFieldDecl(
-                                        szName1,
-                                        nextType,
-                                        SKELTEXT);
-                                       freeName(szName1); ;
-    break;}
-case 59:
-#line 421 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-                                      if(SKEL != NULL)
-                                       SKEL->endExposedFieldDecl(); ;
+#line 318 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endExternProto(); ;
     break;}
 case 60:
-#line 427 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                             SKEL->beginExternProto(SKELTEXT); ;
+#line 326 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 61:
-#line 432 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                 if(SKEL != NULL)
-                     SKEL->endExternProtoInterface();
-
-                 SKEL->expectType(TOK_MFSTRING);
-              ;
+#line 327 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addExternEventInDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
     break;}
 case 62:
-#line 439 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                 if(SKEL != NULL)
-                     SKEL->endExternProto();
-              ;
+#line 329 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
+    break;}
+case 63:
+#line 330 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addExternEventOutDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
+    break;}
+case 64:
+#line 332 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
+    break;}
+case 65:
+#line 333 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addExternFieldDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
+    break;}
+case 66:
+#line 335 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 67:
-#line 455 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                 SKELTEXT); ;
+#line 336 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addExternExposedFieldDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
     break;}
 case 68:
-#line 457 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                               SKEL->addExternEventInDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-                                         freeName(szName1); ;
+#line 340 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
     break;}
 case 69:
-#line 464 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                 SKELTEXT); ;
+#line 342 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString2 = yyvsp[0].stringVal; ;
     break;}
 case 70:
-#line 466 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                               SKEL->addExternEventOutDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-                                          freeName(szName1); ;
+#line 344 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString3 = yyvsp[0].stringVal; ;
     break;}
 case 71:
-#line 473 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                 SKELTEXT); ;
+#line 347 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addRoute(SKEL->_tmpString1.c_str(), SKEL->_tmpString2.c_str(), SKEL->_tmpString3.c_str(), yyvsp[0].stringVal); ;
     break;}
 case 72:
-#line 475 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                               SKEL->addExternFieldDecl(
-                                                szName1,
-                                                nextType,
-                                                SKELTEXT);
-                                         freeName(szName1); ;
+#line 351 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
     break;}
 case 73:
-#line 482 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                 SKELTEXT); ;
+#line 353 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString2 = yyvsp[0].stringVal; ;
     break;}
 case 74:
-#line 484 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                             SKEL->addExternExposedFieldDecl(
-                                                 szName1,
-                                                 nextType,
-                                                 SKELTEXT);
-                                       freeName(szName1); ;
+#line 355 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ 
+        if (yyvsp[0].stringVal != 0)
+            SKEL->importElement(SKEL->_tmpString1.c_str(), SKEL->_tmpString2.c_str(), yyvsp[0].stringVal);
+        else
+            SKEL->importElement(SKEL->_tmpString1.c_str(), SKEL->_tmpString2.c_str(), 0);
+    ;
     break;}
 case 75:
-#line 493 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1, SKELTEXT); ;
+#line 364 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = yyvsp[0].stringVal; ;
     break;}
 case 76:
-#line 495 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName2, SKELTEXT); ;
+#line 366 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ 
+        if (yyvsp[0].stringVal != 0)
+            SKEL->exportElement(SKEL->_tmpString1.c_str(), yyvsp[0].stringVal);
+        else
+            SKEL->exportElement(SKEL->_tmpString1.c_str(), 0);
+    ;
     break;}
 case 77:
-#line 497 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName3, SKELTEXT); ;
+#line 375 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.stringVal = yyvsp[0].stringVal; ;
     break;}
 case 78:
-#line 499 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                SKEL->addRoute(szName1,
-                                               szName2,
-                                               szName3,
-                                               SKELTEXT);
-                              freeName(szName1);
-                              freeName(szName2);
-                              freeName(szName3);
-                            ;
-    break;}
-case 79:
-#line 512 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                      setName(szName1, SKELTEXT);
-                  ;
+#line 376 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.stringVal = 0; ;
     break;}
 case 80:
-#line 516 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                      if(SKEL != NULL)
-                      {
-                          SKEL->exportElement(szName1, szName2);
-                      }
-
-                      freeName(szName1);
-                      freeName(szName2);
-                  ;
-    break;}
-case 81:
-#line 529 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                      setName(szName1, SKELTEXT);
-                  ;
-    break;}
-case 82:
-#line 534 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                      setName(szName3, SKELTEXT);
-                  ;
-    break;}
-case 83:
-#line 538 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                      if(SKEL != NULL)
-                      {
-                          SKEL->importElement(szName1, szName3, szName2);
-                      }
-
-                      freeName(szName1);
-                      freeName(szName2);
-                      freeName(szName3);
-                  ;
-    break;}
-case 84:
-#line 551 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                        setName(szName2, SKELTEXT);
-                  ;
+#line 382 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endNode(); ;
     break;}
 case 88:
-#line 563 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                    {
-                        SKEL->beginNode(SKELTEXT, szName1);
-                    }
-
-                    freeName(szName1);
-                  ;
+#line 397 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 89:
-#line 573 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                     SKEL->endNode(); ;
+#line 398 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginEventInDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
     break;}
 case 90:
-#line 575 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                     SKEL->beginNode(SKELTEXT, szName1);
-
-                    freeName(szName1);
-                  ;
+#line 399 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endEventDecl(); ;
     break;}
 case 91:
-#line 582 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                     SKEL->endNode(); ;
+#line 403 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
+    break;}
+case 92:
+#line 404 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginEventOutDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); ;
+    break;}
+case 93:
+#line 405 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endEventDecl(); ;
+    break;}
+case 95:
+#line 409 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->is(yyvsp[0].stringVal); ;
     break;}
 case 96:
-#line 605 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                          SKELTEXT); ;
+#line 413 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->_tmpString1 = SKEL->getLexer()->YYText(); ;
     break;}
 case 97:
-#line 607 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                                     SKEL->beginEventInDecl(
-                                                       szName1,
-                                                       nextType,
-                                                       SKELTEXT);
-
-                                                 freeName(szName1); ;
+#line 414 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), yyvsp[-2].intVal, yyvsp[0].stringVal); SKEL->getLexer()->expectType(yyvsp[-2].intVal); ;
     break;}
 case 98:
-#line 615 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                          SKELTEXT); ;
-    break;}
-case 99:
-#line 617 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                                                     SKEL->beginEventOutDecl(
-                                                       szName1,
-                                                       nextType,
-                                                       SKELTEXT);
-
-                                                  freeName(szName1); ;
+#line 415 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endFieldDecl(); ;
     break;}
 case 100:
-#line 627 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{
-                                          if(SKEL != NULL)
-                                          {
-                                             SKEL->is(SKELTEXT);
-                                             SKEL->endEventDecl();
-                                          }
-                                        ;
+#line 419 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->is(yyvsp[0].stringVal); ;
     break;}
 case 101:
-#line 635 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+#line 423 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
 {
-                                            if(SKEL != NULL)
-                                            {
-                                                SKEL->endEventDecl();
-                                            }
-                                        ;
+        Int32 iFieldTypeId = SKEL->getFieldType(yyvsp[0].stringVal);
+        if (SKEL->getMapFieldTypes() == true)
+            iFieldTypeId = SKEL->mapExtIntFieldType(yyvsp[0].stringVal, iFieldTypeId);
+        SKEL->getLexer()->expectType(iFieldTypeId);
+        SKEL->beginField(yyvsp[0].stringVal, iFieldTypeId);
+    ;
     break;}
 case 102:
-#line 644 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                         SKELTEXT);
-                                               ;
-    break;}
-case 103:
-#line 647 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ SKEL->expectType(nextType);
-
-                                                 if(SKEL != NULL)
-                                                     SKEL->beginFieldDecl(
-                                                       szName1,
-                                                       nextType,
-                                                       SKELTEXT);
-
-                                                 freeName(szName1);
-                                               ;
-    break;}
-case 104:
-#line 659 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-
-                                                     if(SKEL != NULL)
-                                                     {
-                                                       SKEL->is(SKELTEXT);
-
-                                                       SKEL->endFieldDecl();
-                                                     }
-                                                   ;
-    break;}
-case 105:
-#line 668 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-
-                                                     if(SKEL != NULL)
-                                                       SKEL->endFieldDecl();
-
-                                                   ;
-    break;}
-case 106:
-#line 677 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ setName(szName1,
-                                                            SKELTEXT);
-                                                  ;
-    break;}
-case 107:
-#line 680 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ SKEL->expectType(nextType);
-
-                                                    if(SKEL != NULL)
-                                                        SKEL->
-                                                         beginExposedFieldDecl(
-                                                           szName1,
-                                                           nextType,
-                                                           SKELTEXT);
-
-                                                    freeName(szName1);
-                                                  ;
+#line 430 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->endField(); ;
     break;}
 case 108:
-#line 693 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-
-                                                        if(SKEL != NULL)
-                                                        {
-                                                         SKEL->is(SKELTEXT);
-
-                                                         SKEL->
-                                                         endExposedFieldDecl();
-                                                        }
-                                                      ;
+#line 438 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->is(yyvsp[0].stringVal); ;
     break;}
-case 109:
-#line 703 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = 0;
-
-                                                        if(SKEL != NULL)
-                                                         SKEL->
-                                                         endExposedFieldDecl();
-                                                      ;
+case 220:
+#line 568 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.intVal = yyvsp[0].intVal; ;
     break;}
-case 114:
-#line 731 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                    {
-                     Int32 iFieldTypeId;
-
-                     iFieldTypeId = SKEL->getFieldType(SKELTEXT);
-
-                     if(SKEL->getMapFieldTypes() == true)
-                     {
-                      iFieldTypeId = SKEL->mapExtIntFieldType(
-                                        SKELTEXT,
-                                        iFieldTypeId);
-                     }
-
-                     SKEL->expectType(iFieldTypeId);
-
-                     SKEL->beginField(SKELTEXT,
-                                        iFieldTypeId);
-
-                    }
-                   ;
+case 221:
+#line 569 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.intVal = yyvsp[0].intVal; ;
     break;}
-case 118:
-#line 758 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                          {
-                            SKEL->is(SKELTEXT);
-                            SKEL->endField();
-                          }
-                        ;
+case 222:
+#line 572 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.doubleVal = yyvsp[0].intVal; ;
     break;}
-case 119:
-#line 764 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ if(SKEL != NULL)
-                            SKEL->endField();
-                        ;
+case 223:
+#line 573 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.doubleVal = yyvsp[0].doubleVal; ;
     break;}
-case 127:
-#line 792 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFBOOL;      ;
+case 224:
+#line 576 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.floatVal = static_cast<float>(yyvsp[0].intVal); ;
     break;}
-case 128:
-#line 793 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFCOLOR;     ;
+case 225:
+#line 577 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ yyval.floatVal = static_cast<float>(yyvsp[0].doubleVal); ;
     break;}
-case 129:
-#line 794 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFCOLORRGBA; ;
+case 226:
+#line 581 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addBoolValue(yyvsp[0].boolVal);
+    ;
     break;}
-case 130:
-#line 795 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFDOUBLE;    ;
+case 227:
+#line 584 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->addFieldValue(yyvsp[0].stringVal); ;
     break;}
-case 131:
-#line 796 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFFLOAT;     ;
+case 228:
+#line 587 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
     break;}
-case 132:
-#line 797 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFIMAGE;     ;
+case 229:
+#line 588 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
     break;}
-case 133:
-#line 798 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFINT32;     ;
+case 230:
+#line 590 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addColorValue(Color3f(yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
     break;}
-case 134:
-#line 799 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFMATRIX3D;  ;
+case 231:
+#line 596 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
     break;}
-case 135:
-#line 800 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFMATRIX3F;  ;
+case 232:
+#line 597 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
     break;}
-case 136:
-#line 801 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFMATRIX4D;  ;
-    break;}
-case 137:
-#line 802 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFMATRIX4F;  ;
-    break;}
-case 138:
-#line 803 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFNODE;      ;
-    break;}
-case 139:
-#line 804 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFROTATION;  ;
-    break;}
-case 140:
-#line 805 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFSTRING;    ;
-    break;}
-case 141:
-#line 806 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFTIME;      ;
-    break;}
-case 142:
-#line 807 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC2D;     ;
-    break;}
-case 143:
-#line 808 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC2F;     ;
-    break;}
-case 144:
-#line 809 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC3D;     ;
-    break;}
-case 145:
-#line 810 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC3F;     ;
-    break;}
-case 146:
-#line 811 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC4D;     ;
-    break;}
-case 147:
-#line 812 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFVEC4F;     ;
-    break;}
-case 148:
-#line 813 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFBOOL;      ;
-    break;}
-case 149:
-#line 814 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFCOLOR;     ;
-    break;}
-case 150:
-#line 815 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFCOLORRGBA; ;
-    break;}
-case 151:
-#line 816 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFDOUBLE;    ;
-    break;}
-case 152:
-#line 817 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFFLOAT;     ;
-    break;}
-case 153:
-#line 818 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFIMAGE;     ;
-    break;}
-case 154:
-#line 819 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFINT32;     ;
-    break;}
-case 155:
-#line 820 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFMATRIX3D;  ;
-    break;}
-case 156:
-#line 821 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFMATRIX3F;  ;
-    break;}
-case 157:
-#line 822 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFMATRIX4D;  ;
-    break;}
-case 158:
-#line 823 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFMATRIX4F;  ;
-    break;}
-case 159:
-#line 824 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFNODE;      ;
-    break;}
-case 160:
-#line 825 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFROTATION;  ;
-    break;}
-case 161:
-#line 826 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFSTRING;    ;
-    break;}
-case 162:
-#line 827 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFTIME;      ;
-    break;}
-case 163:
-#line 828 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC2D;     ;
-    break;}
-case 164:
-#line 829 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC2F;     ;
-    break;}
-case 165:
-#line 830 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC3D;     ;
-    break;}
-case 166:
-#line 831 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC3F;     ;
-    break;}
-case 167:
-#line 832 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC4D;     ;
-    break;}
-case 168:
-#line 833 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVEC4F;     ;
-    break;}
-case 169:
-#line 834 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFCOLOR4I;   ;
-    break;}
-case 170:
-#line 835 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFPNT2F;     ;
-    break;}
-case 171:
-#line 836 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFPNT3F;     ;
-    break;}
-case 172:
-#line 837 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFPNT4F;     ;
-    break;}
-case 173:
-#line 838 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_MFPLANE;     ;
-    break;}
-case 174:
-#line 839 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFCOLOR4I;   ;
-    break;}
-case 175:
-#line 840 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFPNT2F;     ;
-    break;}
-case 176:
-#line 841 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFPNT3F;     ;
-    break;}
-case 177:
-#line 842 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFPNT4F;     ;
-    break;}
-case 178:
-#line 843 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFPLANE;     ;
-    break;}
-case 179:
-#line 844 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
-{ nextType = TOK_SFVOLUME;    ;
+case 233:
+#line 598 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
     break;}
 case 234:
-#line 906 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+#line 600 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
 {
-                  if(SKEL != NULL)
-                  {
-                      SKEL->is(SKELTEXT);
-                  }
-              ;
+        SKEL->appendValue();
+        SKEL->addColorRGBAValue(Color4f(yyvsp[-6].floatVal, yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 235:
+#line 607 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addDoubleValue(yyvsp[0].doubleVal);
+    ;
+    break;}
+case 236:
+#line 613 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addFloatValue(yyvsp[0].floatVal);
+    ;
     break;}
 case 237:
-#line 917 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+#line 618 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 238:
+#line 619 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 239:
+#line 621 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
 {
-                  if(SKEL != NULL)
-                  {
-                      SKEL->is(SKELTEXT);
-                  }
-              ;
+        SKEL->appendValue();
+        SKEL->beginImage(yyvsp[-4].intVal, yyvsp[-2].intVal, yyvsp[0].intVal);
+    ;
+    break;}
+case 240:
+#line 626 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->endImage();
+    ;
+    break;}
+case 241:
+#line 632 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addImagePixel(yyvsp[0].intVal);
+    ;
+    break;}
+case 243:
+#line 639 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addInt32Value(yyvsp[0].intVal);
+    ;
+    break;}
+case 244:
+#line 644 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 245:
+#line 645 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 246:
+#line 646 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 247:
+#line 647 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 248:
+#line 648 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 249:
+#line 649 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 250:
+#line 650 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 251:
+#line 651 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 252:
+#line 653 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addMatrix3dValue(
+             yyvsp[-16].doubleVal,  yyvsp[-14].doubleVal,  yyvsp[-12].doubleVal,
+             yyvsp[-10].doubleVal,  yyvsp[-8].doubleVal, yyvsp[-6].doubleVal,
+            yyvsp[-4].doubleVal, yyvsp[-2].doubleVal, yyvsp[0].doubleVal);
+    ;
+    break;}
+case 253:
+#line 662 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 254:
+#line 663 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 255:
+#line 664 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 256:
+#line 665 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 257:
+#line 666 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 258:
+#line 667 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 259:
+#line 668 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 260:
+#line 669 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 261:
+#line 671 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addMatrix3fValue(
+             yyvsp[-16].floatVal,  yyvsp[-14].floatVal,  yyvsp[-12].floatVal,
+             yyvsp[-10].floatVal,  yyvsp[-8].floatVal, yyvsp[-6].floatVal,
+            yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal);
+    ;
+    break;}
+case 262:
+#line 680 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 263:
+#line 681 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 264:
+#line 682 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 265:
+#line 683 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 266:
+#line 684 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 267:
+#line 685 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 268:
+#line 686 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 269:
+#line 687 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 270:
+#line 688 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 271:
+#line 689 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 272:
+#line 690 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 273:
+#line 691 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 274:
+#line 692 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 275:
+#line 693 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 276:
+#line 694 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 277:
+#line 696 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addMatrix4dValue(Matrix4d(
+             yyvsp[-30].doubleVal,  yyvsp[-28].doubleVal,  yyvsp[-26].doubleVal,  yyvsp[-24].doubleVal,
+             yyvsp[-22].doubleVal, yyvsp[-20].doubleVal, yyvsp[-18].doubleVal, yyvsp[-16].doubleVal,
+            yyvsp[-14].doubleVal, yyvsp[-12].doubleVal, yyvsp[-10].doubleVal, yyvsp[-8].doubleVal,
+            yyvsp[-6].doubleVal, yyvsp[-4].doubleVal, yyvsp[-2].doubleVal, yyvsp[0].doubleVal));
+    ;
+    break;}
+case 278:
+#line 706 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 279:
+#line 707 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 280:
+#line 708 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 281:
+#line 709 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 282:
+#line 710 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 283:
+#line 711 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 284:
+#line 712 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 285:
+#line 713 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 286:
+#line 714 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 287:
+#line 715 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 288:
+#line 716 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 289:
+#line 717 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 290:
+#line 718 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 291:
+#line 719 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 292:
+#line 720 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 293:
+#line 722 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addMatrix4fValue(Matrix4f(
+             yyvsp[-30].floatVal,  yyvsp[-28].floatVal,  yyvsp[-26].floatVal,  yyvsp[-24].floatVal,
+             yyvsp[-22].floatVal, yyvsp[-20].floatVal, yyvsp[-18].floatVal, yyvsp[-16].floatVal,
+            yyvsp[-14].floatVal, yyvsp[-12].floatVal, yyvsp[-10].floatVal, yyvsp[-8].floatVal,
+            yyvsp[-6].floatVal, yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 296:
+#line 736 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 297:
+#line 737 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 298:
+#line 738 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 299:
+#line 740 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addRotationValue(Vec3f(yyvsp[-6].floatVal, yyvsp[-4].floatVal, yyvsp[-2].floatVal), yyvsp[0].floatVal);
+    ;
+    break;}
+case 300:
+#line 747 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addStringValue(yyvsp[0].stringVal);
+    ;
+    break;}
+case 301:
+#line 751 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ /* Not VRML conformant */
+        SKEL->addStringValue(yyvsp[0].stringVal);
+    ;
+    break;}
+case 302:
+#line 757 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->addTimeValue(yyvsp[0].doubleVal);
+    ;
+    break;}
+case 303:
+#line 762 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 304:
+#line 764 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec2dValue(Vec2d(yyvsp[-2].doubleVal, yyvsp[0].doubleVal));
+    ;
+    break;}
+case 305:
+#line 770 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 306:
+#line 772 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec2fValue(Vec2f(yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 307:
+#line 778 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 308:
+#line 779 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 309:
+#line 780 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 310:
+#line 781 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec3dValue(Vec3d(yyvsp[-5].doubleVal, yyvsp[-3].doubleVal, yyvsp[-1].doubleVal));
+    ;
+    break;}
+case 311:
+#line 787 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 312:
+#line 788 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 313:
+#line 789 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 314:
+#line 790 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec3fValue(Vec3f(yyvsp[-5].floatVal, yyvsp[-3].floatVal, yyvsp[-1].floatVal));
+    ;
+    break;}
+case 315:
+#line 796 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 316:
+#line 797 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 317:
+#line 798 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 318:
+#line 799 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 319:
+#line 800 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec4dValue(Vec4d(yyvsp[-7].doubleVal, yyvsp[-5].doubleVal, yyvsp[-3].doubleVal, yyvsp[-1].doubleVal));
+    ;
+    break;}
+case 320:
+#line 806 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 321:
+#line 807 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 322:
+#line 808 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 323:
+#line 809 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 324:
+#line 810 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addVec4fValue(Vec4f(yyvsp[-7].floatVal, yyvsp[-5].floatVal, yyvsp[-3].floatVal, yyvsp[-1].floatVal));
+    ;
+    break;}
+case 409:
+#line 986 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 410:
+#line 987 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 411:
+#line 988 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 412:
+#line 990 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addColor4iValue(Color4ub(static_cast<UInt8>(yyvsp[-6].intVal), static_cast<UInt8>(yyvsp[-4].intVal),
+                                       static_cast<UInt8>(yyvsp[-2].intVal), static_cast<UInt8>(yyvsp[0].intVal)));
+    ;
+    break;}
+case 413:
+#line 997 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 414:
+#line 999 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addPnt2fValue(Pnt2f(yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 415:
+#line 1005 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 416:
+#line 1006 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 417:
+#line 1008 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addPnt3fValue(Pnt3f(yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 418:
+#line 1014 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 419:
+#line 1015 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 420:
+#line 1016 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 421:
+#line 1018 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addPnt4fValue(Pnt4f(yyvsp[-6].floatVal, yyvsp[-4].floatVal, yyvsp[-2].floatVal, yyvsp[0].floatVal));
+    ;
+    break;}
+case 422:
+#line 1024 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 423:
+#line 1025 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 424:
+#line 1026 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 425:
+#line 1028 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->addPlaneValue(Plane(Vec3f(yyvsp[-6].floatVal, yyvsp[-4].floatVal, yyvsp[-2].floatVal), yyvsp[0].floatVal));
+    ;
+    break;}
+case 426:
+#line 1034 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->beginValue(); ;
+    break;}
+case 427:
+#line 1035 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 428:
+#line 1036 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 429:
+#line 1038 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        SKEL->_tmpFloat1 = yyvsp[-6].floatVal; SKEL->_tmpFloat2 = yyvsp[-4].floatVal;
+        SKEL->_tmpFloat3 = yyvsp[-2].floatVal; SKEL->_tmpFloat4 = yyvsp[0].floatVal;
+    ;
+    break;}
+case 431:
+#line 1046 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{ SKEL->appendValue(); ;
+    break;}
+case 432:
+#line 1048 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        SKEL->appendValue();
+        DynamicVolume dv(DynamicVolume::BOX_VOLUME);
+        BoxVolume &bv = dynamic_cast<BoxVolume&>(dv.getInstance());
+        bv.setBounds(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3, SKEL->_tmpFloat4, yyvsp[-2].floatVal, yyvsp[0].floatVal);
+        SKEL->addVolumeValue(dv);
+    ;
+    break;}
+case 433:
+#line 1056 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+{
+        DynamicVolume dv(DynamicVolume::SPHERE_VOLUME);
+        SphereVolume &sv = dynamic_cast<SphereVolume&>(dv.getInstance());
+        sv.setValue(Pnt3f(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3), SKEL->_tmpFloat4);
+        SKEL->addVolumeValue(dv);
+    ;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
@@ -2196,22 +2626,10 @@ yyerrhandle:
     }
   return 1;
 }
-#line 935 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
+#line 1103 "../../../source/system/fileio/scanparseskel/osgscanparseskel.y"
 
 
-void setName (char *&szName, const char *szVal)
+int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *pSkel)
 {
-    stringDup(szVal, szName);
-}
-
-void freeName(char *&szName)
-{
-    delete [] szName;
-
-    szName = NULL;
-}
-
-int OSGScanParseSkel_lex(YYSTYPE *, void *pSkel)
-{
-    return SKEL->lex();
+    return SKEL->lex(lvalp);
 }
