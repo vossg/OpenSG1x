@@ -38,14 +38,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib wsock32.lib opengl32.lib glu32.lib"
-				OutputFile="..\lib\dbg\OSGBase.dll"
+				OutputFile="..\lib\dbg\OSGBaseD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGBase.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGBaseD.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGBase.map"
-				ImportLibrary=".\..\lib\dbg/OSGBase.lib"/>
+				MapFileName=".\Debug/OSGBaseD.map"
+				ImportLibrary=".\..\lib\dbg/OSGBaseD.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -2112,7 +2112,7 @@
 "
 							Outputs="../include/OpenSG/OSGBarrier.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2135,7 +2135,7 @@
 "
 							Outputs="../include/OpenSG/OSGBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2158,7 +2158,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseFunctions.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2181,7 +2181,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseThread.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2204,7 +2204,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseTypeTraits.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2227,7 +2227,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2250,7 +2250,7 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryDataHandler.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2273,7 +2273,7 @@
 "
 							Outputs="../include/OpenSG/OSGBoxVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2296,7 +2296,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2319,7 +2319,7 @@
 "
 							Outputs="../include/OpenSG/OSGConceptPropertyChecks.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2342,7 +2342,7 @@
 "
 							Outputs="../include/OpenSG/OSGConfig.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2365,7 +2365,7 @@
 "
 							Outputs="../include/OpenSG/OSGCylinderVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2388,7 +2388,7 @@
 "
 							Outputs="../include/OpenSG/OSGDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2411,7 +2411,7 @@
 "
 							Outputs="../include/OpenSG/OSGDate.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2434,7 +2434,7 @@
 "
 							Outputs="../include/OpenSG/OSGDynamicVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2457,7 +2457,7 @@
 "
 							Outputs="../include/OpenSG/OSGException.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2480,7 +2480,7 @@
 "
 							Outputs="../include/OpenSG/OSGExportDefines.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2503,7 +2503,7 @@
 "
 							Outputs="../include/OpenSG/OSGFileSystem.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2526,7 +2526,7 @@
 "
 							Outputs="../include/OpenSG/OSGFrustumVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2549,7 +2549,7 @@
 "
 							Outputs="../include/OpenSG/OSGGL.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2572,7 +2572,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLEXT.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2595,7 +2595,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLU.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2618,7 +2618,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUT.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2641,7 +2641,7 @@
 "
 							Outputs="../include/OpenSG/OSGIDString.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2664,7 +2664,7 @@
 "
 							Outputs="../include/OpenSG/OSGIDStringLink.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2687,7 +2687,7 @@
 "
 							Outputs="../include/OpenSG/OSGLine.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2710,7 +2710,7 @@
 "
 							Outputs="../include/OpenSG/OSGLinearTransform.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2733,7 +2733,7 @@
 "
 							Outputs="../include/OpenSG/OSGLock.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2756,7 +2756,7 @@
 "
 							Outputs="../include/OpenSG/OSGLog.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2779,7 +2779,7 @@
 "
 							Outputs="../include/OpenSG/OSGMPBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2802,7 +2802,7 @@
 "
 							Outputs="../include/OpenSG/OSGMatrix.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2825,7 +2825,7 @@
 "
 							Outputs="../include/OpenSG/OSGMatrixUtility.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2848,7 +2848,7 @@
 "
 							Outputs="../include/OpenSG/OSGMemoryObject.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2871,7 +2871,7 @@
 "
 							Outputs="../include/OpenSG/OSGNormalQuantifier.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2894,7 +2894,7 @@
 "
 							Outputs="../include/OpenSG/OSGPathHandler.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2917,7 +2917,7 @@
 "
 							Outputs="../include/OpenSG/OSGPlane.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2940,7 +2940,7 @@
 "
 							Outputs="../include/OpenSG/OSGPolytopeVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2963,7 +2963,7 @@
 "
 							Outputs="../include/OpenSG/OSGQuaternion.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -2986,7 +2986,7 @@
 "
 							Outputs="../include/OpenSG/OSGReal16.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3009,7 +3009,7 @@
 "
 							Outputs="../include/OpenSG/OSGSharedLibrary.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3032,7 +3032,7 @@
 "
 							Outputs="../include/OpenSG/OSGSharedObjectHandler.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3055,7 +3055,7 @@
 "
 							Outputs="../include/OpenSG/OSGSphereVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3078,7 +3078,7 @@
 "
 							Outputs="../include/OpenSG/OSGThreadManager.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3101,7 +3101,7 @@
 "
 							Outputs="../include/OpenSG/OSGTime.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3124,7 +3124,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypeBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3147,7 +3147,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypeFactory.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3170,7 +3170,7 @@
 "
 							Outputs="../include/OpenSG/OSGVector.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3193,7 +3193,7 @@
 "
 							Outputs="../include/OpenSG/OSGVolume.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3216,7 +3216,7 @@
 "
 							Outputs="../include/OpenSG/OSGVolumeFunctions.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3239,7 +3239,7 @@
 "
 							Outputs="../include/OpenSG/OSGBarrier.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3262,7 +3262,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseFunctions.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3285,7 +3285,7 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryDataHandler.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3308,7 +3308,7 @@
 "
 							Outputs="../include/OpenSG/OSGBoxVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3331,7 +3331,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3354,7 +3354,7 @@
 "
 							Outputs="../include/OpenSG/OSGCylinderVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3377,7 +3377,7 @@
 "
 							Outputs="../include/OpenSG/OSGDate.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3400,7 +3400,7 @@
 "
 							Outputs="../include/OpenSG/OSGDynamicVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3423,7 +3423,7 @@
 "
 							Outputs="../include/OpenSG/OSGFileSystem.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3446,7 +3446,7 @@
 "
 							Outputs="../include/OpenSG/OSGFrustumVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3469,7 +3469,7 @@
 "
 							Outputs="../include/OpenSG/OSGIDString.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3492,7 +3492,7 @@
 "
 							Outputs="../include/OpenSG/OSGIDStringLink.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3515,7 +3515,7 @@
 "
 							Outputs="../include/OpenSG/OSGLine.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3538,7 +3538,7 @@
 "
 							Outputs="../include/OpenSG/OSGLinearTransform.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3561,7 +3561,7 @@
 "
 							Outputs="../include/OpenSG/OSGLog.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3584,7 +3584,7 @@
 "
 							Outputs="../include/OpenSG/OSGMatrix.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3607,7 +3607,7 @@
 "
 							Outputs="../include/OpenSG/OSGNormalQuantifier.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3630,7 +3630,7 @@
 "
 							Outputs="../include/OpenSG/OSGPlane.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3653,7 +3653,7 @@
 "
 							Outputs="../include/OpenSG/OSGPolytopeVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3676,7 +3676,7 @@
 "
 							Outputs="../include/OpenSG/OSGQuaternion.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3699,7 +3699,7 @@
 "
 							Outputs="../include/OpenSG/OSGSphereVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3722,7 +3722,7 @@
 "
 							Outputs="../include/OpenSG/OSGThreadManager.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3745,7 +3745,7 @@
 "
 							Outputs="../include/OpenSG/OSGTime.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3768,7 +3768,7 @@
 "
 							Outputs="../include/OpenSG/OSGVector.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3791,7 +3791,7 @@
 "
 							Outputs="../include/OpenSG/OSGVolume.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3814,7 +3814,7 @@
 "
 							Outputs="../include/OpenSG/OSGVolumeFunctions.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3837,7 +3837,7 @@
 "
 							Outputs="../include/OpenSG/OSGBaseFieldDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3860,7 +3860,7 @@
 "
 							Outputs="../include/OpenSG/OSGBoolFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3883,7 +3883,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor3fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3906,7 +3906,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor3ubFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3929,7 +3929,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor4fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3952,7 +3952,7 @@
 "
 							Outputs="../include/OpenSG/OSGColor4ubFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3975,7 +3975,7 @@
 "
 							Outputs="../include/OpenSG/OSGDynamicVolumeFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -3998,7 +3998,7 @@
 "
 							Outputs="../include/OpenSG/OSGField.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4021,7 +4021,7 @@
 "
 							Outputs="../include/OpenSG/OSGFieldDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4044,7 +4044,7 @@
 "
 							Outputs="../include/OpenSG/OSGFieldFactory.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4067,7 +4067,7 @@
 "
 							Outputs="../include/OpenSG/OSGFieldType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4090,7 +4090,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLenumFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4113,7 +4113,7 @@
 "
 							Outputs="../include/OpenSG/OSGInt16Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4136,7 +4136,7 @@
 "
 							Outputs="../include/OpenSG/OSGInt32Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4159,7 +4159,7 @@
 "
 							Outputs="../include/OpenSG/OSGInt64Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4182,7 +4182,7 @@
 "
 							Outputs="../include/OpenSG/OSGInt8Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4205,7 +4205,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFBaseTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4228,7 +4228,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFMathTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4251,7 +4251,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFSysTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4274,7 +4274,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFVecTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4297,7 +4297,7 @@
 "
 							Outputs="../include/OpenSG/OSGMField.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4320,7 +4320,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldVector.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4343,7 +4343,7 @@
 "
 							Outputs="../include/OpenSG/OSGMathFieldDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4366,7 +4366,7 @@
 "
 							Outputs="../include/OpenSG/OSGMatrixFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4389,7 +4389,7 @@
 "
 							Outputs="../include/OpenSG/OSGPlaneFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4412,7 +4412,7 @@
 "
 							Outputs="../include/OpenSG/OSGPnt2fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4435,7 +4435,7 @@
 "
 							Outputs="../include/OpenSG/OSGPnt3fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4458,7 +4458,7 @@
 "
 							Outputs="../include/OpenSG/OSGPnt4fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4481,7 +4481,7 @@
 "
 							Outputs="../include/OpenSG/OSGQuaternionFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4504,7 +4504,7 @@
 "
 							Outputs="../include/OpenSG/OSGReal32Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4527,7 +4527,7 @@
 "
 							Outputs="../include/OpenSG/OSGReal64Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4550,7 +4550,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFBaseTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4573,7 +4573,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFMathTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4596,7 +4596,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFSysTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4619,7 +4619,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFVecTypes.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4642,7 +4642,7 @@
 "
 							Outputs="../include/OpenSG/OSGSField.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4665,7 +4665,7 @@
 "
 							Outputs="../include/OpenSG/OSGStringFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4688,7 +4688,7 @@
 "
 							Outputs="../include/OpenSG/OSGSysFieldDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4711,7 +4711,7 @@
 "
 							Outputs="../include/OpenSG/OSGTimeFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4734,7 +4734,7 @@
 "
 							Outputs="../include/OpenSG/OSGUInt16Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4757,7 +4757,7 @@
 "
 							Outputs="../include/OpenSG/OSGUInt32Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4780,7 +4780,7 @@
 "
 							Outputs="../include/OpenSG/OSGUInt64Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4803,7 +4803,7 @@
 "
 							Outputs="../include/OpenSG/OSGUInt8Fields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4826,7 +4826,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec2fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4849,7 +4849,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec2sFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4872,7 +4872,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec2usFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4895,7 +4895,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec3fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4918,7 +4918,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec3sFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4941,7 +4941,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec4fFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4964,7 +4964,7 @@
 "
 							Outputs="../include/OpenSG/OSGVec4ubFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -4987,7 +4987,7 @@
 "
 							Outputs="../include/OpenSG/OSGVecFieldDataType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5010,7 +5010,7 @@
 "
 							Outputs="../include/OpenSG/OSGMField.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5033,7 +5033,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldTypeDef.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5056,7 +5056,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldTypeScanTypeDef.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5079,7 +5079,7 @@
 "
 							Outputs="../include/OpenSG/OSGMFieldVector.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5102,7 +5102,7 @@
 "
 							Outputs="../include/OpenSG/OSGSField.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5125,7 +5125,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFieldTypeDef.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5148,7 +5148,7 @@
 "
 							Outputs="../include/OpenSG/OSGSFieldTypeScanTypeDef.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5171,7 +5171,7 @@
 "
 							Outputs="../include/OpenSG/OSGFunctorBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5194,7 +5194,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctorBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5217,7 +5217,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5240,7 +5240,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors1.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5263,7 +5263,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors2.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5286,7 +5286,7 @@
 "
 							Outputs="../include/OpenSG/OSGFunctorBase.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5309,7 +5309,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctorBase.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5332,7 +5332,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5355,7 +5355,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors1.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5378,7 +5378,7 @@
 "
 							Outputs="../include/OpenSG/OSGTypedFunctors2.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5401,7 +5401,7 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryMessage.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5424,7 +5424,7 @@
 "
 							Outputs="../include/OpenSG/OSGConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5447,7 +5447,7 @@
 "
 							Outputs="../include/OpenSG/OSGConnectionFactory.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5470,7 +5470,7 @@
 "
 							Outputs="../include/OpenSG/OSGConnectionType.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5493,7 +5493,7 @@
 "
 							Outputs="../include/OpenSG/OSGGroupConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5516,7 +5516,7 @@
 "
 							Outputs="../include/OpenSG/OSGNetworkMessage.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5539,7 +5539,7 @@
 "
 							Outputs="../include/OpenSG/OSGPointConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5562,7 +5562,7 @@
 "
 							Outputs="../include/OpenSG/OSGBinaryMessage.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5585,7 +5585,7 @@
 "
 							Outputs="../include/OpenSG/OSGConnection.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5608,7 +5608,7 @@
 "
 							Outputs="../include/OpenSG/OSGDgram.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5631,7 +5631,7 @@
 "
 							Outputs="../include/OpenSG/OSGDgramQueue.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5654,7 +5654,7 @@
 "
 							Outputs="../include/OpenSG/OSGDgramSocket.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5677,7 +5677,7 @@
 "
 							Outputs="../include/OpenSG/OSGGroupMCastConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5700,7 +5700,7 @@
 "
 							Outputs="../include/OpenSG/OSGGroupSockConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5723,7 +5723,7 @@
 "
 							Outputs="../include/OpenSG/OSGGroupSockPipeline.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5746,7 +5746,7 @@
 "
 							Outputs="../include/OpenSG/OSGPointMCastConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5769,7 +5769,7 @@
 "
 							Outputs="../include/OpenSG/OSGPointSockConnection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5792,7 +5792,7 @@
 "
 							Outputs="../include/OpenSG/OSGPointSockPipeline.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5815,7 +5815,7 @@
 "
 							Outputs="../include/OpenSG/OSGSocket.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5838,7 +5838,7 @@
 "
 							Outputs="../include/OpenSG/OSGSocketAddress.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5861,7 +5861,7 @@
 "
 							Outputs="../include/OpenSG/OSGSocketException.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5884,7 +5884,7 @@
 "
 							Outputs="../include/OpenSG/OSGSocketSelection.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5907,7 +5907,7 @@
 "
 							Outputs="../include/OpenSG/OSGStreamSocket.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5930,7 +5930,7 @@
 "
 							Outputs="../include/OpenSG/OSGDgram.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5953,7 +5953,7 @@
 "
 							Outputs="../include/OpenSG/OSGIndenter.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5976,7 +5976,7 @@
 "
 							Outputs="../include/OpenSG/OSGStandardStringConversionState.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -5999,7 +5999,7 @@
 "
 							Outputs="../include/OpenSG/OSGStringConversionStateBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6022,7 +6022,7 @@
 "
 							Outputs="../include/OpenSG/OSGStringTokenizer.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6045,7 +6045,7 @@
 "
 							Outputs="../include/OpenSG/OSGIndenter.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6068,7 +6068,7 @@
 "
 							Outputs="../include/OpenSG/OSGStandardStringConversionState.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6091,7 +6091,7 @@
 "
 							Outputs="../include/OpenSG/OSGStringConversionStateBase.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6114,7 +6114,7 @@
 "
 							Outputs="../include/OpenSG/OSGStringTokenizer.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6137,7 +6137,7 @@
 "
 							Outputs="../include/OpenSG/OSGShared_ptr.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6160,7 +6160,7 @@
 "
 							Outputs="../include/OpenSG/OSGXmlconfig.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6183,7 +6183,7 @@
 "
 							Outputs="../include/OpenSG/OSGXmlparser.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6206,7 +6206,7 @@
 "
 							Outputs="../include/OpenSG/OSGXmlpp.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -6229,7 +6229,7 @@
 "
 							Outputs="../include/OpenSG/OSGXmltokenizer.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"

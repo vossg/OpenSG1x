@@ -38,14 +38,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowWIN32.dll"
+				OutputFile="..\lib\dbg\OSGWindowWIN32D.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32D.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowWIN32.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32.lib"/>
+				MapFileName=".\Debug/OSGWindowWIN32D.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32D.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -269,7 +269,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32Window.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -292,7 +292,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -315,7 +315,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32WindowDataFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -338,7 +338,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32WindowFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -361,7 +361,7 @@
 "
 							Outputs="../include/OpenSG/OSGWindowWIN32Def.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -384,7 +384,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32Window.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -407,7 +407,7 @@
 "
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"

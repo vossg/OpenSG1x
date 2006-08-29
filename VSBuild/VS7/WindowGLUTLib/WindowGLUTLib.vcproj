@@ -38,14 +38,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowGLUT.dll"
+				OutputFile="..\lib\dbg\OSGWindowGLUTD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUT.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUTD.pdb"
 				GenerateMapFile="TRUE"
-				MapFileName=".\Debug/OSGWindowGLUT.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowGLUT.lib"/>
+				MapFileName=".\Debug/OSGWindowGLUTD.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowGLUTD.lib"/>
 			<Tool
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
@@ -246,7 +246,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUTWindow.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -269,7 +269,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -292,7 +292,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUTWindowFields.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -315,7 +315,7 @@
 "
 							Outputs="../include/OpenSG/OSGWindowGLUTDef.h"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -338,7 +338,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUTWindow.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
@@ -361,7 +361,7 @@
 "
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.inl"/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"

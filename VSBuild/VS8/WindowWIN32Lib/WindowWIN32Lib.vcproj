@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="WindowWIN32Lib"
 	ProjectGUID="{CDB745CF-D57A-4E72-ADDD-03B85480F354}"
+	RootNamespace="WindowWIN32Lib"
 	>
 	<Platforms>
 		<Platform
@@ -72,14 +73,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowWIN32.dll"
+				OutputFile="..\lib\dbg\OSGWindowWIN32D.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowWIN32D.pdb"
 				GenerateMapFile="true"
-				MapFileName=".\Debug/OSGWindowWIN32.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32.lib"
+				MapFileName=".\Debug/OSGWindowWIN32D.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowWIN32D.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -357,7 +358,7 @@
 							Outputs="../include/OpenSG/OSGWIN32Window.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -383,7 +384,7 @@
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -409,7 +410,7 @@
 							Outputs="../include/OpenSG/OSGWIN32WindowDataFields.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -435,7 +436,7 @@
 							Outputs="../include/OpenSG/OSGWIN32WindowFields.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -461,7 +462,7 @@
 							Outputs="../include/OpenSG/OSGWindowWIN32Def.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -487,7 +488,7 @@
 							Outputs="../include/OpenSG/OSGWIN32Window.inl"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -513,7 +514,7 @@
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.inl"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool

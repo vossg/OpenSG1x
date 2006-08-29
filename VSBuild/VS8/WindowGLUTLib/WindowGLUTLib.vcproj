@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="8,00"
 	Name="WindowGLUTLib"
 	ProjectGUID="{21D147FC-EEFD-4021-A717-BFB6A1551F2A}"
+	RootNamespace="WindowGLUTLib"
 	>
 	<Platforms>
 		<Platform
@@ -72,14 +73,14 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="MSVCPRTD.lib MSVCRTD.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
-				OutputFile="..\lib\dbg\OSGWindowGLUT.dll"
+				OutputFile="..\lib\dbg\OSGWindowGLUTD.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUT.pdb"
+				ProgramDatabaseFile=".\..\lib\dbg/OSGWindowGLUTD.pdb"
 				GenerateMapFile="true"
-				MapFileName=".\Debug/OSGWindowGLUT.map"
-				ImportLibrary=".\..\lib\dbg/OSGWindowGLUT.lib"
+				MapFileName=".\Debug/OSGWindowGLUTD.map"
+				ImportLibrary=".\..\lib\dbg/OSGWindowGLUTD.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -328,7 +329,7 @@
 							Outputs="../include/OpenSG/OSGGLUTWindow.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -354,7 +355,7 @@
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -380,7 +381,7 @@
 							Outputs="../include/OpenSG/OSGGLUTWindowFields.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -406,7 +407,7 @@
 							Outputs="../include/OpenSG/OSGWindowGLUTDef.h"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -432,7 +433,7 @@
 							Outputs="../include/OpenSG/OSGGLUTWindow.inl"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -458,7 +459,7 @@
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.inl"
 						/>
 					</FileConfiguration>
-<FileConfiguration
+					<FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
