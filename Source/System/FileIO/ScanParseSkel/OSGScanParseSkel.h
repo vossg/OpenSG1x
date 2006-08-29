@@ -56,14 +56,14 @@
 #ifndef TOK_HEADER
 #include "OSGScanParseSkel.tab.h"
 #endif
-#include "OSGScanParseLexer.h"
+
 #include <string>
 
 #ifdef OSG_FLEX_USE_IOSTREAM_INPUT
 #include <iosfwd>
 #endif
 
-//class OSGScanParseLexer;
+class OSGScanParseLexer;
 int OSGScanParseSkel_parse(void*);
 
 OSG_BEGIN_NAMESPACE
@@ -71,7 +71,7 @@ OSG_BEGIN_NAMESPACE
 //! Parser / Scanner Skeleton for VRML97 syntax based file formats
 //! \ingroup GrpSystemDrawablesGeometrymetryLoaderLib
 
-class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel: public OSGScanParseLexer
+class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 {
   friend int ::OSGScanParseSkel_parse(void*);
 
@@ -328,7 +328,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel: public OSGScanParseLexer
     virtual void componentElement (const Char8 *szComponentName);
 
     virtual void metaElement      (const Char8 *szMetaKey,
-										               const Char8 *szMetaValue);
+                                   const Char8 *szMetaValue);
 
     virtual void importElement    (const Char8 *szInlineName,
                                    const Char8 *szNodeName,
@@ -348,6 +348,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel: public OSGScanParseLexer
                                       const Int32  iFieldTypeId);
 
     virtual UInt32 getFieldType      (const Char8 *szFieldname);
+
+    OSGScanParseLexer *getLexer(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -379,16 +381,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel: public OSGScanParseLexer
     std::string _tmpString1, _tmpString2, _tmpString3;
     Real32 _tmpFloat1, _tmpFloat2, _tmpFloat3, _tmpFloat4;
 
-    inline void beginValue()
-    {
-        _tmpString1.assign(YYText(), YYLeng());
-    }
+    void beginValue();
 
-    inline void appendValue()
-    {
-        _tmpString1.push_back(' ');
-        _tmpString1.append(YYText(), YYLeng());
-    }
+    void appendValue();
 
     void beginImage(Int32 width, Int32 height, Int32 components);
 

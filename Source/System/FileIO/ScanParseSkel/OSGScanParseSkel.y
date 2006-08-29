@@ -55,6 +55,7 @@
 
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
+#include "OSGScanParseLexer.h"
 #include "OSGScanParseSkel.h"
 #include <iostream>
 
@@ -294,21 +295,21 @@ interfaceDeclarations:
 
 restrictedInterfaceDeclaration:
     TOK_eventIn
-    fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     eventInId { SKEL->beginEventInDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->endEventDecl(); }
     | TOK_eventOut
-      fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
+      fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       eventOutId { SKEL->beginEventOutDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->endEventDecl(); }
     | TOK_field
-      fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
-      fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->expectType($2); }
+      fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
+      fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
       fieldValue { SKEL->endFieldDecl(); };
 
 interfaceDeclaration:
     restrictedInterfaceDeclaration
     | TOK_exposedField
-      fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
-      fieldId { SKEL->beginExposedFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->expectType($2); }
+      fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
+      fieldId { SKEL->beginExposedFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
       fieldValue { SKEL->endExposedFieldDecl(); };
 
 externproto:
@@ -322,16 +323,16 @@ externInterfaceDeclarations:
 
 externInterfaceDeclaration:
     TOK_eventIn
-    fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     eventInId { SKEL->addExternEventInDecl(SKEL->_tmpString1.c_str(), $2, $4); }
     | TOK_eventOut
-      fieldType  { SKEL->_tmpString1 = SKEL->YYText(); }
+      fieldType  { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       eventOutId { SKEL->addExternEventOutDecl(SKEL->_tmpString1.c_str(), $2, $4); }
     | TOK_field
-      fieldType  { SKEL->_tmpString1 = SKEL->YYText(); }
+      fieldType  { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       fieldId { SKEL->addExternFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); }
     | TOK_exposedField
-      fieldType  { SKEL->_tmpString1 = SKEL->YYText(); }
+      fieldType  { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
       fieldId { SKEL->addExternExposedFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); };
 
 routeStatement:
@@ -393,13 +394,13 @@ scriptBodyElement:
 
 eventInDeclaration:
     TOK_eventIn
-    fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     eventInId { SKEL->beginEventInDecl(SKEL->_tmpString1.c_str(), $2, $4); }
     eventDeclarationEnd { SKEL->endEventDecl(); };
 
 eventOutDeclaration:
     TOK_eventOut
-    fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
     eventOutId { SKEL->beginEventOutDecl(SKEL->_tmpString1.c_str(), $2, $4); }
     eventDeclarationEnd { SKEL->endEventDecl(); };
 
@@ -409,8 +410,8 @@ eventDeclarationEnd:
 
 fieldDeclaration:
     TOK_field
-    fieldType { SKEL->_tmpString1 = SKEL->YYText(); }
-    fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->expectType($2); }
+    fieldType { SKEL->_tmpString1 = SKEL->getLexer()->YYText(); }
+    fieldId { SKEL->beginFieldDecl(SKEL->_tmpString1.c_str(), $2, $4); SKEL->getLexer()->expectType($2); }
     fieldDeclarationEnd { SKEL->endFieldDecl(); };
 
 fieldDeclarationEnd:
@@ -423,7 +424,7 @@ nodeBodyElement:
         Int32 iFieldTypeId = SKEL->getFieldType($1);
         if (SKEL->getMapFieldTypes() == true)
             iFieldTypeId = SKEL->mapExtIntFieldType($1, iFieldTypeId);
-        SKEL->expectType(iFieldTypeId);
+        SKEL->getLexer()->expectType(iFieldTypeId);
         SKEL->beginField($1, iFieldTypeId);
     }
     fieldEnd { SKEL->endField(); }

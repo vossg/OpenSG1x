@@ -52,6 +52,7 @@
 #include <fstream>
 #endif
 
+#include "OSGScanParseLexer.h"
 #include "OSGScanParseSkel.h"
 #include "OSGBaseFunctions.h"
 #include "OSGLog.h"
@@ -65,7 +66,7 @@ OSG_USING_NAMESPACE
 ScanParseSkel::ScanParseSkel(void) :
     _bMapTypeIds      (false ),
     _szReferenceHeader(NULL  ),
-    _pLexer           (this  ),
+    _pLexer           (new OSGScanParseLexer),
     _image            (NullFC),
     _imageDataPtr     (0     )
 {
@@ -77,7 +78,9 @@ ScanParseSkel::ScanParseSkel(void) :
 ScanParseSkel::~ScanParseSkel(void)
 {
     if (_image != NullFC)
-      subRefCP(_image);
+        subRefCP(_image);
+    if(_pLexer != NULL)
+        delete _pLexer;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -90,7 +93,7 @@ void ScanParseSkel::scanStream(std::istream &is)
 {
     if(is.good())
     {
-        switch_streams(&is, 0);
+        _pLexer->switch_streams(&is, 0);
         OSGScanParseSkel_parse(this);
     }
 }
@@ -130,20 +133,20 @@ void ScanParseSkel::scanFile(const Char8 *szFilename)
 
 Int32 ScanParseSkel::lex(YYSTYPE *lvalp)
 {
-    return yylex(lvalp);
+    return _pLexer->yylex(lvalp);
 }
 
 const Char8 *ScanParseSkel::getText(void)
 {
-    return YYText();
+    return _pLexer->YYText();
 }
 
 void ScanParseSkel::handleError(const Char8 *szErrorText)
 {
     FWARNING(("-----> %s in Line %d, read '%s'\n",
               szErrorText,
-              lineno(),
-              YYText()));
+              _pLexer->lineno(),
+              _pLexer->YYText()));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -345,7 +348,7 @@ void ScanParseSkel::addFieldValue(const Char8 *)
 
 void ScanParseSkel::addBoolValue(bool b)
 {
-    addFieldValue(YYText());
+    addFieldValue(_pLexer->YYText());
 }
 
 void ScanParseSkel::addColorValue(const Color3f &c)
@@ -360,12 +363,12 @@ void ScanParseSkel::addColorRGBAValue(const Color4f &c)
 
 void ScanParseSkel::addDoubleValue(Real64 d)
 {
-    addFieldValue(YYText());
+    addFieldValue(_pLexer->YYText());
 }
 
 void ScanParseSkel::addFloatValue(Real32 f)
 {
-    addFieldValue(YYText());
+    addFieldValue(_pLexer->YYText());
 }
 
 void ScanParseSkel::addImageValue(ImagePtr &img)
@@ -390,7 +393,7 @@ void ScanParseSkel::addImageValue(ImagePtr &img)
 
 void ScanParseSkel::addInt32Value(Int32 i)
 {
-    addFieldValue(YYText());
+    addFieldValue(_pLexer->YYText());
 }
 
 void ScanParseSkel::addMatrix3dValue(Real64 m00, Real64 m10, Real64 m20,
@@ -429,7 +432,7 @@ void ScanParseSkel::addStringValue(const std::string &s)
 
 void ScanParseSkel::addTimeValue(Time t)
 {
-    addFieldValue(YYText());
+    addFieldValue(_pLexer->YYText());
 }
 
 void ScanParseSkel::addVec2dValue(const Vec2d &v)
@@ -517,6 +520,11 @@ UInt32 ScanParseSkel::getFieldType(const Char8 *)
     return 0;
 }
 
+OSGScanParseLexer *ScanParseSkel::getLexer(void)
+{
+    return _pLexer;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                               Set                                       */
 
@@ -536,6 +544,17 @@ void ScanParseSkel::setReferenceHeader(const Char8 *szReferenceHeader)
 
 /*-------------------------------------------------------------------------*/
 
+void ScanParseSkel::beginValue()
+{
+    _tmpString1.assign(_pLexer->YYText(), _pLexer->YYLeng());
+}
+
+void ScanParseSkel::appendValue()
+{
+    _tmpString1.push_back(' ');
+    _tmpString1.append(_pLexer->YYText(), _pLexer->YYLeng());
+}
+
 void ScanParseSkel::beginImage(Int32 width, Int32 height, Int32 components)
 {
     if (_image == NullFC)
@@ -554,7 +573,7 @@ void ScanParseSkel::beginImage(Int32 width, Int32 height, Int32 components)
     }
     _image->set(pixelFormat, width, height);
     _imageDataPtr = _image->getData();
-    expectImageInts(width * height);
+    _pLexer->expectImageInts(width * height);
 }
 
 void ScanParseSkel::addImagePixel(Int32 pixel)

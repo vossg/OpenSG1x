@@ -630,13 +630,13 @@ endif
 ifneq ($(LIB_BISONTARGET_CPP),)
 
 $(OBJDIR)/%.tab.cpp: %.y
-	$(BISON) -d -v -p$(call bison_int,$<) -b$(call bison_int,$<) $<
+	$(BISON) -d -l -v -p$(call bison_int,$<) -b$(call bison_int,$<) $<
 	mv $(call bison_int,$<).tab.c  $(OBJDIR)/$(call bison_ext,$<).tab.cpp
 	mv $(call bison_int,$<).tab.h            $(call bison_ext,$<).tab.h
 	mv $(call bison_int,$<).output $(OBJDIR)/$(call bison_ext,$<).output
 
 %.tab.h: %.y
-	$(BISON) -d -v -p$(call bison_int,$<) -b$(call bison_int,$<) $<
+	$(BISON) -d -l -v -p$(call bison_int,$<) -b$(call bison_int,$<) $<
 	mv $(call bison_int,$<).tab.c  $(OBJDIR)/$(call bison_ext,$<).tab.cpp
 	mv $(call bison_int,$<).tab.h            $(call bison_ext,$<).tab.h
 	mv $(call bison_int,$<).output $(OBJDIR)/$(call bison_ext,$<).output
