@@ -745,11 +745,11 @@ sfstringValue:
     TOK_string
     {
         SKEL->addStringValue($1);
-    };
+    }
     | TOK_Id
     { /* Not VRML conformant */
         SKEL->addStringValue($1);
-    }
+    };
 
 sftimeValue:
     double
@@ -1050,7 +1050,7 @@ sfVolumeValueEnd:
         BoxVolume &bv = dynamic_cast<BoxVolume&>(dv.getInstance());
         bv.setBounds(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3, SKEL->_tmpFloat4, $1, $3);
         SKEL->addVolumeValue(dv);
-    };
+    }
     | /* empty */
     {
         DynamicVolume dv(DynamicVolume::SPHERE_VOLUME);
