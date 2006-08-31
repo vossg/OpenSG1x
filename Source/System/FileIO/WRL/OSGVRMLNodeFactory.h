@@ -73,7 +73,7 @@ template <class BaseT>
 class VRMLNodeFactory : public BaseT
 {
     /*==========================  PRIVATE  ================================*/
-  private:
+  protected:
 
 #ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_USE_HASH_COMPARE
