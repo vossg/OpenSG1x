@@ -57,7 +57,7 @@ if _po.getOption('qt'):
         for testsource in testsources:
             target = testsource.name[:-4] # get leafname and remove .cpp
             BuildProgram(tc, target, [testsource], tools=[],
-                         updates=[custom2, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase', 'OSGWindowQT'])],
+                         updates=[custom2, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase', 'OSGWindowQT', 'OSGWindowX'])],
                          CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
                          CPPDEFINES = ['OSG_BUILD_DLL', 'QT_CLEAN_NAMESPACE',
                                        'OSG_WITH_QT', 'OSG_WITH_GLUT'])
