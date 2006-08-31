@@ -186,7 +186,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
 
     void            validateGLObject    (UInt32 id);
     void            validateAllGLObjects(void);
-    GLObjectStatusE getGLObjectStatus   (UInt32 id);
+    //GLObjectStatusE getGLObjectStatus   (UInt32 id);
     inline void     setGLObjectId       (UInt32 id, UInt32 id2);
     inline UInt32   getGLObjectId       (UInt32 id);
     static
