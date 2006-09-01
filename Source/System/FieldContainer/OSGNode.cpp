@@ -899,7 +899,8 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
 }
 
 // deep clone of attachements.
-void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+void OSG::deepCloneAttachments(const AttachmentContainerPtr &src,
+                               AttachmentContainerPtr dst,
                                const std::vector<std::string> &share)
 {
     SFAttachmentMap *amap = (SFAttachmentMap *) src->getSFAttachments();
@@ -907,7 +908,7 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
     AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
     AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
 
-    beginEditCP(dst, Node::AttachmentsFieldMask);
+    beginEditCP(dst, AttachmentContainer::AttachmentsFieldMask);
     for(; mapIt != mapEnd; ++mapIt)
     {
         FieldContainerPtr fc = mapIt->second;
@@ -931,10 +932,11 @@ void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
         if(fc != NullFC)
             dst->addAttachment(AttachmentPtr::dcast(fc));
     }
-    endEditCP(dst, Node::AttachmentsFieldMask);
+    endEditCP(dst, AttachmentContainer::AttachmentsFieldMask);
 }
 
-void OSG::deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+void OSG::deepCloneAttachments(const AttachmentContainerPtr &src,
+                               AttachmentContainerPtr dst,
                                const std::vector<UInt16> &shareGroupIds)
 {
     std::vector<std::string> share;

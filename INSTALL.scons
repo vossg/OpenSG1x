@@ -9,38 +9,33 @@ Linux
 
 Supported compilers are gcc 3.x and 4.x.
 
-- go into the OpenSG directory and type "./scons"
+Go into the OpenSG directory and type "./scons"
 
+Type "./scons -h" to see all possible options.
 
 Windows
 -------
 
-Supported compilers are visual studio 2003 and 2005.
+Supported compilers are Visual Studio 2003 and 2005.
 The image libs (jpeg, png, tiff) are automatically unzipped into OpenSG/../supportlibs and linked into
 the OSGSystem.dll.
 
-- install python (www.python.org)
-- add the python install directory (e.g. C:\Python24) to the PATH environment variable.
-- open a cmd shell and go into the OpenSG directory and type ".\scons compiler=msvc71"
+Install python (www.python.org)
+Add the python install directory (e.g. C:\Python24) to the PATH environment variable.
 
-type "scons -h" to see all possible options.
+Visual Studio 2003
 
-The visual studio 2005 detection is not perfect yet, if your visual studio
-installation directory differs from C:/Programme/Microsoft Visual Studio 8 you
-have to modify the following two lines in the OpenSG/SConstruct file. The mspsdk_path
-is only necessary for the express edition!
+    Open a cmd shell and go into the OpenSG directory and type ".\scons compiler=msvc71"
+    The headers, libs and examples are installed in OpenSG/Build/win32-msvc71/installed
 
-msvc80_path = 'C:/Programme/Microsoft Visual Studio 8/'
-mspsdk_path = 'C:/Programme/Microsoft Platform SDK/'
+Visual Studio 2005
+
+    Open a cmd shell and go into the OpenSG directory and type ".\scons compiler=msvc80"
+    The headers, libs and examples are installed in OpenSG/Build/win32-msvc80/installed
 
 In the visual studio 2005 express edition the PlaformSDK is missing so
 it is necessary to install the platform sdk from
 http://www.microsoft.com/downloads/details.aspx?FamilyId=0BAF2B35-C656-4969-ACE8-E4C0C0716ADB&displaylang=en
 
 
-TODO
-----
-
-better visual studio 2005 detection.
-
-
+Type ".\scons -h" to see all possible options.

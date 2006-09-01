@@ -356,11 +356,13 @@ FieldContainerPtr deepClone(const FieldContainerPtr &src,
                             const std::string &shareString = "");
 
 OSG_SYSTEMLIB_DLLMAPPING
-void deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+void deepCloneAttachments(const AttachmentContainerPtr &src,
+                          AttachmentContainerPtr dst,
                           const std::vector<std::string> &share);
 
 OSG_SYSTEMLIB_DLLMAPPING
-void deepCloneAttachments(const NodePtr &src, NodePtr &dst,
+void deepCloneAttachments(const AttachmentContainerPtr &src,
+                          AttachmentContainerPtr dst,
                           const std::vector<UInt16> &shareGroupIds);
 
 OSG_SYSTEMLIB_DLLMAPPING

@@ -916,6 +916,20 @@ class win32_msvc_base(win32):
 
         return envs
 
+class win32_msvc70(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-msvc70')
+        env = self.get_env()
+
+        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
+        # add msvc71 include and lib paths
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc7_default_paths("7.0", 0)
+
+        env.PrependENVPath('INCLUDE', include_path)
+        env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
 class win32_msvc71(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc71')
@@ -925,26 +939,12 @@ class win32_msvc71(win32_msvc_base):
 
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
-        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("7.1", 0)
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc7_default_paths("7.1", 0)
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('INCLUDE', os.path.join(include_path, '..', 'PlatformSDK', 'Include'))
         env.PrependENVPath('LIB', lib_path)
         env.PrependENVPath('LIB', os.path.join(lib_path, '..', 'PlatformSDK', 'Lib'))
-        env.PrependENVPath('PATH', exe_path)
-
-class win32_msvc70(win32_msvc_base):
-    def __init__(self):
-        win32_msvc_base.__init__(self, 'win32-msvc70')
-        env = self.get_env()
-
-        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
-        # add msvc71 include and lib paths
-        import SCons.Tool.msvc
-        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("7.0", 0)
-
-        env.PrependENVPath('INCLUDE', include_path)
-        env.PrependENVPath('LIB', lib_path)
         env.PrependENVPath('PATH', exe_path)
 
 class win32_msvc80(win32_msvc_base):
@@ -958,25 +958,24 @@ class win32_msvc80(win32_msvc_base):
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
         # add msvc80 include and lib paths
-        #import SCons.Tool.msvc
-        # doesn't work for 8.0 :-(
-        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
-        # HACK
-        msvc80_path = 'C:/Programme/Microsoft Visual Studio 8/'
-        mspsdk_path = 'C:/Programme/Microsoft Platform SDK/'
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc8_default_paths("8.0")
 
-        include_path = [msvc80_path + 'VC/include',
-                        msvc80_path + 'VC/PlatformSDK/include',
-                        mspsdk_path + 'Include']
-        lib_path = [msvc80_path + 'VC/lib',
-                    msvc80_path + 'SDK/v2.0/lib',
-                    mspsdk_path + 'Lib']
-        exe_path = [msvc80_path + 'Common7/IDE',
-                    msvc80_path + 'VC/bin',
-                    msvc80_path + 'Common7/Tools',
-                    msvc80_path + 'SDK/v2.0/bin',
-                    'C:/WINDOWS/Microsoft.NET/Framework/v2.0.50727',
-                    msvc80_path + 'VC/VCPackages']
+        # HACK
+        #msvc80_path = 'C:/Programme/Microsoft Visual Studio 8/'
+        #mspsdk_path = 'C:/Programme/Microsoft Platform SDK/'
+        #include_path = [msvc80_path + 'VC/include',
+        #                msvc80_path + 'VC/PlatformSDK/include',
+        #                mspsdk_path + 'Include']
+        #lib_path = [msvc80_path + 'VC/lib',
+        #            msvc80_path + 'SDK/v2.0/lib',
+        #            mspsdk_path + 'Lib']
+        #exe_path = [msvc80_path + 'Common7/IDE',
+        #            msvc80_path + 'VC/bin',
+        #            msvc80_path + 'Common7/Tools',
+        #            msvc80_path + 'SDK/v2.0/bin',
+        #            'C:/WINDOWS/Microsoft.NET/Framework/v2.0.50727',
+        #            msvc80_path + 'VC/VCPackages']
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('LIB', lib_path)
@@ -991,32 +990,29 @@ class win32_msvc80x64(win32_msvc_base):
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
 
-        #env.Append(LINKFLAGS=['/MANIFEST:NO'])
-
         # add msvc80 include and lib paths
-        #import SCons.Tool.msvc
-        # doesn't work for 8.0 :-(
-        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
-        # HACK
-        vsinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/'
-        vcinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/VC/'
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc8_x64_default_paths("8.0")
 
-        include_path = [vcinstalldir + 'ATLMFC/INCLUDE',
-                        vcinstalldir + 'INCLUDE',
-                        vcinstalldir + 'PlatformSDK/include',
-                        vsinstalldir + 'SDK/v2.0/include']
-        lib_path = [vcinstalldir + 'ATLMFC/LIB/amd64',
-                    vcinstalldir + 'LIB/amd64',
-                    vcinstalldir + 'PlatformSDK/lib/amd64',
-                    vsinstalldir + 'SDK/v2.0/LIB/AMD64']
-        exe_path = [vcinstalldir + 'BIN/amd64',
-                    vcinstalldir + 'PlatformSDK/bin/win64/amd64',
-                    vcinstalldir + 'PlatformSDK/bin',
-                    vcinstalldir + 'VCPackages',
-                    vsinstalldir + 'Common7/IDE',
-                    vsinstalldir + 'Common7/Tools',
-                    vsinstalldir + 'Common7/Tools/bin',
-                    vsinstalldir + 'SDK/v2.0/bin']
+        # HACK
+        #vsinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/'
+        #vcinstalldir = 'C:/Program Files (x86)/Microsoft Visual Studio 8/VC/'
+        #include_path = [vcinstalldir + 'ATLMFC/INCLUDE',
+        #                vcinstalldir + 'INCLUDE',
+        #                vcinstalldir + 'PlatformSDK/include',
+        #                vsinstalldir + 'SDK/v2.0/include']
+        #lib_path = [vcinstalldir + 'ATLMFC/LIB/amd64',
+        #            vcinstalldir + 'LIB/amd64',
+        #            vcinstalldir + 'PlatformSDK/lib/amd64',
+        #            vsinstalldir + 'SDK/v2.0/LIB/AMD64']
+        #exe_path = [vcinstalldir + 'BIN/amd64',
+        #            vcinstalldir + 'PlatformSDK/bin/win64/amd64',
+        #            vcinstalldir + 'PlatformSDK/bin',
+        #            vcinstalldir + 'VCPackages',
+        #            vsinstalldir + 'Common7/IDE',
+        #            vsinstalldir + 'Common7/Tools',
+        #            vsinstalldir + 'Common7/Tools/bin',
+        #            vsinstalldir + 'SDK/v2.0/bin']
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('LIB', lib_path)
@@ -1035,22 +1031,22 @@ class win32_mspsdkx64(win32_msvc_base):
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
                              '/Zm1200', '/Zc:forScope'])
 
-        # add msvc80 include and lib paths
-        #import SCons.Tool.msvc
-        # doesn't work for 8.0 :-(
-        #include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc6_default_paths("8.0", 0)
+        # add msvc80 platform sdk include and lib paths
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_mspsdk_x64_default_paths("8.0")
+
         # HACK
-        include_path = ['C:/Program Files/Microsoft Platform SDK/Include',
-                        'C:/Program Files/Microsoft Platform SDK/Include/crt',
-                        'C:/Program Files/Microsoft Platform SDK/Include/crt/sys',
-                        'C:/Program Files/Microsoft Platform SDK/Include/mfc', 
-                        'C:/Program Files/Microsoft Platform SDK/Include/atl']
-        lib_path = ['C:/Program Files/Microsoft Platform SDK/Lib/AMD64',
-                    'C:/Program Files/Microsoft Platform SDK/Lib/AMD64/atlmfc']
-        exe_path = ['C:/Program Files/Microsoft Platform SDK/Bin/Win64/x86/AMD64',
-                    'C:/Program Files/Microsoft Platform SDK/Bin',
-                    'C:/Program Files/Microsoft Platform SDK/Bin/WinNT',
-                    'C:/WINDOWS/system32', 'C:/WINDOWS', 'C:/WINDOWS/System32/Wbem']
+        #include_path = ['C:/Program Files/Microsoft Platform SDK/Include',
+        #                'C:/Program Files/Microsoft Platform SDK/Include/crt',
+        #                'C:/Program Files/Microsoft Platform SDK/Include/crt/sys',
+        #                'C:/Program Files/Microsoft Platform SDK/Include/mfc', 
+        #                'C:/Program Files/Microsoft Platform SDK/Include/atl']
+        #lib_path = ['C:/Program Files/Microsoft Platform SDK/Lib/AMD64',
+        #            'C:/Program Files/Microsoft Platform SDK/Lib/AMD64/atlmfc']
+        #exe_path = ['C:/Program Files/Microsoft Platform SDK/Bin/Win64/x86/AMD64',
+        #            'C:/Program Files/Microsoft Platform SDK/Bin',
+        #            'C:/Program Files/Microsoft Platform SDK/Bin/WinNT',
+        #            'C:/WINDOWS/system32', 'C:/WINDOWS', 'C:/WINDOWS/System32/Wbem']
 
         env.PrependENVPath('INCLUDE', include_path)
         env.PrependENVPath('LIB', lib_path)
