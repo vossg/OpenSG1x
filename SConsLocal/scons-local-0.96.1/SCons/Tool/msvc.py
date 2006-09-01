@@ -416,6 +416,8 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
         else:
             return {}
 
+    rv = {}
+
     version_num, suite = msvs_parse_version(version)
 
     K = 'Software\\Microsoft\\VisualStudio\\' + str(version_num)
@@ -426,12 +428,12 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
             suites = get_visualstudio8_suites()
             if suites:
                 vs8suite = suites[0]
+                rv['VS8SUITE'] = vs8suite
 
         if vs8suite == 'EXPRESS':
             K = 'Software\\Microsoft\\VCExpress\\' + str(version_num)
 
     # vc++ install dir
-    rv = {}
     if (version_num < 7.0):
         key = K + r'\Setup\Microsoft Visual C++\ProductDir'
     else:
@@ -559,7 +561,7 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
     include_path = ""
     include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
     # In the express edition there is no PlatformSDK.
-    if vs8suite == 'EXPRESS':
+    if rv['VS8SUITE'] == 'EXPRESS':
         include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
         include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
     else:
@@ -569,7 +571,7 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
     lib_path = ""
     lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib') + ';'
     lib_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'lib') + ';'
-    if vs8suite == 'EXPRESS':
+    if rv['VS8SUITE'] == 'EXPRESS':
         lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib')
     else:
         lib_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'lib')
