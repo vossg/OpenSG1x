@@ -816,7 +816,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.h &gt; ../include/OpenSG/OSGQFieldContainerView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.h &gt; ../include/OpenSG/OSGQFieldContainerView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldContainerView_qt.h"/>
 					</FileConfiguration>
@@ -824,7 +824,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.h &gt; ../include/OpenSG/OSGQFieldContainerView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.h &gt; ../include/OpenSG/OSGQFieldContainerView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldContainerView_qt.h"/>
 					</FileConfiguration>
@@ -839,7 +839,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditorFactory.h &gt; ../include/OpenSG/OSGQFieldEditorFactory.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditorFactory.h &gt; ../include/OpenSG/OSGQFieldEditorFactory.h
 "
 							Outputs="../include/OpenSG/OSGQFieldEditorFactory.h"/>
 					</FileConfiguration>
@@ -847,7 +847,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditorFactory.h &gt; ../include/OpenSG/OSGQFieldEditorFactory.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditorFactory.h &gt; ../include/OpenSG/OSGQFieldEditorFactory.h
 "
 							Outputs="../include/OpenSG/OSGQFieldEditorFactory.h"/>
 					</FileConfiguration>
@@ -862,7 +862,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.h &gt; ../include/OpenSG/OSGQFieldEditor_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.h &gt; ../include/OpenSG/OSGQFieldEditor_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldEditor_qt.h"/>
 					</FileConfiguration>
@@ -870,7 +870,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.h &gt; ../include/OpenSG/OSGQFieldEditor_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.h &gt; ../include/OpenSG/OSGQFieldEditor_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldEditor_qt.h"/>
 					</FileConfiguration>
@@ -885,7 +885,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.h &gt; ../include/OpenSG/OSGQFieldLabelFactory.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.h &gt; ../include/OpenSG/OSGQFieldLabelFactory.h
 "
 							Outputs="../include/OpenSG/OSGQFieldLabelFactory.h"/>
 					</FileConfiguration>
@@ -893,7 +893,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.h &gt; ../include/OpenSG/OSGQFieldLabelFactory.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.h &gt; ../include/OpenSG/OSGQFieldLabelFactory.h
 "
 							Outputs="../include/OpenSG/OSGQFieldLabelFactory.h"/>
 					</FileConfiguration>
@@ -908,7 +908,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.h &gt; ../include/OpenSG/OSGQFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.h &gt; ../include/OpenSG/OSGQFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -916,7 +916,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.h &gt; ../include/OpenSG/OSGQFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.h &gt; ../include/OpenSG/OSGQFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -931,7 +931,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.h &gt; ../include/OpenSG/OSGQFieldView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.h &gt; ../include/OpenSG/OSGQFieldView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldView_qt.h"/>
 					</FileConfiguration>
@@ -939,7 +939,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.h &gt; ../include/OpenSG/OSGQFieldView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.h &gt; ../include/OpenSG/OSGQFieldView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQFieldView_qt.h"/>
 					</FileConfiguration>
@@ -954,7 +954,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedDesignerWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedDesignerWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h"/>
 					</FileConfiguration>
@@ -962,7 +962,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedDesignerWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedDesignerWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLManagedDesignerWidget_qt.h"/>
 					</FileConfiguration>
@@ -977,7 +977,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLManagedWidget_qt.h"/>
 					</FileConfiguration>
@@ -985,7 +985,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLManagedWidget_qt.h &gt; ../include/OpenSG/OSGQGLManagedWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLManagedWidget_qt.h"/>
 					</FileConfiguration>
@@ -1000,7 +1000,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.h &gt; ../include/OpenSG/OSGQGLWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.h &gt; ../include/OpenSG/OSGQGLWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLWidget_qt.h"/>
 					</FileConfiguration>
@@ -1008,7 +1008,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.h &gt; ../include/OpenSG/OSGQGLWidget_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.h &gt; ../include/OpenSG/OSGQGLWidget_qt.h
 "
 							Outputs="../include/OpenSG/OSGQGLWidget_qt.h"/>
 					</FileConfiguration>
@@ -1023,7 +1023,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.h &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.h &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQMatrixFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1031,7 +1031,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.h &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.h &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQMatrixFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1046,7 +1046,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQNodeTreeView_qt.h &gt; ../include/OpenSG/OSGQNodeTreeView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQNodeTreeView_qt.h &gt; ../include/OpenSG/OSGQNodeTreeView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQNodeTreeView_qt.h"/>
 					</FileConfiguration>
@@ -1054,7 +1054,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQNodeTreeView_qt.h &gt; ../include/OpenSG/OSGQNodeTreeView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQNodeTreeView_qt.h &gt; ../include/OpenSG/OSGQNodeTreeView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQNodeTreeView_qt.h"/>
 					</FileConfiguration>
@@ -1069,7 +1069,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.h &gt; ../include/OpenSG/OSGQPointFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.h &gt; ../include/OpenSG/OSGQPointFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQPointFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1077,7 +1077,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.h &gt; ../include/OpenSG/OSGQPointFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.h &gt; ../include/OpenSG/OSGQPointFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQPointFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1092,7 +1092,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphViewFunctions.h &gt; ../include/OpenSG/OSGQSceneGraphViewFunctions.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphViewFunctions.h &gt; ../include/OpenSG/OSGQSceneGraphViewFunctions.h
 "
 							Outputs="../include/OpenSG/OSGQSceneGraphViewFunctions.h"/>
 					</FileConfiguration>
@@ -1100,7 +1100,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphViewFunctions.h &gt; ../include/OpenSG/OSGQSceneGraphViewFunctions.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphViewFunctions.h &gt; ../include/OpenSG/OSGQSceneGraphViewFunctions.h
 "
 							Outputs="../include/OpenSG/OSGQSceneGraphViewFunctions.h"/>
 					</FileConfiguration>
@@ -1115,7 +1115,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphView_qt.h &gt; ../include/OpenSG/OSGQSceneGraphView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphView_qt.h &gt; ../include/OpenSG/OSGQSceneGraphView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQSceneGraphView_qt.h"/>
 					</FileConfiguration>
@@ -1123,7 +1123,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphView_qt.h &gt; ../include/OpenSG/OSGQSceneGraphView_qt.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQSceneGraphView_qt.h &gt; ../include/OpenSG/OSGQSceneGraphView_qt.h
 "
 							Outputs="../include/OpenSG/OSGQSceneGraphView_qt.h"/>
 					</FileConfiguration>
@@ -1138,7 +1138,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.h &gt; ../include/OpenSG/OSGQTWindow.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.h &gt; ../include/OpenSG/OSGQTWindow.h
 "
 							Outputs="../include/OpenSG/OSGQTWindow.h"/>
 					</FileConfiguration>
@@ -1146,7 +1146,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.h &gt; ../include/OpenSG/OSGQTWindow.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.h &gt; ../include/OpenSG/OSGQTWindow.h
 "
 							Outputs="../include/OpenSG/OSGQTWindow.h"/>
 					</FileConfiguration>
@@ -1161,7 +1161,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.h &gt; ../include/OpenSG/OSGQTWindowBase.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.h &gt; ../include/OpenSG/OSGQTWindowBase.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowBase.h"/>
 					</FileConfiguration>
@@ -1169,7 +1169,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.h &gt; ../include/OpenSG/OSGQTWindowBase.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.h &gt; ../include/OpenSG/OSGQTWindowBase.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowBase.h"/>
 					</FileConfiguration>
@@ -1184,7 +1184,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowDataFields.h &gt; ../include/OpenSG/OSGQTWindowDataFields.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowDataFields.h &gt; ../include/OpenSG/OSGQTWindowDataFields.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowDataFields.h"/>
 					</FileConfiguration>
@@ -1192,7 +1192,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowDataFields.h &gt; ../include/OpenSG/OSGQTWindowDataFields.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowDataFields.h &gt; ../include/OpenSG/OSGQTWindowDataFields.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowDataFields.h"/>
 					</FileConfiguration>
@@ -1207,7 +1207,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowFields.h &gt; ../include/OpenSG/OSGQTWindowFields.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowFields.h &gt; ../include/OpenSG/OSGQTWindowFields.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowFields.h"/>
 					</FileConfiguration>
@@ -1215,7 +1215,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowFields.h &gt; ../include/OpenSG/OSGQTWindowFields.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowFields.h &gt; ../include/OpenSG/OSGQTWindowFields.h
 "
 							Outputs="../include/OpenSG/OSGQTWindowFields.h"/>
 					</FileConfiguration>
@@ -1230,7 +1230,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTypedFieldValueLabel.h &gt; ../include/OpenSG/OSGQTypedFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTypedFieldValueLabel.h &gt; ../include/OpenSG/OSGQTypedFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQTypedFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1238,7 +1238,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTypedFieldValueLabel.h &gt; ../include/OpenSG/OSGQTypedFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTypedFieldValueLabel.h &gt; ../include/OpenSG/OSGQTypedFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQTypedFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1253,7 +1253,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.h &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.h &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQVectorFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1261,7 +1261,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.h &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.h &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.h
 "
 							Outputs="../include/OpenSG/OSGQVectorFieldValueLabel.h"/>
 					</FileConfiguration>
@@ -1276,7 +1276,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.h &gt; ../include/OpenSG/OSGQWidgetFunctions.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.h &gt; ../include/OpenSG/OSGQWidgetFunctions.h
 "
 							Outputs="../include/OpenSG/OSGQWidgetFunctions.h"/>
 					</FileConfiguration>
@@ -1284,7 +1284,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.h &gt; ../include/OpenSG/OSGQWidgetFunctions.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.h &gt; ../include/OpenSG/OSGQWidgetFunctions.h
 "
 							Outputs="../include/OpenSG/OSGQWidgetFunctions.h"/>
 					</FileConfiguration>
@@ -1299,7 +1299,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTDef.h &gt; ../include/OpenSG/OSGWindowQTDef.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTDef.h &gt; ../include/OpenSG/OSGWindowQTDef.h
 "
 							Outputs="../include/OpenSG/OSGWindowQTDef.h"/>
 					</FileConfiguration>
@@ -1307,7 +1307,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTDef.h &gt; ../include/OpenSG/OSGWindowQTDef.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTDef.h &gt; ../include/OpenSG/OSGWindowQTDef.h
 "
 							Outputs="../include/OpenSG/OSGWindowQTDef.h"/>
 					</FileConfiguration>
@@ -1322,7 +1322,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTPlugin.h &gt; ../include/OpenSG/OSGWindowQTPlugin.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTPlugin.h &gt; ../include/OpenSG/OSGWindowQTPlugin.h
 "
 							Outputs="../include/OpenSG/OSGWindowQTPlugin.h"/>
 					</FileConfiguration>
@@ -1330,7 +1330,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTPlugin.h &gt; ../include/OpenSG/OSGWindowQTPlugin.h
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGWindowQTPlugin.h &gt; ../include/OpenSG/OSGWindowQTPlugin.h
 "
 							Outputs="../include/OpenSG/OSGWindowQTPlugin.h"/>
 					</FileConfiguration>
@@ -1345,7 +1345,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.inl &gt; ../include/OpenSG/OSGQFieldContainerView_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.inl &gt; ../include/OpenSG/OSGQFieldContainerView_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldContainerView_qt.inl"/>
 					</FileConfiguration>
@@ -1353,7 +1353,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.inl &gt; ../include/OpenSG/OSGQFieldContainerView_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldContainerView_qt.inl &gt; ../include/OpenSG/OSGQFieldContainerView_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldContainerView_qt.inl"/>
 					</FileConfiguration>
@@ -1368,7 +1368,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.inl &gt; ../include/OpenSG/OSGQFieldEditor_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.inl &gt; ../include/OpenSG/OSGQFieldEditor_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldEditor_qt.inl"/>
 					</FileConfiguration>
@@ -1376,7 +1376,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.inl &gt; ../include/OpenSG/OSGQFieldEditor_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldEditor_qt.inl &gt; ../include/OpenSG/OSGQFieldEditor_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldEditor_qt.inl"/>
 					</FileConfiguration>
@@ -1391,7 +1391,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.inl &gt; ../include/OpenSG/OSGQFieldLabelFactory.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.inl &gt; ../include/OpenSG/OSGQFieldLabelFactory.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldLabelFactory.inl"/>
 					</FileConfiguration>
@@ -1399,7 +1399,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.inl &gt; ../include/OpenSG/OSGQFieldLabelFactory.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldLabelFactory.inl &gt; ../include/OpenSG/OSGQFieldLabelFactory.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldLabelFactory.inl"/>
 					</FileConfiguration>
@@ -1414,7 +1414,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.inl &gt; ../include/OpenSG/OSGQFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.inl &gt; ../include/OpenSG/OSGQFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1422,7 +1422,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.inl &gt; ../include/OpenSG/OSGQFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldValueLabel.inl &gt; ../include/OpenSG/OSGQFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1437,7 +1437,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.inl &gt; ../include/OpenSG/OSGQFieldView_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.inl &gt; ../include/OpenSG/OSGQFieldView_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldView_qt.inl"/>
 					</FileConfiguration>
@@ -1445,7 +1445,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.inl &gt; ../include/OpenSG/OSGQFieldView_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQFieldView_qt.inl &gt; ../include/OpenSG/OSGQFieldView_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQFieldView_qt.inl"/>
 					</FileConfiguration>
@@ -1460,7 +1460,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.inl &gt; ../include/OpenSG/OSGQGLWidget_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.inl &gt; ../include/OpenSG/OSGQGLWidget_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQGLWidget_qt.inl"/>
 					</FileConfiguration>
@@ -1468,7 +1468,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.inl &gt; ../include/OpenSG/OSGQGLWidget_qt.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQGLWidget_qt.inl &gt; ../include/OpenSG/OSGQGLWidget_qt.inl
 "
 							Outputs="../include/OpenSG/OSGQGLWidget_qt.inl"/>
 					</FileConfiguration>
@@ -1483,7 +1483,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.inl &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.inl &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQMatrixFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1491,7 +1491,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.inl &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQMatrixFieldValueLabel.inl &gt; ../include/OpenSG/OSGQMatrixFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQMatrixFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1506,7 +1506,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.inl &gt; ../include/OpenSG/OSGQPointFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.inl &gt; ../include/OpenSG/OSGQPointFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQPointFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1514,7 +1514,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.inl &gt; ../include/OpenSG/OSGQPointFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQPointFieldValueLabel.inl &gt; ../include/OpenSG/OSGQPointFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQPointFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1529,7 +1529,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.inl &gt; ../include/OpenSG/OSGQTWindow.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.inl &gt; ../include/OpenSG/OSGQTWindow.inl
 "
 							Outputs="../include/OpenSG/OSGQTWindow.inl"/>
 					</FileConfiguration>
@@ -1537,7 +1537,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.inl &gt; ../include/OpenSG/OSGQTWindow.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindow.inl &gt; ../include/OpenSG/OSGQTWindow.inl
 "
 							Outputs="../include/OpenSG/OSGQTWindow.inl"/>
 					</FileConfiguration>
@@ -1552,7 +1552,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.inl &gt; ../include/OpenSG/OSGQTWindowBase.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.inl &gt; ../include/OpenSG/OSGQTWindowBase.inl
 "
 							Outputs="../include/OpenSG/OSGQTWindowBase.inl"/>
 					</FileConfiguration>
@@ -1560,7 +1560,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.inl &gt; ../include/OpenSG/OSGQTWindowBase.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQTWindowBase.inl &gt; ../include/OpenSG/OSGQTWindowBase.inl
 "
 							Outputs="../include/OpenSG/OSGQTWindowBase.inl"/>
 					</FileConfiguration>
@@ -1575,7 +1575,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.inl &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.inl &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQVectorFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1583,7 +1583,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.inl &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQVectorFieldValueLabel.inl &gt; ../include/OpenSG/OSGQVectorFieldValueLabel.inl
 "
 							Outputs="../include/OpenSG/OSGQVectorFieldValueLabel.inl"/>
 					</FileConfiguration>
@@ -1598,7 +1598,7 @@
 						Name="Debug|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.inl &gt; ../include/OpenSG/OSGQWidgetFunctions.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.inl &gt; ../include/OpenSG/OSGQWidgetFunctions.inl
 "
 							Outputs="../include/OpenSG/OSGQWidgetFunctions.inl"/>
 					</FileConfiguration>
@@ -1606,7 +1606,7 @@
 						Name="Release|Win32">
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.inl &gt; ../include/OpenSG/OSGQWidgetFunctions.inl
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/QT/OSGQWidgetFunctions.inl &gt; ../include/OpenSG/OSGQWidgetFunctions.inl
 "
 							Outputs="../include/OpenSG/OSGQWidgetFunctions.inl"/>
 					</FileConfiguration>

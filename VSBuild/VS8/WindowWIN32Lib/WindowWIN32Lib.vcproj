@@ -354,7 +354,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.h &gt; ../include/OpenSG/OSGWIN32Window.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.h &gt; ../include/OpenSG/OSGWIN32Window.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32Window.h"
 						/>
 					</FileConfiguration>
@@ -363,7 +363,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.h &gt; ../include/OpenSG/OSGWIN32Window.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.h &gt; ../include/OpenSG/OSGWIN32Window.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32Window.h"
 						/>
 					</FileConfiguration>
@@ -380,7 +380,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.h &gt; ../include/OpenSG/OSGWIN32WindowBase.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.h &gt; ../include/OpenSG/OSGWIN32WindowBase.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.h"
 						/>
 					</FileConfiguration>
@@ -389,7 +389,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.h &gt; ../include/OpenSG/OSGWIN32WindowBase.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.h &gt; ../include/OpenSG/OSGWIN32WindowBase.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.h"
 						/>
 					</FileConfiguration>
@@ -406,7 +406,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowDataFields.h &gt; ../include/OpenSG/OSGWIN32WindowDataFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowDataFields.h &gt; ../include/OpenSG/OSGWIN32WindowDataFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowDataFields.h"
 						/>
 					</FileConfiguration>
@@ -415,7 +415,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowDataFields.h &gt; ../include/OpenSG/OSGWIN32WindowDataFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowDataFields.h &gt; ../include/OpenSG/OSGWIN32WindowDataFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowDataFields.h"
 						/>
 					</FileConfiguration>
@@ -432,7 +432,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowFields.h &gt; ../include/OpenSG/OSGWIN32WindowFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowFields.h &gt; ../include/OpenSG/OSGWIN32WindowFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowFields.h"
 						/>
 					</FileConfiguration>
@@ -441,7 +441,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowFields.h &gt; ../include/OpenSG/OSGWIN32WindowFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowFields.h &gt; ../include/OpenSG/OSGWIN32WindowFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowFields.h"
 						/>
 					</FileConfiguration>
@@ -458,7 +458,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWindowWIN32Def.h &gt; ../include/OpenSG/OSGWindowWIN32Def.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWindowWIN32Def.h &gt; ../include/OpenSG/OSGWindowWIN32Def.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWindowWIN32Def.h"
 						/>
 					</FileConfiguration>
@@ -467,7 +467,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWindowWIN32Def.h &gt; ../include/OpenSG/OSGWindowWIN32Def.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWindowWIN32Def.h &gt; ../include/OpenSG/OSGWindowWIN32Def.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWindowWIN32Def.h"
 						/>
 					</FileConfiguration>
@@ -484,7 +484,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.inl &gt; ../include/OpenSG/OSGWIN32Window.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.inl &gt; ../include/OpenSG/OSGWIN32Window.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32Window.inl"
 						/>
 					</FileConfiguration>
@@ -493,7 +493,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.inl &gt; ../include/OpenSG/OSGWIN32Window.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32Window.inl &gt; ../include/OpenSG/OSGWIN32Window.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32Window.inl"
 						/>
 					</FileConfiguration>
@@ -510,7 +510,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.inl &gt; ../include/OpenSG/OSGWIN32WindowBase.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.inl &gt; ../include/OpenSG/OSGWIN32WindowBase.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.inl"
 						/>
 					</FileConfiguration>
@@ -519,7 +519,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.inl &gt; ../include/OpenSG/OSGWIN32WindowBase.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/WIN32/OSGWIN32WindowBase.inl &gt; ../include/OpenSG/OSGWIN32WindowBase.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWIN32WindowBase.inl"
 						/>
 					</FileConfiguration>

@@ -325,7 +325,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.h &gt; ../include/OpenSG/OSGGLUTWindow.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.h &gt; ../include/OpenSG/OSGGLUTWindow.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindow.h"
 						/>
 					</FileConfiguration>
@@ -334,7 +334,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.h &gt; ../include/OpenSG/OSGGLUTWindow.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.h &gt; ../include/OpenSG/OSGGLUTWindow.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindow.h"
 						/>
 					</FileConfiguration>
@@ -351,7 +351,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.h &gt; ../include/OpenSG/OSGGLUTWindowBase.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.h &gt; ../include/OpenSG/OSGGLUTWindowBase.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.h"
 						/>
 					</FileConfiguration>
@@ -360,7 +360,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.h &gt; ../include/OpenSG/OSGGLUTWindowBase.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.h &gt; ../include/OpenSG/OSGGLUTWindowBase.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.h"
 						/>
 					</FileConfiguration>
@@ -377,7 +377,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowFields.h &gt; ../include/OpenSG/OSGGLUTWindowFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowFields.h &gt; ../include/OpenSG/OSGGLUTWindowFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowFields.h"
 						/>
 					</FileConfiguration>
@@ -386,7 +386,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowFields.h &gt; ../include/OpenSG/OSGGLUTWindowFields.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowFields.h &gt; ../include/OpenSG/OSGGLUTWindowFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowFields.h"
 						/>
 					</FileConfiguration>
@@ -403,7 +403,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGWindowGLUTDef.h &gt; ../include/OpenSG/OSGWindowGLUTDef.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGWindowGLUTDef.h &gt; ../include/OpenSG/OSGWindowGLUTDef.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWindowGLUTDef.h"
 						/>
 					</FileConfiguration>
@@ -412,7 +412,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGWindowGLUTDef.h &gt; ../include/OpenSG/OSGWindowGLUTDef.h&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGWindowGLUTDef.h &gt; ../include/OpenSG/OSGWindowGLUTDef.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGWindowGLUTDef.h"
 						/>
 					</FileConfiguration>
@@ -429,7 +429,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.inl &gt; ../include/OpenSG/OSGGLUTWindow.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.inl &gt; ../include/OpenSG/OSGGLUTWindow.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindow.inl"
 						/>
 					</FileConfiguration>
@@ -438,7 +438,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.inl &gt; ../include/OpenSG/OSGGLUTWindow.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindow.inl &gt; ../include/OpenSG/OSGGLUTWindow.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindow.inl"
 						/>
 					</FileConfiguration>
@@ -455,7 +455,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.inl &gt; ../include/OpenSG/OSGGLUTWindowBase.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.inl &gt; ../include/OpenSG/OSGGLUTWindowBase.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.inl"
 						/>
 					</FileConfiguration>
@@ -464,7 +464,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.inl &gt; ../include/OpenSG/OSGGLUTWindowBase.inl&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/WindowSystem/GLUT/OSGGLUTWindowBase.inl &gt; ../include/OpenSG/OSGGLUTWindowBase.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGGLUTWindowBase.inl"
 						/>
 					</FileConfiguration>
