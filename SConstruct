@@ -942,9 +942,7 @@ class win32_msvc71(win32_msvc_base):
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc7_default_paths("7.1", 0)
 
         env.PrependENVPath('INCLUDE', include_path)
-        env.PrependENVPath('INCLUDE', os.path.join(include_path, '..', 'PlatformSDK', 'Include'))
         env.PrependENVPath('LIB', lib_path)
-        env.PrependENVPath('LIB', os.path.join(lib_path, '..', 'PlatformSDK', 'Lib'))
         env.PrependENVPath('PATH', exe_path)
 
 class win32_msvc80(win32_msvc_base):

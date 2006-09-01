@@ -560,9 +560,11 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
     include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
     # In the express edition there is no PlatformSDK.
     if vs8suite == 'EXPRESS':
-        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include')
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
     else:
-        include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include')
+        include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include') + ';'
+        include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include', 'atl')
 
     lib_path = ""
     lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib') + ';'
