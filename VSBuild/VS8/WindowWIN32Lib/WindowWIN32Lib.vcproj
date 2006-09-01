@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="8.00"
 	Name="WindowWIN32Lib"
 	ProjectGUID="{CDB745CF-D57A-4E72-ADDD-03B85480F354}"
 	RootNamespace="WindowWIN32Lib"
@@ -170,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
+				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib"
 				OutputFile="..\lib\opt\OSGWindowWIN32.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="true"

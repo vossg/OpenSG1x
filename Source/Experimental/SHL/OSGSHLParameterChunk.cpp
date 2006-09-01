@@ -158,7 +158,7 @@ void SHLParameterChunk::changeFrom(DrawActionBase *action, StateChunk * old_chun
 }
 
 
-void SHLParameterChunk::deactivate(DrawActionBase */*action*/, UInt32 /*idx*/)
+void SHLParameterChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), UInt32 OSG_CHECK_ARG(idx))
 {
 }
 
@@ -205,7 +205,7 @@ bool SHLParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.3 2005/10/02 15:28:52 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.4 2006/09/01 16:39:42 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

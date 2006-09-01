@@ -106,7 +106,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib glut32.lib"
+				AdditionalDependencies="MSVCPRT.lib MSVCRT.lib winmm.lib gdi32.lib user32.lib wsock32.lib opengl32.lib glu32.lib"
 				OutputFile="..\lib\opt\OSGWindowWIN32.dll"
 				LinkIncremental="1"
 				IgnoreAllDefaultLibraries="TRUE"
