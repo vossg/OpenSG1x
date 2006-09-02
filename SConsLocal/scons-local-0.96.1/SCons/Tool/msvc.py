@@ -517,6 +517,31 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
     except SCons.Util.RegError:
         pass
 
+    # check for existence
+    if rv.has_key('PLATFORMSDKDIR'):
+        if not os.path.exists(rv['PLATFORMSDKDIR']):
+            del rv['PLATFORMSDKDIR']
+
+    # ok now look for something like this:
+    # Software\Microsoft\MicrosoftSDK\InstalledSDKs\HKEY_CURRENT_USER\Software\Microsoft\MicrosoftSDK\InstalledSDKs\8F9E5EF3-A9A5-491B-A889-C58EFFECE8B3\Install Dir
+    if not rv.has_key('PLATFORMSDKDIR'):
+        try:
+            loc = r'Software\Microsoft\MicrosoftSDK\InstalledSDKs'
+            k = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,loc)
+            i = 0
+            while 1:
+                try:
+                    key = SCons.Util.RegEnumKey(k,i)
+                    try:
+                        (rv['PLATFORMSDKDIR'], t) = SCons.Util.RegGetValue(SCons.Util.HKEY_LOCAL_MACHINE, r'Software\Microsoft\MicrosoftSDK\InstalledSDKs\\' + key + r'\Install Dir')
+                    except SCons.Util.RegError:
+                        pass
+                    i = i + 1
+                except SCons.Util.RegError:
+                    break;
+        except SCons.Util.RegError:
+            pass
+
     if rv.has_key('PLATFORMSDKDIR'):
         # if we have a platform SDK, try and get some info on it.
         vers = {}
@@ -562,8 +587,11 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
     include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
     # In the express edition there is no PlatformSDK.
     if rv['VS8SUITE'] == 'EXPRESS':
-        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
-        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
+        if rv.has_key('PLATFORMSDKDIR'):
+            include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
+            include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
+        else:
+            print "Couldn't find platform sdk install directory!"
     else:
         include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include') + ';'
         include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include', 'atl')
@@ -572,7 +600,10 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
     lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib') + ';'
     lib_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'lib') + ';'
     if rv['VS8SUITE'] == 'EXPRESS':
-        lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib')
+        if rv.has_key('PLATFORMSDKDIR'):
+            lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib')
+        else:
+            print "Couldn't find platform sdk install directory!"
     else:
         lib_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'lib')
 
@@ -616,22 +647,32 @@ def _get_msvc8_x64_default_paths(version = None, vs8suite = None):
 def _get_mspsdk_x64_default_paths(version = None, vs8suite = None):
 
     rv = get_msvs8_install_dirs(version, vs8suite)
+
     include_path = ""
-    include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
-    include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'crt') + ';'
-    include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'crt', 'sys') + ';'
-    include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'mfc') + ';'
-    include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
+    if rv.has_key('PLATFORMSDKDIR'):
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'crt') + ';'
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'crt', 'sys') + ';'
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'mfc') + ';'
+        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
+    else:
+        print "Couldn't find platform sdk install directory!"
 
     lib_path = ""
-    lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib', 'amd64') + ';'
-    lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib', 'amd64', 'atlmfc')
+    if rv.has_key('PLATFORMSDKDIR'):
+        lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib', 'amd64') + ';'
+        lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib', 'amd64', 'atlmfc')
+    else:
+        print "Couldn't find platform sdk install directory!"
 
     exe_path = ""
-    exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'Bin', 'Win64', 'x86', 'AMD64') + ';'
-    exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'bin') + ';'
-    exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'bin', 'WinNT') + ';'
-    exe_path += 'C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem'
+    if rv.has_key('PLATFORMSDKDIR'):
+        exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'Bin', 'Win64', 'x86', 'AMD64') + ';'
+        exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'bin') + ';'
+        exe_path += os.path.join(rv['PLATFORMSDKDIR'], 'bin', 'WinNT') + ';'
+        exe_path += 'C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem'
+    else:
+        print "Couldn't find platform sdk install directory!"
 
     return (include_path, lib_path, exe_path)
 
