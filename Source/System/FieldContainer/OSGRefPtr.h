@@ -60,7 +60,9 @@ class RefPtr
 {
     /*==========================  PUBLIC  =================================*/
   public:
- 
+    /** The full type of the FC Ptr wrapped. */
+    typedef  Ref FCPtrType;
+    /** The full type of the object referenced by the wrapped fcptr. */
     typedef  typename Ref::StoredObjectType  StoredObjectType;
     typedef  const Ref RefPtr::*unspecified_bool_type;
     
@@ -142,6 +144,6 @@ OSG_END_NAMESPACE
 
 #include "OSGRefPtr.inl"
 
-#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.6 2006/02/20 23:31:05 dirk Exp $"
+#define OSGREFPTR_HEADER_CVSID "@(#)$Id: OSGRefPtr.h,v 1.7 2006/09/05 01:24:28 allenb Exp $"
 
 #endif /* _OSGREFPTR_H_ */
