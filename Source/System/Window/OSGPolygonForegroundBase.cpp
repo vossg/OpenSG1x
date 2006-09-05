@@ -62,22 +62,31 @@
 #include "OSGPolygonForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PolygonForegroundBase::MaterialFieldMask = 
     (TypeTraits<BitVector>::One << PolygonForegroundBase::MaterialFieldId);
 
-const OSG::BitVector  PolygonForegroundBase::PositionsFieldMask = 
-    (TypeTraits<BitVector>::One << PolygonForegroundBase::PositionsFieldId);
-
 const OSG::BitVector  PolygonForegroundBase::TexCoordsFieldMask = 
     (TypeTraits<BitVector>::One << PolygonForegroundBase::TexCoordsFieldId);
+
+const OSG::BitVector  PolygonForegroundBase::PositionsFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonForegroundBase::PositionsFieldId);
 
 const OSG::BitVector  PolygonForegroundBase::NormalizedXFieldMask = 
     (TypeTraits<BitVector>::One << PolygonForegroundBase::NormalizedXFieldId);
 
 const OSG::BitVector  PolygonForegroundBase::NormalizedYFieldMask = 
     (TypeTraits<BitVector>::One << PolygonForegroundBase::NormalizedYFieldId);
+
+const OSG::BitVector  PolygonForegroundBase::AspectHeightFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonForegroundBase::AspectHeightFieldId);
+
+const OSG::BitVector  PolygonForegroundBase::AspectWidthFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonForegroundBase::AspectWidthFieldId);
+
+const OSG::BitVector  PolygonForegroundBase::ScaleFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonForegroundBase::ScaleFieldId);
 
 const OSG::BitVector PolygonForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -89,17 +98,26 @@ const OSG::BitVector PolygonForegroundBase::MTInfluenceMask =
 /*! \var MaterialPtr     PolygonForegroundBase::_sfMaterial
     The material used to display.
 */
-/*! \var Pnt2f           PolygonForegroundBase::_mfPositions
-    The vertices of the geometry to display.
-*/
 /*! \var Vec3f           PolygonForegroundBase::_mfTexCoords
     The texture coordinates of the geometry to display.
+*/
+/*! \var Pnt2f           PolygonForegroundBase::_mfPositions
+    The vertices of the geometry to display.
 */
 /*! \var bool            PolygonForegroundBase::_sfNormalizedX
     Define whether the x coordinates are normalized (0-1) or pixel-based .
 */
 /*! \var bool            PolygonForegroundBase::_sfNormalizedY
     Define whether the y coordinates are normalized (0-1) or pixel-based .
+*/
+/*! \var UInt16          PolygonForegroundBase::_sfAspectHeight
+    Useful for keeping aspect ratio when rendering things like images.
+*/
+/*! \var UInt16          PolygonForegroundBase::_sfAspectWidth
+    Useful for keeping aspect ratio when rendering things like images.
+*/
+/*! \var Real32          PolygonForegroundBase::_sfScale
+    Scale factor for zooming.
 */
 
 //! PolygonForeground description
@@ -111,16 +129,16 @@ FieldDescription *PolygonForegroundBase::_desc[] =
                      MaterialFieldId, MaterialFieldMask,
                      false,
                      (FieldAccessMethod) &PolygonForegroundBase::getSFMaterial),
-    new FieldDescription(MFPnt2f::getClassType(), 
-                     "positions", 
-                     PositionsFieldId, PositionsFieldMask,
-                     false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getMFPositions),
     new FieldDescription(MFVec3f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
                      (FieldAccessMethod) &PolygonForegroundBase::getMFTexCoords),
+    new FieldDescription(MFPnt2f::getClassType(), 
+                     "positions", 
+                     PositionsFieldId, PositionsFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonForegroundBase::getMFPositions),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedX", 
                      NormalizedXFieldId, NormalizedXFieldMask,
@@ -130,7 +148,22 @@ FieldDescription *PolygonForegroundBase::_desc[] =
                      "normalizedY", 
                      NormalizedYFieldId, NormalizedYFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFNormalizedY)
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFNormalizedY),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "aspectHeight", 
+                     AspectHeightFieldId, AspectHeightFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFAspectHeight),
+    new FieldDescription(SFUInt16::getClassType(), 
+                     "aspectWidth", 
+                     AspectWidthFieldId, AspectWidthFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFAspectWidth),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "scale", 
+                     ScaleFieldId, ScaleFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFScale)
 };
 
 
@@ -196,8 +229,8 @@ void PolygonForegroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
-    _mfPositions.terminateShare(uiAspect, this->getContainerSize());
     _mfTexCoords.terminateShare(uiAspect, this->getContainerSize());
+    _mfPositions.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -209,10 +242,13 @@ void PolygonForegroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 PolygonForegroundBase::PolygonForegroundBase(void) :
     _sfMaterial               (), 
-    _mfPositions              (), 
     _mfTexCoords              (), 
+    _mfPositions              (), 
     _sfNormalizedX            (bool(true)), 
     _sfNormalizedY            (bool(true)), 
+    _sfAspectHeight           (UInt16(0)), 
+    _sfAspectWidth            (UInt16(0)), 
+    _sfScale                  (Real32(1.0)), 
     Inherited() 
 {
 }
@@ -223,10 +259,13 @@ PolygonForegroundBase::PolygonForegroundBase(void) :
 
 PolygonForegroundBase::PolygonForegroundBase(const PolygonForegroundBase &source) :
     _sfMaterial               (source._sfMaterial               ), 
-    _mfPositions              (source._mfPositions              ), 
     _mfTexCoords              (source._mfTexCoords              ), 
+    _mfPositions              (source._mfPositions              ), 
     _sfNormalizedX            (source._sfNormalizedX            ), 
     _sfNormalizedY            (source._sfNormalizedY            ), 
+    _sfAspectHeight           (source._sfAspectHeight           ), 
+    _sfAspectWidth            (source._sfAspectWidth            ), 
+    _sfScale                  (source._sfScale                  ), 
     Inherited                 (source)
 {
 }
@@ -248,14 +287,14 @@ UInt32 PolygonForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfMaterial.getBinSize();
     }
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
-        returnValue += _mfPositions.getBinSize();
-    }
-
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         returnValue += _mfTexCoords.getBinSize();
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        returnValue += _mfPositions.getBinSize();
     }
 
     if(FieldBits::NoField != (NormalizedXFieldMask & whichField))
@@ -266,6 +305,21 @@ UInt32 PolygonForegroundBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
     {
         returnValue += _sfNormalizedY.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AspectHeightFieldMask & whichField))
+    {
+        returnValue += _sfAspectHeight.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
+    {
+        returnValue += _sfAspectWidth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        returnValue += _sfScale.getBinSize();
     }
 
 
@@ -282,14 +336,14 @@ void PolygonForegroundBase::copyToBin(      BinaryDataHandler &pMem,
         _sfMaterial.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
-        _mfPositions.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         _mfTexCoords.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        _mfPositions.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (NormalizedXFieldMask & whichField))
@@ -300,6 +354,21 @@ void PolygonForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
     {
         _sfNormalizedY.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AspectHeightFieldMask & whichField))
+    {
+        _sfAspectHeight.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
+    {
+        _sfAspectWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _sfScale.copyToBin(pMem);
     }
 
 
@@ -315,14 +384,14 @@ void PolygonForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfMaterial.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-    {
-        _mfPositions.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
     {
         _mfTexCoords.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+    {
+        _mfPositions.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (NormalizedXFieldMask & whichField))
@@ -333,6 +402,21 @@ void PolygonForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
     {
         _sfNormalizedY.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AspectHeightFieldMask & whichField))
+    {
+        _sfAspectHeight.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
+    {
+        _sfAspectWidth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+    {
+        _sfScale.copyFromBin(pMem);
     }
 
 
@@ -348,17 +432,26 @@ void PolygonForegroundBase::executeSyncImpl(      PolygonForegroundBase *pOther,
     if(FieldBits::NoField != (MaterialFieldMask & whichField))
         _sfMaterial.syncWith(pOther->_sfMaterial);
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        _mfPositions.syncWith(pOther->_mfPositions);
-
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _mfPositions.syncWith(pOther->_mfPositions);
 
     if(FieldBits::NoField != (NormalizedXFieldMask & whichField))
         _sfNormalizedX.syncWith(pOther->_sfNormalizedX);
 
     if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
         _sfNormalizedY.syncWith(pOther->_sfNormalizedY);
+
+    if(FieldBits::NoField != (AspectHeightFieldMask & whichField))
+        _sfAspectHeight.syncWith(pOther->_sfAspectHeight);
+
+    if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
+        _sfAspectWidth.syncWith(pOther->_sfAspectWidth);
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+        _sfScale.syncWith(pOther->_sfScale);
 
 
 }
@@ -379,12 +472,21 @@ void PolygonForegroundBase::executeSyncImpl(      PolygonForegroundBase *pOther,
     if(FieldBits::NoField != (NormalizedYFieldMask & whichField))
         _sfNormalizedY.syncWith(pOther->_sfNormalizedY);
 
+    if(FieldBits::NoField != (AspectHeightFieldMask & whichField))
+        _sfAspectHeight.syncWith(pOther->_sfAspectHeight);
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        _mfPositions.syncWith(pOther->_mfPositions, sInfo);
+    if(FieldBits::NoField != (AspectWidthFieldMask & whichField))
+        _sfAspectWidth.syncWith(pOther->_sfAspectWidth);
+
+    if(FieldBits::NoField != (ScaleFieldMask & whichField))
+        _sfScale.syncWith(pOther->_sfScale);
+
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _mfPositions.syncWith(pOther->_mfPositions, sInfo);
 
 
 }
@@ -395,16 +497,18 @@ void PolygonForegroundBase::execBeginEditImpl (const BitVector &whichField,
 {
     Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 
-    if(FieldBits::NoField != (PositionsFieldMask & whichField))
-        _mfPositions.beginEdit(uiAspect, uiContainerSize);
-
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (PositionsFieldMask & whichField))
+        _mfPositions.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif
 
 
+
+OSG_END_NAMESPACE
 
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
@@ -417,8 +521,6 @@ DataType FieldDataTraits<PolygonForegroundPtr>::_type("PolygonForegroundPtr", "F
 
 OSG_DLLEXPORT_SFIELD_DEF1(PolygonForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PolygonForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -434,10 +536,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOLYGONFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

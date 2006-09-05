@@ -122,4 +122,24 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	>
 	Used for every Light if set !=1.0
 	</Field>
+	<Field
+		name="fboOn"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Sometimes rendering directly into framebuffer is needed instead of using textures.
+	</Field>
+	<Field
+		name="autoExcludeTransparentNodes"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Usually transparent objects do not throw shadows.
+	</Field>
 </FieldContainer>

@@ -102,8 +102,8 @@ void GeoProperty<GeoNormals3sPropertyDesc>::getValue(
     const UInt32  index) const
 {
     res.setValues(glShortToFloat(_field[index][0]),
-                  glShortToFloat(_field[index][0]),
-                  glShortToFloat(_field[index][0]));
+                  glShortToFloat(_field[index][1]),
+                  glShortToFloat(_field[index][2]));
 }
 
 template<>

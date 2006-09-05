@@ -68,10 +68,13 @@
 #include <OSGForeground.h> // Parent
 
 #include <OSGMaterialFields.h> // Material type
-#include <OSGPnt2fFields.h> // Positions type
 #include <OSGVec3fFields.h> // TexCoords type
+#include <OSGPnt2fFields.h> // Positions type
 #include <OSGBoolFields.h> // NormalizedX type
 #include <OSGBoolFields.h> // NormalizedY type
+#include <OSGUInt16Fields.h> // AspectHeight type
+#include <OSGUInt16Fields.h> // AspectWidth type
+#include <OSGReal32Fields.h> // Scale type
 
 #include <OSGPolygonForegroundFields.h>
 
@@ -95,19 +98,25 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
 
     enum
     {
-        MaterialFieldId    = Inherited::NextFieldId,
-        PositionsFieldId   = MaterialFieldId    + 1,
-        TexCoordsFieldId   = PositionsFieldId   + 1,
-        NormalizedXFieldId = TexCoordsFieldId   + 1,
-        NormalizedYFieldId = NormalizedXFieldId + 1,
-        NextFieldId        = NormalizedYFieldId + 1
+        MaterialFieldId     = Inherited::NextFieldId,
+        TexCoordsFieldId    = MaterialFieldId     + 1,
+        PositionsFieldId    = TexCoordsFieldId    + 1,
+        NormalizedXFieldId  = PositionsFieldId    + 1,
+        NormalizedYFieldId  = NormalizedXFieldId  + 1,
+        AspectHeightFieldId = NormalizedYFieldId  + 1,
+        AspectWidthFieldId  = AspectHeightFieldId + 1,
+        ScaleFieldId        = AspectWidthFieldId  + 1,
+        NextFieldId         = ScaleFieldId        + 1
     };
 
     static const OSG::BitVector MaterialFieldMask;
-    static const OSG::BitVector PositionsFieldMask;
     static const OSG::BitVector TexCoordsFieldMask;
+    static const OSG::BitVector PositionsFieldMask;
     static const OSG::BitVector NormalizedXFieldMask;
     static const OSG::BitVector NormalizedYFieldMask;
+    static const OSG::BitVector AspectHeightFieldMask;
+    static const OSG::BitVector AspectWidthFieldMask;
+    static const OSG::BitVector ScaleFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -135,10 +144,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
     /*! \{                                                                 */
 
            SFMaterialPtr       *getSFMaterial       (void);
-           MFPnt2f             *getMFPositions      (void);
            MFVec3f             *getMFTexCoords      (void);
+           MFPnt2f             *getMFPositions      (void);
            SFBool              *getSFNormalizedX    (void);
            SFBool              *getSFNormalizedY    (void);
+           SFUInt16            *getSFAspectHeight   (void);
+           SFUInt16            *getSFAspectWidth    (void);
+           SFReal32            *getSFScale          (void);
 
            MaterialPtr         &getMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
@@ -146,12 +158,18 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
      const bool                &getNormalizedX    (void) const;
            bool                &getNormalizedY    (void);
      const bool                &getNormalizedY    (void) const;
-           Pnt2f               &getPositions      (const UInt32 index);
-           MFPnt2f             &getPositions      (void);
-     const MFPnt2f             &getPositions      (void) const;
+           UInt16              &getAspectHeight   (void);
+     const UInt16              &getAspectHeight   (void) const;
+           UInt16              &getAspectWidth    (void);
+     const UInt16              &getAspectWidth    (void) const;
+           Real32              &getScale          (void);
+     const Real32              &getScale          (void) const;
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
      const MFVec3f             &getTexCoords      (void) const;
+           Pnt2f               &getPositions      (const UInt32 index);
+           MFPnt2f             &getPositions      (void);
+     const MFPnt2f             &getPositions      (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -161,6 +179,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
      void setMaterial       ( const MaterialPtr &value );
      void setNormalizedX    ( const bool &value );
      void setNormalizedY    ( const bool &value );
+     void setAspectHeight   ( const UInt16 &value );
+     void setAspectWidth    ( const UInt16 &value );
+     void setScale          ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -204,10 +225,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
     /*! \{                                                                 */
 
     SFMaterialPtr       _sfMaterial;
-    MFPnt2f             _mfPositions;
     MFVec3f             _mfTexCoords;
+    MFPnt2f             _mfPositions;
     SFBool              _sfNormalizedX;
     SFBool              _sfNormalizedY;
+    SFUInt16            _sfAspectHeight;
+    SFUInt16            _sfAspectWidth;
+    SFReal32            _sfScale;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

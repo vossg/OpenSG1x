@@ -103,18 +103,18 @@ SFMaterialPtr *PolygonForegroundBase::getSFMaterial(void)
     return &_sfMaterial;
 }
 
-//! Get the PolygonForeground::_mfPositions field.
-inline
-MFPnt2f *PolygonForegroundBase::getMFPositions(void)
-{
-    return &_mfPositions;
-}
-
 //! Get the PolygonForeground::_mfTexCoords field.
 inline
 MFVec3f *PolygonForegroundBase::getMFTexCoords(void)
 {
     return &_mfTexCoords;
+}
+
+//! Get the PolygonForeground::_mfPositions field.
+inline
+MFPnt2f *PolygonForegroundBase::getMFPositions(void)
+{
+    return &_mfPositions;
 }
 
 //! Get the PolygonForeground::_sfNormalizedX field.
@@ -129,6 +129,27 @@ inline
 SFBool *PolygonForegroundBase::getSFNormalizedY(void)
 {
     return &_sfNormalizedY;
+}
+
+//! Get the PolygonForeground::_sfAspectHeight field.
+inline
+SFUInt16 *PolygonForegroundBase::getSFAspectHeight(void)
+{
+    return &_sfAspectHeight;
+}
+
+//! Get the PolygonForeground::_sfAspectWidth field.
+inline
+SFUInt16 *PolygonForegroundBase::getSFAspectWidth(void)
+{
+    return &_sfAspectWidth;
+}
+
+//! Get the PolygonForeground::_sfScale field.
+inline
+SFReal32 *PolygonForegroundBase::getSFScale(void)
+{
+    return &_sfScale;
 }
 
 
@@ -195,27 +216,69 @@ void PolygonForegroundBase::setNormalizedY(const bool &value)
     _sfNormalizedY.setValue(value);
 }
 
-
-//! Get the value of the \a index element the PolygonForeground::_mfPositions field.
+//! Get the value of the PolygonForeground::_sfAspectHeight field.
 inline
-Pnt2f &PolygonForegroundBase::getPositions(const UInt32 index)
+UInt16 &PolygonForegroundBase::getAspectHeight(void)
 {
-    return _mfPositions[index];
+    return _sfAspectHeight.getValue();
 }
 
-//! Get the PolygonForeground::_mfPositions field.
+//! Get the value of the PolygonForeground::_sfAspectHeight field.
 inline
-MFPnt2f &PolygonForegroundBase::getPositions(void)
+const UInt16 &PolygonForegroundBase::getAspectHeight(void) const
 {
-    return _mfPositions;
+    return _sfAspectHeight.getValue();
 }
 
-//! Get the PolygonForeground::_mfPositions field.
+//! Set the value of the PolygonForeground::_sfAspectHeight field.
 inline
-const MFPnt2f &PolygonForegroundBase::getPositions(void) const
+void PolygonForegroundBase::setAspectHeight(const UInt16 &value)
 {
-    return _mfPositions;
+    _sfAspectHeight.setValue(value);
 }
+
+//! Get the value of the PolygonForeground::_sfAspectWidth field.
+inline
+UInt16 &PolygonForegroundBase::getAspectWidth(void)
+{
+    return _sfAspectWidth.getValue();
+}
+
+//! Get the value of the PolygonForeground::_sfAspectWidth field.
+inline
+const UInt16 &PolygonForegroundBase::getAspectWidth(void) const
+{
+    return _sfAspectWidth.getValue();
+}
+
+//! Set the value of the PolygonForeground::_sfAspectWidth field.
+inline
+void PolygonForegroundBase::setAspectWidth(const UInt16 &value)
+{
+    _sfAspectWidth.setValue(value);
+}
+
+//! Get the value of the PolygonForeground::_sfScale field.
+inline
+Real32 &PolygonForegroundBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+
+//! Get the value of the PolygonForeground::_sfScale field.
+inline
+const Real32 &PolygonForegroundBase::getScale(void) const
+{
+    return _sfScale.getValue();
+}
+
+//! Set the value of the PolygonForeground::_sfScale field.
+inline
+void PolygonForegroundBase::setScale(const Real32 &value)
+{
+    _sfScale.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonForeground::_mfTexCoords field.
 inline
@@ -236,6 +299,27 @@ inline
 const MFVec3f &PolygonForegroundBase::getTexCoords(void) const
 {
     return _mfTexCoords;
+}
+
+//! Get the value of the \a index element the PolygonForeground::_mfPositions field.
+inline
+Pnt2f &PolygonForegroundBase::getPositions(const UInt32 index)
+{
+    return _mfPositions[index];
+}
+
+//! Get the PolygonForeground::_mfPositions field.
+inline
+MFPnt2f &PolygonForegroundBase::getPositions(void)
+{
+    return _mfPositions;
+}
+
+//! Get the PolygonForeground::_mfPositions field.
+inline
+const MFPnt2f &PolygonForegroundBase::getPositions(void) const
+{
+    return _mfPositions;
 }
 
 OSG_END_NAMESPACE

@@ -100,6 +100,12 @@ const OSG::BitVector  ShadowViewportBase::AutoSearchForLightsFieldMask =
 const OSG::BitVector  ShadowViewportBase::GlobalShadowIntensityFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::GlobalShadowIntensityFieldId);
 
+const OSG::BitVector  ShadowViewportBase::FboOnFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::FboOnFieldId);
+
+const OSG::BitVector  ShadowViewportBase::AutoExcludeTransparentNodesFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::AutoExcludeTransparentNodesFieldId);
+
 const OSG::BitVector ShadowViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -142,6 +148,12 @@ const OSG::BitVector ShadowViewportBase::MTInfluenceMask =
 */
 /*! \var Real32          ShadowViewportBase::_sfGlobalShadowIntensity
     Used for every Light if set !=1.0
+*/
+/*! \var bool            ShadowViewportBase::_sfFboOn
+    Sometimes rendering directly into framebuffer is needed instead of using textures.
+*/
+/*! \var bool            ShadowViewportBase::_sfAutoExcludeTransparentNodes
+    Usually transparent objects do not throw shadows.
 */
 
 //! ShadowViewport description
@@ -207,7 +219,17 @@ FieldDescription *ShadowViewportBase::_desc[] =
                      "globalShadowIntensity", 
                      GlobalShadowIntensityFieldId, GlobalShadowIntensityFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowViewportBase::getSFGlobalShadowIntensity)
+                     (FieldAccessMethod) &ShadowViewportBase::getSFGlobalShadowIntensity),
+    new FieldDescription(SFBool::getClassType(), 
+                     "fboOn", 
+                     FboOnFieldId, FboOnFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFFboOn),
+    new FieldDescription(SFBool::getClassType(), 
+                     "autoExcludeTransparentNodes", 
+                     AutoExcludeTransparentNodesFieldId, AutoExcludeTransparentNodesFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFAutoExcludeTransparentNodes)
 };
 
 
@@ -297,6 +319,8 @@ ShadowViewportBase::ShadowViewportBase(void) :
     _sfShadowOn               (bool(true)), 
     _sfAutoSearchForLights    (bool(false)), 
     _sfGlobalShadowIntensity  (Real32(0.0)), 
+    _sfFboOn                  (bool(true)), 
+    _sfAutoExcludeTransparentNodes(bool(true)), 
     Inherited() 
 {
 }
@@ -318,6 +342,8 @@ ShadowViewportBase::ShadowViewportBase(const ShadowViewportBase &source) :
     _sfShadowOn               (source._sfShadowOn               ), 
     _sfAutoSearchForLights    (source._sfAutoSearchForLights    ), 
     _sfGlobalShadowIntensity  (source._sfGlobalShadowIntensity  ), 
+    _sfFboOn                  (source._sfFboOn                  ), 
+    _sfAutoExcludeTransparentNodes(source._sfAutoExcludeTransparentNodes), 
     Inherited                 (source)
 {
 }
@@ -394,6 +420,16 @@ UInt32 ShadowViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfGlobalShadowIntensity.getBinSize();
     }
 
+    if(FieldBits::NoField != (FboOnFieldMask & whichField))
+    {
+        returnValue += _sfFboOn.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
+    {
+        returnValue += _sfAutoExcludeTransparentNodes.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -461,6 +497,16 @@ void ShadowViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (GlobalShadowIntensityFieldMask & whichField))
     {
         _sfGlobalShadowIntensity.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FboOnFieldMask & whichField))
+    {
+        _sfFboOn.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
+    {
+        _sfAutoExcludeTransparentNodes.copyToBin(pMem);
     }
 
 
@@ -531,6 +577,16 @@ void ShadowViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfGlobalShadowIntensity.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FboOnFieldMask & whichField))
+    {
+        _sfFboOn.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
+    {
+        _sfAutoExcludeTransparentNodes.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -577,6 +633,12 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (GlobalShadowIntensityFieldMask & whichField))
         _sfGlobalShadowIntensity.syncWith(pOther->_sfGlobalShadowIntensity);
 
+    if(FieldBits::NoField != (FboOnFieldMask & whichField))
+        _sfFboOn.syncWith(pOther->_sfFboOn);
+
+    if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
+        _sfAutoExcludeTransparentNodes.syncWith(pOther->_sfAutoExcludeTransparentNodes);
+
 
 }
 #else
@@ -616,6 +678,12 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
 
     if(FieldBits::NoField != (GlobalShadowIntensityFieldMask & whichField))
         _sfGlobalShadowIntensity.syncWith(pOther->_sfGlobalShadowIntensity);
+
+    if(FieldBits::NoField != (FboOnFieldMask & whichField))
+        _sfFboOn.syncWith(pOther->_sfFboOn);
+
+    if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
+        _sfAutoExcludeTransparentNodes.syncWith(pOther->_sfAutoExcludeTransparentNodes);
 
 
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
@@ -672,7 +740,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.9 2006/07/27 13:43:09 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.10 2006/09/05 12:03:23 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

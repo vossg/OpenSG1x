@@ -22,15 +22,6 @@ A Foreground that renders a single polygon used the specified material. The main
 	The material used to display.
 	</Field>
 	<Field
-		name="positions"
-		type="Pnt2f"
-		cardinality="multi"
-		visibility="external"
-		access="public"
-	>
-	The vertices of the geometry to display.
-	</Field>
-	<Field
 		name="texCoords"
 		type="Vec3f"
 		cardinality="multi"
@@ -38,6 +29,15 @@ A Foreground that renders a single polygon used the specified material. The main
 		access="public"
 	>
 	The texture coordinates of the geometry to display.
+	</Field>
+	<Field
+		name="positions"
+		type="Pnt2f"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	The vertices of the geometry to display.
 	</Field>
 	<Field
 		name="normalizedX"
@@ -58,5 +58,35 @@ A Foreground that renders a single polygon used the specified material. The main
 		access="public"
 	>
 	Define whether the y coordinates are normalized (0-1) or pixel-based .
+	</Field>
+	<Field
+		name="aspectHeight"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Useful for keeping aspect ratio when rendering things like images.
+	</Field>
+	<Field
+		name="aspectWidth"
+		type="UInt16"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Useful for keeping aspect ratio when rendering things like images.
+	</Field>
+	<Field
+		name="scale"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0"
+		access="public"
+	>
+	Scale factor for zooming.
 	</Field>
 </FieldContainer>

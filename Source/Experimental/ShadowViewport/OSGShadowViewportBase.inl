@@ -180,6 +180,20 @@ SFReal32 *ShadowViewportBase::getSFGlobalShadowIntensity(void)
     return &_sfGlobalShadowIntensity;
 }
 
+//! Get the ShadowViewport::_sfFboOn field.
+inline
+SFBool *ShadowViewportBase::getSFFboOn(void)
+{
+    return &_sfFboOn;
+}
+
+//! Get the ShadowViewport::_sfAutoExcludeTransparentNodes field.
+inline
+SFBool *ShadowViewportBase::getSFAutoExcludeTransparentNodes(void)
+{
+    return &_sfAutoExcludeTransparentNodes;
+}
+
 
 //! Get the value of the ShadowViewport::_sfOffBias field.
 inline
@@ -391,6 +405,48 @@ void ShadowViewportBase::setGlobalShadowIntensity(const Real32 &value)
     _sfGlobalShadowIntensity.setValue(value);
 }
 
+//! Get the value of the ShadowViewport::_sfFboOn field.
+inline
+bool &ShadowViewportBase::getFboOn(void)
+{
+    return _sfFboOn.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfFboOn field.
+inline
+const bool &ShadowViewportBase::getFboOn(void) const
+{
+    return _sfFboOn.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfFboOn field.
+inline
+void ShadowViewportBase::setFboOn(const bool &value)
+{
+    _sfFboOn.setValue(value);
+}
+
+//! Get the value of the ShadowViewport::_sfAutoExcludeTransparentNodes field.
+inline
+bool &ShadowViewportBase::getAutoExcludeTransparentNodes(void)
+{
+    return _sfAutoExcludeTransparentNodes.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfAutoExcludeTransparentNodes field.
+inline
+const bool &ShadowViewportBase::getAutoExcludeTransparentNodes(void) const
+{
+    return _sfAutoExcludeTransparentNodes.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfAutoExcludeTransparentNodes field.
+inline
+void ShadowViewportBase::setAutoExcludeTransparentNodes(const bool &value)
+{
+    _sfAutoExcludeTransparentNodes.setValue(value);
+}
+
 
 //! Get the value of the \a index element the ShadowViewport::_mfLightNodes field.
 inline
@@ -436,5 +492,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.9 2006/07/27 13:43:09 a-m-z Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.10 2006/09/05 12:03:23 yjung Exp $"
 

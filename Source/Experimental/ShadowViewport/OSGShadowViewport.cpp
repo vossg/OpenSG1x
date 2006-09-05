@@ -559,9 +559,13 @@ void ShadowViewport::render(RenderActionBase *action)
 
         //find transparent nodes
         _transparent.clear();
-        traverse(getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
-                 <Action::ResultE, ShadowViewport, NodePtr>
-                 (this, &ShadowViewport::findTransparent));
+
+        if (getAutoExcludeTransparentNodes())
+        {
+            traverse( getRoot(), osgTypedMethodFunctor1ObjPtrCPtrRef
+                      <Action::ResultE, ShadowViewport, NodePtr>
+                      (this, &ShadowViewport::findTransparent) );
+        }
         _windowW = getParent()->getWidth();
         _windowH = getParent()->getHeight();
 
@@ -600,6 +604,9 @@ void ShadowViewport::render(RenderActionBase *action)
             }
         }
 
+        //glClearStencil(0x0);
+        //glClear(GL_STENCIL_BUFFER_BIT);
+        
         _treeRenderer->render(action);
 
         glDrawBuffer(GL_BACK);
@@ -1352,7 +1359,7 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.21 2006/08/16 15:19:26 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.22 2006/09/05 12:03:23 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

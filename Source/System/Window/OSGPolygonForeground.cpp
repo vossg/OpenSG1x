@@ -47,6 +47,8 @@
 
 #include <OSGViewport.h>
 #include <OSGMaterial.h>
+#include <OSGCamera.h>
+#include <OSGTileCameraDecorator.h>
 
 #include "OSGPolygonForeground.h"
 
@@ -157,25 +159,85 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
     }
        
     glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+    Real32 aspectX = 1.0f, aspectY = 1.0f;
+    
+    if (getAspectHeight() && getAspectWidth())
+    {
+        aspectX = ((Real32)port->getPixelHeight()/getAspectHeight()) /
+                  ((Real32)port->getPixelWidth() / getAspectWidth());
+    }
  
+    glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity();
+    
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
+
+    Camera *cP = act->getCamera();
+    TileCameraDecorator *cdP = dynamic_cast<TileCameraDecorator*>(cP);
     
-    glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
+    Real32 sFac = getScale() > 0 ? getScale() : 1.0f;
+    
+    if (cdP)
+    {
+        UInt32 width  = cdP->getFullWidth() ?
+                        cdP->getFullWidth() : port->getPixelWidth(),
+               height = cdP->getFullHeight() ?
+                        cdP->getFullHeight() : port->getPixelHeight();
+        Real32 t = 0,
+               left   = cdP->getLeft(),
+               right  = cdP->getRight(),
+               top    = cdP->getTop(),
+               bottom = cdP->getBottom();
+        
+        if (getAspectHeight() && getAspectWidth() &&
+            height != 0 && width != 0)
+        {
+            aspectX = ((Real32)height/getAspectHeight()) /
+                      ((Real32)width / getAspectWidth());
+            t  = (Real32)width * (1 - aspectX) * 0.5f;
+            t *= (Real32)port->getPixelWidth() / width;
+        }
+
+        // TODO see PolygonBackground...
+        Real32  xs = 1.f / (right - left),
+                ys = 1.f / (top - bottom);
+        Matrix sm(  xs, 0, 0, -(left*2-1)*xs-1,
+                    0, ys, 0, -(bottom*2-1)*ys-1,
+                    0, 0, 1, 0, 
+                    0, 0, 0, 1);
+        
+        glLoadMatrixf(sm.getValues());
+
+        glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
+
+        glTranslatef(t, 0, 0);
+        glScalef(aspectX, aspectY, 1);
+
+        float t1 = (1 - sFac) * 0.5f * (Real32)port->getPixelWidth();
+        float t2 = (1 - sFac) * 0.5f * (Real32)port->getPixelHeight();
+        glTranslatef(t1, t2, 0);
+        glScalef(sFac,sFac,1);
+    }
+    else
+    {
+        glScalef(sFac,sFac,1);
+        
+        glScalef(aspectX, aspectY, 1);
+        glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);    
+    }
     
     getMaterial()->getState()->activate(act);
-   
-    UInt16 i;
     
     Vec3f *tc  = &getTexCoords()[0];
     Pnt2f *pos = &getPositions()[0];
     
     glBegin(GL_POLYGON);
     
-    for(i = 0; i < getPositions().size(); i++)
+    for (UInt16 i = 0; i < getPositions().size(); i++)
     {
         glTexCoord3fv( tc[i].getValues() );
         glVertex2f( mapCoordinate(pos[i][0], Real32(port->getPixelWidth()),
@@ -187,6 +249,8 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
     glEnd();
     
     getMaterial()->getState()->deactivate(act);
+
+    glScalef(1, 1, 1);
     
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -208,7 +272,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.2 2004/01/20 02:34:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.3 2006/09/05 12:03:23 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 

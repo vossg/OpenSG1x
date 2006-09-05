@@ -96,7 +96,7 @@ UInt32 TreeRenderer::_funcRenderbufferStorage =                 Window::invalidF
 TreeRenderer::TreeRenderer(ShadowViewport *source) :
     _initDone(false),
     _shadowVP(source),
-    _useFBO(true),
+    _useFBO(source->getFboOn()),
     _useNPOTTextures(true),
     _useGLSL(true),
     _useShadowExt(true),
@@ -218,7 +218,7 @@ void TreeRenderer::initialize(Window *win)
         }
 
         //check support for framebuffer objects
-        _useFBO = true;
+        _useFBO = _shadowVP->getFboOn();
 
         if(!win->hasExtension("GL_EXT_framebuffer_object"))
             _useFBO = false;

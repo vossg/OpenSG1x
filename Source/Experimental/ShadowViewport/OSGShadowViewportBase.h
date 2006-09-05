@@ -79,6 +79,8 @@
 #include <OSGBoolFields.h> // ShadowOn type
 #include <OSGBoolFields.h> // AutoSearchForLights type
 #include <OSGReal32Fields.h> // GlobalShadowIntensity type
+#include <OSGBoolFields.h> // FboOn type
+#include <OSGBoolFields.h> // AutoExcludeTransparentNodes type
 
 #include <OSGShadowViewportFields.h>
 
@@ -102,19 +104,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
 
     enum
     {
-        OffBiasFieldId               = Inherited::NextFieldId,
-        OffFactorFieldId             = OffBiasFieldId               + 1,
-        SceneRootFieldId             = OffFactorFieldId             + 1,
-        MapSizeFieldId               = SceneRootFieldId             + 1,
-        LightNodesFieldId            = MapSizeFieldId               + 1,
-        ExcludeNodesFieldId          = LightNodesFieldId            + 1,
-        MapAutoUpdateFieldId         = ExcludeNodesFieldId          + 1,
-        ShadowModeFieldId            = MapAutoUpdateFieldId         + 1,
-        ShadowSmoothnessFieldId      = ShadowModeFieldId            + 1,
-        ShadowOnFieldId              = ShadowSmoothnessFieldId      + 1,
-        AutoSearchForLightsFieldId   = ShadowOnFieldId              + 1,
-        GlobalShadowIntensityFieldId = AutoSearchForLightsFieldId   + 1,
-        NextFieldId                  = GlobalShadowIntensityFieldId + 1
+        OffBiasFieldId                     = Inherited::NextFieldId,
+        OffFactorFieldId                   = OffBiasFieldId                     + 1,
+        SceneRootFieldId                   = OffFactorFieldId                   + 1,
+        MapSizeFieldId                     = SceneRootFieldId                   + 1,
+        LightNodesFieldId                  = MapSizeFieldId                     + 1,
+        ExcludeNodesFieldId                = LightNodesFieldId                  + 1,
+        MapAutoUpdateFieldId               = ExcludeNodesFieldId                + 1,
+        ShadowModeFieldId                  = MapAutoUpdateFieldId               + 1,
+        ShadowSmoothnessFieldId            = ShadowModeFieldId                  + 1,
+        ShadowOnFieldId                    = ShadowSmoothnessFieldId            + 1,
+        AutoSearchForLightsFieldId         = ShadowOnFieldId                    + 1,
+        GlobalShadowIntensityFieldId       = AutoSearchForLightsFieldId         + 1,
+        FboOnFieldId                       = GlobalShadowIntensityFieldId       + 1,
+        AutoExcludeTransparentNodesFieldId = FboOnFieldId                       + 1,
+        NextFieldId                        = AutoExcludeTransparentNodesFieldId + 1
     };
 
     static const OSG::BitVector OffBiasFieldMask;
@@ -129,6 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     static const OSG::BitVector ShadowOnFieldMask;
     static const OSG::BitVector AutoSearchForLightsFieldMask;
     static const OSG::BitVector GlobalShadowIntensityFieldMask;
+    static const OSG::BitVector FboOnFieldMask;
+    static const OSG::BitVector AutoExcludeTransparentNodesFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -167,6 +173,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
            SFBool              *getSFShadowOn       (void);
            SFBool              *getSFAutoSearchForLights(void);
            SFReal32            *getSFGlobalShadowIntensity(void);
+           SFBool              *getSFFboOn          (void);
+           SFBool              *getSFAutoExcludeTransparentNodes(void);
 
            Real32              &getOffBias        (void);
      const Real32              &getOffBias        (void) const;
@@ -188,6 +196,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      const bool                &getAutoSearchForLights(void) const;
            Real32              &getGlobalShadowIntensity(void);
      const Real32              &getGlobalShadowIntensity(void) const;
+           bool                &getFboOn          (void);
+     const bool                &getFboOn          (void) const;
+           bool                &getAutoExcludeTransparentNodes(void);
+     const bool                &getAutoExcludeTransparentNodes(void) const;
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
@@ -210,6 +222,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      void setShadowOn       ( const bool &value );
      void setAutoSearchForLights( const bool &value );
      void setGlobalShadowIntensity( const Real32 &value );
+     void setFboOn          ( const bool &value );
+     void setAutoExcludeTransparentNodes( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -264,6 +278,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     SFBool              _sfShadowOn;
     SFBool              _sfAutoSearchForLights;
     SFReal32            _sfGlobalShadowIntensity;
+    SFBool              _sfFboOn;
+    SFBool              _sfAutoExcludeTransparentNodes;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -341,6 +357,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.9 2006/07/27 13:43:09 a-m-z Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.10 2006/09/05 12:03:23 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */
