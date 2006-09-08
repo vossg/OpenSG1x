@@ -1,0 +1,24 @@
+Import('*')
+
+sources = Split("""
+    OSGCoreGLWindow.cpp
+    OSGCoreGLWindowBase.cpp
+    OSGCoreGLWindowDataFields.cpp
+""")
+
+headers = Split("""
+    OSGCoreGLWindow.h
+    OSGCoreGLWindow.inl
+    OSGCoreGLWindowBase.h
+    OSGCoreGLWindowBase.inl
+    OSGCoreGLWindowDataFields.h
+    OSGCoreGLWindowFields.h
+    OSGWindowCoreGLDef.h
+""")
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGWindowCoreGL', sources,
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWCOREGLLIB'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

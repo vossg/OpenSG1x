@@ -750,6 +750,15 @@ dnl e2
                 ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowCarbonTest"
             fi
         fi
+        if test ${ac_gdz_package_name} = "WindowCoreGL"; then
+            if test ${build_os} != "darwin"; then
+                echo Skipping ${ac_gdz_package_name}
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowCoreGLLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowCoreGLTest"
+            fi
+        fi
         if test ${ac_gdz_package_name} = "WindowQT"; then
             if test ${ac_gdz_conf_package_qt} = 0; then
                 echo Skipping ${ac_gdz_package_name}
@@ -2788,4 +2797,16 @@ dnl e26
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_carbon_e26:$ac_gdz_common_carbon_in_e26)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_COREGL,
+[
+dnl e27
+
+    ac_gdz_common_coregl_in_e27=$ac_gdz_commonconf_dir/commonCOREGL.in
+    ac_gdz_common_coregl_e27=$ac_gdz_commonpackage_dir/commonCOREGL.mk
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_coregl_e27:$ac_gdz_common_coregl_in_e27)
 ])
