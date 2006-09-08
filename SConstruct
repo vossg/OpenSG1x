@@ -405,7 +405,9 @@ class OpenSGLibrary:
         env.AppendUnique(LIBPATH = [Dir(libdir)])
         
         for lib in self.libraries:
-            env.AppendUnique(LIBS = [lib + '$OSG_LIBSUF'])
+            # filter out OSGWindowX lib on win32 platform.
+            if lib != 'OSGWindowX' or env['PLATFORM'] != 'win32':
+                env.AppendUnique(LIBS = [lib + '$OSG_LIBSUF'])
 
 
 Export('BuildProgram OpenSGLibrary')
@@ -448,7 +450,7 @@ class PlatformOptions:
 
         opts.Add(BoolOption('gif', 'Enable gif support', 1))
 
-        self.package_options = ['tif', 'jpg', 'png', 'glut', 'zlib']
+        self.package_options = ['tif', 'jpg', 'png', 'jasper', 'exr', 'glut', 'zlib']
         
         if self.de.get('PLATFORM') == 'cygwin':
             print "Not supported yet!"
@@ -456,7 +458,7 @@ class PlatformOptions:
             opts.Add(EnumOption('compiler', 'Use compiler', 'icl',
                                     allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'msvc80x64', 'mspsdkx64')))
             
-            # try to find the supportslibs directory.
+            # try to find the supportlibs directory.
             current_dir = Dir('.').abspath
             supportlibs = 'no'
             if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'include', 'png.h')):
@@ -478,7 +480,11 @@ class PlatformOptions:
                                     allowed_values=('gcc')))
                 
                 for option in self.package_options:
-                    opts.Add(PackageOption(option, 'Enable ' + option + ' support', 'yes'))
+                    enable = 'yes'
+                    # on linux as default we disable jasper and exr support.
+                    if option == 'jasper' or option == 'exr':
+                        enable = 'no'
+                    opts.Add(PackageOption(option, 'Enable ' + option + ' support', enable))
 
         # add common options
         opts.Add(EnumOption('type', 'Compile dbg, opt or both', 'opt',
@@ -610,6 +616,9 @@ class ToolChain:
         for option in _po.getPackageOptions():
             if isinstance(_po.getOption(option), str):
                 self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include')])
+                # HACK but the OpenEXR headers are broken.
+                if option == 'exr':
+                    self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include', 'OpenEXR')])
                 self.env.Append(LIBPATH = [os.path.join(_po.getOption(option), 'lib')])
 
         # add OSG_WITH defines
@@ -623,7 +632,11 @@ class ToolChain:
             self.env.Append(CPPDEFINES = ['OSG_WITH_PNG'])
         if _po.getOption('gif'):
             self.env.Append(CPPDEFINES = ['OSG_WITH_GIF'])
-        
+        if _po.getOption('jasper'):
+            self.env.Append(CPPDEFINES = ['OSG_WITH_JASPER'])
+        if _po.getOption('exr'):
+            self.env.Append(CPPDEFINES = ['OSG_WITH_IMF'])
+
         if _po.getOption('qt'):
             #if isinstance(_po.getOption('qt'), str):
             self.env.PrependENVPath('PATH', os.path.join(_po.getOption('qt'), 'bin'))
@@ -726,6 +739,8 @@ class win32(ToolChain):
 
         if len(supportlibs) > 0:
             env.AppendENVPath('INCLUDE', supportlibs + os.sep + 'include')
+            # HACK but the OpenEXR headers are broken.
+            env.AppendENVPath('INCLUDE', supportlibs + os.sep + 'include/OpenEXR')
             env.AppendENVPath('LIB', supportlibs + os.sep + 'lib')
             #print 'Added supportlibs path (' + supportlibs + ')'
 
@@ -737,6 +752,10 @@ class win32(ToolChain):
         if _po.getOption('png'):
             slibs.append('libpng')
             slibs.append('zlib')
+        if _po.getOption('jasper'):
+            slibs.append('libjasper')
+        if _po.getOption('exr'):
+            slibs.append('IlmImf')
 
         env['OSG_BASE_LIBS'] = []
         env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
@@ -1078,6 +1097,10 @@ class linux_gcc(ToolChain):
         if _po.getOption('png'):
             slibs.append('libpng')
             slibs.append('libz')
+        if _po.getOption('jasper'):
+            slibs.append('jasper')
+        if _po.getOption('exr'):
+            slibs.append('IlmImf')
 
         env = env.Copy()
         
@@ -1209,3 +1232,21 @@ Export('env')
 SConscript(dirs=map(
     lambda n: env['BUILD_DIR'].Dir(n),
     ['Source', 'Examples', 'Tools', 'Tutorials']))
+
+#print 'defines: ', env['CPPDEFINES']
+#print 'cflags: ', env['CXXFLAGS']
+#print 'lflags: ', env['LINKFLAGS']
+#print 'libs: ', env['LIBPATH']
+#print 'llibs: ', env['LIBS']
+#print 'base libs: ', env['OSG_BASE_LIBS']
+#print 'system libs: ', env['OSG_SYSTEM_LIBS']
+
+#print 'glut libs: ', env['OSG_WINDOW_GLUT_LIBS']
+#print 'windowx libs: ', env['OSG_WINDOW_X_LIBS']
+#print 'win32 libs: ', env['OSG_WINDOW_WIN32_LIBS']
+#print 'qt libs: ', env['OSG_WINDOW_QT_LIBS']
+#print 'qt4 libs: ', env['OSG_WINDOW_QT4_LIBS']
+#print 'contrib libs: ', env['OSG_CONTRIB_LIBS']
+
+#import sys
+#sys.exit()
