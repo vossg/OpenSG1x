@@ -89,10 +89,10 @@ struct FieldDataTraits<SimpleStatisticsForegroundPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFSimpleStatisticsForegroundPtr"; }
-    static char     *getMName(void) { return "MFSimpleStatisticsForegroundPtr"; }
+    static const char *getSName(void) { return "SFSimpleStatisticsForegroundPtr"; }
+    static const char *getMName(void) { return "MFSimpleStatisticsForegroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPL
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.26 2006/02/20 16:55:35 dirk Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDFIELDS_H_ */

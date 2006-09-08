@@ -282,10 +282,10 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     TextLayoutResult layoutResult;
     _face->layout(stat, layoutParam, layoutResult);
 
-    Real32 scale = _face->getScale();
+    Real32 scale = 1 / _face->getScale();
     Real32 size = _face->getParam().size;
-    Real32 textWidth = layoutResult.textBounds.x() / scale + size;
-    Real32 textHeight = layoutResult.textBounds.y() / scale + size;
+    Real32 textWidth = layoutResult.textBounds.x() * scale + size;
+    Real32 textHeight = layoutResult.textBounds.y() * scale + size;
 
     // Let's do some simple form of layout management
     Real32 orthoX = 0, orthoY = ph;
@@ -328,12 +328,34 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glEnd();
 
     // draw text
-    glColor4fv((GLfloat*)getColor().getValuesRGBA());
     glTranslatef(0.5 * size, -0.5 * size, 0.0);
-    glScalef(1 / scale, 1 / scale, 1);
 
     _texchunk->activate(action);
 
+    glColor4fv((GLfloat*)getShadowColor().getValuesRGBA());
+    glPushMatrix();
+    glTranslatef(getShadowOffset().x(), getShadowOffset().y(), 0);
+    glScalef(scale, scale, 1);
+    drawCharacters(layoutResult);
+
+    glColor4fv((GLfloat*)getColor().getValuesRGBA());
+    glPopMatrix();
+    glScalef(scale, scale, 1);
+    drawCharacters(layoutResult);
+
+    _texchunk->deactivate(action);
+
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+
+    glPopAttrib();
+}
+
+void SimpleStatisticsForeground::drawCharacters(const TextLayoutResult &layoutResult) const
+{
     glBegin(GL_QUADS);
 
     UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
@@ -374,17 +396,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         glTexCoord2f(texCoordLeft, texCoordTop);
         glVertex2f(posLeft, posTop);
     }
+
     glEnd();
-
-    _texchunk->deactivate(action);
-    
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-
-    glPopAttrib();
 }
 
 /*-------------------------------------------------------------------------*/

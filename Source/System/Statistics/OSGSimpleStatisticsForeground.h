@@ -52,6 +52,7 @@
 OSG_BEGIN_NAMESPACE
 
 class TextTXFFace;
+class TextLayoutResult;
 
 /*! \brief Simple Statistics Foreground class. See \ref
     PageSystemWindowForegroundStatisticsSimple for a description.
@@ -141,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForeground : public SimpleStatist
     static void initMethod(void);
 
     void initText(const std::string &family, Real32 size);
+
+    void drawCharacters(const TextLayoutResult &layoutResult) const;
 
     // prohibit default functions (move to 'public' if you need one)
 

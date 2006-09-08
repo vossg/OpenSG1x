@@ -62,7 +62,7 @@
 #include "OSGSimpleStatisticsForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SimpleStatisticsForegroundBase::FormatsFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::FormatsFieldId);
@@ -73,11 +73,17 @@ const OSG::BitVector  SimpleStatisticsForegroundBase::SizeFieldMask =
 const OSG::BitVector  SimpleStatisticsForegroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::ColorFieldId);
 
+const OSG::BitVector  SimpleStatisticsForegroundBase::ShadowColorFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::ShadowColorFieldId);
+
 const OSG::BitVector  SimpleStatisticsForegroundBase::BgColorFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::BgColorFieldId);
 
 const OSG::BitVector  SimpleStatisticsForegroundBase::FamilyFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::FamilyFieldId);
+
+const OSG::BitVector  SimpleStatisticsForegroundBase::ShadowOffsetFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::ShadowOffsetFieldId);
 
 const OSG::BitVector  SimpleStatisticsForegroundBase::HorizontalAlignFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::HorizontalAlignFieldId);
@@ -101,11 +107,17 @@ const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask =
 /*! \var Color4f         SimpleStatisticsForegroundBase::_sfColor
     Color of the text.
 */
+/*! \var Color4f         SimpleStatisticsForegroundBase::_sfShadowColor
+    Color of the shadow.
+*/
 /*! \var Color4f         SimpleStatisticsForegroundBase::_sfBgColor
     Color of the background.
 */
 /*! \var std::string     SimpleStatisticsForegroundBase::_sfFamily
     The font family to be used, e.g. "SANS", default if unset.
+*/
+/*! \var Vec2f           SimpleStatisticsForegroundBase::_sfShadowOffset
+    Offset of the shadow, in pixels.
 */
 /*! \var UInt8           SimpleStatisticsForegroundBase::_sfHorizontalAlign
     Simple form of layout management, 0 defaults to left.
@@ -134,6 +146,11 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      false,
                      (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFColor),
     new FieldDescription(SFColor4f::getClassType(), 
+                     "shadowColor", 
+                     ShadowColorFieldId, ShadowColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFShadowColor),
+    new FieldDescription(SFColor4f::getClassType(), 
                      "bgColor", 
                      BgColorFieldId, BgColorFieldMask,
                      false,
@@ -143,6 +160,11 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      FamilyFieldId, FamilyFieldMask,
                      false,
                      (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFFamily),
+    new FieldDescription(SFVec2f::getClassType(), 
+                     "shadowOffset", 
+                     ShadowOffsetFieldId, ShadowOffsetFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFShadowOffset),
     new FieldDescription(SFUInt8::getClassType(), 
                      "horizontalAlign", 
                      HorizontalAlignFieldId, HorizontalAlignFieldMask,
@@ -232,8 +254,10 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
     _mfFormats                (), 
     _sfSize                   (Real32(16)), 
     _sfColor                  (Color4f(1,1,1,1)), 
+    _sfShadowColor            (Color4f(0,0,0,1)), 
     _sfBgColor                (Color4f(0,0,0,0)), 
     _sfFamily                 (), 
+    _sfShadowOffset           (Vec2f(1,-1)), 
     _sfHorizontalAlign        (UInt8(0)), 
     _sfVerticalAlign          (UInt8(0)), 
     Inherited() 
@@ -248,8 +272,10 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStati
     _mfFormats                (source._mfFormats                ), 
     _sfSize                   (source._sfSize                   ), 
     _sfColor                  (source._sfColor                  ), 
+    _sfShadowColor            (source._sfShadowColor            ), 
     _sfBgColor                (source._sfBgColor                ), 
     _sfFamily                 (source._sfFamily                 ), 
+    _sfShadowOffset           (source._sfShadowOffset           ), 
     _sfHorizontalAlign        (source._sfHorizontalAlign        ), 
     _sfVerticalAlign          (source._sfVerticalAlign          ), 
     Inherited                 (source)
@@ -283,6 +309,11 @@ UInt32 SimpleStatisticsForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    {
+        returnValue += _sfShadowColor.getBinSize();
+    }
+
     if(FieldBits::NoField != (BgColorFieldMask & whichField))
     {
         returnValue += _sfBgColor.getBinSize();
@@ -291,6 +322,11 @@ UInt32 SimpleStatisticsForegroundBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
     {
         returnValue += _sfFamily.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ShadowOffsetFieldMask & whichField))
+    {
+        returnValue += _sfShadowOffset.getBinSize();
     }
 
     if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
@@ -327,6 +363,11 @@ void SimpleStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
         _sfColor.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    {
+        _sfShadowColor.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (BgColorFieldMask & whichField))
     {
         _sfBgColor.copyToBin(pMem);
@@ -335,6 +376,11 @@ void SimpleStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
     {
         _sfFamily.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShadowOffsetFieldMask & whichField))
+    {
+        _sfShadowOffset.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
@@ -370,6 +416,11 @@ void SimpleStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+    {
+        _sfShadowColor.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (BgColorFieldMask & whichField))
     {
         _sfBgColor.copyFromBin(pMem);
@@ -378,6 +429,11 @@ void SimpleStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
     {
         _sfFamily.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShadowOffsetFieldMask & whichField))
+    {
+        _sfShadowOffset.copyFromBin(pMem);
     }
 
     if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
@@ -409,11 +465,17 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
 
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+        _sfShadowColor.syncWith(pOther->_sfShadowColor);
+
     if(FieldBits::NoField != (BgColorFieldMask & whichField))
         _sfBgColor.syncWith(pOther->_sfBgColor);
 
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
         _sfFamily.syncWith(pOther->_sfFamily);
+
+    if(FieldBits::NoField != (ShadowOffsetFieldMask & whichField))
+        _sfShadowOffset.syncWith(pOther->_sfShadowOffset);
 
     if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
         _sfHorizontalAlign.syncWith(pOther->_sfHorizontalAlign);
@@ -437,11 +499,17 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
 
+    if(FieldBits::NoField != (ShadowColorFieldMask & whichField))
+        _sfShadowColor.syncWith(pOther->_sfShadowColor);
+
     if(FieldBits::NoField != (BgColorFieldMask & whichField))
         _sfBgColor.syncWith(pOther->_sfBgColor);
 
     if(FieldBits::NoField != (FamilyFieldMask & whichField))
         _sfFamily.syncWith(pOther->_sfFamily);
+
+    if(FieldBits::NoField != (ShadowOffsetFieldMask & whichField))
+        _sfShadowOffset.syncWith(pOther->_sfShadowOffset);
 
     if(FieldBits::NoField != (HorizontalAlignFieldMask & whichField))
         _sfHorizontalAlign.syncWith(pOther->_sfHorizontalAlign);
@@ -470,6 +538,8 @@ void SimpleStatisticsForegroundBase::execBeginEditImpl (const BitVector &whichFi
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -481,8 +551,6 @@ DataType FieldDataTraits<SimpleStatisticsForegroundPtr>::_type("SimpleStatistics
 
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -498,10 +566,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLESTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSIMPLESTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

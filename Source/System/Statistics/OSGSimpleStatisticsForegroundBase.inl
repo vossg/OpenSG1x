@@ -117,6 +117,13 @@ SFColor4f *SimpleStatisticsForegroundBase::getSFColor(void)
     return &_sfColor;
 }
 
+//! Get the SimpleStatisticsForeground::_sfShadowColor field.
+inline
+SFColor4f *SimpleStatisticsForegroundBase::getSFShadowColor(void)
+{
+    return &_sfShadowColor;
+}
+
 //! Get the SimpleStatisticsForeground::_sfBgColor field.
 inline
 SFColor4f *SimpleStatisticsForegroundBase::getSFBgColor(void)
@@ -129,6 +136,13 @@ inline
 SFString *SimpleStatisticsForegroundBase::getSFFamily(void)
 {
     return &_sfFamily;
+}
+
+//! Get the SimpleStatisticsForeground::_sfShadowOffset field.
+inline
+SFVec2f *SimpleStatisticsForegroundBase::getSFShadowOffset(void)
+{
+    return &_sfShadowOffset;
 }
 
 //! Get the SimpleStatisticsForeground::_sfHorizontalAlign field.
@@ -188,6 +202,27 @@ void SimpleStatisticsForegroundBase::setColor(const Color4f &value)
     _sfColor.setValue(value);
 }
 
+//! Get the value of the SimpleStatisticsForeground::_sfShadowColor field.
+inline
+Color4f &SimpleStatisticsForegroundBase::getShadowColor(void)
+{
+    return _sfShadowColor.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfShadowColor field.
+inline
+const Color4f &SimpleStatisticsForegroundBase::getShadowColor(void) const
+{
+    return _sfShadowColor.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfShadowColor field.
+inline
+void SimpleStatisticsForegroundBase::setShadowColor(const Color4f &value)
+{
+    _sfShadowColor.setValue(value);
+}
+
 //! Get the value of the SimpleStatisticsForeground::_sfBgColor field.
 inline
 Color4f &SimpleStatisticsForegroundBase::getBgColor(void)
@@ -228,6 +263,27 @@ inline
 void SimpleStatisticsForegroundBase::setFamily(const std::string &value)
 {
     _sfFamily.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfShadowOffset field.
+inline
+Vec2f &SimpleStatisticsForegroundBase::getShadowOffset(void)
+{
+    return _sfShadowOffset.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfShadowOffset field.
+inline
+const Vec2f &SimpleStatisticsForegroundBase::getShadowOffset(void) const
+{
+    return _sfShadowOffset.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfShadowOffset field.
+inline
+void SimpleStatisticsForegroundBase::setShadowOffset(const Vec2f &value)
+{
+    _sfShadowOffset.setValue(value);
 }
 
 //! Get the value of the SimpleStatisticsForeground::_sfHorizontalAlign field.
