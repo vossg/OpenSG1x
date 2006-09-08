@@ -62,7 +62,7 @@
 #include "OSGPolygonBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PolygonBackgroundBase::MaterialFieldMask = 
     (TypeTraits<BitVector>::One << PolygonBackgroundBase::MaterialFieldId);
@@ -87,6 +87,12 @@ const OSG::BitVector  PolygonBackgroundBase::AspectWidthFieldMask =
 
 const OSG::BitVector  PolygonBackgroundBase::ScaleFieldMask = 
     (TypeTraits<BitVector>::One << PolygonBackgroundBase::ScaleFieldId);
+
+const OSG::BitVector  PolygonBackgroundBase::ClearStencilBitFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonBackgroundBase::ClearStencilBitFieldId);
+
+const OSG::BitVector  PolygonBackgroundBase::CleanupFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonBackgroundBase::CleanupFieldId);
 
 const OSG::BitVector PolygonBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -118,6 +124,12 @@ const OSG::BitVector PolygonBackgroundBase::MTInfluenceMask =
 */
 /*! \var Real32          PolygonBackgroundBase::_sfScale
     Scale factor for zooming.
+*/
+/*! \var Int32           PolygonBackgroundBase::_sfClearStencilBit
+    Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+*/
+/*! \var bool            PolygonBackgroundBase::_sfCleanup
+    Clear depth/ stencil buffer after applying the material.
 */
 
 //! PolygonBackground description
@@ -163,7 +175,17 @@ FieldDescription *PolygonBackgroundBase::_desc[] =
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFScale)
+                     (FieldAccessMethod) &PolygonBackgroundBase::getSFScale),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "clearStencilBit", 
+                     ClearStencilBitFieldId, ClearStencilBitFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonBackgroundBase::getSFClearStencilBit),
+    new FieldDescription(SFBool::getClassType(), 
+                     "cleanup", 
+                     CleanupFieldId, CleanupFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonBackgroundBase::getSFCleanup)
 };
 
 
@@ -249,6 +271,8 @@ PolygonBackgroundBase::PolygonBackgroundBase(void) :
     _sfAspectHeight           (UInt16(0)), 
     _sfAspectWidth            (UInt16(0)), 
     _sfScale                  (Real32(1.0)), 
+    _sfClearStencilBit        (Int32(-1)), 
+    _sfCleanup                (bool(true)), 
     Inherited() 
 {
 }
@@ -266,6 +290,8 @@ PolygonBackgroundBase::PolygonBackgroundBase(const PolygonBackgroundBase &source
     _sfAspectHeight           (source._sfAspectHeight           ), 
     _sfAspectWidth            (source._sfAspectWidth            ), 
     _sfScale                  (source._sfScale                  ), 
+    _sfClearStencilBit        (source._sfClearStencilBit        ), 
+    _sfCleanup                (source._sfCleanup                ), 
     Inherited                 (source)
 {
 }
@@ -322,6 +348,16 @@ UInt32 PolygonBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfScale.getBinSize();
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        returnValue += _sfClearStencilBit.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CleanupFieldMask & whichField))
+    {
+        returnValue += _sfCleanup.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -369,6 +405,16 @@ void PolygonBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
         _sfScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CleanupFieldMask & whichField))
+    {
+        _sfCleanup.copyToBin(pMem);
     }
 
 
@@ -419,6 +465,16 @@ void PolygonBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfScale.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (CleanupFieldMask & whichField))
+    {
+        _sfCleanup.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -453,6 +509,12 @@ void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
         _sfScale.syncWith(pOther->_sfScale);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
+    if(FieldBits::NoField != (CleanupFieldMask & whichField))
+        _sfCleanup.syncWith(pOther->_sfCleanup);
+
 
 }
 #else
@@ -481,6 +543,12 @@ void PolygonBackgroundBase::executeSyncImpl(      PolygonBackgroundBase *pOther,
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
         _sfScale.syncWith(pOther->_sfScale);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
+    if(FieldBits::NoField != (CleanupFieldMask & whichField))
+        _sfCleanup.syncWith(pOther->_sfCleanup);
+
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
@@ -508,6 +576,8 @@ void PolygonBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -519,8 +589,6 @@ DataType FieldDataTraits<PolygonBackgroundPtr>::_type("PolygonBackgroundPtr", "B
 
 OSG_DLLEXPORT_SFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -536,10 +604,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.7 2006/06/28 15:57:27 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.8 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOLYGONBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

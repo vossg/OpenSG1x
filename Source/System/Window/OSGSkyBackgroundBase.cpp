@@ -121,6 +121,9 @@ const OSG::BitVector  SkyBackgroundBase::BackTexCoordFieldMask =
 const OSG::BitVector  SkyBackgroundBase::BeaconFieldMask = 
     (TypeTraits<BitVector>::One << SkyBackgroundBase::BeaconFieldId);
 
+const OSG::BitVector  SkyBackgroundBase::ClearStencilBitFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::ClearStencilBitFieldId);
+
 const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -184,6 +187,9 @@ const OSG::BitVector SkyBackgroundBase::MTInfluenceMask =
 */
 /*! \var NodePtr         SkyBackgroundBase::_sfBeacon
     The object that defines the orientation of the background.
+*/
+/*! \var Int32           SkyBackgroundBase::_sfClearStencilBit
+    Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
 */
 
 //! SkyBackground description
@@ -284,7 +290,12 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &SkyBackgroundBase::getSFBeacon)
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFBeacon),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "clearStencilBit", 
+                     ClearStencilBitFieldId, ClearStencilBitFieldMask,
+                     false,
+                     (FieldAccessMethod) &SkyBackgroundBase::getSFClearStencilBit)
 };
 
 
@@ -389,6 +400,7 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
     _mfFrontTexCoord          (), 
     _mfBackTexCoord           (), 
     _sfBeacon                 (), 
+    _sfClearStencilBit        (Int32(-1)), 
     Inherited() 
 {
 }
@@ -417,6 +429,7 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _mfFrontTexCoord          (source._mfFrontTexCoord          ), 
     _mfBackTexCoord           (source._mfBackTexCoord           ), 
     _sfBeacon                 (source._sfBeacon                 ), 
+    _sfClearStencilBit        (source._sfClearStencilBit        ), 
     Inherited                 (source)
 {
 }
@@ -528,6 +541,11 @@ UInt32 SkyBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBeacon.getBinSize();
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        returnValue += _sfClearStencilBit.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -630,6 +648,11 @@ void SkyBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
     {
         _sfBeacon.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyToBin(pMem);
     }
 
 
@@ -735,6 +758,11 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBeacon.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -802,6 +830,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
         _sfBeacon.syncWith(pOther->_sfBeacon);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
 
 }
 #else
@@ -838,6 +869,9 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
     if(FieldBits::NoField != (BeaconFieldMask & whichField))
         _sfBeacon.syncWith(pOther->_sfBeacon);
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
 
     if(FieldBits::NoField != (SkyColorFieldMask & whichField))

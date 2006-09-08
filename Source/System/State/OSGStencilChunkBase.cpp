@@ -66,7 +66,7 @@
 #include <OSGGL.h>                        // StencilOpZFail default header
 #include <OSGGL.h>                        // StencilOpZPass default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StencilChunkBase::StencilFuncFieldMask = 
     (TypeTraits<BitVector>::One << StencilChunkBase::StencilFuncFieldId);
@@ -88,6 +88,9 @@ const OSG::BitVector  StencilChunkBase::StencilOpZPassFieldMask =
 
 const OSG::BitVector  StencilChunkBase::ClearBufferFieldMask = 
     (TypeTraits<BitVector>::One << StencilChunkBase::ClearBufferFieldId);
+
+const OSG::BitVector  StencilChunkBase::BitMaskFieldMask = 
+    (TypeTraits<BitVector>::One << StencilChunkBase::BitMaskFieldId);
 
 const OSG::BitVector StencilChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -116,6 +119,9 @@ const OSG::BitVector StencilChunkBase::MTInfluenceMask =
 */
 /*! \var Int32           StencilChunkBase::_sfClearBuffer
     Clear buffer on activate(1) or deactivate(2).
+*/
+/*! \var UInt32          StencilChunkBase::_sfBitMask
+    Controls writing of individual bits in stencil planes, with 0 means write protected and 1 write enabled.
 */
 
 //! StencilChunk description
@@ -156,7 +162,12 @@ FieldDescription *StencilChunkBase::_desc[] =
                      "clearBuffer", 
                      ClearBufferFieldId, ClearBufferFieldMask,
                      false,
-                     (FieldAccessMethod) &StencilChunkBase::getSFClearBuffer)
+                     (FieldAccessMethod) &StencilChunkBase::getSFClearBuffer),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "bitMask", 
+                     BitMaskFieldId, BitMaskFieldMask,
+                     false,
+                     (FieldAccessMethod) &StencilChunkBase::getSFBitMask)
 };
 
 
@@ -239,6 +250,7 @@ StencilChunkBase::StencilChunkBase(void) :
     _sfStencilOpZFail         (GLenum(GL_KEEP)), 
     _sfStencilOpZPass         (GLenum(GL_KEEP)), 
     _sfClearBuffer            (Int32(0)), 
+    _sfBitMask                (UInt32(0xFFFFFFFF)), 
     Inherited() 
 {
 }
@@ -255,6 +267,7 @@ StencilChunkBase::StencilChunkBase(const StencilChunkBase &source) :
     _sfStencilOpZFail         (source._sfStencilOpZFail         ), 
     _sfStencilOpZPass         (source._sfStencilOpZPass         ), 
     _sfClearBuffer            (source._sfClearBuffer            ), 
+    _sfBitMask                (source._sfBitMask                ), 
     Inherited                 (source)
 {
 }
@@ -306,6 +319,11 @@ UInt32 StencilChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfClearBuffer.getBinSize();
     }
 
+    if(FieldBits::NoField != (BitMaskFieldMask & whichField))
+    {
+        returnValue += _sfBitMask.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -348,6 +366,11 @@ void StencilChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ClearBufferFieldMask & whichField))
     {
         _sfClearBuffer.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BitMaskFieldMask & whichField))
+    {
+        _sfBitMask.copyToBin(pMem);
     }
 
 
@@ -393,6 +416,11 @@ void StencilChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfClearBuffer.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BitMaskFieldMask & whichField))
+    {
+        _sfBitMask.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -423,6 +451,9 @@ void StencilChunkBase::executeSyncImpl(      StencilChunkBase *pOther,
 
     if(FieldBits::NoField != (ClearBufferFieldMask & whichField))
         _sfClearBuffer.syncWith(pOther->_sfClearBuffer);
+
+    if(FieldBits::NoField != (BitMaskFieldMask & whichField))
+        _sfBitMask.syncWith(pOther->_sfBitMask);
 
 
 }
@@ -455,6 +486,9 @@ void StencilChunkBase::executeSyncImpl(      StencilChunkBase *pOther,
     if(FieldBits::NoField != (ClearBufferFieldMask & whichField))
         _sfClearBuffer.syncWith(pOther->_sfClearBuffer);
 
+    if(FieldBits::NoField != (BitMaskFieldMask & whichField))
+        _sfBitMask.syncWith(pOther->_sfBitMask);
+
 
 
 }
@@ -470,14 +504,10 @@ void StencilChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StencilChunkPtr>::_type("StencilChunkPtr", "StateChunkPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -493,10 +523,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.6 2006/02/20 17:04:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.7 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTENCILCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

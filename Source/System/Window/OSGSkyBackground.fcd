@@ -191,4 +191,14 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	>
 	The object that defines the orientation of the background.
 	</Field>
+	<Field
+		name="clearStencilBit"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="-1"
+		access="public"
+	>
+	Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+	</Field>
 </FieldContainer>

@@ -229,6 +229,13 @@ SFNodePtr *SkyBackgroundBase::getSFBeacon(void)
     return &_sfBeacon;
 }
 
+//! Get the SkyBackground::_sfClearStencilBit field.
+inline
+SFInt32 *SkyBackgroundBase::getSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
 
 //! Get the value of the SkyBackground::_sfSphereRes field.
 inline
@@ -417,6 +424,27 @@ inline
 void SkyBackgroundBase::setBeacon(const NodePtr &value)
 {
     _sfBeacon.setValue(value);
+}
+
+//! Get the value of the SkyBackground::_sfClearStencilBit field.
+inline
+Int32 &SkyBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Get the value of the SkyBackground::_sfClearStencilBit field.
+inline
+const Int32 &SkyBackgroundBase::getClearStencilBit(void) const
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Set the value of the SkyBackground::_sfClearStencilBit field.
+inline
+void SkyBackgroundBase::setClearStencilBit(const Int32 &value)
+{
+    _sfClearStencilBit.setValue(value);
 }
 
 

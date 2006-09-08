@@ -137,14 +137,26 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
                   getPositions().getSize(), getTexCoords().getSize()));
         return;
     }
-       
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    Int32 bit = getClearStencilBit();      // 0x0
+    
+    if (bit >= 0)
+    {
+        glClearStencil(bit);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    }
+    else
+    {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
 
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     glDisable(GL_DEPTH_TEST);
     glDepthFunc(GL_ALWAYS);
-    glDepthMask(GL_FALSE);
+
+    if ( getCleanup() )
+        glDepthMask(GL_FALSE);
 
     Real32 aspectX = 1.0f, aspectY = 1.0f;
     
@@ -186,10 +198,6 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
                       ((Real32)width / getAspectWidth());
             t  = (Real32)width * (1 - aspectX) * 0.5f;
             t *= (Real32)port->getPixelWidth() / width;
-
-            //std::cerr << "w: " << width << ", h: " << height
-            //          << ", x: " << aspectX << ", t: "  << t
-            //          << std::endl;
         }
 
         // Ausschnittsmatrix des Tiledecorators -> auf die erst die Ortho drauf
@@ -242,8 +250,14 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
 
     glScalef(1, 1, 1);
 
-    glClear(GL_DEPTH_BUFFER_BIT);
-     
+    if ( getCleanup() )
+    {
+        if (bit >= 0)
+            glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        else
+            glClear(GL_DEPTH_BUFFER_BIT);
+    }
+    
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -276,7 +290,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.4 2006/06/28 15:57:27 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.5 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

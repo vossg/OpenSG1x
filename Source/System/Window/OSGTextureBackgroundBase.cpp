@@ -62,7 +62,7 @@
 #include "OSGTextureBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TextureBackgroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << TextureBackgroundBase::ColorFieldId);
@@ -84,6 +84,9 @@ const OSG::BitVector  TextureBackgroundBase::HorFieldMask =
 
 const OSG::BitVector  TextureBackgroundBase::VertFieldMask = 
     (TypeTraits<BitVector>::One << TextureBackgroundBase::VertFieldId);
+
+const OSG::BitVector  TextureBackgroundBase::ClearStencilBitFieldMask = 
+    (TypeTraits<BitVector>::One << TextureBackgroundBase::ClearStencilBitFieldId);
 
 const OSG::BitVector TextureBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -112,6 +115,9 @@ const OSG::BitVector TextureBackgroundBase::MTInfluenceMask =
 */
 /*! \var UInt16          TextureBackgroundBase::_sfVert
     vertical subdivision
+*/
+/*! \var Int32           TextureBackgroundBase::_sfClearStencilBit
+    Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
 */
 
 //! TextureBackground description
@@ -152,7 +158,12 @@ FieldDescription *TextureBackgroundBase::_desc[] =
                      "vert", 
                      VertFieldId, VertFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFVert)
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFVert),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "clearStencilBit", 
+                     ClearStencilBitFieldId, ClearStencilBitFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureBackgroundBase::getSFClearStencilBit)
 };
 
 
@@ -236,6 +247,7 @@ TextureBackgroundBase::TextureBackgroundBase(void) :
     _sfCenterOfDistortion     (Vec2f(0.5, 0.5)), 
     _sfHor                    (UInt16(2)), 
     _sfVert                   (UInt16(2)), 
+    _sfClearStencilBit        (Int32(-1)), 
     Inherited() 
 {
 }
@@ -252,6 +264,7 @@ TextureBackgroundBase::TextureBackgroundBase(const TextureBackgroundBase &source
     _sfCenterOfDistortion     (source._sfCenterOfDistortion     ), 
     _sfHor                    (source._sfHor                    ), 
     _sfVert                   (source._sfVert                   ), 
+    _sfClearStencilBit        (source._sfClearStencilBit        ), 
     Inherited                 (source)
 {
 }
@@ -303,6 +316,11 @@ UInt32 TextureBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfVert.getBinSize();
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        returnValue += _sfClearStencilBit.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -345,6 +363,11 @@ void TextureBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VertFieldMask & whichField))
     {
         _sfVert.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyToBin(pMem);
     }
 
 
@@ -390,6 +413,11 @@ void TextureBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfVert.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -421,6 +449,9 @@ void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
     if(FieldBits::NoField != (VertFieldMask & whichField))
         _sfVert.syncWith(pOther->_sfVert);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
 
 }
 #else
@@ -449,6 +480,9 @@ void TextureBackgroundBase::executeSyncImpl(      TextureBackgroundBase *pOther,
     if(FieldBits::NoField != (VertFieldMask & whichField))
         _sfVert.syncWith(pOther->_sfVert);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))
         _mfTexCoords.syncWith(pOther->_mfTexCoords, sInfo);
@@ -470,6 +504,8 @@ void TextureBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -479,8 +515,6 @@ DataType FieldDataTraits<TextureBackgroundPtr>::_type("TextureBackgroundPtr", "B
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(TextureBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -496,10 +530,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.7 2006/02/20 16:54:30 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.8 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTEXTUREBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

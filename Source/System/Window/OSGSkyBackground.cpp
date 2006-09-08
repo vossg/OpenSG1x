@@ -418,7 +418,17 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     if(tchunk != NULL)
         tchunk->deactivate(action);
     
-    glClear(GL_DEPTH_BUFFER_BIT);
+    Int32 bit = getClearStencilBit();
+    
+    if (bit >= 0)
+    {
+        glClearStencil(bit);
+        glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    }
+    else
+    {
+        glClear(GL_DEPTH_BUFFER_BIT);
+    }
 
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);

@@ -110,6 +110,34 @@ MFReal32 *GradientBackgroundBase::getMFPosition(void)
     return &_mfPosition;
 }
 
+//! Get the GradientBackground::_sfClearStencilBit field.
+inline
+SFInt32 *GradientBackgroundBase::getSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+
+//! Get the value of the GradientBackground::_sfClearStencilBit field.
+inline
+Int32 &GradientBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Get the value of the GradientBackground::_sfClearStencilBit field.
+inline
+const Int32 &GradientBackgroundBase::getClearStencilBit(void) const
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Set the value of the GradientBackground::_sfClearStencilBit field.
+inline
+void GradientBackgroundBase::setClearStencilBit(const Int32 &value)
+{
+    _sfClearStencilBit.setValue(value);
+}
 
 
 //! Get the value of the \a index element the GradientBackground::_mfColor field.

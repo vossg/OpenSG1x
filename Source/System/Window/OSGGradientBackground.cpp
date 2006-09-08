@@ -121,20 +121,27 @@ void GradientBackground::changed(BitVector whichField, UInt32 origin)
 
 void GradientBackground::clear(DrawActionBase *, Viewport *)
 {
-
+    Int32 bit = getClearStencilBit();
+    
     if(_mfPosition.size() < 2)
     {
+        Real32 r = 0, g = 0, b = 0;
+        
         if(_mfPosition.size() == 1)
         {
             Color3f col = _mfColor[0];
-            Real32 r, g, b;
             col.getValuesRGB(r, g, b);
-            glClearColor(r, g, b, 1);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
+        
+        glClearColor(r, g, b, 1);
+        
+        if (bit >= 0)
+        {
+            glClearStencil(bit);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
         }
         else
         {
-            glClearColor(0, 0, 0, 1);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
     }
@@ -199,8 +206,16 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glPopMatrix();
 
         glPopAttrib();
-
-        glClear(GL_DEPTH_BUFFER_BIT);
+        
+        if (bit >= 0)
+        {
+            glClearStencil(bit);
+            glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        }
+        else
+        {
+            glClear(GL_DEPTH_BUFFER_BIT);
+        }
     }
 }
 

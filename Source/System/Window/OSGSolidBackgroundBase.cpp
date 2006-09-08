@@ -62,10 +62,13 @@
 #include "OSGSolidBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SolidBackgroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << SolidBackgroundBase::ColorFieldId);
+
+const OSG::BitVector  SolidBackgroundBase::ClearStencilBitFieldMask = 
+    (TypeTraits<BitVector>::One << SolidBackgroundBase::ClearStencilBitFieldId);
 
 const OSG::BitVector SolidBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -77,6 +80,9 @@ const OSG::BitVector SolidBackgroundBase::MTInfluenceMask =
 /*! \var Color3f         SolidBackgroundBase::_sfColor
     The background color.
 */
+/*! \var Int32           SolidBackgroundBase::_sfClearStencilBit
+    Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+*/
 
 //! SolidBackground description
 
@@ -86,7 +92,12 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFColor)
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFColor),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "clearStencilBit", 
+                     ClearStencilBitFieldId, ClearStencilBitFieldMask,
+                     false,
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearStencilBit)
 };
 
 
@@ -162,7 +173,8 @@ void SolidBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 SolidBackgroundBase::SolidBackgroundBase(void) :
-    _sfColor                  (), 
+    _sfColor                  (Color3f(0,0,0)), 
+    _sfClearStencilBit        (Int32(-1)), 
     Inherited() 
 {
 }
@@ -173,6 +185,7 @@ SolidBackgroundBase::SolidBackgroundBase(void) :
 
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
     _sfColor                  (source._sfColor                  ), 
+    _sfClearStencilBit        (source._sfClearStencilBit        ), 
     Inherited                 (source)
 {
 }
@@ -194,6 +207,11 @@ UInt32 SolidBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        returnValue += _sfClearStencilBit.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -206,6 +224,11 @@ void SolidBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ColorFieldMask & whichField))
     {
         _sfColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyToBin(pMem);
     }
 
 
@@ -221,6 +244,11 @@ void SolidBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -234,6 +262,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
 
 }
 #else
@@ -246,6 +277,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
         _sfColor.syncWith(pOther->_sfColor);
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
 
 
@@ -262,6 +296,8 @@ void SolidBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -271,8 +307,6 @@ DataType FieldDataTraits<SolidBackgroundPtr>::_type("SolidBackgroundPtr", "Backg
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -288,10 +322,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSOLIDBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

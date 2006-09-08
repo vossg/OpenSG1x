@@ -152,6 +152,20 @@ SFReal32 *PolygonBackgroundBase::getSFScale(void)
     return &_sfScale;
 }
 
+//! Get the PolygonBackground::_sfClearStencilBit field.
+inline
+SFInt32 *PolygonBackgroundBase::getSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+//! Get the PolygonBackground::_sfCleanup field.
+inline
+SFBool *PolygonBackgroundBase::getSFCleanup(void)
+{
+    return &_sfCleanup;
+}
+
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
@@ -279,6 +293,48 @@ void PolygonBackgroundBase::setScale(const Real32 &value)
     _sfScale.setValue(value);
 }
 
+//! Get the value of the PolygonBackground::_sfClearStencilBit field.
+inline
+Int32 &PolygonBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfClearStencilBit field.
+inline
+const Int32 &PolygonBackgroundBase::getClearStencilBit(void) const
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfClearStencilBit field.
+inline
+void PolygonBackgroundBase::setClearStencilBit(const Int32 &value)
+{
+    _sfClearStencilBit.setValue(value);
+}
+
+//! Get the value of the PolygonBackground::_sfCleanup field.
+inline
+bool &PolygonBackgroundBase::getCleanup(void)
+{
+    return _sfCleanup.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfCleanup field.
+inline
+const bool &PolygonBackgroundBase::getCleanup(void) const
+{
+    return _sfCleanup.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfCleanup field.
+inline
+void PolygonBackgroundBase::setCleanup(const bool &value)
+{
+    _sfCleanup.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
@@ -324,5 +380,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.6 2006/06/28 15:57:27 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.7 2006/09/08 13:45:30 yjung Exp $"
 

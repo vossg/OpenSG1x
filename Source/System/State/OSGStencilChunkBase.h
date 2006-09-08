@@ -74,6 +74,7 @@
 #include <OSGGLenumFields.h> // StencilOpZFail type
 #include <OSGGLenumFields.h> // StencilOpZPass type
 #include <OSGInt32Fields.h> // ClearBuffer type
+#include <OSGUInt32Fields.h> // BitMask type
 
 #include <OSGStencilChunkFields.h>
 
@@ -104,7 +105,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
         StencilOpZFailFieldId = StencilOpFailFieldId  + 1,
         StencilOpZPassFieldId = StencilOpZFailFieldId + 1,
         ClearBufferFieldId    = StencilOpZPassFieldId + 1,
-        NextFieldId           = ClearBufferFieldId    + 1
+        BitMaskFieldId        = ClearBufferFieldId    + 1,
+        NextFieldId           = BitMaskFieldId        + 1
     };
 
     static const OSG::BitVector StencilFuncFieldMask;
@@ -114,6 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
     static const OSG::BitVector StencilOpZFailFieldMask;
     static const OSG::BitVector StencilOpZPassFieldMask;
     static const OSG::BitVector ClearBufferFieldMask;
+    static const OSG::BitVector BitMaskFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -147,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
            SFGLenum            *getSFStencilOpZFail (void);
            SFGLenum            *getSFStencilOpZPass (void);
            SFInt32             *getSFClearBuffer    (void);
+           SFUInt32            *getSFBitMask        (void);
 
            GLenum              &getStencilFunc    (void);
      const GLenum              &getStencilFunc    (void) const;
@@ -162,6 +166,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
      const GLenum              &getStencilOpZPass (void) const;
            Int32               &getClearBuffer    (void);
      const Int32               &getClearBuffer    (void) const;
+           UInt32              &getBitMask        (void);
+     const UInt32              &getBitMask        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -175,6 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
      void setStencilOpZFail ( const GLenum &value );
      void setStencilOpZPass ( const GLenum &value );
      void setClearBuffer    ( const Int32 &value );
+     void setBitMask        ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +231,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
     SFGLenum            _sfStencilOpZFail;
     SFGLenum            _sfStencilOpZPass;
     SFInt32             _sfClearBuffer;
+    SFUInt32            _sfBitMask;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -301,6 +309,6 @@ typedef RefPtr<StencilChunkPtr> StencilChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.6 2006/02/20 16:54:19 dirk Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.7 2006/09/08 13:45:30 yjung Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

@@ -145,6 +145,13 @@ SFInt32 *StencilChunkBase::getSFClearBuffer(void)
     return &_sfClearBuffer;
 }
 
+//! Get the StencilChunk::_sfBitMask field.
+inline
+SFUInt32 *StencilChunkBase::getSFBitMask(void)
+{
+    return &_sfBitMask;
+}
+
 
 //! Get the value of the StencilChunk::_sfStencilFunc field.
 inline
@@ -293,8 +300,29 @@ void StencilChunkBase::setClearBuffer(const Int32 &value)
     _sfClearBuffer.setValue(value);
 }
 
+//! Get the value of the StencilChunk::_sfBitMask field.
+inline
+UInt32 &StencilChunkBase::getBitMask(void)
+{
+    return _sfBitMask.getValue();
+}
+
+//! Get the value of the StencilChunk::_sfBitMask field.
+inline
+const UInt32 &StencilChunkBase::getBitMask(void) const
+{
+    return _sfBitMask.getValue();
+}
+
+//! Set the value of the StencilChunk::_sfBitMask field.
+inline
+void StencilChunkBase::setBitMask(const UInt32 &value)
+{
+    _sfBitMask.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.5 2006/02/20 17:04:46 dirk Exp $"
+#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.6 2006/09/08 13:45:30 yjung Exp $"
 

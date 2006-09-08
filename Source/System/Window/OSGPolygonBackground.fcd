@@ -89,4 +89,24 @@ A Background that renders a single polygon using the specified material.
 	>
 	Scale factor for zooming.
 	</Field>
+	<Field
+		name="clearStencilBit"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="-1"
+		access="public"
+	>
+	Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+	</Field>
+	<Field
+		name="cleanup"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Clear depth/ stencil buffer after applying the material.
+	</Field>
 </FieldContainer>

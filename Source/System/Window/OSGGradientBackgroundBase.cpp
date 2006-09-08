@@ -62,13 +62,16 @@
 #include "OSGGradientBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  GradientBackgroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << GradientBackgroundBase::ColorFieldId);
 
 const OSG::BitVector  GradientBackgroundBase::PositionFieldMask = 
     (TypeTraits<BitVector>::One << GradientBackgroundBase::PositionFieldId);
+
+const OSG::BitVector  GradientBackgroundBase::ClearStencilBitFieldMask = 
+    (TypeTraits<BitVector>::One << GradientBackgroundBase::ClearStencilBitFieldId);
 
 const OSG::BitVector GradientBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -82,6 +85,9 @@ const OSG::BitVector GradientBackgroundBase::MTInfluenceMask =
 */
 /*! \var Real32          GradientBackgroundBase::_mfPosition
     The positions of the gradient.
+*/
+/*! \var Int32           GradientBackgroundBase::_sfClearStencilBit
+    Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
 */
 
 //! GradientBackground description
@@ -97,7 +103,12 @@ FieldDescription *GradientBackgroundBase::_desc[] =
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &GradientBackgroundBase::getMFPosition)
+                     (FieldAccessMethod) &GradientBackgroundBase::getMFPosition),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "clearStencilBit", 
+                     ClearStencilBitFieldId, ClearStencilBitFieldMask,
+                     false,
+                     (FieldAccessMethod) &GradientBackgroundBase::getSFClearStencilBit)
 };
 
 
@@ -177,6 +188,7 @@ void GradientBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 GradientBackgroundBase::GradientBackgroundBase(void) :
     _mfColor                  (), 
     _mfPosition               (), 
+    _sfClearStencilBit        (Int32(-1)), 
     Inherited() 
 {
 }
@@ -188,6 +200,7 @@ GradientBackgroundBase::GradientBackgroundBase(void) :
 GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &source) :
     _mfColor                  (source._mfColor                  ), 
     _mfPosition               (source._mfPosition               ), 
+    _sfClearStencilBit        (source._sfClearStencilBit        ), 
     Inherited                 (source)
 {
 }
@@ -214,6 +227,11 @@ UInt32 GradientBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfPosition.getBinSize();
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        returnValue += _sfClearStencilBit.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -231,6 +249,11 @@ void GradientBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (PositionFieldMask & whichField))
     {
         _mfPosition.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyToBin(pMem);
     }
 
 
@@ -251,6 +274,11 @@ void GradientBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfPosition.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+    {
+        _sfClearStencilBit.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -267,6 +295,9 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
     if(FieldBits::NoField != (PositionFieldMask & whichField))
         _mfPosition.syncWith(pOther->_mfPosition);
 
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
 
 }
 #else
@@ -276,6 +307,9 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
+        _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))
@@ -304,6 +338,8 @@ void GradientBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGMFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -313,8 +349,6 @@ DataType FieldDataTraits<GradientBackgroundPtr>::_type("GradientBackgroundPtr", 
 #endif
 
 OSG_DLLEXPORT_MFIELD_DEF1(GradientBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -330,10 +364,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRADIENTBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

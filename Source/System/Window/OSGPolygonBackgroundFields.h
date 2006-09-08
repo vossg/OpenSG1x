@@ -89,10 +89,10 @@ struct FieldDataTraits<PolygonBackgroundPtr> :
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
 
-    static DataType &getType (void) { return _type;        }
+    static DataType   &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFPolygonBackgroundPtr"; }
-    static char     *getMName(void) { return "MFPolygonBackgroundPtr"; }
+    static const char *getSName(void) { return "SFPolygonBackgroundPtr"; }
+    static const char *getMName(void) { return "MFPolygonBackgroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundFields.h,v 1.6 2006/06/28 15:57:27 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDFIELDS_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundFields.h,v 1.7 2006/09/08 13:45:30 yjung Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDFIELDS_H_ */

@@ -86,6 +86,7 @@
 #include <OSGVec3fFields.h> // FrontTexCoord type
 #include <OSGVec3fFields.h> // BackTexCoord type
 #include <OSGNodeFields.h> // Beacon type
+#include <OSGInt32Fields.h> // ClearStencilBit type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -109,26 +110,27 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 
     enum
     {
-        SkyColorFieldId       = Inherited::NextFieldId,
-        SkyAngleFieldId       = SkyColorFieldId       + 1,
-        GroundColorFieldId    = SkyAngleFieldId       + 1,
-        GroundAngleFieldId    = GroundColorFieldId    + 1,
-        SphereResFieldId      = GroundAngleFieldId    + 1,
-        BackTextureFieldId    = SphereResFieldId      + 1,
-        BottomTextureFieldId  = BackTextureFieldId    + 1,
-        FrontTextureFieldId   = BottomTextureFieldId  + 1,
-        LeftTextureFieldId    = FrontTextureFieldId   + 1,
-        RightTextureFieldId   = LeftTextureFieldId    + 1,
-        TopTextureFieldId     = RightTextureFieldId   + 1,
-        BoxInsideFieldId      = TopTextureFieldId     + 1,
-        TopTexCoordFieldId    = BoxInsideFieldId      + 1,
-        BottomTexCoordFieldId = TopTexCoordFieldId    + 1,
-        RightTexCoordFieldId  = BottomTexCoordFieldId + 1,
-        LeftTexCoordFieldId   = RightTexCoordFieldId  + 1,
-        FrontTexCoordFieldId  = LeftTexCoordFieldId   + 1,
-        BackTexCoordFieldId   = FrontTexCoordFieldId  + 1,
-        BeaconFieldId         = BackTexCoordFieldId   + 1,
-        NextFieldId           = BeaconFieldId         + 1
+        SkyColorFieldId        = Inherited::NextFieldId,
+        SkyAngleFieldId        = SkyColorFieldId        + 1,
+        GroundColorFieldId     = SkyAngleFieldId        + 1,
+        GroundAngleFieldId     = GroundColorFieldId     + 1,
+        SphereResFieldId       = GroundAngleFieldId     + 1,
+        BackTextureFieldId     = SphereResFieldId       + 1,
+        BottomTextureFieldId   = BackTextureFieldId     + 1,
+        FrontTextureFieldId    = BottomTextureFieldId   + 1,
+        LeftTextureFieldId     = FrontTextureFieldId    + 1,
+        RightTextureFieldId    = LeftTextureFieldId     + 1,
+        TopTextureFieldId      = RightTextureFieldId    + 1,
+        BoxInsideFieldId       = TopTextureFieldId      + 1,
+        TopTexCoordFieldId     = BoxInsideFieldId       + 1,
+        BottomTexCoordFieldId  = TopTexCoordFieldId     + 1,
+        RightTexCoordFieldId   = BottomTexCoordFieldId  + 1,
+        LeftTexCoordFieldId    = RightTexCoordFieldId   + 1,
+        FrontTexCoordFieldId   = LeftTexCoordFieldId    + 1,
+        BackTexCoordFieldId    = FrontTexCoordFieldId   + 1,
+        BeaconFieldId          = BackTexCoordFieldId    + 1,
+        ClearStencilBitFieldId = BeaconFieldId          + 1,
+        NextFieldId            = ClearStencilBitFieldId + 1
     };
 
     static const OSG::BitVector SkyColorFieldMask;
@@ -150,6 +152,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const OSG::BitVector FrontTexCoordFieldMask;
     static const OSG::BitVector BackTexCoordFieldMask;
     static const OSG::BitVector BeaconFieldMask;
+    static const OSG::BitVector ClearStencilBitFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -195,6 +198,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            MFVec3f             *getMFFrontTexCoord  (void);
            MFVec3f             *getMFBackTexCoord   (void);
            SFNodePtr           *getSFBeacon         (void);
+           SFInt32             *getSFClearStencilBit(void);
 
            UInt32              &getSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -214,6 +218,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      const bool                &getBoxInside      (void) const;
            NodePtr             &getBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
+           Int32               &getClearStencilBit(void);
+     const Int32               &getClearStencilBit(void) const;
            Color4f             &getSkyColor       (const UInt32 index);
            MFColor4f           &getSkyColor       (void);
      const MFColor4f           &getSkyColor       (void) const;
@@ -259,6 +265,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      void setTopTexture     ( const TextureChunkPtr &value );
      void setBoxInside      ( const bool &value );
      void setBeacon         ( const NodePtr &value );
+     void setClearStencilBit( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -320,6 +327,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     MFVec3f             _mfFrontTexCoord;
     MFVec3f             _mfBackTexCoord;
     SFNodePtr           _sfBeacon;
+    SFInt32             _sfClearStencilBit;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

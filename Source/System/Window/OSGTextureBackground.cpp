@@ -299,7 +299,17 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
 
     tex->deactivate(action);
 
-    glClear(GL_DEPTH_BUFFER_BIT);
+    Int32 bit = getClearStencilBit();
+    
+    if (bit >= 0)
+    {
+        glClearStencil(bit);
+        glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    }
+    else
+    {
+        glClear(GL_DEPTH_BUFFER_BIT);
+    }
 
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -330,7 +340,7 @@ void TextureBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.7 2006/04/25 05:49:03 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.8 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

@@ -69,6 +69,7 @@
 
 #include <OSGColor3fFields.h> // Color type
 #include <OSGReal32Fields.h> // Position type
+#include <OSGInt32Fields.h> // ClearStencilBit type
 
 #include <OSGGradientBackgroundFields.h>
 
@@ -92,13 +93,15 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     enum
     {
-        ColorFieldId    = Inherited::NextFieldId,
-        PositionFieldId = ColorFieldId    + 1,
-        NextFieldId     = PositionFieldId + 1
+        ColorFieldId           = Inherited::NextFieldId,
+        PositionFieldId        = ColorFieldId           + 1,
+        ClearStencilBitFieldId = PositionFieldId        + 1,
+        NextFieldId            = ClearStencilBitFieldId + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector PositionFieldMask;
+    static const OSG::BitVector ClearStencilBitFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -119,6 +122,23 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFInt32             *getSFClearStencilBit(void);
+
+           Int32               &getClearStencilBit(void);
+     const Int32               &getClearStencilBit(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setClearStencilBit( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -163,6 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
 
     MFColor3f           _mfColor;
     MFReal32            _mfPosition;
+    SFInt32             _sfClearStencilBit;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

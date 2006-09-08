@@ -1,13 +1,15 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <FieldContainer
 	name="SolidBackground"
 	parent="Background"
 	library="System"
-	structure="concrete"
 	pointerfieldtypes="single"
+	structure="concrete"
 	systemcomponent="true"
 	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
 >
 A single colored background.
 	<Field
@@ -15,7 +17,19 @@ A single colored background.
 		type="Color3f"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0,0,0"
+		access="public"
 	>
 	The background color.
+	</Field>
+	<Field
+		name="clearStencilBit"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="-1"
+		access="public"
+	>
+	Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
 	</Field>
 </FieldContainer>

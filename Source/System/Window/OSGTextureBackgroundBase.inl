@@ -145,6 +145,13 @@ SFUInt16 *TextureBackgroundBase::getSFVert(void)
     return &_sfVert;
 }
 
+//! Get the TextureBackground::_sfClearStencilBit field.
+inline
+SFInt32 *TextureBackgroundBase::getSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
 
 //! Get the value of the TextureBackground::_sfColor field.
 inline
@@ -272,6 +279,27 @@ void TextureBackgroundBase::setVert(const UInt16 &value)
     _sfVert.setValue(value);
 }
 
+//! Get the value of the TextureBackground::_sfClearStencilBit field.
+inline
+Int32 &TextureBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Get the value of the TextureBackground::_sfClearStencilBit field.
+inline
+const Int32 &TextureBackgroundBase::getClearStencilBit(void) const
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Set the value of the TextureBackground::_sfClearStencilBit field.
+inline
+void TextureBackgroundBase::setClearStencilBit(const Int32 &value)
+{
+    _sfClearStencilBit.setValue(value);
+}
+
 
 //! Get the value of the \a index element the TextureBackground::_mfTexCoords field.
 inline
@@ -296,5 +324,5 @@ const MFPnt2f &TextureBackgroundBase::getTexCoords(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.6 2006/02/20 16:54:30 dirk Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.7 2006/09/08 13:45:30 yjung Exp $"
 

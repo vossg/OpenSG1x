@@ -74,6 +74,7 @@
 #include <OSGVec2fFields.h> // CenterOfDistortion type
 #include <OSGUInt16Fields.h> // Hor type
 #include <OSGUInt16Fields.h> // Vert type
+#include <OSGInt32Fields.h> // ClearStencilBit type
 
 #include <OSGTextureBackgroundFields.h>
 
@@ -104,7 +105,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
         CenterOfDistortionFieldId = RadialDistortionFieldId   + 1,
         HorFieldId                = CenterOfDistortionFieldId + 1,
         VertFieldId               = HorFieldId                + 1,
-        NextFieldId               = VertFieldId               + 1
+        ClearStencilBitFieldId    = VertFieldId               + 1,
+        NextFieldId               = ClearStencilBitFieldId    + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
@@ -114,6 +116,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
     static const OSG::BitVector CenterOfDistortionFieldMask;
     static const OSG::BitVector HorFieldMask;
     static const OSG::BitVector VertFieldMask;
+    static const OSG::BitVector ClearStencilBitFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -147,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
            SFVec2f             *getSFCenterOfDistortion(void);
            SFUInt16            *getSFHor            (void);
            SFUInt16            *getSFVert           (void);
+           SFInt32             *getSFClearStencilBit(void);
 
            Color4f             &getColor          (void);
      const Color4f             &getColor          (void) const;
@@ -160,6 +164,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
      const UInt16              &getHor            (void) const;
            UInt16              &getVert           (void);
      const UInt16              &getVert           (void) const;
+           Int32               &getClearStencilBit(void);
+     const Int32               &getClearStencilBit(void) const;
            Pnt2f               &getTexCoords      (const UInt32 index);
            MFPnt2f             &getTexCoords      (void);
      const MFPnt2f             &getTexCoords      (void) const;
@@ -175,6 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
      void setCenterOfDistortion( const Vec2f &value );
      void setHor            ( const UInt16 &value );
      void setVert           ( const UInt16 &value );
+     void setClearStencilBit( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +231,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
     SFVec2f             _sfCenterOfDistortion;
     SFUInt16            _sfHor;
     SFUInt16            _sfVert;
+    SFInt32             _sfClearStencilBit;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -301,6 +309,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.7 2006/02/20 16:54:30 dirk Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.8 2006/09/08 13:45:30 yjung Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */

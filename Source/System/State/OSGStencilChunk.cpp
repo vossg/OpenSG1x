@@ -128,7 +128,12 @@ void StencilChunk::activate(DrawActionBase *action, UInt32)
         glEnable(GL_STENCIL_TEST);
         
         if (_sfClearBuffer.getValue() == 1)
+        {
+            glClearStencil(0x0);
             glClear(GL_STENCIL_BUFFER_BIT);
+        }
+
+        glStencilMask(  _sfBitMask.getValue() );
         
         glStencilFunc(  _sfStencilFunc.getValue(), 
                         _sfStencilValue.getValue(), 
@@ -139,50 +144,12 @@ void StencilChunk::activate(DrawActionBase *action, UInt32)
     }
 }
 
-void StencilChunk::changeFrom(DrawActionBase *action, 
-                            StateChunk * old_chunk, 
-                            UInt32 )
+void StencilChunk::changeFrom( DrawActionBase *action,
+                               StateChunk *old,
+                               UInt32 index )
 {
-    StencilChunk *old = dynamic_cast<StencilChunk *>(old_chunk);
-    
-    if (_sfStencilFunc.getValue() != GL_NONE)
-    {
-        if ( old->_sfStencilFunc.getValue()  != _sfStencilFunc.getValue()    ||
-             old->_sfStencilValue.getValue() != _sfStencilValue.getValue()   ||
-             old->_sfStencilMask.getValue()  != _sfStencilMask.getValue() ) 
-             glStencilFunc( _sfStencilFunc.getValue(), 
-                            _sfStencilValue.getValue(), 
-                            _sfStencilMask.getValue() );
-             
-        if ( old->_sfStencilOpFail.getValue()  != _sfStencilOpFail.getValue()  ||
-             old->_sfStencilOpZFail.getValue() != _sfStencilOpZFail.getValue() ||
-             old->_sfStencilOpZPass.getValue() != _sfStencilOpZPass.getValue() ) 
-             glStencilOp( _sfStencilOpFail.getValue(), 
-                          _sfStencilOpZFail.getValue(), 
-                          _sfStencilOpZPass.getValue() );
-       
-       if(old->_sfStencilFunc.getValue() == GL_NONE) {     
-            glEnable(GL_STENCIL_TEST);
-            
-            /*
-            if (_sfClearBuffer.getValue() == 1)
-                glClear(GL_STENCIL_BUFFER_BIT);
-            */
-       }
-    }
-    else 
-    {
-        if (old->_sfStencilFunc.getValue() != GL_NONE) 
-        {      
-            /*
-            if (_sfClearBuffer.getValue() == 2)
-                glClear(GL_STENCIL_BUFFER_BIT);
-            */
-                      
-            glDisable(GL_STENCIL_TEST); 
-        }
-    }
-    
+    old->deactivate( action, index );
+    activate( action, index );
 }
 
 void StencilChunk::deactivate(DrawActionBase *action, UInt32 )
@@ -190,7 +157,10 @@ void StencilChunk::deactivate(DrawActionBase *action, UInt32 )
     if (_sfStencilFunc.getValue() != GL_NONE)
     {
         if (_sfClearBuffer.getValue() == 2)
+        {
+            glClearStencil(0x0);
             glClear(GL_STENCIL_BUFFER_BIT);
+        }
                 
         glDisable(GL_STENCIL_TEST);
     }
@@ -249,7 +219,7 @@ bool StencilChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunk.cpp,v 1.1 2005/03/21 14:41:40 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunk.cpp,v 1.2 2006/09/08 13:45:30 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 

@@ -103,6 +103,13 @@ SFColor3f *SolidBackgroundBase::getSFColor(void)
     return &_sfColor;
 }
 
+//! Get the SolidBackground::_sfClearStencilBit field.
+inline
+SFInt32 *SolidBackgroundBase::getSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
 
 //! Get the value of the SolidBackground::_sfColor field.
 inline
@@ -123,6 +130,27 @@ inline
 void SolidBackgroundBase::setColor(const Color3f &value)
 {
     _sfColor.setValue(value);
+}
+
+//! Get the value of the SolidBackground::_sfClearStencilBit field.
+inline
+Int32 &SolidBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Get the value of the SolidBackground::_sfClearStencilBit field.
+inline
+const Int32 &SolidBackgroundBase::getClearStencilBit(void) const
+{
+    return _sfClearStencilBit.getValue();
+}
+
+//! Set the value of the SolidBackground::_sfClearStencilBit field.
+inline
+void SolidBackgroundBase::setClearStencilBit(const Int32 &value)
+{
+    _sfClearStencilBit.setValue(value);
 }
 
 
