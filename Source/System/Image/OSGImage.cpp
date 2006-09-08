@@ -3239,13 +3239,13 @@ bool Image::scaleData(UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
     {       // different size, to 'nearest' copy
         for(z = 0; z < destD; z++)
         {
-            slice = srcData + int(sz * z + 0.5) * getBpp() * srcW * srcH;
+            slice = srcData + int(sz * z) * getBpp() * srcW * srcH;
             for(y = 0; y < destH; y++)
             {
-                line = slice + int(sy * y + 0.5) * getBpp() * srcW;
+                line = slice + int(sy * y) * getBpp() * srcW;
                 for(x = 0; x < destW; x++)
                 {
-                    pixel = line + int(sx * x + 0.5) * getBpp();
+                    pixel = line + int(sx * x) * getBpp();
                     p = getBpp();
                     while(p--)
                         *destData++ = *pixel++;
