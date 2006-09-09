@@ -70,6 +70,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BMPImageFileType : public ImageFileType
     /*! \{                                                                 */
 
     virtual bool read (ImagePtr &image, std::istream &is, const std::string &mimetype);
+    virtual bool write(const ImagePtr &image, std::ostream &os, const std::string &mimetype);
 
     virtual std::string determineMimetypeFromStream(std::istream &is);
 

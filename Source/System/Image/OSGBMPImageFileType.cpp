@@ -301,7 +301,7 @@ static bool readColorMap(std::istream &is, const BITMAPFILEHEADER &fileHeader, c
     return true;
 }
 
-bool parseUncompressedPaletteImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, const RGB colorMap[256], ImagePtr &image)
+static bool parseUncompressedPaletteImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, const RGB colorMap[256], ImagePtr &image)
 {
     unsigned long mask = (1 << infoHeader.biBitCount) - 1;
     int height;
@@ -352,7 +352,7 @@ bool parseUncompressedPaletteImage(std::istream &is, const BITMAPINFOHEADER &inf
     return true;
 }
 
-bool parseRLEImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, const RGB colorMap[256], ImagePtr &image)
+static bool parseRLEImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, const RGB colorMap[256], ImagePtr &image)
 {
     unsigned int height;
     long bytesPerLine;
@@ -506,7 +506,7 @@ static int calcShift(UInt32 mask)
     return shift;
 }
 
-bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, ImagePtr &image)
+static bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, ImagePtr &image)
 {
     int redShift = calcShift(infoHeader.redMask);
     int redScale = infoHeader.redMask == 0 ? 0 : 255 / (infoHeader.redMask >> redShift);
@@ -565,7 +565,7 @@ bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, I
     return true;
 }
 
-bool parse24bitImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, ImagePtr &image)
+static bool parse24bitImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, ImagePtr &image)
 {
     int height;
     long bytesPerLine;
@@ -606,6 +606,196 @@ bool parse24bitImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, Image
     return true;
 }
 
+// -----------------------------------------
+// write stuff
+// -----------------------------------------
+
+static void u_short_int_write(unsigned short int u_short_int_val, 
+                              std::ostream &os);
+
+// fixme
+static bool _bmp_byte_swap = true;
+
+static void long_int_write ( long int long_int_val, std::ostream &os)
+{
+    long int temp;
+    unsigned short int u_short_int_val_hi;
+    unsigned short int u_short_int_val_lo;
+    
+    temp = long_int_val / 65536;
+    if(temp < 0)
+        temp = temp + 65536;
+
+    u_short_int_val_hi = ( unsigned short ) temp;
+    
+    temp = long_int_val % 65536;
+    if(temp < 0)
+        temp = temp + 65536;
+
+    u_short_int_val_lo = ( unsigned short ) temp;
+    
+    if(_bmp_byte_swap)
+    {
+        u_short_int_write ( u_short_int_val_lo, os);
+        u_short_int_write ( u_short_int_val_hi, os);
+    }
+    else
+    {
+        u_short_int_write ( u_short_int_val_hi, os);
+        u_short_int_write ( u_short_int_val_lo, os);
+    }
+    return;
+}
+
+static void u_long_int_write(unsigned long int u_long_int_val, 
+                             std::ostream &os)
+{
+    unsigned short int u_short_int_val_hi;
+    unsigned short int u_short_int_val_lo;
+    
+    u_short_int_val_hi = ( unsigned short ) ( u_long_int_val / 65536 );
+    u_short_int_val_lo = ( unsigned short ) ( u_long_int_val % 65536 );
+    
+    if(_bmp_byte_swap)
+    {
+        u_short_int_write ( u_short_int_val_lo, os);
+        u_short_int_write ( u_short_int_val_hi, os);
+    }
+    else
+    {
+        u_short_int_write ( u_short_int_val_hi, os);
+        u_short_int_write ( u_short_int_val_lo, os);
+    }
+
+  return;
+}
+
+static void u_short_int_write(unsigned short int u_short_int_val, 
+                              std::ostream &os)
+{
+    unsigned char chi;
+    unsigned char clo;
+    
+    chi = ( unsigned char ) ( u_short_int_val / 256 );
+    clo = ( unsigned char ) ( u_short_int_val % 256 );
+    
+    if(_bmp_byte_swap)
+        os << clo << chi;
+    else
+        os << chi << clo;
+
+    return;
+}
+
+static void bmp_header1_write(std::ostream &os, unsigned short int filetype,
+                              unsigned long int filesize, unsigned short int reserved1, 
+                              unsigned short int reserved2, unsigned long int bitmapoffset)
+{
+    u_short_int_write(filetype, os);
+    u_long_int_write(filesize, os);
+    u_short_int_write(reserved1, os);
+    u_short_int_write(reserved2, os);
+    u_long_int_write(bitmapoffset, os);
+    return;
+}
+
+static void bmp_header2_write(std::ostream &os, unsigned long int size,
+                              unsigned long int width, long int height, 
+                              unsigned short int planes, unsigned short int bitsperpixel,
+                              unsigned long int compression, unsigned long int sizeofbitmap,
+                              unsigned long int horzresolution, unsigned long int vertresolution,
+                              unsigned long int colorsused, unsigned long int colorsimportant)
+
+    //****************************************************************************
+    //
+    //    4 bytes SIZE;                Size of this header, in bytes.
+    //    4 bytes WIDTH;               Image width, in pixels.   
+    //    4 bytes HEIGHT;              Image height, in pixels.  
+    //                                 (Pos/Neg, origin at bottom, top)
+    //    2 bytes PLANES;              Number of color planes (always 1).
+    //    2 bytes BITSPERPIXEL;        1 to 24.  1, 4, 8, 16, 24 or 32.
+    //    4 bytes COMPRESSION;         0, uncompressed; 1, 8 bit RLE; 
+    //                                 2, 4 bit RLE; 3, bitfields.
+    //    4 bytes SIZEOFBITMAP;        Size of bitmap in bytes. (0 if uncompressed).
+    //    4 bytes HORZRESOLUTION;      Pixels per meter. (Can be zero)
+    //    4 bytes VERTRESOLUTION;      Pixels per meter. (Can be zero)
+    //    4 bytes COLORSUSED;          Number of colors in palette.  (Can be zero).
+    //    4 bytes COLORSIMPORTANT.     Minimum number of important colors. (Can be zero).
+    //
+    //  Parameters:
+    //
+    //    Input, ofstream &FILE_OUT, a reference to the output file.
+    //
+    //    Input, unsigned long int SIZE, the size of this header in bytes.
+    //
+    //    Input, unsigned long int WIDTH, the X dimensions of the image.
+    //
+    //    Input, long int HEIGHT, the Y dimensions of the image.
+    //
+    //    Input, unsigned short int PLANES, the number of color planes.
+    //
+    //    Input, unsigned short int BITSPERPIXEL, color bits per pixel.
+    //
+    //    Input, unsigned long int COMPRESSION, the compression option.
+    //
+    //    Input, unsigned long int SIZEOFBITMAP, the size of the bitmap.
+    //
+    //    Input, unsigned long int HORZRESOLUTION, the horizontal resolution.
+    //
+    //    Input, unsigned long int VERTRESOLUTION, the vertical resolution.
+    //
+    //    Input, unsigned long int COLORSUSED, the number of colors in the palette.
+    //
+    //    Input, unsigned long int COLORSIMPORTANT, the minimum number of colors.
+    //
+{
+    u_long_int_write(size, os);
+    u_long_int_write(width, os);
+    long_int_write(height, os);
+    u_short_int_write(planes, os); 
+    u_short_int_write(bitsperpixel, os);
+    u_long_int_write(compression, os);
+    u_long_int_write(sizeofbitmap, os);
+    u_long_int_write(horzresolution, os);
+    u_long_int_write(vertresolution, os);
+    u_long_int_write(colorsused, os);
+    u_long_int_write(colorsimportant, os);
+    return;
+}
+
+static void bmp_24_data_write(std::ostream &os, unsigned long int width,
+                              long int height, unsigned char *data)
+{
+    int i;
+    unsigned char *indexb;
+    unsigned char *indexg;
+    unsigned char *indexr;
+    int j;
+    int padding;
+
+    //  Set the padding.
+    padding = ( 4 - ( ( 3 * width ) % 4 ) ) % 4;
+
+    for(j = 0; j < abs ( height ); ++j)
+    {
+        for(i = 0; i < width; ++i)
+        {
+            os << *(data + 2);
+            os << *(data + 1);
+            os << *(data + 0);
+            data += 3;
+        }
+
+        for(i = 0; i < padding; ++i)
+        {
+            os << 0;
+        }
+    }
+    return;
+}
+
+// -----------
+
 // Static Class Variable implementations:
 static const Char8 *suffixArray[] = {
     "bmp", "dib", "rle"
@@ -613,7 +803,8 @@ static const Char8 *suffixArray[] = {
 
 BMPImageFileType BMPImageFileType::_the("image/bmp",
                                         suffixArray, sizeof(suffixArray),
-                                        OSG_READ_SUPPORTED);
+                                        OSG_READ_SUPPORTED |
+                                        OSG_WRITE_SUPPORTED);
 
 //-------------------------------------------------------------------------
 /*!
@@ -679,6 +870,82 @@ bool BMPImageFileType::read(ImagePtr &image, std::istream &is,
     default:
         return false;
     }
+
+    return true;
+}
+
+//-------------------------------------------------------------------------
+/*!
+    Tries to write the image object to the given output stream.
+    Returns true on success.
+*/
+bool BMPImageFileType::write(const ImagePtr &image, std::ostream &os, const std::string &mimetype)
+{
+    if(image == NullFC)
+        return false;
+
+    int bpp = image->getBpp();
+    if(bpp != 3)
+    {
+        FWARNING(("Writing of bmp files is only supported for 24 bit RGB images!\n"));
+        return false;
+    }
+
+    if (!os.good())
+        return false;
+
+    int width = image->getWidth();
+    int height = image->getHeight();
+    unsigned char *data = (unsigned char *) image->getData();
+
+    unsigned long int bitmapoffset;
+    unsigned short int bitsperpixel;
+    unsigned long int colorsimportant;
+    unsigned long int colorsused;
+    unsigned long int compression;
+    unsigned long int filesize;
+    unsigned short int filetype;
+    unsigned long int horzresolution;
+    int padding;
+    unsigned short int planes;
+    unsigned short int reserved1 = 0;
+    unsigned short int reserved2 = 0;
+    unsigned long int size = 40;
+    unsigned long int sizeofbitmap;
+    unsigned long int vertresolution;
+
+    //  Write header 1.
+    if(_bmp_byte_swap)
+        filetype = 'M' * 256 + 'B';
+    else
+        filetype = 'B' * 256 + 'M';
+
+    //  Determine the padding needed when WIDTH is not a multiple of 4.
+    padding = ( 4 - ( ( 3 * width ) % 4 ) ) % 4;
+
+    filesize = 54 + ( ( 3 * width ) + padding ) * abs ( height );
+    bitmapoffset = 54;
+
+    bmp_header1_write(os, filetype, filesize, reserved1, 
+                      reserved2, bitmapoffset );
+
+    //  Write header 2.
+
+    planes = 1;
+    bitsperpixel = 24;
+    compression = 0;
+    sizeofbitmap = 0;
+    horzresolution = 0;
+    vertresolution = 0;
+    colorsused = 0;
+    colorsimportant = 0;
+
+    bmp_header2_write(os, size, width, height, planes, bitsperpixel, 
+                      compression, sizeofbitmap, horzresolution, vertresolution,
+                      colorsused, colorsimportant);
+
+    //  Write the data.
+    bmp_24_data_write(os, width, height, data);
 
     return true;
 }
