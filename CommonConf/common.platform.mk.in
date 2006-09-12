@@ -66,6 +66,7 @@ CONFIGURED_JPG          :=@ac_gdz_conf_package_jpg_e1@
 CONFIGURED_JASPER       :=@ac_gdz_conf_package_jasper_e1@
 CONFIGURED_TIF          :=@ac_gdz_conf_package_tif_e1@
 CONFIGURED_PNG          :=@ac_gdz_conf_package_png_e1@
+CONFIGURED_IMF          :=@ac_gdz_conf_package_imf_e1@
 CONFIGURED_MNG          :=@ac_gdz_conf_package_mng_e1@
 CONFIGURED_FREETYPE     :=@ac_gdz_conf_package_freetype1_e1@
 CONFIGURED_TEXT         :=@ac_gdz_conf_package_text_e1@

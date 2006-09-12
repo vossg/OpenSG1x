@@ -17,6 +17,7 @@ have_tif=@ac_gdz_have_tif_e15@
 have_jpg=@ac_gdz_have_jpg_e15@
 have_jasper=@ac_gdz_have_jasper_e15@
 have_png=@ac_gdz_have_png_e15@
+have_imf=@ac_gdz_have_imf_e15@
 have_mng=@ac_gdz_have_mng_e15@
 have_gif=@ac_gdz_have_gif_e15@  
 have_freetype1=@ac_gdz_have_freetype1_e15@
@@ -99,6 +100,10 @@ inc_jasper_path=@ac_gdz_jasper_incdir_e15@
 png_libs=@ac_gdz_png_lib_e15@
 lib_png_path=@ac_gdz_png_libdir_e15@
 inc_png_path=@ac_gdz_png_incdir_e15@
+
+imf_libs=@ac_gdz_imf_lib_e15@
+lib_imf_path=@ac_gdz_imf_libdir_e15@
+inc_imf_path=@ac_gdz_imf_incdir_e15@
 
 mng_libs=@ac_gdz_mng_lib_e15@
 lib_mng_path=@ac_gdz_mng_libdir_e15@
@@ -205,6 +210,16 @@ if test "$have_png" = "yes"; then
         image_incs_path="$image_incs_path $incdir_pre$inc_png_path$incdir_suf"
     fi
     image_defs="$image_defs -DOSG_WITH_PNG"
+fi
+if test "$have_imf" = "yes"; then
+    image_libs="$image_libs $imf_libs"
+    if test "yes$lib_ifm_path" != "yes"; then
+        image_libs_path="$image_libs_path $linkdir_pre$lib_imf_path$linkdir_suf"
+    fi
+    if test "yes$inc_imf_path" != "yes"; then
+        image_incs_path="$image_incs_path $incdir_pre$inc_imf_path$incdir_suf"
+    fi
+    image_defs="$image_defs -DOSG_WITH_IMF"
 fi
 if test "$have_mng" = "yes"; then
     image_libs="$image_libs $mng_libs"

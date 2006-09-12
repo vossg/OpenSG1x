@@ -1,0 +1,18 @@
+
+INCLUDE_IMF := @ac_gdz_imf_incdir_e28@
+LINK_IMF    := @ac_gdz_imf_libdir_e28@
+LIB_IMF     := @ac_gdz_imf_lib_e28@
+
+ifneq ($(INCLUDE_IMF),)
+INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_IMF)
+endif
+
+ifneq ($(LINK_IMF),)
+LIBPATHS_IMF     := $(LIBPATH_OPTION)$(LINK_IMF)
+endif
+
+ifneq ($(LIB_IMF),)
+LIB_FILE_IMF     := $(LIB_IMF)
+LIB_FILE_IMF_LNK := $(LIB_IMF)
+OSG_LIB_EXT      := $(OSG_LIB_EXT) $(LIB_IMF)
+endif

@@ -2048,6 +2048,48 @@ dnl e15
     fi
 
 
+    ac_gdz_imf_lib_e15=
+    ac_gdz_imf_incdir_e15=
+    ac_gdz_imf_libdir_e15=
+
+    if test "$enable_imf" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_imf_lib_e15='IlmImf.lib'
+            ;;
+            *)
+                ac_gdz_imf_lib_e15='"-lIlmImf -lIex -lHalf -lImath"'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_imf_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_imf_incdir_e15='"'`cygpath -w $ac_gdz_imf_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_imf_incdir_e15=$ac_gdz_imf_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_imf_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_imf_libdir_e15='"'`cygpath -w $ac_gdz_imf_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_imf_libdir_e15=$ac_gdz_imf_libdir
+                ;;
+            esac
+        fi
+        ac_gdz_have_imf_e15=yes
+    else
+        ac_gdz_have_imf_e15=no
+    fi
+
+
 
     ac_gdz_mng_lib_e15=
     ac_gdz_mng_incdir_e15=
@@ -2390,6 +2432,11 @@ dnl e15
     AC_SUBST(ac_gdz_png_libdir_e15)
     AC_SUBST(ac_gdz_png_lib_e15)
     AC_SUBST(ac_gdz_have_png_e15)
+
+    AC_SUBST(ac_gdz_imf_incdir_e15)
+    AC_SUBST(ac_gdz_imf_libdir_e15)
+    AC_SUBST(ac_gdz_imf_lib_e15)
+    AC_SUBST(ac_gdz_have_imf_e15)
 
     AC_SUBST(ac_gdz_gif_incdir_e15)
     AC_SUBST(ac_gdz_gif_libdir_e15)
@@ -2809,4 +2856,59 @@ dnl e27
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_coregl_e27:$ac_gdz_common_coregl_in_e27)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_IMF,
+[
+dnl e28
+
+    ac_gdz_imf_lib_e28=
+    ac_gdz_imf_incdir_e28=
+    ac_gdz_imf_libdir_e28=
+
+    if test "$enable_imf" = yes; then
+
+        case $build_os in
+            cygwin*)
+                ac_gdz_imf_lib_e28='IlmImf.lib'
+            ;;
+            *)
+                ac_gdz_imf_lib_e28='-lIlmImf -lIex -lHalf -lImath'
+            ;;
+        esac
+
+        if test -n "$ac_gdz_imf_incdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_imf_incdir_e28='"'`cygpath -w $ac_gdz_imf_incdir`'"'
+                ;;
+                *)
+                    ac_gdz_imf_incdir_e28=$ac_gdz_imf_incdir
+                ;;
+            esac
+        fi
+
+        if test -n "$ac_gdz_imf_libdir"; then
+            case $build_os in
+                cygwin*)
+                    ac_gdz_imf_libdir_e28='"'`cygpath -w $ac_gdz_imf_libdir`'"'
+                ;;
+                *)
+                    ac_gdz_imf_libdir_e28=$ac_gdz_imf_libdir
+                ;;
+            esac
+        fi
+
+    fi
+
+    ac_gdz_common_imf_in_e28=$ac_gdz_commonconf_dir/commonIMF.in
+    ac_gdz_common_imf_e28=$ac_gdz_commonpackage_dir/commonIMF.mk
+
+    AC_SUBST(ac_gdz_imf_incdir_e28)
+    AC_SUBST(ac_gdz_imf_libdir_e28)
+    AC_SUBST(ac_gdz_imf_lib_e28)
+   
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_imf_e28:$ac_gdz_common_imf_in_e28)
 ])
