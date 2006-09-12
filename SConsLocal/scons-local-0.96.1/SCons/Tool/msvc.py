@@ -620,6 +620,14 @@ def _get_msvc8_default_paths(version = None, vs8suite = None):
 def _get_msvc8_x64_default_paths(version = None, vs8suite = None):
 
     rv = get_msvs8_install_dirs(version, vs8suite)
+
+    # fallback
+    if not rv.has_key('VCINSTALLDIR'):
+        rv['VCINSTALLDIR'] = 'C:\\Program Files (x86)\\Microsoft Visual Studio 8\\VC'
+
+    if not rv.has_key('VSINSTALLDIR'):
+        rv['VSINSTALLDIR'] = 'C:\\Program Files (x86)\\Microsoft Visual Studio 8'
+
     include_path = ""
     include_path += os.path.join(rv['VCINSTALLDIR'], 'atlmfc', 'include') + ';'
     include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
