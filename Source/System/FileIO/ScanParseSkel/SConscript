@@ -2,11 +2,24 @@ import os
 
 Import('*')
 
+bison_simple = None
+flex_lexer = None
+
+if env['PLATFORM'] == 'win32':
+    bison_simple = Install('.', '../../../../../../dist/win/bin/bison.simple')
+    flex_lexer = Install('.', '../../../../../../VSBuild/VS6/FlexLexer.h')
+else:
+    Install('.', '/usr/include/FlexLexer.h')
+
 # Hm, straight up Command() doesn't work
-env.Command(
+flex = env.Command(
     ['lex.OSGScanParseSkel_.cc'],
     ['OSGScanParseSkel.lpp'],
     'cd $TARGET.dir && flex -+ -POSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
+
+if env['PLATFORM'] == 'win32':
+    Depends(flex, flex_lexer)
+
 env.Command(
     'OSGScanParseSkel.lex.cpp',
     'lex.OSGScanParseSkel_.cc',
@@ -21,21 +34,17 @@ env.Command(
     " < ${SOURCES[0]} > ${TARGETS[0]}")
 
 # Hm, straight up Command() doesn't work
-env.Command(
+bison = env.Command(
     ['OSGScanParseSkel_.tab.c', 'OSGScanParseSkel_.tab.h', 'OSGScanParseSkel_.output'],
     ['OSGScanParseSkel.y'],
     'cd $TARGET.dir && bison -d -l -v -pOSGScanParseSkel_ -bOSGScanParseSkel_ ${SOURCES[0].srcpath.abspath}')
+
+if env['PLATFORM'] == 'win32':
+    Depends(bison, bison_simple)
+
 InstallAs('OSGScanParseSkel.tab.cpp', 'OSGScanParseSkel_.tab.c')
 InstallAs('OSGScanParseSkel.tab.h',   'OSGScanParseSkel_.tab.h')
 InstallAs('OSGScanParseSkel.output',  'OSGScanParseSkel_.output')
-
-if env['PLATFORM'] == 'win32':
-    # Install() doesn't work on windows why???
-    MyInstall(os.path.join(os.getcwd(), 'FlexLexer.h'), '../../../../../../VSBuild/VS6/FlexLexer.h')
-    MyInstall(os.path.join(os.getcwd(), 'bison.simple'), '../../../../../../dist/win/bin/bison.simple')
-    MyInstall(os.path.join(os.getcwd(), 'bison.hairy'), '../../../../../../dist/win/bin/bison.hairy')
-else:
-    Install('.', '/usr/include/FlexLexer.h')
 
 # Make sure to Glob after dependencies are specified.
 Add(
