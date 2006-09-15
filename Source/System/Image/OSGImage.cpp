@@ -145,6 +145,9 @@ void Image::dump(UInt32    ,
 
     switch(getPixelFormat())
     {
+    case OSG_A_PF:
+        pfStr = "ALPHA";
+        break;
     case OSG_I_PF:
         pfStr = "INTENSITY";
         break;
@@ -650,8 +653,216 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
             switch (getPixelFormat())
             {
                 //-----------------------------------------------------
+                case OSG_A_PF:
+                    switch (pixelFormat) {
+                        case OSG_A_PF:
+                        case OSG_I_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_FLOAT16_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_L_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+                            case OSG_FLOAT16_IMAGEDATA:
+                                memcpy (data, getData(), destSize);
+                                break;
+
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_LA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGB_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+
+                        case OSG_RGBA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI];
+                                    data[destI++] = sourceData[srcI++];
+                                }
+                                break;
+                            case OSG_UINT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI];
+                                    destDataUC16[destI++] = sourceDataUC16[srcI++];
+                                }
+                                break;
+                            case OSG_UINT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI];
+                                    destDataUC32[destI++] = sourceDataUC32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT32_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI];
+                                    destDataF32[destI++] = sourceDataF32[srcI++];
+                                }
+                                break;
+                            case OSG_FLOAT16_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize/getComponentSize();)
+                                {
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI];
+                                    destDataH16[destI++] = sourceDataH16[srcI++];
+                                }
+                                break;
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+                    default:
+                        FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                        break;
+                    }
+                    break;
+
+                //-----------------------------------------------------
                 case OSG_I_PF:
                     switch (pixelFormat) {
+                        case OSG_A_PF:
                         case OSG_I_PF:
                             switch (getDataType())
                             {
@@ -860,6 +1071,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 case OSG_L_PF:
                     switch (pixelFormat) {
                         case OSG_L_PF:
+                        case OSG_A_PF:
                         case OSG_I_PF:
                             switch (getDataType())
                             {
@@ -1041,6 +1253,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 //-----------------------------------------------------
                 case OSG_LA_PF:
                     switch (pixelFormat) {
+                        case OSG_A_PF:
                         case OSG_I_PF:
                         case OSG_L_PF:
                             switch (getDataType())
@@ -1225,6 +1438,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                 //-----------------------------------------------------
                 case OSG_RGB_PF:
                     switch (pixelFormat) {
+                        case OSG_A_PF:
                         case OSG_I_PF:
                         case OSG_L_PF:
                             switch (getDataType())
@@ -1437,6 +1651,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                     //-----------------------------------------------------
                 case OSG_RGBA_PF:
                     switch (pixelFormat) {
+                        case OSG_A_PF:
                         case OSG_I_PF:
                         case OSG_L_PF:
                             switch (getDataType())

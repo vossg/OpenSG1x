@@ -786,6 +786,7 @@ bool OSG::blendImage ( ImagePtr canvas,
       s = src  + ( ((z+zbMin) * bH + (y+ybMin)) * bW + xbMin) * bBpp;
       for (x = 0; x < width; x++) {
         switch ( bPF ) {
+        case OSG::Image::OSG_A_PF:
         case OSG::Image::OSG_I_PF:
           grey  = *s++;
           red   = int(cred   * grey);
