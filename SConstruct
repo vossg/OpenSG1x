@@ -364,6 +364,9 @@ def CreateConfiguredHeader(env):
     MyInstall(os.path.join(build_dir, 'installed', 'include', 'OpenSG', 'OSGConfigured.h'), filename)
 
 def InstallProgram(env, prog):
+    # HACK install manifest file on msvc80 compiler.
+    if _po.getOption('compiler') == 'msvc80' and len(prog) > 0:
+        prog.append(File(prog[0].abspath + '.manifest'))
     if env.get('OSG_PROGDIR'):
         env.Install('$PREFIX/lib/$OSG_PROGDIR', prog)
     else:
