@@ -8,8 +8,8 @@ flex_lexer = None
 if env['PLATFORM'] == 'win32':
     bison_simple = Install('.', '../../../../../../dist/win/bin/bison.simple')
     flex_lexer = Install('.', '../../../../../../VSBuild/VS6/FlexLexer.h')
-else:
-    Install('.', '/usr/include/FlexLexer.h')
+#else:
+#    Install('.', '/usr/include/FlexLexer.h')
 
 # Hm, straight up Command() doesn't work
 flex = env.Command(
