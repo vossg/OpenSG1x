@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // PolygonMode default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  RenderOptionsBase::StatisticFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::StatisticFieldId);
@@ -115,6 +115,9 @@ const OSG::BitVector  RenderOptionsBase::SmallFeaturePixelsFieldMask =
 
 const OSG::BitVector  RenderOptionsBase::SmallFeatureThresholdFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeatureThresholdFieldId);
+
+const OSG::BitVector  RenderOptionsBase::FirstFrameFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FirstFrameFieldId);
 
 const OSG::BitVector RenderOptionsBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -172,6 +175,9 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
     
 */
 /*! \var UInt32          RenderOptionsBase::_sfSmallFeatureThreshold
+    
+*/
+/*! \var bool            RenderOptionsBase::_sfFirstFrame
     
 */
 
@@ -263,7 +269,12 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      "smallFeatureThreshold", 
                      SmallFeatureThresholdFieldId, SmallFeatureThresholdFieldMask,
                      false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFSmallFeatureThreshold)
+                     (FieldAccessMethod) &RenderOptionsBase::getSFSmallFeatureThreshold),
+    new FieldDescription(SFBool::getClassType(), 
+                     "firstFrame", 
+                     FirstFrameFieldId, FirstFrameFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFirstFrame)
 };
 
 
@@ -356,6 +367,7 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfSmallFeatureCulling    (), 
     _sfSmallFeaturePixels     (), 
     _sfSmallFeatureThreshold  (), 
+    _sfFirstFrame             (bool(true)), 
     Inherited() 
 {
 }
@@ -382,6 +394,7 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfSmallFeatureCulling    (source._sfSmallFeatureCulling    ), 
     _sfSmallFeaturePixels     (source._sfSmallFeaturePixels     ), 
     _sfSmallFeatureThreshold  (source._sfSmallFeatureThreshold  ), 
+    _sfFirstFrame             (source._sfFirstFrame             ), 
     Inherited                 (source)
 {
 }
@@ -483,6 +496,11 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
         returnValue += _sfSmallFeatureThreshold.getBinSize();
     }
 
+    if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
+    {
+        returnValue += _sfFirstFrame.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -575,6 +593,11 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
     {
         _sfSmallFeatureThreshold.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
+    {
+        _sfFirstFrame.copyToBin(pMem);
     }
 
 
@@ -670,6 +693,11 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSmallFeatureThreshold.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
+    {
+        _sfFirstFrame.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -730,6 +758,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
         _sfSmallFeatureThreshold.syncWith(pOther->_sfSmallFeatureThreshold);
+
+    if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
+        _sfFirstFrame.syncWith(pOther->_sfFirstFrame);
 
 
 }
@@ -792,6 +823,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (SmallFeatureThresholdFieldMask & whichField))
         _sfSmallFeatureThreshold.syncWith(pOther->_sfSmallFeatureThreshold);
 
+    if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
+        _sfFirstFrame.syncWith(pOther->_sfFirstFrame);
+
 
 
 }
@@ -807,6 +841,8 @@ void RenderOptionsBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -818,8 +854,6 @@ DataType FieldDataTraits<RenderOptionsPtr>::_type("RenderOptionsPtr", "Attachmen
 
 OSG_DLLEXPORT_SFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -835,10 +869,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.4 2006/02/20 16:54:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.5 2006/09/17 12:11:33 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGRENDEROPTIONSFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

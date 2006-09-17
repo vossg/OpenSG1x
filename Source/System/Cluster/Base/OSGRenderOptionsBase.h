@@ -84,6 +84,7 @@
 #include <OSGBoolFields.h> // SmallFeatureCulling type
 #include <OSGReal32Fields.h> // SmallFeaturePixels type
 #include <OSGUInt32Fields.h> // SmallFeatureThreshold type
+#include <OSGBoolFields.h> // FirstFrame type
 
 #include <OSGRenderOptionsFields.h>
 
@@ -124,7 +125,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         SmallFeatureCullingFieldId     = BackfaceCullingFieldId         + 1,
         SmallFeaturePixelsFieldId      = SmallFeatureCullingFieldId     + 1,
         SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
-        NextFieldId                    = SmallFeatureThresholdFieldId   + 1
+        FirstFrameFieldId              = SmallFeatureThresholdFieldId   + 1,
+        NextFieldId                    = FirstFrameFieldId              + 1
     };
 
     static const OSG::BitVector StatisticFieldMask;
@@ -144,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector SmallFeatureCullingFieldMask;
     static const OSG::BitVector SmallFeaturePixelsFieldMask;
     static const OSG::BitVector SmallFeatureThresholdFieldMask;
+    static const OSG::BitVector FirstFrameFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -187,6 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFBool              *getSFSmallFeatureCulling(void);
            SFReal32            *getSFSmallFeaturePixels(void);
            SFUInt32            *getSFSmallFeatureThreshold(void);
+           SFBool              *getSFFirstFrame     (void);
 
            bool                &getStatistic      (void);
      const bool                &getStatistic      (void) const;
@@ -222,6 +226,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const Real32              &getSmallFeaturePixels(void) const;
            UInt32              &getSmallFeatureThreshold(void);
      const UInt32              &getSmallFeatureThreshold(void) const;
+           bool                &getFirstFrame     (void);
+     const bool                &getFirstFrame     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,6 +251,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setSmallFeatureCulling( const bool &value );
      void setSmallFeaturePixels( const Real32 &value );
      void setSmallFeatureThreshold( const UInt32 &value );
+     void setFirstFrame     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -304,6 +311,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFBool              _sfSmallFeatureCulling;
     SFReal32            _sfSmallFeaturePixels;
     SFUInt32            _sfSmallFeatureThreshold;
+    SFBool              _sfFirstFrame;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -381,6 +389,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.4 2006/02/20 16:54:20 dirk Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.5 2006/09/17 12:11:33 a-m-z Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

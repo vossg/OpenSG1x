@@ -162,4 +162,13 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="firstFrame"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

@@ -215,6 +215,13 @@ SFUInt32 *RenderOptionsBase::getSFSmallFeatureThreshold(void)
     return &_sfSmallFeatureThreshold;
 }
 
+//! Get the RenderOptions::_sfFirstFrame field.
+inline
+SFBool *RenderOptionsBase::getSFFirstFrame(void)
+{
+    return &_sfFirstFrame;
+}
+
 
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
@@ -573,8 +580,29 @@ void RenderOptionsBase::setSmallFeatureThreshold(const UInt32 &value)
     _sfSmallFeatureThreshold.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfFirstFrame field.
+inline
+bool &RenderOptionsBase::getFirstFrame(void)
+{
+    return _sfFirstFrame.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFirstFrame field.
+inline
+const bool &RenderOptionsBase::getFirstFrame(void) const
+{
+    return _sfFirstFrame.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFirstFrame field.
+inline
+void RenderOptionsBase::setFirstFrame(const bool &value)
+{
+    _sfFirstFrame.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.4 2006/02/20 16:54:20 dirk Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.5 2006/09/17 12:11:33 a-m-z Exp $"
 
