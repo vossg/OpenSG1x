@@ -182,7 +182,7 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
     GeometryPtr geo = Geometry::create();
 
     beginEditCP(node);
-    	node->setCore(geo);
+        node->setCore(geo);
     endEditCP(node);
 
     OSG::setName(node, mesh.GetName().c_str());
@@ -223,34 +223,34 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
 
     int nv = mesh.GetTriangleCount() * 3;
 
-	GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
-	beginEditCP(indices);
+    GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
+    beginEditCP(indices);
         indices->getFieldPtr()->reserve(nv);
-	    for (int i = 0; i < nv; ++i)
-	    	indices->getFieldPtr()->push_back(i);
-	endEditCP(indices);
-
+        for (int i = 0; i < nv; ++i)
+            indices->getFieldPtr()->push_back(i);
+    endEditCP(indices);
+    
     GeoPLengthsUI32Ptr lengths = GeoPLengthsUI32::create();
-	beginEditCP(lengths);
+    beginEditCP(lengths);
         lengths->push_back(nv);
     endEditCP(lengths);
-
+    
     GeoPTypesUI8Ptr types = GeoPTypesUI8::create();
-	beginEditCP(types);
+    beginEditCP(types);
         types->push_back(GL_TRIANGLES);
-	endEditCP(types);
-
+    endEditCP(types);
+    
     beginEditCP(geo);
-	    geo->setMaterial(mat);
-	    geo->setPositions(points);
-	    geo->setNormals(normals);
+        geo->setMaterial(mat);
+        geo->setPositions(points);
+        geo->setNormals(normals);
         geo->setTexCoords(texcoords);
-	    geo->setIndices(indices);
-	    geo->setLengths(lengths);
-	    geo->setTypes(types);
+        geo->setIndices(indices);
+        geo->setLengths(lengths);
+        geo->setTypes(types);
         geo->getIndexMapping().push_back(Geometry::MapPosition | Geometry::MapNormal |
                                          Geometry::MapTexCoords);
-	endEditCP(geo);
+    endEditCP(geo);
 
 
     //createSharedIndex(geo);
@@ -294,7 +294,7 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
     LMap &map = m.GetTextureMap1();
     const char *texname = map.mapName;
     ImagePtr image = NullFC;
-    if(strlen(texname) > 0)
+    if(texname != NULL && strlen(texname) > 0)
     {
         image = Image::create();
         bool img_ok = image->read(texname);
@@ -330,18 +330,14 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
             beginEditCP(image, Image::ForceAlphaBinaryFieldMask);
             image->setForceAlphaBinary(image->calcIsAlphaBinary());
             endEditCP(image, Image::ForceAlphaBinaryFieldMask);
-            
+
             TextureChunkPtr texc = TextureChunk::create();
             beginEditCP(texc);
                 texc->setImage(image);
-                texc->setWrapS( (map.tiling & 0x1)    ? 
-                                    GL_REPEAT         :
-                                    GL_CLAMP_TO_EDGE
-                              );
-                texc->setWrapT( (map.tiling & 0x2)    ? 
-                                    GL_REPEAT         :
-                                    GL_CLAMP_TO_EDGE
-                              );
+                // 0x0008 means no tiling.
+                GLenum wm = (map.tiling & 0x0008) ? GL_CLAMP_TO_EDGE : GL_REPEAT;
+                texc->setWrapS(wm);
+                texc->setWrapT(wm);
                 texc->setEnvMode(GL_MODULATE);
                 texc->setMinFilter(GL_LINEAR_MIPMAP_LINEAR);
                 texc->setMagFilter(GL_LINEAR);
@@ -362,7 +358,7 @@ MaterialPtr A3DSSceneFileType::createMaterial(L3DS &scene, UInt32 id) const
         BlendChunkPtr blendc = BlendChunk::create();
         beginEditCP(blendc);
         
-        if(image->isAlphaBinary())
+        if(image != NullFC && image->isAlphaBinary())
         {
             blendc->setAlphaFunc(GL_NOTEQUAL);
             blendc->setAlphaValue(0);
