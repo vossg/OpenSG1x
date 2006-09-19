@@ -115,7 +115,7 @@ void display(void)
 {
     if(pImage->getFrameCount() > 1)
     {
-        int time = glutGet(GLUT_ELAPSED_TIME) / 1000 / pImage->getFrameDelay();
+        int time = (glutGet(GLUT_ELAPSED_TIME) / 1000) / pImage->getFrameDelay();
     
         beginEditCP(tc, TextureChunk::FrameFieldMask);
         tc->setFrame(time % pImage->getFrameCount());

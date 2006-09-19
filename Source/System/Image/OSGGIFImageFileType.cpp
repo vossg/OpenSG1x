@@ -304,23 +304,59 @@ bool GIFImageFileType::read(ImagePtr &OSG_GIF_ARG(image), std::istream &OSG_GIF_
                     }
                     else
                     {                        
-                        FWARNING(("GIF Anim with misc. image dimensions\n"));
-
-                        fprintf(stderr, "%d %d %d %d %d %d\n",
-                                channel,
-                                image->getBpp(),
-                                gifData->x,
-                                gifData->y,
-                                gifData->width,
-                                gifData->height);
-
                         destData = image->getData(0, currentFrame);
 
-                        memcpy(destData, 
-                               image->getData(0, 0), 
-                               image->getWidth () * 
-                               image->getHeight() * 
-                               channel);
+                        // This is probably wrong, but it's a start
+                        switch(gifData->info.disposal)
+                        {
+                            case gif_no_disposal:
+                                break;
+                                
+                            case gif_keep_disposal:
+                                memcpy(destData, 
+                                       image->getData(0, currentFrame - 1), 
+                                       image->getWidth () * 
+                                       image->getHeight() * 
+                                       channel);
+                                break;
+                                
+                            case gif_color_restore:
+                                {
+                                unsigned char r,g,b,a;
+                                UInt32 bgindex = gifStream->background;
+                                unsigned char *d = destData;
+                                
+                                r = colorMap[bgindex * 3 + 0];
+                                g = colorMap[bgindex * 3 + 1];
+                                b = colorMap[bgindex * 3 + 2];
+                                a = (bgindex == transparentIndex) ? 0 : 255;
+                                
+                                for(UInt32 pixel = image->getWidth () * 
+                                                   image->getHeight(); 
+                                    pixel > 0; --pixel, d += channel)
+                                {
+                                    d[0] = r;
+                                    d[1] = g;
+                                    d[2] = b;
+                                    if(channel == 4)
+                                        d[3] = a;
+                                }
+                                }
+                                break;
+                                
+                            case gif_image_restore:                                
+                                memcpy(destData, 
+                                       image->getData(0, (currentFrame >= 2) ?
+                                                         (currentFrame - 2):0),
+                                       image->getWidth () * 
+                                       image->getHeight() * 
+                                       channel);
+                                break;
+                            default:
+                                FWARNING(("Unknown GIF disposal mode %d\n", 
+                                        gifData->info.disposal));
+                                break;
+                        }
 //currentFrame++;
 //                        continue;
                     }
