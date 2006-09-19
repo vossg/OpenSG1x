@@ -586,8 +586,9 @@ GIFImageFileType::~GIFImageFileType(void) {}
 #define INFO_MSG(fmt)   
 #define ERROR(str) do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
 #else
-#define INFO_MSG(fmt)   
-#define GIF_ERROR(str)      longjmp(setjmp_buffer, 1)
+#define INFO_MSG(fmt)   { FINFO(("Info loading gif: '%s'!\n", fmt)); }
+#define GIF_ERROR(str)      { FWARNING(("Error loading gif: '%s'!\n", str)); \
+                              longjmp(setjmp_buffer, 1); }
 #endif
 #endif
 

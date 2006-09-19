@@ -4,11 +4,15 @@
 #include <OSGGLUTWindow.h>
 #include <OSGSimpleSceneManager.h>
 #include <OSGSimpleTexturedMaterial.h>
+#include <OSGTextureChunk.h>
 #include <OSGImage.h>
 
 OSG_USING_NAMESPACE
 
 SimpleSceneManager *mgr;
+
+ImagePtr pImage;
+TextureChunkPtr tc;
 
 int setupGLUT( int *argc, char *argv[] );
 
@@ -17,25 +21,19 @@ int main(int argc, char **argv)
     // OSG init
     osgInit(argc,argv);
 
-    // GLUT init
-    int winid = setupGLUT(&argc, argv);
-
-    // the connection between GLUT and OpenSG
-    GLUTWindowPtr gwin= GLUTWindow::create();
-    gwin->setId(winid);
-    gwin->init();
-
-    // create the scene
-    NodePtr scene = makePlane( 2, 2, 2, 2 );
-
-    GeometryPtr plane_geo = GeometryPtr::dcast(scene->getCore());
-    SimpleTexturedMaterialPtr pm = SimpleTexturedMaterial::create();
+    SimpleMaterialPtr pm = SimpleMaterial::create();
     beginEditCP(pm);
     pm->setDiffuse( Color3f( 1,0,0 ) );
     pm->setAmbient( Color3f( 1,0,0 ) );
     pm->setSpecular( Color3f( 1,1,1 ) );
     pm->setShininess( 10 );
 
+    tc = TextureChunk::create();
+
+    pm->addChunk(tc);
+    
+    beginEditCP(tc);
+    
     UChar8 imgdata[512*256*4];
     UChar8 *data=&imgdata[0];
 
@@ -52,7 +50,7 @@ int main(int argc, char **argv)
             }
     }
 
-    ImagePtr pImage = Image::create();
+    pImage = Image::create();
     if(argc>1)
     {
         pImage->read(argv[1]);
@@ -69,12 +67,28 @@ int main(int argc, char **argv)
         pImage->write(argv[2]);
     }
     pImage->dump();
-    pm->setImage( pImage ); 
-    pm->setMinFilter( GL_NEAREST_MIPMAP_NEAREST );
-    pm->setMagFilter( GL_NEAREST );
+    tc->setImage( pImage ); 
+    tc->setMinFilter( GL_NEAREST );
+    tc->setMagFilter( GL_NEAREST );
+
+    if(pImage->hasAlphaChannel())
+        pm->setTransparency(0.1);
     endEditCP(pm);
 
+    // create the scene
+    NodePtr scene = makePlane( pImage->getWidth(), pImage->getHeight(), 1, 1 );
+
+    GeometryPtr plane_geo = GeometryPtr::dcast(scene->getCore());
+
     plane_geo->setMaterial( pm );
+
+    // GLUT init
+    int winid = setupGLUT(&argc, argv);
+
+    // the connection between GLUT and OpenSG
+    GLUTWindowPtr gwin= GLUTWindow::create();
+    gwin->setId(winid);
+    gwin->init();
 
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
@@ -99,6 +113,14 @@ int main(int argc, char **argv)
 // redraw the window
 void display(void)
 {
+    if(pImage->getFrameCount() > 1)
+    {
+        int time = glutGet(GLUT_ELAPSED_TIME) / 1000 / pImage->getFrameDelay();
+    
+        beginEditCP(tc, TextureChunk::FrameFieldMask);
+        tc->setFrame(time % pImage->getFrameCount());
+        endEditCP(tc, TextureChunk::FrameFieldMask);
+    }
     mgr->redraw();
 }
 
@@ -148,6 +170,8 @@ int setupGLUT(int *argc, char *argv[])
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
+    if(pImage->getFrameCount() > 1)
+        glutIdleFunc(display);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);

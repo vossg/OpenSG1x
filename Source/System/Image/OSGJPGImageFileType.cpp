@@ -250,7 +250,7 @@ static void jpeg_mem_init_source(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 /* */
 static boolean jpeg_mem_fill_input_buffer(j_decompress_ptr OSG_CHECK_ARG(cinfo))
 {
-    SFATAL << "Missing data. Given data block to small." << std::endl;
+    SFATAL << "Missing data. Given data block too small." << std::endl;
     return false;
 }
 
