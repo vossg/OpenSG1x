@@ -1881,10 +1881,21 @@ Action::ResultE RenderAction::stop(ResultE res)
         draw(_pNoStateSortRoot);
     }
 
-    if(_bOcclusionCulling)
+    if(_bOcclusionCulling && !_ocRoot.empty())
     {
-        for(OCMap::reverse_iterator it = _ocRoot.rbegin();it != _ocRoot.rend();++it)
-            draw((*it).second);
+        // ok we use a simple "stop an wait" algorithm, which renders
+        // the scene in front to back order. For each object (except for the
+        // front most object) a bounding box is drawn with an occlusion query.
+        // The result is fetched immediately afterwards and if the box was visible
+        // the corresponding object is drawn.
+        OCMap::reverse_iterator it = _ocRoot.rbegin();
+        // draw the front most object without occlusion query.
+        _bOcclusionCulling = false;
+            draw((*it++).second);
+        _bOcclusionCulling = true;
+
+        while(it != _ocRoot.rend())
+            draw((*it++).second);
     }
 
     if(_pNoStateSortTransRoot != NULL)
