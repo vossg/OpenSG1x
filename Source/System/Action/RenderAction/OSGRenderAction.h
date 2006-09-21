@@ -111,6 +111,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     static StatElemDesc<StatIntOnceElem> statNTextures;
     static StatElemDesc<StatIntOnceElem> statNTexBytes;
 
+    static const Int32 OcclusionStopAndWait;
+    static const Int32 OcclusionMultiFrame;
+
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -187,6 +190,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool getCorrectTwoSidedLighting(void);
     void setOcclusionCulling(bool bVal);
     bool getOcclusionCulling(void);
+    void setOcclusionCullingMode(Int32 mode);
+    Int32 getOcclusionCullingMode(void);
     void setSmallFeatureCulling(bool bVal);
     bool getSmallFeatureCulling(void);
     void setSmallFeaturePixels(Real32 pixels);
@@ -200,6 +205,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     bool isSmallFeature(const NodePtr &node);
     bool isOccluded(DrawTreeNode *pRoot);
+    void clearOcclusionQueries(void);
+    void drawMultiFrameOcclusionBB(DrawTreeNode *pRoot);
 
     // test a single node
     bool            isVisible( Node* node );
@@ -275,6 +282,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bLocalLights;
     bool                      _bCorrectTwoSidedLighting;
     bool                      _bOcclusionCulling;
+    Int32                     _occlusionCullingMode;
+
     bool                      _bSmallFeatureCulling;
     Real32                    _smallFeaturesPixels;
     UInt32                    _smallFeaturesThreshold;
@@ -297,6 +306,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
     GLuint _occlusionQuery;
+    std::map<UInt32, GLuint> _occlusionQueries;
 
     void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
     void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);

@@ -135,6 +135,9 @@ UInt32 RenderAction::_funcBeginQueryARB         = Window::invalidFunctionID;
 UInt32 RenderAction::_funcEndQueryARB           = Window::invalidFunctionID;
 UInt32 RenderAction::_funcGetQueryObjectuivARB  = Window::invalidFunctionID;
 
+const Int32 RenderAction::OcclusionStopAndWait = 1;
+const Int32 RenderAction::OcclusionMultiFrame  = 2;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -256,6 +259,7 @@ RenderAction::RenderAction(void) :
     _bLocalLights            (false),
     _bCorrectTwoSidedLighting(false),
     _bOcclusionCulling       (false),
+    _occlusionCullingMode    (OcclusionStopAndWait),
 
     _bSmallFeatureCulling   (false),
     _smallFeaturesPixels    (10.0f),
@@ -279,6 +283,7 @@ RenderAction::RenderAction(void) :
     _visibilityStack(),
 
     _occlusionQuery         (0),
+    _occlusionQueries       (),
     _glGenQueriesARB        (NULL),
     _glDeleteQueriesARB     (NULL),
     _glBeginQueryARB        (NULL),
@@ -427,6 +432,7 @@ RenderAction::~RenderAction(void)
 
     if(_occlusionQuery != 0)
         _glDeleteQueriesARB(1, &_occlusionQuery);
+    clearOcclusionQueries();
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -1373,12 +1379,14 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 {
     // skip occlusion test for small sized geometries
     UInt32 pos_size = 0;
+    UInt32 geoid = 0;
     if((_bOcclusionCulling || _bSmallFeatureCulling) &&
         pRoot->getNode()->getCore() != NullFC)
     {
         GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
         if(geo != NullFC)
         {
+            geoid = geo.getFieldContainerId();
             if(geo->getPositions() != NullFC)
                 pos_size = geo->getPositions()->getSize();
         }
@@ -1400,61 +1408,158 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
         if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
            pos_size > 64)
         {
-            //getStatistics()->getElem(statCullTestedNodes)->inc();
-            glDepthMask(GL_FALSE);
-            glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
-            
-            if(_occlusionQuery == 0)
-                _glGenQueriesARB(1, &_occlusionQuery);
-
-            _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
-
-            const DynamicVolume& vol = pRoot->getNode()->getVolume();
-            Pnt3f min,max;
-            vol.getBounds(min, max);
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glEnd();
-    
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glEnd();
-
-            _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-
-            glDepthMask(GL_TRUE);
-            glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-
-            GLuint pixels = 0;
-            _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
-
-            if(pixels > 0)
+            if(_occlusionCullingMode == OcclusionMultiFrame)
             {
-                return false;
+                // ok we use a "multi frame" algorithm, which renders
+                // the scene in front to back order. For each object (except for the
+                // front most object) a bounding box is drawn with an occlusion query.
+                // The results are fetched in the next frame, if the box was visible
+                // the corresponding object is drawn.
+
+                std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.find(geoid);
+                if(occIt == _occlusionQueries.end())
+                {
+                    return false;
+                }
+
+                GLuint pixels = 0;
+                GLuint occlusionQuery = (*occIt).second;
+                _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+
+                if(pixels > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    getStatistics()->getElem(statCulledNodes)->inc();
+                    return true;
+                }
             }
-            else
+            else if(_occlusionCullingMode == OcclusionStopAndWait)
             {
-                getStatistics()->getElem(statCulledNodes)->inc();
-                return true;
+                // ok we use a simple "stop an wait" algorithm, which renders
+                // the scene in front to back order. For each object (except for the
+                // front most object) a bounding box is drawn with an occlusion query.
+                // The result is fetched immediately afterwards and if the box was visible
+                // the corresponding object is drawn.
+
+                //getStatistics()->getElem(statCullTestedNodes)->inc();
+                glDepthMask(GL_FALSE);
+                glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+                
+                if(_occlusionQuery == 0)
+                    _glGenQueriesARB(1, &_occlusionQuery);
+    
+                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
+    
+                const DynamicVolume& vol = pRoot->getNode()->getVolume();
+                Pnt3f min,max;
+                vol.getBounds(min, max);
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glEnd();
+        
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glEnd();
+    
+                _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+    
+                glDepthMask(GL_TRUE);
+                glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+    
+                GLuint pixels = 0;
+                _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+    
+                if(pixels > 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    getStatistics()->getElem(statCulledNodes)->inc();
+                    return true;
+                }
             }
         }
     }
 
     return false;
+}
+
+void RenderAction::clearOcclusionQueries(void)
+{
+    for(std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.begin();
+        occIt != _occlusionQueries.end();++occIt)
+    {
+        GLuint occlusionQuery = (*occIt).second;
+        _glDeleteQueriesARB(1, &occlusionQuery);
+    }
+    _occlusionQueries.clear();
+}
+
+void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
+{
+    UInt32 pos_size = 0;
+
+    GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+    if(geo != NullFC)
+    {
+        if(geo->getPositions() != NullFC)
+            pos_size = geo->getPositions()->getSize();
+    }
+
+    if(_glGenQueriesARB != NULL && pos_size > 64)
+    {
+        GLuint occlusionQuery;
+        _glGenQueriesARB(1, &occlusionQuery);
+
+        _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
+
+        const DynamicVolume& vol = pRoot->getNode()->getVolume();
+        Pnt3f min,max;
+        vol.getBounds(min, max);
+        glBegin( GL_TRIANGLE_STRIP);
+        glVertex3f( min[0], min[1], max[2]);
+        glVertex3f( max[0], min[1], max[2]);
+        glVertex3f( min[0], max[1], max[2]);
+        glVertex3f( max[0], max[1], max[2]);
+        glVertex3f( min[0], max[1], min[2]);
+        glVertex3f( max[0], max[1], min[2]);
+        glVertex3f( min[0], min[1], min[2]);
+        glVertex3f( max[0], min[1], min[2]);
+        glEnd();
+
+        glBegin( GL_TRIANGLE_STRIP);
+        glVertex3f( max[0], max[1], min[2]);
+        glVertex3f( max[0], max[1], max[2]);
+        glVertex3f( max[0], min[1], min[2]);
+        glVertex3f( max[0], min[1], max[2]);
+        glVertex3f( min[0], min[1], min[2]);
+        glVertex3f( min[0], min[1], max[2]);
+        glVertex3f( min[0], max[1], min[2]);
+        glVertex3f( min[0], max[1], max[2]);
+        glEnd();
+
+        _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+
+        _occlusionQueries.insert(std::make_pair(geo.getFieldContainerId(), occlusionQuery));
+    }
 }
 
 //#define PRINT_MAT
@@ -1645,12 +1750,23 @@ bool RenderAction::getCorrectTwoSidedLighting(void)
 
 void RenderAction::setOcclusionCulling(bool bVal)
 {
+    clearOcclusionQueries();
     _bOcclusionCulling = bVal;
 }
 
 bool RenderAction::getOcclusionCulling(void)
 {
     return _bOcclusionCulling;
+}
+
+void RenderAction::setOcclusionCullingMode(Int32 mode)
+{
+    _occlusionCullingMode = mode;
+}
+
+Int32 RenderAction::getOcclusionCullingMode(void)
+{
+    return _occlusionCullingMode;
 }
 
 void RenderAction::setSmallFeatureCulling(bool bVal)
@@ -1883,11 +1999,6 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     if(_bOcclusionCulling && !_ocRoot.empty())
     {
-        // ok we use a simple "stop an wait" algorithm, which renders
-        // the scene in front to back order. For each object (except for the
-        // front most object) a bounding box is drawn with an occlusion query.
-        // The result is fetched immediately afterwards and if the box was visible
-        // the corresponding object is drawn.
         OCMap::reverse_iterator it = _ocRoot.rbegin();
         // draw the front most object without occlusion query.
         _bOcclusionCulling = false;
@@ -1896,6 +2007,27 @@ Action::ResultE RenderAction::stop(ResultE res)
 
         while(it != _ocRoot.rend())
             draw((*it++).second);
+
+        if(_occlusionCullingMode == OcclusionMultiFrame)
+        {
+            // draw occlusion bounding boxes.
+            // we check the occlusion results in the next frame!
+            // -------
+            glDepthMask(GL_FALSE);
+            glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+    
+            // destroy old occlusion queries.
+            clearOcclusionQueries();
+    
+            it = _ocRoot.rbegin();
+            // skip the front most object.
+            ++it;
+            while(it != _ocRoot.rend())
+                drawMultiFrameOcclusionBB((*it++).second);
+    
+            glDepthMask(GL_TRUE);
+            glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+        }
     }
 
     if(_pNoStateSortTransRoot != NULL)
