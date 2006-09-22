@@ -1777,8 +1777,6 @@ void RenderAction::setOcclusionCullingMode(Int32 mode)
 {
     clearOcclusionQueries();
     _occlusionCullingMode = mode;
-    // test amz
-    //_occlusionCullingMode = OcclusionStopAndWait;
 }
 
 Int32 RenderAction::getOcclusionCullingMode(void)
