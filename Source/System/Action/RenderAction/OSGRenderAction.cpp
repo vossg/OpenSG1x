@@ -711,7 +711,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     Int32 sortKey = pMat->getRealSortKey();
 
-    if(_bOcclusionCulling && _stateSorting)
+    if(_bOcclusionCulling && _occlusionCullingMode == OcclusionStopAndWait && _stateSorting)
     {
         DrawTreeNode *pLastMultiPass = NULL;
         for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
@@ -1377,16 +1377,20 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
 
 bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 {
+    // Skip draw tree nodes without a functor!
+    if(!pRoot->hasFunctor())
+        return false;
+
     // skip occlusion test for small sized geometries
     UInt32 pos_size = 0;
-    UInt32 geoid = 0;
+    UInt32 nodeid = 0;
     if((_bOcclusionCulling || _bSmallFeatureCulling) &&
         pRoot->getNode()->getCore() != NullFC)
     {
         GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
         if(geo != NullFC)
         {
-            geoid = geo.getFieldContainerId();
+            nodeid = pRoot->getNode().getFieldContainerId();
             if(geo->getPositions() != NullFC)
                 pos_size = geo->getPositions()->getSize();
         }
@@ -1411,12 +1415,11 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
             if(_occlusionCullingMode == OcclusionMultiFrame)
             {
                 // ok we use a "multi frame" algorithm, which renders
-                // the scene in front to back order. For each object (except for the
-                // front most object) a bounding box is drawn with an occlusion query.
+                // the whole scene first and keeps the depth buffer. For each object
+                // a bounding box is drawn with an occlusion query.
                 // The results are fetched in the next frame, if the box was visible
                 // the corresponding object is drawn.
-
-                std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.find(geoid);
+                std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.find(nodeid);
                 if(occIt == _occlusionQueries.end())
                 {
                     return false;
@@ -1515,50 +1518,61 @@ void RenderAction::clearOcclusionQueries(void)
 
 void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
 {
-    UInt32 pos_size = 0;
-
-    GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
-    if(geo != NullFC)
+    while(pRoot != NULL)
     {
-        if(geo->getPositions() != NullFC)
-            pos_size = geo->getPositions()->getSize();
-    }
+        UInt32 pos_size = 0;
+    
+        GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+        if(geo != NullFC)
+        {
+            if(geo->getPositions() != NullFC)
+                pos_size = geo->getPositions()->getSize();
+        }
+    
+        if(_glGenQueriesARB != NULL && pos_size > 64)
+        {
+            GLuint occlusionQuery;
+            _glGenQueriesARB(1, &occlusionQuery);
+    
+            _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
+    
+            const DynamicVolume& vol = pRoot->getNode()->getVolume();
+            Pnt3f min,max;
+            vol.getBounds(min, max);
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glEnd();
+    
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glEnd();
+    
+            _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
 
-    if(_glGenQueriesARB != NULL && pos_size > 64)
-    {
-        GLuint occlusionQuery;
-        _glGenQueriesARB(1, &occlusionQuery);
-
-        _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
-
-        const DynamicVolume& vol = pRoot->getNode()->getVolume();
-        Pnt3f min,max;
-        vol.getBounds(min, max);
-        glBegin( GL_TRIANGLE_STRIP);
-        glVertex3f( min[0], min[1], max[2]);
-        glVertex3f( max[0], min[1], max[2]);
-        glVertex3f( min[0], max[1], max[2]);
-        glVertex3f( max[0], max[1], max[2]);
-        glVertex3f( min[0], max[1], min[2]);
-        glVertex3f( max[0], max[1], min[2]);
-        glVertex3f( min[0], min[1], min[2]);
-        glVertex3f( max[0], min[1], min[2]);
-        glEnd();
-
-        glBegin( GL_TRIANGLE_STRIP);
-        glVertex3f( max[0], max[1], min[2]);
-        glVertex3f( max[0], max[1], max[2]);
-        glVertex3f( max[0], min[1], min[2]);
-        glVertex3f( max[0], min[1], max[2]);
-        glVertex3f( min[0], min[1], min[2]);
-        glVertex3f( min[0], min[1], max[2]);
-        glVertex3f( min[0], max[1], min[2]);
-        glVertex3f( min[0], max[1], max[2]);
-        glEnd();
-
-        _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-
-        _occlusionQueries.insert(std::make_pair(geo.getFieldContainerId(), occlusionQuery));
+            // we use the node because the geometry core could be shared!
+            _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
+        }
+    
+        if(pRoot->getFirstChild() != NULL)
+        {
+            drawMultiFrameOcclusionBB(pRoot->getFirstChild());
+        }
+    
+        pRoot = pRoot->getBrother();
     }
 }
 
@@ -1761,7 +1775,10 @@ bool RenderAction::getOcclusionCulling(void)
 
 void RenderAction::setOcclusionCullingMode(Int32 mode)
 {
+    clearOcclusionQueries();
     _occlusionCullingMode = mode;
+    // test amz
+    //_occlusionCullingMode = OcclusionStopAndWait;
 }
 
 Int32 RenderAction::getOcclusionCullingMode(void)
@@ -1997,7 +2014,7 @@ Action::ResultE RenderAction::stop(ResultE res)
         draw(_pNoStateSortRoot);
     }
 
-    if(_bOcclusionCulling && !_ocRoot.empty())
+    if(_bOcclusionCulling && _occlusionCullingMode == OcclusionStopAndWait && !_ocRoot.empty())
     {
         OCMap::reverse_iterator it = _ocRoot.rbegin();
         // draw the front most object without occlusion query.
@@ -2007,33 +2024,17 @@ Action::ResultE RenderAction::stop(ResultE res)
 
         while(it != _ocRoot.rend())
             draw((*it++).second);
-
-        if(_occlusionCullingMode == OcclusionMultiFrame)
-        {
-            // draw occlusion bounding boxes.
-            // we check the occlusion results in the next frame!
-            // -------
-            glDepthMask(GL_FALSE);
-            glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
-    
-            // destroy old occlusion queries.
-            clearOcclusionQueries();
-    
-            it = _ocRoot.rbegin();
-            // skip the front most object.
-            ++it;
-            while(it != _ocRoot.rend())
-                drawMultiFrameOcclusionBB((*it++).second);
-    
-            glDepthMask(GL_TRUE);
-            glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-        }
     }
 
     if(_pNoStateSortTransRoot != NULL)
     {
         draw(_pNoStateSortTransRoot);
     }
+
+    // for multi frame occlusion culling we disable zwrite transparency.
+    bool bZWriteTrans = _bZWriteTrans;
+    if(_bOcclusionCulling && _occlusionCullingMode == OcclusionMultiFrame)
+        _bZWriteTrans = false;
 
     SortKeyMap::iterator matRootsIt = _pMatRoots.begin();
     TransSortKeyMap::iterator transMatRootsIt = _pTransMatRoots.begin();
@@ -2104,7 +2105,12 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     if(_pActiveState != NULL)
     {
-        _pActiveState->deactivate(this);
+        State *state = _pActiveState;
+        // without this the deactivate would be called in
+        // the next changeFrom call.
+        _pActiveState = NULL;
+
+        state->deactivate(this);
     }
 
     if(!_bLocalLights)
@@ -2123,6 +2129,29 @@ Action::ResultE RenderAction::stop(ResultE res)
                       black.getValuesRGBA());
             glDisable(GL_LIGHT0 + i);
         }
+    }
+
+    if(_bOcclusionCulling && _occlusionCullingMode == OcclusionMultiFrame)
+    {
+        // restore old value.
+        _bZWriteTrans = bZWriteTrans;
+
+        // draw occlusion bounding boxes.
+        // we check the occlusion results in the next frame!
+        // -------
+        glDepthMask(GL_FALSE);
+        glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+
+        // destroy old occlusion queries.
+        clearOcclusionQueries();
+
+        // now draw the bounding boxes of all opaque objects.
+        matRootsIt = _pMatRoots.begin();
+        while(matRootsIt != _pMatRoots.end())
+            drawMultiFrameOcclusionBB((*matRootsIt++).second->getFirstChild());
+
+        glDepthMask(GL_TRUE);
+        glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     }
 
     glDepthMask(GL_TRUE);
