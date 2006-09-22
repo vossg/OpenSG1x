@@ -1520,8 +1520,20 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
     {
+        UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
+        if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+        {
+            glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
+
+            _uiActiveMatrix = uiNextMatrix;
+
+            _uiNumMatrixChanges++;
+
+            _currMatrix.second = pRoot->getMatrixStore().second;
+            updateTopMatrix();
+        }
+
         UInt32 pos_size = 0;
-    
         GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
         if(geo != NullFC)
         {
@@ -2133,6 +2145,8 @@ Action::ResultE RenderAction::stop(ResultE res)
     {
         // restore old value.
         _bZWriteTrans = bZWriteTrans;
+
+        _uiActiveMatrix = 0;
 
         // draw occlusion bounding boxes.
         // we check the occlusion results in the next frame!
