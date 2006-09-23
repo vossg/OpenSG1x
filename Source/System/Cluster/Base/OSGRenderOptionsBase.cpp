@@ -92,6 +92,12 @@ const OSG::BitVector  RenderOptionsBase::CorrectTwoSidedLightingFieldMask =
 const OSG::BitVector  RenderOptionsBase::OcclusionCullingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingFieldId);
 
+const OSG::BitVector  RenderOptionsBase::OcclusionCullingModeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingModeFieldId);
+
+const OSG::BitVector  RenderOptionsBase::OcclusionCullingPixelsFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingPixelsFieldId);
+
 const OSG::BitVector  RenderOptionsBase::AntialiasingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::AntialiasingFieldId);
 
@@ -152,6 +158,12 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 */
 /*! \var bool            RenderOptionsBase::_sfOcclusionCulling
     
+*/
+/*! \var Int32           RenderOptionsBase::_sfOcclusionCullingMode
+    OcclusionStopAndWait (1) or OcclusionMultiFrame (2)
+*/
+/*! \var UInt32          RenderOptionsBase::_sfOcclusionCullingPixels
+    culls objects with this number of visible pixels default is zero.
 */
 /*! \var bool            RenderOptionsBase::_sfAntialiasing
     
@@ -230,6 +242,16 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      OcclusionCullingFieldId, OcclusionCullingFieldMask,
                      false,
                      (FieldAccessMethod) &RenderOptionsBase::getSFOcclusionCulling),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "occlusionCullingMode", 
+                     OcclusionCullingModeFieldId, OcclusionCullingModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFOcclusionCullingMode),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "occlusionCullingPixels", 
+                     OcclusionCullingPixelsFieldId, OcclusionCullingPixelsFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFOcclusionCullingPixels),
     new FieldDescription(SFBool::getClassType(), 
                      "antialiasing", 
                      AntialiasingFieldId, AntialiasingFieldMask,
@@ -359,6 +381,8 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfLocalLights            (bool(true)), 
     _sfCorrectTwoSidedLighting(bool(true)), 
     _sfOcclusionCulling       (bool(false)), 
+    _sfOcclusionCullingMode   (Int32(1)), 
+    _sfOcclusionCullingPixels (UInt32(0)), 
     _sfAntialiasing           (bool(false)), 
     _sfAntialiasingDistance   (Real32(0.2)), 
     _sfAntialiasingScale      (Real32(2.0)), 
@@ -386,6 +410,8 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfLocalLights            (source._sfLocalLights            ), 
     _sfCorrectTwoSidedLighting(source._sfCorrectTwoSidedLighting), 
     _sfOcclusionCulling       (source._sfOcclusionCulling       ), 
+    _sfOcclusionCullingMode   (source._sfOcclusionCullingMode   ), 
+    _sfOcclusionCullingPixels (source._sfOcclusionCullingPixels ), 
     _sfAntialiasing           (source._sfAntialiasing           ), 
     _sfAntialiasingDistance   (source._sfAntialiasingDistance   ), 
     _sfAntialiasingScale      (source._sfAntialiasingScale      ), 
@@ -454,6 +480,16 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (OcclusionCullingFieldMask & whichField))
     {
         returnValue += _sfOcclusionCulling.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OcclusionCullingModeFieldMask & whichField))
+    {
+        returnValue += _sfOcclusionCullingMode.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
+    {
+        returnValue += _sfOcclusionCullingPixels.getBinSize();
     }
 
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
@@ -555,6 +591,16 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
         _sfOcclusionCulling.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (OcclusionCullingModeFieldMask & whichField))
+    {
+        _sfOcclusionCullingMode.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
+    {
+        _sfOcclusionCullingPixels.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
     {
         _sfAntialiasing.copyToBin(pMem);
@@ -653,6 +699,16 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfOcclusionCulling.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (OcclusionCullingModeFieldMask & whichField))
+    {
+        _sfOcclusionCullingMode.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
+    {
+        _sfOcclusionCullingPixels.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
     {
         _sfAntialiasing.copyFromBin(pMem);
@@ -735,6 +791,12 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (OcclusionCullingFieldMask & whichField))
         _sfOcclusionCulling.syncWith(pOther->_sfOcclusionCulling);
 
+    if(FieldBits::NoField != (OcclusionCullingModeFieldMask & whichField))
+        _sfOcclusionCullingMode.syncWith(pOther->_sfOcclusionCullingMode);
+
+    if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
+        _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
         _sfAntialiasing.syncWith(pOther->_sfAntialiasing);
 
@@ -798,6 +860,12 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (OcclusionCullingFieldMask & whichField))
         _sfOcclusionCulling.syncWith(pOther->_sfOcclusionCulling);
+
+    if(FieldBits::NoField != (OcclusionCullingModeFieldMask & whichField))
+        _sfOcclusionCullingMode.syncWith(pOther->_sfOcclusionCullingMode);
+
+    if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
+        _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
 
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
         _sfAntialiasing.syncWith(pOther->_sfAntialiasing);
@@ -869,7 +937,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.5 2006/09/17 12:11:33 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.6 2006/09/23 11:26:52 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

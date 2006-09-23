@@ -159,6 +159,20 @@ SFBool *RenderOptionsBase::getSFOcclusionCulling(void)
     return &_sfOcclusionCulling;
 }
 
+//! Get the RenderOptions::_sfOcclusionCullingMode field.
+inline
+SFInt32 *RenderOptionsBase::getSFOcclusionCullingMode(void)
+{
+    return &_sfOcclusionCullingMode;
+}
+
+//! Get the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+SFUInt32 *RenderOptionsBase::getSFOcclusionCullingPixels(void)
+{
+    return &_sfOcclusionCullingPixels;
+}
+
 //! Get the RenderOptions::_sfAntialiasing field.
 inline
 SFBool *RenderOptionsBase::getSFAntialiasing(void)
@@ -412,6 +426,48 @@ void RenderOptionsBase::setOcclusionCulling(const bool &value)
     _sfOcclusionCulling.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfOcclusionCullingMode field.
+inline
+Int32 &RenderOptionsBase::getOcclusionCullingMode(void)
+{
+    return _sfOcclusionCullingMode.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfOcclusionCullingMode field.
+inline
+const Int32 &RenderOptionsBase::getOcclusionCullingMode(void) const
+{
+    return _sfOcclusionCullingMode.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfOcclusionCullingMode field.
+inline
+void RenderOptionsBase::setOcclusionCullingMode(const Int32 &value)
+{
+    _sfOcclusionCullingMode.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+UInt32 &RenderOptionsBase::getOcclusionCullingPixels(void)
+{
+    return _sfOcclusionCullingPixels.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+const UInt32 &RenderOptionsBase::getOcclusionCullingPixels(void) const
+{
+    return _sfOcclusionCullingPixels.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+void RenderOptionsBase::setOcclusionCullingPixels(const UInt32 &value)
+{
+    _sfOcclusionCullingPixels.setValue(value);
+}
+
 //! Get the value of the RenderOptions::_sfAntialiasing field.
 inline
 bool &RenderOptionsBase::getAntialiasing(void)
@@ -604,5 +660,5 @@ void RenderOptionsBase::setFirstFrame(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.5 2006/09/17 12:11:33 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.6 2006/09/23 11:26:52 a-m-z Exp $"
 

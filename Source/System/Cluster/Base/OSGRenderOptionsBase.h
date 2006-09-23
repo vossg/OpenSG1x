@@ -76,6 +76,8 @@
 #include <OSGBoolFields.h> // LocalLights type
 #include <OSGBoolFields.h> // CorrectTwoSidedLighting type
 #include <OSGBoolFields.h> // OcclusionCulling type
+#include <OSGInt32Fields.h> // OcclusionCullingMode type
+#include <OSGUInt32Fields.h> // OcclusionCullingPixels type
 #include <OSGBoolFields.h> // Antialiasing type
 #include <OSGReal32Fields.h> // AntialiasingDistance type
 #include <OSGReal32Fields.h> // AntialiasingScale type
@@ -117,7 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         LocalLightsFieldId             = ZWriteTransFieldId             + 1,
         CorrectTwoSidedLightingFieldId = LocalLightsFieldId             + 1,
         OcclusionCullingFieldId        = CorrectTwoSidedLightingFieldId + 1,
-        AntialiasingFieldId            = OcclusionCullingFieldId        + 1,
+        OcclusionCullingModeFieldId    = OcclusionCullingFieldId        + 1,
+        OcclusionCullingPixelsFieldId  = OcclusionCullingModeFieldId    + 1,
+        AntialiasingFieldId            = OcclusionCullingPixelsFieldId  + 1,
         AntialiasingDistanceFieldId    = AntialiasingFieldId            + 1,
         AntialiasingScaleFieldId       = AntialiasingDistanceFieldId    + 1,
         AntialiasingTriggerFieldId     = AntialiasingScaleFieldId       + 1,
@@ -138,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector LocalLightsFieldMask;
     static const OSG::BitVector CorrectTwoSidedLightingFieldMask;
     static const OSG::BitVector OcclusionCullingFieldMask;
+    static const OSG::BitVector OcclusionCullingModeFieldMask;
+    static const OSG::BitVector OcclusionCullingPixelsFieldMask;
     static const OSG::BitVector AntialiasingFieldMask;
     static const OSG::BitVector AntialiasingDistanceFieldMask;
     static const OSG::BitVector AntialiasingScaleFieldMask;
@@ -182,6 +188,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFBool              *getSFLocalLights    (void);
            SFBool              *getSFCorrectTwoSidedLighting(void);
            SFBool              *getSFOcclusionCulling(void);
+           SFInt32             *getSFOcclusionCullingMode(void);
+           SFUInt32            *getSFOcclusionCullingPixels(void);
            SFBool              *getSFAntialiasing   (void);
            SFReal32            *getSFAntialiasingDistance(void);
            SFReal32            *getSFAntialiasingScale(void);
@@ -210,6 +218,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const bool                &getCorrectTwoSidedLighting(void) const;
            bool                &getOcclusionCulling(void);
      const bool                &getOcclusionCulling(void) const;
+           Int32               &getOcclusionCullingMode(void);
+     const Int32               &getOcclusionCullingMode(void) const;
+           UInt32              &getOcclusionCullingPixels(void);
+     const UInt32              &getOcclusionCullingPixels(void) const;
            bool                &getAntialiasing   (void);
      const bool                &getAntialiasing   (void) const;
            Real32              &getAntialiasingDistance(void);
@@ -243,6 +255,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setLocalLights    ( const bool &value );
      void setCorrectTwoSidedLighting( const bool &value );
      void setOcclusionCulling( const bool &value );
+     void setOcclusionCullingMode( const Int32 &value );
+     void setOcclusionCullingPixels( const UInt32 &value );
      void setAntialiasing   ( const bool &value );
      void setAntialiasingDistance( const Real32 &value );
      void setAntialiasingScale( const Real32 &value );
@@ -303,6 +317,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFBool              _sfLocalLights;
     SFBool              _sfCorrectTwoSidedLighting;
     SFBool              _sfOcclusionCulling;
+    SFInt32             _sfOcclusionCullingMode;
+    SFUInt32            _sfOcclusionCullingPixels;
     SFBool              _sfAntialiasing;
     SFReal32            _sfAntialiasingDistance;
     SFReal32            _sfAntialiasingScale;
@@ -389,6 +405,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.5 2006/09/17 12:11:33 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.6 2006/09/23 11:26:52 a-m-z Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

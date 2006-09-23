@@ -94,6 +94,26 @@
 	>
 	</Field>
 	<Field
+		name="occlusionCullingMode"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	OcclusionStopAndWait (1) or OcclusionMultiFrame (2)
+	</Field>
+	<Field
+		name="occlusionCullingPixels"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	culls objects with this number of visible pixels default is zero.
+	</Field>
+	<Field
 		name="antialiasing"
 		type="bool"
 		cardinality="single"
