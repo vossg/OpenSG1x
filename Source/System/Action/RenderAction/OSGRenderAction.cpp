@@ -2176,6 +2176,15 @@ Action::ResultE RenderAction::stop(ResultE res)
         while(matRootsIt != _pMatRoots.end())
             drawMultiFrameOcclusionBB((*matRootsIt++).second->getFirstChild());
 
+        // now draw the bounding boxes of all transparent objects.
+        transMatRootsIt = _pTransMatRoots.begin();
+        while(transMatRootsIt != _pTransMatRoots.end())
+        {
+            TransSortMap &ts = (*transMatRootsIt++).second;
+            for(TransSortMap::iterator tsit = ts.begin();tsit != ts.end();++tsit)
+                drawMultiFrameOcclusionBB((*tsit).second);
+        }
+
         glDepthMask(GL_TRUE);
         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     }
