@@ -260,6 +260,7 @@ RenderAction::RenderAction(void) :
     _bCorrectTwoSidedLighting(false),
     _bOcclusionCulling       (false),
     _occlusionCullingMode    (OcclusionStopAndWait),
+    _occlusionCullingPixels  (0),
 
     _bSmallFeatureCulling   (false),
     _smallFeaturesPixels    (10.0f),
@@ -1429,7 +1430,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 GLuint occlusionQuery = (*occIt).second;
                 _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
 
-                if(pixels > 0)
+                if(pixels > _occlusionCullingPixels)
                 {
                     return false;
                 }
@@ -1489,7 +1490,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 GLuint pixels = 0;
                 _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
     
-                if(pixels > 0)
+                if(pixels > _occlusionCullingPixels)
                 {
                     return false;
                 }
@@ -1520,70 +1521,73 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
     {
-        UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
-        if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+        if(pRoot->hasFunctor())
         {
-            glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
+            UInt32 pos_size = 0;
+            GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+            if(geo != NullFC)
+            {
+                if(geo->getPositions() != NullFC)
+                    pos_size = geo->getPositions()->getSize();
+            }
+        
+            if(_glGenQueriesARB != NULL && pos_size > 64)
+            {
+                UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
+                if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+                {
+                    glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
+        
+                    _uiActiveMatrix = uiNextMatrix;
+        
+                    _uiNumMatrixChanges++;
+        
+                    _currMatrix.second = pRoot->getMatrixStore().second;
+                    updateTopMatrix();
+                }
 
-            _uiActiveMatrix = uiNextMatrix;
-
-            _uiNumMatrixChanges++;
-
-            _currMatrix.second = pRoot->getMatrixStore().second;
-            updateTopMatrix();
+                GLuint occlusionQuery;
+                _glGenQueriesARB(1, &occlusionQuery);
+        
+                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
+        
+                const DynamicVolume& vol = pRoot->getNode()->getVolume();
+                Pnt3f min,max;
+                vol.getBounds(min, max);
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glEnd();
+        
+                glBegin( GL_TRIANGLE_STRIP);
+                glVertex3f( max[0], max[1], min[2]);
+                glVertex3f( max[0], max[1], max[2]);
+                glVertex3f( max[0], min[1], min[2]);
+                glVertex3f( max[0], min[1], max[2]);
+                glVertex3f( min[0], min[1], min[2]);
+                glVertex3f( min[0], min[1], max[2]);
+                glVertex3f( min[0], max[1], min[2]);
+                glVertex3f( min[0], max[1], max[2]);
+                glEnd();
+        
+                _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+    
+                // we use the node because the geometry core could be shared!
+                _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
+            }
         }
 
-        UInt32 pos_size = 0;
-        GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
-        if(geo != NullFC)
-        {
-            if(geo->getPositions() != NullFC)
-                pos_size = geo->getPositions()->getSize();
-        }
-    
-        if(_glGenQueriesARB != NULL && pos_size > 64)
-        {
-            GLuint occlusionQuery;
-            _glGenQueriesARB(1, &occlusionQuery);
-    
-            _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
-    
-            const DynamicVolume& vol = pRoot->getNode()->getVolume();
-            Pnt3f min,max;
-            vol.getBounds(min, max);
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glEnd();
-    
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glEnd();
-    
-            _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-
-            // we use the node because the geometry core could be shared!
-            _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
-        }
-    
         if(pRoot->getFirstChild() != NULL)
         {
             drawMultiFrameOcclusionBB(pRoot->getFirstChild());
         }
-    
+
         pRoot = pRoot->getBrother();
     }
 }
@@ -1794,6 +1798,16 @@ void RenderAction::setOcclusionCullingMode(Int32 mode)
 Int32 RenderAction::getOcclusionCullingMode(void)
 {
     return _occlusionCullingMode;
+}
+
+void RenderAction::setOcclusionCullingPixels(UInt32 pixels)
+{
+    _occlusionCullingPixels = pixels;
+}
+
+UInt32 RenderAction::getOcclusionCullingPixels(void)
+{
+    return _occlusionCullingPixels;
 }
 
 void RenderAction::setSmallFeatureCulling(bool bVal)

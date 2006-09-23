@@ -192,6 +192,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool getOcclusionCulling(void);
     void setOcclusionCullingMode(Int32 mode);
     Int32 getOcclusionCullingMode(void);
+    void setOcclusionCullingPixels(UInt32 pixels);
+    UInt32 getOcclusionCullingPixels(void);
     void setSmallFeatureCulling(bool bVal);
     bool getSmallFeatureCulling(void);
     void setSmallFeaturePixels(Real32 pixels);
@@ -283,6 +285,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bCorrectTwoSidedLighting;
     bool                      _bOcclusionCulling;
     Int32                     _occlusionCullingMode;
+    UInt32                    _occlusionCullingPixels;
 
     bool                      _bSmallFeatureCulling;
     Real32                    _smallFeaturesPixels;
