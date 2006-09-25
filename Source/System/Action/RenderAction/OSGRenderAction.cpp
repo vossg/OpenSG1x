@@ -1533,53 +1533,55 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
         
             if(_glGenQueriesARB != NULL && pos_size > 64)
             {
-                UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
-                if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+                DynamicVolume vol = pRoot->getNode()->getVolume();
+                vol.transform(pRoot->getMatrixStore().second);
+                // ignore objects behind the camera.
+                if(vol.getMax()[2] < 0.0f)
                 {
-                    glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
+                    UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
+                    if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+                    {
+                        glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
         
-                    _uiActiveMatrix = uiNextMatrix;
-        
-                    _uiNumMatrixChanges++;
-        
-                    _currMatrix.second = pRoot->getMatrixStore().second;
-                    updateTopMatrix();
-                }
+                        _uiActiveMatrix = uiNextMatrix;
+                        _uiNumMatrixChanges++;
+                        _currMatrix.second = pRoot->getMatrixStore().second;
+                    }
 
-                GLuint occlusionQuery;
-                _glGenQueriesARB(1, &occlusionQuery);
-        
-                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
-        
-                const DynamicVolume& vol = pRoot->getNode()->getVolume();
-                Pnt3f min,max;
-                vol.getBounds(min, max);
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glEnd();
-        
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glEnd();
-        
-                _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+                    Pnt3f min,max;
+                    pRoot->getNode()->getVolume().getBounds(min, max);
     
-                // we use the node because the geometry core could be shared!
-                _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
+                    GLuint occlusionQuery;
+                    _glGenQueriesARB(1, &occlusionQuery);
+                    _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
+            
+                    glBegin( GL_TRIANGLE_STRIP);
+                    glVertex3f( min[0], min[1], max[2]);
+                    glVertex3f( max[0], min[1], max[2]);
+                    glVertex3f( min[0], max[1], max[2]);
+                    glVertex3f( max[0], max[1], max[2]);
+                    glVertex3f( min[0], max[1], min[2]);
+                    glVertex3f( max[0], max[1], min[2]);
+                    glVertex3f( min[0], min[1], min[2]);
+                    glVertex3f( max[0], min[1], min[2]);
+                    glEnd();
+            
+                    glBegin( GL_TRIANGLE_STRIP);
+                    glVertex3f( max[0], max[1], min[2]);
+                    glVertex3f( max[0], max[1], max[2]);
+                    glVertex3f( max[0], min[1], min[2]);
+                    glVertex3f( max[0], min[1], max[2]);
+                    glVertex3f( min[0], min[1], min[2]);
+                    glVertex3f( min[0], min[1], max[2]);
+                    glVertex3f( min[0], max[1], min[2]);
+                    glVertex3f( min[0], max[1], max[2]);
+                    glEnd();
+            
+                    _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+        
+                    // we use the node because the geometry core could be shared!
+                    _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
+                }
             }
         }
 
@@ -2187,6 +2189,8 @@ Action::ResultE RenderAction::stop(ResultE res)
 
         glDepthMask(GL_TRUE);
         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+
+        glFlush();
     }
 
     glDepthMask(GL_TRUE);
