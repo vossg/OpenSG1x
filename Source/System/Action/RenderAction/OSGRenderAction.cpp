@@ -304,11 +304,11 @@ RenderAction::RenderAction(void) :
     _pNodeFactory = new DrawTreeNodeFactory;
 
     _arbOcclusionQuery          = Window::registerExtension("GL_ARB_occlusion_query");
-    _funcGenQueriesARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenQueriesARB");
-    _funcDeleteQueriesARB       = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteQueriesARB");
-    _funcBeginQueryARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBeginQueryARB");
-    _funcEndQueryARB            = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glEndQueryARB");
-    _funcGetQueryObjectuivARB   = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetQueryObjectuivARB");
+    _funcGenQueriesARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGenQueriesARB", _arbOcclusionQuery);
+    _funcDeleteQueriesARB       = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDeleteQueriesARB", _arbOcclusionQuery);
+    _funcBeginQueryARB          = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBeginQueryARB", _arbOcclusionQuery);
+    _funcEndQueryARB            = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glEndQueryARB", _arbOcclusionQuery);
+    _funcGetQueryObjectuivARB   = Window::registerFunction (OSG_DLSYM_UNDERSCORE"glGetQueryObjectuivARB", _arbOcclusionQuery);
 
     // we can't include OSGCGChunk here because it is in Contrib ...
     StateChunkPtr cgChunk = StateChunkPtr::dcast(FieldContainerFactory::the()->createFieldContainer("CGChunk"));
@@ -1866,7 +1866,8 @@ Action::ResultE RenderAction::start(void)
         _window->resizeGL();
     }
 
-    if(_window->hasExtension(_arbOcclusionQuery))
+    if(_glGenQueriesARB == NULL &&
+       _window->hasExtension(_arbOcclusionQuery))
     {
         _glGenQueriesARB          = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcGenQueriesARB);
         _glDeleteQueriesARB       = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcDeleteQueriesARB);
