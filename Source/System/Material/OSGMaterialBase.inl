@@ -77,6 +77,13 @@ SFInt32 *MaterialBase::getSFSortKey(void)
     return &_sfSortKey;
 }
 
+//! Get the Material::_sfTransparencyMode field.
+inline
+SFInt32 *MaterialBase::getSFTransparencyMode(void)
+{
+    return &_sfTransparencyMode;
+}
+
 
 //! Get the value of the Material::_sfSortKey field.
 inline
@@ -97,6 +104,27 @@ inline
 void MaterialBase::setSortKey(const Int32 &value)
 {
     _sfSortKey.setValue(value);
+}
+
+//! Get the value of the Material::_sfTransparencyMode field.
+inline
+Int32 &MaterialBase::getTransparencyMode(void)
+{
+    return _sfTransparencyMode.getValue();
+}
+
+//! Get the value of the Material::_sfTransparencyMode field.
+inline
+const Int32 &MaterialBase::getTransparencyMode(void) const
+{
+    return _sfTransparencyMode.getValue();
+}
+
+//! Set the value of the Material::_sfTransparencyMode field.
+inline
+void MaterialBase::setTransparencyMode(const Int32 &value)
+{
+    _sfTransparencyMode.setValue(value);
 }
 
 

@@ -27,13 +27,4 @@
 		access="public"
 	>
 	</Field>
-	<Field
-		name="transparencyMode"
-		type="Int32"
-		cardinality="single"
-		visibility="external"
-		defaultValue="0"
-		access="public"
-	>
-	</Field>
 </FieldContainer>

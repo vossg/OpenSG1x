@@ -78,10 +78,6 @@ field's functions.
  *                           Class variables                               *
 \***************************************************************************/
 
-const Int32 ChunkMaterial::TransparencyAutoDetection = 0;
-const Int32 ChunkMaterial::TransparencyForceTransparent = 1;
-const Int32 ChunkMaterial::TransparencyForceOpaque = 2;
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -352,9 +348,9 @@ void ChunkMaterial::rebuildState(void)
 bool ChunkMaterial::isTransparent(void) const
 {
     Int32 tm = getTransparencyMode();
-    if(tm != ChunkMaterial::TransparencyAutoDetection)
+    if(tm != Material::TransparencyAutoDetection)
     {
-        return (tm == ChunkMaterial::TransparencyForceTransparent);
+        return (tm == Material::TransparencyForceTransparent);
     }
 
     bool returnValue = false;

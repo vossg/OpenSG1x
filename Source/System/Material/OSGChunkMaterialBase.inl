@@ -110,34 +110,6 @@ MFInt32 *ChunkMaterialBase::getMFSlots(void)
     return &_mfSlots;
 }
 
-//! Get the ChunkMaterial::_sfTransparencyMode field.
-inline
-SFInt32 *ChunkMaterialBase::getSFTransparencyMode(void)
-{
-    return &_sfTransparencyMode;
-}
-
-
-//! Get the value of the ChunkMaterial::_sfTransparencyMode field.
-inline
-Int32 &ChunkMaterialBase::getTransparencyMode(void)
-{
-    return _sfTransparencyMode.getValue();
-}
-
-//! Get the value of the ChunkMaterial::_sfTransparencyMode field.
-inline
-const Int32 &ChunkMaterialBase::getTransparencyMode(void) const
-{
-    return _sfTransparencyMode.getValue();
-}
-
-//! Set the value of the ChunkMaterial::_sfTransparencyMode field.
-inline
-void ChunkMaterialBase::setTransparencyMode(const Int32 &value)
-{
-    _sfTransparencyMode.setValue(value);
-}
 
 
 //! Get the value of the \a index element the ChunkMaterial::_mfChunks field.

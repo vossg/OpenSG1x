@@ -102,6 +102,9 @@ OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
 OSG_END_NAMESPACE
 
 const Int32 Material::NoStateSorting = 0x7fffffff;
+const Int32 Material::TransparencyAutoDetection = 0;
+const Int32 Material::TransparencyForceTransparent = 1;
+const Int32 Material::TransparencyForceOpaque = 2;
 
 /***************************************************************************\
  *                           Class methods                                 *

@@ -62,10 +62,13 @@
 #include "OSGMaterial.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MaterialBase::SortKeyFieldMask = 
     (TypeTraits<BitVector>::One << MaterialBase::SortKeyFieldId);
+
+const OSG::BitVector  MaterialBase::TransparencyModeFieldMask = 
+    (TypeTraits<BitVector>::One << MaterialBase::TransparencyModeFieldId);
 
 const OSG::BitVector MaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -77,6 +80,9 @@ const OSG::BitVector MaterialBase::MTInfluenceMask =
 /*! \var Int32           MaterialBase::_sfSortKey
     
 */
+/*! \var Int32           MaterialBase::_sfTransparencyMode
+    Set the transparency mode, possible values are TransparencyAutoDetection, TransparencyForceTransparent and TransparencyForceOpaque
+*/
 
 //! Material description
 
@@ -86,7 +92,12 @@ FieldDescription *MaterialBase::_desc[] =
                      "sortKey", 
                      SortKeyFieldId, SortKeyFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialBase::getSFSortKey)
+                     (FieldAccessMethod) &MaterialBase::getSFSortKey),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "transparencyMode", 
+                     TransparencyModeFieldId, TransparencyModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &MaterialBase::getSFTransparencyMode)
 };
 
 
@@ -154,6 +165,7 @@ void MaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 MaterialBase::MaterialBase(void) :
     _sfSortKey                (Int32(0)), 
+    _sfTransparencyMode       (Int32(0)), 
     Inherited() 
 {
 }
@@ -164,6 +176,7 @@ MaterialBase::MaterialBase(void) :
 
 MaterialBase::MaterialBase(const MaterialBase &source) :
     _sfSortKey                (source._sfSortKey                ), 
+    _sfTransparencyMode       (source._sfTransparencyMode       ), 
     Inherited                 (source)
 {
 }
@@ -185,6 +198,11 @@ UInt32 MaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _sfSortKey.getBinSize();
     }
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        returnValue += _sfTransparencyMode.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -197,6 +215,11 @@ void MaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SortKeyFieldMask & whichField))
     {
         _sfSortKey.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        _sfTransparencyMode.copyToBin(pMem);
     }
 
 
@@ -212,6 +235,11 @@ void MaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSortKey.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+    {
+        _sfTransparencyMode.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -225,6 +253,9 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
     if(FieldBits::NoField != (SortKeyFieldMask & whichField))
         _sfSortKey.syncWith(pOther->_sfSortKey);
 
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
+
 
 }
 #else
@@ -237,6 +268,9 @@ void MaterialBase::executeSyncImpl(      MaterialBase *pOther,
 
     if(FieldBits::NoField != (SortKeyFieldMask & whichField))
         _sfSortKey.syncWith(pOther->_sfSortKey);
+
+    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
+        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
 
 
 
@@ -253,6 +287,8 @@ void MaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -264,8 +300,6 @@ DataType FieldDataTraits<MaterialPtr>::_type("MaterialPtr", "AttachmentContainer
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -281,10 +315,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

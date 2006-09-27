@@ -76,6 +76,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Material : public MaterialBase
     /*! \{                                                                 */
 
     static const Int32 NoStateSorting;
+    static const Int32 TransparencyAutoDetection;
+    static const Int32 TransparencyForceTransparent;
+    static const Int32 TransparencyForceOpaque;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

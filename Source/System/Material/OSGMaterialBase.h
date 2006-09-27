@@ -68,6 +68,7 @@
 #include <OSGAttachmentContainer.h> // Parent
 
 #include <OSGInt32Fields.h> // SortKey type
+#include <OSGInt32Fields.h> // TransparencyMode type
 
 #include <OSGMaterialFields.h>
 
@@ -91,11 +92,13 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
 
     enum
     {
-        SortKeyFieldId = Inherited::NextFieldId,
-        NextFieldId    = SortKeyFieldId + 1
+        SortKeyFieldId          = Inherited::NextFieldId,
+        TransparencyModeFieldId = SortKeyFieldId          + 1,
+        NextFieldId             = TransparencyModeFieldId + 1
     };
 
     static const OSG::BitVector SortKeyFieldMask;
+    static const OSG::BitVector TransparencyModeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -123,9 +126,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*! \{                                                                 */
 
            SFInt32             *getSFSortKey        (void);
+           SFInt32             *getSFTransparencyMode(void);
 
            Int32               &getSortKey        (void);
      const Int32               &getSortKey        (void) const;
+           Int32               &getTransparencyMode(void);
+     const Int32               &getTransparencyMode(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -133,6 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*! \{                                                                 */
 
      void setSortKey        ( const Int32 &value );
+     void setTransparencyMode( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -160,6 +167,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialBase : public AttachmentContainer
     /*! \{                                                                 */
 
     SFInt32             _sfSortKey;
+    SFInt32             _sfTransparencyMode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

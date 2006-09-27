@@ -68,10 +68,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     /*! \name                    Constants                                 */
     /*! \{                                                                 */
 
-    static const Int32 TransparencyAutoDetection;
-    static const Int32 TransparencyForceTransparent;
-    static const Int32 TransparencyForceOpaque;
-
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */

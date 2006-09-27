@@ -70,9 +70,6 @@ const OSG::BitVector  ChunkMaterialBase::ChunksFieldMask =
 const OSG::BitVector  ChunkMaterialBase::SlotsFieldMask = 
     (TypeTraits<BitVector>::One << ChunkMaterialBase::SlotsFieldId);
 
-const OSG::BitVector  ChunkMaterialBase::TransparencyModeFieldMask = 
-    (TypeTraits<BitVector>::One << ChunkMaterialBase::TransparencyModeFieldId);
-
 const OSG::BitVector ChunkMaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -84,9 +81,6 @@ const OSG::BitVector ChunkMaterialBase::MTInfluenceMask =
     
 */
 /*! \var Int32           ChunkMaterialBase::_mfSlots
-    
-*/
-/*! \var Int32           ChunkMaterialBase::_sfTransparencyMode
     
 */
 
@@ -103,12 +97,7 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      "slots", 
                      SlotsFieldId, SlotsFieldMask,
                      false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots),
-    new FieldDescription(SFInt32::getClassType(), 
-                     "transparencyMode", 
-                     TransparencyModeFieldId, TransparencyModeFieldMask,
-                     false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getSFTransparencyMode)
+                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots)
 };
 
 
@@ -188,7 +177,6 @@ void ChunkMaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 ChunkMaterialBase::ChunkMaterialBase(void) :
     _mfChunks                 (), 
     _mfSlots                  (), 
-    _sfTransparencyMode       (Int32(0)), 
     Inherited() 
 {
 }
@@ -200,7 +188,6 @@ ChunkMaterialBase::ChunkMaterialBase(void) :
 ChunkMaterialBase::ChunkMaterialBase(const ChunkMaterialBase &source) :
     _mfChunks                 (source._mfChunks                 ), 
     _mfSlots                  (source._mfSlots                  ), 
-    _sfTransparencyMode       (source._sfTransparencyMode       ), 
     Inherited                 (source)
 {
 }
@@ -227,11 +214,6 @@ UInt32 ChunkMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _mfSlots.getBinSize();
     }
 
-    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
-    {
-        returnValue += _sfTransparencyMode.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -249,11 +231,6 @@ void ChunkMaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (SlotsFieldMask & whichField))
     {
         _mfSlots.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
-    {
-        _sfTransparencyMode.copyToBin(pMem);
     }
 
 
@@ -274,11 +251,6 @@ void ChunkMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfSlots.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
-    {
-        _sfTransparencyMode.copyFromBin(pMem);
-    }
-
 
 }
 
@@ -295,9 +267,6 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
     if(FieldBits::NoField != (SlotsFieldMask & whichField))
         _mfSlots.syncWith(pOther->_mfSlots);
 
-    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
-        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
-
 
 }
 #else
@@ -307,9 +276,6 @@ void ChunkMaterialBase::executeSyncImpl(      ChunkMaterialBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
-
-    if(FieldBits::NoField != (TransparencyModeFieldMask & whichField))
-        _sfTransparencyMode.syncWith(pOther->_sfTransparencyMode);
 
 
     if(FieldBits::NoField != (ChunksFieldMask & whichField))

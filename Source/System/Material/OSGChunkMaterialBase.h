@@ -69,7 +69,6 @@
 
 #include <OSGStateChunkFields.h> // Chunks type
 #include <OSGInt32Fields.h> // Slots type
-#include <OSGInt32Fields.h> // TransparencyMode type
 
 #include <OSGChunkMaterialFields.h>
 
@@ -93,15 +92,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
     enum
     {
-        ChunksFieldId           = Inherited::NextFieldId,
-        SlotsFieldId            = ChunksFieldId           + 1,
-        TransparencyModeFieldId = SlotsFieldId            + 1,
-        NextFieldId             = TransparencyModeFieldId + 1
+        ChunksFieldId = Inherited::NextFieldId,
+        SlotsFieldId  = ChunksFieldId + 1,
+        NextFieldId   = SlotsFieldId  + 1
     };
 
     static const OSG::BitVector ChunksFieldMask;
     static const OSG::BitVector SlotsFieldMask;
-    static const OSG::BitVector TransparencyModeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -130,10 +127,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
            MFStateChunkPtr     *getMFChunks         (void);
            MFInt32             *getMFSlots          (void);
-           SFInt32             *getSFTransparencyMode(void);
 
-           Int32               &getTransparencyMode(void);
-     const Int32               &getTransparencyMode(void) const;
            StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
      const MFStateChunkPtr     &getChunks         (void) const;
@@ -146,7 +140,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setTransparencyMode( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -191,7 +184,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
 
     MFStateChunkPtr     _mfChunks;
     MFInt32             _mfSlots;
-    SFInt32             _sfTransparencyMode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
