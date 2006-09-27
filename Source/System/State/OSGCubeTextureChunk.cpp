@@ -52,6 +52,8 @@
 #include "OSGDrawActionBase.h"
 
 #include "OSGCubeTextureChunk.h"
+#include "OSGRenderAction.h"
+#include "OSGImage.h"
 
 OSG_USING_NAMESPACE
 
@@ -412,6 +414,12 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
   
     FDEBUG(("CubeTextureChunk::activate - %d\n", getGLId()));
 
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(idx);
+    // all 6 images are forced (by opengl) to be of the same size and type so we can
+    // multiply the size of the first image by 6.
+    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+        getGLId(), getImage()->getSize() * 6);
+
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
 #ifdef GL_NV_point_sprite
@@ -563,6 +571,12 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     win->validateGLObject(getGLId());
     
     FDEBUG(("CubeTextureChunk::activate - %d\n", getGLId()));
+
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(getGLId());
+    // all 6 images are forced (by opengl) to be of the same size and type so we can
+    // multiply the size of the first image by 6.
+    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+        getGLId(), getImage()->getSize() * 6);
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
