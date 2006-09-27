@@ -463,31 +463,16 @@ void OSGSceneView::insertFromFile( osg::NodePtr parent )
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::exportToFile( osg::NodePtr node )
 {
-  osg::BINWriter *writer;
-  std::ofstream outStream;
-  // shout we use the global filer ?!?
-  QString filter = "OpenSG Binary Scene file (*.bin *.osb)";
-  QString fName = QFileDialog::getSaveFileName ( QString::null,
+    // shout we use the global filer ?!?
+    QString filter = "OpenSG Binary Scene file (*.osb *.wrl *.bin)";
+    QString fName = QFileDialog::getSaveFileName(QString::null,
                                                  filter,
                                                  this,
                                                  "Save Scene Dialog",
                                                  "Choose/Create a scene" );
-  if (!fName.isEmpty())
-    {
-        std::ofstream out(fName.latin1(), std::ios::binary);
-	
-        std::cerr << "FN: " 
-                  << fName.latin1()
-                  << std::endl;
 
-        if (out)
-        {
-          writer = new osg::BINWriter(out);
-          writer->write(node);
-          delete writer;
-          out.close();
-        }
-    }
+    if(!fName.isEmpty())
+        OSG::SceneFileHandler::the().write(node, fName.latin1());
 }
 
 //////////////////////////////////////////////////////////////////
