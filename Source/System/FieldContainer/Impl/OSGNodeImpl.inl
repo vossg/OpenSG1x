@@ -115,15 +115,15 @@ void  Node::setActive(bool val)
 }
 
 inline
-void Node::setOccluded(bool val)
+void Node::setOcclusionMask(UInt8 val)
 {
-    _occluded = val;
+    _occlusionMask = val;
 }
 
 inline
-bool Node::getOccluded(void) const
+UInt8 Node::getOcclusionMask(void) const
 {
-    return _occluded;
+    return _occlusionMask;
 }
 
 inline

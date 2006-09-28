@@ -162,6 +162,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     void   setTravMask(UInt32 val);
     UInt32 getTravMask(void      ) const;
 
+    void   setOcclusionMask(UInt8 val);
+    UInt8  getOcclusionMask(void      ) const;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       Children                               */
@@ -263,6 +266,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     SFNodeCorePtr   _sfCore;
 
+    UInt8           _occlusionMask;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
@@ -338,14 +343,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     // this is used for the occlusion culling.
     friend class RenderAction;
 
-    void setOccluded(bool val);
-    bool getOccluded(void) const;
-
     void setGLId(UInt32 glid);
     UInt32 getGLId(void) const;
 
-    bool            _occluded;
-    UInt32          _glid;
+    UInt32 _glid;
 };
 
 

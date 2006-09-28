@@ -623,26 +623,26 @@ void Node::dump(      UInt32    uiIndent,
 /*                            Constructors                                 */
 
 Node::Node(void) :
-     Inherited  (),
-    _sfVolume   (),
-    _sfTravMask (TypeTraits<UInt32>::getMax()),
-    _sfParent   (),
-    _mfChildren (),
-    _sfCore     (),
-    _occluded   (false),
-    _glid       (0)
+     Inherited    (),
+    _sfVolume     (),
+    _sfTravMask   (TypeTraits<UInt32>::getMax()),
+    _sfParent     (),
+    _mfChildren   (),
+    _sfCore       (),
+    _occlusionMask(0),
+    _glid         (0)
 {
 }
 
 Node::Node(const Node &source) :
-     Inherited  (source),
-    _sfVolume   (source._sfVolume),
-    _sfTravMask (source._sfTravMask),
-    _sfParent   (),
-    _mfChildren (),
-    _sfCore     (),
-    _occluded   (source._occluded),
-    _glid       (source._glid)
+     Inherited       (source),
+    _sfVolume        (source._sfVolume),
+    _sfTravMask      (source._sfTravMask),
+    _sfParent        (),
+    _mfChildren      (),
+    _sfCore          (),
+    _occlusionMask   (source._occlusionMask),
+    _glid            (source._glid)
 {
 }
 
