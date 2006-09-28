@@ -114,6 +114,30 @@ void  Node::setActive(bool val)
                                TypeTraits<UInt32>::getZeroElement() );
 }
 
+inline
+void Node::setOccluded(bool val)
+{
+    _occluded = val;
+}
+
+inline
+bool Node::getOccluded(void) const
+{
+    return _occluded;
+}
+
+inline
+void Node::setGLId(UInt32 glid)
+{
+    _glid = glid;
+}
+
+inline
+UInt32 Node::getGLId(void) const
+{
+    return _glid;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                          Access Fields                                  */
 

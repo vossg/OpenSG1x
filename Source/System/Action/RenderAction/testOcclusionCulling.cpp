@@ -1,4 +1,21 @@
-// Minimalistic OpenSG program
+// occlision culling test program.
+
+// Two algorithms are implemented "stop an wait" and "multi frame"
+
+// --- stop and wait ---
+// Renders the scene in front to back order. For each object (except for the
+// front most object) a bounding box is drawn with an occlusion query.
+// The result is fetched immediately afterwards and if the box was visible
+// the corresponding object is drawn.
+// This is quite slow because of the front to back sorted rendering and
+// the occlusions queries are stalling the graphics pipeline.
+//
+// --- multi frame ---
+// Renders the whole scene first (with state sorting) and keeps
+// the depth buffer. For each object a bounding box is drawn
+// with an occlusion query. The results are fetched in the next frame,
+// if the box was visible the corresponding object is drawn.
+// This is really fast but can lead to render errors on fast camera movements.
 
 #include <fstream>
 

@@ -334,6 +334,18 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     /* prohibit default function (move to 'public' if needed) */
     void operator =(const Node &source);
+
+    // this is used for the occlusion culling.
+    friend class RenderAction;
+
+    void setOccluded(bool val);
+    bool getOccluded(void) const;
+
+    void setGLId(UInt32 glid);
+    UInt32 getGLId(void) const;
+
+    bool            _occluded;
+    UInt32          _glid;
 };
 
 

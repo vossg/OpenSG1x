@@ -181,33 +181,42 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     /*------------------------- comparison ----------------------------------*/
 
     void setSortTrans(bool bVal);
-    bool getSortTrans(void);
+    bool getSortTrans(void) const;
+
     void setZWriteTrans(bool bVal);
-    bool getZWriteTrans(void);
+    bool getZWriteTrans(void) const;
+
     void setLocalLights(bool bVal);
-    bool getLocalLights(void);
+    bool getLocalLights(void) const;
+
     void setCorrectTwoSidedLighting(bool bVal);
-    bool getCorrectTwoSidedLighting(void);
+    bool getCorrectTwoSidedLighting(void) const;
+
     void setOcclusionCulling(bool bVal);
-    bool getOcclusionCulling(void);
+    bool getOcclusionCulling(void) const;
+
     void setOcclusionCullingMode(Int32 mode);
-    Int32 getOcclusionCullingMode(void);
+    Int32 getOcclusionCullingMode(void) const;
     void setOcclusionCullingPixels(UInt32 pixels);
-    UInt32 getOcclusionCullingPixels(void);
+    UInt32 getOcclusionCullingPixels(void) const;
+    void setOcclusionCullingThreshold(UInt32 threshold);
+    UInt32 getOcclusionCullingThreshold(void) const;
+
     void setSmallFeatureCulling(bool bVal);
-    bool getSmallFeatureCulling(void);
+    bool getSmallFeatureCulling(void) const;
     void setSmallFeaturePixels(Real32 pixels);
-    Real32 getSmallFeaturePixels(void);
+    Real32 getSmallFeaturePixels(void) const;
     void setSmallFeatureThreshold(UInt32 threshold);
-    UInt32 getSmallFeatureThreshold(void);
+    UInt32 getSmallFeatureThreshold(void) const;
+
     void setUseGLFinish(bool s);
-    bool getUseGLFinish(void);
+    bool getUseGLFinish(void) const;
 
     /*------------------------- comparison ----------------------------------*/
 
     bool isSmallFeature(const NodePtr &node);
     bool isOccluded(DrawTreeNode *pRoot);
-    void clearOcclusionQueries(void);
+    void deleteOcclusionQueries(void);
     void drawMultiFrameOcclusionBB(DrawTreeNode *pRoot);
 
     // test a single node
@@ -286,6 +295,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _bOcclusionCulling;
     Int32                     _occlusionCullingMode;
     UInt32                    _occlusionCullingPixels;
+    UInt32                    _occlusionCullingThreshold;
+    UInt32                    _currentOcclusionQueryIndex;
 
     bool                      _bSmallFeatureCulling;
     Real32                    _smallFeaturesPixels;
@@ -309,7 +320,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
     GLuint _occlusionQuery;
-    std::map<UInt32, GLuint> _occlusionQueries;
+    std::vector<GLuint> _occlusionQueries;
 
     void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
     void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);

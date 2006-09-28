@@ -254,13 +254,15 @@ RenderAction::RenderAction(void) :
     _uiNumGeometries     (0),
     _uiNumTransGeometries(0),
 
-    _bSortTrans              (true),
-    _bZWriteTrans            (false),
-    _bLocalLights            (false),
-    _bCorrectTwoSidedLighting(false),
-    _bOcclusionCulling       (false),
-    _occlusionCullingMode    (OcclusionStopAndWait),
-    _occlusionCullingPixels  (0),
+    _bSortTrans               (true),
+    _bZWriteTrans             (false),
+    _bLocalLights             (false),
+    _bCorrectTwoSidedLighting (false),
+    _bOcclusionCulling        (false),
+    _occlusionCullingMode     (OcclusionStopAndWait),
+    _occlusionCullingPixels   (0),
+    _occlusionCullingThreshold(64),
+    _currentOcclusionQueryIndex(0),
 
     _bSmallFeatureCulling   (false),
     _smallFeaturesPixels    (10.0f),
@@ -363,11 +365,15 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumGeometries     (source._uiNumGeometries),
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
-    _bSortTrans              (source._bSortTrans),
-    _bZWriteTrans            (source._bZWriteTrans),
-    _bLocalLights            (source._bLocalLights),
-    _bCorrectTwoSidedLighting(source._bCorrectTwoSidedLighting),
-    _bOcclusionCulling       (source._bOcclusionCulling),
+    _bSortTrans               (source._bSortTrans),
+    _bZWriteTrans             (source._bZWriteTrans),
+    _bLocalLights             (source._bLocalLights),
+    _bCorrectTwoSidedLighting (source._bCorrectTwoSidedLighting),
+    _bOcclusionCulling        (source._bOcclusionCulling),
+    _occlusionCullingMode     (source._occlusionCullingMode),
+    _occlusionCullingPixels   (source._occlusionCullingPixels),
+    _occlusionCullingThreshold(source._occlusionCullingThreshold),
+    _currentOcclusionQueryIndex(source._currentOcclusionQueryIndex),
 
     _bSmallFeatureCulling   (source._bSmallFeatureCulling),
     _smallFeaturesPixels    (source._smallFeaturesPixels),
@@ -433,7 +439,7 @@ RenderAction::~RenderAction(void)
 
     if(_occlusionQuery != 0)
         _glDeleteQueriesARB(1, &_occlusionQuery);
-    clearOcclusionQueries();
+    deleteOcclusionQueries();
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -1384,14 +1390,12 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 
     // skip occlusion test for small sized geometries
     UInt32 pos_size = 0;
-    UInt32 nodeid = 0;
     if((_bOcclusionCulling || _bSmallFeatureCulling) &&
         pRoot->getNode()->getCore() != NullFC)
     {
         GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
         if(geo != NullFC)
         {
-            nodeid = pRoot->getNode().getFieldContainerId();
             if(geo->getPositions() != NullFC)
                 pos_size = geo->getPositions()->getSize();
         }
@@ -1411,7 +1415,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     if(!foundSmallFeature)
     {
         if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
-           pos_size > 64)
+           pos_size > _occlusionCullingThreshold)
         {
             if(_occlusionCullingMode == OcclusionMultiFrame)
             {
@@ -1420,15 +1424,15 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 // a bounding box is drawn with an occlusion query.
                 // The results are fetched in the next frame, if the box was visible
                 // the corresponding object is drawn.
-                std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.find(nodeid);
-                if(occIt == _occlusionQueries.end())
-                {
+                GLuint occlusionQuery = pRoot->getNode()->getGLId();
+                if(occlusionQuery == 0)
                     return false;
-                }
 
                 GLuint pixels = 0;
-                GLuint occlusionQuery = (*occIt).second;
                 _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+
+                // reset glid
+                pRoot->getNode()->setGLId(0);
 
                 if(pixels > _occlusionCullingPixels)
                 {
@@ -1506,12 +1510,12 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     return false;
 }
 
-void RenderAction::clearOcclusionQueries(void)
+void RenderAction::deleteOcclusionQueries(void)
 {
-    for(std::map<UInt32, GLuint>::iterator occIt = _occlusionQueries.begin();
+    for(std::vector<GLuint>::iterator occIt = _occlusionQueries.begin();
         occIt != _occlusionQueries.end();++occIt)
     {
-        GLuint occlusionQuery = (*occIt).second;
+        GLuint occlusionQuery = (*occIt);
         _glDeleteQueriesARB(1, &occlusionQuery);
     }
     _occlusionQueries.clear();
@@ -1531,7 +1535,7 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     pos_size = geo->getPositions()->getSize();
             }
         
-            if(_glGenQueriesARB != NULL && pos_size > 64)
+            if(_glGenQueriesARB != NULL && pos_size > _occlusionCullingThreshold)
             {
                 DynamicVolume vol = pRoot->getNode()->getVolume();
                 vol.transform(pRoot->getMatrixStore().second);
@@ -1552,7 +1556,19 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     pRoot->getNode()->getVolume().getBounds(min, max);
     
                     GLuint occlusionQuery;
-                    _glGenQueriesARB(1, &occlusionQuery);
+                    if(_currentOcclusionQueryIndex >= _occlusionQueries.size())
+                    {
+                        // ok we re-use already created occlusion query objects.
+                        _glGenQueriesARB(1, &occlusionQuery);
+                        _occlusionQueries.push_back(occlusionQuery);
+                    }
+                    else
+                    {
+                        occlusionQuery = _occlusionQueries[_currentOcclusionQueryIndex];
+                    }
+
+                    ++_currentOcclusionQueryIndex;
+
                     _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
             
                     glBegin( GL_TRIANGLE_STRIP);
@@ -1580,7 +1596,7 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
         
                     // we use the node because the geometry core could be shared!
-                    _occlusionQueries.insert(std::make_pair(pRoot->getNode().getFieldContainerId(), occlusionQuery));
+                    pRoot->getNode()->setGLId(occlusionQuery);
                 }
             }
         }
@@ -1745,7 +1761,7 @@ void RenderAction::setSortTrans(bool bVal)
     _bSortTrans = bVal;
 }
 
-bool RenderAction::getSortTrans(void)
+bool RenderAction::getSortTrans(void) const
 {
     return _bSortTrans;
 }
@@ -1755,7 +1771,7 @@ void RenderAction::setZWriteTrans(bool bVal)
     _bZWriteTrans = bVal;
 }
 
-bool RenderAction::getZWriteTrans(void)
+bool RenderAction::getZWriteTrans(void) const
 {
     return _bZWriteTrans;
 }
@@ -1765,7 +1781,7 @@ void RenderAction::setLocalLights(bool bVal)
     _bLocalLights = bVal;
 }
 
-bool RenderAction::getLocalLights(void)
+bool RenderAction::getLocalLights(void) const
 {
     return _bLocalLights;
 }
@@ -1775,29 +1791,29 @@ void RenderAction::setCorrectTwoSidedLighting(bool bVal)
     _bCorrectTwoSidedLighting = bVal;
 }
 
-bool RenderAction::getCorrectTwoSidedLighting(void)
+bool RenderAction::getCorrectTwoSidedLighting(void) const
 {
     return _bCorrectTwoSidedLighting;
 }
 
 void RenderAction::setOcclusionCulling(bool bVal)
 {
-    clearOcclusionQueries();
+    deleteOcclusionQueries();
     _bOcclusionCulling = bVal;
 }
 
-bool RenderAction::getOcclusionCulling(void)
+bool RenderAction::getOcclusionCulling(void) const
 {
     return _bOcclusionCulling;
 }
 
 void RenderAction::setOcclusionCullingMode(Int32 mode)
 {
-    clearOcclusionQueries();
+    deleteOcclusionQueries();
     _occlusionCullingMode = mode;
 }
 
-Int32 RenderAction::getOcclusionCullingMode(void)
+Int32 RenderAction::getOcclusionCullingMode(void) const
 {
     return _occlusionCullingMode;
 }
@@ -1807,7 +1823,7 @@ void RenderAction::setOcclusionCullingPixels(UInt32 pixels)
     _occlusionCullingPixels = pixels;
 }
 
-UInt32 RenderAction::getOcclusionCullingPixels(void)
+UInt32 RenderAction::getOcclusionCullingPixels(void) const
 {
     return _occlusionCullingPixels;
 }
@@ -1817,7 +1833,7 @@ void RenderAction::setSmallFeatureCulling(bool bVal)
     _bSmallFeatureCulling = bVal;
 }
 
-bool RenderAction::getSmallFeatureCulling(void)
+bool RenderAction::getSmallFeatureCulling(void) const
 {
     return _bSmallFeatureCulling;
 }
@@ -1827,7 +1843,7 @@ void RenderAction::setSmallFeaturePixels(Real32 pixels)
     _smallFeaturesPixels = pixels;
 }
 
-Real32 RenderAction::getSmallFeaturePixels(void)
+Real32 RenderAction::getSmallFeaturePixels(void) const
 {
     return _smallFeaturesPixels;
 }
@@ -1837,9 +1853,19 @@ void RenderAction::setSmallFeatureThreshold(UInt32 threshold)
     _smallFeaturesThreshold = threshold;
 }
 
-UInt32 RenderAction::getSmallFeatureThreshold(void)
+UInt32 RenderAction::getSmallFeatureThreshold(void) const
 {
     return _smallFeaturesThreshold;
+}
+
+void RenderAction::setOcclusionCullingThreshold(UInt32 threshold)
+{
+    _occlusionCullingThreshold = threshold;
+}
+
+UInt32 RenderAction::getOcclusionCullingThreshold(void) const
+{
+    return _occlusionCullingThreshold;
 }
 
 void RenderAction::setUseGLFinish(bool s)
@@ -1847,7 +1873,7 @@ void RenderAction::setUseGLFinish(bool s)
     _useGLFinish = s;
 }
 
-bool RenderAction::getUseGLFinish(void)
+bool RenderAction::getUseGLFinish(void) const
 {
     return _useGLFinish;
 }
@@ -2171,9 +2197,7 @@ Action::ResultE RenderAction::stop(ResultE res)
         glDepthMask(GL_FALSE);
         glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
 
-        // destroy old occlusion queries.
-        clearOcclusionQueries();
-
+        _currentOcclusionQueryIndex = 0;
         // now draw the bounding boxes of all opaque objects.
         matRootsIt = _pMatRoots.begin();
         while(matRootsIt != _pMatRoots.end())

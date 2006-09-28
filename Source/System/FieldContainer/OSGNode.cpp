@@ -628,7 +628,9 @@ Node::Node(void) :
     _sfTravMask (TypeTraits<UInt32>::getMax()),
     _sfParent   (),
     _mfChildren (),
-    _sfCore     ()
+    _sfCore     (),
+    _occluded   (false),
+    _glid       (0)
 {
 }
 
@@ -638,7 +640,9 @@ Node::Node(const Node &source) :
     _sfTravMask (source._sfTravMask),
     _sfParent   (),
     _mfChildren (),
-    _sfCore     ()
+    _sfCore     (),
+    _occluded   (source._occluded),
+    _glid       (source._glid)
 {
 }
 
