@@ -102,7 +102,7 @@ static const Char8 *suffixArray[] =
     "exr"
 };
 
-EXRImageFileType EXRImageFileType::_the( "exr",
+EXRImageFileType EXRImageFileType::_the( "image/x-exr",
                                          suffixArray, sizeof(suffixArray),
                                          OSG_READ_SUPPORTED |
                                          OSG_WRITE_SUPPORTED );
