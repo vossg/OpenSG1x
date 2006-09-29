@@ -415,7 +415,7 @@ void DXFRecord::init(void)
 	}
 	
 	//--- initialize value type map ----------------------------
-	_valueTypeMap.reserve(MAXGROUPCODE + 1);  // +1 for the '0' ;-)
+	_valueTypeMap.resize(MAXGROUPCODE + 1);  // +1 for the '0' ;-)
 	
 	//-------------------------------------------------------------------------
 	//   0 -   9 : String
@@ -626,7 +626,7 @@ DXFRecord::~DXFRecord(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFRecord.cpp,v 1.3 2005/10/14 08:33:35 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFRecord.cpp,v 1.4 2006/09/29 10:16:40 yjung Exp $";
     static Char8 cvsid_hpp[] = OSGDXFRECORD_HEADER_CVSID;
 //  static Char8 cvsid_inl[] = OSGDXFRECORD_INLINE_CVSID;
 }
