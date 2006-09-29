@@ -126,18 +126,6 @@ UInt8 Node::getOcclusionMask(void) const
     return _occlusionMask;
 }
 
-inline
-void Node::setGLId(UInt32 glid)
-{
-    _glid = glid;
-}
-
-inline
-UInt32 Node::getGLId(void) const
-{
-    return _glid;
-}
-
 /*-------------------------------------------------------------------------*/
 /*                          Access Fields                                  */
 

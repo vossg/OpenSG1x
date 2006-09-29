@@ -629,8 +629,7 @@ Node::Node(void) :
     _sfParent     (),
     _mfChildren   (),
     _sfCore       (),
-    _occlusionMask(0),
-    _glid         (0)
+    _occlusionMask(0)
 {
 }
 
@@ -641,8 +640,7 @@ Node::Node(const Node &source) :
     _sfParent        (),
     _mfChildren      (),
     _sfCore          (),
-    _occlusionMask   (source._occlusionMask),
-    _glid            (source._glid)
+    _occlusionMask   (source._occlusionMask)
 {
 }
 

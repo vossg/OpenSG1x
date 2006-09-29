@@ -49,6 +49,7 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <set>
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
@@ -113,6 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     static const Int32 OcclusionStopAndWait;
     static const Int32 OcclusionMultiFrame;
+    static const Int32 OcclusionHierarchicalMultiFrame;
 
     //-----------------------------------------------------------------------
     //   enums                                                               
@@ -216,8 +218,15 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     bool isSmallFeature(const NodePtr &node);
     bool isOccluded(DrawTreeNode *pRoot);
-    void deleteOcclusionQueries(void);
+    void deleteOcclusionQueriesPool(void);
+    GLuint getOcclusionQuery(void);
+    GLuint getOcclusionQuery(NodePtr node);
+    void setOcclusionQuery(NodePtr node, GLuint occlusionQuery);
+    void resetOcclusionQueryIndex(void);
+    void setOcclusionMask(NodePtr node, UInt8 mask);
+
     void drawMultiFrameOcclusionBB(DrawTreeNode *pRoot);
+    void drawHierarchicalMultiFrameOcclusionBB(const Matrix &view, NodePtr node);
 
     // test a single node
     bool            isVisible( Node* node );
@@ -297,6 +306,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _occlusionCullingPixels;
     UInt32                    _occlusionCullingThreshold;
     UInt32                    _currentOcclusionQueryIndex;
+    std::vector<NodePtr>      _occluded_nodes;
+    std::set<UInt32>          _hier_occlusions;
 
     bool                      _bSmallFeatureCulling;
     Real32                    _smallFeaturesPixels;
@@ -320,7 +331,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
 
     GLuint _occlusionQuery;
-    std::vector<GLuint> _occlusionQueries;
+    std::vector<GLuint> _occlusionQueriesPool;
+    std::map<UInt32, GLuint> _occlusionQueries;
 
     void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
     void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);

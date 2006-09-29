@@ -293,6 +293,9 @@ Action::ResultE Action::recurse( NodePtr node  )
     if((node->getTravMask() & getTravMask()) == 0)
         return Continue;
 
+    if(node->getOcclusionMask() & 1)
+        return Continue;
+
     NodeCorePtr core = node->getCore();
     
     if ( core == NullFC )
