@@ -220,8 +220,8 @@ componentStatement:
     { SKEL->componentElement($2); };
 
 componentNameId:
-    TOK_Id;
-
+    TOK_Id
+    | TOK_string;
 /*
 componentSupportLevel:
     int32;
