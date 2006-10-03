@@ -1426,7 +1426,9 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     if(!foundSmallFeature)
     {
         if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
-           pos_size > _occlusionCullingThreshold)
+           ((pos_size > _occlusionCullingThreshold) ||
+            ((_occlusionCullingMode & OcclusionHierarchicalMultiFrame) ==
+            OcclusionHierarchicalMultiFrame)))
         {
             if(_occlusionCullingMode & OcclusionMultiFrame)
             {

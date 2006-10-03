@@ -125,6 +125,14 @@ key(unsigned char key, int , int )
         mgr->redraw();
     }
     break;
+    case '3':
+    {
+        RenderAction *ract = (RenderAction *) mgr->getAction();
+        ract->setOcclusionCullingMode(RenderAction::OcclusionHierarchicalMultiFrame);
+        printf("Occlusion culling mode hierarchical multi frame.\n");
+        mgr->redraw();
+    }
+    break;
     }
     glutPostRedisplay();
 }
