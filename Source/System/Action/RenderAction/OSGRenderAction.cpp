@@ -1444,6 +1444,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 
                 GLuint pixels = 0;
                 _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+                //printf("geo occ test: '%s' %d pixels\n", OSG::getName(pRoot->getNode()), pixels);
 
                 if(pixels > _occlusionCullingPixels)
                 {
@@ -1677,6 +1678,10 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     // we use the node because the geometry core could be shared!
                     setOcclusionQuery(pRoot->getNode(), occlusionQuery);
                 }
+                else
+                {
+                    setOcclusionQuery(pRoot->getNode(), 0);
+                }
             }
         }
 
@@ -1697,7 +1702,7 @@ void RenderAction::drawHierarchicalMultiFrameOcclusionBB(const Matrix &view,
 
     DynamicVolume vol = node->getVolume();
     Matrix m = view;
-    m.mult(node->getToWorld());
+    m.mult(node->getParent()->getToWorld());
     vol.transform(m);
     // ignore objects behind the camera.
     if(vol.getMax()[2] < 0.0f)
@@ -1736,6 +1741,10 @@ void RenderAction::drawHierarchicalMultiFrameOcclusionBB(const Matrix &view,
 
         // we use the node because the geometry core could be shared!
         setOcclusionQuery(node, occlusionQuery);
+    }
+    else
+    {
+        setOcclusionQuery(node, 0);
     }
 }
 
@@ -2336,7 +2345,8 @@ Action::ResultE RenderAction::stop(ResultE res)
     
                     GLuint pixels = 0;
                     _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
-    
+                    //printf("hier occ test: '%s' %d pixels\n", OSG::getName(node), pixels);
+
                     if(pixels > _occlusionCullingPixels)
                     {
                         // 0 means not occluded.
@@ -2376,6 +2386,10 @@ Action::ResultE RenderAction::stop(ResultE res)
                     bool all_children_occluded = true;
                     for(UInt32 i=0;i<parent->getNChildren();++i)
                     {
+                        // ignore not visible nodes!
+                        if(!parent->getChild(i)->getActive())
+                            continue;
+
                         // look for occluded (leaf) nodes.
                         if(!(parent->getChild(i)->getOcclusionMask() & 3))
                         {
