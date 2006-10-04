@@ -68,6 +68,7 @@
 #include <OSGSwitchMaterial.h>
 
 #include <OSGGeometry.h>
+#include <OSGSwitch.h>
 #include <OSGLog.h>
 
 #include <OSGLight.h>
@@ -1573,6 +1574,23 @@ void RenderAction::setOcclusionMask(NodePtr node, UInt8 mask)
         setOcclusionMask(node->getChild(i), mask);
 }
 
+bool RenderAction::hasGeometryChild(NodePtr node)
+{
+    if(node == NullFC)
+        return false;
+
+    if(GeometryPtr::dcast(node->getCore()) != NullFC)
+        return true;
+
+    for(UInt32 i=0;i<node->getNChildren();++i)
+    {
+        if(hasGeometryChild(node->getChild(i)))
+            return true;
+    }
+
+    return false;
+}
+
 GLuint RenderAction::getOcclusionQuery(void)
 {
     GLuint occlusionQuery = 0;
@@ -2384,19 +2402,62 @@ Action::ResultE RenderAction::stop(ResultE res)
                 if(parent != NullFC)
                 {
                     bool all_children_occluded = true;
-                    for(UInt32 i=0;i<parent->getNChildren();++i)
-                    {
-                        // ignore not visible nodes!
-                        if(!parent->getChild(i)->getActive())
-                            continue;
 
-                        // look for occluded (leaf) nodes.
-                        if(!(parent->getChild(i)->getOcclusionMask() & 3))
+                    // if the parent is a switch node just check the active child!
+                    bool check_all_childs = false;
+                    SwitchPtr sw = SwitchPtr::dcast(parent->getCore());
+                    if(sw != NullFC)
+                    {
+                        Int32 choice = sw->getChoice();
+                        if(choice == -2) // all visible
+                            check_all_childs = true;
+                        else if(choice >= 0) // one child visible
                         {
-                            all_children_occluded = false;
-                            break;
+                            // look for not occluded nodes.
+                            NodePtr child = parent->getChild(choice);
+                            if(child != NullFC && child->getOcclusionMask() == 0)
+                            {
+                                // ignore nodes without a geometry child.
+                                if(!hasGeometryChild(child))
+                                    child->setOcclusionMask(1);
+                                else
+                                    all_children_occluded = false;
+                            }
+                        }
+                        // -1 no children visible we do nothing.
+                    }
+                    else
+                    {
+                        check_all_childs = true;
+                    }
+
+                    if(check_all_childs)
+                    {
+                        for(UInt32 i=0;i<parent->getNChildren();++i)
+                        {
+                            // ignore not visible nodes!
+                            if(!parent->getChild(i)->getActive())
+                                continue;
+    
+                            // look for not occluded nodes.
+                            NodePtr child = parent->getChild(i);
+                            if(child->getOcclusionMask() == 0)
+                            {
+                                // ignore nodes without a geometry child.
+                                if(!hasGeometryChild(child))
+                                {
+                                    child->setOcclusionMask(1);
+                                }
+                                else
+                                {
+                                    all_children_occluded = false;
+                                    //printf("hier occ not all childs occluded: '%s' '%s'\n", OSG::getName(parent), OSG::getName(parent->getChild(i)));
+                                    break;
+                                }
+                            }
                         }
                     }
+
                     if(all_children_occluded)
                     {
                         _hier_occlusions.insert(parent.getFieldContainerId());

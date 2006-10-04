@@ -224,6 +224,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setOcclusionQuery(NodePtr node, GLuint occlusionQuery);
     void resetOcclusionQueryIndex(void);
     void setOcclusionMask(NodePtr node, UInt8 mask);
+    bool hasGeometryChild(NodePtr node);
 
     void drawMultiFrameOcclusionBB(DrawTreeNode *pRoot);
     void drawHierarchicalMultiFrameOcclusionBB(const Matrix &view, NodePtr node);
