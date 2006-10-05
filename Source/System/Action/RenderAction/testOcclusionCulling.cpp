@@ -1,6 +1,7 @@
 // occlision culling test program.
 
-// Two algorithms are implemented "stop an wait" and "multi frame"
+// Three algorithms are implemented "stop an wait", "multi frame"
+// and "hierarchical multi frame"
 
 // --- stop and wait ---
 // Renders the scene in front to back order. For each object (except for the
@@ -16,6 +17,10 @@
 // with an occlusion query. The results are fetched in the next frame,
 // if the box was visible the corresponding object is drawn.
 // This is really fast but can lead to render errors on fast camera movements.
+//
+// --- hierarchical multi frame ---
+// Similar to multi frame but it tries to reduce the number of
+// occlusion tests by doing hierarchical occlusion tests.
 
 #include <fstream>
 
@@ -204,6 +209,7 @@ int main (int argc, char **argv)
     printf("Press 'c' to toggle occlusion culling.\n");
     printf("Press '1' for occlusion culling mode stop and wait.\n");
     printf("Press '2' for occlusion culling mode multi frame.\n");
+    printf("Press '3' for occlusion culling mode hierarchical multi frame.\n");
 
     // GLUT main loop
     glutMainLoop();

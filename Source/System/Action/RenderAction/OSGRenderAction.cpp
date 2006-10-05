@@ -128,7 +128,8 @@ StatElemDesc<StatIntOnceElem > RenderAction::statNTextures("NTextures",
 "number of texture changes");
 StatElemDesc<StatIntOnceElem > RenderAction::statNTexBytes("NTexBytes",
 "sum of all used textures' sizes (approx., in bytes)");
-
+StatElemDesc<StatIntElem > RenderAction::statNOcclusionTests("NOcclusionTests", 
+"number of occlusion tests");
 
 UInt32 RenderAction::_arbOcclusionQuery;
 UInt32 RenderAction::_funcGenQueriesARB         = Window::invalidFunctionID;
@@ -255,6 +256,7 @@ RenderAction::RenderAction(void) :
     _uiNumMaterialChanges(0),
     _uiNumMatrixChanges  (0),
     _uiNumGeometries     (0),
+    _uiNumOcclusionTests (0),
     _uiNumTransGeometries(0),
 
     _bSortTrans               (true),
@@ -370,6 +372,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumMaterialChanges(source._uiNumMaterialChanges),
     _uiNumMatrixChanges  (source._uiNumMatrixChanges),
     _uiNumGeometries     (source._uiNumGeometries),
+    _uiNumOcclusionTests (source._uiNumOcclusionTests),
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
     _bSortTrans               (source._bSortTrans),
@@ -1445,6 +1448,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 
                 GLuint pixels = 0;
                 _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+                ++_uiNumOcclusionTests;
                 //printf("geo occ test: '%s' %d pixels\n", OSG::getName(pRoot->getNode()), pixels);
 
                 if(pixels > _occlusionCullingPixels)
@@ -1511,7 +1515,8 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     
                 GLuint pixels = 0;
                 _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
-    
+                ++_uiNumOcclusionTests;
+
                 if(pixels > _occlusionCullingPixels)
                 {
                     return false;
@@ -2145,6 +2150,7 @@ Action::ResultE RenderAction::start(void)
     _uiNumMatrixChanges   = 0;
     _uiNumGeometries      = 0;
     _uiNumTransGeometries = 0;
+    _uiNumOcclusionTests  = 0;
 
     getStatistics()->reset();
 
@@ -2363,6 +2369,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     
                     GLuint pixels = 0;
                     _glGetQueryObjectuivARB(occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+                    ++_uiNumOcclusionTests;
                     //printf("hier occ test: '%s' %d pixels\n", OSG::getName(node), pixels);
 
                     if(pixels > _occlusionCullingPixels)
@@ -2545,6 +2552,8 @@ Action::ResultE RenderAction::stop(ResultE res)
             _uiNumGeometries);
         getStatistics()->getElem(statNTransGeometries)->set(
             _uiNumTransGeometries);
+        getStatistics()->getElem(statNOcclusionTests )->set(
+            _uiNumOcclusionTests);
     }
 
 

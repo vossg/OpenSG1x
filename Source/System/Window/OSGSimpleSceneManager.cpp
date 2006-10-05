@@ -489,6 +489,8 @@ void SimpleSceneManager::initialize(void)
                            "%d Nodes culltested");
         sf->addElement(DrawActionBase::statCulledNodes,
                            "%d Nodes culled");
+        sf->addElement(RenderAction::statNOcclusionTests,
+                           "%d Occlusion tests");
         sf->addElement(RenderAction::statNMaterials,
                            "%d material changes");
         sf->addElement(RenderAction::statNMatrices,
