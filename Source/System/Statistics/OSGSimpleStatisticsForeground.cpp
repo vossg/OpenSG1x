@@ -284,8 +284,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     Real32 scale = 1 / _face->getScale();
     Real32 size = _face->getParam().size;
-    Real32 textWidth = layoutResult.textBounds.x() * scale + size;
-    Real32 textHeight = layoutResult.textBounds.y() * scale + size;
+    Real32 textWidth = layoutResult.textBounds.x() * scale + size + getTextMargin().x() * 2.0f;
+    Real32 textHeight = layoutResult.textBounds.y() * scale + size + getTextMargin().y() * 2.0f;
 
     // Let's do some simple form of layout management
     Real32 orthoX = 0, orthoY = ph;
@@ -318,8 +318,8 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     glTranslatef(orthoX, orthoY, 0.0);
 
+    // draw background
     glColor4fv((GLfloat*)getBgColor().getValuesRGBA());
-
     glBegin(GL_QUADS);
         glVertex2f(0, -textHeight);
         glVertex2f(textWidth, -textHeight);
@@ -327,8 +327,20 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         glVertex2f(0, 0);
     glEnd();
 
+    // draw border
+    if(getBorderColor().red() >= 0.0f)
+    {
+        glColor4fv((GLfloat*)getBorderColor().getValuesRGBA());
+        glBegin(GL_LINE_LOOP);
+            glVertex2f(getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
+            glVertex2f(textWidth - 1 - getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
+            glVertex2f(textWidth - 1 - getBorderOffset().x(), -1 - getBorderOffset().y());
+            glVertex2f(getBorderOffset().x(), -1 - getBorderOffset().y());
+        glEnd();
+    }
+
     // draw text
-    glTranslatef(0.5 * size, -0.5 * size, 0.0);
+    glTranslatef(0.5 * size + getTextMargin().x(), -0.5 * size - getTextMargin().y(), 0.0);
 
     _texchunk->activate(action);
 

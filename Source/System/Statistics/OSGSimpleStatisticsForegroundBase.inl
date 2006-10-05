@@ -159,6 +159,27 @@ SFUInt8 *SimpleStatisticsForegroundBase::getSFVerticalAlign(void)
     return &_sfVerticalAlign;
 }
 
+//! Get the SimpleStatisticsForeground::_sfBorderColor field.
+inline
+SFColor4f *SimpleStatisticsForegroundBase::getSFBorderColor(void)
+{
+    return &_sfBorderColor;
+}
+
+//! Get the SimpleStatisticsForeground::_sfBorderOffset field.
+inline
+SFVec2f *SimpleStatisticsForegroundBase::getSFBorderOffset(void)
+{
+    return &_sfBorderOffset;
+}
+
+//! Get the SimpleStatisticsForeground::_sfTextMargin field.
+inline
+SFVec2f *SimpleStatisticsForegroundBase::getSFTextMargin(void)
+{
+    return &_sfTextMargin;
+}
+
 
 //! Get the value of the SimpleStatisticsForeground::_sfSize field.
 inline
@@ -326,6 +347,69 @@ inline
 void SimpleStatisticsForegroundBase::setVerticalAlign(const UInt8 &value)
 {
     _sfVerticalAlign.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBorderColor field.
+inline
+Color4f &SimpleStatisticsForegroundBase::getBorderColor(void)
+{
+    return _sfBorderColor.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBorderColor field.
+inline
+const Color4f &SimpleStatisticsForegroundBase::getBorderColor(void) const
+{
+    return _sfBorderColor.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfBorderColor field.
+inline
+void SimpleStatisticsForegroundBase::setBorderColor(const Color4f &value)
+{
+    _sfBorderColor.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBorderOffset field.
+inline
+Vec2f &SimpleStatisticsForegroundBase::getBorderOffset(void)
+{
+    return _sfBorderOffset.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfBorderOffset field.
+inline
+const Vec2f &SimpleStatisticsForegroundBase::getBorderOffset(void) const
+{
+    return _sfBorderOffset.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfBorderOffset field.
+inline
+void SimpleStatisticsForegroundBase::setBorderOffset(const Vec2f &value)
+{
+    _sfBorderOffset.setValue(value);
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfTextMargin field.
+inline
+Vec2f &SimpleStatisticsForegroundBase::getTextMargin(void)
+{
+    return _sfTextMargin.getValue();
+}
+
+//! Get the value of the SimpleStatisticsForeground::_sfTextMargin field.
+inline
+const Vec2f &SimpleStatisticsForegroundBase::getTextMargin(void) const
+{
+    return _sfTextMargin.getValue();
+}
+
+//! Set the value of the SimpleStatisticsForeground::_sfTextMargin field.
+inline
+void SimpleStatisticsForegroundBase::setTextMargin(const Vec2f &value)
+{
+    _sfTextMargin.setValue(value);
 }
 
 

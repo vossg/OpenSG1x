@@ -91,6 +91,15 @@ const OSG::BitVector  SimpleStatisticsForegroundBase::HorizontalAlignFieldMask =
 const OSG::BitVector  SimpleStatisticsForegroundBase::VerticalAlignFieldMask = 
     (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::VerticalAlignFieldId);
 
+const OSG::BitVector  SimpleStatisticsForegroundBase::BorderColorFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::BorderColorFieldId);
+
+const OSG::BitVector  SimpleStatisticsForegroundBase::BorderOffsetFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::BorderOffsetFieldId);
+
+const OSG::BitVector  SimpleStatisticsForegroundBase::TextMarginFieldMask = 
+    (TypeTraits<BitVector>::One << SimpleStatisticsForegroundBase::TextMarginFieldId);
+
 const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -124,6 +133,15 @@ const OSG::BitVector SimpleStatisticsForegroundBase::MTInfluenceMask =
 */
 /*! \var UInt8           SimpleStatisticsForegroundBase::_sfVerticalAlign
     Simple form of layout management, 0 defaults to top.
+*/
+/*! \var Color4f         SimpleStatisticsForegroundBase::_sfBorderColor
+    Color of the border.
+*/
+/*! \var Vec2f           SimpleStatisticsForegroundBase::_sfBorderOffset
+    Offset of the border in pixels.
+*/
+/*! \var Vec2f           SimpleStatisticsForegroundBase::_sfTextMargin
+    Text margin in pixels.
 */
 
 //! SimpleStatisticsForeground description
@@ -174,7 +192,22 @@ FieldDescription *SimpleStatisticsForegroundBase::_desc[] =
                      "verticalAlign", 
                      VerticalAlignFieldId, VerticalAlignFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFVerticalAlign)
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFVerticalAlign),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "borderColor", 
+                     BorderColorFieldId, BorderColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFBorderColor),
+    new FieldDescription(SFVec2f::getClassType(), 
+                     "borderOffset", 
+                     BorderOffsetFieldId, BorderOffsetFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFBorderOffset),
+    new FieldDescription(SFVec2f::getClassType(), 
+                     "textMargin", 
+                     TextMarginFieldId, TextMarginFieldMask,
+                     false,
+                     (FieldAccessMethod) &SimpleStatisticsForegroundBase::getSFTextMargin)
 };
 
 
@@ -260,6 +293,9 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(void) :
     _sfShadowOffset           (Vec2f(1,-1)), 
     _sfHorizontalAlign        (UInt8(0)), 
     _sfVerticalAlign          (UInt8(0)), 
+    _sfBorderColor            (Color4f(-1,-1,-1,0)), 
+    _sfBorderOffset           (Vec2f(4,4)), 
+    _sfTextMargin             (Vec2f(0,0)), 
     Inherited() 
 {
 }
@@ -278,6 +314,9 @@ SimpleStatisticsForegroundBase::SimpleStatisticsForegroundBase(const SimpleStati
     _sfShadowOffset           (source._sfShadowOffset           ), 
     _sfHorizontalAlign        (source._sfHorizontalAlign        ), 
     _sfVerticalAlign          (source._sfVerticalAlign          ), 
+    _sfBorderColor            (source._sfBorderColor            ), 
+    _sfBorderOffset           (source._sfBorderOffset           ), 
+    _sfTextMargin             (source._sfTextMargin             ), 
     Inherited                 (source)
 {
 }
@@ -339,6 +378,21 @@ UInt32 SimpleStatisticsForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfVerticalAlign.getBinSize();
     }
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        returnValue += _sfBorderColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BorderOffsetFieldMask & whichField))
+    {
+        returnValue += _sfBorderOffset.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TextMarginFieldMask & whichField))
+    {
+        returnValue += _sfTextMargin.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -391,6 +445,21 @@ void SimpleStatisticsForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
     {
         _sfVerticalAlign.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        _sfBorderColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BorderOffsetFieldMask & whichField))
+    {
+        _sfBorderOffset.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TextMarginFieldMask & whichField))
+    {
+        _sfTextMargin.copyToBin(pMem);
     }
 
 
@@ -446,6 +515,21 @@ void SimpleStatisticsForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfVerticalAlign.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+    {
+        _sfBorderColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BorderOffsetFieldMask & whichField))
+    {
+        _sfBorderOffset.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TextMarginFieldMask & whichField))
+    {
+        _sfTextMargin.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -483,6 +567,15 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
     if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
         _sfVerticalAlign.syncWith(pOther->_sfVerticalAlign);
 
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+        _sfBorderColor.syncWith(pOther->_sfBorderColor);
+
+    if(FieldBits::NoField != (BorderOffsetFieldMask & whichField))
+        _sfBorderOffset.syncWith(pOther->_sfBorderOffset);
+
+    if(FieldBits::NoField != (TextMarginFieldMask & whichField))
+        _sfTextMargin.syncWith(pOther->_sfTextMargin);
+
 
 }
 #else
@@ -516,6 +609,15 @@ void SimpleStatisticsForegroundBase::executeSyncImpl(      SimpleStatisticsForeg
 
     if(FieldBits::NoField != (VerticalAlignFieldMask & whichField))
         _sfVerticalAlign.syncWith(pOther->_sfVerticalAlign);
+
+    if(FieldBits::NoField != (BorderColorFieldMask & whichField))
+        _sfBorderColor.syncWith(pOther->_sfBorderColor);
+
+    if(FieldBits::NoField != (BorderOffsetFieldMask & whichField))
+        _sfBorderOffset.syncWith(pOther->_sfBorderOffset);
+
+    if(FieldBits::NoField != (TextMarginFieldMask & whichField))
+        _sfTextMargin.syncWith(pOther->_sfTextMargin);
 
 
     if(FieldBits::NoField != (FormatsFieldMask & whichField))
