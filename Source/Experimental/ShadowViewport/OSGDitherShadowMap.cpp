@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <OSGConfig.h>
+#include <OSGGLEXT.h>
 #include <OSGTypedFunctors.h>
 #include <OSGQuaternion.h>
 #include <OSGDrawAction.h>
@@ -122,6 +123,11 @@
 #define GL_STENCIL_INDEX4_EXT 0x8D47
 #define GL_STENCIL_INDEX8_EXT 0x8D48
 #define GL_STENCIL_INDEX16_EXT 0x8D49
+#endif
+
+// Some installations have a typo in the name for this one
+#ifndef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT
+#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
 #endif
 
 #ifndef GL_TEXTURE_RECTANGLE_ARB
