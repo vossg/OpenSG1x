@@ -1193,6 +1193,23 @@ def SelectToolChain():
             print "WARNING: Build toolchain not autodetected.  Trying defaults."
             return unknown()
 
+def createOSGConfig(env, target, source):
+    print "createOSGConfig"
+    print 'defines: ', env['CPPDEFINES']
+    print 'cflags: ', env['CXXFLAGS']
+    print 'lflags: ', env['LINKFLAGS']
+    #print 'libs: ', env['LIBPATH']
+    #print 'llibs: ', env['LIBS']
+    #print 'base libs: ', env['OSG_BASE_LIBS']
+    #print 'system libs: ', env['OSG_SYSTEM_LIBS']
+    
+    #print 'glut libs: ', env['OSG_WINDOW_GLUT_LIBS']
+    #print 'windowx libs: ', env['OSG_WINDOW_X_LIBS']
+    #print 'win32 libs: ', env['OSG_WINDOW_WIN32_LIBS']
+    #print 'qt libs: ', env['OSG_WINDOW_QT_LIBS']
+    #print 'qt4 libs: ', env['OSG_WINDOW_QT4_LIBS']
+    #print 'contrib libs: ', env['OSG_CONTRIB_LIBS']
+
 # Process options.
 
 opts = Options('options.cache', ARGUMENTS)
@@ -1229,6 +1246,8 @@ if env['distcc']:
     else:
         print "Error: distcc not found in PATH"
 
+#env.Command('osg-config', 'osg-config.in', createOSGConfig)
+
 BuildDir(env['BUILD_DIR'], '.', duplicate=0)
 
 Export('env')
@@ -1236,20 +1255,3 @@ SConscript(dirs=map(
     lambda n: env['BUILD_DIR'].Dir(n),
     ['Source', 'Examples', 'Tools', 'Tutorials']))
 
-#print 'defines: ', env['CPPDEFINES']
-#print 'cflags: ', env['CXXFLAGS']
-#print 'lflags: ', env['LINKFLAGS']
-#print 'libs: ', env['LIBPATH']
-#print 'llibs: ', env['LIBS']
-#print 'base libs: ', env['OSG_BASE_LIBS']
-#print 'system libs: ', env['OSG_SYSTEM_LIBS']
-
-#print 'glut libs: ', env['OSG_WINDOW_GLUT_LIBS']
-#print 'windowx libs: ', env['OSG_WINDOW_X_LIBS']
-#print 'win32 libs: ', env['OSG_WINDOW_WIN32_LIBS']
-#print 'qt libs: ', env['OSG_WINDOW_QT_LIBS']
-#print 'qt4 libs: ', env['OSG_WINDOW_QT4_LIBS']
-#print 'contrib libs: ', env['OSG_CONTRIB_LIBS']
-
-#import sys
-#sys.exit()
