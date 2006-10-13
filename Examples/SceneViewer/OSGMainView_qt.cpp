@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Di 19. Aug 10:48:30 2003
+** Created: Fr 13. Okt 18:48:18 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -19,8 +19,9 @@
 #include <OpenSG/OSGLog.h>
 #include <OpenSG/OSGNode.h>
 #include <OpenSG/OSGNodeCore.h>
+#include <OpenSG/OSGRenderAction.h>
+#include <OpenSG/OSGShadowViewport.h>
 #include <qtabwidget.h>
-#include <qcheckbox.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
@@ -951,6 +952,102 @@ static const char* const image5_data[] = {
 "e0e1e2e3e4e4e4e5e4e4e4e5e5e5e5e5e5e4e4e5e5e4",
 "e5e5e5e5e4e4e4e5e4e4e4e5e5e5e5e5e5e4e4e5e5e4"};
 
+static const char* const image6_data[] = { 
+"22 22 2 1",
+". c None",
+"# c #1e8c12",
+"......................",
+"......................",
+"..................#...",
+"....#.....#......#.#..",
+"...#.#...##......#.#..",
+"...#.#..#.#......#.#..",
+"...#.#....#.......#...",
+"....#.....#...........",
+"..................#...",
+"..#......#.......##...",
+".#.#....#.#.....#.#...",
+".#.#....#.#.......#...",
+".#.#....#.#.......#...",
+"..#......#....#.......",
+".............#.#......",
+".....#.......#.#......",
+"....##.......#.#......",
+"...#.#........#.......",
+".....#................",
+".....#................",
+"......................",
+"......................"};
+
+static const char* const image7_data[] = { 
+"22 22 44 1",
+". c None",
+"L c #27241f",
+"O c #484746",
+"c c #555453",
+"d c #605f60",
+"M c #646210",
+"b c #686868",
+"H c #6f6b40",
+"h c #7c7b79",
+"e c #807b6a",
+"I c #89854b",
+"K c #898616",
+"a c #8d896f",
+"i c #91987b",
+"n c #929090",
+"f c #a09f78",
+"g c #a19e57",
+"u c #a89996",
+"F c #b0af9f",
+"q c #b2aea8",
+"j c #b2b489",
+"E c #b4b0aa",
+"# c #b4b370",
+"N c #baaeae",
+"P c #bdbfbc",
+"t c #bebb9e",
+"l c #bebd8d",
+"m c #bfb548",
+"B c #c8c8bf",
+"k c #cbcb9c",
+"G c #cdcb7f",
+"z c #cfceb9",
+"y c #cfcfb1",
+"x c #d0cf91",
+"p c #d2d1a7",
+"J c #d8d86e",
+"o c #d9d9b3",
+"D c #dbd9c9",
+"v c #e4e5e4",
+"s c #ebe9b6",
+"A c #f8f8f8",
+"r c #f9f9d7",
+"w c #fef5f0",
+"C c #ffffff",
+"......................",
+"......................",
+"........#abcdef.......",
+".......ghijjfaba......",
+"......f#kkklljjam.....",
+".....#nooopklljle#....",
+".....fqrrrsoklltua....",
+".....avwwwrrpxkyze....",
+".....grrwAwrsxkosg....",
+".....avwAvBCkjpoDa....",
+".....fErwwzjjkkyFa....",
+".....#irrrrjkklte#....",
+"......fjsss#xklgg.....",
+".......mijG#G#eg......",
+"........#HIHHHf.......",
+".........HJmKLj.......",
+".........HJmKLl.......",
+".........HJmKLF.......",
+".........HmmMLN.......",
+".........bHmMO........",
+"..........bHcP........",
+"......................"};
+
 
 /* 
  *  Constructs a OSGMainView as a child of 'parent', with the 
@@ -964,7 +1061,9 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
       image2( (const char **) image2_data ),
       image3( (const char **) image3_data ),
       image4( (const char **) image4_data ),
-      image5( (const char **) image5_data )
+      image5( (const char **) image5_data ),
+      image6( (const char **) image6_data ),
+      image7( (const char **) image7_data )
 {
     (void)statusBar();
     if ( !name )
@@ -979,29 +1078,55 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     // actions
     fileNewAction = new QAction( this, "fileNewAction" );
     fileNewAction->setIconSet( QIconSet( image1 ) );
-    fileNewAction->setAccel( 4194382 );
     fileOpenAction = new QAction( this, "fileOpenAction" );
     fileOpenAction->setIconSet( QIconSet( image2 ) );
-    fileOpenAction->setAccel( 4194383 );
     fileSaveAction = new QAction( this, "fileSaveAction" );
     fileSaveAction->setIconSet( QIconSet( image3 ) );
-    fileSaveAction->setAccel( 4194387 );
     fileSaveAsAction = new QAction( this, "fileSaveAsAction" );
-    fileSaveAsAction->setAccel( 0 );
     filePrintAction = new QAction( this, "filePrintAction" );
     filePrintAction->setIconSet( QIconSet( image4 ) );
-    filePrintAction->setAccel( 4194384 );
     fileExitAction = new QAction( this, "fileExitAction" );
-    fileExitAction->setAccel( 0 );
     helpContentsAction = new QAction( this, "helpContentsAction" );
-    helpContentsAction->setAccel( 0 );
     helpIndexAction = new QAction( this, "helpIndexAction" );
-    helpIndexAction->setAccel( 0 );
     helpAboutAction = new QAction( this, "helpAboutAction" );
-    helpAboutAction->setAccel( 0 );
     createViewAction = new QAction( this, "createViewAction" );
     createViewAction->setIconSet( QIconSet( image5 ) );
     fileInsertAction = new QAction( this, "fileInsertAction" );
+    renderOC = new QActionGroup( this, "renderOC" );
+    renderOC->setUsesDropDown( TRUE );
+    renderOCOff = new QAction( renderOC, "renderOCOff" );
+    renderOCOff->setToggleAction( TRUE );
+    renderOCOff->setOn( TRUE );
+    renderOCStopAndWait = new QAction( renderOC, "renderOCStopAndWait" );
+    renderOCStopAndWait->setToggleAction( TRUE );
+    renderOCMultiFrame = new QAction( renderOC, "renderOCMultiFrame" );
+    renderOCMultiFrame->setToggleAction( TRUE );
+    renderOCHierarchicalMultiFrame = new QAction( renderOC, "renderOCHierarchicalMultiFrame" );
+    renderOCHierarchicalMultiFrame->setToggleAction( TRUE );
+    renderShadow = new QActionGroup( this, "renderShadow" );
+    renderShadow->setUsesDropDown( TRUE );
+    renderShadowOff = new QAction( renderShadow, "renderShadowOff" );
+    renderShadowOff->setToggleAction( TRUE );
+    renderShadowOff->setOn( TRUE );
+    renderShadowStandard = new QAction( renderShadow, "renderShadowStandard" );
+    renderShadowStandard->setToggleAction( TRUE );
+    renderShadowPerspective = new QAction( renderShadow, "renderShadowPerspective" );
+    renderShadowPerspective->setToggleAction( TRUE );
+    renderShadowDitherF = new QAction( renderShadow, "renderShadowDitherF" );
+    renderShadowDitherF->setToggleAction( TRUE );
+    renderShadowPCF = new QAction( renderShadow, "renderShadowPCF" );
+    renderShadowPCF->setToggleAction( TRUE );
+    renderShadowPCSS = new QAction( renderShadow, "renderShadowPCSS" );
+    renderShadowPCSS->setToggleAction( TRUE );
+    renderShadowVariance = new QAction( renderShadow, "renderShadowVariance" );
+    renderShadowVariance->setToggleAction( TRUE );
+    statistic = new QAction( this, "statistic" );
+    statistic->setToggleAction( TRUE );
+    statistic->setIconSet( QIconSet( image6 ) );
+    headlight = new QAction( this, "headlight" );
+    headlight->setToggleAction( TRUE );
+    headlight->setOn( TRUE );
+    headlight->setIconSet( QIconSet( image7 ) );
 
 
     // toolbars
@@ -1015,8 +1140,8 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     Toolbar = new QToolBar( QString(""), this, DockTop ); 
 
     createViewAction->addTo( Toolbar );
-
-    CheckBox2 = new QCheckBox( Toolbar, "CheckBox2" );
+    headlight->addTo( Toolbar );
+    statistic->addTo( Toolbar );
 
 
     // menubar
@@ -1034,13 +1159,18 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     fileMenu->insertSeparator();
     fileExitAction->addTo( fileMenu );
     menubar->insertItem( QString(""), fileMenu, 0 );
+    PopupMenu = new QPopupMenu( this );
+
+    renderOC->addTo( PopupMenu );
+    renderShadow->addTo( PopupMenu );
+    menubar->insertItem( QString(""), PopupMenu, 1 );
     helpMenu = new QPopupMenu( this );
 
     helpContentsAction->addTo( helpMenu );
     helpIndexAction->addTo( helpMenu );
     helpMenu->insertSeparator();
     helpAboutAction->addTo( helpMenu );
-    menubar->insertItem( QString(""), helpMenu, 1 );
+    menubar->insertItem( QString(""), helpMenu, 2 );
 
     languageChange();
     resize( QSize(715, 553).expandedTo(minimumSizeHint()) );
@@ -1058,7 +1188,19 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     connect( helpAboutAction, SIGNAL( activated() ), this, SLOT( helpAbout() ) );
     connect( createViewAction, SIGNAL( activated() ), this, SLOT( createView() ) );
     connect( fileInsertAction, SIGNAL( activated() ), this, SLOT( fileInsert() ) );
-    connect( CheckBox2, SIGNAL( toggled(bool) ), this, SLOT( setStatistics(bool) ) );
+    connect( statistic, SIGNAL( toggled(bool) ), this, SLOT( setStatistics(bool) ) );
+    connect( renderShadowOff, SIGNAL( activated() ), this, SLOT( shadowOff() ) );
+    connect( renderShadowStandard, SIGNAL( activated() ), this, SLOT( shadowStandard() ) );
+    connect( renderShadowPerspective, SIGNAL( activated() ), this, SLOT( shadowPerspective() ) );
+    connect( renderShadowDitherF, SIGNAL( activated() ), this, SLOT( shadowDither() ) );
+    connect( renderShadowPCF, SIGNAL( activated() ), this, SLOT( shadowPCF() ) );
+    connect( renderShadowPCSS, SIGNAL( activated() ), this, SLOT( shadowPCSS() ) );
+    connect( renderShadowVariance, SIGNAL( activated() ), this, SLOT( shadowVariance() ) );
+    connect( renderOCOff, SIGNAL( activated() ), this, SLOT( ocOff() ) );
+    connect( renderOCStopAndWait, SIGNAL( activated() ), this, SLOT( ocStopAndWait() ) );
+    connect( renderOCMultiFrame, SIGNAL( activated() ), this, SLOT( ocMultiFrame() ) );
+    connect( renderOCHierarchicalMultiFrame, SIGNAL( activated() ), this, SLOT( ocHierarchicalMultiFrame() ) );
+    connect( headlight, SIGNAL( toggled(bool) ), this, SLOT( setHeadlight(bool) ) );
     init();
 }
 
@@ -1079,28 +1221,52 @@ void OSGMainView::languageChange()
     setCaption( tr( "OpenSG Scene Viewer" ) );
     fileNewAction->setText( tr( "New" ) );
     fileNewAction->setMenuText( tr( "&New" ) );
+    fileNewAction->setAccel( tr( "Ctrl+N" ) );
     fileOpenAction->setText( tr( "Open" ) );
     fileOpenAction->setMenuText( tr( "&Open..." ) );
+    fileOpenAction->setAccel( tr( "Ctrl+O" ) );
     fileSaveAction->setText( tr( "Save" ) );
     fileSaveAction->setMenuText( tr( "&Save" ) );
+    fileSaveAction->setAccel( tr( "Ctrl+S" ) );
     fileSaveAsAction->setText( tr( "Save As" ) );
     fileSaveAsAction->setMenuText( tr( "Save &As..." ) );
+    fileSaveAsAction->setAccel( QString::null );
     filePrintAction->setText( tr( "Print" ) );
     filePrintAction->setMenuText( tr( "&Print..." ) );
+    filePrintAction->setAccel( tr( "Ctrl+P" ) );
     fileExitAction->setText( tr( "Exit" ) );
     fileExitAction->setMenuText( tr( "E&xit" ) );
+    fileExitAction->setAccel( QString::null );
     helpContentsAction->setText( tr( "Contents" ) );
     helpContentsAction->setMenuText( tr( "&Contents..." ) );
+    helpContentsAction->setAccel( QString::null );
     helpIndexAction->setText( tr( "Index" ) );
     helpIndexAction->setMenuText( tr( "&Index..." ) );
+    helpIndexAction->setAccel( QString::null );
     helpAboutAction->setText( tr( "About" ) );
     helpAboutAction->setMenuText( tr( "&About..." ) );
+    helpAboutAction->setAccel( QString::null );
     createViewAction->setText( tr( "Create View" ) );
     fileInsertAction->setText( tr( "Insert" ) );
+    renderOC->setText( tr( "OcclusionCulling" ) );
+    renderOCOff->setText( tr( "Off" ) );
+    renderOCStopAndWait->setText( tr( "Stop And Wait" ) );
+    renderOCMultiFrame->setText( tr( "Multi Frame" ) );
+    renderOCHierarchicalMultiFrame->setText( tr( "Hierarchical Multi Frame" ) );
+    renderShadow->setText( tr( "Shadow" ) );
+    renderShadowOff->setText( tr( "Off" ) );
+    renderShadowStandard->setText( tr( "Standard" ) );
+    renderShadowPerspective->setText( tr( "Perspective" ) );
+    renderShadowDitherF->setText( tr( "Dither" ) );
+    renderShadowPCF->setText( tr( "PCF" ) );
+    renderShadowPCSS->setText( tr( "PCSS" ) );
+    renderShadowVariance->setText( tr( "Variance" ) );
+    statistic->setText( tr( "Statistic" ) );
+    headlight->setText( tr( "Headlight" ) );
     toolBar->setLabel( tr( "Tools" ) );
     Toolbar->setLabel( tr( "Toolbar" ) );
-    CheckBox2->setText( tr( "Stats " ) );
     menubar->findItem( 0 )->setText( tr( "&File" ) );
-    menubar->findItem( 1 )->setText( tr( "&Help" ) );
+    menubar->findItem( 1 )->setText( tr( "Render" ) );
+    menubar->findItem( 2 )->setText( tr( "&Help" ) );
 }
 

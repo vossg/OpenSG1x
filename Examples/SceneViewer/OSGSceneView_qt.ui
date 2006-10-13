@@ -285,8 +285,10 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGBINWriter.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleAttachments.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGRenderAction.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGShadowViewport.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGGradientBackground.h</include>
     <include location="local" impldecl="in implementation">OpenSG/OSGQGLManagedWidget_qt.h</include>
-    <include location="local" impldecl="in implementation">OSGSceneView_qt.ui.h</include>
 </includes>
 <variables>
     <variable>QListViewItem *activeTreeItem;</variable>
@@ -316,6 +318,9 @@
     <slot>exportToFile( osg::NodePtr node )</slot>
     <slot>rebuild()</slot>
     <slot>removeView( QWidget * object )</slot>
+    <slot>setOcclusionCullingMode(int mode)</slot>
+    <slot>setShadowMode(int mode)</slot>
+    <slot>setHeadlight(bool)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

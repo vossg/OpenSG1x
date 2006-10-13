@@ -147,5 +147,65 @@ void OSGMainView::createView()
 
 void OSGMainView::setStatistics( bool  val)
 {
-  sceneView->setStatistics(val);
+    sceneView->setStatistics(val);
+}
+
+void OSGMainView::shadowOff(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::NO_SHADOW);
+}
+
+void OSGMainView::shadowStandard(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::STD_SHADOW_MAP);
+}
+
+void OSGMainView::shadowPerspective(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::PERSPECTIVE_SHADOW_MAP);
+}
+
+void OSGMainView::shadowDither(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::DITHER_SHADOW_MAP);
+}
+
+void OSGMainView::shadowPCF(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::PCF_SHADOW_MAP);
+}
+
+void OSGMainView::shadowPCSS(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::PCSS_SHADOW_MAP);
+}
+
+void OSGMainView::shadowVariance(void)
+{
+    sceneView->setShadowMode(OSG::ShadowViewport::VARIANCE_SHADOW_MAP);
+}
+
+void OSGMainView::ocOff(void)
+{
+    sceneView->setOcclusionCullingMode(0);
+}
+
+void OSGMainView::ocStopAndWait(void)
+{
+    sceneView->setOcclusionCullingMode(OSG::RenderAction::OcclusionStopAndWait);
+}
+
+void OSGMainView::ocMultiFrame(void)
+{
+    sceneView->setOcclusionCullingMode(OSG::RenderAction::OcclusionMultiFrame);
+}
+
+void OSGMainView::ocHierarchicalMultiFrame(void)
+{
+    sceneView->setOcclusionCullingMode(OSG::RenderAction::OcclusionHierarchicalMultiFrame);
+}
+
+void OSGMainView::setHeadlight(bool s)
+{
+    sceneView->setHeadlight(s);
 }

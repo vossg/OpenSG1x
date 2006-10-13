@@ -50,6 +50,10 @@
         <separator/>
         <action name="fileExitAction"/>
     </item>
+    <item text="Render" name="PopupMenu">
+        <action name="renderOC"/>
+        <action name="renderShadow"/>
+    </item>
     <item text="&amp;Help" name="helpMenu">
         <action name="helpContentsAction"/>
         <action name="helpIndexAction"/>
@@ -79,14 +83,8 @@
             <string>Toolbar</string>
         </property>
         <action name="createViewAction"/>
-        <widget class="QCheckBox">
-            <property name="name">
-                <cstring>CheckBox2</cstring>
-            </property>
-            <property name="text">
-                <string>Stats </string>
-            </property>
-        </widget>
+        <action name="headlight"/>
+        <action name="statistic"/>
     </toolbar>
 </toolbars>
 <actions>
@@ -104,7 +102,7 @@
             <string>&amp;New</string>
         </property>
         <property name="accel">
-            <number>4194382</number>
+            <string>Ctrl+N</string>
         </property>
     </action>
     <action>
@@ -121,7 +119,7 @@
             <string>&amp;Open...</string>
         </property>
         <property name="accel">
-            <number>4194383</number>
+            <string>Ctrl+O</string>
         </property>
     </action>
     <action>
@@ -138,7 +136,7 @@
             <string>&amp;Save</string>
         </property>
         <property name="accel">
-            <number>4194387</number>
+            <string>Ctrl+S</string>
         </property>
     </action>
     <action>
@@ -152,7 +150,7 @@
             <string>Save &amp;As...</string>
         </property>
         <property name="accel">
-            <number>0</number>
+            <string></string>
         </property>
     </action>
     <action>
@@ -169,7 +167,7 @@
             <string>&amp;Print...</string>
         </property>
         <property name="accel">
-            <number>4194384</number>
+            <string>Ctrl+P</string>
         </property>
     </action>
     <action>
@@ -183,7 +181,7 @@
             <string>E&amp;xit</string>
         </property>
         <property name="accel">
-            <number>0</number>
+            <string></string>
         </property>
     </action>
     <action>
@@ -197,7 +195,7 @@
             <string>&amp;Contents...</string>
         </property>
         <property name="accel">
-            <number>0</number>
+            <string></string>
         </property>
     </action>
     <action>
@@ -211,7 +209,7 @@
             <string>&amp;Index...</string>
         </property>
         <property name="accel">
-            <number>0</number>
+            <string></string>
         </property>
     </action>
     <action>
@@ -225,7 +223,7 @@
             <string>&amp;About...</string>
         </property>
         <property name="accel">
-            <number>0</number>
+            <string></string>
         </property>
     </action>
     <action>
@@ -247,6 +245,186 @@
             <string>Insert</string>
         </property>
     </action>
+    <actiongroup>
+        <property name="name">
+            <cstring>renderOC</cstring>
+        </property>
+        <property name="text">
+            <string>OcclusionCulling</string>
+        </property>
+        <property name="usesDropDown">
+            <bool>true</bool>
+        </property>
+        <action>
+            <property name="name">
+                <cstring>renderOCOff</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="on">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Off</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderOCStopAndWait</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Stop And Wait</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderOCMultiFrame</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Multi Frame</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderOCHierarchicalMultiFrame</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Hierarchical Multi Frame</string>
+            </property>
+        </action>
+    </actiongroup>
+    <actiongroup>
+        <property name="name">
+            <cstring>renderShadow</cstring>
+        </property>
+        <property name="text">
+            <string>Shadow</string>
+        </property>
+        <property name="usesDropDown">
+            <bool>true</bool>
+        </property>
+        <action>
+            <property name="name">
+                <cstring>renderShadowOff</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="on">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Off</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowStandard</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Standard</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowPerspective</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Perspective</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowDitherF</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Dither</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowPCF</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>PCF</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowPCSS</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>PCSS</string>
+            </property>
+        </action>
+        <action>
+            <property name="name">
+                <cstring>renderShadowVariance</cstring>
+            </property>
+            <property name="toggleAction">
+                <bool>true</bool>
+            </property>
+            <property name="text">
+                <string>Variance</string>
+            </property>
+        </action>
+    </actiongroup>
+    <action>
+        <property name="name">
+            <cstring>statistic</cstring>
+        </property>
+        <property name="toggleAction">
+            <bool>true</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image6</iconset>
+        </property>
+        <property name="text">
+            <string>Statistic</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>headlight</cstring>
+        </property>
+        <property name="toggleAction">
+            <bool>true</bool>
+        </property>
+        <property name="on">
+            <bool>true</bool>
+        </property>
+        <property name="iconSet">
+            <iconset>image7</iconset>
+        </property>
+        <property name="text">
+            <string>Headlight</string>
+        </property>
+    </action>
 </actions>
 <images>
     <image name="image0">
@@ -266,6 +444,12 @@
     </image>
     <image name="image5">
         <data format="XPM.GZ" length="8206">789c8599496fdd3ab2c7f7f7530497bb8b06fb4822250a0f6fe178b6e3798c1bbda862519e8778b61befbb3fa6fe75dcbd6b9c00c12fa2c89aaba8fcfdaf6fa7bb5bdffefafb1f4fcff47c99bfe50b7afcf697bcdcde7efce39ffffbaf3ffe6cdb6ff54f08e15bfbe7dffef8b3c46ff9dbf6fd5df90dfeb5829bcd5aa646f9cd38d34cf90cdc4d3228cfc0a191a8dc1877c63fbf382bb7c6417ae5ce381a07e34146e5684cc2cabd7101bb6be34992f20d383642ba7ef8623ddfdd1ab7c6775f2ccaf7c6b1a8beeec1782c6a0fb766ccf6fc97712e6a4cf7f8c54179dd588c37c0fdaca87ddca6715b545fb76d1c26ecffc33816c8b7659c8afacb993d8666527f38d3770893eaef92713fa9bdc8e44fc178f58b753f32795302bb2be526ceccfe8bca6d1708fec4fe6d2859edef216fd74d0c7b3c81e390a11ffcd95579557f823dba94a749df5f520e757fd5d7ef1953d6e7b4024ebdad27e5eabe01f2bc184f23e2f71d5cf743bc2e1b47db7fc5b8375e351e8cd78c13213fd68d89b1ff867186be7ed3d8f4f723383409fb215efa2e26d86bcb7822c407ceafee467cf9ac3cb4c5f4bb0077b3a4e713f419aa3db03f2ba7761ac0c88fd435a953bef9623dcf5f1ab7d8cf5f7d31d6df7e31f2f3ce3824d8f3de78aecf83716f7c0a0e6cf9b503eea3e8f9047ba4d4c19f64ebc760fe7d561ee7fafa47e32121beed7918e16fc2f9636a6cbf25e36e823c4e99bad9007f9e1b7709feda352e0cf950bf686c4d1ee4277725a93f08f9c0691ecf1fc6ed04791e8d2d5ee9c938d97ea29cbb00ff12e22727b1f527e07abeda8fbe2b4bdd5fe525c477e9a78c7a82fa596afeabff08f95852c17e19ef4fcdd0eafbf9c4786a512fe19fa923f3ef3e387419e7a31f4c711ca1ef1178182c3f17c0d5deaa7f566e66ed0cfbef3d836bbcc09f93f160fc645c902f6e04d7edf57dfa04d77a05fdefbf18f5ebd898513fb3faa7699a59a3f5279f1a27e8ef0bb81b07c8affdad69478bc78ce75ddbb65affb2c643139ab6014fc6d4c2de07e05aa0505f0fc191109f59fb65139bae517ff311b8eeaff2d100a688f359e3a97aab96587d7e074e23e299b6c0f37cc91acf4daa2760ff0cee661de4d57ad15033346adf0c7db9e91bb51f1f1b679c978d5be9a01f81e7fe771d7860f4a7acf9d6e42a01e2a507d3cce4d37adb483d41d95d82fbbe687dc9f06fe99a80feb10b8e3c425fd8af8c11fe665ddf364d813f59e3b96de7fec8b7c6dceafb79d5b8b4ea0f99c05dadb0fabe185380fcf67eb537eca1f5bfadde83bdf29ab1b488b706fcfb0495df81e3c8b0bfead3866642fc380f8e4d423dd2fc6c636c18f6de068f6cf6d3fadff66dd3aafdf3877109882fc8df7739c0be2be0a1c3fcc1e7c664f268beb743b520f2e3c8585ac41fceabd556b0bffaab4df57cec07fba57ec47ce8b4ffb6636d07b08ff6efb67ac3ecf36edc777a1e1f82ab78b07f01ff6ec0ba9fbd1fa711f6d7fed572db759047f3a12d6d407e3a02f7047d33ec37b5bde5eba1b1a01e09ec3d7502ff13fc378df3faabf34a371bdb82f8d1fad73555628d0f8ec605ec3fc091d0ff59eb5f0d8788fdf3bef108fff1a93177f0a7e66b57e7a7887cf7e09a4ec80fed6f5df8ed21e52be3da21950f8c8be9770eeeac7ef13b387084fc97e07186799b76c0d4d87c98c06cfd94b5fe75715e4f58eb6bd78726aafc528c3be41bab7dbb3a3f04c8f7fac5da5f321b4b44bc1b0f25e3b9ce2f5d6d7f9deac301dc45d407ba01d7f20dfbe9fda2a3cefa9b873da81f317f64ed171dd7fd103f5a3fbbdc593e31d6e71023f4833c398e3dfc87f3a53a04f1ba048ec3a0fa9103f732aabf08f208b5b0a7c09f355b51ff44e78350fb1deaa5bc80eb73d49f7d705f4bbc3ed7fc0e4d60e847019c46dcb744cf0f6d98e71bf6eb3a0e6abfdc194fa87f79048780f5b2603cb688379dcf42fd07c4a7647010eb77d7e09a2f58aff37088d5c2b0cf9971b1f32338ccebc71b38b63d9e6bfe863ee41efb43debec627e2153c540b80afc0638bfc706aef90c60ef723c2f354e319f54dfb6b1843847e42c6360fe4643c423e39fd62d4f35770ad9fd00fe751d500f3de33789ccc1e3acf04ee18f52e3f1b17c42fc3ff4c5290af5a6f43aef18bf3b13e87827813369e10aff2098e164f04f9723f25c40bce2f75c050ffb2d6b730058ae8a7f0e73416cc4bacf11667310d6a7f5e06f73de6e3acf3646c4242bd910f70752058e325b6d55ed86f66cc11f3e40938b5e8f724e06a2ff46395bf5ecf4c5ebf001e22237fd55e3184a6c3bc7c09a61efe158da758c5417cd3059882d5079d47625f9febfbf26e1c6dfd39b8eea7eb0be44fb1b77e08fdd29831ef8ad6bf38866cf55de7f73abe05cc4b65d938a25e5301d786a6e715cd8fc8b1b1f9fb133c3063de9dc094307f14ad3731c7ceeaf98671ecd59f05fa4ab47a5f2e8dadffb0ce03b1f43dee8759eb459cfa11f741be068f83c0ff6aafbe0e2451fdc59bc6f506a7f970011e23f24df4bcbed61bab67d7c682f864020f31215e47308f561f355ffb385f2f3fc131c1fea2fdafefe3cce24deb7f9f6afe22deeec0438b799b9fc05c908f45e3bf1f2363dee67b705f12ecf90a1e02e6177a01577f235eb03fd7eb0bf4813cf57e47c85f8def3ec7c1fac91e7810ccafa2f3642fb57d21de717ea9e503fbe97cd94fd53ff0b7d6bba18b19eb79155ce5c57c3c0393583c693d1a62b47994b7c1298df0bfe6efd0f73ca0fe6b3f1a862a1ff66bc03cc3fd91d5be75fcb3ef75eedc78289057e7df61ec27dca759e787218f0363fd329832e463edb74319c8be5fec81abfb75bfa2f13954fd519f8bc6439ad584c53c710ba619e603da05738ff94cf4be929a7e86f8e304ae16c37dc8812966cc131e5cdfd7fd58e3317583e0fb8768bea550ed8fef8b676026d407a7f532d5710fdf4359fb4bea8788fb1f43bea18eff886ff547a2defa7b593326dcd7cabab1605e15b557ca551fc4ff91710f2e8bc6c9faa9f68b249c515f45e7dd54bed6af1ab3dd0f5fc024a86745fd9ba67e407f179d87c6593f58ffd931b6fb9dec1993c977662cb057d9309e709ea83dc6a69eaffb953b6331fe613c997dd4df633b983fcb967163f6d2fa3076bdf51bd937b6fb65b937b67a52b47e8da132f6db06d7fdf07d53ed55cb4387ef0beecd3821de05faf47db6fd6ec0553ec8ff60dc409eb2636cdf0bca2fe3ceeebf0c66eb070efad402827ae5349ec794ed7b4ed17a5ac7ddc6ce833d69b0fb7e79fc62cc2ba7e0ba1fbe2f6a7daad56c000bec2d3d9bfdd68dadde14f8578664fe53fb51f5a7e97702aefa693e15adb7d40cbd3dd7f99fdaaa2fecbd6f9cb0de2d81ebc0827c5779ebf86ef7517704ce76ff2e6a0f0a753ff47bcd1f8ad5ffa8a7113ccce759ad2754c717f3d7017818ed7dcd071aaa83b03e80079b3f8ae613a581ecb9d6331a6bbcc3fe3a9f10d5fd60ef4570167c8f17addfc483e5afc3f95cc707e803fd727d1ffda39fb39da7f59ca4ea8bfc6b8c2d1fcba1319bfd5f8ce7f1aef3044dc33cdf749ee0dffe823fb57f70fbf5fc159ce6f1acf31d87a1587e6b7dabc31c5b7ce8fcc429d9fce90ec162f15b347f784c664f97c132c373d1facc5ced8bff8cd2f9887fdb03f2eb7c986773f944eb736e06eb6f45f7cbbfe5c7f7c2ef6021d8bf687dcf3199fdfd3158467baef997fb615e6f02f8f74f59fb454ea935fd3ec152ec7d9d67327de9aff6cda5d8fdd9697c485becfbb3537da4367c7ccff4ea7f194bc2f75da7f62e5d998cd5be254c33fbff18b54fe1c9be0fee3d7be7c9b3cf5e7cf1933ff717fed25ff96b7fe36febefcedffb07ffcb3ffa273defd9bff857ffe6dffd87fff40bfebb5ff44b7ed9aff855bf567feb7ec36ffa1f7ecb6febfa1dbfebf7fcbe3ff087fec81ffb137fea7ffa333ff38d6f7de7838fbef7834f1ef9ea9d73e4d86527aeb8c99dbb0b77e9aedcb5bb71b7eeceddbb07f7cb3dba27f7aceb5fdcab7b73efeec37dba05f7dd2dba25b7ec56dcaa5b73eb6ec36dba1f6ecb6dbb1db7abebf7dcbe3b7087eec81dbb1377ea7eba3337738d6b5de7828bae77834bb5e079723a1f103165122a34d1395dd0255dd135ddd02dddd13d3dd02f7aa4277aa6177ad5f56ff44e1ff4490bf49d16698996698556698dd6698336e9076dd136edd02eedd1beae3fa0433aa2633aa153fa496734a3865aeaa85eb06a53af630e8decd9b17d6fe3ccc2d57d7cce177cc9577ccd377ccb777ccf0ffc8b1ff9899ff9855ff98ddf75fd077ff2027fe7455ee2655ee1555ee375dee04dfec15bbccd3bbccb7bbccf077ca8eb8ff8984ff8947ff219cfb8e1b65e3debe58bebc0c789c7ec738dd65ceb0fbee7e792a77c9e2ff265becad7f926dfe6bb7c9f1ff2affc989ff2737ec9aff92dbfe78ffca9eb17f2f7bc9897f2725ec9ab792dafe78dbc997fe4adbc9d77f26edecbfbf9201fe6a37caceb4ff269fe99cff22c37b9cd5dae57d59a5b434e79142f4e4858b28814417d39970bb9942bb9961bb9953bb99707f9258ff224cff222aff226eff2219fb220df75fda22cc9b2acc8aaacc9ba6cc8a6fc902dd9961dd9953dd9970339942339961339d5f53fe54c66b5f9b7d24990287d2d95a9e69f2fae50e1928b9452a6725e2e34bf2fcb55b92e37e5b6dc95fbf2507e95c7f2549ecb4b792d6fe5bd7c94cfb250be97c5b2a4eb97cb4a592d6b65bd6c94cdf2a36c95edb25376cb5ed92f07e5b01c95e372524ecbcf72a6eb67f5625fab4309fa8b5f7ffffb3767f48bfffcd7ffb6fefffee78fff070ecd50ef</data>
+    </image>
+    <image name="image6">
+        <data format="XPM.GZ" length="646">789cd3d7528808f055d0d2e72a2e492cc94c5648ce482c52d04a29cdcdad8c8eb5ade65232325200210543251d2e253d856405bffcbc54105b19c856364cb5483634024b6105a4ca2823c928eb214820a50c9701b3f59471c928e3d60393c16d0f516e53d643d1a20c9781db023313978c1e313228f6c06431dc06d7089751c625a38c4b066139a63dc80143ac0c06c023536bcd05008b587160</data>
+    </image>
+    <image name="image7">
+        <data format="XPM.GZ" length="1277">789c8dd2cb6e9b401406e0bd9f02995d54394086cba8ea2257938b932c2b555dcc95984b70c00eb6a3be7b397fbd282e913ab0e0d3cf9c393a707ae27c7f5e3827a793762dd64be5a817d138277a5355bb1f3fbf7d4ca641e0f437638e3ffd3299ce1ce53cd6af869e1ffa67378803e65be21391252c66115111c33064e1195113232fb491475c802c0a7c5082095dc414b49164485f88b18a65cc89869878b18c04f116e449c824f1fec0c8471b02d4098fd0e492c87d9ec478f9150cb8c77190250a8fdb186d64a0cf4d18133760c23947e51ba2f484e5a8fc0606c208eccdff50b2043d5f83ac7f1d3dbb079ec538f71114fd5e0cf619d4d24a455c83464a8eb43c50279a588156860ce75e1055a21289ae0a502ac9516a0e6a2563a47bd02a23d1e4ee402bf1adb744ed29cbc11518685f601a77603fd9085dd520d75ce2735f81527385caef44c34c6818b105a5e112933c27da842e620372cb350eea4063438b595d8258f82147d7ff25ae904a1bfb6f92bd2cf3dc0a298e13eb16455196792eaa61e2bed675bda2a834ee20b16f4dd3b4751fad37629088f7aeeb9a66b52d767b3348b2a6e9cebba6dd16759b1def397fbfb82cf2557d35ac66af9baedbe77951ec6e8689bbec3b68faa05c1ff536b379dbb6eeb628b3ec7806d5329fbb73d76423734b6fd3341d99db6c96de55f70ff9a749f96972339a54d5e2e1712c9169b5789a8d257da49ec793bfd7f4d7d7c96f3dbe2636</data>
     </image>
 </images>
 <connections>
@@ -336,10 +520,82 @@
         <slot>fileInsert()</slot>
     </connection>
     <connection>
-        <sender>CheckBox2</sender>
+        <sender>statistic</sender>
         <signal>toggled(bool)</signal>
         <receiver>OSGMainView</receiver>
         <slot>setStatistics(bool)</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowOff</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowOff()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowStandard</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowStandard()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowPerspective</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowPerspective()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowDitherF</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowDither()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowPCF</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowPCF()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowPCSS</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowPCSS()</slot>
+    </connection>
+    <connection>
+        <sender>renderShadowVariance</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>shadowVariance()</slot>
+    </connection>
+    <connection>
+        <sender>renderOCOff</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>ocOff()</slot>
+    </connection>
+    <connection>
+        <sender>renderOCStopAndWait</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>ocStopAndWait()</slot>
+    </connection>
+    <connection>
+        <sender>renderOCMultiFrame</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>ocMultiFrame()</slot>
+    </connection>
+    <connection>
+        <sender>renderOCHierarchicalMultiFrame</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>ocHierarchicalMultiFrame()</slot>
+    </connection>
+    <connection>
+        <sender>headlight</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>setHeadlight(bool)</slot>
     </connection>
 </connections>
 <includes>
@@ -352,8 +608,9 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGLog.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGNode.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGRenderAction.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGShadowViewport.h</include>
     <include location="local" impldecl="in declaration">OSGSceneView_qt.h</include>
-    <include location="local" impldecl="in implementation">OSGMainView_qt.ui.h</include>
 </includes>
 <variables>
     <variable>OSGSceneView *sceneView;</variable>
@@ -374,6 +631,18 @@
     <slot>helpIndex()</slot>
     <slot>createView()</slot>
     <slot>setStatistics( bool val )</slot>
+    <slot>shadowOff()</slot>
+    <slot>shadowStandard()</slot>
+    <slot>shadowPerspective()</slot>
+    <slot>shadowDither()</slot>
+    <slot>shadowPCF()</slot>
+    <slot>shadowPCSS()</slot>
+    <slot>shadowVariance()</slot>
+    <slot>ocStopAndWait()</slot>
+    <slot>ocMultiFrame()</slot>
+    <slot>ocHierarchicalMultiFrame()</slot>
+    <slot>ocOff()</slot>
+    <slot>setHeadlight(bool)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

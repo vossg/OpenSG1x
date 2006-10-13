@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Di 19. Aug 10:48:09 2003
+** Created: Fr 13. Okt 18:48:14 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,6 @@ class QActionGroup;
 class QToolBar;
 class QPopupMenu;
 class QTabWidget;
-class QCheckBox;
 
 class OSGMainView : public QMainWindow
 {
@@ -34,9 +33,9 @@ public:
     ~OSGMainView();
 
     QTabWidget* tabView;
-    QCheckBox* CheckBox2;
     QMenuBar *menubar;
     QPopupMenu *fileMenu;
+    QPopupMenu *PopupMenu;
     QPopupMenu *helpMenu;
     QToolBar *toolBar;
     QToolBar *Toolbar;
@@ -51,6 +50,21 @@ public:
     QAction* helpAboutAction;
     QAction* createViewAction;
     QAction* fileInsertAction;
+    QActionGroup* renderOC;
+    QAction* renderOCOff;
+    QAction* renderOCStopAndWait;
+    QAction* renderOCMultiFrame;
+    QAction* renderOCHierarchicalMultiFrame;
+    QActionGroup* renderShadow;
+    QAction* renderShadowOff;
+    QAction* renderShadowStandard;
+    QAction* renderShadowPerspective;
+    QAction* renderShadowDitherF;
+    QAction* renderShadowPCF;
+    QAction* renderShadowPCSS;
+    QAction* renderShadowVariance;
+    QAction* statistic;
+    QAction* headlight;
 
 public slots:
     virtual void init();
@@ -67,6 +81,18 @@ public slots:
     virtual void helpIndex();
     virtual void createView();
     virtual void setStatistics( bool val );
+    virtual void shadowOff();
+    virtual void shadowStandard();
+    virtual void shadowPerspective();
+    virtual void shadowDither();
+    virtual void shadowPCF();
+    virtual void shadowPCSS();
+    virtual void shadowVariance();
+    virtual void ocStopAndWait();
+    virtual void ocMultiFrame();
+    virtual void ocHierarchicalMultiFrame();
+    virtual void ocOff();
+    virtual void setHeadlight(bool);
 
 protected:
     OSGSceneView *sceneView;
@@ -84,6 +110,8 @@ private:
     QPixmap image3;
     QPixmap image4;
     QPixmap image5;
+    QPixmap image6;
+    QPixmap image7;
 
 };
 

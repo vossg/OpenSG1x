@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Di 19. Aug 10:50:15 2003
+** Created: Fr 13. Okt 18:17:08 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -62,6 +62,9 @@ public slots:
     virtual void exportToFile( osg::NodePtr node );
     virtual void rebuild();
     virtual void removeView( QWidget * object );
+    virtual void setOcclusionCullingMode(int mode);
+    virtual void setShadowMode(int mode);
+    virtual void setHeadlight(bool);
 
 protected:
     QListViewItem *activeTreeItem;
