@@ -43,6 +43,7 @@ Filename: "{app}\pathremove.vbs"; WorkingDir: "{app}"; Flags: shellexec
 
 [Icons]
 Name: "{group}\OpenSG Scene Viewer"; Filename: "{app}\osgSceneViewer.exe";
+Name: "{group}\OpenSG Field Container Editor"; Filename: "{app}\fcdEdit.exe";
 Name: "{group}\OpenSG Home Page"; Filename: "{app}\OpenSG Web.url"
 Name: "{group}\OpenSG Directory"; Filename: "explorer.exe"; Parameters: "{app}"
 Name: "{group}\Tutorials\01 Hello OpenSG"; Filename: "{app}\Tutorials\01hello.exe"
@@ -61,6 +62,15 @@ Name: "{group}\Tutorials\13 Cluster Client"; Filename: "{app}\Tutorials\13Cluste
 Name: "{group}\Tutorials\14 Switch"; Filename: "{app}\Tutorials\14switch.exe"
 Name: "{group}\Tutorials\15 Attachements"; Filename: "{app}\Tutorials\15attachments.exe"
 Name: "{group}\Tutorials\16 Lights"; Filename: "{app}\Tutorials\16lights.exe"
+Name: "{group}\Tutorials\17 Deep Clone"; Filename: "{app}\Tutorials\17deepClone.exe"
+Name: "{group}\Tutorials\18 OpenGL Slave"; Filename: "{app}\Tutorials\18opengl_slave.exe"
+Name: "{group}\Tutorials\19 Local Lights"; Filename: "{app}\Tutorials\19LocalLights.exe"
+Name: "{group}\Tutorials\20 Material Sort"; Filename: "{app}\Tutorials\20MaterialSort.exe"
+Name: "{group}\Tutorials\21 Shadows"; Filename: "{app}\Tutorials\21Shadows.exe"
+Name: "{group}\Tutorials\22 Shader"; Filename: "{app}\Tutorials\22Shader.exe"
+Name: "{group}\Tutorials\23 Video Texture Background"; Filename: "{app}\Tutorials\23videotexturebackground.exe"
+Name: "{group}\Tutorials\24 Advanced Shadows"; Filename: "{app}\Tutorials\24Shadows.exe"
+Name: "{group}\Tutorials\25 Occlusion Culling"; Filename: "{app}\Tutorials\25OcclusionCulling.exe"
 
 Name: "{group}\Uninstall"; Filename: "{app}\unins000.exe"
 
