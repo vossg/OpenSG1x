@@ -156,6 +156,7 @@ LIBOBJS := $(shell sed -e 2> /dev/null < objlist.$(SYSDEP).mk 's/main\.[a-zA-Z_0
 allstuff : lists 
 	# need to call recursive, as the lists need to be done when make starts
 	$(MAKE) $(TARGET)$(BINSUF)
+	$(MAKE) $(TARGET)$(BINSUF).manifest
 
 $(TARGET)$(BINSUF): $(SYSTARGET) 
 	@echo "TARGET:   " $(TARGET)
@@ -165,6 +166,13 @@ $(TARGET)$(BINSUF): $(SYSTARGET)
 	@$(LINK) $(SYSTARGET) $(TARGETLNK)
 ifneq ($(TARGETLNK),$(TARGET)$(BINSUF))
 	@$(LINK) $(TARGETLNK) $(TARGET)$(BINSUF)
+endif
+
+$(TARGET)$(BINSUF).manifest: $(SYSTARGET) 
+	@rm -f $(TARGET)$(BINSUF).manifest
+	@rm -f $(TARGETLNK).manifest
+ifeq ($(shell [ -f $(SYSTARGET).manifest ] && echo exists),exists)
+	@$(LINK) $(SYSTARGET).manifest $(TARGETLNK).manifest
 endif
 
 $(SYSTARGET):  $(BINOBJS)
@@ -320,7 +328,7 @@ includelink:
 	ln -s $(PWD) $(PPOOL)/include/$(TARGET)
 
 clean:
-	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
+	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.manifest *.swp *~ *% \#*\# 
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
 
 Clean: clean

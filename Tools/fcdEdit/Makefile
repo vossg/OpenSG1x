@@ -184,7 +184,9 @@ endif
 ######################################################################
 ### TARGET build rules ###############################################
 
-allstuff : $(TARGET)$(BINSUF)
+allstuff :
+	$(MAKE) $(TARGET)$(BINSUF)
+	$(MAKE) $(TARGET)$(BINSUF).manifest
 
 $(TARGET)$(BINSUF): $(SYSTARGET) 
 	@echo "TARGET:   " $(TARGET)
@@ -194,6 +196,13 @@ $(TARGET)$(BINSUF): $(SYSTARGET)
 	@$(LINK) $(SYSTARGET) $(TARGETLNK)
 ifneq ($(TARGETLNK),$(TARGET)$(BINSUF))
 	@$(LINK) $(TARGETLNK) $(TARGET)$(BINSUF)
+endif
+
+$(TARGET)$(BINSUF).manifest: $(SYSTARGET) 
+	@rm -f $(TARGET)$(BINSUF).manifest
+	@rm -f $(TARGETLNK).manifest
+ifeq ($(shell [ -f $(SYSTARGET).manifest ] && echo exists),exists)
+	@$(LINK) $(SYSTARGET).manifest $(TARGETLNK).manifest
 endif
 
 $(SYSTARGET):  $(BINOBJS)
@@ -255,7 +264,7 @@ moc_%.cpp: %.h
 all: $(TARGET)$(BINSUF)
 	
 clean:
-	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.swp *~ *% \#*\# 
+	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.manifest *.swp *~ *% \#*\# 
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)
 	-rm -f $(shell grep -l "generated from reading ui file" *.h *.cpp)
 	-rm -f $(shell grep -l "This file was generated using the moc" *.h *.cpp)
