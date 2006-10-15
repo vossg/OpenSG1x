@@ -38,6 +38,7 @@
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <OpenSG/OSGNavigator.h>
 #include <OpenSG/OSGShadowViewport.h>
+#include <OpenSG/OSGFileSystem.h>
 
 OSG_USING_NAMESPACE
 
@@ -102,6 +103,22 @@ int setupGLUT(int *argc, char *argv[]);
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
+    // we need to load some relative images and geometry files.
+    // to make this work reliable (e.g. starting the tutorial via link)
+    // we use the argv[0] parameter.
+#ifdef WIN32
+    std::string sep("\\");
+#else
+    std::string sep("/");
+#endif
+    std::string path = argv[0];
+    // remove app name
+    std::string::size_type i = path.rfind(sep);
+    if(i != std::string::npos)
+        path = path.substr(0, i);
+    // set the current dir to the application dir.
+    Directory::setCurrent(path.c_str());
+
     printf(
         "Press key '8' or '9' to switch between light sources. Press key '0' to use both lights\n");
     printf("Set the shadow mode with key '1' ... '7'\n");
@@ -649,7 +666,7 @@ int main(int argc, char **argv)
 
     //one active light at startup
     beginEditCP(_dir2_core);
-    _dir2_core->setOn(false);
+    _dir2_core->setOn(true);
     _dir2_core->setAmbient(0.3, 0.3, 0.3, 1);
     _dir2_core->setDiffuse(0.8, 0.8, 0.8, 1);
     endEditCP(_dir2_core);
