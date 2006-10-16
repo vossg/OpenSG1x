@@ -167,28 +167,28 @@ inline const std::vector<std::string> &Window::getIgnoredExtensions(void)
     return _ignoredExtensions;
 }
 
-inline void Window::setGLObjectId(UInt32 id, UInt32 id2)
+inline void Window::setGLObjectId(UInt32 osgId, UInt32 id2)
 {
-    if(id < _ids.size())
+    if(osgId < _ids.size())
     {
-        _ids[id] = id2;
+        _ids[osgId] = id2;
     }
     else
     {
         _ids.resize(_glObjects.size());
-        if(id < _ids.size())
-            _ids[id] = id2;
+        if(osgId < _ids.size())
+            _ids[osgId] = id2;
         else
-            SWARNING << "Window::setGLObjectId: id (" << id << ") is not valid!" << std::endl;
+            SWARNING << "Window::setGLObjectId: id (" << osgId << ") is not valid!" << std::endl;
     }
 }
 
-inline UInt32 Window::getGLObjectId(UInt32 id)
+inline UInt32 Window::getGLObjectId(UInt32 osgId)
 {
-    if(id < _ids.size())
-        return _ids[id];
+    if(osgId < _ids.size())
+        return _ids[osgId];
 
-    //SWARNING << "Window::getGLObjectId: id (" << id << ") is not valid!" << std::endl;
+    //SWARNING << "Window::getGLObjectId: id (" << osgId << ") is not valid!" << std::endl;
     return 0;
 }
 
@@ -207,17 +207,17 @@ change all the prototypes and implementations everywhere. Do it for 1.3.
 
 \enddev
 */
-inline UInt32 Window::packIdStatus(UInt32 id, GLObjectStatusE status)
+inline UInt32 Window::packIdStatus(UInt32 osgId, GLObjectStatusE status)
 {
-    return (id << statusShift) | status;
+    return (osgId << statusShift) | status;
 }
 
 /*! Unpack the id and the status from one UInt32 packed by packIdStatus
 */
-inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &id,
+inline void Window::unpackIdStatus(UInt32 idstatus, UInt32 &osgId,
                                    GLObjectStatusE &status)
 {
-    id = idstatus >> statusShift;
+    osgId = idstatus >> statusShift;
     status = static_cast<GLObjectStatusE>(idstatus & statusMask);
 }
 

@@ -110,7 +110,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
                           const AttachmentMap     &pObject)
     {
         UInt16 binding;
-        UInt32 id;
+        UInt32 fcId;
         UInt32 uiNumPublicObjects = 0;
 
         AttachmentMap::const_iterator mapIt  = pObject.begin();
@@ -135,10 +135,10 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
             if(mapIt->second->getInternal().getValue() == false)
             {
                 binding = mapIt->first & 0xffff;
-                id      = mapIt->second.getFieldContainerId();
+                fcId    = mapIt->second.getFieldContainerId();
                 
                 pMem.putValue(binding);
-                pMem.putValue(id);
+                pMem.putValue(fcId);
             }
         }
     }
@@ -160,7 +160,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
 
         UInt32 key;
         UInt16 binding;
-        UInt32 id;
+        UInt32 fcId;
         UInt32 size;
 
         pMem.getValue(size);
@@ -170,9 +170,9 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
         for(UInt32 i = 0; i < size; ++i)
         {
             pMem.getValue(binding);
-            pMem.getValue(id);
+            pMem.getValue(fcId);
 
-            fcp = FieldContainerFactory::the()->getMappedContainer(id);
+            fcp = FieldContainerFactory::the()->getMappedContainer(fcId);
 
             key = (UInt32 (fcp->getGroupId()) << 16) | binding;
 

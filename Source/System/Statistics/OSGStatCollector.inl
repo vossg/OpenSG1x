@@ -46,9 +46,9 @@ inline UInt32 StatCollector::getNumOfElems(void) const
 }
 
 /*-------------------------------------------------------------------------*/
-inline bool StatCollector::isValidID(Int32 id) const
+inline bool StatCollector::isValidID(Int32 elemId) const
 {
-    return (id >= 0) && (id < Int32(_elemVec.size()));
+    return (elemId >= 0) && (elemId < Int32(_elemVec.size()));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -62,34 +62,34 @@ inline bool StatCollector::isValidID(Int32 id) const
     you can set it to false and speed up the whole function a bit.
 */
 
-inline StatElem *StatCollector::getElem(Int32 id, bool create)
+inline StatElem *StatCollector::getElem(Int32 elemId, bool create)
 {
     if(create)
     {
         // This only happens when dynamically adding StatElems
         // but it's really nasty if it happens.
-        if(id >= int(_elemVec.size())) 
+        if(elemId >= int(_elemVec.size())) 
             refitElemNum();
         
-        StatElem *elem = _elemVec[id];
+        StatElem *elem = _elemVec[elemId];
         if(elem == NULL)
         {
-            StatElemDescBase    *desc = StatElemDescBase::getDesc(id);
-            elem = _elemVec[id] = desc->createElem();
+            StatElemDescBase    *desc = StatElemDescBase::getDesc(elemId);
+            elem = _elemVec[elemId] = desc->createElem();
         }
         return elem;
     }
 
-    return _elemVec[id];
+    return _elemVec[elemId];
 }
 
 /*! Return a pointer to the StatElem for the id. 
     It will returnn NULL if the element doesn't exist yet.
 */
 
-inline StatElem *StatCollector::getElem(Int32 id) const
+inline StatElem *StatCollector::getElem(Int32 elemId) const
 {
-    return _elemVec[id];
+    return _elemVec[elemId];
 }
 
 /*-------------------------------------------------------------------------*/

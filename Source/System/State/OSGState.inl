@@ -48,10 +48,10 @@ OSG_BEGIN_NAMESPACE
 */
 
 inline
-StateChunkPtr State::getChunk(UInt32 id)
+StateChunkPtr State::getChunk(UInt32 chunkId)
 {
-    if(id < _mfChunks.size())
-        return _mfChunks[id];
+    if(chunkId < _mfChunks.size())
+        return _mfChunks[chunkId];
 
     return NullFC;
 }
@@ -60,10 +60,10 @@ StateChunkPtr State::getChunk(UInt32 id)
 */
 
 inline
-bool State::chunkPresent(UInt32 id)
+bool State::chunkPresent(UInt32 chunkId)
 {
-    return  id < _mfChunks.size() &&
-            _mfChunks[id] != NullFC ;
+    return  chunkId < _mfChunks.size() &&
+            _mfChunks[chunkId] != NullFC ;
 }
 
 /*! Checks if a chunk of the same type like the given one is in the current 

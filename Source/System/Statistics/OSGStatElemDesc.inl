@@ -40,16 +40,16 @@ OSG_BEGIN_NAMESPACE
 
 /*-------------------------------------------------------------------------*/
 
-inline bool StatElemDescBase::isValidID (Int32 id)
+inline bool StatElemDescBase::isValidID (Int32 descId)
 { 
-  return (_descVec && (id >= 0) && (id < Int32(_descVec->size()))); 
+  return (_descVec && (descId >= 0) && (descId < Int32(_descVec->size()))); 
 }
 
 /*-------------------------------------------------------------------------*/
 
-inline  StatElemDescBase *StatElemDescBase::getDesc (Int32 id)
+inline  StatElemDescBase *StatElemDescBase::getDesc (Int32 descId)
 { 
-  return (*_descVec)[id]; 
+  return (*_descVec)[descId];
 }
 
 /*-------------------------------------------------------------------------*/

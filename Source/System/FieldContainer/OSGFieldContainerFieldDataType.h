@@ -81,19 +81,19 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
     static void copyToBin(      BinaryDataHandler &pMem, 
                           const FieldContainerPtr &pObject)
     {
-        UInt32 id;
+        UInt32 fcId;
 
         if(pObject==NullFC)
         {
-            // id=0 indicates an Null Ptr
-            id = 0;
+            // fcId=0 indicates an Null Ptr
+            fcId = 0;
         }
         else
         {
-            id = pObject.getFieldContainerId();
+            fcId = pObject.getFieldContainerId();
         }
 
-        pMem.putValue(id);
+        pMem.putValue(fcId);
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 
@@ -109,13 +109,13 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
     static void copyFromBin(BinaryDataHandler &pMem, 
                             FieldContainerPtr &pObject)
     {
-        UInt32 id;
+        UInt32 fcId;
 
-        pMem.getValue(id);
+        pMem.getValue(fcId);
 
-        if(0 != id)
+        if(0 != fcId)
         {
-            pObject = FieldContainerFactory::the()->getMappedContainer(id);
+            pObject = FieldContainerFactory::the()->getMappedContainer(fcId);
         }
         else
         {
