@@ -905,7 +905,7 @@ class win32_msvc_base(win32):
 
         if _po.buildDbg():
             dbg = env.Copy()
-            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/GZ'],
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/RTC1'],
                        LINKFLAGS=['/DEBUG'],
                        CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
             dbg['OSG_OBJDIR']  = 'dbg'
