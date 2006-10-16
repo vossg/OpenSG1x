@@ -38,11 +38,13 @@ getProjFiles           = \
 
 getSourceFiles         = \
 					     $(wildcard $(1)/$(PROJ)*.cpp) 	\
+					     $(wildcard $(1)/$(PROJ)*.mm) 	\
 	 					 $(wildcard $(1)/*.c)   	   	\
 			 			 $(wildcard $(1)/$(PROJ)*.s)
 
 getTestSourceFiles     = \
-					     $(wildcard $(1)/test*.cpp)
+					     $(wildcard $(1)/test*.cpp) \
+					     $(wildcard $(1)/test*.mm)
 
 getQTSourceFiles       = $(wildcard $(1)/OSG*_qt.cpp)
 getTestQTSourceFiles   = $(wildcard $(1)/test*_qt.cpp)
@@ -89,12 +91,13 @@ addObjectDir      = $(if $(OBJDIR),$(addprefix $(OBJDIR)$(DIR_SEP), $(1)),$(1))
 
 cppSourceToObject  = \
 	$(patsubst %.cpp,%$(2), $(call addObjectDir,$(1)))
+mmSourceToObject  = $(patsubst %.mm,%$(2), $(1))
 cSourceToObject   = $(patsubst %.c,%$(2),$(1))
 asSourceToObject  = $(patsubst %.s,%$(2),$(1))
 
 
 cnvCandCPPSourceToObject = \
-	$(call cSourceToObject, $(call cppSourceToObject,$(1),$(2)),$(2))
+	$(call cSourceToObject, $(call cppSourceToObject,$(call mmSourceToObject,$(1),$(2)),$(2)),$(2))
 
 cnvSourceToObject        = \
 	$(call asSourceToObject, \

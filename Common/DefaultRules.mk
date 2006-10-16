@@ -75,6 +75,11 @@ $(OBJDIR)/%$(OBJ_SUFFIX): %.cpp
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
 	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
+$(OBJDIR)/%$(OBJ_SUFFIX): %.mm
+	@echo using BD = $$BD
+	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
+	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	 $(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 $(OBJDIR)/%$(OBJ_SUFFIX): %.c
 	@echo using BD := $$BD
 	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
@@ -351,6 +356,13 @@ else
 endif
 
 $(OBJDIR)/%$(DEP_SUFFIX): $(OBJDIR)/%.cpp
+ifneq ($(OSGNODEPSREBUILD),1)
+	$(darwin_make_depend)
+else
+	@echo "# Skipping dependency $(@F) from $(<F) "
+endif
+
+$(OBJDIR)/%$(DEP_SUFFIX): %.mm
 ifneq ($(OSGNODEPSREBUILD),1)
 	$(darwin_make_depend)
 else

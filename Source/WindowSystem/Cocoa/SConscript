@@ -1,0 +1,24 @@
+Import('*')
+
+sources = Split("""
+    OSGCocoaWindow.cpp
+    OSGCocoaWindowBase.cpp
+    OSGCocoaWindowDataFields.cpp
+""")
+
+headers = Split("""
+    OSGCocoaWindow.h
+    OSGCocoaWindow.inl
+    OSGCocoaWindowBase.h
+    OSGCocoaWindowBase.inl
+    OSGCocoaWindowDataFields.h
+    OSGCocoaWindowFields.h
+    OSGWindowCocoaDef.h
+""")
+InstallHeaders(env, headers)
+
+BuildLibrary(tc, 'OSGWindowCocoa', sources,
+             CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
+             CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWCOCOALIB'],
+             LIBPATH=['../../Base', '../../System'],
+             LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

@@ -1,0 +1,12 @@
+# This script adjusts the search pathes for the libraries in the test
+# application and the libraries. Go into the directory
+# "testWindowCocoa.app/Contents/MacOS", copy "testWindowCocoa",
+# "libOSGBase.dylib", "libOSGSystem.dylib" and "libOSGWindowCocoa.dylib"
+# into that directory, and call this script.
+
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib testWindowCocoa
+install_name_tool -change libOSGSystem.dylib @executable_path/libOSGSystem.dylib testWindowCocoa
+install_name_tool -change libOSGWindowCocoa.dylib @executable_path/libOSGWindowCocoa.dylib testWindowCocoa
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib libOSGSystem.dylib
+install_name_tool -change libOSGBase.dylib @executable_path/libOSGBase.dylib libOSGWindowCocoa.dylib
+install_name_tool -change libOSGSystem.dylib @executable_path/libOSGSystem.dylib libOSGWindowCocoa.dylib

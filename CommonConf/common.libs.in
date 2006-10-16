@@ -2,7 +2,7 @@
 ac_gdz_package_order="BaseLib SystemLib"
 ac_gdz_package_order_test="BaseTest SystemTest"
 
-ac_gdz_packages="Base System WindowX WindowWIN32 WindowCarbon WindowCoreGL WindowQT WindowQT4 WindowGLUT"
+ac_gdz_packages="Base System WindowX WindowWIN32 WindowCarbon WindowCocoa WindowCoreGL WindowQT WindowQT4 WindowGLUT"
 
 #Experimental "
 
@@ -45,6 +45,14 @@ ac_gdz_package_link_dep_WindowCarbon="SystemLib BaseLib CARBON"
 ac_gdz_package_testinc_dep_WindowCarbon="" 
 ac_gdz_package_testlink_dep_WindowCarbon="GL TIF JPG JASPER PNG MNG TEXT" 
 ac_gdz_package_def_WindowCarbon="OSG_COMPILEWINDOWCARBONLIB" 
+
+ac_gdz_package_name_WindowCocoa="WindowCocoa" 
+ac_gdz_package_dirs_WindowCocoa="WindowSystem/Cocoa@" 
+ac_gdz_package_inc_dep_WindowCocoa="@Base@ @System@ GL" 
+ac_gdz_package_link_dep_WindowCocoa="SystemLib BaseLib COCOA" 
+ac_gdz_package_testinc_dep_WindowCocoa="" 
+ac_gdz_package_testlink_dep_WindowCocoa="GL TIF JPG JASPER PNG MNG TEXT" 
+ac_gdz_package_def_WindowCocoa="OSG_COMPILEWINDOWCOCOALIB" 
 
 ac_gdz_package_name_WindowCoreGL="WindowCoreGL" 
 ac_gdz_package_dirs_WindowCoreGL="WindowSystem/CoreGL@" 

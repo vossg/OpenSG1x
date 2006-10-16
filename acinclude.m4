@@ -750,6 +750,15 @@ dnl e2
                 ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowCarbonTest"
             fi
         fi
+        if test ${ac_gdz_package_name} = "WindowCocoa"; then
+            if test ${build_os} != "darwin"; then
+                echo Skipping ${ac_gdz_package_name}
+                continue
+            else
+                ac_gdz_package_order="${ac_gdz_package_order} WindowCocoaLib"
+                ac_gdz_package_order_test="${ac_gdz_package_order_test} WindowCocoaTest"
+            fi
+        fi
         if test ${ac_gdz_package_name} = "WindowCoreGL"; then
             if test ${build_os} != "darwin"; then
                 echo Skipping ${ac_gdz_package_name}
@@ -2911,4 +2920,16 @@ dnl e28
     touch confdefs.h
 
     AC_OUTPUT($ac_gdz_common_imf_e28:$ac_gdz_common_imf_in_e28)
+])
+
+AC_DEFUN(AC_GDZ_WRITE_COMMON_COCOA,
+[
+dnl e29
+
+    ac_gdz_common_cocoa_in_e29=$ac_gdz_commonconf_dir/commonCOCOA.in
+    ac_gdz_common_cocoa_e29=$ac_gdz_commonpackage_dir/commonCOCOA.mk
+
+    touch confdefs.h
+
+    AC_OUTPUT($ac_gdz_common_cocoa_e29:$ac_gdz_common_cocoa_in_e29)
 ])

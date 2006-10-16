@@ -1,0 +1,18 @@
+
+INCLUDE_COCOA := 
+LINK_COCOA    := 
+LIB_COCOA     := -framework OpenGL -framework Cocoa
+
+ifneq ($(INCLUDE_COCOA),)
+INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_COCOA)
+endif
+
+ifneq ($(LINK_COCOA),)
+LIBPATHS_COCOA     := $(LIBPATH_OPTION)$(LINK_COCOA)
+endif
+
+ifneq ($(LIB_COCOA),)
+LIB_FILE_COCOA     := $(LIB_COCOA)
+LIB_FILE_COCOA_LNK := $(LIB_COCOA)
+OSG_LIB_EXT       := $(OSG_LIB_EXT) $(LIB_COCOA)
+endif
