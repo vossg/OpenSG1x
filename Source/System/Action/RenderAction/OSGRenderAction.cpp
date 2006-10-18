@@ -1725,7 +1725,8 @@ void RenderAction::drawHierarchicalMultiFrameOcclusionBB(const Matrix &view,
 
     DynamicVolume vol = node->getVolume();
     Matrix m = view;
-    m.mult(node->getParent()->getToWorld());
+    if(node->getParent() != NullFC)
+        m.mult(node->getParent()->getToWorld());
     vol.transform(m);
     // ignore objects behind the camera.
     if(vol.getMax()[2] < 0.0f)
