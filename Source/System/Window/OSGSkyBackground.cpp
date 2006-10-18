@@ -303,9 +303,14 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         vsin1 =  osgsin(_mfGroundAngle[0]);
 
         glBegin(GL_TRIANGLE_FAN);
-        glColor4fv((GLfloat*) _mfGroundColor[0].getValuesRGBA());
+        
+        if (_mfGroundColor.size())
+            glColor4fv((GLfloat*) _mfGroundColor[0].getValuesRGBA());
+        
         glVertex3f(0, -1, 0);
-        glColor4fv((GLfloat*) _mfGroundColor[1].getValuesRGBA());
+        
+        if (_mfGroundColor.size() > 1)
+            glColor4fv((GLfloat*) _mfGroundColor[1].getValuesRGBA());
 
         for(i = 0; i < sr; ++i)
         {
@@ -319,8 +324,11 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         {
             Color4f c1, c2;
 
-            c1 = _mfGroundColor[j+1];
-            c2 = _mfGroundColor[j+2];
+            if (_mfGroundColor.size() > j+2)
+            {
+                c1 = _mfGroundColor[j+1];
+                c2 = _mfGroundColor[j+2];
+            }
 
             vcos1 = -osgcos(_mfGroundAngle[j  ]);
             vsin1 =  osgsin(_mfGroundAngle[j  ]);
