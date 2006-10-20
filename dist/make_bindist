@@ -234,8 +234,8 @@ case $system in
             glut_dir="`pwd`/../supportlibs"
             glut_lib="glut32.dll"
             glut_args="--with-glut=$glut_dir"
-            qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
-            qt_lib=qt-mt312.dll
+            qt_dir=${qt_dir:="`pwd`/../packages/qt-3.36"}
+            qt_lib=qt-mt336.dll
             qt_args="--with-qt=$qt_dir"
             tif_args=""
             par_jobs=1

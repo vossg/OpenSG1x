@@ -618,7 +618,7 @@ case $system in
         tif_args=${tif_args:="--with-tif=`pwd`/../supportlibs"}
         jpg_args=${jpg_args:="--with-jpg=`pwd`/../supportlibs"}
         png_args=${png_args:="--with-png=`pwd`/../supportlibs"}
-        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.12"}
+        qt_dir=${qt_dir:="`pwd`/../packages/qt-3.36"}
         if test ! -d $qt_dir
         then
             qt_dir=""
