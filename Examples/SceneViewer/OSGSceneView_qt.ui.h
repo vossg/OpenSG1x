@@ -329,9 +329,6 @@ void OSGSceneView::deleteNode(OSG::NodePtr node)
 
     TreeViewItem *item = dynamic_cast<TreeViewItem*>(activeTreeItem);
 
-    if(item == NULL)
-        return;
-
     if(node == rootNode)
     {
         beginEditCP(node);
@@ -346,7 +343,7 @@ void OSGSceneView::deleteNode(OSG::NodePtr node)
         beginEditCP(pnode);
             pnode->subChild(node);
         endEditCP(pnode);
-        if(item && (item->_node == node))
+        if(item != NULL && (item->_node == node))
         {
             delete activeTreeItem;
             activeTreeItem = 0;
