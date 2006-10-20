@@ -13,6 +13,7 @@
 #include <OpenSG/OSGGLUTWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
 #include <OpenSG/OSGAction.h>
+#include <OpenSG/OSGTime.h>
 
 // New Headers
 
@@ -120,7 +121,15 @@ int main(int argc, char **argv)
         /*
             All scene file loading is handled via the SceneFileHandler.
         */
+
+        Time start = getSystemTime();
+        
         scene = SceneFileHandler::the().read(argv[1]);
+        
+        Time end = getSystemTime();
+
+        std::cerr << "Took " << end-start << " to load" << std::endl;
+
     }
 
     
@@ -244,7 +253,7 @@ int setupGLUT(int *argc, char *argv[])
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    glutIdleFunc(display);
+    glutIdleFunc(glutPostRedisplay);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);

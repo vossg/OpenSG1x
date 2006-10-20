@@ -95,7 +95,7 @@ int main(int argc,char **argv)
         if(fullscreen)
             glutFullScreen();
         glutDisplayFunc(display);       
-        glutIdleFunc(display);
+        glutIdleFunc(glutPostRedisplay);
         glutReshapeFunc(reshape);       
         glutSetCursor(GLUT_CURSOR_NONE);
 

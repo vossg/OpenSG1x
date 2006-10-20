@@ -126,9 +126,9 @@ else
 CC = $(shell $(OSGCONFIG) --compiler) 
 endif
 
-CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System $(ADDLIB) GLUT)
+CCFLAGS = $(shell $(OSGCONFIG) --cflags --$(LIBTYPE) Base System $(ADDLIB) GLUT) -I/usr/lib/qt-3.3/include
 
-LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System $(ADDLIB) GLUT)
+LDFLAGS = $(LINK) $(shell $(OSGCONFIG) --libs --$(LIBTYPE) Base System $(ADDLIB) GLUT) -L/usr/lib64/qt-3.3/lib -lqt-mt
 
 
 # all tutorials in this directory

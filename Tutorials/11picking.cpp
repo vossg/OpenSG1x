@@ -289,6 +289,15 @@ int main(int argc, char **argv)
     // show the whole scene
     mgr->showAll();
 
+    mgr->getCamera()->setNear(mgr->getCamera()->getNear() / 10);
+
+    mgr->getAction()->setVolumeDrawing(true);
+    
+    // GLUT main loop
+    glutMainLoop();
+
+    return 0;
+
     // GLUT main loop
     glutMainLoop();
 
