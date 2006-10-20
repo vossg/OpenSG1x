@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 13. Okt 18:17:12 2006
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
+** Created: Fr 20. Okt 18:25:20 2006
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -11,6 +11,7 @@
 
 #include <qvariant.h>
 #include <qfiledialog.h>
+#include <qobjectlist.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qpopupmenu.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
@@ -23,20 +24,20 @@
 #include <OpenSG/OSGRenderAction.h>
 #include <OpenSG/OSGShadowViewport.h>
 #include <OpenSG/OSGGradientBackground.h>
+#include <OpenSG/OSGSimpleStatisticsForeground.h>
 #include <qpushbutton.h>
 #include <qsplitter.h>
-#include <qgroupbox.h>
 #include <qheader.h>
 #include <qlistview.h>
-#include <qtable.h>
+#include <qframe.h>
+#include <qlabel.h>
 #include <qlayout.h>
 #include <qtooltip.h>
 #include <qwhatsthis.h>
-#include "OpenSG/OSGQGLManagedWidget_qt.h"
 #include "OSGSceneView_qt.ui.h"
 
-/* 
- *  Constructs a OSGSceneView as a child of 'parent', with the 
+/*
+ *  Constructs a OSGSceneView as a child of 'parent', with the
  *  name 'name' and widget flags set to 'f'.
  */
 OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
@@ -44,85 +45,58 @@ OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
 {
     if ( !name )
 	setName( "OSGSceneView" );
-    OSGSceneViewLayout = new QHBoxLayout( this, 2, 6, "OSGSceneViewLayout"); 
+    OSGSceneViewLayout = new QVBoxLayout( this, 2, 6, "OSGSceneViewLayout"); 
 
     mainSplitter = new QSplitter( this, "mainSplitter" );
-    mainSplitter->setFrameShape( QSplitter::MShape );
-    mainSplitter->setFrameShadow( QSplitter::MShadow );
+    mainSplitter->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)5, 0, 0, mainSplitter->sizePolicy().hasHeightForWidth() ) );
     mainSplitter->setOrientation( QSplitter::Horizontal );
 
-    Splitter3 = new QSplitter( mainSplitter, "Splitter3" );
-    Splitter3->setOrientation( QSplitter::Horizontal );
-
-    GroupBox1 = new QGroupBox( Splitter3, "GroupBox1" );
-    GroupBox1->setColumnLayout(0, Qt::Vertical );
-    GroupBox1->layout()->setSpacing( 6 );
-    GroupBox1->layout()->setMargin( 2 );
-    GroupBox1Layout = new QHBoxLayout( GroupBox1->layout() );
-    GroupBox1Layout->setAlignment( Qt::AlignTop );
-
-    treeListView = new QListView( GroupBox1, "treeListView" );
-    treeListView->addColumn( tr( "Node Type" ) );
-    treeListView->addColumn( tr( "Core Type" ) );
-    treeListView->addColumn( tr( "Node Name" ) );
-    treeListView->addColumn( tr( "Core Name" ) );
-    treeListView->addColumn( tr( "Core USEed" ) );
+    treeListView = new QListView( mainSplitter, "treeListView" );
+    treeListView->addColumn( tr( "Scenegraph" ) );
+    treeListView->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)3, (QSizePolicy::SizeType)7, 0, 0, treeListView->sizePolicy().hasHeightForWidth() ) );
     treeListView->setRootIsDecorated( TRUE );
-    GroupBox1Layout->addWidget( treeListView );
 
-    Splitter5 = new QSplitter( mainSplitter, "Splitter5" );
-    Splitter5->setOrientation( QSplitter::Vertical );
+    frame6 = new QFrame( mainSplitter, "frame6" );
+    frame6->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)5, 0, 0, frame6->sizePolicy().hasHeightForWidth() ) );
+    frame6->setFrameShape( QFrame::NoFrame );
+    frame6->setFrameShadow( QFrame::Raised );
+    frame6Layout = new QVBoxLayout( frame6, 0, 0, "frame6Layout"); 
 
-    GroupBox3 = new QGroupBox( Splitter5, "GroupBox3" );
-    GroupBox3->setColumnLayout(0, Qt::Vertical );
-    GroupBox3->layout()->setSpacing( 6 );
-    GroupBox3->layout()->setMargin( 2 );
-    GroupBox3Layout = new QHBoxLayout( GroupBox3->layout() );
-    GroupBox3Layout->setAlignment( Qt::AlignTop );
+    _fceditor_splitter = new QSplitter( frame6, "_fceditor_splitter" );
+    _fceditor_splitter->setOrientation( QSplitter::Vertical );
 
-    infoTable = new QTable( GroupBox3, "infoTable" );
-    infoTable->setNumCols( infoTable->numCols() + 1 );
-    infoTable->horizontalHeader()->setLabel( infoTable->numCols() - 1, tr( "Value" ) );
-    infoTable->setNumRows( infoTable->numRows() + 1 );
-    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, tr( "Node Type Name" ) );
-    infoTable->setNumRows( infoTable->numRows() + 1 );
-    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, tr( "Node Name" ) );
-    infoTable->setNumRows( infoTable->numRows() + 1 );
-    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, tr( "Core Type Name" ) );
-    infoTable->setNumRows( infoTable->numRows() + 1 );
-    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, tr( "Core Name" ) );
-    infoTable->setNumRows( infoTable->numRows() + 1 );
-    infoTable->verticalHeader()->setLabel( infoTable->numRows() - 1, tr( "Core USEed count" ) );
-    infoTable->setNumRows( 5 );
-    infoTable->setNumCols( 1 );
-    GroupBox3Layout->addWidget( infoTable );
+    _render_frame = new QFrame( _fceditor_splitter, "_render_frame" );
+    _render_frame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)7, 0, 0, _render_frame->sizePolicy().hasHeightForWidth() ) );
+    _render_frame->setMinimumSize( QSize( 320, 256 ) );
+    _render_frame->setFrameShape( QFrame::NoFrame );
+    _render_frame->setFrameShadow( QFrame::Raised );
 
-    GroupBox5 = new QGroupBox( Splitter5, "GroupBox5" );
+    _fc_frame = new QFrame( _fceditor_splitter, "_fc_frame" );
+    _fc_frame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)5, 0, 0, _fc_frame->sizePolicy().hasHeightForWidth() ) );
+    _fc_frame->setFrameShape( QFrame::NoFrame );
+    _fc_frame->setFrameShadow( QFrame::Raised );
+    _fc_frameLayout = new QVBoxLayout( _fc_frame, 5, 5, "_fc_frameLayout"); 
 
-    fieldsTable = new QTable( GroupBox5, "fieldsTable" );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Name" ) );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Type" ) );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Value" ) );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Cardinality" ) );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "ID" ) );
-    fieldsTable->setNumCols( fieldsTable->numCols() + 1 );
-    fieldsTable->horizontalHeader()->setLabel( fieldsTable->numCols() - 1, tr( "Mask" ) );
-    fieldsTable->setGeometry( QRect( 2, 20, 383, 250 ) );
-    fieldsTable->setNumRows( 0 );
-    fieldsTable->setNumCols( 6 );
+    textLabel1 = new QLabel( _fc_frame, "textLabel1" );
+    textLabel1->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, textLabel1->sizePolicy().hasHeightForWidth() ) );
+    textLabel1->setAlignment( int( QLabel::WordBreak | QLabel::AlignCenter ) );
+    _fc_frameLayout->addWidget( textLabel1 );
+
+    _fceditor_frame = new QFrame( _fc_frame, "_fceditor_frame" );
+    _fceditor_frame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)5, 0, 0, _fceditor_frame->sizePolicy().hasHeightForWidth() ) );
+    _fceditor_frame->setFrameShape( QFrame::NoFrame );
+    _fceditor_frame->setFrameShadow( QFrame::Raised );
+    _fc_frameLayout->addWidget( _fceditor_frame );
+    frame6Layout->addWidget( _fceditor_splitter );
     OSGSceneViewLayout->addWidget( mainSplitter );
     languageChange();
-    resize( QSize(667, 540).expandedTo(minimumSizeHint()) );
+    resize( QSize(774, 743).expandedTo(minimumSizeHint()) );
     clearWState( WState_Polished );
 
     // signals and slots connections
     connect( treeListView, SIGNAL( rightButtonPressed(QListViewItem*,const QPoint&,int) ), this, SLOT( popupTreeMenu(QListViewItem*) ) );
     connect( treeListView, SIGNAL( selectionChanged(QListViewItem*) ), this, SLOT( setActiveNodeFromListItem(QListViewItem*) ) );
+    connect( treeListView, SIGNAL( clicked(QListViewItem*) ), this, SLOT( setActiveNodeFromListItem(QListViewItem*) ) );
     init();
 }
 
@@ -141,25 +115,7 @@ OSGSceneView::~OSGSceneView()
 void OSGSceneView::languageChange()
 {
     setCaption( tr( "Form1" ) );
-    GroupBox1->setTitle( tr( "Tree" ) );
-    treeListView->header()->setLabel( 0, tr( "Node Type" ) );
-    treeListView->header()->setLabel( 1, tr( "Core Type" ) );
-    treeListView->header()->setLabel( 2, tr( "Node Name" ) );
-    treeListView->header()->setLabel( 3, tr( "Core Name" ) );
-    treeListView->header()->setLabel( 4, tr( "Core USEed" ) );
-    GroupBox3->setTitle( tr( "Info" ) );
-    infoTable->horizontalHeader()->setLabel( 0, tr( "Value" ) );
-    infoTable->verticalHeader()->setLabel( 0, tr( "Node Type Name" ) );
-    infoTable->verticalHeader()->setLabel( 1, tr( "Node Name" ) );
-    infoTable->verticalHeader()->setLabel( 2, tr( "Core Type Name" ) );
-    infoTable->verticalHeader()->setLabel( 3, tr( "Core Name" ) );
-    infoTable->verticalHeader()->setLabel( 4, tr( "Core USEed count" ) );
-    GroupBox5->setTitle( tr( "Fields" ) );
-    fieldsTable->horizontalHeader()->setLabel( 0, tr( "Name" ) );
-    fieldsTable->horizontalHeader()->setLabel( 1, tr( "Type" ) );
-    fieldsTable->horizontalHeader()->setLabel( 2, tr( "Value" ) );
-    fieldsTable->horizontalHeader()->setLabel( 3, tr( "Cardinality" ) );
-    fieldsTable->horizontalHeader()->setLabel( 4, tr( "ID" ) );
-    fieldsTable->horizontalHeader()->setLabel( 5, tr( "Mask" ) );
+    treeListView->header()->setLabel( 0, tr( "Scenegraph" ) );
+    textLabel1->setText( tr( "<b>FCEditor</b>" ) );
 }
 

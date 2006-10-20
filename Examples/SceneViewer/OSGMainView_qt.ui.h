@@ -11,36 +11,38 @@
 //////////////////////////////////////////////////////////////////
 void OSGMainView::init()
 {
-  int i,n;
-  osg::NodePtr node;
-  osg::NodeCorePtr core;
-  sceneView = new OSGSceneView(tabView,"OSGSceneView");
-  tabView->insertTab( sceneView, "SceneView");
+    int i,n;
+    OSG::NodePtr node;
+    OSG::NodeCorePtr core;
+    sceneView = new OSGSceneView(_main_frame, "OSGSceneView");
+    QVBoxLayout *l = new QVBoxLayout(_main_frame);
+    l->addWidget(sceneView);
 
-  root = osg::Node::create();
-  core = osg::Group::create();
+    root = OSG::Node::create();
+    core = OSG::Group::create();
+    
+    OSG::beginEditCP(root);
+        root->setCore(core);
+    OSG::endEditCP(root);
+    
+    OSG::setName(root, "Root");
 
-  osg::beginEditCP(root);
-  {
-    root->setCore(core);
-  }
-  osg::endEditCP(root);
-
-  // load all args
-  for (i = 1; i < qApp->argc(); i++)
+    // load all args
+    for (i = 1; i < qApp->argc(); i++)
     {
-      node = osg::SceneFileHandler::the().read(qApp->argv()[i]);
-      if (node != osg::NullFC)
+        node = OSG::SceneFileHandler::the().read(qApp->argv()[i]);
+        if (node != OSG::NullFC)
         {
-          osg::beginEditCP(root);
-          {
-            root->addChild(node);
-          }
-          osg::endEditCP(root);
+            OSG::beginEditCP(root);
+                root->addChild(node);
+            OSG::endEditCP(root);
         }
     }
 
-  sceneView->setRootNode(root);
+    sceneView->setRootNode(root);
+    sceneView->createView(root);
+
+    resize(1024, 768);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -48,7 +50,6 @@ void OSGMainView::init()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::destroyMainView()
 {
-
 }
 
 //////////////////////////////////////////////////////////////////
@@ -56,8 +57,7 @@ void OSGMainView::destroyMainView()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileExit()
 {
-  sceneView->closeAllViews();
-  this->close();
+    this->close();
 }
 
 //////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@ void OSGMainView::fileExit()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileNew()
 {
-  sceneView->deleteNode(root);
+    sceneView->deleteNode(root);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -73,8 +73,8 @@ void OSGMainView::fileNew()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileOpen()
 {
-  fileNew();
-  sceneView->insertFromFile(root);
+    fileNew();
+    sceneView->insertFromFile(root);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void OSGMainView::fileOpen()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileInsert()
 {
-  sceneView->insertFromFile(root);
+    sceneView->insertFromFile(root);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -90,7 +90,6 @@ void OSGMainView::fileInsert()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::filePrint()
 {
-  ; // TODO; well, print the scene file ?!?
 }
 
 //////////////////////////////////////////////////////////////////
@@ -98,7 +97,7 @@ void OSGMainView::filePrint()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileSave()
 {
-  sceneView->exportToFile(root);
+    sceneView->exportToFile(root);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -106,7 +105,7 @@ void OSGMainView::fileSave()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::fileSaveAs()
 {
-  sceneView->exportToFile(root);
+    sceneView->exportToFile(root);
 }
 
 //////////////////////////////////////////////////////////////////
@@ -114,10 +113,9 @@ void OSGMainView::fileSaveAs()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::helpAbout()
 {
-     QMessageBox::about ( this, "About SceneView",
-                          "OpenSG Scene Viewer\n"
-                          "http://www.opensg.org"
-                          );
+    QMessageBox::about(this, "About SceneView",
+                       "OpenSG Scene Viewer\n"
+                       "http://www.opensg.org");
 }
 
 //////////////////////////////////////////////////////////////////
@@ -125,7 +123,6 @@ void OSGMainView::helpAbout()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::helpContents()
 {
-
 }
 
 //////////////////////////////////////////////////////////////////
@@ -133,17 +130,11 @@ void OSGMainView::helpContents()
 //////////////////////////////////////////////////////////////////
 void OSGMainView::helpIndex()
 {
-
 }
 
 //////////////////////////////////////////////////////////////////
 // filePrint: create a new 3d opensg view                       //
 //////////////////////////////////////////////////////////////////
-void OSGMainView::createView()
-{
-  sceneView->createView(root);
-}
-
 
 void OSGMainView::setStatistics( bool  val)
 {
@@ -208,4 +199,9 @@ void OSGMainView::ocHierarchicalMultiFrame(void)
 void OSGMainView::setHeadlight(bool s)
 {
     sceneView->setHeadlight(s);
+}
+
+void OSGMainView::toggleFullscreen(void)
+{
+    sceneView->toggleFullscreen();
 }

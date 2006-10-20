@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 13. Okt 18:17:08 2006
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
+** Created: Fr 20. Okt 18:25:16 2006
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -13,18 +13,24 @@
 #include <qvariant.h>
 #include <qwidget.h>
 #include <qpopupmenu.h>
+#include <qaction.h>
 #include <OpenSG/OSGNode.h>
+#include <OpenSG/OSGQOSGWidgetFactory.h>
+#include <OpenSG/OSGQFieldContainerEditor_qt.h>
+#include <OpenSG/OSGSimpleAttachments.h>
+#include <OpenSG/OSGQGLManagedWidget_qt.h>
 #include <list>
 #include <fstream>
 
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QSpacerItem;
 class QSplitter;
-class QGroupBox;
 class QListView;
 class QListViewItem;
-class QTable;
+class QFrame;
+class QLabel;
 
 class OSGSceneView : public QWidget
 {
@@ -35,14 +41,13 @@ public:
     ~OSGSceneView();
 
     QSplitter* mainSplitter;
-    QSplitter* Splitter3;
-    QGroupBox* GroupBox1;
     QListView* treeListView;
-    QSplitter* Splitter5;
-    QGroupBox* GroupBox3;
-    QTable* infoTable;
-    QGroupBox* GroupBox5;
-    QTable* fieldsTable;
+    QFrame* frame6;
+    QSplitter* _fceditor_splitter;
+    QFrame* _render_frame;
+    QFrame* _fc_frame;
+    QLabel* textLabel1;
+    QFrame* _fceditor_frame;
 
 public slots:
     virtual void addListItem( osg::NodePtr node, QListViewItem * parentItem );
@@ -53,18 +58,18 @@ public slots:
     virtual void setActiveNodeFromListItem( QListViewItem * item );
     virtual void createView( osg::NodePtr node );
     virtual void setStatistics( bool val );
-    virtual void updateAllViews( void );
-    virtual void closeAllViews( void );
+    virtual void updateGL( void );
     virtual void deleteNode( osg::NodePtr node );
     virtual void popupTreeMenu( QListViewItem * parentItem );
     virtual void menuHandler( int id );
     virtual void insertFromFile( osg::NodePtr parent );
     virtual void exportToFile( osg::NodePtr node );
     virtual void rebuild();
-    virtual void removeView( QWidget * object );
     virtual void setOcclusionCullingMode(int mode);
     virtual void setShadowMode(int mode);
     virtual void setHeadlight(bool);
+    virtual void editedFC();
+    virtual void toggleFullscreen();
 
 protected:
     QListViewItem *activeTreeItem;
@@ -73,12 +78,14 @@ protected:
     osg::NodePtr activeNode;
     QPopupMenu *treePopupMenu;
     osg::NodePtr rootNode;
-    std::list<QWidget *> viewList;
-    bool statState;
+    OSG::OSGQGLManagedWidget *_gl;
+    OSG::QFieldContainerEditor *_fceditor;
+    QAction *_fullscreenAction;
+    bool _fullscreen;
 
-    QHBoxLayout* OSGSceneViewLayout;
-    QHBoxLayout* GroupBox1Layout;
-    QHBoxLayout* GroupBox3Layout;
+    QVBoxLayout* OSGSceneViewLayout;
+    QVBoxLayout* frame6Layout;
+    QVBoxLayout* _fc_frameLayout;
 
 protected slots:
     virtual void languageChange();

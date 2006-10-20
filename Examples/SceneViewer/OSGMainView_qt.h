@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 13. Okt 18:48:14 2006
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.1.2   edited Dec 19 11:45 $)
+** Created: Fr 20. Okt 18:25:10 2006
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -18,11 +18,12 @@
 class QVBoxLayout;
 class QHBoxLayout;
 class QGridLayout;
+class QSpacerItem;
 class QAction;
 class QActionGroup;
 class QToolBar;
 class QPopupMenu;
-class QTabWidget;
+class QFrame;
 
 class OSGMainView : public QMainWindow
 {
@@ -32,10 +33,12 @@ public:
     OSGMainView( QWidget* parent = 0, const char* name = 0, WFlags fl = WType_TopLevel );
     ~OSGMainView();
 
-    QTabWidget* tabView;
+    QFrame* _main_frame;
     QMenuBar *menubar;
     QPopupMenu *fileMenu;
     QPopupMenu *PopupMenu;
+    QPopupMenu *popupMenu_8;
+    QPopupMenu *popupMenu_13;
     QPopupMenu *helpMenu;
     QToolBar *toolBar;
     QToolBar *Toolbar;
@@ -65,6 +68,7 @@ public:
     QAction* renderShadowVariance;
     QAction* statistic;
     QAction* headlight;
+    QAction* fullscreenAction;
 
 public slots:
     virtual void init();
@@ -79,7 +83,6 @@ public slots:
     virtual void helpAbout();
     virtual void helpContents();
     virtual void helpIndex();
-    virtual void createView();
     virtual void setStatistics( bool val );
     virtual void shadowOff();
     virtual void shadowStandard();
@@ -93,12 +96,13 @@ public slots:
     virtual void ocHierarchicalMultiFrame();
     virtual void ocOff();
     virtual void setHeadlight(bool);
+    virtual void toggleFullscreen();
 
 protected:
     OSGSceneView *sceneView;
     osg::NodePtr root;
 
-    QHBoxLayout* OSGMainViewLayout;
+    QVBoxLayout* OSGMainViewLayout;
 
 protected slots:
     virtual void languageChange();
