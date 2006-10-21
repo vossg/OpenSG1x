@@ -253,7 +253,7 @@ int setupGLUT(int *argc, char *argv[])
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    glutIdleFunc(glutPostRedisplay);
+    glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);

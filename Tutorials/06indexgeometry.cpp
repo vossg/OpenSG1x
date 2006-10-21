@@ -303,7 +303,7 @@ int setupGLUT(int *argc, char *argv[])
     glutKeyboardFunc(keyboard);
 
     // call the redraw function whenever there's nothing else to do
-    glutIdleFunc(glutPostRedisplay);
+    glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
 
     return winid;
 }
