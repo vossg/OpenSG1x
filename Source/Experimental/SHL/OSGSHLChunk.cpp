@@ -1223,7 +1223,7 @@ void SHLChunk::updateLight4Active(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocat
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
 
-    GLint location = getUniformLocation(program, "OSGLight3Active");
+    GLint location = getUniformLocation(program, "OSGLight4Active");
     if(location != -1)
         uniform1i(location, (GLint) ract->getActiveLightsMask() & 16);
 }
@@ -1237,7 +1237,7 @@ void SHLChunk::updateLight5Active(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocat
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
 
-    GLint location = getUniformLocation(program, "OSGLight3Active");
+    GLint location = getUniformLocation(program, "OSGLight5Active");
     if(location != -1)
         uniform1i(location, (GLint) ract->getActiveLightsMask() & 32);
 }
@@ -1251,7 +1251,7 @@ void SHLChunk::updateLight6Active(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocat
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
 
-    GLint location = getUniformLocation(program, "OSGLight3Active");
+    GLint location = getUniformLocation(program, "OSGLight6Active");
     if(location != -1)
         uniform1i(location, (GLint) ract->getActiveLightsMask() & 64);
 }
@@ -1265,7 +1265,7 @@ void SHLChunk::updateLight7Active(OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocat
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
 
-    GLint location = getUniformLocation(program, "OSGLight3Active");
+    GLint location = getUniformLocation(program, "OSGLight7Active");
     if(location != -1)
         uniform1i(location, (GLint) ract->getActiveLightsMask() & 128);
 }
@@ -1419,7 +1419,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.49 2006/06/22 17:06:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.50 2006/10/21 20:50:53 allenb Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
