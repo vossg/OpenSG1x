@@ -31,6 +31,7 @@ ClusterServer  *server;
 
 // forward declaration so we can have the interesting stuff upfront
 void display();
+void update();
 void reshape( int width, int height );
 
 // Initialize GLUT & OpenSG and start the cluster server
@@ -87,16 +88,16 @@ int main(int argc,char **argv)
     try
     {
         ChangeList::setReadWriteDefault();
-	
+
         // init OpenSG
         osgInit(argc, argv);
 
         winid = glutCreateWindow(name);
         if(fullscreen)
             glutFullScreen();
-        glutDisplayFunc(display);       
-        glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
-        glutReshapeFunc(reshape);       
+        glutDisplayFunc(display);
+        glutIdleFunc(update);
+        glutReshapeFunc(reshape);
         glutSetCursor(GLUT_CURSOR_NONE);
 
         glEnable( GL_LIGHTING );
@@ -146,6 +147,11 @@ void display()
         // start server, wait for client to connect
         server->start();
     }
+}
+
+void update(void)
+{
+    glutPostRedisplay();
 }
 
 /* window reshape */

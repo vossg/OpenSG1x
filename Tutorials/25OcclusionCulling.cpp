@@ -215,6 +215,7 @@ int main (int argc, char **argv)
 
     mgr->setWindow( gwin );
     mgr->setRoot( scene );
+    mgr->setStatistics(true);
 
     mgr->showAll();
 

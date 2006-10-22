@@ -147,6 +147,11 @@ void display( void )
     mgr->redraw();
 }
 
+void update(void)
+{
+    glutPostRedisplay();
+}
+
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
 {
@@ -406,7 +411,7 @@ int setupGLUT(int *argc, char *argv[])
     glutKeyboardFunc(keyboard);
 
     // call the redraw function whenever there's nothing else to do
-    glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
+    glutIdleFunc(update);
 
     return winid;
 }

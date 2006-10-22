@@ -76,6 +76,10 @@ void display( void )
     mgr->redraw();
 }
 
+void update(void)
+{
+    glutPostRedisplay();
+}
 
 /* 
     The traverse() functions used below need a function that is called for
@@ -430,7 +434,7 @@ int setupGLUT(int *argc, char *argv[])
     glutKeyboardFunc(keyboard);
 
     // call the redraw function whenever there's nothing else to do
-    glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
+    glutIdleFunc(update);
 
     return winid;
 }

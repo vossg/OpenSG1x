@@ -190,6 +190,11 @@ void display(void)
     mgr->redraw();
 }
 
+void update(void)
+{
+    glutPostRedisplay();
+}
+
 // react to size changes
 void reshape(int w, int h)
 {
@@ -253,7 +258,7 @@ int setupGLUT(int *argc, char *argv[])
     
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);
-    glutIdleFunc((void (GLUTCALLBACK *)(void)) glutPostRedisplay);
+    glutIdleFunc(update);
     glutMouseFunc(mouse);
     glutMotionFunc(motion);
     glutKeyboardFunc(keyboard);
