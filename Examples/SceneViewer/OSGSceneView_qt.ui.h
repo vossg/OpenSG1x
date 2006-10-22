@@ -82,6 +82,12 @@ void OSGSceneView::addListItem( OSG::NodePtr node, QListViewItem *parentItem )
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::init()
 {
+    // init the class variables
+    rootTreeItem = 0;
+    activeTreeItem = 0;
+    activeNode = OSG::NullFC;
+    _gl = NULL;
+    _fceditor = NULL;
     _fullscreenAction = NULL;
     _fullscreen = false;
 
@@ -89,10 +95,6 @@ void OSGSceneView::init()
     QPopupMenu *menu;
     std::list<const char *> suffixList;
     std::list<const char *>::iterator sI;
-    
-    // init the class variables
-    rootTreeItem = 0;
-    activeTreeItem = 0;
 
     // create tree popup menu
     menu = new QPopupMenu (this, "treeMenu");
