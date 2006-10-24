@@ -39,6 +39,7 @@
 //---------------------------------------------------------------------------
 
 #include "OSGStatisticsDefaultFont.h"
+#include <OSGBaseFunctions.h>
 #include <OSGTextTXFFace.h>
 #include <iostream>
 #ifdef OSG_HAS_SSTREAM
@@ -590,25 +591,21 @@ UChar8 StatisticsDefaultFontData[9364] = {
 std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 
                                         StatisticsDefaultFontDataSize     );
 
+static bool initializeStatisticsDefaultFont();
+static bool terminateStatisticsDefaultFont();
+
 class DefaultFontInitializer
 {
 public:
 
-    DefaultFontInitializer(): _face(0), _texchunk() {}
-
-    ~DefaultFontInitializer()
+    inline DefaultFontInitializer(): _face(0), _texchunk()
     {
-        if (_texchunk != NullFC)
-            subRefCP(_texchunk);
-        if (_face != 0)
-            subRefP(_face);
-    };
+        addInitFunction(&initializeStatisticsDefaultFont);
+        addSystemExitFunction(&terminateStatisticsDefaultFont);
+    }
 
-    TextTXFFace *getFont()
+    bool initialize()
     {
-        if (_face != 0)
-            return _face;
-
 #ifdef OSG_HAS_SSTREAM
         std::istringstream is(StatisticsDefaultFontString);
 #else
@@ -618,14 +615,6 @@ public:
 #endif
         _face = TextTXFFace::createFromStream(is, "Bitstream Vera Sans Mono", TextFace::STYLE_PLAIN);
         addRefP(_face);
-
-        return _face;
-    }
-
-    TextureChunkPtr getTexture()
-    {
-        if (_texchunk != NullFC)
-            return _texchunk;
 
         _texchunk = TextureChunk::create();
         addRefCP(_texchunk);
@@ -642,8 +631,31 @@ public:
         }
         endEditCP(_texchunk);
 
-        return _texchunk;
+        return true;
     };
+
+    bool terminate()
+    {
+        if (_texchunk != NullFC)
+            subRefCP(_texchunk);
+        if (_face != 0)
+        {
+            subRefP(_face);
+            _face = 0;
+        }
+
+        return true;
+    };
+
+    inline TextTXFFace *getFont()
+    {
+        return _face;
+    }
+
+    inline TextureChunkPtr getTexture()
+    {
+        return _texchunk;
+    }
 
 private:
 
@@ -662,6 +674,16 @@ TextTXFFace *getStatisticsDefaultFont()
 TextureChunkPtr getStatisticsDefaultFontTexture()
 {
     return initializer.getTexture();
+}
+
+static bool initializeStatisticsDefaultFont()
+{
+    return initializer.initialize();
+}
+
+static bool terminateStatisticsDefaultFont()
+{
+    return initializer.terminate();
 }
 
 OSG_END_NAMESPACE
