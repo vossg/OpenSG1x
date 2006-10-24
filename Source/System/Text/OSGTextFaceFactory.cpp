@@ -63,6 +63,17 @@ OSG_BEGIN_NAMESPACE
 
 
 //----------------------------------------------------------------------
+// Helper function that gets called from osgExit
+// Author: pdaehne
+//----------------------------------------------------------------------
+static bool terminateFaceFactory()
+{
+    TextFaceFactory::the().clearCache();
+    return true;
+}
+
+
+//----------------------------------------------------------------------
 // Static Class Variable implementations
 // Author: pdaehne
 //----------------------------------------------------------------------
@@ -86,6 +97,8 @@ TextFaceFactory::TextFaceFactory()
 #else
     _backend = 0;
 #endif
+
+    addSystemExitFunction(&terminateFaceFactory);
 }
 
 
@@ -252,7 +265,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.1 2005/03/03 13:43:06 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.2 2006/10/24 10:52:44 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACEFACTORY_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACEFACTORY_INLINE_CVSID;
 }
