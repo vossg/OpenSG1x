@@ -1562,6 +1562,7 @@ void RenderAction::deleteOcclusionQueriesPool(void)
     }
     _hier_occlusions.clear();
 
+#if 0
     // reset all occlusion masks.
     Viewport *vp = getViewport();
     if(vp != NULL)
@@ -1569,6 +1570,7 @@ void RenderAction::deleteOcclusionQueriesPool(void)
         NodePtr root = vp->getRoot();
         setOcclusionMask(root, 0);
     }
+#endif
 }
 
 void RenderAction::resetOcclusionQueryIndex(void)
