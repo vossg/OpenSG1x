@@ -58,6 +58,7 @@
 
 #include "OSGNFIOFactory.h"
 
+// never change the length of the header!
 #define OSGNFIOHEADERID "OpenSG binary V1.0"
 
 OSG_USING_NAMESPACE
@@ -112,6 +113,13 @@ NFIOBase::~NFIOBase()
 
 NodePtr NFIOBase::read(std::istream &is, const std::string &options)
 {
+    if(!isOSB(is))
+    {
+        FWARNING(("NFIOBase::read : Couldn't load file "
+                  "this is not a '%s' format\n", OSGNFIOHEADERID));
+        return NullFC;
+    }
+
     _options.init(options);
 
     _in = new BinaryReadHandler(is);
@@ -189,13 +197,85 @@ const NFIOOptions &NFIOBase::getOptions(void)
  *                            Reader                                       *
 \***************************************************************************/
 
+bool NFIOBase::isOSB(std::istream &is)
+{
+    // ok the first 4 bytes of the osb file are
+    // the length of the osb header!
+    const int osb_magic[6] = {0, 0, 0, sizeof(OSGNFIOHEADERID), 'O', 'p'};
+
+    int c1 = (int) is.get();
+    if(c1 != osb_magic[0])
+    {
+        is.putback(c1);
+        return false;
+    }
+
+    int c2 = (int) is.get();
+    if(c2 != osb_magic[1])
+    {
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+
+    int c3 = (int) is.get();
+    if(c3 != osb_magic[2])
+    {
+        is.putback(c3);
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+
+    int c4 = (int) is.get();
+    if(c4 != osb_magic[3])
+    {
+        is.putback(c4);
+        is.putback(c3);
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+
+    int c5 = (int) is.get();
+    if(c5 != osb_magic[4])
+    {
+        is.putback(c5);
+        is.putback(c4);
+        is.putback(c3);
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+
+    int c6 = (int) is.get();
+    if(c6 != osb_magic[5])
+    {
+        is.putback(c6);
+        is.putback(c5);
+        is.putback(c4);
+        is.putback(c3);
+        is.putback(c2);
+        is.putback(c1);
+        return false;
+    }
+
+    is.putback(c6);
+    is.putback(c5);
+    is.putback(c4);
+    is.putback(c3);
+    is.putback(c2);
+    is.putback(c1);
+    return true;
+}
+
 FieldContainerPtr NFIOBase::readFieldContainer(void)
 {
     FDEBUG(("NFIOBase::readFieldContainer\n"));
 
     _fieldList.clear();
     _fcMap.clear();
-    
+
     // read header
     std::string hid;
     _in->getValue(hid);
@@ -1097,6 +1177,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.12 2006/07/12 13:59:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.13 2006/10/26 11:02:10 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

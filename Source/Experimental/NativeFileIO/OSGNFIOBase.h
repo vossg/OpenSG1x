@@ -98,6 +98,8 @@ class OSG_SYSTEMLIB_DLLMAPPING NFIOBase
                                      std::ostream &os,
                                      const std::string &options);
 
+    static bool              isOSB(std::istream &is);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
     
@@ -257,6 +259,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.7 2006/07/12 13:33:34 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.8 2006/10/26 11:02:11 a-m-z Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */
