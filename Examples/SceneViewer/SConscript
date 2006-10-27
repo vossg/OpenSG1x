@@ -18,6 +18,7 @@ def custom(env):
 
     env.Append(CPPPATH=env.get('QTCPPPATH'))
     env.Append(LIBPATH=env.get('QTLIBPATH'))
+    env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
     env.Append(LIBS=env.get('OSG_WINDOW_QT_LIBS'))
 
     CreateMocSources(env, headers)

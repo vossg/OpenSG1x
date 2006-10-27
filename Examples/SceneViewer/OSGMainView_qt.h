@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 20. Okt 18:25:10 2006
+** Created: Fr 27. Okt 17:35:32 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -68,7 +68,6 @@ public:
     QAction* renderShadowVariance;
     QAction* statistic;
     QAction* headlight;
-    QAction* fullscreenAction;
 
 public slots:
     virtual void init();
@@ -96,7 +95,6 @@ public slots:
     virtual void ocHierarchicalMultiFrame();
     virtual void ocOff();
     virtual void setHeadlight(bool);
-    virtual void toggleFullscreen();
 
 protected:
     OSGSceneView *sceneView;

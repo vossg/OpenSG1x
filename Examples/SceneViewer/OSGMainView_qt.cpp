@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 20. Okt 18:25:12 2006
+** Created: Fr 27. Okt 17:35:47 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -551,8 +551,6 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     headlight->setToggleAction( TRUE );
     headlight->setOn( TRUE );
     headlight->setIconSet( QIconSet( image7 ) );
-    fullscreenAction = new QAction( this, "fullscreenAction" );
-    fullscreenAction->setToggleAction( TRUE );
 
 
     // toolbars
@@ -634,7 +632,6 @@ OSGMainView::OSGMainView( QWidget* parent, const char* name, WFlags fl )
     connect( renderOCMultiFrame, SIGNAL( activated() ), this, SLOT( ocMultiFrame() ) );
     connect( renderOCHierarchicalMultiFrame, SIGNAL( activated() ), this, SLOT( ocHierarchicalMultiFrame() ) );
     connect( headlight, SIGNAL( toggled(bool) ), this, SLOT( setHeadlight(bool) ) );
-    connect( fullscreenAction, SIGNAL( activated() ), this, SLOT( toggleFullscreen() ) );
     init();
 }
 
@@ -714,8 +711,6 @@ void OSGMainView::languageChange()
     statistic->setMenuText( tr( "Statistic" ) );
     headlight->setText( tr( "Headlight" ) );
     headlight->setMenuText( tr( "Headlight" ) );
-    fullscreenAction->setText( QString::null );
-    fullscreenAction->setAccel( tr( "Space" ) );
     toolBar->setLabel( tr( "Tools" ) );
     Toolbar->setLabel( tr( "Toolbar" ) );
     if (menubar->findItem(1))

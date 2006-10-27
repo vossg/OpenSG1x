@@ -201,7 +201,3 @@ void OSGMainView::setHeadlight(bool s)
     sceneView->setHeadlight(s);
 }
 
-void OSGMainView::toggleFullscreen(void)
-{
-    sceneView->toggleFullscreen();
-}

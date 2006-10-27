@@ -492,20 +492,6 @@
             <string>Headlight</string>
         </property>
     </action>
-    <action>
-        <property name="name">
-            <cstring>fullscreenAction</cstring>
-        </property>
-        <property name="toggleAction">
-            <bool>true</bool>
-        </property>
-        <property name="text">
-            <string></string>
-        </property>
-        <property name="accel">
-            <string>Space</string>
-        </property>
-    </action>
 </actions>
 <images>
     <image name="image0">
@@ -672,12 +658,6 @@
         <receiver>OSGMainView</receiver>
         <slot>setHeadlight(bool)</slot>
     </connection>
-    <connection>
-        <sender>fullscreenAction</sender>
-        <signal>activated()</signal>
-        <receiver>OSGMainView</receiver>
-        <slot>toggleFullscreen()</slot>
-    </connection>
 </connections>
 <includes>
     <include location="global" impldecl="in implementation">qapplication.h</include>
@@ -723,7 +703,6 @@
     <slot>ocHierarchicalMultiFrame()</slot>
     <slot>ocOff()</slot>
     <slot>setHeadlight(bool)</slot>
-    <slot>toggleFullscreen()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

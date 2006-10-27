@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 20. Okt 18:25:16 2006
+** Created: Fr 27. Okt 17:53:30 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -18,7 +18,6 @@
 #include <OpenSG/OSGQOSGWidgetFactory.h>
 #include <OpenSG/OSGQFieldContainerEditor_qt.h>
 #include <OpenSG/OSGSimpleAttachments.h>
-#include <OpenSG/OSGQGLManagedWidget_qt.h>
 #include <list>
 #include <fstream>
 
@@ -31,6 +30,7 @@ class QListView;
 class QListViewItem;
 class QFrame;
 class QLabel;
+class OpenSGWidget;
 
 class OSGSceneView : public QWidget
 {
@@ -69,7 +69,6 @@ public slots:
     virtual void setShadowMode(int mode);
     virtual void setHeadlight(bool);
     virtual void editedFC();
-    virtual void toggleFullscreen();
 
 protected:
     QListViewItem *activeTreeItem;
@@ -78,10 +77,8 @@ protected:
     osg::NodePtr activeNode;
     QPopupMenu *treePopupMenu;
     osg::NodePtr rootNode;
-    OSG::OSGQGLManagedWidget *_gl;
     OSG::QFieldContainerEditor *_fceditor;
-    QAction *_fullscreenAction;
-    bool _fullscreen;
+    OpenSGWidget *_gl;
 
     QVBoxLayout* OSGSceneViewLayout;
     QVBoxLayout* frame6Layout;

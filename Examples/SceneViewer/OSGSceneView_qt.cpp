@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 20. Okt 18:25:20 2006
+** Created: Fr 27. Okt 17:53:32 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -12,6 +12,7 @@
 #include <qvariant.h>
 #include <qfiledialog.h>
 #include <qobjectlist.h>
+#include <qgl.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qpopupmenu.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
@@ -25,6 +26,8 @@
 #include <OpenSG/OSGShadowViewport.h>
 #include <OpenSG/OSGGradientBackground.h>
 #include <OpenSG/OSGSimpleStatisticsForeground.h>
+#include <OpenSG/OSGPassiveWindow.h>
+#include <OpenSG/OSGSimpleSceneManager.h>
 #include <qpushbutton.h>
 #include <qsplitter.h>
 #include <qheader.h>

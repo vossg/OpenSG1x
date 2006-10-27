@@ -228,11 +228,11 @@
     <include location="global" impldecl="in declaration">OpenSG/OSGQOSGWidgetFactory.h</include>
     <include location="global" impldecl="in declaration">OpenSG/OSGQFieldContainerEditor_qt.h</include>
     <include location="global" impldecl="in declaration">OpenSG/OSGSimpleAttachments.h</include>
-    <include location="global" impldecl="in declaration">OpenSG/OSGQGLManagedWidget_qt.h</include>
     <include location="global" impldecl="in declaration">list</include>
     <include location="global" impldecl="in declaration">fstream</include>
     <include location="global" impldecl="in implementation">qfiledialog.h</include>
     <include location="global" impldecl="in implementation">qobjectlist.h</include>
+    <include location="global" impldecl="in implementation">qgl.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
     <include location="global" impldecl="in implementation">qpopupmenu.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
@@ -246,7 +246,12 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGShadowViewport.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGGradientBackground.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleStatisticsForeground.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGPassiveWindow.h</include>
+    <include location="global" impldecl="in implementation">OpenSG/OSGSimpleSceneManager.h</include>
 </includes>
+<forwards>
+    <forward>class OpenSGWidget;</forward>
+</forwards>
 <variables>
     <variable>QListViewItem *activeTreeItem;</variable>
     <variable>QListViewItem *rootTreeItem;</variable>
@@ -254,10 +259,8 @@
     <variable>osg::NodePtr activeNode;</variable>
     <variable>QPopupMenu *treePopupMenu;</variable>
     <variable>osg::NodePtr rootNode;</variable>
-    <variable>OSG::OSGQGLManagedWidget *_gl;</variable>
     <variable>OSG::QFieldContainerEditor *_fceditor;</variable>
-    <variable>QAction *_fullscreenAction;</variable>
-    <variable>bool _fullscreen;</variable>
+    <variable>OpenSGWidget *_gl;</variable>
 </variables>
 <slots>
     <slot>addListItem( osg::NodePtr node, QListViewItem * parentItem )</slot>
@@ -279,7 +282,6 @@
     <slot>setShadowMode(int mode)</slot>
     <slot>setHeadlight(bool)</slot>
     <slot>editedFC()</slot>
-    <slot>toggleFullscreen()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

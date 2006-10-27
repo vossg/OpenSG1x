@@ -6,6 +6,337 @@
 ** a constructor, and a destroy() slot in place of a destructor.
 *****************************************************************************/
 
+// ---------------------------------------------------
+// OpenSG opengl render widget using a passive window.
+// ---------------------------------------------------
+class OpenSGWidget : public QGLWidget
+{
+public:
+
+    OpenSGWidget( QGLFormat f, QWidget *parent=0, const char *name=0 ) :
+        QGLWidget( f, parent, name ),
+        _mgr(NULL),
+        _pwin(OSG::NullFC),
+        _render_wireframe(false),
+        _render_statistic(false),
+        _fullscreen(false),
+        _parent(NULL),
+        _initialized_gl(false)
+    {
+        setAcceptDrops(true);
+        setAutoBufferSwap(false);
+        setFocusPolicy(QWidget::StrongFocus);
+        
+        _mgr = new OSG::SimpleSceneManager;
+        _pwin = OSG::PassiveWindow::create();
+        addRefCP(_pwin);
+        
+        _mgr->setWindow(_pwin);
+        _mgr->setClickCenter(false);
+    }
+
+    virtual ~OpenSGWidget()
+    {
+        if(_mgr != NULL)
+        delete _mgr;
+    
+        if(_pwin != OSG::NullFC)
+        {
+            // remove all viewports
+            OSG::beginEditCP(_pwin);
+                while(_pwin->getPort().size() > 0)
+                {
+                    OSG::ViewportPtr vp = _pwin->getPort()[0];
+                    _pwin->subPort(vp);
+                }
+            OSG::endEditCP(_pwin);
+            OSG::subRefCP(_pwin);
+        }
+    }
+
+    OSG::SimpleSceneManager *getManager(void)
+    {
+        return _mgr;
+    }
+
+    void toggleWireframe(void)
+    {
+        _render_wireframe = !_render_wireframe;
+
+        if(_render_wireframe)
+                glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+            else
+                glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+                
+        updateGL();
+    }
+
+    void setHeadlightEnabled(bool s)
+    {
+        if(s)
+            _mgr->turnHeadlightOn();
+        else
+            _mgr->turnHeadlightOff();
+        
+        updateGL();
+    
+        //emit changedHeadlight(s);
+    }
+
+    bool isHeadlightEnabled(void)
+    {
+        return _mgr->getHeadlightState();
+    }
+
+    void toggleStatistic(void)
+    {
+        _render_statistic = !_render_statistic;
+        _mgr->setStatistics(_render_statistic);
+        updateGL();
+    }
+
+    void toggleFullScreen(void)
+    {
+        _fullscreen = !_fullscreen;
+
+        if(_fullscreen)
+        {
+            _parent = parentWidget();
+            QPoint p(0, 0);
+            ((QWidget *)this)->reparent(NULL, p, true);
+            showFullScreen();
+            setFocus();
+            updateGL();
+        }
+        else
+        {
+            QPoint p(0, 0);
+            ((QWidget *)this)->reparent(_parent, p, true);
+            showNormal();
+            resize(_parent->width(), _parent->height());
+            setFocus();
+            updateGL();
+        }
+    }
+
+protected:
+
+    virtual void initializeGL()
+    {
+        _pwin->init();
+
+        makeCurrent();
+
+        // some manual init, will be moved into StateChunks later
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_NORMALIZE);
+    
+        if(format().accum())
+            glClearAccum(0.0, 0.0, 0.0, 0.0);
+    
+        glClearColor(0, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        OSG::RenderAction *ract = (OSG::RenderAction *) _mgr->getAction();
+
+        if(ract != NULL)
+        {
+            ract->setSortTrans(true);
+            //ract->setZWriteTrans(true);
+            ract->setLocalLights(true);
+            ract->setCorrectTwoSidedLighting(true);
+        }
+    
+        if(!_initialized_gl)
+        {
+            // this should be done only once, switching to fullscreen mode will
+            // call initializeGL()!
+            _mgr->useOpenSGLogo();
+            //emit initializedGL();
+
+            // create a show viewport with a gradient color background.
+            OSG::ShadowViewportPtr svp = OSG::ShadowViewport::create();
+            OSG::GradientBackgroundPtr   gbg = OSG::GradientBackground::create();
+        
+            OSG::beginEditCP(gbg);
+                gbg->addLine(OSG::Color3f(0.7, 0.7, 0.8), 0);
+                gbg->addLine(OSG::Color3f(0.0, 0.1, 0.3), 1);
+            OSG::endEditCP(gbg);
+        
+            // Shadow viewport
+            OSG::beginEditCP(svp);
+                svp->setCamera(_mgr->getCamera());
+                svp->setBackground(gbg);
+                svp->setSize(0, 0, 1, 1);
+                //svp->setOffFactor(4.0);
+                //svp->setOffBias(8.0);
+                //used to set global shadow intensity, ignores shadow intensity from light sources if != 0.0
+                //svp->setGlobalShadowIntensity(0.8);
+                svp->setMapSize(1024);
+                svp->setShadowMode(OSG::ShadowViewport::NO_SHADOW);
+                //ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
+                //ShadowSmoothness also used to define the light size for PCSS_SHADOW_MAP
+                svp->setShadowSmoothness(0.5);
+                svp->setAutoSearchForLights(true);
+                //svp->setMapAutoUpdate(true);
+            OSG::endEditCP(svp);
+        
+            // that's a bit tricky replace the viewport in the simple scene manager with our own.
+            OSG::NodePtr internal_root = OSG::NullFC;
+            OSG::ImageForegroundPtr foreground = OSG::NullFC;
+            OSG::WindowPtr win = _mgr->getWindow();
+            OSG::beginEditCP(win);
+                for(int i=0;i<win->getPort().size();++i)
+                {
+                    OSG::ViewportPtr vp = win->getPort()[i];
+                    if(internal_root == OSG::NullFC)
+                    {
+                        internal_root = vp->getRoot();
+                        if(vp->getForegrounds().size() > 0)
+                            foreground = OSG::ImageForegroundPtr::dcast(vp->getForegrounds()[0]);
+                    }
+                    subRefCP(vp);
+                }
+                win->getPort().clear();
+                win->addPort(svp);
+            OSG::endEditCP(win);
+        
+            OSG::beginEditCP(svp, OSG::Viewport::RootFieldMask |
+                             OSG::Viewport::ForegroundsFieldMask);
+                if(internal_root != OSG::NullFC)
+                    svp->setRoot(internal_root);
+                if(foreground != OSG::NullFC)
+                    svp->getForegrounds().push_back(foreground);
+            OSG::endEditCP(svp, OSG::Viewport::RootFieldMask |
+                           OSG::Viewport::ForegroundsFieldMask);
+
+            _mgr->getNavigator()->setViewport(svp);
+        }
+
+        _initialized_gl = true;
+    }
+
+    virtual void resizeGL(int width, int height)
+    {
+        _mgr->resize(width, height);
+    }
+
+    virtual void paintGL()
+    {
+        _mgr->redraw();
+        swapBuffers();
+    }
+
+    virtual void mousePressEvent( QMouseEvent *ev )
+    {
+        OSG::UInt32 button;
+
+        switch ( ev->button() ) 
+        {
+            case LeftButton:  button = OSG::SimpleSceneManager::MouseLeft;   break;
+            case MidButton:   button = OSG::SimpleSceneManager::MouseMiddle; break;
+            case RightButton: button = OSG::SimpleSceneManager::MouseRight;  break;
+            default:          return;
+        }
+        _mgr->mouseButtonPress(button, ev->x(), ev->y());
+        updateGL();
+    }
+
+    virtual void mouseMoveEvent( QMouseEvent *ev )
+    {
+        _mgr->mouseMove(ev->x(), ev->y());
+        updateGL();
+    }
+
+    virtual void mouseReleaseEvent( QMouseEvent *ev )
+    {
+        OSG::UInt32 button;
+
+        switch ( ev->button() ) 
+        {
+            case LeftButton:  button = OSG::SimpleSceneManager::MouseLeft;   break;
+            case MidButton:   button = OSG::SimpleSceneManager::MouseMiddle; break;
+            case RightButton: button = OSG::SimpleSceneManager::MouseRight;  break;
+            default:          return;
+        }
+
+        _mgr->mouseButtonRelease(button, ev->x(), ev->y());
+        updateGL();
+    }
+
+    virtual void wheelEvent( QWheelEvent *ev )
+    {
+        _mgr->mouseButtonPress(ev->delta() > 0 ? OSG::SimpleSceneManager::MouseDown
+                                          : OSG::SimpleSceneManager::MouseUp, 
+                              ev->x(), ev->y());
+
+        ev->accept();
+        updateGL();
+    }
+
+    virtual void dragEnterEvent(QDragEnterEvent *e)
+    {
+        if(!strcmp(e->format(), "text/uri-list"))
+        {
+            e->accept(true);
+        }
+        else
+        {
+            e->accept(false);
+        }
+    }
+
+    virtual void dropEvent(QDropEvent *e)
+    {
+#if 0
+        if(!strcmp(e->format(), "text/uri-list"))
+        {
+            QStringList list;
+    
+            if(QUriDrag::decodeLocalFiles(e, list))
+            {
+                emit droppedFiles(list); 
+            }
+        }
+#endif
+    }
+
+    virtual void keyPressEvent(QKeyEvent *e)
+    {
+        switch(e->key())
+        {
+            case Key_F5:
+                _mgr->showAll();
+                updateGL();
+            break;
+#if 0
+            case Key_F10:
+                setHeadlightEnabled(!isHeadlightEnabled());
+            break;
+            case Key_F11:
+                toggleWireframe();
+            break;
+            case Key_F12:
+                toggleStatistic();
+            break;
+#endif
+            case Key_Space:
+                toggleFullScreen();
+            break;
+        }
+    }
+
+
+    OSG::SimpleSceneManager  *_mgr;
+    OSG::PassiveWindowPtr    _pwin;
+
+    bool _render_wireframe;
+    bool _render_statistic;
+    bool _fullscreen;
+    QWidget *_parent;
+    bool _initialized_gl;
+};
+
 //////////////////////////////////////////////////////////////////
 // TreeViewItem:  listView item which holds a link to a node    //
 //////////////////////////////////////////////////////////////////
@@ -88,8 +419,6 @@ void OSGSceneView::init()
     activeNode = OSG::NullFC;
     _gl = NULL;
     _fceditor = NULL;
-    _fullscreenAction = NULL;
-    _fullscreen = false;
 
     int i, n;
     QPopupMenu *menu;
@@ -153,7 +482,7 @@ void OSGSceneView::setActiveNode( OSG::NodePtr node )
     activeNode = node;
 
     if(_gl != NULL)
-        _gl->getManager().setHighlight(node);
+        _gl->getManager()->setHighlight(node);
 
     // fcdEditor
     if(node != OSG::NullFC) 
@@ -199,80 +528,21 @@ void OSGSceneView::createView(OSG::NodePtr node)
     if(node == OSG::NullFC)
         return;
 
-    _gl = new OSG::OSGQGLManagedWidget(_render_frame, "OSG View");
+    //_gl = new OSG::OSGQGLManagedWidget(_render_frame, "OSG View");
+    _gl = new OpenSGWidget(QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer |
+                                     QGL::Rgba | QGL::DirectRendering),
+                                     _render_frame, "OSG View");
+
     _gl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QVBoxLayout *l = new QVBoxLayout(_render_frame);
     l->addWidget(_gl);
 
-    _gl->getManager().setRoot( node );
-    _gl->getManager().setStatistics(false);
-    _gl->getManager().showAll();
-    _gl->getManager().useOpenSGLogo();
-    _gl->getManager().setHighlight(activeNode);
-    // _gl->showFullScreen();
-    OSG::RenderAction *ract = (OSG::RenderAction *) _gl->getManager().getAction();
-    ract->setLocalLights(true);
-    ract->setCorrectTwoSidedLighting(true);
-
-    // create a show viewport with a gradient color background.
-    OSG::ShadowViewportPtr svp = OSG::ShadowViewport::create();
-    OSG::GradientBackgroundPtr   gbg = OSG::GradientBackground::create();
-
-    OSG::beginEditCP(gbg);
-        gbg->addLine(OSG::Color3f(0.7, 0.7, 0.8), 0);
-        gbg->addLine(OSG::Color3f(0.0, 0.1, 0.3), 1);
-    OSG::endEditCP(gbg);
-
-    // Shadow viewport
-    OSG::beginEditCP(svp);
-        svp->setCamera(_gl->getManager().getCamera());
-        svp->setBackground(gbg);
-        svp->setSize(0, 0, 1, 1);
-        //svp->setOffFactor(4.0);
-        //svp->setOffBias(8.0);
-        //used to set global shadow intensity, ignores shadow intensity from light sources if != 0.0
-        //svp->setGlobalShadowIntensity(0.8);
-        svp->setMapSize(1024);
-        svp->setShadowMode(OSG::ShadowViewport::NO_SHADOW);
-        //ShadowSmoothness used for PCF_SHADOW_MAP and VARIANCE_SHADOW_MAP, defines Filter Width. Range can be 0.0 ... 1.0.
-        //ShadowSmoothness also used to define the light size for PCSS_SHADOW_MAP
-        svp->setShadowSmoothness(0.5);
-        svp->setAutoSearchForLights(true);
-        //svp->setMapAutoUpdate(true);
-    OSG::endEditCP(svp);
-
-    // that's a bit tricky replace the viewport in the simple scene manager with our own.
-    OSG::NodePtr internal_root = OSG::NullFC;
-    OSG::ImageForegroundPtr foreground = OSG::NullFC;
-    OSG::WindowPtr win = _gl->getManager().getWindow();
-    OSG::beginEditCP(win);
-        for(int i=0;i<win->getPort().size();++i)
-        {
-            OSG::ViewportPtr vp = win->getPort()[i];
-            if(internal_root == OSG::NullFC)
-            {
-                internal_root = vp->getRoot();
-                if(vp->getForegrounds().size() > 0)
-                    foreground = OSG::ImageForegroundPtr::dcast(vp->getForegrounds()[0]);
-            }
-            subRefCP(vp);
-        }
-        win->getPort().clear();
-        win->addPort(svp);
-    OSG::endEditCP(win);
-
-    OSG::beginEditCP(svp, OSG::Viewport::RootFieldMask |
-                     OSG::Viewport::ForegroundsFieldMask);
-        if(internal_root != OSG::NullFC)
-            svp->setRoot(internal_root);
-        if(foreground != OSG::NullFC)
-            svp->getForegrounds().push_back(foreground);
-    OSG::endEditCP(svp, OSG::Viewport::RootFieldMask |
-                   OSG::Viewport::ForegroundsFieldMask);
-
-    _gl->getManager().getNavigator()->setViewport(svp);
-
+    _gl->getManager()->setRoot( node );
+    _gl->getManager()->setStatistics(false);
+    _gl->getManager()->showAll();
+    _gl->getManager()->useOpenSGLogo();
+    _gl->getManager()->setHighlight(activeNode);
     _gl->show();
 }
 
@@ -283,12 +553,11 @@ void OSGSceneView::setStatistics(bool val)
 {
     if(_gl != NULL)
     {
-        _gl->getManager().setStatistics(val);
-
+        _gl->getManager()->setStatistics(val);
         if(val)
         {
             // customize the statistic.
-            OSG::WindowPtr win = _gl->getManager().getWindow();
+            OSG::WindowPtr win = _gl->getManager()->getWindow();
             for(int i=0;i<win->getPort().size();++i)
             {
                 OSG::ViewportPtr vp = win->getPort()[i];
@@ -309,6 +578,7 @@ void OSGSceneView::setStatistics(bool val)
             }
         }
     }
+
     updateGL();
 }
 
@@ -391,7 +661,6 @@ void OSGSceneView::insertFromFile( OSG::NodePtr parent )
 {
     OSG::NodePtr node;
     std::list<QWidget*>::iterator wI;
-    OSG::OSGQGLManagedWidget *w;
     QListViewItem *parentItem;
     QString fName = QFileDialog::getOpenFileName ( QString::null,
                                                  filter,
@@ -420,7 +689,7 @@ void OSGSceneView::insertFromFile( OSG::NodePtr parent )
             if ((parent == rootNode) && (rootNode->getNChildren() == 1))
             {
                 if(_gl != NULL)
-                    _gl->getManager().showAll();
+                    _gl->getManager()->showAll();
             }
             parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
             if(parentItem == NULL)
@@ -470,7 +739,7 @@ void OSGSceneView::setShadowMode(int mode)
         return;
 
     updateGL();
-    OSG::WindowPtr win = _gl->getManager().getWindow();
+    OSG::WindowPtr win = _gl->getManager()->getWindow();
     for(int i=0;i<win->getPort().size();++i)
     {
         OSG::ShadowViewportPtr svp = OSG::ShadowViewportPtr::dcast(win->getPort()[i]);
@@ -491,7 +760,7 @@ void OSGSceneView::setOcclusionCullingMode(int mode)
     if(_gl == NULL)
         return;
 
-    OSG::RenderAction *ra = (OSG::RenderAction *) _gl->getManager().getAction();
+    OSG::RenderAction *ra = (OSG::RenderAction *) _gl->getManager()->getAction();
     ra->setOcclusionCulling(mode > 0);
     ra->setOcclusionCullingMode(mode);
     updateGL();
@@ -499,7 +768,7 @@ void OSGSceneView::setOcclusionCullingMode(int mode)
 
 void OSGSceneView::setHeadlight(bool s)
 {
-    _gl->getManager().setHeadlight(s);
+    _gl->getManager()->setHeadlight(s);
     updateGL();
 }
 
@@ -508,31 +777,3 @@ void OSGSceneView::editedFC(void)
     updateGL();
 }
 
-void OSGSceneView::toggleFullscreen(void)
-{
-    _fullscreen = !_fullscreen;
-
-    if(_fullscreen)
-    {
-        QPoint p(0, 0);
-        ((QWidget *)_gl)->reparent(NULL, p, true);
-        _gl->showFullScreen();
-        _gl->setFocus();
-        _fullscreenAction = new QAction(_gl, "fullscreenAction");
-        _fullscreenAction->setText(QString::null);
-        _fullscreenAction->setAccel(tr("Space"));
-        connect(_fullscreenAction, SIGNAL(activated()), this, SLOT(toggleFullscreen()));
-        updateGL();
-    }
-    else
-    {
-        delete _fullscreenAction;
-        _fullscreenAction = NULL;
-        QPoint p(0, 0);
-        ((QWidget *)_gl)->reparent(_render_frame, p, true);
-        _gl->showNormal();
-        _gl->resize(_render_frame->width(), _render_frame->height());
-        _gl->setFocus();
-        updateGL();
-    }
-}
