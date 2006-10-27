@@ -21,9 +21,7 @@
 #include <OpenSG/OSGSimpleMaterial.h>
 #include <OpenSG/OSGImage.h>
 #include <OpenSG/OSGTextureChunk.h>
-#include <OpenSG/OSGGradientBackground.h>
 #include <OpenSG/OSGSHLChunk.h>
-#include <OpenSG/OSGShadowMapViewport.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -231,34 +229,10 @@ int main(int argc, char **argv)
         _scene->addChild(point1);
     endEditCP(_scene);
 
-    // create ShadowViewport with a gradient background.
-    ShadowMapViewportPtr svp = ShadowMapViewport::create();
-    GradientBackgroundPtr gbg = GradientBackground::create();
-
-    beginEditCP(gbg);
-        gbg->addLine(Color3f(0.7, 0.7, 0.8), 0);
-        gbg->addLine(Color3f(0.0, 0.1, 0.3), 1);
-    endEditCP(gbg);
-
-    // Shadow viewport
-    beginEditCP(svp);
-        svp->setBackground(gbg);
-        svp->setRoot(_scene);
-        svp->setSize(0,0,1,1);
-        svp->setOffFactor(10.0);
-        svp->setOffBias(4.0);
-        svp->setShadowColor(Color4f(0.1, 0.1, 0.1, 1.0));
-        svp->setMapSize(1024);
-        // you can add the light sources here, as default all light source in
-        // the scenegraph are used.
-        svp->getLightNodes().push_back(point1);
-    endEditCP(svp);
-
     // the connection between GLUT and OpenSG
     GLUTWindowPtr gwin= GLUTWindow::create();
     beginEditCP(gwin);//Window
         gwin->setId(winid);
-        gwin->addPort(svp);
         gwin->init();
     endEditCP(gwin);
 
@@ -268,11 +242,6 @@ int main(int argc, char **argv)
     // tell the manager what to manage
     _mgr->setWindow(gwin );
     _mgr->setRoot  (_scene);
-
-    beginEditCP(svp);
-        svp->setCamera(_mgr->getCamera());
-    endEditCP(svp);
-
     _mgr->turnHeadlightOff();
 
     // show the whole scene
