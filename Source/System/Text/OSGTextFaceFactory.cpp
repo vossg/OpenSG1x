@@ -68,7 +68,15 @@ OSG_BEGIN_NAMESPACE
 //----------------------------------------------------------------------
 static bool terminateFaceFactory()
 {
-    TextFaceFactory::the().clearCache();
+    // we need this extra valid flag because the compiler creates
+    // some atexit() code for destruction of the TextFaceFactory instance
+    // and this would conflict with osgExit() which is also called via atexit()!
+    // The osgExit() would be called after the TextFaceFactory instance has already
+    // been destroyed ...
+
+    if(TextFaceFactory::isValid())
+        TextFaceFactory::the().clearCache();
+    //else already destroyed do nothing.
     return true;
 }
 
@@ -77,8 +85,8 @@ static bool terminateFaceFactory()
 // Static Class Variable implementations
 // Author: pdaehne
 //----------------------------------------------------------------------
+bool TextFaceFactory::_valid = false;
 TextFaceFactory TextFaceFactory::_the;
-
 
 //----------------------------------------------------------------------
 // Constructor
@@ -87,6 +95,7 @@ TextFaceFactory TextFaceFactory::_the;
 TextFaceFactory::TextFaceFactory()
 : _backend(), _vectorFaceMap(), _pixmapFaceMap(), _txfFaceMap()
 {
+    _valid = true;
 #if defined(_WIN32)
     _backend = new TextWIN32Backend();
 #elif defined(__APPLE__)
@@ -108,6 +117,7 @@ TextFaceFactory::TextFaceFactory()
 //----------------------------------------------------------------------
 TextFaceFactory::~TextFaceFactory()
 {
+    _valid = false;
     clearCache();
     delete _backend;
 }
@@ -248,6 +258,10 @@ void TextFaceFactory::getFontFamilies(vector<string> &families) const
         _backend->getFontFamilies(families);
 }
 
+bool TextFaceFactory::isValid(void)
+{
+    return _valid;
+}
 
 OSG_END_NAMESPACE
 
@@ -265,7 +279,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.2 2006/10/24 10:52:44 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.3 2006/10/27 13:52:13 a-m-z Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACEFACTORY_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACEFACTORY_INLINE_CVSID;
 }

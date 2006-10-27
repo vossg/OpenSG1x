@@ -125,6 +125,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextFaceFactory
      */
     void getFontFamilies(std::vector<std::string> &families) const;
 
+    static bool isValid(void);
+
     /**
      * Returns the single instance of the %FaceFactory singleton.
      * @return The single instance.
@@ -144,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextFaceFactory
     const TextFaceFactory &operator=(const TextFaceFactory &);
 
     /** The single instance of the %TextFaceFactory singleton */
+    static bool            _valid;
     static TextFaceFactory _the;
 
     /** The backend that creates all faces */
@@ -174,6 +177,6 @@ OSG_END_NAMESPACE
 
 #include <OSGTextFaceFactory.inl>
 
-#define OSGTEXTFACEFACTORY_HEADER_CVSID "@(#)$Id: OSGTextFaceFactory.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
+#define OSGTEXTFACEFACTORY_HEADER_CVSID "@(#)$Id: OSGTextFaceFactory.h,v 1.2 2006/10/27 13:52:13 a-m-z Exp $"
 
 #endif /* _OSGTEXTFACEFACTORY_H_ */

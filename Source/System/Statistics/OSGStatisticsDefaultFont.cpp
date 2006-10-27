@@ -591,22 +591,15 @@ UChar8 StatisticsDefaultFontData[9364] = {
 std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 
                                         StatisticsDefaultFontDataSize     );
 
-static bool initializeStatisticsDefaultFont();
-static bool terminateStatisticsDefaultFont();
-
 class DefaultFontInitializer
 {
 public:
 
-    inline DefaultFontInitializer(): _face(0), _texchunk()
+    DefaultFontInitializer():
+        _face(0),
+        _texchunk(NullFC)
     {
-        addInitFunction(&initializeStatisticsDefaultFont);
-        addSystemExitFunction(&terminateStatisticsDefaultFont);
-    }
-
-    bool initialize()
-    {
-#ifdef OSG_HAS_SSTREAM
+        #ifdef OSG_HAS_SSTREAM
         std::istringstream is(StatisticsDefaultFontString);
 #else
         std::istrstream is(
@@ -630,11 +623,9 @@ public:
             _texchunk->setEnvMode(GL_MODULATE);
         }
         endEditCP(_texchunk);
+    }
 
-        return true;
-    };
-
-    bool terminate()
+    ~DefaultFontInitializer()
     {
         if (_texchunk != NullFC)
             subRefCP(_texchunk);
@@ -643,9 +634,7 @@ public:
             subRefP(_face);
             _face = 0;
         }
-
-        return true;
-    };
+    }
 
     inline TextTXFFace *getFont()
     {
@@ -657,33 +646,58 @@ public:
         return _texchunk;
     }
 
+    static DefaultFontInitializer *the(void)
+    {
+        if(_the == NULL)
+            _the = new DefaultFontInitializer;
+        return _the;
+    }
+
+    static void destroy(void)
+    {
+        delete _the;
+        _the = NULL;
+    }
+
 private:
 
     TextTXFFace *_face;
-
     TextureChunkPtr _texchunk;
+
+    static DefaultFontInitializer *_the;
 };
 
-static DefaultFontInitializer initializer;
+// we have to use a pointer here without it the compiler would create
+// some atexit() code for destruction and this would conflict with
+// osgExit() which is also called via atexit()!
+DefaultFontInitializer *DefaultFontInitializer::_the = NULL;
 
 TextTXFFace *getStatisticsDefaultFont()
 {
-    return initializer.getFont();
+    return DefaultFontInitializer::the()->getFont();
 }
 
 TextureChunkPtr getStatisticsDefaultFontTexture()
 {
-    return initializer.getTexture();
-}
-
-static bool initializeStatisticsDefaultFont()
-{
-    return initializer.initialize();
+    return DefaultFontInitializer::the()->getTexture();
 }
 
 static bool terminateStatisticsDefaultFont()
 {
-    return initializer.terminate();
+    DefaultFontInitializer::destroy();
+    return true;
 }
+
+
+class DefaultFontRegister
+{
+public:
+    DefaultFontRegister()
+    {
+        addSystemExitFunction(&terminateStatisticsDefaultFont);
+    }
+};
+
+static DefaultFontRegister _register;
 
 OSG_END_NAMESPACE

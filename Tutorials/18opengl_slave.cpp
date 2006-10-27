@@ -29,6 +29,7 @@
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <OpenSG/OSGComponentTransform.h>
 #include <OpenSG/OSGImage.h>
+#include <OpenSG/OSGFileSystem.h>
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -437,7 +438,23 @@ GLvoid DrawGLScene(GLvoid)
 }
 
 int main(int argc, char **argv) 
-{  
+{
+    // we need to load some relative images and geometry files.
+    // to make this work reliable (e.g. starting the tutorial via link)
+    // we use the argv[0] parameter.
+#ifdef WIN32
+    std::string sep("\\");
+#else
+    std::string sep("/");
+#endif
+    std::string path = argv[0];
+    // remove app name
+    std::string::size_type i = path.rfind(sep);
+    if(i != std::string::npos)
+        path = path.substr(0, i);
+    // set the current dir to the application dir.
+    Directory::setCurrent(path.c_str());
+
     // OSG init
     osgInit(argc, argv);
     
