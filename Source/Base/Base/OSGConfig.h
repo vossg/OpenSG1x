@@ -65,7 +65,7 @@
     010300
  */
 
-#define OSG_VERSION             010800
+#define OSG_VERSION             0x010800
 
 /*! The numeric major version number, e.g. 1
  */
