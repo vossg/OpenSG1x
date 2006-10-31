@@ -417,8 +417,11 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
     action->getStatistics()->getElem(RenderAction::statNTextures)->inc(idx);
     // all 6 images are forced (by opengl) to be of the same size and type so we can
     // multiply the size of the first image by 6.
-    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
-        getGLId(), getImage()->getSize() * 6);
+    if(getImage() != NullFC)
+    {
+        action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+            getGLId(), getImage()->getSize() * 6);
+    }
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
@@ -575,8 +578,11 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
     action->getStatistics()->getElem(RenderAction::statNTextures)->inc(getGLId());
     // all 6 images are forced (by opengl) to be of the same size and type so we can
     // multiply the size of the first image by 6.
-    action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
-        getGLId(), getImage()->getSize() * 6);
+    if(getImage() != NullFC)
+    {
+        action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
+            getGLId(), getImage()->getSize() * 6);
+    }
 
     glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, win->getGLObjectId(getGLId()));
 
