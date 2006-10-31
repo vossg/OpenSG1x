@@ -102,15 +102,16 @@ std::string PathHandler::findFile(const Char8 *fileName)
 
     PathType     pType   = analysePath(fileName);
 
+    // doesn't work for filenames with ;
     parsePathList(fileName, tmpList);
 
     if(tmpList.size() != 0)
     {
         if((pType & TypeMask) == AbsPath)
         {
-            SINFO << "Check abs : " << tmpList.front() << std::endl;
+            SINFO << "Check abs : " << fileName << std::endl;
 
-            if(File::tstAttr(tmpList.front().c_str(),
+            if(File::tstAttr(fileName,
                              AccessFlags::IsReadable))
             {
                 returnValue.assign(fileName);
