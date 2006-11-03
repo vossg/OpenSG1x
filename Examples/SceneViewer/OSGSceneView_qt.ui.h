@@ -6,6 +6,9 @@
 ** a constructor, and a destroy() slot in place of a destructor.
 *****************************************************************************/
 
+extern OSGMainView *_main_view;
+static OSGSceneView *_sceneView = NULL;
+
 // ---------------------------------------------------
 // OpenSG opengl render widget using a passive window.
 // ---------------------------------------------------
@@ -145,6 +148,7 @@ protected:
             //ract->setZWriteTrans(true);
             ract->setLocalLights(true);
             ract->setCorrectTwoSidedLighting(true);
+            ract->setOcclusionCullingThreshold(0);
         }
     
         if(!_initialized_gl)
@@ -231,14 +235,40 @@ protected:
     {
         OSG::UInt32 button;
 
-        switch ( ev->button() ) 
+        switch(ev->button())
         {
-            case LeftButton:  button = OSG::SimpleSceneManager::MouseLeft;   break;
-            case MidButton:   button = OSG::SimpleSceneManager::MouseMiddle; break;
-            case RightButton: button = OSG::SimpleSceneManager::MouseRight;  break;
-            default:          return;
+            case LeftButton:
+                button = OSG::SimpleSceneManager::MouseLeft;
+            break;
+            case MidButton:
+                button = OSG::SimpleSceneManager::MouseMiddle;
+            break;
+            case RightButton:
+                button = OSG::SimpleSceneManager::MouseRight;
+            break;
+            default:
+                return;
         }
         _mgr->mouseButtonPress(button, ev->x(), ev->y());
+
+        // object picking via shift and left mouse button.
+        if(ev->button() == LeftButton &&
+           ev->state() & ShiftButton)
+        {
+            OSG::Line l = _mgr->calcViewRay(ev->x(), ev->y());
+
+            OSG::IntersectAction *act = OSG::IntersectAction::create();
+            act->setLine(l);
+            act->apply(_mgr->getRoot());
+
+            if (act->didHit() && _sceneView != NULL)
+            {
+                _sceneView->setActiveNode(act->getHitObject());
+                _sceneView->selectItem(act->getHitObject());
+            }
+            delete act;
+        }
+
         updateGL();
     }
 
@@ -254,13 +284,27 @@ protected:
 
         switch ( ev->button() ) 
         {
-            case LeftButton:  button = OSG::SimpleSceneManager::MouseLeft;   break;
-            case MidButton:   button = OSG::SimpleSceneManager::MouseMiddle; break;
-            case RightButton: button = OSG::SimpleSceneManager::MouseRight;  break;
-            default:          return;
+            case LeftButton:
+                button = OSG::SimpleSceneManager::MouseLeft;
+            break;
+            case MidButton:
+                button = OSG::SimpleSceneManager::MouseMiddle;
+            break;
+            case RightButton:
+                button = OSG::SimpleSceneManager::MouseRight;
+            break;
+            default:
+                return;
         }
 
         _mgr->mouseButtonRelease(button, ev->x(), ev->y());
+
+        OSG::RenderAction *ract = (OSG::RenderAction *) _mgr->getAction();
+        if(ract != NULL && ract->getOcclusionCulling())
+        {
+            updateGL();
+            updateGL();
+        }
         updateGL();
     }
 
@@ -309,17 +353,15 @@ protected:
                 _mgr->showAll();
                 updateGL();
             break;
-#if 0
             case Key_F10:
-                setHeadlightEnabled(!isHeadlightEnabled());
+                _main_view->headlight->setOn(!_main_view->headlight->isOn());
             break;
             case Key_F11:
                 toggleWireframe();
             break;
             case Key_F12:
-                toggleStatistic();
+                _main_view->statistic->setOn(!_main_view->statistic->isOn());
             break;
-#endif
             case Key_Space:
                 toggleFullScreen();
             break;
@@ -413,6 +455,8 @@ void OSGSceneView::addListItem( OSG::NodePtr node, QListViewItem *parentItem )
 //////////////////////////////////////////////////////////////////
 void OSGSceneView::init()
 {
+    _sceneView = this;
+
     // init the class variables
     rootTreeItem = 0;
     activeTreeItem = 0;
@@ -477,7 +521,7 @@ void OSGSceneView::setRootNode( OSG::NodePtr root )
 //////////////////////////////////////////////////////////////////
 // setActiveNode: sets the active node and rebuilds the views   //
 //////////////////////////////////////////////////////////////////
-void OSGSceneView::setActiveNode( OSG::NodePtr node )
+void OSGSceneView::setActiveNode(OSG::NodePtr node)
 {
     activeNode = node;
 
@@ -520,6 +564,26 @@ void OSGSceneView::setActiveNodeFromListItem(QListViewItem *item)
     }
 }
 
+void OSGSceneView::selectItem(OSG::NodePtr node)
+{
+    if(node == OSG::NullFC)
+        return;
+
+    QListViewItemIterator it(treeListView);
+    
+    // iterate through all items of the listview
+    for(; it.current(); ++it)
+    {
+        TreeViewItem *treeItem = (TreeViewItem *) it.current();
+        if(treeItem->_node == node)
+        {
+            treeListView->setSelected(treeItem, true);
+            treeListView->ensureItemVisible(treeItem);
+            return;
+        }
+    }
+}
+
 //////////////////////////////////////////////////////////////////
 // createView: create a new OpenSG 3D view                      //
 //////////////////////////////////////////////////////////////////
@@ -528,15 +592,11 @@ void OSGSceneView::createView(OSG::NodePtr node)
     if(node == OSG::NullFC)
         return;
 
-    //_gl = new OSG::OSGQGLManagedWidget(_render_frame, "OSG View");
     _gl = new OpenSGWidget(QGLFormat(QGL::DoubleBuffer | QGL::DepthBuffer |
                                      QGL::Rgba | QGL::DirectRendering),
                                      _render_frame, "OSG View");
 
     _gl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    QVBoxLayout *l = new QVBoxLayout(_render_frame);
-    l->addWidget(_gl);
 
     _gl->getManager()->setRoot( node );
     _gl->getManager()->setStatistics(false);
@@ -768,7 +828,52 @@ void OSGSceneView::setOcclusionCullingMode(int mode)
 
 void OSGSceneView::setHeadlight(bool s)
 {
+    if(_gl == NULL)
+        return;
+
     _gl->getManager()->setHeadlight(s);
+    updateGL();
+}
+
+void OSGSceneView::showAll()
+{
+    if(_gl == NULL)
+        return;
+
+    _gl->getManager()->showAll();
+    updateGL();
+}
+
+void OSGSceneView::showObj()
+{
+    if(_gl == NULL)
+        return;
+
+    if(activeNode == OSG::NullFC)
+        return;
+
+    _gl->getManager()->showAll();
+
+    activeNode->updateVolume();
+
+    OSG::Vec3f min,max;
+    activeNode->getVolume().getBounds( min, max );
+    OSG::Vec3f d = max - min;
+
+    if(d.length() < OSG::Eps) // Nothing loaded? Use a unity box
+    {
+        min.setValues(-1.f,-1.f,-1.f);
+        max.setValues( 1.f, 1.f, 1.f);
+        d = max - min;
+    }
+
+    OSG::Real32 dist = OSG::osgMax(d[0],d[1]) / (2 * OSG::osgtan(_gl->getManager()->getCamera()->getFov() / 2.f));
+    OSG::Vec3f up(0,1,0);
+    OSG::Pnt3f at((min[0] + max[0]) * .5f,(min[1] + max[1]) * .5f,(min[2] + max[2]) * .5f);
+    OSG::Pnt3f from=at;
+    from[2]+=(dist+fabs(max[2]-min[2])*0.5f); 
+    _gl->getManager()->getNavigator()->set(from,at,up);
+
     updateGL();
 }
 

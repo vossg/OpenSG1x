@@ -74,9 +74,6 @@
         </item>
     </item>
     <item text="&amp;Help" name="helpMenu">
-        <action name="helpContentsAction"/>
-        <action name="helpIndexAction"/>
-        <separator/>
         <action name="helpAboutAction"/>
     </item>
 </menubar>
@@ -99,8 +96,10 @@
         <property name="label">
             <string>Toolbar</string>
         </property>
-        <action name="headlight"/>
         <action name="statistic"/>
+        <action name="headlight"/>
+        <action name="showAllAction"/>
+        <action name="showObjAction"/>
     </toolbar>
 </toolbars>
 <actions>
@@ -195,34 +194,6 @@
         </property>
         <property name="menuText">
             <string>E&amp;xit</string>
-        </property>
-        <property name="accel">
-            <string></string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>helpContentsAction</cstring>
-        </property>
-        <property name="text">
-            <string>Contents</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Contents...</string>
-        </property>
-        <property name="accel">
-            <string></string>
-        </property>
-    </action>
-    <action>
-        <property name="name">
-            <cstring>helpIndexAction</cstring>
-        </property>
-        <property name="text">
-            <string>Index</string>
-        </property>
-        <property name="menuText">
-            <string>&amp;Index...</string>
         </property>
         <property name="accel">
             <string></string>
@@ -466,7 +437,7 @@
             <iconset>image6</iconset>
         </property>
         <property name="text">
-            <string>Statistic</string>
+            <string>Statistic (F12)</string>
         </property>
         <property name="menuText">
             <string>Statistic</string>
@@ -486,10 +457,32 @@
             <iconset>image7</iconset>
         </property>
         <property name="text">
-            <string>Headlight</string>
+            <string>Headlight (F10)</string>
         </property>
         <property name="menuText">
             <string>Headlight</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>showAllAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image8</iconset>
+        </property>
+        <property name="text">
+            <string>Show All</string>
+        </property>
+    </action>
+    <action>
+        <property name="name">
+            <cstring>showObjAction</cstring>
+        </property>
+        <property name="iconSet">
+            <iconset>image9</iconset>
+        </property>
+        <property name="text">
+            <string>Show Object</string>
         </property>
     </action>
 </actions>
@@ -517,6 +510,12 @@
     </image>
     <image name="image7">
         <data format="PNG" length="699">89504e470d0a1a0a0000000d4948445200000016000000160806000000c4b46c3b0000028249444154789cb5944b4f535110c77f2db70fda724b7b5bfba092960225c806c3421259695cb8401313fc0a1a177e03172eddf91558b8686234180d84959bc6088918a569a9a406620bf4de52caab4fae8ba635b10faa8149cee24c667ee79cff99194d2412e1324c7b295440382f20ab84d5785425912ca2c819cce63efc3e13fe6191d1d0aca65d9ea6931489d84b35b13984f3aa96804fac1d94d947d93b25912c321230303df3b025bc2d7823bea03a1c055cee8986ef307f00c0d169a576f07a8aeb13710cb6674df0961a6795b09a3f7033327a0b5174218a2e0c7a337da215004b6f4dc1c9a9413e4686c82a61f56f464b8d65d9887fd08ddf3fdcf0e57349b2394be3e6965e01ce6c8c0d4e108fc6999ee902acec9d72fbce4d74154bc327f6d7563c7684ce7e4cb9624610246c9291d8ebef4d8c9652389c3b381d8794853400a51e23ba8a07008fdbda883399b4f806aa04824a776039e32623f7a1ab7828f518911599cfdfbea0d78ff1732bc5d6af0206bd19805c4e42ceb8bb034b577a595b895016d2e8ab05bcfd160cfa12efdebf20bdabe07149144bc79c9c9cb11e8db642b491c2516073e72b0065214d5948337e6db026854b026a1fb82f2bacadae101a6f2ee59660bb34a7b11aaa2c2d2f90cf251b4baba6d109c78db8eded25024105bb34d7446edbd2a3a1594d71ffb9faea4d9e804f64c0750240b592657727c9eaa71281208c8c3dfdb7ceab5b5609abcb8b6b78bd6652a93fb79d9cbad171569c3bddeacfbcf720c8fdbb46bc0351169792d89db68e79ff3d36eb6d7de1e07cde7e31e0f4e60600891f25004caab5537877e062758cb71f0a8d7d2018c2e276b7fd38e8a22aea363f3faf1a7a62a476251e3d794cafc17431e07fb5df115aeca508f8050b0000000049454e44ae426082</data>
+    </image>
+    <image name="image8">
+        <data format="PNG" length="257">89504e470d0a1a0a0000000d4948445200000015000000150806000000a917a596000000c849444154789ced93310ec2300c453f9c8863f8281d394207860c1d3a729c0e0c7f60e8713c44fa0c9028548596a84242e24b1e1225cf3fb603fc3555e882cc4c007298994217540d04a0d00591540f88a4cafd2a20c90c4ce1d145f273707a2249797479f40c4c519466b5b2c339682a05ee757ea9dd14daafc87c9cbf5befd4a32f3add970b33c37019d0449f3ddc44c7781d61666b4d3e773f392bbb9f5c568f5539a7e53861e1e96fc10b3f4a00d49edaba042f241ccedb821fa01f066f022dc15b37ed3bba019364076446f576bc0000000049454e44ae426082</data>
+    </image>
+    <image name="image9">
+        <data format="PNG" length="264">89504e470d0a1a0a0000000d4948445200000015000000150806000000a917a596000000cf49444154789ced93bd09c33010858f9081aec8101a2003a8f4182e52a8f0002e338aca2b5c789c2b042f85ad1f4c6cc7c2040279f0109ce093744f47f4d752ae7330c68088928d31709d43359088e03a0711492eeb5540ef3d34289a3b256b5078ef8f83e3132350079b1cc1456b3e1644240383ce9ec096192212fbbcaaebf619cdb48cb9c237debdd9657377ccc07178eec2de6ad953e9b32d33342844e4584f97e95be6e4eaf44b70fca731ac22a0fa01d899281011da475b77c08a40dc9f0b9e413f0c3e055a82cf0eed3b7a010b97000b1c6afdc80000000049454e44ae426082</data>
     </image>
 </images>
 <connections>
@@ -555,18 +554,6 @@
         <signal>activated()</signal>
         <receiver>OSGMainView</receiver>
         <slot>fileExit()</slot>
-    </connection>
-    <connection>
-        <sender>helpIndexAction</sender>
-        <signal>activated()</signal>
-        <receiver>OSGMainView</receiver>
-        <slot>helpIndex()</slot>
-    </connection>
-    <connection>
-        <sender>helpContentsAction</sender>
-        <signal>activated()</signal>
-        <receiver>OSGMainView</receiver>
-        <slot>helpContents()</slot>
     </connection>
     <connection>
         <sender>helpAboutAction</sender>
@@ -658,6 +645,18 @@
         <receiver>OSGMainView</receiver>
         <slot>setHeadlight(bool)</slot>
     </connection>
+    <connection>
+        <sender>showAllAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>showAll()</slot>
+    </connection>
+    <connection>
+        <sender>showObjAction</sender>
+        <signal>activated()</signal>
+        <receiver>OSGMainView</receiver>
+        <slot>showObj()</slot>
+    </connection>
 </connections>
 <includes>
     <include location="global" impldecl="in implementation">qapplication.h</include>
@@ -688,8 +687,6 @@
     <slot>fileSave()</slot>
     <slot>fileSaveAs()</slot>
     <slot>helpAbout()</slot>
-    <slot>helpContents()</slot>
-    <slot>helpIndex()</slot>
     <slot>setStatistics( bool val )</slot>
     <slot>shadowOff()</slot>
     <slot>shadowStandard()</slot>
@@ -703,6 +700,8 @@
     <slot>ocHierarchicalMultiFrame()</slot>
     <slot>ocOff()</slot>
     <slot>setHeadlight(bool)</slot>
+    <slot>showAll()</slot>
+    <slot>showObj()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 </UI>

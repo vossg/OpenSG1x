@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 27. Okt 17:35:32 2006
+** Created: Fr 3. Nov 17:30:26 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -48,8 +48,6 @@ public:
     QAction* fileSaveAsAction;
     QAction* filePrintAction;
     QAction* fileExitAction;
-    QAction* helpContentsAction;
-    QAction* helpIndexAction;
     QAction* helpAboutAction;
     QAction* createViewAction;
     QAction* fileInsertAction;
@@ -68,6 +66,8 @@ public:
     QAction* renderShadowVariance;
     QAction* statistic;
     QAction* headlight;
+    QAction* showAllAction;
+    QAction* showObjAction;
 
 public slots:
     virtual void init();
@@ -80,8 +80,6 @@ public slots:
     virtual void fileSave();
     virtual void fileSaveAs();
     virtual void helpAbout();
-    virtual void helpContents();
-    virtual void helpIndex();
     virtual void setStatistics( bool val );
     virtual void shadowOff();
     virtual void shadowStandard();
@@ -95,6 +93,8 @@ public slots:
     virtual void ocHierarchicalMultiFrame();
     virtual void ocOff();
     virtual void setHeadlight(bool);
+    virtual void showAll();
+    virtual void showObj();
 
 protected:
     OSGSceneView *sceneView;
@@ -114,6 +114,8 @@ private:
     QPixmap image5;
     QPixmap image6;
     QPixmap image7;
+    QPixmap image8;
+    QPixmap image9;
 
 };
 

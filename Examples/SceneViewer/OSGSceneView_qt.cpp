@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 27. Okt 17:53:32 2006
+** Created: Fr 3. Nov 17:30:30 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -13,6 +13,7 @@
 #include <qfiledialog.h>
 #include <qobjectlist.h>
 #include <qgl.h>
+#include <qvbox.h>
 #include <OpenSG/OSGSceneFileHandler.h>
 #include <qpopupmenu.h>
 #include <OpenSG/OSGSFFieldContainerPtr.h>
@@ -28,6 +29,7 @@
 #include <OpenSG/OSGSimpleStatisticsForeground.h>
 #include <OpenSG/OSGPassiveWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
+#include <OSGMainView_qt.h>
 #include <qpushbutton.h>
 #include <qsplitter.h>
 #include <qheader.h>
@@ -68,11 +70,11 @@ OSGSceneView::OSGSceneView( QWidget* parent, const char* name, WFlags fl )
     _fceditor_splitter = new QSplitter( frame6, "_fceditor_splitter" );
     _fceditor_splitter->setOrientation( QSplitter::Vertical );
 
-    _render_frame = new QFrame( _fceditor_splitter, "_render_frame" );
+    _render_frame = new QVBox( _fceditor_splitter, "_render_frame" );
     _render_frame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)7, 0, 0, _render_frame->sizePolicy().hasHeightForWidth() ) );
     _render_frame->setMinimumSize( QSize( 320, 256 ) );
-    _render_frame->setFrameShape( QFrame::NoFrame );
-    _render_frame->setFrameShadow( QFrame::Raised );
+    _render_frame->setFrameShape( QVBox::NoFrame );
+    _render_frame->setFrameShadow( QVBox::Raised );
 
     _fc_frame = new QFrame( _fceditor_splitter, "_fc_frame" );
     _fc_frame->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)5, 0, 0, _fc_frame->sizePolicy().hasHeightForWidth() ) );

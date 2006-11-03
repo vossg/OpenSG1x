@@ -102,7 +102,7 @@
                         <property name="orientation">
                             <enum>Vertical</enum>
                         </property>
-                        <widget class="QFrame">
+                        <widget class="QVBox">
                             <property name="name">
                                 <cstring>_render_frame</cstring>
                             </property>
@@ -233,6 +233,7 @@
     <include location="global" impldecl="in implementation">qfiledialog.h</include>
     <include location="global" impldecl="in implementation">qobjectlist.h</include>
     <include location="global" impldecl="in implementation">qgl.h</include>
+    <include location="global" impldecl="in implementation">qvbox.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
     <include location="global" impldecl="in implementation">qpopupmenu.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
@@ -248,10 +249,14 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleStatisticsForeground.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGPassiveWindow.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleSceneManager.h</include>
+    <include location="global" impldecl="in implementation">OSGMainView_qt.h</include>
 </includes>
 <forwards>
     <forward>class OpenSGWidget;</forward>
 </forwards>
+<functions>
+<function access="public" specifier="non virtual">selectItem(OSG::NodePtr node)</function>
+</functions>
 <variables>
     <variable>QListViewItem *activeTreeItem;</variable>
     <variable>QListViewItem *rootTreeItem;</variable>
@@ -281,6 +286,8 @@
     <slot>setOcclusionCullingMode(int mode)</slot>
     <slot>setShadowMode(int mode)</slot>
     <slot>setHeadlight(bool)</slot>
+    <slot>showAll()</slot>
+    <slot>showObj()</slot>
     <slot>editedFC()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>

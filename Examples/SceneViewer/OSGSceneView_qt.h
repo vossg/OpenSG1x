@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Fr 27. Okt 17:53:30 2006
+** Created: Fr 3. Nov 17:30:29 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -29,6 +29,7 @@ class QSplitter;
 class QListView;
 class QListViewItem;
 class QFrame;
+class QVBox;
 class QLabel;
 class OpenSGWidget;
 
@@ -44,10 +45,12 @@ public:
     QListView* treeListView;
     QFrame* frame6;
     QSplitter* _fceditor_splitter;
-    QFrame* _render_frame;
+    QVBox* _render_frame;
     QFrame* _fc_frame;
     QLabel* textLabel1;
     QFrame* _fceditor_frame;
+
+    void selectItem(OSG::NodePtr node);
 
 public slots:
     virtual void addListItem( osg::NodePtr node, QListViewItem * parentItem );
@@ -68,6 +71,8 @@ public slots:
     virtual void setOcclusionCullingMode(int mode);
     virtual void setShadowMode(int mode);
     virtual void setHeadlight(bool);
+    virtual void showAll();
+    virtual void showObj();
     virtual void editedFC();
 
 protected:
