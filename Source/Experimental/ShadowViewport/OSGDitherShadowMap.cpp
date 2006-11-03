@@ -2155,6 +2155,9 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
     else
         //No Shader Model 3.0 supported, Nuber of Instructions is limited...
     {
+        // shadowIntensityF, texFactorF, ... is only filled for active lights
+        // so we need our own active lights index!
+        UInt32 ali = 0;
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(lightCounter != 0 && _shadowVP->_lightStates[i] != 0)
@@ -2176,11 +2179,11 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                     _shadowSHL->setUniformParameter("shadowMap", 0);
                     _shadowSHL->setUniformParameter("firstRun", _firstRun);
                     _shadowSHL->setUniformParameter("intensity",
-                                                    shadowIntensityF[i]);
+                                                    shadowIntensityF[ali]);
                     _shadowSHL->setUniformParameter("texFactor",
-                                                    texFactorF[i]);
+                                                    texFactorF[ali]);
                     _shadowSHL->setUniformParameter("lightPM",
-                                                    shadowMatrixF[i]);
+                                                    shadowMatrixF[ali]);
                     _shadowSHL->setUniformParameter("xFactor",
                                                     Real32(xFactor));
                     _shadowSHL->setUniformParameter("yFactor",
@@ -2189,7 +2192,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                                                     Real32(
                                                     _shadowVP->getMapSize()));
                     _shadowSHL->setUniformParameter("mapFactor",
-                                                    Real32(mapFactorF[i]));
+                                                    Real32(mapFactorF[ali]));
                     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
                     UInt32  lightNum = 0;
@@ -2210,6 +2213,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
                     glBindTexture(GL_TEXTURE_2D, 0);
 
                     _firstRun = 0;
+                    ++ali;
                 }
 
             }

@@ -3742,7 +3742,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
 
                 Real32      xFactor = 1.0;
                 Real32      yFactor = 1.0;
-	
+
                 if(!_useNPOTTextures)
                 {
                     xFactor = Real32(_width) / Real32(_widthHeightPOT);
@@ -3843,7 +3843,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
 
     Real32              xFactor = 1.0;
     Real32              yFactor = 1.0;
-	
+
     if(!_useNPOTTextures)
     {
         xFactor = Real32(_width) / Real32(_widthHeightPOT);
@@ -3867,7 +3867,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
                 shadowIntensity = (_shadowVP->_lights[i].second->getShadowIntensity
                                    () / activeLights);
             shadowIntensityF.push_back(shadowIntensity);
-				
+
             Matrix      LVM, LPM, CVM;
             _shadowVP->_lightCameras[i]->getViewing(LVM,
                                                     _shadowVP->getPixelWidth(),
@@ -3929,11 +3929,11 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
             {
 
                 UInt32  lightOffset = lightCounter - (i * 4);
-		
+
                 //clear chunk and add Textures
                 beginEditCP(_shadowCmat);
                 _shadowCmat->clearChunks();
-	
+
                 UInt32  lightNum = 0;
                 for(UInt32 j = 0;j < _shadowVP->_lights.size();j++)
                 {
@@ -4188,6 +4188,9 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
     else
         //No Shader Model 3.0 supported, Nuber of Instructions is limited...
     {
+        // shadowIntensityF, texFactorF, ... is only filled for active lights
+        // so we need our own active lights index!
+        UInt32 ali = 0;
         for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
         {
             if(lightCounter != 0 && _shadowVP->_lightStates[i] != 0)
@@ -4209,11 +4212,11 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
                     _shadowSHL->setUniformParameter("shadowMap", 0);
                     _shadowSHL->setUniformParameter("firstRun", _firstRun);
                     _shadowSHL->setUniformParameter("intensity",
-                                                    shadowIntensityF[i]);
+                                                    shadowIntensityF[ali]);
                     _shadowSHL->setUniformParameter("texFactor",
-                                                    texFactorF[i]);
+                                                    texFactorF[ali]);
                     _shadowSHL->setUniformParameter("lightPM",
-                                                    shadowMatrixF[i]);
+                                                    shadowMatrixF[ali]);
                     _shadowSHL->setUniformParameter("xFactor",
                                                     Real32(xFactor));
                     _shadowSHL->setUniformParameter("yFactor",
@@ -4222,7 +4225,7 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
                                                     Real32(
                                                     _shadowVP->getMapSize()));
                     _shadowSHL->setUniformParameter("mapFactor",
-                                                    Real32(mapFactorF[i]));
+                                                    Real32(mapFactorF[ali]));
                     endEditCP(_shadowSHL, ShaderChunk::ParametersFieldMask);
 
                     _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
@@ -4241,8 +4244,8 @@ void PCFShadowMap::createShadowFactorMap(RenderActionBase *action)
                     glBindTexture(GL_TEXTURE_2D, 0);
 
                     _firstRun = 0;
+                    ++ali;
                 }
-
             }
         }
     }
