@@ -242,6 +242,7 @@ int main (int argc, char **argv)
     RenderAction *ract = (RenderAction *) mgr->getAction();
     ract->setOcclusionCulling(true);
     ract->setOcclusionCullingMode(RenderAction::OcclusionHierarchicalMultiFrame);
+    ract->setOcclusionCullingThreshold(0);
     printf("Occlusion culling enabled in mode hierarchical multi frame.\n");
     printf("Press 'c' to toggle occlusion culling.\n");
     printf("Press '1' for occlusion culling mode stop and wait.\n");
