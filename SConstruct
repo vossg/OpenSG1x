@@ -177,7 +177,12 @@ def CreateMoc4Sources(env, sources):
         if srcname[-2:] == '.h':
             # we should scan for Q_OBJECT ...
             target = srcname[:-2] + "_moc.cpp"
-            include = "-I"+ os.path.join(_po.getOption('qt4'), 'include', 'QtDesigner')
+
+            qt4include = os.path.join(_po.getOption('qt4'), 'include', 'QtDesigner')
+            if not os.path.exists(qt4include):
+                qt4include = '/usr/include/qt4/QtDesigner'
+
+            include = "-I"+ qt4include
             env.Command(target, source, ["moc " + include + " -DOSG_WITH_QT $SOURCES -o $TARGET"])
 
 Export('CreateMoc4Sources')
@@ -660,22 +665,37 @@ class ToolChain:
 
         if _po.getOption('qt4'):
             #if isinstance(_po.getOption('qt4'), str):
-            self.env.PrependENVPath('PATH', os.path.join(_po.getOption('qt4'), 'bin'))
-            self.env['QT4CPPPATH'] = [os.path.join(_po.getOption('qt4'), 'include'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'ActiveQt'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'Qt'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'Qt3Support'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtAssistant'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtCore'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtDesigner'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtGui'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtNetwork'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtOpenGL'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtTest'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtUiTools'),
-                                      os.path.join(_po.getOption('qt4'), 'include', 'QtXml')]
+            qt4bin = os.path.join(_po.getOption('qt4'), 'bin')
+            if not os.path.exists(qt4bin):
+                print "Couldn't find", qt4bin, "using /usr/bin/qt4"
+                qt4bin = '/usr/bin/qt4'
 
-            self.env['QT4LIBPATH'] = [os.path.join(_po.getOption('qt4'), 'lib')]
+            qt4include = os.path.join(_po.getOption('qt4'), 'include')
+            if not os.path.exists(qt4include):
+                print "Couldn't find", qt4include, "using /usr/include/qt4"
+                qt4include = '/usr/include/qt4'
+
+            qt4lib = os.path.join(_po.getOption('qt4'), 'lib')
+            if not os.path.exists(qt4lib):
+                print "Couldn't find", qt4lib, "using /usr/lib/qt4"
+                qt4lib = '/usr/lib/qt4'
+
+            self.env.PrependENVPath('PATH', qt4bin)
+            self.env['QT4CPPPATH'] = [qt4include,
+                                      os.path.join(qt4include, 'ActiveQt'),
+                                      os.path.join(qt4include, 'Qt'),
+                                      os.path.join(qt4include, 'Qt3Support'),
+                                      os.path.join(qt4include, 'QtAssistant'),
+                                      os.path.join(qt4include, 'QtCore'),
+                                      os.path.join(qt4include, 'QtDesigner'),
+                                      os.path.join(qt4include, 'QtGui'),
+                                      os.path.join(qt4include, 'QtNetwork'),
+                                      os.path.join(qt4include, 'QtOpenGL'),
+                                      os.path.join(qt4include, 'QtTest'),
+                                      os.path.join(qt4include, 'QtUiTools'),
+                                      os.path.join(qt4include, 'QtXml')]
+
+            self.env['QT4LIBPATH'] = [qt4lib]
 
             if self.env.get('PLATFORM') == 'win32':
                 self.env['OSG_WINDOW_QT4_LIBS'] = ['Qt3Support4', 'QtCore4', 'QtGui4', 'QtNetwork4', 'QtOpenGL4', 'QtXml4', 'QtSql4']
