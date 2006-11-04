@@ -29,7 +29,7 @@
 #include <OpenSG/OSGSimpleStatisticsForeground.h>
 #include <OpenSG/OSGPassiveWindow.h>
 #include <OpenSG/OSGSimpleSceneManager.h>
-#include <OSGMainView_qt.h>
+#include "OSGMainView_qt.h"
 #include <qpushbutton.h>
 #include <qsplitter.h>
 #include <qheader.h>

@@ -249,7 +249,7 @@
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleStatisticsForeground.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGPassiveWindow.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSimpleSceneManager.h</include>
-    <include location="global" impldecl="in implementation">OSGMainView_qt.h</include>
+    <include location="local" impldecl="in implementation">OSGMainView_qt.h</include>
 </includes>
 <forwards>
     <forward>class OpenSGWidget;</forward>
