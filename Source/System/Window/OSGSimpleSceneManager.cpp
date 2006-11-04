@@ -484,21 +484,27 @@ void SimpleSceneManager::initialize(void)
         beginEditCP(sf);
         sf->setSize(25);
         sf->setColor(Color4f(0,1,0,0.7));
-        sf->addElement(RenderAction::statTravTime,      "FPS: %r.3f");
+        sf->addElement(RenderAction::statTravTime,
+                           "FPS:                  %r.3f");
         sf->addElement(DrawActionBase::statCullTestedNodes,
-                           "%d Nodes culltested");
+                           "Nodes culltested      %d");
         sf->addElement(DrawActionBase::statCulledNodes,
-                           "%d Nodes culled");
+                           "Nodes culled          %d");
+        sf->addElement(RenderAction::statNOcclusionMode,
+                           "Occlusion culling     %s");
         sf->addElement(RenderAction::statNOcclusionTests,
-                           "%d Occlusion tests");
-        sf->addElement(RenderAction::statNMaterials,
-                           "%d material changes");
-        sf->addElement(RenderAction::statNMatrices,
-                           "%d matrix changes");
+                           "Occlusion tests       %d");
+        sf->addElement(RenderAction::statNOcclusionCulled,
+                           "Occlusion culled      %d");
         sf->addElement(RenderAction::statNGeometries,
-                           "%d Nodes drawn");
+                           "Nodes drawn           %d");
         sf->addElement(RenderAction::statNTransGeometries,
-                           "%d transparent Nodes drawn");
+                           "Transp. Nodes drawn   %d");
+        sf->addElement(RenderAction::statNMaterials,
+                           "Material changes      %d");
+        sf->addElement(RenderAction::statNMatrices,
+                           "Matrix changes        %d");
+
 #if 0 // not ready for primetime yet
         sf->addElement(PointLight::statNPointLights,
                            "%d active point lights");
@@ -507,12 +513,18 @@ void SimpleSceneManager::initialize(void)
         sf->addElement(SpotLight::statNSpotLights,
                            "%d active spot lights");
 #endif
-        sf->addElement(Drawable::statNTriangles,    "%d triangles drawn");
-        sf->addElement(Drawable::statNLines,        "%d lines drawn");
-        sf->addElement(Drawable::statNPoints,       "%d points drawn");
-        sf->addElement(Drawable::statNVertices,     "%d vertices transformed");
-        sf->addElement(RenderAction::statNTextures, "%d textures used");
-        sf->addElement(RenderAction::statNTexBytes, "%d bytes of texture used");
+        sf->addElement(Drawable::statNTriangles,
+                           "Triangles drawn       %d");
+        sf->addElement(Drawable::statNLines,
+                           "Lines drawn           %d");
+        sf->addElement(Drawable::statNPoints,
+                           "Points drawn          %d");
+        sf->addElement(Drawable::statNVertices,
+                           "Vertices transformed  %d");
+        sf->addElement(RenderAction::statNTextures,
+                           "Textures used         %d");
+        sf->addElement(RenderAction::statNTexBytes,
+                           "Textures size (bytes) %d");
         endEditCP(sf);
 
         StatCollector *collector = &sf->getCollector();

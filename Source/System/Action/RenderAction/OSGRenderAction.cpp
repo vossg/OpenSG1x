@@ -128,8 +128,12 @@ StatElemDesc<StatIntOnceElem > RenderAction::statNTextures("NTextures",
 "number of texture changes");
 StatElemDesc<StatIntOnceElem > RenderAction::statNTexBytes("NTexBytes",
 "sum of all used textures' sizes (approx., in bytes)");
+StatElemDesc<StatStringElem > RenderAction::statNOcclusionMode("OcclusionMode",
+"occlusion culling mode");
 StatElemDesc<StatIntElem > RenderAction::statNOcclusionTests("NOcclusionTests", 
 "number of occlusion tests");
+StatElemDesc<StatIntElem > RenderAction::statNOcclusionCulled("NOcclusionCulled", 
+"number of objects culled via occlusion culling");
 
 UInt32 RenderAction::_arbOcclusionQuery;
 UInt32 RenderAction::_funcGenQueriesARB         = Window::invalidFunctionID;
@@ -257,6 +261,7 @@ RenderAction::RenderAction(void) :
     _uiNumMatrixChanges  (0),
     _uiNumGeometries     (0),
     _uiNumOcclusionTests (0),
+    _uiNumOcclusionCulled(0),
     _uiNumTransGeometries(0),
 
     _bSortTrans               (true),
@@ -373,6 +378,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _uiNumMatrixChanges  (source._uiNumMatrixChanges),
     _uiNumGeometries     (source._uiNumGeometries),
     _uiNumOcclusionTests (source._uiNumOcclusionTests),
+    _uiNumOcclusionCulled(source._uiNumOcclusionCulled),
     _uiNumTransGeometries(source._uiNumTransGeometries),
 
     _bSortTrans               (source._bSortTrans),
@@ -1431,8 +1437,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     {
         if(_bOcclusionCulling && _glGenQueriesARB != NULL &&
            ((pos_size > _occlusionCullingThreshold) ||
-            ((_occlusionCullingMode & OcclusionHierarchicalMultiFrame) ==
-            OcclusionHierarchicalMultiFrame)))
+            (_occlusionCullingMode == OcclusionHierarchicalMultiFrame)))
         {
             if(_occlusionCullingMode & OcclusionMultiFrame)
             {
@@ -1463,6 +1468,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                     pRoot->getNode()->setOcclusionMask(2);
                     _occluded_nodes.push_back(pRoot->getNode());
                     getStatistics()->getElem(statCulledNodes)->inc();
+                    ++_uiNumOcclusionCulled;
                     return true;
                 }
             }
@@ -1524,6 +1530,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 else
                 {
                     getStatistics()->getElem(statCulledNodes)->inc();
+                    ++_uiNumOcclusionCulled;
                     return true;
                 }
             }
@@ -1660,7 +1667,8 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     pos_size = geo->getPositions()->getSize();
             }
         
-            if(_glGenQueriesARB != NULL && pos_size > _occlusionCullingThreshold)
+            if(_glGenQueriesARB != NULL && ((pos_size > _occlusionCullingThreshold) ||
+               (_occlusionCullingMode == OcclusionHierarchicalMultiFrame)))
             {
                 DynamicVolume vol = pRoot->getNode()->getVolume();
                 vol.transform(pRoot->getMatrixStore().second);
@@ -2162,6 +2170,7 @@ Action::ResultE RenderAction::start(void)
     _uiNumGeometries      = 0;
     _uiNumTransGeometries = 0;
     _uiNumOcclusionTests  = 0;
+    _uiNumOcclusionCulled  = 0;
 
     getStatistics()->reset();
 
@@ -2359,8 +2368,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 
     if(_bOcclusionCulling && (_occlusionCullingMode & OcclusionMultiFrame))
     {
-        if((_occlusionCullingMode & OcclusionHierarchicalMultiFrame) ==
-            OcclusionHierarchicalMultiFrame)
+        if(_occlusionCullingMode == OcclusionHierarchicalMultiFrame)
         {
             // check the hierarchical occlusion queries.
             std::vector<UInt32> remove;
@@ -2398,6 +2406,7 @@ Action::ResultE RenderAction::stop(ResultE res)
                         for(UInt32 i=0;i<node->getNChildren();++i)
                             remove.push_back(node->getChild(i).getFieldContainerId());
                         _occluded_nodes.push_back(node);
+                        ++_uiNumOcclusionCulled;
                         continue;
                     }
                 }
@@ -2517,8 +2526,7 @@ Action::ResultE RenderAction::stop(ResultE res)
                 drawMultiFrameOcclusionBB((*tsit).second);
         }
 
-        if((_occlusionCullingMode & OcclusionHierarchicalMultiFrame) ==
-            OcclusionHierarchicalMultiFrame)
+        if(_occlusionCullingMode == OcclusionHierarchicalMultiFrame)
         {
             // render hierarchical multi frame bounding boxes.
             Matrix view;
@@ -2565,6 +2573,32 @@ Action::ResultE RenderAction::stop(ResultE res)
             _uiNumTransGeometries);
         getStatistics()->getElem(statNOcclusionTests )->set(
             _uiNumOcclusionTests);
+        getStatistics()->getElem(statNOcclusionCulled )->set(
+            _uiNumOcclusionCulled);
+
+        if(_bOcclusionCulling)
+        {
+            if(_occlusionCullingMode == OcclusionStopAndWait)
+            {
+                getStatistics()->getElem(statNOcclusionMode)->set(
+                "Stop And Wait");
+            }
+            else if(_occlusionCullingMode == OcclusionMultiFrame)
+            {
+                getStatistics()->getElem(statNOcclusionMode)->set(
+                "Multi Frame");
+            }
+            else if(_occlusionCullingMode == OcclusionHierarchicalMultiFrame)
+            {
+                getStatistics()->getElem(statNOcclusionMode)->set(
+                "Hier. Multi Frame");
+            }
+        }
+        else
+        {
+            getStatistics()->getElem(statNOcclusionMode)->set(
+                "Off");
+        }
     }
 
 

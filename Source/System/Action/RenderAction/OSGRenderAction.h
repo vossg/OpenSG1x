@@ -111,7 +111,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     static StatElemDesc<StatIntElem    > statNTransGeometries;
     static StatElemDesc<StatIntOnceElem> statNTextures;
     static StatElemDesc<StatIntOnceElem> statNTexBytes;
+    static StatElemDesc<StatStringElem > statNOcclusionMode;
     static StatElemDesc<StatIntElem    > statNOcclusionTests;
+    static StatElemDesc<StatIntElem    > statNOcclusionCulled;
 
     static const Int32 OcclusionStopAndWait;
     static const Int32 OcclusionMultiFrame;
@@ -299,7 +301,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _uiNumGeometries;
     UInt32                    _uiNumTransGeometries;
     UInt32                    _uiNumOcclusionTests;
- 
+    UInt32                    _uiNumOcclusionCulled;
+
     bool                      _bSortTrans;
     bool                      _bZWriteTrans;
     bool                      _bLocalLights;
