@@ -1,0 +1,93 @@
+
+OOCProxyBuilder
+===============
+
+This is a standalone tool that splits up large models into smaller partitions.
+
+The interesting part is that the created partitions are compact, i.e. no matter
+what the order of points/triangles in the input is, the created pieces have
+points/triangles that are close together, i.e. the bounding volume of each
+part is minimized. This is important for sort-last cluster rendering, as it
+reduces the amount of data that needs to be transfered between systems
+(sometimes drastically).
+
+Another interesting part is that it can handle models of arbitrary size,
+including models that are larger than main memory (out-of-core operation). To
+do that it uses a streaming model where the model is passed vertex by vertex
+resp. triangle by triangle to the processing pieces. This needs support from
+the loaders, so it is currently implemented for the .ply and the .smb
+formats, in which many large models are stored. Models in other formats can
+be handled, as long as they are delivered in multiple smaller files.
+
+To run it, just call it with the model to split
+
+oocproxybuilder ~/models/Stanford/happy_recon/happy_vrip.ply
+
+and it will create a number of small .osb files with individual pieces of the
+model. It will also create a *_prox.osb file that contains a ProxyGroup for
+each piece. If you want to load the whole model, load this file and it will
+work.
+
+Usage: oocproxybuilder: {opt}* infile+
+
+Options:
+
+-v <num>: number of vertices per partition (Def: 60000)
+      Note that it will only approximated and might be +/- 10%
+-of 'ext': output format (Def: osb)
+-tmp 'path': path for .ooc temp files (Def: .)
+-go 'GraphSeq string': GraphOpSeq to run on each partial model
+          (Def: "Stripe() GeoType(filter=Ind+Len)")
+-con : mark ProxyGroups for concurrent loading (Def: off)
+-rc  : assign a random color to each partition (Def: off)
+
+By default the partitions are targeted to have less than 64k vertices, which
+allows using 16 bit indices, which are more efficient and use less memory
+than 32 bit ones. I recommend giving a -tmp path that is on a different disk
+than the one the source model is stored on, to speed up the process and avoid
+too many seeks. For debugging it is possible to assign a random color to each
+partition.
+
+
+Limitations
+===========
+
+The system has very limited support for attributes, currently it can only
+handle objects with different materials. Normals are automatically
+recalculated after splitting, all other attributes are ignored.
+
+
+Algorithm
+=========
+
+The system works as follows.
+
+In a first pass the vertices are scanned to calculate the number of points in
+the model and its bounding box. In the second pass vertices are inserted into
+a grid which counts how many vertices fall into each cell. ANN and METIS (see
+below) are used to split the grid nodes into the needed number of compact
+partitions. In pass 3 the vertices are split into temporary data files for
+each partition, and an index that maps from vertex index to partition is
+created. Pass 4 adds the actual triangles to those temporary data files. This
+is complicated by the fact that not all vertices a triangle uses have to be
+in one partition (the partitions are built just based on vertices). So if a
+triangle uses a vertex that is not in the partition an empty dummy vertex is
+added to the temporary file (remember that the actual vertex data is too big
+to be accessible) and the fact that the vertex data needs to be inserted is
+recorded in memory. In pass 5 these vertex fixups are resolved. At this point
+the temporary files contain all data that is necessary to create the partition
+model files, which is done as the last (and most time-consuming) step.
+
+
+Acknowledgements
+================
+
+The basic idea for the algorithm is taken from "Out-of-Core Compression for
+Gigantic Polygon Meshes" by Martin Isenburg and Stefan Gumhold (SIGGRAPH 03).
+
+The system uses the METIS (http://www.cs.umn.edu/~metis) and ANN
+(http://www.cs.umd.edu/~mount/ANN) libraries. The SMB loader is used courtesy
+of Martin Isenburg.
+
+The source of all libraries is included, please make sure to read and respect
+their license requirements.
