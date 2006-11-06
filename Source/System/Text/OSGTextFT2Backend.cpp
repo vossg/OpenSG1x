@@ -1374,7 +1374,7 @@ TextFT2TXFFace::TextFT2TXFFace(FT_Face face, const TextTXFParam &param)
             dst += dstPitch;
         }
     }
-    beginEditCP(_texture);
+    endEditCP(_texture);
 
     // Close the font file
     FT_Done_Face(face);
@@ -1455,7 +1455,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.3 2005/06/29 21:10:43 dirk Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.4 2006/11/06 16:55:13 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }
