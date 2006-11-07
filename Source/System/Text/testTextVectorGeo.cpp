@@ -30,7 +30,6 @@ SimpleTexturedMaterialPtr matPtr;
 NodePtr scene;
 
 SimpleStatisticsForegroundPtr statfg;
-StatElemDesc<OSG::StatStringElem> foobarDesc("foobar", "foobar");
 StatElemDesc<OSG::StatStringElem> familyDesc("family", "The font family");
 StatElemDesc<OSG::StatStringElem> styleDesc("style", "The font style");
 StatElemDesc<OSG::StatStringElem> majorAlignDesc("majorAlignment", "The major alignment");
