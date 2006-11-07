@@ -145,6 +145,7 @@ void NFIOImage::writeFC(const FieldContainerPtr &fc)
             if(isImageTypeSupported(imageType))
             {
                 if(img->getDataType() == Image::OSG_UINT8_IMAGEDATA &&
+                   img->hasCompressedData() == false &&
                    img->getDepth() == 1 &&
                    img->getMipMapCount() == 1 &&
                    img->getFrameCount() == 1 &&
@@ -265,6 +266,6 @@ bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.8 2006/01/26 13:43:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.9 2006/11/07 16:09:10 mroth Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
