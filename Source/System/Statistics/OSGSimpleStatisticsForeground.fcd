@@ -11,7 +11,7 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
-Simpe Statistics display. Just print all the selected elements in the upper left corner of the screen.
+Simple Statistics display. Just print all the selected elements in the upper left corner of the screen.
 	<Field
 		name="formats"
 		type="std::string"
