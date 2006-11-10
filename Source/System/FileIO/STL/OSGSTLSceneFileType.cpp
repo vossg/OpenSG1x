@@ -203,6 +203,7 @@ NodePtr STLSceneFileType::read(std::istream &is, const Char8 *fileNameOrExtensio
 		endEditCP(fileRoot);
 	}
 	//SceneFileHandler::the().write(fileRoot, "c:\\teststl.osg");
+    SceneFileHandler::the().updateReadProgress(100);
 	return fileRoot;
 }
 
@@ -291,6 +292,7 @@ bool STLSceneFileType::readASCII(std::istream &is, STLFaceList& theFaces, std::s
 
 	while ((finished == 0) && (! (is.eof())))
 	{
+        SceneFileHandler::the().updateReadProgress();
 		memset(token, ' ', 9);
 		is >> token;
 		for (i = 0; i < strlen(token); i++)
@@ -356,6 +358,7 @@ bool STLSceneFileType::readBinary(std::istream &is, STLFaceList& theFaces, std::
     is.read(&name[0], 4); // skip the number of facets
     while (!is.eof())
     {
+        SceneFileHandler::the().updateReadProgress();
         // a binary facet block has 50 bytes
         STLFace tmpFace;
 
@@ -539,7 +542,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.2 2006/04/28 08:40:42 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.3 2006/11/10 16:45:15 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 

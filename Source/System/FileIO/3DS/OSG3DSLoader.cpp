@@ -1328,6 +1328,7 @@ bool L3DS::FindChunk(LChunk &target, const LChunk &parent)
 {
     if (Pos() >= parent.end)
         return false;
+
     LChunk chunk;
     chunk = ReadChunk();
     while (( chunk.id != target.id) && (chunk.end <= parent.end))
@@ -1335,7 +1336,12 @@ bool L3DS::FindChunk(LChunk &target, const LChunk &parent)
         SkipChunk(chunk);
         if (chunk.end >= parent.end)
             break;
+        unsigned short id = chunk.id;
+        uint end = chunk.end;
         chunk = ReadChunk();
+        // try to detect a endless loop amz
+        if(id == chunk.id && end == chunk.end)
+            break;
     }
     if (chunk.id == target.id)
     {
@@ -1435,10 +1441,10 @@ bool L3DS::Read3DS()
             ml = ReadChunk();
             if (ml.id == OBJ_TRIMESH)
                 ReadMesh(ml);
-			else
+            else
             if (ml.id == OBJ_LIGHT)
                 ReadLight(ml);
-			else
+            else
             if (ml.id == OBJ_CAMERA)
                 ReadCamera(ml);
             SkipChunk(obj);
@@ -1446,7 +1452,6 @@ bool L3DS::Read3DS()
     }
 
     // read the keyframer data here to find out correct object orientation
-
     LChunk keyframer;
     keyframer.id = KFDATA;
 
@@ -1457,6 +1462,7 @@ bool L3DS::Read3DS()
     if (FindChunk(keyframer, mainchunk))
     {   // keyframer chunk is present
         GotoChunk(keyframer);
+        
         while (FindChunk(objtrack, keyframer))
         {
             ReadKeyframeData(objtrack);
@@ -1468,6 +1474,7 @@ bool L3DS::Read3DS()
         m_meshes[i].Optimize(m_optLevel);
     m_pos = 0;
     strcpy(m_objName, "");
+
     return true;
 }
 

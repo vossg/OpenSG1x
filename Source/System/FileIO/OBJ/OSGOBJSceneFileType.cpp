@@ -179,6 +179,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                 is.ignore(INT_MAX, '\n');
             else
             {
+                SceneFileHandler::the().updateReadProgress();
                 elemI = _dataElemMap.find(elem);
                 dataElem = ((elemI == _dataElemMap.end()) ?
                             UNKNOWN_DE : elemI->second );
@@ -469,7 +470,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
             }
     }
 
-
+    SceneFileHandler::the().updateReadProgress(100);
     return rootPtr;
 }
 

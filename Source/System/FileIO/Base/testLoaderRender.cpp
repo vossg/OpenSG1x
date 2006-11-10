@@ -91,7 +91,12 @@ key(unsigned char key, int , int )
 
 static void readProgress(UInt32 p)
 {
-    std::cerr << "Reading " << p << "%                                         " << '\r';
+    static UInt32 oldp = 0;
+    if(oldp != p)
+    {
+        std::cerr << "Reading " << p << "%                                         " << '\r';
+        oldp = p;
+    }
 }
 
 static void writeProgress(UInt32 p)

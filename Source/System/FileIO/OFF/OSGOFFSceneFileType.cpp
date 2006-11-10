@@ -57,6 +57,7 @@
 #include <OSGGeoProperty.h>
 #include <OSGGeoFunctions.h>
 #include <OSGSimpleMaterial.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGOFFSceneFileType.h"
 
@@ -258,6 +259,7 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
     {
         for(i = 0; (!is.eof()) && (i < vertexCount); i++)
         {
+            SceneFileHandler::the().updateReadProgress();
             is >> x >> y >> z;
             point.setValues(Real32(x), Real32(y), Real32(z));
             points->push_back(point);
@@ -398,6 +400,7 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
     if(!hasNormals)
         calcVertexNormals(geo);
 
+    SceneFileHandler::the().updateReadProgress(100);
     return root;
 }
 

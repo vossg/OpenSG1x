@@ -54,6 +54,7 @@
 #include <OSGBlendChunk.h>
 #include <OSGImage.h>
 #include <OSGTextureChunk.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSG3DSSceneFileType.h"
 

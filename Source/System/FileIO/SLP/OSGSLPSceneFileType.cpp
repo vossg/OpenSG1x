@@ -58,6 +58,7 @@
 #include <OSGGeoFunctions.h>
 #include <OSGSimpleMaterial.h>
 #include <OSGGroup.h>
+#include <OSGSceneFileHandler.h>
 
 #include "OSGSLPSceneFileType.h"
 
@@ -122,6 +123,7 @@ NodePtr SLPSceneFileType::read(std::istream &is, const Char8 *) const
     root->setCore(actGroup);
     while ((finished == 0) && (! (is.eof())))
     {
+        SceneFileHandler::the().updateReadProgress();
         // doesn't link on windows :-(
         //strnset(token, ' ',9);
         for(UInt32 i=0;i<9;++i)
@@ -317,6 +319,8 @@ NodePtr SLPSceneFileType::read(std::istream &is, const Char8 *) const
         }
     }
     endEditCP(root);
+
+    SceneFileHandler::the().updateReadProgress(100);
     return root;
 }
 
@@ -369,6 +373,6 @@ const Char8 *SLPSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSLPSceneFileType.cpp,v 1.1 2004/04/16 12:43:58 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSLPSceneFileType.cpp,v 1.2 2006/11/10 16:45:15 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSLPSCENEFILETYPE_HEADER_CVSID;
 }
