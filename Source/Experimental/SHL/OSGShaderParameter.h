@@ -76,8 +76,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
 
-    bool hasChanged(void);
-    void resetChanged(void);
+    inline bool hasChanged(void);
+    inline void resetChanged(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -100,7 +100,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
         SHPTypeString
     };
 
-    SHPType getTypeId(void);
+    inline SHPType getTypeId(void);
+
+    inline GLint getLocation(void);
+    inline void  setLocation(GLint location);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -122,8 +125,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
 
     virtual ~ShaderParameter(void); 
 
-    void setTypeId(SHPType type);
-    void setChanged(void);
+    inline void setTypeId(SHPType type);
+    inline void setChanged(void);
 
     /*! \}                                                                 */
     
@@ -132,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
 
     bool    _changed;
     SHPType _typeid;
+    GLint   _location;
 
     friend class FieldContainer;
     friend class ShaderParameterBase;
@@ -150,6 +154,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterBase.inl>
 #include <OSGShaderParameter.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.4 2005/05/27 16:06:52 a-m-z Exp $"
+#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.5 2006/11/10 13:37:46 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETER_H_ */

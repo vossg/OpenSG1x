@@ -103,6 +103,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \name                       Paramerters                            */
     /*! \{                                                                 */
 
+    static void updateParameterLocation(Window *win, GLuint program,
+                                        const ShaderParameterPtr &parameter);
+
+    void updateParameterLocations(Window *win,
+                                  const MFShaderParameterPtr &parameters);
+
     void updateParameters(Window *win, const MFShaderParameterPtr &parameters,
                           bool useProgram = true, bool force = false,
                           bool keepProgramActive = false);
@@ -144,7 +150,11 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     typedef void (*parametercbfp) (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
                                   DrawActionBase *action, GLuint program);
 
+    typedef void (*osgparametercbfp) (const ShaderParameterPtr &parameter,
+                                      DrawActionBase *action, GLuint program);
+
     void addParameterCallback(const char *name, parametercbfp fp);
+    void addParameterCallback(const char *name, osgparametercbfp fp);
 
     static void setParameterCallback(parametercbfp fp);
 
@@ -262,49 +272,51 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void operator =(const SHLChunk &source);
 
     void updateProgram(Window *win);
-    void checkOSGParameters(void);
+    void checkOSGParameters(bool force = false);
     void updateOSGParameters(DrawActionBase *action, GLuint program);
 
-    static void updateWorldMatrix       (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateWorldMatrix       (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateInvWorldMatrix    (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateInvWorldMatrix    (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateCameraOrientation (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateCameraOrientation (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateCameraPosition    (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateCameraPosition    (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateViewMatrix        (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateViewMatrix        (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateInvViewMatrix     (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateInvViewMatrix     (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateStereoLeftEye     (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateStereoLeftEye     (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateClusterId         (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateClusterId         (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateActiveLightsMask  (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateActiveLightsMask  (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight0Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight0Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight1Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight1Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight2Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight2Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight3Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight3Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight4Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight4Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight5Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight5Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight6Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight6Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
-    static void updateLight7Active      (OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation,
+    static void updateLight7Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
 
-    std::vector<parametercbfp> _osgParametersCallbacks;
+    std::vector<std::pair<std::pair<parametercbfp, osgparametercbfp>,
+        ShaderParameterPtr> > _osgParametersCallbacks;
 
     UInt32 _oldParameterSize;
 
-    typedef std::map<std::string, parametercbfp> userParameterCallbacksMap;
+    typedef std::map<std::string, std::pair<parametercbfp, osgparametercbfp> >
+        userParameterCallbacksMap;
     userParameterCallbacksMap _userParameterCallbacks;
 
     static parametercbfp       _userParametersCallback;
@@ -317,6 +329,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.26 2006/06/21 11:35:42 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.27 2006/11/10 13:37:46 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
