@@ -236,6 +236,7 @@
     <include location="global" impldecl="in implementation">qvbox.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSceneFileHandler.h</include>
     <include location="global" impldecl="in implementation">qpopupmenu.h</include>
+    <include location="global" impldecl="in implementation">qdragobject.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGSFFieldContainerPtr.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGMFFieldContainerPtr.h</include>
     <include location="global" impldecl="in implementation">OpenSG/OSGNodeCore.h</include>
@@ -280,6 +281,7 @@
     <slot>deleteNode( osg::NodePtr node )</slot>
     <slot>popupTreeMenu( QListViewItem * parentItem )</slot>
     <slot>menuHandler( int id )</slot>
+    <slot>addFile(osg::NodePtr parent, const QString &amp;)</slot>
     <slot>insertFromFile( osg::NodePtr parent )</slot>
     <slot>exportToFile( osg::NodePtr node )</slot>
     <slot>rebuild()</slot>

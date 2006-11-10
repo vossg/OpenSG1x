@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 3. Nov 17:30:27 2006
+** Created: Fr 10. Nov 18:13:09 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!

@@ -1,8 +1,8 @@
 /****************************************************************************
 ** Form interface generated from reading ui file 'OSGSceneView_qt.ui'
 **
-** Created: Sa 4. Nov 11:16:06 2006
-**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.6   edited Aug 31 2005 $)
+** Created: Fr 10. Nov 18:13:09 2006
+**      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
 ****************************************************************************/
@@ -65,6 +65,7 @@ public slots:
     virtual void deleteNode( osg::NodePtr node );
     virtual void popupTreeMenu( QListViewItem * parentItem );
     virtual void menuHandler( int id );
+    virtual void addFile(osg::NodePtr parent, const QString &);
     virtual void insertFromFile( osg::NodePtr parent );
     virtual void exportToFile( osg::NodePtr node );
     virtual void rebuild();

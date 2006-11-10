@@ -332,17 +332,16 @@ protected:
 
     virtual void dropEvent(QDropEvent *e)
     {
-#if 0
         if(!strcmp(e->format(), "text/uri-list"))
         {
             QStringList list;
-    
             if(QUriDrag::decodeLocalFiles(e, list))
             {
-                emit droppedFiles(list); 
+                for(QStringList::Iterator it = list.begin();it != list.end();++it)
+                    _sceneView->addFile(OSG::NullFC, *it);
             }
+            _sceneView->showAll();
         }
-#endif
     }
 
     virtual void keyPressEvent(QKeyEvent *e)
@@ -657,7 +656,7 @@ void OSGSceneView::updateGL(void)
 void OSGSceneView::deleteNode(OSG::NodePtr node)
 {
     if(node == OSG::NullFC)
-        return;
+        node = rootNode;
 
     TreeViewItem *item = dynamic_cast<TreeViewItem*>(activeTreeItem);
 
@@ -714,50 +713,54 @@ void OSGSceneView::menuHandler( int id )
     }
 }
 
+void OSGSceneView::addFile(OSG::NodePtr parent, const QString &fName)
+{
+    if(fName.isEmpty())
+        return;
+
+    if(parent == OSG::NullFC)
+        parent = rootNode;
+
+    // Hack as qt returns a screwed up windows path
+#ifdef WIN32
+    for(int ui = 0; ui < fName.length(); ui++)
+    {
+        if(fName[ui] == '/')
+        {
+            fName[ui] = '\\';
+        }
+    }
+#endif
+
+    OSG::NodePtr node = OSG::SceneFileHandler::the().read(fName);
+    if (node != OSG::NullFC) 
+    {
+        parent->addChild(node);
+        if ((parent == rootNode) && (rootNode->getNChildren() == 1))
+        {
+            if(_gl != NULL)
+                _gl->getManager()->showAll();
+        }
+        QListViewItem *parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
+        if(parentItem == NULL)
+            parentItem = rootTreeItem;
+        addListItem(node,parentItem);
+    }
+}
+
 //////////////////////////////////////////////////////////////////
 // insertFromFile: loads a new scene                            //
 //////////////////////////////////////////////////////////////////
-void OSGSceneView::insertFromFile( OSG::NodePtr parent )
+void OSGSceneView::insertFromFile(OSG::NodePtr parent)
 {
-    OSG::NodePtr node;
-    std::list<QWidget*>::iterator wI;
-    QListViewItem *parentItem;
     QString fName = QFileDialog::getOpenFileName ( QString::null,
                                                  filter,
                                                  this,
                                                  "Open Scene Dialog",
                                                  "Choose a scene" );
-    if(!fName.isEmpty())
-    {
 
-// Hack as qt returns a screwed up windows path
-#ifdef WIN32
-
-        for(int ui = 0; ui < fName.length(); ui++)
-        {
-            if(fName[ui] == '/')
-            {
-                fName[ui] = '\\';
-            }
-        }
-#endif
-
-        node = OSG::SceneFileHandler::the().read(fName);
-        if (node != OSG::NullFC) 
-        {
-            parent->addChild(node);
-            if ((parent == rootNode) && (rootNode->getNChildren() == 1))
-            {
-                if(_gl != NULL)
-                    _gl->getManager()->showAll();
-            }
-            parentItem = (parent == rootNode) ? rootTreeItem : activeTreeItem;
-            if(parentItem == NULL)
-                parentItem = rootTreeItem;
-            addListItem(node,parentItem);
-            updateGL();
-        }
-    }
+    addFile(parent, fName);
+    updateGL();
 }
 
 //////////////////////////////////////////////////////////////////
