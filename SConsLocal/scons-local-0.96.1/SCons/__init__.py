@@ -31,10 +31,10 @@ __revision__ = "/home/scons/scons/branch.0/baseline/src/engine/SCons/__init__.py
 
 __version__ = "0.96.1"
 
-__build__ = "D001"
+__build__ = "D002"
 
 __buildsys__ = "casablanca"
 
 __date__ = "2004/08/23 09:55:29"
 
-__developer__ = "knight"
+__developer__ = "OpenSG"

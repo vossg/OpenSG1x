@@ -5,6 +5,12 @@ import sys
 import shutil
 import zipfile
 import glob
+import SCons
+
+# check for local OpenSG scons version
+if SCons.__version__ != "0.96.1" or SCons.__build__ != "D002" or SCons.__developer__ != "OpenSG":
+    print "SCons %s is not supported, OpenSG already includes a local scons installation. Please call './scons' on unix or '.\\scons' on windows." %(SCons.__version__)
+    sys.exit(2)
 
 _root_dir = os.getcwd()
 
