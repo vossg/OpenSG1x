@@ -70,9 +70,9 @@ class OSG_SYSTEMLIB_DLLMAPPING StatElemDescBase
    /*! \name                    instance                                  */
    /*! \{                                                                 */
 
-    inline  static bool isValidID (Int32 id);
+    inline  static bool isValidID (Int32 descId);
 
-    inline  static StatElemDescBase *getDesc (Int32 id);
+    inline  static StatElemDescBase *getDesc (Int32 descId);
 
     static StatElemDescBase *findDescByName (const Char8 *name);
 

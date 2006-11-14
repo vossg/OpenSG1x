@@ -84,13 +84,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatCollector
 
             void     clearElems    (void);
 
-    inline  bool     isValidID     (Int32 id) const;
+    inline  bool     isValidID     (Int32 elemId) const;
 
             void     reset         (void);
 
-    inline  StatElem *getElem      (Int32 id) const;
+    inline  StatElem *getElem      (Int32 elemId) const;
 
-    inline  StatElem *getElem      (Int32 id, bool create = true);
+    inline  StatElem *getElem      (Int32 elemId, bool create = true);
 
     inline  StatElem *getElem      (StatElemDescBase &desc, bool create = true);
 

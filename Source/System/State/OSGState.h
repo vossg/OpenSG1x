@@ -103,9 +103,9 @@ class OSG_SYSTEMLIB_DLLMAPPING State : public StateBase
     /*! \name                    Access                                    */
     /*! \{                                                                 */
 
-    StateChunkPtr getChunk     (UInt32 id);
+    StateChunkPtr getChunk     (UInt32 chunkId);
 
-    bool          chunkPresent (UInt32 id);
+    bool          chunkPresent (UInt32 chunkId);
     bool          chunkPresent (StateChunkPtr chunk);
    
     bool          addChunk     (StateChunkPtr chunk, 

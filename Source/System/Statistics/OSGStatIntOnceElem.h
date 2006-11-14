@@ -101,13 +101,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StatIntOnceElem : public StatElem
 
     virtual void        reset        (void);
 
-    inline  void        add          (UInt32 id, Int32 v);
+    inline  void        add          (UInt32 contributorId, Int32 v);
 
-    inline  void        sub          (UInt32 id, Int32 v);
+    inline  void        sub          (UInt32 contributorId, Int32 v);
 
-    inline  void        inc          (UInt32 id);
+    inline  void        inc          (UInt32 contributorId);
 
-    inline  void        dec          (UInt32 id);
+    inline  void        dec          (UInt32 contributorId);
 
     inline  Int32       get          (void) const;
         
@@ -179,6 +179,6 @@ OSG_END_NAMESPACE
 
 #include "OSGStatIntOnceElem.inl"
 
-#define OSGSTATINTONCEELEM_HEADER_CVSID "@(#)$Id: OSGStatIntOnceElem.h,v 1.2 2005/10/02 15:31:07 dirk Exp $"
+#define OSGSTATINTONCEELEM_HEADER_CVSID "@(#)$Id: OSGStatIntOnceElem.h,v 1.3 2006/11/14 13:45:57 pdaehne Exp $"
 
 #endif /* _STATINTONCEELEM_H_ */

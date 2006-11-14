@@ -80,7 +80,7 @@ inline StatElem *StatCollector::getElem(Int32 elemId, bool create)
         return elem;
     }
 
-    return _elemVec[elemId];
+    return isValidID(elemId) ? _elemVec[elemId] : NULL;
 }
 
 /*! Return a pointer to the StatElem for the id. 
@@ -89,7 +89,7 @@ inline StatElem *StatCollector::getElem(Int32 elemId, bool create)
 
 inline StatElem *StatCollector::getElem(Int32 elemId) const
 {
-    return _elemVec[elemId];
+    return isValidID(elemId) ? _elemVec[elemId] : NULL;
 }
 
 /*-------------------------------------------------------------------------*/
