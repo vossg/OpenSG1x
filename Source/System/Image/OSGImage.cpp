@@ -2376,6 +2376,16 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
     Int32   oldDepth =getDepth();
     MFUInt8 srcPixel;
 
+    if ( (oldWidth == width) &&
+         (oldHeight == height) &&
+         (oldDepth == depth) ) 
+    {
+      if (destination != osg::NullFC)
+        *destination = *this;
+
+      return true;
+    }
+	 
     if (hasCompressedData()) 
     {
         FFATAL (("Invalid Image::scale for compressed image\n"));
