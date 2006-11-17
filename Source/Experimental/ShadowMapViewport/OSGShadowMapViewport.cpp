@@ -612,6 +612,8 @@ void ShadowMapViewport::updateLights(void)
     Real32 sceneWidth = 0.0;
     Real32 sceneHeight = 0.0;
 
+    getSceneRoot()->updateVolume();
+
     for(UInt32 i = 0; i < _lights.size(); ++i)
     {
         //Giving new Camera Rotation and Position of the light it belongs to
@@ -1198,7 +1200,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.15 2006/07/27 13:43:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.16 2006/11/17 13:00:02 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

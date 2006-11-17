@@ -750,6 +750,7 @@ void ShadowViewport::updateLights(void)
 
     for(UInt32 i = 0;i < _lights.size();++i)
     {
+        getLightRoot(i)->updateVolume();
         //Giving new Camera Rotation and Position of the light it belongs to
         beginEditCP(_lightCamTrans[i]);
         {
@@ -1359,7 +1360,7 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.22 2006/09/05 12:03:23 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.23 2006/11/17 13:00:03 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
