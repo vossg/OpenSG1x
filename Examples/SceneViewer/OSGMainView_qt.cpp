@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Form implementation generated from reading ui file 'OSGMainView_qt.ui'
 **
-** Created: Fr 10. Nov 18:13:09 2006
+** Created: Fr 17. Nov 12:30:29 2006
 **      by: The User Interface Compiler ($Id: qt/main.cpp   3.3.5   edited Aug 31 12:13 $)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -760,8 +760,8 @@ void OSGMainView::languageChange()
     statistic->setMenuText( tr( "Statistic" ) );
     headlight->setText( tr( "Headlight (F10)" ) );
     headlight->setMenuText( tr( "Headlight" ) );
-    showAllAction->setText( tr( "Show All" ) );
-    showAllAction->setMenuText(tr( "Show All" ));
+    showAllAction->setText( tr( "Show All (F5)" ) );
+    showAllAction->setMenuText(tr( "Show All (F5)" ));
     showObjAction->setText( tr( "Show Object" ) );
     showObjAction->setMenuText(tr( "Show Object" ));
     toolBar->setLabel( tr( "Tools" ) );

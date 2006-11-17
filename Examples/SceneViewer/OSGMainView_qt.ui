@@ -471,7 +471,7 @@
             <iconset>image8</iconset>
         </property>
         <property name="text">
-            <string>Show All</string>
+            <string>Show All (F5)</string>
         </property>
     </action>
     <action>
