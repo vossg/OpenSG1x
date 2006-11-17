@@ -69,6 +69,8 @@
 
 #include <OSGBoolFields.h> // CgFrontEnd type
 #include <OSGBoolFields.h> // PointSize type
+#include <OSGGLenumFields.h> // ProgramParameterNames type
+#include <OSGUInt32Fields.h> // ProgramParameterValues type
 #include <OSGUInt32Fields.h> // GLId type
 #include <OSGInt32Fields.h> // IgnoreGLForAspect type
 
@@ -94,15 +96,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     enum
     {
-        CgFrontEndFieldId        = Inherited::NextFieldId,
-        PointSizeFieldId         = CgFrontEndFieldId        + 1,
-        GLIdFieldId              = PointSizeFieldId         + 1,
-        IgnoreGLForAspectFieldId = GLIdFieldId              + 1,
-        NextFieldId              = IgnoreGLForAspectFieldId + 1
+        CgFrontEndFieldId             = Inherited::NextFieldId,
+        PointSizeFieldId              = CgFrontEndFieldId             + 1,
+        ProgramParameterNamesFieldId  = PointSizeFieldId              + 1,
+        ProgramParameterValuesFieldId = ProgramParameterNamesFieldId  + 1,
+        GLIdFieldId                   = ProgramParameterValuesFieldId + 1,
+        IgnoreGLForAspectFieldId      = GLIdFieldId                   + 1,
+        NextFieldId                   = IgnoreGLForAspectFieldId      + 1
     };
 
     static const OSG::BitVector CgFrontEndFieldMask;
     static const OSG::BitVector PointSizeFieldMask;
+    static const OSG::BitVector ProgramParameterNamesFieldMask;
+    static const OSG::BitVector ProgramParameterValuesFieldMask;
     static const OSG::BitVector GLIdFieldMask;
     static const OSG::BitVector IgnoreGLForAspectFieldMask;
 
@@ -133,6 +139,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
            SFBool              *getSFCgFrontEnd     (void);
            SFBool              *getSFPointSize      (void);
+           MFGLenum            *getMFProgramParameterNames(void);
+           MFUInt32            *getMFProgramParameterValues(void);
            SFUInt32            *getSFGLId           (void);
            SFInt32             *getSFIgnoreGLForAspect(void);
 
@@ -144,6 +152,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
      const UInt32              &getGLId           (void) const;
            Int32               &getIgnoreGLForAspect(void);
      const Int32               &getIgnoreGLForAspect(void) const;
+           GLenum              &getProgramParameterNames(const UInt32 index);
+           MFGLenum            &getProgramParameterNames(void);
+     const MFGLenum            &getProgramParameterNames(void) const;
+           UInt32              &getProgramParameterValues(const UInt32 index);
+           MFUInt32            &getProgramParameterValues(void);
+     const MFUInt32            &getProgramParameterValues(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -198,6 +212,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     SFBool              _sfCgFrontEnd;
     SFBool              _sfPointSize;
+    MFGLenum            _mfProgramParameterNames;
+    MFUInt32            _mfProgramParameterValues;
     SFUInt32            _sfGLId;
     SFInt32             _sfIgnoreGLForAspect;
 
@@ -277,6 +293,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.13 2006/06/22 17:06:46 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.14 2006/11/17 17:16:04 a-m-z Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

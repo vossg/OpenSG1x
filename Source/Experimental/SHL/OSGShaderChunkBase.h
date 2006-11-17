@@ -69,6 +69,7 @@
 
 #include <OSGStringFields.h> // VertexProgram type
 #include <OSGStringFields.h> // FragmentProgram type
+#include <OSGStringFields.h> // GeometryProgram type
 
 #include <OSGShaderChunkFields.h>
 
@@ -94,11 +95,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     {
         VertexProgramFieldId   = Inherited::NextFieldId,
         FragmentProgramFieldId = VertexProgramFieldId   + 1,
-        NextFieldId            = FragmentProgramFieldId + 1
+        GeometryProgramFieldId = FragmentProgramFieldId + 1,
+        NextFieldId            = GeometryProgramFieldId + 1
     };
 
     static const OSG::BitVector VertexProgramFieldMask;
     static const OSG::BitVector FragmentProgramFieldMask;
+    static const OSG::BitVector GeometryProgramFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -127,11 +130,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
 
            SFString            *getSFVertexProgram  (void);
            SFString            *getSFFragmentProgram(void);
+           SFString            *getSFGeometryProgram(void);
 
            std::string         &getVertexProgram  (void);
      const std::string         &getVertexProgram  (void) const;
            std::string         &getFragmentProgram(void);
      const std::string         &getFragmentProgram(void) const;
+           std::string         &getGeometryProgram(void);
+     const std::string         &getGeometryProgram(void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
 
      void setVertexProgram  ( const std::string &value );
      void setFragmentProgram( const std::string &value );
+     void setGeometryProgram( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,6 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
 
     SFString            _sfVertexProgram;
     SFString            _sfFragmentProgram;
+    SFString            _sfGeometryProgram;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -245,6 +253,6 @@ typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.7 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.8 2006/11/17 17:16:04 a-m-z Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

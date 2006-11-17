@@ -110,6 +110,20 @@ SFBool *SHLChunkBase::getSFPointSize(void)
     return &_sfPointSize;
 }
 
+//! Get the SHLChunk::_mfProgramParameterNames field.
+inline
+MFGLenum *SHLChunkBase::getMFProgramParameterNames(void)
+{
+    return &_mfProgramParameterNames;
+}
+
+//! Get the SHLChunk::_mfProgramParameterValues field.
+inline
+MFUInt32 *SHLChunkBase::getMFProgramParameterValues(void)
+{
+    return &_mfProgramParameterValues;
+}
+
 //! Get the SHLChunk::_sfGLId field.
 inline
 SFUInt32 *SHLChunkBase::getSFGLId(void)
@@ -210,7 +224,49 @@ void SHLChunkBase::setIgnoreGLForAspect(const Int32 &value)
 }
 
 
+//! Get the value of the \a index element the SHLChunk::_mfProgramParameterNames field.
+inline
+GLenum &SHLChunkBase::getProgramParameterNames(const UInt32 index)
+{
+    return _mfProgramParameterNames[index];
+}
+
+//! Get the SHLChunk::_mfProgramParameterNames field.
+inline
+MFGLenum &SHLChunkBase::getProgramParameterNames(void)
+{
+    return _mfProgramParameterNames;
+}
+
+//! Get the SHLChunk::_mfProgramParameterNames field.
+inline
+const MFGLenum &SHLChunkBase::getProgramParameterNames(void) const
+{
+    return _mfProgramParameterNames;
+}
+
+//! Get the value of the \a index element the SHLChunk::_mfProgramParameterValues field.
+inline
+UInt32 &SHLChunkBase::getProgramParameterValues(const UInt32 index)
+{
+    return _mfProgramParameterValues[index];
+}
+
+//! Get the SHLChunk::_mfProgramParameterValues field.
+inline
+MFUInt32 &SHLChunkBase::getProgramParameterValues(void)
+{
+    return _mfProgramParameterValues;
+}
+
+//! Get the SHLChunk::_mfProgramParameterValues field.
+inline
+const MFUInt32 &SHLChunkBase::getProgramParameterValues(void) const
+{
+    return _mfProgramParameterValues;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.12 2006/06/22 17:06:46 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.13 2006/11/17 17:16:04 a-m-z Exp $"
 

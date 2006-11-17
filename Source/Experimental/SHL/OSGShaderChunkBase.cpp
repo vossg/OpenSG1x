@@ -62,13 +62,16 @@
 #include "OSGShaderChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderChunkBase::VertexProgramFieldMask = 
     (TypeTraits<BitVector>::One << ShaderChunkBase::VertexProgramFieldId);
 
 const OSG::BitVector  ShaderChunkBase::FragmentProgramFieldMask = 
     (TypeTraits<BitVector>::One << ShaderChunkBase::FragmentProgramFieldId);
+
+const OSG::BitVector  ShaderChunkBase::GeometryProgramFieldMask = 
+    (TypeTraits<BitVector>::One << ShaderChunkBase::GeometryProgramFieldId);
 
 const OSG::BitVector ShaderChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -82,6 +85,9 @@ const OSG::BitVector ShaderChunkBase::MTInfluenceMask =
 */
 /*! \var std::string     ShaderChunkBase::_sfFragmentProgram
     fragment program source
+*/
+/*! \var std::string     ShaderChunkBase::_sfGeometryProgram
+    geometry program source
 */
 
 //! ShaderChunk description
@@ -97,7 +103,12 @@ FieldDescription *ShaderChunkBase::_desc[] =
                      "fragmentProgram", 
                      FragmentProgramFieldId, FragmentProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderChunkBase::getSFFragmentProgram)
+                     (FieldAccessMethod) &ShaderChunkBase::getSFFragmentProgram),
+    new FieldDescription(SFString::getClassType(), 
+                     "geometryProgram", 
+                     GeometryProgramFieldId, GeometryProgramFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShaderChunkBase::getSFGeometryProgram)
 };
 
 
@@ -166,6 +177,7 @@ void ShaderChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 ShaderChunkBase::ShaderChunkBase(void) :
     _sfVertexProgram          (), 
     _sfFragmentProgram        (), 
+    _sfGeometryProgram        (), 
     Inherited() 
 {
 }
@@ -177,6 +189,7 @@ ShaderChunkBase::ShaderChunkBase(void) :
 ShaderChunkBase::ShaderChunkBase(const ShaderChunkBase &source) :
     _sfVertexProgram          (source._sfVertexProgram          ), 
     _sfFragmentProgram        (source._sfFragmentProgram        ), 
+    _sfGeometryProgram        (source._sfGeometryProgram        ), 
     Inherited                 (source)
 {
 }
@@ -203,6 +216,11 @@ UInt32 ShaderChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFragmentProgram.getBinSize();
     }
 
+    if(FieldBits::NoField != (GeometryProgramFieldMask & whichField))
+    {
+        returnValue += _sfGeometryProgram.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -220,6 +238,11 @@ void ShaderChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
     {
         _sfFragmentProgram.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GeometryProgramFieldMask & whichField))
+    {
+        _sfGeometryProgram.copyToBin(pMem);
     }
 
 
@@ -240,6 +263,11 @@ void ShaderChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFragmentProgram.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (GeometryProgramFieldMask & whichField))
+    {
+        _sfGeometryProgram.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -255,6 +283,9 @@ void ShaderChunkBase::executeSyncImpl(      ShaderChunkBase *pOther,
 
     if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
         _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
+
+    if(FieldBits::NoField != (GeometryProgramFieldMask & whichField))
+        _sfGeometryProgram.syncWith(pOther->_sfGeometryProgram);
 
 
 }
@@ -272,6 +303,9 @@ void ShaderChunkBase::executeSyncImpl(      ShaderChunkBase *pOther,
     if(FieldBits::NoField != (FragmentProgramFieldMask & whichField))
         _sfFragmentProgram.syncWith(pOther->_sfFragmentProgram);
 
+    if(FieldBits::NoField != (GeometryProgramFieldMask & whichField))
+        _sfGeometryProgram.syncWith(pOther->_sfGeometryProgram);
+
 
 
 }
@@ -287,6 +321,8 @@ void ShaderChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -298,8 +334,6 @@ DataType FieldDataTraits<ShaderChunkPtr>::_type("ShaderChunkPtr", "ShaderParamet
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -315,10 +349,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.7 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.8 2006/11/17 17:16:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

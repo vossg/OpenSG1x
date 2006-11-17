@@ -84,6 +84,13 @@ SFString *ShaderChunkBase::getSFFragmentProgram(void)
     return &_sfFragmentProgram;
 }
 
+//! Get the ShaderChunk::_sfGeometryProgram field.
+inline
+SFString *ShaderChunkBase::getSFGeometryProgram(void)
+{
+    return &_sfGeometryProgram;
+}
+
 
 //! Get the value of the ShaderChunk::_sfVertexProgram field.
 inline
@@ -127,8 +134,29 @@ void ShaderChunkBase::setFragmentProgram(const std::string &value)
     _sfFragmentProgram.setValue(value);
 }
 
+//! Get the value of the ShaderChunk::_sfGeometryProgram field.
+inline
+std::string &ShaderChunkBase::getGeometryProgram(void)
+{
+    return _sfGeometryProgram.getValue();
+}
+
+//! Get the value of the ShaderChunk::_sfGeometryProgram field.
+inline
+const std::string &ShaderChunkBase::getGeometryProgram(void) const
+{
+    return _sfGeometryProgram.getValue();
+}
+
+//! Set the value of the ShaderChunk::_sfGeometryProgram field.
+inline
+void ShaderChunkBase::setGeometryProgram(const std::string &value)
+{
+    _sfGeometryProgram.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.6 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.7 2006/11/17 17:16:04 a-m-z Exp $"
 

@@ -61,6 +61,7 @@
 #include "OSGSHLChunkBase.h"
 #include "OSGSHLChunk.h"
 
+#include <OSGGL.h>                        // ProgramParameterNames default header
 
 OSG_BEGIN_NAMESPACE
 
@@ -69,6 +70,12 @@ const OSG::BitVector  SHLChunkBase::CgFrontEndFieldMask =
 
 const OSG::BitVector  SHLChunkBase::PointSizeFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::PointSizeFieldId);
+
+const OSG::BitVector  SHLChunkBase::ProgramParameterNamesFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::ProgramParameterNamesFieldId);
+
+const OSG::BitVector  SHLChunkBase::ProgramParameterValuesFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::ProgramParameterValuesFieldId);
 
 const OSG::BitVector  SHLChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::GLIdFieldId);
@@ -88,6 +95,12 @@ const OSG::BitVector SHLChunkBase::MTInfluenceMask =
 */
 /*! \var bool            SHLChunkBase::_sfPointSize
     Flag to set whether the shader can change the point size.
+*/
+/*! \var GLenum          SHLChunkBase::_mfProgramParameterNames
+    
+*/
+/*! \var UInt32          SHLChunkBase::_mfProgramParameterValues
+    
 */
 /*! \var UInt32          SHLChunkBase::_sfGLId
     
@@ -110,6 +123,16 @@ FieldDescription *SHLChunkBase::_desc[] =
                      PointSizeFieldId, PointSizeFieldMask,
                      false,
                      (FieldAccessMethod) &SHLChunkBase::getSFPointSize),
+    new FieldDescription(MFGLenum::getClassType(), 
+                     "programParameterNames", 
+                     ProgramParameterNamesFieldId, ProgramParameterNamesFieldMask,
+                     false,
+                     (FieldAccessMethod) &SHLChunkBase::getMFProgramParameterNames),
+    new FieldDescription(MFUInt32::getClassType(), 
+                     "programParameterValues", 
+                     ProgramParameterValuesFieldId, ProgramParameterValuesFieldMask,
+                     false,
+                     (FieldAccessMethod) &SHLChunkBase::getMFProgramParameterValues),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
@@ -185,6 +208,8 @@ void SHLChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
+    _mfProgramParameterNames.terminateShare(uiAspect, this->getContainerSize());
+    _mfProgramParameterValues.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -197,6 +222,8 @@ void SHLChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 SHLChunkBase::SHLChunkBase(void) :
     _sfCgFrontEnd             (bool(false)), 
     _sfPointSize              (bool(false)), 
+    _mfProgramParameterNames  (), 
+    _mfProgramParameterValues (), 
     _sfGLId                   (), 
     _sfIgnoreGLForAspect      (Int32(-1)), 
     Inherited() 
@@ -210,6 +237,8 @@ SHLChunkBase::SHLChunkBase(void) :
 SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
     _sfCgFrontEnd             (source._sfCgFrontEnd             ), 
     _sfPointSize              (source._sfPointSize              ), 
+    _mfProgramParameterNames  (source._mfProgramParameterNames  ), 
+    _mfProgramParameterValues (source._mfProgramParameterValues ), 
     _sfGLId                   (source._sfGLId                   ), 
     _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
     Inherited                 (source)
@@ -236,6 +265,16 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (PointSizeFieldMask & whichField))
     {
         returnValue += _sfPointSize.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+    {
+        returnValue += _mfProgramParameterNames.getBinSize();
+    }
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+    {
+        returnValue += _mfProgramParameterValues.getBinSize();
     }
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
@@ -267,6 +306,16 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
         _sfPointSize.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+    {
+        _mfProgramParameterNames.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+    {
+        _mfProgramParameterValues.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyToBin(pMem);
@@ -295,6 +344,16 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfPointSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+    {
+        _mfProgramParameterNames.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+    {
+        _mfProgramParameterValues.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
     {
         _sfGLId.copyFromBin(pMem);
@@ -320,6 +379,12 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 
     if(FieldBits::NoField != (PointSizeFieldMask & whichField))
         _sfPointSize.syncWith(pOther->_sfPointSize);
+
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+        _mfProgramParameterNames.syncWith(pOther->_mfProgramParameterNames);
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+        _mfProgramParameterValues.syncWith(pOther->_mfProgramParameterValues);
 
     if(FieldBits::NoField != (GLIdFieldMask & whichField))
         _sfGLId.syncWith(pOther->_sfGLId);
@@ -350,6 +415,12 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
         _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
 
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+        _mfProgramParameterNames.syncWith(pOther->_mfProgramParameterNames, sInfo);
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+        _mfProgramParameterValues.syncWith(pOther->_mfProgramParameterValues, sInfo);
+
 
 }
 
@@ -358,6 +429,12 @@ void SHLChunkBase::execBeginEditImpl (const BitVector &whichField,
                                                  UInt32     uiContainerSize)
 {
     Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
+        _mfProgramParameterNames.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ProgramParameterValuesFieldMask & whichField))
+        _mfProgramParameterValues.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif
@@ -392,7 +469,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.13 2006/06/22 17:06:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.14 2006/11/17 17:16:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

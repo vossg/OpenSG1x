@@ -79,8 +79,10 @@ StateChunkClass SHLChunk::_class("SHL");
 
 UInt32 SHLChunk::_shl_extension;
 UInt32 SHLChunk::_cg_extension;
+UInt32 SHLChunk::_geometry_extension;
 
 UInt32 SHLChunk::_funcCreateProgramObject = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcProgramParameteri = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcCreateShaderObject = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcDeleteObject = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcDetachObject = Window::invalidFunctionID;
@@ -121,6 +123,7 @@ SHLChunk::parametercbfp SHLChunk::_userParametersCallback = NULL;
 // prototypes
 
 typedef GLuint  (OSG_APIENTRY * OSGGLCREATEPROGRAMOBJECTARBPROC) (void);
+typedef void    (OSG_APIENTRY * OSGGLPROGRAMPARAMETERIEXTPROC) (GLuint program, GLenum pname, GLint value);
 typedef void    (OSG_APIENTRY * OSGGLDELETEOBJECTARBPROC) (GLuint obj);
 typedef GLuint  (OSG_APIENTRY * OSGGLCREATESHADEROBJECTARBPROC) (GLenum shaderType);
 typedef void    (OSG_APIENTRY * OSGGLSHADERSOURCEARBPROC) (GLuint shaderObj, GLsizei count, const char **strings, const GLint *length);
@@ -172,10 +175,15 @@ SHLChunk::SHLChunk(void) :
 {
     _shl_extension = Window::registerExtension("GL_ARB_shading_language_100");
     _cg_extension = Window::registerExtension("GL_EXT_Cg_shader");
+    _geometry_extension = Window::registerExtension("GL_EXT_geometry_shader4");
 
     _funcCreateProgramObject =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCreateProgramObjectARB", 
                                   _shl_extension);
+
+    _funcProgramParameteri =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glProgramParameteriEXT", 
+                                  _geometry_extension);
 
     _funcCreateShaderObject =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCreateShaderObjectARB", 
@@ -353,6 +361,7 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
 
     if((whichField & VertexProgramFieldMask) ||
        (whichField & FragmentProgramFieldMask) ||
+       (whichField & GeometryProgramFieldMask) ||
        (whichField & CgFrontEndFieldMask))
     {
         if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
@@ -555,7 +564,57 @@ void SHLChunk::updateProgram(Window *win)
         }
     }
 
-    if(has_vertex || has_fragment)
+    UInt32 gShader = 0;
+    GLint has_geometry = 0;
+    // reload programs
+    if(!getGeometryProgram().empty())
+    {
+        if(win->hasExtension(_geometry_extension))
+        {
+            // get "glProgramParameteriEXT" function pointer
+            OSGGLPROGRAMPARAMETERIEXTPROC programParameteri =
+                (OSGGLPROGRAMPARAMETERIEXTPROC) win->getFunction(_funcProgramParameteri);
+
+            // set program parameters.
+            const MFGLenum &ppnames = getProgramParameterNames();
+            const MFUInt32 &ppvalues = getProgramParameterValues();
+            for(UInt32 i = 0; i < ppnames.size(); ++i)
+            {
+                if(i < ppvalues.size())
+                    programParameteri(program, ppnames[i], ppvalues[i]);
+            }
+
+            GLenum shader_type = GL_GEOMETRY_SHADER_EXT;
+
+            gShader = createShaderObject(shader_type);
+            const char *source = getGeometryProgram().c_str();
+            shaderSource(gShader, 1, (const char **) &source, 0);
+
+            int success = 0;
+            compileShader(gShader);
+            getObjectParameteriv(gShader, GL_OBJECT_COMPILE_STATUS_ARB, &has_geometry);
+
+            if(has_geometry == 0)
+            {
+                char *debug;
+                GLint debugLength;
+                getObjectParameteriv(gShader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &debugLength);
+
+                debug = new char[debugLength];
+                getInfoLog(gShader, debugLength, &debugLength, debug);
+
+                FFATAL(("Couldn't compile geometry program!\n%s\n", debug));
+                delete [] debug;
+                deleteObject(gShader);
+            }
+        }
+        else
+        {
+            FWARNING(("GL_EXT_geometry_shader4 extension not supported!\n"));
+        }
+    }
+
+    if(has_vertex || has_fragment || has_geometry)
     {
         if(has_vertex)
         {
@@ -569,6 +628,13 @@ void SHLChunk::updateProgram(Window *win)
             attachObject(program, fShader);
             // just flagged for deletion
             deleteObject(fShader);
+        }
+
+        if(has_geometry)
+        {
+            attachObject(program, gShader);
+            // just flagged for deletion
+            deleteObject(gShader);
         }
 
         linkProgram(program);
@@ -1530,7 +1596,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.51 2006/11/10 13:37:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.52 2006/11/17 17:16:04 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
