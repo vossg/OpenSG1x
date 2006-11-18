@@ -100,10 +100,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
         SHPTypeString
     };
 
+    enum SHPFlags
+    {
+        SHPFlagNone = 0,
+        SHPFlagUpdate = 1
+    };
+
     inline SHPType getTypeId(void);
 
     inline GLint getLocation(void);
     inline void  setLocation(GLint location);
+
+    inline UInt32 getFlags(void);
+    inline void  setFlags(UInt32 flags);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -136,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     bool    _changed;
     SHPType _typeid;
     GLint   _location;
+    UInt32  _flags;
 
     friend class FieldContainer;
     friend class ShaderParameterBase;
@@ -154,6 +164,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterBase.inl>
 #include <OSGShaderParameter.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.5 2006/11/10 13:37:46 a-m-z Exp $"
+#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.6 2006/11/18 12:03:55 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETER_H_ */

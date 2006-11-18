@@ -1095,7 +1095,8 @@ void SHLChunk::setParameterCallback(parametercbfp fp)
     _userParametersCallback = fp;
 }
 
-void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
+void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program,
+                                   bool update)
 {
     // get "glGetUniformLocationARB" function pointer
     OSGGLGETUNIFORMLOCATIONARBPROC getUniformLocation = (OSGGLGETUNIFORMLOCATIONARBPROC)
@@ -1112,15 +1113,27 @@ void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program)
         parametercbfp oldfp = _osgParametersCallbacks[i].first.first;
         osgparametercbfp fp = _osgParametersCallbacks[i].first.second;
         if(oldfp != NULL)
+        {
             oldfp(getUniformLocation, action, program);
+        }
         else if(fp != NULL)
-            fp(_osgParametersCallbacks[i].second, action, program);
+        {
+            // ok if update is true this means it was called from update()
+            // in this case we only need set parameters which use the
+            // object transformation (top_matrix())
+            ShaderParameterPtr parameter = _osgParametersCallbacks[i].second;
+            parameter->setFlags(update ? ShaderParameter::SHPFlagUpdate :
+                                ShaderParameter::SHPFlagNone);
+            fp(parameter, action, program);
+        }
     }
 }
 
 void SHLChunk::updateWorldMatrix(const ShaderParameterPtr &parameter,
                                 DrawActionBase *action, GLuint program)
 {
+    // this parameter needs to be updated for each object because it
+    // is dependend from the object transformation!
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateWorldMatrix : Can't update OSGWorldMatrix"
@@ -1145,6 +1158,8 @@ void SHLChunk::updateWorldMatrix(const ShaderParameterPtr &parameter,
 void SHLChunk::updateInvWorldMatrix(const ShaderParameterPtr &parameter,
                                    DrawActionBase *action, GLuint program)
 {
+    // this parameter needs to be updated for each object because it
+    // is dependend from the object transformation!
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateInvWorldMatrix : Can't update OSGInvWorldMatrix"
@@ -1170,6 +1185,10 @@ void SHLChunk::updateInvWorldMatrix(const ShaderParameterPtr &parameter,
 void SHLChunk::updateCameraOrientation(const ShaderParameterPtr &parameter,
                                        DrawActionBase *action, GLuint program)
 {
+    // the parameter is not object transformation dependend so we can leave now.
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateCameraOrientation : Can't update OSGCameraOrientation"
@@ -1196,6 +1215,9 @@ void SHLChunk::updateCameraOrientation(const ShaderParameterPtr &parameter,
 void SHLChunk::updateCameraPosition(const ShaderParameterPtr &parameter,
                                     DrawActionBase *action, GLuint program)
 {
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateCameraPosition : Can't update OSGCameraPosition"
@@ -1222,6 +1244,9 @@ void SHLChunk::updateCameraPosition(const ShaderParameterPtr &parameter,
 void SHLChunk::updateViewMatrix(const ShaderParameterPtr &parameter,
                                 DrawActionBase *action, GLuint program)
 {
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateViewMatrix : Can't update OSGViewMatrix"
@@ -1246,6 +1271,9 @@ void SHLChunk::updateViewMatrix(const ShaderParameterPtr &parameter,
 void SHLChunk::updateInvViewMatrix(const ShaderParameterPtr &parameter,
                                    DrawActionBase *action, GLuint program)
 {
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateInvViewMatrix : Can't update OSGInvViewMatrix"
@@ -1271,6 +1299,9 @@ void SHLChunk::updateInvViewMatrix(const ShaderParameterPtr &parameter,
 void SHLChunk::updateStereoLeftEye(const ShaderParameterPtr &parameter,
                                    DrawActionBase *action, GLuint program)
 {
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
         FWARNING(("SHLChunk::updateStereoLeftEye : Can't update OSGStereoLeftEye"
@@ -1314,6 +1345,9 @@ void SHLChunk::setClusterId(Int32 id)
 void SHLChunk::updateClusterId(const ShaderParameterPtr &parameter,
                                DrawActionBase *action, GLuint program)
 {
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
     // get "glUniform1iARB" function pointer
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
@@ -1459,7 +1493,7 @@ void SHLChunk::update(DrawActionBase *action)
     if(program == 0)
         return;
 
-    updateOSGParameters(action, program);
+    updateOSGParameters(action, program, true);
 }
 
 void SHLChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
@@ -1508,9 +1542,6 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     OSGGLUSEPROGRAMOBJECTARBPROC useProgramObject = (OSGGLUSEPROGRAMOBJECTARBPROC)
         action->getWindow()->getFunction(_funcUseProgramObject);
 
-    if(action->getWindow()->getGLObjectId(old->getGLId()) != 0)
-        useProgramObject(0);
-
     //printf("SHLChunk::changeFrom : %p %x\n", action->getWindow(), action->getWindow()->getGLObjectId(getGLId()));
 
     GLuint program = (GLuint) action->getWindow()->getGLObjectId(getGLId());
@@ -1530,6 +1561,11 @@ void SHLChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
             if(old->getPointSize())
                 glDisable(GL_VERTEX_PROGRAM_POINT_SIZE_ARB);
         }
+    }
+    else
+    {
+        if(action->getWindow()->getGLObjectId(old->getGLId()) != 0)
+            useProgramObject(0);
     }
 }
 
@@ -1596,7 +1632,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.52 2006/11/17 17:16:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.53 2006/11/18 12:03:55 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

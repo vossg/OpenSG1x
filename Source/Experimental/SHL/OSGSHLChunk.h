@@ -275,7 +275,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
 
     void updateProgram(Window *win);
     void checkOSGParameters(bool force = false);
-    void updateOSGParameters(DrawActionBase *action, GLuint program);
+    void updateOSGParameters(DrawActionBase *action, GLuint program,
+                             bool update = false);
 
     static void updateWorldMatrix       (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
@@ -331,6 +332,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.28 2006/11/17 17:16:04 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.29 2006/11/18 12:03:55 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

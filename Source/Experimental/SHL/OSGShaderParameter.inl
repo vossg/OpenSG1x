@@ -84,7 +84,19 @@ void ShaderParameter::setChanged(void)
     _changed = true;
 }
 
+inline
+UInt32 ShaderParameter::getFlags(void)
+{
+    return _flags;
+}
+
+inline
+void  ShaderParameter::setFlags(UInt32 flags)
+{
+    _flags = flags;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETER_INLINE_CVSID "@(#)$Id: OSGShaderParameter.inl,v 1.2 2006/11/10 13:37:46 a-m-z Exp $"
+#define OSGSHADERPARAMETER_INLINE_CVSID "@(#)$Id: OSGShaderParameter.inl,v 1.3 2006/11/18 12:03:55 a-m-z Exp $"
 
