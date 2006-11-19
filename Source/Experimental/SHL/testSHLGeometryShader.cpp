@@ -105,15 +105,12 @@ int main(int argc, char **argv)
 
     SHLChunkPtr shl = SHLChunk::create();
     beginEditCP(shl);
-        shl->getProgramParameterNames().push_back(GL_GEOMETRY_INPUT_TYPE_EXT);
-        shl->getProgramParameterValues().push_back(GL_LINES_ADJACENCY_EXT);
+        shl->setProgramParameter(GL_GEOMETRY_INPUT_TYPE_EXT, GL_LINES_ADJACENCY_EXT);
 
-        shl->getProgramParameterNames().push_back(GL_GEOMETRY_OUTPUT_TYPE_EXT);
-        shl->getProgramParameterValues().push_back(GL_LINE_STRIP);
+        shl->setProgramParameter(GL_GEOMETRY_OUTPUT_TYPE_EXT, GL_LINE_STRIP);
 
         //glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT, &count);
-        shl->getProgramParameterNames().push_back(GL_GEOMETRY_VERTICES_OUT_EXT);
-        shl->getProgramParameterValues().push_back(1024);
+        shl->setProgramParameter(GL_GEOMETRY_VERTICES_OUT_EXT, 1024);
 
         //shl->setVertexProgram(_vertex_shader);
         //shl->setFragmentProgram(_fragment_shader);

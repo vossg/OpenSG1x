@@ -1095,6 +1095,51 @@ void SHLChunk::setParameterCallback(parametercbfp fp)
     _userParametersCallback = fp;
 }
 
+void SHLChunk::addProgramParameter(GLenum name, UInt32 value)
+{
+    getProgramParameterNames().push_back(name);
+    getProgramParameterValues().push_back(value);
+}
+
+void SHLChunk::subProgramParameter(GLenum name)
+{
+    MFGLenum &ppnames = getProgramParameterNames();
+    MFUInt32 &ppvalues = getProgramParameterValues();
+
+    for(UInt32 i = 0; i < ppnames.size(); ++i)
+    {
+        if(ppnames[i] == name && i < ppvalues.size())
+        {
+            ppnames.erase(ppnames.begin() + i);
+            ppvalues.erase(ppvalues.begin() + i);
+            break;
+        }
+    }
+}
+
+void SHLChunk::setProgramParameter(GLenum name, UInt32 value)
+{
+    // remove old one.
+    subProgramParameter(name);
+    // add new one.
+    addProgramParameter(name, value);
+}
+
+UInt32 SHLChunk::getProgramParameter(GLenum name)
+{
+    const MFGLenum &ppnames = getProgramParameterNames();
+    const MFUInt32 &ppvalues = getProgramParameterValues();
+
+    for(UInt32 i = 0; i < ppnames.size(); ++i)
+    {
+        if(ppnames[i] == name && i < ppvalues.size())
+            return ppvalues[i];
+    }
+    FWARNING(("SHLChunk::getProgramParameter : Couldn't find program parameter %u!\n",
+              name));
+    return 0;
+}
+
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program,
                                    bool update)
 {
@@ -1632,7 +1677,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.53 2006/11/18 12:03:55 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.54 2006/11/19 11:41:11 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

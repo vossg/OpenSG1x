@@ -895,12 +895,12 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
     DrawTreeNode *pLastMultiPass = NULL;
 
-    for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
+    if(_bSortTrans && pMat->isTransparent())
     {
-        pState = states[mpi];
-
-        if(_bSortTrans && pMat->isTransparent())
+        for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
         {
+            pState = states[mpi];
+
             DrawTreeNode *pNewElem = _pNodeFactory->create();
             Pnt3f         objPos;
             getActNode()->getVolume().getCenter(objPos);
@@ -939,44 +939,30 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
             _uiNumTransGeometries++;
         }
-        else
+    }
+    else
+    {
+        if(it == _mMatMap.end())
         {
-            DrawTreeNode *pNewElem = _pNodeFactory->create();
+            DrawTreeNode *pNewMatElem = _pNodeFactory->create();
+            _mMatMap[pMat] = pNewMatElem;
 
-            if(it == _mMatMap.end())
+            if(!isMultiPass)
             {
-                DrawTreeNode *pNewMatElem = _pNodeFactory->create();
-                //_mMatMap[pMat].push_back(pNewMatElem);
-                _mMatMap[pMat] = pNewMatElem;
+                pState = states[0];
+                // for non multipass materials there is only one state
+                // for all draw node children.
+                pNewMatElem->setState(pState);
+                pNewMatElem->setNode(getActNode());
+                pNewMatElem->setLightsState(_lightsState);
 
+                DrawTreeNode *pNewElem = _pNodeFactory->create();
                 pNewElem->setNode       (getActNode());
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
-                
-                if(isMultiPass)
-                {
-                    // for multipass we have a different state in all draw node
-                    // children.
-                    pNewElem->setState(pState);
-
-                    if(mpi == mpMatPasses-1)
-                        pNewElem->setLastMultiPass();
-                    else
-                        pNewElem->setMultiPass();
-                }
-                else
-                {
-                    // for non multipass materials there is only one state
-                    // for all draw node children.
-                    pNewMatElem->setState(pState);
-                }
 
                 pNewMatElem->addChild(pNewElem);
-                pNewMatElem->setNode(getActNode());
-                pNewMatElem->setLightsState(_lightsState);
-
-                //_pMatRoot->addChild(pNewMatElem);
 
                 if(_pMatRoots.find(sortKey) == _pMatRoots.end())
                     _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
@@ -985,32 +971,85 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             }
             else
             {
+                pNewMatElem->setNode(getActNode());
+                pNewMatElem->setLightsState(_lightsState);
+
+                for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
+                {
+                    pState = states[mpi];
+
+                    DrawTreeNode *pNewPassElem = _pNodeFactory->create();
+                    pNewPassElem->setState(pState);
+                    pNewPassElem->setNode(getActNode());
+                    pNewPassElem->setLightsState(_lightsState);
+                    pNewMatElem->addChild(pNewPassElem);
+
+                    DrawTreeNode *pNewElem = _pNodeFactory->create();
+                    pNewElem->setNode       (getActNode());
+                    pNewElem->setFunctor    (func);
+                    pNewElem->setMatrixStore(_currMatrix);
+                    pNewElem->setLightsState(_lightsState);
+
+                    if(isMultiPass)
+                    {
+                        if(mpi == mpMatPasses-1)
+                            pNewElem->setLastMultiPass();
+                        else
+                            pNewElem->setMultiPass();
+                    }
+
+                    pNewPassElem->addChild(pNewElem);
+                }
+
+                if(_pMatRoots.find(sortKey) == _pMatRoots.end())
+                    _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
+
+                _pMatRoots[sortKey]->addChild(pNewMatElem);
+            }
+        }
+        else
+        {
+            if(!isMultiPass)
+            {
+                DrawTreeNode *pNewElem = _pNodeFactory->create();
                 pNewElem->setNode       (getActNode());
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
-                
-                // FIXME call pNewElem->setState(pState); if the _lightsState
-                // is different to the one from the last added child! Without it
-                // activate or changeFrom is never called and the OSGActiveLightsMask in
-                // the SHLChunk never updated.
-
-                if(isMultiPass)
-                {
-                    // for multipass we have a different state in all draw node
-                    // children.
-                    pNewElem->setState(pState);
-
-                    if(mpi == mpMatPasses-1)
-                        pNewElem->setLastMultiPass();
-                    else
-                        pNewElem->setMultiPass();
-                }
-                
                 it->second->addChild(pNewElem);
             }
+            else
+            {
+                // for two passes it looks like this.
+                //      root
+                //     /    \
+                //  state1  state2
+                //   / \ \    / \ \
+                //  n1 n2 nx n1 n2 nx
+
+                DrawTreeNode *pNewPassElem = it->second->getFirstChild();
+                for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
+                {
+                    DrawTreeNode *pNewElem = _pNodeFactory->create();
+                    pNewElem->setNode       (getActNode());
+                    pNewElem->setFunctor    (func);
+                    pNewElem->setMatrixStore(_currMatrix);
+                    pNewElem->setLightsState(_lightsState);
+
+                    if(isMultiPass)
+                    {
+                        if(mpi == mpMatPasses-1)
+                            pNewElem->setLastMultiPass();
+                        else
+                            pNewElem->setMultiPass();
+                    }
+
+                    pNewPassElem->addChild(pNewElem);
+                    pNewPassElem = pNewPassElem->getBrother();
+                }
+            }
         }
-    } // multipass
+    }
 }
 
 void RenderAction::dropLight(Light *pLight)

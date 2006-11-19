@@ -160,6 +160,16 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Program Parameter                         */
+    /*! \{                                                                 */
+
+    void addProgramParameter(GLenum name, UInt32 value);
+    void subProgramParameter(GLenum name);
+    void setProgramParameter(GLenum name, UInt32 value);
+    UInt32 getProgramParameter(GLenum name);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Parameter funcs                           */
     /*! \{                                                                 */
 
@@ -332,6 +342,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.29 2006/11/18 12:03:55 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.30 2006/11/19 11:41:11 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
