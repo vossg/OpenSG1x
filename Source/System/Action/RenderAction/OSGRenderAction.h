@@ -229,6 +229,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setOcclusionMask(NodePtr node, UInt8 mask);
     bool hasGeometryChild(NodePtr node);
 
+    void drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax);
     void drawMultiFrameOcclusionBB(DrawTreeNode *pRoot);
     void drawHierarchicalMultiFrameOcclusionBB(const Matrix &view, NodePtr node);
 
@@ -314,6 +315,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _currentOcclusionQueryIndex;
     std::vector<NodePtr>      _occluded_nodes;
     std::set<UInt32>          _hier_occlusions;
+    UInt32                    _occ_bb_dl;
 
     bool                      _bSmallFeatureCulling;
     Real32                    _smallFeaturesPixels;

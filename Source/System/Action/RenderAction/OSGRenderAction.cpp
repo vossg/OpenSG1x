@@ -275,6 +275,7 @@ RenderAction::RenderAction(void) :
     _currentOcclusionQueryIndex(0),
     _occluded_nodes            (),
     _hier_occlusions           (),
+    _occ_bb_dl                 (0),
 
     _bSmallFeatureCulling   (false),
     _smallFeaturesPixels    (10.0f),
@@ -392,6 +393,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _currentOcclusionQueryIndex(source._currentOcclusionQueryIndex),
     _occluded_nodes            (source._occluded_nodes),
     _hier_occlusions           (source._hier_occlusions),
+    _occ_bb_dl                 (source._occ_bb_dl),
 
     _bSmallFeatureCulling   (source._bSmallFeatureCulling),
     _smallFeaturesPixels    (source._smallFeaturesPixels),
@@ -457,6 +459,9 @@ RenderAction * RenderAction::create(void)
 RenderAction::~RenderAction(void)
 {
     delete _pNodeFactory;
+
+    if(_occ_bb_dl != 0)
+        glDeleteLists(_occ_bb_dl, 1);
 
     if(_occlusionQuery != 0)
         _glDeleteQueriesARB(1, &_occlusionQuery);
@@ -1525,39 +1530,18 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 
                 if(_occlusionQuery == 0)
                     _glGenQueriesARB(1, &_occlusionQuery);
-    
-                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
-    
+
                 const DynamicVolume& vol = pRoot->getNode()->getVolume();
                 Pnt3f min,max;
                 vol.getBounds(min, max);
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glEnd();
-        
-                glBegin( GL_TRIANGLE_STRIP);
-                glVertex3f( max[0], max[1], min[2]);
-                glVertex3f( max[0], max[1], max[2]);
-                glVertex3f( max[0], min[1], min[2]);
-                glVertex3f( max[0], min[1], max[2]);
-                glVertex3f( min[0], min[1], min[2]);
-                glVertex3f( min[0], min[1], max[2]);
-                glVertex3f( min[0], max[1], min[2]);
-                glVertex3f( min[0], max[1], max[2]);
-                glEnd();
-    
+
+                _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, _occlusionQuery);
+                drawOcclusionBB(min, max);
                 _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-    
+
                 glDepthMask(GL_TRUE);
                 glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-    
+
                 GLuint pixels = 0;
                 _glGetQueryObjectuivARB(_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
                 ++_uiNumOcclusionTests;
@@ -1692,6 +1676,79 @@ void RenderAction::setOcclusionQuery(NodePtr node, GLuint occlusionQuery)
     _occlusionQueries.insert(std::make_pair(node.getFieldContainerId(), occlusionQuery));
 }
 
+void RenderAction::drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax)
+{
+#if 1
+
+    glBegin( GL_TRIANGLE_STRIP);
+    glVertex3f( bbmin[0], bbmin[1], bbmax[2]);
+    glVertex3f( bbmax[0], bbmin[1], bbmax[2]);
+    glVertex3f( bbmin[0], bbmax[1], bbmax[2]);
+    glVertex3f( bbmax[0], bbmax[1], bbmax[2]);
+    glVertex3f( bbmin[0], bbmax[1], bbmin[2]);
+    glVertex3f( bbmax[0], bbmax[1], bbmin[2]);
+    glVertex3f( bbmin[0], bbmin[1], bbmin[2]);
+    glVertex3f( bbmax[0], bbmin[1], bbmin[2]);
+    glEnd();
+
+    glBegin( GL_TRIANGLE_STRIP);
+    glVertex3f( bbmax[0], bbmax[1], bbmin[2]);
+    glVertex3f( bbmax[0], bbmax[1], bbmax[2]);
+    glVertex3f( bbmax[0], bbmin[1], bbmin[2]);
+    glVertex3f( bbmax[0], bbmin[1], bbmax[2]);
+    glVertex3f( bbmin[0], bbmin[1], bbmin[2]);
+    glVertex3f( bbmin[0], bbmin[1], bbmax[2]);
+    glVertex3f( bbmin[0], bbmax[1], bbmin[2]);
+    glVertex3f( bbmin[0], bbmax[1], bbmax[2]);
+    glEnd();
+
+#else
+
+    if(_occ_bb_dl == 0)
+    {
+        // we create display list for rendering the occlusion
+        // bounding box.
+        // is this faster ??? need to check it amz.
+        Pnt3f min(-0.5f, -0.5f, -0.5f);
+        Pnt3f max(0.5f, 0.5f, 0.5f);
+        _occ_bb_dl = glGenLists(1);
+
+        glNewList(_occ_bb_dl, GL_COMPILE);
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glEnd();
+    
+            glBegin( GL_TRIANGLE_STRIP);
+            glVertex3f( max[0], max[1], min[2]);
+            glVertex3f( max[0], max[1], max[2]);
+            glVertex3f( max[0], min[1], min[2]);
+            glVertex3f( max[0], min[1], max[2]);
+            glVertex3f( min[0], min[1], min[2]);
+            glVertex3f( min[0], min[1], max[2]);
+            glVertex3f( min[0], max[1], min[2]);
+            glVertex3f( min[0], max[1], max[2]);
+            glEnd();
+        glEndList();
+    }
+
+    Vec3f s = bbmax - bbmin;
+    Vec3f t = bbmin + bbmax;
+    t *= 0.5f;
+    glPushMatrix();
+        glTranslatef(t[0], t[1], t[2]);
+        glScalef(s[0], s[1], s[2]);
+        glCallList(_occ_bb_dl);
+    glPopMatrix();
+#endif
+}
+
 void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
@@ -1730,31 +1787,9 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
                     GLuint occlusionQuery = getOcclusionQuery();
 
                     _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
-            
-                    glBegin( GL_TRIANGLE_STRIP);
-                    glVertex3f( min[0], min[1], max[2]);
-                    glVertex3f( max[0], min[1], max[2]);
-                    glVertex3f( min[0], max[1], max[2]);
-                    glVertex3f( max[0], max[1], max[2]);
-                    glVertex3f( min[0], max[1], min[2]);
-                    glVertex3f( max[0], max[1], min[2]);
-                    glVertex3f( min[0], min[1], min[2]);
-                    glVertex3f( max[0], min[1], min[2]);
-                    glEnd();
-            
-                    glBegin( GL_TRIANGLE_STRIP);
-                    glVertex3f( max[0], max[1], min[2]);
-                    glVertex3f( max[0], max[1], max[2]);
-                    glVertex3f( max[0], min[1], min[2]);
-                    glVertex3f( max[0], min[1], max[2]);
-                    glVertex3f( min[0], min[1], min[2]);
-                    glVertex3f( min[0], min[1], max[2]);
-                    glVertex3f( min[0], max[1], min[2]);
-                    glVertex3f( min[0], max[1], max[2]);
-                    glEnd();
-            
+                    drawOcclusionBB(min, max);
                     _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
-        
+
                     // we use the node because the geometry core could be shared!
                     setOcclusionQuery(pRoot->getNode(), occlusionQuery);
                 }
@@ -1795,29 +1830,7 @@ void RenderAction::drawHierarchicalMultiFrameOcclusionBB(const Matrix &view,
         GLuint occlusionQuery = getOcclusionQuery();
 
         _glBeginQueryARB(GL_SAMPLES_PASSED_ARB, occlusionQuery);
-
-        glBegin( GL_TRIANGLE_STRIP);
-        glVertex3f( min[0], min[1], max[2]);
-        glVertex3f( max[0], min[1], max[2]);
-        glVertex3f( min[0], max[1], max[2]);
-        glVertex3f( max[0], max[1], max[2]);
-        glVertex3f( min[0], max[1], min[2]);
-        glVertex3f( max[0], max[1], min[2]);
-        glVertex3f( min[0], min[1], min[2]);
-        glVertex3f( max[0], min[1], min[2]);
-        glEnd();
-
-        glBegin( GL_TRIANGLE_STRIP);
-        glVertex3f( max[0], max[1], min[2]);
-        glVertex3f( max[0], max[1], max[2]);
-        glVertex3f( max[0], min[1], min[2]);
-        glVertex3f( max[0], min[1], max[2]);
-        glVertex3f( min[0], min[1], min[2]);
-        glVertex3f( min[0], min[1], max[2]);
-        glVertex3f( min[0], max[1], min[2]);
-        glVertex3f( min[0], max[1], max[2]);
-        glEnd();
-
+        drawOcclusionBB(min, max);
         _glEndQueryARB(GL_SAMPLES_PASSED_ARB);
 
         // we use the node because the geometry core could be shared!
