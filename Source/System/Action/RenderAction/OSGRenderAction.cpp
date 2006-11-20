@@ -1680,61 +1680,80 @@ void RenderAction::drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax)
 {
 #if 1
 
-    glBegin( GL_TRIANGLE_STRIP);
-    glVertex3f( bbmin[0], bbmin[1], bbmax[2]);
-    glVertex3f( bbmax[0], bbmin[1], bbmax[2]);
-    glVertex3f( bbmin[0], bbmax[1], bbmax[2]);
-    glVertex3f( bbmax[0], bbmax[1], bbmax[2]);
-    glVertex3f( bbmin[0], bbmax[1], bbmin[2]);
-    glVertex3f( bbmax[0], bbmax[1], bbmin[2]);
-    glVertex3f( bbmin[0], bbmin[1], bbmin[2]);
-    glVertex3f( bbmax[0], bbmin[1], bbmin[2]);
+#if 0
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f( bbmin[0], bbmin[1], bbmax[2]); // 0
+    glVertex3f( bbmax[0], bbmin[1], bbmax[2]); // 1
+    glVertex3f( bbmin[0], bbmax[1], bbmax[2]); // 2
+    glVertex3f( bbmax[0], bbmax[1], bbmax[2]); // 3
+    glVertex3f( bbmin[0], bbmax[1], bbmin[2]); // 4
+    glVertex3f( bbmax[0], bbmax[1], bbmin[2]); // 5
+    glVertex3f( bbmin[0], bbmin[1], bbmin[2]); // 6
+    glVertex3f( bbmax[0], bbmin[1], bbmin[2]); // 7
     glEnd();
 
-    glBegin( GL_TRIANGLE_STRIP);
-    glVertex3f( bbmax[0], bbmax[1], bbmin[2]);
-    glVertex3f( bbmax[0], bbmax[1], bbmax[2]);
-    glVertex3f( bbmax[0], bbmin[1], bbmin[2]);
-    glVertex3f( bbmax[0], bbmin[1], bbmax[2]);
-    glVertex3f( bbmin[0], bbmin[1], bbmin[2]);
-    glVertex3f( bbmin[0], bbmin[1], bbmax[2]);
-    glVertex3f( bbmin[0], bbmax[1], bbmin[2]);
-    glVertex3f( bbmin[0], bbmax[1], bbmax[2]);
+    glBegin(GL_TRIANGLE_STRIP);
+    glVertex3f( bbmax[0], bbmax[1], bbmin[2]); // 5
+    glVertex3f( bbmax[0], bbmax[1], bbmax[2]); // 3
+    glVertex3f( bbmax[0], bbmin[1], bbmin[2]); // 7
+    glVertex3f( bbmax[0], bbmin[1], bbmax[2]); // 1
+    glVertex3f( bbmin[0], bbmin[1], bbmin[2]); // 6
+    glVertex3f( bbmin[0], bbmin[1], bbmax[2]); // 0
+    glVertex3f( bbmin[0], bbmax[1], bbmin[2]); // 4
+    glVertex3f( bbmin[0], bbmax[1], bbmax[2]); // 2
     glEnd();
+
+#else
+
+    // not sure if this is faster but it reduces the amount of
+    // gl commands.
+    const GLubyte indices[16] = { 0,1,2,3,4,5,6,7,  5,3,7,1,6,0,4,2 };
+    Real32 vertices[24];
+    vertices[0]  = bbmin[0]; vertices[1]  = bbmin[1]; vertices[2]  = bbmax[2];
+    vertices[3]  = bbmax[0]; vertices[4]  = bbmin[1]; vertices[5]  = bbmax[2];
+    vertices[6]  = bbmin[0]; vertices[7]  = bbmax[1]; vertices[8]  = bbmax[2];
+    vertices[9]  = bbmax[0]; vertices[10] = bbmax[1]; vertices[11] = bbmax[2];
+    vertices[12] = bbmin[0]; vertices[13] = bbmax[1]; vertices[14] = bbmin[2];
+    vertices[15] = bbmax[0]; vertices[16] = bbmax[1]; vertices[17] = bbmin[2];
+    vertices[18] = bbmin[0]; vertices[19] = bbmin[1]; vertices[20] = bbmin[2];
+    vertices[21] = bbmax[0]; vertices[22] = bbmin[1]; vertices[23] = bbmin[2];
+
+    glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_BYTE, &indices[0]);
+    glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_BYTE, &indices[8]);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+#endif
 
 #else
 
     if(_occ_bb_dl == 0)
     {
-        // we create display list for rendering the occlusion
+        // we create a display list for rendering the occlusion
         // bounding box.
         // is this faster ??? need to check it amz.
         Pnt3f min(-0.5f, -0.5f, -0.5f);
         Pnt3f max(0.5f, 0.5f, 0.5f);
         _occ_bb_dl = glGenLists(1);
 
+        const GLubyte indices[16] = { 0,1,2,3,4,5,6,7,  5,3,7,1,6,0,4,2 };
+        Real32 vertices[24];
+        vertices[0]  = min[0]; vertices[1]  = min[1]; vertices[2]  = max[2];
+        vertices[3]  = max[0]; vertices[4]  = min[1]; vertices[5]  = max[2];
+        vertices[6]  = min[0]; vertices[7]  = max[1]; vertices[8]  = max[2];
+        vertices[9]  = max[0]; vertices[10] = max[1]; vertices[11] = max[2];
+        vertices[12] = min[0]; vertices[13] = max[1]; vertices[14] = min[2];
+        vertices[15] = max[0]; vertices[16] = max[1]; vertices[17] = min[2];
+        vertices[18] = min[0]; vertices[19] = min[1]; vertices[20] = min[2];
+        vertices[21] = max[0]; vertices[22] = min[1]; vertices[23] = min[2];
+
         glNewList(_occ_bb_dl, GL_COMPILE);
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glEnd();
-    
-            glBegin( GL_TRIANGLE_STRIP);
-            glVertex3f( max[0], max[1], min[2]);
-            glVertex3f( max[0], max[1], max[2]);
-            glVertex3f( max[0], min[1], min[2]);
-            glVertex3f( max[0], min[1], max[2]);
-            glVertex3f( min[0], min[1], min[2]);
-            glVertex3f( min[0], min[1], max[2]);
-            glVertex3f( min[0], max[1], min[2]);
-            glVertex3f( min[0], max[1], max[2]);
-            glEnd();
+            glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_BYTE, &indices[0]);
+            glDrawElements(GL_TRIANGLE_STRIP, 8, GL_UNSIGNED_BYTE, &indices[8]);
+            glDisableClientState(GL_VERTEX_ARRAY);
         glEndList();
     }
 
@@ -1746,6 +1765,7 @@ void RenderAction::drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax)
         glScalef(s[0], s[1], s[2]);
         glCallList(_occ_bb_dl);
     glPopMatrix();
+
 #endif
 }
 
