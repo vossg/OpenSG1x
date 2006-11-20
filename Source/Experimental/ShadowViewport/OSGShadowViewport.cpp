@@ -466,8 +466,6 @@ void ShadowViewport::render(RenderActionBase *action)
                 break;
         }
         _restart = false;
-        StereoBufferViewport::render(action);
-        return;
     }
 
     if(_treeRenderer == NULL)
@@ -1360,7 +1358,7 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.23 2006/11/17 13:00:03 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.24 2006/11/20 16:30:59 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

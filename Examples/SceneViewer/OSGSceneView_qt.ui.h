@@ -813,8 +813,7 @@ void OSGSceneView::setShadowMode(int mode)
             endEditCP(svp, OSG::ShadowViewport::ShadowModeFieldMask);
         }
     }
-    updateGL();
-    updateGL();
+
     updateGL();
 }
 

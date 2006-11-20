@@ -202,6 +202,9 @@ void TreeRenderer::initialize(Window *win)
 {
     if(!_initDone)
     {
+        // without this the registered extensions are not valid yet!
+        win->frameInit();
+
         //check support for ShadowExtension
         if(!win->hasExtension(_depth_texture_extension))
         {
