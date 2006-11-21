@@ -81,6 +81,10 @@
 #include <OSGReal32Fields.h> // GlobalShadowIntensity type
 #include <OSGBoolFields.h> // FboOn type
 #include <OSGBoolFields.h> // AutoExcludeTransparentNodes type
+#include <OSGBoolFields.h> // Red type
+#include <OSGBoolFields.h> // Blue type
+#include <OSGBoolFields.h> // Green type
+#include <OSGBoolFields.h> // Alpha type
 
 #include <OSGShadowViewportFields.h>
 
@@ -118,7 +122,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
         GlobalShadowIntensityFieldId       = AutoSearchForLightsFieldId         + 1,
         FboOnFieldId                       = GlobalShadowIntensityFieldId       + 1,
         AutoExcludeTransparentNodesFieldId = FboOnFieldId                       + 1,
-        NextFieldId                        = AutoExcludeTransparentNodesFieldId + 1
+        RedFieldId                         = AutoExcludeTransparentNodesFieldId + 1,
+        BlueFieldId                        = RedFieldId                         + 1,
+        GreenFieldId                       = BlueFieldId                        + 1,
+        AlphaFieldId                       = GreenFieldId                       + 1,
+        NextFieldId                        = AlphaFieldId                       + 1
     };
 
     static const OSG::BitVector OffBiasFieldMask;
@@ -135,6 +143,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     static const OSG::BitVector GlobalShadowIntensityFieldMask;
     static const OSG::BitVector FboOnFieldMask;
     static const OSG::BitVector AutoExcludeTransparentNodesFieldMask;
+    static const OSG::BitVector RedFieldMask;
+    static const OSG::BitVector BlueFieldMask;
+    static const OSG::BitVector GreenFieldMask;
+    static const OSG::BitVector AlphaFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -175,6 +187,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
            SFReal32            *getSFGlobalShadowIntensity(void);
            SFBool              *getSFFboOn          (void);
            SFBool              *getSFAutoExcludeTransparentNodes(void);
+           SFBool              *getSFRed            (void);
+           SFBool              *getSFBlue           (void);
+           SFBool              *getSFGreen          (void);
+           SFBool              *getSFAlpha          (void);
 
            Real32              &getOffBias        (void);
      const Real32              &getOffBias        (void) const;
@@ -200,6 +216,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      const bool                &getFboOn          (void) const;
            bool                &getAutoExcludeTransparentNodes(void);
      const bool                &getAutoExcludeTransparentNodes(void) const;
+           bool                &getRed            (void);
+     const bool                &getRed            (void) const;
+           bool                &getBlue           (void);
+     const bool                &getBlue           (void) const;
+           bool                &getGreen          (void);
+     const bool                &getGreen          (void) const;
+           bool                &getAlpha          (void);
+     const bool                &getAlpha          (void) const;
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
      const MFNodePtr           &getLightNodes     (void) const;
@@ -224,6 +248,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      void setGlobalShadowIntensity( const Real32 &value );
      void setFboOn          ( const bool &value );
      void setAutoExcludeTransparentNodes( const bool &value );
+     void setRed            ( const bool &value );
+     void setBlue           ( const bool &value );
+     void setGreen          ( const bool &value );
+     void setAlpha          ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +308,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     SFReal32            _sfGlobalShadowIntensity;
     SFBool              _sfFboOn;
     SFBool              _sfAutoExcludeTransparentNodes;
+    SFBool              _sfRed;
+    SFBool              _sfBlue;
+    SFBool              _sfGreen;
+    SFBool              _sfAlpha;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -357,6 +389,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.10 2006/09/05 12:03:23 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.11 2006/11/21 12:28:58 mroth Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

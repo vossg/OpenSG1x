@@ -403,6 +403,7 @@ void ShadowViewport::onDestroy(void)
 
 void ShadowViewport::render(RenderActionBase *action)
 {
+    glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
     if(_restart)
     {
         if(_treeRenderer != NULL)
@@ -471,28 +472,33 @@ void ShadowViewport::render(RenderActionBase *action)
     if(_treeRenderer == NULL)
     {
         StereoBufferViewport::render(action);
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
     if(getCamera() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no camera!" << std::endl;
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
     if(getBackground() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no Background!" << std::endl;
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
     if(getRoot() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no root!" << std::endl;
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
     if(!getShadowOn())
     {
         StereoBufferViewport::render(action);
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
@@ -609,6 +615,7 @@ void ShadowViewport::render(RenderActionBase *action)
 
         glDrawBuffer(GL_BACK);
     }
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
 Action::ResultE ShadowViewport::findLight(NodePtr &node)
@@ -1358,7 +1365,7 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.24 2006/11/20 16:30:59 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.25 2006/11/21 12:28:58 mroth Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

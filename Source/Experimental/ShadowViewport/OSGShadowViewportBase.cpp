@@ -61,6 +61,10 @@
 #include "OSGShadowViewportBase.h"
 #include "OSGShadowViewport.h"
 
+#include <OSGGL.h>                        // Red default header
+#include <OSGGL.h>                        // Blue default header
+#include <OSGGL.h>                        // Green default header
+#include <OSGGL.h>                        // Alpha default header
 
 OSG_BEGIN_NAMESPACE
 
@@ -105,6 +109,18 @@ const OSG::BitVector  ShadowViewportBase::FboOnFieldMask =
 
 const OSG::BitVector  ShadowViewportBase::AutoExcludeTransparentNodesFieldMask = 
     (TypeTraits<BitVector>::One << ShadowViewportBase::AutoExcludeTransparentNodesFieldId);
+
+const OSG::BitVector  ShadowViewportBase::RedFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::RedFieldId);
+
+const OSG::BitVector  ShadowViewportBase::BlueFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::BlueFieldId);
+
+const OSG::BitVector  ShadowViewportBase::GreenFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::GreenFieldId);
+
+const OSG::BitVector  ShadowViewportBase::AlphaFieldMask = 
+    (TypeTraits<BitVector>::One << ShadowViewportBase::AlphaFieldId);
 
 const OSG::BitVector ShadowViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -154,6 +170,18 @@ const OSG::BitVector ShadowViewportBase::MTInfluenceMask =
 */
 /*! \var bool            ShadowViewportBase::_sfAutoExcludeTransparentNodes
     Usually transparent objects do not throw shadows.
+*/
+/*! \var bool            ShadowViewportBase::_sfRed
+    Define whether the red color channel is written to.
+*/
+/*! \var bool            ShadowViewportBase::_sfBlue
+    Define whether the green color channel is written to.
+*/
+/*! \var bool            ShadowViewportBase::_sfGreen
+    Define whether the blue color channel is written to.
+*/
+/*! \var bool            ShadowViewportBase::_sfAlpha
+    Define whether the alpha color channel is written to.
 */
 
 //! ShadowViewport description
@@ -229,7 +257,27 @@ FieldDescription *ShadowViewportBase::_desc[] =
                      "autoExcludeTransparentNodes", 
                      AutoExcludeTransparentNodesFieldId, AutoExcludeTransparentNodesFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowViewportBase::getSFAutoExcludeTransparentNodes)
+                     (FieldAccessMethod) &ShadowViewportBase::getSFAutoExcludeTransparentNodes),
+    new FieldDescription(SFBool::getClassType(), 
+                     "red", 
+                     RedFieldId, RedFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFRed),
+    new FieldDescription(SFBool::getClassType(), 
+                     "blue", 
+                     BlueFieldId, BlueFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFBlue),
+    new FieldDescription(SFBool::getClassType(), 
+                     "green", 
+                     GreenFieldId, GreenFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFGreen),
+    new FieldDescription(SFBool::getClassType(), 
+                     "alpha", 
+                     AlphaFieldId, AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &ShadowViewportBase::getSFAlpha)
 };
 
 
@@ -321,6 +369,10 @@ ShadowViewportBase::ShadowViewportBase(void) :
     _sfGlobalShadowIntensity  (Real32(0.0)), 
     _sfFboOn                  (bool(true)), 
     _sfAutoExcludeTransparentNodes(bool(true)), 
+    _sfRed                    (bool(GL_TRUE)), 
+    _sfBlue                   (bool(GL_TRUE)), 
+    _sfGreen                  (bool(GL_TRUE)), 
+    _sfAlpha                  (bool(GL_TRUE)), 
     Inherited() 
 {
 }
@@ -344,6 +396,10 @@ ShadowViewportBase::ShadowViewportBase(const ShadowViewportBase &source) :
     _sfGlobalShadowIntensity  (source._sfGlobalShadowIntensity  ), 
     _sfFboOn                  (source._sfFboOn                  ), 
     _sfAutoExcludeTransparentNodes(source._sfAutoExcludeTransparentNodes), 
+    _sfRed                    (source._sfRed                    ), 
+    _sfBlue                   (source._sfBlue                   ), 
+    _sfGreen                  (source._sfGreen                  ), 
+    _sfAlpha                  (source._sfAlpha                  ), 
     Inherited                 (source)
 {
 }
@@ -430,6 +486,26 @@ UInt32 ShadowViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAutoExcludeTransparentNodes.getBinSize();
     }
 
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+    {
+        returnValue += _sfRed.getBinSize();
+    }
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+    {
+        returnValue += _sfBlue.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+    {
+        returnValue += _sfGreen.getBinSize();
+    }
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        returnValue += _sfAlpha.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -507,6 +583,26 @@ void ShadowViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
     {
         _sfAutoExcludeTransparentNodes.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+    {
+        _sfRed.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+    {
+        _sfBlue.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+    {
+        _sfGreen.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        _sfAlpha.copyToBin(pMem);
     }
 
 
@@ -587,6 +683,26 @@ void ShadowViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAutoExcludeTransparentNodes.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+    {
+        _sfRed.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+    {
+        _sfBlue.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+    {
+        _sfGreen.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        _sfAlpha.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -639,6 +755,18 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
     if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
         _sfAutoExcludeTransparentNodes.syncWith(pOther->_sfAutoExcludeTransparentNodes);
 
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+        _sfRed.syncWith(pOther->_sfRed);
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+        _sfBlue.syncWith(pOther->_sfBlue);
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+        _sfGreen.syncWith(pOther->_sfGreen);
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
+
 
 }
 #else
@@ -684,6 +812,18 @@ void ShadowViewportBase::executeSyncImpl(      ShadowViewportBase *pOther,
 
     if(FieldBits::NoField != (AutoExcludeTransparentNodesFieldMask & whichField))
         _sfAutoExcludeTransparentNodes.syncWith(pOther->_sfAutoExcludeTransparentNodes);
+
+    if(FieldBits::NoField != (RedFieldMask & whichField))
+        _sfRed.syncWith(pOther->_sfRed);
+
+    if(FieldBits::NoField != (BlueFieldMask & whichField))
+        _sfBlue.syncWith(pOther->_sfBlue);
+
+    if(FieldBits::NoField != (GreenFieldMask & whichField))
+        _sfGreen.syncWith(pOther->_sfGreen);
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
 
 
     if(FieldBits::NoField != (LightNodesFieldMask & whichField))
@@ -740,7 +880,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.10 2006/09/05 12:03:23 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.11 2006/11/21 12:28:58 mroth Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

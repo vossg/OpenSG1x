@@ -142,4 +142,48 @@ First Release of ShadowMap-Viewport. -Viewport is capable to handle multiple Lig
 	>
 	Usually transparent objects do not throw shadows.
 	</Field>
+	<Field
+		name="red"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+                defaultHeader="&lt;OSGGL.h&gt;"
+		defaultValue="GL_TRUE"
+		access="public"
+	>
+        Define whether the red color channel is written to.
+	</Field>
+	<Field
+		name="blue"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+                defaultHeader="&lt;OSGGL.h&gt;"
+		defaultValue="GL_TRUE"
+		access="public"
+	>
+        Define whether the green color channel is written to.
+	</Field>
+	<Field
+		name="green"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+                defaultHeader="&lt;OSGGL.h&gt;"
+		defaultValue="GL_TRUE"
+		access="public"
+	>
+        Define whether the blue color channel is written to.
+	</Field>
+	<Field
+		name="alpha"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+                defaultHeader="&lt;OSGGL.h&gt;"
+		defaultValue="GL_TRUE"
+		access="public"
+	>
+        Define whether the alpha color channel is written to.
+	</Field>
 </FieldContainer>

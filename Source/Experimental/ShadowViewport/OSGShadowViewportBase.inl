@@ -194,6 +194,34 @@ SFBool *ShadowViewportBase::getSFAutoExcludeTransparentNodes(void)
     return &_sfAutoExcludeTransparentNodes;
 }
 
+//! Get the ShadowViewport::_sfRed field.
+inline
+SFBool *ShadowViewportBase::getSFRed(void)
+{
+    return &_sfRed;
+}
+
+//! Get the ShadowViewport::_sfBlue field.
+inline
+SFBool *ShadowViewportBase::getSFBlue(void)
+{
+    return &_sfBlue;
+}
+
+//! Get the ShadowViewport::_sfGreen field.
+inline
+SFBool *ShadowViewportBase::getSFGreen(void)
+{
+    return &_sfGreen;
+}
+
+//! Get the ShadowViewport::_sfAlpha field.
+inline
+SFBool *ShadowViewportBase::getSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
 
 //! Get the value of the ShadowViewport::_sfOffBias field.
 inline
@@ -447,6 +475,90 @@ void ShadowViewportBase::setAutoExcludeTransparentNodes(const bool &value)
     _sfAutoExcludeTransparentNodes.setValue(value);
 }
 
+//! Get the value of the ShadowViewport::_sfRed field.
+inline
+bool &ShadowViewportBase::getRed(void)
+{
+    return _sfRed.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfRed field.
+inline
+const bool &ShadowViewportBase::getRed(void) const
+{
+    return _sfRed.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfRed field.
+inline
+void ShadowViewportBase::setRed(const bool &value)
+{
+    _sfRed.setValue(value);
+}
+
+//! Get the value of the ShadowViewport::_sfBlue field.
+inline
+bool &ShadowViewportBase::getBlue(void)
+{
+    return _sfBlue.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfBlue field.
+inline
+const bool &ShadowViewportBase::getBlue(void) const
+{
+    return _sfBlue.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfBlue field.
+inline
+void ShadowViewportBase::setBlue(const bool &value)
+{
+    _sfBlue.setValue(value);
+}
+
+//! Get the value of the ShadowViewport::_sfGreen field.
+inline
+bool &ShadowViewportBase::getGreen(void)
+{
+    return _sfGreen.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfGreen field.
+inline
+const bool &ShadowViewportBase::getGreen(void) const
+{
+    return _sfGreen.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfGreen field.
+inline
+void ShadowViewportBase::setGreen(const bool &value)
+{
+    _sfGreen.setValue(value);
+}
+
+//! Get the value of the ShadowViewport::_sfAlpha field.
+inline
+bool &ShadowViewportBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfAlpha field.
+inline
+const bool &ShadowViewportBase::getAlpha(void) const
+{
+    return _sfAlpha.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfAlpha field.
+inline
+void ShadowViewportBase::setAlpha(const bool &value)
+{
+    _sfAlpha.setValue(value);
+}
+
 
 //! Get the value of the \a index element the ShadowViewport::_mfLightNodes field.
 inline
@@ -492,5 +604,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.10 2006/09/05 12:03:23 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.11 2006/11/21 12:28:58 mroth Exp $"
 
