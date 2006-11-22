@@ -44,37 +44,61 @@ int setupGLUT( int *argc, char *argv[] );
 static std::string _vertex_shader =
 "void main(void)\n"
 "{\n"
-"    gl_Position = ftransform();\n"
+"    gl_Position = gl_Vertex;\n"
+"    gl_TexCoord[0] = vec4(abs(gl_Normal), 0.0);\n"
 "}\n"
 "\n";
 
 static std::string _fragment_shader =
 "void main (void)\n"
 "{\n"
-"    gl_FragColor = vec4 (1.0, 0.0, 0.0, 1.0);\n"
+"    gl_FragColor = gl_Color;\n"
 "\n"
 "}\n";
 
+// ok we create some triangles to draw the face normals.
 static std::string _geometry_shader =
 "#version 120\n"
 "#extension GL_EXT_geometry_shader4 : enable\n"
 "\n"
 "void main(void)\n"
 "{\n"
-"      mat4x4 bezierBasis=mat4x4( 1, -3, 3, -1, 0, 3, -6, 3 , 0, 0, 3, -3 , 0, 0, 0, 1);\n"
-"      for(int i=0; i<64; i++)\n"
-"      {\n"
-"            float t = i / (64.0-1.0);\n"
-"            vec4 tvec= vec4(1, t, t*t, t*t*t);\n"
-"            vec4 b =tvec*bezierBasis;\n"
-"            vec4 p = gl_PositionIn[0]*b.x+ gl_PositionIn[1]*b.y+ gl_PositionIn[2]*b.z+ gl_PositionIn[3]*b.w;\n"
-"            gl_Position =p;\n"
-"            EmitVertex();\n"
-"      }\n"
-"      EndPrimitive();\n"
+"    vec4 v1 = gl_PositionIn[0];\n"
+"    vec4 v2 = gl_PositionIn[1];\n"
+"    vec4 v3 = gl_PositionIn[2];\n"
+"\n"
+"    vec4 l1 = v2 - v1;\n"
+"    vec4 l2 = v3 - v1;\n"
+"\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * v1;\n"
+"    gl_FrontColor = vec4(0.0, 1.0, 0.0, 0.0);\n"
+"    EmitVertex();\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * v2;\n"
+"    gl_FrontColor = vec4(0.0, 1.0, 0.0, 0.0);\n"
+"    EmitVertex();\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * v3;\n"
+"    gl_FrontColor = vec4(0.0, 1.0, 0.0, 0.0);\n"
+"    EmitVertex();\n"
+"    EndPrimitive();\n"
+"\n"
+"    vec3 l1n = l1.xyz;\n"
+"    vec3 l2n = l2.xyz;\n"
+"\n"
+"    vec3 N = cross(l1n.xyz, l2n.xyz);\n"
+"    N = normalize(N);\n"
+"    vec4 middle = v1 + 0.333 * l1 + 0.333 * l2;\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * middle;\n"
+"    gl_FrontColor = gl_TexCoordIn[0][0];\n"
+"    EmitVertex();\n"
+"    gl_FrontColor = gl_TexCoordIn[0][0];\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * (middle + 0.1 * vec4(N, 0.0));\n"
+"    EmitVertex();\n"
+"    gl_FrontColor = gl_TexCoordIn[0][0];\n"
+"    gl_Position = gl_ModelViewProjectionMatrix * (middle + vec4(0.01,0.01,0.01,0.0));\n"
+"    EmitVertex();\n"
+"    EndPrimitive();\n"
 "\n"
 "}\n";
-
 
 // Initialize GLUT & OpenSG and set up the scene
 int main(int argc, char **argv)
@@ -94,33 +118,20 @@ int main(int argc, char **argv)
     // Create the shader material
     ChunkMaterialPtr cmat = ChunkMaterial::create();
 
-    MaterialChunkPtr matc = MaterialChunk::create();
-    beginEditCP(matc);
-        matc->setAmbient(Color4f(0.1, 0.1, 0.1, 1.0));
-        matc->setDiffuse(Color4f(0.3, 0.3, 0.3, 1.0));
-        matc->setSpecular(Color4f(0.8, 0.8, 0.8, 1.0));
-        matc->setShininess(100);
-        matc->setLit(true);
-    endEditCP(matc);
-
     SHLChunkPtr shl = SHLChunk::create();
     beginEditCP(shl);
-        shl->setProgramParameter(GL_GEOMETRY_INPUT_TYPE_EXT, GL_LINES_ADJACENCY_EXT);
+        shl->setProgramParameter(GL_GEOMETRY_INPUT_TYPE_EXT, GL_TRIANGLES_ADJACENCY_EXT);
+        shl->setProgramParameter(GL_GEOMETRY_OUTPUT_TYPE_EXT, GL_TRIANGLES);
+        shl->setProgramParameter(GL_GEOMETRY_VERTICES_OUT_EXT, 6);
 
-        shl->setProgramParameter(GL_GEOMETRY_OUTPUT_TYPE_EXT, GL_LINE_STRIP);
-
-        //glGetIntegerv(GL_MAX_GEOMETRY_OUTPUT_VERTICES_EXT, &count);
-        shl->setProgramParameter(GL_GEOMETRY_VERTICES_OUT_EXT, 1024);
-
-        //shl->setVertexProgram(_vertex_shader);
-        //shl->setFragmentProgram(_fragment_shader);
+        shl->setVertexProgram(_vertex_shader);
+        shl->setFragmentProgram(_fragment_shader);
         shl->setGeometryProgram(_geometry_shader);
     endEditCP(shl);
 
     beginEditCP(cmat);
         cmat->addChunk(shl);
     endEditCP(cmat);
-
 
     // create root node
     _scene = Node::create();
@@ -219,7 +230,7 @@ int setupGLUT(int *argc, char *argv[])
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
 
-    int winid = glutCreateWindow("OpenSG CG Shader");
+    int winid = glutCreateWindow("OpenSG GLSL Geometry Shader");
 
     glutReshapeFunc(reshape);
     glutDisplayFunc(display);

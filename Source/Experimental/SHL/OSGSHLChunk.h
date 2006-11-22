@@ -113,6 +113,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                           bool useProgram = true, bool force = false,
                           bool keepProgramActive = false);
 
+    void updateProgramParameters(Window *win);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       State                                  */
@@ -167,6 +169,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void subProgramParameter(GLenum name);
     void setProgramParameter(GLenum name, UInt32 value);
     UInt32 getProgramParameter(GLenum name);
+    std::vector<std::pair<GLenum, UInt32> > getProgramParameters(void);
+    void clearProgramParameters(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -342,6 +346,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.30 2006/11/19 11:41:11 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.31 2006/11/22 15:33:02 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

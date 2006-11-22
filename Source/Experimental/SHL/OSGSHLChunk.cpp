@@ -370,7 +370,9 @@ void SHLChunk::changed(BitVector whichField, UInt32 origin)
         }
     }
 
-    if(whichField & ParametersFieldMask)
+    if((whichField & ParametersFieldMask) ||
+       (whichField & ProgramParameterNamesFieldMask) ||
+       (whichField & ProgramParameterValuesFieldMask))
     {
         if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
         {
@@ -431,6 +433,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
             updateProgram(win);
         }
 
+        updateProgramParameters(win);
         updateParameters(win, getParameters(), true, true/*mode != Window::needrefresh*/);
     }
     else
@@ -571,19 +574,6 @@ void SHLChunk::updateProgram(Window *win)
     {
         if(win->hasExtension(_geometry_extension))
         {
-            // get "glProgramParameteriEXT" function pointer
-            OSGGLPROGRAMPARAMETERIEXTPROC programParameteri =
-                (OSGGLPROGRAMPARAMETERIEXTPROC) win->getFunction(_funcProgramParameteri);
-
-            // set program parameters.
-            const MFGLenum &ppnames = getProgramParameterNames();
-            const MFUInt32 &ppvalues = getProgramParameterValues();
-            for(UInt32 i = 0; i < ppnames.size(); ++i)
-            {
-                if(i < ppvalues.size())
-                    programParameteri(program, ppnames[i], ppvalues[i]);
-            }
-
             GLenum shader_type = GL_GEOMETRY_SHADER_EXT;
 
             gShader = createShaderObject(shader_type);
@@ -671,6 +661,9 @@ void SHLChunk::updateProgram(Window *win)
         deleteObject(program);
         win->setGLObjectId(getGLId(), 0);
     }
+
+    updateProgramParameters(win);
+
     // update all parameter locations
     updateParameterLocations(win, getParameters());
     // update all parameters.
@@ -897,6 +890,34 @@ void SHLChunk::updateParameters(Window *win,
 
     if(useProgram && !keepProgramActive)
         useProgramObject(0);
+}
+
+void SHLChunk::updateProgramParameters(Window *win)
+{
+    if(!win->hasExtension(_geometry_extension))
+        return;
+
+    GLuint program = (GLuint) win->getGLObjectId(getGLId());
+
+    if(program == 0)
+    {
+        FNOTICE(("SHLChunk::updateParameters: program == 0!\n"
+                 "This frame will probably be rendered wrong!\n"));
+        return;
+    }
+
+    // get "glProgramParameteriEXT" function pointer
+    OSGGLPROGRAMPARAMETERIEXTPROC programParameteri =
+        (OSGGLPROGRAMPARAMETERIEXTPROC) win->getFunction(_funcProgramParameteri);
+
+    // set program parameters.
+    const MFGLenum &ppnames = getProgramParameterNames();
+    const MFUInt32 &ppvalues = getProgramParameterValues();
+    for(UInt32 i = 0; i < ppnames.size(); ++i)
+    {
+        if(i < ppvalues.size())
+            programParameteri(program, ppnames[i], ppvalues[i]);
+    }
 }
 
 void SHLChunk::checkOSGParameters(bool force)
@@ -1138,6 +1159,28 @@ UInt32 SHLChunk::getProgramParameter(GLenum name)
     FWARNING(("SHLChunk::getProgramParameter : Couldn't find program parameter %u!\n",
               name));
     return 0;
+}
+
+std::vector<std::pair<GLenum, UInt32> > SHLChunk::getProgramParameters(void)
+{
+    std::vector<std::pair<GLenum, UInt32> > parameters;
+
+    const MFGLenum &ppnames = getProgramParameterNames();
+    const MFUInt32 &ppvalues = getProgramParameterValues();
+
+    for(UInt32 i = 0; i < ppnames.size(); ++i)
+    {
+        if(i < ppvalues.size())
+            parameters.push_back(std::make_pair(ppnames[i], ppvalues[i]));
+    }
+
+    return parameters;
+}
+
+void SHLChunk::clearProgramParameters(void)
+{
+    getProgramParameterNames().clear();
+    getProgramParameterValues().clear();
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program,
@@ -1677,7 +1720,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.54 2006/11/19 11:41:11 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.55 2006/11/22 15:33:02 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
