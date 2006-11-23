@@ -130,6 +130,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     UInt32 _maxPLMapSize;
     UInt32 _PLMapSize;
     UInt32 _maxTexSize;
+    CameraPtr _combine_camera;
 
     void initialize(Window *win);
 

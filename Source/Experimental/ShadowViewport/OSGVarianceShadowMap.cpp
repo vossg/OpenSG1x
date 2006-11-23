@@ -1347,7 +1347,12 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase *action)
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
     glClear(GL_DEPTH_BUFFER_BIT);
+
+    // we can't use the shadowVP camera here could be a TileCameraDecorator!
+    action->setCamera(_combine_camera.getCPtr());
     _pf->draw(action, _shadowVP);
+    action->setCamera(_shadowVP->getCamera().getCPtr());
+
     glDisable(GL_SCISSOR_TEST);
 }
 

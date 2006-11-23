@@ -103,7 +103,8 @@ TreeRenderer::TreeRenderer(ShadowViewport *source) :
     _useShaderModel3(false),
     _maxPLMapSize(0),
     _PLMapSize(1),
-    _maxTexSize(0)
+    _maxTexSize(0),
+    _combine_camera(NullFC)
 {
     GLint   max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -191,11 +192,15 @@ TreeRenderer::TreeRenderer(ShadowViewport *source) :
     _funcRenderbufferStorage =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glRenderbufferStorageEXT",
                                   _framebuffer_object_extension);
+
+    _combine_camera = PerspectiveCamera::create();
+    addRefCP(_combine_camera);
 }
 
 
 TreeRenderer::~TreeRenderer(void)
 {
+    subRefCP(_combine_camera);
 }
 
 void TreeRenderer::initialize(Window *win)
