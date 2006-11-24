@@ -208,6 +208,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
 	                                            // all the surfaces)
     static void initMethod(void);
 
+    void calcIndexMapping(void);
+
     // private variables:
     // prohibit default functions (move to 'public' if you need one)
 
