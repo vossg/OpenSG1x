@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -56,94 +56,9 @@ OSG_USING_NAMESPACE
  #endif
 #endif
 
-void writeout( std::ostream &outData, vec2d &k1, vec2d& k2 )
-{
-  outData.precision( DCTP_PRECISION );
-  outData << k1.x << " " << k1.y << std::endl;
-  outData << k2.x << " " << k2.y << std::endl << std::endl;
-}
-
-void WriteGraph( DirectedGraph<vec2d,unsigned char> *g, int fos )
-        //DEBUG: write graph for gnuplot
-        {       char fname[32];
-                sprintf( fname, "dirA%05d.dat", fos );
-                std::ofstream o1( fname );
-                sprintf( fname, "dirB%05d.dat", fos );
-                std::ofstream o2( fname );
-                sprintf( fname, "edg%05d.dat", fos );
-                std::ofstream o3( fname );
-
-                DirectedNode<vec2d>::nodevector::iterator ne = 
-                        g->nodes.end();
-                DirectedEdge<unsigned char>::edgevector::iterator ee = 
-                        g->edges.end();
-                for( DirectedEdge<unsigned char>::edgevector::iterator i =
-                     g->edges.begin(); i != ee; ++i ) {
-                     if ( i->valid ) {
-                        if ( i->direction ) {
-                                vec2d mid = (g->nodes[ i->from ].nodeinfo +
-                                             g->nodes[ i->to ].nodeinfo ) * 0.5;
-                                writeout( o1, g->nodes[ i->from ].nodeinfo,
-                                           mid );
-                                writeout( o2, mid,
-                                           g->nodes[ i->to ].nodeinfo );
-                        }
-                        else {
-                                writeout( o3, g->nodes[ i->from ].nodeinfo,
-                                           g->nodes[ i->to ].nodeinfo );
-                        }
-                     }
-                }
-
-        }
-/***********************************************************/
-
-void GraphTraverser::openBoundary( void )
-{
-  boundaryfile.open( "boundary.mesh" );
-  boundaryfile.precision( DCTP_PRECISION );
-
-}
-
-void GraphTraverser::writePreBoundary( int boundary_index )
-{
-  boundaryfile << "begin_border_" << boundary_index << std::endl;
-}
-
-void GraphTraverser::writePostBoundary( int boundary_index )
-{
-  boundaryfile << "end_border_" << boundary_index << std::endl << std::endl; 
-}
-
-void GraphTraverser::writeNode( int nodeid )
-{
-  vec2d actcoord = g->nodes[ nodeid ].nodeinfo;
-
-  boundaryfile << actcoord.x << " " << actcoord.y << " 0 " << std::endl;
-}
-void GraphTraverser::writeBoundary( int startedge )
-{
-  static int boundary_index = 0;
-  int startnode = g->edges[ startedge ].from;
-  int actedge = startedge;
-  int actnode = startnode;
-
-  if ( !boundary_index ) openBoundary();
-  writePreBoundary( boundary_index );
-  while ( g->edges[ actedge ].to != startnode ) {
-    writeNode( actnode );
-    actnode = g->edges[ actedge ].to;
-    actedge = getOutGoingEdge( actnode );
-
-  }
-
-  writePostBoundary( boundary_index );
-  boundary_index++;
-
-}
 
 /***********************************************************/
-void GraphTraverser::Initialize( DirectedGraph<vec2d, unsigned char >& gg, bool
+void GraphTraverser::Initialize( DirectedGraph<Vec2d, unsigned char >& gg, bool
         usedelaunaytri )
 {
   g = &gg;
@@ -159,57 +74,12 @@ void GraphTraverser::Initialize( DirectedGraph<vec2d, unsigned char >& gg, bool
 
 
 
-int GraphTraverser::triangulatePolygon( ivector& nodes, bool bConvex ) {
+int GraphTraverser::triangulatePolygon( DCTPivector& nodes, bool bConvex ) {
 	unsigned int i;
         
-        
-        // if it's not convex we just return so that outer patches
-        // don't get triangulated -> we will use point based rendering
-        // for those sometime. :)
-/////        if ( !bConvex ) return;
-        
-//  std::cerr<<"triangulate in..." << std::endl;
-/*
-static int cnt = 0;
-char fname[32];
-cnt++;
-sprintf( fname, "POLY%02d.DAT", cnt );
-//std::ofstream okadek( "POLY_.DAT", ios::app );
-std::ofstream okadek( fname );
-
-std::cerr << " Polygon #: " << cnt << " Size: " << nodes.size() << std::endl;
-        unsigned int ne = nodes.size() - 1;
-        for ( unsigned int i = 0; i < ne; ++i )
-          writeout( okadek, g->nodes[ nodes[ i ] ].nodeinfo, g->nodes[ nodes[ i + 1 ] ].nodeinfo );
-        writeout( okadek, g->nodes[ nodes[ ne ] ].nodeinfo, g->nodes[ nodes[ 0 ] ].nodeinfo );
-okadek.close();
-*/
-
-
-/*
-  std::cerr << "triangulate: " << nodes[ 0 ] << " size: " << nodes.size() << std::endl;
-  if (nodes.size() == 27 || nodes.size() == 46 ) {
-    std::cerr.precision( 12 );
-    std::cerr << nodes.size() << std::endl;
-    for ( unsigned int i = 0; i < nodes.size(); ++i )
-      std::cerr  << globalverts[ nodes[ i ] ] << std::endl;
-    std::cerr << std::endl;
-  }
-*/
-
-
-/*
-  std::cerr << "triangulate: " << nodes[ 0 ] << " size: " << nodes.size() << std::endl;
-  for ( i = 0; i < nodes.size(); ++i )
-      std::cerr  << globalverts[ nodes[ i ] ] << std::endl;
-  std::cerr << std::endl;
-*/
-//  if ( nodes[ 0 ] == -1 ) SLOG << "GraphTraverser::triangulatePolygon: invalid nodes, duff.... " << std::endl;
 
   SimplePolygon actpoly;
   actpoly.vertices = nodes;
-//  actpoly.is_marked = 1;
-//  actpoly.is_marked = 0; // if zero, we use Delaunay triangulation for this poly
   actpoly.is_marked = !usedelaunay;
 #ifdef OSG_TRIANGULATE_CONVEX
   if( bConvex )
@@ -251,17 +121,16 @@ okadek.close();
 	actpoly.fixAndTriangulate( globalverts, newpolys );
   }
   polys.insert( polys.end( ), newpolys.begin( ), newpolys.end( ) );
-#ifdef _DEBUG
+#ifdef OSG_NURBS_DEBUG
   if ( err )
   {
 //    std::cerr <<"polyno after error: " << polys.size() << std::endl;
 //DEBUG
     //check for duplicated vertices passed to triangulate
-    vec2dset vset;
+    DCTPVec2dset vset;
     std::set < int > iset;
-    std::pair< vec2dset::iterator, bool > siv;
+    std::pair< DCTPVec2dset::iterator, bool > siv;
     std::pair< std::set < int >::iterator, bool > niv;
-    bool fuckedup = false;
     unsigned int k = nodes.size();
     std::cerr << "nodeids:";
     for (i = 0; i < k; ++i ) std::cerr << " " << nodes[ i ];
@@ -269,12 +138,10 @@ okadek.close();
     for (i = 0; i < k; ++i ) {
         siv = vset.insert( globalverts[ nodes[ i ] ] );
         if ( !siv.second ) {
-           fuckedup = true;
            std::cerr << "duplicate vertex passed: " << globalverts[ nodes[ i ] ] << " i: " << i << std::endl;;
         }
         niv = iset.insert( nodes[ i ] );
         if ( !niv.second ) {
-           fuckedup = true;
            std::cerr << "duplicate vertex index passed: " << nodes[ i ] << " i: " << i << std::endl;
         }
     } // for
@@ -291,9 +158,8 @@ okadek.close();
     std::cerr << std::endl;*/
 
 //    throw GraphTraverserError( GraphTraverserError::ERR_TRIANGULATE );
-//	if( fuckedup ) exit( -1 );
   } //if err
-#endif
+#endif /* OSG_NURBS_DEBUG */
 
 //  std::cerr << " we have now: " << polys.size() << " triangles." << std::endl;
 //  std::cerr <<"triangulate out " << std::endl;
@@ -323,9 +189,9 @@ void GraphTraverser::handleEdge( int eid, int to_nid, int &from_nid /* double& a
 //        int from_nid;
         if ( g->edges[ eid ].to == to_nid ) from_nid = g->edges[ eid ].from;
         else  from_nid = g->edges[ eid ].to;
-/*        vec2d edge_vect =
+/*        Vec2d edge_vect =
                 g->nodes[ from_nid ].nodeinfo - g->nodes[ to_nid ].nodeinfo;
-        ang = atan2( edge_vect.y, edge_vect.x );
+        ang = atan2( edge_vect[1], edge_vect[0] );
         if ( ang < 0.0 ) ang = 2 * M_PI + ang;*/
         if ( g->edges[ eid ].direction ) g->DeleteEdge( eid );
         else g->setEdgeDirection( eid, from_nid );
@@ -347,8 +213,8 @@ int GraphTraverser::getOtherEnd( int eid, int nid ) {
 }
 
 int GraphTraverser::getOutGoingEdge( int nid ) {
-        ivector::iterator ee = g->nodes[ nid ].edges.end();
-        for( ivector::iterator i = g->nodes[ nid ].edges.begin();
+        DCTPivector::iterator ee = g->nodes[ nid ].edges.end();
+        for( DCTPivector::iterator i = g->nodes[ nid ].edges.begin();
              i != ee; ++i )
                 if ( g->edges[ *i ].direction &&
                      g->edges[ *i ].from == nid )
@@ -359,7 +225,6 @@ int GraphTraverser::getOutGoingEdge( int nid ) {
 int GraphTraverser::Traverse( void ) {
 
 	//first find a directed edge
-//	int KKKbitch = 0;//DEBUG
 	bool b_convex;
 	int edgeID = getADirectedEdge();
 	while ( edgeID != -1 ) {
@@ -367,7 +232,7 @@ int GraphTraverser::Traverse( void ) {
 		int start_node = g->edges[ edgeID ].from;
 		int leave = -1, act_node = g->edges[ edgeID ].to;
 		int last_node;
-		ivector node_ids;
+		DCTPivector node_ids;
 		node_ids.push_back( start_node );
 		node_ids.push_back( act_node );
 		while ( edgeID != -1 ) {
@@ -394,7 +259,6 @@ int GraphTraverser::Traverse( void ) {
 					act_node = getOtherEnd( edgeID, start_node );
 //					std::cerr << "new actnode: " << act_node << std::endl;
 					node_ids.push_back( act_node );
-//					WriteGraph( g, KKKbitch++ ); //DEBUG
 				}
 				else edgeID = -1;
 			}
@@ -417,46 +281,9 @@ int GraphTraverser::Traverse( void ) {
 	return 0;
 }
 
-int GraphTraverser::writeTriangles( std::ostream &of ) {
-
-//  std::cerr << " we have " << polys.size() << " triangles..." << std::endl;
-//  std::cerr << " and we have " << globalverts.size() << " vertices..." << std::endl;
-
-  of << "VERTICES " << globalverts.size() << std::endl;
-  vec2dvector::iterator ve = globalverts.end();
-  of.precision( DCTP_PRECISION );
-  for ( vec2dvector::iterator i = globalverts.begin(); i != ve; ++i )
-    of << *i << std::endl;
-  of << "TRIANGLES " << polys.size() << std::endl;
-  simplepolygonvector::iterator te = polys.end();   
-  for ( simplepolygonvector::iterator t = polys.begin(); t != te; ++t ) {
-/*
-    double k =  globalverts[ i->vertices[ 0 ] ].x * globalverts[ i->vertices[ 1 ] ].y -
-         globalverts[ i->vertices[ 1 ] ].x * globalverts[ i->vertices[ 0 ] ].y +
-         globalverts[ i->vertices[ 1 ] ].x * globalverts[ i->vertices[ 2 ] ].y -
-         globalverts[ i->vertices[ 2 ] ].x * globalverts[ i->vertices[ 1 ] ].y;
-//    std::cerr << "counterclockwise..." << k << std::endl; 
-    if ( k < 0 ) {
-       int tmp = i->vertices[ 0 ];
-       i->vertices[ 0 ] = i->vertices[ 1 ];
-       i->vertices[ 1 ] = tmp;
-    }
-*/
-    of << t->vertices[ 0 ] << " " << t->vertices[ 1 ] << " " << t->vertices[ 2 ] << std::endl;
-  }
-//  return writeTrianglesInventor( of );
-    return 0;
-}
-
-void GraphTraverser::writeInvalidTriangles( std::ostream &of )
-{
-  of << "VERTICES 0" << std::endl;
-  of << "TRIANGLES 0" << std::endl;
-}
-
 int GraphTraverser::getNextEdge( const int nodeid, const int previd /*const double& in_angle*/ ) {
-        vec2d prev_vect = g->nodes[ previd ].nodeinfo;
-        vec2d node_vect = g->nodes[ nodeid ].nodeinfo;
+        Vec2d prev_vect = g->nodes[ previd ].nodeinfo;
+        Vec2d node_vect = g->nodes[ nodeid ].nodeinfo;
         int en = g->nodes[ nodeid ].edges.size(); //numbah o' 3dg4z
 
         if ( en == 1 ) {//most common case, along trimming curves over faces
@@ -478,11 +305,11 @@ int GraphTraverser::getNextEdge( const int nodeid, const int previd /*const doub
 //                abort();
         }
 
-        ivector eid; //edge ids
+        DCTPivector eid; //edge ids
 //        dvector ea; //edge angles
 
-        ivector::iterator ee = g->nodes[ nodeid ].edges.end();
-        for( ivector::iterator iv = g->nodes[ nodeid ].edges.begin();
+        DCTPivector::iterator ee = g->nodes[ nodeid ].edges.end();
+        for( DCTPivector::iterator iv = g->nodes[ nodeid ].edges.begin();
              iv != ee; ++iv )
 		{
 			DirectedEdge< unsigned char >& act_edge = g->edges[ *iv ];
@@ -491,12 +318,12 @@ int GraphTraverser::getNextEdge( const int nodeid, const int previd /*const doub
 				( ( act_edge.to != nodeid ) || ( act_edge.from != previd ) ) )
 			{
 				eid.push_back( *iv );
-/*                DirectedNode< vec2d > *nptr;
+/*                DirectedNode< Vec2d > *nptr;
                 if ( act_edge.to == nodeid )
                         nptr = &( g->nodes[ act_edge.from ] );
                 else nptr = &( g->nodes[ act_edge.to ] );
-                vec2d v = nptr->nodeinfo - node_vect;
-                double tmp = atan2( v.y, v.x );
+                Vec2d v = nptr->nodeinfo - node_vect;
+                double tmp = atan2( v[1], v[0] );
                 if ( tmp < 0.0 ) tmp = 2 * M_PI + tmp;
                 ea.push_back( tmp );
 				std::cerr << tmp << ", ";*/
@@ -514,19 +341,19 @@ int GraphTraverser::getNextEdge( const int nodeid, const int previd /*const doub
         unsigned int eae = eid.size();
         int leftmost = 0;
 //		std::cerr << prev_vect << " -> " << node_vect << std::endl;
-		a[ 0 ] = prev_vect.x;
-		a[ 1 ] = prev_vect.y;
-		b[ 0 ] = node_vect.x;
-		b[ 1 ] = node_vect.y;
+		a[ 0 ] = prev_vect[0];
+		a[ 1 ] = prev_vect[1];
+		b[ 0 ] = node_vect[0];
+		b[ 1 ] = node_vect[1];
 		if ( g->edges[ eid[ 0 ] ].to == nodeid )
 		{
-			c[ 0 ] = g->nodes[ g->edges[ eid[ 0 ] ].from ].nodeinfo.x;
-			c[ 1 ] = g->nodes[ g->edges[ eid[ 0 ] ].from ].nodeinfo.y;
+			c[ 0 ] = g->nodes[ g->edges[ eid[ 0 ] ].from ].nodeinfo[0];
+			c[ 1 ] = g->nodes[ g->edges[ eid[ 0 ] ].from ].nodeinfo[1];
 		}
 		else
 		{
-			c[ 0 ] = g->nodes[ g->edges[ eid[ 0 ] ].to ].nodeinfo.x;
-			c[ 1 ] = g->nodes[ g->edges[ eid[ 0 ] ].to ].nodeinfo.y;
+			c[ 0 ] = g->nodes[ g->edges[ eid[ 0 ] ].to ].nodeinfo[0];
+			c[ 1 ] = g->nodes[ g->edges[ eid[ 0 ] ].to ].nodeinfo[1];
 		}
 //		std::cerr << node_vect << " -> (" << c[ 0 ] << ", " << c[ 1 ] << ")" << std::endl;
         double orient = orient2d( a, b, c );
@@ -536,13 +363,13 @@ int GraphTraverser::getNextEdge( const int nodeid, const int previd /*const doub
 //			std::cerr << "checking edge " << i << std::endl;
 			if ( g->edges[ eid[ i ] ].to == nodeid )
 			{
-				d[ 0 ] = g->nodes[ g->edges[ eid[ i ] ].from ].nodeinfo.x;
-				d[ 1 ] = g->nodes[ g->edges[ eid[ i ] ].from ].nodeinfo.y;
+				d[ 0 ] = g->nodes[ g->edges[ eid[ i ] ].from ].nodeinfo[0];
+				d[ 1 ] = g->nodes[ g->edges[ eid[ i ] ].from ].nodeinfo[1];
 			}
 			else
 			{
-				d[ 0 ] = g->nodes[ g->edges[ eid[ i ] ].to ].nodeinfo.x;
-				d[ 1 ] = g->nodes[ g->edges[ eid[ i ] ].to ].nodeinfo.y;
+				d[ 0 ] = g->nodes[ g->edges[ eid[ i ] ].to ].nodeinfo[0];
+				d[ 1 ] = g->nodes[ g->edges[ eid[ i ] ].to ].nodeinfo[1];
 			}
 //			std::cerr << node_vect << " -> (" << d[ 0 ] << ", " << d[ 1 ] << ")" << std::endl;
 			double tmp = orient2d( a, b, d );

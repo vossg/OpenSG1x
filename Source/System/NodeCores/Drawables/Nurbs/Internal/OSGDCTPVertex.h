@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 #include <iostream>
@@ -67,7 +67,7 @@ public:
 #ifdef OSG_INTEGER_MESH
   vec3i coords;
 #else
-  vec3d coords;
+  Vec3d coords;
 #endif
   unsigned long id; // unique id of this vertex
   unsigned long node_id; // uniqe ID of the surface graph node
@@ -122,7 +122,8 @@ struct DCTPVertexless {
 //    bool k = v1->coords < v2->coords;
 //    std::cerr << "result:    " << k << std::endl;
 //    return k;
-    return (v1->coords < v2->coords);
+//    return (v1->coords < v2->coords);
+    return DCTPVecIsLesser(v1->coords, v2->coords);
   }
 };   
           

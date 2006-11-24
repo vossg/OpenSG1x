@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
 
@@ -64,15 +64,11 @@ typedef std::vector< bezier3ddeque > bezier3ddequevector;
 class OSG_SYSTEMLIB_DLLMAPPING BezierCurve3D {
 protected:
   int approximate_sub( std::vector< double > &vertices, double delta, double min, double max, unsigned char strategy );
-  int loadCreateMatrices( );
 
-  vec3dvector control_points; //control points of the curve
-
-  //file format constants
-  static const char ff_const_1[];
-  static const char ff_const_2[];
+  DCTPVec4dvector control_points; //control points of the curve
 
   static std::vector< std::vector< std::vector< double > > >	m_svvvdCreateMatrix;
+  Vec4d computewdeCasteljau4D( double t, int &error ); //compute curve at parameter value t
 
 public:
   static const unsigned char	SUBDIVISION = 1;
@@ -86,25 +82,20 @@ public:
   ~BezierCurve3D() {}
  
   //setup functions
-  int setControlPointVector( const vec3dvector& cps ); //ok, acts like its name says 
+  int setControlPointVector( const DCTPVec4dvector& cps ); //ok, acts like its name says 
 
   //query functions
-  vec3dvector& getControlPointVector( void ) { return control_points; } //guess what!
-
-  //I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::istream &infile );
-  int write( std::ostream &outfile );
-  int write( );
+  DCTPVec4dvector& getControlPointVector( void ) { return control_points; } //guess what!
 
   //some REAL functionality
-  vec3d computewdeCasteljau( double t, int &error ); //compute curve at parameter value t
-  vec3d computeLinearApproximation( double t, int &error ); //ok like its name sayz
+  Vec3d computewdeCasteljau( double t, int &error ); //compute curve at parameter value t
+  Vec3d computeLinearApproximation( double t, int &error ); //ok like its name sayz
   int midPointSubDivision( bezier3dvector &newbeziers ); //subdivide curve at midpoint into two new curves
   int midPointSubDivision( BezierCurve3D &newcurve ); //subdivide curve at midpoint into two new curves
   int subDivision( double t, bezier3dvector &newbeziers ); //subdivide curvee at t into two new curves
   int subDivision( double t, BezierCurve3D &newcurve );
   int approximate( std::vector< double > &vertices, double delta, unsigned char strategy = MIDPOINT_SUBDIVISION | POINT_DISTANCE ); // approximate curve linearly with given maximum tolerance
-  int createCurve( vec3dvector &points ); // generate a bezier curve through these points
+  int createCurve( DCTPVec4dvector &points ); // generate a (rational) bezier curve through these points
   bool reduceDegree( double tol = DCTP_EPS );
 
   inline void optimizeDegree( )

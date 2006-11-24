@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -61,67 +61,91 @@ double QuadTreeCreator::
     BezierTensorSurface *btsp =
         (BezierTensorSurface*)f->faceinfo;
 
-    const vec3dmatrix &cps = btsp->getControlPointMatrix();
-    const vec3dmatrix::size_type m = cps.size() - 1;
+    const DCTPVec4dmatrix &cps = btsp->getControlPointMatrix();
+    const DCTPVec4dmatrix::size_type m = cps.size() - 1;
                //size of control point matrix in x direction
-    const vec3dvector::size_type n = cps[ 0 ].size() - 1;
+    const DCTPVec4dvector::size_type n = cps[ 0 ].size() - 1;
                //size of cpm. in y direction
-    const vec3d b00 = cps[ 0 ][ 0 ];
-    const vec3d b0n = cps[ 0 ][ n ];
-    const vec3d bm0 = cps[ m ][ 0 ];
-    const vec3d bmn = cps[ m ][ n ];
+    Vec3d b00;
+    Vec3d b0n;
+    Vec3d bm0;
+    Vec3d bmn;
+    b00[0] = cps[0][0][0] / cps[0][0][3];
+    b00[1] = cps[0][0][1] / cps[0][0][3];
+    b00[2] = cps[0][0][2] / cps[0][0][3];
+    b0n[0] = (cps[0][n][0] / cps[0][n][3]);
+    b0n[1] = (cps[0][n][1] / cps[0][n][3]);
+    b0n[2] = (cps[0][n][2] / cps[0][n][3]);
+    bm0[0] = (cps[m][0][0] / cps[m][0][3]);
+    bm0[1] = (cps[m][0][1] / cps[m][0][3]);
+    bm0[2] = (cps[m][0][2] / cps[m][0][3]);
+    bmn[0] = (cps[m][n][0] / cps[m][n][3]);
+    bmn[1] = (cps[m][n][1] / cps[m][n][3]);
+    bmn[2] = (cps[m][n][2] / cps[m][n][3]);
                //now computin' I. error:
                //we hafta decide a maxmimum value:
     double max_quad = -1.0;
-    vec3d cij, bij;
+    Vec3d cij, bij;
     double quad_size;
-    vec3dmatrix::size_type i;
-    vec3dvector::size_type j;
+    DCTPVec3dmatrix::size_type i;
+    DCTPVec3dvector::size_type j;
     const double rn = 1.0 / n;
     const double rm = 1.0 / m;
 
-    vec3d ci0 = b00;
-    vec3d cin = b0n;
-    const vec3d dc0 = ( bm0 - b00 ) * rm;
-    const vec3d dcn = ( bmn - b0n ) * rm;
-//	vec2d cl_uv;
+    Vec3d ci0 = b00;
+    Vec3d cin = b0n;
+    const Vec3d dc0 = ( bm0 - b00 ) * rm;
+    const Vec3d dcn = ( bmn - b0n ) * rm;
+//	Vec2d cl_uv;
 //	int i_err = 0;
 
 //	if( m_bForTrimming )
 	{
-//		cl_uv.x = 0.0;
+//		cl_uv[0] = 0.0;
 	    for( i = 0; i <= m; ++i )
 		{
-//			cl_uv.y = 0.0;
+//			cl_uv[1] = 0.0;
 			cij = ci0;
-			const vec3d dci = ( cin - ci0 ) * rn;
-			for( j = 0; j <= n; ++j ) {
-				bij = cps[ i ][ j ] - cij;
+			const Vec3d dci = ( cin - ci0 ) * rn;
+			for( j = 0; j <= n; ++j ) 
+            {
+                if ( cps[i][j][3] < DCTP_EPS )
+                {
+                    // the weight is zero so we return a practically
+                    // infinite error enforcing a subdivision of the patch
+                    quad_size = 1.0e300;
+                }   
+                else
+                {
+				    bij[0] = (cps[i][j][0] / cps[i][j][3]) - cij[0];
+				    bij[1] = (cps[i][j][1] / cps[i][j][3]) - cij[1];
+				    bij[2] = (cps[i][j][2] / cps[i][j][3]) - cij[2];
 //				bij = btsp->computewdeCasteljau( cl_uv, i_err ) - cij;
-				quad_size = bij.quad_size();
+    				quad_size = bij.squareLength();
+                }
 				if ( quad_size > max_quad ) max_quad = quad_size;
 				cij += dci;
-//				cl_uv.y += rn;
+//				cl_uv[1] += rn;
 			} //end for
 			ci0 += dc0;
 			cin += dcn;
-//			cl_uv.x += rm;
+//			cl_uv[0] += rm;
 		}
 		const double error_I = sqrt( max_quad );
 
 		//now get error2
-		const vec3d linerr_vect = (b00 - b0n + bmn - bm0);
-		const double error_II = sqrt( linerr_vect.quad_size() ) * 0.25;
+		const Vec3d linerr_vect = (b00 - b0n + bmn - bm0);
+		const double error_II = sqrt( linerr_vect.squareLength() ) * 0.25;
 		//now the error iz the sum o' I and II:
 	    return error_I + error_II;
 	}
 /*	else
 	{
-		vec3d		cl_norm;
-		const vec3d cdc0 = ( b0n - b00 ) * rn;
-		const vec3d cdcm = ( bmn - bm0 ) * rn;
-		vec3d		c0j;
-		vec3d		cmj;
+		Vec3d		cl_norm;
+		const Vec3d cdc0 = ( b0n - b00 ) * rn;
+		const Vec3d cdcm = ( bmn - bm0 ) * rn;
+		Vec3d		c0j;
+		Vec3d		cmj;
 
 	    for( i = 0; i <= m; ++i )
 		{
@@ -129,24 +153,24 @@ double QuadTreeCreator::
 			c0j = b00;
 			cmj = bm0;
 
-			const vec3d dci = ( cin - ci0 ) * rn;
+			const Vec3d dci = ( cin - ci0 ) * rn;
 
 //			std::cerr << dci << std::endl;
 
 			for( j = 0; j <= n; ++j )
 			{
-				const vec3d	dcj = cmj - c0j;
+				const Vec3d	dcj = cmj - c0j;
 
 				bij = cps[ i ][ j ] - cij;
 				cl_norm = dci.cross( dcj );
 //				std::cerr << dci << " x " << dcj << std::endl;
 //				std::cerr << cl_norm << "," << bij << std::endl;
-				quad_size = cl_norm.quad_size( );
+				quad_size = cl_norm.squareLength( );
 				if( quad_size > 0.0 )
 				{
 					cl_norm *= 1.0 / sqrt( quad_size );
-					quad_size = fabs( bij.dot( cl_norm ) );
-//					quad_size = bij.quad_size();
+					quad_size = osgabs( bij.dot( cl_norm ) );
+//					quad_size = bij.squareLength();
 					if ( quad_size > max_quad ) max_quad = quad_size;
 				}
 				cij += dci;
@@ -164,22 +188,22 @@ double QuadTreeCreator::
 
 int QuadTreeCreator::setInitialLeaves(
     const beziersurfacematrix& patches,
-    const dvector& intervals_u,
-    const dvector& intervals_v ) {
+    const DCTPdvector& intervals_u,
+    const DCTPdvector& intervals_v ) {
 //sets up the basic leaves array of the quadtree
 //FIXME: no size & sanity checks made to input, they may be wrong
     beziersurfacematrix::size_type u_size = patches.size();
     beziersurfacevector::size_type v_size = patches[ 0 ].size();
-    vec3d a,b,c,d;
+    Vec3d a,b,c,d;
 
     for( beziersurfacematrix::size_type u = 0; u < u_size; ++u )
 	{
 		for( beziersurfacevector::size_type v = 0; v < v_size; ++v )
 		{
-		    a.x = intervals_u[ u ]; a.y = intervals_v[ v + 1 ]; a.z = 0.0;
-			b.x = intervals_u[ u + 1 ]; b.y = intervals_v[ v + 1 ]; b.z = 0.0;
-			c.x = intervals_u[ u + 1 ]; c.y = intervals_v[ v ]; c.z = 0.0;
-			d.x = intervals_u[ u ]; d.y = intervals_v[ v ]; d.z = 0.0;
+		    a[0] = intervals_u[ u ]; a[1] = intervals_v[ v + 1 ]; a[2] = 0.0;
+			b[0] = intervals_u[ u + 1 ]; b[1] = intervals_v[ v + 1 ]; b[2] = 0.0;
+			c[0] = intervals_u[ u + 1 ]; c[1] = intervals_v[ v ]; c[2] = 0.0;
+			d[0] = intervals_u[ u ]; d[1] = intervals_v[ v ]; d[2] = 0.0;
 
 //			std::cerr << a << b << c << d << std::endl;
 
@@ -259,12 +283,12 @@ int QuadTreeCreator::createQuadTree( void ) {
 
         for( dctpfacevector::size_type f = 0;
              f < qtm->faces.size(); ++f ) {
-             DCTPFace *fos = qtm->faces[ f ];
-             while ( computeApproximationError( fos ) > error_epsilon ) {
-                qtm->SubdivideQuad( fos );
-                if ( finishSubdivisions( fos ) ) return -1;
+             DCTPFace *face = qtm->faces[ f ];
+             while ( computeApproximationError( face ) > error_epsilon ) {
+                qtm->SubdivideQuad( face );
+                if ( finishSubdivisions( face ) ) return -1;
              }
-             fos->norm = error_epsilon / computeBilinearNorm( fos );
+             face->norm = error_epsilon / computeBilinearNorm( face );
         }
         return 0; //all OK, whew...
 }
@@ -272,27 +296,33 @@ int QuadTreeCreator::createQuadTree( void ) {
 double QuadTreeCreator::computeBilinearNorm( DCTPFace *face ) {
         BezierTensorSurface *btsp =
                 (BezierTensorSurface*)face->faceinfo;
-        vec3dmatrix& cps = btsp->getControlPointMatrix();
-        vec3dmatrix::size_type m = cps.size() - 1;
-        vec3dvector::size_type n = cps[ 0 ].size() - 1;
-        vec3d b00 = cps[ 0 ][ 0 ];
-        vec3d b0n = cps[ 0 ][ n ] - b00;
-        vec3d bm0 = cps[ m ][ 0 ] - b00;
-        vec3d bmn = cps[ m ][ n ] - b00;
+        DCTPVec4dmatrix& cps = btsp->getControlPointMatrix();
+        DCTPVec4dmatrix::size_type m = cps.size() - 1;
+        DCTPVec4dvector::size_type n = cps[ 0 ].size() - 1;
+        Vec3d b00;
+        Vec3d b0n;
+        Vec3d bm0;
+        Vec3d bmn;
+        b00[0] = cps[0][0][0] / cps[0][0][3];
+        b00[1] = cps[0][0][1] / cps[0][0][3];
+        b00[2] = cps[0][0][2] / cps[0][0][3];
+        b0n[0] = (cps[0][n][0] / cps[0][n][3]) - b00[0];
+        b0n[1] = (cps[0][n][1] / cps[0][n][3]) - b00[1];
+        b0n[2] = (cps[0][n][2] / cps[0][n][3]) - b00[2];
+        bm0[0] = (cps[m][0][0] / cps[m][0][3]) - b00[0];
+        bm0[1] = (cps[m][0][1] / cps[m][0][3]) - b00[1];
+        bm0[2] = (cps[m][0][2] / cps[m][0][3]) - b00[2];
+        bmn[0] = (cps[m][n][0] / cps[m][n][3]) - b00[0];
+        bmn[1] = (cps[m][n][1] / cps[m][n][3]) - b00[1];
+        bmn[2] = (cps[m][n][2] / cps[m][n][3]) - b00[2];
         double tmp1,tmp2;
-        tmp1 = sqrt( b0n.quad_size() );
-        tmp2 = sqrt( bm0.quad_size() );
+        tmp1 = sqrt( b0n.squareLength() );
+        tmp2 = sqrt( bm0.squareLength() );
         if ( tmp1 < tmp2 ) tmp1 = tmp2;
-        tmp2 = sqrt( bmn.quad_size() ) / sqrt( 2.f ); //1.414213; //divided by length
+        tmp2 = sqrt( bmn.squareLength() ) / sqrt( 2.f ); //1.414213; //divided by length
         if ( tmp1 < tmp2 ) return tmp2;
         else return tmp1;
 }
-
-                                            
-int QuadTreeCreator::writeMesh( std::ostream& of ) {
-        return qtm->write( of );
-}
-
 
 void QuadTreeCreator::resetMesh( void ) {
         dctpfacevector::iterator fe = qtm->faces.end();

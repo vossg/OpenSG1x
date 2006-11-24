@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -60,12 +60,12 @@ BSplineBasisFunction::BSplineBasisFunction()
 }
 
 //setup methods
-int BSplineBasisFunction::setKnotVector( const dvector &k ) {
+int BSplineBasisFunction::setKnotVector( const DCTPdvector &k ) {
   int err;
   if ( k.size() < 2 ) return -1; //one knot doesn't make any knotspan
   // Commented out because of iv2tso,
-  // bailed out when encountering degenerate curves (empty knotspan) found in some
-  // files from DC.
+  // bailed out when encountering degenerate curves (empty knotspan) 
+  // found in some files
 
   err = CheckKnotPoints( k );
   if ( err ) {
@@ -87,7 +87,7 @@ int BSplineBasisFunction::insertKnot( double k )
 {
   if ( k < knots[ 0 ] || k > knots[ knots.size() - 1 ] ) return -1; 
   int span = findSpan( k );
-  dvector::size_type i;
+  DCTPdvector::size_type i;
   i = 0;
   while ( knots[ i ] < k && i < knots.size() ) i++;
   knots.insert( knots.begin() + i, k );    // FIXME: what if it doesn't fit??? exception?
@@ -118,7 +118,7 @@ int BSplineBasisFunction::read( std::istream &infile )
 
   if ( strcmp( txtbuffer, ff_const_2 ) )  return -1; //yeah, bad file format again
 
-  dvector::size_type num_of_knots;
+  DCTPdvector::size_type num_of_knots;
   infile >> num_of_knots;
   if ( num_of_knots < 2 ) return -2; //ah, bad number of knots
   knots.resize( num_of_knots ); //FIXME: whatif noe enoght memory?
@@ -127,12 +127,14 @@ int BSplineBasisFunction::read( std::istream &infile )
   if ( strcmp( txtbuffer, ff_const_3 ) ) return -1;
 //  std::cerr<<"numofknots: " << num_of_knots << std::endl;
 
-  for( dvector::size_type i = 0; i < num_of_knots; ++i )
+  for( DCTPdvector::size_type i = 0; i < num_of_knots; ++i )
   {
 	  infile >> knots[ i ]; //FIXME: ya see, we need ERROR CHECKS!!!
 //	  std::cerr << knots[ i ] << " ";
   }
-  if ( CheckKnotPoints( knots ) ) return -3; //wrong knot series
+  int ckp = CheckKnotPoints(knots);
+  if (ckp == -1) return -3; // empty knot series
+  else if (ckp) return -4; // wrong knot series
 
   return 0;
    
@@ -145,10 +147,10 @@ int BSplineBasisFunction::write( std::ostream &outfile )
   outfile.precision( DCTP_PRECISION );
   outfile << ff_const_1 << std::endl;
 
-  dvector::size_type num_of_knots = knots.size();
+  DCTPdvector::size_type num_of_knots = knots.size();
   outfile << ff_const_2 << " " << num_of_knots << std::endl << ff_const_3 << " ";
 
-  for( dvector::size_type i = 0; i < num_of_knots; ++i ) outfile << knots[ i ] << " ";
+  for( DCTPdvector::size_type i = 0; i < num_of_knots; ++i ) outfile << knots[ i ] << " ";
   outfile << std::endl;
   return 0;
 }
@@ -160,7 +162,7 @@ double BSplineBasisFunction::compute( double u, int i, int p ) {
 	unsigned int j;
 
   if ( knots.size() < 1 ) return -1.0; //the knots are not set up
-  dvector::size_type m = knots.size() - 1; //m: number of knots
+  DCTPdvector::size_type m = knots.size() - 1; //m: number of knots
   if ( u < knots[ 0 ] || u > knots[ m ] ) return -2.0; //invalid u
   if ( p >= m ) return -3.0; //this high dimension is not defined
   if ( i < 0 || i >= m - p ) return -4.0; //i is invalid
@@ -169,7 +171,7 @@ double BSplineBasisFunction::compute( double u, int i, int p ) {
        ( i == m - p - 1 && u == knots[ m ]) ) return 1.0; //special cases
   if ( u < knots[ i ] || u >= knots[ i + p + 1 ] ) return 0.0; //local support property
 
-  dvector n( p + 1 );
+  DCTPdvector n( p + 1 );
   for( j = 0; j < p + 1; ++j ) //setup 0th degree basis functionsi 
     if ( knots[ i + j ] <= u && u < knots[ i + j + 1 ] )
       n[j] = 1.0;
@@ -177,7 +179,7 @@ double BSplineBasisFunction::compute( double u, int i, int p ) {
       n[j] = 0.0;
  
   for( j = 1; j < p + 1; ++j ) {
-    for( dvector::size_type k = 0; k < p + 1 - j; ++k ) {
+    for( DCTPdvector::size_type k = 0; k < p + 1 - j; ++k ) {
       double den = knots[ k + i + j ] - knots[ k + i ];
       double left;
       if ( den < DCTP_EPS ) //don't divide by 0!
@@ -365,7 +367,7 @@ int BSplineBasisFunction::computeAllNonzero( double u, int p, double *&rpd_n )
   int i = findSpan( u );
   if ( i < 0 ) return -2; //invalid u
 
-//FIXME ultragecijobudoskurvaanyad
+//FIXME 
 //  if ( u < 0 ) return -2; //invalid u
   if ( i - p < 0 ) return -3; //invalid p
   rpd_n = new double[ p + 1 ];
@@ -373,13 +375,13 @@ int BSplineBasisFunction::computeAllNonzero( double u, int p, double *&rpd_n )
   rpd_n[ 0 ] = 1.0;
   double	*pd_left = new double[ p + 1 ];
   double	*pd_right = new double[ p + 1 ];
-//  dvector left( p + 1), right( p + 1 );
-//  for( dvector::size_type j = 1; j <= p; ++j ) {
+//  DCTPdvector left( p + 1), right( p + 1 );
+//  for( DCTPdvector::size_type j = 1; j <= p; ++j ) {
   for( int j = 1; j <= p; ++j ) {
     pd_left[ j ] = u - knots[ i + 1 - j ];
     pd_right[ j ] = knots[ i + j ] - u;
     double saved = 0.0;
-    for( dvector::size_type r = 0; r < j; ++r ) {
+    for( DCTPdvector::size_type r = 0; r < j; ++r ) {
       double temp = rpd_n[ r ] / ( pd_left[ j - r ] + pd_right[ r + 1 ] );
       rpd_n[ r ] = saved + temp * pd_right[ r + 1 ];
       saved = temp * pd_left[ j - r ];
@@ -393,69 +395,76 @@ int BSplineBasisFunction::computeAllNonzero( double u, int p, double *&rpd_n )
   return i;
 }
 
-int BSplineBasisFunction::CheckKnotPoints( const dvector &k ) {
-  if ( fabs( k[ 0 ] - k[ k.size() - 1 ] ) < DCTP_EPS  ) return -1; //at least two different knots define a knotspan! FIXME: double == double ???
-  dvector::const_iterator i = k.begin();
-  double temp = *i; i++;
-  while ( i != k.end() ) {
-    if ( temp > *i ) {
-      std::cerr<<"BSplineBasisFunction::CheckKnotPoints: illegal consecutive knots: " << temp << " " << *i << std::endl;
-      return -2;
+int BSplineBasisFunction::CheckKnotPoints( const DCTPdvector &k ) 
+{
+    if ( osgabs( k[ 0 ] - k[ k.size() - 1 ] ) < DCTP_EPS  ) 
+    {
+        std::cerr<<"BSplineBasisFunction::CheckKnotPoints: first and last knot are equal: " << k[0] << std::endl;
+        return -1; //at least two different knots define a knotspan! FIXME: double == double ???
     }
-    temp = *i;
-    i++;
-  }
-
+    DCTPdvector::const_iterator i = k.begin();
+    double temp = *i; i++;
+    while ( i != k.end() ) 
+    {
+        if ( temp > *i ) 
+        {
+            std::cerr<<"BSplineBasisFunction::CheckKnotPoints: illegal consecutive knots: " << temp << " " << *i << std::endl;
+            return -2;
+        }
+        temp = *i;
+        i++;
+    }
   return 0;
 }
 
 int BSplineBasisFunction::findSpan( double &u )
 {
-  dvector::size_type n = knots.size() - 1;
+    DCTPdvector::size_type n = knots.size() - 1;
 
-  if ( u < knots[ 0 ] || u > knots[ n ] ) {
-//    std::cerr.precision( 2 * DCTP_PRECISION );
-//    std::cerr << " lofaszpicsagecikurvaanyadbasszadszajba: " << u << " " 
-//         << knots[ 0 ] << " " << knots[ knots.size() - 1] << std::endl;
-    //FIXME:
-    if ( u < knots[ 0 ] ) {
-      u = knots[ 0 ];
-//      return 0;
+    if (u < knots[ 0 ] || u > knots[ n ]) 
+    {
+        //FIXME:
+        if (u < knots[ 0 ]) 
+        {
+            u = knots[ 0 ];
+//        return 0;
     }
-    else {
-      u = knots[ n ];
-//      return  n;
-    }
+    else 
+    {
+        u = knots[ n ];
+//        return  n;
+      }
 //    return -1; //invalid u
-  }
+    }
 
-/*  for( unsigned int ui_test = 0; ui_test <= n; ++ui_test )
-  {
-	  std::cerr << knots[ ui_test ] << " ";
-  }
-  std::cerr << std::endl;*/
+/*    for( unsigned int ui_test = 0; ui_test <= n; ++ui_test )
+    {
+        std::cerr << knots[ ui_test ] << " ";
+    }
+    std::cerr << std::endl;*/
 
-  while ( fabs( knots[ n ] - knots[ n - 1 ] ) < DCTP_EPS ) --n; //FIXME: double ==double ???
-  --n; //n holds the index of the last different knot before the equal ones at the of the knot vector
+    while ( osgabs( knots[ n ] - knots[ n - 1 ] ) < DCTP_EPS ) --n; //FIXME: double ==double ???
+    --n; //n holds the index of the last different knot before the equal ones at the of the knot vector
 
-  while( u < knots[ n ] ) --n;
-  return n;
+    while( u < knots[ n ] ) --n;
+    return n;
 #if 0
-  if ( fabs( u - knots[ n + 1 ] ) < DCTP_EPS ) return n; //special case: u is at the end FIXME: double ==double ???
-  dvector::size_type low = 0;
-  while ( fabs( knots[ low ] - knots[ low + 1 ] ) < DCTP_EPS ) ++low; //FIXME: double ==double ???
-  dvector::size_type high = n + 1;
-  //now get span with a binary search
-  dvector::size_type mid = ( low + high ) / 2;
-  while ( u < knots[ mid ] || u >= knots[ mid + 1 ] ) {
-//	std::cerr << knots[ low ] << " " << knots[ mid ] << " " << knots[ high ] << std::endl;
-    if ( u < knots[ mid ] ) 
-      high = mid;
-    else
-      low = mid;
-    mid = ( low + high ) / 2;
-  }
-  return mid;
+    if ( osgabs( u - knots[ n + 1 ] ) < DCTP_EPS ) return n; //special case: u is at the end FIXME: double ==double ???
+    DCTPdvector::size_type low = 0;
+    while ( osgabs( knots[ low ] - knots[ low + 1 ] ) < DCTP_EPS ) ++low; //FIXME: double ==double ???
+    DCTPdvector::size_type high = n + 1;
+    //now get span with a binary search
+    DCTPdvector::size_type mid = ( low + high ) / 2;
+    while ( u < knots[ mid ] || u >= knots[ mid + 1 ] ) 
+    {
+//	  std::cerr << knots[ low ] << " " << knots[ mid ] << " " << knots[ high ] << std::endl;
+        if ( u < knots[ mid ] ) 
+             high = mid;
+        else
+            low = mid;
+        mid = ( low + high ) / 2;
+    }
+    return mid;
 #endif
 }
 

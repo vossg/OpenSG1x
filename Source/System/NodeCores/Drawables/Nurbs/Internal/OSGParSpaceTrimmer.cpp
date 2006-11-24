@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -50,11 +50,11 @@ OSG_USING_NAMESPACE
 #pragma warning( disable : 171 )
 #endif
 
-#ifdef OSG_WIN32
+#ifdef WIN32
 #pragma warning (disable : 985)
 #endif
 
-#ifdef OSG__DEBUG
+#ifdef _DEBUG
  #ifdef OSG_WIN32
   #undef THIS_FILE
   static char THIS_FILE[] = __FILE__;
@@ -69,27 +69,7 @@ OSG_USING_NAMESPACE
 
 #define OSG_SPLIT_HOLE_CELLS
 
-void dumpcontrolpoints( BezierCurve2D & fasz )
-{
-  vec2dvector &cptemp = fasz.getControlPointVector();
-  for (unsigned int kkk = 0; kkk < cptemp.size(); ++kkk)
-    std::cerr << " " << cptemp[ kkk ];
-  std::cerr << std::endl;
-
-}
-
-void plotbezier( BezierCurve2D & fasz, std::ostream & out )
-{
-
-  for( double t = 0.0; t <= 1.0; t += 0.001 ) {
-    int err;
-    vec2d p = fasz.computewdeCasteljau( t, err );
-    out << p.x << " " << p.y << std::endl;
-  }
-
-}
-
-bool ParSpaceTrimmer::isOverQuad( DCTPFace *f, vec2d &p )
+bool ParSpaceTrimmer::isOverQuad( DCTPFace *f, Vec2d &p )
 {
 #ifdef OSG_UNION_TRI_QUAD
 /*        std::cerr << "isoverface: " << f->orig_face[0]->coords << " "
@@ -97,26 +77,26 @@ bool ParSpaceTrimmer::isOverQuad( DCTPFace *f, vec2d &p )
                                << f->orig_face[2]->coords << " "
                                << f->orig_face[3]->coords << std::endl;
         std::cerr << " point: " << p << std::endl;*/
-        if ( p.x >= f->orig_face[0]->coords.x &&
-             p.x <= f->orig_face[1]->coords.x &&
-             p.y <= f->orig_face[0]->coords.y &&
-             p.y >= f->orig_face[3]->coords.y )
+        if ( p[0] >= f->orig_face[0]->coords[0] &&
+             p[0] <= f->orig_face[1]->coords[0] &&
+             p[1] <= f->orig_face[0]->coords[1] &&
+             p[1] >= f->orig_face[3]->coords[1] )
 #else
 /*        std::cerr << "isoverface: " << f->orig_quad[0]->coords << " "
                                << f->orig_quad[1]->coords << " "
                                << f->orig_quad[2]->coords << " "
                                << f->orig_quad[3]->coords << std::endl;
         std::cerr << " point: " << p << std::endl;*/
-        if ( p.x >= f->orig_quad[0]->coords.x &&
-             p.x <= f->orig_quad[1]->coords.x &&
-             p.y <= f->orig_quad[0]->coords.y &&
-             p.y >= f->orig_quad[3]->coords.y )
+        if ( p[0] >= f->orig_quad[0]->coords[0] &&
+             p[0] <= f->orig_quad[1]->coords[0] &&
+             p[1] <= f->orig_quad[0]->coords[1] &&
+             p[1] >= f->orig_quad[3]->coords[1] )
 #endif
                 return true;
         else return false;
 }
 
-bool ParSpaceTrimmer::isNearQuad( DCTPFace *f, vec2d &p ) {
+bool ParSpaceTrimmer::isNearQuad( DCTPFace *f, Vec2d &p ) {
 
 /*        std::cerr << "isoverface: " << f->orig_quad[0]->coords << " "
                                << f->orig_quad[1]->coords << " "
@@ -125,33 +105,33 @@ bool ParSpaceTrimmer::isNearQuad( DCTPFace *f, vec2d &p ) {
         std::cerr << " point: " << p << std::endl;*/
 
 #ifdef OSG_UNION_TRI_QUAD
-        if ( ( p.x - f->orig_face[0]->coords.x > -DCTP_EPS * 2.0 ) &&
-             ( p.x - f->orig_face[1]->coords.x < DCTP_EPS * 2.0 ) &&
-             ( p.y - f->orig_face[0]->coords.y < DCTP_EPS * 2.0 ) &&
-             ( p.y - f->orig_face[3]->coords.y > -DCTP_EPS * 2.0 ) )
+        if ( ( p[0] - f->orig_face[0]->coords[0] > -DCTP_EPS * 2.0 ) &&
+             ( p[0] - f->orig_face[1]->coords[0] < DCTP_EPS * 2.0 ) &&
+             ( p[1] - f->orig_face[0]->coords[1] < DCTP_EPS * 2.0 ) &&
+             ( p[1] - f->orig_face[3]->coords[1] > -DCTP_EPS * 2.0 ) )
 #else
-        if ( ( p.x - f->orig_quad[0]->coords.x > -DCTP_EPS * 2.0 ) &&
-             ( p.x - f->orig_quad[1]->coords.x < DCTP_EPS * 2.0 ) &&
-             ( p.y - f->orig_quad[0]->coords.y < DCTP_EPS * 2.0 ) &&
-             ( p.y - f->orig_quad[3]->coords.y > -DCTP_EPS * 2.0 ) )
+        if ( ( p[0] - f->orig_quad[0]->coords[0] > -DCTP_EPS * 2.0 ) &&
+             ( p[0] - f->orig_quad[1]->coords[0] < DCTP_EPS * 2.0 ) &&
+             ( p[1] - f->orig_quad[0]->coords[1] < DCTP_EPS * 2.0 ) &&
+             ( p[1] - f->orig_quad[3]->coords[1] > -DCTP_EPS * 2.0 ) )
 #endif
                 return true;
         else return false;
 }
 
-bool ParSpaceTrimmer::isOverFace( DCTPFace *f, vec2d &p ) {
+bool ParSpaceTrimmer::isOverFace( DCTPFace *f, Vec2d &p ) {
         return isOverQuad( f, p );
 }
 
-void ParSpaceTrimmer::getStartingFace( vec2d p )
+void ParSpaceTrimmer::getStartingFace( Vec2d p )
 {
 	dctpfacevector::iterator fend = mesh->faces.end();
         dctpfacevector::iterator i;
         
-	if( p.x < m_clMin.x ) p.x = m_clMin.x;
-	else if( p.x > m_clMax.x ) p.x = m_clMax.x;
-	if( p.y < m_clMin.y ) p.y = m_clMin.y;
-	else if( p.y > m_clMax.y ) p.y = m_clMax.y;
+	if( p[0] < m_clMin[0] ) p[0] = m_clMin[0];
+	else if( p[0] > m_clMax[0] ) p[0] = m_clMax[0];
+	if( p[1] < m_clMin[1] ) p[1] = m_clMin[1];
+	else if( p[1] > m_clMax[1] ) p[1] = m_clMax[1];
 
 	for( i = mesh->faces.begin(); i != fend; ++i )
 	{
@@ -179,25 +159,25 @@ void ParSpaceTrimmer::getStartingFace( vec2d p )
 	throw ParSpaceTrimmerError( ERR_NO_STARTING_FACE );
 }
 
-bool ParSpaceTrimmer::isOnSection( vec2d &p1, vec2d &p2, vec2d &p ) {
+bool ParSpaceTrimmer::isOnSection( Vec2d &p1, Vec2d &p2, Vec2d &p ) {
 
-  vec2d norm, t;
+  Vec2d norm, t;
   double dist;
   double par;
-  double lab = sqrt( ( p1.x - p2.x ) * ( p1.x - p2.x ) +
-                     ( p1.y - p2.y ) * ( p1.y - p2.y ) );
-  norm.x = -( p2.y - p1.y ) / lab; // This is a normal -> rotated by 90 degrees
-  norm.y = ( p2.x - p1.x ) / lab;
+  double lab = sqrt( ( p1[0] - p2[0] ) * ( p1[0] - p2[0] ) +
+                     ( p1[1] - p2[1] ) * ( p1[1] - p2[1] ) );
+  norm[0] = -( p2[1] - p1[1] ) / lab; // This is a normal -> rotated by 90 degrees
+  norm[1] = ( p2[0] - p1[0] ) / lab;
 
-  t.x = p.x - p1.x;
-  t.y = p.y - p1.y;
-  dist = t.x * norm.x + t.y * norm.y;
-  if ( fabs( dist ) < DCTP_EPS ) {
+  t[0] = p[0] - p1[0];
+  t[1] = p[1] - p1[1];
+  dist = t[0] * norm[0] + t[1] * norm[1];
+  if ( osgabs( dist ) < DCTP_EPS ) {
     // it is on the line at least, check if it's on the section
-    if ( fabs( p2.x - p1.x ) > DCTP_EPS )
-      par = ( p.x - p1.x )/ ( p2.x - p1.x );
+    if ( osgabs( p2[0] - p1[0] ) > DCTP_EPS )
+      par = ( p[0] - p1[0] )/ ( p2[0] - p1[0] );
     else
-      par = ( p.y - p1.y )/ ( p2.y - p1.y );
+      par = ( p[1] - p1[1] )/ ( p2[1] - p1[1] );
     if ( par < -DCTP_EPS || par > ( 1 + DCTP_EPS) )
       return false;
     else
@@ -207,16 +187,16 @@ bool ParSpaceTrimmer::isOnSection( vec2d &p1, vec2d &p2, vec2d &p ) {
     return false;
 }
 
-bool ParSpaceTrimmer::isOnEdge( DCTPEdge *e, vec2d &p, DCTPVertex* &v ) {
+bool ParSpaceTrimmer::isOnEdge( DCTPEdge *e, Vec2d &p, DCTPVertex* &v ) {
         DCTPVertex *v1, *v2;
         e->getVertices( v1, v2 );
-        vec2d v1coords( v1->coords.x, v1->coords.y );
-        vec2d v2coords( v2->coords.x, v2->coords.y );
-        if ( p == v1coords ) {
+        Vec2d v1coords( v1->coords[0], v1->coords[1] );
+        Vec2d v2coords( v2->coords[0], v2->coords[1] );
+        if ( DCTPVecIsEqual( p , v1coords ) ) {
                 v = v1;
                 return true;
         }
-        if ( p == v2coords ) {
+        if ( DCTPVecIsEqual( p , v2coords ) ) {
                 v = v2;
                 return true;
         }
@@ -224,7 +204,7 @@ bool ParSpaceTrimmer::isOnEdge( DCTPEdge *e, vec2d &p, DCTPVertex* &v ) {
         return isOnSection( v1coords, v2coords, p );
 }
 
-void *ParSpaceTrimmer::isOnFaceBoundary( DCTPFace *f, vec2d &p, bool& isedge )
+void *ParSpaceTrimmer::isOnFaceBoundary( DCTPFace *f, Vec2d &p, bool& isedge )
 //if returned ptr is not NULL,
 //isedge = false means (void*) points to a vertex
 //isedge = true means (void*) points to an edge
@@ -257,8 +237,10 @@ void ParSpaceTrimmer::initializeStartState( bezier2ddeque& tc ) {
 //	std::cerr << "initializeStartState: tc.size(): " << tc.size() << std::endl;
 
 	BezierCurve2D &b = tc[ 0 ];
-	vec2dvector &cp = b.getControlPointVector(); //std::cerr << "got control point vector " << std::endl;
-	vec2d &p = cp[ 0 ]; // p = first point of the curveseq.
+	DCTPVec3dvector &cp = b.getControlPointVector(); //std::cerr << "got control point vector " << std::endl;
+	Vec2d p; 
+    p[0] = cp[0][0] / cp[0][2]; // p = first point of the curveseq. 
+    p[1] = cp[0][1] / cp[0][2]; // eucl projected.
 	getStartingFace( p ); //std::cerr << "got starting face " << std::endl;
 
 	start_face = NULL;
@@ -276,7 +258,7 @@ void ParSpaceTrimmer::initializeStartState( bezier2ddeque& tc ) {
 		{
 //			std::cerr << "start is on boundary" << std::endl;
 			//starting on an edge: split
-			vec3d p3d = p;
+			Vec3d p3d = Vec3d( p );
 //			state.v = mesh->SplitEdge( (DCTPEdge*)ptr, p3d );
 			state.v = mesh->findVertex( p3d );
 			if( state.v == NULL )
@@ -305,18 +287,18 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
 //	std::cerr << "initializeStartState: tc.size(): " << tc.size() << std::endl;
 
 	const unsigned int	cui_size = ( *pvccrd )[ uiLoop ].size( );
-	vec2d				&p = ( *pvccrd )[ uiLoop ][ cui_size - 1 ];
-	vec3d				&rcl_s = ( *m_pvvclSewed )[ uiLoop ][ cui_size - 1 ];
+	Vec2d				&p = ( *pvccrd )[ uiLoop ][ cui_size - 1 ];
+	Vec3d				&rcl_s = ( *m_pvvclSewed )[ uiLoop ][ cui_size - 1 ];
 #ifdef OSG_FORCE_NO_T_VERTICES
 /* #ifndef OSG_CREATE_NORMAL_MAPS
-	vec3d				&rcl_n = ( *m_pvvclNormals )[ uiLoop ][ cui_size - 1 ];
+	Vec3d				&rcl_n = ( *m_pvvclNormals )[ uiLoop ][ cui_size - 1 ];
  #endif*/
 #endif
 
-/*	if( p.x < m_clMin.x ) p.x = m_clMin.x;
-	else if( p.x > m_clMax.x ) p.x = m_clMax.x;
-	if( p.y < m_clMin.y ) p.y = m_clMin.y;
-	else if( p.y > m_clMax.y ) p.y = m_clMax.y;*/
+/*	if( p[0] < m_clMin[0] ) p[0] = m_clMin[0];
+	else if( p[0] > m_clMax[0] ) p[0] = m_clMax[0];
+	if( p[1] < m_clMin[1] ) p[1] = m_clMin[1];
+	else if( p[1] > m_clMax[1] ) p[1] = m_clMax[1];*/
 
 	getStartingFace( p ); //std::cerr << "got starting face " << std::endl;
 
@@ -337,7 +319,7 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
 		{
 //			std::cerr << "start is on edge" << std::endl;
 			//starting on an edge: split
-			vec3d p3d = p;
+			Vec3d p3d = Vec3d( p );
 			state.v = mesh->SplitEdge( ( DCTPEdge* )ptr, p3d );
 //			std::cerr << state.v->coords << std::endl;
 		}
@@ -352,7 +334,7 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
  #endif
 		state.v->vertexinfo = ( void* ) pt_s;
 #else
-		vec3d *pcl_s = new vec3d( rcl_s );
+		Vec3d *pcl_s = new Vec3d( rcl_s );
 		state.v->vertexinfo = ( void* ) pcl_s;
 #endif
 //		std::cerr << state.v->vertexinfo << std::endl;
@@ -362,7 +344,7 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
 	{
 //		std::cerr << "start is in face" << std::endl;
 		start_face = state.f;
-		DCTPVertex	*pcl_v = mesh->AddVertex( vec3d( p ) );
+		DCTPVertex	*pcl_v = mesh->AddVertex( Vec3d( p ) );
 #ifdef OSG_FORCE_NO_T_VERTICES
 		SPosNorm	*pt_s = new SPosNorm;
 		pt_s->clPos = rcl_s;
@@ -374,7 +356,7 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
  #endif
 		pcl_v->vertexinfo = ( void* ) pt_s;
 #else
-		vec3d		*pcl_s = new vec3d( rcl_s );
+		Vec3d		*pcl_s = new Vec3d( rcl_s );
 		pcl_v->vertexinfo = pcl_s;
 #endif
 //		std::cerr << pcl_v->vertexinfo << std::endl;
@@ -383,71 +365,78 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
 
 }
 
-bool ParSpaceTrimmer::setMinIntersectionWithFace( BezierCurve2D &b ) {
-        ip = 1.5;
-        bool intersection = false;
-        std::vector< DCTPEdge *>::iterator eend = state.f->edges.end();
-        /*
-         * FIXME: bug #n: check for degenerate bezier
-         * and throw an exception :-\
-         */
-         vec2dvector &cptemp = b.getControlPointVector();
-         if ( cptemp.size() == 2 && cptemp[ 0 ] == cptemp[ 1 ] )
-           throw ParSpaceTrimmerError( ERR_DEGENERATE_BEZIER );
+bool ParSpaceTrimmer::setMinIntersectionWithFace( BezierCurve2D &b ) 
+{
+    ip = 1.5;
+    bool intersection = false;
+    std::vector< DCTPEdge *>::iterator eend = state.f->edges.end();
+    /*
+     * FIXME: check for degenerate bezier
+     * and throw an exception :-\
+     */
+     DCTPVec3dvector &cptemp = b.getControlPointVector();
+     Vec2d cp0eucl; 
+     cp0eucl[0] = cptemp[0][0] / cptemp[0][2];
+     cp0eucl[1] = cptemp[0][1] / cptemp[0][2];
+     
+     if ( cptemp.size() == 2 && DCTPVecIsEqual( cptemp[ 0 ] , cptemp[ 1 ] ) )
+        throw ParSpaceTrimmerError( ERR_DEGENERATE_BEZIER );
 
 
 ///        dumpcontrolpoints( b );
 ///        std::cerr << "Face id: " << state.f->id << std::endl;
-        for( std::vector< DCTPEdge *>::iterator i = state.f->edges.begin();
-             i != eend; ++i ) {
-             dvector res;
-             DCTPVertex *v1, *v2;
-             (*i)->getVertices( v1, v2 );
-             vec2d v1coords( v1->coords.x, v1->coords.y );
-             vec2d v2coords( v2->coords.x, v2->coords.y );
+    for( std::vector< DCTPEdge *>::iterator i = state.f->edges.begin();
+         i != eend; ++i ) 
+    {
+        DCTPdvector res;
+        DCTPVertex *v1, *v2;
+        (*i)->getVertices( v1, v2 );
+        Vec2d v1coords( v1->coords[0], v1->coords[1] );
+        Vec2d v2coords( v2->coords[0], v2->coords[1] );
 
-             int err;
-			 err = b.intersection( res, v1coords, v2coords );
-             if ( err < 0 ) {
-                std::cerr << "Brutal error " << err << " in: " <<
-                        "ParSpaceTrimmer::setMinIntersectionWithFace" << std::endl;
-                throw ParSpaceTrimmerError( ERR_SET_MININTERSECTION );
-             }
+        int err;
+	    err = b.intersection( res, v1coords, v2coords );
+        if ( err < 0 ) 
+        {
+            
+            std::cerr << "Brutal error " << err << " in: " <<
+                     "ParSpaceTrimmer::setMinIntersectionWithFace" << std::endl;
+            throw ParSpaceTrimmerError( ERR_SET_MININTERSECTION );
+        }
 ///             std::cerr << " v1: " << v1coords << " v2: " << v2coords << std::endl;
-///             if ( res.size() ) std::cerr << "minintersectiongeci res.size(): " << res.size() << " res[0]: " << res[0] << std::endl;
-///             else std::cerr <<"minintersectiongeci lofasz se tortent" << std::endl;
+///             if ( res.size() ) std::cerr << "minintersection res.size(): " << res.size() << " res[0]: " << res[0] << std::endl;
+///             else std::cerr <<"minintersection nothing" << std::endl;
              // we don't store intersections at t=0 because when going from IN_VERTEX->OVER_FACE
              // we pretend early to be OVER_FACE (when actually still in the vertex)
 			 if( res.size( ) != 0 )
 			 {
-				const vec2d	ccl_temp = b.computewdeCasteljau( res[ 0 ], err );
+                // !!!!!!!!!!!!!!!!!
+				const Vec2d	ccl_temp = b.computewdeCasteljau( res[ 0 ], err );
 //				std::cerr << ccl_temp << cptemp[ 0 ] << res[ 0 ]<< std::endl;
-	            if( ccl_temp != cptemp[ 0 ] && res[ 0 ] < ip )
+	            if( DCTPVecIsNotEqual( ccl_temp , cp0eucl ) && res[ 0 ] < ip )
 				{
-///                 std::cerr << " doing da limbo dancez0rz " << std::endl;
 					ip = res[ 0 ];
 					ie = *i;
 					intersection = true;
 			    }
-			    // FIXME: akos beleganyolt
-				else if ( res.size( ) >= 2 && ccl_temp == cptemp[ 0 ] && res[ 1 ] < ip )
+			    // FIXME: akos hackedin
+				else if ( res.size( ) >= 2 && DCTPVecIsEqual( ccl_temp , cp0eucl ) && res[ 1 ] < ip )
 				{
-					const vec2d	ccl_temp2 = b.computewdeCasteljau( res[ 0 ], err );
-					if( ccl_temp2 != cptemp[ 0 ] )
+					const Vec2d	ccl_temp2 = b.computewdeCasteljau( res[ 0 ], err );
+					if( DCTPVecIsNotEqual( ccl_temp2 , cp0eucl ) )
 					{
-///						std::cerr << " doing da REAL FUNKY limbo dancez0rz " << res[ 1 ] << std::endl;
 						ip = res[ 1 ];
 						ie = *i;
 						intersection = true;
 					}
 				}
 			 }
-             // FIXME: akos beleganyolasanak itt a vege
+             // FIXME: akos hackedin over
         }
         return intersection; //true means ip & ie are valid
 }
 
-bool ParSpaceTrimmer::setMinIntersectionWithFace2( vec2d clAct, vec2d clNext )
+bool ParSpaceTrimmer::setMinIntersectionWithFace2( Vec2d clAct, Vec2d clNext )
 {
 	ip = 1.5;
 	bool intersection = false;
@@ -456,7 +445,7 @@ bool ParSpaceTrimmer::setMinIntersectionWithFace2( vec2d clAct, vec2d clNext )
 	 * FIXME: bug #n: check for degenerate bezier
 	 * and throw an exception :-\
 	 */
-	if( clAct == clNext )
+	if( DCTPVecIsEqual( clAct , clNext ) )
 		throw ParSpaceTrimmerError( ERR_DEGENERATE_BEZIER );
 
 	for( std::vector< DCTPEdge *>::iterator i = state.f->edges.begin();
@@ -465,8 +454,8 @@ bool ParSpaceTrimmer::setMinIntersectionWithFace2( vec2d clAct, vec2d clNext )
 		double res;
 		DCTPVertex *v1, *v2;
 		(*i)->getVertices( v1, v2 );
-		vec2d v1coords( v1->coords.x, v1->coords.y );
-		vec2d v2coords( v2->coords.x, v2->coords.y );
+		Vec2d v1coords( v1->coords[0], v1->coords[1] );
+		Vec2d v2coords( v2->coords[0], v2->coords[1] );
 
 		if( doIntersect( clAct, clNext, v1coords, v2coords, res ) )
 		{
@@ -493,14 +482,14 @@ bool ParSpaceTrimmer::StoreCurveApproximation(
 	bezier2dvector	nc; //new curves
 	bool					rest_left;
 	double					&norm = state.f->norm;
-	vec2dvector				approx;
+	DCTPVec2dvector				approx;
 
 //	std::cerr << "StoreCurveApproximation" << std::endl;
 
 	if ( 1.0 - t < DCTP_EPS )
 	{
 		rest_left = false;
-		vec2dvector vcp = bc.getControlPointVector( );
+		DCTPVec3dvector vcp = bc.getControlPointVector( );
 //		std::cerr <<vcp.size( ) << " ";
 //		std::cerr << vcp[ 0 ] << " " << vcp[ 1 ] << " ";
 		nc.push_back( bc );
@@ -510,35 +499,28 @@ bool ParSpaceTrimmer::StoreCurveApproximation(
 	else
 	{
 		bc.subDivision( t, nc );
-//std::cerr << "lofasz: " << nc.size() << std::endl;
 		bc = nc[ 1 ];//nc[0] holdz da first part
 		rest_left = true;
 	}
 
 //	std::cerr << "norm = " << norm << std::endl;
 
-	if( m_bMaxLength )
-	{
-		nc[ 0 ].approximateLength( approx, norm );
-	}
-	else
-	{
-		nc[ 0 ].approximate( approx, norm );
-	}
+    nc[ 0 ].approximate( approx, norm );
+    
 	if( approx.size( ) >= 2 )
 	{
-		vec2dvector::iterator ae = approx.end();
+		DCTPVec2dvector::iterator ae = approx.end();
 
-		for( vec2dvector::iterator i = approx.begin() + 1; i != ae; ++i )
+		for( DCTPVec2dvector::iterator i = approx.begin() + 1; i != ae; ++i )
 		{
-			i->x = ROUND_EPS * floor( i->x / ROUND_EPS + 0.5 );
-			i->y = ROUND_EPS * floor( i->y / ROUND_EPS + 0.5 );
+			(*i)[0] = ROUND_EPS * floor( (*i)[0] / ROUND_EPS + 0.5 );
+			(*i)[1] = ROUND_EPS * floor( (*i)[1] / ROUND_EPS + 0.5 );
 //			std::cerr << "inserting vertex in edge loop " << *i << std::endl;
-			DCTPVertex	*pcl_new = mesh->findVertex( *i );
+			DCTPVertex	*pcl_new = mesh->findVertex( Vec3d( *i ) );
 			if( pcl_new == NULL )
 			{
 				pcl_new = new DCTPVertex;
-				pcl_new->coords = *i;
+				pcl_new->coords = Vec3d( *i );
 			}
 //			std::cerr << "el.push_back " << ( void* ) pcl_new << std::endl;
 			el.push_back( pcl_new );
@@ -567,7 +549,6 @@ bool ParSpaceTrimmer::StoreCurveApproximation(
 	else
  {
 		bc.subDivision( t, nc );
-///std::cerr << "lofasz: " << nc.size() << std::endl;
 		bc = nc[ 1 ];//nc[0] holdz da first part
 		rest_left = true;
 	}
@@ -591,15 +572,15 @@ bool ParSpaceTrimmer::goingOutOnEdge( BezierCurve2D &bc,
 		{
                 DCTPVertex *v1,*v2;
                 (*i)->getVertices( v1, v2 );
-                dvector res;
+                DCTPdvector res;
 //                std::cerr << "goin'outonedge calling intersection and houston ;)" << std::endl;
 //                dumpcontrolpoints( bc );
 //                std::cerr << "v1: " << v1->coords << " v2: " << v2->coords << std::endl;
-                vec2d v1coords( v1->coords.x, v1->coords.y );
-                vec2d v2coords( v2->coords.x, v2->coords.y );
+                Vec2d v1coords( v1->coords[0], v1->coords[1] );
+                Vec2d v2coords( v2->coords[0], v2->coords[1] );
 
-                vec2dvector &cptemp = bc.getControlPointVector();
-                if ( cptemp.size() == 2 && cptemp[ 0 ] == cptemp[ 1 ] )
+                DCTPVec3dvector &cptemp = bc.getControlPointVector();
+                if ( cptemp.size() == 2 && DCTPVecIsEqual( cptemp[ 0 ] , cptemp[ 1 ] ) )
                     throw ParSpaceTrimmerError( ERR_DEGENERATE_BEZIER );
 
                 int r = bc.intersection( res, v1coords, v2coords );
@@ -613,12 +594,15 @@ bool ParSpaceTrimmer::goingOutOnEdge( BezierCurve2D &bc,
                 switch ( r ) {
                         case 1:
 							{
-								vec2dvector &cp = bc.getControlPointVector();
+								DCTPVec3dvector &cp = bc.getControlPointVector();
+                                Vec2d cpeucl;
+                                cpeucl[0] = cp[ cp.size() - 1 ][0] / cp[ cp.size() - 1 ][2];
+                                cpeucl[1] = cp[ cp.size() - 1 ][1] / cp[ cp.size() - 1 ][2];
 								//std::cerr << "cp.size(): " << cp.size() << std::endl;
 								//std::cerr << "cp[0]: " << cp[ 0 ] << "cp[1]: " << cp[ 1] << std::endl;
-								vec3d cp3d( ROUND_EPS * floor( cp[ cp.size() - 1 ].x / ROUND_EPS + 0.5 ),
-											ROUND_EPS * floor( cp[ cp.size() - 1 ].y / ROUND_EPS + 0.5 ) );
-//								vec3d cp3d( cp[ cp.size( ) - 1 ].x, cp[ cp.size( ) - 1 ].y );
+								Vec3d cp3d( ROUND_EPS * floor(cpeucl[0] / ROUND_EPS + 0.5 ),
+											ROUND_EPS * floor(cpeucl[1] / ROUND_EPS + 0.5 ) );
+//								Vec3d cp3d( cp[ cp.size( ) - 1 ][0], cp[ cp.size( ) - 1 ][1] );
 //                              v = mesh->SplitEdge( *i, cp3d );
 								v = mesh->findVertex( cp3d );
 								if( v == NULL )
@@ -629,16 +613,8 @@ bool ParSpaceTrimmer::goingOutOnEdge( BezierCurve2D &bc,
 									v->edges.push_back( *i );
 //									std::cerr << "3-" << *i << " " << v << std::endl;
 								}
-								if( m_bMaxLength )
-								{
-									state.f = state.v->faces[ 0 ];
-									StoreCurveApproximation( bc, 1.0, el );
-								}
-								else
-								{
-//									std::cerr << "el.push_back 2 " << ( void* ) v << std::endl;
-									el.push_back( v );
-								}
+//								std::cerr << "el.push_back 2 " << ( void* ) v << std::endl;
+								el.push_back( v );
                                 feu = true;
 								return true;
 							}
@@ -652,34 +628,27 @@ bool ParSpaceTrimmer::goingOutOnEdge( BezierCurve2D &bc,
 //								std::cerr << " lineseg: " << v1coords << " " << v2coords << std::endl;
 
 								bc.subDivision( res[ 1 ], nc );
-//								std::cerr << "LOFASZBAZMEG " << nc.size() << std::endl;
 								bc = nc[ 1 ];//nc[0] holdz da 2nd part
-//								std::cerr << "GECILADA" << std::endl;
-								vec2dvector &cp = bc.getControlPointVector();
+/////								DCTPVec3dvector &cp = bc.getControlPointVector();
 //		                        if ( cp[ 0 ] == v1coords ) v = v1;
 //		                        else v = v2;
 //	                            std::cerr << "cp[0]: " << cp[0] << " v1: " << v1c << " v2: " << v2c << std::endl;
 		                        //FIXME:direct orig edge into v
-								vec2dvector &cp2 =
+								DCTPVec3dvector &cp2 =
 										nc[ 0 ].getControlPointVector();
+                                Vec2d cpeucl;
+                                cpeucl[0] = cp2[0][0] / cp2[0][2];
+                                cpeucl[1] = cp2[0][1] / cp2[0][2];
 
-								if ( cp2[ 0 ] == v1coords ) v = v2;
+								if ( DCTPVecIsEqual( cpeucl , v1coords ) ) v = v2;
 								else v = v1;
-								if( m_bMaxLength )
-								{
-									state.f = state.v->faces[ 0 ];
-									StoreCurveApproximation( nc[ 0 ], 1.0, el );
-								}
-								else
-								{
-//									std::cerr << "el.push_back 3 " << ( void* ) v << std::endl;
-									el.push_back( v );
-//		                            vec3d cp203d( cp2[ 0 ].x, cp2[ 0 ].y );
-/*				                    if ( mesh->directEdge( cp203d, v->coords ) ) {
-										std::cerr << "directEdge ERROR!" << std::endl;
-											throw ParSpaceTrimmerError( ParSpaceTrimmerError::ERR_DIRECTEDGE );
-									}*/
-								}
+//								std::cerr << "el.push_back 3 " << ( void* ) v << std::endl;
+								el.push_back( v );
+//	                            Vec3d cp203d( cp2[ 0 ][0], cp2[ 0 ][1] );
+/*			                    if ( mesh->directEdge( cp203d, v->coords ) ) {
+									std::cerr << "directEdge ERROR!" << std::endl;
+										throw ParSpaceTrimmerError( ParSpaceTrimmerError::ERR_DIRECTEDGE );
+								}*/
                                 feu = false;
                                 return true;
 							}
@@ -688,7 +657,7 @@ bool ParSpaceTrimmer::goingOutOnEdge( BezierCurve2D &bc,
         return false;
 }
 
-bool ParSpaceTrimmer::goingOutOnEdge2( vec2d clAct, vec2d clNext,
+bool ParSpaceTrimmer::goingOutOnEdge2( Vec2d clAct, Vec2d clNext,
                                        DCTPVertex* &v, bool &feu,
                 					   std::vector< DCTPVertex* > &el )
 {
@@ -706,22 +675,23 @@ bool ParSpaceTrimmer::goingOutOnEdge2( vec2d clAct, vec2d clNext,
 //			std::cerr << "goin'outonedge calling intersection and houston ;)" << std::endl;
 //			dumpcontrolpoints( bc );
 //			std::cerr << "v1: " << v1->coords << " v2: " << v2->coords << std::endl;
-			vec2d v1coords( v1->coords.x, v1->coords.y );
-			vec2d v2coords( v2->coords.x, v2->coords.y );
+			Vec2d v1coords( v1->coords[0], v1->coords[1] );
+			Vec2d v2coords( v2->coords[0], v2->coords[1] );
 
-			if( clAct == clNext )
+			if( DCTPVecIsEqual( clAct , clNext ) )
 				throw ParSpaceTrimmerError( ERR_DEGENERATE_BEZIER );
 
 			if( doIntersect( clAct, clNext, v1coords, v2coords, res ) )
 			{
 				if( res - 1.0 > DCTP_EPS )
 				{
-					vec3d cp3d( clNext.x, clNext.y );
+					Vec3d cp3d( clNext[0], clNext[1] );
 					v = mesh->SplitEdge( *i, cp3d );
 					if( v == NULL )
 					{
 						std::cerr << "SplitEdge Failed!" << std::endl;
-						std::cerr << v1coords << cp3d << v2coords << std::endl;
+// FIXME: operator<< deprecated
+//						std::cerr << v1coords << cp3d << v2coords << std::endl;
 					}
 					else
 					{
@@ -732,22 +702,22 @@ bool ParSpaceTrimmer::goingOutOnEdge2( vec2d clAct, vec2d clNext,
 				}
 				else if( res - 1.0 < -DCTP_EPS )
 				{
-					vec3d cp3p = clAct + ( clNext - clAct ) * res;
-					if( ( cp3p - v1coords ).quad_size( ) <
-						( cp3p - v2coords ).quad_size( ) )
+					Vec3d cp3p = Vec3d( clAct + ( clNext - clAct ) * res );
+					if( ( cp3p - Vec3d( v1coords )).squareLength( ) <
+						( cp3p - Vec3d( v2coords )).squareLength( ) )
 						v = v1;
 					else
 						v = v2;
 //					el.push_back( v );
-					feu = ( cp3p == clNext );
+					feu = ( DCTPVecIsEqual( cp3p , Vec3d(clNext) ) );
 					ip = res;
 					return true;
 				}
 				else
 				{
-					vec3d cp3d( clNext.x, clNext.y );
-					if( ( cp3d - v1coords ).quad_size( ) <
-						( cp3d - v2coords ).quad_size( ) )
+					Vec3d cp3d( clNext[0], clNext[1] );
+					if( ( cp3d - Vec3d( v1coords )).squareLength( ) <
+						( cp3d - Vec3d( v2coords )).squareLength( ) )
 						v = v1;
 					else
 						v = v2;
@@ -767,27 +737,31 @@ DCTPFace* ParSpaceTrimmer::getContinuingFace( BezierCurve2D &bc ) {
         int err;
         double high = 1.0, low = 0.0;
 //        std::cerr <<" computing stuph.." << std::endl;
-        const vec2d cp0 = bc.getControlPointVector()[ 0 ];
-        vec2d p = bc.computewdeCasteljau( high, err );
-		if( p.x < m_clMin.x ) p.x = m_clMin.x;
-		else if( p.x > m_clMax.x ) p.x = m_clMax.x;
-		if( p.y < m_clMin.y ) p.y = m_clMin.y;
-		else if( p.y > m_clMax.y ) p.y = m_clMax.y;
+        const Vec3d &cp0hom = bc.getControlPointVector()[ 0 ];
+        Vec2d cp0;
+        cp0[0] = cp0hom[0] / cp0hom[2];
+        cp0[1] = cp0hom[1] / cp0hom[2];
+        
+        Vec2d p = bc.computewdeCasteljau( high, err );
+		if( p[0] < m_clMin[0] ) p[0] = m_clMin[0];
+		else if( p[0] > m_clMax[0] ) p[0] = m_clMax[0];
+		if( p[1] < m_clMin[1] ) p[1] = m_clMin[1];
+		else if( p[1] > m_clMax[1] ) p[1] = m_clMax[1];
         while( high - low > DCTP_EPS )
         {
 //			std::cerr << ".";
 //          const double mid = ( high + low ) * 0.5;
-          double mid = 1 * DCTP_EPS / sqrt( ( p - cp0 ).quad_size( ) );
+          double mid = 1 * DCTP_EPS / sqrt( ( p - cp0 ).squareLength( ) );
 		  mid = osgMin( 0.9, osgMax( 0.1, mid ) );
 		  mid = low + ( high - low ) * mid;
-          vec2d ptmp = bc.computewdeCasteljau( mid, err );
-		  if( ptmp.x < m_clMin.x ) ptmp.x = m_clMin.x;
-		  else if( ptmp.x > m_clMax.x ) ptmp.x = m_clMax.x;
-		  if( ptmp.y < m_clMin.y ) ptmp.y = m_clMin.y;
-		  else if( ptmp.y > m_clMax.y ) ptmp.y = m_clMax.y;
-          if( cp0 == ptmp )
+          Vec2d ptmp = bc.computewdeCasteljau( mid, err );
+		  if( ptmp[0] < m_clMin[0] ) ptmp[0] = m_clMin[0];
+		  else if( ptmp[0] > m_clMax[0] ) ptmp[0] = m_clMax[0];
+		  if( ptmp[1] < m_clMin[1] ) ptmp[1] = m_clMin[1];
+		  else if( ptmp[1] > m_clMax[1] ) ptmp[1] = m_clMax[1];
+          if( DCTPVecIsEqual( cp0 , ptmp ) )
           {
-			if( p == ptmp )
+			if( DCTPVecIsEqual( p , ptmp ) )
 			{
 			  break;
 			}
@@ -819,28 +793,28 @@ DCTPFace* ParSpaceTrimmer::getContinuingFace( BezierCurve2D &bc ) {
 		return state.f;
 }
 
-DCTPFace* ParSpaceTrimmer::getContinuingFace2( vec2d clAct, vec2d clNext )
+DCTPFace* ParSpaceTrimmer::getContinuingFace2( Vec2d clAct, Vec2d clNext )
 {
 //state.v shulda hold the vertex to investigate
 //	int err;
 	double high = 1.0, low = 0.0;
 //	std::cerr <<" computing stuph.." << std::endl;
 
-	if( clAct.x < m_clMin.x ) clAct.x = m_clMin.x;
-	else if( clAct.x > m_clMax.x ) clAct.x = m_clMax.x;
-	if( clAct.y < m_clMin.y ) clAct.y = m_clMin.y;
-	else if( clAct.y > m_clMax.y ) clAct.y = m_clMax.y;
-	if( clNext.x < m_clMin.x ) clNext.x = m_clMin.x;
-	else if( clNext.x > m_clMax.x ) clNext.x = m_clMax.x;
-	if( clNext.y < m_clMin.y ) clNext.y = m_clMin.y;
-	else if( clNext.y > m_clMax.y ) clNext.y = m_clMax.y;
+	if( clAct[0] < m_clMin[0] ) clAct[0] = m_clMin[0];
+	else if( clAct[0] > m_clMax[0] ) clAct[0] = m_clMax[0];
+	if( clAct[1] < m_clMin[1] ) clAct[1] = m_clMin[1];
+	else if( clAct[1] > m_clMax[1] ) clAct[1] = m_clMax[1];
+	if( clNext[0] < m_clMin[0] ) clNext[0] = m_clMin[0];
+	else if( clNext[0] > m_clMax[0] ) clNext[0] = m_clMax[0];
+	if( clNext[1] < m_clMin[1] ) clNext[1] = m_clMin[1];
+	else if( clNext[1] > m_clMax[1] ) clNext[1] = m_clMax[1];
 
-/*	vec2d p = clAct + ( clNext - clAct ) * high;
+/*	Vec2d p = clAct + ( clNext - clAct ) * high;
 
 	while( high - low > DCTP_EPS )
 	{
 		const double mid = ( high + low ) * 0.5;
-		const vec2d ptmp = clAct + ( clNext - clAct ) * mid;
+		const Vec2d ptmp = clAct + ( clNext - clAct ) * mid;
 		if( clAct == ptmp )
 		{
 			low = mid;
@@ -852,16 +826,16 @@ DCTPFace* ParSpaceTrimmer::getContinuingFace2( vec2d clAct, vec2d clNext )
 		}
 	}*/
 
-	vec2d p;
+	Vec2d p;
 
 	p = clNext - clAct;
-	if( fabs( p.x ) > DCTP_EPS )
+	if( osgabs( p[0] ) > DCTP_EPS )
 	{
-		p.x = DCTP_EPS * p.x / fabs( p.x );
+		p[0] = DCTP_EPS * p[0] / osgabs( p[0] );
 	}
-	if( fabs( p.y ) > DCTP_EPS )
+	if( osgabs( p[1] ) > DCTP_EPS )
 	{
-		p.y = DCTP_EPS * p.y / fabs( p.y );
+		p[1] = DCTP_EPS * p[1] / osgabs( p[1] );
 	}
 	p += clAct;
 
@@ -895,13 +869,18 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
 //					std::cerr << "subdividing face " << ( void* ) state.f << " because of error " << m_pclQuadTree->computeApproximationError( state.f ) << std::endl;
 					mesh->SubdivideQuad( state.f );
 					m_pclQuadTree->finishSubdivisions( state.f );
-					if( !isOverFace( state.f, b.getControlPointVector( )[ 0 ] ) )
+                    const Vec3d &cp0hom = b.getControlPointVector()[ 0 ];
+                    Vec2d cp0;
+                    cp0[0] = cp0hom[0] / cp0hom[2];
+                    cp0[1] = cp0hom[1] / cp0hom[2];
+                    
+					if( !isOverFace(state.f, cp0) )
 					{
-						if( isOverFace( mesh->faces[ mesh->faces.size( ) - 3 ], b.getControlPointVector( )[ 0 ] ) )
+						if( isOverFace( mesh->faces[ mesh->faces.size( ) - 3 ], cp0) )
 						{
 							state.f = mesh->faces[ mesh->faces.size( ) - 3 ];
 						}
-						else if( isOverFace( mesh->faces[ mesh->faces.size( ) - 2 ], b.getControlPointVector( )[ 0 ] ) )
+						else if( isOverFace( mesh->faces[ mesh->faces.size( ) - 2 ], cp0) )
 						{
 							state.f = mesh->faces[ mesh->faces.size( ) - 2 ];
 						}
@@ -919,7 +898,7 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
                 //note: setMinIntersection... sets ie & ip member varz
                 if ( setMinIntersectionWithFace( b ) ) {//intersection exists
                         int err;
-                        vec3d p = b.computewdeCasteljau( ip, err );
+                        Vec3d p = Vec3d( b.computewdeCasteljau( ip, err ) );
 //                        std::cerr << " ip: " << ip << " p: " << p << std::endl;
 //                        DCTPVertex *vp = mesh->SplitEdge( ie, p );
 						DCTPVertex *vp = mesh->findVertex( p );
@@ -954,12 +933,12 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
         else {//TrimState::IN_VERTEX state
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 			bool		b_sub = true;
-			vec2d		cl_v2d;
+			Vec2d		cl_v2d;
 			bool		b_dummy;
 			DCTPVertex	*pcl_find;
 
-			cl_v2d.x = state.v->coords.x;
-			cl_v2d.y = state.v->coords.y;
+			cl_v2d[0] = state.v->coords[0];
+			cl_v2d[1] = state.v->coords[1];
 
 			while( b_sub )
 			{
@@ -1033,15 +1012,15 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
 #endif
 //        std::cerr << " now in vertex..." << std::endl;
         //snap startin' control point of outgoin' curve into startin' vertex
-                vec2dvector &cp = b.getControlPointVector();
-                cp[ 0 ].x = state.v->coords.x;
-                cp[ 0 ].y = state.v->coords.y;
+                DCTPVec3dvector &cp = b.getControlPointVector();
+                cp[ 0 ][0] = state.v->coords[0] * cp[0][2];
+                cp[ 0 ][1] = state.v->coords[1] * cp[0][2];
                 bool feu; //full edge used
                 DCTPVertex *v;
 				unsigned int check;
 				for( check = 1; check < cp.size( ); ++check )
 				{
-					if( cp[ check ] != cp[ 0 ] )
+					if( DCTPVecIsNotEqual( cp[ check ] , cp[ 0 ] ) )
 					{
 						break;
 					}
@@ -1081,15 +1060,15 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
 
 #ifdef OSG_FORCE_NO_T_VERTICES
 // #ifdef OSG_CREATE_NORMAL_MAPS
-bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS )
+bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS )
 /* #else
-bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS, vec3d &rclActN, vec3d clNextN )
+bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS, Vec3d &rclActN, Vec3d clNextN )
  #endif*/
 #else
-bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS )
+bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS )
 #endif
 {
-	if( ( rclAct - clNext ).quad_size( ) < DCTP_EPS ) return false;
+	if( ( rclAct - clNext ).squareLength( ) < DCTP_EPS ) return false;
 
 //	std::cerr << rclAct << " -> " << clNext << std::endl;
 //	std::cerr << rclActS << " -> " << clNextS << std::endl;
@@ -1101,17 +1080,18 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 		if( setMinIntersectionWithFace2( rclAct, clNext ) )
 		{//intersection exists
 //			int err;
-			vec3d p = rclAct + ( clNext - rclAct ) * ip;
+			Vec3d p = Vec3d( rclAct + ( clNext - rclAct ) * ip );
 //			std::cerr << " ip: " << ip << " p: " << p << std::endl;
 			DCTPVertex *vp = mesh->SplitEdge( ie, p );
 //			std::cerr << vp->coords << std::endl;
 			if( vp == NULL )
 			{
-				std::cerr << rclAct << " -> " << clNext << std::endl;
-				DCTPVertex	*v1, *v2;
-				ie->getVertices( v1, v2 );
-				std::cerr << v1->coords << " -> " << v2->coords << std::endl;
-				std::cerr << " ip: " << ip << " p: " << p << std::endl;
+// FIXME: operator<< deprecated
+//				std::cerr << rclAct << " -> " << clNext << std::endl;
+//				DCTPVertex	*v1, *v2;
+//				ie->getVertices( v1, v2 );
+//				std::cerr << v1->coords << " -> " << v2->coords << std::endl;
+//				std::cerr << " ip: " << ip << " p: " << p << std::endl;
 				std::cerr << "Brutal error I. in: "
 					 << "ParSpaceTrimmer::StateTransition2"
 					 << std::endl;
@@ -1125,7 +1105,7 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 				SPosNorm	*pt_s = new SPosNorm;
 				SPosNorm	*pt_ps = ( SPosNorm* ) el[ el.size( ) - 1 ]->vertexinfo;
 
-				if( ( rclActS - clNextS ).quad_size( ) <= ( rclActS - pt_ps->clPos ).quad_size( ) )
+				if( ( rclActS - clNextS ).squareLength( ) <= ( rclActS - pt_ps->clPos ).squareLength( ) )
 				{
 					pt_s->clPos = clNextS;
 /* #ifndef OSG_CREATE_NORMAL_MAPS
@@ -1147,29 +1127,29 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 				}
 				vp->vertexinfo = ( void* ) pt_s;
 #else
-				vec3d *pcl_s = new vec3d( rclActS );
+				Vec3d *pcl_s = new Vec3d( rclActS );
 				vp->vertexinfo = ( void* ) pcl_s;
 #endif
 			}
 			state.state = TrimState::IN_VERTEX;
 			state.v = vp;
-//			if( vec3d( rclAct ) != vp->coords )
+//			if( Vec3d( rclAct ) != vp->coords )
 			{
 				mesh->AddEdge( el[ el.size( ) - 1 ], vp, 1 );
 //				std::cerr << "add edge: " << el[ el.size( ) - 1 ]->coords << "->" << vp->coords << std::endl;
 //				std::cerr << vp->vertexinfo << std::endl;
 				el.push_back( vp );
 			}
-			rclAct.x = vp->coords.x;
-			rclAct.y = vp->coords.y;
+			rclAct[0] = vp->coords[0];
+			rclAct[1] = vp->coords[1];
 //			std::cerr << "rclAct:" << rclAct << std::endl;
 //			std::cerr << "ip:" << ip << std::endl;
 //			std::cerr << "rclAct == clNext " << ( rclAct == clNext ) << std::endl;
-			return !( rclAct == clNext );
+			return !( DCTPVecIsEqual( rclAct , clNext ) );
 		}
 		//no intersection
 //		std::cerr << " no intersection, baby !!! " << std::endl;
-		DCTPVertex *v = mesh->AddVertex( clNext );
+		DCTPVertex *v = mesh->AddVertex( Vec3d( clNext ));
 		if( v->vertexinfo == NULL )
 		{
 #ifdef OSG_FORCE_NO_T_VERTICES
@@ -1183,7 +1163,7 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
  #endif
 			v->vertexinfo = ( void* ) pt_s;
 #else
-			vec3d *pcl_s = new vec3d( clNextS );
+			Vec3d *pcl_s = new Vec3d( clNextS );
 			v->vertexinfo = ( void* ) pcl_s;
 #endif
 		}
@@ -1199,7 +1179,7 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 //		std::cerr << " now in vertex..." << std::endl;
 		bool feu; //full edge used
 		DCTPVertex *v;
-		if( rclAct == clNext )
+		if( DCTPVecIsEqual( rclAct , clNext ) )
 			return false;
 		if( goingOutOnEdge2( rclAct, clNext, v, feu, el ) )
 		{//goin' out on edge
@@ -1218,7 +1198,7 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 				SPosNorm	*pt_s = new SPosNorm;
 				SPosNorm	*pt_ps = ( SPosNorm* ) el[ el.size( ) - 1 ]->vertexinfo;
 
-				if( ( rclActS - clNextS ).quad_size( ) <= ( rclActS - pt_ps->clPos ).quad_size( ) )
+				if( ( rclActS - clNextS ).squareLength( ) <= ( rclActS - pt_ps->clPos ).squareLength( ) )
 				{
 					pt_s->clPos = clNextS;
 /* #ifndef OSG_CREATE_NORMAL_MAPS
@@ -1240,22 +1220,22 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 				}
 				v->vertexinfo = ( void* ) pt_s;
 #else
-				vec3d *pcl_s = new vec3d( rclActS );
+				Vec3d *pcl_s = new Vec3d( rclActS );
 				v->vertexinfo = ( void* ) pcl_s;
 #endif
 			}
 			state.v = v;
 			//insert edge in edgeloop
 //			std::cerr << "inserting vertex in edge loop " << state.v->coords << std::endl;
-//			if( vec3d( rclAct ) != v->coords )
+//			if( Vec3d( rclAct ) != v->coords )
 			{
 //				std::cerr << "direct edge: " << el[ el.size( ) - 1 ]->coords << "->" << v->coords << std::endl;
 				mesh->directEdge( el[ el.size( ) - 1 ]->coords, v->coords );
 //				std::cerr << v->vertexinfo << std::endl;
 				el.push_back( v );
 			}
-			rclAct.x = v->coords.x;
-			rclAct.y = v->coords.y;
+			rclAct[0] = v->coords[0];
+			rclAct[1] = v->coords[1];
 //			std::cerr << "rclAct:" << rclAct << std::endl;
 			return ( !feu );
 		}
@@ -1275,9 +1255,8 @@ bool ParSpaceTrimmer::StateTransition2( vec2d &rclAct, vec2d clNext, std::vector
 }
 
 /*void ParSpaceTrimmer::mergeCurve( void ) {
-///        std::cerr << "mergeCurve started, LOFASZPICSASEGG" << std::endl;
         if ( !start_face ) return;
-///        std::cerr << "van startfacem, te geciladafasszopokocsog!!! " << std::endl;
+///        std::cerr << "got startface " << std::endl;
         std::vector<TrimSegment>::iterator s = NULL, e = NULL;
         for( std::vector<TrimSegment>::iterator i = start_face->trimseg.begin();
              i != start_face->trimseg.end(); ++i ) {
@@ -1306,15 +1285,15 @@ void ParSpaceTrimmer::processCurve( bezier2ddeque &tc, std::vector< DCTPVertex* 
 void ParSpaceTrimmer::processCurve2( unsigned int uiLoop, std::vector< DCTPVertex* > &el )
 {
 	const unsigned int	cui_size = ( *pvccrd )[ uiLoop ].size( );
-	vec2d				cl_act = ( *pvccrd )[ uiLoop ][ cui_size - 1 ];
-	vec3d				cl_act_s = ( *m_pvvclSewed )[ uiLoop ][ cui_size - 1 ];
+	Vec2d				cl_act = ( *pvccrd )[ uiLoop ][ cui_size - 1 ];
+	Vec3d				cl_act_s = ( *m_pvvclSewed )[ uiLoop ][ cui_size - 1 ];
 #ifdef OSG_FORCE_NO_T_VERTICES
 /* #ifndef OSG_CREATE_NORMAL_MAPS
-	vec3d				cl_act_n = ( *m_pvvclNormals )[ uiLoop ][ cui_size - 1 ];
+	Vec3d				cl_act_n = ( *m_pvvclNormals )[ uiLoop ][ cui_size - 1 ];
  #endif*/
 #endif
 	unsigned int		ui_vertex = 0;
-	vec2d				cl_next;
+	Vec2d				cl_next;
 
 //    std::cerr.precision( 16 );
 //	std::cerr << " - " << cl_act << std::endl;
@@ -1322,10 +1301,10 @@ void ParSpaceTrimmer::processCurve2( unsigned int uiLoop, std::vector< DCTPVerte
 	while( ui_vertex < cui_size )
 	{
 		cl_next = ( *pvccrd )[ uiLoop ][ ui_vertex ];
-/*		if( cl_next.x < m_clMin.x ) cl_next.x = m_clMin.x;
-		else if( cl_next.x > m_clMax.x ) cl_next.x = m_clMax.x;
-		if( cl_next.y < m_clMin.y ) cl_next.y = m_clMin.y;
-		else if( cl_next.y > m_clMax.y ) cl_next.y = m_clMax.y;*/
+/*		if( cl_next[0] < m_clMin[0] ) cl_next[0] = m_clMin[0];
+		else if( cl_next[0] > m_clMax[0] ) cl_next[0] = m_clMax[0];
+		if( cl_next[1] < m_clMin[1] ) cl_next[1] = m_clMin[1];
+		else if( cl_next[1] > m_clMax[1] ) cl_next[1] = m_clMax[1];*/
 //		std::cerr << cl_act << " -> " << cl_next << std::endl;
 #ifdef OSG_FORCE_NO_T_VERTICES
 // #ifdef OSG_CREATE_NORMAL_MAPS
@@ -1424,13 +1403,13 @@ int ParSpaceTrimmer::PerformTrimming( void )
 					// leave out last point since it is the start of the next curve
 					for( unsigned int j = 0; j < params.size( ); ++j )
 					{
-						vec2d	cl_pos;
+						Vec2d	cl_pos;
 
 						err = 0;
 						cl_pos = bc.computewdeCasteljau( params[ j ], err );
-						cl_pos.x = DCTP_EPS * 100.0 * floor( cl_pos.x / ( DCTP_EPS * 100.0 ) + 0.5 );
-						cl_pos.y = DCTP_EPS * 100.0 * floor( cl_pos.y / ( DCTP_EPS * 100.0 ) + 0.5 );
-						vcel[ i ].push_back( mesh->AddVertex( cl_pos ) );
+						cl_pos[0] = DCTP_EPS * 100.0 * floor( cl_pos[0] / ( DCTP_EPS * 100.0 ) + 0.5 );
+						cl_pos[1] = DCTP_EPS * 100.0 * floor( cl_pos[1] / ( DCTP_EPS * 100.0 ) + 0.5 );
+						vcel[ i ].push_back( mesh->AddVertex( Vec3d( cl_pos )) );
 //						std::cerr << bc.computewdeCasteljau( params[ j ], err ) << " ";
 					}
 //					std::cerr << std::endl;
@@ -1465,10 +1444,10 @@ int ParSpaceTrimmer::PerformTrimming( void )
 	unsigned int				ui_first;
 	unsigned int				ui_prev;
 	unsigned int				ui_next;
-	vec2d						cl_uv;
+	Vec2d						cl_uv;
 	unsigned int				ui_remain_cnt;
 	unsigned int				i;
-	vec3d						cl_midpos;
+	Vec3d						cl_midpos;
 
 /*	for( i = 0; i < vcel.size( ); ++i )
 	{
@@ -1477,8 +1456,8 @@ int ParSpaceTrimmer::PerformTrimming( void )
 		{
 			for( ui_vert = 0; ui_vert < ui_vert_cnt; ++ui_vert )
 			{
-				cl_uv.x = vcel[ i ][ ui_vert ]->coords.x;
-				cl_uv.y = vcel[ i ][ ui_vert ]->coords.y;
+				cl_uv[0] = vcel[ i ][ ui_vert ]->coords[0];
+				cl_uv[1] = vcel[ i ][ ui_vert ]->coords[1];
 				std::cerr << cl_uv << m_pclNurbs->compute( cl_uv, i_err ) << std::endl;
 			}
 			std::cerr << std::endl;
@@ -1500,8 +1479,8 @@ int ParSpaceTrimmer::PerformTrimming( void )
 				vt_vertices[ ui_vert ].uiIndex = ui_vert;
 				vt_vertices[ ui_vert ].uiPrev = ui_vert - 1;
 				vt_vertices[ ui_vert ].uiNext = ui_vert + 1;
-				cl_uv.x = vcel[ i ][ ui_vert ]->coords.x;
-				cl_uv.y = vcel[ i ][ ui_vert ]->coords.y;
+				cl_uv[0] = vcel[ i ][ ui_vert ]->coords[0];
+				cl_uv[1] = vcel[ i ][ ui_vert ]->coords[1];
 				vt_vertices[ ui_vert ].clPos = m_pclNurbs->compute( cl_uv, i_err );
 				if( i_err )
 				{
@@ -1513,10 +1492,10 @@ int ParSpaceTrimmer::PerformTrimming( void )
 			vt_sim_sort.clear( );
 			for( ui_vert = 0; ui_vert < ui_vert_cnt; ++ui_vert )
 			{
-				cl_uv.x = ( vcel[ i ][ vt_vertices[ ui_vert ].uiPrev ]->coords.x
-						  + vcel[ i ][ vt_vertices[ ui_vert ].uiNext ]->coords.x ) * 0.5;
-				cl_uv.y = ( vcel[ i ][ vt_vertices[ ui_vert ].uiPrev ]->coords.y
-						  + vcel[ i ][ vt_vertices[ ui_vert ].uiNext ]->coords.y ) * 0.5;
+				cl_uv[0] = ( vcel[ i ][ vt_vertices[ ui_vert ].uiPrev ]->coords[0]
+						  + vcel[ i ][ vt_vertices[ ui_vert ].uiNext ]->coords[0] ) * 0.5;
+				cl_uv[1] = ( vcel[ i ][ vt_vertices[ ui_vert ].uiPrev ]->coords[1]
+						  + vcel[ i ][ vt_vertices[ ui_vert ].uiNext ]->coords[1] ) * 0.5;
 				cl_midpos = m_pclNurbs->compute( cl_uv, i_err );
 				vt_vertices[ ui_vert ].dSimplifyError =
 					osgMax( DistToEdge( vt_vertices[ ui_vert ].clPos,
@@ -1527,7 +1506,7 @@ int ParSpaceTrimmer::PerformTrimming( void )
 										vt_vertices[ vt_vertices[ ui_vert ].uiNext ].clPos ) );
 				vt_vertices[ ui_vert ].dSimplifyError +=
 					sqrt( ( vt_vertices[ vt_vertices[ ui_vert ].uiPrev ].clPos
-						  - vt_vertices[ vt_vertices[ ui_vert ].uiNext ].clPos ).quad_size( ) ) * 0.00001;
+						  - vt_vertices[ vt_vertices[ ui_vert ].uiNext ].clPos ).squareLength( ) ) * 0.00001;
 				if( vt_vertices[ ui_vert ].dSimplifyError < cd_error_quad )
 				{
 					vt_sim_sort.insert( &vt_vertices[ ui_vert ] );
@@ -1568,10 +1547,10 @@ int ParSpaceTrimmer::PerformTrimming( void )
 				// compute new errors
 				if( ( ui_vert != ui_prev ) && ( ui_vert != ui_next ) )
 				{
-					cl_uv.x = ( vcel[ i ][ vt_vertices[ ui_prev ].uiPrev ]->coords.x
-							  + vcel[ i ][ ui_next ]->coords.x ) * 0.5;
-					cl_uv.y = ( vcel[ i ][ vt_vertices[ ui_prev ].uiPrev ]->coords.y
-							  + vcel[ i ][ ui_next ]->coords.y ) * 0.5;
+					cl_uv[0] = ( vcel[ i ][ vt_vertices[ ui_prev ].uiPrev ]->coords[0]
+							  + vcel[ i ][ ui_next ]->coords[0] ) * 0.5;
+					cl_uv[1] = ( vcel[ i ][ vt_vertices[ ui_prev ].uiPrev ]->coords[1]
+							  + vcel[ i ][ ui_next ]->coords[1] ) * 0.5;
 					cl_midpos = m_pclNurbs->compute( cl_uv, i_err );
 					d_max_dist = DistToEdge( cl_midpos,
 											 vt_vertices[ vt_vertices[ ui_vert ].uiPrev ].clPos,
@@ -1592,16 +1571,16 @@ int ParSpaceTrimmer::PerformTrimming( void )
 					vt_vertices[ ui_prev ].dSimplifyError = d_max_dist;
 					vt_vertices[ ui_prev ].dSimplifyError +=
 						sqrt( ( vt_vertices[ vt_vertices[ ui_prev ].uiPrev ].clPos
-							  - vt_vertices[ vt_vertices[ ui_prev ].uiNext ].clPos ).quad_size( ) ) * 0.00001;
+							  - vt_vertices[ vt_vertices[ ui_prev ].uiNext ].clPos ).squareLength( ) ) * 0.00001;
 					if( vt_vertices[ ui_prev ].dSimplifyError < cd_error_quad )
 					{
 						vt_sim_sort.insert( &vt_vertices[ ui_prev ] );
 					}
 
-					cl_uv.x = ( vcel[ i ][ ui_prev ]->coords.x
-							  + vcel[ i ][ vt_vertices[ ui_next ].uiNext ]->coords.x ) * 0.5;
-					cl_uv.y = ( vcel[ i ][ ui_prev ]->coords.y
-							  + vcel[ i ][ vt_vertices[ ui_next ].uiNext ]->coords.y ) * 0.5;
+					cl_uv[0] = ( vcel[ i ][ ui_prev ]->coords[0]
+							  + vcel[ i ][ vt_vertices[ ui_next ].uiNext ]->coords[0] ) * 0.5;
+					cl_uv[1] = ( vcel[ i ][ ui_prev ]->coords[1]
+							  + vcel[ i ][ vt_vertices[ ui_next ].uiNext ]->coords[1] ) * 0.5;
 					cl_midpos = m_pclNurbs->compute( cl_uv, i_err );
 					d_max_dist = DistToEdge( cl_midpos,
 											 vt_vertices[ ui_prev ].clPos,
@@ -1622,7 +1601,7 @@ int ParSpaceTrimmer::PerformTrimming( void )
 					vt_vertices[ ui_next ].dSimplifyError = d_max_dist;
 					vt_vertices[ ui_next ].dSimplifyError +=
 						sqrt( ( vt_vertices[ vt_vertices[ ui_next ].uiPrev ].clPos
-							  - vt_vertices[ vt_vertices[ ui_next ].uiNext ].clPos ).quad_size( ) ) * 0.00001;
+							  - vt_vertices[ vt_vertices[ ui_next ].uiNext ].clPos ).squareLength( ) ) * 0.00001;
 					if( vt_vertices[ ui_next ].dSimplifyError < cd_error_quad )
 					{
 						vt_sim_sort.insert( &vt_vertices[ ui_next ] );
@@ -1660,7 +1639,7 @@ int ParSpaceTrimmer::PerformTrimming( void )
 	{
 		unsigned int	v, /*eid,*/ oid;
 		unsigned int	nid = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->id;
-		vec2d			cl_temp_vec;
+		Vec2d			cl_temp_vec;
 
 		for( v = 0; v < vcel[ loop ].size( ); ++v )
 		{
@@ -1669,8 +1648,8 @@ int ParSpaceTrimmer::PerformTrimming( void )
 			nid = vcel[ loop ][ v ]->id;
 			if( oid != nid )
 			{
-				cl_temp_vec.x = vcel[ loop ][ v ]->coords.x;
-				cl_temp_vec.y = vcel[ loop ][ v ]->coords.y;
+				cl_temp_vec[0] = vcel[ loop ][ v ]->coords[0];
+				cl_temp_vec[1] = vcel[ loop ][ v ]->coords[1];
 //				std::cerr << "oid " << oid << ", nid " << nid << std::endl;
 //				std::cerr << "tvec " << cl_temp_vec << std::endl;
 				( *pvccrd )[ loop ].push_back( cl_temp_vec );
@@ -1688,7 +1667,7 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 	unsigned int	ui_tloops = ( *pvccrd ).size( );
 	unsigned int	ui_i;
 
-	m_bDeleteVertexInfo = true;	// vertexinfo holds vec3d*
+	m_bDeleteVertexInfo = true;	// vertexinfo holds Vec3d*
 	vcel.resize( ui_tloops );
 //	m_vbReversed.resize( ui_tloops );
 //	std::cerr << ui_tloops << " trimming loops" << std::endl;
@@ -1704,14 +1683,14 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 			( ( *m_pvbReversed )[ ui_i ] ) )
 		{
 			unsigned int	v; //, eid, oid;
-			vec2d			cl_temp_vec;
+			Vec2d			cl_temp_vec;
 			DCTPFace		*pcl_inside_face;
-			vec2d			cl_min;
-			vec2d			cl_max;
+			Vec2d			cl_min;
+			Vec2d			cl_max;
 			double			d_ratio;
 
-			cl_temp_vec.x = ( *pvccrd )[ ui_i ][ ( *pvccrd )[ ui_i ].size( ) - 1 ].x;
-			cl_temp_vec.y = ( *pvccrd )[ ui_i ][ ( *pvccrd )[ ui_i ].size( ) - 1 ].y;
+			cl_temp_vec[0] = ( *pvccrd )[ ui_i ][ ( *pvccrd )[ ui_i ].size( ) - 1 ][0];
+			cl_temp_vec[1] = ( *pvccrd )[ ui_i ][ ( *pvccrd )[ ui_i ].size( ) - 1 ][1];
 			cl_min = cl_max = cl_temp_vec;
 
 			getStartingFace( cl_temp_vec );
@@ -1720,12 +1699,12 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 			{
 				if( pcl_inside_face )
 				{
-					cl_temp_vec.x = ( *pvccrd )[ ui_i ][ v ].x;
-					cl_temp_vec.y = ( *pvccrd )[ ui_i ][ v ].y;
-					cl_min.x = osgMin( cl_min.x, cl_temp_vec.x );
-					cl_min.y = osgMin( cl_min.y, cl_temp_vec.y );
-					cl_max.x = osgMax( cl_max.x, cl_temp_vec.x );
-					cl_max.y = osgMax( cl_max.y, cl_temp_vec.y );
+					cl_temp_vec[0] = ( *pvccrd )[ ui_i ][ v ][0];
+					cl_temp_vec[1] = ( *pvccrd )[ ui_i ][ v ][1];
+					cl_min[0] = osgMin( cl_min[0], cl_temp_vec[0] );
+					cl_min[1] = osgMin( cl_min[1], cl_temp_vec[1] );
+					cl_max[0] = osgMax( cl_max[0], cl_temp_vec[0] );
+					cl_max[1] = osgMax( cl_max[1], cl_temp_vec[1] );
 					if( !isOverFace( pcl_inside_face, cl_temp_vec ) )
 					{
 						pcl_inside_face = NULL;
@@ -1734,11 +1713,11 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 			}
 			if( pcl_inside_face )
 			{
-				if( cl_max.x - cl_min.x > cl_max.y - cl_min.y )
+				if( cl_max[0] - cl_min[0] > cl_max[1] - cl_min[1] )
 				{
-					d_ratio = ( ( cl_min.x + cl_max.x ) * 0.5 - pcl_inside_face->orig_face[ 0 ]->coords.x )
-							/ ( pcl_inside_face->orig_face[ 1 ]->coords.x
-							  - pcl_inside_face->orig_face[ 0 ]->coords.x );
+					d_ratio = ( ( cl_min[0] + cl_max[0] ) * 0.5 - pcl_inside_face->orig_face[ 0 ]->coords[0] )
+							/ ( pcl_inside_face->orig_face[ 1 ]->coords[0]
+							  - pcl_inside_face->orig_face[ 0 ]->coords[0] );
 
 //					std::cerr << "x: " << d_ratio << std::endl;
 
@@ -1746,9 +1725,9 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 				}
 				else
 				{
-					d_ratio = ( ( cl_min.y + cl_max.y ) * 0.5 - pcl_inside_face->orig_face[ 3 ]->coords.y )
-							/ ( pcl_inside_face->orig_face[ 0 ]->coords.y
-							  - pcl_inside_face->orig_face[ 3 ]->coords.y );
+					d_ratio = ( ( cl_min[1] + cl_max[1] ) * 0.5 - pcl_inside_face->orig_face[ 3 ]->coords[1] )
+							/ ( pcl_inside_face->orig_face[ 0 ]->coords[1]
+							  - pcl_inside_face->orig_face[ 3 ]->coords[1] );
 
 //					std::cerr << "y: " << d_ratio << std::endl;
 
@@ -1798,31 +1777,31 @@ int ParSpaceTrimmer::PerformTrimming2( void )
 	return 0;
 }
 
-vec2d ParSpaceTrimmer::calcNormal( vec2d &a, vec2d &b )
+Vec2d ParSpaceTrimmer::calcNormal( Vec2d &a, Vec2d &b )
 {
-  vec2d norm(0.0, 0.0);
-  if ( a == b ) return norm;
-  double lab = sqrt( ( a.x - b.x ) * ( a.x - b.x ) + ( a.y - b.y ) * ( a.y - b.y ) );
-  norm.x = -( b.y - a.y ) / lab; // This is a normal -> rotated 90 degrees
-  norm.y = ( b.x - a.x ) / lab;
+  Vec2d norm(0.0, 0.0);
+  if ( DCTPVecIsEqual( a , b ) ) return norm;
+  double lab = sqrt( ( a[0] - b[0] ) * ( a[0] - b[0] ) + ( a[1] - b[1] ) * ( a[1] - b[1] ) );
+  norm[0] = -( b[1] - a[1] ) / lab; // This is a normal -> rotated 90 degrees
+  norm[1] = ( b[0] - a[0] ) / lab;
   return norm;
 }
 
-bool ParSpaceTrimmer::checkEdgeNormals(DirectedGraph< vec2d, unsigned char > &sg , int from, int to )
+bool ParSpaceTrimmer::checkEdgeNormals(DirectedGraph< Vec2d, unsigned char > &sg , int from, int to )
 {
-  if ( sg.nodes[ from ].nodeinfo == sg.nodes[ to ].nodeinfo ) return false;
-  vec2d norm = calcNormal( sg.nodes[ from ].nodeinfo, sg.nodes[ to ].nodeinfo );
+  if ( DCTPVecIsEqual( sg.nodes[ from ].nodeinfo , sg.nodes[ to ].nodeinfo ) ) return false;
+  Vec2d norm = calcNormal( sg.nodes[ from ].nodeinfo, sg.nodes[ to ].nodeinfo );
 
   //loop through all the edges in both nodes and check if the normal of the
   //non-directed edges are not the same
   for( unsigned int i = 0; i < sg.nodes[ from ].edges.size(); ++i ) {
-    vec2d a = sg.nodes[ sg.edges[ sg.nodes[ from ].edges[ i ]].from ].nodeinfo;
-    vec2d b = sg.nodes[ sg.edges[ sg.nodes[ from ].edges[ i ]].to ].nodeinfo;
-    vec2d n = calcNormal( a, b );
+    Vec2d a = sg.nodes[ sg.edges[ sg.nodes[ from ].edges[ i ]].from ].nodeinfo;
+    Vec2d b = sg.nodes[ sg.edges[ sg.nodes[ from ].edges[ i ]].to ].nodeinfo;
+    Vec2d n = calcNormal( a, b );
 ///    std::cerr <<"n: " << n << " norm: " << norm << std::endl;
 ///    std::cerr << "v1: " << sg.nodes[ from ].nodeinfo << " v2: " <<
 ///         sg.nodes[ to ].nodeinfo << std::endl;
-    if ( n == norm ) {
+    if ( DCTPVecIsEqual( n , norm ) ) {
 ///      std::cerr << "same normal found..." << std::endl;
 ///      std::cerr << "v1: " << sg.nodes[ from ].nodeinfo << " v2: " <<
 ///           sg.nodes[ to ].nodeinfo << std::endl;
@@ -1833,104 +1812,14 @@ bool ParSpaceTrimmer::checkEdgeNormals(DirectedGraph< vec2d, unsigned char > &sg
   return false;
 }
 
-/*void ParSpaceTrimmer::insertBezierApproximation( BezierCurve2D& b,
-                                                 int& start_node,
-                                                 DCTPFace *face,
-                                                 bool islast,
-                                                 DirectedGraph< vec2d, unsigned char > &sg ) {
-        double &norm = face->norm;
-        vec2dvector approx;
-        unsigned char dummy = 0x00;
-        b.approximate( approx, norm );
-        vec2dvector::iterator ae = approx.end();
-        if ( approx.size() == 2 ) {
-          if ( fabs( approx[ 0 ].x - approx[ 1 ].x ) < DCTP_EPS &&
-               ( fabs (approx[0].x - face->orig_quad[0]->coords.x ) < DCTP_EPS ||
-                 fabs (approx[0].x - face->orig_quad[1]->coords.x ) < DCTP_EPS ||
-                 fabs (approx[0].x - face->orig_quad[2]->coords.x ) < DCTP_EPS ||
-                 fabs (approx[0].x - face->orig_quad[3]->coords.x ) < DCTP_EPS)) {
-//              std::cerr <<"we gonna be in x trouble..." << islast << std::endl;
-              //now insert a dummy node at (0.5) and two linear approx. edges
-              //to this node. This will work, because the Bezier curve
-              //can't intersect the current face only at its endpoints
-              //otherwise it would lie on the face.
-              //FIXME: a nicer solution would be to go through the relevant
-              //FIXME: edges in the graph between the endpoints of this curve
-              //FIXME: (there must be edges like this) and orient them properly
-              int err;
-              vec2d v;
-              v = b.computewdeCasteljau( 0.5, err );
-              if ( err ) { std::cerr << "unexpected error..." << std::endl; return; }
-//              if ( fabs( v.x - approx[0].x ) < DCTP_EPS ) std::cerr << "life suxx..." << std::endl;
-//              std::cerr << "lofaszpicsa: " << fabs( v.x - approx[0].x ) << std::endl;
-//              std::cerr << "v1: " << approx[0] << " v2: " << approx[1] << std::endl;
-//              dumpcontrolpoints( b );
-              int nid = sg.AddNode( v );
-//              std::cerr << "inserting lofasz: " << v << std::endl;
-//			  std::cerr << "inserting edge " << start_node << ", " << nid << std::endl;
-              sg.AddEdge( dummy, start_node, nid, true );
-//              std::cerr <<"gecicoords: " << sg.nodes[ nid ].nodeinfo << std::endl;
-              start_node = nid;
-              return;
-          }
-          if ( fabs( approx[ 0 ].y - approx[ 1 ].y ) < DCTP_EPS &&
-               ( fabs (approx[0].y - face->orig_quad[0]->coords.y ) < DCTP_EPS ||
-                 fabs (approx[0].y - face->orig_quad[1]->coords.y ) < DCTP_EPS ||
-                 fabs (approx[0].y - face->orig_quad[2]->coords.y ) < DCTP_EPS ||
-                 fabs (approx[0].y - face->orig_quad[3]->coords.y ) < DCTP_EPS)) {
-//              std::cerr <<"we gonna be in y trouble..." << islast << std::endl;
-              int err;
-              vec2d v;
-              v = b.computewdeCasteljau( 0.5, err );
-              if ( err ) { std::cerr << "unexpected error..." << std::endl; return; }
-              int nid = sg.AddNode( v );
-//			  std::cerr << "inserting edge " << start_node << ", " << nid << std::endl;
-              sg.AddEdge( dummy, start_node, nid, true );
-              start_node = nid;
-              return;
-
-          }
-        } //approx size
-//DEBUG
-//        int zz = 0;
-//        for( vec2dvector::iterator i = approx.begin(); i != ae; ++i ) {
-//          std::cerr << "zz: " << zz++ << " *i: " << *i << std::endl;
-//        }
-//        std::cerr <<"std::endlofaszpicsagecisize():"<< approx.size() << std::endl;
-//DEBUG END
-//DEBUG
-//        ofstream outfile;
-//        outfile.open( "beziers.dat", ios::app );
-//        plotbezier( b, outfile );
-//        outfile.close();
-//DEBUG END
-        if ( islast ) ae--;
-//        zz = 0;
-        for( vec2dvector::iterator i = approx.begin() + 1; i != ae; ++i ) {
-//DEBUG
-//                vec2dvector::iterator k;
-//                zz++;
-//                if ( i != approx.begin() ) {
-//                  k = i - 1;
-//                  if ( *i == *k ) std::cerr <<"FUCK FUCK FUCK FUCK FUCK " << zz << " " << *i << std::endl;
-//                }
-//DEBUG END
-                int nid = sg.AddNode( *i );
-//                if ( !checkEdgeNormals( sg, start_node, nid ))
-//				std::cerr << "inserting edge " << start_node << ", " << nid << std::endl;
-                sg.AddEdge( dummy, start_node, nid, true );
-		start_node = nid;
-	}
-}*/
-
 #ifdef OSG_FORCE_NO_T_VERTICES
  #ifdef OSG_KEEP_2D_POINTS
-int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *psg, std::vector< vec3d > *pvclSewed, std::vector< vec3d > *pvclNormals, std::vector< unsigned int > *pvuiIdx )
+int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char > *psg, std::vector< Vec3d > *pvclSewed, std::vector< Vec3d > *pvclNormals, std::vector< unsigned int > *pvuiIdx )
  #else
-int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *psg, std::vector< vec3d > *pvclSewed, std::vector< vec3d > *pvclNormals )
+int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char > *psg, std::vector< Vec3d > *pvclSewed, std::vector< Vec3d > *pvclNormals )
  #endif
 #else
-int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *psg, std::vector< vec3d > *pvclSewed )
+int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char > *psg, std::vector< Vec3d > *pvclSewed )
 #endif
 {
 	dctpvertexset::iterator ve = mesh->vertices.end();
@@ -1952,11 +1841,11 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 	{
 		if( ( *i )->vertexinfo )
 		{
-			vec2d v2dtemp( ( *i )->coords.x, ( *i )->coords.y );
+			Vec2d v2dtemp( ( *i )->coords[0], ( *i )->coords[1] );
 //			std::cerr << "coords: " << v2dtemp << std::endl;
 			(*i)->node_id = psg->AddNode( v2dtemp );
-//			std::cerr << ( vec3d* ) ( *i )->vertexinfo;
-//			std::cerr << "sewed: " << *( ( vec3d* ) ( *i )->vertexinfo ) << std::endl;
+//			std::cerr << ( Vec3d* ) ( *i )->vertexinfo;
+//			std::cerr << "sewed: " << *( ( Vec3d* ) ( *i )->vertexinfo ) << std::endl;
 // 			std::cerr << "ids: " << pvclSewed->size( ) << " " << ( *i )->node_id << std::endl;
 #ifdef OSG_FORCE_NO_T_VERTICES
 			if( pvclSewed ) pvclSewed->push_back( ( ( SPosNorm* ) ( *i )->vertexinfo )->clPos );
@@ -1968,7 +1857,7 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 			if( pvuiIdx ) pvuiIdx->push_back( ( ( SPosNorm* ) ( *i )->vertexinfo )->uiNum );
  #endif
 #else
-			if( pvclSewed ) pvclSewed->push_back( *( ( vec3d* ) ( *i )->vertexinfo ) );
+			if( pvclSewed ) pvclSewed->push_back( *( ( Vec3d* ) ( *i )->vertexinfo ) );
 #endif
 		}
 	}
@@ -1976,7 +1865,7 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 	// add empty entries to have space for trimming loop vertices
 	if( pvclSewed->size( ) < m_uiPosCnt )
 	{
-		vec2d				cl_dummy( 0.0, 0.0 );
+		Vec2d				cl_dummy( 0.0, 0.0 );
 		const unsigned int	cui_idx_cnt = m_uiPosCnt - pvclSewed->size( );
 
 		for( unsigned int ui_idx = 0; ui_idx < cui_idx_cnt; ++ui_idx )
@@ -1993,7 +1882,7 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 	{
 		if( ( *i )->vertexinfo == NULL )
 		{
-			vec2d v2dtemp( ( *i )->coords.x, ( *i )->coords.y );
+			Vec2d v2dtemp( ( *i )->coords[0], ( *i )->coords[1] );
 //			std::cerr << "coords: " << v2dtemp << std::endl;
 			(*i)->node_id = psg->AddNode( v2dtemp );
 		}
@@ -2080,11 +1969,11 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 		unsigned int	v; //, eid, oid;
 //		std::cerr << "adr:" << vcel[ loop ][ vcel[ loop ].size( ) - 1 ] << std::endl;
 		unsigned int	nid = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->node_id;
-		vec2d			cl_temp_vec;
+		Vec2d			cl_temp_vec;
 		DCTPFace		*pcl_inside_face;
 
-		cl_temp_vec.x = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->coords.x;
-		cl_temp_vec.y = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->coords.y;
+		cl_temp_vec[0] = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->coords[0];
+		cl_temp_vec[1] = vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->coords[1];
 		if( ( *m_pvbReversed )[ loop ] )
 		{
 			getStartingFace( cl_temp_vec );
@@ -2096,8 +1985,8 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 //				nid = vcel[ loop ][ v ]->node_id;
 				if( pcl_inside_face )
 				{
-					cl_temp_vec.x = vcel[ loop ][ v ]->coords.x;
-					cl_temp_vec.y = vcel[ loop ][ v ]->coords.y;
+					cl_temp_vec[0] = vcel[ loop ][ v ]->coords[0];
+					cl_temp_vec[1] = vcel[ loop ][ v ]->coords[1];
 					if( vcel[ loop ][ vcel[ loop ].size( ) - 1 ]->faces.size( ) ) // intersects a face edge
 //					if( !isOverFace( pcl_inside_face, cl_temp_vec ) )
 					{
@@ -2150,13 +2039,13 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 				for( v = 0; v < vcel[ loop ].size( ); ++v )
 				{
 					pcl_act_point = vcel[ loop ][ v ];
-					d_act_dist = ( vec2d( pcl_act_point->coords - pcl_upper_left->coords ) ).quad_size( );
+					d_act_dist = ( Vec2d( pcl_act_point->coords - pcl_upper_left->coords ) ).squareLength( );
 					if( ( d_qdist_ul < -0.5 ) || ( d_act_dist - d_qdist_ul < DCTP_EPS ) )
 					{
 						d_qdist_ul = d_act_dist;
 						pcl_nearest_ul = pcl_act_point;
 					}
-					d_act_dist = ( vec2d( pcl_act_point->coords - pcl_lower_right->coords ) ).quad_size( );
+					d_act_dist = ( Vec2d( pcl_act_point->coords - pcl_lower_right->coords ) ).squareLength( );
 					if( ( d_qdist_lr < -0.5 ) || ( d_act_dist - d_qdist_lr < DCTP_EPS ) )
 					{
 						d_qdist_lr = d_act_dist;
@@ -2316,7 +2205,7 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< vec2d, unsigned char > *p
 }
 
 #ifndef OSG_FORCE_NO_T_VERTICES
-void ParSpaceTrimmer::getTrimmingLoops( std::vector< std::vector< vec2d > > &rvvclTrimmingLoops )
+void ParSpaceTrimmer::getTrimmingLoops( std::vector< std::vector< Vec2d > > &rvvclTrimmingLoops )
 {
 	rvvclTrimmingLoops.resize( vcel.size( ) );
 	for( unsigned int loop = 0; loop < vcel.size( ); ++loop )
@@ -2324,25 +2213,11 @@ void ParSpaceTrimmer::getTrimmingLoops( std::vector< std::vector< vec2d > > &rvv
 		rvvclTrimmingLoops[ loop ].resize( vcel[ loop ].size( ) - 1 );
 		for( unsigned int v = 0; v < vcel[ loop ].size( ) - 1; ++v )
 		{
-			rvvclTrimmingLoops[ loop ][ v ] = vcel[ loop ][ v ]->coords;
+			rvvclTrimmingLoops[ loop ][ v ] = Vec2d( vcel[ loop ][ v ]->coords );
 		}
 	}
 }
 #endif
-
-int ParSpaceTrimmer::writeSurfaceGraph( std::ostream &of )
-{
-	DirectedGraph< vec2d, unsigned char > sg; //surface_graph
-	int err = buildSurfaceGraph( &sg );
-	sg.write( of );
-	return 0;
-}
-
-void ParSpaceTrimmer::writeInvalidSurfaceGraph( std::ostream &of )
-{
-  DirectedGraph< vec2d, unsigned char > sg;
-  sg.writeInvalid( of );
-}
 
 void ParSpaceTrimmer::checkEdgeloops( )
 {
@@ -2363,8 +2238,8 @@ void ParSpaceTrimmer::checkEdgeloops( )
 	SScanLineEvent					*pt_act_event;
 	int								i_inside;
 	bool							b_valid;
-	vec3d							cl_p;
-	vec3d							cl_pp;
+	Vec3d							cl_p;
+	Vec3d							cl_pp;
 
 	// create scan line edges and sort them
 	for( ui_loop = 0; ui_loop < vcel.size( ); ++ui_loop )
@@ -2382,7 +2257,7 @@ void ParSpaceTrimmer::checkEdgeloops( )
 			cl_p = vcel[ ui_loop ][ ui_vertex ]->coords;
 
 			// check for double vertices
-			if( cl_p != cl_pp )
+			if( DCTPVecIsNotEqual( cl_p , cl_pp ) )
 			{
 //				if( vcel[ ui_loop ][ ui_vertex ]->vertexinfo )
 				{
@@ -2403,15 +2278,15 @@ void ParSpaceTrimmer::checkEdgeloops( )
 				}
 /*				else
 				{
-					const vec3d	ccl_pn = vcel[ ui_loop ][ ( ui_vertex + 1 ) % ui_size ]->coords;
+					const Vec3d	ccl_pn = vcel[ ui_loop ][ ( ui_vertex + 1 ) % ui_size ]->coords;
 					double		d_d1[ 2 ], d_d2[ 2 ], d_d3[ 2 ];
 
-					d_d1[ 0 ] = ccl_pp.x;
-					d_d1[ 1 ] = ccl_pp.y;
-					d_d2[ 0 ] = ccl_p.x;
-					d_d2[ 1 ] = ccl_p.y;
-					d_d3[ 0 ] = ccl_pn.x;
-					d_d3[ 1 ] = ccl_pn.y;
+					d_d1[ 0 ] = ccl_pp[0];
+					d_d1[ 1 ] = ccl_pp[1];
+					d_d2[ 0 ] = ccl_p[0];
+					d_d2[ 1 ] = ccl_p[1];
+					d_d3[ 0 ] = ccl_pn[0];
+					d_d3[ 1 ] = ccl_pn[1];
 
 					if( orient2d( d_d1, d_d2, d_d3 ) != 0.0 )
 					{
@@ -2522,7 +2397,7 @@ void ParSpaceTrimmer::checkEdgeloops( )
 /*					std::cerr << pt_act_entry << std::endl;
 					std::cerr << pt_act_entry->ptEdge->pclFromVertex->coords << " -> ";
 					std::cerr << pt_act_entry->ptEdge->pclToVertex->coords << std::endl;*/
-					if( pt_act_entry->ptEdge->pclFromVertex->coords > pt_act_entry->ptEdge->pclToVertex->coords )
+					if( DCTPVecIsGreater( pt_act_entry->ptEdge->pclFromVertex->coords , pt_act_entry->ptEdge->pclToVertex->coords ) )
 					{
 //						std::cerr << "+";
 						// edge goes down => right is inside
@@ -2546,7 +2421,7 @@ void ParSpaceTrimmer::checkEdgeloops( )
 			delete pt_act_entry;
 			if( !pt_act_edge->bInvalid )
 			{
-				if( pt_act_edge->pclFromVertex->coords > pt_act_edge->pclToVertex->coords )
+				if( DCTPVecIsGreater( pt_act_edge->pclFromVertex->coords , pt_act_edge->pclToVertex->coords ) )
 				{
 					// edge goes down => must be closed
 //					std::cerr << "inside = " << i_inside << ", should be -1" << std::endl;
@@ -2697,34 +2572,35 @@ bool ParSpaceTrimmer::insertScanLineEvents( SScanLineEdge *ptEdge, ScanLineEvent
 {
 	SScanLineEvent								*pt_new_event;
 	std::pair< ScanLineEventSet::iterator, bool >	pr_insert;
-	vec2d										min;
-	vec2d										max;
+	Vec2d										min;
+	Vec2d										max;
 /*	int											i_select = 0;
 
-	if( ptEdge->pclFromVertex->coords.y < ptEdge->pclToVertex->coords.y ) i_select = 1;
-	else if( ptEdge->pclFromVertex->coords.y > ptEdge->pclToVertex->coords.y ) i_select = -1;
-	else if( ptEdge->pclFromVertex->coords.x < ptEdge->pclToVertex->coords.x ) i_select = 1;
-	else if( ptEdge->pclFromVertex->coords.x > ptEdge->pclToVertex->coords.x ) i_select = -1;*/
+	if( ptEdge->pclFromVertex->coords[1] < ptEdge->pclToVertex->coords[1] ) i_select = 1;
+	else if( ptEdge->pclFromVertex->coords[1] > ptEdge->pclToVertex->coords[1] ) i_select = -1;
+	else if( ptEdge->pclFromVertex->coords[0] < ptEdge->pclToVertex->coords[0] ) i_select = 1;
+	else if( ptEdge->pclFromVertex->coords[0] > ptEdge->pclToVertex->coords[0] ) i_select = -1;*/
 
-	if( ptEdge->pclFromVertex->coords < ptEdge->pclToVertex->coords )
+	if( DCTPVecIsLesser( ptEdge->pclFromVertex->coords , ptEdge->pclToVertex->coords ) )
 //	if( i_select == 1 )
 	{
-		min.x = ptEdge->pclFromVertex->coords.x;
-		min.y = ptEdge->pclFromVertex->coords.y;
-		max.x = ptEdge->pclToVertex->coords.x;
-		max.y = ptEdge->pclToVertex->coords.y;
+		min[0] = ptEdge->pclFromVertex->coords[0];
+		min[1] = ptEdge->pclFromVertex->coords[1];
+		max[0] = ptEdge->pclToVertex->coords[0];
+		max[1] = ptEdge->pclToVertex->coords[1];
 	}
-	else if( ptEdge->pclFromVertex->coords == ptEdge->pclToVertex->coords )
+	else if( DCTPVecIsEqual( ptEdge->pclFromVertex->coords , 
+                             ptEdge->pclToVertex->coords ) )
 //	else if( i_select == 0 )
 	{
 		return false;
 	}
 	else
 	{
-		min.x = ptEdge->pclToVertex->coords.x;
-		min.y = ptEdge->pclToVertex->coords.y;
-		max.x = ptEdge->pclFromVertex->coords.x;
-		max.y = ptEdge->pclFromVertex->coords.y;
+		min[0] = ptEdge->pclToVertex->coords[0];
+		min[1] = ptEdge->pclToVertex->coords[1];
+		max[0] = ptEdge->pclFromVertex->coords[0];
+		max[1] = ptEdge->pclFromVertex->coords[1];
 	}
 
 	if( cWhich != 1 )
@@ -2880,14 +2756,14 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 	double ad_s2[ 2 ];
 	double ad_e2[ 2 ];
 
-	ad_s1[ 0 ] = pt_edge1->pclFromVertex->coords.x;
-	ad_s1[ 1 ] = pt_edge1->pclFromVertex->coords.y;
-	ad_e1[ 0 ] = pt_edge1->pclToVertex->coords.x;
-	ad_e1[ 1 ] = pt_edge1->pclToVertex->coords.y;
-	ad_s2[ 0 ] = pt_edge2->pclFromVertex->coords.x;
-	ad_s2[ 1 ] = pt_edge2->pclFromVertex->coords.y;
-	ad_e2[ 0 ] = pt_edge2->pclToVertex->coords.x;
-	ad_e2[ 1 ] = pt_edge2->pclToVertex->coords.y;
+	ad_s1[ 0 ] = pt_edge1->pclFromVertex->coords[0];
+	ad_s1[ 1 ] = pt_edge1->pclFromVertex->coords[1];
+	ad_e1[ 0 ] = pt_edge1->pclToVertex->coords[0];
+	ad_e1[ 1 ] = pt_edge1->pclToVertex->coords[1];
+	ad_s2[ 0 ] = pt_edge2->pclFromVertex->coords[0];
+	ad_s2[ 1 ] = pt_edge2->pclFromVertex->coords[1];
+	ad_e2[ 0 ] = pt_edge2->pclToVertex->coords[0];
+	ad_e2[ 1 ] = pt_edge2->pclToVertex->coords[1];
 
 	const double cd_r1 = orient2d( ad_s1, ad_s2, ad_e2 );
 	const double cd_r2 = orient2d( ad_e1, ad_s2, ad_e2 );
@@ -2915,7 +2791,7 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 
 	if( (( cd_r1 == 0.0 ) && ( cd_r2 == 0.0 ) &&
 	     ( cd_r3 == 0.0 ) && ( cd_r4 == 0.0 ) ) ||
-                fabs(cd_b) < 1e-32 //prevent strange roundoff error later 
+                osgabs(cd_b) < 1e-32 //prevent strange roundoff error later 
                                    //(this shouldn't be needed in an ideal world...)
                 )
 	{
@@ -2927,17 +2803,17 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 
 //                std::cerr <<"collinear edges..."<<std::endl;
 
-/*                if ( fabs(cd_b) < 1e-32 && 
+/*                if ( osgabs(cd_b) < 1e-32 && 
                      ( cd_r1 != 0.0 || cd_r1 != 0.0 || 
                        cd_r3 != 0.0 || cd_r4 != 0.0 ) ) 
                     std::cerr <<"collinear because of cd_b" << cd_b <<std::endl;*/
                 
-		b_down1 = ( pt_edge1->pclFromVertex->coords < pt_edge1->pclToVertex->coords );
-		b_down2 = ( pt_edge2->pclFromVertex->coords < pt_edge2->pclToVertex->coords );
+		b_down1 = DCTPVecIsLesser( pt_edge1->pclFromVertex->coords , pt_edge1->pclToVertex->coords );
+		b_down2 = DCTPVecIsLesser( pt_edge2->pclFromVertex->coords , pt_edge2->pclToVertex->coords );
 		pcl_ip1 = b_down1 ? pt_edge1->pclFromVertex : pt_edge1->pclToVertex;
 		pcl_ip2 = b_down2 ? pt_edge2->pclFromVertex : pt_edge2->pclToVertex;
 
-		if( pcl_ip1->coords == pcl_ip2->coords )
+		if( DCTPVecIsEqual( pcl_ip1->coords , pcl_ip2->coords ) )
 		{
 			// edges are colinear and start in the same point.
 			// => mark them as invalid if they have opposite directions
@@ -2951,12 +2827,12 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 			pcl_ip1 = b_down1 ? pt_edge1->pclToVertex : pt_edge1->pclFromVertex;
 			pcl_ip2 = b_down2 ? pt_edge2->pclToVertex : pt_edge2->pclFromVertex;
 
-			pcl_split_vertex = ( pcl_ip1->coords < pcl_ip2->coords ) ?
+			pcl_split_vertex = DCTPVecIsLesser( pcl_ip1->coords , pcl_ip2->coords ) ?
 							   pcl_ip1 : pcl_ip2;
 		}
 		else
 		{
-			pcl_split_vertex = ( pcl_ip1->coords > pcl_ip2->coords ) ?
+			pcl_split_vertex = DCTPVecIsGreater( pcl_ip1->coords , pcl_ip2->coords ) ?
 							   pcl_ip1 : pcl_ip2;
 		}
 	}
@@ -2988,13 +2864,13 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 			}
 			else
 			{
-				vec3d	cl_ip;
+				Vec3d	cl_ip;
 
-				cl_ip.x = pt_edge1->pclFromVertex->coords.x + cd_v1x * d_q;
-				cl_ip.y = pt_edge1->pclFromVertex->coords.y + cd_v1y * d_q;
-//				cl_ip.x = 1e-7 * floor( ( pt_edge1->pclFromVertex->coords.x + cd_v1x * d_q ) / 1e-7 );
-//				cl_ip.y = 1e-7 * floor( ( pt_edge1->pclFromVertex->coords.y + cd_v1y * d_q ) / 1e-7 );
-				cl_ip.z = 0.0;
+				cl_ip[0] = pt_edge1->pclFromVertex->coords[0] + cd_v1x * d_q;
+				cl_ip[1] = pt_edge1->pclFromVertex->coords[1] + cd_v1y * d_q;
+//				cl_ip[0] = 1e-7 * floor( ( pt_edge1->pclFromVertex->coords[0] + cd_v1x * d_q ) / 1e-7 );
+//				cl_ip[1] = 1e-7 * floor( ( pt_edge1->pclFromVertex->coords[1] + cd_v1y * d_q ) / 1e-7 );
+				cl_ip[2] = 0.0;
 				pcl_split_vertex = mesh->AddVertex( cl_ip );
 			}
 		}
@@ -3018,13 +2894,13 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 			}
 			else
 			{
-				vec3d	cl_ip;
+				Vec3d	cl_ip;
 
-				cl_ip.x = pt_edge2->pclFromVertex->coords.x + cd_v2x * d_q;
-				cl_ip.y = pt_edge2->pclFromVertex->coords.y + cd_v2y * d_q;
-//				cl_ip.x = 1e-7 * floor( ( pt_edge2->pclFromVertex->coords.x + cd_v2x * d_q ) / 1e-7 );
-//				cl_ip.y = 1e-7 * floor( ( pt_edge2->pclFromVertex->coords.y + cd_v2y * d_q ) / 1e-7 );
-				cl_ip.z = 0.0;
+				cl_ip[0] = pt_edge2->pclFromVertex->coords[0] + cd_v2x * d_q;
+				cl_ip[1] = pt_edge2->pclFromVertex->coords[1] + cd_v2y * d_q;
+//				cl_ip[0] = 1e-7 * floor( ( pt_edge2->pclFromVertex->coords[0] + cd_v2x * d_q ) / 1e-7 );
+//				cl_ip[1] = 1e-7 * floor( ( pt_edge2->pclFromVertex->coords[1] + cd_v2y * d_q ) / 1e-7 );
+				cl_ip[2] = 0.0;
 				pcl_split_vertex = mesh->AddVertex( cl_ip );
 			}
 		}
@@ -3041,7 +2917,7 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 		// split edge1
 //		std::cerr << "spliting edge1: " << pt_edge1->pclFromVertex->coords << " - " << pt_edge1->pclToVertex->coords << std::endl;
 		pt_new_edge = new SScanLineEdge;
-		if( pt_edge1->pclFromVertex->coords < pt_edge1->pclToVertex->coords )
+		if( DCTPVecIsLesser(pt_edge1->pclFromVertex->coords , pt_edge1->pclToVertex->coords ) )
 		{
 			pt_new_edge->pclFromVertex = pt_edge1->pclFromVertex;
 			if( pt_edge1->bInvalid )
@@ -3083,7 +2959,7 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 		// split edge2
 //		std::cerr << "spliting edge2: " << pt_edge2->pclFromVertex->coords << " - " << pt_edge2->pclToVertex->coords << std::endl;
 		pt_new_edge = new SScanLineEdge;
-		if( pt_edge2->pclFromVertex->coords < pt_edge2->pclToVertex->coords )
+		if( DCTPVecIsLesser( pt_edge2->pclFromVertex->coords , pt_edge2->pclToVertex->coords ) )
 		{
 			pt_new_edge->pclFromVertex = pt_edge2->pclFromVertex;
 			if( pt_edge2->bInvalid )
@@ -3123,58 +2999,58 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 
 bool ParSpaceTrimmer::isSLEntryLess( SScanLineEdge *ptEdge1, SScanLineEdge *ptEdge2 )
 {
-	vec2d	top1;
-	vec2d	bottom1;
-	vec2d	top2;
-	vec2d	bottom2;
+	Vec2d	top1;
+	Vec2d	bottom1;
+	Vec2d	top2;
+	Vec2d	bottom2;
 
 /*	std::cerr << ptEdge1 << " " << ptEdge2 << std::endl;
 	std::cerr << ptEdge1->pclFromVertex << " " << ptEdge1->pclToVertex << std::endl;
 	std::cerr << ptEdge2->pclFromVertex << " " << ptEdge2->pclToVertex << std::endl;*/
 
-	if( ptEdge1->pclFromVertex->coords < ptEdge1->pclToVertex->coords )
+	if( DCTPVecIsLesser( ptEdge1->pclFromVertex->coords , ptEdge1->pclToVertex->coords ) )
 	{
-		top1.x = ptEdge1->pclFromVertex->coords.x;
-		top1.y = ptEdge1->pclFromVertex->coords.y;
-		bottom1.x = ptEdge1->pclToVertex->coords.x;
-		bottom1.y = ptEdge1->pclToVertex->coords.y;
+		top1[0] = ptEdge1->pclFromVertex->coords[0];
+		top1[1] = ptEdge1->pclFromVertex->coords[1];
+		bottom1[0] = ptEdge1->pclToVertex->coords[0];
+		bottom1[1] = ptEdge1->pclToVertex->coords[1];
 	}
 	else
 	{
-		top1.x = ptEdge1->pclToVertex->coords.x;
-		top1.y = ptEdge1->pclToVertex->coords.y;
-		bottom1.x = ptEdge1->pclFromVertex->coords.x;
-		bottom1.y = ptEdge1->pclFromVertex->coords.y;
+		top1[0] = ptEdge1->pclToVertex->coords[0];
+		top1[1] = ptEdge1->pclToVertex->coords[1];
+		bottom1[0] = ptEdge1->pclFromVertex->coords[0];
+		bottom1[1] = ptEdge1->pclFromVertex->coords[1];
 	}
-	if( ptEdge2->pclFromVertex->coords < ptEdge2->pclToVertex->coords )
+	if( DCTPVecIsLesser( ptEdge2->pclFromVertex->coords , ptEdge2->pclToVertex->coords ) )
 	{
-		top2.x = ptEdge2->pclFromVertex->coords.x;
-		top2.y = ptEdge2->pclFromVertex->coords.y;
-		bottom2.x = ptEdge2->pclToVertex->coords.x;
-		bottom2.y = ptEdge2->pclToVertex->coords.y;
+		top2[0] = ptEdge2->pclFromVertex->coords[0];
+		top2[1] = ptEdge2->pclFromVertex->coords[1];
+		bottom2[0] = ptEdge2->pclToVertex->coords[0];
+		bottom2[1] = ptEdge2->pclToVertex->coords[1];
 	}
 	else
 	{
-		top2.x = ptEdge2->pclToVertex->coords.x;
-		top2.y = ptEdge2->pclToVertex->coords.y;
-		bottom2.x = ptEdge2->pclFromVertex->coords.x;
-		bottom2.y = ptEdge2->pclFromVertex->coords.y;
+		top2[0] = ptEdge2->pclToVertex->coords[0];
+		top2[1] = ptEdge2->pclToVertex->coords[1];
+		bottom2[0] = ptEdge2->pclFromVertex->coords[0];
+		bottom2[1] = ptEdge2->pclFromVertex->coords[1];
 	}
-	if( top1 != top2 )
+	if( DCTPVecIsNotEqual( top1 , top2 ) )
 	{
 		double ad_s1[ 2 ];
 //		double ad_e1[ 2 ];
 		double ad_s2[ 2 ];
 		double ad_e2[ 2 ];
 
-		ad_s1[ 0 ] = top1.x;
-		ad_s1[ 1 ] = top1.y;
-//		ad_e1[ 0 ] = bottom1.x;
-//		ad_e1[ 1 ] = bottom1.y;
-		ad_s2[ 0 ] = top2.x;
-		ad_s2[ 1 ] = top2.y;
-		ad_e2[ 0 ] = bottom2.x;
-		ad_e2[ 1 ] = bottom2.y;
+		ad_s1[ 0 ] = top1[0];
+		ad_s1[ 1 ] = top1[1];
+//		ad_e1[ 0 ] = bottom1[0];
+//		ad_e1[ 1 ] = bottom1[1];
+		ad_s2[ 0 ] = top2[0];
+		ad_s2[ 1 ] = top2[1];
+		ad_e2[ 0 ] = bottom2[0];
+		ad_e2[ 1 ] = bottom2[1];
 
 		const double cd_orient = orient2d( ad_s2, ad_e2, ad_s1 );
 		if( cd_orient != 0.0 )
@@ -3184,26 +3060,26 @@ bool ParSpaceTrimmer::isSLEntryLess( SScanLineEdge *ptEdge1, SScanLineEdge *ptEd
 	}
 
 	// check directions
-	vec2d		dir1 = bottom1 - top1;
-	vec2d		dir2 = bottom2 - top2;
+	Vec2d		dir1 = bottom1 - top1;
+	Vec2d		dir2 = bottom2 - top2;
 
-	if( fabs( dir1.y ) < DCTP_EPS )
+	if( osgabs( dir1[1] ) < DCTP_EPS )
 	{
-		if( fabs( dir2.y ) < DCTP_EPS )
+		if( osgabs( dir2[1] ) < DCTP_EPS )
 		{
-			return ( dir1.x < dir2.x );
+			return ( dir1[0] < dir2[0] );
 		}
-		return ( dir1.x < 0.0 ); // this can't be zero!
+		return ( dir1[0] < 0.0 ); // this can't be zero!
 	}
-	if( fabs( dir2.y ) < DCTP_EPS )
+	if( osgabs( dir2[1] ) < DCTP_EPS )
 	{
-		return ( dir2.x > 0.0 ); // this can't be zero!
+		return ( dir2[0] > 0.0 ); // this can't be zero!
 	}
 
-	const double	r1 = dir1.x / dir1.y;
-	const double	r2 = dir2.x / dir2.y;
+	const double	r1 = dir1[0] / dir1[1];
+	const double	r2 = dir2[0] / dir2[1];
 
-	if( fabs( r1 - r2 ) >= DCTP_EPS )
+	if( osgabs( r1 - r2 ) >= DCTP_EPS )
 	{
 		return ( r1 < r2 );
 	}
@@ -3216,26 +3092,27 @@ void ParSpaceTrimmer::removeSLEntry( SScanLineEntry *ptEntry, ScanLineEventSet &
 {
 	SScanLineEvent								*pt_new_event;
 	std::pair< ScanLineEventSet::iterator, bool >	pr_insert;
-	vec2d										min;
-	vec2d										max;
+	Vec2d										min;
+	Vec2d										max;
 
-	if( ptEntry->ptEdge->pclFromVertex->coords < ptEntry->ptEdge->pclToVertex->coords )
+	if( DCTPVecIsLesser( ptEntry->ptEdge->pclFromVertex->coords , ptEntry->ptEdge->pclToVertex->coords ) )
 	{
-		min.x = ptEntry->ptEdge->pclFromVertex->coords.x;
-		min.y = ptEntry->ptEdge->pclFromVertex->coords.y;
-		max.x = ptEntry->ptEdge->pclToVertex->coords.x;
-		max.y = ptEntry->ptEdge->pclToVertex->coords.y;
+		min[0] = ptEntry->ptEdge->pclFromVertex->coords[0];
+		min[1] = ptEntry->ptEdge->pclFromVertex->coords[1];
+		max[0] = ptEntry->ptEdge->pclToVertex->coords[0];
+		max[1] = ptEntry->ptEdge->pclToVertex->coords[1];
 	}
-	else if( ptEntry->ptEdge->pclFromVertex->coords == ptEntry->ptEdge->pclToVertex->coords )
+	else if( DCTPVecIsEqual( ptEntry->ptEdge->pclFromVertex->coords ,
+                             ptEntry->ptEdge->pclToVertex->coords ) )
 	{
 		return;
 	}
 	else
 	{
-		min.x = ptEntry->ptEdge->pclToVertex->coords.x;
-		min.y = ptEntry->ptEdge->pclToVertex->coords.y;
-		max.x = ptEntry->ptEdge->pclFromVertex->coords.x;
-		max.y = ptEntry->ptEdge->pclFromVertex->coords.y;
+		min[0] = ptEntry->ptEdge->pclToVertex->coords[0];
+		min[1] = ptEntry->ptEdge->pclToVertex->coords[1];
+		max[0] = ptEntry->ptEdge->pclFromVertex->coords[0];
+		max[1] = ptEntry->ptEdge->pclFromVertex->coords[1];
 	}
 
 	// remove old event
@@ -3279,7 +3156,7 @@ void ParSpaceTrimmer::removeSLEntry( SScanLineEntry *ptEntry, ScanLineEventSet &
 	pt_new_event->ptEdge = ptEntry->ptEdge;
 	pt_new_event->bStart = false;
 	pt_new_event->clPos = min;
-	pt_new_event->clPos.y -= 1.0;
+	pt_new_event->clPos[1] -= 1.0;
 	pt_new_event->clOther = min;
 
 /*	std::cerr << "replace scan line event: edge = " << pt_new_event->ptEdge;
@@ -3302,17 +3179,17 @@ DCTPVertex *ParSpaceTrimmer::intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex 
 	unsigned int	ui_size = vcel[ uiLoop ].size( );
 	DCTPVertex		*pcl_prev_vertex;
 	DCTPVertex		*pcl_act_vertex = vcel[ uiLoop ][ ui_size - 1 ];
-	vec3d			cl_old;
+	Vec3d			cl_old;
 
 	for( ui_vertex = 0; ui_vertex < ui_size; ++ui_vertex )
 	{
 		pcl_prev_vertex = pcl_act_vertex;
 		pcl_act_vertex = vcel[ uiLoop ][ ui_vertex ];
 
-		if( ( pclVertex1->coords != pcl_prev_vertex->coords ) &&
-			( pclVertex1->coords != pcl_act_vertex->coords ) &&
-			( pclVertex2->coords != pcl_prev_vertex->coords ) &&
-			( pclVertex2->coords != pcl_act_vertex->coords ) )
+		if( ( DCTPVecIsNotEqual( pclVertex1->coords , pcl_prev_vertex->coords ) ) &&
+			( DCTPVecIsNotEqual( pclVertex1->coords , pcl_act_vertex->coords ) ) &&
+			( DCTPVecIsNotEqual( pclVertex2->coords , pcl_prev_vertex->coords ) ) &&
+			( DCTPVecIsNotEqual( pclVertex2->coords , pcl_act_vertex->coords ) ) )
 		{
 
 			double ad_s1[ 2 ];
@@ -3320,14 +3197,14 @@ DCTPVertex *ParSpaceTrimmer::intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex 
 			double ad_s2[ 2 ];
 			double ad_e2[ 2 ];
 
-			ad_s1[ 0 ] = pclVertex1->coords.x;
-			ad_s1[ 1 ] = pclVertex1->coords.y;
-			ad_e1[ 0 ] = pclVertex2->coords.x;
-			ad_e1[ 1 ] = pclVertex2->coords.y;
-			ad_s2[ 0 ] = pcl_prev_vertex->coords.x;
-			ad_s2[ 1 ] = pcl_prev_vertex->coords.y;
-			ad_e2[ 0 ] = pcl_act_vertex->coords.x;
-			ad_e2[ 1 ] = pcl_act_vertex->coords.y;
+			ad_s1[ 0 ] = pclVertex1->coords[0];
+			ad_s1[ 1 ] = pclVertex1->coords[1];
+			ad_e1[ 0 ] = pclVertex2->coords[0];
+			ad_e1[ 1 ] = pclVertex2->coords[1];
+			ad_s2[ 0 ] = pcl_prev_vertex->coords[0];
+			ad_s2[ 1 ] = pcl_prev_vertex->coords[1];
+			ad_e2[ 0 ] = pcl_act_vertex->coords[0];
+			ad_e2[ 1 ] = pcl_act_vertex->coords[1];
 
 			const double cd_r1 = orient2d( ad_s1, ad_e1, ad_s2 );
 			const double cd_r2 = orient2d( ad_s1, ad_e1, ad_e2 );
@@ -3342,10 +3219,10 @@ DCTPVertex *ParSpaceTrimmer::intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex 
 				{
 					if( ( cd_r1 == 0.0 ) && ( cd_r2 == 0.0 ) && ( cd_r3 == 0.0 ) && ( cd_r4 == 0.0 ) )
 					{
-						const vec3d		ccl_v12 = pclVertex2->coords - pclVertex1->coords;
+						const Vec3d		ccl_v12 = pclVertex2->coords - pclVertex1->coords;
 						const double	cd_prod_a =  ccl_v12.dot( pcl_act_vertex->coords - pclVertex1->coords );
 						const double	cd_prod_p =  ccl_v12.dot( pcl_prev_vertex->coords - pclVertex1->coords );
-						const double	cd_qsize = ccl_v12.quad_size( );
+						const double	cd_qsize = ccl_v12.squareLength( );
 
 						if( ( cd_prod_a >= 0.0 ) && ( cd_prod_a <= cd_qsize ) )
 						{
@@ -3368,8 +3245,8 @@ DCTPVertex *ParSpaceTrimmer::intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex 
 //						std::cerr << pclVertex1->coords << "->" << pclVertex2->coords << std::endl;
 //						std::cerr << pcl_prev_vertex->coords << "->" << pcl_act_vertex->coords << std::endl;
 						cl_old = pclVertex1->coords - pclVertex2->coords;
-						if( ( vec2d( pclVertex1->coords - pcl_prev_vertex->coords ) ).dot( cl_old ) -
-							( vec2d( pclVertex1->coords - pcl_act_vertex->coords ) ).dot( cl_old ) < DCTP_EPS )
+						if( ( Vec2d( pclVertex1->coords - pcl_prev_vertex->coords ) ).dot( Vec2d(cl_old) ) -
+							( Vec2d( pclVertex1->coords - pcl_act_vertex->coords ) ).dot( Vec2d(cl_old) ) < DCTP_EPS )
 						{
 //							std::cerr << "=>" << pcl_prev_vertex->coords << std::endl;
 							return pcl_prev_vertex;
@@ -3385,18 +3262,18 @@ DCTPVertex *ParSpaceTrimmer::intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex 
 	return false;
 }
 
-bool ParSpaceTrimmer::doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV4, double &rdParam )
+bool ParSpaceTrimmer::doIntersect( Vec2d clV1, Vec2d clV2, Vec2d clV3, Vec2d clV4, double &rdParam )
 {
-	if( ( clV1 == clV3 ) || ( clV1 == clV4 ) )
+	if(  DCTPVecIsEqual( clV1 , clV3 ) || DCTPVecIsEqual( clV1 , clV4 ) )
 	{
-		if( clV1 == clV3 )
+		if( DCTPVecIsEqual( clV1 , clV3 ) )
 		{
 			clV3 = clV4;
 		}
-        const vec2d v = clV3 - clV1;
-        const vec2d w = clV2 - clV1;
+        const Vec2d v = clV3 - clV1;
+        const Vec2d w = clV2 - clV1;
         const double c1 = v.dot( w );
-        const double c2 = w.quad_size( );
+        const double c2 = w.squareLength( );
 
 //		std::cerr.precision( 10 );
 //		std::cerr << clV1 << "->" << clV2 << "," << clV3;
@@ -3409,12 +3286,12 @@ bool ParSpaceTrimmer::doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV
 		}
 		else if( c1 < c2 )
 		{
-			if( clV1 + ( w * ( c1 / c2 ) ) != clV3 )
+			if( DCTPVecIsNotEqual( clV1 + ( w * ( c1 / c2 ) ) , clV3 ) )
 				return false;	// too far away
 		}
 		else
 		{
-			if( clV2 != ( clV1 + v * ( c2 / c1 ) ) )
+			if( DCTPVecIsNotEqual( clV2 , ( clV1 + v * ( c2 / c1 ) ) ) )
 				return false;	// too far away
 		}
 		rdParam = c1 / c2;
@@ -3430,14 +3307,14 @@ bool ParSpaceTrimmer::doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV
 	double ad_s2[ 2 ];
 	double ad_e2[ 2 ];
 
-	ad_s1[ 0 ] = clV1.x;
-	ad_s1[ 1 ] = clV1.y;
-	ad_e1[ 0 ] = clV2.x;
-	ad_e1[ 1 ] = clV2.y;
-	ad_s2[ 0 ] = clV3.x;
-	ad_s2[ 1 ] = clV3.y;
-	ad_e2[ 0 ] = clV4.x;
-	ad_e2[ 1 ] = clV4.y;
+	ad_s1[ 0 ] = clV1[0];
+	ad_s1[ 1 ] = clV1[1];
+	ad_e1[ 0 ] = clV2[0];
+	ad_e1[ 1 ] = clV2[1];
+	ad_s2[ 0 ] = clV3[0];
+	ad_s2[ 1 ] = clV3[1];
+	ad_e2[ 0 ] = clV4[0];
+	ad_e2[ 1 ] = clV4[1];
 
 	const double cd_r3 = orient2d( ad_s2, ad_s1, ad_e1 );
 	const double cd_r4 = orient2d( ad_e2, ad_s1, ad_e1 );
@@ -3452,23 +3329,23 @@ bool ParSpaceTrimmer::doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV
 	if( ( ( cd_r1 < 0.0 ) && ( cd_r2 < 0.0 ) ) ||
 		( ( cd_r1 > 0.0 ) && ( cd_r2 > 0.0 ) ) )
 	{
-        const vec2d v = clV4 - clV3;
-        const vec2d w = clV2 - clV3;
+        const Vec2d v = clV4 - clV3;
+        const Vec2d w = clV2 - clV3;
         const double c1 = v.dot( w );
-        const double c2 = v.quad_size( );
+        const double c2 = v.squareLength( );
 		if( c1 <= 0.0 )
 		{
-			if( clV2 != clV3 )
+			if( DCTPVecIsNotEqual( clV2 , clV3 ) )
 				return false;
 		}
 		else if( c1 > c2 )
 		{
-			if( clV2 != clV4 )
+			if( DCTPVecIsNotEqual( clV2 , clV4 ) )
 				return false;
 		}
 		else
 		{
-			if( clV2 != ( clV3 + v * ( c1 / c2 ) ) )
+			if( DCTPVecIsNotEqual( clV2 , ( clV3 + v * ( c1 / c2 ) ) ) )
 				return false;
 //			std::cerr << clV2 << "<->" << ( clV3 + v * ( c1 / c2 ) ) << " (" << ( c1 / c2 ) << ")" << std::endl;
 		}
@@ -3489,14 +3366,14 @@ bool ParSpaceTrimmer::doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV
 		double	d_tmp;
 
 		rdParam = -1.0;
-		d_tmp = ( ( clV4.x - clV1.x ) * ( clV2.x - clV1.x )
-				+ ( clV4.y - clV1.y ) * ( clV2.y - clV1.y ) )
-			  / ( clV2 - clV1 ).quad_size( );
+		d_tmp = ( ( clV4[0] - clV1[0] ) * ( clV2[0] - clV1[0] )
+				+ ( clV4[1] - clV1[1] ) * ( clV2[1] - clV1[1] ) )
+			  / ( clV2 - clV1 ).squareLength( );
 //		std::cerr << d_tmp << " ";
 		if( d_tmp > DCTP_EPS ) rdParam = d_tmp;
-		d_tmp = ( ( clV3.x - clV1.x ) * ( clV2.x - clV1.x )
-				+ ( clV3.y - clV1.y ) * ( clV2.y - clV1.y ) )
-			  / ( clV2 - clV1 ).quad_size( );
+		d_tmp = ( ( clV3[0] - clV1[0] ) * ( clV2[0] - clV1[0] )
+				+ ( clV3[1] - clV1[1] ) * ( clV2[1] - clV1[1] ) )
+			  / ( clV2 - clV1 ).squareLength( );
 //		std::cerr << d_tmp << std::endl;
 		if( d_tmp > DCTP_EPS ) 
 		{
@@ -3554,7 +3431,7 @@ void ParSpaceTrimmer::deleteVertexInfo( )
 #ifdef OSG_FORCE_NO_T_VERTICES
 			delete ( SPosNorm* ) ( *itspcl_v )->vertexinfo;
 #else
-			delete ( vec3d* ) ( *itspcl_v )->vertexinfo;
+			delete ( Vec3d* ) ( *itspcl_v )->vertexinfo;
 #endif
 			( *itspcl_v )->vertexinfo = NULL;
 		}
@@ -3570,8 +3447,8 @@ bool ParSpaceTrimmer::isLoopValid( const unsigned int cuiLoop )
 	unsigned int		ui_vertex_cnt;
 	unsigned int		ui_vertex;
 //	SimplePolygon		cl_check;
-	vec2d				cl_ray_start;
-	vec2d				cl_ray_end;
+	Vec2d				cl_ray_start;
+	Vec2d				cl_ray_end;
 
 	ui_vertex_cnt = ( *pvccrd )[ cuiLoop ].size( );
 /*	cl_check.vertices.resize( ui_vertex_cnt );
@@ -3602,9 +3479,9 @@ bool ParSpaceTrimmer::isLoopValid( const unsigned int cuiLoop )
 	}
 
 	cl_ray_start = ( ( *pvccrd )[ cuiLoop ][ 0 ] + ( *pvccrd )[ cuiLoop ][ 1 ] ) * 0.5;
-//	cl_ray_end.x = -DBL_MAX;
-	cl_ray_end.x = -FLT_MAX;
-	cl_ray_end.y = cl_ray_start.y;
+//	cl_ray_end[0] = -DBL_MAX;
+	cl_ray_end[0] = -FLT_MAX;
+	cl_ray_end[1] = cl_ray_start[1];
 
 //	std::cerr << "ray: " << cl_ray_start << " -> " << cl_ray_end << std::endl;
 
@@ -3636,31 +3513,31 @@ bool ParSpaceTrimmer::isLoopValid( const unsigned int cuiLoop )
 }
 
 
-bool ParSpaceTrimmer::intersectsRay( const vec2d cclV1, const vec2d cclV2, const vec2d cclStart, const vec2d cclEnd )
+bool ParSpaceTrimmer::intersectsRay( const Vec2d cclV1, const Vec2d cclV2, const Vec2d cclStart, const Vec2d cclEnd )
 {
 	double	ad_v1[ 2 ];
 	double	ad_v2[ 2 ];
 	double	ad_start[ 2 ];
 	double	ad_end[ 2 ];
 
-	if( cclV1 < cclV2 )
+	if( DCTPVecIsLesser( cclV1 , cclV2 ) )
 	{
-		ad_v1[ 0 ] = cclV1.x;
-		ad_v1[ 1 ] = cclV1.y;
-		ad_v2[ 0 ] = cclV2.x;
-		ad_v2[ 1 ] = cclV2.y;
+		ad_v1[ 0 ] = cclV1[0];
+		ad_v1[ 1 ] = cclV1[1];
+		ad_v2[ 0 ] = cclV2[0];
+		ad_v2[ 1 ] = cclV2[1];
 	}
 	else
 	{
-		ad_v1[ 0 ] = cclV2.x;
-		ad_v1[ 1 ] = cclV2.y;
-		ad_v2[ 0 ] = cclV1.x;
-		ad_v2[ 1 ] = cclV1.y;
+		ad_v1[ 0 ] = cclV2[0];
+		ad_v1[ 1 ] = cclV2[1];
+		ad_v2[ 0 ] = cclV1[0];
+		ad_v2[ 1 ] = cclV1[1];
 	}
-	ad_start[ 0 ] = cclStart.x;
-	ad_start[ 1 ] = cclStart.y;
-	ad_end[ 0 ] = cclEnd.x;
-	ad_end[ 1 ] = cclEnd.y;
+	ad_start[ 0 ] = cclStart[0];
+	ad_start[ 1 ] = cclStart[1];
+	ad_end[ 0 ] = cclEnd[0];
+	ad_end[ 1 ] = cclEnd[1];
 
 	const double	cd_c1 = orient2d( ad_start, ad_end, ad_v1 );
 
@@ -3689,25 +3566,25 @@ bool ParSpaceTrimmer::intersectsRay( const vec2d cclV1, const vec2d cclV2, const
 
 
 #ifdef OSG_USE_SIMPLIFIER
-double ParSpaceTrimmer::DistToEdge( const vec3d cclPoint, const vec3d cclLine1, const vec3d cclLine2 ) const
+double ParSpaceTrimmer::DistToEdge( const Vec3d cclPoint, const Vec3d cclLine1, const Vec3d cclLine2 ) const
 {
-	const vec3d		ccl_v = cclLine2 - cclLine1;
-	const vec3d		ccl_w = cclPoint - cclLine1;
+	const Vec3d		ccl_v = cclLine2 - cclLine1;
+	const Vec3d		ccl_w = cclPoint - cclLine1;
 
-	const double	cd_c1 = ccl_v.x * ccl_w.x + ccl_v.y * ccl_w.y + ccl_v.z * ccl_w.z;
+	const double	cd_c1 = ccl_v[0] * ccl_w[0] + ccl_v[1] * ccl_w[1] + ccl_v[2] * ccl_w[2];
 
 	if( cd_c1 <= 0.0 )
 	{
-		return ( cclPoint - cclLine1 ).quad_size( );
+		return ( cclPoint - cclLine1 ).squareLength( );
 	}
 
-	const double	cd_c2 = ccl_v.quad_size( );
+	const double	cd_c2 = ccl_v.squareLength( );
 	
 	if( cd_c1 >= cd_c2 )
 	{
-		return ( cclPoint - cclLine2 ).quad_size( );
+		return ( cclPoint - cclLine2 ).squareLength( );
 	}
 
-	return ( cclPoint - ( cclLine1 + ccl_v * ( cd_c1 / cd_c2 ) ) ).quad_size( );
+	return ( cclPoint - ( cclLine1 + ccl_v * ( cd_c1 / cd_c2 ) ) ).squareLength( );
 }
 #endif

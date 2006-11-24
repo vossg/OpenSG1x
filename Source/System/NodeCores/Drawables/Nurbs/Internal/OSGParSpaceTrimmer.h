@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 #include <stdlib.h>
@@ -81,9 +81,9 @@ class QuadTreeCreator;
 #ifdef OSG_FORCE_NO_T_VERTICES
 	struct SPosNorm
 	{
-		vec3d			clPos;
+		Vec3d			clPos;
 /* #ifndef OSG_CREATE_NORMAL_MAPS
-		vec3d			clNorm;
+		Vec3d			clNorm;
  #endif*/
  #ifdef OSG_KEEP_2D_POINTS
 		unsigned int	uiNum;
@@ -136,8 +136,8 @@ struct SScanLineEvent
 {
 	SScanLineEdge	*ptEdge;
 	bool			bStart;
-	vec2d			clPos;
-	vec2d			clOther;
+	Vec2d			clPos;
+	Vec2d			clOther;
 };
 
 struct OSG_SYSTEMLIB_DLLMAPPING SScanLineEventLess
@@ -157,20 +157,21 @@ struct OSG_SYSTEMLIB_DLLMAPPING SScanLineEventLess
 			return false;
 		}
 
-/*		if( fabs( ptEvent1->clPos.y - ptEvent2->clPos.y ) > 1e-15 )
+/*		if( osgabs( ptEvent1->clPos[1] - ptEvent2->clPos[1] ) > 1e-15 )
 		{
-			return ptEvent1->clPos.y < ptEvent2->clPos.y;
+			return ptEvent1->clPos[1] < ptEvent2->clPos[1];
 		}
 		else
 		{
-			if( fabs( ptEvent1->clPos.x - ptEvent2->clPos.x ) > 1e-15 )
+			if( osgabs( ptEvent1->clPos[0] - ptEvent2->clPos[0] ) > 1e-15 )
 			{
-				return ptEvent1->clPos.x < ptEvent2->clPos.x;
+				return ptEvent1->clPos[0] < ptEvent2->clPos[0];
 			}
 		}*/
-		if( ptEvent1->clPos != ptEvent2->clPos )
+		if( DCTPVecIsNotEqual( ptEvent1->clPos , ptEvent2->clPos ) )
 		{
-			return ( ptEvent1->clPos < ptEvent2->clPos );
+//			return ( ptEvent1->clPos < ptEvent2->clPos );
+			return ( DCTPVecIsLesser(ptEvent1->clPos, ptEvent2->clPos ) );
 		}
 
 		if( ( ptEvent1->bStart ) && !( ptEvent2->bStart ) ) return false;
@@ -179,49 +180,49 @@ struct OSG_SYSTEMLIB_DLLMAPPING SScanLineEventLess
 //		std::cerr << "start = " << ptEvent1->bStart << " " << ptEvent2->bStart;
 //		std::cerr << " checking dirs..." << std::endl;
 
-		vec2d	dir1, dir2;
+		Vec2d	dir1, dir2;
 
 		dir1 = ptEvent1->clOther - ptEvent1->clPos;
 		dir2 = ptEvent2->clOther - ptEvent2->clPos;
-		if( dir1 != dir2 )
+		if( DCTPVecIsNotEqual( dir1 , dir2 ) )
 		{
 			if( !ptEvent1->bStart )
 			{
-				dir1.y = -dir1.y;
-				dir2.y = -dir2.y;
+				dir1[1] = -dir1[1];
+				dir2[1] = -dir2[1];
 			}
 
-			if( fabs( dir1.y ) < DCTP_EPS )
+			if( osgabs( dir1[1] ) < DCTP_EPS )
 			{
-				if( fabs( dir2.y ) < DCTP_EPS )
+				if( osgabs( dir2[1] ) < DCTP_EPS )
 				{
-					if( dir1.x < 0.0 ) // this can't be zero!
+					if( dir1[0] < 0.0 ) // this can't be zero!
 					{
-						if( dir2.x > 0.0 ) return true;  // this can't be zero!
+						if( dir2[0] > 0.0 ) return true;  // this can't be zero!
 					}
 					else
 					{
-						if( dir2.x < 0.0 ) return false; // this can't be zero!
+						if( dir2[0] < 0.0 ) return false; // this can't be zero!
 					}
-//					return ( dir1.x < dir2.x );
+//					return ( dir1[0] < dir2[0] );
 				}
 				else
 				{
-//					std::cerr << "( dir1.x < 0.0 )" << dir1.x;
-					return ( dir1.x < 0.0 ); // this can't be zero!
+//					std::cerr << "( dir1[0] < 0.0 )" << dir1[0];
+					return ( dir1[0] < 0.0 ); // this can't be zero!
 				}
 			}
-			else if( fabs( dir2.y ) < DCTP_EPS )
+			else if( osgabs( dir2[1] ) < DCTP_EPS )
 			{
-//				std::cerr << "( dir2.x > 0.0 )" << dir2.x;
-				return ( dir2.x > 0.0 ); // this can't be zero!
+//				std::cerr << "( dir2[0] > 0.0 )" << dir2[0];
+				return ( dir2[0] > 0.0 ); // this can't be zero!
 			}
 			else
 			{
-				const double	r1 = dir1.x / dir1.y;
-				const double	r2 = dir2.x / dir2.y;
+				const double	r1 = dir1[0] / dir1[1];
+				const double	r2 = dir2[0] / dir2[1];
 
-				if( fabs( r1 - r2 ) >= DCTP_EPS )
+				if( osgabs( r1 - r2 ) >= DCTP_EPS )
 				{
 					return ( r1 < r2 );
 				}
@@ -241,7 +242,7 @@ struct SPolySimVertex
 	unsigned int	uiIndex;
 	unsigned int	uiPrev;
 	unsigned int	uiNext;
-	vec3d			clPos;
+	Vec3d			clPos;
 	double			dSimplifyError;
 };
 
@@ -268,65 +269,59 @@ class OSG_SYSTEMLIB_DLLMAPPING ParSpaceTrimmer {
         DCTPEdge					*ie; //last intersected edge
         double						ip; //intersection parameter on bezier curve
 	std::vector< std::vector< DCTPVertex* > >	vcel;
-	std::vector< std::vector< vec2d > >		*pvccrd;
-	std::vector< std::vector< vec3d > >		*m_pvvclSewed;
+	std::vector< std::vector< Vec2d > >		*pvccrd;
+	std::vector< std::vector< Vec3d > >		*m_pvvclSewed;
 #ifdef OSG_FORCE_NO_T_VERTICES
 /* #ifndef OSG_CREATE_NORMAL_MAPS
-		std::vector< std::vector< vec3d > >		*m_pvvclNormals;
+		std::vector< std::vector< Vec3d > >		*m_pvvclNormals;
  #endif*/
  #ifdef OSG_KEEP_2D_POINTS
 		unsigned int				m_uiPosCnt;
  #endif
 #endif
 		bool					m_bDeleteVertexInfo;
-		vec2d					m_clMin, m_clMax;
+		Vec2d					m_clMin, m_clMax;
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 		QuadTreeCreator				*m_pclQuadTree;
 #endif
 		std::vector< bool >			*m_pvbReversed;
 		std::vector< bool >			*m_pvbUsed;
 
-		bool					m_bMaxLength;
-
 #ifdef OSG_USE_SIMPLIFIER
 		BSplineTensorSurface			*m_pclNurbs;
 #endif
 
-        bool isOverQuad( DCTPFace *f, vec2d &p );
-        bool isNearQuad( DCTPFace *f, vec2d &p );
-        bool isOverFace( DCTPFace *f, vec2d &p );
-        void getStartingFace( vec2d p );
+        bool isOverQuad( DCTPFace *f, Vec2d &p );
+        bool isNearQuad( DCTPFace *f, Vec2d &p );
+        bool isOverFace( DCTPFace *f, Vec2d &p );
+        void getStartingFace( Vec2d p );
         void initializeStartState( bezier2ddeque& tc );
         void initializeStartState2( unsigned int uiLoop, std::vector< DCTPVertex* > &el );
-        void *isOnFaceBoundary( DCTPFace *f, vec2d &p, bool &isedge );
-        bool isOnEdge( DCTPEdge *e, vec2d &p, DCTPVertex* &v );
-        bool isOnSection( vec2d &p1, vec2d &p2, vec2d &p );
+        void *isOnFaceBoundary( DCTPFace *f, Vec2d &p, bool &isedge );
+        bool isOnEdge( DCTPEdge *e, Vec2d &p, DCTPVertex* &v );
+        bool isOnSection( Vec2d &p1, Vec2d &p2, Vec2d &p );
         void processCurve( bezier2ddeque &tc, std::vector< DCTPVertex* > &el );
         void processCurve2( unsigned int uiLoop, std::vector< DCTPVertex* > &el );
         bool StateTransition( BezierCurve2D &b, std::vector< DCTPVertex* > &el );
 #ifdef OSG_FORCE_NO_T_VERTICES
 // #ifdef OSG_CREATE_NORMAL_MAPS
-        bool StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS );
+        bool StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS );
 /* #else
-        bool StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS, vec3d &rclActN, vec3d clNextN );
+        bool StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS, Vec3d &rclActN, Vec3d clNextN );
  #endif*/
 #else
-        bool StateTransition2( vec2d &rclAct, vec2d clNext, std::vector< DCTPVertex* > &el, vec3d &rclActS, vec3d clNextS );
+        bool StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector< DCTPVertex* > &el, Vec3d &rclActS, Vec3d clNextS );
 #endif
         bool setMinIntersectionWithFace( BezierCurve2D &b );
-        bool setMinIntersectionWithFace2( vec2d clAct, vec2d clNext );
+        bool setMinIntersectionWithFace2( Vec2d clAct, Vec2d clNext );
         bool goingOutOnEdge( BezierCurve2D& bc, DCTPVertex *&v, bool &feu, std::vector< DCTPVertex* > &el );
-        bool goingOutOnEdge2( vec2d clAct, vec2d clNext, DCTPVertex *&v, bool &feu, std::vector< DCTPVertex* > &el );
+        bool goingOutOnEdge2( Vec2d clAct, Vec2d clNext, DCTPVertex *&v, bool &feu, std::vector< DCTPVertex* > &el );
 //        bool StoreCurveToFace( BezierCurve2D &bc, double t, DCTPVertex *v );
 		bool StoreCurveApproximation( BezierCurve2D &bc, double t, std::vector< DCTPVertex* > &el );
         DCTPFace* getContinuingFace( BezierCurve2D &bc );
-        DCTPFace* getContinuingFace2( vec2d clAct, vec2d clNext );
-        vec2d calcNormal( vec2d &a, vec2d &b );
-        bool checkEdgeNormals( DirectedGraph< vec2d, unsigned char > &sg, int from, int to );
-/*        void insertBezierApproximation( BezierCurve2D& b, int& start_node,
-                                        DCTPFace *face, bool islast,
-                                        DirectedGraph< vec2d, unsigned char > &sg );*/
-        //void mergeCurve( void );
+        DCTPFace* getContinuingFace2( Vec2d clAct, Vec2d clNext );
+        Vec2d calcNormal( Vec2d &a, Vec2d &b );
+        bool checkEdgeNormals( DirectedGraph< Vec2d, unsigned char > &sg, int from, int to );
 		void checkEdgeloops( ); //check for intersections/overlappings in edgeloops and remove them
 		bool insertScanLineEvents( SScanLineEdge *ptEdge, ScanLineEventSet &rsptEvents, char cWhich = -1 ); // ucWhich = -1 for both
 		SScanLineEntry *insertInScanLine( SScanLineEntry *ptActEntry, SScanLineEntry *ptScanLine );
@@ -336,16 +331,16 @@ class OSG_SYSTEMLIB_DLLMAPPING ParSpaceTrimmer {
 		bool isSLEntryLess( SScanLineEdge *ptEdge1, SScanLineEdge *ptEdge2 );
 		void removeSLEntry( SScanLineEntry *ptEntry, ScanLineEventSet &rsptEvents );
 		DCTPVertex *intersectsLoop( DCTPVertex *pclVertex1, DCTPVertex *pclVertex2, unsigned int uiLoop );
-		bool doIntersect( vec2d clV1, vec2d clV2, vec2d clV3, vec2d clV4, double &rdParam );
+		bool doIntersect( Vec2d clV1, Vec2d clV2, Vec2d clV3, Vec2d clV4, double &rdParam );
 		void deleteVertexInfo( );
 		bool isLoopValid( const unsigned int cuiLoop );
-		bool intersectsRay( const vec2d cclV1, const vec2d cclV2, const vec2d cclStart, const vec2d cclEnd );
+		bool intersectsRay( const Vec2d cclV1, const Vec2d cclV2, const Vec2d cclStart, const Vec2d cclEnd );
 
 public:
         ParSpaceTrimmer() { /*std::cerr << "pst constr" << std::endl;*/ m_bDeleteVertexInfo = false; }
         ~ParSpaceTrimmer() { /*std::cerr << "pst destr" << std::endl;*/  if( m_bDeleteVertexInfo ) deleteVertexInfo( ); }
 
-		void Initialize( DCTPMesh &m, bezier2ddequevector &c2d, bezier3ddequevector &c3d, std::vector< std::vector< vec2d > > &vccrd, double err
+		void Initialize( DCTPMesh &m, bezier2ddequevector &c2d, bezier3ddequevector &c3d, std::vector< std::vector< Vec2d > > &vccrd, double err
 #ifdef OSG_USE_SIMPLIFIER
 						 , BSplineTensorSurface *pclNurbs
 #endif
@@ -362,7 +357,7 @@ public:
 			m_pclNurbs = pclNurbs;
 #endif
 		}
-        void Initialize( DCTPMesh &m, bezier2ddequevector &tc, std::vector< std::vector< vec2d > > &vccrd
+        void Initialize( DCTPMesh &m, bezier2ddequevector &tc, std::vector< std::vector< Vec2d > > &vccrd
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 						 , QuadTreeCreator *pclQuadTree
 #endif
@@ -374,42 +369,42 @@ public:
                 mesh = &m;
                 tcs = &tc;
 				pvccrd = &vccrd;
-				m_clMin.x = m_clMax.x = ( *mesh->vertices.begin( ) )->coords.x;
-				m_clMin.y = m_clMax.y = ( *mesh->vertices.begin( ) )->coords.y;
+				m_clMin[0] = m_clMax[0] = ( *mesh->vertices.begin( ) )->coords[0];
+				m_clMin[1] = m_clMax[1] = ( *mesh->vertices.begin( ) )->coords[1];
 				for( dctpvertexset::iterator it_vertex = mesh->vertices.begin( ); it_vertex != mesh->vertices.end( ); ++it_vertex )
 				{
 					( *it_vertex )->vertexinfo = ( void* ) 1;
-					if( ( *it_vertex )->coords.x < m_clMin.x )
-						m_clMin.x = ( *it_vertex )->coords.x;
-					else if( ( *it_vertex )->coords.x > m_clMax.x )
-						m_clMax.x = ( *it_vertex )->coords.x;
-					if( ( *it_vertex )->coords.y < m_clMin.y )
-						m_clMin.y = ( *it_vertex )->coords.y;
-					else if( ( *it_vertex )->coords.y > m_clMax.y )
-						m_clMax.y = ( *it_vertex )->coords.y;
+					if( ( *it_vertex )->coords[0] < m_clMin[0] )
+						m_clMin[0] = ( *it_vertex )->coords[0];
+					else if( ( *it_vertex )->coords[0] > m_clMax[0] )
+						m_clMax[0] = ( *it_vertex )->coords[0];
+					if( ( *it_vertex )->coords[1] < m_clMin[1] )
+						m_clMin[1] = ( *it_vertex )->coords[1];
+					else if( ( *it_vertex )->coords[1] > m_clMax[1] )
+						m_clMax[1] = ( *it_vertex )->coords[1];
 				}
-				m_clMin.x += DCTP_EPS * 0.5;
-				m_clMin.y += DCTP_EPS * 0.5;
-				m_clMax.x -= DCTP_EPS * 0.5;
-				m_clMax.y -= DCTP_EPS * 0.5;
+				m_clMin[0] += DCTP_EPS * 0.5;
+				m_clMin[1] += DCTP_EPS * 0.5;
+				m_clMax[0] -= DCTP_EPS * 0.5;
+				m_clMax[1] -= DCTP_EPS * 0.5;
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 				m_pclQuadTree = pclQuadTree;
 #endif
 #ifdef OSG_USE_SIMPLIFIER
 				m_pclNurbs = pclNurbs;
 #endif
-				m_bMaxLength = false;
+//				m_bMaxLength = false;
 				tcs3d = NULL;
         }
 
 #ifdef OSG_FORCE_NO_T_VERTICES
 // #ifdef OSG_CREATE_NORMAL_MAPS
-        void Initialize2( DCTPMesh &m, std::vector< std::vector< vec2d > > &vccrd, std::vector< std::vector< vec3d > > &vvclSewed, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
+        void Initialize2( DCTPMesh &m, std::vector< std::vector< Vec2d > > &vccrd, std::vector< std::vector< Vec3d > > &vvclSewed, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
 /* #else
-        void Initialize2( DCTPMesh &m, std::vector< std::vector< vec2d > > &vccrd, std::vector< std::vector< vec3d > > &vvclSewed, std::vector< std::vector< vec3d > > &vvclNormals, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
+        void Initialize2( DCTPMesh &m, std::vector< std::vector< Vec2d > > &vccrd, std::vector< std::vector< Vec3d > > &vvclSewed, std::vector< std::vector< Vec3d > > &vvclNormals, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
  #endif*/
 #else
-        void Initialize2( DCTPMesh &m, std::vector< std::vector< vec2d > > &vccrd, std::vector< std::vector< vec3d > > &vvclSewed, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
+        void Initialize2( DCTPMesh &m, std::vector< std::vector< Vec2d > > &vccrd, std::vector< std::vector< Vec3d > > &vvclSewed, std::vector< bool > &rvbRev, std::vector< bool > &rvbUsed )
 #endif
 		{
                 mesh = &m;
@@ -425,46 +420,43 @@ public:
 				m_pvbUsed = &rvbUsed;
 				if( mesh->vertices.size( ) )
 				{
-					m_clMin.x = m_clMax.x = ( *mesh->vertices.begin( ) )->coords.x;
-					m_clMin.y = m_clMax.y = ( *mesh->vertices.begin( ) )->coords.y;
+					m_clMin[0] = m_clMax[0] = ( *mesh->vertices.begin( ) )->coords[0];
+					m_clMin[1] = m_clMax[1] = ( *mesh->vertices.begin( ) )->coords[1];
 				}
 				for( dctpvertexset::iterator it_vertex = mesh->vertices.begin( ); it_vertex != mesh->vertices.end( ); ++it_vertex )
 				{
 					( *it_vertex )->vertexinfo = NULL;
-					if( ( *it_vertex )->coords.x < m_clMin.x )
-						m_clMin.x = ( *it_vertex )->coords.x;
-					else if( ( *it_vertex )->coords.x > m_clMax.x )
-						m_clMax.x = ( *it_vertex )->coords.x;
-					if( ( *it_vertex )->coords.y < m_clMin.y )
-						m_clMin.y = ( *it_vertex )->coords.y;
-					else if( ( *it_vertex )->coords.y > m_clMax.y )
-						m_clMax.y = ( *it_vertex )->coords.y;
+					if( ( *it_vertex )->coords[0] < m_clMin[0] )
+						m_clMin[0] = ( *it_vertex )->coords[0];
+					else if( ( *it_vertex )->coords[0] > m_clMax[0] )
+						m_clMax[0] = ( *it_vertex )->coords[0];
+					if( ( *it_vertex )->coords[1] < m_clMin[1] )
+						m_clMin[1] = ( *it_vertex )->coords[1];
+					else if( ( *it_vertex )->coords[1] > m_clMax[1] )
+						m_clMax[1] = ( *it_vertex )->coords[1];
 				}
-				m_clMin.x += DCTP_EPS * 0.5;
-				m_clMin.y += DCTP_EPS * 0.5;
-				m_clMax.x -= DCTP_EPS * 0.5;
-				m_clMax.y -= DCTP_EPS * 0.5;
+				m_clMin[0] += DCTP_EPS * 0.5;
+				m_clMin[1] += DCTP_EPS * 0.5;
+				m_clMax[0] -= DCTP_EPS * 0.5;
+				m_clMax[1] -= DCTP_EPS * 0.5;
         }
 
         int PerformTrimming( void );
         int PerformTrimming2( void );
 #ifdef OSG_FORCE_NO_T_VERTICES
  #ifdef OSG_KEEP_2D_POINTS
-        int buildSurfaceGraph( DirectedGraph< vec2d, unsigned char> *pGraph, std::vector< vec3d > *pvclSewed = NULL, std::vector< vec3d > *pvclNormals = NULL, std::vector< unsigned int > *pvclIdx = NULL );
+        int buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char> *pGraph, std::vector< Vec3d > *pvclSewed = NULL, std::vector< Vec3d > *pvclNormals = NULL, std::vector< unsigned int > *pvclIdx = NULL );
  #else
-        int buildSurfaceGraph( DirectedGraph< vec2d, unsigned char> *pGraph, std::vector< vec3d > *pvclSewed = NULL, std::vector< vec3d > *pvclNormals = NULL );
+        int buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char> *pGraph, std::vector< Vec3d > *pvclSewed = NULL, std::vector< Vec3d > *pvclNormals = NULL );
  #endif
 #else
-        int buildSurfaceGraph( DirectedGraph< vec2d, unsigned char> *pGraph, std::vector< vec3d > *pvclSewed = NULL );
-		void getTrimmingLoops( std::vector< std::vector< vec2d > > &rvvclTrimmingLoops );
+        int buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char> *pGraph, std::vector< Vec3d > *pvclSewed = NULL );
+		void getTrimmingLoops( std::vector< std::vector< Vec2d > > &rvvclTrimmingLoops );
 #endif
-        int writeSurfaceGraph( std::ostream &of );
-        void writeInvalidSurfaceGraph( std::ostream &of );
 
-		inline void UseMaxLeght( const bool cbUse ) { m_bMaxLength = cbUse; }
 
 #ifdef OSG_USE_SIMPLIFIER
-		double DistToEdge( const vec3d cclPoint, const vec3d cclLine1, const vec3d cclLine2 ) const;
+		double DistToEdge( const Vec3d cclPoint, const Vec3d cclLine1, const Vec3d cclLine2 ) const;
 #endif
 };
 

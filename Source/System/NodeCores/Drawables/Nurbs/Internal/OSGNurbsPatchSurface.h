@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -90,7 +90,7 @@ static const unsigned char	QUAD_TREE_INVALID_MASK		= BEZIER_SURFACES_VALID | TRI
 
 struct SCone
 {
-	vec3d					clDirection;
+	Vec3d					clDirection;
 //	double					dHalfAngle;
 	double					dThreshold;
 };
@@ -103,21 +103,21 @@ struct SSurface
 	unsigned char				ucStatus;
 	bezier2ddequevector			vvclBezierCurves;
 	bezier3ddequevector			vvcl3DCurves;
-	std::vector< std::vector< vec2d > >	vvclEdgeLoops;
-	std::vector< std::vector< vec3d > >	vvclEdgeLoops3D;
+	std::vector< std::vector< Vec2d > >	vvclEdgeLoops;
+	std::vector< std::vector< Vec3d > >	vvclEdgeLoops3D;
 // added to comply with ParSpaceTrimmer when using FORCE_NO_T_VERTICES 
-    std::vector< std::vector< vec3d > >     vvclEdgeLoopsNorm;       
-    std::vector< std::vector< vec2d > >	vvclEdgeLoopsTex;
-	vec3d					clMin;
-	vec3d					clMax;
+    std::vector< std::vector< Vec3d > >     vvclEdgeLoopsNorm;       
+    std::vector< std::vector< Vec2d > >	vvclEdgeLoopsTex;
+	Vec3d					clMin;
+	Vec3d					clMax;
 	CErrorQuadTree				*pclErrorTree;
 	unsigned int				uiTriangleCnt;
 	std::vector< bool >			vbReversed;
 	std::vector< bool >			vbUsed;
        	SCone					tNormalCone;
 #ifdef OSG_ARBITRARY_SPLIT
-	vec2d					clMinParam;
-	vec2d					clMaxParam;
+	Vec2d					clMinParam;
+	Vec2d					clMaxParam;
 #endif
 };
 
@@ -230,15 +230,15 @@ private:
 	std::vector< std::vector< double > >	m_vvdVParams;
 	DCTPMesh				m_clMesh;
 	std::vector< SSurface >			m_vtSurfaces;
-	std::vector< vec2d >			m_vclParameterVertices;
-	std::vector< vec3d >			m_vclGlobalVertices;
-//	std::vector< vec3d >			m_vclNormal;
-	DirectedGraph< vec2d, unsigned char >	*m_pclGraph;
+	std::vector< Vec2d >			m_vclParameterVertices;
+	std::vector< Vec3d >			m_vclGlobalVertices;
+//	std::vector< Vec3d >			m_vclNormal;
+	DirectedGraph< Vec2d, unsigned char >	*m_pclGraph;
 	simplepolygonvector			m_vclTriangles;
 	QuadTreeCreator                         *m_pclQuadTree;
 	bool					m_bErrorTreeValid;
 	bool					m_bUseTextures;
-	std::vector< std::vector<vec2d> >	m_vvTextureControlPoints;
+	std::vector< std::vector<Vec2d> >	m_vvTextureControlPoints;
 
 #ifdef OSG_TIMING_FUNCS
 	unsigned int				m_uiTotalTriangleCnt;

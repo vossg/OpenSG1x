@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 #include <iostream>
@@ -64,46 +64,42 @@ public:
   DCTPMesh();
   ~DCTPMesh();
 
-  DCTPVertex *AddVertex( vec3d v );
+  DCTPVertex *AddVertex( Vec3d v );
   DCTPEdge *AddEdge( DCTPVertex *v1, DCTPVertex *v2, int orient );
   DCTPFace *AddFace( void );
-  int AddTriangle( vec3d v1, vec3d v2, vec3d v3, double norm );
-  int AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm );
-  DCTPFace *AddQuad( vec3d v1, vec3d v2, vec3d v3, vec3d v4, double norm );
+  int AddTriangle( Vec3d v1, Vec3d v2, Vec3d v3, double norm );
+  int AddQuadTreeLeaf( Vec3d ul, Vec3d lr, bool *sides, double norm );
+  DCTPFace *AddQuad( Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, double norm );
   int SubdivideQuad( DCTPFace *f );
   int SubdivideQuadNS( DCTPFace *f );
   int SubdivideQuadEW( DCTPFace *f );
   int SubdivideQuadNS( DCTPFace *f, double dRatio );
   int SubdivideQuadEW( DCTPFace *f, double dRatio );
   DCTPVertex * SplitEdge( DCTPEdge *edge, double t );
-  DCTPVertex * SplitEdge( DCTPEdge *edge, const vec3d& p );
+  DCTPVertex * SplitEdge( DCTPEdge *edge, const Vec3d& p );
 #ifndef OSG_INTEGER_MESH
-  int SplitFace( DCTPEdge *edge, vec3dvector &points, dctpvertexvector &res );
-  DCTPVertex * SplitFace( DCTPEdge *edge, const vec3d& p );
+  int SplitFace( DCTPEdge *edge, DCTPVec3dvector &points, dctpvertexvector &res );
+  DCTPVertex * SplitFace( DCTPEdge *edge, const Vec3d& p );
   void SplitOneFace( DCTPFace *f, DCTPEdge *edge, DCTPVertex *nv);
 #endif
-  int MoveVertex( DCTPVertex *vert, vec3d &newpos );
-  void dump( char *fname );
-  int write( std::ostream &);
-  void writeInvalid( std::ostream &);
+  int MoveVertex( DCTPVertex *vert, Vec3d &newpos );
+//  void dump( char *fname );
+//  int write( std::ostream &);
+//  void writeInvalid( std::ostream &);
   bool isInvalid( void ); // whether the current mesh is invalid
-  int read( std::istream &infile );
+//  int read( std::istream &infile );
 #ifdef OSG_INTEGER_MESH
   int directEdge( vec3i& from, vec3i& into );
 #else
-  int directEdge( vec3d& from, vec3d& into );
+  int directEdge( Vec3d& from, Vec3d& into );
 #endif
-  DCTPVertex *findVertex( const vec3d& v );
-  DCTPEdge *findEdge( const vec3d &vc1, const vec3d &vc2 );
+  DCTPVertex *findVertex( const Vec3d& v );
+  DCTPEdge *findEdge( const Vec3d &vc1, const Vec3d &vc2 );
   DCTPEdge *findEdge( DCTPVertex *v1, DCTPVertex *v2 );
-  int write_trisoup( std::ostream &outfile );
-  int write_quadsoup( std::ostream &outfile );
-  int read_trisoup( std::istream &infile );  
-  int read_quadsoup( std::istream &infile );  
   unsigned long getNumOfVertices( void );
   unsigned long getNumOfFaces( void );
   void reinit( void );
-  double computeEdgePointDst( DCTPEdge *edg, vec3d& pnt );
+  double computeEdgePointDst( DCTPEdge *edg, Vec3d& pnt );
 
   void removeFace( unsigned int ui_face );
 
@@ -143,7 +139,7 @@ struct sortnorth
 {
   bool operator()( DCTPVertex *v1, DCTPVertex *v2 ) 
   {
-    return ( v1->coords.x < v2->coords.x );
+    return ( v1->coords[0] < v2->coords[0] );
   }
 };
 
@@ -151,7 +147,7 @@ struct sortsouth
 {
   bool operator()( DCTPVertex *v1, DCTPVertex *v2 ) 
   {
-    return ( v1->coords.x > v2->coords.x );
+    return ( v1->coords[0] > v2->coords[0] );
   }
 };
 
@@ -159,7 +155,7 @@ struct sorteast
 {
   bool operator()( DCTPVertex *v1, DCTPVertex *v2 ) 
   {
-    return ( v1->coords.y > v2->coords.y );
+    return ( v1->coords[1] > v2->coords[1] );
   }
 };
 
@@ -167,7 +163,7 @@ struct sortwest
 {
   bool operator()( DCTPVertex *v1, DCTPVertex *v2 ) 
   {
-    return ( v1->coords.y < v2->coords.y );
+    return ( v1->coords[1] < v2->coords[1] );
   }
 };
 

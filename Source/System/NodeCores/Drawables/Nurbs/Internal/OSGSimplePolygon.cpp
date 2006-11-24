@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -100,7 +100,7 @@ SimplePolygon::SimplePolygon()
  *  \param selfindex the index of this polygon in the global list
  *  \return zero on success, and a negative integer if some error occured.
  */
-int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &polylist)
+int SimplePolygon::triangulate( DCTPVec2dvector &globalverts, simplepolygonvector &polylist)
 {
 #ifdef OSG_TRIANGULATE_CONVEX
 	if( ( !is_marked ) && ( m_bConvex ) )
@@ -128,12 +128,12 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 		ui_mid = 0;
 		for( ui_prev = 1; ui_prev < cui_vertex_cnt; ++ui_prev )
 		{
-			if( globalverts[ vertices[ ui_prev ] ].y < globalverts[ vertices[ ui_mid ] ].y )
+			if( globalverts[ vertices[ ui_prev ] ][1] < globalverts[ vertices[ ui_mid ] ][1] )
 			{
 				ui_mid = ui_prev;
 			}
-			else if( ( globalverts[ vertices[ ui_prev ] ].y == globalverts[ vertices[ ui_mid ] ].y ) &&
-					 ( globalverts[ vertices[ ui_prev ] ].x < globalverts[ vertices[ ui_mid ] ].x ) )
+			else if( ( globalverts[ vertices[ ui_prev ] ][1] == globalverts[ vertices[ ui_mid ] ][1] ) &&
+					 ( globalverts[ vertices[ ui_prev ] ][0] < globalverts[ vertices[ ui_mid ] ][0] ) )
 			{
 				ui_mid = ui_prev;
 			}
@@ -154,14 +154,14 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 		while( cl_poly.vertices[ 1 ] != cl_poly.vertices[ 2 ] )
 		{
 			polylist.push_back( cl_poly );
-			if( globalverts[ vertices[ ui_prev ] ].y < globalverts[ vertices[ ui_next ] ].y )
+			if( globalverts[ vertices[ ui_prev ] ][1] < globalverts[ vertices[ ui_next ] ][1] )
 			{
 				cl_poly.vertices[ 0 ] = cl_poly.vertices[ 2 ];
 				cl_poly.vertices[ 2 ] = vertices[ ui_prev ];
 				ui_prev = ( ui_prev + cui_vertex_cnt - 1 ) % cui_vertex_cnt;
 			}
-			else if( ( globalverts[ vertices[ ui_prev ] ].y == globalverts[ vertices[ ui_next ] ].y ) &&
-					 ( globalverts[ vertices[ ui_prev ] ].x < globalverts[ vertices[ ui_next ] ].x ) )
+			else if( ( globalverts[ vertices[ ui_prev ] ][1] == globalverts[ vertices[ ui_next ] ][1] ) &&
+					 ( globalverts[ vertices[ ui_prev ] ][0] < globalverts[ vertices[ ui_next ] ][0] ) )
 			{
 				cl_poly.vertices[ 0 ] = cl_poly.vertices[ 2 ];
 				cl_poly.vertices[ 2 ] = vertices[ ui_prev ];
@@ -202,8 +202,8 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 				const int		ci_v2 = vertices[ 1 ];
 				const int		ci_v3 = vertices[ 2 ];
 				const int		ci_v4 = vertices[ 3 ];
-				const double	cd_sdist1 = ( globalverts[ ci_v1 ] - globalverts[ ci_v3 ] ).quad_size( );
-				const double	cd_sdist2 = ( globalverts[ ci_v2 ] - globalverts[ ci_v4 ] ).quad_size( );
+				const double	cd_sdist1 = ( globalverts[ ci_v1 ] - globalverts[ ci_v3 ] ).squareLength( );
+				const double	cd_sdist2 = ( globalverts[ ci_v2 ] - globalverts[ ci_v4 ] ).squareLength( );
 				double			ad_pa[ 2 ];
 				double			ad_pb[ 2 ];
 				double			ad_pc[ 2 ];
@@ -213,14 +213,14 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 				p.vertices.resize( 3 );
 				p.is_marked = is_marked;
 
-				ad_pa[ 0 ] = globalverts[ ci_v1 ].x;
-				ad_pa[ 1 ] = globalverts[ ci_v1 ].y;
-				ad_pb[ 0 ] = globalverts[ ci_v2 ].x;
-				ad_pb[ 1 ] = globalverts[ ci_v2 ].y;
-				ad_pc[ 0 ] = globalverts[ ci_v3 ].x;
-				ad_pc[ 1 ] = globalverts[ ci_v3 ].y;
-				ad_pd[ 0 ] = globalverts[ ci_v4 ].x;
-				ad_pd[ 1 ] = globalverts[ ci_v4 ].y;
+				ad_pa[ 0 ] = globalverts[ ci_v1 ][0];
+				ad_pa[ 1 ] = globalverts[ ci_v1 ][1];
+				ad_pb[ 0 ] = globalverts[ ci_v2 ][0];
+				ad_pb[ 1 ] = globalverts[ ci_v2 ][1];
+				ad_pc[ 0 ] = globalverts[ ci_v3 ][0];
+				ad_pc[ 1 ] = globalverts[ ci_v3 ][1];
+				ad_pd[ 0 ] = globalverts[ ci_v4 ][0];
+				ad_pd[ 1 ] = globalverts[ ci_v4 ][1];
 
 				if( cd_sdist1 - cd_sdist2 < DCTP_EPS )
 				{
@@ -295,18 +295,18 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
   validThirdPoints.resize( vertices.size( ) );
 
   SimplePolygon poly;
-  int v1, i2, i3; // this is an index into the vertices[] vector
+  int i2, i3; // this is an index into the vertices[] vector
   int err;
-  ivector verts; //p1verts, p2verts, p3verts;
+  DCTPivector verts; //p1verts, p2verts, p3verts;
   int i;
   int j;
   // pseudo random (reproduces same triangulation)
-  int offs = ( ( int ) ( globalverts[ vertices[ 0 ] ].x * vertices.size( ) ) ) % vertices.size( );
+  int offs = ( ( int ) ( globalverts[ vertices[ 0 ] ][0] * vertices.size( ) ) ) % vertices.size( );
 
 /*  for( i = 0; i < vertices.size( ); ++i )
   {
-    std::cerr << globalverts[ vertices[ i ] ].x << ",";
-    std::cerr << globalverts[ vertices[ i ] ].y << std::endl;
+    std::cerr << globalverts[ vertices[ i ] ][0] << ",";
+    std::cerr << globalverts[ vertices[ i ] ][1] << std::endl;
   }*/
 
   for( j = 0; j < (int)vertices.size(); j++ ) {
@@ -364,8 +364,8 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 
   for( i = 0; i < vertices.size( ); ++i )
   {
-    std::cerr << globalverts[ vertices[ i ] ].x << ",";
-    std::cerr << globalverts[ vertices[ i ] ].y << std::endl;
+    std::cerr << globalverts[ vertices[ i ] ][0] << ",";
+    std::cerr << globalverts[ vertices[ i ] ][1] << std::endl;
   }*/
 
 //  char x[ 256 ];
@@ -373,311 +373,6 @@ int SimplePolygon::triangulate( vec2dvector &globalverts, simplepolygonvector &p
 
   return -1;
 }
-
-
-int SimplePolygon::triangulateForFEM( vec2dvector &globalverts, simplepolygonvector &polylist, vec3dvector &spaceverts, vec3dvector &normals )
-{
-	ivector				vi_verts; //p1verts, p2verts, p3verts;
-	int					i_i;
-
-/*	if( is_marked == 1 )
-	{
-		vec3d		cl_prev = spaceverts[ vertices[ vertices.size( ) - 1 ] ];
-		vec3d		cl_act;
-
-		for( i_i = 0; i_i < vertices.size( ); ++i_i )
-		{
-			cl_act = spaceverts[ vertices[ i_i ] ];
-			if( ( cl_act - cl_prev ).quad_size( ) > DCTP_EPS )
-			{
-//				std::cerr << cl_act << std::endl;
-				vi_verts.push_back( vertices[ i_i ] );
-				cl_prev = cl_act;
-			}
-			else
-			{
-//				std::cerr << "[ " << cl_act << " ]" << std::endl;
-			}
-		}
-
-		vertices = vi_verts;
-		std::cerr << "triangulate in, size: " << vertices.size() << std::endl;
-	}*/
-
-	switch( vertices.size( ) )
-	{
-		case 0:
-		case 1:
-		case 2:
-			return 0;
-		case 3:
-//			if( checkOrient( spaceverts, normals ) )
-			{
-				polylist.push_back( *this );
-//				SimplePolygon p;
-//				p.vertices = vertices;
-//				p.is_marked = is_marked;
-//				std::cerr << "adding polygon of 3 vertices into the list..." << std::endl;
-//				polylist.push_back( p ); // FIXME, this is not too elegant
-//				std::cerr << "triangulate out!!!" << std::endl;
-				return 0;
-			}
-//			return -1;
-		case 4:
-			{
-				const int		ci_v1 = vertices[ 0 ];
-				const int		ci_v2 = vertices[ 1 ];
-				const int		ci_v3 = vertices[ 2 ];
-				const int		ci_v4 = vertices[ 3 ];
-				const double	cd_sdist1 = ( spaceverts[ ci_v1 ] - spaceverts[ ci_v3 ] ).quad_size( );
-				const double	cd_sdist2 = ( spaceverts[ ci_v2 ] - spaceverts[ ci_v4 ] ).quad_size( );
-//				double			ad_pa[ 2 ];
-//				double			ad_pb[ 2 ];
-//				double			ad_pc[ 2 ];
-//				double			ad_pd[ 2 ];
-				SimplePolygon	p;
-
-				p.vertices.resize( 3 );
-				p.is_marked = is_marked;
-
-				if( cd_sdist1 - cd_sdist2 < DCTP_EPS )
-				{
-					if( ( checkOrient( spaceverts, normals, ci_v1, ci_v2, ci_v4 ) ) &&
-						( checkOrient( spaceverts, normals, ci_v2, ci_v3, ci_v4 ) ) )
-					{
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v2;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 1" << std::endl;
-						polylist.push_back( p );
-						p.vertices[ 0 ] = ci_v2;
-						p.vertices[ 1 ] = ci_v3;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 2" << std::endl;
-						polylist.push_back( p );
-//						std::cerr << globalverts[ ci_v1 ] << globalverts[ ci_v2 ] << globalverts[ ci_v3 ] << globalverts[ ci_v4 ] << std::endl;
-					}
-					else /*if( ( checkOrient( spaceverts, normals, ci_v1, ci_v2, ci_v3 ) ) &&
-							 ( checkOrient( spaceverts, normals, ci_v1, ci_v3, ci_v4 ) ) )*/
-					{
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v2;
-						p.vertices[ 2 ] = ci_v3;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 3" << std::endl;
-						polylist.push_back( p );
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v3;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 4" << std::endl;
-						polylist.push_back( p );
-					}
-//					else
-					{
-						return -1;
-					}
-				}
-				else
-				{
-					if( ( checkOrient( spaceverts, normals, ci_v1, ci_v2, ci_v3 ) ) &&
-						( checkOrient( spaceverts, normals, ci_v1, ci_v3, ci_v4 ) ) )
-					{
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v2;
-						p.vertices[ 2 ] = ci_v3;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 5" << std::endl;
-						polylist.push_back( p );
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v3;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 6" << std::endl;
-						polylist.push_back( p );
-					}
-					else /*if( ( checkOrient( spaceverts, normals, ci_v1, ci_v2, ci_v4 ) ) &&
-							 ( checkOrient( spaceverts, normals, ci_v2, ci_v3, ci_v4 ) ) )*/
-					{
-						p.vertices[ 0 ] = ci_v1;
-						p.vertices[ 1 ] = ci_v2;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 7" << std::endl;
-						polylist.push_back( p );
-						p.vertices[ 0 ] = ci_v2;
-						p.vertices[ 1 ] = ci_v3;
-						p.vertices[ 2 ] = ci_v4;
-//						if( !p.checkOrient( spaceverts, normals ) ) std::cerr << "error 8" << std::endl;
-						polylist.push_back( p );
-					}
-//					else
-					{
-						return -1;
-					}
-				}
-			}
-//			return 0;
-	}
-
-	SimplePolygon		cl_poly;
-	simplepolygonvector	vcl_new_polys;
-	int					i_i2, i_i3; // this is an index into the vertices[] vector
-	int					i_err;
-	int					i_j;
-	// pseudo random (reproduces same triangulation)
-	int					i_offs = ( ( int ) ( globalverts[ vertices[ 0 ] ].x * vertices.size( ) ) ) % vertices.size( );
-//	int					i_offs = ( int ) vertices.size( ) / 2;
-
-	// recalc valid third points!
-	v1tp = -1;
-	validThirdPoints.resize( vertices.size( ) );
-
-	i_i = i_offs;
-//	for( i_i = 0; i_i < ( int ) vertices.size( ); ++i_i )
-	{
-//		i_i = ( i_j + i_offs ) % vertices.size( );
-		i_i2 = ( i_i + 1 ) % vertices.size( );
-		for( i_j = 0; i_j < vertices.size( ); ++i_j )
-		{
-/*			i_i3 = i_i2 + vertices.size( ) + vertices.size( ) / 2;
-			i_i3 = ( i_j & 1 ) ? ( i_i3 + ( i_j / 2 ) ) : ( i_i3 - ( i_j / 2 ) );
-			i_i3 = i_i3 % vertices.size( );*/
-//			i_i3 = ( i_j + i_offs ) % vertices.size( );
-			i_i3 = getThirdPoint( globalverts, i_i, i_i2, i_j );
-//			i_i3 = ( i_i2 + 1 ) % vertices.size( );
-			if( ( i_i3 >= 0 ) && ( i_i3 != i_i ) && ( i_i3 != i_i2 ) )
-			{
-				if( checkOrient( spaceverts, normals, vertices[ i_i ], vertices[ i_i2 ], vertices[ i_i3 ] ) )
-				{
-					vcl_new_polys.clear( );
-					if( is_marked <= 4 )
-					{
-						std::cerr << is_marked << " check: " << i_i << " " << i_i2 << " " << i_i3 << std::endl;
-					}
-					// build p1
-					int i_k = i_i2; // !!!
-//					vi_verts.resize( 0 );
-					vi_verts.resize( ( i_i3 + vertices.size( ) + 1 - i_i2 ) % vertices.size( ) );
-					int i_idx = 0;
-					while( i_k != i_i3 )
-					{
-//						vi_verts.push_back( vertices[ i_k ] );
-						vi_verts[ i_idx ] = vertices[ i_k ];
-						++i_idx;
-						i_k = ( i_k + 1 ) % vertices.size( );
-					} // while k
-//					vi_verts.push_back( vertices[ i_k ] ); // record the last one aswell
-					vi_verts[ i_idx ] = vertices[ i_k ];
-					cl_poly.vertices = vi_verts;
-					cl_poly.is_marked = is_marked + 1;
-					i_err = cl_poly.triangulateForFEM( globalverts, vcl_new_polys, spaceverts, normals );
-					if( i_err == 0 )
-					{
-						// build p2
-						vi_verts.resize( 3 );
-						vi_verts[ 0 ] = vertices[ i_i ];
-						vi_verts[ 1 ] = vertices[ i_i2 ];
-						vi_verts[ 2 ] = vertices[ i_i3 ];
-						cl_poly.vertices = vi_verts;
-						cl_poly.is_marked = is_marked + 1;
-//						if( !cl_poly.checkOrient( spaceverts, normals ) ) std::cerr << "error 9" << std::endl;
-						vcl_new_polys.push_back( cl_poly );
-						// build p3
-						i_k = i_i3;
-//						vi_verts.resize( 0 );
-						vi_verts.resize( ( i_i + vertices.size( ) + 1 - i_i3 ) % vertices.size( ) );
-						i_idx = 0;
-						while( i_k != i_i )
-						{
-//							vi_verts.push_back( vertices[ i_k ] );
-							vi_verts[ i_idx ] = vertices[ i_k ];
-							++i_idx;
-							i_k = ( i_k + 1 ) % vertices.size( );
-						} // while k
-//						vi_verts.push_back( vertices[ i_k ] ); // record the last one aswell
-						vi_verts[ i_idx ] = vertices[ i_k ];
-						cl_poly.vertices = vi_verts;
-						cl_poly.is_marked = is_marked + 1;
-						i_err = cl_poly.triangulateForFEM( globalverts, vcl_new_polys, spaceverts, normals );
-						if( i_err == 0 )
-						{
-							polylist.insert( polylist.end( ), vcl_new_polys.begin( ), vcl_new_polys.end( ) );
-							return 0;
-						}
-					}
-				}
-			} // if
-		} // for i3
-	} // for i
-
-/*	for( i_i = 0; i_i < vertices.size( ); ++i_i )
-	{
-		std::cerr << globalverts[ vertices[ i_i ] ] << spaceverts[ vertices[ i_i ] ] << std::endl;
-	}*/
-
-//  char x[ 256 ];
-//  gets( x );
-
-//	return -1;
-	triangulate( globalverts, polylist );
-	return 0;
-} // triangulateForFEM
-
-
-bool SimplePolygon::checkOrient( const vec3dvector &crclSpaceVerts, const vec3dvector &crclNormals ) const
-{
-	const int	ci_v1 = vertices[ 0 ];
-	const int	ci_v2 = vertices[ 1 ];
-	const int	ci_v3 = vertices[ 2 ];
-
-	if( ( ( crclSpaceVerts[ ci_v1 ] - crclSpaceVerts[ ci_v2 ] ).quad_size( ) < DCTP_EPS ) ||
-		( ( crclSpaceVerts[ ci_v1 ] - crclSpaceVerts[ ci_v3 ] ).quad_size( ) < DCTP_EPS ) ||
-		( ( crclSpaceVerts[ ci_v2 ] - crclSpaceVerts[ ci_v3 ] ).quad_size( ) < DCTP_EPS ) )
-	{
-		return true;
-	}
-
-	const vec3d	ccl_norm_p = crclNormals[ ci_v1 ] + crclNormals[ ci_v2 ] + crclNormals[ ci_v3 ];
-	const vec3d ccl_vec1 = crclSpaceVerts[ ci_v2 ] - crclSpaceVerts[ ci_v1 ];
-	const vec3d ccl_vec2 = crclSpaceVerts[ ci_v3 ] - crclSpaceVerts[ ci_v1 ];
-	const vec3d ccl_norm_t = ccl_vec1.cross( ccl_vec2 );
-
-	if( ccl_norm_p.dot( ccl_norm_t ) < DCTP_EPS ) return false;
-
-	return true;
-#if 0
-	if( crclNormals[ ci_v1 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-	if( crclNormals[ ci_v2 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-	if( crclNormals[ ci_v3 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-
-	return true;
-#endif
-}
-
-
-bool SimplePolygon::checkOrient( const vec3dvector &crclSpaceVerts, const vec3dvector &crclNormals, int i1, int i2, int i3 ) const
-{
-	if( ( ( crclSpaceVerts[ i1 ] - crclSpaceVerts[ i2 ] ).quad_size( ) < DCTP_EPS ) ||
-		( ( crclSpaceVerts[ i1 ] - crclSpaceVerts[ i3 ] ).quad_size( ) < DCTP_EPS ) ||
-		( ( crclSpaceVerts[ i2 ] - crclSpaceVerts[ i3 ] ).quad_size( ) < DCTP_EPS ) )
-	{
-		return true;
-	}
-
-	const vec3d	ccl_norm_p = crclNormals[ i1 ] + crclNormals[ i2 ] + crclNormals[ i3 ];
-	const vec3d ccl_vec1 = crclSpaceVerts[ i2 ] - crclSpaceVerts[ i1 ];
-	const vec3d ccl_vec2 = crclSpaceVerts[ i3 ] - crclSpaceVerts[ i1 ];
-	const vec3d ccl_norm_t = ccl_vec1.cross( ccl_vec2 );
-
-	if( ccl_norm_p.dot( ccl_norm_t ) < DCTP_EPS ) return false;
-
-	return true;
-
-#if 0
-	if( crclNormals[ i1 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-	if( crclNormals[ i2 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-	if( crclNormals[ i3 ].dot( ccl_norm_t ) < DCTP_EPS ) return false;
-
-	return true;
-#endif
-}
-
 
 /*
  * Protected methods.
@@ -697,8 +392,10 @@ bool SimplePolygon::checkOrient( const vec3dvector &crclSpaceVerts, const vec3dv
  *            for (i1, i2 ) can't be found
  *  \return zero on success, and a negative integer if some error occured.
  *
+ *  FIXME: the semantics were changed so the above comments are not 100%
+ *  FIXME: correct. TODO: Check with Michael. :)
  */
-int SimplePolygon::findThirdPoint( vec2dvector &globalverts, int i1, int i2, int &i3 )
+int SimplePolygon::findThirdPoint( DCTPVec2dvector &globalverts, int i1, int i2, int &i3 )
 {
 	if( is_marked )
 	{
@@ -761,7 +458,7 @@ int SimplePolygon::findThirdPoint( vec2dvector &globalverts, int i1, int i2, int
  *          0 if inside <BR>
  *          and a negative value if an error happened.
  */
-int SimplePolygon::isInsidePolygon( vec2dvector &globalverts, int i1, int i2, int i3 ) const
+int SimplePolygon::isInsidePolygon( DCTPVec2dvector &globalverts, int i1, int i2, int i3 ) const
 {
   double dres;
   const int size = vertices.size( );
@@ -774,12 +471,12 @@ int SimplePolygon::isInsidePolygon( vec2dvector &globalverts, int i1, int i2, in
   // the third (i3) point must lie to the left of the edge (i2, next)
   // (NOT! on the edge) to be inside
   double p2[ 2 ], p3[ 2 ], pn[ 2 ];
-  p3 [ 0 ] = globalverts[ vi3 ].x;
-  p3 [ 1 ] = globalverts[ vi3 ].y;
-  p2 [ 0 ] = globalverts[ vi2 ].x;
-  p2 [ 1 ] = globalverts[ vi2 ].y;
-  pn [ 0 ] = globalverts[ next ].x;
-  pn [ 1 ] = globalverts[ next ].y;
+  p3 [ 0 ] = globalverts[ vi3 ][0];
+  p3 [ 1 ] = globalverts[ vi3 ][1];
+  p2 [ 0 ] = globalverts[ vi2 ][0];
+  p2 [ 1 ] = globalverts[ vi2 ][1];
+  pn [ 0 ] = globalverts[ next ][0];
+  pn [ 1 ] = globalverts[ next ][1];
 
   if( vi3 != next )
   {
@@ -792,10 +489,10 @@ int SimplePolygon::isInsidePolygon( vec2dvector &globalverts, int i1, int i2, in
   // the third (i3) point must also lie to the left of the edge (prev, i1)
   // (NOT! on the edge) to be inside
   double p1[ 2 ], pp[ 2 ];
-  pp [ 0 ] = globalverts[ prev ].x;
-  pp [ 1 ] = globalverts[ prev ].y;
-  p1 [ 0 ] = globalverts[ vi1 ].x;
-  p1 [ 1 ] = globalverts[ vi1 ].y;
+  pp [ 0 ] = globalverts[ prev ][0];
+  pp [ 1 ] = globalverts[ prev ][1];
+  p1 [ 0 ] = globalverts[ vi1 ][0];
+  p1 [ 1 ] = globalverts[ vi1 ][1];
 
   if( vi3 != prev )
   {
@@ -823,43 +520,43 @@ int SimplePolygon::isInsidePolygon( vec2dvector &globalverts, int i1, int i2, in
 
   int res;
   int j = size - 1;
-  vec2d min, max;
+  Vec2d min, max;
   unsigned char test, ptest;
 
   min = max = globalverts[ vi1 ];
-  if( min.x > globalverts[ vi2 ].x )
-    min.x = globalverts[ vi2 ].x;
-  else if( max.x < globalverts[ vi2 ].x )
-    max.x = globalverts[ vi2 ].x;
-  if( min.y > globalverts[ vi2 ].y )
-    min.y = globalverts[ vi2 ].y;
-  else if( max.y < globalverts[ vi2 ].y )
-    max.y = globalverts[ vi2 ].y;
-  if( min.x > globalverts[ vi3 ].x )
-    min.x = globalverts[ vi3 ].x;
-  else if( max.x < globalverts[ vi3 ].x )
-    max.x = globalverts[ vi3 ].x;
-  if( min.y > globalverts[ vi3 ].y )
-    min.y = globalverts[ vi3 ].y;
-  else if( max.y < globalverts[ vi3 ].y )
-    max.y = globalverts[ vi3 ].y;
+  if( min[0] > globalverts[ vi2 ][0] )
+    min[0] = globalverts[ vi2 ][0];
+  else if( max[0] < globalverts[ vi2 ][0] )
+    max[0] = globalverts[ vi2 ][0];
+  if( min[1] > globalverts[ vi2 ][1] )
+    min[1] = globalverts[ vi2 ][1];
+  else if( max[1] < globalverts[ vi2 ][1] )
+    max[1] = globalverts[ vi2 ][1];
+  if( min[0] > globalverts[ vi3 ][0] )
+    min[0] = globalverts[ vi3 ][0];
+  else if( max[0] < globalverts[ vi3 ][0] )
+    max[0] = globalverts[ vi3 ][0];
+  if( min[1] > globalverts[ vi3 ][1] )
+    min[1] = globalverts[ vi3 ][1];
+  else if( max[1] < globalverts[ vi3 ][1] )
+    max[1] = globalverts[ vi3 ][1];
 
-  const vec2d &pj = globalverts[ vertices[ j ] ];
+  const Vec2d &pj = globalverts[ vertices[ j ] ];
   test = 0;
-  if( pj.x - max.x > DCTP_EPS ) test |= 0x01;
-  if( min.x - pj.x > DCTP_EPS ) test |= 0x02;
-  if( pj.y - max.y > DCTP_EPS ) test |= 0x04;
-  if( min.y - pj.y > DCTP_EPS ) test |= 0x08;
+  if( pj[0] - max[0] > DCTP_EPS ) test |= 0x01;
+  if( min[0] - pj[0] > DCTP_EPS ) test |= 0x02;
+  if( pj[1] - max[1] > DCTP_EPS ) test |= 0x04;
+  if( min[1] - pj[1] > DCTP_EPS ) test |= 0x08;
 
   for ( int i = 0; i < size; i++ )
   {
     ptest = test;
     test = 0;
-    const vec2d &pi = globalverts[ vertices[ i ] ];
-    if( pi.x - max.x > DCTP_EPS ) test |= 0x01;
-    if( min.x - pi.x > DCTP_EPS ) test |= 0x02;
-    if( pi.y - max.y > DCTP_EPS ) test |= 0x04;
-    if( min.y - pi.y > DCTP_EPS ) test |= 0x08;
+    const Vec2d &pi = globalverts[ vertices[ i ] ];
+    if( pi[0] - max[0] > DCTP_EPS ) test |= 0x01;
+    if( min[0] - pi[0] > DCTP_EPS ) test |= 0x02;
+    if( pi[1] - max[1] > DCTP_EPS ) test |= 0x04;
+    if( min[1] - pi[1] > DCTP_EPS ) test |= 0x08;
     if( ( test & ptest ) == 0 )
     {
 //      std::cerr << "checking: " << v1 << " " << v3 << " and i: " << i << std::endl;
@@ -888,7 +585,7 @@ int SimplePolygon::isInsidePolygon( vec2dvector &globalverts, int i1, int i2, in
  *  \return  0 if they don't intersect <BR>
  *           1 if they do <BR>
  */
-int SimplePolygon::doIntersect( vec2dvector &globalverts, int v1, int v2, int p1, int p2 ) const
+int SimplePolygon::doIntersect( DCTPVec2dvector &globalverts, int v1, int v2, int p1, int p2 ) const
 {
   // check if they share vertices
   if ( v1 == p1 || v1 == p2 || v2 == p1 || v2 == p2 ) return 0;
@@ -902,14 +599,14 @@ int SimplePolygon::doIntersect( vec2dvector &globalverts, int v1, int v2, int p1
   const int vp1 = vertices[ p1 ];
   const int vp2 = vertices[ p2 ];
 
-  pa[ 0 ] = globalverts[ vv1 ].x;
-  pa[ 1 ] = globalverts[ vv1 ].y;
-  pb[ 0 ] = globalverts[ vv2 ].x;
-  pb[ 1 ] = globalverts[ vv2 ].y;
-  pc[ 0 ] = globalverts[ vp1 ].x;
-  pc[ 1 ] = globalverts[ vp1 ].y;
-  pd[ 0 ] = globalverts[ vp2 ].x;
-  pd[ 1 ] = globalverts[ vp2 ].y;
+  pa[ 0 ] = globalverts[ vv1 ][0];
+  pa[ 1 ] = globalverts[ vv1 ][1];
+  pb[ 0 ] = globalverts[ vv2 ][0];
+  pb[ 1 ] = globalverts[ vv2 ][1];
+  pc[ 0 ] = globalverts[ vp1 ][0];
+  pc[ 1 ] = globalverts[ vp1 ][1];
+  pd[ 0 ] = globalverts[ vp2 ][0];
+  pd[ 1 ] = globalverts[ vp2 ][1];
 
   const double r1 = orient2d(pa, pc, pd);
   const double r2 = orient2d(pb, pc, pd);
@@ -958,18 +655,18 @@ int SimplePolygon::doIntersect( vec2dvector &globalverts, int v1, int v2, int p1
  *  \return 0 if not inside <BR>
  *          1 if inside <BR>
  */
-int SimplePolygon::isInsideCircumCircle( vec2dvector &globalverts, int v1, int v2, int v3, int p ) const
+int SimplePolygon::isInsideCircumCircle( DCTPVec2dvector &globalverts, int v1, int v2, int v3, int p ) const
 {
   double pa[2], pb[2], pc[2], pd[2];
 
-  pa [ 0 ] = globalverts[ vertices[ v1 ] ].x;
-  pa [ 1 ] = globalverts[ vertices[ v1 ] ].y;
-  pb [ 0 ] = globalverts[ vertices[ v2 ] ].x;
-  pb [ 1 ] = globalverts[ vertices[ v2 ] ].y;
-  pc [ 0 ] = globalverts[ vertices[ v3 ] ].x;
-  pc [ 1 ] = globalverts[ vertices[ v3 ] ].y;
-  pd [ 0 ] = globalverts[ vertices[ p ] ].x;
-  pd [ 1 ] = globalverts[ vertices[ p ] ].y;
+  pa [ 0 ] = globalverts[ vertices[ v1 ] ][0];
+  pa [ 1 ] = globalverts[ vertices[ v1 ] ][1];
+  pb [ 0 ] = globalverts[ vertices[ v2 ] ][0];
+  pb [ 1 ] = globalverts[ vertices[ v2 ] ][1];
+  pc [ 0 ] = globalverts[ vertices[ v3 ] ][0];
+  pc [ 1 ] = globalverts[ vertices[ v3 ] ][1];
+  pd [ 0 ] = globalverts[ vertices[ p ] ][0];
+  pd [ 1 ] = globalverts[ vertices[ p ] ][1];
   // check for order of (pa, pb, pc) they must be in counterclockwise order
   double order = orient2d( pa, pb, pc );
   double dres;
@@ -999,7 +696,7 @@ int SimplePolygon::isInsideCircumCircle( vec2dvector &globalverts, int v1, int v
  *          1 if not Delaunay <BR>
  *          and a negative value if an error happened.
  */
-int SimplePolygon::isDelaunay( vec2dvector &globalverts, int v1, int v2, int v3 )
+int SimplePolygon::isDelaunay( DCTPVec2dvector &globalverts, int v1, int v2, int v3 )
 {
   unsigned int i;
   int v4, ret;
@@ -1049,9 +746,9 @@ int SimplePolygon::isDelaunay( vec2dvector &globalverts, int v1, int v2, int v3 
  *  \param polylist the global list of polygons
  *  \return zero on success, and a negative integer if some error occured.
  */
-int SimplePolygon::fixAndTriangulate( vec2dvector &globalverts, simplepolygonvector &polylist )
+int SimplePolygon::fixAndTriangulate( DCTPVec2dvector &globalverts, simplepolygonvector &polylist )
 {
-  vec2d min, max;
+  Vec2d min, max;
 
   if( getMinMax( globalverts, min, max ) )
   {
@@ -1079,11 +776,11 @@ int SimplePolygon::fixAndTriangulate( vec2dvector &globalverts, simplepolygonvec
  *  \param globalverts the global vertices vector
  *  \return zero on success, and a negative integer if some error occured.
  */
-int SimplePolygon::removeLinearPoints( vec2dvector &globalverts, const vec2d min, const vec2d max )
+int SimplePolygon::removeLinearPoints( DCTPVec2dvector &globalverts, const Vec2d min, const Vec2d max )
 {
   int oldNum = vertices.size( );
   int newNum = 0;
-  ivector newPoints( oldNum ); // waste some memory to have linear time
+  DCTPivector newPoints( oldNum ); // waste some memory to have linear time
   int i;
   int last = oldNum - 1;
 
@@ -1092,17 +789,17 @@ int SimplePolygon::removeLinearPoints( vec2dvector &globalverts, const vec2d min
   // insert nonlienaer points in new array
   for( i = 0; i < oldNum; ++i )
   {
-    vec2d p = globalverts[ vertices[ i ] ];
+    Vec2d p = globalverts[ vertices[ i ] ];
     // check for double vertices
-    if( p != globalverts[ vertices[ last ] ] )
+    if( DCTPVecIsNotEqual( p , globalverts[ vertices[ last ] ] ) )
     {
-      vec2d pp = globalverts[ vertices[ last ] ];
-      vec2d pn = globalverts[ vertices[ ( i + 1 ) % oldNum ] ];
+      Vec2d pp = globalverts[ vertices[ last ] ];
+      Vec2d pn = globalverts[ vertices[ ( i + 1 ) % oldNum ] ];
 
-      if( ( ( p.x - min.x < DCTP_EPS ) && ( pn.x - min.x < DCTP_EPS ) ) ||
-          ( ( p.y - min.y < DCTP_EPS ) && ( pn.y - min.y < DCTP_EPS ) ) ||
-          ( ( max.x - p.x < DCTP_EPS ) && ( max.x - pn.x < DCTP_EPS ) ) ||
-          ( ( max.y - p.y < DCTP_EPS ) && ( max.y - pn.y < DCTP_EPS ) ) )
+      if( ( ( p[0] - min[0] < DCTP_EPS ) && ( pn[0] - min[0] < DCTP_EPS ) ) ||
+          ( ( p[1] - min[1] < DCTP_EPS ) && ( pn[1] - min[1] < DCTP_EPS ) ) ||
+          ( ( max[0] - p[0] < DCTP_EPS ) && ( max[0] - pn[0] < DCTP_EPS ) ) ||
+          ( ( max[1] - p[1] < DCTP_EPS ) && ( max[1] - pn[1] < DCTP_EPS ) ) )
       {
         newPoints[ newNum ] = vertices[ i ];
         ++newNum;
@@ -1111,24 +808,24 @@ int SimplePolygon::removeLinearPoints( vec2dvector &globalverts, const vec2d min
       else
       {
         double d1[ 2 ], d2[ 2 ], d3[ 2 ];
-        d1[ 0 ] = pp.x;
-        d1[ 1 ] = pp.y;
-        d2[ 0 ] = p.x;
-        d2[ 1 ] = p.y;
-        d3[ 0 ] = pn.x;
-        d3[ 1 ] = pn.y;
+        d1[ 0 ] = pp[0];
+        d1[ 1 ] = pp[1];
+        d2[ 0 ] = p[0];
+        d2[ 1 ] = p[1];
+        d3[ 0 ] = pn[0];
+        d3[ 1 ] = pn[1];
         if( orient2d( d1, d2, d3 ) != 0 )
         {
           newPoints[ newNum ] = vertices[ i ];
           ++newNum;
           last = i;
         }
-/*        else if( ( pp.y != pn.y ) && ( pp.x != pn.x ) )
+/*        else if( ( pp[1] != pn[1] ) && ( pp[0] != pn[0] ) )
         {
           std::cerr << "removing point " <<std::endl;
-          std::cerr << pp.x << "," << pp.y << std::endl;
-          std::cerr << "(" << p.x << "," << p.y << ")" << std::endl;
-          std::cerr << pn.x << "," << pn.y << std::endl;
+          std::cerr << pp[0] << "," << pp[1] << std::endl;
+          std::cerr << "(" << p[0] << "," << p[1] << ")" << std::endl;
+          std::cerr << pn[0] << "," << pn[1] << std::endl;
           char x[ 256 ];
           gets( x );
         }*/
@@ -1152,10 +849,10 @@ int SimplePolygon::removeLinearPoints( vec2dvector &globalverts, const vec2d min
   return 0;
 }
 
-int SimplePolygon::splitPolygon( vec2dvector &globalverts, simplepolygonvector &polylist, const vec2d min, const vec2d max )
+int SimplePolygon::splitPolygon( DCTPVec2dvector &globalverts, simplepolygonvector &polylist, const Vec2d min, const Vec2d max )
 {
-  vec2dset vset;
-  std::pair< vec2dset::iterator, bool > siv;
+  DCTPVec2dset vset;
+  std::pair< DCTPVec2dset::iterator, bool > siv;
   int oldNum = vertices.size();
   int i1;
 
@@ -1168,13 +865,13 @@ int SimplePolygon::splitPolygon( vec2dvector &globalverts, simplepolygonvector &
     {
       // here we need to split the polygon and start with the new ones again.
       int i;
-      ivector newPoints( oldNum ); // waste some memory to have nlogn time
+      DCTPivector newPoints( oldNum ); // waste some memory to have nlogn time
       int newNum = 0;
       int i2 = 0;
       SimplePolygon poly;
 
       // copy points before first intersection
-      while( globalverts[ vertices[ i2 ] ] != globalverts[ vertices[ i1 ] ] )
+      while( DCTPVecIsNotEqual( globalverts[ vertices[ i2 ] ] , globalverts[ vertices[ i1 ] ] ) )
       {
         newPoints[ i2 ] = vertices[ i2 ];
         ++i2;
@@ -1234,39 +931,39 @@ int SimplePolygon::splitPolygon( vec2dvector &globalverts, simplepolygonvector &
   return 0;
 }
 
-int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvector &polylist )
+int SimplePolygon::intersectPolygon( DCTPVec2dvector &globalverts, simplepolygonvector &polylist )
 {
   int oldNum = vertices.size();
   int i1, i2;
-  vec2d min, max;
-  vec2d p3, p4;
+  Vec2d min, max;
+  Vec2d p3, p4;
   unsigned char test, ptest;
 
 //  std::cerr << "Removing intersections... " << oldNum << std::endl;
 
   for( i2 = 2; i2 < oldNum; ++i2 )
   {
-    const vec2d &p1 = globalverts[ vertices[ i2 ] ];
-    const vec2d &p2 = globalverts[ vertices[ ( i2 + 1 ) % oldNum ] ];
+    const Vec2d &p1 = globalverts[ vertices[ i2 ] ];
+    const Vec2d &p2 = globalverts[ vertices[ ( i2 + 1 ) % oldNum ] ];
 
     min = max = p1;
-    if( min.x > p2.x )
-      min.x = p2.x;
-    else if( max.x < p2.x )
-      max.x = p2.x;
-    if( min.y > p2.y )
-      min.y = p2.y;
-    else if( max.y < p2.y )
-      max.y = p2.y;
+    if( min[0] > p2[0] )
+      min[0] = p2[0];
+    else if( max[0] < p2[0] )
+      max[0] = p2[0];
+    if( min[1] > p2[1] )
+      min[1] = p2[1];
+    else if( max[1] < p2[1] )
+      max[1] = p2[1];
 
     const unsigned int start = ( i2 == oldNum - 1 ) ? 1 : 0;
 
     p4 = globalverts[ vertices[ start ] ];
     test = 0;
-    if( p4.x - max.x > DCTP_EPS ) test |= 0x01;
-    if( min.x - p4.x > DCTP_EPS ) test |= 0x02;
-    if( p4.y - max.y > DCTP_EPS ) test |= 0x04;
-    if( min.y - p4.y > DCTP_EPS ) test |= 0x08;
+    if( p4[0] - max[0] > DCTP_EPS ) test |= 0x01;
+    if( min[0] - p4[0] > DCTP_EPS ) test |= 0x02;
+    if( p4[1] - max[1] > DCTP_EPS ) test |= 0x04;
+    if( min[1] - p4[1] > DCTP_EPS ) test |= 0x08;
 
     for( i1 = start; i1 < i2 - 1; ++i1 )
     {
@@ -1274,20 +971,20 @@ int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvect
       p4 = globalverts[ vertices[ i1 + 1 ] ];
       ptest = test;
       test = 0;
-      if( p4.x - max.x > DCTP_EPS ) test |= 0x01;
-      if( min.x - p4.x > DCTP_EPS ) test |= 0x02;
-      if( p4.y - max.y > DCTP_EPS ) test |= 0x04;
-      if( min.y - p4.y > DCTP_EPS ) test |= 0x08;
+      if( p4[0] - max[0] > DCTP_EPS ) test |= 0x01;
+      if( min[0] - p4[0] > DCTP_EPS ) test |= 0x02;
+      if( p4[1] - max[1] > DCTP_EPS ) test |= 0x04;
+      if( min[1] - p4[1] > DCTP_EPS ) test |= 0x08;
       if( ( test & ptest ) == 0 )
       {
 //         std::cerr << i1 << "," << i1 + 1 << " overlaps " << i2 << "," << i2 + 1 << std::endl;
         // the bounding boxes overlap
         int iip = -1;
         bool intersect = false;
-        double d1[ 2 ] = { p1.x, p1.y };
-        double d2[ 2 ] = { p2.x, p2.y };
-        double d3[ 2 ] = { p3.x, p3.y };
-        double d4[ 2 ] = { p4.x, p4.y };
+        double d1[ 2 ] = { p1[0], p1[1] };
+        double d2[ 2 ] = { p2[0], p2[1] };
+        double d3[ 2 ] = { p3[0], p3[1] };
+        double d4[ 2 ] = { p4[0], p4[1] };
 
         if( ( orient2d( d1, d2, d3 ) == 0.0 ) &&
             ( orient2d( d1, d2, d4 ) == 0.0 ) )
@@ -1300,26 +997,26 @@ int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvect
           if( doIntersect( globalverts, i1, i1 + 1, i2, ( i2 + 1 ) % oldNum ) )
           {
             // the lines intersect => ... p1 ip p4 ... ; ip p2 ... p3
-            vec2d v1 = p2 - p1;
-            vec2d v2 = p4 - p3;
-            vec2d pp = p3 - p1;
-            double a = pp.x * v2.y - pp.y * v2.x;
-            double b = v1.x * v2.y - v1.y * v2.x;
-            vec2d ip = p1 + v1 * ( a / b );
+            Vec2d v1 = p2 - p1;
+            Vec2d v2 = p4 - p3;
+            Vec2d pp = p3 - p1;
+            double a = pp[0] * v2[1] - pp[1] * v2[0];
+            double b = v1[0] * v2[1] - v1[1] * v2[0];
+            Vec2d ip = p1 + v1 * ( a / b );
 
-            if( ip == p1 )
+            if( DCTPVecIsEqual( ip , p1 ) )
             {
               iip = vertices[ i1 ];
             }
-            else if( ip == p2 )
+            else if( DCTPVecIsEqual( ip , p2 ) )
             {
               iip = vertices[ i1 + 1 ];
             }
-            else if( ip == p3 )
+            else if( DCTPVecIsEqual( ip , p3 ) )
             {
               iip = vertices[ i2 ];
             }
-            else if( ip == p4 )
+            else if( DCTPVecIsEqual( ip , p4 ) )
             {
               iip = vertices[ ( i2 + 1 ) % oldNum ];
             }
@@ -1330,9 +1027,9 @@ int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvect
               globalverts[ iip ] = ip;
             }
 
-//			std::cerr << p1.x << "," << p1.y << " - " << p2.x << "," << p2.y << std::endl;
-//			std::cerr << p3.x << "," << p3.y << " - " << p4.x << "," << p4.y << std::endl;
-//			std::cerr << globalverts[ iip ].x << "," << globalverts[ iip ].y << " - " << std::endl;
+//			std::cerr << p1[0] << "," << p1[1] << " - " << p2[0] << "," << p2[1] << std::endl;
+//			std::cerr << p3[0] << "," << p3[1] << " - " << p4[0] << "," << p4[1] << std::endl;
+//			std::cerr << globalverts[ iip ][0] << "," << globalverts[ iip ][1] << " - " << std::endl;
             intersect = true;
           }
         }
@@ -1340,7 +1037,7 @@ int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvect
         {
           int i;
           int newNum;
-          ivector newPoints( oldNum );
+          DCTPivector newPoints( oldNum );
           SimplePolygon poly;
 
 //          std::cerr << i1 << "," << i1 + 1 << " intersects " << i2 << "," << i2 + 1 << std::endl;
@@ -1422,7 +1119,7 @@ int SimplePolygon::intersectPolygon( vec2dvector &globalverts, simplepolygonvect
   return 0;
 }
 
-bool SimplePolygon::isReversed( vec2dvector &globalverts )
+bool SimplePolygon::isReversed( DCTPVec2dvector &globalverts )
 {
 	unsigned int		ui_vertex;
 	unsigned int		ui_upperleft;
@@ -1434,28 +1131,28 @@ bool SimplePolygon::isReversed( vec2dvector &globalverts )
 	ui_upperleft = 0;
 	for( ui_vertex = 1; ui_vertex < cui_vertex_cnt; ++ui_vertex )
 	{
-		if( globalverts[ vertices[ ui_vertex ] ].y < globalverts[ vertices[ ui_upperleft ] ].y )
+		if( globalverts[ vertices[ ui_vertex ] ][1] < globalverts[ vertices[ ui_upperleft ] ][1] )
 		{
 			ui_upperleft = ui_vertex;
 		}
-		else if( ( globalverts[ vertices[ ui_vertex ] ].y == globalverts[ vertices[ ui_upperleft ] ].y ) &&
-				 ( globalverts[ vertices[ ui_vertex ] ].x < globalverts[ vertices[ ui_upperleft ] ].x ) )
+		else if( ( globalverts[ vertices[ ui_vertex ] ][1] == globalverts[ vertices[ ui_upperleft ] ][1] ) &&
+				 ( globalverts[ vertices[ ui_vertex ] ][0] < globalverts[ vertices[ ui_upperleft ] ][0] ) )
 		{
 			ui_upperleft = ui_vertex;
 		}
 	}
 
-	ad_p[ 0 ] = globalverts[ vertices[ ( ui_upperleft + cui_vertex_cnt - 1 ) % cui_vertex_cnt ] ].x;
-	ad_p[ 1 ] = globalverts[ vertices[ ( ui_upperleft + cui_vertex_cnt - 1 ) % cui_vertex_cnt ] ].y;
-	ad_v[ 0 ] = globalverts[ vertices[ ui_upperleft ] ].x;
-	ad_v[ 1 ] = globalverts[ vertices[ ui_upperleft ] ].y;
-	ad_n[ 0 ] = globalverts[ vertices[ ( ui_upperleft + 1 ) % cui_vertex_cnt ] ].x;
-	ad_n[ 1 ] = globalverts[ vertices[ ( ui_upperleft + 1 ) % cui_vertex_cnt ] ].y;
+	ad_p[ 0 ] = globalverts[ vertices[ ( ui_upperleft + cui_vertex_cnt - 1 ) % cui_vertex_cnt ] ][0];
+	ad_p[ 1 ] = globalverts[ vertices[ ( ui_upperleft + cui_vertex_cnt - 1 ) % cui_vertex_cnt ] ][1];
+	ad_v[ 0 ] = globalverts[ vertices[ ui_upperleft ] ][0];
+	ad_v[ 1 ] = globalverts[ vertices[ ui_upperleft ] ][1];
+	ad_n[ 0 ] = globalverts[ vertices[ ( ui_upperleft + 1 ) % cui_vertex_cnt ] ][0];
+	ad_n[ 1 ] = globalverts[ vertices[ ( ui_upperleft + 1 ) % cui_vertex_cnt ] ][1];
 
 	return ( orient2d( ad_p, ad_v, ad_n ) <= 0.0 );
 }
 
-bool SimplePolygon::isConvex( vec2dvector &globalverts )
+bool SimplePolygon::isConvex( DCTPVec2dvector &globalverts )
 {
 	unsigned int		ui_next;
 	const unsigned int	cui_vertex_cnt = vertices.size( );
@@ -1463,15 +1160,15 @@ bool SimplePolygon::isConvex( vec2dvector &globalverts )
 	double			ad_v[ 2 ];
 	double			ad_n[ 2 ];
 
-	ad_p[ 0 ] = globalverts[ vertices[ cui_vertex_cnt - 2 ] ].x;
-	ad_p[ 1 ] = globalverts[ vertices[ cui_vertex_cnt - 2 ] ].y;
-	ad_v[ 0 ] = globalverts[ vertices[ cui_vertex_cnt - 1 ] ].x;
-	ad_v[ 1 ] = globalverts[ vertices[ cui_vertex_cnt - 1 ] ].y;
+	ad_p[ 0 ] = globalverts[ vertices[ cui_vertex_cnt - 2 ] ][0];
+	ad_p[ 1 ] = globalverts[ vertices[ cui_vertex_cnt - 2 ] ][1];
+	ad_v[ 0 ] = globalverts[ vertices[ cui_vertex_cnt - 1 ] ][0];
+	ad_v[ 1 ] = globalverts[ vertices[ cui_vertex_cnt - 1 ] ][1];
 	for( ui_next = 0; ui_next < cui_vertex_cnt; ++ui_next )
 	{
 //		std::cerr <<"ui_next:" << ui_next << std::endl;
-		ad_n[ 0 ] = globalverts[ vertices[ ui_next ] ].x;
-		ad_n[ 1 ] = globalverts[ vertices[ ui_next ] ].y;
+		ad_n[ 0 ] = globalverts[ vertices[ ui_next ] ][0];
+		ad_n[ 1 ] = globalverts[ vertices[ ui_next ] ][1];
 		// previous, current, and next vertices must be in
 		// counterclockwise order for the polygon to be convex
 		// (because our tessellator always gives CCW polygons)
@@ -1493,25 +1190,25 @@ bool SimplePolygon::isConvex( vec2dvector &globalverts )
 	return true;
 }
 
-// FIXME: should go to vec2d
-double SimplePolygon::getAngle( vec2d dir )
+// FIXME: should go to Vec2d
+double SimplePolygon::getAngle( Vec2d dir )
 {
-  if( fabs( dir.x ) < DCTP_EPS )
+  if( osgabs( dir[0] ) < DCTP_EPS )
   {
-    return ( dir.y > 0.0 ) ? M_PI_2 : -M_PI_2;
+    return ( dir[1] > 0.0 ) ? M_PI_2 : -M_PI_2;
   }
-  if( dir.x > 0.0 )
+  if( dir[0] > 0.0 )
   {
-    return atan( dir.y / dir.x );
+    return atan( dir[1] / dir[0] );
   }
   else
   {
-    double ret = M_PI + atan( dir.y / dir.x );
+    double ret = M_PI + atan( dir[1] / dir[0] );
     return ( ret < M_PI ) ? ret : ( ret - 2.0 * M_PI );
   }
 }
 
-int SimplePolygon::getMinMax( vec2dvector &globalverts, vec2d &min, vec2d &max )
+int SimplePolygon::getMinMax( DCTPVec2dvector &globalverts, Vec2d &min, Vec2d &max )
 {
   if( vertices.size( ) == 0 )
   {
@@ -1520,22 +1217,22 @@ int SimplePolygon::getMinMax( vec2dvector &globalverts, vec2d &min, vec2d &max )
   min = max = globalverts[ vertices[ 0 ] ];
   for( unsigned int i = 1; i < vertices.size( ); ++i )
   {
-    vec2d p = globalverts[ vertices[ i ] ];
-    if( min.x > p.x )
+    Vec2d p = globalverts[ vertices[ i ] ];
+    if( min[0] > p[0] )
     {
-      min.x = p.x;
+      min[0] = p[0];
     }
-    else if( max.x < p.x )
+    else if( max[0] < p[0] )
     {
-      max.x = p.x;
+      max[0] = p[0];
     }
-    if( min.y > p.y )
+    if( min[1] > p[1] )
     {
-      min.y = p.y;
+      min[1] = p[1];
     }
-    else if( max.y < p.y )
+    else if( max[1] < p[1] )
     {
-      max.y = p.y;
+      max[1] = p[1];
     }
   }
   return 0;

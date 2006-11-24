@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -76,18 +76,8 @@ static osg::Time	g_clActTime;
 
 CNurbsPatchSurface::CNurbsPatchSurface( )
 {
-//    std::cerr<<"cnurbspatchsurface1"<<std::endl;
-//    std::cerr.flush();
 	m_pclGraph = NULL;
-//    std::cerr<<"cnurbspatchsurface2"<<std::endl;
-//    std::cerr.flush();
-        m_bErrorTreeValid = false;
-//    std::cerr<<"cnurbspatchsurface3"<<std::endl;
-//    std::cerr.flush();
-        
-//	m_pclTaylor = NULL;
-//	FPU_ROUND_DOUBLE;
-//	exactinit( );	// initialize exact triangulation routines
+    m_bErrorTreeValid = false;
     m_pclQuadTree = NULL;    
 }
 
@@ -194,11 +184,11 @@ void CNurbsPatchSurface::setSurface( BSplineTrimmedSurface *clSurface,
     {
         UInt32 k = 0;
         UInt32 i, j;
-        BSplineTensorSurface tensor_surface = clSurface->getSurface();
-        vec3dmatrix surf_cps = tensor_surface.getControlPointMatrix();
+        BSplineTensorSurface &tensor_surface = clSurface->getSurface();
+        DCTPVec4dmatrix &surf_cps = tensor_surface.getControlPointMatrix();
         UInt32 u_size = surf_cps.size();
         UInt32 v_size = surf_cps[0].size();
-        vec2d tempv2d;
+        Vec2d tempv2d;
         if( (u_size * v_size) != texturecps.size() )
         {
             std::cerr << "setSurface: wrong number of texture control points, texturing disabled" << std::endl;
@@ -214,20 +204,14 @@ void CNurbsPatchSurface::setSurface( BSplineTrimmedSurface *clSurface,
         {
             for ( j = 0; j < v_size; ++j )
             {
-                tempv2d.x = texturecps[ k ][0];
-                tempv2d.y = texturecps[ k ][1];
+                tempv2d[0] = texturecps[ k ][0];
+                tempv2d[1] = texturecps[ k ][1];
                 m_vvTextureControlPoints[ i ][ j ] = tempv2d;
                 k++;
             }
         }
             
     }
-/*
-  std::ofstream fasz;
-  fasz.open("shit.txt", ios::out);
-  clSurface->write( fasz );
-  fasz.close();
-*/  
 }
 
 void CNurbsPatchSurface::setupErrorTree( double dError )
@@ -247,14 +231,6 @@ void CNurbsPatchSurface::setError( double dError )
            delete m_pclGraph;
 		   m_pclGraph = NULL;
     }
-/*  
-    if ( m_bErrorTreeValid )
-    {
-//        std::cerr<<"fucklife"<<std::endl;
-        delete m_vtSurfaces[ 0 ].pclErrorTree;
-        m_vtSurfaces[ 0 ].pclErrorTree = new CErrorQuadTree( );
-    }
-*/
     m_vtSurfaces[ 0 ].vvclEdgeLoops.clear();
     m_vtSurfaces[ 0 ].vvclEdgeLoops3D.clear();
     m_vtSurfaces[ 0 ].vvclEdgeLoopsNorm.clear();
@@ -346,7 +322,7 @@ void CNurbsPatchSurface::getTessellation( std::vector< Pnt3f > &gverts,
                                                                 tris, 
                                                                 norms,
                                                                 texturecoords );
-                        ComputeNormalCone( 0, norms );
+            ComputeNormalCone( 0, norms );
 			m_vclParameterVertices.clear( );
 			m_vclGlobalVertices.clear( );
 			m_vclTriangles.clear( );
@@ -453,13 +429,25 @@ void CNurbsPatchSurface::calculatePointsAndNormals(
 		norms[ i ] = cl_surf.computeNormal( m_vclParameterVertices[ i ], i_err, gverts[ i ] );
 	}
 #endif
-/*    
+/*
     std::cerr<<"haho"<< m_vclParameterVertices.size() << " " << gverts.size() << " " << norms.size() << std::endl;
     for ( UInt32 i = 0; i < gverts.size(); ++i )
     {
         std::cerr << gverts[i] << " " << norms[i] << std::endl;
     }
-*/    
+*/
+/*        
+    std::cerr<<"m_vclParameterVertices.size(): " << m_vclParameterVertices.size() << std::endl;
+    for ( UInt32 i = 0; i < m_vclParameterVertices.size(); ++i )
+    {
+        std::cerr<< m_vclParameterVertices[i] << std::endl;
+        if (osgabs(m_vclParameterVertices[i][1] - 8271.61) < 1.0f)
+        {
+            std::cerr<<"zeroing norm: " << i << std::endl;
+            norms[i][0] = norms[i][1] = norms[i][2] = 0.f;
+        }
+    }
+*/
     tris.clear();
     tris = m_vclTriangles;
 
@@ -468,7 +456,7 @@ void CNurbsPatchSurface::calculatePointsAndNormals(
     unsigned int actlooplength;
     unsigned int ui_actvertidx = 0;
   
-    vec3d cl_norm;
+    Vec3d cl_norm;
     Int32 i_err;          
     m_vtSurfaces[0].vvclEdgeLoopsNorm.resize( numloops );
 #ifndef OSG_FORCE_NO_T_VERTICES
@@ -482,7 +470,7 @@ void CNurbsPatchSurface::calculatePointsAndNormals(
         for ( unsigned int ui_act = 0; ui_act < actlooplength; ++ui_act )
         {
             m_vtSurfaces[0].vvclEdgeLoopsNorm[ ui_actloop ][ ui_act ] =
-                    vec3d( norms[ ui_actvertidx ][0],
+                    Vec3d( norms[ ui_actvertidx ][0],
                            norms[ ui_actvertidx ][1],
                            norms[ ui_actvertidx ][2] );
 
@@ -554,7 +542,7 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
 	unsigned int ui_actvertidx = 0;
 #endif
   
-    vec3d cl_norm;
+    Vec3d cl_norm;
     Int32 i_err;          
     m_vtSurfaces[0].vvclEdgeLoopsNorm.resize( numloops );
 #ifndef OSG_FORCE_NO_T_VERTICES
@@ -568,7 +556,7 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
         for ( unsigned int ui_act = 0; ui_act < actlooplength; ++ui_act )
         {
             m_vtSurfaces[0].vvclEdgeLoopsNorm[ ui_actloop ][ ui_act ] =
-                    vec3d( norms[ ui_actvertidx ][0],
+                    Vec3d( norms[ ui_actvertidx ][0],
                            norms[ ui_actvertidx ][1],
                            norms[ ui_actvertidx ][2] );
             ui_actvertidx++;
@@ -591,7 +579,7 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
     //copy the texturecoords into the vvclEdgeLoopsTex structure
     numloops = m_vtSurfaces[0].vvclEdgeLoops.size();
 #ifdef OSG_KEEP_2D_POINTS
-    int ui_actvertidx = 0;
+    ui_actvertidx = 0;
 #endif
   
     m_vtSurfaces[0].vvclEdgeLoopsTex.resize( numloops );
@@ -603,7 +591,7 @@ void CNurbsPatchSurface::calculatePointsNormalsAndTextureCoords(
         for ( unsigned int ui_act = 0; ui_act < actlooplength; ++ui_act )
         {
             m_vtSurfaces[0].vvclEdgeLoopsTex[ ui_actloop ][ ui_act ] =
-                    vec3d( texturecoords[ ui_actvertidx ][0],
+                    Vec3d( texturecoords[ ui_actvertidx ][0],
                            texturecoords[ ui_actvertidx ][1],
                            texturecoords[ ui_actvertidx ][2] );
             ui_actvertidx++;
@@ -651,7 +639,7 @@ void CNurbsPatchSurface::calculatePointsAndTextureCoords(
     unsigned int actlooplength;
     unsigned int ui_actvertidx = 0;
   
-    vec3d cl_norm;
+    Vec3d cl_norm;
     Int32 i_err;          
     m_vtSurfaces[0].vvclEdgeLoopsTex.resize( numloops );
     for( unsigned int ui_actloop = 0; ui_actloop < numloops; ++ui_actloop )
@@ -662,7 +650,7 @@ void CNurbsPatchSurface::calculatePointsAndTextureCoords(
         for ( unsigned int ui_act = 0; ui_act < actlooplength; ++ui_act )
         {
             m_vtSurfaces[0].vvclEdgeLoopsTex[ ui_actloop ][ ui_act ] =
-                    vec3d( texturecoords[ ui_actvertidx ][0],
+                    Vec3d( texturecoords[ ui_actvertidx ][0],
                            texturecoords[ ui_actvertidx ][1],
                            texturecoords[ ui_actvertidx ][2] );
             ui_actvertidx++;
@@ -723,22 +711,22 @@ void CNurbsPatchSurface::ConvertToBezier( unsigned int uiSurface )
 		{
 //			std::cerr << "processing curve " << ui_curve + 1 << std::endl;
 			bezier2dvector	vcl_converted_tmp;
-			dvector			vd_pars;
+			DCTPdvector			vd_pars;
 
-			vec2dvector		vcl_cp =
+			DCTPVec3dvector		vcl_cp =
 				rvvcl_trimming_loops[ ui_loop ][ ui_prev ].getControlPointVector( );
-			vec2d			cl_prev = vcl_cp[ vcl_cp.size( ) - 1 ];
+			Vec3d			cl_prev = vcl_cp[ vcl_cp.size( ) - 1 ];
 			vcl_cp = rvvcl_trimming_loops[ ui_loop ][ ui_curve ].getControlPointVector( );
-			if( cl_prev != vcl_cp[ 0 ] )
+			if( DCTPVecIsNotEqual( cl_prev , vcl_cp[ 0 ] ) )
 			{
 				BezierCurve2D	cl_temp;
-				vec2dvector		vcl_temp( 2 );
+				DCTPVec3dvector		vcl_temp( 2 );
 
 				vcl_temp[ 0 ] = cl_prev;
 				vcl_temp[ 1 ] = vcl_cp[ 0 ];
 				cl_temp.setControlPointVector( vcl_temp );
 				cl_temp.optimizeDegree( );
-//				std::cerr << "inserting linear trimming curve to close gap. VW rulez!" << std::endl;
+//				std::cerr << "inserting linear trimming curve to close gap." << std::endl;
 //				std::cerr << vcl_temp[ 0 ] << " -> " << vcl_temp[ 1 ] << std::endl;
 				vcl_beziertrimmingcurves.insert( vcl_beziertrimmingcurves.end( ), cl_temp );
 				++vui_curves_per_loop[ ui_loop ];
@@ -766,20 +754,40 @@ void CNurbsPatchSurface::ConvertToBezier( unsigned int uiSurface )
 			// check if both linear
 			if( ( vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( ).size( ) == 2 ) &&
 				( vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( ).size( ) == 2 ) &&
-				( vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ] ==
-				  vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ] ) )
+				( DCTPVecIsEqual( vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ] ,
+				  vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ] ) ) )
 			{
 				// check if colinear
-				vec2d	cl_tmp = vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 1 ]
-							   - vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ];
+                Vec2d   cl_s0, cl_e0, cl_s1, cl_e1;
+                Vec2d   cl_tmp;
+                
+                cl_s0[ 0 ] = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ][ 0 ]
+                           / vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ][ 2 ];
+                cl_s0[ 1 ] = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ][ 1 ]
+                           / vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ][ 2 ];
+                
+                cl_e0[ 0 ] = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ][ 0 ]
+                           / vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ][ 2 ];
+                cl_e0[ 1 ] = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ][ 1 ]
+                           / vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ][ 2 ];
+                  
+                cl_s1[ 0 ] = vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ][ 0 ]
+                           / vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ][ 2 ];
+                cl_s1[ 1 ] = vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ][ 1 ]
+                           / vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 0 ][ 2 ];
+                
+                cl_e1[ 0 ] = vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 1 ][ 0 ]
+                           / vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 1 ][ 2 ];
+                cl_e1[ 1 ] = vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 1 ][ 1 ]
+                           / vcl_beziertrimmingcurves[ ui_next ].getControlPointVector( )[ 1 ][ 2 ];
+                
+				cl_tmp = cl_e1 - cl_s0;
 
-				cl_tmp *= 1.0 / sqrt( cl_tmp.quad_size( ) );
-				cl_tmp *= cl_tmp.dot( vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ]
-									- vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ] );
-				cl_tmp -= vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 1 ]
-						- vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( )[ 0 ];
+				cl_tmp *= 1.0 / sqrt( cl_tmp.squareLength( ) );
+				cl_tmp *= cl_tmp.dot( cl_e0	- cl_s0 );
+				cl_tmp -= cl_e0	- cl_s0;
 
-				if( cl_tmp.quad_size( ) < DCTP_EPS * DCTP_EPS )
+				if( cl_tmp.squareLength( ) < DCTP_EPS * DCTP_EPS )
 				{
 					if( ui_next == 0 )
 					{
@@ -805,7 +813,7 @@ void CNurbsPatchSurface::ConvertToBezier( unsigned int uiSurface )
 //		std::cerr << "loop " << ui_loop + 1 << " contains " << vui_curves_per_loop[ ui_loop ] << " curves." << std::endl;
 		for( ui_curve = 0; ui_curve < vui_curves_per_loop[ ui_loop ]; ++ui_curve )
 		{
-/*			vec2dvector	vcl_cp = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( );
+/*			Vec2dvector	vcl_cp = vcl_beziertrimmingcurves[ ui_curve ].getControlPointVector( );
 
 			std::cerr << vcl_cp[ 0 ] << " -> " << vcl_cp[ vcl_cp.size( ) - 1 ] << std::endl;*/
 			m_vtSurfaces[ uiSurface ].vvclBezierCurves[ ui_loop ].push_back( vcl_beziertrimmingcurves[ ui_curve ] );
@@ -844,8 +852,6 @@ void CNurbsPatchSurface::CalculateQuadTree( unsigned int uiSurface, bool bForEdg
 
 //	std::cerr << "Building QuadTree for surface " << uiSurface + 1 << "." << std::endl;
 
-//                std::cerr<<"picsa1"<<std::endl; std::cerr.flush();
-
 //	m_vclSeperateMeshes[ uiSurface ].reinit( );
 	if( bForEdges )
 	{
@@ -861,7 +867,6 @@ void CNurbsPatchSurface::CalculateQuadTree( unsigned int uiSurface, bool bForEdg
 		m_pclQuadTree = new QuadTreeCreator( &m_clMesh/*, bForEdges*/ );
 //		m_pclQuadTree = new QuadTreeCreator( &m_vclSeperateMeshes[ uiSurface ] );
 		m_pclQuadTree->setErrorTolerance( m_vtSurfaces[ uiSurface ].dError / 3.0 );
-//        std::cerr<<"picsa2"<<std::endl; std::cerr.flush();
 		if( m_pclQuadTree->setInitialLeaves( m_vvvclBezierSurfaces[ uiSurface ],
                                                      m_vvdUParams[ uiSurface ],
 				                     m_vvdVParams[ uiSurface ] ) )
@@ -871,7 +876,6 @@ void CNurbsPatchSurface::CalculateQuadTree( unsigned int uiSurface, bool bForEdg
 			delete m_pclQuadTree;
 			return;
 		}
-//                std::cerr<<"picsa3"<<std::endl; std::cerr.flush();
 #ifndef OSG_ADAPTIVE_QUAD_TREE
 		if( m_pclQuadTree->createQuadTree( ) )
 		{
@@ -927,8 +931,8 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 	if( !( m_vtSurfaces[ uiSurface ].ucStatus & QUAD_TREE_VALID ) )
 	{
 		std::cerr << "Quad tree invalid for surface " << uiSurface + 1 << std::endl;
-		m_vtSurfaces[ uiSurface ].clMin = vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
-		m_vtSurfaces[ uiSurface ].clMax = vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
+		m_vtSurfaces[ uiSurface ].clMin = Vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
+		m_vtSurfaces[ uiSurface ].clMax = Vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
 		return;
 	}
 
@@ -970,8 +974,8 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 		if( cl_trimmer.PerformTrimming( ) )
 		{
 			std::cerr << "Par space trimmer failed (surface " << uiSurface + 1 << ")." << std::endl;
-			m_vtSurfaces[ uiSurface ].clMin = vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
-			m_vtSurfaces[ uiSurface ].clMax = vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
+			m_vtSurfaces[ uiSurface ].clMin = Vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
+			m_vtSurfaces[ uiSurface ].clMax = Vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
 #ifndef OSG_ADAPTIVE_QUAD_TREE
 			if( m_pclQuadTree != NULL )
 			{
@@ -985,8 +989,8 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 	catch( ParSpaceTrimmerError cl_err )
 	{
 		std::cerr << "Par space trimmer exception caught: " << cl_err.errtype << " (surface " << uiSurface + 1 << ")" << std::endl;
-		m_vtSurfaces[ uiSurface ].clMin = vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
-		m_vtSurfaces[ uiSurface ].clMax = vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
+		m_vtSurfaces[ uiSurface ].clMin = Vec3d( m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100, m_vtSurfaces[ uiSurface ].dError * 100 );
+		m_vtSurfaces[ uiSurface ].clMax = Vec3d( 0, 0, 0 ); // this is invalid and will always fail BB test
 #ifndef OSG_ADAPTIVE_QUAD_TREE
 		if( m_pclQuadTree != NULL )
 		{
@@ -1022,13 +1026,13 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 		for( ui_vertex = 0; ui_vertex < cui_size2; ++ui_vertex )
 		{
 //			std::cerr << "vertex " << ui_vertex + 1 << " of " << cui_size2 << std::endl;
-/*			const vec3d	ccl_vec = m_vclBSplineSurfaces[ uiSurface ].getSurface( ).compute(
+/*			const Vec3d	ccl_vec = m_vclBSplineSurfaces[ uiSurface ].getSurface( ).compute(
 				m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ],
 				i_err );*/
-			vec3d	ccl_vec;
-			ccl_vec.x = vcl_temp3d[ ui_vertex ][ 0 ];
-			ccl_vec.y = vcl_temp3d[ ui_vertex ][ 1 ];
-			ccl_vec.z = vcl_temp3d[ ui_vertex ][ 2 ];
+			Vec3d	ccl_vec;
+			ccl_vec[0] = vcl_temp3d[ ui_vertex ][ 0 ];
+			ccl_vec[1] = vcl_temp3d[ ui_vertex ][ 1 ];
+			ccl_vec[2] = vcl_temp3d[ ui_vertex ][ 2 ];
 //			std::cerr << "pos: " << ccl_vec << std::endl;
 
 			m_vtSurfaces[ uiSurface ].vvclEdgeLoops3D[ ui_loop ][ ui_vertex ] = ccl_vec;
@@ -1044,27 +1048,27 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 			}
 			else
 			{
-				if( ccl_vec.x < m_vtSurfaces[ uiSurface ].clMin.x )
-					m_vtSurfaces[ uiSurface ].clMin.x = ccl_vec.x;
-				else if( ccl_vec.x > m_vtSurfaces[ uiSurface ].clMax.x )
-					m_vtSurfaces[ uiSurface ].clMax.x = ccl_vec.x;
-				if( ccl_vec.y < m_vtSurfaces[ uiSurface ].clMin.y )
-					m_vtSurfaces[ uiSurface ].clMin.y = ccl_vec.y;
-				else if( ccl_vec.y > m_vtSurfaces[ uiSurface ].clMax.y )
-					m_vtSurfaces[ uiSurface ].clMax.y = ccl_vec.y;
-				if( ccl_vec.z < m_vtSurfaces[ uiSurface ].clMin.z )
-					m_vtSurfaces[ uiSurface ].clMin.z = ccl_vec.z;
-				else if( ccl_vec.z > m_vtSurfaces[ uiSurface ].clMax.z )
-					m_vtSurfaces[ uiSurface ].clMax.z = ccl_vec.z;
+				if( ccl_vec[0] < m_vtSurfaces[ uiSurface ].clMin[0] )
+					m_vtSurfaces[ uiSurface ].clMin[0] = ccl_vec[0];
+				else if( ccl_vec[0] > m_vtSurfaces[ uiSurface ].clMax[0] )
+					m_vtSurfaces[ uiSurface ].clMax[0] = ccl_vec[0];
+				if( ccl_vec[1] < m_vtSurfaces[ uiSurface ].clMin[1] )
+					m_vtSurfaces[ uiSurface ].clMin[1] = ccl_vec[1];
+				else if( ccl_vec[1] > m_vtSurfaces[ uiSurface ].clMax[1] )
+					m_vtSurfaces[ uiSurface ].clMax[1] = ccl_vec[1];
+				if( ccl_vec[2] < m_vtSurfaces[ uiSurface ].clMin[2] )
+					m_vtSurfaces[ uiSurface ].clMin[2] = ccl_vec[2];
+				else if( ccl_vec[2] > m_vtSurfaces[ uiSurface ].clMax[2] )
+					m_vtSurfaces[ uiSurface ].clMax[2] = ccl_vec[2];
 #ifdef OSG_ARBITRARY_SPLIT
-				if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].x < m_vtSurfaces[ uiSurface ].clMinParam.x )
-					m_vtSurfaces[ uiSurface ].clMinParam.x = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].x;
-				else if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].x > m_vtSurfaces[ uiSurface ].clMaxParam.x )
-					m_vtSurfaces[ uiSurface ].clMaxParam.x = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].x;
-				if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].y < m_vtSurfaces[ uiSurface ].clMinParam.y )
-					m_vtSurfaces[ uiSurface ].clMinParam.y = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].y;
-				else if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].y > m_vtSurfaces[ uiSurface ].clMaxParam.y )
-					m_vtSurfaces[ uiSurface ].clMaxParam.y = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ].y;
+				if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][0] < m_vtSurfaces[ uiSurface ].clMinParam[0] )
+					m_vtSurfaces[ uiSurface ].clMinParam[0] = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][0];
+				else if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][0] > m_vtSurfaces[ uiSurface ].clMaxParam[0] )
+					m_vtSurfaces[ uiSurface ].clMaxParam[0] = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][0];
+				if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][1] < m_vtSurfaces[ uiSurface ].clMinParam[1] )
+					m_vtSurfaces[ uiSurface ].clMinParam[1] = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][1];
+				else if( m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][1] > m_vtSurfaces[ uiSurface ].clMaxParam[1] )
+					m_vtSurfaces[ uiSurface ].clMaxParam[1] = m_vtSurfaces[ uiSurface ].vvclEdgeLoops[ ui_loop ][ ui_vertex ][1];
 #endif
       			}
 		}
@@ -1105,8 +1109,8 @@ void CNurbsPatchSurface::CalculateTrimmingLoops( unsigned int uiSurface )
 
 	}
 
-	m_vtSurfaces[ uiSurface ].clMin -= vec3d( m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError );
-	m_vtSurfaces[ uiSurface ].clMax += vec3d( m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError );
+	m_vtSurfaces[ uiSurface ].clMin -= Vec3d( m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError );
+	m_vtSurfaces[ uiSurface ].clMax += Vec3d( m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError, m_vtSurfaces[ uiSurface ].dError );
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 	if( m_pclQuadTree != NULL )
 	{
@@ -1167,7 +1171,7 @@ void CNurbsPatchSurface::CalculateActualTrimming( unsigned int uiSurface )
 		{
 			delete m_pclGraph;
 		}
-		m_pclGraph = new DirectedGraph< vec2d, unsigned char >;
+		m_pclGraph = new DirectedGraph< Vec2d, unsigned char >;
 #ifdef OSG_KEEP_2D_POINTS
 		if( cl_trimmer.buildSurfaceGraph( m_pclGraph, &m_vclGlobalVertices, NULL, &m_vuiIndex ) )
 #else
@@ -1296,19 +1300,19 @@ void CNurbsPatchSurface::ComputeNormalCone( const unsigned int cuiSurface,
 
 	cl_miniball.build();
 
-	vec3d cl_center;
-	cl_center.x= cl_miniball.center()[0];
-	cl_center.y= cl_miniball.center()[1];
-	cl_center.z= cl_miniball.center()[2];
+	Vec3d cl_center;
+	cl_center[0]= cl_miniball.center()[0];
+	cl_center[1]= cl_miniball.center()[1];
+	cl_center[2]= cl_miniball.center()[2];
 
 	// compute intersection of sphere bounding the normals with unit sphere
 	// => formula from http://astronomy.swin.edu.au/~pbourke/geometry/spheresphere/
-double d_distance_squared= cl_center.quad_size();
+double d_distance_squared= cl_center.squareLength();
 
 	if ( (d_distance_squared < 0.001) || ( ui_cnt < 3 ) )
 	{
 		// arbitrary direction
-		m_vtSurfaces[ cuiSurface ].tNormalCone.clDirection= vec3d(1.0, 0.0, 0.0);
+		m_vtSurfaces[ cuiSurface ].tNormalCone.clDirection= Vec3d(1.0, 0.0, 0.0);
 
 		// angle > 180 degrees
 		m_vtSurfaces[ cuiSurface ].tNormalCone.dThreshold = 1.0;
@@ -1337,8 +1341,8 @@ void CNurbsPatchSurface::Gen3DLoops( const unsigned int cuiSurface )
 	std::vector< unsigned int >	vui_v_seg;
 	unsigned int				ui_dim;
 	unsigned int				ui_pos;
-	vec2d						cl_param;
-	std::vector< vec3d >		vcl_points;
+	Vec2d						cl_param;
+	std::vector< Vec4d >		vcl_points;
 	int							i_err;
 
 	m_vtSurfaces[ cuiSurface ].vvcl3DCurves.resize( cui_loop_cnt );
@@ -1368,11 +1372,30 @@ void CNurbsPatchSurface::Gen3DLoops( const unsigned int cuiSurface )
 
 			rcl_curve2d.optimizeDegree( );
 
+            // REMARK:
+            // Even though there exists a closed formula which
+            // gives the degree of a rational Bezier curve elevated by
+            // a rational Bezier patch, here we don't take into account
+            // the weights of the elevating Bezier patch and therefore 
+            // this degree approximation is necessary for rational 
+            // trimming curves. The closed formula is also quite
+            // expensive to calculate, our method is a bit cheaper.
+            // Although it usually overestimates the degree, it doesn't
+            // really matter in practice since the approximated 3D 
+            // Bezier curve will be degree reduced as much as possible.
+            // And this method was easier to implement anyway. :-)
+            unsigned int approxdegree = rcl_curve2d.computeNonratApproximationDegree(1e-4);
 			ui_dim = ( ( rcl_surf.getControlPointMatrix( ).size( ) - 1 )
-					 + ( rcl_surf.getControlPointMatrix( )[ 0 ].size( ) - 1 ) )
-				   * ( rcl_curve2d.getControlPointVector( ).size( ) - 1 );
+					 + ( rcl_surf.getControlPointMatrix( )[0].size( ) - 1 ) )
+				   * approxdegree;
+#ifdef OSG_NURBS_DEBUG            
+            if (approxdegree != rcl_curve2d.getControlPointVector().size() - 1)
+            {
+                std::cerr<<"approxdegree: " << approxdegree << " dim: " << ui_dim << std::endl;
+            }
+#endif /* OSG_NURBS_DEBUG */
 
-			if( ui_dim > 20 ) ui_dim = 20;
+			if( ui_dim > 40 ) ui_dim = 40;
 
 			vcl_points.clear( );
 			for( ui_pos = 0; ui_pos <= ui_dim; ++ui_pos )
@@ -1380,14 +1403,18 @@ void CNurbsPatchSurface::Gen3DLoops( const unsigned int cuiSurface )
 				i_err = 0;
 				cl_param = rcl_curve2d.computewdeCasteljau( ( ( double ) ui_pos ) / ui_dim, i_err );
 //				vcl_points.push_back( rcl_surf.computewdeCasteljau( cl_param, i_err ) );
-				vcl_points.push_back( m_vclBSplineSurfaces[ cuiSurface ].getSurface( ).compute( cl_param, i_err ) );
+				vcl_points.push_back( m_vclBSplineSurfaces[ cuiSurface ].getSurface( ).compute4D( cl_param, i_err ) );
 			}
-
 			if( m_vtSurfaces[ cuiSurface ].vvcl3DCurves[ ui_loop ][ ui_curve ].createCurve( vcl_points ) == 0 )
 			{
 				m_vtSurfaces[ cuiSurface ].vvcl3DCurves[ ui_loop ][ ui_curve ].optimizeDegree( );
 			}
-
+#ifdef OSG_NURBS_DEBUG            
+            if (approxdegree != rcl_curve2d.getControlPointVector().size() - 1)
+            {
+                std::cerr<<"optimdegree: " << m_vtSurfaces[ cuiSurface ].vvcl3DCurves[ ui_loop ][ ui_curve ].getControlPointVector().size() - 1 << std::endl;
+            }
+#endif /* OSG_NURBS_DEBUG */
 //			rcl_curve2d.write( );
 //			m_vtSurfaces[ cuiSurface ].vvcl3DCurves[ ui_loop ][ ui_curve ].write( );
 		}
@@ -1418,7 +1445,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 	vcl_curves.push_back( rclCurve );
 	vd_curvestart.push_back( 0.0 );
 	vd_curveend.push_back( 1.0 );
-	mm_curve_sort.insert( std::make_pair<const double, unsigned int>( 0.0, 0u ) );
+	mm_curve_sort.insert( std::make_pair<const double, unsigned int>( 0.0, 0u ));
 	for( ui_curve = 0; ui_curve < ui_curve_cnt; ++ui_curve )
 	{
 		b_cut = false;
@@ -1437,8 +1464,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 					vd_curvestart.push_back( ( vd_curvestart[ ui_curve ] + vd_curveend[ ui_curve ] ) * 0.5 );
 					vd_curveend.push_back( vd_curveend[ ui_curve ] );
 					vd_curveend[ ui_curve ] = vd_curvestart[ ui_curve_cnt ];
-					mm_curve_sort.insert( std::make_pair<const double, unsigned
-                                          int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
+					mm_curve_sort.insert( std::make_pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
 					++ui_curve_cnt;
 					b_cut = true;
 					break;
@@ -1462,8 +1488,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 						vd_curvestart.push_back( ( vd_curvestart[ ui_curve ] + vd_curveend[ ui_curve ] ) * 0.5 );
 						vd_curveend.push_back( vd_curveend[ ui_curve ] );
 						vd_curveend[ ui_curve ] = vd_curvestart[ ui_curve_cnt ];
-						mm_curve_sort.insert( std::make_pair<const double,
-                                              unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
+						mm_curve_sort.insert( std::make_pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
 						++ui_curve_cnt;
 						b_cut = true;
 						break;
@@ -1493,24 +1518,26 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 	// ok, now we know that all curve midpoints are INSIDE a cell (or the whole curve is on the edge)
 	for( ui_curve = 0; ui_curve < ui_curve_cnt; ++ui_curve )
 	{
-		const vec2d		ccl_mid = rclCut[ ui_curve + cui_offset ].computewdeCasteljau( 0.5, i_err );
+		const Vec2d		ccl_mid = rclCut[ ui_curve + cui_offset ].computewdeCasteljau( 0.5, i_err );
 
 		// check if curve lies outside the surface
-		if( ccl_mid.x <= m_vvdUParams[ cuiSurface ][ 0 ] )
+		if( ccl_mid[0] <= m_vvdUParams[ cuiSurface ][ 0 ] )
 		{
-			std::vector< vec2d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
+			std::vector< Vec3d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
 
-			rcl_cp[ 1 ] = rcl_cp[ rcl_cp.size( ) - 1 ];
-			rcl_cp[ 0 ].x = rcl_cp[ 1 ].x = m_vvdUParams[ cuiSurface ][ 0 ];
+			rcl_cp[1] = rcl_cp[ rcl_cp.size( ) - 1 ];
+			rcl_cp[0][0] = m_vvdUParams[ cuiSurface ][0] * rcl_cp[0][2];
+            rcl_cp[1][0] = m_vvdUParams[ cuiSurface ][0] * rcl_cp[1][2];
 			rcl_cp.resize( 2 );
 			rvuiUSeg.push_back( 0 );
 		}
-		else if( ccl_mid.x >= m_vvdUParams[ cuiSurface ][ ci_u_seg_cnt - 1 ] )
+		else if( ccl_mid[0] >= m_vvdUParams[ cuiSurface ][ ci_u_seg_cnt - 1 ] )
 		{
-			std::vector< vec2d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
+			std::vector< Vec3d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
 
-			rcl_cp[ 1 ] = rcl_cp[ rcl_cp.size( ) - 1 ];
-			rcl_cp[ 0 ].x = rcl_cp[ 1 ].x = m_vvdUParams[ cuiSurface ][ ci_u_seg_cnt - 1 ];
+			rcl_cp[1] = rcl_cp[rcl_cp.size( ) - 1];
+			rcl_cp[0][0] = m_vvdUParams[ cuiSurface ][ci_u_seg_cnt - 1] * rcl_cp[ 0 ][2];
+            rcl_cp[1][0] = m_vvdUParams[ cuiSurface ][ci_u_seg_cnt - 1] * rcl_cp[ 1 ][2];
 			rcl_cp.resize( 2 );
 			rvuiUSeg.push_back( ci_u_seg_cnt - 2 );
 		}
@@ -1518,7 +1545,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 		{
 			for( i_u_seg = 1; i_u_seg < ci_u_seg_cnt; ++i_u_seg )
 			{
-				if( ccl_mid.x <= m_vvdUParams[ cuiSurface ][ i_u_seg ] )
+				if( ccl_mid[0] <= m_vvdUParams[ cuiSurface ][ i_u_seg ] )
 				{
 					rvuiUSeg.push_back( i_u_seg - 1 );
 					break;
@@ -1527,21 +1554,23 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 		}
 
 		// check if curve lies outside the surface
-		if( ccl_mid.y <= m_vvdVParams[ cuiSurface ][ 0 ] )
+		if( ccl_mid[1] <= m_vvdVParams[ cuiSurface ][ 0 ] )
 		{
-			std::vector< vec2d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
+			std::vector< Vec3d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
 
-			rcl_cp[ 1 ] = rcl_cp[ rcl_cp.size( ) - 1 ];
-			rcl_cp[ 0 ].y = rcl_cp[ 1 ].y = m_vvdVParams[ cuiSurface ][ 0 ];
+			rcl_cp[1] = rcl_cp[ rcl_cp.size( ) - 1 ];
+			rcl_cp[0][1] = m_vvdVParams[ cuiSurface ][0] * rcl_cp[0][2];
+            rcl_cp[1][1] = m_vvdVParams[ cuiSurface ][0] * rcl_cp[1][2];
 			rcl_cp.resize( 2 );
 			rvuiVSeg.push_back( 0 );
 		}
-		else if( ccl_mid.y >= m_vvdVParams[ cuiSurface ][ ci_v_seg_cnt - 1 ] )
+		else if( ccl_mid[1] >= m_vvdVParams[ cuiSurface ][ ci_v_seg_cnt - 1 ] )
 		{
-			std::vector< vec2d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
+			std::vector< Vec3d >	&rcl_cp = rclCut[ ui_curve + cui_offset ].getControlPointVector( );
 
-			rcl_cp[ 1 ] = rcl_cp[ rcl_cp.size( ) - 1 ];
-			rcl_cp[ 0 ].y = rcl_cp[ 1 ].y = m_vvdVParams[ cuiSurface ][ ci_v_seg_cnt - 1 ];
+			rcl_cp[1] = rcl_cp[ rcl_cp.size( ) - 1 ];
+			rcl_cp[0][1] = m_vvdVParams[ cuiSurface ][ci_v_seg_cnt - 1] * rcl_cp[0][2];
+            rcl_cp[1][1] = m_vvdVParams[ cuiSurface ][ci_v_seg_cnt - 1] * rcl_cp[1][2];
 			rcl_cp.resize( 2 );
 			rvuiVSeg.push_back( ci_v_seg_cnt - 2 );
 		}
@@ -1549,7 +1578,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 		{
 			for( i_v_seg = 1; i_v_seg < ci_v_seg_cnt; ++i_v_seg )
 			{
-				if( ccl_mid.y <= m_vvdVParams[ cuiSurface ][ i_v_seg ] )
+				if( ccl_mid[1] <= m_vvdVParams[ cuiSurface ][ i_v_seg ] )
 				{
 					rvuiVSeg.push_back( i_v_seg - 1 );
 					break;

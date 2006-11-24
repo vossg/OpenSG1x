@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 #include "OSGdctptypes.h"
@@ -112,8 +112,8 @@ struct SFaceTreeCell
 #endif
 	bool					bOwnSurface;
 /*#ifdef OSG_ARBITRARY_SPLIT
-	vec2d					clMin;
-	vec2d					clMax;
+	Vec2d					clMin;
+	Vec2d					clMax;
 #endif*/
 };
 
@@ -126,7 +126,7 @@ public:
 	~CErrorQuadTree( );
 
 /*#ifdef OSG_ARBITRARY_SPLIT
-	void CalculatePoints( std::vector< vec2d > *pvclInsert, std::vector< vec2d > *pvclDelete,
+	void CalculatePoints( std::vector< Vec2d > *pvclInsert, std::vector< Vec2d > *pvclDelete,
 						  BSplineTensorSurface *pclPatch,
 						  float fError, float &rfMinError, float &rfMaxError );
 #else*/
@@ -134,7 +134,7 @@ public:
  #ifdef OSG_USE_NURBS_PATCH
 					BSplineTensorSurface *pclPatch,
   #ifdef OSG_ARBITRARY_SPLIT
-					const vec2d cclMinParam, const vec2d cclMaxParam,
+					const Vec2d cclMinParam, const Vec2d cclMaxParam,
   #endif
  #else
 					std::vector< std::vector< BezierTensorSurface > > *pvvclPatches,
@@ -159,7 +159,7 @@ private:
  #ifdef OSG_USE_NURBS_PATCH
   #ifdef OSG_ARBITRARY_SPLIT
 						  BSplineTensorSurface *pclPatch,
-						  const vec2d cclMinParam, const vec2d cclMaxParam );
+						  const Vec2d cclMinParam, const Vec2d cclMaxParam );
   #else
 						  BSplineTensorSurface *pclPatch );
   #endif
@@ -194,12 +194,12 @@ private:
 #endif
 
 #ifndef OSG_DIFF_TO_BILIN
-	double computeDistToPlane( const vec3d cclP, const vec3d cclV1, const vec3d cclV2, const vec3d cclV3 );
+	double computeDistToPlane( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2, const Vec3d cclV3 );
 
-	double computeDistToTriangle( const vec3d cclP, const vec3d cclV1, const vec3d cclV2, const vec3d cclV3 );
+	double computeDistToTriangle( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2, const Vec3d cclV3 );
 #endif
 
-	double computeDistToLine( const vec3d cclP, const vec3d cclV1, const vec3d cclV2 );
+	double computeDistToLine( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2 );
 
 	float								m_fMaxError;
 #ifdef OSG_USE_NURBS_PATCH

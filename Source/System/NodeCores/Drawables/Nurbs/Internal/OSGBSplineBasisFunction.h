@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -59,10 +59,10 @@ public:
   ~BSplineBasisFunction() {} 
 
   //setup methods
-  int setKnotVector(const dvector &k); //sets knot vector, preventing its increasing feature
+  int setKnotVector(const DCTPdvector &k); //sets knot vector, preventing its increasing feature
 
   //query methods
-  dvector& getKnotVector() { return knots; }; //just take a guess
+  DCTPdvector& getKnotVector() { return knots; }; //just take a guess
   void getParameterInterval( double &minpar, double &maxpar ); //returns minimal and maximal parameter value
 
   //I/O support - FIXME: read( char *fname ) outta be supported , etc
@@ -77,9 +77,9 @@ public:
   int computeDersBasisFuns( double dU, int iP, double **&rppdDers, int iDepth ); // computes all nonzero derivates at u
 
 protected:
-  int CheckKnotPoints( const dvector &k );
+  int CheckKnotPoints( const DCTPdvector &k );
   int findSpan( double &u ); //gives the knotspan u is in
-  dvector knots; //the knot vector, see dctptypes.h
+  DCTPdvector knots; //the knot vector, see dctptypes.h
 //file format constants  
   static const char ff_const_1[];
   static const char ff_const_2[];

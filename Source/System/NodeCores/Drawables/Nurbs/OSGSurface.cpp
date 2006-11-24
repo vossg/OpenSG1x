@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -75,11 +75,11 @@
 #endif
 */
 
-#include "OSGBSplineTrimmedSurface.h"
-#include "OSGNurbsPatchSurface.h"
-#include "OSGSimplePolygon.h"
+#include <OSGBSplineTrimmedSurface.h>
+#include <OSGNurbsPatchSurface.h>
+#include <OSGSimplePolygon.h>
 
-#include "OSGpredicates.h" //for exactinit()
+#include <OSGpredicates.h> //for exactinit()
 
 OSG_USING_NAMESPACE
 
@@ -89,7 +89,7 @@ OSG_USING_NAMESPACE
 
 namespace
 {
-    static char cvsid_cpp[] = "@(#)$Id: FCTemplate_cpp.h,v 1.11 2002/01/14 18:38:54 dirk Exp $";
+    static char cvsid_cpp[] = "@(#)$Id: OSGSurface.cpp,v 1.13 2006-11-17 17:59:30 edhellon Exp $";
     static char cvsid_hpp[] = OSGSURFACE_HEADER_CVSID;
     static char cvsid_inl[] = OSGSURFACE_INLINE_CVSID;
 }
@@ -480,12 +480,15 @@ void Surface::tessellate( void )
     Int32 err = convertSurface();
     if ( err ) 
     {
-        exit(-1);
+//        exit(-1);
         return;
     }
     if ( _sfTextureControlPoints.getValue() == NullFC )
     {
         err = tessellateSurface( tris, gverts, norms);
+#ifdef OSG_NURBS_DEBUG
+        std::cerr<<"Surface::tessellate err1: " << err << " #tris: " << tris.size() << std::endl;
+#endif /* OSG_NURBS_DEBUG */
         if ( err ) return;    
         (void) buildSurface( tris, gverts, norms, texturecoords );
     }
@@ -499,6 +502,9 @@ void Surface::tessellate( void )
 */        
         // classic texturemapping stuff (both normals and texcoords)
         err = tessellateSurface( tris, gverts, norms, texturecoords );
+#ifdef OSG_NURBS_DEBUG
+        std::cerr<<"Surface::tessellate err2: " << err << " #tris: " << tris.size() << std::endl;
+#endif /* OSG_NURBS_DEBUG */
         if ( err ) return;
         (void) buildSurface( tris, gverts, norms, texturecoords );
        
@@ -563,19 +569,48 @@ Int32 Surface::convertSurface( void )
 {
 //    BSplineTrimmedSurface *_trimmedSurface = (BSplineTrimmedSurface*)trimsurf;
 
+    bool israt;
     GeoPositions3fPtr pPos = GeoPositions3fPtr::dcast(
         _sfControlPoints.getValue());
+    GeoPositions4fPtr pRatPos = GeoPositions4fPtr::dcast(
+        _sfControlPoints.getValue());
 
+//    std::cerr<< "pPos: " << pPos << " pRatPos: " << pRatPos << std::endl;
     if(_sfControlPoints.getValue() == NullFC)
     {
         SLOG << "Surface::tessellate: null surfacecontrol prop " << endLog;
         return -1;
     }
 
-    MFPnt3f &_mfControlPoints = pPos->getField();
+    if ( pPos != NullFC )
+    {
+        israt = false;   
+    }
+    else if ( pRatPos != NullFC )
+    {
+        israt = true;
+    }
+    else
+    {
+        SLOG << "Surface::tessellate: null surfacecontrol prop " << endLog;
+        return -1;
+    }
+    MFPnt3f *polyControlPoints;
+    MFPnt4f *ratControlPoints;
+    UInt32 cpsize;
+    if ( !israt )
+    {
+        polyControlPoints = &(pPos->getField());
+        cpsize = polyControlPoints->size();
+    }
+    else
+    {
+        ratControlPoints = &(pRatPos->getField());
+        cpsize = ratControlPoints->size();
+    }
+//    MFPnt3f &_mfControlPoints = pPos->getField();
     
     // check knots, dimensions and control points
-    UInt32 cpsize = _mfControlPoints.size();
     if( cpsize == 0 ) 
     {
         SLOG << "Surface::tessellate: null surfacecontrol points " << endLog;
@@ -650,8 +685,8 @@ Int32 Surface::convertSurface( void )
     // first create surface
     BSplineTensorSurface tensor_surface;
     UInt32 i, j, k;
-    vec3dmatrix qnet;
-    vec3d vec3;
+    DCTPVec4dmatrix qnet;
+    Vec4d vec4;
     qnet.resize( cpusize );
     
     for ( i = 0; i < cpusize; ++i )
@@ -659,21 +694,32 @@ Int32 Surface::convertSurface( void )
         qnet[ i ].resize( cpvsize );
         for ( j = 0; j < cpvsize; ++j )
         {
-            //FIXME: rational support missing
             k = i * cpvsize + j;
-            vec3.x = _mfControlPoints[k][0];
-            vec3.y = _mfControlPoints[k][1];
-            vec3.z = _mfControlPoints[k][2];
-//            SLOG << "qnet["<<i<<"]["<<j<<"]: " << vec3 << endLog;
-//            SLOG << "k: " << k << endLog;
-//            SLOG << "cps->getValue(k): " << cps->getValue(k) << endLog;
-            qnet[ i ][ j ] = vec3;
+            if ( !israt )
+            {
+                vec4[0] = (*polyControlPoints)[k][0];
+                vec4[1] = (*polyControlPoints)[k][1];
+                vec4[2] = (*polyControlPoints)[k][2];
+                vec4[3] = 1.0f; //!!!!!!!!!!!!!!!!!!!!
+//                SLOG << "qnet["<<i<<"]["<<j<<"]: " << vec4 << endLog;
+//                SLOG << "k: " << k << endLog;
+            }
+            else
+            {
+                vec4[0] = (*ratControlPoints)[k][0];
+                vec4[1] = (*ratControlPoints)[k][1];
+                vec4[2] = (*ratControlPoints)[k][2];
+                vec4[3] = (*ratControlPoints)[k][3];
+//                SLOG << "qnet["<<i<<"]["<<j<<"]: " << vec4 << endLog;
+//                SLOG << "k: " << k << endLog;
+            }
+            qnet[ i ][ j ] = vec4;
         }
     }
     tensor_surface.setControlPointMatrix( qnet );
     // convert knotvectors
-    dvector knotuvec(knotusize);
-    dvector knotvvec(knotvsize);
+    DCTPdvector knotuvec(knotusize);
+    DCTPdvector knotvvec(knotvsize);
     for ( i = 0; i < knotusize; ++i )
     {
         knotuvec[ i ] = _mfKnotsU[ i ];
@@ -701,9 +747,8 @@ Int32 Surface::convertSurface( void )
     UInt32 actloopoffset = 0;
     UInt32 actcurveno = 0;
     UInt32 acttrimcpsize = 0;
-    dvector actknots;
-    vec2dvector acttrimcps;
-    
+    DCTPdvector actknots;
+    DCTPVec3dvector acttrimcps;
     BSplineCurve2D actcurve;
     for ( i = 0; i < trimloops.size(); ++i )
     {
@@ -737,10 +782,9 @@ Int32 Surface::convertSurface( void )
             for ( k = 0; k < acttrimcpsize; ++k )
             {
 //                SLOG <<"Debug: k: " << k << endLog;
-                acttrimcps[ k ].x = _mfCurveControlPoints[ actcpoffset + k ][0];
-                acttrimcps[ k ].y = _mfCurveControlPoints[ actcpoffset + k ][1];
-                // FIXME: rational support missing
-                //acttrimcps[ k ].z = _mfCurveControlPoints[ actcpoffset + k ][2];
+                acttrimcps[ k ][0] = _mfCurveControlPoints[ actcpoffset + k ][0];
+                acttrimcps[ k ][1] = _mfCurveControlPoints[ actcpoffset + k ][1];
+                acttrimcps[ k ][2] = _mfCurveControlPoints[ actcpoffset + k ][2];
             }
             actcpoffset += acttrimcpsize;
             actcurve.setControlPointVector( acttrimcps );
@@ -778,13 +822,13 @@ Int32 Surface::tessellateSurface( std::vector< SimplePolygon > &triangles,
     _surfacePatch->setError ( _sfError.getValue() );
     _surfacePatch->getTessellation( gverts, norms, triangles, getIsDelaunay() );
     SSurface *surfaceData =  _surfacePatch->getSurfaceData();
-    _min = Pnt3d( surfaceData->clMin.x, surfaceData->clMin.y,
-                  surfaceData->clMin.z );
-    _max = Pnt3d( surfaceData->clMax.x, surfaceData->clMax.y,
-                  surfaceData->clMax.z );
+    _min = Pnt3d( surfaceData->clMin[0], surfaceData->clMin[1],
+                  surfaceData->clMin[2] );
+    _max = Pnt3d( surfaceData->clMax[0], surfaceData->clMax[1],
+                  surfaceData->clMax[2] );
 #ifdef OSG_ARBITRARY_SPLIT
-    _minParam = Pnt2d( surfaceData->clMinParam.x , surfaceData->clMinParam.y );
-    _maxParam = Pnt2d( surfaceData->clMaxParam.x , surfaceData->clMaxParam.y );
+    _minParam = Pnt2d( surfaceData->clMinParam[0] , surfaceData->clMinParam[1] );
+    _maxParam = Pnt2d( surfaceData->clMaxParam[0] , surfaceData->clMaxParam[1] );
 #endif
 
     
@@ -828,13 +872,13 @@ Int32 Surface::tessellateSurface( std::vector< SimplePolygon > &triangles,
 //    std::cerr<< "norms.size(): " << norms.size() << " texcoords.size(): " <<
 //            texcoords.size() << std::endl;
     SSurface *surfaceData =  _surfacePatch->getSurfaceData();
-    _min = Pnt3d( surfaceData->clMin.x, surfaceData->clMin.y,
-                  surfaceData->clMin.z );
-    _max = Pnt3d( surfaceData->clMax.x, surfaceData->clMax.y,
-                  surfaceData->clMax.z );
+    _min = Pnt3d( surfaceData->clMin[0], surfaceData->clMin[1],
+                  surfaceData->clMin[2] );
+    _max = Pnt3d( surfaceData->clMax[0], surfaceData->clMax[1],
+                  surfaceData->clMax[2] );
 #ifdef OSG_ARBITRARY_SPLIT
-    _minParam = Pnt2d( surfaceData->clMinParam.x , surfaceData->clMinParam.y );
-    _maxParam = Pnt2d( surfaceData->clMaxParam.x , surfaceData->clMaxParam.y );
+    _minParam = Pnt2d( surfaceData->clMinParam[0] , surfaceData->clMinParam[1] );
+    _maxParam = Pnt2d( surfaceData->clMaxParam[0] , surfaceData->clMaxParam[1] );
 #endif
 
     
@@ -877,13 +921,13 @@ Int32 Surface::tessellateSurface( std::vector< SimplePolygon > &triangles,
     _surfacePatch->getTessellation( gverts, texcoords, triangles, getIsDelaunay() );
     
     SSurface *surfaceData =  _surfacePatch->getSurfaceData();
-    _min = Pnt3d( surfaceData->clMin.x, surfaceData->clMin.y,
-                  surfaceData->clMin.z );
-    _max = Pnt3d( surfaceData->clMax.x, surfaceData->clMax.y,
-                  surfaceData->clMax.z );
+    _min = Pnt3d( surfaceData->clMin[0], surfaceData->clMin[1],
+                  surfaceData->clMin[2] );
+    _max = Pnt3d( surfaceData->clMax[0], surfaceData->clMax[1],
+                  surfaceData->clMax[2] );
 #ifdef OSG_ARBITRARY_SPLIT
-    _minParam = Pnt2d( surfaceData->clMinParam.x , surfaceData->clMinParam.y );
-    _maxParam = Pnt2d( surfaceData->clMaxParam.x , surfaceData->clMaxParam.y );
+    _minParam = Pnt2d( surfaceData->clMinParam[0] , surfaceData->clMinParam[1] );
+    _maxParam = Pnt2d( surfaceData->clMaxParam[0] , surfaceData->clMaxParam[1] );
 #endif
 
     
@@ -938,7 +982,7 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
     UInt32                  ui_face;
     BSplineTensorSurface    cl_surf = _trimmedSurface->getSurface();
     int                     i_err;
-    vec3d                   cl_norm;
+    Vec3d                   cl_norm;
     const UInt32            cui_verts = gverts.size( );
     UInt32                  ui_vert;
     SSurface                *pt_surfdata = _surfacePatch->getSurfaceData( );
@@ -947,10 +991,10 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
     UInt32                  ui_vertex_cnt;
     UInt32                  ui_idx;
     UInt32                  ui_used;
-    vec3d                   *pcl_actn;
-    vec3d                   *pcl_actv;
-    vec3d                   *pcl_nextv;
-    vec3d                   *pcl_prevv;
+    Vec3d                   *pcl_actn;
+    Vec3d                   *pcl_actv;
+    Vec3d                   *pcl_nextv;
+    Vec3d                   *pcl_prevv;
     Vec3f                   cl_v1, cl_v2, cl_tangent;
     std::vector< Int32 >    vi_new_idx( cui_verts );
     bool                    b_show_trimming = false;
@@ -1095,12 +1139,12 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                 ui_vertex_cnt = pt_surfdata->vvclEdgeLoops[ ui_loop ].size( );
                 for( ui_vert = 0; ui_vert < ui_vertex_cnt; ++ui_vert )
                 {
-                    pcl_points->push_back( Pnt3f( pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].x,
-                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].y,
-                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].z ) );
-                    pcl_points->push_back( Pnt3f( pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].x,
-                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].y,
-                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ].z ) );
+                    pcl_points->push_back( Pnt3f( pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][0],
+                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][1],
+                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][2] ) );
+                    pcl_points->push_back( Pnt3f( pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][0],
+                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][1],
+                                                  pt_surfdata->vvclEdgeLoops3D[ ui_loop ][ ui_vert ][2] ) );
                 }
             }
         } // b_show_trimming
@@ -1127,12 +1171,12 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                     ui_vertex_cnt = pt_surfdata->vvclEdgeLoops[ ui_loop ].size( );
                     for( ui_vert = 0; ui_vert < ui_vertex_cnt; ++ui_vert )
                     {
-                        pcl_norms->push_back( Vec3f( pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].x,
-                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].y,
-                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].z ) );
-                        pcl_norms->push_back( Vec3f( pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].x,
-                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].y,
-                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ].z ) );
+                        pcl_norms->push_back( Vec3f( pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][0],
+                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][1],
+                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][2] ) );
+                        pcl_norms->push_back( Vec3f( pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][0],
+                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][1],
+                                                     pt_surfdata->vvclEdgeLoopsNorm[ ui_loop ][ ui_vert ][2] ) );
                     }
                 }
             } // b_show_trimming
@@ -1163,10 +1207,10 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                     ui_vertex_cnt = pt_surfdata->vvclEdgeLoops[ ui_loop ].size( );
                     for( ui_vert = 0; ui_vert < ui_vertex_cnt; ++ui_vert )
                     {
-                        pcl_texcoords->push_back( Vec2f( pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ].x,
-                                                         pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ].y ) );
-                        pcl_texcoords->push_back( Vec2f( pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ].x,
-                                                         pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ].y ) );
+                        pcl_texcoords->push_back( Vec2f( pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ][0],
+                                                         pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ][1] ) );
+                        pcl_texcoords->push_back( Vec2f( pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ][0],
+                                                         pt_surfdata->vvclEdgeLoopsTex[ ui_loop ][ ui_vert ][1] ) );
                     }
                 }
             } // b_show_trimming
@@ -1210,13 +1254,13 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                     // calculate the tangents of the trimming polyloops:
                     // (nextv - actv).normalize() plus
                     // (actv - prevv).normalize()  -> and normalize it again
-                    cl_v1[0] = pcl_nextv->x - pcl_actv->x;
-                    cl_v1[1] = pcl_nextv->y - pcl_actv->y;
-                    cl_v1[2] = pcl_nextv->z - pcl_actv->z;
+                    cl_v1[0] = (*pcl_nextv)[0] - (*pcl_actv)[0];
+                    cl_v1[1] = (*pcl_nextv)[1] - (*pcl_actv)[1];
+                    cl_v1[2] = (*pcl_nextv)[2] - (*pcl_actv)[2];
                     cl_v1.normalize();
-                    cl_v2[0] = pcl_actv->x - pcl_prevv->x;
-                    cl_v2[1] = pcl_actv->y - pcl_prevv->y;
-                    cl_v2[2] = pcl_actv->z - pcl_prevv->z;
+                    cl_v2[0] = (*pcl_actv)[0] - (*pcl_prevv)[0];
+                    cl_v2[1] = (*pcl_actv)[1] - (*pcl_prevv)[1];
+                    cl_v2[2] = (*pcl_actv)[2] - (*pcl_prevv)[2];
                     cl_v2.normalize();
                     cl_tangent = cl_v1 + cl_v2;
                     cl_tangent.normalize( );
@@ -1563,28 +1607,28 @@ bool Surface::checkOrient( UInt32 ui_v1, UInt32 ui_v2, UInt32 ui_v3,
 }
 
 
-    //! Add a (polynomial) trimming curve to the surface.
-    /*!
-     *
-     *  This function allows you to add a new trimming curve to
-     *  the Surface.
-     *
-     *  \param dim the dimension of the curve
-     *  \param knots the knotvector of the curve
-     *  \param controlpoints the (rational) control points for the curve
-     *  \param newloop false: this curve continues the current curveloop <BR>
-     *                 true: starts a new loop
-     *
-     *  If it's the first curve added to the surface, it always starts
-     *  a new loop, regardless of the value of \param newloop.
-     *
-     *  You are expected to call this function between corresponding
-     *  beginEditCP()/endEditCP() pairs with the mask CurveFieldMask.
-     *  You are responsible that when calling endEditCP() the 
-     *  trimming curves are in a consistend state (they form closed
-     *  loops and the like).
-     *
-     */     
+//! Add a (polynomial) trimming curve to the surface.
+/*!
+ *
+ *  This function allows you to add a new trimming curve to
+ *  the Surface.
+ *
+ *  \param dim the dimension of the curve
+ *  \param knots the knotvector of the curve
+ *  \param controlpoints the (rational) control points for the curve
+ *  \param newloop false: this curve continues the current curveloop <BR>
+ *                 true: starts a new loop
+ *
+ *  If it's the first curve added to the surface, it always starts
+ *  a new loop, regardless of the value of \param newloop.
+ *
+ *  You are expected to call this function between corresponding
+ *  beginEditCP()/endEditCP() pairs with the mask CurveFieldMask.
+ *  You are responsible that when calling endEditCP() the 
+ *  trimming curves are in a consistend state (they form closed
+ *  loops and the like).
+ *
+ */     
 void Surface::addCurve( UInt32 dim,
                std::vector<Real64>& knots,
                std::vector<Pnt2f>& controlpoints,
@@ -1596,35 +1640,35 @@ void Surface::addCurve( UInt32 dim,
     ratcontrolpoints.reserve( cpsize );
     for (UInt32 i = 0; i < cpsize; ++i )
     {
-        ratcontrolpoints.push_back( Pnt3f( controlpoints[i][0], 
-                                           controlpoints[i][1],
-                                           1.0 ) );
+        ratcontrolpoints.push_back( Pnt3f(controlpoints[i][0], 
+                                          controlpoints[i][1],
+                                          1.0f) );
     }    
-    addCurve( dim, knots, ratcontrolpoints, newloop );
+    addCurve(dim, knots, ratcontrolpoints, newloop);
 }
 
-    //! Add a (rational) trimming curve to the surface.
-    /*!
-     *
-     *  This function allows you to add a new trimming curve to
-     *  the Surface.
-     *
-     *  \param dim the dimension of the curve
-     *  \param knots the knotvector of the curve
-     *  \param controlpoints the (nonrational) control points for the curve
-     *  \param newloop false: this curve continues the current curveloop <BR>
-     *                 true: starts a new loop
-     *
-     *  If it's the first curve added to the surface, it always starts
-     *  a new loop, regardless of the value of \param newloop.
-     *
-     *  You are expected to call this function between corresponding
-     *  beginEditCP()/endEditCP() pairs with the mask CurveFieldMask.
-     *  You are responsible that when calling endEditCP() the 
-     *  trimming curves are in a consistend state (they form closed
-     *  loops and the like).
-     *
-     */
+//! Add a (rational) trimming curve to the surface.
+/*!
+ *
+ *  This function allows you to add a new trimming curve to
+ *  the Surface.
+ *
+ *  \param dim the dimension of the curve
+ *  \param knots the knotvector of the curve
+ *  \param controlpoints the (nonrational) control points for the curve
+ *  \param newloop false: this curve continues the current curveloop <BR>
+ *                 true: starts a new loop
+ *
+ *  If it's the first curve added to the surface, it always starts
+ *  a new loop, regardless of the value of \param newloop.
+ *
+ *  You are expected to call this function between corresponding
+ *  beginEditCP()/endEditCP() pairs with the mask CurveFieldMask.
+ *  You are responsible that when calling endEditCP() the 
+ *  trimming curves are in a consistend state (they form closed
+ *  loops and the like).
+ *
+ */
 void Surface::addCurve( UInt32 dim,
                std::vector<Real64>& knots,
                std::vector<Pnt3f>& controlpoints,
@@ -1766,7 +1810,7 @@ SurfacePtr Surface::clone( void )
  *  beginEditCP()/endEditCP() pairs with the mask
  *  CurveFieldMask|SurfaceFieldMask.
  *
- *  \param infile ifstream to read surface data from.
+ *  \param infile istream to read surface data from.
  */
 //#pragma optimize("",off)
 void Surface::readfromtso( std::istream &infile, bool useTextures )
@@ -1796,18 +1840,18 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
     trimloop = cl_trimmed_surface->getTrimmingLoops();
     
     // OK, first do surface business
-    vec3dmatrix v3cps =  tensor_surface.getControlPointMatrix();
+    DCTPVec4dmatrix v4cps =  tensor_surface.getControlPointMatrix();
 
-    UInt32 cpusize = v3cps.size();
-    UInt32 cpvsize = v3cps[0].size();
+    UInt32 cpusize = v4cps.size();
+    UInt32 cpvsize = v4cps[0].size();
     UInt32 k,u,v;
-    vec3d  vec3;
+    Vec4d  vec4;
 
-    GeoPositions3fPtr pPos;
+    GeoPositions4fPtr pPos;
 
     if(_sfControlPoints.getValue() == NullFC)
     {
-        pPos = GeoPositions3f::create();
+        pPos = GeoPositions4f::create();
 
         SurfacePtr tmpPtr(*this);
             
@@ -1819,12 +1863,13 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
     }
     else
     {
-        pPos = GeoPositions3fPtr::dcast(_sfControlPoints.getValue());
+        pPos = GeoPositions4fPtr::dcast(_sfControlPoints.getValue());
     }
 
-    beginEditCP(pPos, GeoPositions3f::GeoPropDataFieldMask);
+    beginEditCP(pPos, GeoPositions4f::GeoPropDataFieldMask);
 
-    MFPnt3f &_mfControlPoints = pPos->getField();
+    MFPnt4f &_mfControlPoints = pPos->getField();
+//    MFPnt3f &_mfControlPoints = pPos->getField();
       
 //    _mfControlPoints.resize( cpusize * cpvsize );
     _mfControlPoints.clear( );
@@ -1833,17 +1878,18 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
         for ( v = 0; v < cpvsize; ++v )
         {
 //            k = u * cpvsize + v;
-            vec3 = v3cps[ u ][ v ];
-            _mfControlPoints.push_back( Pnt3f( vec3.x, vec3.y, vec3.z ) );
+            vec4 = v4cps[ u ][ v ];
+            _mfControlPoints.push_back(Pnt4f(vec4[0], vec4[1], vec4[2], vec4[3]));
+//            _mfControlPoints.push_back(Pnt3f(vec4[0], vec4[1], vec4[2]));
         }
     }
 
-    endEditCP(pPos, GeoPositions3f::GeoPropDataFieldMask);
+    endEditCP(pPos, GeoPositions4f::GeoPropDataFieldMask);
 
     _sfDimU.setValue( tensor_surface.getDimension_U() );
     _sfDimV.setValue( tensor_surface.getDimension_V() );
 
-    dvector knots;
+    DCTPdvector knots;
     
     knots = tensor_surface.getKnotVector_U();
     _mfKnotsU.clear();
@@ -1864,8 +1910,8 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
     bool isnewloop;
     UInt32 actdim;
     std::vector<Real64> actknots;
-    std::vector<Pnt2f> actcontrolpoints;
-    vec2dvector v2actcps;
+    std::vector<Pnt3f> actcontrolpoints;
+    DCTPVec3dvector v3actcps;
     for ( UInt32 i = 0; i < trimloop.size(); ++i )
     {
         isnewloop = true;
@@ -1873,12 +1919,13 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
         {
             actknots = trimloop[i][j].getKnotVector();
             actdim = trimloop[i][j].getDimension();
-            v2actcps = trimloop[i][j].getControlPointVector();
+            v3actcps = trimloop[i][j].getControlPointVector();
             actcontrolpoints.clear();
-            for ( UInt32 kk = 0; kk < v2actcps.size(); ++kk )
+            for ( UInt32 kk = 0; kk < v3actcps.size(); ++kk )
             {
-                actcontrolpoints.push_back( Pnt2f( v2actcps[ kk ].x, 
-                                                   v2actcps[ kk ].y  ) );
+                actcontrolpoints.push_back(Pnt3f(v3actcps[ kk ][0], 
+                                                 v3actcps[ kk ][1],
+                                                 v3actcps[ kk ][2]));
             }
             addCurve( actdim, actknots, actcontrolpoints, isnewloop );                   
             isnewloop = false;
@@ -1888,11 +1935,6 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
     // trimming curves...
     delete cl_trimmed_surface;
     
-    // OK the actual addition of texture coordinates is commented out
-    // now because I haven't backported the fragment program yet
-    // and I don't have a card that actually supports it anyway...
-    // Akos 21.02.2003.
-    // (this is just needed to load models in the '.tst' format for the demo)
     if ( useTextures )
     {
 //        std::cerr<<"read in texture coordinates..."<<std::endl;
@@ -1948,7 +1990,7 @@ void Surface::writetotso( std::ostream &outfile )
 //! Write tessellated geometry to an .obj file. Absolutely temporary function
 /*!
  *
- *  \param outfile ifstream to read surface data from.
+ *  \param outfile istream to read surface data from.
  */
 UInt32 Surface::writetoobj( std::ostream &outfile, UInt32 offset )
 {
@@ -2082,22 +2124,72 @@ void Surface::handleGL(Window*, UInt32 idstatus)
     }
 }
 
+// Calculate the volume based on bounding box of the control points.
+// If any of the control points have 0 weight, also take into
+// account the tessellated geometry, otherwise the volume will be 
+// too small. 
+// FIXME: a better solution might be to do de Casteljau steps
+// FIXME: until there are no control points w/ 0 weights and
+// FIXME: redo the calculation...
 void Surface::adjustVolume(Volume & volume)
 {
     GeoPositionsPtr pos = getControlPoints();
+    bool has_zeroweights = false;
     
     volume.setValid();
     volume.setEmpty();
 
     GeoPositions3fPtr pPos = GeoPositions3fPtr::dcast(
         _sfControlPoints.getValue());
+    GeoPositions4fPtr pRatPos = GeoPositions4fPtr::dcast(
+        _sfControlPoints.getValue());
 
     if(pos == NullFC)
         return;                  // Node has no points, no volume
 
-    for(UInt32 i = 0; i < pPos->size(); ++i)
+    if( pPos != NullFC )
     {
-        volume.extendBy(pPos->getValue(i));
+        for(UInt32 i = 0; i < pPos->size(); ++i)
+        {
+            volume.extendBy(pPos->getValue(i));
+        }
+    }
+    else if( pRatPos != NullFC )
+    {
+        for(UInt32 i = 0; i < pRatPos->size(); ++i)
+        {
+            Pnt3f   pnt;
+
+            if( osgabs( pRatPos->getFieldPtr()->getValue(i)[3] ) > DCTP_EPS )
+            {
+                pnt[0] = pRatPos->getFieldPtr()->getValue(i)[0] / pRatPos->getFieldPtr()->getValue(i)[3];
+                pnt[1] = pRatPos->getFieldPtr()->getValue(i)[1] / pRatPos->getFieldPtr()->getValue(i)[3];
+                pnt[2] = pRatPos->getFieldPtr()->getValue(i)[2] / pRatPos->getFieldPtr()->getValue(i)[3];
+                volume.extendBy(pnt);
+            }
+            else
+            {
+                has_zeroweights = true;
+            }
+        }
+    }
+    if (has_zeroweights)
+    {
+        GeoPositionsPtr points = getPositions();
+        if (points != NullFC)
+        {
+            for(UInt32 i = 0; i < points->size(); ++i)
+            {
+                volume.extendBy(points->getValue(i));
+            }
+        }
+        // FIXME: a warning should be printed here since the calculated
+        // FIXME: volume will not be exact if there was no tessellated 
+        // FIXME: geometry, but in that case there's nothing to render 
+        // FIXME: anyway so we skip the warning (which would be  
+        // FIXME: unnecessarily (and annoyingly) printed at startup 
+        // FIXME: e.g. when the SSM::showall() method is called).
+        // FIXME: Better suggestions are welcome.
     }
 }
 

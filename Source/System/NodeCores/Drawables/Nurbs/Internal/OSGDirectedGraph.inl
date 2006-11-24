@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -39,19 +39,6 @@
 #include <OSGConfig.h>
 
 OSG_BEGIN_NAMESPACE
-
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_1[]="BEGINDIRECTEDGRAPH";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_2[]="NUMBEROFNODES";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_3[]="EDGESPERNODE";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_4[]="EDGES";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_5[]="NODEINFO";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_6[]="NUMBEROFEDGES";
-  template <typename T0, typename T1> const char DirectedGraph<T0, T1>::ff_const_7[]="EDGEDATA"; 
-
-
-
-
-
 
 // default constructor
 template <typename T0, typename T1>
@@ -107,8 +94,8 @@ int DirectedGraph<T0, T1>::DeleteEdge( int edgeidx )
   edges[ edgeidx ].valid = false;
 
   DirectedNode<T0> &fromnode = nodes[ edges [ edgeidx ].from ];
-  ivector::iterator nee = fromnode.edges.end();
-  ivector::iterator i;
+  DCTPivector::iterator nee = fromnode.edges.end();
+  DCTPivector::iterator i;
   for( i = fromnode.edges.begin(); i != nee; ++i )
     if ( *i == edgeidx ) {
       fromnode.edges.erase( i );
@@ -130,7 +117,7 @@ int DirectedGraph<T0, T1>::DeleteEdge( int edgeidx )
 
 
 template <typename T0, typename T1>
-ivector & DirectedGraph<T0, T1>::getEdges( int n ) // get all edges (indexes) from a node
+DCTPivector & DirectedGraph<T0, T1>::getEdges( int n ) // get all edges (indexes) from a node
 {
   return &nodes.edges;
 }
@@ -203,104 +190,6 @@ int DirectedGraph<T0, T1>::changeEdgeDirection( int edgeindex )
   edges[ edgeindex ].from = tmp;
 
   return 0;
-}
-
-template <typename T0, typename T1>
-int DirectedGraph<T0, T1>::read( std::istream &infile )
-{
-
-  //FIXME: maybe we need more checks!!!
-  char txtbuffer[ 256 ];
-
-
-  infile.getline( txtbuffer, 255 ); //read line
-  if ( strcmp( txtbuffer, ff_const_1 ) ) return -1; //bad file format
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_2 ) )  return -1; //yeah, bad file format again
-
-  typename DirectedNode<T0>::nodevector::size_type num_of_nodes;
-  infile >> num_of_nodes >> std::ws;
-
-  if ( num_of_nodes < 1 ) {
-    invalid = true;
-    return 0;
-  }
-  nodes.resize( num_of_nodes ); //FIXME: whatif not enough memory?
-  // read in nodes
-  for ( typename DirectedNode<T0>::nodevector::size_type i = 0; i < num_of_nodes; ++i ) {
-    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-    if ( strcmp( txtbuffer, ff_const_3 ) )  return -1; //yeah, bad file format again
-    ivector::size_type num_of_edges;
-    infile >> num_of_edges >> std::ws;
-    nodes[ i ].edges.resize( num_of_edges );
-    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!
-    if ( strcmp( txtbuffer, ff_const_4 ) )  return -1; //bad file format
-    for ( ivector::size_type j = 0; j < num_of_edges; ++j)
-      infile >> nodes[ i ].edges[ j ];
-    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!
-    if ( strcmp( txtbuffer, ff_const_5 ) )  return -1; //bad file format
-    infile >> nodes[ i ].nodeinfo >> std::ws;
-  }
-
-  // read in edges
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_6 ) )  return -1; //yeah, bad file format again
-  typename DirectedEdge<T1>::edgevector::size_type num_of_edges;
-  infile >> num_of_edges >> std::ws;
-  edges.resize( num_of_edges ); //FIXME: whatif not enough memory?
-  for ( typename DirectedEdge<T1>::edgevector::size_type i = 0; i < num_of_edges; ++i ) {
-    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-    if ( strcmp( txtbuffer, ff_const_7 ) )  return -1; //yeah, bad file format again
-    infile >> edges[ i ].direction >> edges[ i ].from >>
-              edges[ i ].to >> edges[ i ].edgeinfo >> std::ws;
-    edges[ i ].valid = true; //DEBUG
-  }
-
-  invalid = false;
-  return 0;
-}
-
-template <typename T0, typename T1>
-int DirectedGraph<T0, T1>::write( std::ostream &outfile )
-{
-  //FIXME: maybe we need more checks!!!
-  outfile.precision( DCTP_PRECISION );
-  outfile << ff_const_1 << std::endl;
-  typename DirectedNode<T0>::nodevector::size_type num_of_nodes = nodes.size();
-  outfile << ff_const_2 << " " << num_of_nodes << std::endl;
-
-  // write out nodes
-  typename DirectedNode<T0>::nodevector::iterator nend = nodes.end();
-  for ( typename DirectedNode<T0>::nodevector::iterator i = nodes.begin(); i!= nend; ++i ) {
-    ivector::size_type num_of_edges = i->edges.size();
-    outfile << ff_const_3 << " " << num_of_edges << std::endl;
-    // write out edge vector
-    ivector::iterator evend = i->edges.end();
-    outfile << ff_const_4;
-    for(ivector::iterator j = i->edges.begin(); j != evend; ++j )
-      outfile << " " << *j;
-    outfile << std::endl;
-    outfile << ff_const_5 << " " << i->nodeinfo << std::endl;
-  }
-
-  // write out edges
-  typename DirectedEdge<T1>::edgevector::size_type num_of_edges = edges.size();
-  outfile << ff_const_6 << " " << num_of_edges << std::endl;
-  typename DirectedEdge<T1>::edgevector::iterator eend = edges.end();
-  for ( typename DirectedEdge<T1>::edgevector::iterator e = edges.begin(); e!= eend; ++e ) {
-    outfile << ff_const_7 << " " << e->direction << " " <<
-               (*e).from << " " <<
-               (*e).to << " " << e->edgeinfo << std::endl;
-  }
-  return 0;
-}
-
-template <typename T0, typename T1>
-void DirectedGraph<T0, T1>::writeInvalid( std::ostream &outfile )
-{
-  outfile << ff_const_1 << std::endl;
-  outfile << ff_const_2 << " 0" << std::endl;
-
 }
 
 template <typename T0, typename T1>

@@ -132,11 +132,11 @@
 #       define OSG_FPU_ROUND_DOUBLE (fpu_init = _controlfp (0, 0),\
                                      _controlfp (_PC_53, _MCW_PC))
 #       define OSG_FPU_RESTORE      (_controlfp (fpu_init, 0xfffff))
-#  endif
+#  endif /* 0 */
 
 #else
 #  include <sys/time.h>
-#endif
+#endif /* WIN32 */
 #include "OSGpredicates.h"
 
 OSG_USING_NAMESPACE

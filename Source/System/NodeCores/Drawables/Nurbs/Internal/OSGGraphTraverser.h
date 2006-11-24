@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 #include <stdlib.h>
@@ -68,35 +68,27 @@ public:
 };
 
 class OSG_SYSTEMLIB_DLLMAPPING GraphTraverser {
-        DirectedGraph< vec2d, unsigned char >* g;
+        DirectedGraph< Vec2d, unsigned char >* g;
         simplepolygonvector polys;
-        vec2dvector globalverts;
-        std::ofstream boundaryfile;
+        DCTPVec2dvector globalverts;
         bool usedelaunay;
          
 public:
         GraphTraverser() {}
         ~GraphTraverser() {}
-        void Initialize( DirectedGraph<vec2d, unsigned char >& gg, bool
+        void Initialize( DirectedGraph<Vec2d, unsigned char >& gg, bool
         usedelaunaytri );
         int getNextEdge( const int nodeid, const int previd /*const double& in_angle*/  );
-        int writeTriangles( std::ostream &of );
-        void writeInvalidTriangles( std::ostream &of );
         int Traverse( void );
-        int triangulatePolygon( ivector& nodes, bool bConvex );
+        int triangulatePolygon( DCTPivector& nodes, bool bConvex );
         int getADirectedEdge( void );
         void handleEdge( int eid, int to_nid, int &from_nid /* double& ang*/ );
         int getOtherEnd( int eid, int nid );
         int getOutGoingEdge( int nid );
 
-        void openBoundary( void );
-        void writeBoundary( int startedge );
-        void writePreBoundary( int boundary_index );
-        void writeNode( int nodeid );
-        void writePostBoundary( int boundary_index );
 
         simplepolygonvector* getPolys() { return &polys; }
-        vec2dvector* getVertices() { return &globalverts; }
+        DCTPVec2dvector* getVertices() { return &globalverts; }
 };
 
 OSG_END_NAMESPACE

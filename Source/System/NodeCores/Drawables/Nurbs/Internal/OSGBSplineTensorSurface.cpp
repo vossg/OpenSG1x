@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -43,6 +43,10 @@
 OSG_USING_NAMESPACE
 
 
+
+// FIXME: clean up all of the copy'n'paste mess...
+// FIXME: double-check that we actually got it correct...
+
 #ifdef _DEBUG
  #ifdef WIN32
   #undef THIS_FILE
@@ -54,6 +58,7 @@ OSG_USING_NAMESPACE
   const char BSplineTensorSurface::ff_const_2[]="DIMENSIONU";
   const char BSplineTensorSurface::ff_const_3[]="DIMENSIONV";
   const char BSplineTensorSurface::ff_const_4[]="NUMBEROFCONTROLPOINTS";
+  const char BSplineTensorSurface::ff_const_5[]="BEGINRATIONALBSPLINETENSORSURFACE";
 
 //construction (& destruction, but not here :)
 BSplineTensorSurface::BSplineTensorSurface()
@@ -63,17 +68,17 @@ BSplineTensorSurface::BSplineTensorSurface()
 }
 
 
-int BSplineTensorSurface::CheckKnotPoints( const dvector& knots, int dim )
+int BSplineTensorSurface::CheckKnotPoints( const DCTPdvector& knots, int dim )
 {
   //now check knotvector whether it has
   //(a,a,....a, ......., b,b,....b)
   // |-dim+1-|           |-dim+1-|
   //structure
 
-  dvector::size_type max_index = knots.size() - 1;
+  DCTPdvector::size_type max_index = knots.size() - 1;
   double test_begin = knots[ 0 ], test_end = knots[ max_index ];
 
-  for( dvector::size_type i = 1; i < ( unsigned int ) dim + 1; ++i )
+  for( DCTPdvector::size_type i = 1; i < ( unsigned int ) dim + 1; ++i )
     if ( knots[ i ] != test_begin || knots[ max_index - i ] != test_end ) return -1; //FIXME: double comparison ?!
 
   return 0;
@@ -81,12 +86,12 @@ int BSplineTensorSurface::CheckKnotPoints( const dvector& knots, int dim )
 
 int BSplineTensorSurface::deleteBezierKnot_U( double k )
 {
-  dvector knots = basis_function_u.getKnotVector();
+  DCTPdvector knots = basis_function_u.getKnotVector();
 
   if ( k >= knots[ knots.size() - 1 ] ) return -1; // knot is too high
   if ( k <= knots[ 0 ] ) return -2; // knot is too low
 
-  dvector::size_type i = 0;
+  DCTPdvector::size_type i = 0;
   int mult = 0;
   while ( knots[ i ] <= k ) {
     if ( knots[ i ] == k ) mult++;
@@ -107,12 +112,12 @@ int BSplineTensorSurface::deleteBezierKnot_U( double k )
 
 int BSplineTensorSurface::deleteBezierKnot_V( double k )
 {
-  dvector knots = basis_function_v.getKnotVector();
+  DCTPdvector knots = basis_function_v.getKnotVector();
 
   if ( k >= knots[ knots.size() - 1 ] ) return -1; // knot is too high
   if ( k <= knots[ 0 ] ) return -2; // knot is too low
 
-  dvector::size_type i = 0;
+  DCTPdvector::size_type i = 0;
   int mult = 0;
   while ( knots[ i ] <= k ) {
     if ( knots[ i ] == k ) mult++;
@@ -126,7 +131,7 @@ int BSplineTensorSurface::deleteBezierKnot_V( double k )
   // set new knot vector
   basis_function_v.setKnotVector( knots );
   // delete control points from the control point mesh corresponding to just deleted knot
-  for (vec3dvector::size_type j = 0; j < control_points.size(); j++ ) {
+  for (DCTPVec4dvector::size_type j = 0; j < control_points.size(); j++ ) {
     control_points[ j ].erase( control_points[ j ].begin() + i - dimension_v );
   }
   return 0;
@@ -134,11 +139,11 @@ int BSplineTensorSurface::deleteBezierKnot_V( double k )
 
 
 //setup functions
-int BSplineTensorSurface::setKnotsAndDimension( const dvector& knots_u, int dim_u, const dvector& knots_v, int dim_v )
+int BSplineTensorSurface::setKnotsAndDimension( const DCTPdvector& knots_u, int dim_u, const DCTPdvector& knots_v, int dim_v )
 {
   if ( dim_u < 1 || dim_v < 1 ) return -1; //invalid dimension
 
-  dvector::size_type max_index = knots_u.size() - 1;
+  DCTPdvector::size_type max_index = knots_u.size() - 1;
   if ( max_index < 3 ) return -2; //here's an implicit check fer structure, see below
   if ( CheckKnotPoints( knots_u, dim_u ) ) return -3;
 
@@ -153,19 +158,19 @@ int BSplineTensorSurface::setKnotsAndDimension( const dvector& knots_u, int dim_
   return 0;
 }
 
-void BSplineTensorSurface::setControlPointMatrix( const vec3dmatrix &cps )
+void BSplineTensorSurface::setControlPointMatrix( const DCTPVec4dmatrix &cps )
 {
   // FIXME: check that this is really a matrix
   control_points = cps;
 }
 
 //query functions
-dvector& BSplineTensorSurface::getKnotVector_U( void )
+DCTPdvector& BSplineTensorSurface::getKnotVector_U( void )
 {
   return basis_function_u.getKnotVector();
 }
 
-dvector& BSplineTensorSurface::getKnotVector_V( void )
+DCTPdvector& BSplineTensorSurface::getKnotVector_V( void )
 {
   return basis_function_v.getKnotVector();
 }
@@ -190,50 +195,68 @@ void BSplineTensorSurface::getParameterInterval_V( double &minpar, double &maxpa
  */
 int BSplineTensorSurface::read( std::istream &infile )
 {
-  //FIXME: maybe we need more checks!!!
-  char txtbuffer[ 256 ];
+    //FIXME: maybe we need more checks!!!
+    char txtbuffer[ 256 ];
+    bool israt = false;
 
 
-  infile.getline( txtbuffer, 255 ); //read line
-  if ( strcmp( txtbuffer, ff_const_1 ) ) return -1; //bad file format
+    infile.getline( txtbuffer, 255 ); //read line
+    if (strcmp( txtbuffer, ff_const_1 ) && 
+        strcmp( txtbuffer, ff_const_5 )) 
+    {
+        return -1; //bad file format
+    }
+    if ( !strcmp(txtbuffer, ff_const_5))
+    {
+        israt = true;
+    }
+    
 
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_2 ) )  return -1; //yeah, bad file format again
-  infile >> dimension_u >> std::ws;
-  if ( dimension_u < 1 ) return -2; //ah, bad dimension
+    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
+    if ( strcmp( txtbuffer, ff_const_2 ) )  return -1; //yeah, bad file format again
+    infile >> dimension_u >> std::ws;
+    if ( dimension_u < 1 ) return -2; //ah, bad dimension
 
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_3 ) )  return -1; //yeah, bad file format again
-  infile >> dimension_v >> std::ws;
-  if ( dimension_v < 1 ) return -2; //ah, bad dimension
+    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
+    if ( strcmp( txtbuffer, ff_const_3 ) )  return -1; //yeah, bad file format again
+    infile >> dimension_v >> std::ws;
+    if ( dimension_v < 1 ) return -2; //ah, bad dimension
 
    
-  if ( basis_function_u.read( infile ) ) return -3; //error reading basis function
-  if ( CheckKnotPoints( basis_function_u.getKnotVector(), dimension_u ) ) return -4;
-  infile >> std::ws;
-  if ( basis_function_v.read( infile ) ) return -3; //error reading basis function
-  if ( CheckKnotPoints( basis_function_v.getKnotVector(), dimension_v ) ) return -4;
-  infile >> std::ws;
+    if ( basis_function_u.read( infile ) ) return -3; //error reading basis function
+    if ( CheckKnotPoints( basis_function_u.getKnotVector(), dimension_u ) ) return -4;
+    infile >> std::ws;
+    if ( basis_function_v.read( infile ) ) return -3; //error reading basis function
+    if ( CheckKnotPoints( basis_function_v.getKnotVector(), dimension_v ) ) return -4;
+    infile >> std::ws;
 
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_4 ) ) return -1; //bad file format once again
-
-  vec3dmatrix::size_type num_of_cps_u;
-  vec3dvector::size_type num_of_cps_v;
-  infile >> num_of_cps_u >> num_of_cps_v >> std::ws;
-  if ( num_of_cps_u < 1 || num_of_cps_v < 1 ) return -5; //too few control points
-  control_points.resize( num_of_cps_u ); //FIXME: whatif not enoght memory?
-  for( dvector::size_type u = 0; u < num_of_cps_u; ++u ) {
-    control_points[ u ].resize( num_of_cps_v );  //FIXME: not enough mem, exception thrown by STL
-    for( dvector::size_type v = 0; v < num_of_cps_v; ++v ) {
-      vec3d cp;
-      infile >> cp.x >> cp.y >> cp.z >> std::ws;
-      control_points[ u ][ v ] = cp; //FIXME: ya see, we need ERROR CHECKS!!!
+    infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
+    if ( strcmp( txtbuffer, ff_const_4 ) ) return -1; //bad file format once again
+ 
+    DCTPVec4dmatrix::size_type num_of_cps_u;
+    DCTPVec4dvector::size_type num_of_cps_v;
+    infile >> num_of_cps_u >> num_of_cps_v >> std::ws;
+    if ( num_of_cps_u < 1 || num_of_cps_v < 1 ) return -5; //too few control points
+    control_points.resize( num_of_cps_u ); //FIXME: whatif not enoght memory?
+    for( DCTPdvector::size_type u = 0; u < num_of_cps_u; ++u ) 
+    {
+        control_points[ u ].resize( num_of_cps_v );  //FIXME: not enough mem, exception thrown by STL
+        for( DCTPdvector::size_type v = 0; v < num_of_cps_v; ++v ) 
+        {
+            Vec4d cp;
+            if ( israt )
+            {
+                infile >> cp[0] >> cp[1] >> cp[2] >> cp[3] >> std::ws;
+            }
+            else
+            {
+                infile >> cp[0] >> cp[1] >> cp[2] >> std::ws;
+                cp[3] = 1.0;
+            }
+            control_points[ u ][ v ] = cp; //FIXME: ya see, we need ERROR CHECKS!!!
+        }
     }
-  }
-
-  return 0;
-
+    return 0;
 }
 
 //! Write the surface parameters out to a given output stream.
@@ -243,25 +266,55 @@ int BSplineTensorSurface::read( std::istream &infile )
  * \return zero on success, a negative value on failure.
  *
  */
-
 int BSplineTensorSurface::write( std::ostream &outfile )
 {
-  //FIXME: maybe we need more checks!!!
-  outfile.precision( DCTP_PRECISION );
-  outfile << ff_const_1 << std::endl;
-  outfile << ff_const_2 << " " << dimension_u << std::endl;
-  outfile << ff_const_3 << " " << dimension_v << std::endl;
-  basis_function_u.write( outfile );
-  basis_function_v.write( outfile );
-  vec3dmatrix::size_type num_of_cps_u = control_points.size();
-  vec3dvector::size_type num_of_cps_v = control_points[0].size();//FIXME:what if it's not initialized yet
-  outfile << ff_const_4 << " " << num_of_cps_u << " " << num_of_cps_v << std::endl;
-  for( dvector::size_type u = 0; u < num_of_cps_u; ++u )
-    for ( dvector::size_type v = 0; v < num_of_cps_v; ++v ) {
-    vec3d cp = control_points[ u ][ v ];
-    outfile << cp.x << " " << cp.y << " " << cp.z << std::endl;
-  }
-  return 0;
+    bool israt = false;
+    DCTPdvector::size_type u, v;
+    DCTPVec4dmatrix::size_type num_of_cps_u = control_points.size();
+    DCTPVec4dvector::size_type num_of_cps_v = control_points[0].size();//FIXME:what if it's not initialized yet
+    for(u = 0; u < num_of_cps_u; ++u)
+    {
+        for(v = 0; v < num_of_cps_v; ++v) 
+        {
+            if (osgabs( control_points[u][v][3] - 1.0) > DCTP_EPS)
+            {
+                israt = true;
+                break;
+            }
+        }
+    }
+
+    //FIXME: maybe we need more checks!!!
+    outfile.precision( DCTP_PRECISION );
+    if (!israt)
+    {
+        outfile << ff_const_1 << std::endl;
+    }
+    else
+    {
+        outfile << ff_const_5 << std::endl;
+    }
+    outfile << ff_const_2 << " " << dimension_u << std::endl;
+    outfile << ff_const_3 << " " << dimension_v << std::endl;
+    basis_function_u.write( outfile );
+    basis_function_v.write( outfile );
+    outfile << ff_const_4 << " " << num_of_cps_u << " " << num_of_cps_v << std::endl;
+    for(u = 0; u < num_of_cps_u; ++u)
+    {
+        for(v = 0; v < num_of_cps_v; ++v) 
+        {
+            Vec4d cp = control_points[ u ][ v ];
+            if (!israt)
+            {
+                outfile << cp[0] << " " << cp[1] << " " << cp[2] << std::endl;
+            }
+            else
+            {
+                outfile << cp[0] << " " << cp[1] << " " << cp[2] << " " << cp[3] << std::endl;
+            }
+        }
+    }
+    return 0;
 }
 
 
@@ -275,31 +328,32 @@ int BSplineTensorSurface::write( std::ostream &outfile )
  * \return the value of the surface in 3D space.
  *
  */
-vec3d BSplineTensorSurface::compute( vec2d uv, int &error )
+Vec4d BSplineTensorSurface::compute4D( Vec2d uv, int &error )
 {
   //FIXME: verification before goin' into computation!!
   double *nu;
-  int span_u = basis_function_u.computeAllNonzero( uv.x, dimension_u, nu );
+  int span_u = basis_function_u.computeAllNonzero( uv[0], dimension_u, nu );
   double *nv;
-  int span_v = basis_function_v.computeAllNonzero( uv.y, dimension_v, nv );
+  int span_v = basis_function_v.computeAllNonzero( uv[1], dimension_v, nv );
 
-  vec3d result( 0.0, 0.0, 0.0 );
+  Vec4d result( 0.0, 0.0, 0.0, 0.0 );
   if ( span_u < 0 || span_v < 0 ) {
     std::cerr << "spanu: " << span_u << " spanv: " << span_v << std::endl;
     error = ( span_u < 0 ) ? span_u : span_v;
 	if( span_u >= 0 ) delete[ ] nu;
 	if( span_v >= 0 ) delete[ ] nv;
+    result[3] = 1.0;
     return result;//error occured in BSplineBasisFunction.computeAll...
   }
 
   unsigned int	index_v = span_v - dimension_v;
-  vec3d			temp;
+  Vec4d			temp;
   unsigned int	index_u;
   for( int l = 0; l <= dimension_v; ++l )
   {
-    temp.x = temp.y = temp.z = 0.0;
+    temp[0] = temp[1] = temp[2] = temp[3] = 0.0;
     index_u = span_u - dimension_u;
-    for( vec3dmatrix::size_type k = 0; k <= ( unsigned int ) dimension_u; ++k )
+    for( DCTPVec4dmatrix::size_type k = 0; k <= ( unsigned int ) dimension_u; ++k )
 	{
       temp += control_points[ index_u ][ index_v ] * nu[ k ];
 	  ++index_u;
@@ -313,6 +367,56 @@ vec3d BSplineTensorSurface::compute( vec2d uv, int &error )
   return ( result );
 }
 
+Vec3d BSplineTensorSurface::compute( Vec2d uv, int &error )
+{
+    Vec4d rat_res;
+    Vec3d res;
+    
+    rat_res = compute4D(uv, error);
+    res[0] = rat_res[0] / rat_res[3];
+    res[1] = rat_res[1] / rat_res[3];
+    res[2] = rat_res[2] / rat_res[3];
+    return res;    
+}
+
+void BSplineTensorSurface::RatSurfaceDerivs( DCTPVec4dmatrix &rclHomDerivs, DCTPVec3dmatrix &rclEuclidDerivs )
+{
+    unsigned int    ui_k, ui_l, ui_j, ui_i;
+    Vec3d           cl_v, cl_v2;
+    
+    // FIXME: optimize for special case clHomDervis.size()==2!
+    // FIXME: binomial coefficients are all 1 in this case, so alredy removed
+    
+    for( ui_k = 0; ui_k < rclHomDerivs.size(); ++ui_k )
+    {
+        for( ui_l = 0; ui_l < rclHomDerivs.size() - ui_k; ++ui_l )
+        {
+            cl_v[0] = rclHomDerivs[ui_k][ui_l][0];
+            cl_v[1] = rclHomDerivs[ui_k][ui_l][1];
+            cl_v[2] = rclHomDerivs[ui_k][ui_l][2];
+            for( ui_j = 1; ui_j <= ui_l; ++ui_j )
+            {
+                //cl_v -= Binomial(ui_l, ui_j) * rclHomDerivs[0][ui_j][3] * rclEuclidDerivs[ui_k][ui_l-ui_j];
+                cl_v -= rclHomDerivs[0][ui_j][3] * rclEuclidDerivs[ui_k][ui_l-ui_j];
+            }
+            for( ui_i = 1; ui_i <= ui_k; ++ui_i )
+            {
+                //cl_v -= Binomial(ui_k, ui_i) * rclHomDerivs[ui_i][0][3] * rclEuclidDerivs[ui_k-ui_i][ui_l];
+                cl_v -= rclHomDerivs[ui_i][0][3] * rclEuclidDerivs[ui_k-ui_i][ui_l];
+                cl_v2 = Vec3d(0.0, 0.0, 0.0);
+                for( ui_j = 1; ui_j <= ui_l; ++ui_j )
+                {
+                    //cl_v2 += Binomial(ui_l, ui_j) * rclHomDerivs[ui_i][ui_j][3] * rclEuclidDerivs[ui_k-ui_i][ui_l-ui_j];
+                    cl_v2 += rclHomDerivs[ui_i][ui_j][3] * rclEuclidDerivs[ui_k-ui_i][ui_l-ui_j];
+                }
+//                cl_v -= Binomial(ui_k, ui_i) * cl_v2; 
+                cl_v -= cl_v2; 
+            }
+            rclEuclidDerivs[ui_k][ui_l] = cl_v * ( 1.0 / rclHomDerivs[0][0][3]);
+        }
+    }
+}
+
 
 //! Compute the surface normal at a given (u,v) point in parameter space.
 /*!
@@ -324,26 +428,52 @@ vec3d BSplineTensorSurface::compute( vec2d uv, int &error )
  * \return the value of the surface in 3D space.
  *
  */
-Vec3f BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, Pnt3f &rclPos )
+Vec3f BSplineTensorSurface::computeNormal( Vec2d clUV, int &riError, Pnt3f &rclPos )
+{
+    Vec3d   cl_norm;
+    Vec3d   cl_pos;
+    Vec3f   cl_normal;
+    
+    cl_norm = computeNormal( clUV, riError, cl_pos );
+    cl_normal[0] = static_cast<Real32>(cl_norm[0]);
+    cl_normal[1] = static_cast<Real32>(cl_norm[1]);
+    cl_normal[2] = static_cast<Real32>(cl_norm[2]);
+    rclPos[0] = static_cast<Real32>(cl_pos[0]);
+    rclPos[1] = static_cast<Real32>(cl_pos[1]);
+    rclPos[2] = static_cast<Real32>(cl_pos[2]);
+
+	return cl_normal;
+}
+
+
+Vec3d BSplineTensorSurface::computeNormal( Vec2d clUV, int &riError, Vec3d &rclPos )
 {
 	int							i_uspan;
 	int							i_vspan;
 	double						**ppd_nu;
 	double						**ppd_nv;
-	vec3d						cl_temp;
-	Vec3f						cl_normal;
+	Vec3d						cl_temp;
+	Vec3d						cl_normal;
 	int							i_k;
 	int							i_s;
 	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*pcl_temp;
+	DCTPVec4dmatrix				vvcl_skl;
+	DCTPVec3dmatrix				vvcl_skl_eucl;
+	Vec4d						*pcl_temp;
 	int							i_r;
 	double						d_len;
 	int							i_u;
 	int							i_v;
+    
+    vvcl_skl.resize(2);
+    vvcl_skl[0].resize(2);
+    vvcl_skl[1].resize(2);
+    vvcl_skl_eucl.resize(2);
+    vvcl_skl_eucl[0].resize(2);
+    vvcl_skl_eucl[1].resize(2);
 
-	i_uspan = basis_function_u.computeDersBasisFuns( clUV.x, dimension_u, ppd_nu, 1 );
-	i_vspan = basis_function_v.computeDersBasisFuns( clUV.y, dimension_v, ppd_nv, 1 );
+	i_uspan = basis_function_u.computeDersBasisFuns( clUV[0], dimension_u, ppd_nu, 1 );
+	i_vspan = basis_function_v.computeDersBasisFuns( clUV[1], dimension_v, ppd_nv, 1 );
 	if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
 	{
 		riError = -1;
@@ -353,7 +483,7 @@ Vec3f BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, Pnt3f &rclP
 //	vvcl_skl.resize( 2 );
 //	vvcl_skl[ 0 ].resize( 2 );
 //	vvcl_skl[ 1 ].resize( 2 );
-	pcl_temp = new vec3d[ dimension_v + 1 ];
+	pcl_temp = new Vec4d[ dimension_v + 1 ];
 //	vcl_temp.resize( dimension_v + 1 );
 
 	for( i_k = 0; i_k <= 1; ++i_k )
@@ -361,7 +491,7 @@ Vec3f BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, Pnt3f &rclP
 		i_v = i_vspan - dimension_v;
 		for( i_s = 0; i_s <= dimension_v; ++i_s )
 		{
-			pcl_temp[ i_s ].x = pcl_temp[ i_s ].y = pcl_temp[ i_s ].z = 0.0;
+			pcl_temp[ i_s ] = Vec4d(0.0, 0.0, 0.0, 0.0);
 			i_u = i_uspan - dimension_u;
 			for( i_r = 0; i_r <= dimension_u; ++i_r )
 			{
@@ -372,19 +502,21 @@ Vec3f BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, Pnt3f &rclP
 		}
 		for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 		{
-			aacl_skl[ i_k ][ i_l ].x = aacl_skl[ i_k ][ i_l ].y = aacl_skl[ i_k ][ i_l ].z = 0.0;
+			vvcl_skl[ i_k ][ i_l ] = Vec4d(0.0, 0.0, 0.0, 0.0);
 			for( i_s = 0; i_s <= dimension_v; ++i_s )
 			{
-				aacl_skl[ i_k ][ i_l ] += pcl_temp[ i_s ] * ppd_nv[ i_l ][ i_s ];
+				vvcl_skl[ i_k ][ i_l ] += pcl_temp[ i_s ] * ppd_nv[ i_l ][ i_s ];
 			}
 		}
 	}
 
-	correctDers( clUV, aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
-	cl_temp = aacl_skl[ 1 ][ 0 ].cross( aacl_skl[ 0 ][ 1 ] );
-	d_len = cl_temp.quad_size( );
+    RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+	correctDers( clUV, vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
+	cl_temp = vvcl_skl_eucl[ 1 ][ 0 ].cross( vvcl_skl_eucl[ 0 ][ 1 ] );
+	d_len = cl_temp.squareLength( );
 	if( d_len < DCTP_EPS * DCTP_EPS )
 	{
+//        std::cerr<<"d_len too small: " << d_len << std::endl;
 		cl_normal[ 0 ] = cl_normal[ 1 ] = cl_normal[ 2 ] = 0.0;
 		riError = -2;
 	}
@@ -392,95 +524,14 @@ Vec3f BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, Pnt3f &rclP
 	{
 		cl_temp *= 1.0 / sqrt( d_len );
 		riError = 0;
-		cl_normal[ 0 ] = cl_temp.x;
-		cl_normal[ 1 ] = cl_temp.y;
-		cl_normal[ 2 ] = cl_temp.z;
+		cl_normal[ 0 ] = cl_temp[0];
+		cl_normal[ 1 ] = cl_temp[1];
+		cl_normal[ 2 ] = cl_temp[2];
 	}
 
-	rclPos[ 0 ] = aacl_skl[ 0 ][ 0 ].x;
-	rclPos[ 1 ] = aacl_skl[ 0 ][ 0 ].y;
-	rclPos[ 2 ] = aacl_skl[ 0 ][ 0 ].z;
-
-	// clean up allocated memory
-	delete[ ] ppd_nu[ 0 ];
-	delete[ ] ppd_nu[ 1 ];
-	delete[ ] ppd_nv[ 0 ];
-	delete[ ] ppd_nv[ 1 ];
-	delete[ ] ppd_nu;
-	delete[ ] ppd_nv;
-	delete[ ] pcl_temp;
-
-	return cl_normal;
-}
-
-
-vec3d BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, vec3d &rclPos )
-{
-	int							i_uspan;
-	int							i_vspan;
-	double						**ppd_nu;
-	double						**ppd_nv;
-	int							i_k;
-	int							i_s;
-	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*pcl_temp;
-	vec3d						cl_normal;
-	int							i_r;
-	double						d_len;
-	int							i_u;
-	int							i_v;
-
-	i_uspan = basis_function_u.computeDersBasisFuns( clUV.x, dimension_u, ppd_nu, 1 );
-	i_vspan = basis_function_v.computeDersBasisFuns( clUV.y, dimension_v, ppd_nv, 1 );
-	if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
-	{
-		riError = -1;
-		return cl_normal;
-	}
-
-	pcl_temp = new vec3d[ dimension_v + 1 ];
-
-	for( i_k = 0; i_k <= 1; ++i_k )
-	{
-		i_v = i_vspan - dimension_v;
-		for( i_s = 0; i_s <= dimension_v; ++i_s )
-		{
-			pcl_temp[ i_s ].x = pcl_temp[ i_s ].y = pcl_temp[ i_s ].z = 0.0;
-			i_u = i_uspan - dimension_u;
-			for( i_r = 0; i_r <= dimension_u; ++i_r )
-			{
-				pcl_temp[ i_s ] += control_points[ i_u ][ i_v ] * ppd_nu[ i_k ][ i_r ];
-				++i_u;
-			}
-			++i_v;
-		}
-		for( i_l = 0; i_l <= 1 - i_k; ++i_l )
-		{
-			aacl_skl[ i_k ][ i_l ].x = aacl_skl[ i_k ][ i_l ].y = aacl_skl[ i_k ][ i_l ].z = 0.0;
-			for( i_s = 0; i_s <= dimension_v; ++i_s )
-			{
-				aacl_skl[ i_k ][ i_l ] += pcl_temp[ i_s ] * ppd_nv[ i_l ][ i_s ];
-			}
-		}
-	}
-
-	rclPos = aacl_skl[ 0 ][ 0 ];
-
-	correctDers( clUV, aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
-	cl_normal = aacl_skl[ 1 ][ 0 ].cross( aacl_skl[ 0 ][ 1 ] );
-	d_len = cl_normal.quad_size( );
-
-	if( d_len < DCTP_EPS * DCTP_EPS )
-	{
-		cl_normal.x = cl_normal.y = cl_normal.z = 0.0;
-		riError = -2;
-	}
-	else
-	{
-		cl_normal *= 1.0 / sqrt( d_len );
-		riError = 0;
-	}
+	rclPos[ 0 ] = vvcl_skl_eucl[0][0][0];
+	rclPos[ 1 ] = vvcl_skl_eucl[0][0][1];
+	rclPos[ 2 ] = vvcl_skl_eucl[0][0][2];
 
 	// clean up allocated memory
 	delete[ ] ppd_nu[ 0 ];
@@ -505,32 +556,40 @@ vec3d BSplineTensorSurface::computeNormal( vec2d clUV, int &riError, vec3d &rclP
  * \return the value of the surface in 3D space.
  *
  */
-vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV, 
+Vec3d BSplineTensorSurface::computeNormalTex( Vec2d &rclUV, 
                                               int &riError, 
-                                              vec3d &rclPos, 
-                                              vec2d &rclTexCoord, 
+                                              Vec3d &rclPos, 
+                                              Vec2d &rclTexCoord, 
                                               const std::vector< std::vector< Pnt2f > > *cpvvclTexCP )
 {
 	int							i_uspan;
 	int							i_vspan;
 	double						**ppd_nu;
 	double						**ppd_nv;
-	vec3d						cl_normal;
+	Vec3d						cl_normal;
 	int							i_k;
 	int							i_s;
 	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*pcl_temp;
+	DCTPVec4dmatrix				vvcl_skl;
+	DCTPVec3dmatrix				vvcl_skl_eucl;
+	Vec4d						*pcl_temp;
 	int							i_r;
 	double						d_len;
 	int							i_u;
 	int							i_v;
 	double						*pd_nvl;
 	double						*pd_nuk;
-	vec2d						cl_temp;
+	Vec2d						cl_temp;
 
-	i_uspan = basis_function_u.computeDersBasisFuns( rclUV.x, dimension_u, ppd_nu, 1 );
-	i_vspan = basis_function_v.computeDersBasisFuns( rclUV.y, dimension_v, ppd_nv, 1 );
+    vvcl_skl.resize(2);
+    vvcl_skl[0].resize(2);
+    vvcl_skl[1].resize(2);
+    vvcl_skl_eucl.resize(2);
+    vvcl_skl_eucl[0].resize(2);
+    vvcl_skl_eucl[1].resize(2);
+
+	i_uspan = basis_function_u.computeDersBasisFuns( rclUV[0], dimension_u, ppd_nu, 1 );
+	i_vspan = basis_function_v.computeDersBasisFuns( rclUV[1], dimension_v, ppd_nv, 1 );
 	if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
 	{
 		riError = -1;
@@ -540,7 +599,7 @@ vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV,
 //	vvcl_skl.resize( 2 );
 //	vvcl_skl[ 0 ].resize( 2 );
 //	vvcl_skl[ 1 ].resize( 2 );
-	pcl_temp = new vec3d[ dimension_v + 1 ];
+	pcl_temp = new Vec4d[ dimension_v + 1 ];
 //	vcl_temp.resize( dimension_v + 1 );
 
 	for( i_k = 0; i_k <= 1; ++i_k )
@@ -548,7 +607,7 @@ vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV,
 		i_v = i_vspan - dimension_v;
 		for( i_s = 0; i_s <= dimension_v; ++i_s )
 		{
-			pcl_temp[ i_s ].x = pcl_temp[ i_s ].y = pcl_temp[ i_s ].z = 0.0;
+			pcl_temp[ i_s ] = Vec4d(0.0, 0.0, 0.0, 0.0);
 			i_u = i_uspan - dimension_u;
 			for( i_r = 0; i_r <= dimension_u; ++i_r )
 			{
@@ -559,23 +618,24 @@ vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV,
 		}
 		for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 		{
-			aacl_skl[ i_k ][ i_l ].x = aacl_skl[ i_k ][ i_l ].y = aacl_skl[ i_k ][ i_l ].z = 0.0;
+			vvcl_skl[ i_k ][ i_l ] = Vec4d(0.0, 0.0, 0.0, 0.0);
 			for( i_s = 0; i_s <= dimension_v; ++i_s )
 			{
-				aacl_skl[ i_k ][ i_l ] += pcl_temp[ i_s ] * ppd_nv[ i_l ][ i_s ];
+				vvcl_skl[ i_k ][ i_l ] += pcl_temp[ i_s ] * ppd_nv[ i_l ][ i_s ];
 			}
 		}
 	}
 
-	rclPos = aacl_skl[ 0 ][ 0 ];
+    RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+	rclPos = vvcl_skl_eucl[ 0 ][ 0 ];
 
-	correctDers( rclUV, aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
-	cl_normal = aacl_skl[ 1 ][ 0 ].cross( aacl_skl[ 0 ][ 1 ] );
-	d_len = cl_normal.quad_size( );
+	correctDers( rclUV, vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
+	cl_normal = vvcl_skl_eucl[ 1 ][ 0 ].cross( vvcl_skl_eucl[ 0 ][ 1 ] );
+	d_len = cl_normal.squareLength( );
 
 	if( d_len < DCTP_EPS * DCTP_EPS )
 	{
-		cl_normal.x = cl_normal.y = cl_normal.z = 0.0;
+		cl_normal[0] = cl_normal[1] = cl_normal[2] = 0.0;
 		riError = -2;
 	}
 	else
@@ -585,18 +645,18 @@ vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV,
 	}
 
 	// calculate texture coord
-	rclTexCoord.x = rclTexCoord.y = 0.0;
+	rclTexCoord[0] = rclTexCoord[1] = 0.0;
 	i_v = i_vspan - dimension_v;
 	pd_nvl = ppd_nv[ 0 ];
 	for( i_l = 0; i_l <= dimension_v; ++i_l )
 	{
-		cl_temp.x = cl_temp.y = 0.0;
+		cl_temp[0] = cl_temp[1] = 0.0;
 		i_u = i_uspan - dimension_u;
 		pd_nuk = ppd_nu[ 0 ];
 		for( i_k = 0; i_k <= dimension_u; ++i_k )
 		{
-			cl_temp.x += ( *cpvvclTexCP )[ i_u ][ i_v ].x() * *pd_nuk;
-			cl_temp.y += ( *cpvvclTexCP )[ i_u ][ i_v ].y() * *pd_nuk;
+			cl_temp[0] += ( *cpvvclTexCP )[ i_u ][ i_v ].x() * *pd_nuk;
+			cl_temp[1] += ( *cpvvclTexCP )[ i_u ][ i_v ].y() * *pd_nuk;
 			++i_u;
 			++pd_nuk;
 		}
@@ -627,32 +687,37 @@ vec3d BSplineTensorSurface::computeNormalTex( vec2d &rclUV,
  */
 int BSplineTensorSurface::insertKnot_U( double k )
 {
-  dvector knots = basis_function_u.getKnotVector();
-  int span = basis_function_u.insertKnot( k );
-  if ( span < 0 ) return span; // some error happened
+    DCTPdvector knots = basis_function_u.getKnotVector();
+    int span = basis_function_u.insertKnot( k );
+    if ( span < 0 ) return span; // some error happened
 
-  vec3dmatrix newcps( control_points.size() + 1 );
-  vec3dvector::size_type i;
-  for ( i = 0; i < newcps.size(); i++ ) {
-    newcps[ i ].resize( control_points[ 0 ].size() ); // this must be 0 (or at least < newcps.size() - 1
-  }
-  for ( i = 0; ( int ) i <= span - dimension_u; i++ )
-    newcps[ i ] = control_points[ i ];
-  for ( i = span - dimension_u + 1; i <= ( unsigned int ) span; i++ ) {
-    double alpha;
-    if ( knots[ i + dimension_u ] != knots[ i ] )
-      alpha = ( k - knots[ i ] ) / ( knots[ i + dimension_u ] - knots[ i ]);
-    else
-      alpha = 0;
-    for ( vec3dvector::size_type j = 0; j < newcps[ i ].size(); j++ ) {
-      newcps[ i ][ j ] = control_points[ i ][ j ] * alpha + control_points[ i - 1 ][ j ] * ( 1 - alpha );
-    } // j
-  } // i
-  for ( i = span + 1; i < newcps.size(); i++ ) {
-    newcps[ i ] = control_points[ i - 1 ];
-  }
-  control_points = newcps;
-  return span;
+    DCTPVec4dmatrix newcps( control_points.size() + 1 );
+    DCTPVec4dvector::size_type i;
+    for ( i = 0; i < newcps.size(); i++ ) 
+    {
+        newcps[ i ].resize( control_points[ 0 ].size() ); // this must be 0 (or at least < newcps.size() - 1
+    }
+    for ( i = 0; ( int ) i <= span - dimension_u; i++ )
+        newcps[ i ] = control_points[ i ];
+    for ( i = span - dimension_u + 1; i <= ( unsigned int ) span; i++ ) 
+    {
+        double alpha;
+        if ( knots[ i + dimension_u ] != knots[ i ] )
+            alpha = ( k - knots[ i ] ) / ( knots[ i + dimension_u ] - knots[ i ]);
+        else
+            alpha = 0;
+        for ( DCTPVec4dvector::size_type j = 0; j < newcps[ i ].size(); j++ ) 
+        {
+            newcps[ i ][ j ] = control_points[ i ][ j ] * alpha + 
+                               control_points[ i - 1 ][ j ] * ( 1 - alpha );
+        } // j
+    } // i
+    for ( i = span + 1; i < newcps.size(); i++ ) 
+    {
+        newcps[ i ] = control_points[ i - 1 ];
+    }
+    control_points = newcps;
+    return span;
 }
 
 
@@ -665,39 +730,41 @@ int BSplineTensorSurface::insertKnot_U( double k )
  */
 int BSplineTensorSurface::insertKnot_V( double k )
 {
-  dvector knots = basis_function_v.getKnotVector();
-  int span = basis_function_v.insertKnot( k );
-  if ( span < 0 ) return span; // some error happened
-  vec3dmatrix newcps( control_points.size() );
-  vec3dvector::size_type i, j;
-  for ( i = 0; i < newcps.size(); i++ )
-    newcps[ i ].resize( control_points[ i ].size() + 1 );
+    DCTPdvector knots = basis_function_v.getKnotVector();
+    int span = basis_function_v.insertKnot( k );
+    if ( span < 0 ) return span; // some error happened
+    DCTPVec4dmatrix newcps( control_points.size() );
+    DCTPVec4dvector::size_type i, j;
+    for ( i = 0; i < newcps.size(); i++ )
+        newcps[ i ].resize( control_points[ i ].size() + 1 );
 
-  for ( i = 0; i < control_points.size(); i++ )
-    for ( j = 0; j <= span - dimension_v; j++ )
-       newcps[ i ][ j ] = control_points[ i ][ j ];
+    for ( i = 0; i < control_points.size(); i++ )
+        for ( j = 0; j <= span - dimension_v; j++ )
+            newcps[ i ][ j ] = control_points[ i ][ j ];
 
-  // precalculate alpha values
-  dvector alphavec( dimension_v  );
+    // precalculate alpha values
+    DCTPdvector alphavec( dimension_v  );
 
-  for ( j = span - dimension_v + 1; j <= span; j++ ) {
-      if ( knots[ j + dimension_v ] != knots[ j ] )
-        alphavec[ j - span + dimension_v - 1 ] = ( k - knots[ j ] ) / ( knots[ j + dimension_v ] - knots[ j ]);
-      else
-        alphavec[ j - span + dimension_v - 1 ] = 0;
-  }
-  for ( i = 0; i < control_points.size(); i++ )
-    for ( j = span - dimension_v + 1; j <= span; j++ ) {
-      double alpha = alphavec[ j - span + dimension_v - 1 ];
-      newcps[ i ][ j ] = control_points[ i ][ j ] * alpha + control_points[ i  ][ j - 1 ] * ( 1 - alpha );
-    } // j
+    for ( j = span - dimension_v + 1; j <= span; j++ ) 
+    {
+        if ( knots[ j + dimension_v ] != knots[ j ] )
+            alphavec[ j - span + dimension_v - 1 ] = ( k - knots[ j ] ) / ( knots[ j + dimension_v ] - knots[ j ]);
+        else
+            alphavec[ j - span + dimension_v - 1 ] = 0;
+    }
+    for ( i = 0; i < control_points.size(); i++ )
+        for ( j = span - dimension_v + 1; j <= span; j++ ) 
+        {
+            double alpha = alphavec[ j - span + dimension_v - 1 ];
+            newcps[ i ][ j ] = control_points[ i ][ j ] * alpha + control_points[ i  ][ j - 1 ] * ( 1 - alpha );
+        } // j
 
-  for ( i = 0; i < control_points.size(); i++ )
-    for ( j = span + 1; j < newcps[ i ].size(); j++ )
-       newcps[ i ][ j ] = control_points[ i ][ j - 1];
+    for ( i = 0; i < control_points.size(); i++ )
+        for ( j = span + 1; j < newcps[ i ].size(); j++ )
+            newcps[ i ][ j ] = control_points[ i ][ j - 1];
 
-  control_points = newcps;
-  return span;
+    control_points = newcps;
+    return span;
 }
 
 //! Convert a surface into Bezier patches.
@@ -716,17 +783,17 @@ int BSplineTensorSurface::insertKnot_V( double k )
  * original surface between upars[ i ]..upars[ i + 1 ] and
  * vpars[ j ]..vpars[ j + 1 ].
  */
-int BSplineTensorSurface::makeBezier( beziersurfacematrix &beziers, dvector &upars, dvector &vpars )
+int BSplineTensorSurface::makeBezier( beziersurfacematrix &beziers, DCTPdvector &upars, DCTPdvector &vpars )
 {
   double firstknotu, lastknotu;
   double firstknotv, lastknotv;
   basis_function_u.getParameterInterval( firstknotu, lastknotu );
   basis_function_v.getParameterInterval( firstknotv, lastknotv );
-  dvector uknots = basis_function_u.getKnotVector();
-  dvector vknots = basis_function_v.getKnotVector();
-  dvector origuknots = uknots;  // backup original curve characteristics
-  dvector origvknots = vknots; // same here
-  vec3dmatrix origcps = control_points; // same here
+  DCTPdvector uknots = basis_function_u.getKnotVector();
+  DCTPdvector vknots = basis_function_v.getKnotVector();
+  DCTPdvector origuknots = uknots;  // backup original curve characteristics
+  DCTPdvector origvknots = vknots; // same here
+  DCTPVec4dmatrix origcps = control_points; // same here
   double prevknot = firstknotu;
   int mult = 0;
   int err;
@@ -813,14 +880,14 @@ int BSplineTensorSurface::makeBezier( beziersurfacematrix &beziers, dvector &upa
     vpars[ i ] = vknots[ 1 + dimension_v * i ];
   for ( i = 0; i < unum_of_beziers; i++ )
     beziers[ i ].resize( vnum_of_beziers );
-  vec3dmatrix beziercps( dimension_u + 1 );
+  DCTPVec4dmatrix beziercps( dimension_u + 1 );
   for ( i = 0; i < dimension_u + 1; i++ )  
     beziercps[ i ].resize( dimension_v + 1 );
 
   for ( i = 0; i < unum_of_beziers; i++ ) {
     for ( beziersurfacevector::size_type j = 0; j < vnum_of_beziers; j++ ) {
-      for (vec3dvector::size_type u = 0; u < dimension_u + 1; u++ ) {
-        for (vec3dvector::size_type v = 0; v < dimension_v + 1; v++ ) {
+      for (DCTPVec4dvector::size_type u = 0; u < dimension_u + 1; u++ ) {
+        for (DCTPVec4dvector::size_type v = 0; v < dimension_v + 1; v++ ) {
           beziercps[ u ][ v ] = control_points[ i * dimension_u + u][ j * dimension_v + v];
         } // v
       } // u
@@ -837,10 +904,10 @@ int BSplineTensorSurface::makeBezier( beziersurfacematrix &beziers, dvector &upa
 }
 
 
-int BSplineTensorSurface::getSplitParams( dvector &upars, dvector &vpars )
+int BSplineTensorSurface::getSplitParams( DCTPdvector &upars, DCTPdvector &vpars )
 {
-	dvector	&uknots = basis_function_u.getKnotVector();
-	dvector	&vknots = basis_function_v.getKnotVector();
+	DCTPdvector	&uknots = basis_function_u.getKnotVector();
+	DCTPdvector	&vknots = basis_function_v.getKnotVector();
 	int		unum_of_beziers = ( uknots.size() - 2 ) / dimension_u - 1;
 	int		vnum_of_beziers = ( vknots.size() - 2 ) / dimension_v - 1;
 	int		i;
@@ -865,7 +932,7 @@ int BSplineTensorSurface::midPointSubDivision( std::vector< std::vector< BSpline
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
 	int					i_span = 0;
-	std::vector< std::vector< vec3d > >	vvcl_cp;
+	std::vector< std::vector< Vec4d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
 
@@ -918,16 +985,6 @@ int BSplineTensorSurface::midPointSubDivision( std::vector< std::vector< BSpline
 		--ui_cnt;
 		--ui_idx;
 	}
-
-/*#ifdef _DEBUG
-	std::ostream	cl_write;
-
-	cl_write.open( "subdiv.txt" );
-
-	write( cl_write );
-	rvvcl_newbspline[ 0 ][ 0 ].write( cl_write );
-	rvvcl_newbspline[ 1 ][ 0 ].write( cl_write );
-#endif*/
 
 	// insert knots in v direction
 	rvvcl_newbspline[ 0 ][ 0 ].getParameterInterval_V( d_min, d_max );
@@ -1008,15 +1065,6 @@ int BSplineTensorSurface::midPointSubDivision( std::vector< std::vector< BSpline
 		--ui_idx;
 	}
 
-/*#ifdef _DEBUG
-	rvvcl_newbspline[ 0 ][ 0 ].write( cl_write );
-	rvvcl_newbspline[ 1 ][ 0 ].write( cl_write );
-	rvvcl_newbspline[ 0 ][ 1 ].write( cl_write );
-	rvvcl_newbspline[ 1 ][ 1 ].write( cl_write );
-
-	cl_write.close( );
-#endif*/
-
 	return 0;
 }
 
@@ -1028,8 +1076,8 @@ int BSplineTensorSurface::midPointSubDivisionU( std::vector< BSplineTensorSurfac
 	double					d_max;
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
-	int					i_span;
-	std::vector< std::vector< vec3d > >	vvcl_cp;
+	int					i_span = 0;
+	std::vector< std::vector< Vec4d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
 
@@ -1077,18 +1125,6 @@ int BSplineTensorSurface::midPointSubDivisionU( std::vector< BSplineTensorSurfac
 		--ui_idx;
 	}
 
-/*#ifdef _DEBUG
-	std::ostream	cl_write;
-
-	cl_write.open( "subdiv.txt" );
-
-	write( cl_write );
-	rvcl_newbspline[ 0 ].write( cl_write );
-	rvcl_newbspline[ 1 ].write( cl_write );
-
-	cl_write.close( );
-#endif*/
-
 	return 0;
 }
 
@@ -1101,7 +1137,7 @@ int BSplineTensorSurface::midPointSubDivisionV( std::vector< BSplineTensorSurfac
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
 	int					i_span = 0;
-	std::vector< std::vector< vec3d > >	vvcl_cp;
+	std::vector< std::vector< Vec4d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
 
@@ -1162,18 +1198,6 @@ int BSplineTensorSurface::midPointSubDivisionV( std::vector< BSplineTensorSurfac
 		--ui_idx;
 	}
 
-/*#ifdef _DEBUG
-	std::ostream	cl_write;
-
-	cl_write.open( "subdiv.txt" );
-
-	write( cl_write );
-	rvcl_newbspline[ 0 ].write( cl_write );
-	rvcl_newbspline[ 1 ].write( cl_write );
-
-	cl_write.close( );
-#endif*/
-
 	return 0;
 }
 
@@ -1185,8 +1209,8 @@ int BSplineTensorSurface::subDivisionU( std::vector< BSplineTensorSurface > &rvc
 	double					d_max;
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
-	int					i_span;
-	std::vector< std::vector< vec3d > >	vvcl_cp;
+	int					i_span = 0;
+	std::vector< std::vector< Vec4d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
 
@@ -1235,18 +1259,6 @@ int BSplineTensorSurface::subDivisionU( std::vector< BSplineTensorSurface > &rvc
 		--ui_idx;
 	}
 
-/*#ifdef _DEBUG
-	std::ostream	cl_write;
-
-	cl_write.open( "subdiv.txt" );
-
-	write( cl_write );
-	rvcl_newbspline[ 0 ].write( cl_write );
-	rvcl_newbspline[ 1 ].write( cl_write );
-
-	cl_write.close( );
-#endif*/
-
 	return 0;
 }
 
@@ -1259,7 +1271,7 @@ int BSplineTensorSurface::subDivisionV( std::vector< BSplineTensorSurface > &rvc
 	unsigned int				ui_cnt;
 	unsigned int				ui_idx;
 	int					i_span = 0;
-	std::vector< std::vector< vec3d > >	vvcl_cp;
+	std::vector< std::vector< Vec4d > >	vvcl_cp;
 	unsigned int				ui_cpy;
 	unsigned int				ui_cpy_cnt;
 
@@ -1321,24 +1333,12 @@ int BSplineTensorSurface::subDivisionV( std::vector< BSplineTensorSurface > &rvc
 		--ui_idx;
 	}
 
-/*#ifdef _DEBUG
-	std::ostream	cl_write;
-
-	cl_write.open( "subdiv.txt" );
-
-	write( cl_write );
-	rvcl_newbspline[ 0 ].write( cl_write );
-	rvcl_newbspline[ 1 ].write( cl_write );
-
-	cl_write.close( );
-#endif*/
-
 	return 0;
 }
 
 
 //new vector-enabled computational functions from Michael
-void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV, 
+void BSplineTensorSurface::compute( std::vector< Vec2d > &rvclUV, 
                                     std::vector< Pnt3f > &rvclPos )
 
 {
@@ -1349,7 +1349,7 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 	int					i_span_u = -1;
 	int					i_span_v = -1;
 	unsigned int		ui_index_v;
-	vec3d				*pcl_temp = new vec3d[ dimension_u + 1 ];
+	Vec4d				*pcl_temp = new Vec4d[ dimension_u + 1 ];
 	unsigned int		ui_index_u;
 	int					i_l;
 	int					i_k;
@@ -1357,7 +1357,7 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 	double				*pd_nvk;
 	bool				b_u_new;
 	bool				b_v_new;
-	vec3d				*pcl_templ;
+	Vec4d				*pcl_templ;
 	int					i_old_u;
 
 	rvclPos.resize( cui_cnt );
@@ -1366,17 +1366,17 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 	{
 		if( ui_idx == 0 )
 		{
-			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
-			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
+			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_span_u;
 				if( i_span_u >= 0 ) delete[ ] pd_nu;
-				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
+				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_span_u ) ? true : false;
 			}
@@ -1385,27 +1385,27 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_span_v >= 0 ) delete[ ] pd_nv;
-				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 				b_v_new = true;
 			}
 		}
 
 		if( ( i_span_u < 0 ) || ( i_span_v < 0 ) )
 		{
-			rvclPos[ ui_idx ][0] = rvclPos[ ui_idx ][1]= rvclPos[ ui_idx ][2] = 0.0;
+			rvclPos[ ui_idx ] = Pnt3f(0.0, 0.0, 0.0);
 		}
 		else if( b_v_new )
 		{
 			ui_index_u = i_span_u - dimension_u;
 			pd_nul = pd_nu;
 			pcl_templ = pcl_temp;
-                        vec3d tempposition(0, 0, 0);
+            Vec4d tempposition(0.0, 0.0, 0.0, 0.0);
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
-				pcl_templ->x = pcl_templ->y = pcl_templ->z = 0.0;
+				(*pcl_templ) = Vec4d(0.0, 0.0, 0.0, 0.0);
 				ui_index_v = i_span_v - dimension_v;
 				pd_nvk = pd_nv;
 				for( i_k = 0; i_k <= dimension_v; ++i_k )
@@ -1419,27 +1419,26 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 				++pd_nul;
 				++pcl_templ;
 			}
-                       rvclPos[ ui_idx ][0] = tempposition.x;
-                       rvclPos[ ui_idx ][1] = tempposition.y;
-                       rvclPos[ ui_idx ][2] = tempposition.z;
-                       
-	}
+            rvclPos[ ui_idx ][0] = tempposition[0] / tempposition[3];
+            rvclPos[ ui_idx ][1] = tempposition[1] / tempposition[3];
+            rvclPos[ ui_idx ][2] = tempposition[2] / tempposition[3];
+        }
 		else if( b_u_new )
 		{
 			ui_index_u = i_span_u - dimension_u;
 			pd_nul = pd_nu;
 			pcl_templ = pcl_temp;
-                       vec3d tempposition(0, 0, 0);
-		for( i_l = 0; i_l <= dimension_u; ++i_l )
+            Vec4d tempposition(0.0, 0.0, 0.0, 0.0);
+    		for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
 				++ui_index_u;
 				tempposition += *pcl_templ * *pd_nul;
 				++pd_nul;
 				++pcl_templ;
 			}
-                       rvclPos[ ui_idx ][0] = tempposition.x;
-                       rvclPos[ ui_idx ][1] = tempposition.y;
-                       rvclPos[ ui_idx ][2] = tempposition.z;
+            rvclPos[ ui_idx ][0] = tempposition[0] / tempposition[3];
+            rvclPos[ ui_idx ][1] = tempposition[1] / tempposition[3];
+            rvclPos[ ui_idx ][2] = tempposition[2] / tempposition[3];
 #ifdef OSG_COUNT_COMP
 			++g_uiVSameComp;
 #endif
@@ -1448,7 +1447,7 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 		{
 			rvclPos[ ui_idx ] = rvclPos[ ui_idx - 1 ];
 #ifdef OSG_COUNT_COMP
-		++g_uiSameComp;
+		    ++g_uiSameComp;
 #endif
 		}
 #ifdef OSG_COUNT_COMP
@@ -1466,7 +1465,7 @@ void BSplineTensorSurface::compute( std::vector< vec2d > &rvclUV,
 }
 
 
-void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV, 
+void BSplineTensorSurface::computeNormal( std::vector< Vec2d > &rvclUV, 
                                           std::vector< Pnt3f > &rvclPos, 
                                           std::vector< Vec3f > &rvclNorm )
 {
@@ -1479,24 +1478,32 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 	int							i_k;
 	int							i_s;
 	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*apcl_temp[ 2 ];
+	DCTPVec4dmatrix				vvcl_skl;
+	DCTPVec3dmatrix				vvcl_skl_eucl;
+	Vec4d						*apcl_temp[ 2 ];
 	int							i_r;
-	double						d_len = 0.0;
+	double						d_len;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;
 	bool						b_v_new;
-	vec3d						*pcl_temps;
+	Vec4d						*pcl_temps;
 	double						*pd_nuls;
 	double						*pd_nvkr;
-	vec3d						*pcl_sklkl;
+	Vec4d						*pcl_sklkl;
 	int							i_old_u;
 
 //	std::cerr << dimension_u << " " << dimension_v << std::endl;
 
-	apcl_temp[ 0 ] = new vec3d[ dimension_u + 1 ];
-	apcl_temp[ 1 ] = new vec3d[ dimension_u + 1 ];
+    vvcl_skl.resize(2);
+    vvcl_skl[0].resize(2);
+    vvcl_skl[1].resize(2);
+    vvcl_skl_eucl.resize(2);
+    vvcl_skl_eucl[0].resize(2);
+    vvcl_skl_eucl[1].resize(2);
+
+	apcl_temp[ 0 ] = new Vec4d[ dimension_u + 1 ];
+	apcl_temp[ 1 ] = new Vec4d[ dimension_u + 1 ];
 
 	rvclPos.resize( cui_cnt );
 	rvclNorm.resize( cui_cnt );
@@ -1505,13 +1512,13 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 	{
 		if( ui_idx == 0 )
 		{
-			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
-			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
+			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_uspan;
 				if( i_uspan >= 0 )
@@ -1520,7 +1527,7 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 					delete[ ] ppd_nu[ 1 ];
 					delete[ ] ppd_nu;
 				}
-				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
+				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_uspan ) ? true : false;
 			}
@@ -1529,7 +1536,7 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_vspan >= 0 )
 				{
@@ -1537,14 +1544,14 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 					delete[ ] ppd_nv[ 1 ];
 					delete[ ] ppd_nv;
 				}
-				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 				b_v_new = true;
 			}
 		}
 		if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
 		{
-			rvclPos[ ui_idx ][0] = rvclPos[ ui_idx ][1] = rvclPos[ ui_idx ][2] = 0.0;
-			rvclNorm[ ui_idx ][0]= rvclNorm[ ui_idx ][1] = rvclNorm[ ui_idx ][2] = 0.0;
+			rvclPos[ ui_idx ] = Pnt3f(0.0, 0.0, 0.0);
+			rvclNorm[ ui_idx ] = Vec3f(0.0, 0.0, 0.0);
 		}
 		else if( b_v_new )
 		{
@@ -1554,7 +1561,7 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 				pcl_temps = apcl_temp[ i_k ];
 				for( i_s = 0; i_s <= dimension_u; ++i_s )
 				{
-					pcl_temps->x = pcl_temps->y = pcl_temps->z = 0.0;
+					(*pcl_temps) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					i_v = i_vspan - dimension_v;
 					pd_nvkr = ppd_nv[ i_k ];
 					for( i_r = 0; i_r <= dimension_v; ++i_r )
@@ -1566,10 +1573,10 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 					++i_u;
 					++pcl_temps;
 				}
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -1582,19 +1589,19 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 				}
 			}
 
-//			rvclPos[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
-            rvclPos[ ui_idx ][0] = aacl_skl[ 0 ][ 0 ].x;
-            rvclPos[ ui_idx ][1] = aacl_skl[ 0 ][ 0 ].y;                        
-            rvclPos[ ui_idx ][2] = aacl_skl[ 0 ][ 0 ].z;                        
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+			rvclPos[ ui_idx ][0] = vvcl_skl_eucl[ 0 ][ 0 ][0];
+			rvclPos[ ui_idx ][1] = vvcl_skl_eucl[ 0 ][ 0 ][1];
+			rvclPos[ ui_idx ][2] = vvcl_skl_eucl[ 0 ][ 0 ][2];
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
 //			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
-//			d_len = rvclNorm[ ui_idx ].quad_size( );
-            vec3d tempnorm = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-            rvclNorm[ ui_idx ][0] = tempnorm.x;
-            rvclNorm[ ui_idx ][1] = tempnorm.y;
-            rvclNorm[ ui_idx ][2] = tempnorm.z;
-            d_len = tempnorm.quad_size();
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+            rvclNorm[ ui_idx ][0] = tempnorm[0];
+            rvclNorm[ ui_idx ][1] = tempnorm[1];
+            rvclNorm[ ui_idx ][2] = tempnorm[2];
+            d_len = tempnorm.squareLength();
         
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
@@ -1609,10 +1616,10 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 		{
 			for( i_k = 0; i_k <= 1; ++i_k )
 			{
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -1624,18 +1631,19 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 					++pcl_sklkl;
 				}
 			}
-//			rvclPos[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
-            rvclPos[ ui_idx ][0] = aacl_skl[ 0 ][ 0 ].x;
-			rvclPos[ ui_idx ][1] = aacl_skl[ 0 ][ 0 ].y;
-			rvclPos[ ui_idx ][2] = aacl_skl[ 0 ][ 0 ].z;
+            
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+			rvclPos[ ui_idx ][0] = vvcl_skl_eucl[ 0 ][ 0 ][0];
+			rvclPos[ ui_idx ][1] = vvcl_skl_eucl[ 0 ][ 0 ][1];
+			rvclPos[ ui_idx ][2] = vvcl_skl_eucl[ 0 ][ 0 ][2];
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
 //			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
-//			d_len = rvclNorm[ ui_idx ].quad_size( );
-			vec3d tempnorm = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-			rvclNorm[ ui_idx ][0] = tempnorm.x;
-			rvclNorm[ ui_idx ][1] = tempnorm.y;
-			rvclNorm[ ui_idx ][2] = tempnorm.z;
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+			rvclNorm[ ui_idx ][0] = tempnorm[0];
+			rvclNorm[ ui_idx ][1] = tempnorm[1];
+			rvclNorm[ ui_idx ][2] = tempnorm[2];
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
 				rvclNorm[ ui_idx ] *= 1.0 / sqrt( d_len );
@@ -1683,9 +1691,9 @@ void BSplineTensorSurface::computeNormal( std::vector< vec2d > &rvclUV,
 }
 
 
-void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclUV, 
-                                                     std::vector< vec3d > &rvclNorm,
-													 std::vector< vec3d > *pvclPos )
+void BSplineTensorSurface::computeNormalforTrimming( std::vector< Vec2d > &rvclUV, 
+                                                     std::vector< Vec3d > &rvclNorm,
+													 std::vector< Vec3d > *pvclPos )
 {
 	const unsigned int			cui_cnt = rvclUV.size( );
 	unsigned int				ui_idx;
@@ -1696,40 +1704,50 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 	int							i_k;
 	int							i_s;
 	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*apcl_temp[ 2 ];
+	DCTPVec4dmatrix				vvcl_skl;
+	DCTPVec3dmatrix				vvcl_skl_eucl;
+	Vec4d						*apcl_temp[ 2 ];
 	int							i_r;
 	double						d_len;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;
 	bool						b_v_new;
-	vec3d						*pcl_temps;
+	Vec4d						*pcl_temps;
 	double						*pd_nuls;
 	double						*pd_nvkr;
-	vec3d						*pcl_sklkl;
+	Vec4d						*pcl_sklkl;
 	int							i_old_u;
 
-	apcl_temp[ 0 ] = new vec3d[ dimension_u + 1 ];
-	apcl_temp[ 1 ] = new vec3d[ dimension_u + 1 ];
+//	std::cerr << dimension_u << " " << dimension_v << std::endl;
 
+    vvcl_skl.resize(2);
+    vvcl_skl[0].resize(2);
+    vvcl_skl[1].resize(2);
+    vvcl_skl_eucl.resize(2);
+    vvcl_skl_eucl[0].resize(2);
+    vvcl_skl_eucl[1].resize(2);
+
+	apcl_temp[ 0 ] = new Vec4d[ dimension_u + 1 ];
+	apcl_temp[ 1 ] = new Vec4d[ dimension_u + 1 ];
+
+    if ( pvclPos != NULL )
+    {
+    	pvclPos->resize( cui_cnt );
+    }
 	rvclNorm.resize( cui_cnt );
-	if( pvclPos != NULL )
-	{
-		pvclPos->resize( cui_cnt );
-	}
 
 	for( ui_idx = 0; ui_idx < cui_cnt; ++ui_idx )
 	{
 		if( ui_idx == 0 )
 		{
-			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
-			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
+			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_uspan;
 				if( i_uspan >= 0 )
@@ -1738,7 +1756,7 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 					delete[ ] ppd_nu[ 1 ];
 					delete[ ] ppd_nu;
 				}
-				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
+				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_uspan ) ? true : false;
 			}
@@ -1747,7 +1765,7 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_vspan >= 0 )
 				{
@@ -1755,17 +1773,17 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 					delete[ ] ppd_nv[ 1 ];
 					delete[ ] ppd_nv;
 				}
-				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 				b_v_new = true;
 			}
 		}
 		if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
 		{
-			rvclNorm[ ui_idx ].x = rvclNorm[ ui_idx ].y = rvclNorm[ ui_idx ].z = 0.0;
-			if( pvclPos != NULL )
-			{
-				( *pvclPos )[ ui_idx ].x = ( *pvclPos )[ ui_idx ].y = ( *pvclPos )[ ui_idx ].z = 0.0;
-			}
+            if ( pvclPos != NULL )
+            {
+		    	(*pvclPos)[ ui_idx ] = Vec3d(0.0, 0.0, 0.0);
+            }
+			rvclNorm[ ui_idx ] = Vec3d(0.0, 0.0, 0.0);
 		}
 		else if( b_v_new )
 		{
@@ -1775,7 +1793,7 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 				pcl_temps = apcl_temp[ i_k ];
 				for( i_s = 0; i_s <= dimension_u; ++i_s )
 				{
-					pcl_temps->x = pcl_temps->y = pcl_temps->z = 0.0;
+					(*pcl_temps) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					i_v = i_vspan - dimension_v;
 					pd_nvkr = ppd_nv[ i_k ];
 					for( i_r = 0; i_r <= dimension_v; ++i_r )
@@ -1787,10 +1805,10 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 					++i_u;
 					++pcl_temps;
 				}
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -1803,30 +1821,38 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 				}
 			}
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
-			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
-			d_len = rvclNorm[ ui_idx ].quad_size( );
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+            if ( pvclPos != NULL )
+            {
+		    	(*pvclPos)[ ui_idx ] = vvcl_skl_eucl[ 0 ][ 0 ];
+            }
+
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
+//			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+            rvclNorm[ ui_idx ][0] = tempnorm[0];
+            rvclNorm[ ui_idx ][1] = tempnorm[1];
+            rvclNorm[ ui_idx ][2] = tempnorm[2];
+            d_len = tempnorm.squareLength();
+        
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
 				rvclNorm[ ui_idx ] *= 1.0 / sqrt( d_len );
 			}
 			else
 			{
-				rvclNorm[ ui_idx ].x = rvclNorm[ ui_idx ].y = rvclNorm[ ui_idx ].z = 0.0;
-			}
-			if( pvclPos != NULL )
-			{
-				( *pvclPos )[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
+				rvclNorm[ ui_idx ][ 0 ] = rvclNorm[ ui_idx ][ 1 ] = rvclNorm[ ui_idx ][ 2 ] = 0.0;
 			}
 		}
 		else if( b_u_new )
 		{
 			for( i_k = 0; i_k <= 1; ++i_k )
 			{
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -1838,21 +1864,27 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 					++pcl_sklkl;
 				}
 			}
+            
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+            if ( pvclPos != NULL )
+            {
+		    	(*pvclPos)[ ui_idx ] = vvcl_skl_eucl[ 0 ][ 0 ];
+            }
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
-			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
-			d_len = rvclNorm[ ui_idx ].quad_size( );
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
+//			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );	// switched because of optimization!
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+			rvclNorm[ ui_idx ][0] = tempnorm[0];
+			rvclNorm[ ui_idx ][1] = tempnorm[1];
+			rvclNorm[ ui_idx ][2] = tempnorm[2];
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
 				rvclNorm[ ui_idx ] *= 1.0 / sqrt( d_len );
 			}
 			else
 			{
-				rvclNorm[ ui_idx ].x = rvclNorm[ ui_idx ].y = rvclNorm[ ui_idx ].z = 0.0;
-			}
-			if( pvclPos != NULL )
-			{
-				( *pvclPos )[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
+				rvclNorm[ ui_idx ][ 0 ] = rvclNorm[ ui_idx ][ 1 ] = rvclNorm[ ui_idx ][ 2 ] = 0.0;
 			}
 #ifdef OSG_COUNT_COMP
 			++g_uiVSameComp;
@@ -1860,14 +1892,14 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 		}
 		else
 		{
+            if ( pvclPos != NULL )
+            {
+		    	(*pvclPos)[ ui_idx ] = (*pvclPos)[ ui_idx - 1 ];
+            }
 			rvclNorm[ ui_idx ] = rvclNorm[ ui_idx - 1 ];
 #ifdef OSG_COUNT_COMP
 			++g_uiSameComp;
 #endif
-			if( pvclPos != NULL )
-			{
-				( *pvclPos )[ ui_idx ] = ( *pvclPos )[ ui_idx - 1 ];
-			}
 		}
 #ifdef OSG_COUNT_COMP
 		++g_uiTotalComp;
@@ -1893,10 +1925,11 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< vec2d > &rvclU
 #ifdef OSG_COUNT_COMP
 	cerr << g_uiTotalComp << " " << g_uiVSameComp << " " << g_uiSameComp << endl;
 #endif
+
 }
 
 
-void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV, 
+void BSplineTensorSurface::computeNormalTex( std::vector< Vec2d > &rvclUV, 
                                              std::vector< Pnt3f > &rvclPos, 
                                              std::vector< Vec3f > &rvclNorm,
                                              std::vector< Pnt2f > &rvclTexCoord, 
@@ -1911,24 +1944,32 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 	int							i_k;
 	int							i_s;
 	int							i_l;
-	vec3d						aacl_skl[ 2 ][ 2 ];
-	vec3d						*apcl_temp[ 2 ];
+	DCTPVec4dmatrix				vvcl_skl;
+	DCTPVec3dmatrix				vvcl_skl_eucl;
+	Vec4d						*apcl_temp[ 2 ];
 	int							i_r;
 	double						d_len;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;
 	bool						b_v_new;
-	vec3d						*pcl_temps;
+	Vec4d						*pcl_temps;
 	double						*pd_nuls;
 	double						*pd_nvkr;
-	vec3d						*pcl_sklkl;
-	vec2d						*pcl_temp_2d = new vec2d[ dimension_u + 1 ];
-	vec2d						*pcl_temp_2dl;
+	Vec4d						*pcl_sklkl;
+	Vec2d						*pcl_temp_2d = new Vec2d[ dimension_u + 1 ];
+	Vec2d						*pcl_temp_2dl;
 	int							i_old_u;
 
-	apcl_temp[ 0 ] = new vec3d[ dimension_u + 1 ];
-	apcl_temp[ 1 ] = new vec3d[ dimension_u + 1 ];
+    vvcl_skl.resize(2);
+    vvcl_skl[0].resize(2);
+    vvcl_skl[1].resize(2);
+    vvcl_skl_eucl.resize(2);
+    vvcl_skl_eucl[0].resize(2);
+    vvcl_skl_eucl[1].resize(2);
+
+	apcl_temp[ 0 ] = new Vec4d[ dimension_u + 1 ];
+	apcl_temp[ 1 ] = new Vec4d[ dimension_u + 1 ];
 
 	rvclPos.resize( cui_cnt );
 	rvclNorm.resize( cui_cnt );
@@ -1938,13 +1979,13 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 	{
 		if( ui_idx == 0 )
 		{
-			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
-			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+			i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
+			i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_uspan;
 				if( i_uspan >= 0 )
@@ -1953,7 +1994,7 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 					delete[ ] ppd_nu[ 1 ];
 					delete[ ] ppd_nu;
 				}
-				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ].x, dimension_u, ppd_nu, 1 );
+				i_uspan = basis_function_u.computeDersBasisFuns( rvclUV[ ui_idx ][0], dimension_u, ppd_nu, 1 );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_uspan ) ? true : false;
 			}
@@ -1962,7 +2003,7 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_vspan >= 0 )
 				{
@@ -1970,14 +2011,14 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 					delete[ ] ppd_nv[ 1 ];
 					delete[ ] ppd_nv;
 				}
-				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ].y, dimension_v, ppd_nv, 1 );
+				i_vspan = basis_function_v.computeDersBasisFuns( rvclUV[ ui_idx ][1], dimension_v, ppd_nv, 1 );
 				b_v_new = true;
 			}
 		}
 		if( ( i_uspan < 0 ) || ( i_vspan < 0 ) )
 		{
-			rvclPos[ ui_idx ][0] = rvclPos[ ui_idx ][1] = rvclPos[ ui_idx ][2] = 0.0;
-			rvclNorm[ ui_idx ][0] = rvclNorm[ ui_idx ][1] = rvclNorm[ ui_idx ][2] = 0.0;
+			rvclPos[ ui_idx ] = Pnt3f(0.0, 0.0, 0.0);
+			rvclNorm[ ui_idx ] = Vec3f(0.0, 0.0, 0.0);
 		}
 		else if( b_v_new )
 		{
@@ -1987,7 +2028,7 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 				pcl_temps = apcl_temp[ i_k ];
 				for( i_s = 0; i_s <= dimension_u; ++i_s )
 				{
-					pcl_temps->x = pcl_temps->y = pcl_temps->z = 0.0;
+					(*pcl_temps) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					i_v = i_vspan - dimension_v;
 					pd_nvkr = ppd_nv[ i_k ];
 					for( i_r = 0; i_r <= dimension_v; ++i_r )
@@ -1999,10 +2040,10 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 					++i_u;
 					++pcl_temps;
 				}
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl) = Vec4d(0.0, 0.0, 0.0, 0.0);
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -2015,19 +2056,21 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 				}
 			}
 
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
+            
 //			rvclPos[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
-            rvclPos[ ui_idx ][0] = aacl_skl[ 0 ][ 0 ].x;
-            rvclPos[ ui_idx ][1] = aacl_skl[ 0 ][ 0 ].y;                        
-            rvclPos[ ui_idx ][2] = aacl_skl[ 0 ][ 0 ].z;                        
+            rvclPos[ ui_idx ][0] = vvcl_skl_eucl[ 0 ][ 0 ][0];
+            rvclPos[ ui_idx ][1] = vvcl_skl_eucl[ 0 ][ 0 ][1];                        
+            rvclPos[ ui_idx ][2] = vvcl_skl_eucl[ 0 ][ 0 ][2];
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
 //			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-//			d_len = rvclNorm[ ui_idx ].quad_size( );
-            vec3d tempnorm = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-            rvclNorm[ ui_idx ][0] = tempnorm.x;
-            rvclNorm[ ui_idx ][1] = tempnorm.y;
-            rvclNorm[ ui_idx ][2] = tempnorm.z;
-            d_len = tempnorm.quad_size();
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+            rvclNorm[ ui_idx ][0] = tempnorm[0];
+            rvclNorm[ ui_idx ][1] = tempnorm[1];
+            rvclNorm[ ui_idx ][2] = tempnorm[2];
+            d_len = tempnorm.squareLength();
 
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
@@ -2040,19 +2083,19 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 
 			// calculate texture coord
 //			rvclTexCoord[ ui_idx ].x() = rvclTexCoord[ ui_idx ].y() = 0.0;
-                        vec2d temptexcoord(0, 0 );
+            Vec2d temptexcoord(0, 0 );
 			i_u = i_uspan - dimension_u;
 			pd_nuls = ppd_nu[ 0 ];
 			pcl_temp_2dl = pcl_temp_2d;
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
-				pcl_temp_2dl->x = pcl_temp_2dl->y = 0.0;
+				(*pcl_temp_2dl)[0] = (*pcl_temp_2dl)[1] = 0.0;
 				i_v = i_vspan - dimension_v;
 				pd_nvkr = ppd_nv[ 0 ];
 				for( i_k = 0; i_k <= dimension_v; ++i_k )
 				{
-					pcl_temp_2dl->x += ( *cpvvclTexCP )[ i_u ][ i_v ].x() * *pd_nvkr;
-					pcl_temp_2dl->y += ( *cpvvclTexCP )[ i_u ][ i_v ].y() * *pd_nvkr;
+					(*pcl_temp_2dl)[0] += ( *cpvvclTexCP )[ i_u ][ i_v ].x() * *pd_nvkr;
+					(*pcl_temp_2dl)[1] += ( *cpvvclTexCP )[ i_u ][ i_v ].y() * *pd_nvkr;
 					++i_v;
 					++pd_nvkr;
 				}
@@ -2060,18 +2103,18 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 				temptexcoord += *pcl_temp_2dl * *pd_nuls;
 				++pd_nuls;
 				++pcl_temp_2dl;
-                                rvclTexCoord[ ui_idx][0] = temptexcoord.x;
-                                rvclTexCoord[ ui_idx][1] = temptexcoord.y;
+                                rvclTexCoord[ ui_idx][0] = temptexcoord[0];
+                                rvclTexCoord[ ui_idx][1] = temptexcoord[1];
 			}
 		}
 		else if( b_u_new )
 		{
 			for( i_k = 0; i_k <= 1; ++i_k )
 			{
-				pcl_sklkl = aacl_skl[ i_k ];
+				pcl_sklkl = &(vvcl_skl[ i_k ][0]);
 				for( i_l = 0; i_l <= 1 - i_k; ++i_l )
 				{
-					pcl_sklkl->x = pcl_sklkl->y = pcl_sklkl->z = 0.0;
+					(*pcl_sklkl)[0] = (*pcl_sklkl)[1] = (*pcl_sklkl)[2] = 0.0;
 					pcl_temps = apcl_temp[ i_k ];
 					pd_nuls = ppd_nu[ i_l ];
 					for( i_s = 0; i_s <= dimension_u; ++i_s )
@@ -2084,19 +2127,20 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 				}
 			}
 
+            RatSurfaceDerivs( vvcl_skl, vvcl_skl_eucl );
 			//rvclPos[ ui_idx ] = aacl_skl[ 0 ][ 0 ];
-            rvclPos[ ui_idx ][0] = aacl_skl[ 0 ][ 0 ].x;
-            rvclPos[ ui_idx ][1] = aacl_skl[ 0 ][ 0 ].y;                        
-            rvclPos[ ui_idx ][2] = aacl_skl[ 0 ][ 0 ].z;                        
+            rvclPos[ ui_idx ][0] = vvcl_skl_eucl[ 0 ][ 0 ][0];
+            rvclPos[ ui_idx ][1] = vvcl_skl_eucl[ 0 ][ 0 ][1];                        
+            rvclPos[ ui_idx ][2] = vvcl_skl_eucl[ 0 ][ 0 ][2];                        
 
-			correctDers( rvclUV[ ui_idx ], aacl_skl[ 0 ][ 0 ], aacl_skl[ 1 ][ 0 ], aacl_skl[ 0 ][ 1 ] );
+			correctDers( rvclUV[ ui_idx ], vvcl_skl_eucl[ 0 ][ 0 ], vvcl_skl_eucl[ 1 ][ 0 ], vvcl_skl_eucl[ 0 ][ 1 ] );
 //			rvclNorm[ ui_idx ] = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-//			d_len = rvclNorm[ ui_idx ].quad_size( );
-            vec3d tempnorm = aacl_skl[ 0 ][ 1 ].cross( aacl_skl[ 1 ][ 0 ] );
-            rvclNorm[ ui_idx ][0] = tempnorm.x;
-            rvclNorm[ ui_idx ][1] = tempnorm.y;
-            rvclNorm[ ui_idx ][2] = tempnorm.z;
-            d_len = tempnorm.quad_size();
+//			d_len = rvclNorm[ ui_idx ].squareLength( );
+            Vec3d tempnorm = vvcl_skl_eucl[ 0 ][ 1 ].cross( vvcl_skl_eucl[ 1 ][ 0 ] );
+            rvclNorm[ ui_idx ][0] = tempnorm[0];
+            rvclNorm[ ui_idx ][1] = tempnorm[1];
+            rvclNorm[ ui_idx ][2] = tempnorm[2];
+            d_len = tempnorm.squareLength();
 			if( d_len > DCTP_EPS * DCTP_EPS )
 			{
 				rvclNorm[ ui_idx ] *= 1.0 / sqrt( d_len );
@@ -2110,15 +2154,15 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 //			rvclTexCoord[ ui_idx ][0] = rvclTexCoord[ ui_idx ][1] = 0.0;
 			pd_nuls = ppd_nu[ 0 ];
 			pcl_temp_2dl = pcl_temp_2d;
-                        vec2d temptexcoord(0, 0 );
+                        Vec2d temptexcoord(0, 0 );
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
 				temptexcoord += *pcl_temp_2dl * *pd_nuls;
 				++pd_nuls;
 				++pcl_temp_2dl;
 			}
-                        rvclTexCoord[ ui_idx][0] = temptexcoord.x;
-                        rvclTexCoord[ ui_idx][1] = temptexcoord.y;
+                        rvclTexCoord[ ui_idx][0] = temptexcoord[0];
+                        rvclTexCoord[ ui_idx][1] = temptexcoord[1];
 #ifdef OSG_COUNT_COMP
 			++g_uiVSameComp;
 #endif
@@ -2160,10 +2204,10 @@ void BSplineTensorSurface::computeNormalTex( std::vector< vec2d > &rvclUV,
 }
 
 
-void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV, 
+void BSplineTensorSurface::computeTex( std::vector< Vec2d > &rvclUV, 
                                        std::vector< Pnt3f > &rvclPos, 
 		                       std::vector< Pnt2f > &rvclTexCoord, 
-                                       const std::vector< std::vector< vec2d > > *cpvvclTexCP )
+                                       const std::vector< std::vector< Vec2d > > *cpvvclTexCP )
 {
 	const unsigned int	cui_cnt = rvclUV.size( );
 	unsigned int		ui_idx;
@@ -2172,8 +2216,8 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 	int					i_span_u = -1;
 	int					i_span_v = -1;
 	unsigned int		ui_index_v;
-	vec3d				*pcl_temp = new vec3d[ dimension_u + 1 ];
-	vec2d				*pcl_ttemp = new vec2d[ dimension_u + 1 ];
+	Vec4d				*pcl_temp = new Vec4d[ dimension_u + 1 ];
+	Vec2d				*pcl_ttemp = new Vec2d[ dimension_u + 1 ];
 	unsigned int		ui_index_u;
 	int					i_l;
 	int					i_k;
@@ -2181,8 +2225,8 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 	double				*pd_nvk;
 	bool				b_u_new;
 	bool				b_v_new;
-	vec3d				*pcl_templ;
-	vec2d				*pcl_ttempl;
+	Vec4d				*pcl_templ;
+	Vec2d				*pcl_ttempl;
 	int					i_old_u;
 
 	rvclPos.resize( cui_cnt );
@@ -2192,17 +2236,17 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 	{
 		if( ui_idx == 0 )
 		{
-			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
-			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
+			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_span_u;
 				if( i_span_u >= 0 ) delete[ ] pd_nu;
-				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
+				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_span_u ) ? true : false;
 			}
@@ -2211,18 +2255,18 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_span_v >= 0 ) delete[ ] pd_nv;
-				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 				b_v_new = true;
 			}
 		}
 
 		if( ( i_span_u < 0 ) || ( i_span_v < 0 ) )
 		{
-			rvclPos[ ui_idx ][0] = rvclPos[ ui_idx ][1] = rvclPos[ ui_idx ][2] = 0.0;
-			rvclTexCoord[ ui_idx ][0] = rvclTexCoord[ ui_idx ][1] = 0.0;
+			rvclPos[ ui_idx ]  = Pnt3f(0.0, 0.0, 0.0);
+			rvclTexCoord[ ui_idx ]  = Pnt2f(0.0, 0.0);
 		}
 		else if( b_v_new )
 		{
@@ -2230,12 +2274,12 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 			pd_nul = pd_nu;
 			pcl_templ = pcl_temp;
 			pcl_ttempl = pcl_ttemp;
-			vec3d tempposition(0, 0, 0);
-			vec2d temptex(0, 0);
+			Vec4d tempposition(0.0, 0.0, 0.0, 0.0);
+			Vec2d temptex(0, 0);
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
-				pcl_templ->x = pcl_templ->y = pcl_templ->z = 0.0;
-				pcl_ttempl->x = pcl_ttempl->y = 0.0;
+				(*pcl_templ) = Vec4d(0.0, 0.0, 0.0, 0.0);
+				(*pcl_ttempl) = Vec2d(0.0, 0.0);
 				ui_index_v = i_span_v - dimension_v;
 				pd_nvk = pd_nv;
 				for( i_k = 0; i_k <= dimension_v; ++i_k )
@@ -2252,11 +2296,11 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 				++pcl_templ;
 				++pcl_ttempl;
 			}
-			rvclPos[ ui_idx ][0] = tempposition.x;
-			rvclPos[ ui_idx ][1] = tempposition.y;
-			rvclPos[ ui_idx ][2] = tempposition.z;
-			rvclTexCoord[ ui_idx ][0] = temptex.x;
-			rvclTexCoord[ ui_idx ][1] = temptex.y;
+			rvclPos[ ui_idx ][0] = tempposition[0] / tempposition[3];
+			rvclPos[ ui_idx ][1] = tempposition[1] / tempposition[3];
+			rvclPos[ ui_idx ][2] = tempposition[2] / tempposition[3];
+			rvclTexCoord[ ui_idx ][0] = temptex[0];
+			rvclTexCoord[ ui_idx ][1] = temptex[1];
 		}
 		else if( b_u_new )
 		{
@@ -2264,8 +2308,8 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 			pd_nul = pd_nu;
 			pcl_templ = pcl_temp;
 			pcl_ttempl = pcl_ttemp;
-			vec3d tempposition(0, 0, 0);
-			vec2d temptex(0, 0);
+			Vec4d tempposition(0.0, 0.0, 0.0, 0.0);
+			Vec2d temptex(0, 0);
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
 				++ui_index_u;
@@ -2275,11 +2319,11 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 				++pcl_templ;
 				++pcl_ttempl;
 			}
-			rvclPos[ ui_idx ][0] = tempposition.x;
-			rvclPos[ ui_idx ][1] = tempposition.y;
-			rvclPos[ ui_idx ][2] = tempposition.z;
-			rvclTexCoord[ ui_idx ][0] = temptex.x;
-			rvclTexCoord[ ui_idx ][1] = temptex.y;
+			rvclPos[ ui_idx ][0] = tempposition[0] / tempposition[3];
+			rvclPos[ ui_idx ][1] = tempposition[1] / tempposition[3];
+			rvclPos[ ui_idx ][2] = tempposition[2] / tempposition[3];
+			rvclTexCoord[ ui_idx ][0] = temptex[0];
+			rvclTexCoord[ ui_idx ][1] = temptex[1];
 #ifdef OSG_COUNT_COMP
 			++g_uiVSameComp;
 #endif
@@ -2308,9 +2352,9 @@ void BSplineTensorSurface::computeTex( std::vector< vec2d > &rvclUV,
 }
 
 
-void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV, 
-            					  std::vector< vec2d > &rvclTexCoord, 
-		                                  const std::vector< std::vector< vec2d > > *cpvvclTexCP )
+void BSplineTensorSurface::computeTexforTrimming( std::vector< Vec2d > &rvclUV, 
+            					  std::vector< Vec2d > &rvclTexCoord, 
+		                                  const std::vector< std::vector< Vec2d > > *cpvvclTexCP )
 {
 	const unsigned int	cui_cnt = rvclUV.size( );
 	unsigned int		ui_idx;
@@ -2319,7 +2363,7 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 	int					i_span_u = -1;
 	int					i_span_v = -1;
 	unsigned int		ui_index_v;
-	vec2d				*pcl_ttemp = new vec2d[ dimension_u + 1 ];
+	Vec2d				*pcl_ttemp = new Vec2d[ dimension_u + 1 ];
 	unsigned int		ui_index_u;
 	int					i_l;
 	int					i_k;
@@ -2327,7 +2371,7 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 	double				*pd_nvk;
 	bool				b_u_new;
 	bool				b_v_new;
-	vec2d				*pcl_ttempl;
+	Vec2d				*pcl_ttempl;
 	int					i_old_u;
 
 	rvclTexCoord.resize( cui_cnt );
@@ -2336,17 +2380,17 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 	{
 		if( ui_idx == 0 )
 		{
-			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
-			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+			i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
+			i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 			b_u_new = b_v_new = true;
 		}
 		else
 		{
-			if( fabs( rvclUV[ ui_idx ].x - rvclUV[ ui_idx - 1 ].x ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][0] - rvclUV[ ui_idx - 1 ][0] ) > DCTP_EPS )
 			{
 				i_old_u = i_span_u;
 				if( i_span_u >= 0 ) delete[ ] pd_nu;
-				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ].x, dimension_u, pd_nu );
+				i_span_u = basis_function_u.computeAllNonzero( rvclUV[ ui_idx ][0], dimension_u, pd_nu );
 				b_u_new = true;
 				b_v_new = ( i_old_u != i_span_u ) ? true : false;
 			}
@@ -2355,27 +2399,27 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 				b_u_new = false;
 				b_v_new = false;
 			}
-			if( fabs( rvclUV[ ui_idx ].y - rvclUV[ ui_idx - 1 ].y ) > DCTP_EPS )
+			if( osgabs( rvclUV[ ui_idx ][1] - rvclUV[ ui_idx - 1 ][1] ) > DCTP_EPS )
 			{
 				if( i_span_v >= 0 ) delete[ ] pd_nv;
-				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ].y, dimension_v, pd_nv );
+				i_span_v = basis_function_v.computeAllNonzero( rvclUV[ ui_idx ][1], dimension_v, pd_nv );
 				b_v_new = true;
 			}
 		}
 
 		if( ( i_span_u < 0 ) || ( i_span_v < 0 ) )
 		{
-			rvclTexCoord[ ui_idx ].x = rvclTexCoord[ ui_idx ].y = 0.0;
+			rvclTexCoord[ ui_idx ][0] = rvclTexCoord[ ui_idx ][1] = 0.0;
 		}
 		else if( b_v_new )
 		{
 			ui_index_u = i_span_u - dimension_u;
 			pd_nul = pd_nu;
 			pcl_ttempl = pcl_ttemp;
-			rvclTexCoord[ ui_idx ].x = rvclTexCoord[ ui_idx ].y = 0.0;
+			rvclTexCoord[ ui_idx ][0] = rvclTexCoord[ ui_idx ][1] = 0.0;
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
-				pcl_ttempl->x = pcl_ttempl->y = 0.0;
+				(*pcl_ttempl)[0] = (*pcl_ttempl)[1] = 0.0;
 				ui_index_v = i_span_v - dimension_v;
 				pd_nvk = pd_nv;
 				for( i_k = 0; i_k <= dimension_v; ++i_k )
@@ -2395,7 +2439,7 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 			ui_index_u = i_span_u - dimension_u;
 			pd_nul = pd_nu;
 			pcl_ttempl = pcl_ttemp;
-			rvclTexCoord[ ui_idx ].x = rvclTexCoord[ ui_idx ].y = 0.0;
+			rvclTexCoord[ ui_idx ][0] = rvclTexCoord[ ui_idx ][1] = 0.0;
 			for( i_l = 0; i_l <= dimension_u; ++i_l )
 			{
 				++ui_index_u;
@@ -2429,17 +2473,20 @@ void BSplineTensorSurface::computeTexforTrimming( std::vector< vec2d > &rvclUV,
 }
 
 
-void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, vec3d &rclDU, vec3d &rclDV )
+void BSplineTensorSurface::correctDers( const Vec2d cclUV, const Vec3d cclPos, Vec3d &rclDU, Vec3d &rclDV )
 {
 	return;
+    // TODO: this tried to correct 0 derivs, but it was
+    // TODO: only half-implemented plus the approach didn't really work.
+    // TODO: implement something like this someday...
 #if 0
-	if( rclDU.quad_size( ) < DCTP_EPS )
+	if( rclDU.squareLength( ) < DCTP_EPS )
 	{
 		// du is zero
-		vec3d	cl_temp;
-		vec3d	cl_low;
-		vec3d	cl_high;
-		vec2d	cl_param;
+		Vec3d	cl_temp;
+		Vec3d	cl_low;
+		Vec3d	cl_high;
+		Vec2d	cl_param;
 		double	d_step;
 		double	d_minpar;
 		double	d_maxpar;
@@ -2450,18 +2497,18 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 		// step in -u direction
 		cl_param = cclUV;
 		cl_low = cclPos;
-		d_step = cl_param.x - d_minpar;
+		d_step = cl_param[0] - d_minpar;
 		while( d_step > DCTP_EPS )
 		{
 			d_step *= 0.5;
-			cl_param.x -= d_step;
+			cl_param[0] -= d_step;
 			cl_temp = compute( cl_param, i_err );
-			if( ( cl_temp - cclPos ).quad_size( ) > DCTP_EPS )
+			if( ( cl_temp - cclPos ).squareLength( ) > DCTP_EPS )
 			{
 				cl_low = cl_temp;
-				cl_param.x += d_step;
+				cl_param[0] += d_step;
 			}
-/*			else if( ( cl_temp - cclPos ).quad_size( ) > ( cl_low - cclPos ).quad_size( ) )
+/*			else if( ( cl_temp - cclPos ).squareLength( ) > ( cl_low - cclPos ).squareLength( ) )
 			{
 				cl_low = cl_temp;
 			}*/
@@ -2470,18 +2517,18 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 		// step in +u direction
 		cl_param = cclUV;
 		cl_high = cclPos;
-		d_step = d_maxpar - cl_param.x;
+		d_step = d_maxpar - cl_param[0];
 		while( d_step > DCTP_EPS )
 		{
 			d_step *= 0.5;
-			cl_param.x += d_step;
+			cl_param[0] += d_step;
 			cl_temp = compute( cl_param, i_err );
-			if( ( cl_temp - cclPos ).quad_size( ) > DCTP_EPS )
+			if( ( cl_temp - cclPos ).squareLength( ) > DCTP_EPS )
 			{
 				cl_high = cl_temp;
-				cl_param.x -= d_step;
+				cl_param[0] -= d_step;
 			}
-/*			else if( ( cl_temp - cclPos ).quad_size( ) > ( cl_high - cclPos ).quad_size( ) )
+/*			else if( ( cl_temp - cclPos ).squareLength( ) > ( cl_high - cclPos ).squareLength( ) )
 			{
 				cl_high = cl_temp;
 			}*/
@@ -2489,24 +2536,24 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 
 		// calculate dirivative
 //		std::cerr << "du: " << rclDU;
-		if( ( cl_high - cl_low ).quad_size( ) > DCTP_EPS )
+		if( ( cl_high - cl_low ).squareLength( ) > DCTP_EPS )
 		{
 			rclDU = cl_high - cl_low;
 		}
 		else
 		{
-			rclDU.x = rclDU.y = rclDU.z = 0.0;
+			rclDU[0] = rclDU[1] = rclDU[2] = 0.0;
 		}
 //		std::cerr << " -> " << rclDU << std::endl;
 	}
 
-	if( rclDV.quad_size( ) < DCTP_EPS )
+	if( rclDV.squareLength( ) < DCTP_EPS )
 	{
 		// dv is zero
-		vec3d	cl_temp;
-		vec3d	cl_low;
-		vec3d	cl_high;
-		vec2d	cl_param;
+		Vec3d	cl_temp;
+		Vec3d	cl_low;
+		Vec3d	cl_high;
+		Vec2d	cl_param;
 		double	d_step;
 		double	d_minpar;
 		double	d_maxpar;
@@ -2517,18 +2564,18 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 		// step in -v direction
 		cl_param = cclUV;
 		cl_low = cclPos;
-		d_step = cl_param.y - d_minpar;
+		d_step = cl_param[1] - d_minpar;
 		while( d_step > DCTP_EPS )
 		{
 			d_step *= 0.5;
-			cl_param.y -= d_step;
+			cl_param[1] -= d_step;
 			cl_temp = compute( cl_param, i_err );
-			if( ( cl_temp - cclPos ).quad_size( ) > DCTP_EPS )
+			if( ( cl_temp - cclPos ).squareLength( ) > DCTP_EPS )
 			{
 				cl_low = cl_temp;
-				cl_param.y += d_step;
+				cl_param[1] += d_step;
 			}
-/*			else if( ( cl_temp - cclPos ).quad_size( ) > ( cl_low - cclPos ).quad_size( ) )
+/*			else if( ( cl_temp - cclPos ).squareLength( ) > ( cl_low - cclPos ).squareLength( ) )
 			{
 				cl_low = cl_temp;
 			}*/
@@ -2537,18 +2584,18 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 		// step in +v direction
 		cl_param = cclUV;
 		cl_high = cclPos;
-		d_step = d_maxpar - cl_param.y;
+		d_step = d_maxpar - cl_param[1];
 		while( d_step > DCTP_EPS )
 		{
 			d_step *= 0.5;
-			cl_param.y += d_step;
+			cl_param[1] += d_step;
 			cl_temp = compute( cl_param, i_err );
-			if( ( cl_temp - cclPos ).quad_size( ) > DCTP_EPS )
+			if( ( cl_temp - cclPos ).squareLength( ) > DCTP_EPS )
 			{
 				cl_high = cl_temp;
-				cl_param.y -= d_step;
+				cl_param[1] -= d_step;
 			}
-/*			else if( ( cl_temp - cclPos ).quad_size( ) > ( cl_high - cclPos ).quad_size( ) )
+/*			else if( ( cl_temp - cclPos ).squareLength( ) > ( cl_high - cclPos ).squareLength( ) )
 			{
 				cl_high = cl_temp;
 			}*/
@@ -2556,13 +2603,13 @@ void BSplineTensorSurface::correctDers( const vec2d cclUV, const vec3d cclPos, v
 
 		// calculate dirivative
 //		std::cerr << "dv: " << rclDV;
-		if( ( cl_high - cl_low ).quad_size( ) > DCTP_EPS )
+		if( ( cl_high - cl_low ).squareLength( ) > DCTP_EPS )
 		{
 			rclDV = cl_high - cl_low;
 		}
 		else
 		{
-			rclDV.x = rclDV.y = rclDV.z = 0.0;
+			rclDV[0] = rclDV[1] = rclDV[2] = 0.0;
 		}
 //		std::cerr << " -> " << rclDV << std::endl;
 	}

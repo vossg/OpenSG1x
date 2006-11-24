@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -62,7 +62,7 @@ class BSplineTensorSurface;
 class SimplePolygon;
 class BSplineCurve2D;
 
-class vec3d;
+//class vec3d;
 
 class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
 {
@@ -221,6 +221,6 @@ OSG_END_NAMESPACE
 #include "OSGSurface.inl"
 #include "OSGSurfaceBase.inl"
 
-#define OSGSURFACE_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.13 2001/10/30 22:26:17 dirk Exp $"
+#define OSGSURFACE_HEADER_CVSID "@(#)$Id: OSGSurface.h,v 1.3 2006-11-09 20:59:39 edhellon Exp $"
 
 #endif /* _OSGSURFACE_H_ */

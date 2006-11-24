@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -123,7 +123,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 #ifdef OSG_USE_NURBS_PATCH
 								BSplineTensorSurface *pclPatch,
  #ifdef OSG_ARBITRARY_SPLIT
-								const vec2d cclMinParam, const vec2d cclMaxParam,
+								const Vec2d cclMinParam, const Vec2d cclMaxParam,
  #endif
 #else
 								std::vector< std::vector< BezierTensorSurface > > *pvvclPatches,
@@ -137,8 +137,8 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
  #ifdef OSG_ARBITRARY_SPLIT
 	SetInitialCells( pclMesh, fError, pclPatch, cclMinParam, cclMaxParam );
 
-	if( ( cclMaxParam.x - cclMinParam.x < DCTP_EPS ) ||
-		( cclMaxParam.y - cclMinParam.y < DCTP_EPS ) )
+	if( ( cclMaxParam[0] - cclMinParam[0] < DCTP_EPS ) ||
+		( cclMaxParam[1] - cclMinParam[1] < DCTP_EPS ) )
 	{
 		return;
 	}
@@ -280,18 +280,18 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 	// create first surface
 	std::vector< BSplineTensorSurface >	vcl_surf;
 	double							d_split;
-	vec2d							cl_min;
-	vec2d							cl_add;
+	Vec2d							cl_min;
+	Vec2d							cl_add;
 
 	pt_finfo = ( ( SFaceTreeCell* ) pclMesh->faces[ 0 ]->faceinfo );
 	pt_finfo->bOwnSurface = true;
 	pt_finfo->pclBSplineSurface = new BSplineTensorSurface;
 	*( pt_finfo->pclBSplineSurface ) = *pclPatch;
-	pclPatch->getParameterInterval_U( cl_min.x, cl_add.x );
-	pclPatch->getParameterInterval_V( cl_min.y, cl_add.y );
+	pclPatch->getParameterInterval_U( cl_min[0], cl_add[0] );
+	pclPatch->getParameterInterval_V( cl_min[1], cl_add[1] );
 	cl_add -= cl_min;
 
-	d_split = ( cclMinParam.x - cl_min.x ) / cl_add.x;
+	d_split = ( cclMinParam[0] - cl_min[0] ) / cl_add[0];
 	if( d_split > 0.999 ) d_split = 0.999;
 	if( d_split > DCTP_EPS )
 	{
@@ -299,7 +299,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 		*( pt_finfo->pclBSplineSurface ) = vcl_surf[ 1 ];
 	}
 
-	d_split = ( cclMaxParam.x - cclMinParam.x ) / ( cl_add.x - cclMinParam.x );
+	d_split = ( cclMaxParam[0] - cclMinParam[0] ) / ( cl_add[0] - cclMinParam[0] );
 	if( d_split < 0.001 ) d_split = 0.001;
 	if( 1.0 - d_split > DCTP_EPS )
 	{
@@ -307,7 +307,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 		*( pt_finfo->pclBSplineSurface ) = vcl_surf[ 0 ];
 	}
 
-	d_split = ( cclMinParam.y - cl_min.y ) / cl_add.y;
+	d_split = ( cclMinParam[1] - cl_min[1] ) / cl_add[1];
 	if( d_split > 0.999 ) d_split = 0.999;
 	if( d_split > DCTP_EPS )
 	{
@@ -315,7 +315,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 		*( pt_finfo->pclBSplineSurface ) = vcl_surf[ 1 ];
 	}
 
-	d_split = ( cclMaxParam.y - cclMinParam.y ) / ( cl_add.y - cclMinParam.y );
+	d_split = ( cclMaxParam[1] - cclMinParam[1] ) / ( cl_add[1] - cclMinParam[1] );
 	if( d_split < 0.001 ) d_split = 0.001;
 	if( 1.0 - d_split > DCTP_EPS )
 	{
@@ -375,15 +375,15 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
   #ifdef OSG_ARBITRARY_SPLIT
 					const double	cd_ratio = osgMin( -cpt_errcell->fSplitValue, 1.0f + cpt_errcell->fSplitValue );
    #ifdef OSG_UNION_TRI_QUAD
-					if( ( pcl_face->orig_face[ 1 ]->coords.x - pcl_face->orig_face[ 0 ]->coords.x ) * cd_ratio > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_face[ 1 ]->coords[0] - pcl_face->orig_face[ 0 ]->coords[0] ) * cd_ratio > DCTP_EPS * 100.0 )
    #else
-					if( ( pcl_face->orig_quad[ 1 ]->coords.x - pcl_face->orig_quad[ 0 ]->coords.x ) * cd_ratio > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_quad[ 1 ]->coords[0] - pcl_face->orig_quad[ 0 ]->coords[0] ) * cd_ratio > DCTP_EPS * 100.0 )
    #endif
   #else
    #ifdef OSG_UNION_TRI_QUAD
-					if( ( pcl_face->orig_face[ 1 ]->coords.x - pcl_face->orig_face[ 0 ]->coords.x ) * 0.5 > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_face[ 1 ]->coords[0] - pcl_face->orig_face[ 0 ]->coords[0] ) * 0.5 > DCTP_EPS * 100.0 )
    #else
-					if( ( pcl_face->orig_quad[ 1 ]->coords.x - pcl_face->orig_quad[ 0 ]->coords.x ) * 0.5 > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_quad[ 1 ]->coords[0] - pcl_face->orig_quad[ 0 ]->coords[0] ) * 0.5 > DCTP_EPS * 100.0 )
    #endif
   #endif
 					{
@@ -403,15 +403,15 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
   #ifdef OSG_ARBITRARY_SPLIT
 					const double	cd_ratio = osgMin( cpt_errcell->fSplitValue, 1.0f - cpt_errcell->fSplitValue );
    #ifdef OSG_UNION_TRI_QUAD
-					if( ( pcl_face->orig_face[ 0 ]->coords.y - pcl_face->orig_face[ 3 ]->coords.y ) * cd_ratio > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_face[ 0 ]->coords[1] - pcl_face->orig_face[ 3 ]->coords[1] ) * cd_ratio > DCTP_EPS * 100.0 )
    #else
-					if( ( pcl_face->orig_quad[ 0 ]->coords.y - pcl_face->orig_quad[ 3 ]->coords.y ) * cd_ratio > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_quad[ 0 ]->coords[1] - pcl_face->orig_quad[ 3 ]->coords[1] ) * cd_ratio > DCTP_EPS * 100.0 )
    #endif
   #else
    #ifdef OSG_UNION_TRI_QUAD
-					if( ( pcl_face->orig_face[ 0 ]->coords.y - pcl_face->orig_face[ 3 ]->coords.y ) * 0.5 > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_face[ 0 ]->coords[1] - pcl_face->orig_face[ 3 ]->coords[1] ) * 0.5 > DCTP_EPS * 100.0 )
    #else
-					if( ( pcl_face->orig_quad[ 0 ]->coords.y - pcl_face->orig_quad[ 3 ]->coords.y ) * 0.5 > DCTP_EPS * 100.0 )
+					if( ( pcl_face->orig_quad[ 0 ]->coords[1] - pcl_face->orig_quad[ 3 ]->coords[1] ) * 0.5 > DCTP_EPS * 100.0 )
    #endif
   #endif
 					{
@@ -526,7 +526,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 
 
 /*#ifdef OSG_ARBITRARY_SPLIT
-void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vector< vec2d > *pvclDelete,
+void CErrorQuadTree::CalculatePoints( std::vector< Vec2d > *pvclInsert, std::vector< Vec2d > *pvclDelete,
 									  BSplineTensorSurface *pclPatch,
 									  float fError, float &rfMinError, float &rfMaxError )
 {
@@ -538,7 +538,7 @@ void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vec
 	float							f_old_error;
 	bool							b_insert;
 	std::vector< BSplineTensorSurface >	vcl_surfaces;
-	vec2dset						scl_check;
+	Vec2dset						scl_check;
 
 	if( fError < m_fErrorCutoff )
 	{
@@ -581,8 +581,8 @@ void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vec
 	vt_build_cells[ 0 ].bOwnSurface = false;
 	vt_build_cells[ 0 ].pclBSplineSurface = pclPatch;
 	vt_build_cells[ 0 ].ptErrorCell = m_ptRoot;
-	pclPatch->getParameterInterval_U( vt_build_cells[ 0 ].clMin.x, vt_build_cells[ 0 ].clMax.x );
-	pclPatch->getParameterInterval_V( vt_build_cells[ 0 ].clMin.y, vt_build_cells[ 0 ].clMax.y );
+	pclPatch->getParameterInterval_U( vt_build_cells[ 0 ].clMin[0], vt_build_cells[ 0 ].clMax[0] );
+	pclPatch->getParameterInterval_V( vt_build_cells[ 0 ].clMin[1], vt_build_cells[ 0 ].clMax[1] );
 	ComputeError( &( vt_build_cells[ 0 ] ) );
 
 	rfMinError = -1.0;
@@ -606,19 +606,19 @@ void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vec
 				vt_build_cells[ ui_cell ].pclBSplineSurface = NULL;
 				if( vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue < 0.0 )
 				{
-					vt_build_cells[ ui_cell ].clMax.x =
-						vt_build_cells[ ui_cell ].clMin.x
-						- ( vt_build_cells[ ui_cell ].clMax.x - vt_build_cells[ ui_cell ].clMin.x )
+					vt_build_cells[ ui_cell ].clMax[0] =
+						vt_build_cells[ ui_cell ].clMin[0]
+						- ( vt_build_cells[ ui_cell ].clMax[0] - vt_build_cells[ ui_cell ].clMin[0] )
 						* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-					vt_build_cells[ ui_cell_cnt ].clMin.x = vt_build_cells[ ui_cell ].clMax.x;
+					vt_build_cells[ ui_cell_cnt ].clMin[0] = vt_build_cells[ ui_cell ].clMax[0];
 				}
 				else
 				{
-					vt_build_cells[ ui_cell ].clMax.y =
-						vt_build_cells[ ui_cell ].clMin.y
-						+ ( vt_build_cells[ ui_cell ].clMax.y - vt_build_cells[ ui_cell ].clMin.y )
+					vt_build_cells[ ui_cell ].clMax[1] =
+						vt_build_cells[ ui_cell ].clMin[1]
+						+ ( vt_build_cells[ ui_cell ].clMax[1] - vt_build_cells[ ui_cell ].clMin[1] )
 						* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-					vt_build_cells[ ui_cell_cnt ].clMin.y = vt_build_cells[ ui_cell ].clMax.y;
+					vt_build_cells[ ui_cell_cnt ].clMin[1] = vt_build_cells[ ui_cell ].clMax[1];
 				}
 				// set new error cells
 				vt_build_cells[ ui_cell_cnt ].ptErrorCell = &( vt_build_cells[ ui_cell ].ptErrorCell->ptChildren[ 1 ] );
@@ -666,19 +666,19 @@ void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vec
 					vt_build_cells[ ui_cell ].pclBSplineSurface = NULL;
 					if( vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue < 0.0 )
 					{
-						vt_build_cells[ ui_cell ].clMax.x =
-							vt_build_cells[ ui_cell ].clMin.x
-							- ( vt_build_cells[ ui_cell ].clMax.x - vt_build_cells[ ui_cell ].clMin.x )
+						vt_build_cells[ ui_cell ].clMax[0] =
+							vt_build_cells[ ui_cell ].clMin[0]
+							- ( vt_build_cells[ ui_cell ].clMax[0] - vt_build_cells[ ui_cell ].clMin[0] )
 							* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-						vt_build_cells[ ui_cell_cnt ].clMin.x = vt_build_cells[ ui_cell ].clMax.x;
+						vt_build_cells[ ui_cell_cnt ].clMin[0] = vt_build_cells[ ui_cell ].clMax[0];
 					}
 					else
 					{
-						vt_build_cells[ ui_cell ].clMax.y =
-							vt_build_cells[ ui_cell ].clMin.y
-							+ ( vt_build_cells[ ui_cell ].clMax.y - vt_build_cells[ ui_cell ].clMin.y )
+						vt_build_cells[ ui_cell ].clMax[1] =
+							vt_build_cells[ ui_cell ].clMin[1]
+							+ ( vt_build_cells[ ui_cell ].clMax[1] - vt_build_cells[ ui_cell ].clMin[1] )
 							* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-						vt_build_cells[ ui_cell_cnt ].clMin.y = vt_build_cells[ ui_cell ].clMax.y;
+						vt_build_cells[ ui_cell_cnt ].clMin[1] = vt_build_cells[ ui_cell ].clMax[1];
 					}
 					// set new error cells
 					vt_build_cells[ ui_cell_cnt ].ptErrorCell = &( vt_build_cells[ ui_cell ].ptErrorCell->ptChildren[ 1 ] );
@@ -734,19 +734,19 @@ void CErrorQuadTree::CalculatePoints( std::vector< vec2d > *pvclInsert, std::vec
 			std::cerr << vt_build_cells[ ui_cell ].clMin << vt_build_cells[ ui_cell ].clMax << std::endl;
 			if( vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue < 0.0 )
 			{
-				vt_build_cells[ ui_cell ].clMax.x =
-					vt_build_cells[ ui_cell ].clMin.x
-					- ( vt_build_cells[ ui_cell ].clMax.x - vt_build_cells[ ui_cell ].clMin.x )
+				vt_build_cells[ ui_cell ].clMax[0] =
+					vt_build_cells[ ui_cell ].clMin[0]
+					- ( vt_build_cells[ ui_cell ].clMax[0] - vt_build_cells[ ui_cell ].clMin[0] )
 					* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-				vt_build_cells[ ui_cell_cnt ].clMin.x = vt_build_cells[ ui_cell ].clMax.x;
+				vt_build_cells[ ui_cell_cnt ].clMin[0] = vt_build_cells[ ui_cell ].clMax[0];
 			}
 			else
 			{
-				vt_build_cells[ ui_cell ].clMax.y =
-					vt_build_cells[ ui_cell ].clMin.y
-					+ ( vt_build_cells[ ui_cell ].clMax.y - vt_build_cells[ ui_cell ].clMin.y )
+				vt_build_cells[ ui_cell ].clMax[1] =
+					vt_build_cells[ ui_cell ].clMin[1]
+					+ ( vt_build_cells[ ui_cell ].clMax[1] - vt_build_cells[ ui_cell ].clMin[1] )
 					* vt_build_cells[ ui_cell ].ptErrorCell->fSplitValue;
-				vt_build_cells[ ui_cell_cnt ].clMin.y = vt_build_cells[ ui_cell ].clMax.y;
+				vt_build_cells[ ui_cell_cnt ].clMin[1] = vt_build_cells[ ui_cell ].clMax[1];
 			}
 			std::cerr << vt_build_cells[ ui_cell ].clMin << vt_build_cells[ ui_cell ].clMax << std::endl;
 			std::cerr << vt_build_cells[ ui_cell_cnt ].clMin << vt_build_cells[ ui_cell_cnt ].clMax << std::endl << std::endl;
@@ -838,7 +838,7 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 #ifdef OSG_USE_NURBS_PATCH
  #ifdef OSG_ARBITRARY_SPLIT
 									  BSplineTensorSurface *pclPatch,
-									  const vec2d cclMinParam, const vec2d cclMaxParam )
+									  const Vec2d cclMinParam, const Vec2d cclMaxParam )
  #else
 									  BSplineTensorSurface *pclPatch )
  #endif
@@ -853,31 +853,31 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 	double			d_max_x;
 	double			d_min_y;
 	double			d_max_y;
-	vec3d			acl_edge_points[ 4 ];
+	Vec3d			acl_edge_points[ 4 ];
 	DCTPFace		*pcl_face;
 	SFaceTreeCell	*pt_finfo;
 
  #ifdef OSG_ARBITRARY_SPLIT
-	d_min_x = cclMinParam.x;
-	d_min_y = cclMinParam.y;
-	d_max_x = cclMaxParam.x;
-	d_max_y = cclMaxParam.y;
+	d_min_x = cclMinParam[0];
+	d_min_y = cclMinParam[1];
+	d_max_x = cclMaxParam[0];
+	d_max_y = cclMaxParam[1];
  #else
 	pclPatch->getParameterInterval_U( d_min_x, d_max_x );
 	pclPatch->getParameterInterval_V( d_min_y, d_max_y );
  #endif
-	acl_edge_points[ 0 ].x = d_min_x;
-	acl_edge_points[ 1 ].x = d_max_x;
-	acl_edge_points[ 2 ].x = d_max_x;
-	acl_edge_points[ 3 ].x = d_min_x;
-	acl_edge_points[ 0 ].y = d_max_y;
-	acl_edge_points[ 1 ].y = d_max_y;
-	acl_edge_points[ 2 ].y = d_min_y;
-	acl_edge_points[ 3 ].y = d_min_y;
-	acl_edge_points[ 0 ].z = 0.0;
-	acl_edge_points[ 1 ].z = 0.0;
-	acl_edge_points[ 2 ].z = 0.0;
-	acl_edge_points[ 3 ].z = 0.0;
+	acl_edge_points[ 0 ][0] = d_min_x;
+	acl_edge_points[ 1 ][0] = d_max_x;
+	acl_edge_points[ 2 ][0] = d_max_x;
+	acl_edge_points[ 3 ][0] = d_min_x;
+	acl_edge_points[ 0 ][1] = d_max_y;
+	acl_edge_points[ 1 ][1] = d_max_y;
+	acl_edge_points[ 2 ][1] = d_min_y;
+	acl_edge_points[ 3 ][1] = d_min_y;
+	acl_edge_points[ 0 ][2] = 0.0;
+	acl_edge_points[ 1 ][2] = 0.0;
+	acl_edge_points[ 2 ][2] = 0.0;
+	acl_edge_points[ 3 ][2] = 0.0;
 
 	if( m_ptRoot == NULL )
 	{
@@ -907,7 +907,7 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 #else
 	const unsigned int		cui_u_size = cpvdIntervalsU->size( ) - 1;
 	const unsigned int		cui_v_size = cpvdIntervalsV->size( ) - 1;
-	vec3d					acl_edge_points[ 4 ];
+	Vec3d					acl_edge_points[ 4 ];
 	unsigned int			ui_u;
 	unsigned int			ui_v;
 	DCTPFace				*pcl_face;
@@ -916,10 +916,10 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 	unsigned int			ui_face_cnt;
 	float					f_act_error;
 
-	acl_edge_points[ 0 ].z = 1.0;
-	acl_edge_points[ 1 ].z = 1.0;
-	acl_edge_points[ 2 ].z = 1.0;
-	acl_edge_points[ 3 ].z = 1.0;
+	acl_edge_points[ 0 ][2] = 1.0;
+	acl_edge_points[ 1 ][2] = 1.0;
+	acl_edge_points[ 2 ][2] = 1.0;
+	acl_edge_points[ 3 ][2] = 1.0;
 
 	if( m_vvptRoot.size( ) == 0 )
 	{
@@ -945,14 +945,14 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 		ComputeBPTree( pvvclPatches, cpvdIntervalsU, cpvdIntervalsV );
 	}
 
-	acl_edge_points[ 0 ].x = ( *cpvdIntervalsU )[ 0 ];
-	acl_edge_points[ 1 ].x = ( *cpvdIntervalsU )[ cui_u_size ];
-	acl_edge_points[ 2 ].x = ( *cpvdIntervalsU )[ cui_u_size ];
-	acl_edge_points[ 3 ].x = ( *cpvdIntervalsU )[ 0 ];
-	acl_edge_points[ 0 ].y = ( *cpvdIntervalsV )[ cui_v_size ];
-	acl_edge_points[ 1 ].y = ( *cpvdIntervalsV )[ cui_v_size ];
-	acl_edge_points[ 2 ].y = ( *cpvdIntervalsV )[ 0 ];
-	acl_edge_points[ 3 ].y = ( *cpvdIntervalsV )[ 0 ];
+	acl_edge_points[ 0 ][0] = ( *cpvdIntervalsU )[ 0 ];
+	acl_edge_points[ 1 ][0] = ( *cpvdIntervalsU )[ cui_u_size ];
+	acl_edge_points[ 2 ][0] = ( *cpvdIntervalsU )[ cui_u_size ];
+	acl_edge_points[ 3 ][0] = ( *cpvdIntervalsU )[ 0 ];
+	acl_edge_points[ 0 ][1] = ( *cpvdIntervalsV )[ cui_v_size ];
+	acl_edge_points[ 1 ][1] = ( *cpvdIntervalsV )[ cui_v_size ];
+	acl_edge_points[ 2 ][1] = ( *cpvdIntervalsV )[ 0 ];
+	acl_edge_points[ 3 ][1] = ( *cpvdIntervalsV )[ 0 ];
 	pcl_face = pclMesh->AddQuad( acl_edge_points[ 0 ], acl_edge_points[ 1 ],
 								 acl_edge_points[ 2 ], acl_edge_points[ 3 ], 0.0 );
 	pt_finfo = new SFaceTreeCell;
@@ -1030,43 +1030,43 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
  #ifdef OSG_UNION_TRI_QUAD
 			pclMesh->MoveVertex(
 				pcl_face->orig_face[ 0 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiTop + 1 ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_face[ 1 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiTop + 1 ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_face[ 2 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiBottom ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_face[ 3 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiBottom ],
 					   0.0 ) );
  #else
 			pclMesh->MoveVertex(
 				pcl_face->orig_quad[ 0 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiTop + 1 ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_quad[ 1 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiTop + 1 ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_quad[ 2 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiRight + 1 ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiBottom ],
 					   0.0 ) );
 			pclMesh->MoveVertex(
 				pcl_face->orig_quad[ 3 ],
-				vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
+				Vec3d( ( *cpvdIntervalsU )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiLeft ],
 					   ( *cpvdIntervalsV )[ ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->uiBottom ],
 					   0.0 ) );
  #endif
@@ -1416,8 +1416,8 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		return;	// error was already calculated
 	}
 
-	if( ( ( pclFace->orig_face[ 1 ]->coords.x - pclFace->orig_face[ 3 ]->coords.x ) < 10.0 ) ||
-		( ( pclFace->orig_face[ 1 ]->coords.y - pclFace->orig_face[ 3 ]->coords.y ) < 10.0 ) )
+	if( ( ( pclFace->orig_face[ 1 ]->coords[0] - pclFace->orig_face[ 3 ]->coords[0] ) < 10.0 ) ||
+		( ( pclFace->orig_face[ 1 ]->coords[1] - pclFace->orig_face[ 3 ]->coords[1] ) < 10.0 ) )
 	{
 		// too small face!
 		ptCell->ptErrorCell->fError = 0.0;
@@ -1434,15 +1434,27 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 #else
     BezierTensorSurface					*pcl_surface = ptCell->pclBezierSurface;
 #endif
-    const std::vector< std::vector < vec3d > >	&crvvcl_cps = pcl_surface->getControlPointMatrix( );
+    const std::vector< std::vector < Vec4d > >	&crvvcl_cps = pcl_surface->getControlPointMatrix( );
     const unsigned int					cui_m = crvvcl_cps.size( ) - 1;
     const unsigned int					cui_n = crvvcl_cps[ 0 ].size( ) - 1;
-    const vec3d							ccl_b00 = crvvcl_cps[ 0 ][ 0 ];
-    const vec3d							ccl_b0n = crvvcl_cps[ 0 ][ cui_n ];
-    const vec3d							ccl_bm0 = crvvcl_cps[ cui_m ][ 0 ];
-    const vec3d							ccl_bmn = crvvcl_cps[ cui_m ][ cui_n ];
-    vec3d								cl_cij;
-	vec3d								cl_bij;
+    Vec3d                               ccl_b00;
+    ccl_b00[0] = crvvcl_cps[0][0][0] / crvvcl_cps[0][0][3];
+    ccl_b00[1] = crvvcl_cps[0][0][1] / crvvcl_cps[0][0][3];
+    ccl_b00[2] = crvvcl_cps[0][0][2] / crvvcl_cps[0][0][3];
+    Vec3d                               ccl_b0n; 
+    ccl_b0n[0] = crvvcl_cps[0][cui_n][0] / crvvcl_cps[0][cui_n][3];
+    ccl_b0n[1] = crvvcl_cps[0][cui_n][1] / crvvcl_cps[0][cui_n][3];
+    ccl_b0n[2] = crvvcl_cps[0][cui_n][2] / crvvcl_cps[0][cui_n][3];
+    Vec3d                               ccl_bm0;
+    ccl_bm0[0] = crvvcl_cps[cui_m][0][0] / crvvcl_cps[cui_m][0][3];
+    ccl_bm0[1] = crvvcl_cps[cui_m][0][1] / crvvcl_cps[cui_m][0][3];
+    ccl_bm0[2] = crvvcl_cps[cui_m][0][2] / crvvcl_cps[cui_m][0][3];
+    Vec3d                               ccl_bmn;
+    ccl_bmn[0] = crvvcl_cps[cui_m][cui_n][0] / crvvcl_cps[cui_m][cui_n][3];
+    ccl_bmn[1] = crvvcl_cps[cui_m][cui_n][1] / crvvcl_cps[cui_m][cui_n][3];
+    ccl_bmn[2] = crvvcl_cps[cui_m][cui_n][2] / crvvcl_cps[cui_m][cui_n][3];
+    Vec3d								cl_cij;
+	Vec3d								cl_bij;
     double								d_quad_size;
     unsigned int						ui_i;
     unsigned int						ui_j;
@@ -1450,54 +1462,54 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
     const double						cd_rn = 1.0 / cui_n;
     const double						cd_rm = 1.0 / cui_m;
 #endif
-    vec3d								cl_ci0;
-    vec3d								cl_cin;
+    Vec3d								cl_ci0;
+    Vec3d								cl_cin;
 #ifndef OSG_USE_NURBS_PATCH
-    const vec3d							ccl_dcx0 = ( ccl_bm0 - ccl_b00 ) * cd_rm;
-    const vec3d							ccl_dcxn = ( ccl_bmn - ccl_b0n ) * cd_rm;
+    const Vec3d							ccl_dcx0 = ( ccl_bm0 - ccl_b00 ) * cd_rm;
+    const Vec3d							ccl_dcxn = ( ccl_bmn - ccl_b0n ) * cd_rm;
 #endif
-	vec3d								cl_norm;
+	Vec3d								cl_norm;
 #ifndef OSG_USE_NURBS_PATCH
-	const vec3d							ccl_dc0x = ( ccl_b0n - ccl_b00 ) * cd_rn;
-	const vec3d							ccl_dcmx = ( ccl_bmn - ccl_bm0 ) * cd_rn;
-	vec3d								cl_c0j;
-	vec3d								cl_cmj;
+	const Vec3d							ccl_dc0x = ( ccl_b0n - ccl_b00 ) * cd_rn;
+	const Vec3d							ccl_dcmx = ( ccl_bmn - ccl_bm0 ) * cd_rn;
+	Vec3d								cl_c0j;
+	Vec3d								cl_cmj;
 #endif
 	int									i_err;
-	vec2d								cl_uv;
+	Vec2d								cl_uv;
 #ifdef OSG_USE_NURBS_PATCH
-	vec2d								cl_min;
-	vec2d								cl_add;
+	Vec2d								cl_min;
+	Vec2d								cl_add;
 #endif
 #ifdef OSG_ARBITRARY_SPLIT
-	vec2d								cl_worst;
+	Vec2d								cl_worst;
 #endif
 	// normal stuff
-    vec3d								cl_nb00;
-    vec3d								cl_nb0n;
-    vec3d								cl_nbm0;
-    vec3d								cl_nbmn;
-    vec3d								cl_ncij;
-	vec3d								cl_nbij;
-    vec3d								cl_nci0;
-    vec3d								cl_ncin;
+    Vec3d								cl_nb00;
+    Vec3d								cl_nb0n;
+    Vec3d								cl_nbm0;
+    Vec3d								cl_nbmn;
+    Vec3d								cl_ncij;
+	Vec3d								cl_nbij;
+    Vec3d								cl_nci0;
+    Vec3d								cl_ncin;
 #ifndef OSG_USE_NURBS_PATCH
-    vec3d								cl_ndcx0;
-    vec3d								cl_ndcxn;
-	vec3d								cl_ndc0x;
-	vec3d								cl_ndcmx;
-	vec3d								cl_ndcix;
-	vec3d								cl_ndcxj;
-    vec3d								cl_nc0j;
-    vec3d								cl_ncmj;
+    Vec3d								cl_ndcx0;
+    Vec3d								cl_ndcxn;
+	Vec3d								cl_ndc0x;
+	Vec3d								cl_ndcmx;
+	Vec3d								cl_ndcix;
+	Vec3d								cl_ndcxj;
+    Vec3d								cl_nc0j;
+    Vec3d								cl_ncmj;
 #endif
 	osg::Vec3f							cl_normal;
 	osg::Pnt3f							cl_position;
 	double								d_quadcurv;
 
 #ifdef OSG_USE_NURBS_PATCH
-	pcl_surface->getParameterInterval_U( cl_min.x, cl_add.x );
-	pcl_surface->getParameterInterval_V( cl_min.y, cl_add.y );
+	pcl_surface->getParameterInterval_U( cl_min[0], cl_add[0] );
+	pcl_surface->getParameterInterval_V( cl_min[1], cl_add[1] );
 	cl_add -= cl_min;
  #ifdef OSG_ARBITRARY_SPLIT
 	cl_worst = cl_min;
@@ -1507,6 +1519,54 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 	if( m_sbNormalApproximation )
 	{
 //#ifndef OSG_USE_NURBS_PATCH
+        
+        Vec3d du, dv;
+        du[0] = crvvcl_cps[1][0][0];
+        du[1] = crvvcl_cps[1][0][1];
+        du[2] = crvvcl_cps[1][0][2];
+
+        // we take the difference of two homogenious cps, but as the length of the cross product
+        // is irrevelant (we're calculating normals) we ignore the weights.
+        // In addition the weight of cp[1][0] might be zero so we avoid dividing by it (multiply is OK).
+        du -= ccl_b00 * crvvcl_cps[1][0][3];
+
+        dv[0] = crvvcl_cps[0][1][0];
+        dv[1] = crvvcl_cps[0][1][1];
+        dv[2] = crvvcl_cps[0][1][2];
+        dv -= ccl_b00 * crvvcl_cps[0][1][3];
+        cl_nb00 = du.cross( dv );
+
+        du[0] = crvvcl_cps[1][cui_n][0];
+        du[1] = crvvcl_cps[1][cui_n][1];
+        du[2] = crvvcl_cps[1][cui_n][2];
+        du -= ccl_b0n * crvvcl_cps[1][cui_n][3];
+        dv[0] = crvvcl_cps[0][cui_n-1][0];
+        dv[1] = crvvcl_cps[0][cui_n-1][1];
+        dv[2] = crvvcl_cps[0][cui_n-1][2];
+        dv -= ccl_b0n * crvvcl_cps[0][cui_n-1][3];
+        cl_nb0n = du.cross( -dv );
+
+        du[0] = crvvcl_cps[cui_m-1][0][0];
+        du[1] = crvvcl_cps[cui_m-1][0][1];
+        du[2] = crvvcl_cps[cui_m-1][0][2];
+        du -= ccl_bm0 * crvvcl_cps[cui_m-1][0][3];
+        dv[0] = crvvcl_cps[cui_m][1][0];
+        dv[1] = crvvcl_cps[cui_m][1][1];
+        dv[2] = crvvcl_cps[cui_m][1][2];
+        dv -= ccl_bm0 * crvvcl_cps[cui_m][1][3];
+        cl_nbm0 = -du.cross( dv );
+
+        du[0] = crvvcl_cps[cui_m-1][cui_n][0];
+        du[1] = crvvcl_cps[cui_m-1][cui_n][1];
+        du[2] = crvvcl_cps[cui_m-1][cui_n][2];
+        du -= ccl_bmn * crvvcl_cps[cui_m-1][cui_n][3];
+        dv[0] = crvvcl_cps[cui_m][cui_n-1][0];
+        dv[1] = crvvcl_cps[cui_m][cui_n-1][1];
+        dv[2] = crvvcl_cps[cui_m][cui_n-1][2];
+        dv -= ccl_bmn * crvvcl_cps[cui_m][cui_n-1][3];
+        cl_nbmn = du.cross( dv );  // -du X -dv  => du X dv
+                        
+/*                
 		cl_nb00 = ( crvvcl_cps[ 1 ][ 0 ] - crvvcl_cps[ 0 ][ 0 ] ).cross(
 					( crvvcl_cps[ 0 ][ 1 ] - crvvcl_cps[ 0 ][ 0 ] ) );
 		cl_nb0n = ( crvvcl_cps[ 1 ][ cui_n ] - crvvcl_cps[ 0 ][ cui_n ] ).cross(
@@ -1515,6 +1575,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 					( crvvcl_cps[ cui_m - 1 ][ 0 ] - crvvcl_cps[ cui_m ][ 0 ] ) );
 		cl_nbmn = ( crvvcl_cps[ cui_m ][ cui_n ] - crvvcl_cps[ cui_m - 1 ][ cui_n ] ).cross(
 					( crvvcl_cps[ cui_m ][ cui_n ] - crvvcl_cps[ cui_m ][ cui_n - 1 ] ) );
+*/       
 //		std::cerr << cl_nb00 << std::endl;
 //		std::cerr << cl_nb0n << std::endl;
 //		std::cerr << cl_nbm0 << std::endl;
@@ -1522,49 +1583,49 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 /*#else
 		cl_uv = cl_min;
 		cl_normal = pcl_surface->computeNormal( cl_uv, i_err, cl_position );
-		cl_nb00.x = cl_normal[ 0 ];
-		cl_nb00.y = cl_normal[ 1 ];
-		cl_nb00.z = cl_normal[ 2 ];
+		cl_nb00[0] = cl_normal[ 0 ];
+		cl_nb00[1] = cl_normal[ 1 ];
+		cl_nb00[2] = cl_normal[ 2 ];
 
-		cl_uv.y += cl_add.y;
+		cl_uv[1] += cl_add[1];
 		cl_normal = pcl_surface->computeNormal( cl_uv, i_err, cl_position );
-		cl_nb0n.x = cl_normal[ 0 ];
-		cl_nb0n.y = cl_normal[ 1 ];
-		cl_nb0n.z = cl_normal[ 2 ];
+		cl_nb0n[0] = cl_normal[ 0 ];
+		cl_nb0n[1] = cl_normal[ 1 ];
+		cl_nb0n[2] = cl_normal[ 2 ];
 
-		cl_uv.x += cl_add.x;
+		cl_uv[0] += cl_add[0];
 		cl_normal = pcl_surface->computeNormal( cl_uv, i_err, cl_position );
-		cl_nbmn.x = cl_normal[ 0 ];
-		cl_nbmn.y = cl_normal[ 1 ];
-		cl_nbmn.z = cl_normal[ 2 ];
+		cl_nbmn[0] = cl_normal[ 0 ];
+		cl_nbmn[1] = cl_normal[ 1 ];
+		cl_nbmn[2] = cl_normal[ 2 ];
 
-		cl_uv.y = cl_min.y;
+		cl_uv[1] = cl_min[1];
 		cl_normal = pcl_surface->computeNormal( cl_uv, i_err, cl_position );
-		cl_nbm0.x = cl_normal[ 0 ];
-		cl_nbm0.y = cl_normal[ 1 ];
-		cl_nbm0.z = cl_normal[ 2 ];
+		cl_nbm0[0] = cl_normal[ 0 ];
+		cl_nbm0[1] = cl_normal[ 1 ];
+		cl_nbm0[2] = cl_normal[ 2 ];
 //		std::cerr << cl_nb00 << std::endl;
 //		std::cerr << cl_nb0n << std::endl;
 //		std::cerr << cl_nbm0 << std::endl;
 //		std::cerr << cl_nbmn << std::endl << std::endl;
 #endif*/
 
-		d_quad_size = cl_nb00.quad_size( );
+		d_quad_size = cl_nb00.squareLength( );
 		if( d_quad_size > DCTP_EPS * DCTP_EPS )
 		{
 			cl_nb00 *= 1.0 / sqrt( d_quad_size );
 		}
-		d_quad_size = cl_nb0n.quad_size( );
+		d_quad_size = cl_nb0n.squareLength( );
 		if( d_quad_size > DCTP_EPS * DCTP_EPS )
 		{
 			cl_nb0n *= 1.0 / sqrt( d_quad_size );
 		}
-		d_quad_size = cl_nbm0.quad_size( );
+		d_quad_size = cl_nbm0.squareLength( );
 		if( d_quad_size > DCTP_EPS * DCTP_EPS )
 		{
 			cl_nbm0 *= 1.0 / sqrt( d_quad_size );
 		}
-		d_quad_size = cl_nbmn.quad_size( );
+		d_quad_size = cl_nbmn.squareLength( );
 		if( d_quad_size > DCTP_EPS * DCTP_EPS )
 		{
 			cl_nbmn *= 1.0 / sqrt( d_quad_size );
@@ -1582,19 +1643,23 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		cl_ndcmx = ( cl_nbmn - cl_nbm0 ) * cd_rn;
 #endif
 
-		if( ( cl_nb00.quad_size( ) < DCTP_EPS * DCTP_EPS ) ||
-			( cl_nb0n.quad_size( ) < DCTP_EPS * DCTP_EPS ) ||
-			( cl_nbm0.quad_size( ) < DCTP_EPS * DCTP_EPS ) ||
-			( cl_nbmn.quad_size( ) < DCTP_EPS * DCTP_EPS ) )
+		if( (cl_nb00.squareLength() < DCTP_EPS * DCTP_EPS) ||
+			(cl_nb0n.squareLength() < DCTP_EPS * DCTP_EPS) ||
+			(cl_nbm0.squareLength() < DCTP_EPS * DCTP_EPS) ||
+			(cl_nbmn.squareLength() < DCTP_EPS * DCTP_EPS) ||
+            ((ccl_b00 - ccl_b0n).squareLength() < DCTP_EPS * DCTP_EPS) ||
+            ((ccl_b0n - ccl_bmn).squareLength() < DCTP_EPS * DCTP_EPS) ||
+            ((ccl_bmn - ccl_bm0).squareLength() < DCTP_EPS * DCTP_EPS) ||
+            ((ccl_bm0 - ccl_b00).squareLength() < DCTP_EPS * DCTP_EPS))
 		{
 			d_quadcurv = 1e100;
 		}
 		else
 		{
-			d_quadcurv = osgMax( osgMax( ( cl_nb00 - cl_nb0n ).quad_size( ) / ( ccl_b00 - ccl_b0n ).quad_size( ),
-									 ( cl_nb0n - cl_nbmn ).quad_size( ) / ( ccl_b0n - ccl_bmn ).quad_size( ) ),
-							 osgMax( ( cl_nbmn - cl_nbm0 ).quad_size( ) / ( ccl_bmn - ccl_bm0 ).quad_size( ),
-									 ( cl_nbm0 - cl_nb00 ).quad_size( ) / ( ccl_bm0 - ccl_b00 ).quad_size( ) ) );
+			d_quadcurv = osgMax( osgMax( ( cl_nb00 - cl_nb0n ).squareLength( ) / ( ccl_b00 - ccl_b0n ).squareLength( ),
+									 ( cl_nb0n - cl_nbmn ).squareLength( ) / ( ccl_b0n - ccl_bmn ).squareLength( ) ),
+							 osgMax( ( cl_nbmn - cl_nbm0 ).squareLength( ) / ( ccl_bmn - ccl_bm0 ).squareLength( ),
+									 ( cl_nbm0 - cl_nb00 ).squareLength( ) / ( ccl_bm0 - ccl_b00 ).squareLength( ) ) );
 
 //			d_quadcurv *= 4.0;	// 0.5 pixel geometric, 1 pixel shading error
 		}
@@ -1622,15 +1687,15 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
     for( ui_i = 0; ui_i <= cui_m; ++ui_i )
 	{
 #ifdef OSG_USE_NURBS_PATCH
-//		cl_uv.x += ( crvd_knot_u[ cui_dim_u + ui_i ] - crvd_knot_u[ ui_i ] ) / cui_dim_u;
-		cl_uv.x = 0.0;
+//		cl_uv[0] += ( crvd_knot_u[ cui_dim_u + ui_i ] - crvd_knot_u[ ui_i ] ) / cui_dim_u;
+		cl_uv[0] = 0.0;
 		for( ui_idx = 0; ui_idx < cui_dim_u; ++ui_idx )
 		{
-			cl_uv.x += crvd_knot_u[ ui_idx + ui_i + 1 ];
+			cl_uv[0] += crvd_knot_u[ ui_idx + ui_i + 1 ];
 		}
-		cl_uv.x /= cui_dim_u;
+		cl_uv[0] /= cui_dim_u;
 
-		const double	cd_xrel = ( cl_uv.x - cl_min.x ) / cl_add.x;
+		const double	cd_xrel = ( cl_uv[0] - cl_min[0] ) / cl_add[0];
 
 		cl_ci0 = ( ccl_bm0 - ccl_b00 ) * cd_xrel + ccl_b00;
 		cl_cin = ( ccl_bmn - ccl_b0n ) * cd_xrel + ccl_b0n;
@@ -1644,7 +1709,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		cl_c0j = ccl_b00;
 		cl_cmj = ccl_bm0;
 
-		const vec3d	ccl_dcix = ( cl_cin - cl_ci0 ) * cd_rn;
+		const Vec3d	ccl_dcix = ( cl_cin - cl_ci0 ) * cd_rn;
 
 		if( m_sbNormalApproximation )
 		{
@@ -1655,20 +1720,20 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 			cl_ndcix = ( cl_ncin - cl_nci0 ) * cd_rn;
 		}
 
-		cl_uv.x = ui_i * cd_rm;
+		cl_uv[0] = ui_i * cd_rm;
 #endif
 
 		for( ui_j = 0; ui_j <= cui_n; ++ui_j )
 		{
 #ifdef OSG_USE_NURBS_PATCH
-			cl_uv.y = 0.0;
+			cl_uv[1] = 0.0;
 			for( ui_idx = 0; ui_idx < cui_dim_v; ++ui_idx )
 			{
-				cl_uv.y += crvd_knot_v[ ui_idx + ui_j + 1 ];
+				cl_uv[1] += crvd_knot_v[ ui_idx + ui_j + 1 ];
 			}
-			cl_uv.y /= cui_dim_v;
+			cl_uv[1] /= cui_dim_v;
 
-			const double	cd_yrel = ( cl_uv.y - cl_min.y ) / cl_add.y;
+			const double	cd_yrel = ( cl_uv[1] - cl_min[1] ) / cl_add[1];
 
 			cl_cij = cl_ci0 + ( cl_cin - cl_ci0 ) * cd_yrel;
 			if( m_sbNormalApproximation )
@@ -1676,14 +1741,14 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 				cl_ncij = cl_nci0 + ( cl_ncin - cl_nci0 ) * cd_yrel;
 			}
 #else
-			const vec3d	ccl_dcxj = cl_cmj - cl_c0j;
+			const Vec3d	ccl_dcxj = cl_cmj - cl_c0j;
 
 			if( m_sbNormalApproximation )
 			{
 				cl_ndcxj = cl_ncmj - cl_nc0j;
 			}
 
-			cl_uv.y = ui_j * cd_rn;
+			cl_uv[1] = ui_j * cd_rn;
 #endif
 #ifdef OSG_DIFF_TO_BILIN
  #ifdef OSG_USE_NURBS_PATCH
@@ -1694,7 +1759,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 			{
 				// TODO Vec3f für normale, Pnt3f für punkt
 				cl_nbij = pcl_surface->computeNormal( cl_uv, i_err, cl_bij );
-				d_quad_size = cl_ncij.quad_size( );
+				d_quad_size = cl_ncij.squareLength( );
 				if( d_quad_size > DCTP_EPS * DCTP_EPS )
 				{
 					cl_norm = cl_ncij * ( 1.0 / sqrt( d_quad_size ) );
@@ -1718,40 +1783,40 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 			cl_bij = pcl_surface->computewdeCasteljau( cl_uv, i_err );
   #endif
  #endif
-			if( ( m_sbNormalApproximation ) && ( cl_nbij.quad_size( ) > DCTP_EPS * DCTP_EPS ) )
+			if( ( m_sbNormalApproximation ) && ( cl_nbij.squareLength( ) > DCTP_EPS * DCTP_EPS ) )
 			{
 				// calculate shading error
-				d_quad_size = cl_nbij.quad_size( ) / d_quadcurv;
+				d_quad_size = cl_nbij.squareLength( ) / d_quadcurv;
 
  #ifdef OSG_EUCLID_ERRORS
 				// for euclidian norm first calculate distance to next correcly shaded pixel
-				d_quad_size += ( cl_bij - cl_cij ).quad_size( );
+				d_quad_size += ( cl_bij - cl_cij ).squareLength( );
  #endif
 
 				// the corner points are correcly shaded pixels...
-				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_b00 ).quad_size( ) );
-				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_b0n ).quad_size( ) );
-				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_bm0 ).quad_size( ) );
-				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_bmn ).quad_size( ) );
+				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_b00 ).squareLength( ) );
+				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_b0n ).squareLength( ) );
+				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_bm0 ).squareLength( ) );
+				d_quad_size = osgMin( d_quad_size, ( cl_bij - ccl_bmn ).squareLength( ) );
 
  #ifdef OSG_EUCLID_ERRORS
 				d_quad_size = sqrt( d_quad_size );
  #else
 				// for maximum norm choose the maximum error
-				d_quad_size = sqrt( osgMax( ( cl_bij - cl_cij ).quad_size( ), d_quad_size ) );
+				d_quad_size = sqrt( osgMax( ( cl_bij - cl_cij ).squareLength( ), d_quad_size ) );
  #endif
 			}
 			else
 			{
-				d_quad_size = sqrt( ( cl_bij - cl_cij ).quad_size( ) );
+				d_quad_size = sqrt( ( cl_bij - cl_cij ).squareLength( ) );
 			}
  #ifdef OSG_ARBITRARY_SPLIT
-			if( fabs( d_quad_size - ptCell->ptErrorCell->fError ) < DCTP_EPS )
+			if( osgabs( d_quad_size - ptCell->ptErrorCell->fError ) < DCTP_EPS )
 			{
-				double	cd_old_x = osgMin( cl_worst.x - cl_min.x, cl_min.x + cl_add.x - cl_worst.x );
-				double	cd_old_y = osgMin( cl_worst.y - cl_min.y, cl_min.y + cl_add.y - cl_worst.y );
-				double	cd_new_x = osgMin( cl_uv.x - cl_min.x, cl_min.x + cl_add.x - cl_uv.x );
-				double	cd_new_y = osgMin( cl_uv.y - cl_min.y, cl_min.y + cl_add.y - cl_uv.y );
+				double	cd_old_x = osgMin( cl_worst[0] - cl_min[0], cl_min[0] + cl_add[0] - cl_worst[0] );
+				double	cd_old_y = osgMin( cl_worst[1] - cl_min[1], cl_min[1] + cl_add[1] - cl_worst[1] );
+				double	cd_new_x = osgMin( cl_uv[0] - cl_min[0], cl_min[0] + cl_add[0] - cl_uv[0] );
+				double	cd_new_y = osgMin( cl_uv[1] - cl_min[1], cl_min[1] + cl_add[1] - cl_uv[1] );
 //				std::cerr << cd_old_x * cd_old_x + cd_old_y * cd_old_y << " " << cd_new_x * cd_new_x + cd_new_y * cd_new_y << std::endl;
 				if( cd_old_x * cd_old_x + cd_old_y * cd_old_y <= cd_new_x * cd_new_x + cd_new_y * cd_new_y )
 				{
@@ -1812,7 +1877,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 	// add twist vector error
 #ifdef OSG_DIFF_TO_BILIN
  #ifdef OSG_CONSERVATIVE_ERROR
-	ptCell->ptErrorCell->fError += ( float ) sqrt( ( ccl_b00 - ccl_b0n + ccl_bmn - ccl_bm0 ).quad_size( ) ) * 0.25;
+	ptCell->ptErrorCell->fError += ( float ) sqrt( ( ccl_b00 - ccl_b0n + ccl_bmn - ccl_bm0 ).squareLength( ) ) * 0.25;
  #endif
 #endif
 //	ptCell->ptErrorCell->fError *= 0.1;
@@ -1820,14 +1885,14 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 #ifdef OSG_USE_KD_TREE
  #ifdef OSG_ARBITRARY_SPLIT
 //	std::cerr << cl_min << cl_add << cl_worst << std::endl;
-	if( ( fabs( cl_worst.x - cl_min.x ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.x ) ) ||
-		( fabs( cl_worst.x - ( cl_min.x + cl_add.x ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.x ) ) )
+	if( ( osgabs( cl_worst[0] - cl_min[0] ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[0] ) ) ||
+		( osgabs( cl_worst[0] - ( cl_min[0] + cl_add[0] ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[0] ) ) )
 	{
 //		std::cerr << "y";
-		if( ( fabs( cl_worst.y - cl_min.y ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.y ) ) ||
-			( fabs( cl_worst.y - ( cl_min.y + cl_add.y ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.y ) ) )
+		if( ( osgabs( cl_worst[1] - cl_min[1] ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[1] ) ) ||
+			( osgabs( cl_worst[1] - ( cl_min[1] + cl_add[1] ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[1] ) ) )
 		{
-			if( fabs( cl_add.x ) < fabs( cl_add.y ) )
+			if( osgabs( cl_add[0] ) < osgabs( cl_add[1] ) )
 			{
 //				std::cerr << "my";
 				ptCell->ptErrorCell->fSplitValue = 0.5;
@@ -1840,33 +1905,33 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		}
 		else
 		{
-			ptCell->ptErrorCell->fSplitValue = ( cl_worst.y - cl_min.y ) / cl_add.y;
+			ptCell->ptErrorCell->fSplitValue = ( cl_worst[1] - cl_min[1] ) / cl_add[1];
 		}
 	}
-	else if( ( fabs( cl_worst.y - cl_min.y ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.y ) ) ||
-			 ( fabs( cl_worst.y - ( cl_min.y + cl_add.y ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add.y ) ) )
+	else if( ( osgabs( cl_worst[1] - cl_min[1] ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[1] ) ) ||
+			 ( osgabs( cl_worst[1] - ( cl_min[1] + cl_add[1] ) ) <= osgMax( DCTP_EPS, 1e-4 * cl_add[1] ) ) )
 	{
 //		std::cerr << "x";
-		ptCell->ptErrorCell->fSplitValue = -( cl_worst.x - cl_min.x ) / cl_add.x;
+		ptCell->ptErrorCell->fSplitValue = -( cl_worst[0] - cl_min[0] ) / cl_add[0];
 	}
 	else
 	{
 		double	d_hdiff;
 		double	d_vdiff;
 
-		cl_uv.x = cl_worst.x;
-		cl_uv.y = cl_min.y;
+		cl_uv[0] = cl_worst[0];
+		cl_uv[1] = cl_min[1];
 		if( m_sbNormalApproximation )
 		{
 			cl_nci0 = pcl_surface->computeNormal( cl_uv, i_err, cl_ci0 );
-			cl_uv.y += cl_add.y;
+			cl_uv[1] += cl_add[1];
 			cl_ncin = pcl_surface->computeNormal( cl_uv, i_err, cl_cin );
-			cl_uv.y = cl_worst.y;
+			cl_uv[1] = cl_worst[1];
 			cl_ncij = pcl_surface->computeNormal( cl_uv, i_err, cl_cij );
 		
-			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst.y - cl_min.y ) / cl_add.y );
-			cl_nbij = cl_nci0 + ( cl_ncin - cl_nci0 ) * ( ( cl_worst.y - cl_min.y ) / cl_add.y );
-			d_quad_size = cl_nbij.quad_size( );
+			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst[1] - cl_min[1] ) / cl_add[1] );
+			cl_nbij = cl_nci0 + ( cl_ncin - cl_nci0 ) * ( ( cl_worst[1] - cl_min[1] ) / cl_add[1] );
+			d_quad_size = cl_nbij.squareLength( );
 			if( d_quad_size > DCTP_EPS * DCTP_EPS )
 			{
 				cl_nbij *= 1.0 / sqrt( d_quad_size );
@@ -1875,52 +1940,52 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		else
 		{
 			cl_ci0 = pcl_surface->compute( cl_uv, i_err );
-			cl_uv.y += cl_add.y;
+			cl_uv[1] += cl_add[1];
 			cl_cin = pcl_surface->compute( cl_uv, i_err );
-			cl_uv.y = cl_worst.y;
+			cl_uv[1] = cl_worst[1];
 			cl_cij = pcl_surface->compute( cl_uv, i_err );
 		
-			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst.y - cl_min.y ) / cl_add.y );
+			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst[1] - cl_min[1] ) / cl_add[1] );
 		}
 
 //		const double	cd_hdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin );
-//		const double	cd_hdiff = sqrt( ( cl_cij - cl_bij ).quad_size( ) );
-		if( ( m_sbNormalApproximation ) && ( cl_ncij.quad_size( ) > DCTP_EPS * DCTP_EPS ) )
+//		const double	cd_hdiff = sqrt( ( cl_cij - cl_bij ).squareLength( ) );
+		if( ( m_sbNormalApproximation ) && ( cl_ncij.squareLength( ) > DCTP_EPS * DCTP_EPS ) )
 		{
 			// calculate shading error
-			d_hdiff = ( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv;
+			d_hdiff = ( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv;
 
    #ifdef OSG_EUCLID_ERRORS
 			// for euclidian norm first calculate distance to next correcly shaded pixel
-			d_hdiff += ( cl_cij - cl_bij ).quad_size( );
+			d_hdiff += ( cl_cij - cl_bij ).squareLength( );
    #endif
 
 			// the new corner points will be correcly shaded pixels...
-//			d_hdiff = osgMin( d_hdiff, ( cl_cij - cl_ci0 ).quad_size( ) );
-//			d_hdiff = osgMin( d_hdiff, ( cl_cij - cl_cin ).quad_size( ) );
+//			d_hdiff = osgMin( d_hdiff, ( cl_cij - cl_ci0 ).squareLength( ) );
+//			d_hdiff = osgMin( d_hdiff, ( cl_cij - cl_cin ).squareLength( ) );
 
    #ifdef OSG_EUCLID_ERRORS
 			d_hdiff = sqrt( d_hdiff );
    #else
 			// for maximum norm choose the maximum error
-			d_hdiff = sqrt( osgMax( ( cl_cij - cl_bij ).quad_size( ), d_hdiff ) );
+			d_hdiff = sqrt( osgMax( ( cl_cij - cl_bij ).squareLength( ), d_hdiff ) );
    #endif
 
 /*   #ifdef OSG_EUCLID_ERRORS
-			d_hdiff = sqrt( ( cl_cij - cl_bij ).quad_size( )
-				      + ( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv );
+			d_hdiff = sqrt( ( cl_cij - cl_bij ).squareLength( )
+				      + ( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv );
    #else
-			d_hdiff = sqrt( osgMax( ( cl_cij - cl_bij ).quad_size( ),
-					        ( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv ) );
+			d_hdiff = sqrt( osgMax( ( cl_cij - cl_bij ).squareLength( ),
+					        ( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv ) );
    #endif*/
-			d_hdiff += sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.0001;
+			d_hdiff += sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.0001;
 		}
 		else
 		{
-			d_hdiff = sqrt( ( cl_cij - cl_bij ).quad_size( ) )
-					+ sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.0001;
+			d_hdiff = sqrt( ( cl_cij - cl_bij ).squareLength( ) )
+					+ sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.0001;
 		}
-//		const double	cd_hdiff = sqrt( ( cl_ci0 - cl_cin ).quad_size( ) );
+//		const double	cd_hdiff = sqrt( ( cl_ci0 - cl_cin ).squareLength( ) );
 
 
 
@@ -1936,14 +2001,14 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 
 		if( m_sbNormalApproximation )
 		{
-			cl_uv.x = cl_min.x;
+			cl_uv[0] = cl_min[0];
 			cl_nci0 = pcl_surface->computeNormal( cl_uv, i_err, cl_ci0 );
-			cl_uv.x += cl_add.x;
+			cl_uv[0] += cl_add[0];
 			cl_ncin = pcl_surface->computeNormal( cl_uv, i_err, cl_cin );
 
-			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst.x - cl_min.x ) / cl_add.x );
-			cl_nbij = cl_nci0 + ( cl_ncin - cl_nci0 ) * ( ( cl_worst.x - cl_min.x ) / cl_add.x );
-			d_quad_size = cl_nbij.quad_size( );
+			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst[0] - cl_min[0] ) / cl_add[0] );
+			cl_nbij = cl_nci0 + ( cl_ncin - cl_nci0 ) * ( ( cl_worst[0] - cl_min[0] ) / cl_add[0] );
+			d_quad_size = cl_nbij.squareLength( );
 			if( d_quad_size > DCTP_EPS * DCTP_EPS )
 			{
 				cl_nbij *= 1.0 / sqrt( d_quad_size );
@@ -1951,52 +2016,52 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 		}
 		else
 		{
-			cl_uv.x = cl_min.x;
+			cl_uv[0] = cl_min[0];
 			cl_ci0 = pcl_surface->compute( cl_uv, i_err );
-			cl_uv.x += cl_add.x;
+			cl_uv[0] += cl_add[0];
 			cl_cin = pcl_surface->compute( cl_uv, i_err );
 
-			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst.x - cl_min.x ) / cl_add.x );
+			cl_bij = cl_ci0 + ( cl_cin - cl_ci0 ) * ( ( cl_worst[0] - cl_min[0] ) / cl_add[0] );
 		}
 
 //		const double	cd_vdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin );
-//		const double	cd_vdiff = sqrt( ( cl_cij - cl_bij ).quad_size( ) );
-		if( ( m_sbNormalApproximation ) && ( cl_ncij.quad_size( ) > DCTP_EPS * DCTP_EPS ) )
+//		const double	cd_vdiff = sqrt( ( cl_cij - cl_bij ).squareLength( ) );
+		if( ( m_sbNormalApproximation ) && ( cl_ncij.squareLength( ) > DCTP_EPS * DCTP_EPS ) )
 		{
 			// calculate shading error
-			d_vdiff = ( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv;
+			d_vdiff = ( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv;
 
    #ifdef OSG_EUCLID_ERRORS
 			// for euclidian norm first calculate distance to next correcly shaded pixel
-			d_vdiff += ( cl_cij - cl_bij ).quad_size( );
+			d_vdiff += ( cl_cij - cl_bij ).squareLength( );
    #endif
 
 			// the new corner points will be correcly shaded pixels...
-//			d_vdiff = osgMin( d_vdiff, ( cl_cij - cl_ci0 ).quad_size( ) );
-//			d_vdiff = osgMin( d_vdiff, ( cl_cij - cl_cin ).quad_size( ) );
+//			d_vdiff = osgMin( d_vdiff, ( cl_cij - cl_ci0 ).squareLength( ) );
+//			d_vdiff = osgMin( d_vdiff, ( cl_cij - cl_cin ).squareLength( ) );
 
    #ifdef OSG_EUCLID_ERRORS
 			d_vdiff = sqrt( d_vdiff );
    #else
 			// for maximum norm choose the maximum error
-			d_vdiff = sqrt( osgMax( ( cl_cij - cl_bij ).quad_size( ), d_vdiff ) );
+			d_vdiff = sqrt( osgMax( ( cl_cij - cl_bij ).squareLength( ), d_vdiff ) );
    #endif
 
 /*   #ifdef OSG_EUCLID_ERRORS
-			d_vdiff = sqrt( ( cl_cij - cl_bij ).quad_size( )
-							+ ( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv );
+			d_vdiff = sqrt( ( cl_cij - cl_bij ).squareLength( )
+							+ ( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv );
    #else
-			d_vdiff = sqrt( osgMax( ( cl_cij - cl_bij ).quad_size( ),
-									( cl_ncij - cl_nbij ).quad_size( ) / d_quadcurv ) );
+			d_vdiff = sqrt( osgMax( ( cl_cij - cl_bij ).squareLength( ),
+									( cl_ncij - cl_nbij ).squareLength( ) / d_quadcurv ) );
    #endif*/
-			d_vdiff += sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.0001;
+			d_vdiff += sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.0001;
 		}
 		else
 		{
-			d_vdiff = sqrt( ( cl_cij - cl_bij ).quad_size( ) )
-					+ sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.0001;
+			d_vdiff = sqrt( ( cl_cij - cl_bij ).squareLength( ) )
+					+ sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.0001;
 		}
-//		const double	cd_vdiff = sqrt( ( cl_ci0 - cl_cin ).quad_size( ) );
+//		const double	cd_vdiff = sqrt( ( cl_ci0 - cl_cin ).squareLength( ) );
 
 /*		if( m_sbNormalApproximation )
 		{
@@ -2011,43 +2076,43 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 
 		if( d_hdiff < d_vdiff )
 		{
-			ptCell->ptErrorCell->fSplitValue = -( cl_worst.x - cl_min.x ) / cl_add.x;
+			ptCell->ptErrorCell->fSplitValue = -( cl_worst[0] - cl_min[0] ) / cl_add[0];
 		}
 		else
 		{
-			ptCell->ptErrorCell->fSplitValue = ( cl_worst.y - cl_min.y ) / cl_add.y;
+			ptCell->ptErrorCell->fSplitValue = ( cl_worst[1] - cl_min[1] ) / cl_add[1];
 		}
 	}
 //	std::cerr << cl_min << cl_min + cl_add << std::endl;
 //	std::cerr << ptCell->ptErrorCell->fSplitValue << std::endl;
  #else
-	cl_uv.x = cl_min.x + cl_add.x * 0.5;
-	cl_uv.y = cl_min.y;
+	cl_uv[0] = cl_min[0] + cl_add[0] * 0.5;
+	cl_uv[1] = cl_min[1];
 	cl_ci0 = pcl_surface->compute( cl_uv, i_err );
-	cl_uv.y += cl_add.y;
+	cl_uv[1] += cl_add[1];
 	cl_cin = pcl_surface->compute( cl_uv, i_err );
-	cl_uv.y -= cl_add.y * 0.5;
+	cl_uv[1] -= cl_add[1] * 0.5;
 	cl_cij = pcl_surface->compute( cl_uv, i_err );
 	
 //	const double	cd_hdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin );
-//	const double	cd_hdiff = sqrt( ( cl_cij - ( cl_ci0 + cl_cin ) * 0.5 ).quad_size( ) );
-//	const double	cd_hdiff = sqrt( ( cl_cij - cl_ci0 ).quad_size( ) ) + sqrt( ( cl_cij - cl_cin ).quad_size( ) );
+//	const double	cd_hdiff = sqrt( ( cl_cij - ( cl_ci0 + cl_cin ) * 0.5 ).squareLength( ) );
+//	const double	cd_hdiff = sqrt( ( cl_cij - cl_ci0 ).squareLength( ) ) + sqrt( ( cl_cij - cl_cin ).squareLength( ) );
 	const double	cd_hdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin )
-							 + sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.001;
+							 + sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.001;
 
 //	std::cerr.precision( 4 );
 //	std::cerr << cl_ci0 << cl_cij << cl_cin << cd_hdiff << std::endl;
 
-	cl_uv.x = cl_min.x;
+	cl_uv[0] = cl_min[0];
 	cl_ci0 = pcl_surface->compute( cl_uv, i_err );
-	cl_uv.x += cl_add.x;
+	cl_uv[0] += cl_add[0];
 	cl_cin = pcl_surface->compute( cl_uv, i_err );
 
 //	const double	cd_vdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin );
-//	const double	cd_vdiff = sqrt( ( cl_cij - ( cl_ci0 + cl_cin ) * 0.5 ).quad_size( ) );
-//	const double	cd_vdiff = sqrt( ( cl_cij - cl_ci0 ).quad_size( ) ) + sqrt( ( cl_cij - cl_cin ).quad_size( ) );
+//	const double	cd_vdiff = sqrt( ( cl_cij - ( cl_ci0 + cl_cin ) * 0.5 ).squareLength( ) );
+//	const double	cd_vdiff = sqrt( ( cl_cij - cl_ci0 ).squareLength( ) ) + sqrt( ( cl_cij - cl_cin ).squareLength( ) );
 	const double	cd_vdiff = computeDistToLine( cl_cij, cl_ci0, cl_cin )
-							 + sqrt( ( cl_ci0 - cl_cin ).quad_size( ) ) * 0.001;
+							 + sqrt( ( cl_ci0 - cl_cin ).squareLength( ) ) * 0.001;
 
 //	std::cerr << cl_ci0 << cl_cij << cl_cin << cd_vdiff << std::endl;
 //	std::cerr << cd_hdiff << " " << cd_vdiff << std::endl;
@@ -2057,12 +2122,12 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
  #endif
 #endif
 
-/*	const double cd_size = 0.5 * sqrt( osgMax( osgMax( osgMax( ( ccl_b00 - ccl_b0n ).quad_size( ),
-															   ( ccl_b0n - ccl_bmn ).quad_size( ) ),
-													   osgMax( ( ccl_bmn - ccl_bm0 ).quad_size( ),
-															   ( ccl_bm0 - ccl_b00 ).quad_size( ) ) ),
-											   osgMax( ( ccl_b00 - ccl_bmn ).quad_size( ),
-													   ( ccl_b0n - ccl_bm0 ).quad_size( ) ) ) );
+/*	const double cd_size = 0.5 * sqrt( osgMax( osgMax( osgMax( ( ccl_b00 - ccl_b0n ).squareLength( ),
+															   ( ccl_b0n - ccl_bmn ).squareLength( ) ),
+													   osgMax( ( ccl_bmn - ccl_bm0 ).squareLength( ),
+															   ( ccl_bm0 - ccl_b00 ).squareLength( ) ) ),
+											   osgMax( ( ccl_b00 - ccl_bmn ).squareLength( ),
+													   ( ccl_b0n - ccl_bm0 ).squareLength( ) ) ) );
 
 	if( ( cd_size > DCTP_EPS ) &&
 		( ptCell->ptErrorCell->fError > cd_size ) )
@@ -2097,18 +2162,18 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 	unsigned int		ui_u_surf;
 	unsigned int		ui_v_surf;
 	BezierTensorSurface	*pcl_surface;
-	vec3d				cl_cij;
-	vec3d				cl_bij;
+	Vec3d				cl_cij;
+	Vec3d				cl_bij;
 	double				d_quad_size;
 	unsigned int		ui_i;
 	unsigned int		ui_j;
-	vec3d				cl_ci0;
-	vec3d				cl_cin;
-	vec3d				cl_norm;
-	vec3d				cl_c0j;
-	vec3d				cl_cmj;
+	Vec3d				cl_ci0;
+	Vec3d				cl_cin;
+	Vec3d				cl_norm;
+	Vec3d				cl_c0j;
+	Vec3d				cl_cmj;
 	int					i_err;
-	vec2d				cl_uv;
+	Vec2d				cl_uv;
 
 
 //	std::cerr << pclBPNode->uiLeft << " - " << pclBPNode->uiRight << std::endl;
@@ -2125,19 +2190,19 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 	}*/
 
 	pcl_surface = &( ( *pvvclPatches )[ pclBPNode->uiLeft ][ pclBPNode->uiBottom ] );
-	const vec3d			ccl_a00 = pcl_surface->getControlPointMatrix( )[ 0 ][ 0 ];
+	const Vec3d			ccl_a00 = pcl_surface->getControlPointMatrix( )[ 0 ][ 0 ];
 
 	pcl_surface = &( ( *pvvclPatches )[ pclBPNode->uiRight ][ pclBPNode->uiBottom ] );
-	const vec3d			ccl_s0n = pcl_surface->getControlPointMatrix( )[ 0 ][ pcl_surface->getControlPointMatrix( )[ 0 ].size( ) - 1 ];
-	const vec3d			ccl_a0n = ccl_s0n - ccl_a00;
+	const Vec3d			ccl_s0n = pcl_surface->getControlPointMatrix( )[ 0 ][ pcl_surface->getControlPointMatrix( )[ 0 ].size( ) - 1 ];
+	const Vec3d			ccl_a0n = ccl_s0n - ccl_a00;
 
 	pcl_surface = &( ( *pvvclPatches )[ pclBPNode->uiLeft ][ pclBPNode->uiTop ] );
-	const vec3d			ccl_sm0 = pcl_surface->getControlPointMatrix( )[ pcl_surface->getControlPointMatrix( ).size( ) - 1 ][ 0 ];
-	const vec3d			ccl_am0 = ccl_sm0 - ccl_a00;
+	const Vec3d			ccl_sm0 = pcl_surface->getControlPointMatrix( )[ pcl_surface->getControlPointMatrix( ).size( ) - 1 ][ 0 ];
+	const Vec3d			ccl_am0 = ccl_sm0 - ccl_a00;
 
 	pcl_surface = &( ( *pvvclPatches )[ pclBPNode->uiRight ][ pclBPNode->uiTop ] );
-	const vec3d			ccl_smn = pcl_surface->getControlPointMatrix( )[ pcl_surface->getControlPointMatrix( ).size( ) - 1 ][ pcl_surface->getControlPointMatrix( )[ 0 ].size( ) - 1 ];
-	const vec3d			ccl_amn = ccl_smn - ccl_am0 - ccl_a00;
+	const Vec3d			ccl_smn = pcl_surface->getControlPointMatrix( )[ pcl_surface->getControlPointMatrix( ).size( ) - 1 ][ pcl_surface->getControlPointMatrix( )[ 0 ].size( ) - 1 ];
+	const Vec3d			ccl_amn = ccl_smn - ccl_am0 - ccl_a00;
 
 	for( ui_v_surf = pclBPNode->uiBottom; ui_v_surf <= pclBPNode->uiTop; ++ui_v_surf )
 	{
@@ -2149,21 +2214,21 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 //			std::cerr << "u:" << ui_u_surf << std::endl;
 			pcl_surface = &( ( *pvvclPatches )[ ui_u_surf ][ ui_v_surf ] );
 
-			const std::vector< std::vector < vec3d > >	&crvvcl_cps = pcl_surface->getControlPointMatrix( );
+			const std::vector< std::vector < Vec3d > >	&crvvcl_cps = pcl_surface->getControlPointMatrix( );
 			const unsigned int					cui_m = crvvcl_cps.size( ) - 1;
 			const unsigned int					cui_n = crvvcl_cps[ 0 ].size( ) - 1;
 			const double						cd_mul_u = ( ( *cpvdIntervalsU )[ ui_u_surf ] - ( *cpvdIntervalsU )[ pclBPNode->uiLeft ] ) / ( ( *cpvdIntervalsU )[ pclBPNode->uiRight + 1 ] - ( *cpvdIntervalsU )[ pclBPNode->uiLeft ] );
 			const double						cd_mul_un = ( ( *cpvdIntervalsU )[ ui_u_surf + 1 ] - ( *cpvdIntervalsU )[ pclBPNode->uiLeft ] ) / ( ( *cpvdIntervalsU )[ pclBPNode->uiRight + 1 ] - ( *cpvdIntervalsU )[ pclBPNode->uiLeft ] );
-			const vec3d							ccl_b00 = ccl_a00 + ccl_a0n * cd_mul_v + ( ccl_am0 + ccl_amn * cd_mul_v ) * cd_mul_u;
-			const vec3d							ccl_b0n = ccl_a00 + ccl_a0n * cd_mul_vn + ( ccl_am0 + ccl_amn * cd_mul_vn ) * cd_mul_u;
-			const vec3d							ccl_bm0 = ccl_a00 + ccl_a0n * cd_mul_v + ( ccl_am0 + ccl_amn * cd_mul_v ) * cd_mul_un;
-			const vec3d							ccl_bmn = ccl_a00 + ccl_a0n * cd_mul_vn + ( ccl_am0 + ccl_amn * cd_mul_vn ) * cd_mul_un;
+			const Vec3d							ccl_b00 = ccl_a00 + ccl_a0n * cd_mul_v + ( ccl_am0 + ccl_amn * cd_mul_v ) * cd_mul_u;
+			const Vec3d							ccl_b0n = ccl_a00 + ccl_a0n * cd_mul_vn + ( ccl_am0 + ccl_amn * cd_mul_vn ) * cd_mul_u;
+			const Vec3d							ccl_bm0 = ccl_a00 + ccl_a0n * cd_mul_v + ( ccl_am0 + ccl_amn * cd_mul_v ) * cd_mul_un;
+			const Vec3d							ccl_bmn = ccl_a00 + ccl_a0n * cd_mul_vn + ( ccl_am0 + ccl_amn * cd_mul_vn ) * cd_mul_un;
 			const double						cd_rn = 1.0 / cui_n;
 			const double						cd_rm = 1.0 / cui_m;
-			const vec3d							ccl_dcx0 = ( ccl_bm0 - ccl_b00 ) * cd_rm;
-			const vec3d							ccl_dcxn = ( ccl_bmn - ccl_b0n ) * cd_rm;
-			const vec3d							ccl_dc0x = ( ccl_b0n - ccl_b00 ) * cd_rn;
-			const vec3d							ccl_dcmx = ( ccl_bmn - ccl_bm0 ) * cd_rn;
+			const Vec3d							ccl_dcx0 = ( ccl_bm0 - ccl_b00 ) * cd_rm;
+			const Vec3d							ccl_dcxn = ( ccl_bmn - ccl_b0n ) * cd_rm;
+			const Vec3d							ccl_dc0x = ( ccl_b0n - ccl_b00 ) * cd_rn;
+			const Vec3d							ccl_dcmx = ( ccl_bmn - ccl_bm0 ) * cd_rn;
 
 //			std::cerr << cui_n << "," << cui_m << std::endl;
 //			std::cerr << ( void* ) pclBPNode << std::endl;
@@ -2176,26 +2241,26 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 				cl_c0j = ccl_b00;
 				cl_cmj = ccl_bm0;
 
-				const vec3d	ccl_dcix = ( cl_cin - cl_ci0 ) * cd_rn;
+				const Vec3d	ccl_dcix = ( cl_cin - cl_ci0 ) * cd_rn;
 
-				cl_uv.x = ui_i * cd_rm;
+				cl_uv[0] = ui_i * cd_rm;
 
 				for( ui_j = 0; ui_j <= cui_n; ++ui_j )
 				{
-					const vec3d	ccl_dcxj = cl_cmj - cl_c0j;
+					const Vec3d	ccl_dcxj = cl_cmj - cl_c0j;
 
-					cl_uv.y = ui_j * cd_rn;
+					cl_uv[1] = ui_j * cd_rn;
 #ifdef OSG_DIFF_TO_BILIN
 //					cl_bij = crvvcl_cps[ ui_i ][ ui_j ] - cl_cij;
 					cl_bij = pcl_surface->computewdeCasteljau( cl_uv, i_err ) - cl_cij;
 //					std::cerr << ccl_dcix << "x" << ccl_dcxj << std::endl;
 /*					cl_norm = ccl_dcix.cross( ccl_dcxj );
-					d_quad_size = cl_norm.quad_size( );
+					d_quad_size = cl_norm.squareLength( );
 					if( d_quad_size > 0.0 )
 					{
 //						std::cerr << "qs:" << d_quad_size << std::endl;
 						cl_norm *= 1.0 / sqrt( d_quad_size );
-						d_quad_size = fabs( cl_bij.dot( cl_norm ) );
+						d_quad_size = osgabs( cl_bij.dot( cl_norm ) );
 						if( d_quad_size > pclBPNode->fError )
 						{
 							pclBPNode->fError = ( float ) d_quad_size;
@@ -2203,7 +2268,7 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 					}
 					else*/
 					{
-						d_quad_size = sqrt( cl_bij.quad_size( ) );
+						d_quad_size = sqrt( cl_bij.squareLength( ) );
 //						std::cerr << "qs:" << d_quad_size << std::endl;
 						if( d_quad_size > pclBPNode->fError )
 						{
@@ -2214,7 +2279,7 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 //					std::cerr << cl_uv << std::endl;
 					cl_bij = pcl_surface->computewdeCasteljau( cl_uv, i_err );
 //					std::cerr << i_err << std::endl;
-					if( cl_uv.x + cl_uv.y <= 1.0 )
+					if( cl_uv[0] + cl_uv[1] <= 1.0 )
 					{
 						d_quad_size = computeDistToTriangle( cl_bij, ccl_a00, ccl_s0n, ccl_sm0 );
 					}
@@ -2228,7 +2293,7 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 					{
 						pclBPNode->fError = ( float ) d_quad_size;
 					}
-					if( cl_uv.x <= cl_uv.y )
+					if( cl_uv[0] <= cl_uv[1] )
 					{
 						d_quad_size = computeDistToTriangle( cl_bij, ccl_s0n, ccl_a00, ccl_smn );
 					}
@@ -2255,7 +2320,7 @@ void CErrorQuadTree::ComputeBPError( SBPETreeCell *pclBPNode,
 	}
 	// add twist vector error
 #ifdef OSG_DIFF_TO_BILIN
-//	pclBPNode->fError += ( float ) sqrt( ( ccl_amn - ccl_a0n ).quad_size( ) ) * 0.25;
+//	pclBPNode->fError += ( float ) sqrt( ( ccl_amn - ccl_a0n ).squareLength( ) ) * 0.25;
 #endif
 //	pclBPNode->fError *= 0.1;
 //	pcl_node->ptErrorCell->fError = 0.0;
@@ -2402,45 +2467,45 @@ void CErrorQuadTree::DeleteBPNode( SBPETreeCell *&rpclNode )
 
 
 #ifndef OSG_DIFF_TO_BILIN
-double CErrorQuadTree::computeDistToPlane( const vec3d cclP, const vec3d cclV1, const vec3d cclV2, const vec3d cclV3 )
+double CErrorQuadTree::computeDistToPlane( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2, const Vec3d cclV3 )
 {
-	vec3d	cl_norm;
+	Vec3d	cl_norm;
 	double	d_quad_size;
-	vec3d	cl_diff;
+	Vec3d	cl_diff;
 
 	cl_diff = cclP - cclV1;
 	cl_norm = ( cclV2 - cclV1 ).cross( cclV3 - cclV1 );
-	d_quad_size = cl_norm.quad_size( );
+	d_quad_size = cl_norm.squareLength( );
 //	std::cerr << cclP << cclV1 << cclV2 << cclV3 << std::endl;
 	if( d_quad_size > 0.0 )
 	{
 //		std::cerr << "qs:" << d_quad_size << std::endl;
 		cl_norm *= 1.0 / sqrt( d_quad_size );
 //		std::cerr << cl_diff << cl_norm << std::endl;
-		return fabs( cl_diff.dot( cl_norm ) );
+		return osgabs( cl_diff.dot( cl_norm ) );
 	}
 	else
 	{
 //		std::cerr << cl_diff << std::endl;
-		return sqrt( cl_diff.quad_size( ) );
+		return sqrt( cl_diff.squareLength( ) );
 	}
 }
 
 
-double CErrorQuadTree::computeDistToTriangle( const vec3d cclP, const vec3d cclV1, const vec3d cclV2, const vec3d cclV3 )
+double CErrorQuadTree::computeDistToTriangle( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2, const Vec3d cclV3 )
 {
-	vec3d		cl_norm;
+	Vec3d		cl_norm;
 	double		d_dist;
-	vec3d		cl_diff;
-	vec3d		cl_proj;
+	Vec3d		cl_diff;
+	Vec3d		cl_proj;
 	double		d_temp;
 	double		d_temp2;
-	const vec3d	ccl_d1 = cclV2 - cclV1;
-	const vec3d	ccl_d2 = cclV3 - cclV1;
+	const Vec3d	ccl_d1 = cclV2 - cclV1;
+	const Vec3d	ccl_d2 = cclV3 - cclV1;
 
 	cl_diff = cclP - cclV1;
 	cl_norm = ccl_d1.cross( ccl_d2 );
-	d_temp = cl_norm.quad_size( );
+	d_temp = cl_norm.squareLength( );
 	if( d_temp > 0.0 )
 	{
 		cl_norm *= 1.0 / sqrt( d_temp );
@@ -2450,11 +2515,11 @@ double CErrorQuadTree::computeDistToTriangle( const vec3d cclP, const vec3d cclV
 //		std::cerr << ( cl_proj - cclV1 ).dot( cl_norm ) << std::endl;
 		// check if point is inside triangle
 		cl_diff = cl_proj - cclV1;
-		d_temp = ccl_d1.dot( cl_diff ) / ccl_d1.quad_size( );
-		d_temp2 = ccl_d2.dot( cl_diff ) / ccl_d2.quad_size( );
+		d_temp = ccl_d1.dot( cl_diff ) / ccl_d1.squareLength( );
+		d_temp2 = ccl_d2.dot( cl_diff ) / ccl_d2.squareLength( );
 		if( ( d_temp < 0.0 ) || ( d_temp2 < 0.0 ) || ( d_temp + d_temp2 > 1.0 ) )
 		{
-//			std::cerr << d_temp << " " << d_temp2 << ": " << fabs( d_dist );
+//			std::cerr << d_temp << " " << d_temp2 << ": " << osgabs( d_dist );
 			d_dist = computeDistToLine( cclP, cclV1, cclV2 );
 			d_temp = computeDistToLine( cclP, cclV1, cclV3 );
 			if( d_temp < d_dist ) d_dist = d_temp;
@@ -2462,36 +2527,36 @@ double CErrorQuadTree::computeDistToTriangle( const vec3d cclP, const vec3d cclV
 			if( d_temp < d_dist ) d_dist = d_temp;
 //			std::cerr << " -> " << d_dist << std::endl;
 		}
-		return fabs( d_dist );
+		return osgabs( d_dist );
 	}
 	else
 	{
-		return sqrt( cl_diff.quad_size( ) );
+		return sqrt( cl_diff.squareLength( ) );
 	}
 }
 #endif
 
-double CErrorQuadTree::computeDistToLine( const vec3d cclP, const vec3d cclV1, const vec3d cclV2 )
+double CErrorQuadTree::computeDistToLine( const Vec3d cclP, const Vec3d cclV1, const Vec3d cclV2 )
 {
-	const vec3d	ccl_d = cclV2 - cclV1;
-	const vec3d	ccl_diff = cclP - cclV1;
+	const Vec3d	ccl_d = cclV2 - cclV1;
+	const Vec3d	ccl_diff = cclP - cclV1;
 	double		d_temp;
 	double		d_temp2;
 
 	d_temp = ccl_d.dot( ccl_diff );
 	if( d_temp <= 0.0 )
 	{
-//		std::cerr << "a " << sqrt( ccl_diff.quad_size( ) ) << std::endl;
-		return sqrt( ccl_diff.quad_size( ) );
+//		std::cerr << "a " << sqrt( ccl_diff.squareLength( ) ) << std::endl;
+		return sqrt( ccl_diff.squareLength( ) );
 	}
-	d_temp2 = ccl_d.quad_size( );
+	d_temp2 = ccl_d.squareLength( );
 	if( d_temp2 <= d_temp )
 	{
-//		std::cerr << "b " << sqrt( ( cclP - cclV2 ).quad_size( ) ) << std::endl;
-		return sqrt( ( cclP - cclV2 ).quad_size( ) );
+//		std::cerr << "b " << sqrt( ( cclP - cclV2 ).squareLength( ) ) << std::endl;
+		return sqrt( ( cclP - cclV2 ).squareLength( ) );
 	}
-//	std::cerr << "c " << sqrt( ( ccl_d * ( d_temp / d_temp2 ) - ccl_diff ).quad_size( ) ) << std::endl;
-	return sqrt( ( ccl_d * ( d_temp / d_temp2 ) - ccl_diff ).quad_size( ) );
+//	std::cerr << "c " << sqrt( ( ccl_d * ( d_temp / d_temp2 ) - ccl_diff ).squareLength( ) ) << std::endl;
+	return sqrt( ( ccl_d * ( d_temp / d_temp2 ) - ccl_diff ).squareLength( ) );
 }
 
 void CErrorQuadTree::WriteTree( std::ostream &rclFile )

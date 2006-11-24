@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -70,7 +70,7 @@ typedef std::vector < DirectedEdge<T1> > edgevector;
 template <class T0>
 class OSG_SYSTEMLIB_DLLMAPPING DirectedNode {
 public:
-  ivector edges;  // vector (pointers) of edges going to/from this node
+  DCTPivector edges;  // vector (pointers) of edges going to/from this node
   T0 nodeinfo;
   
 typedef std::vector < DirectedNode<T0> > nodevector;   
@@ -88,20 +88,10 @@ public:
   }
   ~DirectedGraph() {}
 
-  //file format constants
-  static const char ff_const_1[];
-  static const char ff_const_2[];
-  static const char ff_const_3[];
-  static const char ff_const_4[];
-  static const char ff_const_5[];
-  static const char ff_const_6[];
-  static const char ff_const_7[];
-      
-      
   int AddNode( T0 &n ); // add a new node 
   int AddEdge( T1 &t, int from, int to, bool direction); // add a new (possibly directed) edge  
   int DeleteEdge( int edgeidx ); // delete edge specified by the index
-  ivector & getEdges( int n ); // get all edges (indexes) from a node
+  DCTPivector & getEdges( int n ); // get all edges (indexes) from a node
   DirectedNode<T0>& getNode( int nodeindex, int &error ); // get one node
   DirectedEdge<T1>& getEdge( int edgeindex, int &error ); // get one edge
   bool getEdgeDirection( int edgeindex, int &error ); // get one edge's direction
@@ -110,10 +100,6 @@ public:
   int FindNode( T0 &nodeinfo );
   int FindEdge( int from, int to );
 
-  //I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::istream &infile );
-  int write( std::ostream &outfile );
-  void writeInvalid( std::ostream &outfile );
   bool isInvalid( void );
 
 
@@ -126,7 +112,6 @@ public:
 
 OSG_END_NAMESPACE
 
-// FIXME: this suxx, but necessary due to templates...
 #include "OSGDirectedGraph.inl"
 
 #endif // DirectedGraph.h

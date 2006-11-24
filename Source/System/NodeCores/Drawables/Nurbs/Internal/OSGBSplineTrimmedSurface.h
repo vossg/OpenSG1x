@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -74,9 +74,10 @@ public:
   trimmingloop& getTrimmingLoops( void ) { return trimming; }
   int setSurface( BSplineTensorSurface &ts ) { surf = ts; return 0; }
   int setTrimmingLoops( trimmingloop &t ) { trimming = t; return 0; }
+#if 0
   //! flips the surface
   void flip( void );
-   
+#endif /* 0 */
  
 protected:  
 // file format constants  

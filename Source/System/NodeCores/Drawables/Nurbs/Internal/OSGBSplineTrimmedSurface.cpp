@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -102,18 +102,31 @@ int BSplineTrimmedSurface::read( std::istream &infile )
       return err;
   }
 
-  for ( i = 0; i < numcurves; i++ ) {
-    for ( j = 0; j < trimming[ i ].size(); j++) {
-       err = trimming[ i ][ j ].read( infile );
-       if ( err )
-       {
-           std::cerr<<"error loading trimming curve data, i: " << i << " j: " << j << std::endl;
-            return err;
-       }
+    std::vector<int> ignored_curves;
+    unsigned int kk;
+    for ( i = 0; i < numcurves; i++ ) 
+    {
+        ignored_curves.clear();
+        for ( j = 0; j < trimming[ i ].size(); j++) 
+        {
+           err = trimming[ i ][ j ].read( infile );
+           if (err != 0 && err != -10)
+           {
+               std::cerr<<"error loading trimming curve data, i: " << i << " j: " << j << std::endl;
+               return err;
+           }
+           else if ( err == -10) // FIXME: burntin val
+           {
+               // ignore curve
+               ignored_curves.push_back(j);
+           }
+        }
+        for ( kk = 0; kk < ignored_curves.size(); ++kk)
+        {
+             trimming[i].erase(trimming[i].begin() + ignored_curves[kk]);
+        }
     }
-  }
-
-  return 0;
+    return 0;
 }
 
 void BSplineTrimmedSurface::normalize( void )
@@ -122,6 +135,7 @@ void BSplineTrimmedSurface::normalize( void )
   double	d_offset_v;
   double	d_scale_u;
   double	d_scale_v;
+  double    weight;
   unsigned int numcurves = trimming.size();
   unsigned int i, j, k;
 
@@ -154,10 +168,11 @@ void BSplineTrimmedSurface::normalize( void )
 	{
 	  for( k = 0; k < trimming[ i ][ j ].getControlPointVector( ).size( ); ++k )
 	  {
-		trimming[ i ][ j ].getControlPointVector( )[ k ].x =
-		  ( trimming[ i ][ j ].getControlPointVector( )[ k ].x + d_offset_u ) * d_scale_u;
-		trimming[ i ][ j ].getControlPointVector( )[ k ].y =
-		  ( trimming[ i ][ j ].getControlPointVector( )[ k ].y + d_offset_v ) * d_scale_v;
+        weight = trimming[ i ][ j ].getControlPointVector( )[ k ][2];
+		trimming[ i ][ j ].getControlPointVector( )[ k ][0] =
+		  ( trimming[ i ][ j ].getControlPointVector( )[ k ][0] + d_offset_u * weight) * d_scale_u;
+		trimming[ i ][ j ].getControlPointVector( )[ k ][1] =
+		  ( trimming[ i ][ j ].getControlPointVector( )[ k ][1] + d_offset_v * weight) * d_scale_v;
 	  }
     }
   }
@@ -185,12 +200,13 @@ int BSplineTrimmedSurface::write( std::ostream &outfile )
   return 0;
 }
 
-
+#if 0
 // flip the whole surface
+// TODO: fix this function for rational surfaces and re-enable it
 void BSplineTrimmedSurface::flip( void )
 {
     // mirror the u-knot vector
-    dvector            &rvd_knots = surf.getKnotVector_U( );
+    DCTPdvector            &rvd_knots = surf.getKnotVector_U( );
     const unsigned int  cui_knot_cnt = rvd_knots.size( );
     const double        cd_min_param = rvd_knots[ 0 ];
     const double        cd_max_param = rvd_knots[ cui_knot_cnt - 1 ];
@@ -209,9 +225,9 @@ void BSplineTrimmedSurface::flip( void )
     }
 
     // swap the control points along the u-direction
-    vec3dmatrix          &rvvcl_control_points = surf.getControlPointMatrix( );
+    DCTPVec3dmatrix          &rvvcl_control_points = surf.getControlPointMatrix( );
     const unsigned int    cui_cp_cnt = rvvcl_control_points.size( );
-    vec3dvector           vcl_swap;
+    DCTPVec3dvector           vcl_swap;
 
     for( ui_swap = 0; ui_swap < ( cui_cp_cnt >> 1 ); ++ui_swap )
     {
@@ -232,7 +248,7 @@ void BSplineTrimmedSurface::flip( void )
         for( ui_curve = 0; ui_curve < ui_curve_cnt; ++ui_curve )
         {
             // mirror the knot vector
-            dvector            &rvd_knots = trimming[ ui_loop ][ ui_curve ].getKnotVector( );
+            DCTPdvector            &rvd_knots = trimming[ ui_loop ][ ui_curve ].getKnotVector( );
             const unsigned int  cui_knot_cnt = rvd_knots.size( );
             const double        cd_min_cparam = rvd_knots[ 0 ];
             const double        cd_max_cparam = rvd_knots[ cui_knot_cnt - 1 ];
@@ -268,13 +284,13 @@ void BSplineTrimmedSurface::flip( void )
             std::cerr.precision( 6 ); 
 */                       
             // swap and mirror the control points
-            vec2dvector         &rvcl_control_points = trimming[ ui_loop ][ ui_curve ].getControlPointVector( );
+            DCTPVec2dvector         &rvcl_control_points = trimming[ ui_loop ][ ui_curve ].getControlPointVector( );
             const unsigned int   cui_cp_cnt = rvcl_control_points.size( );
-            vec2d                cl_swap;
+            Vec2d                cl_swap;
 
             for( ui_swap = 0; ui_swap < cui_cp_cnt; ++ui_swap )
             {
-                rvcl_control_points[ ui_swap ].x = cd_min_param + cd_max_param - rvcl_control_points[ ui_swap ].x;
+                rvcl_control_points[ ui_swap ][0] = cd_min_param + cd_max_param - rvcl_control_points[ ui_swap ][0];
             }
             for( ui_swap = 0; ui_swap < ( cui_cp_cnt >> 1 ); ++ui_swap )
             {
@@ -295,3 +311,4 @@ void BSplineTrimmedSurface::flip( void )
         }
     }
 }
+#endif /* 0 */

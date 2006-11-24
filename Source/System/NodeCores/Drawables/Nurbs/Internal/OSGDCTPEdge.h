@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -137,7 +137,8 @@ public:
 		return;
 	  }
       std::cerr << "DCTPEdge::AddFace: third (nonmanifold) face supplied... " << faces.size() + 1 << std::endl;
-      std::cerr << "I am: " << v1->coords << ' ' << v2->coords << std::endl;
+// FIXME: operator<< deprecated
+//      std::cerr << "I am: " << v1->coords << ' ' << v2->coords << std::endl;
       std::cerr << "The already existing triangles:\n";
       for( unsigned int i = 0; i < faces.size(); ++i ) {
                 std::cerr << "Ptr: " << (void*)faces[ i ] << ' ';

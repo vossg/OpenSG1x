@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -44,7 +44,6 @@
 OSG_USING_NAMESPACE
 
 
-
 #ifdef _DEBUG
  #ifdef WIN32
   #undef THIS_FILE
@@ -52,9 +51,6 @@ OSG_USING_NAMESPACE
  #endif
 #endif
 
-  const char BezierCurve3D::ff_const_1[]="BEGINBEZIERCURVE3D";
-  const char BezierCurve3D::ff_const_2[]="NUMBEROFCONTROLPOINTS";
-  std::vector< std::vector< std::vector< double > > > BezierCurve3D::m_svvvdCreateMatrix;
 
 //construction (& destruction, but not here :)
 BezierCurve3D::BezierCurve3D()
@@ -63,68 +59,10 @@ BezierCurve3D::BezierCurve3D()
 }
 
 //setup functions
-int BezierCurve3D::setControlPointVector( const vec3dvector& cps )
+int BezierCurve3D::setControlPointVector( const DCTPVec4dvector& cps )
 {
   if ( cps.size() < 2 ) return -1; //invalid dimension, at least two points are required
   control_points = cps;
-  return 0;
-}
-
-//I/O facilities - FIXME: read( char *fname ), etc. missing
-int BezierCurve3D::read( std::istream &infile )
-{
-  //FIXME: maybe we need more checks!!!
-  char txtbuffer[ 256 ];
-
-
-  infile.getline( txtbuffer, 255 ); //read line
-  if ( strcmp( txtbuffer, ff_const_1 ) ) return -1; //bad file format
-
-  infile >> txtbuffer; //FIXME: error prone: too long string causes problem!!!
-  if ( strcmp( txtbuffer, ff_const_2 ) )  return -1; //yeah, bad file format again
-
-  vec3dvector::size_type num_of_cps;
-  infile >> num_of_cps >> std::ws;
-
-  if ( num_of_cps < 2 ) return -2; //too few control points
-  control_points.resize( num_of_cps ); //FIXME: whatif not enoght memory?
-
-  for( dvector::size_type i = 0; i < num_of_cps; ++i ) {
-    vec3d cp;
-    infile >> cp.x >> cp.y >> cp.z >> std::ws;
-    control_points[ i ] = cp; //FIXME: ya see, we need ERROR CHECKS!!!, eg. maybe there's not enough points in file
-  }
-
-  return 0;
-
-}
-
-int BezierCurve3D::write( std::ostream &outfile )
-{
-  //FIXME: maybe we need more checks!!!
-  outfile.precision( DCTP_PRECISION );
-  outfile << ff_const_1 << std::endl;
-  dvector::size_type num_of_cps = control_points.size();
-  outfile << ff_const_2 << " " << num_of_cps << std::endl;
-
-  for( dvector::size_type i = 0; i < num_of_cps; ++i ) {
-    vec3d cp = control_points[ i ];
-    outfile << cp.x << " " << cp.y << " " << cp.z << std::endl;
-  }
-  return 0;
-}
-
-int BezierCurve3D::write( )
-{
-  //FIXME: maybe we need more checks!!!
-  std::cerr << ff_const_1 << std::endl;
-  dvector::size_type num_of_cps = control_points.size();
-  std::cerr << ff_const_2 << " " << num_of_cps << std::endl;
-
-  for( dvector::size_type i = 0; i < num_of_cps; ++i ) {
-    vec3d cp = control_points[ i ];
-    std::cerr << cp.x << " " << cp.y << " " << cp.z << std::endl;
-  }
   return 0;
 }
 
@@ -141,28 +79,39 @@ int BezierCurve3D::write( )
  *  \return the approximated value
  *
  */
-vec3d BezierCurve3D::computewdeCasteljau( double t, int &error )
+Vec3d BezierCurve3D::computewdeCasteljau( double t, int &error )
+{
+    Vec4d rat_res = computewdeCasteljau4D( t, error );
+    Vec3d res;
+    
+    res[0] = rat_res[0] / rat_res[3];
+    res[1] = rat_res[1] / rat_res[3];
+    res[2] = rat_res[2] / rat_res[3];
+    
+    return res;
+}
+
+
+Vec4d BezierCurve3D::computewdeCasteljau4D( double t, int &error )
 {
   //FIXME: verification before goin' into computation!!
-//  vec3dvector Q = control_points; //local array not to destroy da other points
+//  Vec3dvector Q = control_points; //local array not to destroy da other points
   const unsigned int	n = control_points.size( ) - 1; 
-  vec3d					ret;
+  Vec4d                 rat_res;
 
   if ( n < 1 )  //too few points, at least 2 needed
   {
     error = -1;
-    ret = control_points[ 0 ];
-	ret.x = DCTP_EPS * floor( ret.x / DCTP_EPS );
-	ret.y = DCTP_EPS * floor( ret.y / DCTP_EPS );
-	ret.z = DCTP_EPS * floor( ret.z / DCTP_EPS );
-	return ret;
+    rat_res = control_points[ 0 ];
+	rat_res[0] = DCTP_EPS * floor( rat_res[0] / DCTP_EPS );
+	rat_res[1] = DCTP_EPS * floor( rat_res[1] / DCTP_EPS );
+	rat_res[2] = DCTP_EPS * floor( rat_res[2] / DCTP_EPS );
+	rat_res[3] = DCTP_EPS * floor( rat_res[3] / DCTP_EPS );
+	return rat_res;
   }
 
   unsigned int			i, k;
-  vec3d					*Q = new vec3d[ n ];
-//  double				*Qx = new double[ n ];
-//  double				*Qy = new double[ n ];
-//  double				*Qz = new double[ n ];
+  Vec4d					*Q = new Vec4d[ n ];
   const double			t2 = 1.0 - t;
   const unsigned int	n1 = n - 1;
 
@@ -170,9 +119,6 @@ vec3d BezierCurve3D::computewdeCasteljau( double t, int &error )
   {
 	  const unsigned int	i1 = i + 1;
 	  Q[ i ] = control_points[ i ] * t2 + control_points[ i1 ] * t;
-//	  Qx[ i ] = control_points[ i ].x * t2 + control_points[ i1 ].x * t;
-//	  Qy[ i ] = control_points[ i ].y * t2 + control_points[ i1 ].y * t;
-//	  Qz[ i ] = control_points[ i ].z * t2 + control_points[ i1 ].z * t;
   }
 
   for( k = 0; k < n1; ++k )
@@ -182,30 +128,14 @@ vec3d BezierCurve3D::computewdeCasteljau( double t, int &error )
 	  {
 		  const unsigned int	i1 = i + 1;
 		  Q[ i ] *= t2;
-//		  Qx[ i ] *= t2;
-//		  Qy[ i ] *= t2;
-//		  Qz[ i ] *= t2;
 		  Q[ i ] += Q[ i1 ] * t;
-//		  Qx[ i ] += Qx[ i1 ] * t;
-//		  Qy[ i ] += Qy[ i1 ] * t;
-//		  Qz[ i ] += Qz[ i1 ] * t;
 	  }
   }
+  rat_res = Q[0];
 
-  ret = Q[ 0 ];
-//  ret.x = Qx[ 0 ];
-//  ret.y = Qy[ 0 ];
-//  ret.z = Qz[ 0 ];
   delete[ ] Q;
-//  delete[ ] Qx;
-//  delete[ ] Qy;
-//  delete[ ] Qz;
-  return ret;
+  return rat_res;
 
-/*  for( vec3dvector::size_type k = 0; k < n; ++k ) 
-    for( vec3dvector::size_type i = 0; i < n - k; ++i )
-      Q[ i ] = Q[ i ] * ( 1.0 - t ) + Q[ i + 1 ] * t;
-  return ( Q[0] ); */
 }
 
 //! Compute the linear approximation of the Bezier curve at the given parameter value.
@@ -218,18 +148,24 @@ vec3d BezierCurve3D::computewdeCasteljau( double t, int &error )
  *  \return the approximated value
  *
  */
-vec3d BezierCurve3D::computeLinearApproximation( double t, int &error )
+Vec3d BezierCurve3D::computeLinearApproximation( double t, int &error )
 {
-  //FIXME: verification before goin' into computation!!
-  vec3dvector::size_type n = control_points.size() - 1;
-  vec3d result( 0.0, 0.0, 0.0 );
+    //FIXME: verification before goin' into computation!!
+    DCTPVec4dvector::size_type n = control_points.size() - 1;
+    Vec3d result( 0.0, 0.0, 0.0 );
+    Vec4d rat_res;
 
-  if ( n < 1 ) { //too few points, at least 2 needed
-    error = -1;
-    return result;
-  }
-  result = control_points[ 0 ] * t + control_points[ n ] * ( 1 - t );
-  return ( result ); 
+    if ( n < 1 ) 
+    { //too few points, at least 2 needed
+        error = -1;
+        return result;
+    }
+    rat_res = control_points[ 0 ] * t + control_points[ n ] * ( 1 - t );
+    result[0] = rat_res[0] / rat_res[3];
+    result[1] = rat_res[1] / rat_res[3];
+    result[2] = rat_res[2] / rat_res[3];
+  
+    return ( result ); 
 }
 
 //! Subdivide Bezier curve at midpoint into two new curves.
@@ -245,72 +181,42 @@ vec3d BezierCurve3D::computeLinearApproximation( double t, int &error )
  */
 int BezierCurve3D::midPointSubDivision( bezier3dvector &newbeziers )
 {
-  // This function is time critical so optimize at the cost of readabiltity...
-  vec3dvector::size_type n = control_points.size();
+    // This function is time critical so optimize at the cost of readabiltity...
+    DCTPVec4dvector::size_type n = control_points.size();
 
-  if ( n < 2 ) { //too few points, at least 2 needed to split curve
-    return -1;
-  }
-
-  newbeziers.resize( 2 ); // we return exactly two curves
-//  vec3dvector Q = control_points; //local array not to destroy da other points
-//  vec3dvector cp1( n + 1 );
-//  vec3dvector cp2( n + 1 );
-  vec3dvector::size_type i, k;
-
-  vec3dvector &cp1 = newbeziers[ 0 ].control_points;
-  vec3dvector &cp2 = newbeziers[ 1 ].control_points;
-/*  cp1.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
-  cp2.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
-  cp1.resize( n );
-  cp2.resize( n );
-
-  --n;
-  for( k = 0; k < n; ++k ) {
-    cp1[ k ] = Q [ 0 ];
-    cp2[ n - k ] = Q [ n - k ];
-    for( i = 0; i < n - k; ++i ) {
-	  Q[ i ] += Q[ i + 1 ];
-	  Q[ i ] *= 0.5;
-//      Q[ i ] = Q[ i ] * ( 1.0 - 0.5 ) + Q[ i + 1 ] * 0.5;
+    if ( n < 2 ) //too few points, at least 2 needed to split curve
+    { 
+        return -1;
     }
-  }
-//  std::cerr << "--- " << Q[ 0 ] << std::endl;
-  cp1[ n ] = Q[ 0 ];
-  cp2[ 0 ] = Q[ 0 ];*/
 
-	cp1.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
-	cp2.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
+    newbeziers.resize( 2 ); // we return exactly two curves
+    DCTPVec4dvector::size_type i, k;
+
+    DCTPVec4dvector &cp1 = newbeziers[ 0 ].control_points;
+    DCTPVec4dvector &cp2 = newbeziers[ 1 ].control_points;
+	cp1.clear( );	// very important for performance (no copying around of obsolte stuff!)
+	cp2.clear( );	// very important for performance (no copying around of obsolte stuff!)
 	cp1.resize( n );
 	cp2.resize( n );
 
 	for( k = 0; k < n; ++k )
 	{
-		cp1[ k ].x = control_points[ k ].x;
-		cp1[ k ].y = control_points[ k ].y;
-		cp1[ k ].z = control_points[ k ].z;
+		cp1[ k ] = control_points[ k ];
 	}
 	--n;
 	for( k = 0; k < n; ++k )
 	{
-		cp2[ n - k ].x = cp1[ n ].x;
-		cp2[ n - k ].y = cp1[ n ].y;
-		cp2[ n - k ].z = cp1[ n ].z;
+		cp2[ n - k ] = cp1[ n ];
 		for( i = n; i > k; --i )
 		{
-			cp1[ i ].x += cp1[ i - 1 ].x;
-			cp1[ i ].y += cp1[ i - 1 ].y;
-			cp1[ i ].z += cp1[ i - 1 ].z;
-			cp1[ i ].x *= 0.5;
-			cp1[ i ].y *= 0.5;
-			cp1[ i ].z *= 0.5;
+			cp1[ i ] += cp1[ i - 1 ];
+			cp1[ i ] *= 0.5;
 		}
-//      Q[ i ] = Q[ i ] * ( 1.0 - 0.5 ) + Q[ i + 1 ] * 0.5;
     }
 	cp2[ 0 ] = cp1[ n ];
 //  newbeziers[ 0 ].setControlPointVector( cp1 );
 //  newbeziers[ 1 ].setControlPointVector( cp2 );
-  return 0;
+    return 0;
 }
 
 //! Subdivide Bezier curve at midpoint into two new curves.
@@ -327,40 +233,32 @@ int BezierCurve3D::midPointSubDivision( bezier3dvector &newbeziers )
 int BezierCurve3D::midPointSubDivision( BezierCurve3D &newcurve )
 {
 	// This function is time critical so optimize at the cost of readabiltity...
-	vec3dvector::size_type n = control_points.size();
+	DCTPVec4dvector::size_type n = control_points.size();
 
 	if( n < 2 )
 	{
 		return -1;	//too few points, at least 2 needed to split curve
 	}
 
-	vec3dvector::size_type i, k;
+	DCTPVec4dvector::size_type i, k;
 
-	vec3dvector &cp1 = control_points;
-	vec3dvector &cp2 = newcurve.control_points;
+	DCTPVec4dvector &cp1 = control_points;
+	DCTPVec4dvector &cp2 = newcurve.control_points;
 
-	cp2.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
+	cp2.clear( );	// very important for performance (no copying around of obsolte stuff!)
 	cp2.resize( n );
 
 	--n;
 	for( k = 0; k < n; ++k )
 	{
-		cp2[ n - k ].x = cp1[ n ].x;
-		cp2[ n - k ].y = cp1[ n ].y;
-		cp2[ n - k ].z = cp1[ n ].z;
+		cp2[ n - k ] = cp1[ n ];
 		for( i = n; i > k; --i )
 		{
-			cp1[ i ].x += cp1[ i - 1 ].x;
-			cp1[ i ].y += cp1[ i - 1 ].y;
-			cp1[ i ].z += cp1[ i - 1 ].z;
-			cp1[ i ].x *= 0.5;
-			cp1[ i ].y *= 0.5;
-			cp1[ i ].z *= 0.5;
+			cp1[ i ] += cp1[ i - 1 ];
+			cp1[ i ] *= 0.5;
 		}
     }
-	cp2[ 0 ].x = cp1[ n ].x;
-	cp2[ 0 ].y = cp1[ n ].y;
-	cp2[ 0 ].z = cp1[ n ].z;
+	cp2[ 0 ] = cp1[ n ];
 	
 	return 0;
 }
@@ -379,29 +277,32 @@ int BezierCurve3D::midPointSubDivision( BezierCurve3D &newcurve )
  */
 int BezierCurve3D::subDivision( double t, bezier3dvector &newbeziers )
 {
-  if ( t <= 0.0 || t >= 1.0 ) return -1; // t must be between (0, 1) exclusive
+    if ( t <= 0.0 || t >= 1.0 ) return -1; // t must be between (0, 1) exclusive
 
-  newbeziers.resize( 2 ); // we return exactly two curves
-  vec3dvector Q = control_points; //local array not to destroy da other points
-  vec3dvector::size_type n = control_points.size() - 1;
-  vec3dvector cp1( n + 1 );
-  vec3dvector cp2( n + 1 );
-  if ( n < 1 ) { //too few points, at least 2 needed to split curve
-    return -1;
-  }
-
-  for( vec3dvector::size_type k = 0; k < n; ++k ) {
-    cp1[ k ] = Q [ 0 ];
-    cp2[ n - k ] = Q [ n - k ];
-    for( vec3dvector::size_type i = 0; i < n - k; ++i ) {
-      Q[ i ] = Q[ i ] * ( 1.0 - t ) + Q[ i + 1 ] * t;
+    newbeziers.resize( 2 ); // we return exactly two curves
+    DCTPVec4dvector Q = control_points; //local array not to destroy da other points
+    DCTPVec4dvector::size_type n = control_points.size() - 1;
+    DCTPVec4dvector cp1( n + 1 );
+    DCTPVec4dvector cp2( n + 1 );
+    if ( n < 1 ) //too few points, at least 2 needed to split curve
+    { 
+        return -1;
     }
-  }
-  cp1[ n ] = Q[ 0 ];
-  cp2[ 0 ] = Q[ 0 ];
-  newbeziers[ 0 ].setControlPointVector( cp1 );
-  newbeziers[ 1 ].setControlPointVector( cp2 );
-  return 0;
+
+    for( DCTPVec4dvector::size_type k = 0; k < n; ++k ) 
+    {
+        cp1[ k ] = Q [ 0 ];
+        cp2[ n - k ] = Q [ n - k ];
+        for( DCTPVec4dvector::size_type i = 0; i < n - k; ++i ) 
+        {
+            Q[ i ] = Q[ i ] * ( 1.0 - t ) + Q[ i + 1 ] * t;
+        }
+    }
+    cp1[ n ] = Q[ 0 ];
+    cp2[ 0 ] = Q[ 0 ];
+    newbeziers[ 0 ].setControlPointVector( cp1 );
+    newbeziers[ 1 ].setControlPointVector( cp2 );
+    return 0;
 }
 
 //! Subdivide Bezier curve at t into two new curves.
@@ -424,7 +325,7 @@ int BezierCurve3D::subDivision( double t, BezierCurve3D &newcurve )
 	}
 	
 	// This function is time critical so optimize at the cost of readabiltity...
-	vec2dvector::size_type n = control_points.size();
+	DCTPVec4dvector::size_type n = control_points.size();
 
 	if ( n < 2 )
 	{
@@ -433,10 +334,10 @@ int BezierCurve3D::subDivision( double t, BezierCurve3D &newcurve )
 
 	double	t2 = 1.0 - t;
 
-	vec3dvector::size_type i, k;
+	DCTPVec4dvector::size_type i, k;
 
-	vec3dvector &cp1 = control_points;
-	vec3dvector &cp2 = newcurve.control_points;
+	DCTPVec4dvector &cp1 = control_points;
+	DCTPVec4dvector &cp2 = newcurve.control_points;
 
 	cp2.clear( );	// very imporatant for performance (no copying around of obsolte stuff!)
 	cp2.resize( n );
@@ -469,55 +370,88 @@ int BezierCurve3D::subDivision( double t, BezierCurve3D &newcurve )
  */
 int BezierCurve3D::approximate( std::vector< double > &vertices, double delta, unsigned char strategy )
 {
-  vertices.resize( 0 );
+    vertices.resize( 0 );
 
-  // check for first degree Bezier.
-  if ( control_points.size() == 2 ) {
-    vertices.push_back( 0.0 );
-    vertices.push_back( 1.0 );
-    return 0;
-  }
+    // check for first degree Bezier.
+    if ( control_points.size() == 2 ) 
+    {
+        vertices.push_back( 0.0 );
+        vertices.push_back( 1.0 );
+        return 0;
+    }
 
-  // call recursive subdividing function
-  return approximate_sub( vertices, delta, 0.0, 1.0, strategy );
-
+    // call recursive subdividing function
+    return approximate_sub( vertices, delta, 0.0, 1.0, strategy );
 }
 
 int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delta, double min, double max, unsigned char strategy )
 {
-  double act_error;
-  double max_error = 0;
-  vec3d  ae;
-  double twopower = 1;
-  double aenorm;
-  double t1, t2;
-  int worst_i = 0;
-  vec3d  n0_norm;
+    double max_error = 0;
+    Vec3d  ae;
+    double aenorm;
+    double t1, t2;
+    int worst_i = 0;
+    Vec3d  n0_norm;
+    DCTPVec3dvector  eucl;
+    DCTPVec4dvector  mycps;
+    unsigned int i;
+    std::vector< double > t;
 
-  int n = control_points.size() - 1;
+    int n = control_points.size() - 1;
+    for ( i = 0; i <= n; i++ ) 
+    {
+        t.push_back(( (double) ( n - i ) ) / n);
+    }
+    // first, make a copy of the cp vector, and do one 
+    // or more de Casteljau steps to get rid of 0 weights
+    mycps = control_points;
+    for ( i = 0; i <= n; ++i )
+    {
+        unsigned int s = mycps.size();
+        bool ok = true;
+      
+        mycps.push_back(mycps[s-1]);
+        t.push_back(t[s-1]);
+        for( unsigned int j = s; j > i; --j )
+        {
+            mycps[j] = (mycps[j] + mycps[j-1]) * 0.5f;
+                t[j] = (t[j] + t[j-1]) * 0.5f;
+            if(mycps[j][2] < DCTP_EPS) ok = false;
+        }
+        if( ok ) break;
+    }
+    n = mycps.size() - 1;
+    
+    eucl.resize(n + 1);
+    for ( i = 0; i <= n; ++i )
+    {
+        eucl[i][0] = mycps[ i ][0] / mycps[i][3];
+        eucl[i][1] = mycps[ i ][1] / mycps[i][3];
+        eucl[i][2] = mycps[ i ][2] / mycps[i][3];
+    }
+    
+    if( ( strategy & DISTANCE ) == LINE_DISTANCE )
+    {
+	    n0_norm = eucl[ n ] - eucl[ 0 ];
+	    aenorm = n0_norm.squareLength( );
+        if( aenorm > 1e-300 )
+        {
+		    n0_norm *= 1.0 / aenorm;
+        }
+        else
+        {
+		    n0_norm = Vec3d( 0.0, 0.0, 0.0 );
+        }
+    }
 
-  if( ( strategy & DISTANCE ) == LINE_DISTANCE )
-  {
-	  n0_norm = control_points[ n ] - control_points[ 0 ];
-	  aenorm = n0_norm.quad_size( );
-	  if( aenorm > 1e-300 )
-	  {
-		  n0_norm *= 1.0 / aenorm;
-	  }
-	  else
-	  {
-		  n0_norm = vec3d( 0.0, 0.0, 0.0 );
-	  }
-  }
-
-  for ( int i = 0; i <= n; i++ ) {
+  for ( i = 0; i <= n; i++ ) {
     if( ( strategy & DISTANCE ) == POINT_DISTANCE )
 	{
-      t2 = ( (double) i ) / n;
+      t2 = 1.0 - t[i];
 	}
 	else
 	{
-	  t2 = ( control_points[ i ] - control_points[ 0 ] ).dot( n0_norm );
+	  t2 = ( eucl[ i ] - eucl[ 0 ] ).dot( n0_norm );
 	  if( t2 < 0.0 )
 	  {
 		  t2 = 0.0;
@@ -528,25 +462,23 @@ int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delt
 	  }
 	}
     t1 = 1.0 - t2;
-    ae = control_points[ i ] - control_points[ 0 ] * t1 - control_points[ n ] * t2;
+    ae = eucl[ i ] - eucl[ 0 ] * t1 - eucl[ n ] * t2;
 
-//    std::cerr << "i: " << i << " ae.x: " << ae.x << " ae.y: " << ae.y << std::endl;
+//    std::cerr << "i: " << i << " ae.x: " << ae[0] << " ae.y: " << ae[1] << std::endl;
 
-    aenorm = sqrt( ae.quad_size( ) );
+    aenorm = sqrt( ae.squareLength( ) );
     if (aenorm > max_error )
 	{
 	  max_error = aenorm;
 	  worst_i = i;
 	}
-    if ( i ) twopower *= 2.0; // this is a double so it can be arbitrarily high, an int wouldn't suffice
   }
-  act_error = ( ( twopower - 1 ) / twopower ) * max_error;
 //  std::cerr.precision( DCTP_PRECISION );
 //  std::cerr << " twopower: " << twopower << std::endl;
 //  std::cerr << " act_error: " << act_error << " max_error: " << max_error << std::endl;
-//  std::cerr << control_points[ 0 ].x << " " << control_points[ 0 ].y << std::endl;
-//  std::cerr << control_points[ control_points.size() - 1 ].x << " " << control_points[ control_points.size() - 1 ].y << std::endl;
-  if ( act_error > delta ) {
+//  std::cerr << control_points[ 0 ][0] << " " << control_points[ 0 ][1] << std::endl;
+//  std::cerr << control_points[ control_points.size() - 1 ][0] << " " << control_points[ control_points.size() - 1 ][1] << std::endl;
+  if ( max_error > delta ) {
     // we have to subdivide further
     BezierCurve3D	newbez;
     int error;
@@ -584,7 +516,7 @@ int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delt
 }
 
 // generate a bezier curve through these points
-int BezierCurve3D::createCurve( vec3dvector &points )
+int BezierCurve3D::createCurve( DCTPVec4dvector &points )
 {
 	int	n = points.size( ) - 1;
 
@@ -623,7 +555,7 @@ int BezierCurve3D::createCurve( vec3dvector &points )
 	for( i = 1; i < n; ++i )
 	{
 /*		std::vector< double >	&row = mat[ i ];
-		control_points[ i ].x = control_points[ i ].y = control_points[ i ].z = 0.0;
+		control_points[ i ][0] = control_points[ i ][1] = control_points[ i ][2] = 0.0;
 		for( j = 0; j <= n; ++j )
 		{
 			control_points[ i ] += ( points[ j ] - points[ n >> 1 ] ) * row[ j ];
@@ -642,15 +574,15 @@ int BezierCurve3D::createCurve( vec3dvector &points )
 	unsigned int	ui_exit = 0;
 	while( maxerr > 1e-8 )
 	{
-		std::vector< vec3d >	vcl_err( n + 1 );
+		std::vector< Vec4d >	vcl_err( n + 1 );
 
 		maxerr = 0.0;
 		for( i = 0; i <= n; ++i )
 		{
 			int err = 0;
-			vcl_err[ i ] = points[ i ] - computewdeCasteljau( ( ( double ) i ) / n, err );
+			vcl_err[ i ] = points[ i ] - computewdeCasteljau4D( ( ( double ) i ) / n, err );
 
-			double acterr = ( vcl_err[ i ] ).quad_size( );
+			double acterr = ( vcl_err[ i ] ).squareLength( );
 
 			maxerr = osgMax( maxerr, acterr );
 		}
@@ -662,73 +594,19 @@ int BezierCurve3D::createCurve( vec3dvector &points )
 
 		if( ( ++ui_exit ) > 10000 )
 		{
-			for( i = 0; i <= n; ++i )
-			{
-				std::cerr << points[ i ] << std::endl;
-			}
-			std::cerr << std::endl;
-			std::cerr << "approxerr: " << sqrt( maxerr ) << std::endl;
+//			for( i = 0; i <= n; ++i )
+//			{
+// FIXME: operator<< depracated               
+//				std::cerr << points[ i ] << std::endl;
+//			}
+//			std::cerr << std::endl;
+//			std::cerr << "approxerr: " << sqrt( maxerr ) << std::endl;
 
 			return -2;
 		}
 	}
 //	std::cerr << ", approxerr: " << sqrt( maxerr ) << std::endl;
 	return 0;	// everything ok.
-}
-
-int BezierCurve3D::loadCreateMatrices( )
-{
-	std::ifstream	cl_matrix_file;
-	unsigned int	ui_mat;
-	unsigned int	ui_i;
-	unsigned int	ui_j;
-	char			ac_val[ 17 ];
-	UInt64			*pui64_read;
-	UInt64			ui64_tmp = 0;
-
-	cl_matrix_file.open( "bezier_matrices_101.ini" );
-	if( !cl_matrix_file.good( ) )
-	{
-		std::cerr << "Bezier matrix file missing!" << std::endl;
-		return -1;
-	}
-
-	cl_matrix_file >> ui_mat >> std::ws;
-	m_svvvdCreateMatrix.resize( ui_mat - 1 );
-
-	for( ui_mat = 0; ui_mat < m_svvvdCreateMatrix.size( ); ++ui_mat )
-	{
-		m_svvvdCreateMatrix[ ui_mat ].resize( ui_mat + 3 );
-		for( ui_i = 0; ui_i <= ui_mat + 2; ++ui_i )
-		{
-			m_svvvdCreateMatrix[ ui_mat ][ ui_i ].resize( ui_mat + 3 );
-			for( ui_j = 0; ui_j <= ui_mat + 2; ++ui_j )
-			{
-				cl_matrix_file >> ac_val >> std::ws;
-				pui64_read = ( UInt64* ) &( m_svvvdCreateMatrix[ ui_mat ][ ui_i ][ ui_j ] );
-				*pui64_read = 0l;
-				for( unsigned int ui_x = 0; ui_x < 16; ++ui_x )
-				{
-					if( ( ac_val[ ui_x ] >= '0' ) && ( ac_val[ ui_x ] <= '9' ) )
-					{
-						ui64_tmp = ac_val[ ui_x ] - '0';
-					}
-					else if( ( ac_val[ ui_x ] >= 'a' ) && ( ac_val[ ui_x ] <= 'f' ) )
-					{
-						ui64_tmp = 10 + ac_val[ ui_x ] - 'a';
-					}
-					else if( ( ac_val[ ui_x ] >= 'A' ) && ( ac_val[ ui_x ] <= 'F' ) )
-					{
-						ui64_tmp = 10 + ac_val[ ui_x ] - 'A';
-					}
-					ui64_tmp <<= 4 * ( 15 - ui_x );
-					*pui64_read += ui64_tmp;
-				}
-			}
-		}
-	}
-
-	return 0;
 }
 
 
@@ -751,8 +629,8 @@ bool BezierCurve3D::reduceDegree( double tol )
         // cannot degree reduce a first degree curve
         return false;
     }
-    vec3dvector b_left( n );
-    vec3dvector b_right( n );
+    DCTPVec4dvector b_left( n );
+    DCTPVec4dvector b_right( n );
     UInt32      i;
 
     // calculate b_right:
@@ -773,38 +651,49 @@ bool BezierCurve3D::reduceDegree( double tol )
 
     // check for introduced error:
     Real64 quad_error = tol * tol;
-    vec3d dist;
-    for (i = 0; i < n; ++i)
-    {
-        dist = b_right[ i ] - b_left[ i ];
-        if ( dist.quad_size() > quad_error )
-        {
-            // debug:
-/*            std::cerr<< "Cannot reduce degree, i: " << i <<
-                        " left: " << b_left[ i ] <<
-                        " right: " << b_right[ i ] << std::endl;*/
+    double dist4d;
 
-            return false;
-        }
-    }
-
-	control_points.resize( n );
-
-    UInt32 n_half = n >> 1;
-    UInt32 n_half1 = ( n + 1 ) >> 1;
-	for (i = 0; i < n_half; ++i)
-    {
-        control_points[ i ] = b_right[ i ];
-    }
+    unsigned int n_half = n >> 1;
+    unsigned int n_half1 = (n + 1) >> 1;
+//	for (i = 0; i < n_half; ++i)
+//    {
+//        control_points[ i ] = b_right[ i ];
+//    }
     for (i = n_half1; i < n; ++i)
     {
-        control_points[ i ] = b_left[ i ];
+        b_right[ i ] = b_left[ i ];
     }
     if ( n_half != n_half1 )
     {
-        control_points[ n_half ] = b_left[ n_half ] * 0.5 + b_right[ n_half ] * 0.5;
+        dist4d = b_right[ n_half ].dist2(b_left[ n_half ]);
+        b_right[ n_half ] = b_left[ n_half ] * 0.5 + b_right[ n_half ] * 0.5;
+    }
+    else
+    {
+        dist4d = control_points[n_half].dist2(0.5 *(b_right[n_half - 1] + b_left[n_half]));
     }
 
+
+    
+    //Vec3d dist;
+    double minweight = b_right[0][3];
+    for (i = 1; i < n; ++i)
+    {
+        if ( minweight > b_right[i][3] )
+            minweight = b_right[i][3];
+    }
+    if ( minweight < DCTP_EPS )
+    {
+        // can't degree reduce a curve with zero weight(s)...
+        return false;
+    }
+
+    if ( dist4d / (minweight * minweight) > quad_error )
+    {
+        return false;
+    }
+
+	control_points = b_right;
 //    setControlPointVector( b_new );
 
     return true;

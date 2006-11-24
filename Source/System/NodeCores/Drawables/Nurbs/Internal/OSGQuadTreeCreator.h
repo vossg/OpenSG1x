@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -85,10 +85,9 @@ public:
     }
     void setErrorTolerance( double epsilon ) { error_epsilon = epsilon; }
     int setInitialLeaves( const beziersurfacematrix& patches,
-                          const dvector& intervals_u,
-                          const dvector& intervals_v ); //sets starting leaves
+                          const DCTPdvector& intervals_u,
+                          const DCTPdvector& intervals_v ); //sets starting leaves
     int createQuadTree( void );//well... go figure
-    int writeMesh( std::ostream& of );//bah!
     void resetMesh( void );
 };
 

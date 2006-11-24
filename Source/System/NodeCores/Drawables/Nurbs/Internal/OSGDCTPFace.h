@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -141,16 +141,17 @@ public:
   }
   void dump_triangle( void ) {
 #ifdef OSG_UNION_TRI_QUAD
-      std::cerr << orig_face[ 0 ]->coords << ' ' << orig_face[ 1 ]->coords << ' ' << orig_face[ 2 ]->coords;
-	  if( orig_face[ 3 ] ) std::cerr << ' ' << orig_face[ 3 ]->coords;
+//FIXME: operator<< deprecated
+//      std::cerr << orig_face[ 0 ]->coords << ' ' << orig_face[ 1 ]->coords << ' ' << orig_face[ 2 ]->coords;
+//	  if( orig_face[ 3 ] ) std::cerr << ' ' << orig_face[ 3 ]->coords;
 	  std::cerr << std::endl;
 #else
 	  if( orig_triangle[ 0 ] )
-        std::cerr << orig_triangle[ 0 ]->coords << ' ' << orig_triangle[ 1 ]->coords
-             << ' ' << orig_triangle[ 2 ]->coords << std::endl;
+//        std::cerr << orig_triangle[ 0 ]->coords << ' ' << orig_triangle[ 1 ]->coords
+//             << ' ' << orig_triangle[ 2 ]->coords << std::endl;
 	  else
-		  std::cerr << orig_quad[ 0 ]->coords << " " << orig_quad[ 1 ]->coords << " "
-			   << orig_quad[ 2 ]->coords << " " << orig_quad[ 3 ]->coords << std::endl;
+//		  std::cerr << orig_quad[ 0 ]->coords << " " << orig_quad[ 1 ]->coords << " "
+//			   << orig_quad[ 2 ]->coords << " " << orig_quad[ 3 ]->coords << std::endl;
 #endif
   }
 

@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 #include <OSGBaseFunctions.h>
 
@@ -62,17 +62,24 @@ typedef std::vector< bezier2ddeque > bezier2ddequevector;
 
 class OSG_SYSTEMLIB_DLLMAPPING BezierCurve2D {
 protected:
-  vec2dvector control_points; //control points of the curve
+  DCTPVec3dvector control_points; //control points of the curve
 
-  //file format constants
-  static const char ff_const_1[];
-  static const char ff_const_2[];
+  double pointLineDistancewNormal( Vec3d p, Vec2d a, Vec2d n );
+  int minMaxIntersection( DCTPdvector &res, double s, double e );  
+  int approximate_sub( DCTPVec2dvector &vertices, double delta);
+//  int approximateLength_sub( DCTPVec2dvector &vertices, double delta);
+  double homogeniousDistanceSquared( Vec3d v1, Vec3d v2 );
 
-  double pointLineDistance( vec2d p, vec2d a, vec2d b );
-  double pointLineDistancewNormal( vec2d p, vec2d a, vec2d n );
-  int minMaxIntersection( dvector &res, double s, double e );  
-  int approximate_sub( vec2dvector &vertices, double delta);
-  int approximateLength_sub( vec2dvector &vertices, double delta);
+  void CalculateDerivativeCurve( );
+  void CalculateNOverIVector( std::vector< double > &NOverI, const unsigned int n ) const;
+  void CalculatePolyDerivCurve( BezierCurve2D &DerivativeCurve ) const;
+  void CrossMultiply( BezierCurve2D &OtherCurve );
+  void SquareWeight( std::vector< double > &Squared ) const;
+  double CalculateSupinumSquared( ) const;
+  void CalculateDifferenceCurve( const BezierCurve2D &Other, BezierCurve2D &Diff ) const;
+  void DegreeElevate( );
+  void AddNthHermitePoints( Vec3d d0, Vec3d d1 );
+
 public:
   BezierCurve2D();
   ~BezierCurve2D() {}
@@ -81,28 +88,25 @@ public:
   }
  
   //setup functions
-  int setControlPointVector( const vec2dvector& cps ); //ok, acts like its name says 
+  int setControlPointVector( const DCTPVec3dvector& cps ); //ok, acts like its name says 
 
   //query functions
-  vec2dvector& getControlPointVector( void ) { return control_points; } //guess what!
-
-  //I/O support - FIXME: read( char *fname ) outta be supported , etc
-  int read( std::istream &infile );
-  int write( std::ostream &outfile );
-  int write( );
+  DCTPVec3dvector& getControlPointVector( void ) { return control_points; } //guess what!
 
   //some REAL functionality
-  vec2d computewdeCasteljau( double t, int &error ); //compute curve at parameter value t
-  vec2d computeLinearApproximation( double t, int &error ); //ok like its name sayz
+  Vec2d computewdeCasteljau( double t, int &error ); //compute curve at parameter value t
+  Vec2d computeLinearApproximation( double t, int &error ); //ok like its name sayz
   int midPointSubDivision( bezier2dvector &newbeziers ); //subdivide curve at midpoint into two new curves
   int midPointSubDivision( BezierCurve2D &newcurve ); //subdivide curve at midpoint into two new curves
   int subDivision( double t, bezier2dvector &newbeziers ); //subdivide curvee at t into two new curves
   int subDivision( double t, BezierCurve2D &newcurve ); //subdivide curvee at t into two new curves
-  int intersection( dvector &res, vec2d a, vec2d b ); // calculate intersection of curve with polyline (a, b)
-  int intersection( dvector &res, double a, bool horiz ); // calculate intersection of curve with line (a)
-  int approximate( vec2dvector &vertices, double delta); // approximate curve linearly with given maximum tolerance
-  int approximateLength( vec2dvector &vertices, double delta); // approximate curve linearly with given maximum tolerance
+  int intersection( DCTPdvector &res, Vec2d a, Vec2d b ); // calculate intersection of curve with polyline (a, b)
+  int intersection( DCTPdvector &res, double a, bool horiz ); // calculate intersection of curve with line (a)
+  int approximate( DCTPVec2dvector &vertices, double delta); // approximate curve linearly with given maximum tolerance
+//  int approximateLength( DCTPVec2dvector &vertices, double delta); // approximate curve linearly with given maximum tolerance
   bool reduceDegree( double tol = DCTP_EPS); //try to degree reduce the curve
+  // computing degree of a nonrational curve with eps. error
+  unsigned int computeNonratApproximationDegree( double eps ) const;
 
   inline void optimizeDegree( )
   {

@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -86,7 +86,7 @@ DCTPMesh::~DCTPMesh()
   }
 }
 
-DCTPVertex *DCTPMesh::AddVertex( vec3d v )
+DCTPVertex *DCTPMesh::AddVertex( Vec3d v )
 {
   DCTPVertex *nv = new DCTPVertex;
   if ( !nv ) return nv;
@@ -110,7 +110,7 @@ DCTPVertex *DCTPMesh::AddVertex( vec3d v )
 #ifdef OSG_INTEGER_MESH
 int DCTPMesh::directEdge( vec3i& from, vec3i& into ) {
 #else
-int DCTPMesh::directEdge( vec3d& from, vec3d& into ) {
+int DCTPMesh::directEdge( Vec3d& from, Vec3d& into ) {
 #endif
         DCTPVertex *from_vp = new DCTPVertex;
         DCTPVertex *into_vp = new DCTPVertex;
@@ -143,11 +143,15 @@ int DCTPMesh::directEdge( vec3d& from, vec3d& into ) {
         for( std::vector< DCTPEdge* >::iterator i = (*v1)->edges.begin(); i != eend; ++i ) {
                 DCTPVertex *tv1, *tv2;
                 (*i)->getVertices( tv1, tv2 );
-                if ( tv1->coords == (*v1)->coords && tv2->coords == (*v2)->coords ) {
+                if ( DCTPVecIsEqual( tv1->coords , (*v1)->coords ) && 
+                     DCTPVecIsEqual( tv2->coords , (*v2)->coords ) ) 
+                {
 						++(*i)->orientation;
                         return 0;
                 }
-                if ( tv1->coords == (*v2)->coords && tv2->coords == (*v1)->coords ) {
+                if ( DCTPVecIsEqual( tv1->coords , (*v2)->coords ) && 
+                     DCTPVecIsEqual( tv2->coords , (*v1)->coords ) )
+                {
 	                    --(*i)->orientation;
                         return 0;
                 }
@@ -233,7 +237,7 @@ DCTPFace *DCTPMesh::AddFace( void )
   return nf;
 }
 
-int DCTPMesh::AddTriangle( vec3d v1, vec3d v2, vec3d v3, double norm )
+int DCTPMesh::AddTriangle( Vec3d v1, Vec3d v2, Vec3d v3, double norm )
 {
   DCTPVertex *nv1 = AddVertex( v1 );
   DCTPVertex *nv2 = AddVertex( v2 );
@@ -331,11 +335,11 @@ int DCTPMesh::AddQuadSide( DCTPVertex *l, DCTPVertex *r, DCTPVertex *m, DCTPFace
  *  Note that z coordinates are truncated to 0. This is essentially
  *  a 2D function using only (x, y) coords
  */
-int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
+int DCTPMesh::AddQuadTreeLeaf( Vec3d ul, Vec3d lr, bool *sides, double norm )
 {
-  vec3d ur, ll;
-  ur.x = lr.x; ur.y = ul.y; ur.z = 0.0;
-  ll.x = ul.x; ll.y = lr.y; ll.z = 0.0;
+  Vec3d ur, ll;
+  ur[0] = lr[0]; ur[1] = ul[1]; ur[2] = 0.0;
+  ll[0] = ul[0]; ll[1] = lr[1]; ll[2] = 0.0;
 
   DCTPVertex *nv1 = AddVertex( ul );
   DCTPVertex *nv2 = AddVertex( ur );
@@ -365,10 +369,10 @@ int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
   nf->norm = norm;
 
   if ( sides[ 0 ] ) {
-    vec3d umv;
-    umv.x = ( ur.x + ul.x ) / 2.0;
-    umv.y = ur.y;
-    umv.z = 0.0;
+    Vec3d umv;
+    umv[0] = ( ur[0] + ul[0] ) / 2.0;
+    umv[1] = ur[1];
+    umv[2] = 0.0;
     DCTPVertex *um = AddVertex( umv );
     if ( !um ) return -1;
     AddQuadSide( nv1, nv2, um, nf );
@@ -382,10 +386,10 @@ int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
     nf->vertices.push_back( nv2 );
   }
   if ( sides[ 1 ] ) {
-    vec3d rmv;
-    rmv.x = ur.x; 
-    rmv.y = ( ur.y + lr.y ) / 2.0;
-    rmv.z = 0.0;
+    Vec3d rmv;
+    rmv[0] = ur[0]; 
+    rmv[1] = ( ur[1] + lr[1] ) / 2.0;
+    rmv[2] = 0.0;
     DCTPVertex *rm = AddVertex( rmv );
     if ( !rm ) return -1;
     AddQuadSide( nv2, nv3, rm, nf );
@@ -397,10 +401,10 @@ int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
     nf->vertices.push_back( nv3 ); // see comment above
   }
   if ( sides[ 2 ] ) {
-    vec3d lmv;
-    lmv.x = ( lr.x + ll.x ) / 2.0; 
-    lmv.y = lr.y;
-    lmv.z = 0.0;
+    Vec3d lmv;
+    lmv[0] = ( lr[0] + ll[0] ) / 2.0; 
+    lmv[1] = lr[1];
+    lmv[2] = 0.0;
     DCTPVertex *lm = AddVertex( lmv );
     if ( !lm ) return -1;
     AddQuadSide( nv3, nv4, lm, nf );
@@ -412,10 +416,10 @@ int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
     nf->vertices.push_back( nv4 ); // see comment above
   }
   if ( sides[ 3 ] ) {
-    vec3d lemv;
-    lemv.x = ll.x;
-    lemv.y = ( ll.y + ul.y ) / 2.0;
-    lemv.z = 0.0;
+    Vec3d lemv;
+    lemv[0] = ll[0];
+    lemv[1] = ( ll[1] + ul[1] ) / 2.0;
+    lemv[2] = 0.0;
     DCTPVertex *lem = AddVertex( lemv );
     if ( !lem ) return -1;
     AddQuadSide( nv4, nv1, lem, nf );
@@ -436,7 +440,7 @@ int DCTPMesh::AddQuadTreeLeaf( vec3d ul, vec3d lr, bool *sides, double norm )
  * v4 `----' v3
  * 
  */
-DCTPFace* DCTPMesh::AddQuad( vec3d v1, vec3d v2, vec3d v3, vec3d v4, double norm )
+DCTPFace* DCTPMesh::AddQuad( Vec3d v1, Vec3d v2, Vec3d v3, Vec3d v4, double norm )
 {
   DCTPVertex *nv1 = AddVertex( v1 );
   DCTPVertex *nv2 = AddVertex( v2 );
@@ -505,268 +509,6 @@ DCTPFace* DCTPMesh::AddQuad( vec3d v1, vec3d v2, vec3d v3, vec3d v4, double norm
   return nf;
 }
 
-int DCTPMesh::read( std::istream & infile )
-{
-  std::vector < DCTPVertex* > invertices;
-  std::vector < DCTPEdge* > inedges; 
-//  std::vector < DCTPFace* > infaces;
-  char txtbuffer[ 65536 ]; //dis makes me sick, the last SQL programmer
-                           //woulda do it more elegant - Fec
-  unsigned int i;
-
-  reinit();
-
-  // FIXME: more checks???
-  infile >> txtbuffer;
-  std::vector < DCTPVertex* >::size_type num_of_vertices;
-  infile >> num_of_vertices >> std::ws;
-  if ( num_of_vertices < 1 ) {
-    invalid = true;
-    return 0;
-  }
-  invertices.resize( num_of_vertices );
-
-//  std::cerr << "verts: " << num_of_vertices << std::endl;
-  for( i = 0; i < num_of_vertices; ++i ) {
-    unsigned long act_id;
-    DCTPVertex *actvert;
-    vec3d act_coords;
-    infile >> act_id;
-    infile >> act_coords;
-    infile.getline( txtbuffer, 65535 ); // why doesn't fucking ignore work???
-//    std::cerr << "id: " << act_id << " act_coords: " << act_coords << std::endl;
-    actvert = AddVertex( act_coords );
-    invertices[ act_id ] = actvert;
-    if ( !actvert ) {
-        std::cerr << "DCTPMesh::read() cannot AddVertex, out of mem???\n";
-        exit( -1 );
-    }
-  }
-  infile >> txtbuffer;
-//  std::cerr << txtbuffer << std::endl;
-  std::vector < DCTPEdge* >::size_type num_of_edges;
-  infile >> num_of_edges;
-  inedges.resize( num_of_edges );
-//  std::cerr << "edges: " << num_of_edges << std::endl;
-  for ( i = 0; i < num_of_edges; ++i ) {
-    unsigned long act_id;
-    std::vector < DCTPVertex* >::size_type act_v1, act_v2;
-    int act_orient;
-    char ch;
-
-    infile >> act_id;
-    infile >> ch; // "("
-    infile >> act_v1;
-    infile >> ch; // ","
-    infile >> act_v2;
-    infile >> ch; // ")"
-    infile >> act_orient;
-    infile.getline( txtbuffer, 65535 ); // why doesn't fucking ignore work???
-
-//    std::cerr << act_id << " act_v1: " << act_v1 << " act_v2: " << act_v2 << 
-//         " act_orientation: " << act_orient << std::endl;
-
-    DCTPEdge *actedge = AddEdge( invertices[ act_v1 ], invertices[ act_v2 ], 
-                                 act_orient );
-    inedges[ act_id ] = actedge;
-  }
-  infile >> txtbuffer;
-//  std::cerr << txtbuffer << std::endl;
-  unsigned int num_of_faces;
-  char ch;
-  infile >> num_of_faces >> std::ws;
-//  std::cerr << "faces: " << num_of_faces << std::endl;
-  for( i = 0; i < num_of_faces; ++i ) {
-        DCTPFace *fp = AddFace();
-        if ( !fp ) {
-                std::cerr << "Outta memory!" << std::endl;
-                return -1;
-        }
-        {
-        unsigned int type;
-        unsigned int faceid;
-        infile >> faceid >> std::ws >> type >> std::ws;
-//        std::cerr << faceid << " " << type << std::endl;
-        if ( type != 3 && type != 4 ) {
-                std::cerr << "Neither triangle, nor quad!" << std::endl;
-                return -2;
-        }
-        if ( type == 3 ) {
-           unsigned int a, b, c;
-           infile >> a >> b >> c >> std::ws >> ch;
-#ifdef OSG_UNION_TRI_QUAD
-           fp->orig_face[ 0 ] = invertices[ a ];
-           fp->orig_face[ 1 ] = invertices[ b ];
-           fp->orig_face[ 2 ] = invertices[ c ];
-           fp->orig_face[ 3 ] = NULL;
-#else
-           fp->orig_triangle[ 0 ] = invertices[ a ];
-           fp->orig_triangle[ 1 ] = invertices[ b ];
-           fp->orig_triangle[ 2 ] = invertices[ c ];
-           fp->orig_quad[ 0 ] = NULL;
-           fp->orig_quad[ 1 ] = NULL;
-           fp->orig_quad[ 2 ] = NULL;
-           fp->orig_quad[ 3 ] = NULL;
-#endif
-        } else {
-           unsigned int a, b, c, d;
-           infile >> a >> b >> c >> d >> std::ws >> ch;
-#ifdef OSG_UNION_TRI_QUAD
-           fp->orig_face[ 0 ] = invertices[ a ];
-           fp->orig_face[ 1 ] = invertices[ b ];
-           fp->orig_face[ 2 ] = invertices[ c ];
-           fp->orig_face[ 3 ] = invertices[ d ];
-#else
-           fp->orig_triangle[ 0 ] = NULL;
-           fp->orig_triangle[ 1 ] = NULL;
-           fp->orig_triangle[ 2 ] = NULL;
-           fp->orig_quad[ 0 ] = invertices[ a ];
-           fp->orig_quad[ 1 ] = invertices[ b ];
-           fp->orig_quad[ 2 ] = invertices[ c ];
-           fp->orig_quad[ 3 ] = invertices[ d ];
-#endif
-        }
-        }//end 'type' scope
-        // read in edges
-        unsigned int numedges;
-        infile >> numedges;
-//        std::cerr << " numofedges: " << numedges << std::endl;
-        for ( unsigned int ne = 0; ne < numedges; ++ne ) {
-          int aeff;
-          infile >> aeff;
-          fp->edges.push_back( inedges[ aeff ] );
-          inedges[ aeff ]->AddFace( fp );
-        }
-        infile >> std::ws >> ch;
-        // read in fucking vertices
-        unsigned int numverts;
-        infile >> numverts;
-//        std::cerr << " numofverts: " << numverts << std::endl;
-        for ( unsigned int nv = 0; nv < numverts; ++nv ) {
-          int avff;
-          infile >> avff;
-          fp->vertices.push_back( invertices[ avff ] );
-          invertices[ avff ]->faces.push_back( fp );
-        }
-        infile >> std::ws >> ch;
-        // read in PHUCKING norm
-        infile >> fp->norm >> std::ws; //and eat up the fukcing whitespaces
-                                  //how do you think ya would reach EOF, ha??
-
-  } // read faces for
-
-  invalid = false;
-  return 0;
-}
-
-void DCTPMesh::dump( char *fname )
-{
-  std::ofstream out( fname );
-  write( out );
-  out.close();
-}
-
-int DCTPMesh::write( std::ostream & outfile )
-{
-
-  outfile.precision( DCTP_PRECISION );
-  dctpvertexset::iterator vend = vertices.end();
-#ifdef OSG_NO_EDGE_SET
-  dctpedgevector::iterator eend = edges.end();
-#else
-  dctpedgeset::iterator eend = edges.end();
-#endif
-  dctpfacevector::iterator fend = faces.end();
-
-  outfile << " VERTICES: " << vertices.size() << std::endl;
-  for ( dctpvertexset::iterator v = vertices.begin(); v != vend; ++v ) {
-    outfile << (*v)->id << " " << (*v)->coords << " # " << (*v)->edges.size() << " ";
-    for ( std::vector<DCTPEdge *>::iterator j = (*v)->edges.begin(); 
-          j != (*v)->edges.end(); ++j ) {
-         outfile << " " << (*j)->id;         
-    }
-    outfile << std::endl;
-  }
-
-  outfile << " EDGES: " << edges.size() << std::endl;
-#ifdef OSG_NO_EDGE_SET
-  for ( dctpedgevector::iterator e = edges.begin(); e != eend; ++e )
-#else
-  for ( dctpedgeset::iterator e = edges.begin(); e != eend; ++e )
-#endif
-  {
-    DCTPVertex * v1;
-    DCTPVertex * v2;
-    (*e)->getVertices( v1, v2 );
-    outfile << (*e)->id << " ( " << v1->id << " , " <<
-        v2->id << " ) " << (*e)->orientation << " # ";
-
-    int num_of_faces = (*e)->faces.size();
-    outfile << num_of_faces;
-    dctpfacevector::iterator fe = (*e)->faces.end();
-    for (dctpfacevector::iterator k = (*e)->faces.begin(); k != fe; ++k )
-      outfile << " " << (*k)->id;
-    outfile << std::endl;
-  }
-
-  outfile << " FACES: " << faces.size() << std::endl;
-  // spit out "proprietary" info (orig_triangle/orig_quad id's)
-  for ( dctpfacevector::iterator i = faces.begin( ); i != fend; ++i ) {
-    outfile << (*i)->id << " ";
-#ifdef OSG_UNION_TRI_QUAD
-    if ( (*i)->orig_face[ 3 ] == NULL ) {
-      outfile << "3 " <<(*i)->orig_face[ 0 ]->id << " " << 
-                    (*i)->orig_face[ 1 ]->id << " " <<
-                    (*i)->orig_face[ 2 ]->id;
-    } 
-    else {
-      outfile << "4 " <<(*i)->orig_face[ 0 ]->id << " " << 
-                    (*i)->orig_face[ 1 ]->id << " " <<
-                    (*i)->orig_face[ 2 ]->id << " " <<
-	            (*i)->orig_face[ 3 ]->id;
-    }
-#else
-    if ( (*i)->orig_triangle[ 0 ] ) {
-      outfile << "3 " <<(*i)->orig_triangle[ 0 ]->id << " " << 
-                    (*i)->orig_triangle[ 1 ]->id << " " <<
-                    (*i)->orig_triangle[ 2 ]->id;
-    } 
-    else if ( (*i)->orig_quad[ 0 ] ) {
-      outfile << "4 " <<(*i)->orig_quad[ 0 ]->id << " " << 
-                    (*i)->orig_quad[ 1 ]->id << " " <<
-                    (*i)->orig_quad[ 2 ]->id << " " <<
-	            (*i)->orig_quad[ 3 ]->id;
-    }
-    else {
-      std::cerr << "FACE doesn't have either orig_triag or orig_quad set... " << std::endl;
-    }
-#endif
-    // num of edges
-    outfile << " # " << (*i)->edges.size() << " ";
-    // split out edges for face
-    for ( std::vector<DCTPEdge *>::iterator j = (*i)->edges.begin(); 
-          j != (*i)->edges.end(); ++j ) {
-         outfile << " " << (*j)->id;         
-    }
-    // num of vertices
-    outfile << " # " << (*i)->vertices.size() << " ";
-    // split out vertices for face
-    for ( std::vector<DCTPVertex *>::iterator t = (*i)->vertices.begin(); 
-          t != (*i)->vertices.end(); ++t ) {
-         outfile << " " << (*t)->id;         
-    }
-    // FUCKING NORM FUCK FUCK FUCK FUCK
-    outfile << " # " << (*i)->norm;
-    outfile << std::endl;
-  } // for faces...
-
-  return 0;
-}
-
-void DCTPMesh::writeInvalid(std::ostream &outfile ) 
-{
-  outfile << " VERTICES: 0" << std::endl;
-}
 
 bool DCTPMesh::isInvalid( void )
 {
@@ -918,33 +660,33 @@ DCTPVertex * DCTPMesh::SplitEdge( DCTPEdge *edge, double t ) {
   return nv;
 }
 
-double DCTPMesh::computeEdgePointDst( DCTPEdge *edg, vec3d& pnt ) {
+double DCTPMesh::computeEdgePointDst( DCTPEdge *edg, Vec3d& pnt ) {
         DCTPVertex *pp0,*pp1;
-        vec3d p0, p1, pd;
+        Vec3d p0, p1, pd;
         edg->getVertices( pp0, pp1 );
         p0 = pp0->coords; p1 = pp1->coords;
-        vec3d v = p1 - p0;
-        vec3d w = pnt - p0;
-        double c1 = v.x * w.x + v.y * w.y + v.z * w.z;
+        Vec3d v = p1 - p0;
+        Vec3d w = pnt - p0;
+        double c1 = v[0] * w[0] + v[1] * w[1] + v[2] * w[2];
         if ( c1 <= 0 ) {
                 pd = p0;
-                vec3d dist = pnt - p0;
-                return sqrt( dist.quad_size() );
+                Vec3d dist = pnt - p0;
+                return sqrt( dist.squareLength() );
         }
-        double c2 = v.quad_size();
+        double c2 = v.squareLength();
         if ( c2 <= c1 ) {
                 pd = p1;
-                vec3d dist = pnt - p1;
-                return sqrt( dist.quad_size() );
+                Vec3d dist = pnt - p1;
+                return sqrt( dist.squareLength() );
         }
         double b = c1 / c2;
         pd = v * b;
         pd = pd + p0;
-        vec3d dist = pnt - pd;
-        return sqrt( dist.quad_size() );
+        Vec3d dist = pnt - pd;
+        return sqrt( dist.squareLength() );
 }
 
-DCTPVertex* DCTPMesh::SplitEdge( DCTPEdge *edge, const vec3d& p ) {
+DCTPVertex* DCTPMesh::SplitEdge( DCTPEdge *edge, const Vec3d& p ) {
 
   DCTPVertex *v1, *v2;
   edge->getVertices( v1, v2 );
@@ -952,16 +694,16 @@ DCTPVertex* DCTPMesh::SplitEdge( DCTPEdge *edge, const vec3d& p ) {
   vec3i &p1 = v1->coords;
   vec3i &p2 = v2->coords;
 #else
-  vec3d &p1 = v1->coords;
-  vec3d &p2 = v2->coords;
+  Vec3d &p1 = v1->coords;
+  Vec3d &p2 = v2->coords;
 #endif
-  if ( p == p1 ) return v1;
-  if ( p == p2 ) return v2;
+  if ( DCTPVecIsEqual( p , p1 ) ) return v1;
+  if ( DCTPVecIsEqual( p , p2 ) ) return v2;
 
-  vec3d quickhack = p;
+  Vec3d quickhack = p;
   double dist = computeEdgePointDst( edge, quickhack );
-//DEBUG
-//std::cerr << "SplitEdge, checkpoint I. distance = " << dist << std::endl;
+// DEBUG
+//    std::cerr << "SplitEdge, checkpoint I. distance = " << dist << std::endl;
 #ifdef OSG_INTEGER_MESH
   if ( dist > 0.999 )
 #else
@@ -973,12 +715,12 @@ DCTPVertex* DCTPMesh::SplitEdge( DCTPEdge *edge, const vec3d& p ) {
 #endif
 	return NULL;
   }
-//DEBUG
-//std::cerr << "SplitEdge, checkpoint II.\n";
-  vec3d lng_vec1 = p1 - p2;
-  double lng1 = sqrt( lng_vec1.quad_size() );
-  vec3d lng_vec2 = p - p1;
-  double lng2 = sqrt( lng_vec2.quad_size() );
+// DEBUG
+//    std::cerr << "SplitEdge, checkpoint II.\n";
+  Vec3d lng_vec1 = p1 - p2;
+  double lng1 = sqrt( lng_vec1.squareLength() );
+  Vec3d lng_vec2 = p - p1;
+  double lng2 = sqrt( lng_vec2.squareLength() );
   double par = lng2 / lng1;
   return SplitEdge( edge, par );
 }
@@ -992,9 +734,9 @@ DCTPVertex* DCTPMesh::SplitEdge( DCTPEdge *edge, const vec3d& p ) {
  * The pointer to the vertex does not change, only its iterator.
  * Returns zero on success, and a negative value on failure.
  */
-int DCTPMesh::MoveVertex( DCTPVertex *vert, vec3d &newpos )
+int DCTPMesh::MoveVertex( DCTPVertex *vert, Vec3d &newpos )
 {
-  if ( vert->coords == newpos ) return 0;
+  if ( DCTPVecIsEqual( vert->coords , newpos ) ) return 0;
   dctpvertexset::iterator vi = vertices.find( vert );
   if ( vi == vertices.end() )
     return -1;
@@ -1004,7 +746,8 @@ int DCTPMesh::MoveVertex( DCTPVertex *vert, vec3d &newpos )
   std::pair< dctpvertexset::iterator, bool > vinsert;
   vinsert = vertices.insert( vert );
   if ( !vinsert.second ) {
-    std::cerr << "DCTPMesh::MoveVertex: error: reinserting already existing vertex (this shouldn't happen) " << newpos << std::endl;
+    std::cerr << "DCTPMesh::MoveVertex: error: reinserting already existing vertex (this shouldn't happen) " << 
+                 newpos[0] << " " << newpos[1] << " " << newpos[2] << std::endl;
     return -2;
   }
   return 0;
@@ -1019,29 +762,28 @@ int DCTPMesh::MoveVertex( DCTPVertex *vert, vec3d &newpos )
  *
  * res[ i ]->coords = points[ i ].
  */
-int DCTPMesh::SplitFace( DCTPEdge *edge, vec3dvector &points, dctpvertexvector &res )
+int DCTPMesh::SplitFace( DCTPEdge *edge, DCTPVec3dvector &points, dctpvertexvector &res )
 {
   DCTPVertex *v1, *v2;
   DCTPVertex *v;
   res.clear();
   edge->getVertices( v1, v2 );
-  vec3d &lp = points[ points.size() - 1 ];
-  vec3d &fp = points[ 0 ];
+  Vec3d &lp = points[ points.size() - 1 ];
+  Vec3d &fp = points[ 0 ];
  
-  if ( lp == fp ) { //just one point
+  if ( DCTPVecIsEqual( lp , fp ) ) // just one point
+  {
     DCTPVertex *nv = SplitFace( edge, lp );
     if ( !nv ) return -1;
     res.push_back( nv );
     return 0;
   }
-  if ( (v1->coords - lp).quad_size() < (v1->coords - fp).quad_size() ) v = v1;
+  if ( (v1->coords - lp).squareLength() < (v1->coords - fp).squareLength() ) v = v1;
   else v = v2;
-//DEBUG std::cerr << "NAMOST MIAKURANYAD?\n";
   // v is the vertex closer to lp.
-  vec3dvector::size_type k = points.size();
-  for ( vec3dvector::size_type i = 0; i < k; ++i ) {
+  DCTPVec3dvector::size_type k = points.size();
+  for ( DCTPVec3dvector::size_type i = 0; i < k; ++i ) {
     DCTPVertex *nv = SplitFace( edge, points[ i ] );
-//DEBUG std::cerr << "HANYSZOR BASZOL KI VELEM?" << points[ i ] << std::endl;
     if ( !nv ) return -1;
     res.push_back( nv );
     edge = findEdge( nv, v );
@@ -1055,19 +797,19 @@ int DCTPMesh::SplitFace( DCTPEdge *edge, vec3dvector &points, dctpvertexvector &
  * Presupposes that all affected faces are triangles.
  *
  */
-DCTPVertex *DCTPMesh::SplitFace( DCTPEdge *edge, const vec3d& p )
+DCTPVertex *DCTPMesh::SplitFace( DCTPEdge *edge, const Vec3d& p )
 {
-  //First we have to do an edgesplit, on the edge.
+  // First we have to do an edgesplit, on the edge.
   DCTPVertex *v1, *v2;
   edge->getVertices( v1, v2 );
-  if ( p == v1->coords ) return v1;
-  if ( p == v2->coords ) return v2;
+  if ( DCTPVecIsEqual( p , v1->coords ) ) return v1;
+  if ( DCTPVecIsEqual( p , v2->coords ) ) return v2;
 
   DCTPVertex *nv = SplitEdge( edge, p );
   if ( !nv ) return NULL;
   
   dctpfacevector::iterator fe = edge->faces.end();
-  //actually split all the faces belonging to the edge
+  // actually split all the faces belonging to the edge
   for ( dctpfacevector::iterator i = edge->faces.begin(); i != fe; ++i )
     SplitOneFace( *i, edge, nv );
 
@@ -1212,98 +954,6 @@ void DCTPMesh::SplitOneFace( DCTPFace *f, DCTPEdge *edge, DCTPVertex *nv)
 } //end SplitOneFace
 #endif
 
-int DCTPMesh::write_trisoup( std::ostream &outfile )
-{
-  outfile.precision( DCTP_PRECISION );
-  outfile << ff_const_1 << std::endl;
-  outfile << faces.size() << std::endl;
-
-  for (dctpfacevector::iterator i = faces.begin(); i != faces.end(); ++i ) {
-#ifdef OSG_UNION_TRI_QUAD
-    outfile << (*i)->orig_face[ 0 ]->coords << " " <<
-               (*i)->orig_face[ 1 ]->coords << " " <<
-               (*i)->orig_face[ 2 ]->coords << " " <<
-               (*i)->norm << std::endl;
-#else
-    outfile << (*i)->orig_triangle[ 0 ]->coords << " " <<
-               (*i)->orig_triangle[ 1 ]->coords << " " <<
-               (*i)->orig_triangle[ 2 ]->coords << " " <<
-               (*i)->norm << std::endl;
-#endif
-  }
-  return 0;
-}
-
-int DCTPMesh::read_trisoup( std::istream &infile )
-{
-  //FIXME: maybe we need more checks!!!
-  char txtbuffer[ 256 ];
-
-  infile.getline( txtbuffer, 255 ); //read line
-  if ( strcmp( txtbuffer, ff_const_1 ) ) return -1; //bad file format
-  unsigned int trnum = 0;
-  infile >> trnum;  
-
-  for (unsigned int i = 0; i < trnum; ++i ) {
-    vec3d v1, v2, v3;
-    double norm;
-    infile >> v1 >> v2 >> v3 >> norm;
-    AddTriangle( v1, v2, v3, norm );
-//    std::cerr << " i: " << i << std::endl;
-//    std::cerr << v1.x << " " << v1.y << std::endl;
-  }
-  infile.getline( txtbuffer, 255 );
-//  std::cerr << "bla: " << txtbuffer << std::endl;
-  invalid = false;
-  return 0;
-}
-
-int DCTPMesh::write_quadsoup( std::ostream &outfile )
-{
-  outfile.precision( DCTP_PRECISION );
-  outfile << ff_const_2 << std::endl;
-  outfile << faces.size() << std::endl;
-
-  for (dctpfacevector::iterator i = faces.begin(); i != faces.end(); ++i ) {
-#ifdef OSG_UNION_TRI_QUAD
-    outfile << (*i)->orig_face[ 0 ]->coords << " " <<
-               (*i)->orig_face[ 1 ]->coords << " " <<
-               (*i)->orig_face[ 2 ]->coords << " " <<
-               (*i)->orig_face[ 3 ]->coords << " " <<
-               (*i)->norm << std::endl;
-#else
-    outfile << (*i)->orig_quad[ 0 ]->coords << " " <<
-               (*i)->orig_quad[ 1 ]->coords << " " <<
-               (*i)->orig_quad[ 2 ]->coords << " " <<
-               (*i)->orig_quad[ 3 ]->coords << " " <<
-               (*i)->norm << std::endl;
-#endif
-  }
-  return 0;
-}
-
-int DCTPMesh::read_quadsoup( std::istream &infile )
-{
-  //FIXME: maybe we need more checks!!!
-  char txtbuffer[ 256 ];
-
-  infile.getline( txtbuffer, 255 ); //read line
-  if ( strcmp( txtbuffer, ff_const_2 ) ) return -1; //bad file format
-  unsigned int trnum = 0;
-  infile >> trnum;  
-
-  for (unsigned int i = 0; i < trnum; ++i ) {
-    vec3d v1, v2, v3, v4;
-    double norm;
-    infile >> v1 >> v2 >> v3 >> v4 >> norm;
-    AddQuad( v1, v2, v3, v4, norm );
-  }
-  infile.getline( txtbuffer, 255 );
-  invalid = false;
-  return 0;
-}
-
-// G++ SUXXX
 
 /*
  *  Subdivide the current (quad) face into four smaller faces. 
@@ -1314,7 +964,7 @@ int DCTPMesh::read_quadsoup( std::istream &infile )
 int DCTPMesh::SubdivideQuad( DCTPFace *f )
 {
 
-  vec3d n, s, e, w;
+  Vec3d n, s, e, w;
   DCTPVertex *np = NULL, *sp = NULL, *ep = NULL, *wp = NULL;
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1329,14 +979,15 @@ int DCTPMesh::SubdivideQuad( DCTPFace *f )
   w = ( f->orig_quad[ 3 ]->coords + f->orig_quad[ 0 ]->coords ) * 0.5; 
 #endif
 
-  //iterate through the vertices and do splitedges if necessary
+  // iterate through the vertices and do splitedges if necessary
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
   std::vector< DCTPVertex* >::iterator i;
-  for ( i = f->vertices.begin(); i != ve; ++i ) {
-    if ( (*i)->coords == n ) np = *i;
-    if ( (*i)->coords == s ) sp = *i;
-    if ( (*i)->coords == e ) ep = *i;
-    if ( (*i)->coords == w ) wp = *i;
+  for ( i = f->vertices.begin(); i != ve; ++i ) 
+  {
+      if ( DCTPVecIsEqual( (*i)->coords , n ) ) np = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , s ) ) sp = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , e ) ) ep = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , w ) ) wp = *i;
   }
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1380,7 +1031,7 @@ int DCTPMesh::SubdivideQuad( DCTPFace *f )
 void DCTPMesh::buildNewFaces( DCTPFace *f, DCTPVertex *np, DCTPVertex *sp, DCTPVertex *wp, DCTPVertex *ep)
 {
   //set up middle point
-  vec3d middle = ( np->coords + sp->coords ) * 0.5;
+  Vec3d middle = ( np->coords + sp->coords ) * 0.5;
   DCTPVertex * middlev = AddVertex( middle );
   //set up new edges to/from middlepoint
   // v1 .----. v2
@@ -1427,7 +1078,7 @@ void DCTPMesh::buildNewFaces( DCTPFace *f, DCTPVertex *np, DCTPVertex *sp, DCTPV
   vertsvec.insert( vertsvec.end(), vertsides[ 2 ].begin(), vertsides[ 2 ].end() );
   vertsvec.push_back( ep );
   vertsvec.push_back( middlev );
-//  std::cerr <<"lofasz size: " << vertsvec.size() << std::endl;
+//  std::cerr <<"vertsvec size: " << vertsvec.size() << std::endl;
   f = buildQuadFace( vertsvec, NULL );
 #ifdef OSG_UNION_TRI_QUAD
   f->orig_face[ 0 ] = np; f->orig_face[ 1 ] = quad_save[ 1 ];
@@ -1482,7 +1133,7 @@ void DCTPMesh::buildNewFaces( DCTPFace *f, DCTPVertex *np, DCTPVertex *sp, DCTPV
 int DCTPMesh::SubdivideQuadNS( DCTPFace *f )
 {
 
-  vec3d e, w;
+  Vec3d e, w;
   DCTPVertex *ep = NULL, *wp = NULL;
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1493,12 +1144,13 @@ int DCTPMesh::SubdivideQuadNS( DCTPFace *f )
   w = ( f->orig_quad[ 3 ]->coords + f->orig_quad[ 0 ]->coords ) * 0.5; 
 #endif
 
-  //iterate through the vertices and do splitedges if necessary
+  // iterate through the vertices and do splitedges if necessary
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
   std::vector< DCTPVertex* >::iterator i;
-  for ( i = f->vertices.begin(); i != ve; ++i ) {
-    if ( (*i)->coords == e ) ep = *i;
-    if ( (*i)->coords == w ) wp = *i;
+  for ( i = f->vertices.begin(); i != ve; ++i ) 
+  {
+      if ( DCTPVecIsEqual( (*i)->coords , e ) ) ep = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , w ) ) wp = *i;
   }
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1621,7 +1273,7 @@ void DCTPMesh::buildNewFacesNS( DCTPFace *f, DCTPVertex *wp, DCTPVertex *ep)
 int DCTPMesh::SubdivideQuadEW( DCTPFace *f )
 {
 
-  vec3d n, s;
+  Vec3d n, s;
   DCTPVertex *np = NULL, *sp = NULL;
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1635,9 +1287,10 @@ int DCTPMesh::SubdivideQuadEW( DCTPFace *f )
   //iterate through the vertices and do splitedges if necessary
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
   std::vector< DCTPVertex* >::iterator i;
-  for ( i = f->vertices.begin(); i != ve; ++i ) {
-    if ( (*i)->coords == n ) np = *i;
-    if ( (*i)->coords == s ) sp = *i;
+  for ( i = f->vertices.begin(); i != ve; ++i )
+  {
+      if ( DCTPVecIsEqual( (*i)->coords , n ) ) np = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , s ) ) sp = *i;
   }
 
 #ifdef OSG_UNION_TRI_QUAD
@@ -1761,16 +1414,16 @@ void DCTPMesh::buildNewFacesEW( DCTPFace *f, DCTPVertex *np, DCTPVertex *sp)
 int DCTPMesh::SubdivideQuadNS( DCTPFace *f, double dRatio )
 {
 
-  vec3d e, w;
+  Vec3d e, w;
   DCTPVertex *ep = NULL, *wp = NULL;
 
 #ifdef OSG_UNION_TRI_QUAD
-  e.x = f->orig_face[ 2 ]->coords.x;
-  w.x = f->orig_face[ 3 ]->coords.x; 
-  e.y = f->orig_face[ 2 ]->coords.y + ( f->orig_face[ 1 ]->coords.y - f->orig_face[ 2 ]->coords.y ) * dRatio;
-  e.y = 10.0 * DCTP_EPS * floor( e.y / ( 10.0 * DCTP_EPS ) + 0.5 );
-  w.y = e.y; 
-  e.z = w.z = 0.0;
+  e[0] = f->orig_face[ 2 ]->coords[0];
+  w[0] = f->orig_face[ 3 ]->coords[0]; 
+  e[1] = f->orig_face[ 2 ]->coords[1] + ( f->orig_face[ 1 ]->coords[1] - f->orig_face[ 2 ]->coords[1] ) * dRatio;
+  e[1] = 10.0 * DCTP_EPS * floor( e[1] / ( 10.0 * DCTP_EPS ) + 0.5 );
+  w[1] = e[1]; 
+  e[2] = w[2] = 0.0;
 #else
   e = f->orig_quad[ 2 ]->coords + ( f->orig_quad[ 1 ]->coords - f->orig_quad[ 2 ]->coords ) * dRatio;
   w = f->orig_quad[ 3 ]->coords + ( f->orig_quad[ 0 ]->coords - f->orig_quad[ 3 ]->coords ) * dRatio; 
@@ -1780,12 +1433,13 @@ int DCTPMesh::SubdivideQuadNS( DCTPFace *f, double dRatio )
 //  std::cerr << "SudivideQuadNS: " << dRatio << std::endl;
 //  f->dump_triangle( );
 
-  //iterate through the vertices and do splitedges if necessary
+  // iterate through the vertices and do splitedges if necessary
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
   std::vector< DCTPVertex* >::iterator i;
-  for ( i = f->vertices.begin(); i != ve; ++i ) {
-    if ( (*i)->coords == e ) ep = *i;
-    if ( (*i)->coords == w ) wp = *i;
+  for ( i = f->vertices.begin(); i != ve; ++i )
+  {
+      if ( DCTPVecIsEqual( (*i)->coords , e ) ) ep = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , w ) ) wp = *i;
   }
 
   std::vector< DCTPEdge* >::iterator ee = f->edges.end();
@@ -1807,16 +1461,15 @@ int DCTPMesh::SubdivideQuadNS( DCTPFace *f, double dRatio )
 	  std::cerr << "error" << std::endl;
   }
 
-  //these removals must be done after the splitedge operators
-  //go through the edges of the face, and remove this face
-  //from each edge.
-  /*std::vector< DCTPEdge* >::iterator*/
+  // these removals must be done after the splitedge operators
+  // go through the edges of the face, and remove this face
+  // from each edge.
   ee = f->edges.end();
   for ( std::vector< DCTPEdge* >::iterator ed = f->edges.begin(); ed != ee; ++ed )
     (*ed)->RemoveFace( f );
 
-  //go through the vertices of the face, and remove this face
-  //from each vertex.
+  // go through the vertices of the face, and remove this face
+  // from each vertex.
   ve = f->vertices.end();
   for ( i = f->vertices.begin(); i != ve; ++i )
     (*i)->RemoveFace( f );
@@ -1920,16 +1573,16 @@ void DCTPMesh::buildNewFacesNS( DCTPFace *f, DCTPVertex *wp, DCTPVertex *ep, dou
 int DCTPMesh::SubdivideQuadEW( DCTPFace *f, double dRatio )
 {
 
-  vec3d n, s;
+  Vec3d n, s;
   DCTPVertex *np = NULL, *sp = NULL;
 
 #ifdef OSG_UNION_TRI_QUAD
-  n.x = f->orig_face[ 0 ]->coords.x + ( f->orig_face[ 1 ]->coords.x - f->orig_face[ 0 ]->coords.x ) * dRatio;
-  n.x = 10.0 * DCTP_EPS * floor( n.x / ( 10.0 * DCTP_EPS ) + 0.5 );
-  s.x = n.x; 
-  n.y = f->orig_face[ 0 ]->coords.y;
-  s.y = f->orig_face[ 3 ]->coords.y; 
-  n.z = s.z = 0.0;
+  n[0] = f->orig_face[ 0 ]->coords[0] + ( f->orig_face[ 1 ]->coords[0] - f->orig_face[ 0 ]->coords[0] ) * dRatio;
+  n[0] = 10.0 * DCTP_EPS * floor( n[0] / ( 10.0 * DCTP_EPS ) + 0.5 );
+  s[0] = n[0]; 
+  n[1] = f->orig_face[ 0 ]->coords[1];
+  s[1] = f->orig_face[ 3 ]->coords[1]; 
+  n[2] = s[2] = 0.0;
 #else
   n = f->orig_quad[ 0 ]->coords + ( f->orig_quad[ 1 ]->coords - f->orig_quad[ 0 ]->coords ) * dRatio;
   s = f->orig_quad[ 3 ]->coords + ( f->orig_quad[ 2 ]->coords - f->orig_quad[ 3 ]->coords ) * dRatio; 
@@ -1939,12 +1592,13 @@ int DCTPMesh::SubdivideQuadEW( DCTPFace *f, double dRatio )
 //  std::cerr << "SudivideQuadEW: " << dRatio << std::endl;
 //  f->dump_triangle( );
 
-  //iterate through the vertices and do splitedges if necessary
+  // iterate through the vertices and do splitedges if necessary
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
   std::vector< DCTPVertex* >::iterator i;
-  for ( i = f->vertices.begin(); i != ve; ++i ) {
-    if ( (*i)->coords == n ) np = *i;
-    if ( (*i)->coords == s ) sp = *i;
+  for ( i = f->vertices.begin(); i != ve; ++i )
+  {
+      if ( DCTPVecIsEqual( (*i)->coords , n ) ) np = *i;
+      if ( DCTPVecIsEqual( (*i)->coords , s ) ) sp = *i;
   }
   
   std::vector< DCTPEdge* >::iterator ee = f->edges.end();
@@ -2105,8 +1759,11 @@ DCTPEdge *DCTPMesh::getEdgeFromFace(DCTPFace *f, DCTPVertex *v1, DCTPVertex *v2)
   for ( std::vector< DCTPEdge* >::iterator i = f->edges.begin(); i != ee; ++i ) {
     DCTPVertex *tv1, *tv2;
     (*i)->getVertices( tv1, tv2 );
-    if ( (v1->coords == tv1->coords && v2->coords == tv2->coords) || 
-         (v1->coords == tv2->coords && v2->coords == tv1->coords)) return *i;
+    if ( ( DCTPVecIsEqual( v1->coords , tv1->coords ) && 
+           DCTPVecIsEqual( v2->coords , tv2->coords ) ) || 
+         ( DCTPVecIsEqual( v1->coords , tv2->coords ) && 
+           DCTPVecIsEqual( v2->coords , tv1->coords ) ) ) 
+        return *i;
   }  
   std::cerr << "DCTPMesh:getEdgeFromFace: nonexistant edge requested... " << std::endl;
   return NULL;
@@ -2128,105 +1785,105 @@ void DCTPMesh::sortSides( DCTPFace *f, std::vector< DCTPVertex * > * sides )
 void DCTPMesh::setupSides( DCTPFace *f, std::vector< DCTPVertex * > * sides, double dXRatio, double dYRatio )
 {
 #ifdef OSG_UNION_TRI_QUAD
-  vec3d n = f->orig_face[ 0 ]->coords + ( f->orig_face[ 1 ]->coords - f->orig_face[ 0 ]->coords ) * dXRatio;
-  vec3d s = f->orig_face[ 3 ]->coords + ( f->orig_face[ 2 ]->coords - f->orig_face[ 3 ]->coords ) * dXRatio;
+  Vec3d n = f->orig_face[ 0 ]->coords + ( f->orig_face[ 1 ]->coords - f->orig_face[ 0 ]->coords ) * dXRatio;
+  Vec3d s = f->orig_face[ 3 ]->coords + ( f->orig_face[ 2 ]->coords - f->orig_face[ 3 ]->coords ) * dXRatio;
 #else
-  vec3d n = f->orig_quad[ 0 ]->coords + ( f->orig_quad[ 1 ]->coords - f->orig_quad[ 0 ]->coords ) * dXRatio;
-  vec3d s = f->orig_quad[ 3 ]->coords + ( f->orig_quad[ 2 ]->coords - f->orig_quad[ 3 ]->coords ) * dXRatio;
+  Vec3d n = f->orig_quad[ 0 ]->coords + ( f->orig_quad[ 1 ]->coords - f->orig_quad[ 0 ]->coords ) * dXRatio;
+  Vec3d s = f->orig_quad[ 3 ]->coords + ( f->orig_quad[ 2 ]->coords - f->orig_quad[ 3 ]->coords ) * dXRatio;
 #endif
-  vec3d middle = s + ( n - s ) * dYRatio;
+  Vec3d middle = s + ( n - s ) * dYRatio;
   std::vector< DCTPVertex* >::iterator ve = f->vertices.end();
 
   for ( std::vector< DCTPVertex* >::iterator i = f->vertices.begin(); i != ve; ++i ) {
     //top left and right
 #ifdef OSG_UNION_TRI_QUAD
-    if ( fabs((*i)->coords.y - f->orig_face[ 0 ]->coords.y ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[1] - f->orig_face[ 0 ]->coords[1] ) < DCTP_EPS ) {
       //left
-      if ( ((*i)->coords.x > f->orig_face[ 0 ]->coords.x ) &&
-           ((*i)->coords.x < middle.x ))
+      if ( ((*i)->coords[0] > f->orig_face[ 0 ]->coords[0] ) &&
+           ((*i)->coords[0] < middle[0] ))
 #else
-    if ( fabs((*i)->coords.y - f->orig_quad[ 0 ]->coords.y ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[1] - f->orig_quad[ 0 ]->coords[1] ) < DCTP_EPS ) {
       //left
-      if ( ((*i)->coords.x > f->orig_quad[ 0 ]->coords.x ) &&
-           ((*i)->coords.x < middle.x ))
+      if ( ((*i)->coords[0] > f->orig_quad[ 0 ]->coords[0] ) &&
+           ((*i)->coords[0] < middle[0] ))
 #endif
         sides[ 0 ].push_back( *i );
       //right
 #ifdef OSG_UNION_TRI_QUAD
-      else if ( ((*i)->coords.x > middle.x ) && 
-                ((*i)->coords.x < f->orig_face[ 1 ]->coords.x ))
+      else if ( ((*i)->coords[0] > middle[0] ) && 
+                ((*i)->coords[0] < f->orig_face[ 1 ]->coords[0] ))
 #else
-      else if ( ((*i)->coords.x > middle.x ) && 
-                ((*i)->coords.x < f->orig_quad[ 1 ]->coords.x ))
+      else if ( ((*i)->coords[0] > middle[0] ) && 
+                ((*i)->coords[0] < f->orig_quad[ 1 ]->coords[0] ))
 #endif
         sides[ 1 ].push_back( *i );
     } //end if
     //right up and down
 #ifdef OSG_UNION_TRI_QUAD
-    if ( fabs((*i)->coords.x - f->orig_face[ 1 ]->coords.x ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[0] - f->orig_face[ 1 ]->coords[0] ) < DCTP_EPS ) {
       //up
-      if ( ((*i)->coords.y < f->orig_face[ 1 ]->coords.y ) &&
-           ((*i)->coords.y > middle.y ))
+      if ( ((*i)->coords[1] < f->orig_face[ 1 ]->coords[1] ) &&
+           ((*i)->coords[1] > middle[1] ))
 #else
-    if ( fabs((*i)->coords.x - f->orig_quad[ 1 ]->coords.x ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[0] - f->orig_quad[ 1 ]->coords[0] ) < DCTP_EPS ) {
       //up
-      if ( ((*i)->coords.y < f->orig_quad[ 1 ]->coords.y ) &&
-           ((*i)->coords.y > middle.y ))
+      if ( ((*i)->coords[1] < f->orig_quad[ 1 ]->coords[1] ) &&
+           ((*i)->coords[1] > middle[1] ))
 #endif
         sides[ 2 ].push_back( *i );
       //down
 #ifdef OSG_UNION_TRI_QUAD
-      else if ( ((*i)->coords.y < middle.y ) && 
-                ((*i)->coords.y > f->orig_face[ 2 ]->coords.y ))
+      else if ( ((*i)->coords[1] < middle[1] ) && 
+                ((*i)->coords[1] > f->orig_face[ 2 ]->coords[1] ))
 #else
-      else if ( ((*i)->coords.y < middle.y ) && 
-                ((*i)->coords.y > f->orig_quad[ 2 ]->coords.y ))
+      else if ( ((*i)->coords[1] < middle[1] ) && 
+                ((*i)->coords[1] > f->orig_quad[ 2 ]->coords[1] ))
 #endif
         sides[ 3 ].push_back( *i );
     } //end if
     //bottom left and right
 #ifdef OSG_UNION_TRI_QUAD
-    if ( fabs((*i)->coords.y - f->orig_face[ 2 ]->coords.y ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[1] - f->orig_face[ 2 ]->coords[1] ) < DCTP_EPS ) {
       //right
-      if ( ((*i)->coords.x < f->orig_face[ 2 ]->coords.x ) &&
-           ((*i)->coords.x > middle.x ))
+      if ( ((*i)->coords[0] < f->orig_face[ 2 ]->coords[0] ) &&
+           ((*i)->coords[0] > middle[0] ))
 #else
-    if ( fabs((*i)->coords.y - f->orig_quad[ 2 ]->coords.y ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[1] - f->orig_quad[ 2 ]->coords[1] ) < DCTP_EPS ) {
       //right
-      if ( ((*i)->coords.x < f->orig_quad[ 2 ]->coords.x ) &&
-           ((*i)->coords.x > middle.x ))
+      if ( ((*i)->coords[0] < f->orig_quad[ 2 ]->coords[0] ) &&
+           ((*i)->coords[0] > middle[0] ))
 #endif
         sides[ 4 ].push_back( *i );
       //left
 #ifdef OSG_UNION_TRI_QUAD
-      else if ( ((*i)->coords.x < middle.x ) && 
-                ((*i)->coords.x > f->orig_face[ 3 ]->coords.x ))
+      else if ( ((*i)->coords[0] < middle[0] ) && 
+                ((*i)->coords[0] > f->orig_face[ 3 ]->coords[0] ))
 #else
-      else if ( ((*i)->coords.x < middle.x ) && 
-                ((*i)->coords.x > f->orig_quad[ 3 ]->coords.x ))
+      else if ( ((*i)->coords[0] < middle[0] ) && 
+                ((*i)->coords[0] > f->orig_quad[ 3 ]->coords[0] ))
 #endif
         sides[ 5 ].push_back( *i );
     } //end if
     //left up and down
 #ifdef OSG_UNION_TRI_QUAD
-    if ( fabs((*i)->coords.x - f->orig_face[ 3 ]->coords.x ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[0] - f->orig_face[ 3 ]->coords[0] ) < DCTP_EPS ) {
       //down
-      if ( ((*i)->coords.y > f->orig_face[ 3 ]->coords.y ) &&
-           ((*i)->coords.y < middle.y ))
+      if ( ((*i)->coords[1] > f->orig_face[ 3 ]->coords[1] ) &&
+           ((*i)->coords[1] < middle[1] ))
 #else
-    if ( fabs((*i)->coords.x - f->orig_quad[ 3 ]->coords.x ) < DCTP_EPS ) {
+    if ( osgabs((*i)->coords[0] - f->orig_quad[ 3 ]->coords[0] ) < DCTP_EPS ) {
       //down
-      if ( ((*i)->coords.y > f->orig_quad[ 3 ]->coords.y ) &&
-           ((*i)->coords.y < middle.y ))
+      if ( ((*i)->coords[1] > f->orig_quad[ 3 ]->coords[1] ) &&
+           ((*i)->coords[1] < middle[1] ))
 #endif
         sides[ 6 ].push_back( *i );
       //up
 #ifdef OSG_UNION_TRI_QUAD
-      else if ( ((*i)->coords.y > middle.y ) && 
-                ((*i)->coords.y < f->orig_face[ 0 ]->coords.y ))
+      else if ( ((*i)->coords[1] > middle[1] ) && 
+                ((*i)->coords[1] < f->orig_face[ 0 ]->coords[1] ))
 #else
-      else if ( ((*i)->coords.y > middle.y ) && 
-                ((*i)->coords.y < f->orig_quad[ 0 ]->coords.y ))
+      else if ( ((*i)->coords[1] > middle[1] ) && 
+                ((*i)->coords[1] < f->orig_quad[ 0 ]->coords[1] ))
 #endif
         sides[ 7 ].push_back( *i );
     } //end if
@@ -2286,7 +1943,7 @@ void DCTPMesh::reinit( void )
   invalid = true;
 }
 
-DCTPVertex * DCTPMesh::findVertex( const vec3d& v ) {
+DCTPVertex * DCTPMesh::findVertex( const Vec3d& v ) {
   DCTPVertex *vert = new DCTPVertex; 
   if ( !vert ) return NULL;
   vert->coords = v;
@@ -2329,7 +1986,7 @@ DCTPEdge *DCTPMesh::findEdge( DCTPVertex *v1, DCTPVertex *v2 )
 #endif
 }
 
-DCTPEdge *DCTPMesh::findEdge( const vec3d &vc1, const vec3d &vc2 ) {
+DCTPEdge *DCTPMesh::findEdge( const Vec3d &vc1, const Vec3d &vc2 ) {
   DCTPVertex *v1 = findVertex( vc1 );
   if ( !v1 )
   {

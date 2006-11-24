@@ -2,7 +2,7 @@
  *                           OpenSG NURBS Library                            *
  *                                                                           *
  *                                                                           *
- * Copyright (C) 2001-2004 by the University of Bonn, Computer Graphics Group*
+ * Copyright (C) 2001-2006 by the University of Bonn, Computer Graphics Group*
  *                                                                           *
  *                         http://cg.cs.uni-bonn.de/                         *
  *                                                                           *
@@ -41,7 +41,7 @@
 #pragma once
 #endif
 
-#include "OSGSystemDef.h"
+#include <OSGSystemDef.h>
 #include <OSGConfig.h>
 
 
@@ -53,7 +53,7 @@ OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING BSplineCurve2D {
 protected:
-  vec2dvector control_points; //control points of the curve
+  DCTPVec3dvector control_points; //control points of the curve
   int dimension; //dimension of the B-spline (degree)
   BSplineBasisFunction basis_function; //placeholder for the knots & facility to easily compute 'em
 
@@ -61,8 +61,9 @@ protected:
   static const char ff_const_1[];
   static const char ff_const_2[];
   static const char ff_const_3[];
+  static const char ff_const_4[];
 
-  int CheckKnotPoints( const dvector& knots, int dim ); //check whether knots has a right format
+  int CheckKnotPoints( const DCTPdvector& knots, int dim ); //check whether knots has a right format
 
   // delete a knot which is on a 'bezier' curve, i.e. [0 0 0 0 1 1 1 1 2 2 2 2 3 3 3 3] -> [0 0 0 0 1 1 1 2 2 2 3 3 3 3]
   // must have a multiplicity of (at least) dimension + 1, and its associated control point also must have a multiplicity of (at least) 2.
@@ -75,12 +76,12 @@ public:
  
   //setup functions
   // FIXME: the setup interface is very rigid, maybe it should allow knot & dimension setting alone, eg. to resize dimension, etc
-  int setKnotsAndDimension( const dvector& knots, int dim ); //ok, acts like its name says 
-  void setControlPointVector( const vec2dvector &cps ); //set control point vector
+  int setKnotsAndDimension( const DCTPdvector& knots, int dim ); //ok, acts like its name says 
+  void setControlPointVector( const DCTPVec3dvector &cps ); //set control point vector
 
   //query functions
-  dvector& getKnotVector( void ); //return knot points of basis functions
-  vec2dvector& getControlPointVector( void ) { return control_points; } //guess what!
+  DCTPdvector& getKnotVector( void ); //return knot points of basis functions
+  DCTPVec3dvector& getControlPointVector( void ) { return control_points; } //guess what!
   int getDimension( void ) { return dimension; } //returns dimension
   void getParameterInterval( double &minpar, double &maxpar ); //returns minimal and maximal parameter value
 
@@ -89,11 +90,11 @@ public:
   int write( std::ostream &outfile );
 
   //some REAL functionality
-  vec2d compute( double t, int &error ); // compute curve at parameter value t
+  Vec2d compute( double t, int &error ); // compute curve at parameter value t
   int insertKnot( double k ); // insert a new knot (recalculates control points and knotvector)
 
   // convert curve into Bezier form.
-  int makeBezier( bezier2dvector &beziers, dvector &pars );
+  int makeBezier( bezier2dvector &beziers, DCTPdvector &pars );
 };
 
 OSG_END_NAMESPACE

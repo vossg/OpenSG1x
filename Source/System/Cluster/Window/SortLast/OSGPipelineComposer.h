@@ -63,6 +63,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposer : public PipelineComposerBase
 
     typedef PipelineComposerBase       Inherited;
 
+    struct TileBuffer;
+    struct GroupInfo;
+    struct GroupInfoOrder;
+    friend struct TileBuffer;
+    friend struct GroupInfo;
+    friend struct GroupInfoOrder;
+
     /** \brief RGB Color value */
     struct RGBValue
     {
