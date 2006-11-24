@@ -1333,32 +1333,26 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                                       Geometry::IndexMappingFieldMask |
                                       Geometry::TexCoords1FieldMask );
                 {
-                   setTypes( pcl_type );
-                   setLengths( pcl_size );
-                   setIndices( pcl_indices );
-                   // FIXME:
-                   // When using multiple mapping OpenSG 
-                   // (or at least 1.2 Win binary)
-                   // always craches for unknown reason.
-                   // Since we use a single mapping anyway
-                   // (which is the default)
-                   // we don't need the following lines.
-                   //
-                   // The same goes for all the other
-                   // commented getIndexMapping() calls.
-                   // Look into this sometime.
-                   //
-                   // FIXME END.
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapNormal |
-                                                 Geometry::MapTexCoords |
-                                                 Geometry::MapTexCoords1 );*/
-                   setPositions( pcl_points );
-                   setNormals( pcl_norms );
-                   setTexCoords( pcl_tangents );
-                   setTexCoords1( pcl_texcoords );
-//                   std::cerr<<"setting stuph3 "<<std::endl;
+                    setTypes( pcl_type );
+                    setLengths( pcl_size );
+                    setIndices( pcl_indices );
+
+                    setPositions( pcl_points );
+                    setNormals( pcl_norms );
+                    setTexCoords( pcl_tangents );
+                    setTexCoords1( pcl_texcoords );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getNormals() != NullFC)
+                        im |= Geometry::MapNormal;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    if(getTexCoords1() != NullFC)
+                        im |= Geometry::MapTexCoords1;
+
+                    getIndexMapping( ).push_back(im);
+                    //                   std::cerr<<"setting stuph3 "<<std::endl;
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
                                     Geometry::LengthsFieldMask |
@@ -1383,13 +1377,19 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapNormal |
-                                                 Geometry::MapTexCoords1 );*/
+
                    setPositions( pcl_points );
                    setNormals( pcl_norms );
                    setTexCoords( pcl_tangents );
+                    
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getNormals() != NullFC)
+                        im |= Geometry::MapNormal;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    getIndexMapping( ).push_back(im);
+
 //                   std::cerr<<"setting stuph!"<<std::endl;
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
@@ -1417,14 +1417,19 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapTexCoords |
-                                                 Geometry::MapTexCoords1 );*/
+
                    setPositions( pcl_points );
                    setTexCoords( pcl_tangents );
                    setTexCoords1( pcl_texcoords );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    if(getTexCoords1() != NullFC)
+                        im |= Geometry::MapTexCoords1;
+                    getIndexMapping( ).push_back(im);
+
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
                                     Geometry::LengthsFieldMask |
@@ -1448,12 +1453,16 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapTexCoords1 );*/
+
                    setPositions( pcl_points );
                    setTexCoords( pcl_tangents );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    getIndexMapping( ).push_back(im);
+
 //                   std::cerr<<"setting stuph2"<<std::endl;
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
@@ -1483,14 +1492,19 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapNormal |
-                                                 Geometry::MapTexCoords );*/
+
                    setPositions( pcl_points );
                    setNormals( pcl_norms );
                    setTexCoords( pcl_texcoords );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getNormals() != NullFC)
+                        im |= Geometry::MapNormal;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    getIndexMapping( ).push_back(im);
+
 //                   std::cerr<<"setting stuph4"<<std::endl;
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
@@ -1513,12 +1527,15 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapNormal );*/
+
                    setPositions( pcl_points );
                    setNormals( pcl_norms );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getNormals() != NullFC)
+                        im |= Geometry::MapNormal;
+                    getIndexMapping( ).push_back(im);
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
                                     Geometry::LengthsFieldMask |
@@ -1542,12 +1559,15 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition |
-                                                 Geometry::MapTexCoords );*/
+
                    setPositions( pcl_points );
                    setTexCoords( pcl_texcoords );
+
+                    getIndexMapping().clear();
+                    UInt16 im = Geometry::MapPosition;
+                    if(getTexCoords() != NullFC)
+                        im |= Geometry::MapTexCoords;
+                    getIndexMapping( ).push_back(im);
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
                                     Geometry::LengthsFieldMask |
@@ -1567,10 +1587,10 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
                    setTypes( pcl_type );
                    setLengths( pcl_size );
                    setIndices( pcl_indices );
-                   // See FIXME above
-/*                 getIndexMapping().clear();
-                   getIndexMapping( ).push_back( Geometry::MapPosition  );*/
+
                    setPositions( pcl_points );
+                   getIndexMapping().clear();
+                   getIndexMapping().push_back( Geometry::MapPosition );
                 }
                 endEditCP( thisPtr, Geometry::TypesFieldMask |
                                     Geometry::LengthsFieldMask |
