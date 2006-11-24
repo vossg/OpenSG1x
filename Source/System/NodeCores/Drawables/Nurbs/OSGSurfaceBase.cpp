@@ -62,7 +62,7 @@
 #include "OSGSurface.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SurfaceBase::DimUFieldMask = 
     (TypeTraits<BitVector>::One << SurfaceBase::DimUFieldId);
@@ -245,7 +245,7 @@ FieldDescription *SurfaceBase::_desc[] =
     new FieldDescription(SFUInt32::getClassType(), 
                      "dirtyMask", 
                      DirtyMaskFieldId, DirtyMaskFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &SurfaceBase::getSFDirtyMask),
     new FieldDescription(SFInt32::getClassType(), 
                      "SurfaceGLId", 
@@ -800,6 +800,8 @@ void SurfaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -811,8 +813,6 @@ DataType FieldDataTraits<SurfacePtr>::_type("SurfacePtr", "GeometryPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SurfacePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -828,10 +828,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSURFACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSURFACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSURFACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 
