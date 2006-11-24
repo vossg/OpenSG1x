@@ -498,7 +498,7 @@ void OSGSceneView::init()
     QHBoxLayout *l = new QHBoxLayout(_fceditor_frame);
     l->addWidget(_fceditor);
 
-    connect(_fceditor, SIGNAL(valueChanged(UInt32, UInt32)), this, SLOT(editedFC()));
+    connect(_fceditor, SIGNAL(changeCommited(UInt32)), this, SLOT(editedFC()));
 }
 
 //////////////////////////////////////////////////////////////////
@@ -883,4 +883,3 @@ void OSGSceneView::editedFC(void)
 {
     updateGL();
 }
-

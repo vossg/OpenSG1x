@@ -168,6 +168,13 @@ QFieldContainerEditor::slotValueChanged(
 }
 
 void
+QFieldContainerEditor::slotChangeCommited(
+    QAbstractFieldEditor *pSender)
+{
+    emit changeCommited(pSender->getFieldId());
+}
+
+void
 QFieldContainerEditor::slotGenericRequest(
     QAbstractFieldEditor *pSender, UInt32 valueIndex, QString request)
 {
@@ -264,6 +271,12 @@ QFieldContainerEditor::populateTable(void)
                 SIGNAL(genericRequest    (QAbstractFieldEditor *, UInt32, QString)),
                 this,
                 SLOT  (slotGenericRequest(QAbstractFieldEditor *, UInt32, QString)) );
+
+            connect(
+                _editors[i - 1],
+                SIGNAL(changeCommited    (QAbstractFieldEditor *)),
+                this,
+                SLOT  (slotChangeCommited(QAbstractFieldEditor *)) );
         }
 
         _pTable->setText  (i - 1, FieldNameCol,
@@ -355,7 +368,7 @@ QFieldContainerEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.8 2005/12/03 10:18:55 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQFieldContainerEditor_qt.cpp,v 1.9 2006/11/24 13:54:26 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQFIELDCONTAINEREDITORQT_INLINE_CVSID;
 }

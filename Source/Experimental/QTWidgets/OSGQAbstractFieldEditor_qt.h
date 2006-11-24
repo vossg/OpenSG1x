@@ -81,6 +81,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QAbstractFieldEditor : public QWidget
     void genericRequest      (QAbstractFieldEditor *pSender, 
                               UInt32                valueIndex,
                               QString               request      );
+    void changeCommited      (QAbstractFieldEditor *pSender);
 
   public slots:
     virtual void setField        (FieldContainerPtr fcPtr,
@@ -119,7 +120,7 @@ OSG_END_NAMESPACE
 
 #include "OSGQAbstractFieldEditor_qt.inl"
 
-#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.3 2004/12/20 11:09:52 neumannc Exp $"
+#define OSGQABSTRACTFIELDEDITORQT_HEADER_CVSID "@(#)$Id: OSGQAbstractFieldEditor_qt.h,v 1.4 2006/11/24 13:54:26 a-m-z Exp $"
 
 #endif /* _OSGQABSTRACTFIELDEDITOR_QT_H_ */
 

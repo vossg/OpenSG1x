@@ -207,6 +207,8 @@ QSFieldEditor::slotButtonCommitClicked(void)
 
     writeField();
     readField ();
+
+    emit changeCommited(this);
 }
 
 void
@@ -276,7 +278,7 @@ QSFieldEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.7 2004/12/20 11:09:54 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQSFieldEditor_qt.cpp,v 1.8 2006/11/24 13:54:26 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQSFIELDEDITORQT_HEADER_CVSID;
 //    static Char8 cvsid_inl       [] = OSGQSFIELDEDITORQT_INLINE_CVSID;
 }

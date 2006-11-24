@@ -93,6 +93,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
   signals:
     void valueChanged  (UInt32 fieldId, UInt32 valueIndex                 );
     void genericRequest(UInt32 fieldId, UInt32 valueIndex, QString request);
+    void changeCommited(UInt32 fieldId                                    );
 
   public slots:
     virtual void setFieldContainer(FieldContainerPtr pFC      );
@@ -106,6 +107,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING QFieldContainerEditor : public QWidget
     virtual void slotGenericRequest(QAbstractFieldEditor *pSender,
                                     UInt32                valueIndex,
                                     QString               request     );
+    virtual void slotChangeCommited(QAbstractFieldEditor *pSender     );
 
   private slots:
     void slotButtonBackClicked(void);
@@ -159,6 +161,6 @@ OSG_END_NAMESPACE
 
 #include "OSGQFieldContainerEditor_qt.inl"
 
-#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.3 2004/12/20 11:09:52 neumannc Exp $";
+#define OSGQFIELDCONTAINEREDITORQT_HEADER_CVSID "@(#)$Id: OSGQFieldContainerEditor_qt.h,v 1.4 2006/11/24 13:54:26 a-m-z Exp $";
 
 #endif /* _OSGQFIELDCONTAINEREDITOR_QT_H_ */
