@@ -71,6 +71,8 @@ Name: "{group}\Tutorials\22 Shader"; Filename: "{app}\Tutorials\22Shader.exe"
 Name: "{group}\Tutorials\23 Video Texture Background"; Filename: "{app}\Tutorials\23videotexturebackground.exe"
 Name: "{group}\Tutorials\24 Advanced Shadows"; Filename: "{app}\Tutorials\24Shadows.exe"
 Name: "{group}\Tutorials\25 Occlusion Culling"; Filename: "{app}\Tutorials\25OcclusionCulling.exe"
+Name: "{group}\Tutorials\26 Geometry Shader"; Filename: "{app}\Tutorials\26GeometryShader.exe"
+Name: "{group}\Tutorials\27 Nurbs"; Filename: "{app}\Tutorials\27RationalSurface.exe"
 
 Name: "{group}\Uninstall"; Filename: "{app}\unins000.exe"
 

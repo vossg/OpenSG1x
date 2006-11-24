@@ -1,4 +1,4 @@
-// OpenSG NURBS example: testRationalSurfaceRender.cpp
+// OpenSG NURBS example: 27RationalSurface.cpp
 //
 // Shows how to render rational NURBS surfaces
 //
@@ -24,16 +24,16 @@
 // time so expect some delay when switching to the objects for
 // the first time.
 
-#include <OSGGLUT.h>
-#include <OSGConfig.h>
-#include <OSGSimpleSceneManager.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGGLUTWindow.h>
-#include <OSGSolidBackground.h>
-#include <OSGSurface.h>
-#include <OSGSwitch.h>
-#include <OSGCoredNodePtr.h>
-#include <OSGSceneFileHandler.h>
+#include <OpenSG/OSGGLUT.h>
+#include <OpenSG/OSGConfig.h>
+#include <OpenSG/OSGSimpleSceneManager.h>
+#include <OpenSG/OSGSimpleMaterial.h>
+#include <OpenSG/OSGGLUTWindow.h>
+#include <OpenSG/OSGSolidBackground.h>
+#include <OpenSG/OSGSurface.h>
+#include <OpenSG/OSGSwitch.h>
+#include <OpenSG/OSGCoredNodePtr.h>
+#include <OpenSG/OSGSceneFileHandler.h>
 
 OSG_USING_NAMESPACE
 
