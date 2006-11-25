@@ -103,8 +103,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
     void forceTessellate(void);
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
 
-
+    void setControlPoints       (const GeoPositionsPtr &value);
+    void setTextureControlPoints(const GeoTexCoordsPtr &value);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -182,6 +186,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
     void FindClosestPointExact( Vec3f& rDist, const Pnt3f viewPos ) const;
 
     void onCreate(const Surface *source = NULL);
+    void onDestroy(void);
 
     void handleGL(Window* win, UInt32 idstatus);
 

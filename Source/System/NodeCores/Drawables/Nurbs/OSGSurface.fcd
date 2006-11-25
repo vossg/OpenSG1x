@@ -148,6 +148,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="UInt32"
 		cardinality="single"
 		visibility="external"
+		defaultValue="0"
 		access="protected"
 	>
 	</Field>
@@ -156,6 +157,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="Int32"
 		cardinality="single"
 		visibility="internal"
+		defaultValue="0"
 		access="protected"
 	>
 	Surface GL Id, internal use.

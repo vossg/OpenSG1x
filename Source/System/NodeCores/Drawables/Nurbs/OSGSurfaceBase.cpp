@@ -348,8 +348,8 @@ SurfaceBase::SurfaceBase(void) :
     _mfCurvesPerLoop          (), 
     _sfIsDelaunay             (bool(false)), 
     _sfTextureControlPoints   (), 
-    _sfDirtyMask              (), 
-    _sfSurfaceGLId            (), 
+    _sfDirtyMask              (UInt32(0)), 
+    _sfSurfaceGLId            (Int32(0)), 
     Inherited() 
 {
 }

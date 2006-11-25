@@ -44,6 +44,70 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void Surface::setControlPoints(const GeoPositionsPtr &value)
+{
+    SurfacePtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfControlPoints.getValue() != NullFC)
+    {
+        beginEditCP(_sfControlPoints.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfControlPoints.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfControlPoints.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfControlPoints.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(ControlPointsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfControlPoints.setValue(value);
+}
+
+inline
+void Surface::setTextureControlPoints(const GeoTexCoordsPtr &value)
+{
+    SurfacePtr thisP(*this);
+
+    addRefCP(value);
+
+    if(_sfTextureControlPoints.getValue() != NullFC)
+    {
+        beginEditCP(_sfTextureControlPoints.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTextureControlPoints.getValue()->subParent(thisP);
+        }
+        endEditCP  (_sfTextureControlPoints.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTextureControlPoints.getValue());
+    }
+
+    if(value != NullFC)
+    {
+        thisP.setParentFieldPos(TextureControlPointsFieldId);
+
+        beginEditCP(value, Attachment::ParentsFieldMask);
+        {
+            value->addParent(thisP);
+        }
+        endEditCP  (value, Attachment::ParentsFieldMask);
+    }
+
+    _sfTextureControlPoints.setValue(value);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGSURFACE_INLINE_CVSID "@(#)$Id: OSGSurface.inl,v 1.2 2006-11-09 20:59:39 edhellon Exp $"

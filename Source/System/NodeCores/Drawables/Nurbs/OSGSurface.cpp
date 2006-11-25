@@ -212,6 +212,72 @@ void Surface::initMethod (void)
 
 void Surface::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & ControlPointsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                SurfacePtr thisP(*this);
+
+                if(_sfControlPoints.getValue()                    != NullFC &&
+                   _sfControlPoints.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoPositionsPtr pPos = _sfControlPoints.getValue();
+
+                    _sfControlPoints.setValue(NullFC);
+
+                    setControlPoints(pPos);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfControlPoints.getValue());
+            }
+            else
+            {
+                GeoPositionsPtr pPos = _sfControlPoints.getValue();
+
+                _sfControlPoints.setValue(NullFC);
+
+                setControlPoints(pPos);
+            }
+        }
+    }
+
+    if(whichField & TextureControlPointsFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrCheckValid)
+            {
+                SurfacePtr thisP(*this);
+
+                if(_sfTextureControlPoints.getValue()                    != NullFC &&
+                   _sfTextureControlPoints.getValue()->findParent(thisP) ==     -1 )
+                {
+                    GeoTexCoordsPtr pTexCoord = _sfTextureControlPoints.getValue();
+
+                    _sfTextureControlPoints.setValue(NullFC);
+
+                    setTextureControlPoints(pTexCoord);
+                }
+            }
+            else if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfTextureControlPoints.getValue());
+            }
+            else
+            {
+                GeoTexCoordsPtr pTexCoord = _sfTextureControlPoints.getValue();
+
+                _sfTextureControlPoints.setValue(NullFC);
+
+                setTextureControlPoints(pTexCoord);
+            }
+        }
+    }
+
     // only Client needs to tessellate / retessellate...
 //  if( ( origin & ChangedOrigin::Sync ) == 0 )
     {
@@ -230,7 +296,7 @@ void Surface::changed(BitVector whichField, UInt32 origin)
         {
 //          SLOG <<"OSGSurface::changed: have to re-tessellate..." << endLog;
             SurfacePtr tmpPtr(*this);
-            
+
             beginEditCP(tmpPtr, DirtyMaskFieldMask);
             {
                 getDirtyMask() |= TESSELLATE;
@@ -1852,9 +1918,7 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
         SurfacePtr tmpPtr(*this);
             
         beginEditCP(tmpPtr, ControlPointsFieldMask);
-        {
-            _sfControlPoints.setValue(pPos);
-        }
+            setControlPoints(pPos);
         endEditCP  (tmpPtr, ControlPointsFieldMask);
     }
     else
@@ -1949,9 +2013,7 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
             SurfacePtr tmpPtr(*this);
             
             beginEditCP(tmpPtr, TextureControlPointsFieldMask);
-            {
-                _sfTextureControlPoints.setValue(pTexPos);
-            }
+                setTextureControlPoints(pTexPos);
             endEditCP  (tmpPtr, TextureControlPointsFieldMask);
         }
         else
@@ -2069,28 +2131,65 @@ void Surface::onCreate(const Surface *source)
     // !!! this temporary is needed to work around compiler problems(sgi)
     // CHECK CHECK
     //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
-    SurfacePtr tmpPtr(*this);
-
-    beginEditCP(tmpPtr, Surface::GLIdFieldMask);
-
-    setSurfaceGLId(
-        Window::registerGLObject(
-            osgTypedMethodVoidFunctor2ObjCPtrPtr<SurfacePtr, 
-                                                 Window , 
-                                                 UInt32>(tmpPtr, 
-                                                         &Surface::handleGL),
-            1));
-
-    endEditCP(tmpPtr, Surface::GLIdFieldMask);
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        SurfacePtr tmpPtr(*this);
+    
+        beginEditCP(tmpPtr, Surface::SurfaceGLIdFieldMask);
+    
+        setSurfaceGLId(
+            Window::registerGLObject(
+                osgTypedMethodVoidFunctor2ObjCPtrPtr<SurfacePtr, 
+                                                     Window , 
+                                                     UInt32>(tmpPtr, 
+                                                             &Surface::handleGL),
+                1));
+    
+        endEditCP(tmpPtr, Surface::SurfaceGLIdFieldMask);
+    }
 
     Inherited::onCreate(source);
+}
+
+void Surface::onDestroy(void)
+{
+    Inherited::onDestroy();
+
+    SurfacePtr thisP(*this);
+
+    if(_sfControlPoints.getValue() != NullFC)
+    {
+        beginEditCP(_sfControlPoints.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfControlPoints.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfControlPoints.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfControlPoints.getValue());
+    }
+
+    if(_sfTextureControlPoints.getValue() != NullFC)
+    {
+        beginEditCP(_sfTextureControlPoints.getValue(), Attachment::ParentsFieldMask);
+        {
+            _sfTextureControlPoints.getValue()->subParent(thisP);
+        }
+        endEditCP(_sfTextureControlPoints.getValue(), Attachment::ParentsFieldMask);
+
+        subRefCP(_sfTextureControlPoints.getValue());
+    }
+
+    if(getSurfaceGLId() > 0)
+    {
+        Window::destroyGLObject(getSurfaceGLId(), 1);
+    }
 }
 
 void Surface::handleGL(Window*, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
-   
+
     Window::unpackIdStatus(idstatus, id, mode);
 
     if(mode == Window::initialize  || 
@@ -2109,14 +2208,12 @@ void Surface::handleGL(Window*, UInt32 idstatus)
             }
 
             SurfacePtr tmpPtr(*this);
-    
             beginEditCP(tmpPtr, DirtyMaskFieldMask);
             {
                 getDirtyMask() &= ~(TESSELLATE | RETESSELLATE);
             }
             endEditCP  (tmpPtr, DirtyMaskFieldMask);
-
-        } 
+        }
     }
 }
 
@@ -2211,7 +2308,7 @@ void Surface::forceTessellate(void)
     endEditCP  (tmpPtr, DirtyMaskFieldMask);
 }
 
-Action::ResultE Surface::drawPrimitives(DrawActionBase * action)
+Action::ResultE Surface::drawPrimitives(DrawActionBase *action)
 {
     action->getWindow()->validateGLObject(getSurfaceGLId());
 
