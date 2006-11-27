@@ -346,12 +346,18 @@ bool osgInit(Int32, Char8 **, UInt16 major, UInt16 minor, UInt16 release,
         }
     }
 
+#ifdef WIN32
+    std::string pathSep(";");
+#else
+    std::string pathSep(":");
+#endif
+
     char *szEnvLibs = getenv("OSG_LOAD_LIBS");
 
     if(szEnvLibs != NULL)
     {
         std::string tmpString(szEnvLibs);
-        string_token_iterator libIt(tmpString, ":");
+        string_token_iterator libIt(tmpString, pathSep.c_str());
 
         string_token_iterator libEnd;
 
