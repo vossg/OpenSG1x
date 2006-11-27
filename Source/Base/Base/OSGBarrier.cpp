@@ -214,11 +214,13 @@ WinThreadBarrierBase::~WinThreadBarrierBase(void)
 
 bool WinThreadBarrierBase::init(void)
 {
-    Char8 *pTmp;
+    Char8 *pTmp = NULL;
 
-    pTmp = new Char8[strlen(_szName) + 5];
-
-    sprintf(pTmp, "%sM1", _szName);
+    if(_szName != NULL)
+    {
+        pTmp = new Char8[strlen(_szName) + 5];
+        sprintf(pTmp, "%sM1", _szName);
+    }
 
     _pMutex1 = CreateMutex(NULL,   // no security attributes
                            FALSE,  // initially not owned
@@ -230,7 +232,8 @@ bool WinThreadBarrierBase::init(void)
         return false;
     }
 
-    sprintf(pTmp, "%sS", _szName);
+    if(_szName != NULL)
+        sprintf(pTmp, "%sS", _szName);
 
     _pBarrierSema = CreateSemaphore(NULL, 0, 42, pTmp);
 
