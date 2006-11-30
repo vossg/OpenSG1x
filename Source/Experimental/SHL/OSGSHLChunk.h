@@ -296,6 +296,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateInvWorldMatrix    (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
+    static void updateTransInvWorldMatrix(const ShaderParameterPtr &parameter,
+                                         DrawActionBase *action, GLuint program);
     static void updateCameraOrientation (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
     static void updateCameraPosition    (const ShaderParameterPtr &parameter,
@@ -346,6 +348,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.31 2006/11/22 15:33:02 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.32 2006/11/30 16:37:22 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

@@ -955,6 +955,13 @@ void SHLChunk::checkOSGParameters(bool force)
                 _osgParametersCallbacks.push_back(
                     std::make_pair(std::make_pair(oldfp, fp), parameter));
             }
+            else if(parameter->getName() == "OSGTransInvWorldMatrix")
+            {
+                parametercbfp oldfp = NULL;
+                osgparametercbfp fp = updateTransInvWorldMatrix;
+                _osgParametersCallbacks.push_back(
+                    std::make_pair(std::make_pair(oldfp, fp), parameter));
+            }
             else if(parameter->getName() == "OSGCameraOrientation")
             {
                 parametercbfp oldfp = NULL;
@@ -1260,6 +1267,34 @@ void SHLChunk::updateInvWorldMatrix(const ShaderParameterPtr &parameter,
     if(ra != NULL)
         m = ra->top_matrix();
     m.invert();
+
+    // get "glUniformMatrix4fvARB" function pointer
+    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
+        action->getWindow()->getFunction(_funcUniformMatrix4fv);
+    if(parameter->getLocation() == -1)
+        updateParameterLocation(action->getWindow(), program, parameter);
+    if(parameter->getLocation() != -1)
+        uniformMatrix4fv(parameter->getLocation(), 1, GL_FALSE, m.getValues());
+}
+
+void SHLChunk::updateTransInvWorldMatrix(const ShaderParameterPtr &parameter,
+                                   DrawActionBase *action, GLuint program)
+{
+    // this parameter needs to be updated for each object because it
+    // is dependend from the object transformation!
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateTransInvWorldMatrix : Can't update OSGTransInvWorldMatrix"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    Matrix m;
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+    if(ra != NULL)
+        m = ra->top_matrix();
+    m.invert();
+    m.transpose();
 
     // get "glUniformMatrix4fvARB" function pointer
     OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
@@ -1720,7 +1755,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.55 2006/11/22 15:33:02 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.56 2006/11/30 16:37:22 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
