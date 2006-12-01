@@ -268,30 +268,6 @@ static std::string _pcss_shadow_fp =
     "	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
     "}\n";
 
-static std::string _pcss_shadow_combine_vp =
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    texCoord = gl_MultiTexCoord0.xy;\n"
-    "    gl_Position = ftransform();\n"
-    "}\n";
-
-static std::string _pcss_shadow_combine_fp =
-    "uniform sampler2D colorMap;\n"
-    "uniform sampler2D shadowFactorMap;\n"
-    "uniform float xFactor;\n"
-    "uniform float yFactor;\n"
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
-    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
-    "    color *= 1.0 - texture2D(shadowFactorMap, tc).r;\n"
-    "    gl_FragColor = vec4(color, 1.0);\n"
-    "}\n";
-
 PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     TreeRenderer(source),
     _tiledeco(NullFC),
@@ -302,7 +278,6 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     _shadowCmat(NullFC),
     _shadowSHL(NullFC),
     _combineSHL(NullFC),
-    _unlitMat(NullFC),
     _pf(NullFC),
     _firstRun(1),
     _width(1),
@@ -403,8 +378,8 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     beginEditCP(_combineSHL);
     //_combineSHL->readVertexProgram("PCSS_Shadow_combine.vert");
     //_combineSHL->readFragmentProgram("PCSS_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_pcss_shadow_combine_vp);
-    _combineSHL->setFragmentProgram(_pcss_shadow_combine_fp);
+    _combineSHL->setVertexProgram(_shadow_combine_vp);
+    _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
     //Shadow Shader
@@ -417,11 +392,6 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
     endEditCP(_combineCmat);
-
-    _unlitMat = SimpleMaterial::create();
-    beginEditCP(_unlitMat);
-    _unlitMat->setLit(false);
-    endEditCP(_unlitMat);
 
     _pf = PolygonForeground::create();
     beginEditCP(_pf);
@@ -449,7 +419,6 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     addRefCP(_shadowCmat);
     addRefCP(_combineSHL);
     addRefCP(_combineCmat);
-    addRefCP(_unlitMat);
     addRefCP(_pf);
 }
 
@@ -464,7 +433,6 @@ PCSSShadowMap::~PCSSShadowMap(void)
     subRefCP(_shadowCmat);
     subRefCP(_combineSHL);
     subRefCP(_combineCmat);
-    subRefCP(_unlitMat);
     subRefCP(_pf);
 
     if(_fb != 0)
@@ -690,10 +658,12 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase *action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -785,8 +755,8 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -833,10 +803,12 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase *action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -895,8 +867,8 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -924,6 +896,9 @@ void PCSSShadowMap::createColorMap(RenderActionBase *action)
     _shadowVP->getBackground()->clear(action, _shadowVP);
 
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
 
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
@@ -954,6 +929,9 @@ void PCSSShadowMap::createColorMapFBO(RenderActionBase *action)
 
     _shadowVP->getBackground()->clear(action, _shadowVP);
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	
@@ -1211,6 +1189,7 @@ void PCSSShadowMap::drawCombineMap(RenderActionBase *action)
     _combineSHL->setUniformParameter("shadowFactorMap", 1);
     _combineSHL->setUniformParameter("xFactor", Real32(xFactor));
     _combineSHL->setUniformParameter("yFactor", Real32(yFactor));
+    _combineSHL->setUniformParameter("hasFactorMap", hasFactorMap());
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     //draw the Scene
@@ -1337,9 +1316,9 @@ void PCSSShadowMap::render(RenderActionBase *action)
                     if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
                        _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                     {
-                        if(_useFBO && _useNPOTTextures)
-                            createShadowFactorMapFBO(action, i);
-                        else
+                        //if(_useFBO && _useNPOTTextures)
+                        //    createShadowFactorMapFBO(action, i);
+                        //else
                             createShadowFactorMap(action, i);
                         //_firstRun = 0;
                     }
@@ -1371,9 +1350,9 @@ void PCSSShadowMap::render(RenderActionBase *action)
                         if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
                            _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                         {
-                            if(_useFBO && _useNPOTTextures)
-                                createShadowFactorMapFBO(action, i);
-                            else
+                            //if(_useFBO && _useNPOTTextures)
+                            //    createShadowFactorMapFBO(action, i);
+                            //else
                                 createShadowFactorMap(action, i);
                         }
                     }

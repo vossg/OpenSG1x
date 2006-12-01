@@ -93,7 +93,6 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
     SHLChunkPtr             _shadowSHL6;
     SHLChunkPtr             _shadowSHL7;
     SHLChunkPtr             _combineSHL;
-    SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     UInt32                  _width;

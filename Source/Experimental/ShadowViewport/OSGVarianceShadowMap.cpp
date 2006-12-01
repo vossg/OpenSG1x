@@ -263,31 +263,6 @@ static std::string _variance_fp =
     "	gl_FragColor = vec4(shadowed,0.0,0.0,1.0);\n"
     "}\n";
 
-static std::string _variance_combine_vp =
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    texCoord = gl_MultiTexCoord0.xy;\n"
-    "    gl_Position = ftransform();\n"
-    "}\n";
-
-static std::string _variance_combine_fp =
-    "uniform sampler2D colorMap;\n"
-    "uniform sampler2D shadowFactorMap;\n"
-    "uniform float xFactor;\n"
-    "uniform float yFactor;\n"
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
-    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
-    "    color *= 1.0 - texture2D(shadowFactorMap, tc).r;\n"
-    "    gl_FragColor = vec4(color, 1.0);\n"
-    "}\n";
-
-
 VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     TreeRenderer(source),
     _tiledeco(NullFC),
@@ -404,8 +379,8 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     beginEditCP(_combineSHL);
     //_combineSHL->readVertexProgram("Variance_Shadow_combine.vert");
     //_combineSHL->readFragmentProgram("Variance_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_variance_combine_vp);
-    _combineSHL->setFragmentProgram(_variance_combine_fp);
+    _combineSHL->setVertexProgram(_shadow_combine_vp);
+    _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
     _shadowCmat = ChunkMaterial::create();
@@ -732,10 +707,12 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     _shadowVP->setVPSize(0, 0, mSize - 1, mSize - 1);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // activate exclude nodes:
@@ -878,8 +855,8 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -900,6 +877,9 @@ void VarianceShadowMap::createColorMap(RenderActionBase *action)
     _shadowVP->getBackground()->clear(action, _shadowVP);
 
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
 
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
@@ -929,6 +909,9 @@ void VarianceShadowMap::createColorMapFBO(RenderActionBase *action)
 
     _shadowVP->getBackground()->clear(action, _shadowVP);
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -1335,6 +1318,7 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase *action)
     _combineSHL->setUniformParameter("shadowFactorMap", 1);
     _combineSHL->setUniformParameter("xFactor", Real32(xFactor));
     _combineSHL->setUniformParameter("yFactor", Real32(yFactor));
+    _combineSHL->setUniformParameter("hasFactorMap", hasFactorMap());
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     //draw the Scene

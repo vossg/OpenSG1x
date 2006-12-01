@@ -2050,6 +2050,9 @@ bool RenderAction::getCorrectTwoSidedLighting(void) const
 
 void RenderAction::setOcclusionCulling(bool bVal)
 {
+    if(_bOcclusionCulling == bVal)
+        return;
+
     deleteOcclusionQueriesPool();
     _bOcclusionCulling = bVal;
 }
@@ -2061,6 +2064,9 @@ bool RenderAction::getOcclusionCulling(void) const
 
 void RenderAction::setOcclusionCullingMode(Int32 mode)
 {
+    if(_occlusionCullingMode == mode)
+        return;
+
     deleteOcclusionQueriesPool();
     _occlusionCullingMode = mode;
 }

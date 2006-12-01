@@ -70,7 +70,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCSSShadowMap : public TreeRenderer
     SHLChunkPtr             _shadowSHL;
     SHLChunkPtr             _combineSHL;
     ChunkMaterialPtr        _combineCmat;
-    SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     UInt32                  _width;

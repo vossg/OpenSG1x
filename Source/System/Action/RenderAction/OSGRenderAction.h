@@ -239,7 +239,13 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     // visibility levels
     bool  pushVisibility(void);
     void  popVisibility(void);
-    
+
+    void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
+    void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);
+    void (OSG_APIENTRY* _glBeginQueryARB)(GLenum, GLuint);
+    void (OSG_APIENTRY* _glEndQueryARB)(GLenum);
+    void (OSG_APIENTRY* _glGetQueryObjectuivARB)(GLuint, GLenum, GLuint*);
+
   protected:
 
     //-----------------------------------------------------------------------
@@ -342,12 +348,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<GLuint> _occlusionQueriesPool;
     std::map<UInt32, GLuint> _occlusionQueries;
 
-    void (OSG_APIENTRY* _glGenQueriesARB)(GLsizei, GLuint*);
-    void (OSG_APIENTRY* _glDeleteQueriesARB)(GLsizei, GLuint*);
-    void (OSG_APIENTRY* _glBeginQueryARB)(GLenum, GLuint);
-    void (OSG_APIENTRY* _glEndQueryARB)(GLenum);
-    void (OSG_APIENTRY* _glGetQueryObjectuivARB)(GLuint, GLenum, GLuint*);
-
     Int32 _cgChunkId;
     Int32 _cgfxChunkId;
     Int32 _shlChunkId;
@@ -400,6 +400,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     //-----------------------------------------------------------------------
     //   friend classes                                                      
     //-----------------------------------------------------------------------
+
+    friend class ShadowViewport;
 
     //-----------------------------------------------------------------------
     //   friend functions                                                    

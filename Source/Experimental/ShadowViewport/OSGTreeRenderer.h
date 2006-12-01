@@ -21,6 +21,7 @@
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
+#include <OSGSimpleMaterial.h>
 
 OSG_BEGIN_NAMESPACE
 
@@ -37,6 +38,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     virtual ~TreeRenderer(void);
     
     virtual void render(RenderActionBase *action)=0;
+    Material *getUnlitMaterial(void);
 
     typedef void (OSG_APIENTRY * OSGGLDRAWBUFFERSARBPROC)
         (GLsizei n, const GLenum* bufs);
@@ -119,6 +121,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     static UInt32 _funcIsRenderbuffer;
     static UInt32 _funcRenderbufferStorage;
 
+    static std::string _shadow_combine_vp;
+    static std::string _shadow_combine_fp;
+
     // reference to parent
     ShadowViewport *_shadowVP;
 
@@ -131,8 +136,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer
     UInt32 _PLMapSize;
     UInt32 _maxTexSize;
     CameraPtr _combine_camera;
+    SimpleMaterialPtr _unlitMat;
 
     void initialize(Window *win);
+    bool hasFactorMap(void);
 
 private:
 

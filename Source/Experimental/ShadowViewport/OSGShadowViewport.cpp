@@ -62,6 +62,7 @@
 #include "OSGPCFShadowMap.h"
 #include "OSGPCSSShadowMap.h"
 #include "OSGVarianceShadowMap.h"
+#include "OSGRenderAction.h"
 
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
@@ -1327,6 +1328,8 @@ void ShadowViewport::renderLight(RenderActionBase *action, Material *mat, UInt32
 
         // ok we render only one unlit material for the whole scene in this pass.
         action->setMaterial(mat, _light_render_transform);
+
+        // disable color mask we only need the depth values!
         action->apply(_light_render_transform);
 
         beginEditCP(parent, Node::ChildrenFieldMask);
@@ -1351,6 +1354,76 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
     return _lights[index].first;
 }
 
+void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
+{
+    RenderAction *ract = dynamic_cast<RenderAction *>(action);
+
+    if(ract == NULL)
+        return;
+
+    for(UInt32 i = 0;i < _lights.size();i++)
+    {
+        NodePtr node = _lights[i].first;
+
+        // now make a occlusion test for all light sources.
+        bool occluded = false;
+
+        if(ract->_glGenQueriesARB != NULL) // occlusion queries supported?
+        {
+            Matrix view;
+            if(ract->getCamera() != NULL)
+            {
+                ract->getCamera()->getViewing(view,
+                                    ract->getViewport()->getPixelWidth (),
+                                    ract->getViewport()->getPixelHeight());
+            }
+
+            DynamicVolume vol = node->getVolume();
+            Matrix m = view;
+            if(node->getParent() != NullFC)
+                m.mult(node->getParent()->getToWorld());
+            vol.transform(m);
+
+            // ignore objects behind the camera.
+            if(vol.getMax()[2] < 0.0f)
+            {
+                glDepthMask(GL_FALSE);
+                glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+    
+                if(ract->_occlusionQuery == 0)
+                    ract->_glGenQueriesARB(1, &ract->_occlusionQuery);
+    
+                const DynamicVolume& vol = node->getVolume();
+                Pnt3f min,max;
+                vol.getBounds(min, max);
+    
+                ract->_glBeginQueryARB(GL_SAMPLES_PASSED_ARB, ract->_occlusionQuery);
+                ract->drawOcclusionBB(min, max);
+                ract->_glEndQueryARB(GL_SAMPLES_PASSED_ARB);
+    
+                glDepthMask(GL_TRUE);
+                glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+    
+                GLuint pixels = 0;
+                ract->_glGetQueryObjectuivARB(ract->_occlusionQuery, GL_QUERY_RESULT_ARB, &pixels);
+    
+                occluded = (pixels == 0);
+            }
+        }
+
+        if(occluded)
+        {
+            _lightStates[i] = 0;
+        }
+        else
+        {
+            _lightStates[i] = (_lights[i].second->getOn() ? 1 : 0);
+        }
+    }
+
+    //updateLights();
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -1365,7 +1438,7 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.25 2006/11/21 12:28:58 mroth Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.26 2006/12/01 18:12:43 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

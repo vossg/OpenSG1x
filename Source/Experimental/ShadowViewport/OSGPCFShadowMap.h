@@ -79,7 +79,6 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     SHLChunkPtr             _shadowCubeSHL;
     SHLChunkPtr             _combineSHL;
     ChunkMaterialPtr        _combineCmat;
-    SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     Matrix                  _transforms[6];

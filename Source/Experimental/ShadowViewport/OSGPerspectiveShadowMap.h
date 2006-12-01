@@ -110,7 +110,6 @@ private:
     SHLChunkPtr             _shadowSHL6;
     SHLChunkPtr             _shadowSHL7;
     SHLChunkPtr             _combineSHL;
-    SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
 
     UInt32                  _width;

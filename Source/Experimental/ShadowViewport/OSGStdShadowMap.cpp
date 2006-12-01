@@ -753,30 +753,6 @@ static std::string _std_shadowCube_fp =
     "	gl_FragColor = vec4(shadowed,0.5,0.0,1.0);\n"
     "}\n";
 
-static std::string _std_shadowCombine_vp =
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    texCoord = gl_MultiTexCoord0.xy;\n"
-    "    gl_Position = ftransform();\n"
-    "}\n";
-
-static std::string _std_shadowCombine_fp =
-    "uniform sampler2D colorMap;\n"
-    "uniform sampler2D shadowFactorMap;\n"
-    "uniform float xFactor;\n"
-    "uniform float yFactor;\n"
-    "varying vec2 texCoord;\n"
-    "\n"
-    "void main(void)\n"
-    "{\n"
-    "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
-    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
-    "    color *= 1.0 - texture2D(shadowFactorMap, tc).r;\n"
-    "    gl_FragColor = vec4(color, 1.0);\n"
-    "}\n";
-
 StdShadowMap::StdShadowMap(ShadowViewport *source) :
     TreeRenderer(source),
     _fb(0),
@@ -804,7 +780,6 @@ StdShadowMap::StdShadowMap(ShadowViewport *source) :
     _shadowSHL6(NullFC),
     _shadowSHL7(NullFC),
     _combineSHL(NullFC),
-    _unlitMat(NullFC),
     _pf(NullFC),
     _firstRun(1),
     _width(1),
@@ -983,8 +958,8 @@ StdShadowMap::StdShadowMap(ShadowViewport *source) :
     beginEditCP(_combineSHL);
     //_combineSHL->readVertexProgram("Std_Shadow_combine.vert");
     //_combineSHL->readFragmentProgram("Std_Shadow_combine.frag");
-    _combineSHL->setVertexProgram(_std_shadowCombine_vp);
-    _combineSHL->setFragmentProgram(_std_shadowCombine_fp);
+    _combineSHL->setVertexProgram(_shadow_combine_vp);
+    _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
     //SHL Chunk 3
@@ -997,11 +972,6 @@ StdShadowMap::StdShadowMap(ShadowViewport *source) :
     endEditCP(_shadowCubeSHL);
 
     _shadowCmat = ChunkMaterial::create();
-
-    _unlitMat = SimpleMaterial::create();
-    beginEditCP(_unlitMat);
-    _unlitMat->setLit(false);
-    endEditCP(_unlitMat);
 
     //Combine Shader
     _combineCmat = ChunkMaterial::create();
@@ -1072,7 +1042,6 @@ StdShadowMap::StdShadowMap(ShadowViewport *source) :
     addRefCP(_shadowSHL7);
     addRefCP(_combineSHL);
     addRefCP(_shadowCubeSHL);
-    addRefCP(_unlitMat);
     addRefCP(_pf);
 }
 
@@ -1096,7 +1065,6 @@ StdShadowMap::~StdShadowMap(void)
     subRefCP(_shadowCubeSHL);
     subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
-    subRefCP(_unlitMat);
     subRefCP(_pf);
 
     if(_fb != 0)
@@ -1346,10 +1314,12 @@ void StdShadowMap::createShadowMapsNOGLSL(RenderActionBase *action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -1436,8 +1406,8 @@ void StdShadowMap::createShadowMapsNOGLSL(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -1495,10 +1465,12 @@ void StdShadowMap::createShadowMaps(RenderActionBase *action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -1721,8 +1693,8 @@ void StdShadowMap::createShadowMaps(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -1761,10 +1733,12 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase *action)
     glDepthMask(GL_TRUE);
 
     // disable all lights more speed
+    std::vector<bool> lightStates;
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(false);
+        // store old states.
+        lightStates.push_back(_shadowVP->_lights[i].second->getOn());
+        _shadowVP->_lights[i].second->setOn(false);
     }
 
     // deactivate exclude nodes:
@@ -1920,8 +1894,8 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase *action)
     // enable all lights.
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
     {
-        if(_shadowVP->_lightStates[i] != 0)
-            _shadowVP->_lights[i].second->setOn(true);
+        // restore old states.
+        _shadowVP->_lights[i].second->setOn(lightStates[i]);
     }
 
     // activate exclude nodes:
@@ -2161,6 +2135,10 @@ void StdShadowMap::createColorMap(RenderActionBase *action)
     glDisable(GL_SCISSOR_TEST);
 
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
+
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
     glBindTexture(GL_TEXTURE_2D,
@@ -2202,6 +2180,9 @@ void StdShadowMap::createColorMapFBO(RenderActionBase *action)
     glDisable(GL_SCISSOR_TEST);
 
     action->apply(_shadowVP->getRoot());
+
+    // disable occluded lights.
+    _shadowVP->checkLightsOcclusion(action);
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -3708,6 +3689,7 @@ void StdShadowMap::drawCombineMap(RenderActionBase *action)
     _combineSHL->setUniformParameter("shadowFactorMap", 1);
     _combineSHL->setUniformParameter("xFactor", Real32(xFactor));
     _combineSHL->setUniformParameter("yFactor", Real32(yFactor));
+    _combineSHL->setUniformParameter("hasFactorMap", hasFactorMap());
     endEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
 
     // glViewport is called in the render action but we don't use the renderaction here!
@@ -3881,9 +3863,9 @@ void StdShadowMap::render(RenderActionBase *action)
                 else
                     createShadowMaps(action);
 
-                if(_useFBO && _useNPOTTextures)
-                    createShadowFactorMapFBO(action);
-                else
+                //if(_useFBO && _useNPOTTextures)
+                //    createShadowFactorMapFBO(action);
+                //else
                     createShadowFactorMap(action);
             }
             else
@@ -3904,9 +3886,9 @@ void StdShadowMap::render(RenderActionBase *action)
                     else
                         createShadowMaps(action);
 
-                    if(_useFBO && _useNPOTTextures)
-                        createShadowFactorMapFBO(action);
-                    else
+                    //if(_useFBO && _useNPOTTextures)
+                    //    createShadowFactorMapFBO(action);
+                    //else
                         createShadowFactorMap(action);
                     _shadowVP->_trigger_update = false;
                 }

@@ -79,7 +79,6 @@ public:
     SHLChunkPtr             _shadowSHL4;
     SHLChunkPtr             _shadowCubeSHL;
     SHLChunkPtr             _combineSHL;
-    SimpleMaterialPtr       _unlitMat;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     UInt32                  _width;

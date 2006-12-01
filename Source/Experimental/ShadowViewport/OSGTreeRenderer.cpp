@@ -93,6 +93,31 @@ UInt32 TreeRenderer::_funcIsFramebuffer =                       Window::invalidF
 UInt32 TreeRenderer::_funcIsRenderbuffer =                      Window::invalidFunctionID;
 UInt32 TreeRenderer::_funcRenderbufferStorage =                 Window::invalidFunctionID;
 
+std::string TreeRenderer::_shadow_combine_vp =
+    "varying vec2 texCoord;\n"
+    "\n"
+    "void main(void)\n"
+    "{\n"
+    "    texCoord = gl_MultiTexCoord0.xy;\n"
+    "    gl_Position = ftransform();\n"
+    "}\n";
+
+std::string TreeRenderer::_shadow_combine_fp =
+    "uniform sampler2D colorMap;\n"
+    "uniform sampler2D shadowFactorMap;\n"
+    "uniform float xFactor;\n"
+    "uniform float yFactor;\n"
+    "uniform bool hasFactorMap;\n"
+    "varying vec2 texCoord;\n"
+    "\n"
+    "void main(void)\n"
+    "{\n"
+    "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
+    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
+    "    color *= hasFactorMap ? (1.0 - texture2D(shadowFactorMap, tc).r) : 1.0;\n"
+    "    gl_FragColor = vec4(color, 1.0);\n"
+    "}\n";
+
 TreeRenderer::TreeRenderer(ShadowViewport *source) :
     _initDone(false),
     _shadowVP(source),
@@ -104,7 +129,8 @@ TreeRenderer::TreeRenderer(ShadowViewport *source) :
     _maxPLMapSize(0),
     _PLMapSize(1),
     _maxTexSize(0),
-    _combine_camera(NullFC)
+    _combine_camera(NullFC),
+    _unlitMat(NullFC)
 {
     GLint   max_tex_size = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_tex_size);
@@ -195,12 +221,19 @@ TreeRenderer::TreeRenderer(ShadowViewport *source) :
 
     _combine_camera = PerspectiveCamera::create();
     addRefCP(_combine_camera);
+
+    _unlitMat = SimpleMaterial::create();
+    addRefCP(_unlitMat);
+    beginEditCP(_unlitMat);
+    _unlitMat->setLit(false);
+    endEditCP(_unlitMat);
 }
 
 
 TreeRenderer::~TreeRenderer(void)
 {
     subRefCP(_combine_camera);
+    subRefCP(_unlitMat);
 }
 
 void TreeRenderer::initialize(Window *win)
@@ -421,4 +454,21 @@ void TreeRenderer::initialize(Window *win)
     }
 }
 
+Material *TreeRenderer::getUnlitMaterial(void)
+{
+    return _unlitMat.getCPtr();
+}
 
+bool TreeRenderer::hasFactorMap(void)
+{
+    for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
+    {
+        if(_shadowVP->_lightStates[i] != 0 &&
+           _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
