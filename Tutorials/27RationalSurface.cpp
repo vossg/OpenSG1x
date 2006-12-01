@@ -34,11 +34,13 @@
 #include <OpenSG/OSGSwitch.h>
 #include <OpenSG/OSGCoredNodePtr.h>
 #include <OpenSG/OSGSceneFileHandler.h>
+#include <OpenSG/OSGFatBorderChunk.h>
 
 OSG_USING_NAMESPACE
 
 SimpleSceneManager *g_mgr = NULL;
 NodePtr             g_scene = NullFC;
+FatBorderChunkPtr   g_fb_chunk = NullFC;
 
 // redraw the window
 void display(void)
@@ -112,6 +114,11 @@ void keyboard(unsigned char k, int, int)
                 setModel(2);
                 break;
     case 'o':   SceneFileHandler::the().write(g_scene, "out.osb");
+                break;
+    case 'f':   beginEditCP(g_fb_chunk, FatBorderChunk::IgnoreFieldMask);
+                    g_fb_chunk->setIgnore(!g_fb_chunk->getIgnore());
+                endEditCP(g_fb_chunk, FatBorderChunk::IgnoreFieldMask);
+                printf("%s FatBorder rendering.\n", g_fb_chunk->getIgnore() ? "Disabled" : "Enabled");
                 break;
     default:    break;
     }
@@ -227,6 +234,7 @@ NodePtr makeTeapot()
         teapotmat->setEmission( Color3f(0.02, 0.02, 0.02) );
         teapotmat->setSpecular( Color3f(0.78, 0.78, 0.78) );
         teapotmat->setShininess( 128 );
+        teapotmat->addChunk(g_fb_chunk);
     }
     endEditCP(teapotmat); 
     NodePtr teapotroot = makeCoredNode<Group>();
@@ -449,6 +457,7 @@ NodePtr makeTorus()
         torusmat->setEmission( Color3f(0.02, 0.02, 0.02) );
         torusmat->setSpecular( Color3f(0.78, 0.78, 0.78) );
         torusmat->setShininess( 128 );
+        torusmat->addChunk(g_fb_chunk);
     }
     endEditCP(torusmat); 
     float knots_circle[8] = {0, 0, 0, 0.5, 0.5, 1, 1, 1};
@@ -500,6 +509,7 @@ NodePtr makeTrimmedCylinder()
         cylmat->setEmission( Color3f(0.02, 0.02, 0.02) );
         cylmat->setSpecular( Color3f(0.78, 0.78, 0.78) );
         cylmat->setShininess( 128 );
+        cylmat->addChunk(g_fb_chunk);
     }
     endEditCP(cylmat);
     float knots4[4] = {0, 0, 1, 1};
@@ -549,6 +559,12 @@ NodePtr makeTrimmedCylinder()
 }
 NodePtr makeScene()
 {
+    g_fb_chunk = FatBorderChunk::create();
+    beginEditCP(g_fb_chunk);
+        g_fb_chunk->activateWithStandardLighting();
+        g_fb_chunk->setIgnore(true);
+    endEditCP(g_fb_chunk);
+
     NodePtr root = makeCoredNode<Switch>();
     beginEditCP(root);
     root->addChild(makeTeapot());
@@ -562,6 +578,7 @@ int main(int argc, char **argv)
 {
     printf("Press the keys '1', '2' and '3' in order to switch between "
            "the different example objects.\n");
+    printf("Press key 'f' to toggle FatBorder rendering.\n");
 
     osgInit(argc,argv);
     // GLUT init
@@ -588,6 +605,7 @@ int main(int argc, char **argv)
     // create the scene
 //    NodePtr scene;
     g_scene = makeScene( );
+
     setModel(0);
 //    scene = makeTeapot( );
     
