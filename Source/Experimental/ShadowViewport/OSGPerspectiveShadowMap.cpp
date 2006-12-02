@@ -23,6 +23,8 @@
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
 
+//#define USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
 #   define GL_CLAMP_TO_EDGE    0x812F
@@ -1024,10 +1026,12 @@ PerspectiveShadowMap::~PerspectiveShadowMap(void)
     subRefCP(_pf);
     subRefCP(_matrixCam2);
 
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
     if(_rb_depth != 0)
         glDeleteRenderbuffersEXT(1, &_rb_depth);
+#endif
     if(_fb2 != 0)
         glDeleteFramebuffersEXT(1, &_fb2);
 }
@@ -1093,9 +1097,10 @@ bool PerspectiveShadowMap::initFBO(Window *win)
         if(width <= 0 || height <= 0)
             return false;
 
-        if(_fb != 0)
+        if(_fb2 != 0)
             return true;
 
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
         glGenFramebuffersEXT(1, &_fb);
         glGenRenderbuffersEXT(1, &_rb_depth);
 
@@ -1147,6 +1152,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 
 
         bool    result = checkFrameBufferStatus(win);
+#endif
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
@@ -1166,6 +1172,7 @@ bool PerspectiveShadowMap::initFBO(Window *win)
 
 void PerspectiveShadowMap::reInit(Window *win)
 {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     Int32   width = _shadowVP->getPixelWidth();
     Int32   height = _shadowVP->getPixelHeight();
 
@@ -1198,6 +1205,7 @@ void PerspectiveShadowMap::reInit(Window *win)
     //Attach Renderbuffer to Framebuffer depth Buffer
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT
                                  , _rb_depth);
+#endif
 }
 
 void PerspectiveShadowMap::initTextures(Window *win)
@@ -4315,59 +4323,67 @@ void PerspectiveShadowMap::render(RenderActionBase *action)
 
             if(_shadowVP->getMapAutoUpdate())
             {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                 if(_useFBO && _useNPOTTextures)
                     createColorMapFBO(action);
                 else
+#endif
                     createColorMap(action);
-	
+
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
-	
+
                 if(_useFBO)
                     createShadowMapsFBO(action);
                 else
                     createShadowMaps(action);
 
-                //if(_useFBO && _useNPOTTextures)
-                //    createShadowFactorMapFBO(action);
-                //else
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+                if(_useFBO && _useNPOTTextures)
+                    createShadowFactorMapFBO(action);
+                else
+#endif
                     createShadowFactorMap(action);
-				
+
             }
             else
             {
                 if(_shadowVP->_trigger_update)
                 {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                     if(_useFBO && _useNPOTTextures)
                         createColorMapFBO(action);
                     else
+#endif
                         createColorMap(action);
 
                     //deactivate transparent Nodes
                     for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                         _shadowVP->_transparent[t]->setActive(false);
-	
+
                     if(_useFBO)
                         createShadowMapsFBO(action);
                     else
                         createShadowMaps(action);
-				
-                    //if(_useFBO && _useNPOTTextures)
-                    //    createShadowFactorMapFBO(action);
-                    //else
+
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+                    if(_useFBO && _useNPOTTextures)
+                        createShadowFactorMapFBO(action);
+                    else
+#endif
                         createShadowFactorMap(action);
                     _shadowVP->_trigger_update = false;
                 }
             }
-	
+
             drawCombineMap(action);
-	
+
             // switch on all transparent geos
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                 _shadowVP->_transparent[t]->setActive(true);
         }
-		
+
         glPopAttrib();
 
         // render the foregrounds.

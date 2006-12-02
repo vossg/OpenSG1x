@@ -28,6 +28,9 @@
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
 
+//#define USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+
+
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
 #   define GL_CLAMP_TO_EDGE    0x812F
@@ -451,12 +454,14 @@ VarianceShadowMap::~VarianceShadowMap(void)
     subRefCP(_depthCmat);
     subRefCP(_pf);
 
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     if(_fb != 0)
         glDeleteFramebuffersEXT(1, &_fb);
-    if(_fb2 != 0)
-        glDeleteFramebuffersEXT(1, &_fb2);
     if(_rb_depth != 0)
         glDeleteRenderbuffersEXT(1, &_rb_depth);
+#endif
+    if(_fb2 != 0)
+        glDeleteFramebuffersEXT(1, &_fb2);
     if(_rb_depth2 != 0)
         glDeleteRenderbuffersEXT(1, &_rb_depth2);
 }
@@ -558,9 +563,10 @@ bool VarianceShadowMap::initFBO(Window *win)
         if(width <= 0 || height <= 0)
             return false;
 
-        if(_fb != 0)
+        if(_fb2 != 0)
             return true;
 
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
         glGenFramebuffersEXT(1, &_fb);
         glGenRenderbuffersEXT(1, &_rb_depth);
 
@@ -603,7 +609,7 @@ bool VarianceShadowMap::initFBO(Window *win)
                                                      ()), 0);
 
         bool    result = checkFrameBufferStatus(win);
-
+#endif
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
@@ -635,6 +641,7 @@ bool VarianceShadowMap::initFBO(Window *win)
 
 void VarianceShadowMap::reInit(Window *win)
 {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
     Int32   width = _shadowVP->getPixelWidth();
     Int32   height = _shadowVP->getPixelHeight();
 
@@ -662,6 +669,7 @@ void VarianceShadowMap::reInit(Window *win)
     //Attach Renderbuffer to Framebuffer depth Buffer
     glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT
                                  , _rb_depth);
+#endif
 }
 
 void VarianceShadowMap::initTextures(Window *win)
@@ -1417,9 +1425,11 @@ void VarianceShadowMap::render(RenderActionBase *action)
 
         if(_shadowVP->getMapAutoUpdate())
         {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
             if(_useNPOTTextures)
                 createColorMapFBO(action);
             else
+#endif
                 createColorMap(action);
 
             //deactivate transparent Nodes
@@ -1437,9 +1447,11 @@ void VarianceShadowMap::render(RenderActionBase *action)
                     if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
                        _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                     {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                         if(_useNPOTTextures)
                             createShadowFactorMapFBO(action, i);
                         else
+#endif
                             createShadowFactorMap(action, i);
                     }
                 }
@@ -1449,9 +1461,11 @@ void VarianceShadowMap::render(RenderActionBase *action)
         {
             if(_shadowVP->_trigger_update)
             {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                 if(_useNPOTTextures)
                     createColorMapFBO(action);
                 else
+#endif
                     createColorMap(action);
 
                 //deactivate transparent Nodes
@@ -1469,9 +1483,11 @@ void VarianceShadowMap::render(RenderActionBase *action)
                         if(_shadowVP->getGlobalShadowIntensity() != 0.0 ||
                            _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
                         {
+#ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                             if(_useNPOTTextures)
                                 createShadowFactorMapFBO(action, i);
                             else
+#endif
                                 createShadowFactorMap(action, i);
                         }
                     }
