@@ -67,6 +67,8 @@
 
 #include <OSGBackground.h> // Parent
 
+#include <OSGBoolFields.h> // ClearDepth type
+#include <OSGInt32Fields.h> // ClearStencilBit type
 
 #include <OSGDepthClearBackgroundFields.h>
 
@@ -88,6 +90,16 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
 
     typedef DepthClearBackgroundPtr  Ptr;
 
+    enum
+    {
+        ClearDepthFieldId      = Inherited::NextFieldId,
+        ClearStencilBitFieldId = ClearDepthFieldId      + 1,
+        NextFieldId            = ClearStencilBitFieldId + 1
+    };
+
+    static const OSG::BitVector ClearDepthFieldMask;
+    static const OSG::BitVector ClearStencilBitFieldMask;
+
 
     static const OSG::BitVector MTInfluenceMask;
 
@@ -107,6 +119,27 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     virtual const FieldContainerType &getType  (void) const; 
 
     virtual       UInt32              getContainerSize(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFClearDepth     (void);
+           SFInt32             *getSFClearStencilBit(void);
+
+           bool                &getClearDepth     (void);
+     const bool                &getClearDepth     (void) const;
+           Int32               &getClearStencilBit(void);
+     const Int32               &getClearStencilBit(void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setClearDepth     ( const bool &value );
+     void setClearStencilBit( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -145,6 +178,14 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Fields                                  */
+    /*! \{                                                                 */
+
+    SFBool              _sfClearDepth;
+    SFInt32             _sfClearStencilBit;
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
@@ -196,6 +237,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
 
     friend class FieldContainer;
 
+    static FieldDescription   *_desc[];
     static FieldContainerType  _type;
 
 
@@ -219,6 +261,6 @@ typedef RefPtr<DepthClearBackgroundPtr> DepthClearBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.6 2006/02/20 16:54:30 dirk Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.7 2006/12/06 17:58:08 yjung Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */
