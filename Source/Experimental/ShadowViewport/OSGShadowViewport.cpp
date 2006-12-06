@@ -1424,6 +1424,32 @@ void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
     //updateLights();
 }
 
+void ShadowViewport::setReadBuffer(void)
+{
+    if(getLeftBuffer())
+    {
+        if(getRightBuffer())
+        {
+            glReadBuffer(GL_BACK);
+        }
+        else
+        {
+            glReadBuffer(GL_BACK_LEFT);
+        }
+    }
+    else
+    {
+        if(getRightBuffer())
+        {
+            glReadBuffer(GL_BACK_RIGHT);
+        }
+        else
+        {
+            glReadBuffer(GL_NONE);
+        }
+    }
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -1438,7 +1464,7 @@ void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.26 2006/12/01 18:12:43 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.27 2006/12/06 17:32:14 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

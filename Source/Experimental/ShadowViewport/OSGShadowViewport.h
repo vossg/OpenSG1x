@@ -163,6 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     NodePtr getLightRoot(UInt32 index);
 
     void checkLightsOcclusion(RenderActionBase *action);
+    void setReadBuffer(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -201,6 +202,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.12 2006/12/01 18:12:43 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.13 2006/12/06 17:32:14 a-m-z Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

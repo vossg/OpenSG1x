@@ -1559,16 +1559,23 @@ void DitherShadowMap::createShadowMapsFBO(RenderActionBase *action)
 
 void DitherShadowMap::createColorMap(RenderActionBase *action)
 {
-    // HACK but we need this for a correct clear.
-    GLint   pl = _shadowVP->getPixelLeft(), pr = _shadowVP->getPixelRight(),
-            pb = _shadowVP->getPixelBottom(),
-            pt = _shadowVP->getPixelTop();
-    GLint   pw = pr - pl + 1, ph = pt - pb + 1;
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-    glEnable(GL_SCISSOR_TEST);
-    _shadowVP->getBackground()->clear(action, _shadowVP);
-    glDisable(GL_SCISSOR_TEST);
+    if(_shadowVP->isFullWindow())
+    {
+        _shadowVP->getBackground()->clear(action, _shadowVP);
+    }
+    else
+    {
+        // HACK but we need this for a correct clear.
+        GLint   pl = _shadowVP->getPixelLeft(), pr = _shadowVP->getPixelRight(),
+                pb = _shadowVP->getPixelBottom(),
+                pt = _shadowVP->getPixelTop();
+        GLint   pw = pr - pl + 1, ph = pt - pb + 1;
+        glViewport(pl, pb, pw, ph);
+        glScissor(pl, pb, pw, ph);
+        glEnable(GL_SCISSOR_TEST);
+        _shadowVP->getBackground()->clear(action, _shadowVP);
+        glDisable(GL_SCISSOR_TEST);
+    }
 
     action->apply(_shadowVP->getRoot());
 
@@ -1577,6 +1584,7 @@ void DitherShadowMap::createColorMap(RenderActionBase *action)
 
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
+    _shadowVP->setReadBuffer(); // set the right read buffer for the copy texture.
     glBindTexture(GL_TEXTURE_2D,
                   action->getWindow()->getGLObjectId(_colorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, _shadowVP->getPixelLeft(),

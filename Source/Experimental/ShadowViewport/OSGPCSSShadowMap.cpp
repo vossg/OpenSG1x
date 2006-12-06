@@ -910,6 +910,7 @@ void PCSSShadowMap::createColorMap(RenderActionBase *action)
 
     action->getWindow()->validateGLObject(_colorMap->getGLId());
 
+    _shadowVP->setReadBuffer(); // set the right read buffer for the copy texture.
     glBindTexture(GL_TEXTURE_2D,
                   action->getWindow()->getGLObjectId(_colorMap->getGLId()));
     glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
