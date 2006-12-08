@@ -463,8 +463,9 @@ bool TreeRenderer::hasFactorMap(void)
 {
     for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
     {
-        if(_shadowVP->_lightStates[i] != 0 &&
-           _shadowVP->_lights[i].second->getShadowIntensity() != 0.0)
+        if (_shadowVP->_lightStates[i] != 0 &&
+           (_shadowVP->_lights[i].second->getShadowIntensity() != 0.0 ||
+			_shadowVP->getGlobalShadowIntensity() != 0.0))
         {
             return true;
         }
