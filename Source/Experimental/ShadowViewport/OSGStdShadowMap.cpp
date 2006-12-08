@@ -2213,16 +2213,23 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase *action)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     if(_firstRun)
     {
-        // HACK but we need this for a correct clear.
-        GLint   pl = _shadowVP->getPixelLeft(), pr = _shadowVP->getPixelRight
-            (), pb = _shadowVP->getPixelBottom(),
-                pt = _shadowVP->getPixelTop();
-        GLint   pw = pr - pl + 1, ph = pt - pb + 1;
-        glViewport(pl, pb, pw, ph);
-        glScissor(pl, pb, pw, ph);
-        glEnable(GL_SCISSOR_TEST);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glDisable(GL_SCISSOR_TEST);
+        if(_shadowVP->isFullWindow())
+        {
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        }
+        else
+        {
+            // HACK but we need this for a correct clear.
+            GLint   pl = _shadowVP->getPixelLeft(), pr = _shadowVP->getPixelRight
+                (), pb = _shadowVP->getPixelBottom(),
+                    pt = _shadowVP->getPixelTop();
+            GLint   pw = pr - pl + 1, ph = pt - pb + 1;
+            glViewport(pl, pb, pw, ph);
+            glScissor(pl, pb, pw, ph);
+            glEnable(GL_SCISSOR_TEST);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glDisable(GL_SCISSOR_TEST);
+        }
     }
 
     Real32              activeLights = 0;
