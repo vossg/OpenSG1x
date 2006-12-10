@@ -525,7 +525,7 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
     
     // reserve index 0, illegal for most OpenGL functions
     if(_glObjects.empty())
-        _glObjects.push_back( NULL );   
+        _glObjects.push_back( NULL );
 
     id        = _glObjects.size();
     pGLObject = new GLObject(functor);
@@ -545,12 +545,12 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
     
     // doesn't fit, try to find a block in the middle
     
-    UInt32 cnt = 0;        
+    UInt32 cnt = 0;
 
     // start searching at 1, id 0 is reserved for GL
     for(i = 1; i < _glObjects.size(); ++i)
     {       
-        if(!_glObjects[i]) 
+        if(_glObjects[i] == NULL)
         {
             if(cnt == 0)
             {
@@ -579,27 +579,36 @@ UInt32 OSG::Window::registerGLObject(GLObjectFunctor functor, UInt32 num)
         else
         {
             cnt = 0;
+            id = 0;
         }
     }
     
     // no block found, add at the end
-    
-    // fill the empty slots at the end 
-    i = id + cnt - 1;
-    while ( i >= id )
+
+    if(id > 0) // ok the last entries in the vector were empty
     {
-        _glObjects[i] = pGLObject;
-        i = i - 1;
+        // fill the empty slots at the end
+        i = id + cnt - 1;
+        while ( i >= id )
+        {
+            _glObjects[i] = pGLObject;
+            i = i - 1;
+        }
     }
-    
-    // expand the vector for the rest 
-    for ( i = 1; i <= num - cnt; i++ ) 
-    {       
+    else
+    {
+        // we found no empty entries so the new id is the size of the vector.
+        id = _glObjects.size();
+    }
+
+    // expand the vector for the rest
+    for ( i = 1; i <= num - cnt; i++ )
+    {
         _glObjects.push_back( pGLObject );
     }
-                
+
     initRegisterGLObject(id, num);
-    
+
     staticRelease();
     
     return id;
@@ -623,7 +632,7 @@ void OSG::Window::validateGLObject(UInt32 id)
     
     if(obj == NULL)
     {
-        SWARNING << "Window::validateGLObject: obj is NULL!" << std::endl;
+        SWARNING << "Window::validateGLObject: obj with id " << id << " is NULL!" << std::endl;
         return;
     }
 
@@ -861,7 +870,7 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
         for ( UInt32 j = 0; j < num ; j++)
         {
             _glObjects[id+j] = NULL;
-        }           
+        }
 
         return;
     }
