@@ -63,7 +63,7 @@ class PrimitiveIterator;
 class FaceIterator;
 class LineIterator;
 class EdgeIterator;
-
+class GeoVBO;
 
 /*! The Geometry class, see \ref PageSystemGeometry for a description.
 */
@@ -247,6 +247,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     void operator =(const Geometry &source);
 
+    void createVBO(Window *win, UInt32 id);
+    void destroyVBO(Window *win, UInt32 id);
+    void updateVBO(Window *win, UInt32 id);
+    bool drawVBO(Window *win, UInt32 id);
+
+    static std::vector<GeoVBO *> _vbos;
 };
 
 typedef Geometry *GeometryP;

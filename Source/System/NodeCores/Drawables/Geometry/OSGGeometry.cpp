@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright(C) 2000-2002 by the OpenSG Forum                   *
+ *             Copyright(C) 2000-2002 by the OpenSG Forum                    *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -102,6 +102,7 @@ const UInt16 Geometry::MapTexCoords6     = Geometry::MapTexCoords5 << 1;
 const UInt16 Geometry::MapTexCoords7     = Geometry::MapTexCoords6 << 1;
 const UInt16 Geometry::MapEmpty          = Geometry::MapTexCoords7 << 1;
 
+std::vector<GeoVBO *> Geometry::_vbos;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -210,7 +211,7 @@ void Geometry::onCreate(const Geometry *)
                                                      Window ,
                                                      UInt32>(tmpPtr,
                                                          &Geometry::handleGL),
-                1));
+                2));
         
         endEditCP(tmpPtr, Geometry::GLIdFieldMask);
     }
@@ -393,7 +394,7 @@ void Geometry::onDestroy(void)
 
     if(getGLId() > 0)
     {
-        Window::destroyGLObject(getGLId(), 1);
+        Window::destroyGLObject(getGLId(), 2);
     }
 }
 
@@ -434,47 +435,99 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
 {
     Window::GLObjectStatusE mode;
     UInt32 id;
-    UInt32 glid;
+    UInt32 glid = 0;
     
     Window::unpackIdStatus(idstatus, id, mode);
 
     if(mode == Window::initialize || mode == Window::needrefresh ||
        mode == Window::reinitialize)
     {
+        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
+        // vbo is only supported for single index geometry (pump 129)
+        bool vbo_supported = getVbo() && (ind == 129) && win->hasExtension(GeoPumpFactory::_arbVBO);
+        bool created_vbo = false;
         if(mode == Window::initialize)
         {
-            glid = glGenLists(1);
-            win->setGLObjectId(id, glid);
+            if(vbo_supported)
+            {
+                // reset the display list id.
+                win->setGLObjectId(id, 0);
+                // create the vbo objects.
+                createVBO(win, id);
+                created_vbo = true;
+            }
+            else
+            {
+                // create a display list.
+                glid = glGenLists(1);
+                win->setGLObjectId(id, glid);
+                // reset the vbo id.
+                win->setGLObjectId(id + 1, 0);
+            }
+        }
+
+        glid = win->getGLObjectId(id);
+
+        if(!vbo_supported)
+        {
+            // could be switched from vbo to display list rendering,
+            // destroy old vbo
+            destroyVBO(win, id);
+
+            if(glid == 0)
+            {
+                // could be switched from vbo to display list rendering,
+                // so we need to create a new display list!
+                glid = glGenLists(1);
+                win->setGLObjectId(id, glid);
+            }
+
+            glNewList(glid, GL_COMPILE);
+
+            GeoPumpFactory::GeoPump p =
+                GeoPumpFactory::the()->getGeoPump(win, ind);
+    
+            // call the pump
+    
+            if(p)
+                p(win, this);
+            else
+            {
+                SWARNING << "Geometry::handleGL: no Pump found for geometry "
+                         << this
+                         << std::endl;
+            }
+    
+            glEndList();
         }
         else
         {
-            glid = win->getGLObjectId(id);
+            // could be switched from display list to vbo rendering,
+            // destroy old display list.
+            if(glid != 0)
+            {
+                glDeleteLists(glid, 1);
+                // reset the display list id.
+                win->setGLObjectId(id, 0);
+            }
+            if(!created_vbo)
+            {
+                updateVBO(win, id);
+            }
         }
-
-        glNewList(glid, GL_COMPILE);
-
-        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
-        GeoPumpFactory::GeoPump p =
-            GeoPumpFactory::the()->getGeoPump(win, ind);
-
-        // call the pump
-
-        if(p)
-            p(win, this);
-        else
-        {
-            SWARNING << "Geometry::handleGL: no Pump found for geometry "
-                     << this
-                     << std::endl;
-        }
-
-        glEndList();
     }
     else if(mode == Window::destroy)
     {
+        // delete vbo's and display lists.
+        destroyVBO(win, id);
+
         glid = win->getGLObjectId(id);
-        glDeleteLists(glid, 1);
-        win->setGLObjectId(id, 0);
+        if(glid != 0)
+        {
+            glDeleteLists(glid, 1);
+            // reset the display list id.
+            win->setGLObjectId(id, 0);
+        }
     }
     else if(mode == Window::finaldestroy)
     {
@@ -801,26 +854,35 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
     if(getColors() != NullFC)
         glPushAttrib(GL_CURRENT_BIT);
 
-    if(getDlistCache() == true)
+    bool vbo_supported = false;
+    if(getVbo())
     {
-        action->getWindow()->validateGLObject(getGLId());
-        glCallList(action->getWindow()->getGLObjectId(getGLId()));
+        vbo_supported = drawVBO(action->getWindow(), getGLId());
     }
-    else
+
+    if(!vbo_supported)
     {
-        GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
-        GeoPumpFactory::GeoPump p =
-            GeoPumpFactory::the()->getGeoPump(action->getWindow(), ind);
-
-        // call the pump
-
-        if(p)
-            p(action->getWindow(), this);
+        if(getDlistCache() == true)
+        {
+            action->getWindow()->validateGLObject(getGLId());
+            glCallList(action->getWindow()->getGLObjectId(getGLId()));
+        }
         else
         {
-            SWARNING << "draw: no Pump found for geometry "
-                     << this
-                     << std::endl;
+            GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
+            GeoPumpFactory::GeoPump p =
+                GeoPumpFactory::the()->getGeoPump(action->getWindow(), ind);
+    
+            // call the pump
+    
+            if(p)
+                p(action->getWindow(), this);
+            else
+            {
+                SWARNING << "draw: no Pump found for geometry "
+                         << this
+                         << std::endl;
+            }
         }
     }
 
@@ -1469,7 +1531,7 @@ void Geometry::changed(BitVector whichField,
     if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
     {
     // invalidate the dlist cache
-        if(getDlistCache())
+        if(getDlistCache() || getVbo())
         {
             if(getGLId() == 0)
             {
@@ -1484,7 +1546,7 @@ void Geometry::changed(BitVector whichField,
                                 Window ,
                                 UInt32>(tmpPtr,
                                         &Geometry::handleGL),
-                        1));
+                        2));
 
                 endEditCP(tmpPtr, Geometry::GLIdFieldMask);
             }
@@ -1497,7 +1559,7 @@ void Geometry::changed(BitVector whichField,
         else
         {
             if(getGLId() != 0)
-                Window::destroyGLObject(getGLId(), 1);
+                Window::destroyGLObject(getGLId(), 2);
             
             setGLId(0);
         }
@@ -2393,6 +2455,92 @@ bool Geometry::updateLowHighIndices( void )
     return false;
 }
 
+void Geometry::createVBO(Window *win, UInt32 id)
+{
+    // we create a index in the range of 1 -n 0 is reserved!
+
+    if(_vbos.capacity() > _vbos.size())
+    {
+        _vbos.push_back(new GeoVBO(win, this));
+        win->setGLObjectId(id + 1, _vbos.size());
+        return;
+    }
+
+    // search for a empty one
+    for(UInt32 i=0;i<_vbos.size();++i)
+    {
+        if(_vbos[i] == NULL)
+        {
+            _vbos[i] = new GeoVBO(win, this);
+            win->setGLObjectId(id + 1, i + 1);
+            return;
+        }
+    }
+
+    _vbos.push_back(new GeoVBO(win, this));
+    win->setGLObjectId(id + 1, _vbos.size());
+}
+
+void Geometry::destroyVBO(Window *win, UInt32 id)
+{
+    UInt32 i = win->getGLObjectId(id + 1);
+
+    if(i == 0)
+        return;
+
+    --i;
+
+    if(i < _vbos.size())
+    {
+        delete _vbos[i];
+        _vbos[i] = NULL;
+    }
+    win->setGLObjectId(id + 1, 0);
+}
+
+void Geometry::updateVBO(Window *win, UInt32 id)
+{
+    UInt32 i = win->getGLObjectId(id + 1);
+
+    if(i == 0) // invalid not created yet.
+    {
+        // create a new one.
+        createVBO(win, id);
+        return;
+    }
+
+    --i;
+
+    if(i < _vbos.size())
+    {
+        GeoVBO *vbo = _vbos[i];
+        if(vbo != NULL)
+        {
+            vbo->update();
+        }
+    }
+}
+
+bool Geometry::drawVBO(Window *win, UInt32 id)
+{
+    win->validateGLObject(id);
+    UInt32 i = win->getGLObjectId(id + 1);
+    if(i == 0)
+    {
+        // couldn't create a vbo in handleGL.
+        return false;
+    }
+
+    --i;
+
+    if(i < _vbos.size())
+    {
+        GeoVBO *vbo = _vbos[i];
+        if(vbo != NULL)
+            vbo->draw();
+    }
+    return true;
+}
 
 //#undef copyAttrib
 //#undef copyAllAttrib

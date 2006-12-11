@@ -45,6 +45,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stddef.h>
 
 #include "OSGConfig.h"
 
@@ -103,6 +104,7 @@ UInt32 GeoPumpFactory::_extSecondaryColor;
 UInt32 GeoPumpFactory::_extMultitexture;
 UInt32 GeoPumpFactory::_extCompiledVertexArray;
 UInt32 GeoPumpFactory::_extDrawRangeElements;
+UInt32 GeoPumpFactory::_arbVBO;
 
 /*! OpenGL extension function indices.
 */
@@ -111,6 +113,12 @@ UInt32 GeoPumpFactory::_funcglClientActiveTextureARB;
 UInt32 GeoPumpFactory::_funcglLockArraysEXT;
 UInt32 GeoPumpFactory::_funcglUnlockArraysEXT;
 UInt32 GeoPumpFactory::_funcglDrawRangeElementsEXT;
+
+UInt32 GeoPumpFactory::_funcglGenBuffersARB;
+UInt32 GeoPumpFactory::_funcglDeleteBuffersARB;
+UInt32 GeoPumpFactory::_funcglBindBufferARB;
+UInt32 GeoPumpFactory::_funcglBufferDataARB;
+UInt32 GeoPumpFactory::_funcglBufferSubDataARB;
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -2108,6 +2116,8 @@ bool GeoPumpFactory::glextInitFunction(void)
         Window::registerExtension("GL_EXT_compiled_vertex_array");
     _extDrawRangeElements   = 
         Window::registerExtension("GL_EXT_draw_range_elements");
+    _arbVBO =
+        Window::registerExtension("GL_ARB_vertex_buffer_object");
 
     UInt16 i,j;
     for(i = 0; i < numFormats; i++)
@@ -2141,7 +2151,813 @@ bool GeoPumpFactory::glextInitFunction(void)
                                 OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT",
                                 _extDrawRangeElements);
 
+    _funcglGenBuffersARB        = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glGenBuffersARB",
+                                _arbVBO);
+    _funcglDeleteBuffersARB     = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glDeleteBuffersARB",
+                                _arbVBO);
+    _funcglBindBufferARB        = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBindBufferARB",
+                                _arbVBO);
+    _funcglBufferDataARB        = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBufferDataARB",
+                                _arbVBO);
+    _funcglBufferSubDataARB     = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBufferSubDataARB",
+                                _arbVBO);
+
     return true;
+}
+
+// ------------------------------------------------------
+// vbo stuff.
+// ------------------------------------------------------
+
+#ifndef GL_ARB_vertex_buffer_object
+#define GL_BUFFER_SIZE_ARB                0x8764
+#define GL_BUFFER_USAGE_ARB               0x8765
+#define GL_ARRAY_BUFFER_ARB               0x8892
+#define GL_ELEMENT_ARRAY_BUFFER_ARB       0x8893
+#define GL_ARRAY_BUFFER_BINDING_ARB       0x8894
+#define GL_ELEMENT_ARRAY_BUFFER_BINDING_ARB 0x8895
+#define GL_VERTEX_ARRAY_BUFFER_BINDING_ARB 0x8896
+#define GL_NORMAL_ARRAY_BUFFER_BINDING_ARB 0x8897
+#define GL_COLOR_ARRAY_BUFFER_BINDING_ARB 0x8898
+#define GL_INDEX_ARRAY_BUFFER_BINDING_ARB 0x8899
+#define GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING_ARB 0x889A
+#define GL_EDGE_FLAG_ARRAY_BUFFER_BINDING_ARB 0x889B
+#define GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING_ARB 0x889C
+#define GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING_ARB 0x889D
+#define GL_WEIGHT_ARRAY_BUFFER_BINDING_ARB 0x889E
+#define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING_ARB 0x889F
+#define GL_READ_ONLY_ARB                  0x88B8
+#define GL_WRITE_ONLY_ARB                 0x88B9
+#define GL_READ_WRITE_ARB                 0x88BA
+#define GL_BUFFER_ACCESS_ARB              0x88BB
+#define GL_BUFFER_MAPPED_ARB              0x88BC
+#define GL_BUFFER_MAP_POINTER_ARB         0x88BD
+#define GL_STREAM_DRAW_ARB                0x88E0
+#define GL_STREAM_READ_ARB                0x88E1
+#define GL_STREAM_COPY_ARB                0x88E2
+#define GL_STATIC_DRAW_ARB                0x88E4
+#define GL_STATIC_READ_ARB                0x88E5
+#define GL_STATIC_COPY_ARB                0x88E6
+#define GL_DYNAMIC_DRAW_ARB               0x88E8
+#define GL_DYNAMIC_READ_ARB               0x88E9
+#define GL_DYNAMIC_COPY_ARB               0x88EA
+#endif
+
+#define pumpSetup2( name, typename, getmethod )                             \
+    typename name##Ptr;                                                     \
+    GLubyte * name##Data = NULL;                                            \
+    UInt32 name##Stride = 0;                                                \
+    UInt32 name##Size = 0;                                                  \
+                                                                            \
+    name##Ptr = geo->getmethod();                                           \
+    if ( name##Ptr != NullFC )                                              \
+    {                                                                       \
+        name##Data = name##Ptr->getData();                                  \
+        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
+            name##Stride = name##Ptr->getFormatSize() *                     \
+            name##Ptr->getDimension();                                      \
+        name##Size = name##Ptr->getSize() * name##Ptr->getFormatSize() * name##Ptr->getDimension(); \
+    }
+
+GeoVBO::GeoVBO(Window *win, Geometry *geo) :
+    _win(win),
+    _geo(geo),
+    _positions(0),
+    _normals(0),
+    _colors(0),
+    _secColors(0),
+    _texCoords(0),
+    _texCoords1(0),
+    _texCoords2(0),
+    _texCoords3(0),
+    _texCoords4(0),
+    _texCoords5(0),
+    _texCoords6(0),
+    _texCoords7(0),
+    _indices(0)
+{
+    update();
+}
+
+GeoVBO::~GeoVBO()
+{
+    void (OSG_APIENTRY*_glDeleteBuffersARB)
+                  (GLsizei, const GLuint *)=
+            (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglDeleteBuffersARB);
+
+    if(_positions != 0)
+        _glDeleteBuffersARB(1, &_positions);
+
+    if(_normals != 0)
+        _glDeleteBuffersARB(1, &_normals);
+
+    if(_colors != 0)
+        _glDeleteBuffersARB(1, &_colors);
+
+    if(_secColors != 0)
+        _glDeleteBuffersARB(1, &_secColors);
+
+    if(_texCoords != 0)
+        _glDeleteBuffersARB(1, &_texCoords);
+
+    if(_texCoords1 != 0)
+        _glDeleteBuffersARB(1, &_texCoords1);
+
+    if(_texCoords2 != 0)
+        _glDeleteBuffersARB(1, &_texCoords2);
+
+    if(_texCoords3 != 0)
+        _glDeleteBuffersARB(1, &_texCoords3);
+
+    if(_texCoords4 != 0)
+        _glDeleteBuffersARB(1, &_texCoords4);
+
+    if(_texCoords5 != 0)
+        _glDeleteBuffersARB(1, &_texCoords5);
+
+    if(_texCoords6 != 0)
+        _glDeleteBuffersARB(1, &_texCoords6);
+
+    if(_texCoords7 != 0)
+        _glDeleteBuffersARB(1, &_texCoords7);
+
+    if(_indices != 0)
+        _glDeleteBuffersARB(1, &_indices);
+}
+
+void GeoVBO::update(void)
+{
+    GLenum usage = GL_STATIC_DRAW_ARB;
+
+    Geometry *geo = _geo;
+
+    pumpSetup2(Positions  , GeoPositionsPtr , getPositions );
+    pumpSetup2(Colors     , GeoColorsPtr    , getColors    );
+    pumpSetup2(SecColors  , GeoColorsPtr    , getSecondaryColors );
+    pumpSetup2(TexCoords  , GeoTexCoordsPtr , getTexCoords  );
+    pumpSetup2(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
+    pumpSetup2(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
+    pumpSetup2(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
+    pumpSetup2(TexCoords4 , GeoTexCoordsPtr , getTexCoords4 );
+    pumpSetup2(TexCoords5 , GeoTexCoordsPtr , getTexCoords5 );
+    pumpSetup2(TexCoords6 , GeoTexCoordsPtr , getTexCoords6 );
+    pumpSetup2(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
+    pumpSetup2(Normals    , GeoNormalsPtr   , getNormals    );
+
+    pumpSetup2(Lengths    , GeoPLengthsPtr  , getLengths    );
+    pumpSetup2(Types      , GeoPTypesPtr    , getTypes      );
+    pumpSetup2(Indices    , GeoIndicesPtr   , getIndices    );
+
+    void (OSG_APIENTRY*_glGenBuffersARB)
+                  (GLsizei, GLuint *)=
+            (void (OSG_APIENTRY*)(GLsizei, GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglGenBuffersARB);
+
+    void (OSG_APIENTRY*_glDeleteBuffersARB)
+                  (GLsizei, const GLuint *)=
+            (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglDeleteBuffersARB);
+
+    void (OSG_APIENTRY*_glBindBufferARB)
+                  (GLenum, GLuint)=
+            (void (OSG_APIENTRY*)(GLenum, GLuint))
+             _win->getFunction(GeoPumpFactory::_funcglBindBufferARB);
+
+    // typedef ptrdiff_t GLsizeiptrARB;
+    void (OSG_APIENTRY*_glBufferDataARB)
+                  (GLenum, ptrdiff_t, const GLvoid *, GLenum)=
+            (void (OSG_APIENTRY*)(GLenum, ptrdiff_t, const GLvoid *, GLenum))
+             _win->getFunction(GeoPumpFactory::_funcglBufferDataARB);
+
+#if 0
+    // typedef ptrdiff_t GLsizeiptrARB;
+    // typedef ptrdiff_t GLintptrARB;
+    void (OSG_APIENTRY*_glBufferSubDataARB)
+                  (GLenum, ptrdiff_t, ptrdiff_t, const GLvoid *)=
+            (void (OSG_APIENTRY*)(GLenum, ptrdiff_t, ptrdiff_t, const GLvoid *))
+             _win->getFunction(GeoPumpFactory::_funcglBufferSubDataARB);
+#endif
+
+    if(PositionsData)
+    {
+        if(_positions != 0)
+            _glDeleteBuffersARB(1, &_positions);
+
+        // calling _glBufferSubDataARB for changed data increases the
+        // memory usage! why?
+        _glGenBuffersARB(1, &_positions);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _positions);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, PositionsSize, PositionsData, usage);
+    }
+    else
+    {
+        if(_positions != 0)
+        {
+            _glDeleteBuffersARB(1, &_positions);
+            _positions = 0;
+        }
+    }
+
+    if(NormalsData)
+    {
+        if(_normals != 0)
+            _glDeleteBuffersARB(1, &_normals);
+    
+        _glGenBuffersARB(1, &_normals);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _normals);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, NormalsSize, NormalsData, usage);
+    }
+    else
+    {
+        if(_normals != 0)
+        {
+            _glDeleteBuffersARB(1, &_normals);
+            _normals = 0;
+        }
+    }
+
+    if(ColorsData)
+    {
+        if(_colors != 0)
+            _glDeleteBuffersARB(1, &_colors);
+
+        _glGenBuffersARB(1, &_colors);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _colors);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, ColorsSize, ColorsData, usage);
+    }
+    else
+    {
+        if(_colors != 0)
+        {
+            _glDeleteBuffersARB(1, &_colors);
+            _colors = 0;
+        }
+    }
+
+    if(SecColorsData)
+    {
+        if(_secColors != 0)
+            _glDeleteBuffersARB(1, &_secColors);
+
+        _glGenBuffersARB(1, &_secColors);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _secColors);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, SecColorsSize, SecColorsData, usage);
+    }
+    else
+    {
+        if(_secColors != 0)
+        {
+            _glDeleteBuffersARB(1, &_secColors);
+            _secColors = 0;
+        }
+    }
+
+    if(TexCoordsData)
+    {
+        if(_texCoords != 0)
+            _glDeleteBuffersARB(1, &_texCoords);
+
+        _glGenBuffersARB(1, &_texCoords);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoordsSize, TexCoordsData, usage);
+    }
+    else
+    {
+        if(_texCoords != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords);
+            _texCoords = 0;
+        }
+    }
+
+    if(TexCoords1Data)
+    {
+        if(_texCoords1 != 0)
+            _glDeleteBuffersARB(1, &_texCoords1);
+
+        _glGenBuffersARB(1, &_texCoords1);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords1);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords1Size, TexCoords1Data, usage);
+    }
+    else
+    {
+        if(_texCoords1 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords1);
+            _texCoords1 = 0;
+        }
+    }
+
+    if(TexCoords2Data)
+    {
+        if(_texCoords2 != 0)
+            _glDeleteBuffersARB(1, &_texCoords2);
+
+        _glGenBuffersARB(1, &_texCoords2);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords2);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords2Size, TexCoords2Data, usage);
+    }
+    else
+    {
+        if(_texCoords2 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords2);
+            _texCoords2 = 0;
+        }
+    }
+
+    if(TexCoords3Data)
+    {
+        if(_texCoords3 != 0)
+            _glDeleteBuffersARB(1, &_texCoords3);
+
+        _glGenBuffersARB(1, &_texCoords3);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords3);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords3Size, TexCoords3Data, usage);
+    }
+    else
+    {
+        if(_texCoords3 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords3);
+            _texCoords3 = 0;
+        }
+    }
+
+    if(TexCoords4Data)
+    {
+        if(_texCoords4 != 0)
+            _glDeleteBuffersARB(1, &_texCoords4);
+
+        _glGenBuffersARB(1, &_texCoords4);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords4);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords4Size, TexCoords4Data, usage);
+    }
+    else
+    {
+        if(_texCoords4 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords4);
+            _texCoords4 = 0;
+        }
+    }
+
+    if(TexCoords5Data)
+    {
+        if(_texCoords5 != 0)
+            _glDeleteBuffersARB(1, &_texCoords5);
+
+        _glGenBuffersARB(1, &_texCoords5);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords5);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords5Size, TexCoords5Data, usage);
+    }
+    else
+    {
+        if(_texCoords5 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords5);
+            _texCoords5 = 0;
+        }
+    }
+
+    if(TexCoords6Data)
+    {
+        if(_texCoords6 != 0)
+            _glDeleteBuffersARB(1, &_texCoords6);
+
+        _glGenBuffersARB(1, &_texCoords6);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords6);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords6Size, TexCoords6Data, usage);
+    }
+    else
+    {
+        if(_texCoords6 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords6);
+            _texCoords6 = 0;
+        }
+    }
+
+    if(TexCoords7Data)
+    {
+        if(_texCoords7 != 0)
+            _glDeleteBuffersARB(1, &_texCoords7);
+
+        _glGenBuffersARB(1, &_texCoords7);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords7);
+        _glBufferDataARB(GL_ARRAY_BUFFER_ARB, TexCoords7Size, TexCoords7Data, usage);
+    }
+    else
+    {
+        if(_texCoords7 != 0)
+        {
+            _glDeleteBuffersARB(1, &_texCoords7);
+            _texCoords7 = 0;
+        }
+    }
+
+    if(IndicesData)
+    {
+        if(_indices != 0)
+            _glDeleteBuffersARB(1, &_indices);
+
+        _glGenBuffersARB(1, &_indices);
+        _glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, _indices);
+        _glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, IndicesSize, IndicesData, usage);
+    }
+    else
+    {
+        if(_indices != 0)
+        {
+            _glDeleteBuffersARB(1, &_indices);
+            _indices = 0;
+        }
+    }
+
+    _glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+    _glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+}
+
+void GeoVBO::draw(void)
+{
+    void (OSG_APIENTRY*_glBindBufferARB)
+                  (GLenum, GLuint)=
+            (void (OSG_APIENTRY*)(GLenum, GLuint))
+             _win->getFunction(GeoPumpFactory::_funcglBindBufferARB);
+
+    Geometry *geo = _geo;
+    Int16 modified=0;
+
+    pumpSetup(Positions  , GeoPositionsPtr , getPositions );
+    pumpSetup(Colors     , GeoColorsPtr    , getColors    );
+    pumpSetup(SecColors  , GeoColorsPtr    , getSecondaryColors );
+    pumpSetup(TexCoords  , GeoTexCoordsPtr , getTexCoords  );
+    pumpSetup(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
+    pumpSetup(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
+    pumpSetup(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
+    pumpSetup(TexCoords4 , GeoTexCoordsPtr , getTexCoords4 );
+    pumpSetup(TexCoords5 , GeoTexCoordsPtr , getTexCoords5 );
+    pumpSetup(TexCoords6 , GeoTexCoordsPtr , getTexCoords6 );
+    pumpSetup(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
+    pumpSetup(Normals    , GeoNormalsPtr   , getNormals    );
+
+    pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
+    pumpSetup(Types      , GeoPTypesPtr    , getTypes      );
+    pumpSetup(Indices    , GeoIndicesPtr   , getIndices    );
+
+    if (PositionsData)
+    {
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _positions);
+        glVertexPointer(PositionsPtr->getDimension(), PositionsPtr->getFormat(),
+                        PositionsStride, NULL);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        modified|=(1<<0);
+    }
+
+    if (NormalsData)
+    {
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _normals);
+        glNormalPointer(NormalsPtr->getFormat(), NormalsStride, NULL);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        modified|=(1<<3);
+    }
+
+    if (ColorsData)
+    {
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _colors);
+        glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(),
+                       ColorsStride, NULL);
+        glEnableClientState(GL_COLOR_ARRAY);
+        modified|=(1<<1);
+    }
+
+    if (SecColorsData)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extSecondaryColor))
+        {
+             void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
+                  (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
+            (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
+             _win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _secColors);
+            _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
+                                       SecColorsPtr->getFormat(),
+                                       SecColorsStride, NULL);
+            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
+            modified|=(1<<2);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no Secondary Color extension\n"));
+    }
+
+    if (TexCoordsData)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
+            glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
+                               TexCoordsStride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        else
+        {
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
+            glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
+                               TexCoordsStride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        modified|=(1<<4);
+    }
+
+    if (TexCoords1Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE1_ARB);
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords1);
+            glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
+                               TexCoords1Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<5);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords2Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE2_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords2);
+            glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
+                               TexCoords2Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<6);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords3Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE3_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords3);
+            glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
+                               TexCoords3Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<7);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords4Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords4);
+            glTexCoordPointer (TexCoords4Ptr->getDimension(), TexCoords4Ptr->getFormat(),
+                               TexCoords4Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<8);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords5Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords5);
+            glTexCoordPointer (TexCoords5Ptr->getDimension(), TexCoords5Ptr->getFormat(),
+                               TexCoords5Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<9);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords6Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords6);
+            glTexCoordPointer (TexCoords6Ptr->getDimension(), TexCoords6Ptr->getFormat(),
+                               TexCoords6Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<10);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    if (TexCoords7Data)
+    {
+        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+        {
+            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+
+            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords7);
+            glTexCoordPointer (TexCoords7Ptr->getDimension(), TexCoords7Ptr->getFormat(),
+                               TexCoords7Stride, NULL);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            modified|=(1<<11);
+        }
+        else
+            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+    }
+
+    UInt32 lendummy;
+    UInt32 LengthsSize;
+    bool   len16 = false;
+
+    if(LengthsPtr != NullFC && LengthsData != NULL)
+    {
+        LengthsSize = LengthsPtr->getSize();
+        len16 = (LengthsPtr->getFormatSize() == 2);
+    }
+    else
+    {
+        LengthsSize = 1;
+        LengthsData = (UChar8*) &lendummy;
+        lendummy = PositionsPtr->getSize();
+    }
+
+    UInt32 LengthsInd = 0, TypesInd = 0, IndicesInd = 0, 
+           IndicesSize = IndicesPtr->getSize();
+
+    void (OSG_APIENTRY *osgGLDrawRangeElementsEXT)(GLenum mode, GLuint start,
+           GLuint end, GLsizei count, GLenum type, const GLvoid*indices) =
+    (void (OSG_APIENTRY *)(GLenum mode, GLuint start,
+           GLuint end, GLsizei count, GLenum type, const GLvoid*indices))
+            _win->getFunction(GeoPumpFactory::_funcglDrawRangeElementsEXT);
+
+    _glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, _indices);
+
+    if(len16 == false)
+    {
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt32 count  = *(UInt32*)(LengthsData + LengthsInd * LengthsStride);
+            // for vbo's we need only a offset!
+            UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
+            IndicesInd += count;
+
+            if(_win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          geo->getLowindices() [LengthsInd], 
+                                          geo->getHighindices()[LengthsInd], 
+                                          count,
+                                          IndicesPtr->getFormat(), 
+                                          vind);
+            }
+            else
+            {
+                // hope this still works
+                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                               count,
+                               IndicesPtr->getFormat(),
+                               vind);
+            }
+        }
+    }
+    else if(len16 == true)
+    {
+        for(LengthsInd = 0; LengthsInd < LengthsSize; LengthsInd++)
+        {
+            UInt16 count  = *(UInt16*)(LengthsData + LengthsInd * LengthsStride);
+            // for vbo's we need only a offset!
+            UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
+            IndicesInd += count;
+
+            if(_win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          0, 
+                                          IndicesSize, 
+                                          count,
+                                          IndicesPtr->getFormat(), 
+                                          vind);
+            }
+            else
+            {
+                // hope this still works
+                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                               count,
+                               IndicesPtr->getFormat(),
+                               vind);
+            }
+        }
+    }
+    else
+    {
+        FWARNING(("VBO::draw: unknown Lengths format size\n"));
+    }
+
+    if(modified&(1<<0)) glDisableClientState(GL_VERTEX_ARRAY);
+    if(modified&(1<<1)) glDisableClientState(GL_COLOR_ARRAY);
+    if(modified&(1<<2)) glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
+    if(modified&(1<<3)) glDisableClientState(GL_NORMAL_ARRAY);
+
+    if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+    {
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+
+        if(modified&(1<<4))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        
+        if(modified&(1<<5))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE1_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        
+        if(modified&(1<<6))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE2_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+        
+        if(modified&(1<<7))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE3_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<8))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<9))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<10))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+
+        if(modified&(1<<11))
+        {
+            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
+    }
+    else
+    {
+        if(modified&(1<<4)) glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    _glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
+    _glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
 }
 
 

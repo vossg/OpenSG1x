@@ -257,6 +257,13 @@ MFUInt32 *GeometryBase::getMFHighindices(void)
     return &_mfHighindices;
 }
 
+//! Get the Geometry::_sfVbo field.
+inline
+SFBool *GeometryBase::getSFVbo(void)
+{
+    return &_sfVbo;
+}
+
 
 //! Get the value of the Geometry::_sfTypes field.
 inline
@@ -676,6 +683,27 @@ inline
 void GeometryBase::setMaxindex(const UInt32 &value)
 {
     _sfMaxindex.setValue(value);
+}
+
+//! Get the value of the Geometry::_sfVbo field.
+inline
+bool &GeometryBase::getVbo(void)
+{
+    return _sfVbo.getValue();
+}
+
+//! Get the value of the Geometry::_sfVbo field.
+inline
+const bool &GeometryBase::getVbo(void) const
+{
+    return _sfVbo.getValue();
+}
+
+//! Set the value of the Geometry::_sfVbo field.
+inline
+void GeometryBase::setVbo(const bool &value)
+{
+    _sfVbo.setValue(value);
 }
 
 

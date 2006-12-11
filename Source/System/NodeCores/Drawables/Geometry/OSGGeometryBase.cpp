@@ -133,6 +133,9 @@ const OSG::BitVector  GeometryBase::LowindicesFieldMask =
 const OSG::BitVector  GeometryBase::HighindicesFieldMask = 
     (TypeTraits<BitVector>::One << GeometryBase::HighindicesFieldId);
 
+const OSG::BitVector  GeometryBase::VboFieldMask = 
+    (TypeTraits<BitVector>::One << GeometryBase::VboFieldId);
+
 const OSG::BitVector GeometryBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -171,16 +174,16 @@ const OSG::BitVector GeometryBase::MTInfluenceMask =
     The texCoords3 property contains the texture coordinate data for the         fourth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords4
-    The texCoords3 property contains the texture coordinate data for the         fifth texture. See \ref PageSystemTextureChunk for multi-texturing.
+    The texCoords4 property contains the texture coordinate data for the         fifth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords5
-    The texCoords3 property contains the texture coordinate data for the         sixth texture. See \ref PageSystemTextureChunk for multi-texturing.
+    The texCoords5 property contains the texture coordinate data for the         sixth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords6
-    The texCoords3 property contains the texture coordinate data for the         seventh texture. See \ref PageSystemTextureChunk for multi-texturing.
+    The texCoords6 property contains the texture coordinate data for the         seventh texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoTexCoordsPtr GeometryBase::_sfTexCoords7
-    The texCoords3 property contains the texture coordinate data for the         eighth texture. See \ref PageSystemTextureChunk for multi-texturing.
+    The texCoords7 property contains the texture coordinate data for the         eighth texture. See \ref PageSystemTextureChunk for multi-texturing.
 */
 /*! \var GeoIndicesPtr   GeometryBase::_sfIndices
     The indices property contains the index data. See \ref          PageSystemGeoIndexing for a description of the indexing options.
@@ -208,6 +211,9 @@ const OSG::BitVector GeometryBase::MTInfluenceMask =
 */
 /*! \var UInt32          GeometryBase::_mfHighindices
     For each primitive (entry in types) the highest index used (for single-indexed mode only).
+*/
+/*! \var bool            GeometryBase::_sfVbo
+    Flag to activate vbo rendering.
 */
 
 //! Geometry description
@@ -328,7 +334,12 @@ FieldDescription *GeometryBase::_desc[] =
                      "highindices", 
                      HighindicesFieldId, HighindicesFieldMask,
                      true,
-                     (FieldAccessMethod) &GeometryBase::getMFHighindices)
+                     (FieldAccessMethod) &GeometryBase::getMFHighindices),
+    new FieldDescription(SFBool::getClassType(), 
+                     "vbo", 
+                     VboFieldId, VboFieldMask,
+                     false,
+                     (FieldAccessMethod) &GeometryBase::getSFVbo)
 };
 
 
@@ -430,6 +441,7 @@ GeometryBase::GeometryBase(void) :
     _sfMaxindex               (), 
     _mfLowindices             (), 
     _mfHighindices            (), 
+    _sfVbo                    (bool(false)), 
     Inherited() 
 {
 }
@@ -462,6 +474,7 @@ GeometryBase::GeometryBase(const GeometryBase &source) :
     _sfMaxindex               (source._sfMaxindex               ), 
     _mfLowindices             (source._mfLowindices             ), 
     _mfHighindices            (source._mfHighindices            ), 
+    _sfVbo                    (source._sfVbo                    ), 
     Inherited                 (source)
 {
 }
@@ -593,6 +606,11 @@ UInt32 GeometryBase::getBinSize(const BitVector &whichField)
         returnValue += _mfHighindices.getBinSize();
     }
 
+    if(FieldBits::NoField != (VboFieldMask & whichField))
+    {
+        returnValue += _sfVbo.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -715,6 +733,11 @@ void GeometryBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (HighindicesFieldMask & whichField))
     {
         _mfHighindices.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VboFieldMask & whichField))
+    {
+        _sfVbo.copyToBin(pMem);
     }
 
 
@@ -840,6 +863,11 @@ void GeometryBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfHighindices.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (VboFieldMask & whichField))
+    {
+        _sfVbo.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -919,6 +947,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
     if(FieldBits::NoField != (HighindicesFieldMask & whichField))
         _mfHighindices.syncWith(pOther->_mfHighindices);
 
+    if(FieldBits::NoField != (VboFieldMask & whichField))
+        _sfVbo.syncWith(pOther->_sfVbo);
+
 
 }
 #else
@@ -988,6 +1019,9 @@ void GeometryBase::executeSyncImpl(      GeometryBase *pOther,
 
     if(FieldBits::NoField != (MaxindexFieldMask & whichField))
         _sfMaxindex.syncWith(pOther->_sfMaxindex);
+
+    if(FieldBits::NoField != (VboFieldMask & whichField))
+        _sfVbo.syncWith(pOther->_sfVbo);
 
 
     if(FieldBits::NoField != (IndexMappingFieldMask & whichField))

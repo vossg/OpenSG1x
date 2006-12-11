@@ -221,4 +221,14 @@
 	>
 	For each primitive (entry in types) the highest index used (for single-indexed mode only).
 	</Field>
+	<Field
+		name="vbo"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Flag to activate vbo rendering.
+	</Field>
 </FieldContainer>

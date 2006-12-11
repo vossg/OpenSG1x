@@ -90,6 +90,7 @@
 #include <OSGUInt32Fields.h> // Maxindex type
 #include <OSGUInt32Fields.h> // Lowindices type
 #include <OSGUInt32Fields.h> // Highindices type
+#include <OSGBoolFields.h> // Vbo type
 
 #include <OSGGeometryFields.h>
 
@@ -136,7 +137,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
         MaxindexFieldId          = MinindexFieldId          + 1,
         LowindicesFieldId        = MaxindexFieldId          + 1,
         HighindicesFieldId       = LowindicesFieldId        + 1,
-        NextFieldId              = HighindicesFieldId       + 1
+        VboFieldId               = HighindicesFieldId       + 1,
+        NextFieldId              = VboFieldId               + 1
     };
 
     static const OSG::BitVector TypesFieldMask;
@@ -162,6 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     static const OSG::BitVector MaxindexFieldMask;
     static const OSG::BitVector LowindicesFieldMask;
     static const OSG::BitVector HighindicesFieldMask;
+    static const OSG::BitVector VboFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -210,6 +213,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
            SFUInt32            *getSFMaxindex       (void);
            MFUInt32            *getMFLowindices     (void);
            MFUInt32            *getMFHighindices    (void);
+           SFBool              *getSFVbo            (void);
 
            GeoPTypesPtr        &getTypes          (void);
      const GeoPTypesPtr        &getTypes          (void) const;
@@ -249,6 +253,8 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      const UInt32              &getMinindex       (void) const;
            UInt32              &getMaxindex       (void);
      const UInt32              &getMaxindex       (void) const;
+           bool                &getVbo            (void);
+     const bool                &getVbo            (void) const;
            UInt16              &getIndexMapping   (const UInt32 index);
            MFUInt16            &getIndexMapping   (void);
      const MFUInt16            &getIndexMapping   (void) const;
@@ -283,6 +289,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
      void setIgnoreGLForAspect( const Int32 &value );
      void setMinindex       ( const UInt32 &value );
      void setMaxindex       ( const UInt32 &value );
+     void setVbo            ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -348,6 +355,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     SFUInt32            _sfMaxindex;
     MFUInt32            _mfLowindices;
     MFUInt32            _mfHighindices;
+    SFBool              _sfVbo;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

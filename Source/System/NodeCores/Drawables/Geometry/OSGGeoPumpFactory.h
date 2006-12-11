@@ -147,12 +147,19 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static UInt32           _extMultitexture;
     static UInt32           _extCompiledVertexArray;
     static UInt32           _extDrawRangeElements;
+    static UInt32           _arbVBO;
 
     static UInt32           _funcglSecondaryColorPointer;
     static UInt32           _funcglClientActiveTextureARB;
     static UInt32           _funcglLockArraysEXT;
     static UInt32           _funcglUnlockArraysEXT;
     static UInt32           _funcglDrawRangeElementsEXT;
+
+    static UInt32           _funcglGenBuffersARB;
+    static UInt32           _funcglDeleteBuffersARB;
+    static UInt32           _funcglBindBufferARB;
+    static UInt32           _funcglBufferDataARB;
+    static UInt32           _funcglBufferSubDataARB;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -224,6 +231,36 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
 
     void operator =(const GeoPumpFactory &source);
 
+};
+
+class OSG_SYSTEMLIB_DLLMAPPING GeoVBO
+{
+public:
+
+    GeoVBO(Window *win, Geometry *geo);
+    ~GeoVBO();
+
+    void update(void);
+    void draw(void);
+
+private:
+
+    GLuint _positions;
+    GLuint _normals;
+    GLuint _colors;
+    GLuint _secColors;
+    GLuint _texCoords;
+    GLuint _texCoords1;
+    GLuint _texCoords2;
+    GLuint _texCoords3;
+    GLuint _texCoords4;
+    GLuint _texCoords5;
+    GLuint _texCoords6;
+    GLuint _texCoords7;
+    GLuint _indices;
+
+    Window   *_win;
+    Geometry *_geo;
 };
 
 OSG_END_NAMESPACE
