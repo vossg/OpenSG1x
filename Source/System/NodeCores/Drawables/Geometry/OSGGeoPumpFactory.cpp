@@ -2594,25 +2594,13 @@ void GeoVBO::draw(void)
     Geometry *geo = _geo;
     Int16 modified=0;
 
-    pumpSetup(Positions  , GeoPositionsPtr , getPositions );
-    pumpSetup(Colors     , GeoColorsPtr    , getColors    );
-    pumpSetup(SecColors  , GeoColorsPtr    , getSecondaryColors );
-    pumpSetup(TexCoords  , GeoTexCoordsPtr , getTexCoords  );
-    pumpSetup(TexCoords1 , GeoTexCoordsPtr , getTexCoords1 );
-    pumpSetup(TexCoords2 , GeoTexCoordsPtr , getTexCoords2 );
-    pumpSetup(TexCoords3 , GeoTexCoordsPtr , getTexCoords3 );
-    pumpSetup(TexCoords4 , GeoTexCoordsPtr , getTexCoords4 );
-    pumpSetup(TexCoords5 , GeoTexCoordsPtr , getTexCoords5 );
-    pumpSetup(TexCoords6 , GeoTexCoordsPtr , getTexCoords6 );
-    pumpSetup(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
-    pumpSetup(Normals    , GeoNormalsPtr   , getNormals    );
-
-    pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
-    pumpSetup(Types      , GeoPTypesPtr    , getTypes      );
-    pumpSetup(Indices    , GeoIndicesPtr   , getIndices    );
-
-    if (PositionsData)
+    GeoPositionsPtr PositionsPtr = geo->getPositions();
+    if (PositionsPtr != NullFC)
     {
+        UInt32 PositionsStride = 0;
+        if(!(PositionsStride = PositionsPtr->getStride()))
+            PositionsStride = PositionsPtr->getFormatSize() * PositionsPtr->getDimension();
+
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _positions);
         glVertexPointer(PositionsPtr->getDimension(), PositionsPtr->getFormat(),
                         PositionsStride, NULL);
@@ -2620,16 +2608,26 @@ void GeoVBO::draw(void)
         modified|=(1<<0);
     }
 
-    if (NormalsData)
+    GeoNormalsPtr NormalsPtr = geo->getNormals();
+    if (NormalsPtr != NullFC)
     {
+        UInt32 NormalsStride = 0;
+        if(!(NormalsStride = NormalsPtr->getStride()))
+            NormalsStride = NormalsPtr->getFormatSize() * NormalsPtr->getDimension();
+
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _normals);
         glNormalPointer(NormalsPtr->getFormat(), NormalsStride, NULL);
         glEnableClientState(GL_NORMAL_ARRAY);
         modified|=(1<<3);
     }
 
-    if (ColorsData)
+    GeoColorsPtr ColorsPtr = geo->getColors();
+    if (ColorsPtr != NullFC)
     {
+        UInt32 ColorsStride = 0;
+        if(!(ColorsStride = ColorsPtr->getStride()))
+            ColorsStride = ColorsPtr->getFormatSize() * ColorsPtr->getDimension();
+
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _colors);
         glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(),
                        ColorsStride, NULL);
@@ -2637,11 +2635,16 @@ void GeoVBO::draw(void)
         modified|=(1<<1);
     }
 
-    if (SecColorsData)
+    GeoColorsPtr SecColorsPtr = geo->getSecondaryColors();
+    if (SecColorsPtr != NullFC)
     {
         if (_win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
-             void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
+            UInt32 SecColorsStride = 0;
+            if(!(SecColorsStride = SecColorsPtr->getStride()))
+                SecColorsStride = SecColorsPtr->getFormatSize() * SecColorsPtr->getDimension();
+
+            void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
                   (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
             (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
              _win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
@@ -2657,8 +2660,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no Secondary Color extension\n"));
     }
 
-    if (TexCoordsData)
+    GeoTexCoordsPtr TexCoordsPtr = geo->getTexCoords();
+    if (TexCoordsPtr != NullFC)
     {
+        UInt32 TexCoordsStride = 0;
+        if(!(TexCoordsStride = TexCoordsPtr->getStride()))
+            TexCoordsStride = TexCoordsPtr->getFormatSize() * TexCoordsPtr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2680,8 +2688,13 @@ void GeoVBO::draw(void)
         modified|=(1<<4);
     }
 
-    if (TexCoords1Data)
+    GeoTexCoordsPtr TexCoords1Ptr = geo->getTexCoords1();
+    if (TexCoords1Ptr != NullFC)
     {
+        UInt32 TexCoords1Stride = 0;
+        if(!(TexCoords1Stride = TexCoords1Ptr->getStride()))
+            TexCoords1Stride = TexCoords1Ptr->getFormatSize() * TexCoords1Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2697,8 +2710,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords2Data)
+    GeoTexCoordsPtr TexCoords2Ptr = geo->getTexCoords2();
+    if (TexCoords2Ptr != NullFC)
     {
+        UInt32 TexCoords2Stride = 0;
+        if(!(TexCoords2Stride = TexCoords2Ptr->getStride()))
+            TexCoords2Stride = TexCoords2Ptr->getFormatSize() * TexCoords2Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2715,8 +2733,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords3Data)
+    GeoTexCoordsPtr TexCoords3Ptr = geo->getTexCoords3();
+    if (TexCoords3Ptr != NullFC)
     {
+        UInt32 TexCoords3Stride = 0;
+        if(!(TexCoords3Stride = TexCoords3Ptr->getStride()))
+            TexCoords3Stride = TexCoords3Ptr->getFormatSize() * TexCoords3Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2733,8 +2756,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords4Data)
+    GeoTexCoordsPtr TexCoords4Ptr = geo->getTexCoords4();
+    if (TexCoords4Ptr != NullFC)
     {
+        UInt32 TexCoords4Stride = 0;
+        if(!(TexCoords4Stride = TexCoords4Ptr->getStride()))
+            TexCoords4Stride = TexCoords4Ptr->getFormatSize() * TexCoords4Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2751,8 +2779,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords5Data)
+    GeoTexCoordsPtr TexCoords5Ptr = geo->getTexCoords5();
+    if (TexCoords5Ptr != NullFC)
     {
+        UInt32 TexCoords5Stride = 0;
+        if(!(TexCoords5Stride = TexCoords5Ptr->getStride()))
+            TexCoords5Stride = TexCoords5Ptr->getFormatSize() * TexCoords5Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2769,8 +2802,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords6Data)
+    GeoTexCoordsPtr TexCoords6Ptr = geo->getTexCoords6();
+    if (TexCoords6Ptr != NullFC)
     {
+        UInt32 TexCoords6Stride = 0;
+        if(!(TexCoords6Stride = TexCoords6Ptr->getStride()))
+                TexCoords6Stride = TexCoords6Ptr->getFormatSize() * TexCoords6Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2787,8 +2825,13 @@ void GeoVBO::draw(void)
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
 
-    if (TexCoords7Data)
+    GeoTexCoordsPtr TexCoords7Ptr = geo->getTexCoords7();
+    if (TexCoords7Ptr != NullFC)
     {
+        UInt32 TexCoords7Stride = 0;
+        if(!(TexCoords7Stride = TexCoords7Ptr->getStride()))
+                TexCoords7Stride = TexCoords7Ptr->getFormatSize() * TexCoords7Ptr->getDimension();
+
         if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
         {
             void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
@@ -2804,6 +2847,10 @@ void GeoVBO::draw(void)
         else
             FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
     }
+
+    pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
+    pumpSetup(Types      , GeoPTypesPtr    , getTypes      );
+    pumpSetup(Indices    , GeoIndicesPtr   , getIndices    );
 
     UInt32 lendummy;
     UInt32 LengthsSize;
