@@ -114,11 +114,18 @@ UInt32 GeoPumpFactory::_funcglLockArraysEXT;
 UInt32 GeoPumpFactory::_funcglUnlockArraysEXT;
 UInt32 GeoPumpFactory::_funcglDrawRangeElementsEXT;
 
+UInt32 GeoPumpFactory::_funcglGenBuffers;
+UInt32 GeoPumpFactory::_funcglDeleteBuffers;
+UInt32 GeoPumpFactory::_funcglBindBuffer;
+UInt32 GeoPumpFactory::_funcglBufferData;
+UInt32 GeoPumpFactory::_funcglBufferSubData;
+
 UInt32 GeoPumpFactory::_funcglGenBuffersARB;
 UInt32 GeoPumpFactory::_funcglDeleteBuffersARB;
 UInt32 GeoPumpFactory::_funcglBindBufferARB;
 UInt32 GeoPumpFactory::_funcglBufferDataARB;
 UInt32 GeoPumpFactory::_funcglBufferSubDataARB;
+
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -2151,6 +2158,22 @@ bool GeoPumpFactory::glextInitFunction(void)
                                 OSG_DLSYM_UNDERSCORE"glDrawRangeElementsEXT",
                                 _extDrawRangeElements);
 
+    _funcglGenBuffers           = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glGenBuffers",
+                                _arbVBO);
+    _funcglDeleteBuffers         = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glDeleteBuffers",
+                                _arbVBO);
+    _funcglBindBuffer           = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBindBuffer",
+                                _arbVBO);
+    _funcglBufferData           = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBufferData",
+                                _arbVBO);
+    _funcglBufferSubData         = Window::registerFunction(
+                                OSG_DLSYM_UNDERSCORE"glBufferSubData",
+                                _arbVBO);
+
     _funcglGenBuffersARB        = Window::registerFunction(
                                 OSG_DLSYM_UNDERSCORE"glGenBuffersARB",
                                 _arbVBO);
@@ -2175,52 +2198,48 @@ bool GeoPumpFactory::glextInitFunction(void)
 // ------------------------------------------------------
 
 #ifndef GL_ARB_vertex_buffer_object
-#define GL_BUFFER_SIZE_ARB                0x8764
-#define GL_BUFFER_USAGE_ARB               0x8765
-#define GL_ARRAY_BUFFER_ARB               0x8892
-#define GL_ELEMENT_ARRAY_BUFFER_ARB       0x8893
-#define GL_ARRAY_BUFFER_BINDING_ARB       0x8894
-#define GL_ELEMENT_ARRAY_BUFFER_BINDING_ARB 0x8895
-#define GL_VERTEX_ARRAY_BUFFER_BINDING_ARB 0x8896
-#define GL_NORMAL_ARRAY_BUFFER_BINDING_ARB 0x8897
-#define GL_COLOR_ARRAY_BUFFER_BINDING_ARB 0x8898
-#define GL_INDEX_ARRAY_BUFFER_BINDING_ARB 0x8899
-#define GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING_ARB 0x889A
-#define GL_EDGE_FLAG_ARRAY_BUFFER_BINDING_ARB 0x889B
+#define GL_BUFFER_SIZE_ARB                          0x8764
+#define GL_BUFFER_USAGE_ARB                         0x8765
+#define GL_ARRAY_BUFFER_ARB                         0x8892
+#define GL_ELEMENT_ARRAY_BUFFER_ARB                 0x8893
+#define GL_ARRAY_BUFFER_BINDING_ARB                 0x8894
+#define GL_ELEMENT_ARRAY_BUFFER_BINDING_ARB         0x8895
+#define GL_VERTEX_ARRAY_BUFFER_BINDING_ARB          0x8896
+#define GL_NORMAL_ARRAY_BUFFER_BINDING_ARB          0x8897
+#define GL_COLOR_ARRAY_BUFFER_BINDING_ARB           0x8898
+#define GL_INDEX_ARRAY_BUFFER_BINDING_ARB           0x8899
+#define GL_TEXTURE_COORD_ARRAY_BUFFER_BINDING_ARB   0x889A
+#define GL_EDGE_FLAG_ARRAY_BUFFER_BINDING_ARB       0x889B
 #define GL_SECONDARY_COLOR_ARRAY_BUFFER_BINDING_ARB 0x889C
-#define GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING_ARB 0x889D
-#define GL_WEIGHT_ARRAY_BUFFER_BINDING_ARB 0x889E
-#define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING_ARB 0x889F
-#define GL_READ_ONLY_ARB                  0x88B8
-#define GL_WRITE_ONLY_ARB                 0x88B9
-#define GL_READ_WRITE_ARB                 0x88BA
-#define GL_BUFFER_ACCESS_ARB              0x88BB
-#define GL_BUFFER_MAPPED_ARB              0x88BC
-#define GL_BUFFER_MAP_POINTER_ARB         0x88BD
-#define GL_STREAM_DRAW_ARB                0x88E0
-#define GL_STREAM_READ_ARB                0x88E1
-#define GL_STREAM_COPY_ARB                0x88E2
-#define GL_STATIC_DRAW_ARB                0x88E4
-#define GL_STATIC_READ_ARB                0x88E5
-#define GL_STATIC_COPY_ARB                0x88E6
-#define GL_DYNAMIC_DRAW_ARB               0x88E8
-#define GL_DYNAMIC_READ_ARB               0x88E9
-#define GL_DYNAMIC_COPY_ARB               0x88EA
+#define GL_FOG_COORDINATE_ARRAY_BUFFER_BINDING_ARB  0x889D
+#define GL_WEIGHT_ARRAY_BUFFER_BINDING_ARB          0x889E
+#define GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING_ARB   0x889F
+#define GL_READ_ONLY_ARB                            0x88B8
+#define GL_WRITE_ONLY_ARB                           0x88B9
+#define GL_READ_WRITE_ARB                           0x88BA
+#define GL_BUFFER_ACCESS_ARB                        0x88BB
+#define GL_BUFFER_MAPPED_ARB                        0x88BC
+#define GL_BUFFER_MAP_POINTER_ARB                   0x88BD
+#define GL_STREAM_DRAW_ARB                          0x88E0
+#define GL_STREAM_READ_ARB                          0x88E1
+#define GL_STREAM_COPY_ARB                          0x88E2
+#define GL_STATIC_DRAW_ARB                          0x88E4
+#define GL_STATIC_READ_ARB                          0x88E5
+#define GL_STATIC_COPY_ARB                          0x88E6
+#define GL_DYNAMIC_DRAW_ARB                         0x88E8
+#define GL_DYNAMIC_READ_ARB                         0x88E9
+#define GL_DYNAMIC_COPY_ARB                         0x88EA
 #endif
 
 #define pumpSetup2( name, typename, getmethod )                             \
     typename name##Ptr;                                                     \
     GLubyte * name##Data = NULL;                                            \
-    UInt32 name##Stride = 0;                                                \
     UInt32 name##Size = 0;                                                  \
                                                                             \
     name##Ptr = geo->getmethod();                                           \
     if ( name##Ptr != NullFC )                                              \
     {                                                                       \
         name##Data = name##Ptr->getData();                                  \
-        if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
-            name##Stride = name##Ptr->getFormatSize() *                     \
-            name##Ptr->getDimension();                                      \
         name##Size = name##Ptr->getSize() * name##Ptr->getFormatSize() * name##Ptr->getDimension(); \
     }
 
@@ -2246,10 +2265,19 @@ GeoVBO::GeoVBO(Window *win, Geometry *geo) :
 
 GeoVBO::~GeoVBO()
 {
+    // well ATI supports the GL_ARB_vertex_buffer_object extension but
+    // not the ARB functions ...
+
     void (OSG_APIENTRY*_glDeleteBuffersARB)
                   (GLsizei, const GLuint *)=
             (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglDeleteBuffers);
+
+    if(_glDeleteBuffersARB == NULL)
+    {
+        _glDeleteBuffersARB = (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
              _win->getFunction(GeoPumpFactory::_funcglDeleteBuffersARB);
+    }
 
     if(_positions != 0)
         _glDeleteBuffersARB(1, &_positions);
@@ -2317,23 +2345,47 @@ void GeoVBO::update(void)
     void (OSG_APIENTRY*_glGenBuffersARB)
                   (GLsizei, GLuint *)=
             (void (OSG_APIENTRY*)(GLsizei, GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglGenBuffers);
+
+    if(_glGenBuffersARB == NULL)
+    {
+        _glGenBuffersARB = (void (OSG_APIENTRY*)(GLsizei, GLuint *))
              _win->getFunction(GeoPumpFactory::_funcglGenBuffersARB);
+    }
 
     void (OSG_APIENTRY*_glDeleteBuffersARB)
                   (GLsizei, const GLuint *)=
             (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
+             _win->getFunction(GeoPumpFactory::_funcglDeleteBuffers);
+
+    if(_glDeleteBuffersARB == NULL)
+    {
+        _glDeleteBuffersARB = (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
              _win->getFunction(GeoPumpFactory::_funcglDeleteBuffersARB);
+    }
 
     void (OSG_APIENTRY*_glBindBufferARB)
                   (GLenum, GLuint)=
             (void (OSG_APIENTRY*)(GLenum, GLuint))
+             _win->getFunction(GeoPumpFactory::_funcglBindBuffer);
+
+    if(_glBindBufferARB == NULL)
+    {
+        _glBindBufferARB = (void (OSG_APIENTRY*)(GLenum, GLuint))
              _win->getFunction(GeoPumpFactory::_funcglBindBufferARB);
+    }
 
     // typedef ptrdiff_t GLsizeiptrARB;
     void (OSG_APIENTRY*_glBufferDataARB)
                   (GLenum, ptrdiff_t, const GLvoid *, GLenum)=
             (void (OSG_APIENTRY*)(GLenum, ptrdiff_t, const GLvoid *, GLenum))
+             _win->getFunction(GeoPumpFactory::_funcglBufferData);
+
+    if(_glBufferDataARB == NULL)
+    {
+        _glBufferDataARB = (void (OSG_APIENTRY*)(GLenum, ptrdiff_t, const GLvoid *, GLenum))
              _win->getFunction(GeoPumpFactory::_funcglBufferDataARB);
+    }
 
 #if 0
     // typedef ptrdiff_t GLsizeiptrARB;
@@ -2589,7 +2641,13 @@ void GeoVBO::draw(void)
     void (OSG_APIENTRY*_glBindBufferARB)
                   (GLenum, GLuint)=
             (void (OSG_APIENTRY*)(GLenum, GLuint))
+             _win->getFunction(GeoPumpFactory::_funcglBindBuffer);
+
+    if(_glBindBufferARB == NULL)
+    {
+        _glBindBufferARB = (void (OSG_APIENTRY*)(GLenum, GLuint))
              _win->getFunction(GeoPumpFactory::_funcglBindBufferARB);
+    }
 
     Geometry *geo = _geo;
     Int16 modified=0;

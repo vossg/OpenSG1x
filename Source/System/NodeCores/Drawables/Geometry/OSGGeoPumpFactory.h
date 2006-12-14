@@ -161,6 +161,12 @@ class OSG_SYSTEMLIB_DLLMAPPING GeoPumpFactory
     static UInt32           _funcglBufferDataARB;
     static UInt32           _funcglBufferSubDataARB;
 
+    static UInt32           _funcglGenBuffers;
+    static UInt32           _funcglDeleteBuffers;
+    static UInt32           _funcglBindBuffer;
+    static UInt32           _funcglBufferData;
+    static UInt32           _funcglBufferSubData;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
