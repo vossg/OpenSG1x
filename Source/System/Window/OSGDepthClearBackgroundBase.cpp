@@ -322,7 +322,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(DepthClearBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.7 2006/12/06 17:58:08 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.8 2006/12/17 11:09:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID;
 
