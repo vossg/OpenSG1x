@@ -54,6 +54,7 @@
 #include <OSGRegisterCombinersChunk.h>
 #include <OSGRenderAction.h>
 #include <OSGWindow.h>
+#include <OSGSHLChunk.h>
 
 #include "OSGColorDisplayFilter.h"
 
@@ -106,389 +107,146 @@ ColorDisplayFilter::~ColorDisplayFilter(void)
 
 /*----------------------------- class specific ----------------------------*/
 
+void ColorDisplayFilter::updateFilterValues()
+{
+    UInt32 c;
+    std::vector<UChar8> imageData;
+
+    if(_shadingImage == NullFC || _shlChunk == NullFC)
+        return;
+
+    // set shading image
+    UInt32 size = getWidth() * getHeight() * getDepth();
+    UInt32 width = getWidth();
+    UInt32 height = getHeight();
+    UInt32 depth = getDepth();
+    if(size != getTable().size())
+    {
+        // create default linear table
+        FWARNING(("Wrong shanding table size\n"));
+        width = height = 1;
+        depth = 2;
+        size = width * height * depth;
+        imageData.push_back(0);
+        imageData.push_back(0);
+        imageData.push_back(0);
+        imageData.push_back(255);
+        imageData.push_back(255);
+        imageData.push_back(255);
+    } 
+    else
+    {
+        imageData.resize(size*3);
+        for(c=0 ; c<size ; ++c)
+        {
+            imageData[c*3 + 0] = (UChar8)(getTable()[c][0]*255);
+            imageData[c*3 + 1] = (UChar8)(getTable()[c][1]*255);
+            imageData[c*3 + 2] = (UChar8)(getTable()[c][2]*255);
+        }
+    }
+    _shadingImage->set(Image::OSG_RGB_PF,width,height,depth,1,1,0,&imageData[0]);
+
+    beginEditCP(_shlChunk);
+    _shlChunk->setUniformParameter("colorMatrix",  getMatrix());
+    _shlChunk->setUniformParameter("gamma",        getGamma());
+    _shlChunk->setUniformParameter("shadingDepth", (Int32)depth);
+    endEditCP(_shlChunk);
+}
+
 void ColorDisplayFilter::changed(BitVector whichField, UInt32 origin)
 {
+//    updateFilterValues();
     Inherited::changed(whichField, origin);
 }
 
-void ColorDisplayFilter::dump(      UInt32    , 
-                         const BitVector ) const
+void ColorDisplayFilter::dump(UInt32, const BitVector ) const
 {
     SLOG << "Dump ColorDisplayFilter NI" << std::endl;
 }
 
-void ColorDisplayFilter::createFragmentProgramm(DisplayFilterForeground::DisplayFilterGroup *group)
-{
-    // Texture Chunks for gamma mapping
-        
-    UChar8 rgammadata[] =
-        {  0, 80, 160, 255 };
-        
-    ImagePtr rgammaimg = Image::create();
-    beginEditCP(rgammaimg);
-    rgammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,rgammadata);
-    endEditCP(rgammaimg);
-        
-    TextureChunkPtr rgammachunk = TextureChunk::create();    
-    beginEditCP(rgammachunk);
-    rgammachunk->setImage(rgammaimg);
-    rgammachunk->setMinFilter(GL_LINEAR);
-    rgammachunk->setMagFilter(GL_LINEAR);
-    rgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
-    rgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
-    endEditCP  (rgammachunk);
-        
-    UChar8 ggammadata[] =
-        {  0, 80, 160, 255 };
-        
-    ImagePtr ggammaimg = Image::create();
-    beginEditCP(ggammaimg);
-    ggammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,ggammadata);
-    endEditCP(ggammaimg);
-        
-    TextureChunkPtr ggammachunk = TextureChunk::create();    
-    beginEditCP(ggammachunk);
-    ggammachunk->setImage(ggammaimg);
-    ggammachunk->setMinFilter(GL_LINEAR);
-    ggammachunk->setMagFilter(GL_LINEAR);
-    ggammachunk->setWrapS(GL_CLAMP_TO_EDGE);
-    ggammachunk->setWrapT(GL_CLAMP_TO_EDGE);
-    endEditCP  (ggammachunk);
-
-    UChar8 bgammadata[] =
-        {  0, 80, 160, 255 };
-        
-    ImagePtr bgammaimg = Image::create();
-    beginEditCP(bgammaimg);
-    bgammaimg->set(Image::OSG_L_PF,4,1,1,1,1,0,bgammadata);
-    endEditCP(bgammaimg);
-    
-    TextureChunkPtr bgammachunk = TextureChunk::create();    
-    beginEditCP(bgammachunk);
-    bgammachunk->setImage(bgammaimg);
-    bgammachunk->setMinFilter(GL_LINEAR);
-    bgammachunk->setMagFilter(GL_LINEAR);
-    bgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
-    bgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
-    endEditCP  (bgammachunk);
-
-    // set gamma table
-    for(int j=0; j < 3; ++j)
-    {
-        ImagePtr img;
-        switch(j)
-        {
-            case 0: img = rgammaimg; break;
-            case 1: img = ggammaimg; break;
-            case 2: img = bgammaimg; break;
-        }
-        beginEditCP(img);
-        if(getRamp().size() == 0)
-        {
-            img->set(Image::OSG_L_PF, 256, 1);
-            UInt8 *data = img->getData();
-            for(int i=0; i < 256; i++)
-            {
-                data[i] = (UInt8)(pow(i/255.0,1.0)*255);
-            }
-        }
-        else
-        {
-            img->set(Image::OSG_L_PF, getRamp().size(), 1);
-            UInt8 *data = img->getData();
-            for(unsigned int i=0; i < getRamp().size(); i++)
-            {
-                data[i] = (UInt8)(getRamp()[i][j] * 255);
-            }
-        }
-        endEditCP(img);
-    }
-
-    // Step 3: FragmentProgram Chunk for color matrix multiply
-    FragmentProgramChunkPtr fragProgram = FragmentProgramChunk::create();
-    std::string prog(
-        "!!ARBfp1.0\n"
-        "PARAM mat0 = program.local[1];\n"
-        "PARAM mat1 = program.local[2];\n"
-        "PARAM mat2 = program.local[3];\n"
-        "PARAM mat3 = program.local[4];\n"
-        "PARAM gamma = program.local[5];\n"
-        "TEMP source;\n"
-        "TEMP target;\n"
-        "\n"
-        "# get the grabbed texture's color\n"
-        "TEX source, fragment.texcoord[0], texture[0], 2D;\n"
-        "\n"
-        "# gamma map it\n"
-        "POW source.r, source.r, gamma.r;\n"
-        "POW source.g, source.g, gamma.r;\n"
-        "POW source.b, source.b, gamma.r;\n"
-        "\n"
-        "# do the matrix transform\n"
-        "DP4 target.x, mat0, source;\n"
-        "DP4 target.y, mat1, source;\n"
-        "DP4 target.z, mat2, source;\n"
-        "\n"
-        "# map it through the target gamma\n"
-        "TEX target.r, target.r, texture[1], 1D;\n"
-        "TEX target.g, target.g, texture[2], 1D;\n"
-        "TEX target.b, target.b, texture[3], 1D;\n"
-        "\n"
-        "# mov it to the output\n"
-        "MOV result.color, target;\n"
-        "END\n");
-
-    beginEditCP(fragProgram);
-    fragProgram->setProgram(prog);
-    fragProgram->setParameter(1, getMatrix()[0]);
-    fragProgram->setParameter(2, getMatrix()[1]);
-    fragProgram->setParameter(3, getMatrix()[2]);
-    fragProgram->setParameter(4, getMatrix()[3]);
-    fragProgram->setParameter(5, Vec4f(getGamma(),getGamma(),getGamma(),0));   
-    endEditCP(fragProgram);
-
-    beginEditCP(group->getMaterial());
-    group->getMaterial()->addChunk(rgammachunk);
-    group->getMaterial()->addChunk(ggammachunk);
-    group->getMaterial()->addChunk(bgammachunk);
-    group->getMaterial()->addChunk(fragProgram);
-    endEditCP(group->getMaterial());
-}
-
-void ColorDisplayFilter::createRegisterCombiner(DisplayFilterForeground::DisplayFilterGroup *group)
-{
-    UInt16 x,y;
-    UInt16 ncomb = 0;
-    TextureChunkPtr tex = group->getTexture();
-    UInt32 res = getRamp().size();
-    UInt8 *data;
-
-    if(res == 0)
-        res = 256;
-
-    beginEditCP(tex);
-    tex->setWrapS(GL_CLAMP_TO_EDGE);
-    tex->setWrapT(GL_CLAMP_TO_EDGE);
-    tex->setMinFilter(GL_LINEAR);
-    tex->setMagFilter(GL_LINEAR);
-    tex->setScale(false);
-    tex->setEnvMode(GL_REPLACE);
-    tex->setShaderOperation(GL_TEXTURE_2D);
-    tex->setInternalFormat(GL_RGB8);
-    endEditCP  (tex);
-
-    // Step 2: The textures for the initial gamma mapping
-    
-    // Texture Chunks for gamma mapping
-
-    UChar8 argammadata[] =
-        {  0,  0,  0,    0,  0,  0,    0,  0,  0,    0,  0,  0,    
-           80,  0,  0,   80,  0,  0,   80,  0,  0,   80,  0,  0,    
-           160,  0,  0,  160,  0,  0,  160,  0,  0,  160,  0,  0,    
-           255,  0,  0,  255,  0,  0,  255,  0,  0,  255,  0,  0  
-        };
-    
-    ImagePtr argammaimg = Image::create();
-    beginEditCP(argammaimg);
-    argammaimg->set(GL_RGB,4,4,1,1,1,0,argammadata);
-    endEditCP(argammaimg);
-    
-    TextureChunkPtr argammachunk = TextureChunk::create();    
-    beginEditCP(argammachunk);
-    argammachunk->setImage(argammaimg);
-    argammachunk->setMinFilter(GL_NEAREST);
-    argammachunk->setMagFilter(GL_NEAREST);
-    argammachunk->setWrapS(GL_CLAMP_TO_EDGE);
-    argammachunk->setWrapT(GL_CLAMP_TO_EDGE);
-    argammachunk->setShaderOperation(GL_DEPENDENT_AR_TEXTURE_2D_NV);
-    argammachunk->setShaderInput    (GL_TEXTURE0_ARB);
-    argammachunk->setInternalFormat(GL_RGB8);
-    endEditCP  (argammachunk);
-
-    UChar8 gbgammadata[] =
-        {  0,  0,  0,     0, 80,  0,     0,160,  0,    0,255,  0,
-           0,  0, 80,     0, 80, 80,     0,160, 80,    0,255, 80,
-           0,  0,160,     0, 80,160,     0,160,160,    0,255,160,
-           0,  0,255,     0, 80,255,     0,160,255,    0,255,255
-        };
-    
-    ImagePtr gbgammaimg = Image::create();
-    beginEditCP(gbgammaimg);
-    gbgammaimg->set(GL_RGB,4,4,1,1,1,0,gbgammadata);
-    endEditCP(gbgammaimg);
-    
-    TextureChunkPtr gbgammachunk = TextureChunk::create();    
-    beginEditCP(gbgammachunk);
-    gbgammachunk->setImage(gbgammaimg);
-    gbgammachunk->setMinFilter(GL_NEAREST);
-    gbgammachunk->setMagFilter(GL_NEAREST);
-    gbgammachunk->setWrapS(GL_CLAMP_TO_EDGE);
-    gbgammachunk->setWrapT(GL_CLAMP_TO_EDGE);
-    gbgammachunk->setShaderOperation(GL_DEPENDENT_GB_TEXTURE_2D_NV);
-    gbgammachunk->setShaderInput    (GL_TEXTURE0_ARB);
-    gbgammachunk->setInternalFormat(GL_RGB8);
-    endEditCP  (gbgammachunk);
-
-    // Step 3: RegisterCombiners Chunk for color matrix multiply
-    
-    RegisterCombinersChunkPtr regCombiner = RegisterCombinersChunk::create();
-
-    Color4f 
-        m1(getMatrix()[0][0]/2+.5,
-           getMatrix()[0][1]/2+.5,
-           getMatrix()[0][2]/2+.5,0),
-        m2(getMatrix()[1][0]/2+.5,
-           getMatrix()[1][1]/2+.5,
-           getMatrix()[1][2]/2+.5,0),
-        m3(getMatrix()[2][0]/2+.5,
-           getMatrix()[2][1]/2+.5,
-           getMatrix()[2][2]/2+.5,0),
-        m4(getMatrix()[3][0]/2+.5,
-           getMatrix()[3][1]/2+.5,
-           getMatrix()[3][2]/2+.5,0);
-    
-    Color4f selectR(1,0,0,0), selectG(0,1,0,0), selectB(0,0,1,0);
-
-    beginEditCP(regCombiner);
-
-    regCombiner->setCombinerRGB(ncomb,
-                                 GL_TEXTURE1_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
-                                 GL_ZERO,               GL_UNSIGNED_INVERT_NV,   GL_RGB, // variable B
-                                 GL_TEXTURE2_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
-                                 GL_ZERO,               GL_UNSIGNED_INVERT_NV,   GL_RGB, // variable D
-                                 GL_DISCARD_NV, GL_DISCARD_NV, GL_TEXTURE0_ARB,   // ABout, CDout, Sumout
-                                 GL_NONE, GL_NONE,                            // scale, bias
-                                 GL_FALSE, GL_FALSE, GL_FALSE );                // ABdot, CDdot, muxSum
-
-    ncomb++;
-
-    // first combiner: spare0 = dot(col, m1), spare1 = dot(col,m2)      
-        
-    regCombiner->setCombinerColors(ncomb, m1, m2);
-
-    regCombiner->setCombinerRGB(
-        ncomb,
-        GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
-        GL_CONSTANT_COLOR0_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable B
-        GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
-        GL_CONSTANT_COLOR1_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable D
-        GL_SPARE0_NV, GL_SPARE1_NV, GL_DISCARD_NV,   // ABout, CDout, Sumout
-        GL_NONE, GL_NONE,                            // scale, bias
-        GL_TRUE, GL_TRUE, GL_FALSE );                // ABdot, CDdot, muxSum
-        
-    ncomb++;
-    
-    // second combiner: tex0 = dot(col, m3), spare0 = spare0.r   
-    
-    regCombiner->setCombinerColors(ncomb, m3, selectR);
-
-    regCombiner->setCombinerRGB(ncomb,
-                                 GL_TEXTURE0_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
-                                 GL_CONSTANT_COLOR0_NV, GL_EXPAND_NORMAL_NV,     GL_RGB, // variable B
-                                 GL_SPARE0_NV,          GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
-                                 GL_CONSTANT_COLOR1_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable D
-                                 GL_TEXTURE3_ARB, GL_SPARE0_NV, GL_DISCARD_NV, // ABout, CDout, Sumout
-                                 GL_NONE, GL_NONE,                             // scale, bias
-                                 GL_TRUE, GL_FALSE, GL_FALSE );                 // ABdot, CDdot, muxSum
-
-    ncomb++;
-    
-    // final combiner 
-    
-    regCombiner->setColor0(selectG);
-    regCombiner->setColor1(selectB);
-    
-    // RGB = D + AB + (1-A)C
-    regCombiner->setFinalCombiner( 
-        GL_CONSTANT_COLOR0_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable A
-        GL_SPARE1_NV,          GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable B
-        GL_E_TIMES_F_NV,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable C
-        GL_SPARE0_NV,          GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable D
-        GL_CONSTANT_COLOR1_NV, GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable E
-        GL_TEXTURE3_ARB,       GL_UNSIGNED_IDENTITY_NV, GL_RGB, // variable F
-        GL_PRIMARY_COLOR_NV,   GL_UNSIGNED_IDENTITY_NV, GL_ALPHA );// variable G
-
-    endEditCP(regCombiner);
-
-    argammaimg->set(GL_RGB,res,res);
-
-    beginEditCP(argammaimg);
-    data = argammaimg->getData();
-    
-    memset(data, 0, res * res * 3);
-    
-    for(y = 0; y < res; ++y)
-    {
-        UInt8 v = (int)(pow(y/(Real32)(res-1),getGamma())*255+0.5);
-
-        if(getRamp().size() < y)
-            v = (UInt8)(getRamp()[y][0] * 255);
-
-        for(x = 0; x < res; ++x)
-        {
-            *data++ = v;
-            *data++ = 0;
-            *data++ = 0;           
-        }
-    }
-    endEditCP(argammaimg);
-
-    beginEditCP(argammachunk);
-    argammachunk->setImage(argammaimg);
-    endEditCP(argammachunk);
-
-    gbgammaimg->set(GL_RGB,res,res);
-
-    beginEditCP(gbgammaimg);
-    data = gbgammaimg->getData();
-    
-    memset(data, 0, res * res * 3);
-    
-    for(y = 0; y < res; ++y)
-    {
-        UInt8 vy = (int)(pow(y/(Real32)(res-1),getGamma())*255+0.5);
-
-        if(getRamp().size() < y)
-            vy = (UInt8)(getRamp()[y][2] * 255);
-
-        for(x = 0; x < res; ++x)
-        {
-            UInt8 vx = (int)(pow(x/(Real32)(res-1),getGamma())*255+0.5);
-
-            if(getRamp().size() < x)
-                vx = (UInt8)(getRamp()[x][1] * 255);
-
-            *data++ = 0;
-            *data++ = vx;
-            *data++ = vy;           
-        }
-    }
-    endEditCP(gbgammaimg);
-
-    beginEditCP(gbgammachunk);
-    gbgammachunk->setImage(gbgammaimg);
-    endEditCP(gbgammachunk);
-
-    beginEditCP(group->getMaterial());
-    group->getMaterial()->addChunk(argammachunk);
-    group->getMaterial()->addChunk(gbgammachunk);
-    group->getMaterial()->addChunk(regCombiner);
-    endEditCP(group->getMaterial());
-
-}
-
 void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
-                                      Viewport *port)
+                                        Viewport *port)
 {
-    DisplayFilterForeground::DisplayFilterGroup *group = fg->findReadbackGroup("ColorDisplayFilter");
+    DisplayFilterForeground::DisplayFilterGroup *group = 
+        fg->findReadbackGroup("ColorDisplayFilter");
     WindowPtr window = port->getParent();
 
-    int extension;
-    extension = osg::Window::registerExtension("GL_ARB_fragment_program");
-    if(window->hasExtension(extension))
-        createFragmentProgramm(group);
-    else
-        createRegisterCombiner(group);
+    std::string vp_program =
+        "varying vec2 position;\n"
+        "void main(void)\n"
+        "{\n"
+        "   gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+        "   gl_Position    = ftransform();\n"
+        "   position       = gl_Vertex.xy;\n"
+        "}\n";
+    
+    std::string fp_program =
+        "varying vec2 position;\n"
+        "uniform sampler2D grabTexture;\n"
+        "uniform sampler3D shadingTexture;\n"
+        "uniform mat4      colorMatrix;\n"
+        "uniform float     gamma;\n"
+        "uniform int       shadingDepth;\n"
+        "\n"
+        "void main(void)\n"
+        "{\n"
+        "   // read color from grab texture\n"
+        "   vec4 color=texture2D(grabTexture,gl_TexCoord[0].xy);\n"
+        "\n"
+        "   // clamp to 0-1\n"
+        "   color.rgb = clamp(color.rgb,0.0,1.0);\n"
+        "\n"
+        "   // make linear\n"
+        "   color.r = pow(color.r,gamma);\n"
+        "   color.g = pow(color.g,gamma);\n"
+        "   color.b = pow(color.b,gamma);\n"
+        "\n"
+        "   // color matrix transformation\n"
+        "   color *= colorMatrix;\n"
+        "\n"
+        "   // Scale color from the center of the first texel to the center of\n"
+        "   // the last texel\n"
+        "   float shadingScale  = (float(shadingDepth)-1.0)/float(shadingDepth);\n"
+        "   float shadingOffset = (1.0 - shadingScale) / 2.0;\n"
+        "   color.rgb *= shadingScale;\n"
+        "   color.rgb += vec3(shadingOffset,shadingOffset,shadingOffset);\n"
+        "\n"
+        "   // shading\n"
+        "   color.r = texture3D(shadingTexture,\n"
+        "                      vec3(position,color.r)).r;\n"
+        "   color.g = texture3D(shadingTexture,\n"
+        "                      vec3(position,color.g)).g;\n"
+        "   color.b = texture3D(shadingTexture,\n"
+        "                      vec3(position,color.b)).b;\n"
+        "\n"
+        "   gl_FragColor = color;\n"
+        "}\n";
+
+    _shlChunk = SHLChunk::create();
+    beginEditCP(_shlChunk);
+    _shlChunk->setVertexProgram(vp_program);
+    _shlChunk->setFragmentProgram(fp_program);
+    _shlChunk->setUniformParameter("grabTexture", 0);
+    _shlChunk->setUniformParameter("shadingTexture", 1);
+    endEditCP(_shlChunk);
+
+    TextureChunkPtr shadingTextureChunk = TextureChunk::create();
+    _shadingImage = Image::create();
+    beginEditCP(shadingTextureChunk);
+    shadingTextureChunk->setImage(_shadingImage);
+    shadingTextureChunk->setMinFilter(GL_LINEAR);
+    shadingTextureChunk->setMagFilter(GL_LINEAR);
+    shadingTextureChunk->setWrapS(GL_CLAMP_TO_EDGE);
+    shadingTextureChunk->setWrapT(GL_CLAMP_TO_EDGE);
+//    shadingTextureChunk->setInternalFormat(GL_RGB8);
+    endEditCP(shadingTextureChunk);
+
+    beginEditCP(group->getMaterial());
+    group->getMaterial()->addChunk(shadingTextureChunk);
+    group->getMaterial()->addChunk(_shlChunk);
+    endEditCP(group->getMaterial());
+
+    updateFilterValues();
 }
 
 /*------------------------------------------------------------------------*/

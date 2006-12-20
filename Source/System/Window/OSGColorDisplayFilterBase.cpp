@@ -64,14 +64,23 @@
 
 OSG_BEGIN_NAMESPACE
 
-const OSG::BitVector  ColorDisplayFilterBase::MatrixFieldMask = 
-    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::MatrixFieldId);
-
 const OSG::BitVector  ColorDisplayFilterBase::GammaFieldMask = 
     (TypeTraits<BitVector>::One << ColorDisplayFilterBase::GammaFieldId);
 
-const OSG::BitVector  ColorDisplayFilterBase::RampFieldMask = 
-    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::RampFieldId);
+const OSG::BitVector  ColorDisplayFilterBase::MatrixFieldMask = 
+    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::MatrixFieldId);
+
+const OSG::BitVector  ColorDisplayFilterBase::WidthFieldMask = 
+    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::WidthFieldId);
+
+const OSG::BitVector  ColorDisplayFilterBase::HeightFieldMask = 
+    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::HeightFieldId);
+
+const OSG::BitVector  ColorDisplayFilterBase::DepthFieldMask = 
+    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::DepthFieldId);
+
+const OSG::BitVector  ColorDisplayFilterBase::TableFieldMask = 
+    (TypeTraits<BitVector>::One << ColorDisplayFilterBase::TableFieldId);
 
 const OSG::BitVector ColorDisplayFilterBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -80,35 +89,59 @@ const OSG::BitVector ColorDisplayFilterBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var Matrix          ColorDisplayFilterBase::_sfMatrix
-    
-*/
 /*! \var Real32          ColorDisplayFilterBase::_sfGamma
+    Gamma value of the rendered image
+*/
+/*! \var Matrix          ColorDisplayFilterBase::_sfMatrix
+    Color transformation matrix
+*/
+/*! \var UInt32          ColorDisplayFilterBase::_sfWidth
     
 */
-/*! \var Color3f         ColorDisplayFilterBase::_mfRamp
+/*! \var UInt32          ColorDisplayFilterBase::_sfHeight
     
+*/
+/*! \var UInt32          ColorDisplayFilterBase::_sfDepth
+    
+*/
+/*! \var Color3f         ColorDisplayFilterBase::_mfTable
+    Shading table
 */
 
 //! ColorDisplayFilter description
 
 FieldDescription *ColorDisplayFilterBase::_desc[] = 
 {
-    new FieldDescription(SFMatrix::getClassType(), 
-                     "matrix", 
-                     MatrixFieldId, MatrixFieldMask,
-                     false,
-                     (FieldAccessMethod) &ColorDisplayFilterBase::getSFMatrix),
     new FieldDescription(SFReal32::getClassType(), 
                      "gamma", 
                      GammaFieldId, GammaFieldMask,
                      false,
                      (FieldAccessMethod) &ColorDisplayFilterBase::getSFGamma),
-    new FieldDescription(MFColor3f::getClassType(), 
-                     "ramp", 
-                     RampFieldId, RampFieldMask,
+    new FieldDescription(SFMatrix::getClassType(), 
+                     "matrix", 
+                     MatrixFieldId, MatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorDisplayFilterBase::getMFRamp)
+                     (FieldAccessMethod) &ColorDisplayFilterBase::getSFMatrix),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "width", 
+                     WidthFieldId, WidthFieldMask,
+                     false,
+                     (FieldAccessMethod) &ColorDisplayFilterBase::getSFWidth),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "height", 
+                     HeightFieldId, HeightFieldMask,
+                     false,
+                     (FieldAccessMethod) &ColorDisplayFilterBase::getSFHeight),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "depth", 
+                     DepthFieldId, DepthFieldMask,
+                     false,
+                     (FieldAccessMethod) &ColorDisplayFilterBase::getSFDepth),
+    new FieldDescription(MFColor3f::getClassType(), 
+                     "table", 
+                     TableFieldId, TableFieldMask,
+                     false,
+                     (FieldAccessMethod) &ColorDisplayFilterBase::getMFTable)
 };
 
 
@@ -174,7 +207,7 @@ void ColorDisplayFilterBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
-    _mfRamp.terminateShare(uiAspect, this->getContainerSize());
+    _mfTable.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -185,9 +218,12 @@ void ColorDisplayFilterBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 ColorDisplayFilterBase::ColorDisplayFilterBase(void) :
-    _sfMatrix                 (), 
     _sfGamma                  (Real32(2.4)), 
-    _mfRamp                   (), 
+    _sfMatrix                 (), 
+    _sfWidth                  (UInt32(1)), 
+    _sfHeight                 (UInt32(1)), 
+    _sfDepth                  (UInt32(2)), 
+    _mfTable                  (), 
     Inherited() 
 {
 }
@@ -197,9 +233,12 @@ ColorDisplayFilterBase::ColorDisplayFilterBase(void) :
 #endif
 
 ColorDisplayFilterBase::ColorDisplayFilterBase(const ColorDisplayFilterBase &source) :
-    _sfMatrix                 (source._sfMatrix                 ), 
     _sfGamma                  (source._sfGamma                  ), 
-    _mfRamp                   (source._mfRamp                   ), 
+    _sfMatrix                 (source._sfMatrix                 ), 
+    _sfWidth                  (source._sfWidth                  ), 
+    _sfHeight                 (source._sfHeight                 ), 
+    _sfDepth                  (source._sfDepth                  ), 
+    _mfTable                  (source._mfTable                  ), 
     Inherited                 (source)
 {
 }
@@ -216,19 +255,34 @@ UInt32 ColorDisplayFilterBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
 
-    if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
-        returnValue += _sfMatrix.getBinSize();
-    }
-
     if(FieldBits::NoField != (GammaFieldMask & whichField))
     {
         returnValue += _sfGamma.getBinSize();
     }
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
-        returnValue += _mfRamp.getBinSize();
+        returnValue += _sfMatrix.getBinSize();
+    }
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        returnValue += _sfWidth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        returnValue += _sfHeight.getBinSize();
+    }
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        returnValue += _sfDepth.getBinSize();
+    }
+
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+    {
+        returnValue += _mfTable.getBinSize();
     }
 
 
@@ -240,19 +294,34 @@ void ColorDisplayFilterBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
-        _sfMatrix.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (GammaFieldMask & whichField))
     {
         _sfGamma.copyToBin(pMem);
     }
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
-        _mfRamp.copyToBin(pMem);
+        _sfMatrix.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        _sfWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        _sfHeight.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+    {
+        _mfTable.copyToBin(pMem);
     }
 
 
@@ -263,19 +332,34 @@ void ColorDisplayFilterBase::copyFromBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyFromBin(pMem, whichField);
 
-    if(FieldBits::NoField != (MatrixFieldMask & whichField))
-    {
-        _sfMatrix.copyFromBin(pMem);
-    }
-
     if(FieldBits::NoField != (GammaFieldMask & whichField))
     {
         _sfGamma.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
     {
-        _mfRamp.copyFromBin(pMem);
+        _sfMatrix.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+    {
+        _sfWidth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+    {
+        _sfHeight.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+    {
+        _mfTable.copyFromBin(pMem);
     }
 
 
@@ -288,14 +372,23 @@ void ColorDisplayFilterBase::executeSyncImpl(      ColorDisplayFilterBase *pOthe
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        _sfMatrix.syncWith(pOther->_sfMatrix);
-
     if(FieldBits::NoField != (GammaFieldMask & whichField))
         _sfGamma.syncWith(pOther->_sfGamma);
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
-        _mfRamp.syncWith(pOther->_mfRamp);
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+        _sfMatrix.syncWith(pOther->_sfMatrix);
+
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pOther->_sfHeight);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+        _mfTable.syncWith(pOther->_mfTable);
 
 
 }
@@ -307,15 +400,24 @@ void ColorDisplayFilterBase::executeSyncImpl(      ColorDisplayFilterBase *pOthe
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
 
-    if(FieldBits::NoField != (MatrixFieldMask & whichField))
-        _sfMatrix.syncWith(pOther->_sfMatrix);
-
     if(FieldBits::NoField != (GammaFieldMask & whichField))
         _sfGamma.syncWith(pOther->_sfGamma);
 
+    if(FieldBits::NoField != (MatrixFieldMask & whichField))
+        _sfMatrix.syncWith(pOther->_sfMatrix);
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
-        _mfRamp.syncWith(pOther->_mfRamp, sInfo);
+    if(FieldBits::NoField != (WidthFieldMask & whichField))
+        _sfWidth.syncWith(pOther->_sfWidth);
+
+    if(FieldBits::NoField != (HeightFieldMask & whichField))
+        _sfHeight.syncWith(pOther->_sfHeight);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
+
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+        _mfTable.syncWith(pOther->_mfTable, sInfo);
 
 
 }
@@ -326,8 +428,8 @@ void ColorDisplayFilterBase::execBeginEditImpl (const BitVector &whichField,
 {
     Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
 
-    if(FieldBits::NoField != (RampFieldMask & whichField))
-        _mfRamp.beginEdit(uiAspect, uiContainerSize);
+    if(FieldBits::NoField != (TableFieldMask & whichField))
+        _mfTable.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif

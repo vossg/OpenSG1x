@@ -11,14 +11,7 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
-	<Field
-		name="matrix"
-		type="Matrix"
-		cardinality="single"
-		visibility="external"
-		access="public"
-	>
-	</Field>
+This filter can be used to do a shadng correction to get a uniform projection. Additionally the color space can be transformed to get e uniform color space with multiple projectors
 	<Field
 		name="gamma"
 		type="Real32"
@@ -27,13 +20,51 @@
 		defaultValue="2.4"
 		access="public"
 	>
+	Gamma value of the rendered image
 	</Field>
 	<Field
-		name="ramp"
+		name="matrix"
+		type="Matrix"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	Color transformation matrix
+	</Field>
+	<Field
+		name="width"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="height"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="depth"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="2"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="table"
 		type="Color3f"
 		cardinality="multi"
 		visibility="external"
 		access="public"
 	>
+	Shading table
 	</Field>
 </FieldContainer>

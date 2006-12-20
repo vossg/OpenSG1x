@@ -67,9 +67,12 @@
 
 #include <OSGDisplayFilter.h> // Parent
 
-#include <OSGMatrixFields.h> // Matrix type
 #include <OSGReal32Fields.h> // Gamma type
-#include <OSGColor3fFields.h> // Ramp type
+#include <OSGMatrixFields.h> // Matrix type
+#include <OSGUInt32Fields.h> // Width type
+#include <OSGUInt32Fields.h> // Height type
+#include <OSGUInt32Fields.h> // Depth type
+#include <OSGColor3fFields.h> // Table type
 
 #include <OSGColorDisplayFilterFields.h>
 
@@ -93,15 +96,21 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilterBase : public DisplayFilter
 
     enum
     {
-        MatrixFieldId = Inherited::NextFieldId,
-        GammaFieldId  = MatrixFieldId + 1,
-        RampFieldId   = GammaFieldId  + 1,
-        NextFieldId   = RampFieldId   + 1
+        GammaFieldId  = Inherited::NextFieldId,
+        MatrixFieldId = GammaFieldId  + 1,
+        WidthFieldId  = MatrixFieldId + 1,
+        HeightFieldId = WidthFieldId  + 1,
+        DepthFieldId  = HeightFieldId + 1,
+        TableFieldId  = DepthFieldId  + 1,
+        NextFieldId   = TableFieldId  + 1
     };
 
-    static const OSG::BitVector MatrixFieldMask;
     static const OSG::BitVector GammaFieldMask;
-    static const OSG::BitVector RampFieldMask;
+    static const OSG::BitVector MatrixFieldMask;
+    static const OSG::BitVector WidthFieldMask;
+    static const OSG::BitVector HeightFieldMask;
+    static const OSG::BitVector DepthFieldMask;
+    static const OSG::BitVector TableFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -128,25 +137,37 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilterBase : public DisplayFilter
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMatrix            *getSFMatrix         (void);
            SFReal32            *getSFGamma          (void);
-           MFColor3f           *getMFRamp           (void);
+           SFMatrix            *getSFMatrix         (void);
+           SFUInt32            *getSFWidth          (void);
+           SFUInt32            *getSFHeight         (void);
+           SFUInt32            *getSFDepth          (void);
+           MFColor3f           *getMFTable          (void);
 
-           Matrix              &getMatrix         (void);
-     const Matrix              &getMatrix         (void) const;
            Real32              &getGamma          (void);
      const Real32              &getGamma          (void) const;
-           Color3f             &getRamp           (const UInt32 index);
-           MFColor3f           &getRamp           (void);
-     const MFColor3f           &getRamp           (void) const;
+           Matrix              &getMatrix         (void);
+     const Matrix              &getMatrix         (void) const;
+           UInt32              &getWidth          (void);
+     const UInt32              &getWidth          (void) const;
+           UInt32              &getHeight         (void);
+     const UInt32              &getHeight         (void) const;
+           UInt32              &getDepth          (void);
+     const UInt32              &getDepth          (void) const;
+           Color3f             &getTable          (const UInt32 index);
+           MFColor3f           &getTable          (void);
+     const MFColor3f           &getTable          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setMatrix         ( const Matrix &value );
      void setGamma          ( const Real32 &value );
+     void setMatrix         ( const Matrix &value );
+     void setWidth          ( const UInt32 &value );
+     void setHeight         ( const UInt32 &value );
+     void setDepth          ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,9 +210,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilterBase : public DisplayFilter
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFMatrix            _sfMatrix;
     SFReal32            _sfGamma;
-    MFColor3f           _mfRamp;
+    SFMatrix            _sfMatrix;
+    SFUInt32            _sfWidth;
+    SFUInt32            _sfHeight;
+    SFUInt32            _sfDepth;
+    MFColor3f           _mfTable;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

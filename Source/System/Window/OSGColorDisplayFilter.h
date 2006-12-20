@@ -45,6 +45,7 @@
 #include <OSGConfig.h>
 #include <OSGFragmentProgramChunk.h>
 #include <OSGStateChunk.h>
+#include <OSGSHLChunk.h>
 
 #include "OSGDisplayFilterForeground.h"
 #include "OSGColorDisplayFilterBase.h"
@@ -106,13 +107,15 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilter : public ColorDisplayFilterBas
 
     virtual void createFilter          (DisplayFilterForeground *fg,
                                         Viewport *port);
-            void createFragmentProgramm(DisplayFilterForeground::DisplayFilterGroup *group);
-            void createRegisterCombiner(DisplayFilterForeground::DisplayFilterGroup *group);
+    void updateFilterValues();
     
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
   private:
+
+    ImagePtr    _shadingImage;
+    SHLChunkPtr _shlChunk;
 
     friend class FieldContainer;
     friend class ColorDisplayFilterBase;
