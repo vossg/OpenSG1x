@@ -2338,8 +2338,6 @@ void GeoVBO::update(void)
     pumpSetup2(TexCoords7 , GeoTexCoordsPtr , getTexCoords7 );
     pumpSetup2(Normals    , GeoNormalsPtr   , getNormals    );
 
-    pumpSetup2(Lengths    , GeoPLengthsPtr  , getLengths    );
-    pumpSetup2(Types      , GeoPTypesPtr    , getTypes      );
     pumpSetup2(Indices    , GeoIndicesPtr   , getIndices    );
 
     void (OSG_APIENTRY*_glGenBuffersARB)
@@ -2909,7 +2907,8 @@ void GeoVBO::draw(void)
     pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
     pumpSetup(Types      , GeoPTypesPtr    , getTypes      );
     pumpSetup(Indices    , GeoIndicesPtr   , getIndices    );
-
+    IndicesData = IndicesData; // workaround for irix compiler.
+    
     UInt32 lendummy;
     UInt32 LengthsSize;
     bool   len16 = false;
