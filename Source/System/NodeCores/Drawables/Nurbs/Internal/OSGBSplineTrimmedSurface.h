@@ -74,12 +74,11 @@ public:
   trimmingloop& getTrimmingLoops( void ) { return trimming; }
   int setSurface( BSplineTensorSurface &ts ) { surf = ts; return 0; }
   int setTrimmingLoops( trimmingloop &t ) { trimming = t; return 0; }
-#if 0
+
   //! flips the surface
   void flip( void );
-#endif /* 0 */
  
-protected:  
+protected:
 // file format constants  
   static const char ff_const_1[];
   static const char ff_const_2[];

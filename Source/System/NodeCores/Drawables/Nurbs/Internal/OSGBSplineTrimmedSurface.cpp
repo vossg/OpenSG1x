@@ -200,9 +200,9 @@ int BSplineTrimmedSurface::write( std::ostream &outfile )
   return 0;
 }
 
-#if 0
 // flip the whole surface
 // TODO: fix this function for rational surfaces and re-enable it
+// Should work now for rational surfaces but it is untested!
 void BSplineTrimmedSurface::flip( void )
 {
     // mirror the u-knot vector
@@ -225,9 +225,9 @@ void BSplineTrimmedSurface::flip( void )
     }
 
     // swap the control points along the u-direction
-    DCTPVec3dmatrix          &rvvcl_control_points = surf.getControlPointMatrix( );
+    DCTPVec4dmatrix          &rvvcl_control_points = surf.getControlPointMatrix( );
     const unsigned int    cui_cp_cnt = rvvcl_control_points.size( );
-    DCTPVec3dvector           vcl_swap;
+    DCTPVec4dvector           vcl_swap;
 
     for( ui_swap = 0; ui_swap < ( cui_cp_cnt >> 1 ); ++ui_swap )
     {
@@ -284,13 +284,15 @@ void BSplineTrimmedSurface::flip( void )
             std::cerr.precision( 6 ); 
 */                       
             // swap and mirror the control points
-            DCTPVec2dvector         &rvcl_control_points = trimming[ ui_loop ][ ui_curve ].getControlPointVector( );
+            DCTPVec3dvector         &rvcl_control_points = trimming[ ui_loop ][ ui_curve ].getControlPointVector( );
             const unsigned int   cui_cp_cnt = rvcl_control_points.size( );
-            Vec2d                cl_swap;
+            Vec3d                cl_swap;
 
             for( ui_swap = 0; ui_swap < cui_cp_cnt; ++ui_swap )
             {
-                rvcl_control_points[ ui_swap ][0] = cd_min_param + cd_max_param - rvcl_control_points[ ui_swap ][0];
+                rvcl_control_points[ ui_swap ][0] =
+                 (cd_min_param + cd_max_param) * rvcl_control_points[ui_swap][2]
+                 - rvcl_control_points[ ui_swap ][0];
             }
             for( ui_swap = 0; ui_swap < ( cui_cp_cnt >> 1 ); ++ui_swap )
             {
@@ -311,4 +313,4 @@ void BSplineTrimmedSurface::flip( void )
         }
     }
 }
-#endif /* 0 */
+

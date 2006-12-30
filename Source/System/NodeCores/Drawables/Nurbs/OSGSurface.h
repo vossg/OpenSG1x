@@ -102,6 +102,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Surface : public SurfaceBase
 
     void forceTessellate(void);
 
+    void flip(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */

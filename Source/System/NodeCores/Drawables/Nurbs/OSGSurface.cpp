@@ -2308,6 +2308,12 @@ void Surface::forceTessellate(void)
     endEditCP  (tmpPtr, DirtyMaskFieldMask);
 }
 
+void Surface::flip(void)
+{
+    if(_trimmedSurface != NULL)
+        _trimmedSurface->flip();
+}
+
 Action::ResultE Surface::drawPrimitives(DrawActionBase *action)
 {
     action->getWindow()->validateGLObject(getSurfaceGLId());
