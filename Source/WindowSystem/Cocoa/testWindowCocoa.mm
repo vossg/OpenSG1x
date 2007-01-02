@@ -396,8 +396,19 @@ void redraw ( void )
 
 @end
 
+// A magic method that allows applications to react to events even
+// when they are not organized in a bundle
+void osx_AllowForeground()
+{
+    ProcessSerialNumber psn = { 0, kCurrentProcess };
+    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+    SetFrontProcess(&psn);
+}
+
 int main(int argc, char *argv[])
 {
+    osx_AllowForeground();
+
     // OSG init
     osgInit(argc, argv);
 

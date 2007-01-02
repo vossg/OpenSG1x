@@ -320,9 +320,18 @@ static pascal OSStatus eventHandler(EventHandlerCallRef nextHandler, EventRef ev
     }
 }
 
+// A magic method that allows applications to react to events even
+// when they are not organized in a bundle
+void osx_AllowForeground()
+{
+    ProcessSerialNumber psn = { 0, kCurrentProcess };
+    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
+    SetFrontProcess(&psn);
+}
+
 int main (int argc, char **argv)
 {
-    int dummy;
+    osx_AllowForeground();
 
     // OSG init
 
