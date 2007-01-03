@@ -2551,8 +2551,14 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         edge2 = tI.getPosition(2) - tI.getPosition(0);
         tex1 = t1 - t0;
         tex2 = t2 - t0;
-        
-        Real32 invDet = 1.0 / (tex1[0]*tex2[1] - tex2[0]*tex1[1]);
+
+        // in rare cases this is zero!
+        Real32 invDet = (tex1[0]*tex2[1] - tex2[0]*tex1[1]);
+        if(invDet != 0.0f)
+            invDet = 1.0f / invDet;
+        else
+            invDet = 0.0f;
+
         sdir = invDet * (tex2[1]*edge1 - tex1[1]*edge2);    // tangent
         tdir = invDet * (tex1[0]*edge2 - tex2[0]*edge1);    // binormal
         
