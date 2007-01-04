@@ -319,8 +319,11 @@ void CharacterModel::convertMaterials(std::string configfile)
             }
             else
             {
+                // amz with my test scene paladin.cfg all textures were
+                // upside down so I disabled the vertical flipping perhaps
+                // they fixed the bug in Cal3D?
+#if 0
                 beginEditCP(img);
-                
                 {
                 // For some reason Cal3D expects textures upside down ???
                 UInt32 bpl = img->getBpp() * img->getWidth();
@@ -339,8 +342,8 @@ void CharacterModel::convertMaterials(std::string configfile)
                     b -= bpl * 2;
                 }
                 }
-                
                 endEditCP(img);
+#endif
                 
                 TextureChunkPtr tex = TextureChunk::create();
                 
@@ -399,7 +402,7 @@ void CharacterModel::deactivateShader(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModel.cpp,v 1.2 2005/10/02 15:27:24 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModel.cpp,v 1.3 2007/01/04 11:16:30 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 
