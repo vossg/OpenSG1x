@@ -517,6 +517,7 @@ class PlatformOptions:
         opts.Add(BoolOption('contrib_terrain', 'enable terrain rendering node', 0))
 
         opts.Add(PackageOption('contrib_performer_loader', 'Enable contrib performer loader', 'no'))
+        opts.Add(PackageOption('contrib_cal3d', 'enable Cal3D character animation library wrapper core', 'no'))
 
         #tests
         opts.Add(BoolOption('tests', 'compile test programs', 0))

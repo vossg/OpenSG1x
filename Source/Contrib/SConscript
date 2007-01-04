@@ -32,6 +32,9 @@ if _po.getOption('contrib_drawfunctorcore'):
 if _po.getOption('contrib_terrain'):
     ContribDirs.append(Dir('Terrain'))
 
+if _po.getOption('contrib_cal3d'):
+    ContribDirs.append(Dir('Cal3D'))
+
 if _po.getOption('contrib_performer_loader'):
     ContribDirs.append(Dir('PerformerLoader'))
 
@@ -58,6 +61,14 @@ def custom(env):
                     env.Append(LIBS=['libpf', 'libpfdu-util'])
                 else:
                     env.Append(LIBS=['pf', 'pfutil', 'pfdu'])
+
+    if _po.getOption('contrib_cal3d'):
+        if isinstance(_po.getOption('contrib_cal3d'), str):
+                cal3d_cpp_path = [os.path.join(_po.getOption('contrib_cal3d'), 'include')]
+                cal3d_lib_path = [os.path.join(_po.getOption('contrib_cal3d'), 'lib')]
+                env.Append(CPPPATH=cal3d_cpp_path)
+                env.Append(LIBPATH=cal3d_lib_path)
+                env.Append(LIBS=['cal3d'])
 
     env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
 
