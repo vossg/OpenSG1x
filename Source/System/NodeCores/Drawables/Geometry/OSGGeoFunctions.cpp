@@ -1589,6 +1589,9 @@ else
     //----------------------------------------------------------------------
     // create index face/line data
     OSG::beginEditCP(indexPtr);
+    OSG::beginEditCP(lensPtr);
+    OSG::beginEditCP(geoTypePtr);
+
     for(pType = minPType; pType <= maxPType; pType++)
     {
         // check for the pType count
@@ -1623,19 +1626,8 @@ else
             // set len/sysPType
             if(sysPType)
             {
-                OSG::beginEditCP(lensPtr);
-                {
-                    lensPtr->push_back(len);
-                }
-
-                OSG::endEditCP(lensPtr);
-
-                OSG::beginEditCP(geoTypePtr);
-                {
-                    geoTypePtr->push_back(sysPType);
-                }
-
-                OSG::endEditCP(geoTypePtr);
+              lensPtr->push_back(len);
+              geoTypePtr->push_back(sysPType);
             }
 
             primitiveN = 0;
@@ -1664,18 +1656,8 @@ else
                         if(len >= maxPType)
                         {
                             sysPType = primitiveType;
-                            OSG::beginEditCP(lensPtr);
-                            {
-                                lensPtr->push_back(len);
-                            }
-
-                            OSG::endEditCP(lensPtr);
-                            OSG::beginEditCP(geoTypePtr);
-                            {
-                                geoTypePtr->push_back(sysPType);
-                            }
-
-                            OSG::endEditCP(geoTypePtr);
+                            lensPtr->push_back(len);
+                            geoTypePtr->push_back(sysPType);
                         }
 
                         // add index data
@@ -1737,6 +1719,8 @@ else
         }
     }
 
+    OSG::endEditCP(geoTypePtr);
+    OSG::endEditCP(lensPtr);
     OSG::endEditCP(indexPtr);
 
     return triCount;
