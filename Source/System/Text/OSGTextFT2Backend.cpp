@@ -972,7 +972,7 @@ static int lineToFunc(const FT_Vector *to, void *user)
 #if ((FREETYPE_MAJOR == 2) && (FREETYPE_MINOR < 2))
 static int conicToFunc(FT_Vector *control, FT_Vector *to, void *user)
 #else
-static int conicToFunc(const FT_Vector *control, FT_Vector *to, void *user)
+static int conicToFunc(const FT_Vector *control, const FT_Vector *to, void *user)
 #endif
 {
     UserData *userData = reinterpret_cast<UserData*>(user);
@@ -999,7 +999,7 @@ static int conicToFunc(const FT_Vector *control, FT_Vector *to, void *user)
 #if ((FREETYPE_MAJOR == 2) && (FREETYPE_MINOR < 2))
 static int cubicToFunc(FT_Vector *control1, FT_Vector *control2, FT_Vector *to, void *user)
 #else
-static int cubicToFunc(const FT_Vector *control1, FT_Vector *control2, FT_Vector *to, void *user)
+static int cubicToFunc(const FT_Vector *control1, const FT_Vector *control2, const FT_Vector *to, void *user)
 #endif
 {
     UserData *userData = reinterpret_cast<UserData*>(user);
@@ -1470,7 +1470,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.5 2006/11/23 14:15:55 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.6 2007/01/08 13:56:21 tbeer Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }
