@@ -43,6 +43,9 @@ COpenSGMFCControl::~COpenSGMFCControl()
 void COpenSGMFCControl::RenderScene()
 {
 	mgr->redraw();
+    
+    // Thanks to Vladimir Galouchko for the hint!
+    mgr->getWindow()->deactivate(); 
 }
 
 BEGIN_MESSAGE_MAP(COpenSGMFCControl, CWnd)
