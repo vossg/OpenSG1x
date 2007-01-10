@@ -603,6 +603,8 @@ void SHLChunk::updateProgram(Window *win)
             FWARNING(("GL_EXT_geometry_shader4 extension not supported!\n"));
         }
     }
+	
+	updateProgramParameters(win);
 
     if(has_vertex || has_fragment || has_geometry)
     {
@@ -661,8 +663,6 @@ void SHLChunk::updateProgram(Window *win)
         deleteObject(program);
         win->setGLObjectId(getGLId(), 0);
     }
-
-    updateProgramParameters(win);
 
     // update all parameter locations
     updateParameterLocations(win, getParameters());
@@ -915,8 +915,9 @@ void SHLChunk::updateProgramParameters(Window *win)
     const MFUInt32 &ppvalues = getProgramParameterValues();
     for(UInt32 i = 0; i < ppnames.size(); ++i)
     {
-        if(i < ppvalues.size())
+        if(i < ppvalues.size()) {
             programParameteri(program, ppnames[i], ppvalues[i]);
+		}
     }
 }
 
@@ -1755,7 +1756,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.56 2006/11/30 16:37:22 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.57 2007/01/10 17:15:38 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
