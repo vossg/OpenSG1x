@@ -82,7 +82,7 @@ VRMLSceneFileType::~VRMLSceneFileType(void)
 
 const Char8 *VRMLSceneFileType::getName(void) const
 {
-    return "VRML GEOMETRY";
+    return "VRML Geometry";
 }
 
 /*-------------------------------------------------------------------------*/

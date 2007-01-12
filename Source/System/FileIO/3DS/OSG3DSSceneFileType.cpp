@@ -142,7 +142,7 @@ A3DSSceneFileType &A3DSSceneFileType::the(void)
  */
 const Char8 *A3DSSceneFileType::getName(void) const
 {
-    return "3DS GEOMETRY";
+    return "3DS Geometry";
 }
 
 

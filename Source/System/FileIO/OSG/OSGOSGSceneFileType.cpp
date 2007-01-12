@@ -108,7 +108,7 @@ OSGSceneFileType &OSGSceneFileType::the(void)
 
 const Char8 *OSGSceneFileType::getName(void) const
 {
-    return "OSG GEOMETRY";
+    return "OpenSG Ascii Geometry";
 }
 
 

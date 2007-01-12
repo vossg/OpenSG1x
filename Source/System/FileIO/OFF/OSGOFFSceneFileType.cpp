@@ -511,7 +511,7 @@ OFFSceneFileType::~OFFSceneFileType(void)
 /* */
 const Char8 *OFFSceneFileType::getName(void) const
 {
-    return "OFF GEOMETRY";
+    return "Geomview Geometry";
 }
 
 

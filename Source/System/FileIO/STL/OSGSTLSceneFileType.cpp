@@ -525,7 +525,7 @@ STLSceneFileType::~STLSceneFileType(void)
 /* */
 const Char8 *STLSceneFileType::getName(void) const
 {
-    return "Stereo lithography (STL)";
+    return "Stereolithography Geometry";
 }
 
 
@@ -542,7 +542,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.3 2006/11/10 16:45:15 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.4 2007/01/12 16:59:05 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 

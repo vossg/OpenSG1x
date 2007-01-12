@@ -140,7 +140,7 @@ NFIOSceneFileType::NFIOSceneFileType(const NFIOSceneFileType &obj) :
  */
 const Char8 *NFIOSceneFileType::getName(void) const
 {
-    return "OSG Binary";
+    return "OpenSG Binary Geometry";
 }
 
 /*-------------------------------------------------------------------------*/
@@ -164,6 +164,6 @@ NFIOSceneFileType NFIOSceneFileType:: _the(_suffixA,
 
 namespace
 {
-    static Char8    cvsid_cpp[] = "@(#)$Id: OSGNFIOSceneFileType.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8    cvsid_cpp[] = "@(#)$Id: OSGNFIOSceneFileType.cpp,v 1.2 2007/01/12 16:59:04 a-m-z Exp $";
     static Char8    cvsid_hpp[] = OSGBINSCENEFILETYPE_HEADER_CVSID;
 }

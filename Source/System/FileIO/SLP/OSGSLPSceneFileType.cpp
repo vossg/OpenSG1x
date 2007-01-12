@@ -356,7 +356,7 @@ SLPSceneFileType::~SLPSceneFileType(void)
 /* */
 const Char8 *SLPSceneFileType::getName(void) const
 {
-    return "Pro/Engineer SLP GEOMETRY";
+    return "Pro/Engineer Render Geometry";
 }
 
 
@@ -373,6 +373,6 @@ const Char8 *SLPSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSLPSceneFileType.cpp,v 1.2 2006/11/10 16:45:15 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSLPSceneFileType.cpp,v 1.3 2007/01/12 16:59:05 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSLPSCENEFILETYPE_HEADER_CVSID;
 }

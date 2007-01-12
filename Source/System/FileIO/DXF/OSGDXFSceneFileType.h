@@ -79,7 +79,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFSceneFileType : public SceneFileType
     /*! \name                   Get                                        */
     /*! \{                                                                 */
 
-    virtual const Char8 *getName(void) const { return "DXF GEOMETRY"; } // TODO: wirlich inline hier?
+    virtual const Char8 *getName(void) const { return "AutoCAD Geometry"; } // TODO: wirlich inline hier?
 
 
     /*! \}                                                                 */
@@ -127,6 +127,6 @@ typedef DXFSceneFileType* DXFSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGDXFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGDXFSceneFileType.h,v 1.2 2005/10/14 08:33:35 a-m-z Exp $"
+#define OSGDXFSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGDXFSceneFileType.h,v 1.3 2007/01/12 16:59:04 a-m-z Exp $"
 
 #endif // _OSGDXFSCENEFILETYPE_H_

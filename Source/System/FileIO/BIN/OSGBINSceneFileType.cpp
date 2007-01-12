@@ -144,7 +144,7 @@ BINSceneFileType::BINSceneFileType(const BINSceneFileType &obj) :
  */
 const Char8 *BINSceneFileType::getName(void) const
 {
-    return "BIN GEOMETRY";
+    return "OpenSG Binary Geometry";
 }
 
 /*-------------------------------------------------------------------------*/

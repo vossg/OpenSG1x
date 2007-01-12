@@ -294,7 +294,7 @@ RAWSceneFileType &RAWSceneFileType::the(void)
 
 const Char8 *RAWSceneFileType::getName(void) const
 {
-    return "RAW GEOMETRY";
+    return "RAW Geometry";
 }
 
 //----------------------------

@@ -704,7 +704,7 @@ OBJSceneFileType::~OBJSceneFileType(void)
 
 const Char8 *OBJSceneFileType::getName(void) const
 {
-    return "OBJ GEOMETRY";
+    return "Wavefront Geometry";
 }
 
 
