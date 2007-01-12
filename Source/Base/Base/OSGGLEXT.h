@@ -255,6 +255,63 @@
 
 /*! \}                                                                 */
 /*---------------------------------------------------------------------*/
+/*! \name GL_EXT_texture_integer                                       */
+/*! \ingroup GrpBaseBaseGLConstants                                    */
+/*  \{                                                                 */
+
+#ifndef GL_EXT_texture_integer
+#define GL_EXT_texture_integer            1
+#define GL_RGBA32UI_EXT                   0x8D70
+#define GL_RGB32UI_EXT                    0x8D71
+#define GL_ALPHA32UI_EXT                  0x8D72
+#define GL_INTENSITY32UI_EXT              0x8D73
+#define GL_LUMINANCE32UI_EXT              0x8D74
+#define GL_LUMINANCE_ALPHA32UI_EXT        0x8D75
+#define GL_RGBA16UI_EXT                   0x8D76
+#define GL_RGB16UI_EXT                    0x8D77
+#define GL_ALPHA16UI_EXT                  0x8D78
+#define GL_INTENSITY16UI_EXT              0x8D79
+#define GL_LUMINANCE16UI_EXT              0x8D7A
+#define GL_LUMINANCE_ALPHA16UI_EXT        0x8D7B
+#define GL_RGBA8UI_EXT                    0x8D7C
+#define GL_RGB8UI_EXT                     0x8D7D
+#define GL_ALPHA8UI_EXT                   0x8D7E
+#define GL_INTENSITY8UI_EXT               0x8D7F
+#define GL_LUMINANCE8UI_EXT               0x8D80
+#define GL_LUMINANCE_ALPHA8UI_EXT         0x8D81
+#define GL_RGBA32I_EXT                    0x8D82
+#define GL_RGB32I_EXT                     0x8D83
+#define GL_ALPHA32I_EXT                   0x8D84
+#define GL_INTENSITY32I_EXT               0x8D85
+#define GL_LUMINANCE32I_EXT               0x8D86
+#define GL_LUMINANCE_ALPHA32I_EXT         0x8D87
+#define GL_RGBA16I_EXT                    0x8D88
+#define GL_RGB16I_EXT                     0x8D89
+#define GL_ALPHA16I_EXT                   0x8D8A
+#define GL_INTENSITY16I_EXT               0x8D8B
+#define GL_LUMINANCE16I_EXT               0x8D8C
+#define GL_LUMINANCE_ALPHA16I_EXT         0x8D8D
+#define GL_RGBA8I_EXT                     0x8D8E
+#define GL_RGB8I_EXT                      0x8D8F
+#define GL_ALPHA8I_EXT                    0x8D90
+#define GL_INTENSITY8I_EXT                0x8D91
+#define GL_LUMINANCE8I_EXT                0x8D92
+#define GL_LUMINANCE_ALPHA8I_EXT          0x8D93
+#define GL_RED_INTEGER_EXT                0x8D94
+#define GL_GREEN_INTEGER_EXT              0x8D95
+#define GL_BLUE_INTEGER_EXT               0x8D96
+#define GL_ALPHA_INTEGER_EXT              0x8D97
+#define GL_RGB_INTEGER_EXT                0x8D98
+#define GL_RGBA_INTEGER_EXT               0x8D99
+#define GL_BGR_INTEGER_EXT                0x8D9A
+#define GL_BGRA_INTEGER_EXT               0x8D9B
+#define GL_LUMINANCE_INTEGER_EXT          0x8D9C
+#define GL_LUMINANCE_ALPHA_INTEGER_EXT    0x8D9D
+#define GL_RGBA_INTEGER_MODE_EXT          0x8D9E
+#endif
+
+/*! \}                                                                 */
+/*---------------------------------------------------------------------*/
 /*! \name GL_NV_register_combiners                                     */
 /*! \ingroup GrpBaseBaseGLConstants                                    */
 /*  \{                                                                 */
