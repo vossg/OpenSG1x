@@ -595,7 +595,7 @@ Action::ResultE Character::renderActionHandler(Action *action)
                 
                 if(coremat != NULL)
                 {
-                    UInt32 ind = reinterpret_cast<UInt32>(
+                    UInt32 ind = reinterpret_cast<ptrdiff_t>(
                                     coremat->getUserData());
 
                     _drawWrappers[ind].addMesh(meshind, submeshind);
@@ -647,7 +647,7 @@ Action::ResultE Character::renderActionHandler(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.4 2005/10/06 14:22:40 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacter.cpp,v 1.5 2007/01/15 19:54:53 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 
