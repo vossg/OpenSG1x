@@ -3722,10 +3722,13 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
             }
 
             ++typeI;
-            if(lens32Ptr != NullFC)
-                ++len32I;
-            else
-                ++len16I;
+			if (lN > 0)
+			{
+				if(lens32Ptr != NullFC)
+					++len32I;
+				else if(lens16Ptr != NullFC)
+					++len16I;
+			}
         }
     }
 

@@ -136,6 +136,7 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
       break;
     case SIDE_SDT:
       sideCount = n;
+      break;
     case INVALID_SDT:
     case DEPTH_SDT:
     default:
