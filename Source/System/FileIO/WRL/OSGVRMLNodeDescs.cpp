@@ -3536,8 +3536,6 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 {
     TextureChunkPtr  pTexture = NullFC;
 
-    ImagePtr         pImage   = Image::create();
-
     pTexture = TextureChunkPtr::dcast(pFC);
 
 
@@ -3548,7 +3546,9 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                 << _url[0].c_str() << std::endl;
 #endif
 
-        if(pImage->read(_url[0].c_str()))
+        ImagePtr pImage = ImageFileHandler::the().read(_url[0].c_str());
+
+        if(pImage != NullFC)
         {
             beginEditCP(pImage, Image::ForceAlphaBinaryFieldMask);
             pImage->setForceAlphaBinary(pImage->calcIsAlphaBinary());
@@ -3583,8 +3583,6 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
                      << _url[0].c_str()
                      << " !!!"
                      << std::endl;
-
-            subRefCP(pImage);
         }
     }
     else
