@@ -5120,46 +5120,20 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
 
     FDEBUG(("Inline : %s\n",  (*pUrl)[0].c_str()));
 
-    VRMLFile *pVRMLLoader = new VRMLFile();
-
-    pVRMLLoader->createStandardPrototypes();
-
     std::string filename =
     SceneFileHandler::the().getPathHandler()->findFile((*pUrl)[0].c_str());
 
-    // read it via stream could be a compressed file.
-    std::ifstream in(filename.c_str(), std::ios::binary);
-    if(in)
-    {
-        std::string path = SceneFileHandler::the().getPathHandler()->
+    // could be a real url with a relative inline path.
+    if(filename.empty())
+        filename = (*pUrl)[0];
+
+    std::string path = SceneFileHandler::the().getPathHandler()->
                            extractPath(filename.c_str());
-
-        SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
-        ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
-
-        if(OSG::isGZip(in))
-        {
-#ifdef OSG_ZSTREAM_SUPPORTED
-            zip_istream unzipper(in);
-            pVRMLLoader->scanStream(unzipper);
-#else
-            FWARNING(("zstream no configured, could not read "
-                      "compressed file"));
-#endif
-        }
-        else
-        {
-            pVRMLLoader->scanStream(in);
-        }
-        in.close();
-        ImageFileHandler::the().getPathHandler()->subPath(path.c_str());
-        SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
-    }
-    //pVRMLLoader->scanFile(filename.c_str());
-
-    NodePtr pFile = pVRMLLoader->getRoot();
-
-//    NodePtr pFile = SceneFileHandler::the().read((*pUrl)[0].c_str());
+    SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+    ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+    NodePtr pFile = SceneFileHandler::the().read(filename.c_str());
+    ImageFileHandler::the().getPathHandler()->subPath(path.c_str());
+    SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
 
     if(pFile != NullFC)
     {
@@ -5169,8 +5143,6 @@ void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
         }
         endEditCP  (pNode, Node::ChildrenFieldMask);
     }
-
-    delete pVRMLLoader;
 
 #ifdef OSG_DEBUG_VRML
     decIndent();

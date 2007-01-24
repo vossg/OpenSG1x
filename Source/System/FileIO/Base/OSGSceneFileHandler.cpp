@@ -309,8 +309,29 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
     std::string fullFilePath = initPathHandler(fileName);
     if(fullFilePath.empty())
     {
-        SWARNING << "Couldn't open file " << fileName << std::endl;
-        return NullFC;
+        if(_readFP != NULL)
+        {
+            // that's a fallback could be a url so the callback
+            // can handle this correctly.
+            SceneFileType *type = getFileType(fileName);
+            if(type != NULL)
+            {
+                // create a dummy stream with the bad flag set.
+                std::ifstream in;
+                in.setstate(std::ios::badbit);
+                return _readFP(type, in, fileName);
+            }
+            else
+            {
+                SWARNING << "Couldn't open file " << fileName << std::endl;
+                return NullFC;
+            }
+        }
+        else
+        {
+            SWARNING << "Couldn't open file " << fileName << std::endl;
+            return NullFC;
+        }
     }
 
     SceneFileType *type = getFileType(fullFilePath.c_str());
