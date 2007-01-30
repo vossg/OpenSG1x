@@ -531,11 +531,13 @@ void Navigator::updateCameraTransformation()
         }
         else
         {
-	        beginEditCP(t);
-	        {
-                t->getSFMatrix()->setValue(theMatrix);
+            // don't pollute the changelist with a unchanged matrix.
+            if(t->getMatrix() != theMatrix)
+            {
+                beginEditCP(t);
+                    t->setMatrix(theMatrix);
+                endEditCP(t);
             }
-            endEditCP(t);
         }
     }
     else
