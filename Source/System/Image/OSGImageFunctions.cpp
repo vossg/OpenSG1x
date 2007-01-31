@@ -69,11 +69,11 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
                                 SliceDataType         sliceDataType )
 {
   UInt32 dataSize, i, n = imageVec.size();
-  Int32 w, h;
+  Int32 w = 0, h = 0;
   UInt8 *destData, *srcData;
-  Image::PixelFormat pf;
-  Image::Type        dt;
-  bool needColor, needAlpha, needCopy = false;
+  Image::PixelFormat pf = Image::OSG_INVALID_PF;
+  Image::Type        dt = Image::OSG_INVALID_IMAGEDATATYPE;
+  bool needColor = false, needAlpha = false, needCopy = false;
   ImagePtr copy = Image::create();
   UInt32 depth, frameCount, sideCount;
 
