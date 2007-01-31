@@ -77,9 +77,9 @@ endif
 
 ### Language #######################################################
 
-LANG_FLAGS          = -fvisibility-inlines-hidden --param max-inline-insns-single=15000 --param inline-unit-growth=1000 --param large-function-growth=20000
+LANG_FLAGS          = --param max-inline-insns-single=15000 --param inline-unit-growth=1000 --param large-function-growth=20000
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi  -use_readonly_const
+COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100 -fPIC
 
 ### Optimize / Debug ###############################################
 

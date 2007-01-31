@@ -77,9 +77,9 @@ endif
 
 ### Language #######################################################
 
-LANG_FLAGS          = 
+LANG_FLAGS          = --param max-inline-insns-single=15000 --param inline-unit-growth=1000 --param large-function-growth=20000
 #-frepo  -fno-implicit-templates
-COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100 -fpic
+COMPILER    		= -ansi  -use_readonly_const -ftemplate-depth-100 -fPIC
 
 ### Optimize / Debug ###############################################
 
@@ -88,15 +88,15 @@ COMP_INLINE :=
 endif
 
 ifeq ($(DEBUG_VERSION), 0)
-	COMP_OPTIMIZE    = -O2
+	COMP_OPTIMIZE    = -O3 -fexpensive-optimizations
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -g -DOSG_DEBUG
+	COMP_DEBUG       = -O1 -g -DOSG_DEBUG
 endif
 
-CCFLAGS_EXT_OPT := -O2
-CCFLAGS_EXT_DBG := -g -DOSG_DEBUG
+CCFLAGS_EXT_OPT := -O3
+CCFLAGS_EXT_DBG := -O1 -g -DOSG_DEBUG
 
 ### Compiler Flags ################################################
 
