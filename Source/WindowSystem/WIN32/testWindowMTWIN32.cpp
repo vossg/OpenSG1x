@@ -300,7 +300,7 @@ int main (int argc, char **argv)
     
     if ( file == NullFC )
     {
-        std::cerr << "Couldn't load file, ignoring" << std::endl;
+        SWARNING << "Couldn't load file, ignoring" << endLog;
         file = makeTorus( .5, 2, 16, 16 );
     }
     
@@ -309,7 +309,7 @@ int main (int argc, char **argv)
     Vec3f min,max;
     file->getVolume().getBounds( min, max );
     
-    std::cout << "Volume: from " << min << " to " << max << std::endl;
+    SINFO << "Volume: from " << min << " to " << max << endLog;
 
     beginEditCP(dlight);
     dlight->addChild( file );

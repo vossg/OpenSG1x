@@ -100,7 +100,7 @@ void WIN32Window::changed(BitVector whichField, UInt32 origin)
 void WIN32Window::dump(      UInt32    , 
                          const BitVector ) const
 {
-    SLOG << "Dump WIN32Window NI" << std::endl;
+    SLOG << "Dump WIN32Window NI" << endLog;
 }
 
 /*-------------------------- your_category---------------------------------*/
@@ -117,9 +117,9 @@ void WIN32Window::init( void )
         
         if(getHglrc() == NULL)
         {
-            std::cerr << "WIN32Window::init: failed: "
-                      << GetLastError() 
-                      << std::endl;        
+            SFATAL << "WIN32Window::init: failed: "
+                   << GetLastError()
+                   << endLog;
         }
     }
 
@@ -136,9 +136,9 @@ void WIN32Window::activate( void )
 
     if(!wglMakeCurrent(getHdc(), getHglrc() ) )
     {
-        std::cerr << "WIN32Window::activate: failed: "
-                  << GetLastError() 
-                  << std::endl;        
+         SFATAL << "WIN32Window::activate: failed: "
+                << GetLastError()
+                << endLog;
     }
 }
 
