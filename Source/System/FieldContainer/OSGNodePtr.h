@@ -78,21 +78,6 @@ NodePtr makeCoredNode(typename Core::Ptr *coreP)
     return n;
 }
 
-template <class Core, class CoreParentPtr> inline
-NodePtr makeCoredNode(FCPtr<CoreParentPtr, Core> *coreP)
-{
-    NodePtr             n = Node::create();
-    typename Core::Ptr  c = Core::create();
-
-    beginEditCP(n, Node::CoreFieldMask);
-    n->setCore(c);
-    endEditCP(n, Node::CoreFieldMask);
-
-    if(coreP != NULL)
-        *coreP = c;
-
-    return n;
-}
 OSG_END_NAMESPACE
 
 #endif /* _OSGNODEPTR_H_ */
