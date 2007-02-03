@@ -459,6 +459,9 @@ $(SUB_SO): $(LIBS_DEP) $(LIB_QTTARGET_CPP) $(LIB_OBJECTS) $(SUB_SO_DEF)
 ifeq ($(OS_BASE),hpux11.00)
 	chatr +s enable $(SUB_SO)
 endif
+ifeq ($(OS_BASE),cygwin)
+	if test -r $(SUB_SO).manifest ; then mt -manifest $(SUB_SO).manifest '-outputresource:$(SUB_SO);#2' ; fi
+endif
 
 $(LIB_QT_TARGET)
 
