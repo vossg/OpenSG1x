@@ -122,6 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     virtual void  setHeadlight     ( bool on );
     virtual void  turnHeadlightOn  ( void );
     virtual void  turnHeadlightOff ( void );
+    virtual void  setCamera        ( PerspectiveCameraPtr camera );
 
     virtual void  showAll          ( void );
 

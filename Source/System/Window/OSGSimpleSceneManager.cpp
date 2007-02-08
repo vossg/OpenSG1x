@@ -378,6 +378,35 @@ void SimpleSceneManager::turnHeadlightOff(void)
     setHeadlight(false);
 }
 
+void SimpleSceneManager::setCamera(PerspectiveCameraPtr camera)
+{
+    if(camera == NullFC)
+        return;
+
+    beginEditCP(camera);
+        camera->setBeacon(_camera->getBeacon());
+        camera->setFov   (_camera->getFov());
+        camera->setNear  (_camera->getNear());
+        camera->setFar   (_camera->getFar());
+    endEditCP(camera);
+
+    for(UInt32 i=0;i<_win->getPort().size();++i)
+    {
+        ViewportPtr vp = _win->getPort()[i];
+        if(vp != NullFC)
+        {
+            beginEditCP(vp);
+                vp->setCamera(camera);
+            endEditCP(vp);
+        }
+    }
+
+    // destroy old camera.
+    subRefCP(_camera);
+    _camera = camera;
+    addRefCP(_camera);
+}
+
 /*! set the highlight object
  */
 void SimpleSceneManager::setHighlight(NodePtr highlight)
