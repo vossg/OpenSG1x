@@ -150,7 +150,8 @@ Returns true on success.
 */
 bool HDRImageFileType::write(const ImagePtr &image, std::ostream &os, const std::string &mimetype)
 {
-    if(image->getDataType() != Image::OSG_FLOAT32_IMAGEDATA)
+    if(    ( image->getDataType() != Image::OSG_FLOAT32_IMAGEDATA) &&
+        ( image->getDataType() != Image::OSG_FLOAT16_IMAGEDATA))
     {
         FWARNING(("HDRImageFileType::write: Image has non float data type!\n"));
         return false;
@@ -170,18 +171,34 @@ bool HDRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
 
     RGBE *rgbe_scan = new RGBE[width];
 
-    Real32 *data = ((Real32 *)(image->getData()));
-
-    //upside down !!!
-    for(int y=height-1;y>=0;y--)
+    if( image->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
     {
-        if (fwritecolrs(os, &data[y * width * 3], rgbe_scan, width, height) < 0)
+         Real32 *data = ((Real32 *)(image->getData()));
+
+        //upside down !!!
+        for(int y=height-1;y>=0;y--)
         {
-            delete [] rgbe_scan;
-            return false;
+            if (fwritecolrs(os, &data[y * width * 3], rgbe_scan, width, height) < 0)
+            {
+                delete [] rgbe_scan;
+                return false;
+            }
         }
     }
-
+    else // OSG_FLOAT16_IMAGEDATA
+    {
+         Real16 *data = ((Real16 *)(image->getData()));
+        //upside down !!!
+        for(int y=height-1;y>=0;y--)
+        {
+            if (fwritecolrs(os, &data[y * width * 3], rgbe_scan, width, height) < 0)
+            {
+                delete [] rgbe_scan;
+                return false;
+            }
+        }
+    }
+   
     delete [] rgbe_scan;
     return true;
 }
@@ -231,7 +248,8 @@ Returns true on success.
 bool HDRImageFileType::write(const ImagePtr &image, 
                              const Char8 *fileName)
 {
-    if(image->getDataType() != Image::OSG_FLOAT32_IMAGEDATA)
+    if( ( image->getDataType() != Image::OSG_FLOAT32_IMAGEDATA) &&
+        ( image->getDataType() != Image::OSG_FLOAT16_IMAGEDATA))
     {
         FWARNING(("HDRImageFileType::write: Image has non float data type!\n"));
         return false;
@@ -259,16 +277,34 @@ bool HDRImageFileType::write(const ImagePtr &image,
 
     RGBE *rgbe_scan = new RGBE[width];
 
-    Real32 *data = ((Real32 *)(image->getData()));
-
-    //upside down !!!
-    for(int y=height-1;y>=0;y--)
+    if( image->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
     {
-        if (fwritecolrs(file, &data[y * width * 3], rgbe_scan, width, height) < 0)
+        Real32 *data = ((Real32 *)(image->getData()));
+
+        //upside down !!!
+        for(int y=height-1;y>=0;y--)
         {
-            fclose(file);
-            delete [] rgbe_scan;
-            return false;
+            if (fwritecolrs(file, &data[y * width * 3], rgbe_scan, width, height) < 0)
+            {
+                fclose(file);
+                delete [] rgbe_scan;
+                return false;
+            }
+        }
+    }
+    else // 16 bit floating point data
+    {
+        Real16 *data = ((Real16 *)(image->getData()));
+
+        //upside down !!!
+        for(int y=height-1;y>=0;y--)
+        {
+            if (fwritecolrs(file, &data[y * width * 3], rgbe_scan, width, height) < 0)
+            {
+                fclose(file);
+                delete [] rgbe_scan;
+                return false;
+            }
         }
     }
     fclose(file);
@@ -587,18 +623,52 @@ void HDRImageFileType::RGBE2Float(RGBE rgbe, Real32 *fcol)
     }
 }
 
+//rgbe -> float color
+void HDRImageFileType::RGBE2Half(RGBE rgbe, Real16 *fcol)
+{
+    if (rgbe[EXP] == 0)
+    {
+        *(fcol + RED) = *(fcol + GRN) = *(fcol + BLU) = 0;
+    }
+    else
+    {
+        Real32 f = ldexp(1., rgbe[EXP]-(COLXS+8));
+        *(fcol + RED) = Real16( ( rgbe[RED]+.5) * f);
+        *(fcol + GRN) = Real16( ( rgbe[GRN]+.5) * f);
+        *(fcol + BLU) = Real16( ( rgbe[BLU]+.5) * f);
+    }
+}
+
 int HDRImageFileType::fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan,
                                   int width, int height)
 {
-    int i, j, beg, c2, cnt=0;
     // convert scanline
-    for (i=0;i<width;i++)
+    for (unsigned int i=0; i < width; ++i)
     {
         float2RGBE(scan, rgbe_scan[i]);
         scan += 3;
     }
+    // write the RGBE Data to a file
+    return fwriteRGBE(file, rgbe_scan, width, height);
+}
 
-    if ((width < MINELEN) | (width > MAXELEN))	// OOBs, write out flat
+int HDRImageFileType::fwritecolrs(FILE *file, Real16 *scan, RGBE *rgbe_scan,
+                                  int width, int height)
+{
+    // convert scanline
+    for (unsigned int i=0; i < width; ++i)
+    {
+        half2RGBE(scan, rgbe_scan[i]);
+        scan += 3;
+    }
+    // write the RGBE Data to a file
+    return fwriteRGBE(file, rgbe_scan, width, height);
+}
+
+int HDRImageFileType::fwriteRGBE( FILE *file, RGBE *rgbe_scan, int width, int height)
+{
+    int i, j, beg, c2, cnt=0;
+    if ((width < MINELEN) | (width > MAXELEN))    // OOBs, write out flat
           return (fwrite((char *)rgbe_scan, sizeof(RGBE), width, file) - width);
 
     // put magic header
@@ -611,7 +681,7 @@ int HDRImageFileType::fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan,
     for (i=0;i<4;i++)
     {
         for (j=0;j<width;j+=cnt)
-        {	// find next run
+        {    // find next run
             for (beg=j;beg<width;beg+=cnt)
             {
                 for(cnt=1;(cnt<127) && ((beg+cnt)<width) && (rgbe_scan[beg+cnt][i] == rgbe_scan[beg][i]); cnt++);
@@ -655,14 +725,34 @@ int HDRImageFileType::fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan,
 int HDRImageFileType::fwritecolrs(std::ostream &os, Real32 *scan, RGBE *rgbe_scan,
                                   int width, int height)
 {
-    int i, j, beg, c2, cnt=0;
-    
     // convert scanline
-    for (i=0;i<width;i++)
+    for (unsigned int i=0;i<width;i++)
     {
         float2RGBE(scan, rgbe_scan[i]);
         scan += 3;
     }
+
+    return fwriteRGBE(os, rgbe_scan, width, height);
+}
+
+int HDRImageFileType::fwritecolrs(std::ostream &os, Real16 *scan, RGBE *rgbe_scan,
+                                  int width, int height)
+{
+    // convert scanline
+    for (unsigned int i=0;i<width;i++)
+    {
+        half2RGBE(scan, rgbe_scan[i]);
+        scan += 3;
+    }
+
+    return fwriteRGBE(os, rgbe_scan, width, height);
+}
+
+
+int HDRImageFileType::fwriteRGBE(std::ostream &os, RGBE *rgbe_scan,
+                                  int width, int height)
+{
+    int i, j, beg, c2, cnt=0;
 
     if ((width < MINELEN) | (width > MAXELEN))
     {
@@ -733,6 +823,28 @@ int HDRImageFileType::fwritecolrs(std::ostream &os, Real32 *scan, RGBE *rgbe_sca
 
 //float color -> rgbe
 void HDRImageFileType::float2RGBE(Real32 *fcol, RGBE rgbe)
+{
+    Real32 d = (*(fcol + RED) > *(fcol + GRN)) ? *(fcol + RED) : *(fcol + GRN);
+    
+    if(*(fcol + BLU) > d)
+        d = *(fcol + BLU);
+    if(d <= 1e-32f)
+    {
+        rgbe[RED] = rgbe[GRN] = rgbe[BLU] = rgbe[EXP] = 0;
+    }
+    else
+    {
+        int e;
+        d = frexp(d, &e) * 256.f / d;
+        rgbe[RED] = (unsigned char)(*(fcol + RED) * d);
+        rgbe[GRN] = (unsigned char)(*(fcol + GRN) * d);
+        rgbe[BLU] = (unsigned char)(*(fcol + BLU) * d);
+        rgbe[EXP] = (unsigned char)(e + COLXS);
+    }
+}
+
+//half color -> rgbe
+void HDRImageFileType::half2RGBE(Real16 *fcol, RGBE rgbe)
 {
     Real32 d = (*(fcol + RED) > *(fcol + GRN)) ? *(fcol + RED) : *(fcol + GRN);
     
