@@ -165,6 +165,10 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         aspectX = ((Real32)port->getPixelHeight()/getAspectHeight()) /
                   ((Real32)port->getPixelWidth() / getAspectWidth());
     }
+	
+	glMatrixMode(GL_TEXTURE);
+    glPushMatrix();
+    glLoadIdentity();
  
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
@@ -258,8 +262,11 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
             glClear(GL_DEPTH_BUFFER_BIT);
     }
     
+	glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
+	glMatrixMode(GL_TEXTURE);
     glPopMatrix();
 
     glPopAttrib();
@@ -290,7 +297,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.5 2006/09/08 13:45:30 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.6 2007/02/09 16:26:29 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 
