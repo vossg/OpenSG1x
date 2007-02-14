@@ -2,6 +2,7 @@
 #ifndef _V4L_FRAME_GRABBER_H
 #define _V4L_FRAME_GRABBER_H
 
+#undef __STRICT_ANSI__ // Doesn't work with videodev.h
 #include <stdlib.h>
 #include <linux/videodev.h>
 

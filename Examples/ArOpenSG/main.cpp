@@ -33,6 +33,7 @@ ARToolKitPlus::MemoryManager *memManager = NULL;
 
 #endif
 
+#undef debug // screws up osgInit prototype
 
 #include <OpenSG/OSGGLUT.h>
 #include <OpenSG/OSGGLUTWindow.h>
