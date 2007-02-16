@@ -107,10 +107,15 @@ endif
 
 LANG_FLAGS          = 
 #-frepo  -fno-implicit-templates
+
+COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
+
 ifeq ($(COMPILERMAJORVERSION),8)
 COMPILER    		= -fpic -Kc++eh -Krtti -ansi
-else
-COMPILER    		= -Tnoauto -KPIC -Kc++eh -Krtti -ansi
+endif
+
+ifeq ($(COMPILERMAJORVERSION),9)
+COMPILER    		= -fpic -Kc++eh -Krtti -ansi
 endif
 
 ### Optimize / Debug ###############################################
