@@ -143,6 +143,9 @@ Real32 PolygonForeground::mapCoordinate(Real32 val, Real32 max, bool norm)
     
 void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 {
+    if(getActive() == false)
+        return;
+	
     if(getPositions().getSize() == 0) // nothing to render
         return;
 
@@ -272,7 +275,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.3 2006/09/05 12:03:23 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.4 2007/02/19 11:23:56 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 
