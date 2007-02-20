@@ -145,6 +145,7 @@ NodePtr STLSceneFileType::read(std::istream &is, const Char8 *fileNameOrExtensio
 		GeoPLengthsPtr      lens;
 		GeoPTypesPtr        type;
 		GeoNormals3fPtr     norms;
+	    SimpleMaterialPtr   mat;
 
 		fileRoot = Node::create();
 		setName(fileRoot, theName.c_str());
@@ -155,6 +156,16 @@ NodePtr STLSceneFileType::read(std::istream &is, const Char8 *fileNameOrExtensio
 		norms = GeoNormals3f::create();
 		lens = GeoPLengthsUI32::create();
 		type = GeoPTypesUI8::create();
+		mat = SimpleMaterial::create();
+
+		beginEditCP(mat);
+		{
+			mat->setDiffuse(Color3f(0.42, 0.42, 0.52));
+			mat->setSpecular(Color3f(1, 1, 1));
+			mat->setShininess(20);
+		}
+		endEditCP(mat);
+
 
 		beginEditCP(type);
 		{
@@ -182,6 +193,8 @@ NodePtr STLSceneFileType::read(std::istream &is, const Char8 *fileNameOrExtensio
 			points->addValue(Pnt3f(actIt->v2x, actIt->v2y, actIt->v2z));
 			points->addValue(Pnt3f(actIt->v3x, actIt->v3y, actIt->v3z));
 			norms->addValue(Vec3f(actIt->nx, actIt->ny, actIt->nz));
+			norms->addValue(Vec3f(actIt->nx, actIt->ny, actIt->nz));
+			norms->addValue(Vec3f(actIt->nx, actIt->ny, actIt->nz));
 			++actIt;
 		}
 		endEditCP(norms);
@@ -193,16 +206,14 @@ NodePtr STLSceneFileType::read(std::istream &is, const Char8 *fileNameOrExtensio
 			geo->setLengths  (lens);
 			geo->setPositions(points);
 			geo->setNormals  (norms);
+			geo->setMaterial (mat);
 		}
 		endEditCP(geo);
-		createSharedIndex(geo);
-		calcVertexNormals(geo);
-//		calcFaceNormals(geo);
 					
 		fileRoot->setCore(geo);
 		endEditCP(fileRoot);
 	}
-	//SceneFileHandler::the().write(fileRoot, "c:\\teststl.osg");
+//	SceneFileHandler::the().write(fileRoot, "c:\\teststl.osg");
     SceneFileHandler::the().updateReadProgress(100);
 	return fileRoot;
 }
@@ -542,7 +553,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.4 2007/01/12 16:59:05 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.5 2007/02/20 11:00:12 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 
