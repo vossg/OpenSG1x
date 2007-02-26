@@ -48,7 +48,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 
 #include "OSGQ4GLManagedWidget_qt.h"
 
@@ -102,7 +102,7 @@ typedef OSGQGLManagedDesignerWidget *OSGQGLManagedDesignerWidgetP;
 
 //OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDDESIGNERWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedDesignerWidget_qt.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQGLMANAGEDDESIGNERWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedDesignerWidget_qt.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* OSG_WITH_QT */
 

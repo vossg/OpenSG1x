@@ -46,7 +46,7 @@
 
 #include <OSGConfig.h>
 
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 
 #include <OSGBaseTypes.h>
 #include <OSGFieldDataType.h>
@@ -121,6 +121,6 @@ OSG_DLLEXPORT_DECL1(MField, OSGQGLWidgetP, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQT4WindowDataFields.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQTWINDOWDATAFIELDS_HEADER_CVSID "@(#)$Id: OSGQT4WindowDataFields.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* _OSGQTWINDOWDATAFIELDS_H_ */

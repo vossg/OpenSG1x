@@ -44,7 +44,7 @@
 
 #include <OSGConfig.h>
 
-#include <OSGQT4WindowBase.h>
+#include "OSGQT4WindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -124,6 +124,6 @@ OSG_END_NAMESPACE
 #include <OSGQT4Window.inl>
 #include <OSGQT4WindowBase.inl>
 
-#define OSGQTWINDOW_HEADER_CVSID "@(#)$Id: OSGQT4Window.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQTWINDOW_HEADER_CVSID "@(#)$Id: OSGQT4Window.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* _OSGQTWINDOW_H_ */

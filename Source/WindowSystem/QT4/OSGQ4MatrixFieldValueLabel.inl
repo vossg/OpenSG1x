@@ -38,7 +38,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <OSGQ4FieldView_qt.h>
+#include "OSGQ4FieldView_qt.h"
 
 #include <OSGField.h>
 #include <OSGSField.h>
@@ -229,5 +229,5 @@ QMatrixFieldValueLabel<MatrixTypeT>::updateCache(void)
 
 OSG_END_NAMESPACE
 
-#define OSGQMATRIXFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQ4MatrixFieldValueLabel.inl,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQMATRIXFIELDVALUELABEL_INLINE_CVSID "@(#)$Id: OSGQ4MatrixFieldValueLabel.inl,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 

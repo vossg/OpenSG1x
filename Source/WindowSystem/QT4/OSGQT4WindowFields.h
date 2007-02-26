@@ -58,7 +58,7 @@
 
 #include <OSGFieldContainerPtr.h>
 #include <OSGNodeCoreFieldDataType.h>
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 
 #include <OSGWindowFields.h>
 
@@ -123,6 +123,6 @@ OSG_DLLEXPORT_DECL1(MField, QTWindowPtr, OSG_WINDOWQTLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGQT4WindowFields.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQTWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGQT4WindowFields.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* _OSGQTWINDOWFIELDS_H_ */

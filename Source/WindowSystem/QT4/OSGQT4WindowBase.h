@@ -59,11 +59,11 @@
 
 
 #include <OSGConfig.h>
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 
 #include <OSGBaseTypes.h>
 
-#include <OSGQT4WindowDataFields.h> // GlWidget type
+#include "OSGQT4WindowDataFields.h" // GlWidget type
 
 // Parent
 #ifdef WIN32
@@ -72,7 +72,7 @@
 #include "OSGXWindow.h"
 #endif
 
-#include <OSGQT4WindowFields.h>
+#include "OSGQT4WindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -256,6 +256,6 @@ typedef QTWindowBase *QTWindowBaseP;
 
 OSG_END_NAMESPACE
 
-#define OSGQTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGQT4WindowBase.h,v 1.1 2006/03/10 18:30:35 a-m-z Exp $"
+#define OSGQTWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGQT4WindowBase.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* _OSGQTWINDOWBASE_H_ */

@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 
 #include "OSGBaseTypes.h"
 
@@ -142,6 +142,6 @@ typedef OSGQGLManagedWidget *OSGQGLManagedWidgetP;
 
 OSG_END_NAMESPACE
 
-#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedWidget_qt.h,v 1.2 2006/05/16 02:40:14 vossg Exp $"
+#define OSGQGLMANAGEDWIDGET_HEADER_CVSID "@(#)$Id: OSGQ4GLManagedWidget_qt.h,v 1.3 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* _OSGQGLManagedWidget_H_ */

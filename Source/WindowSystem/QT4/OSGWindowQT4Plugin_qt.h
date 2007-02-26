@@ -67,7 +67,7 @@
 // #endif
 
 #include "OSGConfig.h"
-#include <OSGWindowQT4Def.h>
+#include "OSGWindowQT4Def.h"
 #include <OSGBaseTypes.h>
 
 #include "OSGQT4Window.h"
@@ -153,7 +153,7 @@ public:
 
 //OSG_END_NAMESPACE
 
-#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQT4Plugin_qt.h,v 1.1 2006/05/16 02:40:14 vossg Exp $"
+#define OSGWINDOWQTPLUGIN_HEADER_CVSID "@(#)$Id: OSGWindowQT4Plugin_qt.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 
 #endif /* OSG_WITH_QT */
 
