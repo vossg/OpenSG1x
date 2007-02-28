@@ -271,7 +271,8 @@ basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(istream_reference is
     : _istream(istream),
       _input_buffer(input_buffer_size),
       _buffer(read_buffer_size),
-      _crc(0)
+      _crc(0),
+      _streamType ( UNKNOWN_ST )
 {
     // setting zalloc, zfree and opaque
     _zip_stream.zalloc = (alloc_func) 0;
@@ -282,8 +283,9 @@ basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(istream_reference is
     _zip_stream.avail_out = 0;
     _zip_stream.next_out = NULL;
 
+
     _err = inflateInit2(&_zip_stream, window_size);
-        
+
     this->setg(&_buffer[0] + 4,     // beginning of putback area
                &_buffer[0] + 4,     // read position
                &_buffer[0] + 4);    // end position    
@@ -425,11 +427,27 @@ basic_unzip_streambuf<charT, traits>::unzip_from_stream(char_type* buffer,
     do
     {
         if(_zip_stream.avail_in == 0)
-            count=fill_input_buffer();
+             count=fill_input_buffer();
 
         if(_zip_stream.avail_in)
-        {
+        {          
+          switch (_streamType) {
+          case GZIP_ST:            
             _err = inflate(&_zip_stream,  Z_SYNC_FLUSH);
+            break;
+          case DATA_ST:
+            if (_zip_stream.avail_out < count)
+              count = _zip_stream.avail_out;
+            memcpy ( _zip_stream.next_out, _zip_stream.next_in, count );
+            _zip_stream.avail_in  -= count;
+            _zip_stream.avail_out -= count;
+            _zip_stream.next_in   += count;
+            _zip_stream.next_out  += count;
+            break;
+          default:
+            FFATAL (("Unknown _streamType: %d\n", _streamType ));
+            break;
+          }            
         }
     }
     while(_err==Z_OK && _zip_stream.avail_out != 0 && count != 0);
@@ -688,24 +706,23 @@ basic_zip_istream<charT, traits>::check_header(void)
     int c;
     int err=0;
     z_stream &zip_stream = this->get_zip_stream();
-
+    
     /* Check the gzip magic header */
-    for(len = 0; len < 2; len++) 
-    {
-        c = (int)this->get_istream().get();
-        if (c != detail::gz_magic[len]) 
-        {
-            if (len != 0) 
-                this->get_istream().unget();
-            if (c!= EOF) 
-            {
-                this->get_istream().unget();
-            }
-            
-            err = zip_stream.avail_in != 0 ? Z_OK : Z_STREAM_END;
-            _is_gzip = false;
-            return err;
-        }
+    zip_stream.next_in = &this->_input_buffer[0];
+    this->get_istream().read( (char*)(&this->_input_buffer[0]), 2 );
+    zip_stream.avail_in = this->get_istream().gcount();
+
+    if ( (zip_stream.avail_in >= 2) &&
+         (this->_input_buffer[0] == detail::gz_magic[0]) &&
+         (this->_input_buffer[1] == detail::gz_magic[1]) ) {      
+      this->_streamType = BufferType::GZIP_ST;
+      zip_stream.avail_in = 0;
+    } 
+    else {
+      this->_streamType = BufferType::DATA_ST;            
+      _is_gzip = false;
+      err = zip_stream.avail_in != 0 ? Z_OK : Z_STREAM_END;
+      return err;
     }
     
     _is_gzip = true;
