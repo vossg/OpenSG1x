@@ -291,7 +291,8 @@ int main(int argc, char **argv)
 
     mgr->getCamera()->setNear(mgr->getCamera()->getNear() / 10);
 
-    mgr->getAction()->setVolumeDrawing(true);
+    // Show the bounding volumes? Not for now
+    mgr->getAction()->setVolumeDrawing(false);
     
     // GLUT main loop
     glutMainLoop();
