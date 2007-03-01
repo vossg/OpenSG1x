@@ -445,7 +445,7 @@ basic_unzip_streambuf<charT, traits>::unzip_from_stream(char_type* buffer,
             _zip_stream.next_out  += count;
             break;
           default:
-            FFATAL (("Unknown _streamType: %d\n", _streamType ));
+            FWARNING (("Unknown _streamType: %d\n", _streamType ));
             break;
           }            
         }

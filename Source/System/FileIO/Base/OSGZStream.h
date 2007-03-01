@@ -47,6 +47,9 @@ Altered by: Andreas Zieringer 2003
 #include <iostream>
 #include <algorithm>
 
+#include <OSGConfig.h>
+#include <OSGLog.h>
+
 OSG_BEGIN_NAMESPACE
 //! Helper function to check whether stream is compressed or not.
 inline bool isGZip(std::istream &is)
