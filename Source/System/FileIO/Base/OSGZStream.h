@@ -37,6 +37,7 @@ Altered by: Andreas Zieringer 2003
 // define something like OSG_WITH_ZLIB via a new configure option --with-zlib=...
 #if defined(OSG_WITH_PNG)
 #define OSG_ZSTREAM_SUPPORTED
+#define OSG_ZSTREAM_DATA_HAND_OVER_SUPPORTED
 #endif
 
 #include <vector>
