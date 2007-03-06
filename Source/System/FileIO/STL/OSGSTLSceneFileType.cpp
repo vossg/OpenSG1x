@@ -293,7 +293,6 @@ bool STLSceneFileType::IsASCII(std::istream &is, const Char8* fileNameOrExtensio
 bool STLSceneFileType::readASCII(std::istream &is, STLFaceList& theFaces, std::string& theName) const
 {
 	char token[9];
-
 	int finished = 0;
 	int parseResult = 0;
 	UInt32 i;
@@ -311,8 +310,11 @@ bool STLSceneFileType::readASCII(std::istream &is, STLFaceList& theFaces, std::s
 			token[i] = tolower(token[i]);
 		}
 		if (strcmp(token, "solid") == 0)
-			is >> theName;
-
+		{
+			char tmp = is.get();
+			if (tmp == ' ')
+				is >> theName;
+		}
 		else if (strcmp(token, "facet") == 0)
 		{
 			STLFace tmpFace;
@@ -553,7 +555,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.5 2007/02/20 11:00:12 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.6 2007/03/06 09:28:28 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 
