@@ -235,6 +235,7 @@ std::vector<std::string            >  OSG::Window::_ignoredExtensions;
 std::vector<bool                   >  OSG::Window::_commonExtensions;
 std::vector<std::string            >  OSG::Window::_registeredFunctions;
 std::vector<Int32                  >  OSG::Window::_registeredFunctionExts;
+std::vector<UInt32                 >  OSG::Window::_registeredFunctionVersions;
 
 // GL constant handling
 
@@ -1053,7 +1054,8 @@ void OSG::Window::ignoreExtensions(const Char8 *s)
 /*! Register a new OpenGL extension function. See \ref PageSystemOGLExt for 
     details. Ignores NULL strings.
 */
-UInt32 OSG::Window::registerFunction(const Char8 *s, Int32 ext)
+UInt32 OSG::Window::registerFunction(const Char8 *s, Int32 ext, 
+                                                     UInt32 version)
 {
     if(s == NULL)
         return TypeTraits<UInt32>::getMax();
@@ -1077,6 +1079,7 @@ UInt32 OSG::Window::registerFunction(const Char8 *s, Int32 ext)
     UInt32 r=_registeredFunctions.size();
     _registeredFunctions.push_back(s);
     _registeredFunctionExts.push_back(ext);
+    _registeredFunctionVersions.push_back(version);
 
     FPDEBUG(("new id %d\n", r));
     
@@ -1142,15 +1145,28 @@ void OSG::Window::frameInit(void)
             ignoreExtensions(p);
     }
     
-    // get extensions and split them
+    // get version/extensions and split them
     if(_extensions.empty())
     {
+        const char *version = 
+                reinterpret_cast<const char *>(glGetString(GL_VERSION));
+        
+        int major = atoi(version);
+        int minor = atoi(strchr(version, '.') + 1);
+        
+        _glVersion = major << 8 + minor;
+        
+        FDEBUG(("Window %p: GL Version: %4x ('%s')\n", this, 
+                _glVersion, glGetString(GL_VERSION) ));
+         
         FDEBUG(("Window %p: GL Extensions: %s\n", this, 
                 glGetString(GL_EXTENSIONS) ));
 
         std::string foo(reinterpret_cast<const char*>
                         (glGetString(GL_EXTENSIONS)));
 
+        FDEBUG(("Window %p: Ignored: ", this));
+        
         for(string_token_iterator it = string_token_iterator(foo, ",. ");
             it != string_token_iterator(); ++it)
         {          
@@ -1160,7 +1176,12 @@ void OSG::Window::frameInit(void)
             {
                 _extensions.push_back(*it);
             }
+            else
+            {
+                FPDEBUG(("%s ", (*it).c_str()));
+            }
         }
+        FPDEBUG(("\n"));
         std::sort(_extensions.begin(), _extensions.end());
                  
         // if we don't have any extensions, add something anyway
@@ -1185,18 +1206,41 @@ void OSG::Window::frameInit(void)
                                 _extensions.begin(),
                                 _extensions.end(),
                                 _registeredExtensions[s]);
+            
+            /* Is this extension ignored? */
+            bool ignored   = std::binary_search( 
+                                _ignoredExtensions.begin(),
+                                _ignoredExtensions.end(),
+                                _registeredExtensions[s]);
 
-            _availExtensions.push_back(supported);
+            _availExtensions.push_back(supported && !ignored);
+            
             FPDEBUG(("%s:", _registeredExtensions[s].c_str()));
             if(_commonExtensions.size() <= s)
             {
-                _commonExtensions.push_back(supported);
-                FPDEBUG(("ok "));
+                _commonExtensions.push_back(supported && !ignored);
+                if(supported && !ignored)
+                {
+                    FPDEBUG(("ok "));
+                }
+                else if(!supported)
+                {
+                    FPDEBUG(("NF "));
+                }
+                else
+                {
+                    FPDEBUG(("IGN "));
+                }
             }
             else if (!supported)
             {
                 _commonExtensions[s] = false;
                 FPDEBUG(("NF "));
+            }
+            else
+            {
+                _commonExtensions[s] = false;
+                FPDEBUG(("IGN "));
             }
         }
         FPDEBUG(("\n"));
@@ -1208,9 +1252,10 @@ void OSG::Window::frameInit(void)
     {   
         const Char8 *s    = _registeredFunctions[_extFunctions.size()].c_str();
         Int32        ext  = _registeredFunctionExts[_extFunctions.size()];
+        UInt32       ver  = _registeredFunctionVersions[_extFunctions.size()];
         void        *func = NULL;
         
-        if(ext == -1 || _availExtensions[ext] == true)
+        if(ext == -1 || _availExtensions[ext] == true || _glVersion >= ver)
             func = (void*)getFunctionByName(s);
 
         _extFunctions.push_back(func);

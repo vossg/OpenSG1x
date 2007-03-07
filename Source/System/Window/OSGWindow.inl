@@ -122,6 +122,14 @@ inline void Window::setGLLibraryName(const Char8  *s)
     _glLibraryName = s;
 }
 
+/*! Return the version of OpenGL running in the Window in the form
+0x<major><major><minor><minor>, e.g. 0x0201 for version 2.1.
+*/
+inline UInt32 Window::getGLVersion(void)
+{
+    return _glVersion;
+}
+
 /*! Find the id of a registered extension. Return -1 if extension not
     registered.
 */

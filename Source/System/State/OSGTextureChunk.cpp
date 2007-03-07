@@ -190,10 +190,10 @@ TextureChunk::TextureChunk(void) :
 
     _funcTexImage3D    =
         Window::registerFunction (GL_FUNC_TEXIMAGE3D                        , 
-            _extTex3D);
+            _extTex3D, 0x0102);
     _funcTexSubImage3D =
         Window::registerFunction (GL_FUNC_TEXSUBIMAGE3D                     , 
-            _extTex3D);
+            _extTex3D, 0x0102);
     _funcActiveTexture =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glActiveTextureARB"  , 
             _arbMultiTex);
@@ -526,7 +526,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
     if(mode == Window::initialize || mode == Window::reinitialize)
     {
-        if(bindtarget == GL_TEXTURE_3D && !win->hasExtension(_extTex3D))
+        if(bindtarget == GL_TEXTURE_3D && 
+            !win->hasExtension(_extTex3D) &&
+             win->getGLVersion() < 0x0102
+          )
         {
             FNOTICE(("3D textures not supported on Window %p!\n", win));
             return;
@@ -1287,7 +1290,8 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         GLenum externalFormat = img->getPixelFormat();
         GLenum type           = img->getDataType();
         bool   compressedData = img->hasCompressedData();
-        bool   has3DTex       = win->hasExtension(_extTex3D);
+        bool   has3DTex       = win->hasExtension(_extTex3D) ||
+                                win->getGLVersion() >= 0x0102;
         
         if(bindtarget == GL_TEXTURE_3D && !has3DTex)
         {
@@ -1484,7 +1488,9 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
                 {
                     if(img->getDepth() > 1)
                     {
-                        if(win->hasExtension(_extTex3D))
+                        if(win->hasExtension(_extTex3D) ||
+                           win->getGLVersion() >= 0x0102
+                          )
                             target = GL_TEXTURE_3D;
                         else
                         {
@@ -1598,7 +1604,9 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         {
             if ( img->getDepth() > 1 )
             {
-                    if(win->hasExtension(_extTex3D))
+                    if(win->hasExtension(_extTex3D) ||
+                       win->getGLVersion() >= 0x0102
+                      )
                         target = GL_TEXTURE_3D;
                     else
                     {
@@ -1787,7 +1795,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         {
             if ( img->getDepth() > 1 )
             {
-                    if(win->hasExtension(_extTex3D))
+                    if(win->hasExtension(_extTex3D) ||
+                       win->getGLVersion() >= 0x0102
+                      )
                         target = GL_TEXTURE_3D;
                     else
                     {
@@ -1813,7 +1823,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             {
                 if(oldp->getImage()->getDepth() > 1)
                 {
-                    if(win->hasExtension(_extTex3D))
+                    if(win->hasExtension(_extTex3D) ||
+                       win->getGLVersion() >= 0x0102
+                      )
                         oldtarget = GL_TEXTURE_3D;
                     else
                     {
@@ -2017,7 +2029,9 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         {
             if ( img->getDepth() > 1 )
             {
-                    if(win->hasExtension(_extTex3D))
+                    if(win->hasExtension(_extTex3D) ||
+                       win->getGLVersion() >= 0x0102
+                      )
                         target = GL_TEXTURE_3D;
                     else
                     {
