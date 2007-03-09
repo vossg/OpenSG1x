@@ -11,7 +11,7 @@
 #include <OSGNode.h>
 #include <OSGIDString.h>
 
-using namespace osg;
+OSG_BEGIN_NAMESPACE
 
 class OSG_SYSTEMLIB_DLLMAPPING WebInterface {
     /*==========================  PUBLIC  =================================*/
@@ -148,5 +148,7 @@ private:
     ChangeList       *_clist;
     /*! \}                                                                 */
 };
+
+OSG_END_NAMESPACE
 
 #endif

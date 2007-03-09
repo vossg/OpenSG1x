@@ -6,6 +6,8 @@
 
 #include "OSGWebInterface.h"
 
+OSG_USING_NAMESPACE
+
 /*! \class osg::WebInterface
 
 The WebInterface class provides a simple access to all
@@ -291,7 +293,7 @@ void WebInterface::decodeUrl(const std::string &url,
     while(sI !=url.end() && *sI != ' ' && *sI != '?') 
         path += *(sI++);
 
-    if(*sI == '?')
+    if(sI !=url.end() && *sI == '?')
     {
         do
         {
@@ -301,7 +303,7 @@ void WebInterface::decodeUrl(const std::string &url,
                   *sI != ' ' && *sI != '=' && *sI != '&') 
                 name += *sI;
 
-            if(*sI == '=')
+            if(sI !=url.end() && *sI == '=')
             {
                 // read value
                 while(++sI != url.end() && *sI != ' ' && *sI != '&') 
