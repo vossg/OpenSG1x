@@ -4,6 +4,8 @@
  *                                                                           *
  *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
 \*---------------------------------------------------------------------------*/
@@ -38,100 +40,101 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include <stdlib.h>
+#include <stdio.h>
+
 #include <OSGConfig.h>
+
+#include "OSGShaderParameterMVec4f.h"
 
 OSG_BEGIN_NAMESPACE
 
-inline
-UInt32 SHLChunk::getStaticClassId(void)
+/***************************************************************************\
+ *                            Description                                  *
+\***************************************************************************/
+
+/*! \class osg::ShaderParameterMVec4f
+
+*/
+
+/***************************************************************************\
+ *                           Class variables                               *
+\***************************************************************************/
+
+/***************************************************************************\
+ *                           Class methods                                 *
+\***************************************************************************/
+
+void ShaderParameterMVec4f::initMethod (void)
 {
-    return getStaticClass()->getId();
 }
 
-inline
-const StateChunkClass *SHLChunk::getStaticClass(void)
+
+/***************************************************************************\
+ *                           Instance methods                              *
+\***************************************************************************/
+
+/*-------------------------------------------------------------------------*\
+ -  private                                                                 -
+\*-------------------------------------------------------------------------*/
+
+/*----------------------- constructors & destructors ----------------------*/
+
+ShaderParameterMVec4f::ShaderParameterMVec4f(void) :
+    Inherited()
 {
-    return &SHLChunk::_class;
+    setTypeId(ShaderParameter::SHPTypeMVec4f);
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform1i(void)
+ShaderParameterMVec4f::ShaderParameterMVec4f(const ShaderParameterMVec4f &source) :
+    Inherited(source)
 {
-    return _funcUniform1i;
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform1iv(void)
+ShaderParameterMVec4f::~ShaderParameterMVec4f(void)
 {
-    return _funcUniform1iv;
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform2iv(void)
+/*----------------------------- class specific ----------------------------*/
+
+void ShaderParameterMVec4f::changed(BitVector whichField, UInt32 origin)
 {
-    return _funcUniform2iv;
+    if(whichField & ShaderParameterMVec4f::ValueFieldMask)
+        setChanged();
+
+    Inherited::changed(whichField, origin);
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform3iv(void)
+void ShaderParameterMVec4f::dump(      UInt32    , 
+                         const BitVector ) const
 {
-    return _funcUniform3iv;
+    SLOG << "Dump ShaderParameterMVec4f NI" << std::endl;
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform4iv(void)
+
+/*------------------------------------------------------------------------*/
+/*                              cvs id's                                  */
+
+#ifdef OSG_SGI_CC
+#pragma set woff 1174
+#endif
+
+#ifdef OSG_LINUX_ICC
+#pragma warning( disable : 177 )
+#endif
+
+namespace
 {
-    return _funcUniform4iv;
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec4f.cpp,v 1.1 2007/03/09 18:11:49 a-m-z Exp $";
+    static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMVEC4FBASE_HEADER_CVSID;
+    static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMVEC4FBASE_INLINE_CVSID;
+
+    static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERMVEC4FFIELDS_HEADER_CVSID;
 }
 
-inline
-UInt32 SHLChunk::getFuncUniform1f(void)
-{
-    return _funcUniform1f;
-}
-
-inline
-UInt32 SHLChunk::getFuncUniform1fv(void)
-{
-    return _funcUniform1fv;
-}
-
-inline
-UInt32 SHLChunk::getFuncUniform2fv(void)
-{
-    return _funcUniform2fv;
-}
-
-inline
-UInt32 SHLChunk::getFuncUniform3fv(void)
-{
-    return _funcUniform3fv;
-}
-
-inline
-UInt32 SHLChunk::getFuncUniform4fv(void)
-{
-    return _funcUniform4fv;
-}
-
-inline
-UInt32 SHLChunk::getFuncUniformMatrix4fv(void)
-{
-    return _funcUniformMatrix4fv;
-}
-
-inline
-UInt32 SHLChunk::getFuncGetUniformiv(void)
-{
-    return _funcGetUniformiv;
-}
-
-inline
-UInt32 SHLChunk::getFuncGetUniformfv(void)
-{
-    return _funcGetUniformfv;
-}
+#ifdef __sgi
+#pragma reset woff 1174
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLChunk.inl,v 1.5 2007/03/09 18:11:48 a-m-z Exp $"

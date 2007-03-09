@@ -63,6 +63,13 @@
 #include <OSGShaderParameterVec4f.h>
 #include <OSGShaderParameterMatrix.h>
 
+#include <OSGShaderParameterMInt.h>
+#include <OSGShaderParameterMReal.h>
+#include <OSGShaderParameterMVec2f.h>
+#include <OSGShaderParameterMVec3f.h>
+#include <OSGShaderParameterMVec4f.h>
+#include <OSGShaderParameterMMatrix.h>
+
 #include "OSGSHLChunk.h"
 
 OSG_USING_NAMESPACE
@@ -102,11 +109,13 @@ UInt32 SHLChunk::_funcBindAttribLocation = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcGetAttribLocation = Window::invalidFunctionID;
 
 UInt32 SHLChunk::_funcUniform1i = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform1iv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform2iv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform3iv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform4iv = Window::invalidFunctionID;
 
 UInt32 SHLChunk::_funcUniform1f = Window::invalidFunctionID;
+UInt32 SHLChunk::_funcUniform1fv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform2fv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform3fv = Window::invalidFunctionID;
 UInt32 SHLChunk::_funcUniform4fv = Window::invalidFunctionID;
@@ -244,6 +253,10 @@ SHLChunk::SHLChunk(void) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1iARB", 
                                   _shl_extension);
 
+    _funcUniform1iv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1ivARB", 
+                                  _shl_extension);
+
     _funcUniform2iv =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform2ivARB", 
                                   _shl_extension);
@@ -258,6 +271,10 @@ SHLChunk::SHLChunk(void) :
 
     _funcUniform1f =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1fARB", 
+                                  _shl_extension);
+
+    _funcUniform1fv =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glUniform1fvARB", 
                                   _shl_extension);
 
     _funcUniform2fv =
@@ -881,8 +898,102 @@ void SHLChunk::updateParameters(Window *win,
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
             }
             break;
+            // arrays
+            case ShaderParameter::SHPTypeMInt:
+            {
+                ShaderParameterMIntPtr p = ShaderParameterMIntPtr::dcast(parameter);
+                // get "glUniform1ivARB" function pointer
+                OSGGLUNIFORMIVARBPROC uniform1iv = (OSGGLUNIFORMIVARBPROC)
+                    win->getFunction(_funcUniform1iv);
+    
+                //printf("setting: %s %d\n", p->getName().c_str(), p->getValue());
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniform1iv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
+            case ShaderParameter::SHPTypeMReal:
+            {
+                ShaderParameterMRealPtr p = ShaderParameterMRealPtr::dcast(parameter);
+                // get "glUniform1fvARB" function pointer
+                OSGGLUNIFORMFVARBPROC uniform1fv = (OSGGLUNIFORMFVARBPROC)
+                    win->getFunction(_funcUniform1fv);
+
+                //printf("setting: %s %f\n", p->getName().c_str(), p->getValue());
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniform1fv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
+            case ShaderParameter::SHPTypeMVec2f:
+            {
+                ShaderParameterMVec2fPtr p = ShaderParameterMVec2fPtr::dcast(parameter);
+                // get "glUniform2fvARB" function pointer
+                OSGGLUNIFORMFVARBPROC uniform2fv = (OSGGLUNIFORMFVARBPROC)
+                    win->getFunction(_funcUniform2fv);
+
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniform2fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
+            case ShaderParameter::SHPTypeMVec3f:
+            {
+                ShaderParameterMVec3fPtr p = ShaderParameterMVec3fPtr::dcast(parameter);
+                // get "glUniform3fvARB" function pointer
+                OSGGLUNIFORMFVARBPROC uniform3fv = (OSGGLUNIFORMFVARBPROC)
+                    win->getFunction(_funcUniform3fv);
+
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniform3fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
+            case ShaderParameter::SHPTypeMVec4f:
+            {
+                ShaderParameterMVec4fPtr p = ShaderParameterMVec4fPtr::dcast(parameter);
+                // get "glUniform4fvARB" function pointer
+                OSGGLUNIFORMFVARBPROC uniform4fv = (OSGGLUNIFORMFVARBPROC)
+                    win->getFunction(_funcUniform4fv);
+
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniform4fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
+            case ShaderParameter::SHPTypeMMatrix:
+            {
+                ShaderParameterMMatrixPtr p = ShaderParameterMMatrixPtr::dcast(parameter);
+                // get "glUniformMatrix4fvARB" function pointer
+                OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
+                    win->getFunction(_funcUniformMatrix4fv);
+
+                if(p->getLocation() == -1)
+                    updateParameterLocation(win, program, p);
+                if(p->getLocation() != -1 && !p->getValue().empty())
+                    uniformMatrix4fv(p->getLocation(), p->getValue().getSize(), GL_FALSE, p->getValue()[0].getValues());
+                else
+                    FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
+            }
+            break;
             default:
-                FWARNING(("Parameter '%s' has unknown tpye %d!\n", parameter->getName().c_str(),
+                FWARNING(("Parameter '%s' has unknown type %d!\n", parameter->getName().c_str(),
                                                                    parameter->getTypeId()));
             break;
         }
@@ -1756,7 +1867,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.57 2007/01/10 17:15:38 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.58 2007/03/09 18:11:48 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

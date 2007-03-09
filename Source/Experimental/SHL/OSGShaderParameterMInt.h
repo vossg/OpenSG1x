@@ -36,27 +36,27 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGSHADERPARAMETER_H_
-#define _OSGSHADERPARAMETER_H_
+#ifndef _OSGSHADERPARAMETERMINT_H_
+#define _OSGSHADERPARAMETERMINT_H_
 #ifdef __sgi
 #pragma once
 #endif
 
 #include <OSGConfig.h>
 
-#include <OSGShaderParameterBase.h>
+#include <OSGShaderParameterMIntBase.h>
 
 OSG_BEGIN_NAMESPACE
 
-/*! \brief ShaderParameter class. See \ref 
-           PageSystemShaderParameter for a description.
+/*! \brief ShaderParameterMInt class. See \ref 
+           PageSystemShaderParameterMInt for a description.
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
+class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMInt : public ShaderParameterMIntBase
 {
   private:
 
-    typedef ShaderParameterBase Inherited;
+    typedef ShaderParameterMIntBase Inherited;
 
     /*==========================  PUBLIC  =================================*/
   public:
@@ -76,105 +76,48 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameter : public ShaderParameterBase
     virtual void dump(      UInt32     uiIndent = 0, 
                       const BitVector  bvFlags  = 0) const;
 
-    inline bool hasChanged(void);
-    inline void resetChanged(void);
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                     TypeId's                                 */
-    /*! \{                                                                 */
-
-    enum SHPType
-    {
-        SHPTypeUnknown = 0,
-        SHPTypeBool,
-        SHPTypeInt,
-        SHPTypeReal,
-        SHPTypeVec2s,
-        SHPTypeVec3s,
-        SHPTypeVec4s,
-        SHPTypeVec2f,
-        SHPTypeVec3f,
-        SHPTypeVec4f,
-        SHPTypeMatrix,
-        SHPTypeString,
-        SHPTypeMBool,
-        SHPTypeMInt,
-        SHPTypeMReal,
-        SHPTypeMVec2s,
-        SHPTypeMVec3s,
-        SHPTypeMVec4s,
-        SHPTypeMVec2f,
-        SHPTypeMVec3f,
-        SHPTypeMVec4f,
-        SHPTypeMMatrix,
-        SHPTypeMString
-    };
-
-    enum SHPFlags
-    {
-        SHPFlagNone = 0,
-        SHPFlagUpdate = 1
-    };
-
-    inline SHPType getTypeId(void);
-
-    inline GLint getLocation(void);
-    inline void  setLocation(GLint location);
-
-    inline UInt32 getFlags(void);
-    inline void  setFlags(UInt32 flags);
-
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    // Variables should all be in ShaderParameterBase.
+    // Variables should all be in ShaderParameterMIntBase.
 
     /*---------------------------------------------------------------------*/
     /*! \name                  Constructors                                */
     /*! \{                                                                 */
 
-    ShaderParameter(void);
-    ShaderParameter(const ShaderParameter &source);
+    ShaderParameterMInt(void);
+    ShaderParameterMInt(const ShaderParameterMInt &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~ShaderParameter(void); 
-
-    inline void setTypeId(SHPType type);
-    inline void setChanged(void);
+    virtual ~ShaderParameterMInt(void); 
 
     /*! \}                                                                 */
     
     /*==========================  PRIVATE  ================================*/
   private:
 
-    bool    _changed;
-    SHPType _typeid;
-    GLint   _location;
-    UInt32  _flags;
-
     friend class FieldContainer;
-    friend class ShaderParameterBase;
+    friend class ShaderParameterMIntBase;
 
     static void initMethod(void);
 
     // prohibit default functions (move to 'public' if you need one)
 
-    void operator =(const ShaderParameter &source);
+    void operator =(const ShaderParameterMInt &source);
 };
 
-typedef ShaderParameter *ShaderParameterP;
+typedef ShaderParameterMInt *ShaderParameterMIntP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterBase.inl>
-#include <OSGShaderParameter.inl>
+#include <OSGShaderParameterMIntBase.inl>
+#include <OSGShaderParameterMInt.inl>
 
-#define OSGSHADERPARAMETER_HEADER_CVSID "@(#)$Id: OSGShaderParameter.h,v 1.7 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHADERPARAMETERMINT_HEADER_CVSID "@(#)$Id: OSGShaderParameterMInt.h,v 1.1 2007/03/09 18:11:48 a-m-z Exp $"
 
-#endif /* _OSGSHADERPARAMETER_H_ */
+#endif /* _OSGSHADERPARAMETERMINT_H_ */

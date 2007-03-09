@@ -178,11 +178,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     /*! \{                                                                 */
 
     static inline UInt32 getFuncUniform1i(void);
+    static inline UInt32 getFuncUniform1iv(void);
     static inline UInt32 getFuncUniform2iv(void);
     static inline UInt32 getFuncUniform3iv(void);
     static inline UInt32 getFuncUniform4iv(void);
 
     static inline UInt32 getFuncUniform1f(void);
+    static inline UInt32 getFuncUniform1fv(void);
     static inline UInt32 getFuncUniform2fv(void);
     static inline UInt32 getFuncUniform3fv(void);
     static inline UInt32 getFuncUniform4fv(void);
@@ -262,11 +264,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static UInt32 _funcGetAttribLocation;
 
     static UInt32 _funcUniform1i;
+    static UInt32 _funcUniform1iv;
     static UInt32 _funcUniform2iv;
     static UInt32 _funcUniform3iv;
     static UInt32 _funcUniform4iv;
     
     static UInt32 _funcUniform1f;
+    static UInt32 _funcUniform1fv;
     static UInt32 _funcUniform2fv;
     static UInt32 _funcUniform3fv;
     static UInt32 _funcUniform4fv;
@@ -348,6 +352,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.32 2006/11/30 16:37:22 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.33 2007/03/09 18:11:48 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
