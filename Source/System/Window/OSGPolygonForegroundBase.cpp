@@ -88,6 +88,9 @@ const OSG::BitVector  PolygonForegroundBase::AspectWidthFieldMask =
 const OSG::BitVector  PolygonForegroundBase::ScaleFieldMask = 
     (TypeTraits<BitVector>::One << PolygonForegroundBase::ScaleFieldId);
 
+const OSG::BitVector  PolygonForegroundBase::TileFieldMask = 
+    (TypeTraits<BitVector>::One << PolygonForegroundBase::TileFieldId);
+
 const OSG::BitVector PolygonForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -118,6 +121,9 @@ const OSG::BitVector PolygonForegroundBase::MTInfluenceMask =
 */
 /*! \var Real32          PolygonForegroundBase::_sfScale
     Scale factor for zooming.
+*/
+/*! \var bool            PolygonForegroundBase::_sfTile
+    If true the image tiles in multi window settings.
 */
 
 //! PolygonForeground description
@@ -163,7 +169,12 @@ FieldDescription *PolygonForegroundBase::_desc[] =
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFScale)
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFScale),
+    new FieldDescription(SFBool::getClassType(), 
+                     "tile", 
+                     TileFieldId, TileFieldMask,
+                     false,
+                     (FieldAccessMethod) &PolygonForegroundBase::getSFTile)
 };
 
 
@@ -249,6 +260,7 @@ PolygonForegroundBase::PolygonForegroundBase(void) :
     _sfAspectHeight           (UInt16(0)), 
     _sfAspectWidth            (UInt16(0)), 
     _sfScale                  (Real32(1.0)), 
+    _sfTile                   (bool(true)), 
     Inherited() 
 {
 }
@@ -266,6 +278,7 @@ PolygonForegroundBase::PolygonForegroundBase(const PolygonForegroundBase &source
     _sfAspectHeight           (source._sfAspectHeight           ), 
     _sfAspectWidth            (source._sfAspectWidth            ), 
     _sfScale                  (source._sfScale                  ), 
+    _sfTile                   (source._sfTile                   ), 
     Inherited                 (source)
 {
 }
@@ -322,6 +335,11 @@ UInt32 PolygonForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfScale.getBinSize();
     }
 
+    if(FieldBits::NoField != (TileFieldMask & whichField))
+    {
+        returnValue += _sfTile.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -369,6 +387,11 @@ void PolygonForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
     {
         _sfScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (TileFieldMask & whichField))
+    {
+        _sfTile.copyToBin(pMem);
     }
 
 
@@ -419,6 +442,11 @@ void PolygonForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfScale.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (TileFieldMask & whichField))
+    {
+        _sfTile.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -453,6 +481,9 @@ void PolygonForegroundBase::executeSyncImpl(      PolygonForegroundBase *pOther,
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
         _sfScale.syncWith(pOther->_sfScale);
 
+    if(FieldBits::NoField != (TileFieldMask & whichField))
+        _sfTile.syncWith(pOther->_sfTile);
+
 
 }
 #else
@@ -480,6 +511,9 @@ void PolygonForegroundBase::executeSyncImpl(      PolygonForegroundBase *pOther,
 
     if(FieldBits::NoField != (ScaleFieldMask & whichField))
         _sfScale.syncWith(pOther->_sfScale);
+
+    if(FieldBits::NoField != (TileFieldMask & whichField))
+        _sfTile.syncWith(pOther->_sfTile);
 
 
     if(FieldBits::NoField != (TexCoordsFieldMask & whichField))

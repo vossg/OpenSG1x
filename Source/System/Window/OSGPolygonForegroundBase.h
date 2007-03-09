@@ -75,6 +75,7 @@
 #include <OSGUInt16Fields.h> // AspectHeight type
 #include <OSGUInt16Fields.h> // AspectWidth type
 #include <OSGReal32Fields.h> // Scale type
+#include <OSGBoolFields.h> // Tile type
 
 #include <OSGPolygonForegroundFields.h>
 
@@ -106,7 +107,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
         AspectHeightFieldId = NormalizedYFieldId  + 1,
         AspectWidthFieldId  = AspectHeightFieldId + 1,
         ScaleFieldId        = AspectWidthFieldId  + 1,
-        NextFieldId         = ScaleFieldId        + 1
+        TileFieldId         = ScaleFieldId        + 1,
+        NextFieldId         = TileFieldId         + 1
     };
 
     static const OSG::BitVector MaterialFieldMask;
@@ -117,6 +119,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
     static const OSG::BitVector AspectHeightFieldMask;
     static const OSG::BitVector AspectWidthFieldMask;
     static const OSG::BitVector ScaleFieldMask;
+    static const OSG::BitVector TileFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -151,6 +154,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
            SFUInt16            *getSFAspectHeight   (void);
            SFUInt16            *getSFAspectWidth    (void);
            SFReal32            *getSFScale          (void);
+           SFBool              *getSFTile           (void);
 
            MaterialPtr         &getMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
@@ -164,6 +168,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
      const UInt16              &getAspectWidth    (void) const;
            Real32              &getScale          (void);
      const Real32              &getScale          (void) const;
+           bool                &getTile           (void);
+     const bool                &getTile           (void) const;
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
      const MFVec3f             &getTexCoords      (void) const;
@@ -182,6 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
      void setAspectHeight   ( const UInt16 &value );
      void setAspectWidth    ( const UInt16 &value );
      void setScale          ( const Real32 &value );
+     void setTile           ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -232,6 +239,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
     SFUInt16            _sfAspectHeight;
     SFUInt16            _sfAspectWidth;
     SFReal32            _sfScale;
+    SFBool              _sfTile;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

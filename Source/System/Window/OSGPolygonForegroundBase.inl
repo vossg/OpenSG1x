@@ -152,6 +152,13 @@ SFReal32 *PolygonForegroundBase::getSFScale(void)
     return &_sfScale;
 }
 
+//! Get the PolygonForeground::_sfTile field.
+inline
+SFBool *PolygonForegroundBase::getSFTile(void)
+{
+    return &_sfTile;
+}
+
 
 //! Get the value of the PolygonForeground::_sfMaterial field.
 inline
@@ -277,6 +284,27 @@ inline
 void PolygonForegroundBase::setScale(const Real32 &value)
 {
     _sfScale.setValue(value);
+}
+
+//! Get the value of the PolygonForeground::_sfTile field.
+inline
+bool &PolygonForegroundBase::getTile(void)
+{
+    return _sfTile.getValue();
+}
+
+//! Get the value of the PolygonForeground::_sfTile field.
+inline
+const bool &PolygonForegroundBase::getTile(void) const
+{
+    return _sfTile.getValue();
+}
+
+//! Set the value of the PolygonForeground::_sfTile field.
+inline
+void PolygonForegroundBase::setTile(const bool &value)
+{
+    _sfTile.setValue(value);
 }
 
 

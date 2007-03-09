@@ -77,6 +77,7 @@
 #include <OSGReal32Fields.h> // Scale type
 #include <OSGInt32Fields.h> // ClearStencilBit type
 #include <OSGBoolFields.h> // Cleanup type
+#include <OSGBoolFields.h> // Tile type
 
 #include <OSGPolygonBackgroundFields.h>
 
@@ -110,7 +111,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
         ScaleFieldId           = AspectWidthFieldId     + 1,
         ClearStencilBitFieldId = ScaleFieldId           + 1,
         CleanupFieldId         = ClearStencilBitFieldId + 1,
-        NextFieldId            = CleanupFieldId         + 1
+        TileFieldId            = CleanupFieldId         + 1,
+        NextFieldId            = TileFieldId            + 1
     };
 
     static const OSG::BitVector MaterialFieldMask;
@@ -123,6 +125,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     static const OSG::BitVector ScaleFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
     static const OSG::BitVector CleanupFieldMask;
+    static const OSG::BitVector TileFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -159,6 +162,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
            SFReal32            *getSFScale          (void);
            SFInt32             *getSFClearStencilBit(void);
            SFBool              *getSFCleanup        (void);
+           SFBool              *getSFTile           (void);
 
            MaterialPtr         &getMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
@@ -176,6 +180,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
      const Int32               &getClearStencilBit(void) const;
            bool                &getCleanup        (void);
      const bool                &getCleanup        (void) const;
+           bool                &getTile           (void);
+     const bool                &getTile           (void) const;
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
      const MFVec3f             &getTexCoords      (void) const;
@@ -196,6 +202,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
      void setScale          ( const Real32 &value );
      void setClearStencilBit( const Int32 &value );
      void setCleanup        ( const bool &value );
+     void setTile           ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -248,6 +255,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     SFReal32            _sfScale;
     SFInt32             _sfClearStencilBit;
     SFBool              _sfCleanup;
+    SFBool              _sfTile;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -325,6 +333,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.8 2006/09/08 13:45:30 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.9 2007/03/09 16:59:50 yjung Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

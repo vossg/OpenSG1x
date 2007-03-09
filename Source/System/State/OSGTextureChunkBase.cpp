@@ -89,7 +89,7 @@
 #include <OSGGL.h>                        // ShaderRGBADotProduct default header
 #include <OSGGL.h>                        // Target default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TextureChunkBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::ImageFieldId);
@@ -244,6 +244,9 @@ const OSG::BitVector  TextureChunkBase::AnisotropyFieldMask =
 const OSG::BitVector  TextureChunkBase::BorderColorFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::BorderColorFieldId);
 
+const OSG::BitVector  TextureChunkBase::BorderWidthFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::BorderWidthFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -252,19 +255,19 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 // Field descriptions
 
 /*! \var ImagePtr        TextureChunkBase::_sfImage
-    
+    The texture.
 */
 /*! \var GLenum          TextureChunkBase::_sfInternalFormat
     The internal texture format.
 */
 /*! \var GLenum          TextureChunkBase::_sfExternalFormat
-    The external texture format - overwrites          external format of image when set to a value not equal to          GL_NONE (which is the default).
+    The external texture format - overwrites               external format of image when set to a value not equal to               GL_NONE (which is the default).
 */
 /*! \var bool            TextureChunkBase::_sfScale
-    Specifies whether the image should be scaled to the next power of two,         thus filling the whole texture coordinate range, or if it should be put         in the lower left corner, leaving the rest of the texture undefined.         This is mainly used for rapidly changing non power of two textures, to         get around the scaling overhead.
+    Specifies whether the image should be scaled to the next power of two,              thus filling the whole texture coordinate range, or if it should be put              in the lower left corner, leaving the rest of the texture undefined.              This is mainly used for rapidly changing non power of two textures, to              get around the scaling overhead.
 */
 /*! \var UInt32          TextureChunkBase::_sfFrame
-    Select the frame of the image to be used. See osg::Image about details         concerning multi-frame images.         \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         creation is slow right now. \endhint
+    Select the frame of the image to be used. See osg::Image about details              concerning multi-frame images.              \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap              creation is slow right now. \endhint
 */
 /*! \var GLenum          TextureChunkBase::_sfMinFilter
     The minimisation filter, default GL_LINEAR_MIPMAP_LINEAR.
@@ -348,7 +351,7 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
     Priority of this texture, between 0 and 1, the default is 1.
 */
 /*! \var GLenum          TextureChunkBase::_sfShaderOperation
-    Shader operation of this texture unit, default GL_NONE. If unit 0 uses         GL_NONE, shading is switched off.
+    Shader operation of this texture unit, default GL_NONE. If unit 0 uses              GL_NONE, shading is switched off.
 */
 /*! \var GLenum          TextureChunkBase::_sfShaderInput
     Input texture unit for this shader's operation.
@@ -366,43 +369,46 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
     The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
 */
 /*! \var UInt8           TextureChunkBase::_sfShaderCullModes
-    The CULL_MODES_NV value, coded into a single byte. The first 4 bits of         the byte are used to indicate the wnated cull modes, a value of 0          signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the         S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4          (mask 8) for Q.
+    The CULL_MODES_NV value, coded into a single byte. The first 4 bits of              the byte are used to indicate the wnated cull modes, a value of 0               signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the              S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4               (mask 8) for Q.
 */
 /*! \var Vec3f           TextureChunkBase::_sfShaderConstEye
-    The CONST_EYE_NV value, i.e. the constant eye position used by the          DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
+    The CONST_EYE_NV value, i.e. the constant eye position used by the               DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 */
 /*! \var Real32          TextureChunkBase::_sfLodBias
     Bias of LOD calculation for texture access.
 */
 /*! \var GLenum          TextureChunkBase::_sfTarget
-    Texture target. Overwrite automatically determined texture target         based on the parameters of the assigned image if set to anything          else than GL_NONE. Used for nVidia's rectangle textures. Be careful         when using it!
+    Texture target. Overwrite automatically determined texture target              based on the parameters of the assigned image if set to anything               else than GL_NONE. Used for nVidia's rectangle textures. Be careful              when using it!
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyLeft
-    Left coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Left coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMinX
-    Minimum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Minimum X coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMaxX
-    Maximum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Maximum X coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMinY
-    Minimum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Minimum Y coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMaxY
-    Maximum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Maximum Y coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMinZ
-    Minimum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Minimum Z coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Int32           TextureChunkBase::_sfDirtyMaxZ
-    Maximum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+    Maximum Z coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 */
 /*! \var Real32          TextureChunkBase::_sfAnisotropy
-    texture anisotropy filtering the default 1.0f means isotropic filtering.
+    Texture anisotropy filtering, the default 1.0f means isotropic filtering.
 */
 /*! \var Color4f         TextureChunkBase::_sfBorderColor
-    Texture border color
+    Texture border color.
+*/
+/*! \var UInt32          TextureChunkBase::_sfBorderWidth
+    Texture border width in pixels.
 */
 
 //! TextureChunk description
@@ -663,7 +669,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "borderColor", 
                      BorderColorFieldId, BorderColorFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFBorderColor)
+                     (FieldAccessMethod) &TextureChunkBase::getSFBorderColor),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "borderWidth", 
+                     BorderWidthFieldId, BorderWidthFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFBorderWidth)
 };
 
 
@@ -791,6 +802,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfDirtyMaxZ              (Int32(-1)), 
     _sfAnisotropy             (Real32(1.0f)), 
     _sfBorderColor            (Color4f(0,0,0,0)), 
+    _sfBorderWidth            (UInt32(0)), 
     Inherited() 
 {
 }
@@ -851,6 +863,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfDirtyMaxZ              (source._sfDirtyMaxZ              ), 
     _sfAnisotropy             (source._sfAnisotropy             ), 
     _sfBorderColor            (source._sfBorderColor            ), 
+    _sfBorderWidth            (source._sfBorderWidth            ), 
     Inherited                 (source)
 {
 }
@@ -1122,6 +1135,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBorderColor.getBinSize();
     }
 
+    if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
+    {
+        returnValue += _sfBorderWidth.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1384,6 +1402,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BorderColorFieldMask & whichField))
     {
         _sfBorderColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
+    {
+        _sfBorderWidth.copyToBin(pMem);
     }
 
 
@@ -1649,6 +1672,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBorderColor.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
+    {
+        _sfBorderWidth.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1812,6 +1840,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (BorderColorFieldMask & whichField))
         _sfBorderColor.syncWith(pOther->_sfBorderColor);
 
+    if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
+        _sfBorderWidth.syncWith(pOther->_sfBorderWidth);
+
 
 }
 #else
@@ -1972,6 +2003,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (BorderColorFieldMask & whichField))
         _sfBorderColor.syncWith(pOther->_sfBorderColor);
 
+    if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
+        _sfBorderWidth.syncWith(pOther->_sfBorderWidth);
+
 
     if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))
         _mfShaderOffsetMatrix.syncWith(pOther->_mfShaderOffsetMatrix, sInfo);
@@ -1993,6 +2027,8 @@ void TextureChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -2004,8 +2040,6 @@ DataType FieldDataTraits<TextureChunkPtr>::_type("TextureChunkPtr", "StateChunkP
 
 OSG_DLLEXPORT_SFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -2021,10 +2055,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTURECHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTEXTURECHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

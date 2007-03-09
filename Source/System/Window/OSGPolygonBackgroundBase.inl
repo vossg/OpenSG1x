@@ -166,6 +166,13 @@ SFBool *PolygonBackgroundBase::getSFCleanup(void)
     return &_sfCleanup;
 }
 
+//! Get the PolygonBackground::_sfTile field.
+inline
+SFBool *PolygonBackgroundBase::getSFTile(void)
+{
+    return &_sfTile;
+}
+
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
@@ -335,6 +342,27 @@ void PolygonBackgroundBase::setCleanup(const bool &value)
     _sfCleanup.setValue(value);
 }
 
+//! Get the value of the PolygonBackground::_sfTile field.
+inline
+bool &PolygonBackgroundBase::getTile(void)
+{
+    return _sfTile.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfTile field.
+inline
+const bool &PolygonBackgroundBase::getTile(void) const
+{
+    return _sfTile.getValue();
+}
+
+//! Set the value of the PolygonBackground::_sfTile field.
+inline
+void PolygonBackgroundBase::setTile(const bool &value)
+{
+    _sfTile.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
@@ -380,5 +408,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.7 2006/09/08 13:45:30 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.8 2007/03/09 16:59:50 yjung Exp $"
 

@@ -228,6 +228,13 @@ void Camera::getWorldToScreen(Matrix &result, const Viewport& p)
     result.mult(mv );
 }
 
+/*! Get/calculate the decoration matrix for this camera. The default is identity.
+*/
+void Camera::getDecoration(Matrix &result, UInt32 width, UInt32 height)
+{
+    result.setIdentity();
+}
+
 /*! Calculate a ray that starts at the camera position and goes through the
 pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
 parent window's upper left corner. 

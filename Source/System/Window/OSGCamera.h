@@ -110,6 +110,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
      
     virtual void getWorldToScreen        (Matrix        &result, 
                                           const Viewport& port);
+										  
+	virtual void getDecoration           (Matrix        &result, 
+                                          UInt32 width, UInt32 height);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

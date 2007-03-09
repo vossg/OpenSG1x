@@ -771,13 +771,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         {
                         case GL_TEXTURE_1D:
                             CompressedTexImage1D(GL_TEXTURE_1D, i, internalFormat,
-                                            w, 0,
+                                            w, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_2D:
                             CompressedTexImage2D(imgtarget, i, internalFormat,
-                                            w, h, 0,
+                                            w, h, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
                             break;
@@ -788,13 +788,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                             CompressedTexImage2D(imgtarget, i, internalFormat,
-                                            w, h, 0,
+                                            w, h, getBorderWidth(),
                                             img->calcMipmapLevelSize(i), 
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_3D:
                             CompressedTexImage3D(GL_TEXTURE_3D, i, internalFormat,
-                                            w, h, d, 0,
+                                            w, h, d, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
                             break;
@@ -810,7 +810,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         {
                         case GL_TEXTURE_1D:
                             glTexImage1D(GL_TEXTURE_1D, i, internalFormat,
-                                            w, 0,
+                                            w, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
                             break;
@@ -822,13 +822,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                             glTexImage2D(imgtarget, i, internalFormat,
-                                            w, h, 0,
+                                            w, h, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_3D:
                               TexImage3D(GL_TEXTURE_3D, i, internalFormat,
-                                            w, h, d, 0,
+                                            w, h, d, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
                             break;
@@ -849,6 +849,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 {
                     if(paramtarget != GL_NONE)
                         glTexParameteri(paramtarget, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
+						// same as GL_GENERATE_MIPMAP which is part of the standard since 1.4
                     glErr("TextureChunk::activate generate_mipmaps");
                     needMipmaps = false; // automagic does it
                 }
@@ -1040,7 +1041,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                        {
                        case GL_TEXTURE_1D:
                            CompressedTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
-                                           osgnextpower2(width), 0, 0, NULL);
+                                           osgnextpower2(width), getBorderWidth(), 0, NULL);
                            CompressedTexSubImage1D(GL_TEXTURE_1D, 0, 0, width,
                                            externalFormat, 
                                            img->getFrameSize(), 
@@ -1049,7 +1050,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                        case GL_TEXTURE_2D:
                            CompressedTexImage2D(imgtarget, 0, internalFormat,
                                            osgnextpower2(width),
-                                           osgnextpower2(height), 0,
+                                           osgnextpower2(height), getBorderWidth(),
                                            0, NULL);
                            CompressedTexSubImage2D(imgtarget, 0, 0, 0, width, height,
                                            externalFormat,
@@ -1064,7 +1065,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                            CompressedTexImage2D(imgtarget, 0, internalFormat,
                                            osgnextpower2(width),
-                                           osgnextpower2(height), 0,
+                                           osgnextpower2(height), getBorderWidth(),
                                            0, NULL);
                            CompressedTexSubImage2D(imgtarget, 0, 0, 0, width, height,
                                            externalFormat,
@@ -1074,7 +1075,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                            break;
                        case GL_TEXTURE_RECTANGLE_ARB:
                            CompressedTexImage2D( GL_TEXTURE_RECTANGLE_ARB, 0, internalFormat,
-                                           width, height, 0,
+                                           width, height, getBorderWidth(),
                                            img->getFrameSize(), 
                                            img->getData(0, frame, side));
                            break;
@@ -1083,7 +1084,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                            osgnextpower2(width),
                                            osgnextpower2(height),
                                            osgnextpower2(depth),
-                                           0, 0, NULL);
+                                           getBorderWidth(), 0, NULL);
                            CompressedTexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                            width, height, depth,
                                            externalFormat,
@@ -1101,7 +1102,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                        {
                        case GL_TEXTURE_1D:
                            glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
-                                           osgnextpower2(width), 0,
+                                           osgnextpower2(width), getBorderWidth(),
                                            externalFormat, type,
                                            NULL);
                            glTexSubImage1D(GL_TEXTURE_1D, 0, 0, width,
@@ -1117,7 +1118,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                        case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                            glTexImage2D(imgtarget, 0, internalFormat,
                                            osgnextpower2(width),
-                                           osgnextpower2(height), 0,
+                                           osgnextpower2(height), getBorderWidth(),
                                            externalFormat, type,
                                            NULL);
                            glTexSubImage2D(imgtarget, 0, 0, 0, width, height,
@@ -1126,7 +1127,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                            break;
                        case GL_TEXTURE_RECTANGLE_ARB:
                            glTexImage2D( GL_TEXTURE_RECTANGLE_ARB, 0, internalFormat,
-                                           width, height, 0,
+                                           width, height, getBorderWidth(),
                                            externalFormat, type,
                                            img->getData(0, frame, side));
                            break;
@@ -1135,7 +1136,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                            osgnextpower2(width),
                                            osgnextpower2(height),
                                            osgnextpower2(depth),
-                                           0, externalFormat, type, NULL);
+                                           getBorderWidth(), externalFormat, type, NULL);
                              TexSubImage3D(GL_TEXTURE_3D, 0,  0, 0, 0,
                                            width, height, depth,
                                            externalFormat, type,
@@ -1168,7 +1169,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                      {
                      case GL_TEXTURE_1D:
                          CompressedTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
-                                         width, 0,
+                                         width, getBorderWidth(),
                                          datasize, data);
                          break;
                      case GL_TEXTURE_2D:
@@ -1179,17 +1180,17 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                      case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                      case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                          CompressedTexImage2D(imgtarget, 0, internalFormat,
-                                         width, height, 0,
+                                         width, height, getBorderWidth(),
                                           datasize, data);
                          break;
                      case GL_TEXTURE_RECTANGLE_ARB:
                          CompressedTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, internalFormat,
-                                         width, height, 0,
+                                         width, height, getBorderWidth(),
                                          datasize, data);
                          break;
                      case GL_TEXTURE_3D:
                          CompressedTexImage3D(GL_TEXTURE_3D, 0, internalFormat,
-                                         width, height, depth, 0,
+                                         width, height, depth, getBorderWidth(),
                                          datasize, data);
                          break;
                      default:
@@ -1203,7 +1204,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         {
                         case GL_TEXTURE_1D:
                             glTexImage1D(GL_TEXTURE_1D, 0, internalFormat,
-                                            width, 0,
+                                            width, getBorderWidth(),
                                             externalFormat, type,
                                             data);
                             break;
@@ -1215,19 +1216,19 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
                             glTexImage2D(imgtarget, 0, internalFormat,
-                                            width, height, 0,
+                                            width, height, getBorderWidth(),
                                             externalFormat, type,
                                             data);
                             break;
                         case GL_TEXTURE_RECTANGLE_ARB:
                             glTexImage2D(GL_TEXTURE_RECTANGLE_ARB, 0, internalFormat,
-                                            width, height, 0,
+                                            width, height, getBorderWidth(),
                                             externalFormat, type,
                                             data);
                             break;
                         case GL_TEXTURE_3D:
                               TexImage3D(GL_TEXTURE_3D, 0, internalFormat,
-                                            width, height, depth, 0,
+                                            width, height, depth, getBorderWidth(),
                                             externalFormat, type,
                                             data);
                             break;

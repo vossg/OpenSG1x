@@ -177,18 +177,29 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
+	
+	Real32 sFac = getScale() > 0 ? getScale() : 1.0f;
+	
+	UInt32 width  = port->getPixelWidth(),
+		   height = port->getPixelHeight();
     
     Camera *cP = act->getCamera();
     TileCameraDecorator *cdP = dynamic_cast<TileCameraDecorator*>(cP);
+	
+	while (cdP != NULL)
+	{
+		width  = cdP->getFullWidth()  ? cdP->getFullWidth()  : width;
+		height = cdP->getFullHeight() ? cdP->getFullHeight() : height;
+		
+		cP  = cdP->getDecoratee().getCPtr();
+		cdP = dynamic_cast<TileCameraDecorator*>(cP);
+	}
+	
+	cP = act->getCamera();
+	cdP = dynamic_cast<TileCameraDecorator*>(cP);
     
-    Real32 sFac = getScale() > 0 ? getScale() : 1.0f;
-    
-    if (cdP)
+    if (cdP && !getTile())
     {
-        UInt32 width  = cdP->getFullWidth() ?
-                        cdP->getFullWidth() : port->getPixelWidth(),
-               height = cdP->getFullHeight() ?
-                        cdP->getFullHeight() : port->getPixelHeight();
         Real32 t = 0,
                left   = cdP->getLeft(),
                right  = cdP->getRight(),
@@ -203,22 +214,16 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
             t  = (Real32)width * (1 - aspectX) * 0.5f;
             t *= (Real32)port->getPixelWidth() / width;
         }
-
-        // Ausschnittsmatrix des Tiledecorators -> auf die erst die Ortho drauf
-        // TODO sauber in allen Decoratoren impl und Verschachtelungen beachten
-        Real32  xs = 1.f / (right - left),
-                ys = 1.f / (top - bottom);
-        Matrix sm(  xs, 0, 0, -(left*2-1)*xs-1,
-                    0, ys, 0, -(bottom*2-1)*ys-1,
-                    0, 0, 1, 0, 
-                    0, 0, 0, 1);
+		
+		Matrix sm;
+		cP->getDecoration(sm, width, height);
         
         glLoadMatrixf(sm.getValues());
         glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);
         
         glTranslatef(t, 0, 0);
         glScalef(aspectX, aspectY, 1);
-
+		
         float t1 = (1 - sFac) * 0.5f * (Real32)port->getPixelWidth();
         float t2 = (1 - sFac) * 0.5f * (Real32)port->getPixelHeight();
         glTranslatef(t1, t2, 0);
@@ -231,7 +236,7 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         glScalef(aspectX, aspectY, 1);
         glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);    
     }
-            
+	
     getMaterial()->getState()->activate(act);
     
     Vec3f *tc  = &getTexCoords()[0];
@@ -297,7 +302,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.6 2007/02/09 16:26:29 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.7 2007/03/09 16:59:50 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

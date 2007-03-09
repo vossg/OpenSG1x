@@ -90,6 +90,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecorator : public TileCameraDecoratorB
  
     virtual void getProjection           (Matrix        &result, 
                                           UInt32 width, UInt32 height);
+										  
+	virtual void getDecoration           (Matrix        &result, 
+                                          UInt32 width, UInt32 height);
  
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

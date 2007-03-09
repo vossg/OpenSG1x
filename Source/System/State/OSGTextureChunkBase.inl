@@ -453,6 +453,13 @@ SFColor4f *TextureChunkBase::getSFBorderColor(void)
     return &_sfBorderColor;
 }
 
+//! Get the TextureChunk::_sfBorderWidth field.
+inline
+SFUInt32 *TextureChunkBase::getSFBorderWidth(void)
+{
+    return &_sfBorderWidth;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1502,6 +1509,27 @@ inline
 void TextureChunkBase::setBorderColor(const Color4f &value)
 {
     _sfBorderColor.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfBorderWidth field.
+inline
+UInt32 &TextureChunkBase::getBorderWidth(void)
+{
+    return _sfBorderWidth.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfBorderWidth field.
+inline
+const UInt32 &TextureChunkBase::getBorderWidth(void) const
+{
+    return _sfBorderWidth.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfBorderWidth field.
+inline
+void TextureChunkBase::setBorderWidth(const UInt32 &value)
+{
+    _sfBorderWidth.setValue(value);
 }
 
 

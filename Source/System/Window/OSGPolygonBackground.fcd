@@ -109,4 +109,14 @@ A Background that renders a single polygon using the specified material.
 	>
 	Clear depth/ stencil buffer after applying the material.
 	</Field>
+	<Field
+		name="tile"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	If true the image tiles in multi window settings.
+	</Field>
 </FieldContainer>

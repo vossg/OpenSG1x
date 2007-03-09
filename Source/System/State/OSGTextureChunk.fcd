@@ -18,6 +18,7 @@
 		visibility="external"
 		access="public"
 	>
+    The texture.
 	</Field>
 	<Field
 		name="internalFormat"
@@ -25,7 +26,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	The internal texture format.
@@ -36,10 +37,12 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	The external texture format - overwrites          external format of image when set to a value not equal to          GL_NONE (which is the default).
+	The external texture format - overwrites          
+    external format of image when set to a value not equal to          
+    GL_NONE (which is the default).
 	</Field>
 	<Field
 		name="scale"
@@ -49,7 +52,11 @@
 		defaultValue="true"
 		access="public"
 	>
-	Specifies whether the image should be scaled to the next power of two,         thus filling the whole texture coordinate range, or if it should be put         in the lower left corner, leaving the rest of the texture undefined.         This is mainly used for rapidly changing non power of two textures, to         get around the scaling overhead.
+	Specifies whether the image should be scaled to the next power of two,         
+    thus filling the whole texture coordinate range, or if it should be put         
+    in the lower left corner, leaving the rest of the texture undefined.         
+    This is mainly used for rapidly changing non power of two textures, to         
+    get around the scaling overhead.
 	</Field>
 	<Field
 		name="frame"
@@ -59,7 +66,10 @@
 		defaultValue="0"
 		access="public"
 	>
-	Select the frame of the image to be used. See osg::Image about details         concerning multi-frame images.         \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         creation is slow right now. \endhint
+	Select the frame of the image to be used. See osg::Image about details         
+    concerning multi-frame images.         
+    \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         
+    creation is slow right now. \endhint
 	</Field>
 	<Field
 		name="minFilter"
@@ -67,7 +77,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR_MIPMAP_LINEAR"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	The minimisation filter, default GL_LINEAR_MIPMAP_LINEAR.
@@ -78,7 +88,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_LINEAR"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	The magnification filter, default GL_LINEAR.
@@ -89,7 +99,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture coordinate S wrapping, default GL_REPEAT.
@@ -100,7 +110,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture coordinate T wrapping, default GL_REPEAT.
@@ -111,7 +121,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPEAT"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture coordinate R wrapping, default GL_REPEAT.
@@ -122,7 +132,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_REPLACE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment mode, default GL_REPLACE
@@ -143,7 +153,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_MODULATE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment rgb combine mode, default GL_MODULATE
@@ -154,7 +164,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_MODULATE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment alpha combine mode, default GL_MODULATE
@@ -185,7 +195,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_TEXTURE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine source 0 rgb, default GL_TEXTURE
@@ -196,7 +206,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_PREVIOUS_EXT"
-		defaultHeader="&lt;OSGGLEXT.h&gt;"
+		defaultHeader="<OSGGLEXT.h>"
 		access="public"
 	>
 	Texture environment combine source 1 rgb, default GL_PREVIOUS_EXT
@@ -207,7 +217,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CONSTANT_EXT"
-		defaultHeader="&lt;OSGGLEXT.h&gt;"
+		defaultHeader="<OSGGLEXT.h>"
 		access="public"
 	>
 	Texture environment combine source 2 rgb, default GL_CONSTANT_EXT
@@ -218,7 +228,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_TEXTURE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine source 0 alpha, default GL_TEXTURE
@@ -229,7 +239,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_PREVIOUS_EXT"
-		defaultHeader="&lt;OSGGLEXT.h&gt;"
+		defaultHeader="<OSGGLEXT.h>"
 		access="public"
 	>
 	Texture environment combine source 1 alpha, default GL_PREVIOUS_EXT
@@ -240,7 +250,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_CONSTANT_EXT"
-		defaultHeader="&lt;OSGGLEXT.h&gt;"
+		defaultHeader="<OSGGLEXT.h>"
 		access="public"
 	>
 	Texture environment combine source 2 alpha, default GL_CONSTANT_EXT
@@ -251,7 +261,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_COLOR"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 0 rgb, default GL_SRC_COLOR
@@ -262,7 +272,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_COLOR"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 1 rgb, default GL_SRC_COLOR
@@ -273,7 +283,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 2 rgb, default GL_SRC_ALPHA
@@ -284,7 +294,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 0 alpha, default GL_SRC_ALPHA
@@ -295,7 +305,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 1 alpha, default GL_SRC_ALPHA
@@ -306,7 +316,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_SRC_ALPHA"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Texture environment combine operand 2 alpha, default GL_SRC_ALPHA
@@ -337,7 +347,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FALSE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Flag to use this texture for Point Sprites.
@@ -358,10 +368,11 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	Shader operation of this texture unit, default GL_NONE. If unit 0 uses         GL_NONE, shading is switched off.
+	Shader operation of this texture unit, default GL_NONE. If unit 0 uses         
+    GL_NONE, shading is switched off.
 	</Field>
 	<Field
 		name="shaderInput"
@@ -369,7 +380,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	Input texture unit for this shader's operation.
@@ -407,7 +418,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	The RGBA_UNSIGNED_DOT_PRODUCT_MAPPING_NV value.
@@ -420,7 +431,11 @@
 		defaultValue="0"
 		access="public"
 	>
-	The CULL_MODES_NV value, coded into a single byte. The first 4 bits of         the byte are used to indicate the wnated cull modes, a value of 0          signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the         S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4          (mask 8) for Q.
+	The CULL_MODES_NV value, coded into a single byte. The first 4 bits of         
+    the byte are used to indicate the wnated cull modes, a value of 0          
+    signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the         
+    S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4          
+    (mask 8) for Q.
 	</Field>
 	<Field
 		name="shaderConstEye"
@@ -429,7 +444,8 @@
 		visibility="external"
 		access="public"
 	>
-	The CONST_EYE_NV value, i.e. the constant eye position used by the          DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
+	The CONST_EYE_NV value, i.e. the constant eye position used by the          
+    DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 	</Field>
 	<Field
 		name="lodBias"
@@ -447,10 +463,13 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_NONE"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	Texture target. Overwrite automatically determined texture target         based on the parameters of the assigned image if set to anything          else than GL_NONE. Used for nVidia's rectangle textures. Be careful         when using it!
+	Texture target. Overwrite automatically determined texture target         
+    based on the parameters of the assigned image if set to anything          
+    else than GL_NONE. Used for nVidia's rectangle textures. Be careful         
+    when using it!
 	</Field>
 	<Field
 		name="dirtyLeft"
@@ -460,7 +479,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Left coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Left coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinX"
@@ -470,7 +491,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Minimum X coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxX"
@@ -480,7 +503,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum X coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Maximum X coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinY"
@@ -490,7 +515,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Minimum Y coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxY"
@@ -500,7 +527,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum Y coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Maximum Y coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinZ"
@@ -510,7 +539,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Minimum Z coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxZ"
@@ -520,7 +551,9 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum Z coordinate of the dirty rectangle to use for          imageContentChanged(). This doesn't make sense to be stored in files,          it does make sense on a cluster, though, that's why it's external.
+	Maximum Z coordinate of the dirty rectangle to use for          
+    imageContentChanged(). This doesn't make sense to be stored in files,          
+    it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="anisotropy"
@@ -530,7 +563,7 @@
 		defaultValue="1.0f"
 		access="public"
 	>
-	texture anisotropy filtering the default 1.0f means isotropic filtering.
+	Texture anisotropy filtering, the default 1.0f means isotropic filtering.
 	</Field>
 	<Field
 		name="borderColor"
@@ -540,6 +573,16 @@
 		defaultValue="0,0,0,0"
 		access="public"
 	>
-	Texture border color
+	Texture border color.
+	</Field>
+	<Field
+		name="borderWidth"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Texture border width in pixels.
 	</Field>
 </FieldContainer>
