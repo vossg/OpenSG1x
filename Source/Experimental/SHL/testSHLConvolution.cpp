@@ -162,13 +162,13 @@ int main(int argc, char **argv)
 
     beginEditCP(_pf);
         _pf->setMaterial(cmat);
-        _pf->getTexCoords().push_back(Vec2f(0.0f, 0.0f));
+        _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
         _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
-        _pf->getTexCoords().push_back(Vec2f(1.0f, 0.0f));
+        _pf->getTexCoords().push_back(Vec3f(1.0f, 0.0f, 0.0f));
         _pf->getPositions().push_back(Pnt2f(1.0f, 0.0f));
-        _pf->getTexCoords().push_back(Vec2f(1.0f, 1.0f));
+        _pf->getTexCoords().push_back(Vec3f(1.0f, 1.0f, 0.0f));
         _pf->getPositions().push_back(Pnt2f(1.0f, 1.0f));
-        _pf->getTexCoords().push_back(Vec2f(0.0f, 1.0f));
+        _pf->getTexCoords().push_back(Vec3f(0.0f, 1.0f, 0.0f));
         _pf->getPositions().push_back(Pnt2f(0.0f, 1.0f));
  
         _pf->setNormalizedX(true);
