@@ -1154,7 +1154,7 @@ void OSG::Window::frameInit(void)
         int major = atoi(version);
         int minor = atoi(strchr(version, '.') + 1);
         
-        _glVersion = major << 8 + minor;
+        _glVersion = (major << 8) + minor;
         
         FDEBUG(("Window %p: GL Version: %4x ('%s')\n", this, 
                 _glVersion, glGetString(GL_VERSION) ));
