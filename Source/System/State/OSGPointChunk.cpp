@@ -100,6 +100,16 @@ void PointChunk::initMethod (void)
 
 /*----------------------- constructors & destructors ----------------------*/
 
+
+#ifndef GL_VERSION_1_4
+#  define GL_FUNC_POINT_PARAMETERF    OSG_DLSYM_UNDERSCORE"glPointParameterfEXT"
+#  define GL_FUNC_POINT_PARAMETERFV   OSG_DLSYM_UNDERSCORE"glPointParameterfvEXT"
+#else
+#  define GL_FUNC_POINT_PARAMETERF    OSG_DLSYM_UNDERSCORE"glPointParameterf"
+#  define GL_FUNC_POINT_PARAMETERFV   OSG_DLSYM_UNDERSCORE"glPointParameterfv"
+#endif
+
+
 PointChunk::PointChunk(void) :
     Inherited()
 {
@@ -108,9 +118,9 @@ PointChunk::PointChunk(void) :
     _nvPointSprite        =
         Window::registerExtension("GL_NV_point_sprite");
     _funcPointParameterf  = Window::registerFunction(
-            OSG_DLSYM_UNDERSCORE"glPointParameterfEXT",  _arbPointParameters);
+            GL_FUNC_POINT_PARAMETERF,  _arbPointParameters, 0x0104);
     _funcPointParameterfv = Window::registerFunction(
-            OSG_DLSYM_UNDERSCORE"glPointParameterfvEXT", _arbPointParameters);
+            GL_FUNC_POINT_PARAMETERFV, _arbPointParameters, 0x0104);
 }
 
 PointChunk::PointChunk(const PointChunk &source) :

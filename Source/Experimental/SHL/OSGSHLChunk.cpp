@@ -910,7 +910,7 @@ void SHLChunk::updateParameters(Window *win,
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
                 if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniform1iv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
+		  ; // XXX uniform1iv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
                 else
                     FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
             }
@@ -1867,7 +1867,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.58 2007/03/09 18:11:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.59 2007/03/12 19:46:39 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

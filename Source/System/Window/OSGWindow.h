@@ -141,7 +141,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     static void     ignoreExtensions  ( const Char8 *s   );
 
     static UInt32   registerFunction  ( const Char8 *s,  Int32 ext = -1,
-                                                         UInt32 version = 0);
+                                                         UInt32 version = 0xffff);
 
     static void     registerConstant  (       GLenum val );
 

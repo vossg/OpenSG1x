@@ -105,6 +105,14 @@ UInt32 DVRIsoShader::_funcFinalCombinerInputNV        =
 
 /*----------------------- constructors & destructors ----------------------*/
 
+#ifndef GL_VERSION_1_2
+#  define GL_FUNC_TEXIMAGE3D    OSG_DLSYM_UNDERSCORE"glTexImage3DEXT"
+#  define GL_FUNC_TEXSUBIMAGE3D OSG_DLSYM_UNDERSCORE"glTexSubImage3DEXT"
+#else
+#  define GL_FUNC_TEXIMAGE3D    OSG_DLSYM_UNDERSCORE"glTexImage3D"
+#  define GL_FUNC_TEXSUBIMAGE3D OSG_DLSYM_UNDERSCORE"glTexSubImage3D"
+#endif
+
 //! Constructor
 DVRIsoShader::DVRIsoShader(void) :
     Inherited()
@@ -146,8 +154,8 @@ DVRIsoShader::DVRIsoShader(void) :
                                 _ARB_multitexture);
 
     _funcTexImage3DEXT               = 
-       Window::registerFunction(OSG_DLSYM_UNDERSCORE"glTexImage3DEXT",    
-                                _ARB_multitexture);
+       Window::registerFunction(GL_FUNC_TEXIMAGE3D,    
+                                _EXT_texture3D, 0x0102);
 
     _funcCombinerParameteriNV        = 
        Window::registerFunction(OSG_DLSYM_UNDERSCORE"glCombinerParameteriNV",    

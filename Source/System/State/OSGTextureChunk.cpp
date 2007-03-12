@@ -134,6 +134,9 @@ UInt32 TextureChunk::_funcCompressedTexSubImage3D = Window::invalidFunctionID;
 #  define GL_FUNC_TEXSUBIMAGE3D OSG_DLSYM_UNDERSCORE"glTexSubImage3D"
 #endif
 
+#warning GL_VERSION_1_2
+#warning GL_FUNC_TEXIMAGE3D
+
 
 /***************************************************************************\
  *                           Class methods                                 *
