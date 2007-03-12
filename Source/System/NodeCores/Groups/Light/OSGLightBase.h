@@ -76,6 +76,7 @@
 #include <OSGReal32Fields.h> // LinearAttenuation type
 #include <OSGReal32Fields.h> // QuadraticAttenuation type
 #include <OSGReal32Fields.h> // ShadowIntensity type
+#include <OSGUInt32Fields.h> // ShadowMode type
 
 #include <OSGLightFields.h>
 
@@ -108,7 +109,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
         LinearAttenuationFieldId    = ConstantAttenuationFieldId  + 1,
         QuadraticAttenuationFieldId = LinearAttenuationFieldId    + 1,
         ShadowIntensityFieldId      = QuadraticAttenuationFieldId + 1,
-        NextFieldId                 = ShadowIntensityFieldId      + 1
+        ShadowModeFieldId           = ShadowIntensityFieldId      + 1,
+        NextFieldId                 = ShadowModeFieldId           + 1
     };
 
     static const OSG::BitVector AmbientFieldMask;
@@ -120,6 +122,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
     static const OSG::BitVector LinearAttenuationFieldMask;
     static const OSG::BitVector QuadraticAttenuationFieldMask;
     static const OSG::BitVector ShadowIntensityFieldMask;
+    static const OSG::BitVector ShadowModeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -155,6 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
            SFReal32            *getSFLinearAttenuation(void);
            SFReal32            *getSFQuadraticAttenuation(void);
            SFReal32            *getSFShadowIntensity(void);
+           SFUInt32            *getSFShadowMode     (void);
 
            Color4f             &getAmbient        (void);
      const Color4f             &getAmbient        (void) const;
@@ -174,6 +178,8 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
      const Real32              &getQuadraticAttenuation(void) const;
            Real32              &getShadowIntensity(void);
      const Real32              &getShadowIntensity(void) const;
+           UInt32              &getShadowMode     (void);
+     const UInt32              &getShadowMode     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -189,6 +195,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
      void setLinearAttenuation( const Real32 &value );
      void setQuadraticAttenuation( const Real32 &value );
      void setShadowIntensity( const Real32 &value );
+     void setShadowMode     ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -224,6 +231,7 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
     SFReal32            _sfLinearAttenuation;
     SFReal32            _sfQuadraticAttenuation;
     SFReal32            _sfShadowIntensity;
+    SFUInt32            _sfShadowMode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

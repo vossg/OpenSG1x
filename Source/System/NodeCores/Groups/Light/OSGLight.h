@@ -80,7 +80,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Light : public LightBase
     void setAmbient (const Color4f &col);
     void setDiffuse (const Color4f &col);
     void setSpecular(const Color4f &col);
-    
+
+    enum
+    {
+        CAST_SHADOW_AUTO    = 0,
+        CAST_SHADOW_ON      = 1,
+        CAST_SHADOW_OFF     = 2
+    };
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Chunk                                   */

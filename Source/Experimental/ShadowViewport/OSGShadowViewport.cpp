@@ -716,7 +716,13 @@ void ShadowViewport::checkLights(RenderActionBase *action)
     {
         for(UInt32 i = 0;i < _lights.size();++i)
         {
-            _lightStates.push_back(_lights[i].second->getOn());
+            bool light_state = _lights[i].second->getOn();
+            if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+                light_state = true;
+            else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+                light_state = false;
+
+            _lightStates.push_back(light_state ? 1 : 0);
             if(_lights[i] != _oldLights[i])
                 changed = true;
         }
@@ -1146,8 +1152,14 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
     //Setting up Light-Cameras, ShadowMaps and TextureChunks
     for(UInt32 i = 0;i < _lights.size();++i)
     {
+        bool light_state = _lights[i].second->getOn();
+        if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+            light_state = true;
+        else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+            light_state = false;
+
         // Remembering initial state of Lights
-        _lightStates.push_back(_lights[i].second->getOn());
+        _lightStates.push_back(light_state ? 1 : 0);
         //Fill Transformation-List, so it can be used later on
         _lightCamTrans.push_back(NullFC);
         //Creation of Lightcam-Beacon
@@ -1417,7 +1429,13 @@ void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
         }
         else
         {
-            _lightStates[i] = (_lights[i].second->getOn() ? 1 : 0);
+            bool light_state = _lights[i].second->getOn();
+            if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_ON)
+                light_state = true;
+            else if(_lights[i].second->getShadowMode() == Light::CAST_SHADOW_OFF)
+                light_state = false;
+
+            _lightStates[i] = (light_state ? 1 : 0);
         }
     }
 
@@ -1464,7 +1482,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.27 2006/12/06 17:32:14 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.28 2007/03/12 17:49:47 a-m-z Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

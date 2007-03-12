@@ -91,6 +91,9 @@ const OSG::BitVector  LightBase::QuadraticAttenuationFieldMask =
 const OSG::BitVector  LightBase::ShadowIntensityFieldMask = 
     (TypeTraits<BitVector>::One << LightBase::ShadowIntensityFieldId);
 
+const OSG::BitVector  LightBase::ShadowModeFieldMask = 
+    (TypeTraits<BitVector>::One << LightBase::ShadowModeFieldId);
+
 const OSG::BitVector LightBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -124,6 +127,9 @@ const OSG::BitVector LightBase::MTInfluenceMask =
 */
 /*! \var Real32          LightBase::_sfShadowIntensity
     
+*/
+/*! \var UInt32          LightBase::_sfShadowMode
+    possible values are CAST_SHADOW_AUTO, CAST_SHADOW_ON, CAST_SHADOW_OFF in auto mode the light source casts shadows if the light is on and the shadow intensity is greater than zero.
 */
 
 //! Light description
@@ -174,7 +180,12 @@ FieldDescription *LightBase::_desc[] =
                      "shadowIntensity", 
                      ShadowIntensityFieldId, ShadowIntensityFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFShadowIntensity)
+                     (FieldAccessMethod) &LightBase::getSFShadowIntensity),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "shadowMode", 
+                     ShadowModeFieldId, ShadowModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &LightBase::getSFShadowMode)
 };
 
 
@@ -250,6 +261,7 @@ LightBase::LightBase(void) :
     _sfLinearAttenuation      (Real32(0)), 
     _sfQuadraticAttenuation   (Real32(0)), 
     _sfShadowIntensity        (Real32(0.0f)), 
+    _sfShadowMode             (UInt32(0)), 
     Inherited() 
 {
 }
@@ -268,6 +280,7 @@ LightBase::LightBase(const LightBase &source) :
     _sfLinearAttenuation      (source._sfLinearAttenuation      ), 
     _sfQuadraticAttenuation   (source._sfQuadraticAttenuation   ), 
     _sfShadowIntensity        (source._sfShadowIntensity        ), 
+    _sfShadowMode             (source._sfShadowMode             ), 
     Inherited                 (source)
 {
 }
@@ -329,6 +342,11 @@ UInt32 LightBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShadowIntensity.getBinSize();
     }
 
+    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
+    {
+        returnValue += _sfShadowMode.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -381,6 +399,11 @@ void LightBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
     {
         _sfShadowIntensity.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
+    {
+        _sfShadowMode.copyToBin(pMem);
     }
 
 
@@ -436,6 +459,11 @@ void LightBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShadowIntensity.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
+    {
+        _sfShadowMode.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -473,6 +501,9 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
     if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
         _sfShadowIntensity.syncWith(pOther->_sfShadowIntensity);
 
+    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
+        _sfShadowMode.syncWith(pOther->_sfShadowMode);
+
 
 }
 #else
@@ -509,6 +540,9 @@ void LightBase::executeSyncImpl(      LightBase *pOther,
 
     if(FieldBits::NoField != (ShadowIntensityFieldMask & whichField))
         _sfShadowIntensity.syncWith(pOther->_sfShadowIntensity);
+
+    if(FieldBits::NoField != (ShadowModeFieldMask & whichField))
+        _sfShadowMode.syncWith(pOther->_sfShadowMode);
 
 
 

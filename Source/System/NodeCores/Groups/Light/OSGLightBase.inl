@@ -133,6 +133,13 @@ SFReal32 *LightBase::getSFShadowIntensity(void)
     return &_sfShadowIntensity;
 }
 
+//! Get the Light::_sfShadowMode field.
+inline
+SFUInt32 *LightBase::getSFShadowMode(void)
+{
+    return &_sfShadowMode;
+}
+
 
 //! Get the value of the Light::_sfAmbient field.
 inline
@@ -321,6 +328,27 @@ inline
 void LightBase::setShadowIntensity(const Real32 &value)
 {
     _sfShadowIntensity.setValue(value);
+}
+
+//! Get the value of the Light::_sfShadowMode field.
+inline
+UInt32 &LightBase::getShadowMode(void)
+{
+    return _sfShadowMode.getValue();
+}
+
+//! Get the value of the Light::_sfShadowMode field.
+inline
+const UInt32 &LightBase::getShadowMode(void) const
+{
+    return _sfShadowMode.getValue();
+}
+
+//! Set the value of the Light::_sfShadowMode field.
+inline
+void LightBase::setShadowMode(const UInt32 &value)
+{
+    _sfShadowMode.setValue(value);
 }
 
 
