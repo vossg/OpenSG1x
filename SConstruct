@@ -518,6 +518,7 @@ class PlatformOptions:
 
         opts.Add(PackageOption('contrib_performer_loader', 'Enable contrib performer loader', 'no'))
         opts.Add(PackageOption('contrib_cal3d', 'enable Cal3D character animation library wrapper core', 'no'))
+        opts.Add(PackageOption('contrib_physics', 'enable ODE library wrapper', 'no'))
 
         #tests
         opts.Add(BoolOption('tests', 'compile test programs', 0))

@@ -35,6 +35,9 @@ if _po.getOption('contrib_terrain'):
 if _po.getOption('contrib_cal3d'):
     ContribDirs.append(Dir('Cal3D'))
 
+if _po.getOption('contrib_physics'):
+    ContribDirs.append(Dir('Physics'))
+
 if _po.getOption('contrib_performer_loader'):
     ContribDirs.append(Dir('PerformerLoader'))
 
@@ -69,6 +72,14 @@ def custom(env):
                 env.Append(CPPPATH=cal3d_cpp_path)
                 env.Append(LIBPATH=cal3d_lib_path)
                 env.Append(LIBS=['cal3d'])
+
+    if _po.getOption('contrib_physics'):
+        if isinstance(_po.getOption('contrib_physics'), str):
+                physics_cpp_path = [os.path.join(_po.getOption('contrib_physics'), 'include')]
+                physics_lib_path = [os.path.join(_po.getOption('contrib_physics'), 'lib/releasedll')]
+                env.Append(CPPPATH=physics_cpp_path)
+                env.Append(LIBPATH=physics_lib_path)
+                env.Append(LIBS=['ode'])
 
     env.Append(LIBS=env.get('OSG_SYSTEM_LIBS'))
 
