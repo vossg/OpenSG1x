@@ -462,28 +462,9 @@ void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum ta
     PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
         (PFNGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
 
-    if (target == 0)
-    {
-        target = GL_TEXTURE_2D;
-    }
-
     if (getFrameBufferIndex())
     {
-        GLint glid = win->getGLObjectId(id);
-
-        if (glid == 0)
-        {
-            const char *fboname = OSG::getName(FBOViewportPtr(this));
-            if(fboname == NULL)
-                fboname = "<noname>";
-
-            SWARNING << "FBOViewport " << fboname << " Texture id " << id << " has no gl id." << endLog;
-            win->reinitializeGLObject(id);
-        }
-        else
-        {
-            glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, attachment, target, glid, 0);
-        }
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, attachment, target, id, 0);
 
         if (!checkGLError("setTarget post"))
         {
@@ -1283,7 +1264,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.2 2007/03/13 12:13:25 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.3 2007/03/13 13:47:23 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
