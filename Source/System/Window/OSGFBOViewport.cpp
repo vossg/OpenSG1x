@@ -246,6 +246,10 @@ void FBOViewport::initMethod (void)
 {
 }
 
+void FBOViewport::setRenderParamsCB(renderparamscbfp fp)
+{
+    _renderParamsFP = fp;
+}
 
 /***************************************************************************\
  *                           Instance methods                              *
@@ -1279,7 +1283,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.1 2007/03/12 15:03:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.2 2007/03/13 12:13:25 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
