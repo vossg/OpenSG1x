@@ -1951,48 +1951,84 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     return -1;
 }
 
+#define copyAttrib(Name, TypeT, Type) \
+    { \
+    Geo ## TypeT ## Ptr prop1 = Geo ## TypeT ## Ptr::dcast(get ## Type ()); \
+    Geo ## TypeT ## Ptr prop2 = Geo ## TypeT ## Ptr::dcast(other->get ## Type ()); \
+    if(prop1 != NullFC && prop2 != NullFC) \
+    { \
+        beginEditCP(prop1); \
+        Name##Base = prop1->getSize(); \
+        prop1->resize(Name##Base + prop2->getSize()); \
+        for(i = 0; i < prop2->getSize(); ++i) \
+            prop1->getField()[Name##Base + i] = prop2->getField()[i]; \
+        endEditCP(prop1); \
+    } \
+    }
 
-#define copyAttrib( NAME, APTR, GETFUNC )                           \
-{                                                                   \
-    APTR NAME    =        GETFUNC();                                \
-    APTR o##NAME = other->GETFUNC();                                \
-                                                                    \
-    if ( NAME != NullFC && o##NAME !=NullFC )                       \
-    {                                                               \
-        beginEditCP( NAME );                                        \
-        NAME##Base = NAME->getSize();                               \
-        NAME->resize( NAME##Base + o##NAME->getSize() );            \
-                                                                    \
-        for ( i = 0; i < o##NAME->getSize(); i++ )                  \
-        NAME->setValue( o##NAME->getValue( i ), NAME##Base + i );   \
-                                                                    \
-        endEditCP( NAME );                                          \
-    }                                                               \
+#define copyAllAttrib \
+{ \
+    copyAttrib(pos, Positions2f, Positions) \
+    copyAttrib(pos, Positions3f, Positions) \
+    copyAttrib(pos, Positions4f, Positions) \
+    copyAttrib(pos, Positions2d, Positions) \
+    copyAttrib(pos, Positions3d, Positions) \
+    copyAttrib(pos, Positions4d, Positions) \
+    copyAttrib(pos, Positions2s, Positions) \
+    copyAttrib(pos, Positions3s, Positions) \
+    copyAttrib(pos, Positions4s, Positions) \
+    copyAttrib(type, PTypesUI8, Types) \
+    copyAttrib(length, PLengthsUI8, Lengths) \
+    copyAttrib(length, PLengthsUI16, Lengths) \
+    copyAttrib(length, PLengthsUI32, Lengths) \
+    copyAttrib(normal, Normals3f, Normals) \
+    copyAttrib(normal, Normals3s, Normals) \
+    copyAttrib(normal, Normals3b, Normals) \
+    copyAttrib(color, Colors3f, Colors) \
+    copyAttrib(color, Colors4f, Colors) \
+    copyAttrib(color, Colors3ub, Colors) \
+    copyAttrib(color, Colors4ub, Colors) \
+    copyAttrib(seccolor, Colors3f, SecondaryColors) \
+    copyAttrib(seccolor, Colors4f, SecondaryColors) \
+    copyAttrib(seccolor, Colors3ub, SecondaryColors) \
+    copyAttrib(seccolor, Colors4ub, SecondaryColors) \
+    copyAttrib(texcoord, TexCoords1f, TexCoords) \
+    copyAttrib(texcoord, TexCoords2f, TexCoords) \
+    copyAttrib(texcoord, TexCoords3f, TexCoords) \
+    copyAttrib(texcoord, TexCoords4f, TexCoords) \
+    copyAttrib(texcoord1, TexCoords1f, TexCoords1) \
+    copyAttrib(texcoord1, TexCoords2f, TexCoords1) \
+    copyAttrib(texcoord1, TexCoords3f, TexCoords1) \
+    copyAttrib(texcoord1, TexCoords4f, TexCoords1) \
+    copyAttrib(texcoord2, TexCoords1f, TexCoords2) \
+    copyAttrib(texcoord2, TexCoords2f, TexCoords2) \
+    copyAttrib(texcoord2, TexCoords3f, TexCoords2) \
+    copyAttrib(texcoord2, TexCoords4f, TexCoords2) \
+    copyAttrib(texcoord3, TexCoords1f, TexCoords3) \
+    copyAttrib(texcoord3, TexCoords2f, TexCoords3) \
+    copyAttrib(texcoord3, TexCoords3f, TexCoords3) \
+    copyAttrib(texcoord3, TexCoords4f, TexCoords3) \
+    copyAttrib(texcoord4, TexCoords1f, TexCoords4) \
+    copyAttrib(texcoord4, TexCoords2f, TexCoords4) \
+    copyAttrib(texcoord4, TexCoords3f, TexCoords4) \
+    copyAttrib(texcoord4, TexCoords4f, TexCoords4) \
+    copyAttrib(texcoord5, TexCoords1f, TexCoords5) \
+    copyAttrib(texcoord5, TexCoords2f, TexCoords5) \
+    copyAttrib(texcoord5, TexCoords3f, TexCoords5) \
+    copyAttrib(texcoord5, TexCoords4f, TexCoords5) \
+    copyAttrib(texcoord6, TexCoords1f, TexCoords6) \
+    copyAttrib(texcoord6, TexCoords2f, TexCoords6) \
+    copyAttrib(texcoord6, TexCoords3f, TexCoords6) \
+    copyAttrib(texcoord6, TexCoords4f, TexCoords6) \
+    copyAttrib(texcoord7, TexCoords1f, TexCoords7) \
+    copyAttrib(texcoord7, TexCoords2f, TexCoords7) \
+    copyAttrib(texcoord7, TexCoords3f, TexCoords7) \
+    copyAttrib(texcoord7, TexCoords4f, TexCoords7) \
+    beginEditCP((GeometryPtr)this); \
+    setDlistCache(other->getDlistCache()); \
+    setVbo(other->getVbo()); \
+    endEditCP((GeometryPtr)this); \
 }
-
-
-#define copyAllAttrib                                               \
-{                                                                   \
-    copyAttrib( pos,    GeoPositionsPtr, getPositions );            \
-    copyAttrib( type,   GeoPTypesPtr,    getTypes     );            \
-    copyAttrib( length, GeoPLengthsPtr,  getLengths   );            \
-    copyAttrib( normal, GeoNormalsPtr, getNormals );                \
-    copyAttrib( color, GeoColorsPtr, getColors );                   \
-    copyAttrib( seccolor, GeoColorsPtr, getSecondaryColors );       \
-    copyAttrib( texcoord, GeoTexCoordsPtr, getTexCoords );          \
-    copyAttrib( texcoord1, GeoTexCoordsPtr, getTexCoords1 );        \
-    copyAttrib( texcoord2, GeoTexCoordsPtr, getTexCoords2 );        \
-    copyAttrib( texcoord3, GeoTexCoordsPtr, getTexCoords3 );        \
-    copyAttrib( texcoord4, GeoTexCoordsPtr, getTexCoords4 );        \
-    copyAttrib( texcoord5, GeoTexCoordsPtr, getTexCoords5 );        \
-    copyAttrib( texcoord6, GeoTexCoordsPtr, getTexCoords6 );        \
-    copyAttrib( texcoord7, GeoTexCoordsPtr, getTexCoords7 );        \
-    beginEditCP((GeometryPtr)this);                                 \
-    setDlistCache(other->getDlistCache());                          \
-    setVbo(other->getVbo());                                        \
-    endEditCP((GeometryPtr)this);                                   \
-}
-
 
 //merge two identical geometries
 void Geometry::merge0( const GeometryPtr other )
