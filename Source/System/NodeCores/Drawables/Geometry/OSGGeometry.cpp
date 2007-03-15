@@ -829,6 +829,28 @@ bool Geometry::merge( const GeometryPtr other )
 
     //if not empty continue trying a normal merge
     Int16 mergetype = MergeIndex( other );
+
+    if(mergetype >= 0 && mergetype <= 6)
+    {
+        // in this case we create 32 bit indices to have enough room for both geometries.
+        if(GeoIndicesUI16Ptr::dcast(getIndices()) != NullFC)
+        {
+            GeoIndicesPtr indices = getIndices();
+            UInt32 indices_size = indices->getSize();
+            GeoIndicesUI32Ptr indicesUI32 = GeoIndicesUI32::create();
+            MFUInt32 &dst = indicesUI32->getField();
+            dst.reserve(indices_size);
+            beginEditCP(indicesUI32);
+                for (UInt32 i = 0; i < indices_size; ++i)
+                    dst.push_back(indices->getValue(i));
+            endEditCP(indicesUI32);
+    
+            beginEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+                setIndices(indicesUI32);
+            endEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+        }
+    }
+
     switch ( mergetype )
     {
     case 0: merge0( other ); break;
@@ -1967,6 +1989,7 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     copyAttrib( texcoord7, GeoTexCoordsPtr, getTexCoords7 );        \
     beginEditCP((GeometryPtr)this);                                 \
     setDlistCache(other->getDlistCache());                          \
+    setVbo(other->getVbo());                                        \
     endEditCP((GeometryPtr)this);                                   \
 }
 
