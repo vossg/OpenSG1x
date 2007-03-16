@@ -160,7 +160,10 @@ static std::string _pcss_shadow_vp =
     "varying vec4 projCoord;\n"
     "varying vec4 texPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -934,7 +937,7 @@ void PCSSShadowMap::createColorMapFBO(RenderActionBase *action)
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 	
-    glDrawBuffersARB(1, buffers);
+    glDrawBuffer(*buffers);
 
     _shadowVP->getBackground()->clear(action, _shadowVP);
     action->apply(_shadowVP->getRoot());
@@ -1052,7 +1055,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         //Setup FBO
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-        glDrawBuffersARB(1, buffers);
+        glDrawBuffer(*buffers);
 
         //draw the Scene
         if(_firstRun)

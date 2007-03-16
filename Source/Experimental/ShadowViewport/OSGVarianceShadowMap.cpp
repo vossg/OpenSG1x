@@ -206,7 +206,10 @@ static std::string _variance_vp =
     "varying vec4 texPos;\n"
     "varying vec4 realPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -762,7 +765,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 glBindTexture(GL_TEXTURE_2D, 0);
                 //_shadowVP->_texChunks[i]->deactivate(action, action->getWindow()->getGLObjectId(_shadowVP->_texChunks[i]->getGLId()));
 
-                glDrawBuffersARB(1, buffers);
+                glDrawBuffer(*buffers);
 
                 glClearColor(1.0, 1.0, 1.0, 1.0);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -914,7 +917,7 @@ void VarianceShadowMap::createColorMapFBO(RenderActionBase *action)
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-    glDrawBuffersARB(1, buffers);
+    glDrawBuffer(*buffers);
 
     _shadowVP->getBackground()->clear(action, _shadowVP);
     action->apply(_shadowVP->getRoot());
@@ -1298,7 +1301,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         //Setup FBO
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-        glDrawBuffersARB(1, buffers);
+        glDrawBuffer(*buffers);
 
         //draw the Scene
         if(_firstRun)

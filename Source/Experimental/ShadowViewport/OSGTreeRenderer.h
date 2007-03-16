@@ -25,6 +25,10 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef __APPLE__
+#define NO_CONST_GLSL_VAR
+#endif
+
 class ShadowViewport;
 
 class OSG_SYSTEMLIB_DLLMAPPING TreeRenderer

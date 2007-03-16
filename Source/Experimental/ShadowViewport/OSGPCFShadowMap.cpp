@@ -163,7 +163,10 @@ static std::string _pcf_shadow_vp =
     "varying vec4 projCoord;\n"
     "varying vec4 texPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -1929,7 +1932,10 @@ static std::string _pcf_shadow2_vp =
     "varying vec4 projCoord2;\n"
     "varying vec4 texPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -1956,7 +1962,10 @@ static std::string _pcf_shadow3_vp =
     "varying vec4 projCoord3;\n"
     "varying vec4 texPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -1989,7 +1998,10 @@ static std::string _pcf_shadow4_vp =
     "varying vec4 projCoord4;\n"
     "varying vec4 texPos;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  vec4 realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2018,7 +2030,10 @@ static std::string _pcf_shadowCube_vp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "void main(void)\n"
     "{\n"
     "  realPos = gl_ModelViewMatrix * gl_Vertex;\n"
@@ -2050,7 +2065,10 @@ static std::string _pcf2_shadowCube_fp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -2119,7 +2137,10 @@ static std::string _pcf3_shadowCube_fp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -2193,7 +2214,10 @@ static std::string _pcf4_shadowCube_fp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -2275,7 +2299,10 @@ static std::string _pcf5_shadowCube_fp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -2365,7 +2392,10 @@ static std::string _pcf6_shadowCube_fp =
     "varying vec4 realPos;\n"
     "varying vec4 realPos2;\n"
     "\n"
-    "const mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
+#ifndef NO_CONST_GLSL_VAR
+    "const "
+#endif
+    "mat4 bias = mat4(0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.0,0.0,0.0,0.5,0.0,0.5,0.5,0.5,1.0);\n""\n"
     "\n"
     "void main(void)\n"
     "{\n"
@@ -3630,7 +3660,7 @@ void PCFShadowMap::createColorMapFBO(RenderActionBase *action)
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-    glDrawBuffersARB(1, buffers);
+    glDrawBuffer(*buffers);
 
     GLint   pw = _shadowVP->getPixelWidth();
     GLint   ph = _shadowVP->getPixelHeight();
@@ -4301,7 +4331,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
 
         //Setup FBO
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
-        glDrawBuffersARB(1, buffers);
+        glDrawBuffer(*buffers);
 		
         //clear all ShadowFactorMaps
         // ACHTUNG der fbo kann nur 0,w,0,h rendern
@@ -4321,7 +4351,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
 
         //Setup FBO
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
-        glDrawBuffersARB(1, buffers);
+        glDrawBuffer(*buffers);
 		
         // ACHTUNG der fbo kann nur 0,w,0,h rendern
         // damit es auch mit mehreren viewports klappt ...
@@ -4468,7 +4498,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
                 //Setup FBO
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-                glDrawBuffersARB(1, buffers);
+                glDrawBuffer(*buffers);
 
                 _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 
@@ -4794,7 +4824,7 @@ void PCFShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
             //Setup FBO
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, _fb);
 
-            glDrawBuffersARB(1, buffers);
+            glDrawBuffer(*buffers);
 
             _shadowVP->renderLight(action, _shadowCmat.getCPtr(), i);
 

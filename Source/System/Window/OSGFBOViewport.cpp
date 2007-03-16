@@ -1185,9 +1185,11 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
         case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
         FWARNING(("%x: framebuffer FRAMEBUFFER_DIMENSIONS\n", status));
         break;
+        /** not available on all plattforms
         case GL_FRAMEBUFFER_INCOMPLETE_DUPLICATE_ATTACHMENT_EXT: 
         FWARNING(("%x: framebuffer INCOMPLETE_DUPLICATE_ATTACHMENT\n", status));
-        break; 
+        break;
+        */ 
         case GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
         FWARNING(("%x: framebuffer INCOMPLETE_FORMATS\n", status));
         break;
@@ -1264,7 +1266,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.3 2007/03/13 13:47:23 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.4 2007/03/16 14:12:21 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
