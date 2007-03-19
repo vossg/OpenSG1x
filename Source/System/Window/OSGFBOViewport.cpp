@@ -993,8 +993,13 @@ void FBOViewport::render(RenderActionBase* action)
             //if (!depthTex) 
                 format = FBO_DEPTH_24;
             // TODO; define DEPTH_STENCIL if depth is used as well
-            //if (!stencilTex && depthTex) 
-            //    format |= FBO_STENCIL_8;
+            if (stencilTex && depthTex) 
+			{
+				// format |= FBO_STENCIL_8;
+				FWARNING((	"Rendering to separate depth and stencil textures "
+							"is not possible. Disabling stencil texture.\n" ));         
+                stencilTex = NullFC;
+            }
 
             if ( !initialize(win, format) )
                 assert(0);
@@ -1006,10 +1011,35 @@ void FBOViewport::render(RenderActionBase* action)
             buffers = new GLenum[numBuffers];
 
             // TODO; optimize these if's
-            if (colorTextures.getSize())
+            if (!colorTextures.empty())
             {
                 if (colorTextures.getSize() < numBuffers)
                     numBuffers = colorTextures.getSize();
+				
+                if (depthTex) 
+                {
+                    win->validateGLObject(depthTex->getGLId());
+					
+                    target = depthTex->getTarget();
+                    
+                    if (target == GL_NONE)
+                        target = GL_TEXTURE_2D;
+                    
+                    setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
+								GL_DEPTH_ATTACHMENT_EXT, target);                
+                }
+                else if (stencilTex) 
+                {
+                    win->validateGLObject(stencilTex->getGLId());
+					
+                    target = stencilTex->getTarget();
+                    
+                    if (target == GL_NONE)
+                        target = GL_TEXTURE_2D;
+                        
+                    setTarget(win, win->getGLObjectId(stencilTex->getGLId()), 
+								GL_STENCIL_ATTACHMENT_EXT, target);                
+                }
 
                 for (i=0; i<numBuffers; i++)
                 {
@@ -1024,16 +1054,22 @@ void FBOViewport::render(RenderActionBase* action)
                         target = GL_TEXTURE_2D;
     
                     // bind this texture to the current fbo as color_attachment_i
-                    setTarget(win, win->getGLObjectId(colorTextures[i]->getGLId()), buffers[i], target);
+                    setTarget(win, win->getGLObjectId(colorTextures[i]->getGLId()), 
+								buffers[i], target);
                 }
 
                 checkFrameBufferStatus(win);
             
-                // draw a scene, the results are being written into the associated textures
+                // draw scene, the results are being written into the associated textures
                 if (glDrawBuffersARB)
-                  glDrawBuffersARB (numBuffers, buffers);
-                else 
-                  glDrawBuffer ( *buffers );
+					glDrawBuffersARB (numBuffers, buffers);
+                else {
+					if (numBuffers > 1) {
+						FWARNING((	"glDrawBuffersARB not supported, "
+									"can't render to more than 1 buffer.\n" ));
+					}
+					glDrawBuffer ( *buffers );
+				}
             }
             else if (depthTex)
             {
@@ -1065,7 +1101,7 @@ void FBOViewport::render(RenderActionBase* action)
                 
                 if (target == GL_NONE)
                     target = GL_TEXTURE_2D;
-                    
+				
                 setTarget(win, win->getGLObjectId(stencilTex->getGLId()), buffers[0], target);
 
                 glDrawBuffer (GL_NONE);
@@ -1266,7 +1302,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.4 2007/03/16 14:12:21 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.5 2007/03/19 12:55:49 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
