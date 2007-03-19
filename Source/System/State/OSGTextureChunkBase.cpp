@@ -247,6 +247,9 @@ const OSG::BitVector  TextureChunkBase::BorderColorFieldMask =
 const OSG::BitVector  TextureChunkBase::BorderWidthFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::BorderWidthFieldId);
 
+const OSG::BitVector  TextureChunkBase::NPOTMatrixScaleFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::NPOTMatrixScaleFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -264,7 +267,7 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
     The external texture format - overwrites               external format of image when set to a value not equal to               GL_NONE (which is the default).
 */
 /*! \var bool            TextureChunkBase::_sfScale
-    Specifies whether the image should be scaled to the next power of two,              thus filling the whole texture coordinate range, or if it should be put              in the lower left corner, leaving the rest of the texture undefined.              This is mainly used for rapidly changing non power of two textures, to              get around the scaling overhead.
+    Specifies whether the image should be scaled to the next power of two,              thus filling the whole texture coordinate range, or if it should be put              in the lower left corner, leaving the rest of the texture undefined.              This is mainly used for rapidly changing non power of two textures, to              get around the scaling overhead.          If set to false, NPOTMatrixScale can be used to use the texture matrix to correct     the texture coordinates to show the used part of the texture.
 */
 /*! \var UInt32          TextureChunkBase::_sfFrame
     Select the frame of the image to be used. See osg::Image about details              concerning multi-frame images.              \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap              creation is slow right now. \endhint
@@ -409,6 +412,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var UInt32          TextureChunkBase::_sfBorderWidth
     Texture border width in pixels.
+*/
+/*! \var bool            TextureChunkBase::_sfNPOTMatrixScale
+    Use the texture matrix to scale the texture coordinates for NPOT         images. Only used if neither rectangular nor NPOT textures are supported.         If set to false, the image is scaled to the next power of two before being          used as a texture.                  Note that this will interfere with other TextureTransform and TexGen chunks.         Do not use it if you need to use those chunks!
 */
 
 //! TextureChunk description
@@ -674,7 +680,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "borderWidth", 
                      BorderWidthFieldId, BorderWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFBorderWidth)
+                     (FieldAccessMethod) &TextureChunkBase::getSFBorderWidth),
+    new FieldDescription(SFBool::getClassType(), 
+                     "NPOTMatrixScale", 
+                     NPOTMatrixScaleFieldId, NPOTMatrixScaleFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFNPOTMatrixScale)
 };
 
 
@@ -803,6 +814,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfAnisotropy             (Real32(1.0f)), 
     _sfBorderColor            (Color4f(0,0,0,0)), 
     _sfBorderWidth            (UInt32(0)), 
+    _sfNPOTMatrixScale        (bool(false)), 
     Inherited() 
 {
 }
@@ -864,6 +876,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfAnisotropy             (source._sfAnisotropy             ), 
     _sfBorderColor            (source._sfBorderColor            ), 
     _sfBorderWidth            (source._sfBorderWidth            ), 
+    _sfNPOTMatrixScale        (source._sfNPOTMatrixScale        ), 
     Inherited                 (source)
 {
 }
@@ -1140,6 +1153,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfBorderWidth.getBinSize();
     }
 
+    if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
+    {
+        returnValue += _sfNPOTMatrixScale.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1407,6 +1425,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
     {
         _sfBorderWidth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
+    {
+        _sfNPOTMatrixScale.copyToBin(pMem);
     }
 
 
@@ -1677,6 +1700,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfBorderWidth.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
+    {
+        _sfNPOTMatrixScale.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1843,6 +1871,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
         _sfBorderWidth.syncWith(pOther->_sfBorderWidth);
 
+    if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
+        _sfNPOTMatrixScale.syncWith(pOther->_sfNPOTMatrixScale);
+
 
 }
 #else
@@ -2005,6 +2036,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (BorderWidthFieldMask & whichField))
         _sfBorderWidth.syncWith(pOther->_sfBorderWidth);
+
+    if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
+        _sfNPOTMatrixScale.syncWith(pOther->_sfNPOTMatrixScale);
 
 
     if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))

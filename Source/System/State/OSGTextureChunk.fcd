@@ -57,6 +57,9 @@
     in the lower left corner, leaving the rest of the texture undefined.         
     This is mainly used for rapidly changing non power of two textures, to         
     get around the scaling overhead.
+    
+    If set to false, NPOTMatrixScale can be used to use the texture matrix to correct
+    the texture coordinates to show the used part of the texture.
 	</Field>
 	<Field
 		name="frame"
@@ -584,5 +587,21 @@
 		access="public"
 	>
 	Texture border width in pixels.
+	</Field>
+	<Field
+		name="NPOTMatrixScale"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Use the texture matrix to scale the texture coordinates for NPOT
+        images. Only used if neither rectangular nor NPOT textures are supported.
+        If set to false, the image is scaled to the next power of two before being 
+        used as a texture.
+        
+        Note that this will interfere with other TextureTransform and TexGen chunks.
+        Do not use it if you need to use those chunks! 
 	</Field>
 </FieldContainer>

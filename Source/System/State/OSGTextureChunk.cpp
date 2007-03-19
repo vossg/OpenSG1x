@@ -1702,6 +1702,44 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glEnable(target);
     }
     
+    // Use texture matrix for scaling
+    if(idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && 
+         getNPOTMatrixScale() &&
+         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+        !win->hasExtension(_arbTextureNonPowerOfTwo)
+      )
+    {
+        Matrix m;
+        ImagePtr i = getImage();
+        
+        if(i != NullFC)
+        {
+            UInt32 w,h,d,nw,nh,nd;
+
+            w = i->getWidth();
+            h = i->getHeight();
+            d = i->getDepth();
+            
+            nw = osgnextpower2(w);
+            nh = osgnextpower2(h);
+            nd = osgnextpower2(d);
+
+            m.setIdentity();
+            m.setScale(Vec3f(w / static_cast<Real32>(nw),
+                             h / static_cast<Real32>(nh),
+                             d / static_cast<Real32>(nd)
+                      )     );
+
+            glPushAttrib(GL_TRANSFORM_BIT);
+            glMatrixMode(GL_TEXTURE);
+
+            glLoadMatrixf(m.getValues());
+
+            glPopAttrib();
+        }
+    }
+    
     glErr("TextureChunk::activate");
 }
 
@@ -1945,7 +1983,62 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             }
         }
     }
+
     
+    // Use texture matrix for scaling
+    if(idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && 
+         getNPOTMatrixScale() &&
+         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+        !win->hasExtension(_arbTextureNonPowerOfTwo)
+      )
+    {
+        Matrix m;
+        ImagePtr i = getImage();
+        
+        if(i != NullFC)
+        {
+            UInt32 w,h,d,nw,nh,nd;
+
+            w = i->getWidth();
+            h = i->getHeight();
+            d = i->getDepth();
+            
+            nw = osgnextpower2(w);
+            nh = osgnextpower2(h);
+            nd = osgnextpower2(d);
+
+            m.setIdentity();
+            m.setScale(Vec3f(w / static_cast<Real32>(nw),
+                             h / static_cast<Real32>(nh),
+                             d / static_cast<Real32>(nd)
+                      )     );
+
+            glPushAttrib(GL_TRANSFORM_BIT);
+            glMatrixMode(GL_TEXTURE);
+
+            glLoadMatrixf(m.getValues());
+
+            glPopAttrib();
+        }
+    }
+    else if(oldused)
+    {
+        if(!oldp->getScale() && 
+            oldp->getNPOTMatrixScale() &&
+            oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+           !win->hasExtension(_arbTextureNonPowerOfTwo)
+          )
+        {
+            glPushAttrib(GL_TRANSFORM_BIT);
+            glMatrixMode(GL_TEXTURE);
+
+            glLoadIdentity();
+
+            glPopAttrib();
+        }        
+    }  
+        
     glErr("TextureChunk::changeFrom");
 }
 
@@ -2061,7 +2154,22 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         if(idx == 0)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
+    
+    if(idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && 
+         getNPOTMatrixScale() &&
+         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+        !win->hasExtension(_arbTextureNonPowerOfTwo)
+      )
+    {
+        glPushAttrib(GL_TRANSFORM_BIT);
+        glMatrixMode(GL_TEXTURE);
 
+        glLoadIdentity();
+
+        glPopAttrib();        
+    }
+    
     glDisable(target);
 
     glErr("TextureChunk::deactivate");

@@ -4,6 +4,10 @@
 // pictures behind the 3D graphics, and how to do it as efficiently as 
 // possible
 //
+// Most video is not a power-of-two (POT) size, which makes it interesting.
+// OpenSG handles most of that behind the scenes, but you have to set some
+// options to make it efficient (see below).
+//
 // Based on 02move.cpp
 
 // Headers
@@ -45,14 +49,13 @@ TextureChunkPtr tex;
 // flag to indicate whether the images are power-of-two (POT) in size or not
 bool  isPOT = false;
 
-// flag to indicate whether rectangular textures are available
-bool  hasRectTex = false;
 // flag to indicate whether NPOT textures are available
+// Purely informative, the code doesn't really care.
 bool  hasNPOT = false;
 
 
 // flag to indicate that only a small part of the image should be changed
-// per frame. The random image geenration can get slow for large
+// per frame. The random image generation can get slow for large
 // images.
 bool  changeOnlyPart = false;
 
@@ -188,15 +191,7 @@ int main(int argc, char **argv)
     {
         width = atoi(argv[1]);
         height = atoi(argv[2]);
-    }
-    
-    // An OpenGL prefers textures that are power of two (POT) sizes, 
-    // things are a little more complicated for non-POT (NPOT)
-    // textures. The following flag shows where in the code changes 
-    // need to be made for that case
-    
-    isPOT = osgispower2(width) && osgispower2(height);
-    
+    }    
     
     // To check OpenGL extensions, the Window needs to have run through
     // frameInit at least once. This automatically happens when rendering,
@@ -205,14 +200,12 @@ int main(int argc, char **argv)
     gwin->frameInit();
     
     // Now we can check for OpenGL extensions    
-    hasRectTex = gwin->hasExtension("GL_ARB_texture_rectangle");
     hasNPOT = gwin->hasExtension("GL_ARB_texture_non_power_of_two");
    
     // Print what we've got
     SLOG << "Got " << (isPOT?"":"non-") << "power-of-two images and "
-         << (hasNPOT?"can":"cannot") << " use NPOT textures and "
-         << (hasRectTex?"can":"cannot") << " use rectangular textures" 
-         << ", changing " << (changeOnlyPart?"part":"all") 
+         << (hasNPOT?"can":"cannot") << " use NPOT textures, changing " 
+         << (changeOnlyPart?"part":"all") 
          << " of the screen"
          << endLog;
     
@@ -238,6 +231,7 @@ int main(int argc, char **argv)
     {
         // Associate image and texture
         tex->setImage(image);
+        
         // Set filtering modes. LINEAR is cheap and good if the image size
         // changes very little (i.e. the window is about the same size as 
         // the images).
@@ -247,35 +241,23 @@ int main(int argc, char **argv)
         // Set the wrapping modes. We don't need repetition, it might actually
         // introduce artifactes at the borders, so switch it off.
         tex->setWrapS(GL_CLAMP_TO_EDGE);
-        tex->setWrapT(GL_CLAMP_TO_EDGE);        
-       
+        tex->setWrapT(GL_CLAMP_TO_EDGE);             
         
-        if(isPOT)
-        {
-            // power-of-two image. Nice, nothing special to do here.
-        }
-        else if(hasNPOT)
-        {
-            // NPOT image, but GL_ARB_non_power_of_two supported,
-            // dpn't need to anything special
-        }
-        else if(hasRectTex)
-        {
-            // Rectangular textures are available, but they need to be 
-            // explicitly enabled
-            tex->setTarget(GL_TEXTURE_RECTANGLE_ARB);
-        }
-        else
-        {
-            // OpenGL can only handle POT textures. When using NPOT 
-            // textures they need to be embedded in a POT texture. By default
-            // OpenSG scales up the image to fill the whole texture, to make 
-            // repetition work. But this is very expensive and not useable
-            // for images that change a lot.
-            // So tell OpenSG not to scale the image. In this case, only the 
-            // lower left corner of the texture will be used.
-            tex->setScale(false);
-        }
+        // Newer versions of OpenGl can handle NPOT textures directly.
+        // OpenSG will do that internally automatically.
+        //
+        // Older versions need POT textures. By default OpenSG
+        // will scale an NPOT texture to POT while defining it.
+        // For changing textures that's too slow.
+        // So tell OpenSG not to scale the image, but use the texture
+        // matrix to scale. This only works if we're not using the
+        // texture matrix for anything else, which is fine for video
+        // backgrounds.
+        // This does not do anything if NPOT textures are supported, so
+        // it is safe to just set it.
+        
+        tex->setScale(false);            
+        tex->setNPOTMatrixScale(true);
     }
     endEditCP(tex);
     
@@ -286,40 +268,6 @@ int main(int argc, char **argv)
     {
         // Set the texture to use
         back->setTexture(tex);
-        
-        // Set up texture coordinates for the background
-        
-        if(isPOT || hasNPOT)
-        {
-            // Standard texture coords for power-of-two image.
-            back->getTexCoords().push_back(Pnt2f(0,0));
-            back->getTexCoords().push_back(Pnt2f(1,0));
-            back->getTexCoords().push_back(Pnt2f(1,1));
-            back->getTexCoords().push_back(Pnt2f(0,1));
-        }
-        else if(hasRectTex)
-        {
-            // Rectangular textures have pixel-based texture
-            // coordinates
-            back->getTexCoords().push_back(Pnt2f(0,0));
-            back->getTexCoords().push_back(Pnt2f(width-1,0));
-            back->getTexCoords().push_back(Pnt2f(width-1,height-1));
-            back->getTexCoords().push_back(Pnt2f(0,height-1));
-        }
-        else
-        {
-            // Using NPOT texture embedded in larger POT texture
-            // Set the texcoords so that only the used part is visible
-           
-            Real32 w = static_cast<Real32>(width) / osgnextpower2(width);
-            Real32 h = static_cast<Real32>(height) / osgnextpower2(height);
-           
-            back->getTexCoords().push_back(Pnt2f(0,0));
-            back->getTexCoords().push_back(Pnt2f(w,0));
-            back->getTexCoords().push_back(Pnt2f(w,h));
-            back->getTexCoords().push_back(Pnt2f(0,h));
-            
-        }
     }
     endEditCP(back);
     

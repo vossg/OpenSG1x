@@ -460,6 +460,13 @@ SFUInt32 *TextureChunkBase::getSFBorderWidth(void)
     return &_sfBorderWidth;
 }
 
+//! Get the TextureChunk::_sfNPOTMatrixScale field.
+inline
+SFBool *TextureChunkBase::getSFNPOTMatrixScale(void)
+{
+    return &_sfNPOTMatrixScale;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1530,6 +1537,27 @@ inline
 void TextureChunkBase::setBorderWidth(const UInt32 &value)
 {
     _sfBorderWidth.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfNPOTMatrixScale field.
+inline
+bool &TextureChunkBase::getNPOTMatrixScale(void)
+{
+    return _sfNPOTMatrixScale.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfNPOTMatrixScale field.
+inline
+const bool &TextureChunkBase::getNPOTMatrixScale(void) const
+{
+    return _sfNPOTMatrixScale.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfNPOTMatrixScale field.
+inline
+void TextureChunkBase::setNPOTMatrixScale(const bool &value)
+{
+    _sfNPOTMatrixScale.setValue(value);
 }
 
 
