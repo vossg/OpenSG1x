@@ -858,7 +858,7 @@ class win32_icl_base(win32):
         # '__STDC__'
         env.Append(CPPDEFINES=['__INTEL_COMPILER_VERSION=' + iclversion])
 
-        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
+        env.Append(LINKFLAGS=['/NODEFAULTLIB', '/incremental:no'],
                    LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
 
     def get_env_list(self):
@@ -921,9 +921,7 @@ class win32_msvc_base(win32):
 
         env.Append(CPPDEFINES=win32_defines)
 
-        env.Append(LINKFLAGS=['/FORCE:MULTIPLE'])
-
-        env.Append(LINKFLAGS=['/NODEFAULTLIB'],
+        env.Append(LINKFLAGS=['/FORCE:MULTIPLE', '/NODEFAULTLIB', '/incremental:no'],
                    LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
 
     def get_env_list(self):
@@ -971,7 +969,7 @@ class win32_msvc70(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc70')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
+        env.Append(CXXFLAGS=['/GX', '/GR', '/Zm1200'])
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
         include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc7_default_paths("7.0", 0)
@@ -985,7 +983,7 @@ class win32_msvc71(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc71')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/GX', '/GR', '/FD', '/Zm1200'])
+        env.Append(CXXFLAGS=['/GX', '/GR', '/Zm1200'])
 
         # add msvc71 include and lib paths
         import SCons.Tool.msvc
@@ -1000,7 +998,7 @@ class win32_msvc80(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc80')
         env = self.get_env()
 
-        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
 
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
@@ -1035,7 +1033,7 @@ class win32_msvc80x64(win32_msvc_base):
         env = self.get_env()
 
         env.Append(CPPDEFINES =['WIN64'])
-        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
 
         # add msvc80 include and lib paths
@@ -1076,7 +1074,7 @@ class win32_mspsdkx64(win32_msvc_base):
         # this compiler uses the old vc 6.0 header files we need the define
         # to detect this in OSGConfig.h
         env.Append(CPPDEFINES =['OSG_PSDK_COMPILER', 'WIN64'])
-        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR', '/FD',
+        env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
 
         # add msvc80 platform sdk include and lib paths
