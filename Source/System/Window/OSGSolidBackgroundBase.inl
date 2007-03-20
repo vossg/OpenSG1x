@@ -117,6 +117,13 @@ SFReal32 *SolidBackgroundBase::getSFAlpha(void)
     return &_sfAlpha;
 }
 
+//! Get the SolidBackground::_sfDepth field.
+inline
+SFReal32 *SolidBackgroundBase::getSFDepth(void)
+{
+    return &_sfDepth;
+}
+
 
 //! Get the value of the SolidBackground::_sfColor field.
 inline
@@ -179,6 +186,27 @@ inline
 void SolidBackgroundBase::setAlpha(const Real32 &value)
 {
     _sfAlpha.setValue(value);
+}
+
+//! Get the value of the SolidBackground::_sfDepth field.
+inline
+Real32 &SolidBackgroundBase::getDepth(void)
+{
+    return _sfDepth.getValue();
+}
+
+//! Get the value of the SolidBackground::_sfDepth field.
+inline
+const Real32 &SolidBackgroundBase::getDepth(void) const
+{
+    return _sfDepth.getValue();
+}
+
+//! Set the value of the SolidBackground::_sfDepth field.
+inline
+void SolidBackgroundBase::setDepth(const Real32 &value)
+{
+    _sfDepth.setValue(value);
 }
 
 

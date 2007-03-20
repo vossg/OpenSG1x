@@ -111,7 +111,8 @@ void SolidBackground::clear(DrawActionBase *, Viewport *)
 {
     Color3f &col = getColor();
     glClearColor(col[0], col[1], col[2], getAlpha());
-
+    glClearDepth(getDepth());
+    
     Int32 bit = getClearStencilBit();   // 0x0
     
     if (bit >= 0)

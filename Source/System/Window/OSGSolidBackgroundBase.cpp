@@ -73,6 +73,9 @@ const OSG::BitVector  SolidBackgroundBase::ClearStencilBitFieldMask =
 const OSG::BitVector  SolidBackgroundBase::AlphaFieldMask = 
     (TypeTraits<BitVector>::One << SolidBackgroundBase::AlphaFieldId);
 
+const OSG::BitVector  SolidBackgroundBase::DepthFieldMask = 
+    (TypeTraits<BitVector>::One << SolidBackgroundBase::DepthFieldId);
+
 const OSG::BitVector SolidBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +91,9 @@ const OSG::BitVector SolidBackgroundBase::MTInfluenceMask =
 */
 /*! \var Real32          SolidBackgroundBase::_sfAlpha
     Alpha value (to allow transparent clears).
+*/
+/*! \var Real32          SolidBackgroundBase::_sfDepth
+    Depth value for clear, defaults to 1.
 */
 
 //! SolidBackground description
@@ -108,7 +114,12 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFAlpha)
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFAlpha),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "depth", 
+                     DepthFieldId, DepthFieldMask,
+                     false,
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFDepth)
 };
 
 
@@ -187,6 +198,7 @@ SolidBackgroundBase::SolidBackgroundBase(void) :
     _sfColor                  (Color3f(0,0,0)), 
     _sfClearStencilBit        (Int32(-1)), 
     _sfAlpha                  (Real32(1.f)), 
+    _sfDepth                  (Real32(1.f)), 
     Inherited() 
 {
 }
@@ -199,6 +211,7 @@ SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
     _sfColor                  (source._sfColor                  ), 
     _sfClearStencilBit        (source._sfClearStencilBit        ), 
     _sfAlpha                  (source._sfAlpha                  ), 
+    _sfDepth                  (source._sfDepth                  ), 
     Inherited                 (source)
 {
 }
@@ -230,6 +243,11 @@ UInt32 SolidBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfAlpha.getBinSize();
     }
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        returnValue += _sfDepth.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -252,6 +270,11 @@ void SolidBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (AlphaFieldMask & whichField))
     {
         _sfAlpha.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyToBin(pMem);
     }
 
 
@@ -277,6 +300,11 @@ void SolidBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAlpha.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -296,6 +324,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
     if(FieldBits::NoField != (AlphaFieldMask & whichField))
         _sfAlpha.syncWith(pOther->_sfAlpha);
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
 
 }
 #else
@@ -314,6 +345,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
     if(FieldBits::NoField != (AlphaFieldMask & whichField))
         _sfAlpha.syncWith(pOther->_sfAlpha);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
 
 
 

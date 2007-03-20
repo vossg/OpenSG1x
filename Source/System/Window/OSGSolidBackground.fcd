@@ -42,4 +42,14 @@ A single colored background.
 	>
 	Alpha value (to allow transparent clears).
 	</Field>
+	<Field
+		name="depth"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.f"
+		access="public"
+	>
+	Depth value for clear, defaults to 1.
+	</Field>
 </FieldContainer>
