@@ -2626,7 +2626,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
     HalfEdgeGraph graph;
 
-    Int32 cost = 0, startCost, bestCost = 0, worstCost = 0, best = 0;
+    UInt32 cost = 0, startCost, bestCost = 0, worstCost = 0, best = 0;
 
     GeoPLengthsPtr lensPtr;
     GeoPTypesPtr geoTypePtr;
@@ -2636,8 +2636,8 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     int invalidTriCount = 0;
 
     GeoPositionsPtr posPtr = geoPtr->getPositions();
-    Int32 pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
-    Int32 indexMapSize = (geoPtr->getIndexMapping().size());
+    UInt32 pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
+    UInt32 indexMapSize = (geoPtr->getIndexMapping().size());
     bool multiIndex = (indexMapSize > 1) ? true : false;
 
     UInt32 triN, lineN, pointN;
@@ -2699,7 +2699,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     }
     else
     {
-        graph.reserve(pN, triN, 8);
+        graph.reserve(osgMin(pN, triN * 3), triN, 8);
         UInt32 triCount = 0;
         for(TriangleIterator tI = geoPtr->beginTriangles(); (triCount < triN) && (tI != geoPtr->endTriangles());
                         ++tI)

@@ -756,6 +756,7 @@ void OBJSceneFileType::initElemMap(void)
         _mtlElemMap["Ks"]      = MTL_SPECULAR_ME;
         _mtlElemMap["Ns"]      = MTL_SHININESS_ME;
         _mtlElemMap["Tr"]      = MTL_TRANSPARENCY_ME;
+        _mtlElemMap["d"]       = MTL_DISSOLVE_ME;
         _mtlElemMap["map_Kd"]  = MTL_MAP_KD_ME;
         _mtlElemMap["map_Ka"]  = MTL_MAP_KA_ME;
         _mtlElemMap["map_Ks"]  = MTL_MAP_KS_ME;
@@ -863,6 +864,10 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                             case MTL_TRANSPARENCY_ME:
                                 in >> a;
                                 mtlPtr->setTransparency(a);
+                                break;
+                            case MTL_DISSOLVE_ME:
+                                in >> a;
+                                mtlPtr->setTransparency(1.f - a);
                                 break;
                             case MTL_MAP_KD_ME:
                             case MTL_MAP_KA_ME:
