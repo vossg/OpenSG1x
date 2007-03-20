@@ -1,25 +1,26 @@
 // OpenSG Tutorial Example: Hello World
 //
-// Minimalistic OpenSG cluster client program
+// Minimalistic OpenSG cluster client program demonstrating sort-last
+// clustering (i.e. using multiple machine to draw a single image)
 // 
 // To test it, run 
 //   ./12ClusterServer -geometry 300x300+200+100 -m -w test1 &
 //   ./12ClusterServer -geometry 300x300+500+100 -m -w test2 &
-//   ./13ClusterClient -m -fData/tie.wrl test1 test2
+//   ./28SortLastClusterClient -m -fData/tie.wrl test1 test2
 //
 // If you have trouble with multicasting, you can alternatively try
 //   ./12ClusterServer -geometry 300x300+200+100 -w 127.0.0.1:30000 &
 //   ./12ClusterServer -geometry 300x300+500+100 -w 127.0.0.1:30001 &
-//   ./13ClusterClient -fData/tie.wrl 127.0.0.1:30000 127.0.0.1:30001
+//   ./28SortLastClusterClient -fData/tie.wrl 127.0.0.1:30000 127.0.0.1:30001
 // This will work as long as your loopback interface can handle broadcasts.
 // If that is not the case you need to use your local IP address instead
 // of 127.0.0.1.
-//  
-// The client will open an emoty window that you can use to navigate. The
-// display is shown in the server windows.
+// 
+// The client will open a window that you can use to navigate.
 //
 // This will run all three on the same machine, but you can also start the 
-// servers anywhere else, as long as you can reach them via multicast.
+// servers anywhere else, as long as you can reach them via broadcast and
+// multicast, if using option 1 above.
 //
 // Note: This will run two VERY active OpenGL programs on one screen. Not all
 // OpenGL drivers are happy with that, so if it crashes your X, it's not our
@@ -40,8 +41,10 @@
 // A little helper to simplify scene management and interaction
 #include <OpenSG/OSGSimpleSceneManager.h>
 
-// The cluster window that handles sort-first (screen-split) clustering
-#include <OpenSG/OSGMultiDisplayWindow.h>
+// The cluster window that handles sort-last (scene-split) clustering
+#include <OpenSG/OSGSortLastWindow.h>
+#include <OpenSG/OSGPipelineComposer.h>
+#include <OpenSG/OSGBinarySwapComposer.h>
 
 // Scene file handler for loading geometry files
 #include <OpenSG/OSGSceneFileHandler.h>
@@ -70,7 +73,7 @@ int main(int argc, char **argv)
     int winid = setupGLUT(&argc, argv);
 
     // the connection between this client and the servers
-    MultiDisplayWindowPtr mwin= MultiDisplayWindow::create();
+    SortLastWindowPtr mwin= SortLastWindow::create();
 
     // all changes must be enclosed in beginEditCP and endEditCP
     // otherwise the changes will not be transfered over the network.
@@ -84,10 +87,10 @@ int main(int argc, char **argv)
             switch(argv[a][1])
             {
                 case 'm': mwin->setConnectionType("Multicast");
-cout << "Connection type set to Multicast" << endl;
+                          cout << "Connection type set to Multicast" << endl;
                           break;
                 case 'p': mwin->setConnectionType("SockPipeline");
-cout << "Connection type set to SockPipeline" << endl;
+                          cout << "Connection type set to SockPipeline" << endl;
                           break;
                 case 'i': opt = argv[a][2] ? argv[a]+2 : argv[++a];
                           if(opt != argv[argc])
@@ -102,22 +105,12 @@ cout << "Connection type set to SockPipeline" << endl;
                               scene = SceneFileHandler::the().read(
                                   opt,0);
                           break;
-                case 'x': opt = argv[a][2] ? argv[a]+2 : argv[++a];
-                          if(opt != argv[argc])
-                              mwin->setHServers(atoi(opt));
-                          break;
-                case 'y': opt = argv[a][2] ? argv[a]+2 : argv[++a];
-                          if(opt != argv[argc])
-                              mwin->setVServers(atoi(opt));
-                          break;
                 default:  std::cout << argv[0]  
                                     << " -m"
                                     << " -p"
                                     << " -i interface"
                                     << " -f file"
-                                    << " -x horizontal server cnt"
-                                    << " -y vertical server cnt"
-                                    << endLog;
+                                   << endLog;
                           return 0;
             }
         }
@@ -128,16 +121,41 @@ cout << "Connection type set to SockPipeline" << endl;
         }
     }
 
-    // dummy size for navigator
+    // Set the composer to use
+    
+    mwin->setComposer(PipelineComposer::create());
+    
+    // window size
     mwin->setSize(300,300);
 
+    // Create/set the client window that will display the result
+    
+    GLUTWindowPtr clientWindow = GLUTWindow::create();
+    
+    beginEditCP(clientWindow);
+    glutReshapeWindow(300,300);
+    clientWindow->setId(winid);
+    clientWindow->init();
+    endEditCP(clientWindow);
+    
+    clientWindow->resize(300,300);
+    
+    // Set the client window that will display the result
+    mwin->setClientWindow(clientWindow);
+    
     // end edit of cluster window
     endEditCP(mwin);
 
     // create default scene
     if(scene == NullFC)
-       scene = makeTorus(.5, 2, 16, 16);
-
+    {
+        scene = makeNodeFor(Group::create());
+        beginEditCP(scene);
+        scene->addChild(makeTorus(.5, 2, 16, 16));
+        scene->addChild(makeCylinder(1, .3, 8, true, true, true));
+        endEditCP(scene);
+    }
+    
     // create the SimpleSceneManager helper
     mgr = new SimpleSceneManager;
 
@@ -170,9 +188,6 @@ void display(void)
     // then the same changes will be transmitted a second time
     // in the next frame. 
     OSG::Thread::getCurrentChangeList()->clearAll();
-    // clear local navigation window
-    glClear(GL_COLOR_BUFFER_BIT);
-    glutSwapBuffers();
 }
 
 // react to size changes
