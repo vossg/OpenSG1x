@@ -69,6 +69,7 @@
 
 #include <OSGColor3fFields.h> // Color type
 #include <OSGInt32Fields.h> // ClearStencilBit type
+#include <OSGReal32Fields.h> // Alpha type
 
 #include <OSGSolidBackgroundFields.h>
 
@@ -94,11 +95,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     {
         ColorFieldId           = Inherited::NextFieldId,
         ClearStencilBitFieldId = ColorFieldId           + 1,
-        NextFieldId            = ClearStencilBitFieldId + 1
+        AlphaFieldId           = ClearStencilBitFieldId + 1,
+        NextFieldId            = AlphaFieldId           + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
+    static const OSG::BitVector AlphaFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -127,11 +130,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
            SFColor3f           *getSFColor          (void);
            SFInt32             *getSFClearStencilBit(void);
+           SFReal32            *getSFAlpha          (void);
 
            Color3f             &getColor          (void);
      const Color3f             &getColor          (void) const;
            Int32               &getClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
+           Real32              &getAlpha          (void);
+     const Real32              &getAlpha          (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -140,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
      void setColor          ( const Color3f &value );
      void setClearStencilBit( const Int32 &value );
+     void setAlpha          ( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -184,6 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
 
     SFColor3f           _sfColor;
     SFInt32             _sfClearStencilBit;
+    SFReal32            _sfAlpha;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

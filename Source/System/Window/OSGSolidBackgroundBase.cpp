@@ -70,6 +70,9 @@ const OSG::BitVector  SolidBackgroundBase::ColorFieldMask =
 const OSG::BitVector  SolidBackgroundBase::ClearStencilBitFieldMask = 
     (TypeTraits<BitVector>::One << SolidBackgroundBase::ClearStencilBitFieldId);
 
+const OSG::BitVector  SolidBackgroundBase::AlphaFieldMask = 
+    (TypeTraits<BitVector>::One << SolidBackgroundBase::AlphaFieldId);
+
 const OSG::BitVector SolidBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -82,6 +85,9 @@ const OSG::BitVector SolidBackgroundBase::MTInfluenceMask =
 */
 /*! \var Int32           SolidBackgroundBase::_sfClearStencilBit
     Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+*/
+/*! \var Real32          SolidBackgroundBase::_sfAlpha
+    Alpha value (to allow transparent clears).
 */
 
 //! SolidBackground description
@@ -97,7 +103,12 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearStencilBit)
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearStencilBit),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "alpha", 
+                     AlphaFieldId, AlphaFieldMask,
+                     false,
+                     (FieldAccessMethod) &SolidBackgroundBase::getSFAlpha)
 };
 
 
@@ -175,6 +186,7 @@ void SolidBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 SolidBackgroundBase::SolidBackgroundBase(void) :
     _sfColor                  (Color3f(0,0,0)), 
     _sfClearStencilBit        (Int32(-1)), 
+    _sfAlpha                  (Real32(1.f)), 
     Inherited() 
 {
 }
@@ -186,6 +198,7 @@ SolidBackgroundBase::SolidBackgroundBase(void) :
 SolidBackgroundBase::SolidBackgroundBase(const SolidBackgroundBase &source) :
     _sfColor                  (source._sfColor                  ), 
     _sfClearStencilBit        (source._sfClearStencilBit        ), 
+    _sfAlpha                  (source._sfAlpha                  ), 
     Inherited                 (source)
 {
 }
@@ -212,6 +225,11 @@ UInt32 SolidBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfClearStencilBit.getBinSize();
     }
 
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        returnValue += _sfAlpha.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -229,6 +247,11 @@ void SolidBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
     {
         _sfClearStencilBit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        _sfAlpha.copyToBin(pMem);
     }
 
 
@@ -249,6 +272,11 @@ void SolidBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfClearStencilBit.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+    {
+        _sfAlpha.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -265,6 +293,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
+
 
 }
 #else
@@ -280,6 +311,9 @@ void SolidBackgroundBase::executeSyncImpl(      SolidBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
+    if(FieldBits::NoField != (AlphaFieldMask & whichField))
+        _sfAlpha.syncWith(pOther->_sfAlpha);
 
 
 

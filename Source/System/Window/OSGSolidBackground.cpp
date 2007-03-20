@@ -110,7 +110,7 @@ void SolidBackground::changed(BitVector whichField, UInt32 origin)
 void SolidBackground::clear(DrawActionBase *, Viewport *)
 {
     Color3f &col = getColor();
-    glClearColor(col[0], col[1], col[2], 1.0);
+    glClearColor(col[0], col[1], col[2], getAlpha());
 
     Int32 bit = getClearStencilBit();   // 0x0
     

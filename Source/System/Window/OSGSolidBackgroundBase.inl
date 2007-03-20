@@ -110,6 +110,13 @@ SFInt32 *SolidBackgroundBase::getSFClearStencilBit(void)
     return &_sfClearStencilBit;
 }
 
+//! Get the SolidBackground::_sfAlpha field.
+inline
+SFReal32 *SolidBackgroundBase::getSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
 
 //! Get the value of the SolidBackground::_sfColor field.
 inline
@@ -151,6 +158,27 @@ inline
 void SolidBackgroundBase::setClearStencilBit(const Int32 &value)
 {
     _sfClearStencilBit.setValue(value);
+}
+
+//! Get the value of the SolidBackground::_sfAlpha field.
+inline
+Real32 &SolidBackgroundBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+
+//! Get the value of the SolidBackground::_sfAlpha field.
+inline
+const Real32 &SolidBackgroundBase::getAlpha(void) const
+{
+    return _sfAlpha.getValue();
+}
+
+//! Set the value of the SolidBackground::_sfAlpha field.
+inline
+void SolidBackgroundBase::setAlpha(const Real32 &value)
+{
+    _sfAlpha.setValue(value);
 }
 
 
