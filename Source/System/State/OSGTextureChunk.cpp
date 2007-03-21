@@ -1703,39 +1703,52 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     }
     
     // Use texture matrix for scaling
-    if(idx < static_cast<UInt32>(ntexcoords) &&
-        !getScale() && 
-         getNPOTMatrixScale() &&
-         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-        !win->hasExtension(_arbTextureNonPowerOfTwo)
-      )
+	UInt32 NpotMatScale = getNPOTMatrixScale();
+	
+    if ( idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && NpotMatScale )
     {
-        Matrix m;
         ImagePtr i = getImage();
         
-        if(i != NullFC)
+        if (i != NullFC)
         {
-            UInt32 w,h,d,nw,nh,nd;
-
-            w = i->getWidth();
-            h = i->getHeight();
-            d = i->getDepth();
-            
-            nw = osgnextpower2(w);
-            nh = osgnextpower2(h);
-            nd = osgnextpower2(d);
-
+			Real32 sw=1.f, sh=1.f, sd=1.f;
+			
+			if ( (NpotMatScale & NPotTexScale) &&
+				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
+			{
+				UInt32 w,h,d,nw,nh,nd;
+				
+				w = i->getWidth();
+				h = i->getHeight();
+				d = i->getDepth();
+				
+				nw = osgnextpower2(w);
+				nh = osgnextpower2(h);
+				nd = osgnextpower2(d);
+				
+				sw = w / static_cast<Real32>(nw);
+				sh = h / static_cast<Real32>(nh);
+				sd = d / static_cast<Real32>(nd);
+			}
+			if ( (NpotMatScale & XFlip) )
+				sw *= -1.f;
+			if ( (NpotMatScale & YFlip) )
+				sh *= -1.f;
+			if ( (NpotMatScale & ZFlip) )
+				sd *= -1.f;
+			
+			Matrix m;
+			
             m.setIdentity();
-            m.setScale(Vec3f(w / static_cast<Real32>(nw),
-                             h / static_cast<Real32>(nh),
-                             d / static_cast<Real32>(nd)
-                      )     );
-
+            m.setScale( Vec3f(sw, sh, sd) );
+			
             glPushAttrib(GL_TRANSFORM_BIT);
             glMatrixMode(GL_TEXTURE);
-
+			
             glLoadMatrixf(m.getValues());
-
+			
             glPopAttrib();
         }
     }
@@ -1986,49 +1999,59 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 
     
     // Use texture matrix for scaling
-    if(idx < static_cast<UInt32>(ntexcoords) &&
-        !getScale() && 
-         getNPOTMatrixScale() &&
-         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-        !win->hasExtension(_arbTextureNonPowerOfTwo)
-      )
+	UInt32 NpotMatScale = getNPOTMatrixScale();
+	
+    if ( idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && NpotMatScale )
     {
-        Matrix m;
         ImagePtr i = getImage();
         
-        if(i != NullFC)
+        if (i != NullFC)
         {
-            UInt32 w,h,d,nw,nh,nd;
-
-            w = i->getWidth();
-            h = i->getHeight();
-            d = i->getDepth();
-            
-            nw = osgnextpower2(w);
-            nh = osgnextpower2(h);
-            nd = osgnextpower2(d);
-
+			Real32 sw=1.f, sh=1.f, sd=1.f;
+			
+			if ( (NpotMatScale & NPotTexScale) &&
+				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
+			{
+				UInt32 w,h,d,nw,nh,nd;
+				
+				w = i->getWidth();
+				h = i->getHeight();
+				d = i->getDepth();
+				
+				nw = osgnextpower2(w);
+				nh = osgnextpower2(h);
+				nd = osgnextpower2(d);
+				
+				sw = w / static_cast<Real32>(nw);
+				sh = h / static_cast<Real32>(nh);
+				sd = d / static_cast<Real32>(nd);
+			}
+			if ( (NpotMatScale & XFlip) )
+				sw *= -1.f;
+			if ( (NpotMatScale & YFlip) )
+				sh *= -1.f;
+			if ( (NpotMatScale & ZFlip) )
+				sd *= -1.f;
+			
+			Matrix m;
+			
             m.setIdentity();
-            m.setScale(Vec3f(w / static_cast<Real32>(nw),
-                             h / static_cast<Real32>(nh),
-                             d / static_cast<Real32>(nd)
-                      )     );
-
+            m.setScale( Vec3f(sw, sh, sd) );
+			
             glPushAttrib(GL_TRANSFORM_BIT);
             glMatrixMode(GL_TEXTURE);
-
+			
             glLoadMatrixf(m.getValues());
-
+			
             glPopAttrib();
         }
     }
     else if(oldused)
     {
         if(!oldp->getScale() && 
-            oldp->getNPOTMatrixScale() &&
-            oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-           !win->hasExtension(_arbTextureNonPowerOfTwo)
-          )
+            oldp->getNPOTMatrixScale())
         {
             glPushAttrib(GL_TRANSFORM_BIT);
             glMatrixMode(GL_TEXTURE);
@@ -2157,9 +2180,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     
     if(idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && 
-         getNPOTMatrixScale() &&
-         getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-        !win->hasExtension(_arbTextureNonPowerOfTwo)
+         getNPOTMatrixScale() 
       )
     {
         glPushAttrib(GL_TRANSFORM_BIT);

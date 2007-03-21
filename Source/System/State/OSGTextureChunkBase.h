@@ -119,7 +119,7 @@
 #include <OSGReal32Fields.h> // Anisotropy type
 #include <OSGColor4fFields.h> // BorderColor type
 #include <OSGUInt32Fields.h> // BorderWidth type
-#include <OSGBoolFields.h> // NPOTMatrixScale type
+#include <OSGUInt32Fields.h> // NPOTMatrixScale type
 
 #include <OSGTextureChunkFields.h>
 
@@ -330,7 +330,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFReal32            *getSFAnisotropy     (void);
            SFColor4f           *getSFBorderColor    (void);
            SFUInt32            *getSFBorderWidth    (void);
-           SFBool              *getSFNPOTMatrixScale(void);
+           SFUInt32            *getSFNPOTMatrixScale(void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -434,8 +434,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const Color4f             &getBorderColor    (void) const;
            UInt32              &getBorderWidth    (void);
      const UInt32              &getBorderWidth    (void) const;
-           bool                &getNPOTMatrixScale(void);
-     const bool                &getNPOTMatrixScale(void) const;
+           UInt32              &getNPOTMatrixScale(void);
+     const UInt32              &getNPOTMatrixScale(void) const;
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
      const MFReal32            &getShaderOffsetMatrix(void) const;
@@ -496,7 +496,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setAnisotropy     ( const Real32 &value );
      void setBorderColor    ( const Color4f &value );
      void setBorderWidth    ( const UInt32 &value );
-     void setNPOTMatrixScale( const bool &value );
+     void setNPOTMatrixScale( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -591,7 +591,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFReal32            _sfAnisotropy;
     SFColor4f           _sfBorderColor;
     SFUInt32            _sfBorderWidth;
-    SFBool              _sfNPOTMatrixScale;
+    SFUInt32            _sfNPOTMatrixScale;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

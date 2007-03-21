@@ -413,8 +413,8 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 /*! \var UInt32          TextureChunkBase::_sfBorderWidth
     Texture border width in pixels.
 */
-/*! \var bool            TextureChunkBase::_sfNPOTMatrixScale
-    Use the texture matrix to scale the texture coordinates for NPOT         images. Only used if neither rectangular nor NPOT textures are supported.         If set to false, the image is scaled to the next power of two before being          used as a texture.                  Note that this will interfere with other TextureTransform and TexGen chunks.         Do not use it if you need to use those chunks!
+/*! \var UInt32          TextureChunkBase::_sfNPOTMatrixScale
+    Use the texture matrix to scale the texture coordinates for NPOT images. Only used if neither rectangular nor NPOT textures are supported. If set to false, the image is scaled to the next power of two before being used as a texture. For convenience xFlip/ yFlip can also be set. Note that this will interfere with other TextureTransform and TexGen chunks. Do not use it if you need to use those chunks!
 */
 
 //! TextureChunk description
@@ -681,7 +681,7 @@ FieldDescription *TextureChunkBase::_desc[] =
                      BorderWidthFieldId, BorderWidthFieldMask,
                      false,
                      (FieldAccessMethod) &TextureChunkBase::getSFBorderWidth),
-    new FieldDescription(SFBool::getClassType(), 
+    new FieldDescription(SFUInt32::getClassType(), 
                      "NPOTMatrixScale", 
                      NPOTMatrixScaleFieldId, NPOTMatrixScaleFieldMask,
                      false,
@@ -814,7 +814,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfAnisotropy             (Real32(1.0f)), 
     _sfBorderColor            (Color4f(0,0,0,0)), 
     _sfBorderWidth            (UInt32(0)), 
-    _sfNPOTMatrixScale        (bool(false)), 
+    _sfNPOTMatrixScale        (UInt32(0)), 
     Inherited() 
 {
 }

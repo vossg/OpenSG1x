@@ -18,7 +18,7 @@
 		visibility="external"
 		access="public"
 	>
-    The texture.
+	The texture.
 	</Field>
 	<Field
 		name="internalFormat"
@@ -40,9 +40,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	The external texture format - overwrites          
-    external format of image when set to a value not equal to          
-    GL_NONE (which is the default).
+	The external texture format - overwrites               external format of image when set to a value not equal to               GL_NONE (which is the default).
 	</Field>
 	<Field
 		name="scale"
@@ -52,14 +50,7 @@
 		defaultValue="true"
 		access="public"
 	>
-	Specifies whether the image should be scaled to the next power of two,         
-    thus filling the whole texture coordinate range, or if it should be put         
-    in the lower left corner, leaving the rest of the texture undefined.         
-    This is mainly used for rapidly changing non power of two textures, to         
-    get around the scaling overhead.
-    
-    If set to false, NPOTMatrixScale can be used to use the texture matrix to correct
-    the texture coordinates to show the used part of the texture.
+	Specifies whether the image should be scaled to the next power of two,              thus filling the whole texture coordinate range, or if it should be put              in the lower left corner, leaving the rest of the texture undefined.              This is mainly used for rapidly changing non power of two textures, to              get around the scaling overhead.          If set to false, NPOTMatrixScale can be used to use the texture matrix to correct     the texture coordinates to show the used part of the texture.
 	</Field>
 	<Field
 		name="frame"
@@ -69,10 +60,7 @@
 		defaultValue="0"
 		access="public"
 	>
-	Select the frame of the image to be used. See osg::Image about details         
-    concerning multi-frame images.         
-    \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap         
-    creation is slow right now. \endhint
+	Select the frame of the image to be used. See osg::Image about details              concerning multi-frame images.              \hint For fast update use GL_LINEAR or GL_NEAREST filters, as mipmap              creation is slow right now. \endhint
 	</Field>
 	<Field
 		name="minFilter"
@@ -374,8 +362,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	Shader operation of this texture unit, default GL_NONE. If unit 0 uses         
-    GL_NONE, shading is switched off.
+	Shader operation of this texture unit, default GL_NONE. If unit 0 uses              GL_NONE, shading is switched off.
 	</Field>
 	<Field
 		name="shaderInput"
@@ -434,11 +421,7 @@
 		defaultValue="0"
 		access="public"
 	>
-	The CULL_MODES_NV value, coded into a single byte. The first 4 bits of         
-    the byte are used to indicate the wnated cull modes, a value of 0          
-    signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the         
-    S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4          
-    (mask 8) for Q.
+	The CULL_MODES_NV value, coded into a single byte. The first 4 bits of              the byte are used to indicate the wnated cull modes, a value of 0               signifies GL_LESS, a value of 1 GL_GEQUAL. Bit 0 (mask 1) is used for the              S coordinate, bit 1 (mask 2) for T, bit 2 (mask 4) for R and bit 4               (mask 8) for Q.
 	</Field>
 	<Field
 		name="shaderConstEye"
@@ -447,8 +430,7 @@
 		visibility="external"
 		access="public"
 	>
-	The CONST_EYE_NV value, i.e. the constant eye position used by the          
-    DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
+	The CONST_EYE_NV value, i.e. the constant eye position used by the               DOT_PRODUCT_CONST_EYE_REFLECT_CUBE_MAP_NV shader.
 	</Field>
 	<Field
 		name="lodBias"
@@ -469,10 +451,7 @@
 		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
-	Texture target. Overwrite automatically determined texture target         
-    based on the parameters of the assigned image if set to anything          
-    else than GL_NONE. Used for nVidia's rectangle textures. Be careful         
-    when using it!
+	Texture target. Overwrite automatically determined texture target              based on the parameters of the assigned image if set to anything               else than GL_NONE. Used for nVidia's rectangle textures. Be careful              when using it!
 	</Field>
 	<Field
 		name="dirtyLeft"
@@ -482,9 +461,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Left coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Left coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinX"
@@ -494,9 +471,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum X coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Minimum X coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxX"
@@ -506,9 +481,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum X coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Maximum X coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinY"
@@ -518,9 +491,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum Y coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Minimum Y coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxY"
@@ -530,9 +501,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum Y coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Maximum Y coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMinZ"
@@ -542,9 +511,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Minimum Z coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Minimum Z coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="dirtyMaxZ"
@@ -554,9 +521,7 @@
 		defaultValue="-1"
 		access="public"
 	>
-	Maximum Z coordinate of the dirty rectangle to use for          
-    imageContentChanged(). This doesn't make sense to be stored in files,          
-    it does make sense on a cluster, though, that's why it's external.
+	Maximum Z coordinate of the dirty rectangle to use for               imageContentChanged(). This doesn't make sense to be stored in files,               it does make sense on a cluster, though, that's why it's external.
 	</Field>
 	<Field
 		name="anisotropy"
@@ -590,18 +555,12 @@
 	</Field>
 	<Field
 		name="NPOTMatrixScale"
-		type="bool"
+		type="UInt32"
 		cardinality="single"
 		visibility="external"
-		defaultValue="false"
+		defaultValue="0"
 		access="public"
 	>
-	Use the texture matrix to scale the texture coordinates for NPOT
-        images. Only used if neither rectangular nor NPOT textures are supported.
-        If set to false, the image is scaled to the next power of two before being 
-        used as a texture.
-        
-        Note that this will interfere with other TextureTransform and TexGen chunks.
-        Do not use it if you need to use those chunks! 
+	Use the texture matrix to scale the texture coordinates for NPOT images. Only used if neither rectangular nor NPOT textures are supported. If set to false, the image is scaled to the next power of two before being used as a texture. For convenience xFlip/ yFlip can also be set. Note that this will interfere with other TextureTransform and TexGen chunks. Do not use it if you need to use those chunks!
 	</Field>
 </FieldContainer>
