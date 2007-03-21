@@ -52,6 +52,40 @@
 
 #include "OSGBlendChunk.h"
 
+
+#ifndef GL_EXT_blend_color
+#define GL_CONSTANT_COLOR_EXT             0x8001
+#define GL_ONE_MINUS_CONSTANT_COLOR_EXT   0x8002
+#define GL_CONSTANT_ALPHA_EXT             0x8003
+#define GL_ONE_MINUS_CONSTANT_ALPHA_EXT   0x8004
+#define GL_BLEND_COLOR_EXT                0x8005
+#endif
+
+#ifndef GL_EXT_blend_minmax
+#define GL_FUNC_ADD_EXT                   0x8006
+#define GL_MIN_EXT                        0x8007
+#define GL_MAX_EXT                        0x8008
+#define GL_BLEND_EQUATION_EXT             0x8009
+#endif
+
+#ifndef GL_EXT_blend_subtract
+#define GL_FUNC_SUBTRACT_EXT              0x800A
+#define GL_FUNC_REVERSE_SUBTRACT_EXT      0x800B
+#endif
+
+#ifndef GL_EXT_blend_func_separate
+#define GL_BLEND_DST_RGB_EXT              0x80C8
+#define GL_BLEND_SRC_RGB_EXT              0x80C9
+#define GL_BLEND_DST_ALPHA_EXT            0x80CA
+#define GL_BLEND_SRC_ALPHA_EXT            0x80CB
+#endif
+
+#ifndef GL_EXT_blend_equation_separate
+#define GL_BLEND_EQUATION_RGB_EXT         GL_BLEND_EQUATION
+#define GL_BLEND_EQUATION_ALPHA_EXT       0x883D
+#endif
+
+
 OSG_USING_NAMESPACE
 
 
@@ -205,7 +239,6 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
         else
             glBlendFunc(src, dest);
 
-#if GL_EXT_blend_color
         // This is not nice, but efficient
         // As the OpenGL constants are fixed it should be safe
         if((src   >= GL_CONSTANT_COLOR_EXT && 
@@ -233,13 +266,12 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
                             _sfColor.getValue().alpha());
             }
         }
-#endif
+
         glEnable(GL_BLEND);
     }
 
     if(_sfEquation.getValue() != GL_NONE)
     {
-#if defined(GL_ARB_imaging)
         if(action->getWindow()->hasExtension(_extImaging))
         {
             // get "glBlendEquation" function pointer
@@ -249,12 +281,9 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
 
              blendeq(_sfEquation.getValue());
         }
-
-#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
-    defined(GL_EXT_blend_logic_op)
-        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
-           action->getWindow()->hasExtension(_extBlendMinMax) ||
-           action->getWindow()->hasExtension(_extBlendLogicOp))
+        else if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+				action->getWindow()->hasExtension(_extBlendMinMax) ||
+				action->getWindow()->hasExtension(_extBlendLogicOp))
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
@@ -263,7 +292,6 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
 
              blendeq(_sfEquation.getValue());
         }
-#endif
     }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
@@ -327,7 +355,6 @@ void BlendChunk::changeFrom(DrawActionBase *action,
         else if(osrc != src || odest != dest)
             glBlendFunc(src, dest);
 
-#if GL_EXT_blend_color
         // This is not nice, but efficient
         // As the OpenGL constants are fixed it should be safe
         if((src   >= GL_CONSTANT_COLOR_EXT && 
@@ -355,7 +382,7 @@ void BlendChunk::changeFrom(DrawActionBase *action,
                             _sfColor.getValue().alpha());
             }
         }
-#endif
+
         if(osrc == GL_ONE && odest == GL_ZERO)
             glEnable(GL_BLEND);
     }
@@ -370,7 +397,6 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 
     if(_sfEquation.getValue() != old->_sfEquation.getValue())
     {
-#if defined(GL_ARB_imaging)
         if(action->getWindow()->hasExtension(_extImaging))
         {
             // get "glBlendEquation" function pointer
@@ -380,12 +406,9 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 
              blendeq(_sfEquation.getValue());
         }
-
-#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
-    defined(GL_EXT_blend_logic_op)
-        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
-           action->getWindow()->hasExtension(_extBlendMinMax) ||
-           action->getWindow()->hasExtension(_extBlendLogicOp))
+        else if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+				action->getWindow()->hasExtension(_extBlendMinMax) ||
+				action->getWindow()->hasExtension(_extBlendLogicOp))
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
@@ -394,7 +417,6 @@ void BlendChunk::changeFrom(DrawActionBase *action,
 
              blendeq(_sfEquation.getValue());
         }
-#endif
     }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
@@ -431,7 +453,6 @@ void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
 
     if(_sfEquation.getValue() != GL_NONE)
     {
-#if defined(GL_ARB_imaging)
         if(action->getWindow()->hasExtension(_extImaging))
         {
             // get "glBlendEquation" function pointer
@@ -439,14 +460,11 @@ void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
                 (void (OSG_APIENTRY*)(GLenum mode))
                 action->getWindow()->getFunction(_funcBlendEquation);
 
-             blendeq(GL_FUNC_ADD);
+             blendeq(GL_FUNC_ADD_EXT);
         }
-
-#elif defined(GL_EXT_blend_subtract) || defined(GL_EXT_blend_minmax) || \
-    defined(GL_EXT_blend_logic_op)
-        if(action->getWindow()->hasExtension(_extBlendSubtract) ||
-           action->getWindow()->hasExtension(_extBlendMinMax) ||
-           action->getWindow()->hasExtension(_extBlendLogicOp))
+        else if(action->getWindow()->hasExtension(_extBlendSubtract) ||
+				action->getWindow()->hasExtension(_extBlendMinMax) ||
+				action->getWindow()->hasExtension(_extBlendLogicOp))
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
@@ -455,7 +473,6 @@ void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
 
              blendeq(GL_FUNC_ADD_EXT);
         }
-#endif
     }
     
     if(_sfAlphaFunc.getValue() != GL_NONE)
