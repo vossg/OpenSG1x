@@ -2638,7 +2638,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     GeoPositionsPtr posPtr = geoPtr->getPositions();
     UInt32 pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
     UInt32 indexMapSize = (geoPtr->getIndexMapping().size());
-    bool multiIndex = (indexMapSize > 1) ? true : false;
+    bool remapIndex = (indexMapSize > 1) ? true : false;
 
     UInt32 triN, lineN, pointN;
     calcPrimitiveCount(geoPtr, triN, lineN, pointN);
@@ -2670,7 +2670,15 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     inputT = getSystemTime();
 
     invalidTriCount = 0;
-    if(multiIndex)
+    
+    if (pN > (triN * 3)) 
+    {
+        FWARNING (( "Force index remap for unusual vertex/tri count: %d/%d\n",
+                    pN, triN ));
+        remapIndex = true;
+    }
+
+    if(remapIndex)
     {
         graph.reserve(triN * 3, triN, 8);
         std::vector < Int32 > indexVec(indexMapSize);
@@ -2818,7 +2826,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
                         {
                             // add the previous index and the first of the
                             // new one, but make sure winding is still correct.
-                            if (multiIndex)
+                            if (remapIndex)
                             {
                                 for (int j = 0; j < 1 + windingCorrection; ++j)
                                 {
@@ -2858,7 +2866,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
                     geoTypePtr->push_back(typeVec[t]);
                 }
 
-                if(multiIndex)
+                if(remapIndex)
                 {
                     for(Int32 j = 0; j < n; ++j)
                     {
