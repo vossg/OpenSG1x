@@ -2671,9 +2671,9 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
     invalidTriCount = 0;
     
-    if (!remapsIndex && (pN > (triN * 3))) 
+    if (!remapIndex && (pN > (triN * 3))) 
     {
-        FWARNING (( "Force index remap for unusual vertex/tri count: %d/%d\n",
+        FINFO (( "Force index remap for unusual vertex/tri count: %d/%d\n",
                     pN, triN ));
         indexMapSize = 1;
         remapIndex = true;
