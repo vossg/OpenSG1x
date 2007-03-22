@@ -62,9 +62,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*==========================  PUBLIC  =================================*/
   public:
 
-	/// Flags can be OR-ed, e.g. NPotTexScale for old gpu and YFlip for videos.
-	enum { None=0, NPotTexScale=1, XFlip=2, YFlip=4, ZFlip=8 } 
-		NPOTMatrixScaleE;
+	  /// Flags can be OR-ed, e.g. NPotTexScale for old gpu and YFlip for videos.
+	  enum NPOTMatrixScaleE 
+    { 
+        None_TT = 0, 
+        NPotTexScale_TT = 1, 
+        XFlip_TT = 2, 
+        YFlip_TT = 4, 
+        ZFlip_TT = 8 
+    };
 	
     /*---------------------------------------------------------------------*/
     /*! \name                 Chunk Class Access                           */

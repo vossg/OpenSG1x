@@ -1714,7 +1714,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f;
 			
-			if ( (NpotMatScale & NPotTexScale) &&
+			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
 				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
 			{
@@ -1732,11 +1732,11 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				sh = h / static_cast<Real32>(nh);
 				sd = d / static_cast<Real32>(nd);
 			}
-			if ( (NpotMatScale & XFlip) )
+			if ( (NpotMatScale & XFlip_TT) )
 				sw *= -1.f;
-			if ( (NpotMatScale & YFlip) )
+			if ( (NpotMatScale & YFlip_TT) )
 				sh *= -1.f;
-			if ( (NpotMatScale & ZFlip) )
+			if ( (NpotMatScale & ZFlip_TT) )
 				sd *= -1.f;
 			
 			Matrix m;
@@ -2010,7 +2010,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f;
 			
-			if ( (NpotMatScale & NPotTexScale) &&
+			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
 				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
 			{
@@ -2028,11 +2028,11 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				sh = h / static_cast<Real32>(nh);
 				sd = d / static_cast<Real32>(nd);
 			}
-			if ( (NpotMatScale & XFlip) )
+			if ( (NpotMatScale & XFlip_TT) )
 				sw *= -1.f;
-			if ( (NpotMatScale & YFlip) )
+			if ( (NpotMatScale & YFlip_TT) )
 				sh *= -1.f;
-			if ( (NpotMatScale & ZFlip) )
+			if ( (NpotMatScale & ZFlip_TT) )
 				sd *= -1.f;
 			
 			Matrix m;
