@@ -499,6 +499,17 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
             }
     
             glEndList();
+
+            if(glGetError() == GL_OUT_OF_MEMORY)
+            {
+                SFATAL << "Geometry::handleGL: couldn't create display list (out of memory) skipping geometry "
+                         << this
+                         << std::endl;
+
+                // destroy old list.
+                glDeleteLists(glid, 1);
+                win->setGLObjectId(id, 0);
+            }
         }
         else
         {
@@ -887,7 +898,9 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
         if(getDlistCache() == true)
         {
             action->getWindow()->validateGLObject(getGLId());
-            glCallList(action->getWindow()->getGLObjectId(getGLId()));
+            UInt32 glid = action->getWindow()->getGLObjectId(getGLId());
+            if(glid != 0)
+                glCallList(glid);
         }
         else
         {
