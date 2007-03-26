@@ -471,6 +471,25 @@ std::string NFIOBase::readFCFields(const FieldContainerPtr &fc,
         if(fDesc != NULL)
         {
             mask = fDesc->getFieldMask();
+            // now check for the same type, ok nobody should change a field type but ...
+            if(fieldType != field->getType().getCName())
+            {
+                // for equal sizes try to read it, could be a type change from UInt32 to Int32
+                // and that's tolerable.
+                FWARNING(("NFIOBase::readFCPtr: found conflicting field types field '%s' with "
+                            "types '%s' and '%s'!\n", fieldName.c_str(),
+                            fieldType.c_str(), field->getType().getCName()));
+
+                if(size != fc->getBinSize(mask))
+                {
+                    // ok in this case we skip the field!
+                    FFATAL(("NFIOBase::readFCPtr: found conflicting field types with different sizes skipping field '%s' with "
+                            "types '%s' and '%s'!\n", fieldName.c_str(),
+                            fieldType.c_str(), field->getType().getCName()));
+                    _in->skip(size);
+                    continue;
+                }
+            }
         }
         else
         {
@@ -480,7 +499,7 @@ std::string NFIOBase::readFCFields(const FieldContainerPtr &fc,
             _in->skip(size);
             continue;
         }
-        
+
         if(!exclude.empty() && exclude.find("'" + fieldName + "'") != std::string::npos)
         {
             FDEBUG(("NFIOBase::readFCPtr: skipping field '%s'!\n",
@@ -1177,6 +1196,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.13 2006/10/26 11:02:10 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.14 2007/03/26 08:47:42 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
