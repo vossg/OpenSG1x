@@ -67,12 +67,13 @@ inline bool Window::hasExtension(UInt32 id)
 }
 
 /*! Check if the window has the indicated extension.
-    \warning No error checks are done on the passed index!
 */
 inline bool Window::hasCommonExtension(UInt32 id)
 {
-    bool has = _commonExtensions[id];
-    return has;
+    if(id >= _commonExtensions.size())
+        return false;
+
+    return _commonExtensions[id];
 }
 
 /*! Get the indicated extension function.

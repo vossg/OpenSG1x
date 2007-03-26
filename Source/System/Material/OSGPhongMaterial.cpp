@@ -230,6 +230,9 @@ void PhongMaterial::prepareLocalChunks(void)
     
     // phong shading without a fragment shader looks quite black ;-)
     // all cards with a fragment shader should also have a vertex shader.
+    // calling hasCommonExtension() here is not a good idea as this works
+    // only for a initialized window, I added a check to hasCommonExtension()
+    // so this won't crash anymore.
     if(Window::hasCommonExtension(_arbFragmentProgram))
     {
         _vpChunk = VertexProgramChunk::create();
