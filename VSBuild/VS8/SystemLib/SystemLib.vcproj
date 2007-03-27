@@ -22754,6 +22754,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+
 			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
@@ -22806,6 +22807,330 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMInt.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMInt.inl &gt; ../include/OpenSG/OSGShaderParameterMInt.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMInt.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMInt.inl &gt; ../include/OpenSG/OSGShaderParameterMInt.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMInt.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMIntBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMIntBase.inl &gt; ../include/OpenSG/OSGShaderParameterMIntBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMIntBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMIntBase.inl &gt; ../include/OpenSG/OSGShaderParameterMIntBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMIntBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrix.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMMatrix.inl &gt; ../include/OpenSG/OSGShaderParameterMMatrix.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMMatrix.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMMatrix.inl &gt; ../include/OpenSG/OSGShaderParameterMMatrix.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMMatrix.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrixBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMMatrixBase.inl &gt; ../include/OpenSG/OSGShaderParameterMMatrixBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMMatrixBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMMatrixBase.inl &gt; ../include/OpenSG/OSGShaderParameterMMatrixBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMMatrixBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMReal.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMReal.inl &gt; ../include/OpenSG/OSGShaderParameterMReal.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMReal.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMReal.inl &gt; ../include/OpenSG/OSGShaderParameterMReal.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMReal.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMRealBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMRealBase.inl &gt; ../include/OpenSG/OSGShaderParameterMRealBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMRealBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMRealBase.inl &gt; ../include/OpenSG/OSGShaderParameterMRealBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMRealBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2f.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec2f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec2f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec2f.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec2f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec2f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec2f.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2fBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec2fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec2fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec2fBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec2fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec2fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec2fBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3f.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec3f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec3f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec3f.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec3f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec3f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec3f.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3fBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec3fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec3fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec3fBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec3fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec3fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec3fBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            <Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec4f.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec4f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec4f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec4f.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec4f.inl &gt; ../include/OpenSG/OSGShaderParameterMVec4f.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec4f.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceExperimentalSHL Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec4fBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec4fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec4fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec4fBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/Experimental/SHL/OSGShaderParameterMVec4fBase.inl &gt; ../include/OpenSG/OSGShaderParameterMVec4fBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGShaderParameterMVec4fBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
 			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
