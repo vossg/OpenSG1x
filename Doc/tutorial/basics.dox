@@ -471,7 +471,7 @@ value before dereferencing them, just like you should check normal pointers for 
 \subsection BasicRefCounting Cleaning up after yourself - Reference Counting
 
 One of the problems of the C++ language is keeping track of and deallocating memory.
-Other languages like Java solve by garbage collection, i.e. the Java runtime environment keeps track of all objects and object references in a program. Every 
+Other languages like Java solve this through garbage collection, i.e. the Java runtime environment keeps track of all objects and object references in a program. Every 
 now and then it goes through all the references and finds the objects that are not referenced any more, which means that the program has no way to access that 
 object any more. These objects' memory is freed.
 The problem with this approach lies in the time the garbage collector takes every now and then, which for large or long-running programs can lead to annoying 
@@ -1055,10 +1055,10 @@ Let's start with a simple example. You've already seen the Node class. Nodes kee
     
     n = me->getParent()->getParent();           // sets n to grandpa
     
-    cout << "Grandpa has " << grandpa->getChildren().size() << " children."
+    cout << "Grandpa has " << grandpa->getNChildren() << " children."
     
-    n = grandpa->getChildren()[0];             // sets n to aunt
-    n = grandpa->getChildren().getValue(1);    // sets n to mother
+    n = grandpa->getChild(0);                   // sets n to aunt
+    n = grandpa->getChild(1);                   // sets n to mother
     
 \endcode
 
@@ -1067,12 +1067,15 @@ This shows you the basic ways to get data from FieldContainers. They have access
 Of course the Field also support changing values
 
 \code
+    // This code manipulates the "children" and "parent" fields
+    // of Nodes directly. Do NOT do that in your own code, use addChild,
+    // subChild, etc.
 
     NodePtr uncle = Node::create();
     setName(uncle, "Uncle");
    
     beginEditCP(grandpa);
-    grandpa->getChildren().push_back(uncle); // add uncle to grandpa's children
+    grandpa->getMFChildren()->push_back(uncle);   // add uncle to grandpa's children
     endEditCP(grandpa);
     
     beginEditCP(uncle);
@@ -1080,8 +1083,9 @@ Of course the Field also support changing values
     endEditCP(uncle);
 
     cout << "Grandpa's children: ";
-    for(MFNodePtr::iterator it = grandpa->getChildren().begin();
-        it != grandpa->getChildren().end(); ++it)
+    MFNodePtr::iterator it  = grandpa->getMFChildren()->begin();
+    MFNodePtr::iterator end = grandpa->getMFChildren()->end();
+    for(; it != end; ++it)
         cout << getName(*it) << " ";
         
 \endcode
