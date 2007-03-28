@@ -438,6 +438,154 @@ Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val)
     return returnValue;
 }
 
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator /(const ValueType val)
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] / val;
+    returnValue._rgba[1] = _rgba[1] / val;
+    returnValue._rgba[2] = _rgba[2] / val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator +(const ValueType val)
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] + val;
+    returnValue._rgba[1] = _rgba[1] + val;
+    returnValue._rgba[2] = _rgba[2] + val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator -(const ValueType val)
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] - val;
+    returnValue._rgba[1] = _rgba[1] - val;
+    returnValue._rgba[2] = _rgba[2] - val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator *=(const ValueType val)
+{
+    _rgb[0] *= val;
+    _rgb[1] *= val;
+    _rgb[2] *= val;
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator /=(const ValueType val)
+{
+    _rgb[0] /= val;
+    _rgb[1] /= val;
+    _rgb[2] /= val;
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator +=(const ValueType val)
+{
+    _rgb[0] += val;
+    _rgb[1] += val;
+    _rgb[2] += val;
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator -=(const ValueType val)
+{
+    _rgb[0] -= val;
+    _rgb[1] -= val;
+    _rgb[2] -= val;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const Color3<ValueTypeT> &other) const
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] * other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] * other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] * other._rgba[2];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator /(const Color3<ValueTypeT> &other) const
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] / other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] / other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] / other._rgba[2];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator +(const Color3<ValueTypeT> &other) const
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] + other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] + other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] + other._rgba[2];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color3<ValueTypeT> Color3<ValueTypeT>::operator -(const Color3<ValueTypeT> &other) const
+{
+    Color3<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] - other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] - other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] - other._rgba[2];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator *=(const Color3<ValueTypeT> &other)
+{
+    _rgba[0] *= other._rgba[0];
+    _rgba[1] *= other._rgba[1];
+    _rgba[2] *= other._rgba[2];
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator /=(const Color3<ValueTypeT> &other)
+{
+    _rgba[0] /= other._rgba[0];
+    _rgba[1] /= other._rgba[1];
+    _rgba[2] /= other._rgba[2];
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator +=(const Color3<ValueTypeT> &other)
+{
+    _rgba[0] += other._rgba[0];
+    _rgba[1] += other._rgba[1];
+    _rgba[2] += other._rgba[2];
+}
+
+template <class ValueTypeT> inline
+void Color3<ValueTypeT>::operator -=(const Color3<ValueTypeT> &other)
+{
+    _rgba[0] -= other._rgba[0];
+    _rgba[1] -= other._rgba[1];
+    _rgba[2] -= other._rgba[2];
+}
+
 
 template <class ValueTypeT> inline
 typename Color3<ValueTypeT>::ValueType &Color3<ValueTypeT>::operator[] (
@@ -759,6 +907,169 @@ Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val)
     return returnValue;
 }
 
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator /(const ValueType val)
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] / val;
+    returnValue._rgba[1] = _rgba[1] / val;
+    returnValue._rgba[2] = _rgba[2] / val;
+    returnValue._rgba[3] = _rgba[3] / val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator +(const ValueType val)
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] + val;
+    returnValue._rgba[1] = _rgba[1] + val;
+    returnValue._rgba[2] = _rgba[2] + val;
+    returnValue._rgba[3] = _rgba[3] + val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator -(const ValueType val)
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] - val;
+    returnValue._rgba[1] = _rgba[1] - val;
+    returnValue._rgba[2] = _rgba[2] - val;
+    returnValue._rgba[3] = _rgba[3] - val;
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator *=(const ValueType val)
+{
+    _rgb[0] *= val;
+    _rgb[1] *= val;
+    _rgb[2] *= val;
+    _rgb[3] *= val;
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator /=(const ValueType val)
+{
+    _rgb[0] /= val;
+    _rgb[1] /= val;
+    _rgb[2] /= val;
+    _rgb[3] /= val;
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator +=(const ValueType val)
+{
+    _rgb[0] += val;
+    _rgb[1] += val;
+    _rgb[2] += val;
+    _rgb[3] += val;
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator -=(const ValueType val)
+{
+    _rgb[0] -= val;
+    _rgb[1] -= val;
+    _rgb[2] -= val;
+    _rgb[3] -= val;
+}
+
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const Color4<ValueTypeT> &other) const
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] * other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] * other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] * other._rgba[2];
+    returnValue._rgba[3] = _rgba[3] * other._rgba[3];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator /(const Color4<ValueTypeT> &other) const
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] / other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] / other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] / other._rgba[2];
+    returnValue._rgba[3] = _rgba[3] / other._rgba[3];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator +(const Color4<ValueTypeT> &other) const
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] + other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] + other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] + other._rgba[2];
+    returnValue._rgba[3] = _rgba[3] + other._rgba[3];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+Color4<ValueTypeT> Color4<ValueTypeT>::operator -(const Color4<ValueTypeT> &other) const
+{
+    Color4<ValueTypeT> returnValue;
+
+    returnValue._rgba[0] = _rgba[0] - other._rgba[0];
+    returnValue._rgba[1] = _rgba[1] - other._rgba[1];
+    returnValue._rgba[2] = _rgba[2] - other._rgba[2];
+    returnValue._rgba[3] = _rgba[3] - other._rgba[3];
+
+    return returnValue;
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator *=(const Color4<ValueTypeT> &other)
+{
+    _rgba[0] *= other._rgba[0];
+    _rgba[1] *= other._rgba[1];
+    _rgba[2] *= other._rgba[2];
+    _rgba[3] *= other._rgba[3];
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator /=(const Color4<ValueTypeT> &other)
+{
+    _rgba[0] /= other._rgba[0];
+    _rgba[1] /= other._rgba[1];
+    _rgba[2] /= other._rgba[2];
+    _rgba[3] /= other._rgba[3];
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator +=(const Color4<ValueTypeT> &other)
+{
+    _rgba[0] += other._rgba[0];
+    _rgba[1] += other._rgba[1];
+    _rgba[2] += other._rgba[2];
+    _rgba[3] += other._rgba[3];
+}
+
+template <class ValueTypeT> inline
+void Color4<ValueTypeT>::operator -=(const Color4<ValueTypeT> &other)
+{
+    _rgba[0] -= other._rgba[0];
+    _rgba[1] -= other._rgba[1];
+    _rgba[2] -= other._rgba[2];
+    _rgba[3] -= other._rgba[3];
+}
 
 template <class ValueTypeT> inline
 typename Color4<ValueTypeT>::ValueType &Color4<ValueTypeT>::operator[] (

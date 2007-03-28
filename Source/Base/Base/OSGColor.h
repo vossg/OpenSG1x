@@ -147,7 +147,26 @@ class Color3
     /*! \name                        Operators                             */
     /*! \{                                                                 */
 
-          Color3     operator  *(const ValueType  val      );
+          Color3     operator * (const ValueType  val      );
+          Color3     operator / (const ValueType  val      );
+          Color3     operator + (const ValueType  val      );
+          Color3     operator - (const ValueType  val      );
+
+          void       operator *= (const ValueType  val      );
+          void       operator /= (const ValueType  val      );
+          void       operator += (const ValueType  val      );
+          void       operator -= (const ValueType  val      );
+          
+          Color3     operator * (const Color3    &other    ) const;
+          Color3     operator / (const Color3    &other    ) const;
+          Color3     operator + (const Color3    &other    ) const;
+          Color3     operator - (const Color3    &other    ) const;
+
+          void       operator *=(const Color3   &other );
+          void       operator /=(const Color3   &other );
+          void       operator +=(const Color3   &other );
+          void       operator -=(const Color3   &other );
+
 
           ValueType &operator [](const UInt32     uiIndex  );
     const ValueType &operator [](const UInt32     uiIndex  ) const;
@@ -253,6 +272,24 @@ class Color4
     /*! \{                                                                 */
 
           Color4     operator * (const ValueType  val      );
+          Color4     operator / (const ValueType  val      );
+          Color4     operator + (const ValueType  val      );
+          Color4     operator - (const ValueType  val      );
+
+          void       operator *= (const ValueType  val      );
+          void       operator /= (const ValueType  val      );
+          void       operator += (const ValueType  val      );
+          void       operator -= (const ValueType  val      );
+          
+          Color4     operator * (const Color4    &other    ) const;
+          Color4     operator / (const Color4    &other    ) const;
+          Color4     operator + (const Color4    &other    ) const;
+          Color4     operator - (const Color4    &other    ) const;
+
+          void       operator *=(const Color4   &other );
+          void       operator /=(const Color4   &other );
+          void       operator +=(const Color4   &other );
+          void       operator -=(const Color4   &other );
 
           ValueType &operator [](const UInt32     uiIndex  );
     const ValueType &operator [](const UInt32     uiIndex  ) const;
