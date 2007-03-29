@@ -278,6 +278,7 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     _shadowFactorMapImage(NullFC),
     _shadowSHL(NullFC),
     _combineSHL(NullFC),
+    _combineDepth(NullFC),
     _depthCmat(NullFC),
     _depthSHL(NullFC),
     _combineCmat(NullFC),
@@ -389,6 +390,11 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
+    _combineDepth = DepthChunk::create();
+    beginEditCP(_combineDepth);
+        _combineDepth->setReadOnly(true);
+    endEditCP(_combineDepth);
+
     _shadowCmat = ChunkMaterial::create();
 
     //Combine Shader
@@ -397,6 +403,7 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     _combineCmat->addChunk(_combineSHL);
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     //SHL Depth
@@ -435,6 +442,7 @@ VarianceShadowMap::VarianceShadowMap(ShadowViewport *source) :
     addRefCP(_shadowSHL);
     addRefCP(_depthSHL);
     addRefCP(_combineSHL);
+    addRefCP(_combineDepth);
     addRefCP(_combineCmat);
     addRefCP(_shadowCmat);
     addRefCP(_depthCmat);
@@ -452,6 +460,7 @@ VarianceShadowMap::~VarianceShadowMap(void)
     subRefCP(_shadowSHL);
     subRefCP(_depthSHL);
     subRefCP(_combineSHL);
+    subRefCP(_combineDepth);
     subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
     subRefCP(_depthCmat);
@@ -1342,7 +1351,6 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase *action)
     glViewport(pl, pb, pw, ph);
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
-    glClear(GL_DEPTH_BUFFER_BIT);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
     action->setCamera(_combine_camera.getCPtr());
@@ -1442,6 +1450,9 @@ void VarianceShadowMap::render(RenderActionBase *action)
 
             createShadowMapsFBO(action);
 
+            // switch on all transparent geos
+            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                _shadowVP->_transparent[t]->setActive(true);
             //filterShadowMaps(action);
 
             for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -1478,6 +1489,9 @@ void VarianceShadowMap::render(RenderActionBase *action)
 
                 createShadowMapsFBO(action);
 
+                // switch on all transparent geos
+                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                    _shadowVP->_transparent[t]->setActive(true);
                 //filterShadowMaps(action);
 
                 for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
@@ -1501,10 +1515,6 @@ void VarianceShadowMap::render(RenderActionBase *action)
         }
 
         drawCombineMap(action);
-
-        // switch on all transparent geos
-        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-            _shadowVP->_transparent[t]->setActive(true);
 
         glPopAttrib();
         // render the foregrounds.

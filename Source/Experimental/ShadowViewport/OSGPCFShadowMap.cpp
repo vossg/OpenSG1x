@@ -2491,6 +2491,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source) :
     _shadowSHL4(NullFC),
     _shadowCubeSHL(NullFC),
     _combineSHL(NullFC),
+    _combineDepth(NullFC),
     _combineCmat(NullFC),
     _pf(NullFC),
     _firstRun(1),
@@ -2620,6 +2621,11 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source) :
     _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
+    _combineDepth = DepthChunk::create();
+    beginEditCP(_combineDepth);
+        _combineDepth->setReadOnly(true);
+    endEditCP(_combineDepth);
+
     _shadowCmat = ChunkMaterial::create();
 
     //Combine Shader
@@ -2628,6 +2634,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source) :
     _combineCmat->addChunk(_combineSHL);
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     _pf = PolygonForeground::create();
@@ -2875,6 +2882,7 @@ PCFShadowMap::PCFShadowMap(ShadowViewport *source) :
     addRefCP(_shadowSHL3);
     addRefCP(_shadowSHL4);
     addRefCP(_combineSHL);
+    addRefCP(_combineDepth);
     addRefCP(_shadowCubeSHL);
     addRefCP(_combineCmat);
     addRefCP(_shadowCmat);
@@ -2894,6 +2902,7 @@ PCFShadowMap::~PCFShadowMap(void)
     subRefCP(_shadowSHL3);
     subRefCP(_shadowSHL4);
     subRefCP(_combineSHL);
+    subRefCP(_combineDepth);
     subRefCP(_shadowCubeSHL);
     subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
@@ -4865,6 +4874,7 @@ void PCFShadowMap::drawCombineMap(RenderActionBase *action)
         _combineCmat->addChunk(_shadowFactorMap2);
     else
         _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
@@ -4883,7 +4893,6 @@ void PCFShadowMap::drawCombineMap(RenderActionBase *action)
     glViewport(pl, pb, pw, ph);
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
-    glClear(GL_DEPTH_BUFFER_BIT);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
     action->setCamera(_combine_camera.getCPtr());
@@ -5212,6 +5221,10 @@ void PCFShadowMap::render(RenderActionBase *action)
             else
                 createShadowMaps(action);
 
+            // switch on all transparent geos
+            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                _shadowVP->_transparent[t]->setActive(true);
+
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
             if(_useFBO && _useNPOTTextures)
                 createShadowFactorMapFBO(action);
@@ -5239,6 +5252,10 @@ void PCFShadowMap::render(RenderActionBase *action)
                 else
                     createShadowMaps(action);
 
+                // switch on all transparent geos
+                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                    _shadowVP->_transparent[t]->setActive(true);
+
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                 if(_useFBO && _useNPOTTextures)
                     createShadowFactorMapFBO(action);
@@ -5253,10 +5270,6 @@ void PCFShadowMap::render(RenderActionBase *action)
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
         drawCombineMap(action);
-
-        // switch on all transparent geos
-        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-            _shadowVP->_transparent[t]->setActive(true);
 
         glPopAttrib();
 

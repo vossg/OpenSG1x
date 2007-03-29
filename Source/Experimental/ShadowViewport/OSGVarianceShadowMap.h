@@ -31,6 +31,8 @@
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
+#include <OSGDepthChunk.h>
+
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -69,6 +71,7 @@ private:
     ChunkMaterialPtr        _shadowCmat;
     SHLChunkPtr             _shadowSHL;
     SHLChunkPtr             _combineSHL;
+    DepthChunkPtr           _combineDepth;
     ChunkMaterialPtr        _depthCmat;
     SHLChunkPtr             _depthSHL;
     ChunkMaterialPtr        _combineCmat;

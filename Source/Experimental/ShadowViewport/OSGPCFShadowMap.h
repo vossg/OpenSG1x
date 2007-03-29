@@ -32,6 +32,8 @@
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
+#include <OSGDepthChunk.h>
+
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -78,6 +80,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PCFShadowMap : public TreeRenderer
     SHLChunkPtr             _shadowSHL4;
     SHLChunkPtr             _shadowCubeSHL;
     SHLChunkPtr             _combineSHL;
+    DepthChunkPtr           _combineDepth;
     ChunkMaterialPtr        _combineCmat;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;

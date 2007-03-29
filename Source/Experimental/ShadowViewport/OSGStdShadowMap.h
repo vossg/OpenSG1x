@@ -35,6 +35,8 @@
 #include <OSGSimpleTexturedMaterial.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGPolygonForeground.h>
+#include <OSGDepthChunk.h>
+
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -93,6 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StdShadowMap : public TreeRenderer
     SHLChunkPtr             _shadowSHL6;
     SHLChunkPtr             _shadowSHL7;
     SHLChunkPtr             _combineSHL;
+    DepthChunkPtr           _combineDepth;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     UInt32                  _width;

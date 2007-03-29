@@ -283,6 +283,7 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     _shadowCmat(NullFC),
     _shadowSHL(NullFC),
     _combineSHL(NullFC),
+    _combineDepth(NullFC),
     _pf(NullFC),
     _firstRun(1),
     _width(1),
@@ -387,6 +388,11 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
+    _combineDepth = DepthChunk::create();
+    beginEditCP(_combineDepth);
+        _combineDepth->setReadOnly(true);
+    endEditCP(_combineDepth);
+
     //Shadow Shader
     _shadowCmat = ChunkMaterial::create();
 
@@ -396,6 +402,7 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     _combineCmat->addChunk(_combineSHL);
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     _pf = PolygonForeground::create();
@@ -423,6 +430,7 @@ PCSSShadowMap::PCSSShadowMap(ShadowViewport *source) :
     addRefCP(_shadowSHL);
     addRefCP(_shadowCmat);
     addRefCP(_combineSHL);
+    addRefCP(_combineDepth);
     addRefCP(_combineCmat);
     addRefCP(_pf);
 }
@@ -437,6 +445,7 @@ PCSSShadowMap::~PCSSShadowMap(void)
     subRefCP(_shadowSHL);
     subRefCP(_shadowCmat);
     subRefCP(_combineSHL);
+    subRefCP(_combineDepth);
     subRefCP(_combineCmat);
     subRefCP(_pf);
 
@@ -1213,7 +1222,6 @@ void PCSSShadowMap::drawCombineMap(RenderActionBase *action)
     glViewport(pl, pb, pw, ph);
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
-    glClear(GL_DEPTH_BUFFER_BIT);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
     action->setCamera(_combine_camera.getCPtr());
@@ -1323,6 +1331,10 @@ void PCSSShadowMap::render(RenderActionBase *action)
             else
                 createShadowMaps(action);
 
+            // switch on all transparent geos
+            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                _shadowVP->_transparent[t]->setActive(true);
+
             for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
             {
                 if(_shadowVP->_lightStates[i] != 0)
@@ -1361,6 +1373,10 @@ void PCSSShadowMap::render(RenderActionBase *action)
                 else
                     createShadowMaps(action);
 
+                // switch on all transparent geos
+                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                    _shadowVP->_transparent[t]->setActive(true);
+
                 for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
                 {
                     if(_shadowVP->_lightStates[i] != 0)
@@ -1382,10 +1398,6 @@ void PCSSShadowMap::render(RenderActionBase *action)
         }
 
         drawCombineMap(action);
-
-        // switch on all transparent geos
-        for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-            _shadowVP->_transparent[t]->setActive(true);
 
         glPopAttrib();
         // render the foregrounds.

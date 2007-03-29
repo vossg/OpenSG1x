@@ -763,6 +763,7 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source) :
     _shadowSHL6(NullFC),
     _shadowSHL7(NullFC),
     _combineSHL(NullFC),
+    _combineDepth(NullFC),
     _pf(NullFC),
     _width(1),
     _height(1),
@@ -945,6 +946,11 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source) :
     _combineSHL->setFragmentProgram(_shadow_combine_fp);
     endEditCP(_combineSHL);
 
+    _combineDepth = DepthChunk::create();
+    beginEditCP(_combineDepth);
+        _combineDepth->setReadOnly(true);
+    endEditCP(_combineDepth);
+
     //SHL Chunk 3
     _shadowCubeSHL = SHLChunk::create();
     beginEditCP(_shadowCubeSHL);
@@ -962,6 +968,7 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source) :
     _combineCmat->addChunk(_combineSHL);
     _combineCmat->addChunk(_colorMap);
     _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     _pf = PolygonForeground::create();
@@ -1024,6 +1031,7 @@ PerspectiveShadowMap::PerspectiveShadowMap(ShadowViewport *source) :
     addRefCP(_shadowSHL6);
     addRefCP(_shadowSHL7);
     addRefCP(_combineSHL);
+    addRefCP(_combineDepth);
     addRefCP(_shadowCubeSHL);
     addRefCP(_combineCmat);
     addRefCP(_shadowCmat);
@@ -1047,6 +1055,7 @@ PerspectiveShadowMap::~PerspectiveShadowMap(void)
     subRefCP(_shadowSHL6);
     subRefCP(_shadowSHL7);
     subRefCP(_combineSHL);
+    subRefCP(_combineDepth);
     subRefCP(_shadowCubeSHL);
     subRefCP(_combineCmat);
     subRefCP(_shadowCmat);
@@ -4155,6 +4164,7 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase *action)
         _combineCmat->addChunk(_shadowFactorMap2);
     else
         _combineCmat->addChunk(_shadowFactorMap);
+    _combineCmat->addChunk(_combineDepth);
     endEditCP(_combineCmat);
 
     beginEditCP(_combineSHL, ShaderChunk::ParametersFieldMask);
@@ -4173,7 +4183,6 @@ void PerspectiveShadowMap::drawCombineMap(RenderActionBase *action)
     glViewport(pl, pb, pw, ph);
     glScissor(pl, pb, pw, ph);
     glEnable(GL_SCISSOR_TEST);
-    glClear(GL_DEPTH_BUFFER_BIT);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
     action->setCamera(_combine_camera.getCPtr());
@@ -4381,6 +4390,10 @@ void PerspectiveShadowMap::render(RenderActionBase *action)
                 else
                     createShadowMaps(action);
 
+                // switch on all transparent geos
+                for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                    _shadowVP->_transparent[t]->setActive(true);
+
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                 if(_useFBO && _useNPOTTextures)
                     createShadowFactorMapFBO(action);
@@ -4409,6 +4422,10 @@ void PerspectiveShadowMap::render(RenderActionBase *action)
                     else
                         createShadowMaps(action);
 
+                    // switch on all transparent geos
+                    for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
+                        _shadowVP->_transparent[t]->setActive(true);
+
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
                     if(_useFBO && _useNPOTTextures)
                         createShadowFactorMapFBO(action);
@@ -4421,9 +4438,6 @@ void PerspectiveShadowMap::render(RenderActionBase *action)
 
             drawCombineMap(action);
 
-            // switch on all transparent geos
-            for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
-                _shadowVP->_transparent[t]->setActive(true);
         }
 
         glPopAttrib();

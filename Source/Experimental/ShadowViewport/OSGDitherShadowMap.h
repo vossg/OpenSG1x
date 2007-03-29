@@ -32,6 +32,8 @@
 #include <OSGPolygonChunk.h>
 #include <OSGBlendChunk.h>
 #include <OSGTileCameraDecorator.h>
+#include <OSGDepthChunk.h>
+
 #include "OSGTreeRenderer.h"
 
 OSG_BEGIN_NAMESPACE
@@ -79,6 +81,7 @@ public:
     SHLChunkPtr             _shadowSHL4;
     SHLChunkPtr             _shadowCubeSHL;
     SHLChunkPtr             _combineSHL;
+    DepthChunkPtr           _combineDepth;
     PolygonForegroundPtr    _pf;
     Int32                   _firstRun;
     UInt32                  _width;
