@@ -331,6 +331,8 @@ static ATSUStyle findFont(const string &family, TextFace::Style style, UInt32 si
     switch (style)
     {
         default:
+            FWARNING(("Invalid font style parameter.\n"));
+            // intentionally fall through
         case TextFace::STYLE_PLAIN:      fStyle = normal;        break;
         case TextFace::STYLE_BOLD:       fStyle = bold;          break;
         case TextFace::STYLE_ITALIC:     fStyle = italic;        break;
@@ -1546,7 +1548,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.3 2005/06/01 10:42:15 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.4 2007/03/30 14:53:22 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTMACBACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTMACBACKEND_INLINE_CVSID;
 }

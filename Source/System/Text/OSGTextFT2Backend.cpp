@@ -313,6 +313,8 @@ bool TextFT2Backend::findPath(const string &family, TextFace::Style style,
     switch (style)
     {
     default:
+        FWARNING(("Invalid font style parameter.\n"));
+        // intentionally fall through
     case TextFace::STYLE_PLAIN:
         slant = FC_SLANT_ROMAN;
         weight = FC_WEIGHT_MEDIUM;
@@ -1470,7 +1472,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.6 2007/01/08 13:56:21 tbeer Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.7 2007/03/30 14:53:22 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }

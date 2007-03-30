@@ -306,6 +306,9 @@ void TextWIN32Backend::createFonts(const string &family, UInt32 size, TextFace::
     LONG weight;
     switch (style)
     {
+        default:
+            FWARNING(("Invalid font style parameter.\n"));
+            // intentionally fall through
         case TextFace::STYLE_PLAIN:
             italic = FALSE;
             weight = FW_NORMAL;
@@ -1330,7 +1333,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.4 2005/11/24 18:32:21 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.5 2007/03/30 14:53:22 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTWIN32BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTWIN32BACKEND_INLINE_CVSID;
 }
