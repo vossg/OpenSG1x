@@ -590,7 +590,7 @@ An example:
 
     void moveNode(NodePtr parent, NodePtr newparent, int childnum)
     {
-        RefPtr<NodePtr> c = parent->getChild(childnum); // refcount++, to make sure it survives
+        RefPtr<NodePtr> c(parent->getChild(childnum)); // refcount++, to make sure it survives
         
         beginEditCP(parent);
             parent->subChild(c); // refcount--, but the RefPtr keeps it safe
@@ -602,13 +602,13 @@ An example:
         
     } // refcount--, as the RefPtr is destroyed
     
-    RefPtr<NodePtr> a = Node::create(); // we use this Node, keep it alive
+    RefPtr<NodePtr> a(Node::create()); // we use this Node, keep it alive
 
     beginEditCP(a);
         a->addChild(Node::create()); // the new nodes refcount is now 1
     endEditCP(a);
 
-    RefPtr<NodePtr> b = Node::create(); // keep this alive, too
+    RefPtr<NodePtr> b(Node::create()); // keep this alive, too
 
     moveNode(a, b, 0);    
     // a has no children now, b has one
