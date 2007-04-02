@@ -1064,31 +1064,59 @@ Let's start with a simple example. You've already seen the Node class. Nodes kee
 
 This shows you the basic ways to get data from FieldContainers. They have accessor methods that are called get<Fieldname> for each Field. Single-value fields just return their value that can be used directly. For multi-value fields a reference to the actual MField is returned, which acts pretty much like an STL vector, for example it supports the [] operator to access elements, and the size() method to find out how many elements it has, as well as iterator-based access. For consistency reasons the MFields also have a getValue() method, which acts just like the [] operator.
 
-Of course the Field also support changing values
+The following example uses the `osg::DistanceLOD` !NodeCore, which was not introduced yet. A detailed explanation of this can be found here: \ref TutorialNodeCoresLOD, but at this point it is sufficient to know that it has a multi field of `Real32` (`MFReal32`) values called "range" and a single field of `Pnt3f` (`SFPnt3f`) called "center":
 
 \code
-    // This code manipulates the "children" and "parent" fields
-    // of Nodes directly. Do NOT do that in your own code, use addChild,
-    // subChild, etc.
+    DistanceLODPtr d = DistanceLOD::create();
 
-    NodePtr uncle = Node::create();
-    setName(uncle, "Uncle");
-   
-    beginEditCP(grandpa);
-    grandpa->getMFChildren()->push_back(uncle);   // add uncle to grandpa's children
-    endEditCP(grandpa);
-    
-    beginEditCP(uncle);
-    uncle->setParent(grandpa);  // set uncle's parent to grandpa
-    endEditCP(uncle);
+    beginEditCP(d);
+    {
+        // 1) write a value to "center"
+        d->setCenter(Pnt3f(0.0f, 1.0f, 2.0f));
 
-    cout << "Grandpa's children: ";
-    MFNodePtr::iterator it  = grandpa->getMFChildren()->begin();
-    MFNodePtr::iterator end = grandpa->getMFChildren()->end();
+        // 2) another way to write the same value to "center"
+        SFPnt3f *pCenter = d->getSFCenter();
+        pCenter->setValue(Pnt3f(0.0f, 1.0f, 2.0f));
+
+        // 3) write some values to "range"
+        d->getRange().push_back(0.0f);
+        d->getRange().push_back(1.0f);
+        d->getRange().push_back(2.0f);
+
+        // 4) another way to write the same values to "range"
+        MFReal32 *pRange = d->getMFRange();
+        pRange->push_back(0.0f);
+        pRange->push_back(1.0f);
+        pRange->push_back(2.0f);
+
+    }
+    endEditCP(d);
+
+    Pnt3f  center;
+    Real32 r;
+    // 5) read value of "center"
+    center = d->getCenter();
+
+    // 6) another way to read the value of "center"
+    center = d->getSFCenter()->getValue();
+
+    // 7) read values of "range"
+    for(UInt32 i = 0; i < d->getRange().size(); ++i)
+    {
+        r = d->getRange(i);
+    }
+
+    // 8) another way to read the values of "range"
+    MFReal32::const_iterator it  = d->getMFRange()->begin();
+    MFReal32::const_iterator end = d->getMFRange()->end();
     for(; it != end; ++it)
-        cout << getName(*it) << " ";
-        
+    {
+        r = *it;
+    }
 \endcode
+
+<I>Note</I>
+Because the code blocks after the comments 3) and 4) both append values, the "range" field will actually contain this: [0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 2.0f].
 
 For SFields the setValue() method is all it needs. For MFields the standard vector methods like push_back apply. For consistency reasons they also have a setValue method that takes the data to set and the index of the element to change.
 
