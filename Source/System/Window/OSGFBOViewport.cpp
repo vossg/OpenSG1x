@@ -719,9 +719,8 @@ void FBOViewport::render(RenderActionBase* action)
                     
                     if (i->getWidth() != imgWidth || i->getHeight() != imgHeight)
                     {
-                        i->set(i->getPixelFormat(), imgWidth, imgHeight);
-                        
                         beginEditCP(getTextures(0), TextureChunk::ImageFieldMask);
+                            i->set(i->getPixelFormat(), imgWidth, imgHeight);
                         endEditCP(getTextures(0), TextureChunk::ImageFieldMask);
                     }
                 }
@@ -773,6 +772,9 @@ void FBOViewport::render(RenderActionBase* action)
                             endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                                                 BottomFieldMask | TopFieldMask);
                             
+                            // activate viewport settings
+                            activate();
+
                             // render tile for one side of cube
                             if (getRenderNodes().getSize() == 0)
                             {
@@ -787,6 +789,9 @@ void FBOViewport::render(RenderActionBase* action)
                                         action->apply(rdnode);
                                 }
                             }
+
+                            // deactivate viewport settings
+                            deactivate();
                             
                             win->validateGLObject(getTextures(0)->getGLId());
                             
@@ -835,6 +840,9 @@ void FBOViewport::render(RenderActionBase* action)
                         endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                                             BottomFieldMask | TopFieldMask);
                         
+                        // activate viewport settings
+                        activate();
+
                         // render tile for texture
                         if (getRenderNodes().getSize() == 0)
                         {
@@ -850,6 +858,9 @@ void FBOViewport::render(RenderActionBase* action)
                             }
                         }
                         
+                        // deactivate viewport settings
+                        deactivate();
+
                         win->validateGLObject(getTextures(0)->getGLId());
                         
                         GLenum target = getTextures(0)->getTarget();
@@ -1133,6 +1144,9 @@ void FBOViewport::render(RenderActionBase* action)
             action->setViewport(this);
             action->setTravMask(getTravMask());
             
+            // activate viewport settings
+            activate();
+
             if (getRenderNodes().getSize() == 0)
             {
                 action->apply(getRoot());
@@ -1147,6 +1161,9 @@ void FBOViewport::render(RenderActionBase* action)
                 }
             }
             
+            // deactivate viewport settings
+            deactivate();
+
             for (i=0; i<(Int32)getExcludeNodes().getSize(); i++)
             {
                 NodePtr exnode = getExcludeNodes()[i];
@@ -1302,7 +1319,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.5 2007/03/19 12:55:49 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.6 2007/04/03 03:16:55 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

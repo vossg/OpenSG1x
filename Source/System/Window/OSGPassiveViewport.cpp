@@ -101,113 +101,38 @@ void PassiveViewport::dump(      UInt32    ,
     SLOG << "Dump PassiveViewport NI" << std::endl;
 }
 
+void PassiveViewport::activateSize(void)
+{
+    GLint vp[4];
+    glGetIntegerv(GL_VIEWPORT, vp);
+
+    setLeft  (Real32(vp[0]));
+    setBottom(Real32(vp[1]));
+    setRight (Real32(vp[0] + vp[2]));
+    setTop   (Real32(vp[1] + vp[3]));
+
+    Inherited::activateSize();
+}
+
+void PassiveViewport::activate(void)
+{
+    Inherited::activate();
+}
+
+void PassiveViewport::deactivate(void)
+{
+    Inherited::deactivate();
+}
 
 void PassiveViewport::draw( DrawAction * action )
 {
-    if ( getCamera() == NullFC )
-    {
-        SWARNING << "PassiveViewport::draw: no camera!" << std::endl;
-        return;
-    }
-    if ( getBackground() == NullFC )
-    {
-        SWARNING << "PassiveViewport::draw: no background!" << std::endl;
-        return;
-    }
-    if ( getRoot() == NullFC )
-    {
-        SWARNING << "PassiveViewport::draw: no root!" << std::endl;
-        return;
-    }
-
-    GLint vp[4];
-    glGetIntegerv(GL_VIEWPORT, vp);
-    setLeft(Real32(vp[0]));
-    setBottom(Real32(vp[1]));
-    setRight(Real32(vp[0] + vp[2]));
-    setTop(Real32(vp[1] + vp[3])); 
-    
-    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-          pt=getPixelTop();
-    GLint pw=pr-pl+1,ph=pt-pb+1;
-
-    glViewport( pl, pb, pw, ph );
-    glScissor( pl, pb, pw, ph );
-    
-    glEnable( GL_SCISSOR_TEST );
-
-    action->setViewport( this );
-    action->setCamera( getCamera().getCPtr() );
-    action->setBackground( getBackground().getCPtr() );
-    
-    getCamera()->setup( action, *this );
-    getBackground()->clear( action, this );
-
-    action->apply( getRoot() );
-
-    for ( UInt16 i=0; i < getForegrounds().size(); i++ )
-        getForegrounds( i )->draw( action, this );
-
-    glDisable( GL_SCISSOR_TEST );
+    Inherited::draw(action);
 }
 
 
 void PassiveViewport::render(RenderActionBase *action)
 {
-    if ( getCamera() == NullFC )
-    {
-        SWARNING << "Viewport::render: no camera!" << std::endl;
-        return;
-    }
-    if ( getBackground() == NullFC )
-    {
-        SWARNING << "Viewport::render: no background!" << std::endl;
-        return;
-    }
-    if ( getRoot() == NullFC )
-    {
-        SWARNING << "Viewport::render: no root!" << std::endl;
-        return;
-    }
-
-    GLint vp[4];
-    glGetIntegerv(GL_VIEWPORT, vp);
-    setLeft(Real32(vp[0]));
-    setBottom(Real32(vp[1]));
-    setRight(Real32(vp[0] + vp[2] - 1));
-    setTop(Real32(vp[1] + vp[3] - 1)); 
-
-/*
-    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-          pt=getPixelTop();
-    GLint pw=pr-pl+1,ph=pt-pb+1;
-    bool full = isFullWindow();
-
-    glViewport( pl, pb, pw, ph );
-    glScissor( pl, pb, pw, ph );
-
-    if ( ! full )
-        glEnable( GL_SCISSOR_TEST );
-    */
-
-    action->setCamera    (getCamera    ().getCPtr());
-    action->setBackground(getBackground().getCPtr());
-    action->setViewport  (this                     );
-
-//  getCamera()->setup( action, *this );
-//  getBackground()->clear( action, this );
-
-    
-
-    action->apply( getRoot() );
-
-    for(UInt16 i=0; i < getForegrounds().size(); i++)
-        getForegrounds(i)->draw(action, this);
-
-/*
-    if ( ! full )
-        glDisable( GL_SCISSOR_TEST );
-        */
+    Inherited::render(action);
 }
 
 

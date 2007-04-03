@@ -99,62 +99,57 @@ void StereoBufferViewport::dump(      UInt32    ,
     SLOG << "Dump StereoBufferViewport NI" << std::endl;
 }
 
+void StereoBufferViewport::activateSize(void)
+{
+    Inherited::activateSize();
+}
+
+void StereoBufferViewport::activate(void)
+{
+    if(getLeftBuffer())
+    {
+        if(getRightBuffer())
+        {
+            glDrawBuffer(GL_BACK);
+            glReadBuffer(GL_BACK);
+        }
+        else
+        {
+            glDrawBuffer(GL_BACK_LEFT);
+            glReadBuffer(GL_BACK_LEFT);
+        }
+    }
+    else
+    {
+        if(getRightBuffer())
+        {
+            glDrawBuffer(GL_BACK_RIGHT);
+            glReadBuffer(GL_BACK_RIGHT);
+        }
+        else
+        {
+            glDrawBuffer(GL_NONE);
+            glReadBuffer(GL_NONE);
+        }
+    }
+    Inherited::activate();
+}
+
+void StereoBufferViewport::deactivate(void)
+{
+    Inherited::deactivate();
+    glDrawBuffer(GL_BACK);
+    glReadBuffer(GL_BACK);
+}
 
 void StereoBufferViewport::draw( DrawAction * action )
 {
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK);
-        }
-        else
-        {
-            glDrawBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glDrawBuffer(GL_NONE);
-        }
-    }
     Inherited::draw(action);
-    glDrawBuffer(GL_BACK);
 }
-
 
 void StereoBufferViewport::render(RenderActionBase *action)
 {
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK);
-        }
-        else
-        {
-            glDrawBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glDrawBuffer(GL_NONE);
-        }
-    }
     Inherited::render(action);
-    glDrawBuffer(GL_BACK);
 }
 
 

@@ -139,8 +139,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     NodePtr                         _light_render_transform;
     GLuint                          _occlusionQuery;
 
-    void setVPSize(Real32 a,Real32 b, Real32 c, Real32 d);
-    void render(RenderActionBase* action);
+    virtual void setVPSize   (Real32 a,Real32 b, Real32 c, Real32 d);
+    virtual void activateSize(void);
+    virtual void activate    (void);
+    virtual void deactivate  (void);
+    virtual void render      (RenderActionBase* action);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -202,6 +205,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.13 2006/12/06 17:32:14 a-m-z Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.14 2007/04/03 03:16:54 dirk Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */

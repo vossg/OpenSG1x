@@ -85,7 +85,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewport : public ShadowMapViewportBase
     /*==========================  PUBLIC  =================================*/
   public:
 
-    void render(RenderActionBase* action);
+    virtual void activateSize(void);
+    virtual void activate    (void);
+    virtual void deactivate  (void);
+    virtual void render      (RenderActionBase* action);
 
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */
@@ -198,6 +201,6 @@ OSG_END_NAMESPACE
 #include "OSGShadowMapViewportBase.inl"
 #include "OSGShadowMapViewport.inl"
 
-#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.8 2006/03/29 15:47:08 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowMapViewport.h,v 1.9 2007/04/03 03:16:54 dirk Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORT_H_ */

@@ -2172,23 +2172,6 @@ Action::ResultE RenderAction::start(void)
     
     if(_viewport != NULL)
     {
-        GLint pl  = _viewport->getPixelLeft();
-        GLint pr  = _viewport->getPixelRight();
-        GLint pb  = _viewport->getPixelBottom();
-        GLint pt  = _viewport->getPixelTop();
-        GLint pw  = pr - pl + 1;
-        GLint ph  = pt - pb + 1;
-        
-        full = _viewport->isFullWindow();
-
-        glViewport(pl, pb, pw, ph);
-
-        if (full == false)
-        {
-            glScissor (pl, pb, pw, ph);
-            glEnable(GL_SCISSOR_TEST);
-        }
-
         if(_camera != NULL)
         {
             if(_bSmallFeatureCulling)
@@ -2278,11 +2261,6 @@ Action::ResultE RenderAction::start(void)
     _lightEnvsLightsState.clear();
 
     _stateSorting = true;
-
-    if(_viewport != NULL && full == false)
-    {
-        glDisable(GL_SCISSOR_TEST);
-    }
 
     return Action::Continue;
 }

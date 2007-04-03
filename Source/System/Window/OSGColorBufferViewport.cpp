@@ -94,20 +94,31 @@ void ColorBufferViewport::dump(      UInt32    ,
     SLOG << "Dump ColorBufferViewport NI" << std::endl;
 }
 
+void ColorBufferViewport::activateSize(void)
+{
+    Inherited::activateSize();
+}
 
-void ColorBufferViewport::draw( DrawAction * action )
+void ColorBufferViewport::activate(void)
 {
     glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
-    Inherited::draw(action);
+    Inherited::activate();
+}
+
+void ColorBufferViewport::deactivate(void)
+{
+    Inherited::deactivate();
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
+void ColorBufferViewport::draw( DrawAction * action )
+{
+    Inherited::draw(action);
+}
 
 void ColorBufferViewport::render(RenderActionBase *action)
 {
-    glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
     Inherited::render(action);
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
 /*------------------------------------------------------------------------*/

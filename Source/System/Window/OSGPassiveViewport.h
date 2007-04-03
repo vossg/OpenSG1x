@@ -83,9 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING PassiveViewport : public PassiveViewportBase
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 
-    virtual void draw  (DrawAction       *action);
-    virtual void render(RenderActionBase *action);
-
+    virtual void activateSize(void);
+    virtual void activate    (void);
+    virtual void deactivate  (void);
+    virtual void draw        (DrawAction       *action);
+    virtual void render      (RenderActionBase *action);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

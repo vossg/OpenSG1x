@@ -193,6 +193,37 @@ bool Viewport::isFullWindow(void) const
 
 /*-------------------------- your_category---------------------------------*/
 
+void Viewport::activateSize(void)
+{
+    GLint pl=getPixelLeft();
+    GLint pr=getPixelRight();
+    GLint pb=getPixelBottom();
+    GLint pt=getPixelTop();
+    GLint pw=pr-pl+1;
+    GLint ph=pt-pb+1;
+
+    glViewport(pl, pb, pw, ph);
+
+    if(!isFullWindow())
+    {
+        glScissor(pl, pb, pw, ph);
+        glEnable(GL_SCISSOR_TEST);
+    }
+    else
+        glDisable(GL_SCISSOR_TEST);
+        
+}
+
+void Viewport::activate(void)
+{
+    activateSize();
+}
+
+void Viewport::deactivate(void)
+{
+}
+
+
 /*! Draw the viewport. Restrict the OpenGL rendering to the given part of the
 window, clear it, draw it using the given DrawAction and add the Foregrounds.
 
@@ -225,16 +256,7 @@ void Viewport::draw(DrawAction * action)
         return;
     }
 
-    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-          pt=getPixelTop();
-    GLint pw=pr-pl+1,ph=pt-pb+1;
-    bool full = isFullWindow();
-
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-    
-    if(! full)
-        glEnable(GL_SCISSOR_TEST);
+    activate();
 
     action->setViewport  (this);
     action->setCamera    (getCamera    ().getCPtr());
@@ -249,8 +271,7 @@ void Viewport::draw(DrawAction * action)
     for(UInt16 i=0; i < getForegrounds().size(); i++)
         getForegrounds(i)->draw(action, this);
 
-    if(! full)
-        glDisable(GL_SCISSOR_TEST);
+    deactivate();
 }
 
 
@@ -272,18 +293,7 @@ void Viewport::render(RenderActionBase *action)
         return;
     }
 
-/*
-    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-          pt=getPixelTop();
-    GLint pw=pr-pl+1,ph=pt-pb+1;
-    bool full = isFullWindow();
-
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-
-    if(! full)
-        glEnable(GL_SCISSOR_TEST);
-    */
+    activate();
 
     action->setCamera    (getCamera    ().getCPtr());
     action->setBackground(getBackground().getCPtr());
@@ -302,10 +312,7 @@ fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(),
     for(UInt16 i=0; i < getForegrounds().size(); i++)
         getForegrounds(i)->draw(action, this);
 
-/*
-    if(! full)
-        glDisable(GL_SCISSOR_TEST);
-        */
+    deactivate();
 }
 
 /*------------------------------- dump ----------------------------------*/

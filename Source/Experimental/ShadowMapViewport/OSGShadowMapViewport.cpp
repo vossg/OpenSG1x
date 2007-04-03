@@ -312,6 +312,21 @@ void ShadowMapViewport::onDestroy(void)
     subRefCP(_unlitMat);
 }
 
+void ShadowMapViewport::activateSize(void)
+{
+    Inherited::activateSize();
+}
+
+void ShadowMapViewport::activate(void)
+{
+    Inherited::activate();
+}
+
+void ShadowMapViewport::deactivate(void)
+{
+    Inherited::deactivate();
+}
+
 void ShadowMapViewport::render(RenderActionBase* action)
 {
     if(getCamera() == NullFC)
@@ -336,28 +351,7 @@ void ShadowMapViewport::render(RenderActionBase* action)
         return;
     }
 
-    if(getLeftBuffer())
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK);
-        }
-        else
-        {
-            glDrawBuffer(GL_BACK_LEFT);
-        }
-    }
-    else
-    {
-        if(getRightBuffer())
-        {
-            glDrawBuffer(GL_BACK_RIGHT);
-        }
-        else
-        {
-            glDrawBuffer(GL_NONE);
-        }
-    }
+    activate();
 
     GLfloat globalAmbient[] = {0.0,0.0,0.0,1.0};
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT,globalAmbient);
@@ -418,7 +412,7 @@ void ShadowMapViewport::render(RenderActionBase* action)
     for(UInt16 i=0; i < getForegrounds().size(); ++i)
         getForegrounds(i)->draw(action, this);
 
-    glDrawBuffer(GL_BACK);
+    deactivate();
 }
 
 //Checks if the needed OpenGL-Extensions are supported
@@ -910,6 +904,7 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     vpRight = this->getRight();
 
     //Temporarily switching Viewports size to size of ShadowMap | OpenSG-Level
+
     beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                           BottomFieldMask | TopFieldMask);
     {
@@ -917,6 +912,8 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     }
     endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                         BottomFieldMask | TopFieldMask);
+
+    this->activateSize();
 
     // ok we render only one unlit material for the whole scene in this pass.
     action->setMaterial(_unlitMat.getCPtr(), getRoot());
@@ -1025,6 +1022,8 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                         BottomFieldMask | TopFieldMask);
 
+    this->activateSize();
+
     action->setCamera(getCamera().getCPtr());
     
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
@@ -1045,17 +1044,6 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
     biasMatrix.setIdentity();
     biasMatrix.setScale(0.5);
     biasMatrix.setTranslate(0.5,0.5,0.5);
-
-    GLint pl=getPixelLeft(), pr=getPixelRight(), pb=getPixelBottom(), 
-    pt=getPixelTop();
-    GLint pw=pr-pl+1,ph=pt-pb+1;
-    bool full = isFullWindow();
-
-    glViewport(pl, pb, pw, ph);
-    glScissor(pl, pb, pw, ph);
-
-    if(!full)
-        glEnable(GL_SCISSOR_TEST);
 
     // draw background
     getBackground()->clear(action, this);
@@ -1200,7 +1188,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.16 2006/11/17 13:00:02 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.17 2007/04/03 03:16:54 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

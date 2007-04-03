@@ -344,6 +344,8 @@ void ShadowViewport::setVPSize(Real32 a, Real32 b, Real32 c, Real32 d)
     }
     endEditCP(getPtr(), LeftFieldMask | RightFieldMask |
               BottomFieldMask | TopFieldMask);
+
+    this->activateSize();
 }
 
 void ShadowViewport::triggerMapUpdate(void)
@@ -402,9 +404,25 @@ void ShadowViewport::onDestroy(void)
     subRefCP(_dummy);
 }
 
-void ShadowViewport::render(RenderActionBase *action)
+void ShadowViewport::activateSize(void)
+{
+    Inherited::activateSize();
+}
+
+void ShadowViewport::activate(void)
 {
     glColorMask(getRed(), getGreen(), getBlue(), getAlpha());
+    Inherited::activate();
+}
+
+void ShadowViewport::deactivate(void)
+{
+    Inherited::deactivate();
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+}
+
+void ShadowViewport::render(RenderActionBase *action)
+{
     if(_restart)
     {
         if(_treeRenderer != NULL)
@@ -473,33 +491,28 @@ void ShadowViewport::render(RenderActionBase *action)
     if(_treeRenderer == NULL)
     {
         StereoBufferViewport::render(action);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
     if(getCamera() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no camera!" << std::endl;
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
     if(getBackground() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no Background!" << std::endl;
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
     if(getRoot() == NullFC)
     {
         SWARNING << "ShadowViewport::render: no root!" << std::endl;
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
     if(!getShadowOn())
     {
         StereoBufferViewport::render(action);
-        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
         return;
     }
 
@@ -586,37 +599,15 @@ void ShadowViewport::render(RenderActionBase *action)
         _renderSide.clear();
 
         // active stereo support.
-        if(getLeftBuffer())
-        {
-            if(getRightBuffer())
-            {
-                glDrawBuffer(GL_BACK);
-            }
-            else
-            {
-                glDrawBuffer(GL_BACK_LEFT);
-            }
-        }
-        else
-        {
-            if(getRightBuffer())
-            {
-                glDrawBuffer(GL_BACK_RIGHT);
-            }
-            else
-            {
-                glDrawBuffer(GL_NONE);
-            }
-        }
+        activate();
 
         //glClearStencil(0x0);
         //glClear(GL_STENCIL_BUFFER_BIT);
         
         _treeRenderer->render(action);
 
-        glDrawBuffer(GL_BACK);
+        deactivate();
     }
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 }
 
 Action::ResultE ShadowViewport::findLight(NodePtr &node)
@@ -1482,7 +1473,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.28 2007/03/12 17:49:47 a-m-z Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.29 2007/04/03 03:16:54 dirk Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

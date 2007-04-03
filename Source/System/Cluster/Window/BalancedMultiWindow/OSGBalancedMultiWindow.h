@@ -198,7 +198,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
         UInt8  pixel[MW_TILE_SIZE*MW_TILE_SIZE*3];
     };
     struct Area {
-        UInt16 sendToServer;
+        UInt16                     workpackageId;
         std::vector<Tile>          tiles;
     };
     struct Cluster {

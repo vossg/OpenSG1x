@@ -897,7 +897,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
     // create port and deco for visualization
     if(port.serverPort == NullFC)
     {
-        serverPort = Viewport::create();
+        serverPort = ViewportPtr::dcast(getPort()[port.id]->shallowCopy());
         port.serverPort = serverPort;
         deco = TileCameraDecorator::create();
         serverPort->setCamera(deco);
@@ -1161,7 +1161,7 @@ void BalancedMultiWindow::balanceServer(void)
         }
         heigh--;
     }        
-/*
+#if 0
     for(int j=0;j<_cluster.workpackages.size() ; ++j)
     {
         printf("vp          %d\n",_cluster.workpackages[j].viewportId);
@@ -1173,7 +1173,7 @@ void BalancedMultiWindow::balanceServer(void)
                _cluster.workpackages[j].rect[2],
                _cluster.workpackages[j].rect[3]);
     }
-*/
+#endif
 }
 
 /*! sort bboxes
@@ -1607,9 +1607,10 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
                                          Int32 const (&rect)[4])
 {
     // create temporary viewport
-    _foreignPort.id       = portId;
-    _foreignPort.serverId = id;
-    _foreignPort.root     = getPort()[portId]->getRoot();
+    _foreignPort.id         = portId;
+    _foreignPort.serverId   = id;
+    _foreignPort.root       = getPort()[portId]->getRoot();
+    _foreignPort.serverPort = NullFC;
     // calculate valid viewport
     calculateServerPort(_foreignPort,rect);
     // add to window
@@ -1694,6 +1695,8 @@ void BalancedMultiWindow::storeViewport(Area &area,ViewportPtr vp,
     printf("vport pos %d %d\n",vp->getPixelLeft(),vp->getPixelBottom());
     printf("rect  pos %d %d\n",rect[0],rect[1]);
 */
+    vp->activate();
+
     area.tiles.resize(calcTileCount(rect));
 
     for(y = rect[BOTTOM] ; y <= rect[TOP] ; y += MW_TILE_SIZE)
@@ -1727,6 +1730,8 @@ void BalancedMultiWindow::storeViewport(Area &area,ViewportPtr vp,
         }
     }
     area.tiles[tI-1].header.last = true;
+
+    vp->deactivate();
 }
 
 /*! rendering and network transfer 
@@ -1735,7 +1740,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                                           RenderActionBase *action,
                                           UInt32 id)
 {
-    UInt32 sendTo;
+    UInt16 wpId;
     UInt32 sendCount;
     GroupConnection *groupConn;
     UInt32 count,vp,vpcount,wpcount;
@@ -1766,16 +1771,16 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         window->frameInit ();
 
         // render viewport for others
-        for(wI  = _cluster.workpackages.begin() ; 
+        for(wI  = _cluster.workpackages.begin(), wpId=0; 
             wI != _cluster.workpackages.end() ;
-            ++wI)
+            ++wI, ++wpId)
         {
             if(wI->drawServer == id &&
                wI->sendToServer != id)
             {
                 // new area
                 _cluster.areas.resize(_cluster.areas.size()+1);
-                _cluster.areas.back().sendToServer = wI->sendToServer;
+                _cluster.areas.back().workpackageId = wpId;
                 renderViewport(window,
                                wI->sendToServer,
                                action,
@@ -1817,12 +1822,12 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         while(sendCount)
         {
             groupConn->selectChannel();
-            groupConn->getValue(sendTo);
+            groupConn->getValue(wpId);
             for(aI = _cluster.areas.begin() ; aI != _cluster.areas.end() ; ++aI)
             {
-                if(sendTo == aI->sendToServer)
+                if(wpId == aI->workpackageId)
                 {
-                    conn = getNetwork()->getConnection(aI->sendToServer);
+                    conn = getNetwork()->getConnection(_cluster.workpackages[wpId].sendToServer);
                     for(tI = aI->tiles.begin() ; tI != aI->tiles.end() ; ++tI)
                     {
                         if(getShort())
@@ -1832,17 +1837,13 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                     }
                     conn->flush();
                     sendCount--;
+                    break;
                 }
             }
         }
 
         _netTime -= getSystemTime();
         // receive and paint tiles from others
-        glViewport(0,
-                   0,
-                   window->getWidth(), 
-                   window->getHeight());
-        groupConn = getNetwork()->getGroupConnection(id);
         glPushMatrix();
         glLoadIdentity();
         glMatrixMode(GL_PROJECTION);
@@ -1852,35 +1853,47 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         glDisable(GL_DEPTH_TEST);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         groupConn = getNetwork()->getGroupConnection(id);
+        wpId = 0;
         wI = _cluster.workpackages.begin();
         while(wI != _cluster.workpackages.end() &&
               (wI->drawServer == id || wI->sendToServer != id))
-            ++wI;
+        {   
+            ++wI; ++wpId;
+        }
         if(wI != _cluster.workpackages.end())
         {
             conn = getNetwork()->getConnection(wI->drawServer);
-            sendTo = wI->sendToServer;
-            conn->putValue(sendTo);
+            conn->putValue(wpId);
             conn->flush();
         }
         while(wI != _cluster.workpackages.end())
         {
+            ViewportPtr vp=getPort()[wI->viewportId];
+            // the activate is only called for buffer activation.
+            vp->activate();
+
+            // overwrite viewport activate dimension and scissor test.
+            glViewport(0, 0,
+                       window->getWidth(), window->getHeight());
+            glDisable(GL_SCISSOR_TEST);
+
             channel = groupConn->selectChannel();
             do
             {
                 groupConn->get(&tile,sizeof(Tile::Header));
                 if(tile.header.last)
                 {
-                    ++wI;
+                    ++wI; ++wpId;
                     // we got last tile, request from next server
                     while(wI != _cluster.workpackages.end() &&
                           (wI->drawServer == id || wI->sendToServer != id))
-                        ++wI;
+                    {
+                        ++wI; ++wpId;
+                    }
                     if(wI != _cluster.workpackages.end())
                     {
                         conn = getNetwork()->getConnection(wI->drawServer);
-                        sendTo = wI->sendToServer;
-                        conn->putValue(sendTo);
+                        conn->putValue(wpId);
                         conn->flush();
                     }
                 }
@@ -1940,6 +1953,8 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                 _netTime -= getSystemTime();
             } 
             while(!tile.header.last);
+
+            vp->deactivate();
 /*
             _pixelTime -= getSystemTime();
             glFinish();

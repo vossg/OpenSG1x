@@ -254,6 +254,7 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
             _bufferHandler.setSubtileSize(getSubtileSize());
         }
     }
+
 #if 1
     glDisable(GL_SCISSOR_TEST);
     glClearColor(0,0,0,0);
@@ -268,9 +269,13 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
     {
         ViewportPtr vp=serverWindow->getPort()[sv];
         vp->render( action );
+
         // send resulting image
         if(getCompose())
         {
+            // activate the appropriate viewport to retrieve image
+            vp->activate();
+
             // send image
             _bufferHandler.send(
                 *getNetwork()->getMainPointConnection(),
@@ -280,6 +285,9 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
                 vp->getPixelRight(),
                 vp->getPixelTop(),
                 0,0);
+
+            // deactivate the viewport
+            vp->deactivate();
         }
     }
 }
@@ -331,6 +339,8 @@ void SortFirstWindow::clientInit( void )
     connection->putValue(id);
     connection->flush();
 #endif
+
+    Inherited::clientInit();
 }
 
 /*! client frame init
@@ -411,6 +421,8 @@ void SortFirstWindow::clientPreSync( void )
 #endif
 
     endEditCP(ptr,SortFirstWindow::RegionFieldMask);
+
+    Inherited::clientPreSync();
 }
 
 /*! client rendering
@@ -434,14 +446,19 @@ void SortFirstWindow::clientSwap( void )
     {
         if(getClientWindow()!=NullFC)
         {
-            glDisable(GL_SCISSOR_TEST);
-            glViewport(0,0,
-                       getClientWindow()->getWidth(),
-                       getClientWindow()->getHeight());
             // receive all viewports
             for(cv=0;cv<getPort().size();++cv)
             {
+                ViewportPtr vp=getPort()[cv];
+
+                // activate the appropriate viewport to receive image
+                vp->activate();
+
+                // receive image
                 _bufferHandler.recv(*connection);
+
+                // deactivate the viewport
+                vp->deactivate();
             }
             Inherited::clientSwap();
         }
