@@ -1235,6 +1235,14 @@
 #define GL_UNSIGNED_SHORT_5_6_5           0x8363
 #endif
 
+
+// Hack for SGI Prisms...
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENTS_EXT
+#define GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT 0x8CD6
+#endif
+
+
 #define OSGGLEXT_HEADER_CVSID "@(#)$Id: $"
 
 #endif /* _OSGGL_H_ */
