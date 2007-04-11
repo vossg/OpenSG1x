@@ -147,13 +147,10 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
     }
     else
     {
-        GLboolean light = glIsEnabled(GL_LIGHTING);
-        if(light)  
-            glDisable(GL_LIGHTING);
-
         glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
                      GL_LIGHTING_BIT);
 
+        glDisable(GL_LIGHTING);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glDisable(GL_DEPTH_TEST);
         glDisable(GL_COLOR_MATERIAL);
