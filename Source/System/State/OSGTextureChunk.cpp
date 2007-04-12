@@ -1713,6 +1713,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         if (i != NullFC)
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f;
+			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
@@ -1731,25 +1732,39 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				sw = w / static_cast<Real32>(nw);
 				sh = h / static_cast<Real32>(nh);
 				sd = d / static_cast<Real32>(nd);
+				
+				setMatrix = true;
 			}
 			if ( (NpotMatScale & XFlip_TT) )
+			{
 				sw *= -1.f;
+				setMatrix = true;
+			}
 			if ( (NpotMatScale & YFlip_TT) )
+			{
 				sh *= -1.f;
+				setMatrix = true;
+			}
 			if ( (NpotMatScale & ZFlip_TT) )
+			{
 				sd *= -1.f;
+				setMatrix = true;
+			}
 			
-			Matrix m;
-			
-            m.setIdentity();
-            m.setScale( Vec3f(sw, sh, sd) );
-			
-            glPushAttrib(GL_TRANSFORM_BIT);
-            glMatrixMode(GL_TEXTURE);
-			
-            glLoadMatrixf(m.getValues());
-			
-            glPopAttrib();
+			if (setMatrix)
+			{
+				Matrix m;
+				
+				m.setIdentity();
+				m.setScale( Vec3f(sw, sh, sd) );
+				
+				glPushAttrib(GL_TRANSFORM_BIT);
+				glMatrixMode(GL_TEXTURE);
+				
+				glLoadMatrixf(m.getValues());
+				
+				glPopAttrib();
+			}
         }
     }
     
@@ -2009,6 +2024,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         if (i != NullFC)
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f;
+			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
@@ -2027,25 +2043,39 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				sw = w / static_cast<Real32>(nw);
 				sh = h / static_cast<Real32>(nh);
 				sd = d / static_cast<Real32>(nd);
+				
+				setMatrix = true;
 			}
 			if ( (NpotMatScale & XFlip_TT) )
+			{
 				sw *= -1.f;
+				setMatrix = true;
+			}
 			if ( (NpotMatScale & YFlip_TT) )
+			{
 				sh *= -1.f;
+				setMatrix = true;
+			}
 			if ( (NpotMatScale & ZFlip_TT) )
+			{
 				sd *= -1.f;
+				setMatrix = true;
+			}
 			
-			Matrix m;
-			
-            m.setIdentity();
-            m.setScale( Vec3f(sw, sh, sd) );
-			
-            glPushAttrib(GL_TRANSFORM_BIT);
-            glMatrixMode(GL_TEXTURE);
-			
-            glLoadMatrixf(m.getValues());
-			
-            glPopAttrib();
+			if (setMatrix)
+			{
+				Matrix m;
+				
+				m.setIdentity();
+				m.setScale( Vec3f(sw, sh, sd) );
+				
+				glPushAttrib(GL_TRANSFORM_BIT);
+				glMatrixMode(GL_TEXTURE);
+				
+				glLoadMatrixf(m.getValues());
+				
+				glPopAttrib();
+			}
         }
     }
     else if(oldused)
