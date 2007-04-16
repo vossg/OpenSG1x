@@ -69,7 +69,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForeground : public DisplayFilterFor
     /*==========================  PUBLIC  =================================*/
   public:
 
-    class DisplayFilterGroup {
+    class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterGroup {
     public:
         DisplayFilterGroup(bool readback,std::vector<ViewportPtr> &ports);
         virtual ~DisplayFilterGroup();
