@@ -211,7 +211,11 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     // do rendering
     for(p = 0 ; p < _port.size() ; ++p) 
     {
-        window->addPort(_port[p]);
+        // addPort() calls begin/endEditCP and that leads to crash in my (amz)
+        // cluster environment, setting the viewport parent is actually what we want
+        // and this works fine.
+        //window->addPort(_port[p]);
+        _port[p]->setParent(window);
         if(ract)
         {
             _port[p]->render(ract);
@@ -219,7 +223,8 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
         else
             if(dact)
                 _port[p]->draw(dact);
-        window->subPort(_port[p]);
+        //window->subPort(_port[p]);
+        _port[p]->setParent(NullFC);
     }
 
     glPopAttrib();
