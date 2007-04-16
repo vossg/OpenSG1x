@@ -508,6 +508,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
     swap_endian(&ddsh.dwHeight);
     swap_endian(&ddsh.dwWidth);
     swap_endian(&ddsh.dwPitchOrLinearSize);
+    swap_endian(&ddsh.dwDepth);
     swap_endian(&ddsh.dwMipMapCount);
     swap_endian(&ddsh.ddspf.dwSize);
     swap_endian(&ddsh.ddspf.dwFlags);
@@ -734,7 +735,7 @@ Int32 CDDSImage::size_rgb(Int32 width, Int32 height)
 // Swap the bytes in a 32 bit value
 inline void CDDSImage::swap_endian(void *val)
 {
-#ifdef MACOS
+#if BYTE_ORDER == BIG_ENDIAN
     UInt32 *ival = (UInt32 *)val;
 
     *ival = ((*ival >> 24) & 0x000000ff) |
@@ -969,7 +970,7 @@ void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
 
     pBits = ((UInt32*) &(block->row[3]));
 
-#ifdef MACOS
+#if BYTE_ORDER == BIG_ENDIAN
     *pBits &= 0x000000ff;
 #else
     *pBits &= 0xff000000;
