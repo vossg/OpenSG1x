@@ -1,6 +1,6 @@
 
 SUB_DIR     := Contrib/CGFXMaterial2
-PACKAGENAME := CGFXMaterial
+PACKAGENAME := CGFXMaterial2
 
 INCL_DIR    := $($(PROJ)POOL)/$(SUB_DIR)
 
