@@ -53,6 +53,7 @@
 #include <OSGCamera.h>
 #include <OSGViewport.h>
 #include <OSGTextureChunk.h>
+#include <OSGTexGenChunk.h>
 
 OSG_USING_NAMESPACE
 
@@ -83,6 +84,24 @@ StateChunkClass TextureTransformChunk::_class("TextureTransform",
 
 void TextureTransformChunk::initMethod (void)
 {
+    addInitFunction(&TextureTransformChunk::checkTexChunkOrder);
+}
+
+bool TextureTransformChunk::checkTexChunkOrder(void)
+{
+    FINFO(("Check order %d %d\n",
+           TextureTransformChunk::getStaticClassId(),
+           TextureChunk         ::getStaticClassId()));
+
+    if(TextureTransformChunk::getStaticClassId() < 
+       TextureChunk         ::getStaticClassId()  )
+    {
+  
+        _class.swap(
+            *(const_cast<StateChunkClass *>(TextureChunk::getStaticClass())));
+    }
+
+    return true;
 }
 
 /***************************************************************************\

@@ -143,6 +143,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
 
     static void initMethod(void);
     
+    static bool checkTexChunkOrder(void);
+
     // class. Used for indexing in State
     static StateChunkClass _class;
    

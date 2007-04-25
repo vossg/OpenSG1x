@@ -178,6 +178,79 @@ StateChunkClass::iterator StateChunkClass::end(void)
     return _classNames->end();
 }
 
+void StateChunkClass::swap(StateChunkClass &other)
+{
+    FINFO(("Swap %s(%d|%d) %s(%d|%d)\n",
+           this->getName(),
+           this->getId(),
+           this->getNumSlots(),
+           other.getName(),
+           other.getId(),
+           other.getNumSlots()));
+
+    bool bNeighborSwap = false;
+
+    if(this->getNumSlots() != other.getNumSlots())
+    {
+        if( ( (this->getId() < other.getId() &&
+               this->getId() + this->getNumSlots() != other.getId()) ||
+              (other.getId() < this->getId() &&
+               other.getId() + other.getNumSlots() != this->getId())  ) )
+        {
+            FWARNING(("Can only swap if #slots is equal or if"
+                      "the chunks are neighbors\n"));
+            return;
+        }
+        else
+        {
+            bNeighborSwap = true;
+        }
+    }
+
+    std::string thisName      = this->getName    ();
+    UInt32      thisNumSlots  = this->getNumSlots();
+
+    std::string otherName     = other.getName    ();
+    UInt32      otherNumSlots = other.getNumSlots();
+
+    if(bNeighborSwap == false)
+    {
+        UInt32 tmp;
+
+        tmp            = this->_classId;
+        this->_classId = other._classId;
+        other._classId = tmp;
+    }
+    else
+    {
+        if(this->_classId < other._classId)
+        {
+            other._classId  = this->_classId;
+            this->_classId += otherNumSlots;
+        }
+        else
+        {
+            this->_classId  = other._classId;
+            other._classId += thisNumSlots;
+       }
+    }
+
+    for(UInt32 i = this->getId(); 
+               i < this->getId() + thisNumSlots;
+             ++i)
+    { 
+        (*_classNames)[i] = thisName;
+        (*_numslots  )[i] = thisNumSlots;
+    }
+
+    for(UInt32 i = other.getId(); 
+               i < other.getId() + otherNumSlots;
+             ++i)
+    { 
+        (*_classNames)[i] = otherName;
+        (*_numslots  )[i] = otherNumSlots;
+    }
+}
 
 /***************************************************************************\
  *                           Class variables                               *

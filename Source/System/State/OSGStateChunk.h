@@ -51,6 +51,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class TextureTransformChunk;
+
 /*! \brief The classification class for StateChunks, see \ref StateChunkClass
     for a description. 
 */
@@ -90,6 +92,13 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkClass
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
+
+  protected:
+
+    friend class TextureTransformChunk;
+
+    void swap(StateChunkClass &other);
+
   private:
 
            UInt32               _classId;
