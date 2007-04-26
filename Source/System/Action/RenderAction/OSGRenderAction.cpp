@@ -74,6 +74,8 @@
 #include <OSGLight.h>
 #include <OSGLightEnv.h>
 
+#include <OSGClipPlane.h>
+
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
 #include <OSGSimpleAttachments.h>
@@ -295,6 +297,18 @@ RenderAction::RenderAction(void) :
     _lightsPath(),
     _lightEnvsLightsState(),
 
+
+    _vClipPlanes(),
+    _clipPlanesMap(),
+    _clipPlanesState(0),
+    _activeClipPlanesState(0),
+    _activeClipPlanesCount(0),
+    _activeClipPlanesMask(0),
+
+    _clipPlanesTable(),
+    _clipPlanesPath(),
+
+
     _stateSorting(true),
     _visibilityStack(),
 
@@ -412,6 +426,17 @@ RenderAction::RenderAction(const RenderAction &source) :
     _lightsTable         (source._lightsTable),
     _lightsPath          (source._lightsPath),
     _lightEnvsLightsState(source._lightEnvsLightsState),
+
+
+    _vClipPlanes            (source._vClipPlanes),
+    _clipPlanesMap          (source._clipPlanesMap),
+    _clipPlanesState        (source._clipPlanesState),
+    _activeClipPlanesState  (source._activeClipPlanesState),
+    _activeClipPlanesCount  (source._activeClipPlanesCount),
+    _activeClipPlanesMask   (source._activeClipPlanesMask),
+
+    _clipPlanesTable        (source._clipPlanesTable),
+    _clipPlanesPath         (source._clipPlanesPath),
 
     _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack),
@@ -567,6 +592,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setGeometry   (pGeo);
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
+            pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState(pState);
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
@@ -628,6 +654,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setState      (pState);
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
+            pNewElem->setClipPlanesState(_clipPlanesState);
 
             if(isMultiPass)
             {
@@ -663,10 +690,11 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 //_mMatMap[pMat].push_back(pNewMatElem);
                 _mMatMap[pMat] = pNewMatElem;
                 
-                pNewElem->setNode       (getActNode());           
+                pNewElem->setNode       (getActNode());
                 pNewElem->setGeometry   (pGeo);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
+                pNewElem->setClipPlanesState(_clipPlanesState);
     
                 if(isMultiPass)
                 {
@@ -689,6 +717,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewMatElem->addChild(pNewElem);
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
+                pNewMatElem->setClipPlanesState(_clipPlanesState);
 
                 if(_pMatRoots.find(sortKey) == _pMatRoots.end())
                     _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
@@ -701,6 +730,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setGeometry   (pGeo);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
+                pNewElem->setClipPlanesState(_clipPlanesState);
     
                 if(isMultiPass)
                 {
@@ -757,6 +787,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
+            pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState      (pState);
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
@@ -858,6 +889,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setFunctor    (func);
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
+            pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState(pState);
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
@@ -920,6 +952,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setState      (pState);
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
+            pNewElem->setClipPlanesState(_clipPlanesState);
 
             if(isMultiPass)
             {
@@ -960,12 +993,14 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setState(pState);
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
+                pNewMatElem->setClipPlanesState(_clipPlanesState);
 
                 DrawTreeNode *pNewElem = _pNodeFactory->create();
                 pNewElem->setNode       (getActNode());
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
+                pNewElem->setClipPlanesState(_clipPlanesState);
 
                 pNewMatElem->addChild(pNewElem);
 
@@ -978,6 +1013,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             {
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
+                pNewMatElem->setClipPlanesState(_clipPlanesState);
 
                 for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
                 {
@@ -987,6 +1023,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewPassElem->setState(pState);
                     pNewPassElem->setNode(getActNode());
                     pNewPassElem->setLightsState(_lightsState);
+                    pNewPassElem->setClipPlanesState(_clipPlanesState);
                     pNewMatElem->addChild(pNewPassElem);
 
                     DrawTreeNode *pNewElem = _pNodeFactory->create();
@@ -994,6 +1031,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setFunctor    (func);
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
+                    pNewElem->setClipPlanesState(_clipPlanesState);
 
                     if(isMultiPass)
                     {
@@ -1021,6 +1059,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setFunctor    (func);
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
+                pNewElem->setClipPlanesState(_clipPlanesState);
                 it->second->addChild(pNewElem);
             }
             else
@@ -1040,6 +1079,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setFunctor    (func);
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
+                    pNewElem->setClipPlanesState(_clipPlanesState);
 
                     if(isMultiPass)
                     {
@@ -1184,6 +1224,69 @@ std::vector<Light *> RenderAction::getActiveLights(void)
         return _lightsMap;
     }
     return lights;
+}
+
+void RenderAction::dropClipPlane(ClipPlane *pClipPlane)
+{
+    if(pClipPlane == NULL)
+        return;
+
+    ClipPlaneStore oStore;
+
+    pClipPlane->makeChunk();
+
+    oStore.first  =  pClipPlane->getChunk().getCPtr();
+//    oStore.second = _currMatrix.second;
+
+    Matrix fromworld,tobeacon;
+    
+//        getActNode()->getToWorld(fromworld);
+
+//    fromworld = top_matrix();
+
+    NodePtr beacon = pClipPlane->getBeacon();
+
+    if(beacon == NullFC)
+    {
+        SINFO << "draw: no beacon set!" << std::endl;
+
+        oStore.second = _currMatrix.second;
+    }
+    else
+    {
+        fromworld = _camInverse;
+        fromworld.invert();
+
+        beacon->getToWorld(tobeacon);
+
+//        tobeacon.mult(fromworld);
+        
+        fromworld.mult(tobeacon);
+
+        oStore.second = fromworld;
+    }
+
+    _vClipPlanes.push_back(oStore);
+    _clipPlanesMap.push_back(pClipPlane);
+
+    // clip plane id's are in the range from 1 - N
+    UInt32 clipPlaneState = _vClipPlanes.size();
+    _clipPlanesPath.push_back(clipPlaneState);
+    // add current clip planes path to the lights table.
+    _clipPlanesTable.push_back(_clipPlanesPath);
+    _clipPlanesState = clipPlaneState;
+}
+
+void RenderAction::undropClipPlane(ClipPlane *pClipPlane)
+{
+    if(pClipPlane == NULL)
+        return;
+
+    _clipPlanesPath.pop_back();
+    if(!_clipPlanesPath.empty())
+        _clipPlanesState = _clipPlanesPath.back();
+    else
+        _clipPlanesState = 0;
 }
 
 bool RenderAction::isVisible( Node* node )
@@ -1386,6 +1489,52 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
 
     _activeLightsState = pRoot->getLightsState();
     _activeLightsCount = light_id;
+}
+
+void RenderAction::activateLocalClipPlanes(DrawTreeNode *pRoot)
+{
+    //printf("clipPlanesState: %u %u\n", _activeClipPlanesState, pRoot->getClipPlanesState());
+    if(_activeClipPlanesState == pRoot->getClipPlanesState())
+        return;
+
+    UInt32 clipPlane_id = 0;
+    if(pRoot->getClipPlanesState() > 0)
+    {
+        _activeClipPlanesMask = 0;
+        const std::vector<UInt32> &clipPlanes = _clipPlanesTable[pRoot->getClipPlanesState() - 1];
+
+        //printf("activate clipPlanes: %u : ", pRoot->getClipPlanesState() - 1);
+        for(UInt32 i=0;i<clipPlanes.size();++i)
+        {
+            UInt32 clipPlane_index = clipPlanes[i] - 1;
+            glPushMatrix();
+            glLoadMatrixf(_vClipPlanes[clipPlane_index].second.getValues());
+            _activeClipPlanesMask |= (1 << clipPlane_id);
+            //printf("%u,", clipPlane_id);
+            _vClipPlanes[clipPlane_index].first->activate(this, clipPlane_id++);
+            glPopMatrix();
+        }
+        //printf("\n");
+    }
+
+    if(clipPlane_id > 6)
+    {
+        SWARNING << "RenderAction::activateLocalClipPlanes: maximum clipping planes limit is " <<  6
+                 << std::endl;
+    }
+
+    //printf("deactivate clipPlanes: ");
+    const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
+    for(UInt32 i = clipPlane_id;i < _activeClipPlanesCount;++i)
+    {
+        //printf("%u,", i);
+        _activeClipPlanesMask &= ~(1 << i);
+        glDisable(GL_CLIP_PLANE0 + i);
+    }
+    //printf("\n");
+
+    _activeClipPlanesState = pRoot->getClipPlanesState();
+    _activeClipPlanesCount = clipPlane_id;
 }
 
 bool RenderAction::isSmallFeature(const NodePtr &node)
@@ -1940,6 +2089,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
             if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
                 activateLocalLights(pRoot);
 
+            activateLocalClipPlanes(pRoot);
+
             State *pNewState = pRoot->getState();
     
             if(pNewState != NULL)
@@ -2260,6 +2411,17 @@ Action::ResultE RenderAction::start(void)
     _lightsPath.clear();
     _lightEnvsLightsState.clear();
 
+
+    _vClipPlanes.clear();
+    _clipPlanesMap.clear();
+    _clipPlanesState       = 0;
+    _activeClipPlanesState = 0;
+    _activeClipPlanesCount = 0;
+    _activeClipPlanesMask  = 0;
+
+    _clipPlanesTable.clear();
+    _clipPlanesPath.clear();
+
     _stateSorting = true;
 
     return Action::Continue;
@@ -2297,6 +2459,10 @@ Action::ResultE RenderAction::stop(ResultE res)
             glDisable(GL_LIGHT0 + i);
         }
     }
+
+    // disable all clipping planes.
+    for(i = 0;i < 6;++i)
+        glDisable(GL_CLIP_PLANE0 + i);
 
     glDepthMask(GL_TRUE);
 
@@ -2421,6 +2587,9 @@ Action::ResultE RenderAction::stop(ResultE res)
             glDisable(GL_LIGHT0 + i);
         }
     }
+
+    for(i = 0;i < _activeClipPlanesCount;++i)
+        glDisable(GL_CLIP_PLANE0 + i);
 
     if(_bOcclusionCulling && (_occlusionCullingMode & OcclusionMultiFrame))
     {

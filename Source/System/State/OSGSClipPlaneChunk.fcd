@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="SClipPlaneChunk"
+	parent="StateChunk"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+The clip plane chunk contains the parameter that are specific for a clip plane. See glClipPlane for details.
+	<Field
+		name="equation"
+		type="Vec4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0, 0, 1, 0"
+		access="public"
+	>
+	Defines the equation of the clip plane. Standard format, if (a,b,c,d) is         the plane a point (x,y,z) is visible if a*x+b*y+c*z+d &gt;= 0.
+	</Field>
+</FieldContainer>

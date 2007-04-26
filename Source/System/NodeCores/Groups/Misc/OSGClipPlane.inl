@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *                     Copyright 2000-2002 by OpenSG Forum                   *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,80 +34,14 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
+
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "OSGConfig.h"
 
-#include "OSGDrawTreeNode.h"
-#include <OSGBaseFunctions.h>
+OSG_BEGIN_NAMESPACE
 
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include "OSGTime.h"
-#endif
+OSG_END_NAMESPACE
 
-OSG_USING_NAMESPACE
-
-/*! \class osg::DrawTreeNode
-    \ingroup GrpSystemRenderingBackend
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Statistics                                   */
-
-Int32 DrawTreeNode::_iCreateCount = 0;
-Int32 DrawTreeNode::_iDeleteCount = 0;
-
-/*-------------------------------------------------------------------------*/
-/*                            Flags                                        */
-
-const UInt8 DrawTreeNode::MultiPass = 1;
-const UInt8 DrawTreeNode::LastMultiPass = 2;
-const UInt8 DrawTreeNode::NoStateSorting = 4;
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-DrawTreeNode::DrawTreeNode(void) :
-     Inherited       (),
-    _pFirstChild     (NULL),
-    _pLastChild      (NULL),
-    _pBrother        (NULL),
-    _pState          (NULL),
-    _pGeo            (NULL),
-    _functor         (),
-    _hasFunctor      (false),
-    _oMatrixStore    (),
-    _rScalarVal      (0.f),
-    _lightsState     (0),
-    _clipPlanesState (0),
-    _flags           (0)
-{
-    _oMatrixStore.first = 0;
-}
-
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-DrawTreeNode::~DrawTreeNode(void)
-{
-}
-
-
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
-
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDRAWTREENODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDRAWTREENODE_INLINE_CVSID;
-}
+#define OSGCLIPPLANE_INLINE_CVSID "@(#)$Id: OSGClipPlane.inl,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"

@@ -71,6 +71,8 @@ class State;
 class Light;
 class LightEnv;
 class LightChunk;
+class ClipPlane;
+class SClipPlaneChunk;
 
 class DrawTreeNodeFactory;
 
@@ -99,6 +101,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
+    typedef std::pair<SClipPlaneChunk *, Matrix                 > ClipPlaneStore;
 
     //-----------------------------------------------------------------------
     //   constants                                                               
@@ -171,7 +174,10 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     void dropLightEnv  (LightEnv  *pLightEnv);
     void undropLightEnv(LightEnv  *pLightEnv);
-    
+
+    void dropClipPlane  (ClipPlane     *pClipPlane);
+    void undropClipPlane(ClipPlane     *pClipPlane);
+
     void setStateSorting(bool s);
     bool getStateSorting(void);
 
@@ -340,6 +346,17 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<UInt32>               _lightsPath;
     std::vector<UInt32>               _lightEnvsLightsState;
 
+
+    std::vector<ClipPlaneStore> _vClipPlanes;
+    std::vector<ClipPlane *>    _clipPlanesMap;
+    UInt32                      _clipPlanesState;
+    UInt32                      _activeClipPlanesState;
+    UInt32                      _activeClipPlanesCount;
+    UInt32                      _activeClipPlanesMask;
+
+    std::vector<std::vector<UInt32> > _clipPlanesTable;
+    std::vector<UInt32>               _clipPlanesPath;
+
     bool                      _stateSorting;
 
     std::vector<FrustumVolume::PlaneSet>  _visibilityStack;
@@ -384,6 +401,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     inline  void updateTopMatrix(void);
             void activateLocalLights(DrawTreeNode *pRoot);
+            void activateLocalClipPlanes(DrawTreeNode *pRoot);
 
     void getMaterialStates(Material *mat, std::vector<State *> &states);
 

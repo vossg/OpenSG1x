@@ -36,161 +36,111 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGDRAWTREENODE_H_
-#define _OSGDRAWTREENODE_H_
 
+#ifndef _OSGCLIPPLANE_H_
+#define _OSGCLIPPLANE_H_
 #ifdef __sgi
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-#include <OSGMemoryObject.h>
-#include <OSGRenderAction.h>
-#include <OSGMaterial.h>
+#include <OSGConfig.h>
+#include <OSGClipPlaneBase.h>
+#include <OSGNodePtr.h>
+#include <OSGAction.h>
+#include <OSGSClipPlaneChunk.h>
 
 OSG_BEGIN_NAMESPACE
 
-class Geometry;
-class State;
-class DrawTreeNodeFactory;
-
-/*! \ingroup GrpSystemRenderingBackend
+/*! \brief ClipPlanes Base class
+    \ingroup GrpSystemNodeCoresClipPlanes
 */
 
-class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
+class OSG_SYSTEMLIB_DLLMAPPING ClipPlane : public ClipPlaneBase
 {
     /*==========================  PUBLIC  =================================*/
   public:
 
     /*---------------------------------------------------------------------*/
-    /*! \name                   Statistic                                  */
+    /*! \name                       Set                                    */
     /*! \{                                                                 */
-
-    static Int32 _iCreateCount;
-    static Int32 _iDeleteCount;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Flags                                     */
+    /*! \name                      Chunk                                   */
     /*! \{                                                                 */
 
-    static const UInt8 MultiPass;
-    static const UInt8 LastMultiPass;
-    static const UInt8 NoStateSorting;
+            SClipPlaneChunkPtr getChunk (void);
+    virtual void          makeChunk(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Access                                    */
+    /*! \name                      Sync                                    */
     /*! \{                                                                 */
 
-    DrawTreeNode *getFirstChild   (void                           );
-    DrawTreeNode *getLastChild    (void                           );
+    virtual void changed(BitVector whichField,
+                         UInt32    origin   );
 
-    void          addChild        (DrawTreeNode *pChild           );
-    void          insertFirstChild(DrawTreeNode *pChild           );
-    void          insertChildAfter(DrawTreeNode *pCurrent, 
-                                   DrawTreeNode *pChild           );
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Dump                                    */
+    /*! \{                                                                 */
 
-    DrawTreeNode *getBrother      (void);
-    void          setBrother      (DrawTreeNode *pBrother         );
-
-    void          setGeometry     (Geometry *pGeo                 );
-    Geometry     *getGeometry     (void                           );
-
-    void          setFunctor      (Material::DrawFunctor &func    );
-    Material::DrawFunctor &getFunctor(void                        );
-    bool          hasFunctor      (void                           );
-    
-    void          setState        (State    *pState               );
-    State        *getState        (void                           );
-    
-    void          setNode         (NodePtr   pNode                );
-    NodePtr       getNode         (void                           );
-
-    void          setMatrixStore  (const RenderAction::MatrixStore &oMatrixStore);
-    RenderAction::MatrixStore  &getMatrixStore  (void                           );
-
-    void          setScalar       (Real32 rScalar                 );
-    Real32        getScalar       (void                           );
-
-    void          setLightsState  (UInt32 state                   );
-    UInt32        getLightsState  (void                           );
-
-    void          setClipPlanesState  (UInt32 state               );
-    UInt32        getClipPlanesState  (void                       );
-
-    void          setMultiPass    (void                           );
-    void          setLastMultiPass(void                           );
-    bool          isMultiPass     (void                           );
-    bool          isLastMultiPass (void                           );
-
-    void          setNoStateSorting(void                           );
-    bool          isNoStateSorting (void                           );
-
-    void          reset           (void                           );
+    virtual void dump(      UInt32    uiIndent = 0,
+                      const BitVector bvFlags  = 0) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 
-    typedef MemoryObject Inherited;
+    typedef ClipPlaneBase      Inherited;
 
-    /*---------------------------------------------------------------------*/
-    /*! \name                      Member                                  */
-    /*! \{                                                                 */
+            SClipPlaneChunkPtr _pChunk;
 
-    DrawTreeNode              *_pFirstChild;
-    DrawTreeNode              *_pLastChild;
-
-    DrawTreeNode              *_pBrother;
-
-    NodePtr                    _pNode;
-
-    State                     *_pState;
-    Geometry                  *_pGeo;
-    Material::DrawFunctor      _functor;
-    bool                       _hasFunctor;
-    
-    RenderAction::MatrixStore  _oMatrixStore;        
-
-    Real32                     _rScalarVal;
-
-    UInt32                     _lightsState;
-    UInt32                     _clipPlanesState;
-
-    Int8                       _flags;
-
-    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    DrawTreeNode(void);
+    ClipPlane(void);
+    ClipPlane(const ClipPlane &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Destructor                                 */
+    /*! \name                   Destructors                                */
     /*! \{                                                                 */
 
-    virtual ~DrawTreeNode(void); 
+    virtual ~ClipPlane(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Actions                                  */
+    /*! \{                                                                 */
+   
+    // Draw action: execute the OpenGL commands to set the light's parameters.
+    //Action::ResultE drawEnter  (Action *action);
+    //Action::ResultE drawLeave  (Action *action);
+
+    // generate draw tree
+    Action::ResultE renderEnter(Action *action);
+    Action::ResultE renderLeave(Action *action);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:
 
-    friend class DrawTreeNodeFactory;
+    friend class FieldContainer;
+    friend class ClipPlaneBase;
+
+    static void initMethod( void );
 
     /*! \brief prohibit default function (move to 'public' if needed) */
-    DrawTreeNode(const DrawTreeNode &source);
-    /*! \brief prohibit default function (move to 'public' if needed) */
-    void operator =(const DrawTreeNode &source);
+    void operator =(const ClipPlane &source);
 };
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawTreeNode.inl>
+#include <OSGClipPlaneBase.inl>
+#include <OSGClipPlane.inl>
 
-#define OSGDRAWTREENODE_HEADER_CVSID "@(#)$Id: $"
+#define OSGCLIPPLANE_HEADER_CVSID "@(#)$Id: OSGClipPlane.h,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"
 
-#endif /* _OSGDRAWTREENODE_H_ */
+#endif /* _OSGCLIPPLANE_H_ */
