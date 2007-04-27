@@ -56,6 +56,7 @@
 #include "OSGWindow.h"
 #include "OSGBackground.h"
 #include "OSGGradientBackground.h"
+#include "OSGTileCameraDecorator.h"
 
 OSG_USING_NAMESPACE
 
@@ -119,7 +120,7 @@ void GradientBackground::changed(BitVector whichField, UInt32 origin)
 
 /*-------------------------- your_category---------------------------------*/
 
-void GradientBackground::clear(DrawActionBase *, Viewport *)
+void GradientBackground::clear(DrawActionBase *act, Viewport *port)
 {
     Int32 bit = getClearStencilBit();
     
@@ -162,7 +163,38 @@ void GradientBackground::clear(DrawActionBase *, Viewport *)
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0, 1, 0, 1, 0, 1);
+
+        UInt32 width  = port->getPixelWidth(),
+               height = port->getPixelHeight();
+
+        Camera *cP = act->getCamera();
+        TileCameraDecorator *cdP = dynamic_cast<TileCameraDecorator*>(cP);
+
+        while (cdP != NULL)
+        {
+            width  = cdP->getFullWidth()  ? cdP->getFullWidth()  : width;
+            height = cdP->getFullHeight() ? cdP->getFullHeight() : height;
+
+            cP  = cdP->getDecoratee().getCPtr();
+            cdP = dynamic_cast<TileCameraDecorator*>(cP);
+        }
+
+        cP = act->getCamera();
+        cdP = dynamic_cast<TileCameraDecorator*>(cP);
+
+        if (cdP)
+        {
+            Real32 left   = cdP->getLeft(),
+                   right  = cdP->getRight(),
+                   top    = cdP->getTop(),
+                   bottom = cdP->getBottom();
+
+            glOrtho( left , right, bottom, top, 0, 1);
+        }
+        else
+        {
+            glOrtho(0, 1, 0, 1, 0, 1);
+        }
 
         Real32 r1, g1, b1;
         UInt32 size = _mfPosition.size();
