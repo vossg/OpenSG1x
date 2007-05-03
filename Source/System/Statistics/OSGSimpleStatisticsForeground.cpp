@@ -193,6 +193,9 @@ void SimpleStatisticsForeground::initText(const std::string &family, Real32 size
 */
 void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
+    if (getActive() == false)
+        return;
+	
     if (_face == 0)
         initText(getFamily(), getSize());
 

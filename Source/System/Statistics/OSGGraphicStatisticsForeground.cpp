@@ -135,6 +135,9 @@ void GraphicStatisticsForeground::dump(UInt32, const BitVector) const
 //! draws the forground
 void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 {
+    if (getActive() == false)
+        return;
+	
     // Check the height and width of the window
     if(port->getPixelWidth() < 1 || port->getPixelHeight() < 1)
     {
