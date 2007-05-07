@@ -1732,6 +1732,74 @@ void testnextpow2(void)
 
 }
 
+void testVectorNewCtor()
+{
+    osg::Vec2f v2;
+    osg::Pnt2f p2;
+    osg::Vec3f v3;
+    osg::Pnt3f p3;
+    osg::Vec2d dv2;
+    osg::Pnt2d dp2;
+    osg::Vec3d dv3;
+    osg::Pnt3d dp3;
+
+    osg::Vec2f x1(v2);
+    osg::Vec2f x2(p2);
+    osg::Pnt2f x3(v2);
+    osg::Pnt2f x4(p2);
+    osg::Vec2f x5(v3);
+    osg::Vec2f x6(p3);
+    osg::Pnt2f x7(v3);
+    osg::Pnt2f x8(p3);
+
+    osg::Vec3f y1(v2);
+    osg::Vec3f y2(p2);
+    osg::Pnt3f y3(v2);
+    osg::Pnt3f y4(p2);
+    osg::Vec3f y5(v3);
+    osg::Vec3f y6(p3);
+    osg::Pnt3f y7(v3);
+    osg::Pnt3f y8(p3);
+
+    osg::Vec2d dx1(v2);
+    osg::Vec2d dx2(p2);
+    osg::Pnt2d dx3(v2);
+    osg::Pnt2d dx4(p2);
+    osg::Vec2d dx5(v3);
+    osg::Vec2d dx6(p3);
+    osg::Pnt2d dx7(v3);
+    osg::Pnt2d dx8(p3);
+
+    osg::Vec3d dy1(v2);
+    osg::Vec3d dy2(p2);
+    osg::Pnt3d dy3(v2);
+    osg::Pnt3d dy4(p2);
+    osg::Vec3d dy5(v3);
+    osg::Vec3d dy6(p3);
+    osg::Pnt3d dy7(v3);
+    osg::Pnt3d dy8(p3);
+
+    osg::Vec2f fx1(dv2);
+    osg::Vec2f fx2(dp2);
+    osg::Pnt2f fx3(dv2);
+    osg::Pnt2f fx4(dp2);
+    osg::Vec2f fx5(dv3);
+    osg::Vec2f fx6(dp3);
+    osg::Pnt2f fx7(dv3);
+    osg::Pnt2f fx8(dp3);
+
+    osg::Vec3f fy1(dv2);
+    osg::Vec3f fy2(dp2);
+    osg::Pnt3f fy3(dv2);
+    osg::Pnt3f fy4(dp2);
+    osg::Vec3f fy5(dv3);
+    osg::Vec3f fy6(dp3);
+    osg::Pnt3f fy7(dv3);
+    osg::Pnt3f fy8(dp3);
+}
+
+
+
 int main(void)
 {
     osgInit(0, NULL);

@@ -280,6 +280,9 @@ class VecStorage4
 #endif
 
 template<class ValueTypeT, class StorageInterfaceT>
+class VectorInterface;
+
+template<class ValueTypeT, class StorageInterfaceT>
 class PointInterface : public StorageInterfaceT
 {
     /*==========================  PUBLIC  =================================*/
@@ -310,45 +313,15 @@ class PointInterface : public StorageInterfaceT
     explicit PointInterface(const ValueTypeT     *pVals );
     explicit PointInterface(      ValueTypeT     *pVals );
 
-    /* This inline code was brought to you by Microsoft */
+    template <class ValueType2T, class StorageInterface2T> 
+    explicit PointInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
 
-    template<class VectorT> 
-#ifndef OSG_MICROSOFT_COMPILER_HACKS
-    explicit 
-#endif
-             PointInterface(const VectorT        &vec   )
-    {
-        if(Self::_iSize <= VectorT::_iSize)
-        {
-            for(UInt32 i = 0; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-        }
-        else
-        {
-            UInt32 i;
-            for(i = 0; i < VectorT::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-            for(i = VectorT::_iSize; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
-            }
-        }
-    }
+    template <class ValueType2T, class StorageInterface2T> 
+    explicit PointInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
 
-             PointInterface(const PointInterface &source);
+    PointInterface(const PointInterface &source);
 
-#if 0
-    /* Constructor which takes one value, remaining entries will be zero;
-       Actually this one collides with the template constuctor above,
-       so I do not implement this one, any problems with that (GV)
-    */
-
-    PointInterface(const ValueTypeT rVal1);
-#endif
+    explicit PointInterface(const ValueTypeT rVal1);
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)
@@ -387,19 +360,8 @@ class PointInterface : public StorageInterfaceT
 
     void setValue(const PointInterface &vec     );
 
-    /* This inline code was brought to you by Microsoft */
-
-    template<class VectorT>
-    void setValue(const VectorT        &vec     )
-    {
-        for(UInt32   i = 0;
-                     i < (Self::_iSize < VectorT::_iSize ? 
-                          Self::_iSize : VectorT::_iSize);
-                   ++i)
-        {
-            Self::_values[i] = vec.getValues()[i];
-        }
-    }
+    template <class ValueType2T, class StorageInterface2T> 
+    void setValue(const PointInterface<ValueType2T, StorageInterface2T> &vec);
 
     void setValue           (const ValueTypeT     *pVals   );
     void setValue           (      ValueTypeT     *pVals   );
@@ -563,45 +525,15 @@ class VectorInterface :
     explicit VectorInterface(const ValueTypeT      *pVals );
     explicit VectorInterface(      ValueTypeT      *pVals );
 
-    /* This inline code was brought to you by Microsoft */
+    template <class ValueType2T, class StorageInterface2T> 
+    explicit VectorInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
 
-    template<class VectorT> 
-#ifndef OSG_MICROSOFT_COMPILER_HACKS
-    explicit 
-#endif
-             VectorInterface(const VectorT         &vec   )
-    {
-        if(Self::_iSize <= VectorT::_iSize)
-        {
-            for(UInt32 i = 0; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-        }
-        else
-        {
-            UInt32 i;
-            for(i = 0; i < VectorT::_iSize; i++)
-            {
-                Self::_values[i] = vec.getValues()[i];
-            }
-            for(i = VectorT::_iSize; i < Self::_iSize; i++)
-            {
-                Self::_values[i] = TypeTraits<ValueTypeT>::getZeroElement();
-            }
-        }
-    }
+    template <class ValueType2T, class StorageInterface2T> 
+    explicit VectorInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
 
-             VectorInterface(const VectorInterface &source);
+    VectorInterface(const VectorInterface &source);
 
-#if 0
-    /* Constructor which takes one value, remaining entries will be zero;
-       Actually this one collides with the template constuctor above,
-       so I do not implement this one, any problems with that (GV)
-    */
-
-             VectorInterface(const ValueTypeT       rVal1 );
-#endif
+    explicit VectorInterface(const ValueTypeT       rVal1 );
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)
