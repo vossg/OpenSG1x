@@ -111,7 +111,9 @@ void DepthClearBackground::changed(BitVector whichField, UInt32 origin)
 void DepthClearBackground::clear(DrawActionBase *, Viewport *)
 {
     Int32 bit = getClearStencilBit();
-    
+
+    glClearDepth(getDepth());
+
     if (bit >= 0)
     {
         glClearStencil(bit);
@@ -151,7 +153,7 @@ void DepthClearBackground::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackground.cpp,v 1.2 2006/12/06 17:58:08 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackground.cpp,v 1.3 2007/05/10 15:57:22 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUND_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUND_INLINE_CVSID;
 

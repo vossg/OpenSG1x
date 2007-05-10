@@ -68,6 +68,7 @@
 #include <OSGBackground.h> // Parent
 
 #include <OSGBoolFields.h> // ClearDepth type
+#include <OSGReal32Fields.h> // Depth type
 #include <OSGInt32Fields.h> // ClearStencilBit type
 
 #include <OSGDepthClearBackgroundFields.h>
@@ -93,11 +94,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     enum
     {
         ClearDepthFieldId      = Inherited::NextFieldId,
-        ClearStencilBitFieldId = ClearDepthFieldId      + 1,
+        DepthFieldId           = ClearDepthFieldId      + 1,
+        ClearStencilBitFieldId = DepthFieldId           + 1,
         NextFieldId            = ClearStencilBitFieldId + 1
     };
 
     static const OSG::BitVector ClearDepthFieldMask;
+    static const OSG::BitVector DepthFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
 
 
@@ -126,10 +129,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     /*! \{                                                                 */
 
            SFBool              *getSFClearDepth     (void);
+           SFReal32            *getSFDepth          (void);
            SFInt32             *getSFClearStencilBit(void);
 
            bool                &getClearDepth     (void);
      const bool                &getClearDepth     (void) const;
+           Real32              &getDepth          (void);
+     const Real32              &getDepth          (void) const;
            Int32               &getClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
 
@@ -139,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     /*! \{                                                                 */
 
      void setClearDepth     ( const bool &value );
+     void setDepth          ( const Real32 &value );
      void setClearStencilBit( const Int32 &value );
 
     /*! \}                                                                 */
@@ -183,6 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     /*! \{                                                                 */
 
     SFBool              _sfClearDepth;
+    SFReal32            _sfDepth;
     SFInt32             _sfClearStencilBit;
 
     /*! \}                                                                 */
@@ -261,6 +269,6 @@ typedef RefPtr<DepthClearBackgroundPtr> DepthClearBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.8 2006/12/17 11:09:18 a-m-z Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.9 2007/05/10 15:57:23 yjung Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */

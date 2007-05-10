@@ -67,6 +67,9 @@ OSG_BEGIN_NAMESPACE
 const OSG::BitVector  DepthClearBackgroundBase::ClearDepthFieldMask = 
     (TypeTraits<BitVector>::One << DepthClearBackgroundBase::ClearDepthFieldId);
 
+const OSG::BitVector  DepthClearBackgroundBase::DepthFieldMask = 
+    (TypeTraits<BitVector>::One << DepthClearBackgroundBase::DepthFieldId);
+
 const OSG::BitVector  DepthClearBackgroundBase::ClearStencilBitFieldMask = 
     (TypeTraits<BitVector>::One << DepthClearBackgroundBase::ClearStencilBitFieldId);
 
@@ -79,6 +82,9 @@ const OSG::BitVector DepthClearBackgroundBase::MTInfluenceMask =
 
 /*! \var bool            DepthClearBackgroundBase::_sfClearDepth
     If true, depth buffer is cleared.
+*/
+/*! \var Real32          DepthClearBackgroundBase::_sfDepth
+    Depth value for clear, defaults to 1.
 */
 /*! \var Int32           DepthClearBackgroundBase::_sfClearStencilBit
     Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
@@ -93,6 +99,11 @@ FieldDescription *DepthClearBackgroundBase::_desc[] =
                      ClearDepthFieldId, ClearDepthFieldMask,
                      false,
                      (FieldAccessMethod) &DepthClearBackgroundBase::getSFClearDepth),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "depth", 
+                     DepthFieldId, DepthFieldMask,
+                     false,
+                     (FieldAccessMethod) &DepthClearBackgroundBase::getSFDepth),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
@@ -174,6 +185,7 @@ void DepthClearBackgroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 DepthClearBackgroundBase::DepthClearBackgroundBase(void) :
     _sfClearDepth             (bool(true)), 
+    _sfDepth                  (Real32(1.f)), 
     _sfClearStencilBit        (Int32(-1)), 
     Inherited() 
 {
@@ -185,6 +197,7 @@ DepthClearBackgroundBase::DepthClearBackgroundBase(void) :
 
 DepthClearBackgroundBase::DepthClearBackgroundBase(const DepthClearBackgroundBase &source) :
     _sfClearDepth             (source._sfClearDepth             ), 
+    _sfDepth                  (source._sfDepth                  ), 
     _sfClearStencilBit        (source._sfClearStencilBit        ), 
     Inherited                 (source)
 {
@@ -207,6 +220,11 @@ UInt32 DepthClearBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfClearDepth.getBinSize();
     }
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        returnValue += _sfDepth.getBinSize();
+    }
+
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
     {
         returnValue += _sfClearStencilBit.getBinSize();
@@ -224,6 +242,11 @@ void DepthClearBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ClearDepthFieldMask & whichField))
     {
         _sfClearDepth.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
@@ -244,6 +267,11 @@ void DepthClearBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfClearDepth.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+    {
+        _sfDepth.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
     {
         _sfClearStencilBit.copyFromBin(pMem);
@@ -262,6 +290,9 @@ void DepthClearBackgroundBase::executeSyncImpl(      DepthClearBackgroundBase *p
     if(FieldBits::NoField != (ClearDepthFieldMask & whichField))
         _sfClearDepth.syncWith(pOther->_sfClearDepth);
 
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
+
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
@@ -277,6 +308,9 @@ void DepthClearBackgroundBase::executeSyncImpl(      DepthClearBackgroundBase *p
 
     if(FieldBits::NoField != (ClearDepthFieldMask & whichField))
         _sfClearDepth.syncWith(pOther->_sfClearDepth);
+
+    if(FieldBits::NoField != (DepthFieldMask & whichField))
+        _sfDepth.syncWith(pOther->_sfDepth);
 
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
@@ -322,7 +356,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(DepthClearBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.8 2006/12/17 11:09:18 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.9 2007/05/10 15:57:22 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID;
 
