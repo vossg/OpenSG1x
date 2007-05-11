@@ -1712,7 +1712,8 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         
         if (i != NullFC)
         {
-			Real32 sw=1.f, sh=1.f, sd=1.f;
+			Real32 sw=1.f, sh=1.f, sd=1.f,
+				   tw=0.f, th=0.f, td=0.f;
 			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
@@ -1737,17 +1738,23 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 			}
 			if ( (NpotMatScale & XFlip_TT) )
 			{
+				tw = sw - 1.f;
 				sw *= -1.f;
+				
 				setMatrix = true;
 			}
 			if ( (NpotMatScale & YFlip_TT) )
 			{
+				th = sh - 1.f;
 				sh *= -1.f;
+				
 				setMatrix = true;
 			}
 			if ( (NpotMatScale & ZFlip_TT) )
 			{
+				td = sd - 1.f;
 				sd *= -1.f;
+				
 				setMatrix = true;
 			}
 			
@@ -1757,6 +1764,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				
 				m.setIdentity();
 				m.setScale( Vec3f(sw, sh, sd) );
+				m.setTranslate( Vec3f(tw, th, td) );
 				
 				glPushAttrib(GL_TRANSFORM_BIT);
 				glMatrixMode(GL_TEXTURE);
@@ -2023,7 +2031,8 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         
         if (i != NullFC)
         {
-			Real32 sw=1.f, sh=1.f, sd=1.f;
+			Real32 sw=1.f, sh=1.f, sd=1.f,
+				   tw=0.f, th=0.f, td=0.f;
 			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
@@ -2048,17 +2057,23 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 			}
 			if ( (NpotMatScale & XFlip_TT) )
 			{
+				tw = sw - 1.f;
 				sw *= -1.f;
+				
 				setMatrix = true;
 			}
 			if ( (NpotMatScale & YFlip_TT) )
 			{
+				th = sh - 1.f;
 				sh *= -1.f;
+				
 				setMatrix = true;
 			}
 			if ( (NpotMatScale & ZFlip_TT) )
 			{
+				td = sd - 1.f;
 				sd *= -1.f;
+				
 				setMatrix = true;
 			}
 			
@@ -2068,6 +2083,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				
 				m.setIdentity();
 				m.setScale( Vec3f(sw, sh, sd) );
+				m.setTranslate( Vec3f(tw, th, td) );
 				
 				glPushAttrib(GL_TRANSFORM_BIT);
 				glMatrixMode(GL_TEXTURE);
@@ -2080,16 +2096,25 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
     else if(oldused)
     {
-        if(!oldp->getScale() && 
-            oldp->getNPOTMatrixScale())
-        {
-            glPushAttrib(GL_TRANSFORM_BIT);
-            glMatrixMode(GL_TEXTURE);
-
-            glLoadIdentity();
-
-            glPopAttrib();
-        }        
+		UInt32 NpotMatScale = oldp->getNPOTMatrixScale();
+		
+		if ( !oldp->getScale() && NpotMatScale )
+		{
+			if ( ( (NpotMatScale & NPotTexScale_TT) &&
+					!win->hasExtension(_arbTextureNonPowerOfTwo) )
+					||	(NpotMatScale & XFlip_TT)
+					||	(NpotMatScale & YFlip_TT)
+					||	(NpotMatScale & ZFlip_TT)
+				)
+			{
+				glPushAttrib(GL_TRANSFORM_BIT);
+				glMatrixMode(GL_TEXTURE);
+				
+				glLoadIdentity();
+				
+				glPopAttrib();
+			}     
+		}
     }  
         
     glErr("TextureChunk::changeFrom");
@@ -2208,18 +2233,27 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
     
-    if(idx < static_cast<UInt32>(ntexcoords) &&
-        !getScale() && 
-         getNPOTMatrixScale() 
-      )
-    {
-        glPushAttrib(GL_TRANSFORM_BIT);
-        glMatrixMode(GL_TEXTURE);
 
-        glLoadIdentity();
-
-        glPopAttrib();        
-    }
+	UInt32 NpotMatScale = getNPOTMatrixScale();
+		
+	if ( idx < static_cast<UInt32>(ntexcoords) &&
+		!getScale() && NpotMatScale )
+	{
+		if ( ( (NpotMatScale & NPotTexScale_TT) &&
+				!win->hasExtension(_arbTextureNonPowerOfTwo) )
+				||	(NpotMatScale & XFlip_TT)
+				||	(NpotMatScale & YFlip_TT)
+				||	(NpotMatScale & ZFlip_TT)
+			)
+		{
+			glPushAttrib(GL_TRANSFORM_BIT);
+			glMatrixMode(GL_TEXTURE);
+			
+			glLoadIdentity();
+			
+			glPopAttrib();
+		}     
+	}
     
     glDisable(target);
 
