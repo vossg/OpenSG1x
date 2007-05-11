@@ -120,6 +120,14 @@ UInt32 ImageFileType::getFlags(void) const
 }
 
 //-------------------------------------------------------------------------
+
+const Char8 *ImageFileType::getOptions(void)
+{
+    return _options.c_str();
+}
+
+//---------------------------------------------------------
+
 /*!
 Get method for the suffix list container
 */
@@ -231,6 +239,13 @@ Destructor
 ImageFileType::~ImageFileType(void) {}
 
 //-------------------------------------------------------------------------
+
+void ImageFileType::setOptions(const Char8 *options)
+{
+    _options = options;
+}
+
+//---------------------------------------------------------
 /*!
 Abstract restore method. Should be overwriten by a concrete derived
 class. Tries to restore the image data from the given memblock.

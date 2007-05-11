@@ -662,6 +662,33 @@ void ImageFileHandler::normalizeSuffix(std::string &suffix)
     std::transform(suffix.begin(), suffix.end(), suffix.begin(), ::tolower);
 }
 
+bool ImageFileHandler::setOptions(const Char8 *suffix, const Char8 *options)
+{
+    if(suffix == NULL)
+        return false;
+    
+    ImageFileType *type = getFileType(suffix);
+    if(type == NULL)
+        return false;
+    
+    type->setOptions(options);
+    
+    return true;
+}
+
+const Char8 *ImageFileHandler::getOptions(const Char8 *suffix)
+{
+    if(suffix == NULL)
+        return NULL;
+    
+    ImageFileType *type = getFileType(suffix);
+    
+    if(type == NULL)
+        return NULL;
+    
+    return type->getOptions();
+}
+
 //-------------------------------------------------------------------------
 /*!
 Default Constructor
@@ -689,3 +716,5 @@ ImageFileHandler & ImageFileHandler::the(void)
         _the = new ImageFileHandler;
     return *_the;
 }
+
+

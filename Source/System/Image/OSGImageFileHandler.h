@@ -112,6 +112,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileHandler {
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Options                                    */
+    /*! \{                                                                 */
+
+    virtual bool               setOptions(const Char8 *suffix, const Char8 *options);
+    virtual const Char8        *getOptions(const Char8 *suffix);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Storage                                  */
     /*! \{                                                                 */
 

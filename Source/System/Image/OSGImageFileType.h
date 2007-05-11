@@ -78,6 +78,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Set                                        */
+    /*! \{                                                                 */
+    
+    void setOptions(const Char8 *options);
+
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Get  Methods                              */
     /*! \{                                                                 */
     
@@ -86,6 +94,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
     const std::list<IDString> &getSuffixList(void) const;
     
     virtual UInt32 getFlags(void) const;
+
+    const Char8         *getOptions         (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -168,6 +178,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageFileType {
       bool hostToNet (void);
 
     };
+
+    std::string         _options;
 
     /*! \}                                                                 */
 

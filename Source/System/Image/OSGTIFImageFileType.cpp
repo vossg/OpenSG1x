@@ -468,7 +468,12 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image), std::ostream &O
         TIFFSetField(out, TIFFTAG_BITSPERSAMPLE, 8);
         TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
         TIFFSetField(out, TIFFTAG_PHOTOMETRIC, photometric);
-        TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+
+        if(_options.find("compressionType=LZW") != std::string::npos)
+            TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
+        else
+            TIFFSetField(out, TIFFTAG_COMPRESSION, COMPRESSION_NONE);
+
         TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, TIFFDefaultStripSize(out, 0));
 
         for(row = 0; row < image->getHeight(); row++)
