@@ -265,14 +265,6 @@ nodeStatement:
     | TOK_USE
     nodeNameId { SKEL->use($2); };
 
-rootNodeStatement:
-    nodeTypeId { SKEL->beginNode($1, 0); }
-    node
-    | TOK_DEF
-    nodeNameId { SKEL->_tmpString1 = $2; }
-    nodeTypeId { SKEL->beginNode($4, SKEL->_tmpString1.c_str()); }
-    node;
-
 protoStatement:
     proto
     | externproto;
@@ -284,10 +276,7 @@ protoStatements:
 proto:
     TOK_PROTO nodeTypeId { SKEL->beginProto($2); }
     '[' interfaceDeclarations ']'
-    '{' protoBody '}' { SKEL->endProto(); };
-
-protoBody:
-    protoStatements rootNodeStatement statements;
+    '{' statements '}' { SKEL->endProto(); }; /* Not VRML conformant */
 
 interfaceDeclarations:
     interfaceDeclarations interfaceDeclaration
