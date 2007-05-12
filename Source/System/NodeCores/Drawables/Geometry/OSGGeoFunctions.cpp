@@ -3523,6 +3523,9 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
     if((geoPtr != NullFC) &&
            (indexMapSize = (geoPtr->getIndexMapping().size())))
     {
+        beginEditCP(geoPtr, Geometry::IndexMappingFieldMask |
+                            Geometry::IndicesFieldMask);
+
         indexPtr = geoPtr->getIndices();
         indexVec.resize(indexMapSize);
 
@@ -3597,6 +3600,9 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
         {
             FWARNING(("No valid finalMask in createSingleIndex()\n"));
         }
+
+        endEditCP(geoPtr, Geometry::IndexMappingFieldMask |
+                          Geometry::IndicesFieldMask);
     }
 
     return vCount;
