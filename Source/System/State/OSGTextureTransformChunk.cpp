@@ -178,6 +178,8 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     TextureChunk::activateTexture(win, idx);
   
     glMatrixMode(GL_TEXTURE);
+    //glPushMatrix();
+    
     if(getUseCameraBeacon())
     {
         if(action->getCamera() != NULL && action->getViewport() != NULL)
@@ -188,12 +190,15 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
                                         action->getViewport()->getPixelHeight());
             m.invert();
             m[3].setValues(0, 0, 0, 1);
-            glLoadMatrixf(m.getValues());
+            
+            glMultMatrixf(m.getValues());
+            //glLoadMatrixf(m.getValues());
         }
     }
     else
     {
-        glLoadMatrixf(getMatrix().getValues());
+        glMultMatrixf(getMatrix().getValues());
+        //glLoadMatrixf(getMatrix().getValues());
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -231,6 +236,9 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
+    //glPopMatrix();
+    //glPushMatrix();
+    
     if(getUseCameraBeacon())
     {
         if(action->getCamera() != NULL && action->getViewport() != NULL)
@@ -241,12 +249,15 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
                                         action->getViewport()->getPixelHeight());
             m.invert();
             m[3].setValues(0, 0, 0, 1);
-            glLoadMatrixf(m.getValues());
+            
+            glMultMatrixf(m.getValues());
+            //glLoadMatrixf(m.getValues());
         }
     }
     else
     {
-        glLoadMatrixf(getMatrix().getValues());
+        glMultMatrixf(getMatrix().getValues());
+        //glLoadMatrixf(getMatrix().getValues());
     }
     glMatrixMode(GL_MODELVIEW);
 }
@@ -279,6 +290,7 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
     TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
+    //glPopMatrix();
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
 }

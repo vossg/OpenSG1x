@@ -337,7 +337,7 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
 
 bool TextureChunk::isTransparent(void) const
 {
-    // Even if the texture has alpha, the Blending is makes the sorting
+    // Even if the texture has alpha, the Blending makes the sorting
     // important, thus textures per se are not transparent
     return false;
 }
@@ -1772,6 +1772,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				glLoadMatrixf(m.getValues());
 				
 				glPopAttrib();
+                glMatrixMode(GL_MODELVIEW);
 			}
         }
     }
@@ -2019,7 +2020,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             }
         }
     }
-
+    
     
     // Use texture matrix for scaling
 	UInt32 NpotMatScale = getNPOTMatrixScale();
@@ -2091,16 +2092,19 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				glLoadMatrixf(m.getValues());
 				
 				glPopAttrib();
+                glMatrixMode(GL_MODELVIEW);
 			}
         }
     }
-    else if(oldused)
+	else if(oldused)
     {
-		UInt32 NpotMatScale = oldp->getNPOTMatrixScale();
+		NpotMatScale = oldp->getNPOTMatrixScale();
 		
-		if ( !oldp->getScale() && NpotMatScale )
+		if ( idx < static_cast<UInt32>(ntexcoords) && 
+			!oldp->getScale() && NpotMatScale )
 		{
 			if ( ( (NpotMatScale & NPotTexScale_TT) &&
+					oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
 					!win->hasExtension(_arbTextureNonPowerOfTwo) )
 					||	(NpotMatScale & XFlip_TT)
 					||	(NpotMatScale & YFlip_TT)
@@ -2113,9 +2117,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				glLoadIdentity();
 				
 				glPopAttrib();
+                glMatrixMode(GL_MODELVIEW);
 			}     
 		}
-    }  
+    }
         
     glErr("TextureChunk::changeFrom");
 }
@@ -2233,13 +2238,13 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
     
-
 	UInt32 NpotMatScale = getNPOTMatrixScale();
-		
+	
 	if ( idx < static_cast<UInt32>(ntexcoords) &&
 		!getScale() && NpotMatScale )
 	{
 		if ( ( (NpotMatScale & NPotTexScale_TT) &&
+				getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
 				!win->hasExtension(_arbTextureNonPowerOfTwo) )
 				||	(NpotMatScale & XFlip_TT)
 				||	(NpotMatScale & YFlip_TT)
@@ -2252,6 +2257,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 			glLoadIdentity();
 			
 			glPopAttrib();
+            glMatrixMode(GL_MODELVIEW);
 		}     
 	}
     
@@ -2282,8 +2288,6 @@ bool TextureChunk::operator == (const StateChunk &other) const
     if(tother == this)
         return true;
 
-
-
     bool returnValue =
         getImage    () == tother->getImage    () &&
         getMinFilter() == tother->getMinFilter() &&
@@ -2292,7 +2296,8 @@ bool TextureChunk::operator == (const StateChunk &other) const
         getWrapT    () == tother->getWrapT    () &&
         getWrapR    () == tother->getWrapR    () &&
         getPriority () == tother->getPriority () &&
-        getEnvMode  () == tother->getEnvMode  ();
+        getEnvMode  () == tother->getEnvMode  () &&
+		getNPOTMatrixScale() == tother->getNPOTMatrixScale();
 
     if(returnValue == true && getEnvMode() == GL_COMBINE_EXT)
     {
@@ -2317,14 +2322,11 @@ bool TextureChunk::operator == (const StateChunk &other) const
             getEnvOperand1Alpha() == tother->getEnvOperand1Alpha() &&
             getEnvOperand2Alpha() == tother->getEnvOperand2Alpha();
 
-
         returnValue &=
            ((        getEnvScaleRGB  () - tother->getEnvScaleRGB  ()) < Eps) &&
            ((tother->getEnvScaleRGB  () -         getEnvScaleRGB  ()) < Eps) &&
            ((        getEnvScaleAlpha() - tother->getEnvScaleAlpha()) < Eps) &&
            ((tother->getEnvScaleAlpha() -         getEnvScaleAlpha()) < Eps);
-
-
     }
 
     return returnValue;
