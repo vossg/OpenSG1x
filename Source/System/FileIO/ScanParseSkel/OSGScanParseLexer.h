@@ -169,6 +169,7 @@ class OSGScanParseLexer : public OSGScanParseSkel_FlexLexer
 
     YYSTYPE *lvalp;
 
+    std::string tmpStr;
     OSG::Int32 expectToken;
     OSG::Int32 imageIntsExpected;
 
