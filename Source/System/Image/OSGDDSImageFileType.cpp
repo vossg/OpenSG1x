@@ -105,10 +105,14 @@ DDSImageFileType DDSImageFileType::_the("image/x-dds",
 #  include <windows.h>
 #endif
 
-const UInt32 DDS_FOURCC = 0x00000004;
-const UInt32 DDS_RGB    = 0x00000040;
-const UInt32 DDS_RGBA   = 0x00000041;
-const UInt32 DDS_DEPTH  = 0x00800000;
+const UInt32 DDS_ALPHAPIXELS = 0x00000001;
+const UInt32 DDS_ALPHA       = 0x00000002;
+const UInt32 DDS_FOURCC      = 0x00000004;
+const UInt32 DDS_RGB         = 0x00000040;
+const UInt32 DDS_RGBA        = 0x00000041;
+const UInt32 DDS_DEPTH       = 0x00800000;
+const UInt32 DDS_COMPRESSED  = 0x00000080;
+const UInt32 DDS_LUMINANCE   = 0x00020000;
 
 const UInt32 DDS_COMPLEX = 0x00000008;
 const UInt32 DDS_CUBEMAP = 0x00000200;
@@ -253,9 +257,11 @@ private:
   inline void swap_endian(void *val);
   void align_memory(CTexture *surface);
 
-  void flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 size);
+  void flip (char *image, Int32 width, Int32 height, Int32 depth, Int32 size);
+  bool check_dxt1_alpha_data (char *image, Int32 size);
 
   void swap(void *byte1, void *byte2, Int32 size);
+
   void flip_blocks_dxtc1(DXTColBlock *line, Int32 numBlocks);
   void flip_blocks_dxtc3(DXTColBlock *line, Int32 numBlocks);
   void flip_blocks_dxtc5(DXTColBlock *line, Int32 numBlocks);
@@ -346,12 +352,14 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
     isCompressed = ddsImage.is_compressed();
     isCubeMap = ddsImage.is_cubemap();
     isVolume = ddsImage.is_volume();
+
     SINFO << "cs: " << components
           << ", f: " << format
           << ", cd: " << isCompressed
           << ", cm: " << isCubeMap
           << ", vo: " << isVolume
           << endLog;
+
     for (i = 0; i < ddsImage.get_num_images(); ++i) {
       w = ddsImage[i].get_width();
       h = ddsImage[i].get_height();
@@ -531,7 +539,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
         switch(ddsh.ddspf.dwFourCC)
         {
             case FOURCC_DXT1:
-                format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+                format = GL_COMPRESSED_RGB_S3TC_DXT1_EXT;
                 components = 3;
                 compressed = true;
                 break;
@@ -602,7 +610,22 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
         CTexture img(width, height, depth, size);
         is.read(img, img.size);
 
+        // data dump
+        /*
+        std::cerr << "Param: " 
+                  << width << "x" << height 
+                  << ", depth: " << depth
+                  << ", size: " << size
+                  << ", img.size: " << img.size
+                  << ", img.pixels: " << ((unsigned long)(img.pixels))
+                  << std::endl;
+        */
+
         align_memory(&img);
+
+        if ( (format == GL_COMPRESSED_RGB_S3TC_DXT1_EXT) &&
+             check_dxt1_alpha_data(img, img.size))
+          format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 
         if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
             flip(img, img.width, img.height, img.depth, img.size);
@@ -641,8 +664,9 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
             h = clamp_size(h >> 1);
             d = clamp_size(d >> 1);
         }
-
+        
         images.push_back(img);
+
     }
 
     // swap cubemaps on y axis (since image is flipped in OGL)
@@ -720,8 +744,12 @@ inline Int32 CDDSImage::get_line_width(Int32 width, Int32 bpp)
 // calculates size of DXTC texture in bytes
 Int32 CDDSImage::size_dxtc(Int32 width, Int32 height)
 {
-    return ((width+3)/4)*((height+3)/4)*
-        (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ? 8 : 16);
+  Int32 comp( ( (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT) ||
+                (format == GL_COMPRESSED_RGB_S3TC_DXT1_EXT) ) ? 8 : 16 );
+
+  return ((width+3)/4)*((height+3)/4)*comp;
+
+  //      (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ? 8 : 16);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -729,6 +757,7 @@ Int32 CDDSImage::size_dxtc(Int32 width, Int32 height)
 Int32 CDDSImage::size_rgb(Int32 width, Int32 height)
 {
     return width*height*components;
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -790,6 +819,46 @@ void CDDSImage::align_memory(CTexture *surface)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip image around X axis
+bool CDDSImage::check_dxt1_alpha_data (char *image, Int32 size)
+{
+  bool        hasAlpha(false);
+  DXTColBlock *colBlock((DXTColBlock*)(image));
+
+  for (unsigned i = 0, n = (size / 8); i < n; i++)
+    if (colBlock[i].col0 <= colBlock[i].col1) 
+    {
+        for (unsigned j = 0; j < 4; j++) {
+          UInt8 byte = colBlock[i].row[j];
+          for (unsigned p = 0; p < 4; p++, byte >> 2) {
+            if ((byte & 3) == 3) {
+              hasAlpha = true;
+              break;
+            }
+          }
+        }
+
+        if (hasAlpha) 
+        {
+          FNOTICE (( "Found alpha in DXT1 %d/%d, col0:%d, col1:%d\n",
+                     i, n, colBlock[i].col0, colBlock[i].col1 ));
+
+          for (unsigned j = 0; j < 4; j++) 
+            FNOTICE (( "  DXT Col Index: %d %d %d %d\n",
+                       ((colBlock[i].row[j] >> 0) & 3),
+                       ((colBlock[i].row[j] >> 2) & 3),
+                       ((colBlock[i].row[j] >> 4) & 3),
+                       ((colBlock[i].row[j] >> 6) & 3) ));
+        }
+
+        if (hasAlpha)
+          break;
+    }
+
+  return hasAlpha;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// flip image around X axis
 void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 size)
 {
     Int32 linesize;
@@ -826,6 +895,10 @@ void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 
 
         switch (format)
         {
+            case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+                blocksize = 8;
+                flipblocks = &CDDSImage::flip_blocks_dxtc1;
+                break;
             case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
                 blocksize = 8;
                 flipblocks = &CDDSImage::flip_blocks_dxtc1;
