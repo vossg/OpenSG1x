@@ -107,7 +107,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Camera : public CameraBase
 
     virtual void getFrustum              (FrustumVolume &result,
                                           const Viewport& port);
-     
+	
+	virtual void getFrustum              (FrustumVolume &result,
+                                          UInt32 width, UInt32 height);
+	
     virtual void getWorldToScreen        (Matrix        &result, 
                                           const Viewport& port);
 										  

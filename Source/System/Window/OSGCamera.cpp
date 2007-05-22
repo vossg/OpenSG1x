@@ -213,6 +213,23 @@ void Camera::getFrustum(FrustumVolume& result, const Viewport& p)
     result.setPlanes(pr);
 }
 
+/*! Calculate the frustum of this camera's visible area (w,h instead port). 
+*/
+void Camera::getFrustum(FrustumVolume& result, 
+                        UInt32  width, UInt32  height)
+{
+    Matrix mv,prt,pr;
+    
+    getProjection           (pr , width, height);
+    getProjectionTranslation(prt, width, height);
+    getViewing              (mv , width, height);
+
+    pr.mult(prt);
+    pr.mult(mv );
+    
+    result.setPlanes(pr);
+}
+
 /*! Calculate the matrix that transforms world coordinates into the screen
     coordinate system for this camera. 
 */
