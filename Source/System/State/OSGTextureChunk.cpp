@@ -1704,6 +1704,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     
     // Use texture matrix for scaling
 	UInt32 NpotMatScale = getNPOTMatrixScale();
+	bool setMatrix = false;
 	
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
@@ -1714,7 +1715,6 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f,
 				   tw=0.f, th=0.f, td=0.f;
-			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
@@ -1776,6 +1776,13 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 			}
         }
     }
+	
+	if (!setMatrix)
+	{
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+	}
     
     glErr("TextureChunk::activate");
 }
@@ -2021,9 +2028,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         }
     }
     
-    
     // Use texture matrix for scaling
 	UInt32 NpotMatScale = getNPOTMatrixScale();
+	bool setMatrix = false;
 	
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
@@ -2034,7 +2041,6 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         {
 			Real32 sw=1.f, sh=1.f, sd=1.f,
 				   tw=0.f, th=0.f, td=0.f;
-			bool setMatrix = false;
 			
 			if ( (NpotMatScale & NPotTexScale_TT) &&
 				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
@@ -2096,6 +2102,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 			}
         }
     }
+#if 0
 	else if(oldused)
     {
 		NpotMatScale = oldp->getNPOTMatrixScale();
@@ -2121,7 +2128,16 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 			}     
 		}
     }
-        
+// be consistent with TextureTransform which has to multiply in activate/change
+#else
+	if (!setMatrix)
+	{
+		glMatrixMode(GL_TEXTURE);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+	}
+#endif
+	
     glErr("TextureChunk::changeFrom");
 }
 
@@ -2198,7 +2214,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         ntexunits = 1.0f;
 
     if(idx >= static_cast<UInt32>(ntexunits))
-        return; // tetxures >= MTU are not enabled and don't have an env
+        return; // textures >= MTU are not enabled and don't have an env
         
     if(!isActive)
         activateTexture(win, idx);
@@ -2238,6 +2254,8 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
     
+// be consistent with TextureTransform which has to multiply in activate/change
+#if 0
 	UInt32 NpotMatScale = getNPOTMatrixScale();
 	
 	if ( idx < static_cast<UInt32>(ntexcoords) &&
@@ -2251,6 +2269,7 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 				||	(NpotMatScale & ZFlip_TT)
 			)
 		{
+#endif
 			glPushAttrib(GL_TRANSFORM_BIT);
 			glMatrixMode(GL_TEXTURE);
 			
@@ -2258,8 +2277,10 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
 			
 			glPopAttrib();
             glMatrixMode(GL_MODELVIEW);
-		}     
+#if 0
+		}
 	}
+#endif
     
     glDisable(target);
 
