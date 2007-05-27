@@ -852,7 +852,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 {
                     if(paramtarget != GL_NONE)
                         glTexParameteri(paramtarget, GL_GENERATE_MIPMAP_SGIS, GL_TRUE);
-						// same as GL_GENERATE_MIPMAP which is part of the standard since 1.4
+                        // same as GL_GENERATE_MIPMAP which is part of the standard since 1.4
                     glErr("TextureChunk::activate generate_mipmaps");
                     needMipmaps = false; // automagic does it
                 }
@@ -1154,7 +1154,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                    defined = true;
                 } // do scale  
             } 
-	        else // can we use it directly?
+            else // can we use it directly?
             {
                data = img->getData(0, frame, side);
                datasize = (img->getSideCount() > 1) ? img->getSideSize() :
@@ -1653,7 +1653,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
            win->hasExtension(_extTextureLodBias))
         {
             glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
-	              getLodBias());
+                  getLodBias());
         }
     }
 
@@ -1703,9 +1703,9 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     }
     
     // Use texture matrix for scaling
-	UInt32 NpotMatScale = getNPOTMatrixScale();
-	bool setMatrix = false;
-	
+    UInt32 NpotMatScale = getNPOTMatrixScale();
+    bool setMatrix = false;
+    
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
     {
@@ -1713,76 +1713,74 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         
         if (i != NullFC)
         {
-			Real32 sw=1.f, sh=1.f, sd=1.f,
-				   tw=0.f, th=0.f, td=0.f;
-			
-			if ( (NpotMatScale & NPotTexScale_TT) &&
-				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
-			{
-				UInt32 w,h,d,nw,nh,nd;
-				
-				w = i->getWidth();
-				h = i->getHeight();
-				d = i->getDepth();
-				
-				nw = osgnextpower2(w);
-				nh = osgnextpower2(h);
-				nd = osgnextpower2(d);
-				
-				sw = w / static_cast<Real32>(nw);
-				sh = h / static_cast<Real32>(nh);
-				sd = d / static_cast<Real32>(nd);
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & XFlip_TT) )
-			{
-				tw = sw - 1.f;
-				sw *= -1.f;
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & YFlip_TT) )
-			{
-				th = sh - 1.f;
-				sh *= -1.f;
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & ZFlip_TT) )
-			{
-				td = sd - 1.f;
-				sd *= -1.f;
-				
-				setMatrix = true;
-			}
-			
-			if (setMatrix)
-			{
-				Matrix m;
-				
-				m.setIdentity();
-				m.setScale( Vec3f(sw, sh, sd) );
-				m.setTranslate( Vec3f(tw, th, td) );
-				
-				glPushAttrib(GL_TRANSFORM_BIT);
-				glMatrixMode(GL_TEXTURE);
-				
-				glLoadMatrixf(m.getValues());
-				
-				glPopAttrib();
-                glMatrixMode(GL_MODELVIEW);
-			}
+            Real32 sw=1.f, sh=1.f, sd=1.f,
+                   tw=0.f, th=0.f, td=0.f;
+            
+            if ( (NpotMatScale & NPotTexScale_TT) &&
+                  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+                 !win->hasExtension(_arbTextureNonPowerOfTwo) )
+            {
+                UInt32 w,h,d,nw,nh,nd;
+                
+                w = i->getWidth();
+                h = i->getHeight();
+                d = i->getDepth();
+                
+                nw = osgnextpower2(w);
+                nh = osgnextpower2(h);
+                nd = osgnextpower2(d);
+                
+                sw = w / static_cast<Real32>(nw);
+                sh = h / static_cast<Real32>(nh);
+                sd = d / static_cast<Real32>(nd);
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & XFlip_TT) )
+            {
+                tw = sw - 1.f;
+                sw *= -1.f;
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & YFlip_TT) )
+            {
+                th = sh - 1.f;
+                sh *= -1.f;
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & ZFlip_TT) )
+            {
+                td = sd - 1.f;
+                sd *= -1.f;
+                
+                setMatrix = true;
+            }
+            
+            if (setMatrix)
+            {
+                Matrix m;
+                
+                m.setIdentity();
+                m.setScale( Vec3f(sw, sh, sd) );
+                m.setTranslate( Vec3f(tw, th, td) );
+
+                glPushAttrib(GL_TRANSFORM_BIT);
+                glMatrixMode(GL_TEXTURE);
+                glLoadMatrixf(m.getValues());
+                glPopAttrib();
+            }
         }
     }
-	
-	if (!setMatrix)
-	{
-		glMatrixMode(GL_TEXTURE);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-	}
+    
+    if (!setMatrix)
+    {
+        glPushAttrib(GL_TRANSFORM_BIT);
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glPopAttrib();
+    }
     
     glErr("TextureChunk::activate");
 }
@@ -1969,7 +1967,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
           )
         {
             glTexEnvf(GL_TEXTURE_FILTER_CONTROL_EXT, GL_TEXTURE_LOD_BIAS_EXT,
-	              getLodBias());
+                  getLodBias());
         }
     }
 
@@ -2029,9 +2027,9 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     }
     
     // Use texture matrix for scaling
-	UInt32 NpotMatScale = getNPOTMatrixScale();
-	bool setMatrix = false;
-	
+    UInt32 NpotMatScale = getNPOTMatrixScale();
+    bool setMatrix = false;
+    
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
     {
@@ -2039,105 +2037,100 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         
         if (i != NullFC)
         {
-			Real32 sw=1.f, sh=1.f, sd=1.f,
-				   tw=0.f, th=0.f, td=0.f;
-			
-			if ( (NpotMatScale & NPotTexScale_TT) &&
-				  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-				 !win->hasExtension(_arbTextureNonPowerOfTwo) )
-			{
-				UInt32 w,h,d,nw,nh,nd;
-				
-				w = i->getWidth();
-				h = i->getHeight();
-				d = i->getDepth();
-				
-				nw = osgnextpower2(w);
-				nh = osgnextpower2(h);
-				nd = osgnextpower2(d);
-				
-				sw = w / static_cast<Real32>(nw);
-				sh = h / static_cast<Real32>(nh);
-				sd = d / static_cast<Real32>(nd);
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & XFlip_TT) )
-			{
-				tw = sw - 1.f;
-				sw *= -1.f;
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & YFlip_TT) )
-			{
-				th = sh - 1.f;
-				sh *= -1.f;
-				
-				setMatrix = true;
-			}
-			if ( (NpotMatScale & ZFlip_TT) )
-			{
-				td = sd - 1.f;
-				sd *= -1.f;
-				
-				setMatrix = true;
-			}
-			
-			if (setMatrix)
-			{
-				Matrix m;
-				
-				m.setIdentity();
-				m.setScale( Vec3f(sw, sh, sd) );
-				m.setTranslate( Vec3f(tw, th, td) );
-				
-				glPushAttrib(GL_TRANSFORM_BIT);
-				glMatrixMode(GL_TEXTURE);
-				
-				glLoadMatrixf(m.getValues());
-				
-				glPopAttrib();
-                glMatrixMode(GL_MODELVIEW);
-			}
+            Real32 sw=1.f, sh=1.f, sd=1.f,
+                   tw=0.f, th=0.f, td=0.f;
+            
+            if ( (NpotMatScale & NPotTexScale_TT) &&
+                  getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+                 !win->hasExtension(_arbTextureNonPowerOfTwo) )
+            {
+                UInt32 w,h,d,nw,nh,nd;
+                
+                w = i->getWidth();
+                h = i->getHeight();
+                d = i->getDepth();
+                
+                nw = osgnextpower2(w);
+                nh = osgnextpower2(h);
+                nd = osgnextpower2(d);
+                
+                sw = w / static_cast<Real32>(nw);
+                sh = h / static_cast<Real32>(nh);
+                sd = d / static_cast<Real32>(nd);
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & XFlip_TT) )
+            {
+                tw = sw - 1.f;
+                sw *= -1.f;
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & YFlip_TT) )
+            {
+                th = sh - 1.f;
+                sh *= -1.f;
+                
+                setMatrix = true;
+            }
+            if ( (NpotMatScale & ZFlip_TT) )
+            {
+                td = sd - 1.f;
+                sd *= -1.f;
+                
+                setMatrix = true;
+            }
+            
+            if (setMatrix)
+            {
+                Matrix m;
+                
+                m.setIdentity();
+                m.setScale( Vec3f(sw, sh, sd) );
+                m.setTranslate( Vec3f(tw, th, td) );
+                
+                glPushAttrib(GL_TRANSFORM_BIT);
+                glMatrixMode(GL_TEXTURE);
+                glLoadMatrixf(m.getValues());
+                glPopAttrib();
+            }
         }
     }
 #if 0
-	else if(oldused)
+    else if(oldused)
     {
-		NpotMatScale = oldp->getNPOTMatrixScale();
-		
-		if ( idx < static_cast<UInt32>(ntexcoords) && 
-			!oldp->getScale() && NpotMatScale )
-		{
-			if ( ( (NpotMatScale & NPotTexScale_TT) &&
-					oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-					!win->hasExtension(_arbTextureNonPowerOfTwo) )
-					||	(NpotMatScale & XFlip_TT)
-					||	(NpotMatScale & YFlip_TT)
-					||	(NpotMatScale & ZFlip_TT)
-				)
-			{
-				glPushAttrib(GL_TRANSFORM_BIT);
-				glMatrixMode(GL_TEXTURE);
-				
-				glLoadIdentity();
-				
-				glPopAttrib();
-                glMatrixMode(GL_MODELVIEW);
-			}     
-		}
+        NpotMatScale = oldp->getNPOTMatrixScale();
+        
+        if ( idx < static_cast<UInt32>(ntexcoords) && 
+            !oldp->getScale() && NpotMatScale )
+        {
+            if ( ( (NpotMatScale & NPotTexScale_TT) &&
+                    oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+                    !win->hasExtension(_arbTextureNonPowerOfTwo) )
+                    ||    (NpotMatScale & XFlip_TT)
+                    ||    (NpotMatScale & YFlip_TT)
+                    ||    (NpotMatScale & ZFlip_TT)
+                )
+            {
+                glPushAttrib(GL_TRANSFORM_BIT);
+                glMatrixMode(GL_TEXTURE);
+                glLoadIdentity();
+                glPopAttrib();
+            }
+        }
     }
 // be consistent with TextureTransform which has to multiply in activate/change
 #else
-	if (!setMatrix)
-	{
-		glMatrixMode(GL_TEXTURE);
-		glLoadIdentity();
-		glMatrixMode(GL_MODELVIEW);
-	}
+    if (!setMatrix)
+    {
+        glPushAttrib(GL_TRANSFORM_BIT);
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glPopAttrib();
+    }
 #endif
-	
+    
     glErr("TextureChunk::changeFrom");
 }
 
@@ -2256,30 +2249,27 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     
 // be consistent with TextureTransform which has to multiply in activate/change
 #if 0
-	UInt32 NpotMatScale = getNPOTMatrixScale();
-	
-	if ( idx < static_cast<UInt32>(ntexcoords) &&
-		!getScale() && NpotMatScale )
-	{
-		if ( ( (NpotMatScale & NPotTexScale_TT) &&
-				getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-				!win->hasExtension(_arbTextureNonPowerOfTwo) )
-				||	(NpotMatScale & XFlip_TT)
-				||	(NpotMatScale & YFlip_TT)
-				||	(NpotMatScale & ZFlip_TT)
-			)
-		{
+    UInt32 NpotMatScale = getNPOTMatrixScale();
+    
+    if ( idx < static_cast<UInt32>(ntexcoords) &&
+        !getScale() && NpotMatScale )
+    {
+        if ( ( (NpotMatScale & NPotTexScale_TT) &&
+                getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
+                !win->hasExtension(_arbTextureNonPowerOfTwo) )
+                ||    (NpotMatScale & XFlip_TT)
+                ||    (NpotMatScale & YFlip_TT)
+                ||    (NpotMatScale & ZFlip_TT)
+            )
+        {
 #endif
-			glPushAttrib(GL_TRANSFORM_BIT);
-			glMatrixMode(GL_TEXTURE);
-			
-			glLoadIdentity();
-			
-			glPopAttrib();
-            glMatrixMode(GL_MODELVIEW);
+            glPushAttrib(GL_TRANSFORM_BIT);
+            glMatrixMode(GL_TEXTURE);
+            glLoadIdentity();
+            glPopAttrib();
 #if 0
-		}
-	}
+        }
+    }
 #endif
     
     glDisable(target);
@@ -2318,7 +2308,7 @@ bool TextureChunk::operator == (const StateChunk &other) const
         getWrapR    () == tother->getWrapR    () &&
         getPriority () == tother->getPriority () &&
         getEnvMode  () == tother->getEnvMode  () &&
-		getNPOTMatrixScale() == tother->getNPOTMatrixScale();
+        getNPOTMatrixScale() == tother->getNPOTMatrixScale();
 
     if(returnValue == true && getEnvMode() == GL_COMBINE_EXT)
     {
