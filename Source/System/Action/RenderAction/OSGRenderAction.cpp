@@ -120,9 +120,11 @@ StatElemDesc<StatTimeElem> RenderAction::statDrawTime("drawTime",
 "time for draw tree traversal");
 StatElemDesc<StatIntElem > RenderAction::statNMaterials("NMaterials", 
 "number of material changes");
-StatElemDesc<StatIntElem > RenderAction::statNMatrices("NMatrices",  
+StatElemDesc<StatIntElem > RenderAction::statNMatrices("NMatrices",
 "number of matrix changes");
-StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries", 
+StatElemDesc<StatIntElem > RenderAction::statNLights("NLights",
+"number of light changes");
+StatElemDesc<StatIntElem > RenderAction::statNGeometries("NGeometries",
 "number of Geometry nodes");
 StatElemDesc<StatIntElem > RenderAction::statNTransGeometries("NTransGeometries",
 "number of transformed Geometry nodes");
@@ -261,6 +263,7 @@ RenderAction::RenderAction(void) :
 
     _uiNumMaterialChanges(0),
     _uiNumMatrixChanges  (0),
+    _uiNumLightChanges   (0),
     _uiNumGeometries     (0),
     _uiNumOcclusionTests (0),
     _uiNumOcclusionCulled(0),
@@ -391,6 +394,7 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _uiNumMaterialChanges(source._uiNumMaterialChanges),
     _uiNumMatrixChanges  (source._uiNumMatrixChanges),
+    _uiNumLightChanges   (source._uiNumLightChanges),
     _uiNumGeometries     (source._uiNumGeometries),
     _uiNumOcclusionTests (source._uiNumOcclusionTests),
     _uiNumOcclusionCulled(source._uiNumOcclusionCulled),
@@ -1464,6 +1468,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
             //printf("%u,", light_id);
             _vLights[light_index].first->activate(this, light_id++);
             glPopMatrix();
+            ++_uiNumLightChanges;
         }
         //printf("\n");
     }
@@ -1484,6 +1489,7 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
         glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
                   black.getValuesRGBA());
         glDisable(GL_LIGHT0 + i);
+        ++_uiNumLightChanges;
     }
     //printf("\n");
 
@@ -2379,6 +2385,7 @@ Action::ResultE RenderAction::start(void)
 
     _uiNumMaterialChanges = 0;
     _uiNumMatrixChanges   = 0;
+    _uiNumLightChanges    = 0;
     _uiNumGeometries      = 0;
     _uiNumTransGeometries = 0;
     _uiNumOcclusionTests  = 0;
@@ -2446,6 +2453,7 @@ Action::ResultE RenderAction::stop(ResultE res)
             _activeLightsMask |= (1 << i);
             glLoadMatrixf(_vLights[i].second.getValues());
             _vLights[i].first->activate(this, i);
+            ++_uiNumLightChanges;
         }
     }
     else
@@ -2575,6 +2583,7 @@ Action::ResultE RenderAction::stop(ResultE res)
         for(i = 0; i < _vLights.size(); ++i)
         {
             _vLights[i].first->deactivate(this, i);
+            ++_uiNumLightChanges;
         }
     }
     else
@@ -2786,12 +2795,14 @@ Action::ResultE RenderAction::stop(ResultE res)
     elemDraw->stop();
 
     _viewport->setDrawTime((Real32)elemDraw->getTime());
-    if(!_ownStat) 
+    if(!_ownStat)
     {
         getStatistics()->getElem(statNMaterials      )->set(
             _uiNumMaterialChanges);
         getStatistics()->getElem(statNMatrices       )->set(
             _uiNumMatrixChanges);
+        getStatistics()->getElem(statNLights       )->set(
+            _uiNumLightChanges);
         getStatistics()->getElem(statNGeometries     )->set(
             _uiNumGeometries);
         getStatistics()->getElem(statNTransGeometries)->set(
@@ -2827,9 +2838,10 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
 
 
-//    FINFO (("Material %d Matrix %d Geometry %d Transparent %d\r",
-//            _uiNumMaterialChanges, 
-//            _uiNumMatrixChanges, 
+//    FINFO (("Material %d Matrix %d Light %d Geometry %d Transparent %d\r",
+//            _uiNumMaterialChanges,
+//            _uiNumMatrixChanges,
+//            _uiNumLightChanges,
 //            _uiNumGeometries,
 //            _uiNumTransGeometries));
 

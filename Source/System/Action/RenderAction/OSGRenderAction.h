@@ -110,6 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     static StatElemDesc<StatTimeElem   > statDrawTime;
     static StatElemDesc<StatIntElem    > statNMaterials;
     static StatElemDesc<StatIntElem    > statNMatrices;
+    static StatElemDesc<StatIntElem    > statNLights;
     static StatElemDesc<StatIntElem    > statNGeometries;
     static StatElemDesc<StatIntElem    > statNTransGeometries;
     static StatElemDesc<StatIntOnceElem> statNTextures;
@@ -311,6 +312,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     UInt32                    _uiNumMaterialChanges;
     UInt32                    _uiNumMatrixChanges;
+    UInt32                    _uiNumLightChanges;
     UInt32                    _uiNumGeometries;
     UInt32                    _uiNumTransGeometries;
     UInt32                    _uiNumOcclusionTests;
