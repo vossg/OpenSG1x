@@ -126,6 +126,9 @@ void DisplayFilterForeground::dump(      UInt32    ,
 */   
 void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
 {
+    if (!getActive())
+        return;
+    
     UInt32 p,f;
     WindowPtr window = port->getParent();
     MFDisplayFilterPtr::iterator fI;

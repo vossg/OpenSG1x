@@ -411,23 +411,12 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
 
         if(strstr(dst_ftype.getCName(), "Ptr") == NULL)
         {
-            if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
-            {
-                std::string av, bv;
-                dst_field->getValueByStr(av);
-                src_field->getValueByStr(bv);
-                if(av != bv)
-                    equal = false;
-            }
-            else
-            {
-                // This is very slow with multi fields!!!!
-                std::string av, bv;
-                dst_field->getValueByStr(av);
-                src_field->getValueByStr(bv);
-                if(av != bv)
-                    equal = false;
-            }
+            // This is very slow with multi fields!!!!
+            std::string av, bv;
+            dst_field->getValueByStr(av);
+            src_field->getValueByStr(bv);
+            if(av != bv)
+                equal = false;
         }
         else
         {
@@ -440,13 +429,16 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             else if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
             {
                 if(((MFFieldContainerPtr*)dst_field)->size() !=
-                   ((MFFieldContainerPtr*)src_field)->size())
+                   ((MFFieldContainerPtr*)src_field)->size()) {
                     equal = false;
-                for(UInt32 j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
-                {
-                    if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
-                        (*(((MFFieldContainerPtr *)src_field)))[j]))
-                        equal = false;
+                }
+                else {
+                    for(UInt32 j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
+                    {
+                        if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
+                            (*(((MFFieldContainerPtr *)src_field)))[j]))
+                            equal = false;
+                    }
                 }
             }
         }

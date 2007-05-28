@@ -88,6 +88,11 @@ struct FieldDataTraits<DisplayFilterForegroundPtr> :
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
+
+    static DataType   &getType (void) { return _type;        }
+
+    static const char *getSName(void) { return "SFDisplayFilterForegroundPtr"; }
+    static const char *getMName(void) { return "MFDisplayFilterForegroundPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -99,9 +104,28 @@ struct FieldDataTraits<DisplayFilterForegroundPtr> :
 #endif // !defined(OSG_DO_DOC) || (OSG_DOC_LEVEL >= 3)
 
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldSingle */
+
+typedef SField<DisplayFilterForegroundPtr> SFDisplayFilterForegroundPtr;
+#endif
+
+#ifndef OSG_COMPILEDISPLAYFILTERFOREGROUNDINST
+OSG_DLLEXPORT_DECL1(SField, DisplayFilterForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS)
+/*! \ingroup GrpSystemFieldMulti */
+
+typedef MField<DisplayFilterForegroundPtr> MFDisplayFilterForegroundPtr;
+#endif
+
+#ifndef OSG_COMPILEDISPLAYFILTERFOREGROUNDINST
+OSG_DLLEXPORT_DECL1(MField, DisplayFilterForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYFILTERFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGDISPLAYFILTERFOREGROUNDFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.26 2006/02/20 16:55:35 dirk Exp $"
 
 #endif /* _OSGDISPLAYFILTERFOREGROUNDFIELDS_H_ */

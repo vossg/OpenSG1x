@@ -194,6 +194,13 @@ MFDisplayCalibrationPtr *ClusterWindowBase::getMFCalibration(void)
     return &_mfCalibration;
 }
 
+//! Get the ClusterWindow::_mfFilter field.
+inline
+MFDisplayFilterForegroundPtr *ClusterWindowBase::getMFFilter(void)
+{
+    return &_mfFilter;
+}
+
 
 //! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
@@ -490,7 +497,28 @@ const MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void) const
     return _mfCalibration;
 }
 
+//! Get the value of the \a index element the ClusterWindow::_mfFilter field.
+inline
+DisplayFilterForegroundPtr &ClusterWindowBase::getFilter(const UInt32 index)
+{
+    return _mfFilter[index];
+}
+
+//! Get the ClusterWindow::_mfFilter field.
+inline
+MFDisplayFilterForegroundPtr &ClusterWindowBase::getFilter(void)
+{
+    return _mfFilter;
+}
+
+//! Get the ClusterWindow::_mfFilter field.
+inline
+const MFDisplayFilterForegroundPtr &ClusterWindowBase::getFilter(void) const
+{
+    return _mfFilter;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

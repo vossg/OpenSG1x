@@ -81,6 +81,7 @@
 #include <OSGImageComposerFields.h> // Composer type
 #include <OSGStringFields.h> // Autostart type
 #include <OSGDisplayCalibrationFields.h> // Calibration type
+#include <OSGDisplayFilterForegroundFields.h> // Filter type
 
 #include <OSGClusterWindowFields.h>
 
@@ -118,7 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
         ComposerFieldId              = FrameCountFieldId            + 1,
         AutostartFieldId             = ComposerFieldId              + 1,
         CalibrationFieldId           = AutostartFieldId             + 1,
-        NextFieldId                  = CalibrationFieldId           + 1
+        FilterFieldId                = CalibrationFieldId           + 1,
+        NextFieldId                  = FilterFieldId                + 1
     };
 
     static const OSG::BitVector ServersFieldMask;
@@ -135,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     static const OSG::BitVector ComposerFieldMask;
     static const OSG::BitVector AutostartFieldMask;
     static const OSG::BitVector CalibrationFieldMask;
+    static const OSG::BitVector FilterFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -175,6 +178,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            SFImageComposerPtr  *getSFComposer       (void);
            MFString            *getMFAutostart      (void);
            MFDisplayCalibrationPtr *getMFCalibration    (void);
+           MFDisplayFilterForegroundPtr *getMFFilter         (void);
 
            std::string         &getConnectionType (void);
      const std::string         &getConnectionType (void) const;
@@ -207,6 +211,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
            DisplayCalibrationPtr &getCalibration    (const UInt32 index);
            MFDisplayCalibrationPtr &getCalibration    (void);
      const MFDisplayCalibrationPtr &getCalibration    (void) const;
+           DisplayFilterForegroundPtr &getFilter         (const UInt32 index);
+           MFDisplayFilterForegroundPtr &getFilter         (void);
+     const MFDisplayFilterForegroundPtr &getFilter         (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +287,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     SFImageComposerPtr   _sfComposer;
     MFString            _mfAutostart;
     MFDisplayCalibrationPtr   _mfCalibration;
+    MFDisplayFilterForegroundPtr   _mfFilter;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -357,6 +365,6 @@ typedef RefPtr<ClusterWindowPtr> ClusterWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

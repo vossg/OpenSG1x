@@ -68,6 +68,7 @@
 #include <OSGForeground.h> // Parent
 
 #include <OSGDisplayFilterFields.h> // Filter type
+#include <OSGStringFields.h> // Server type
 
 #include <OSGDisplayFilterForegroundFields.h>
 
@@ -92,10 +93,12 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
     enum
     {
         FilterFieldId = Inherited::NextFieldId,
-        NextFieldId   = FilterFieldId + 1
+        ServerFieldId = FilterFieldId + 1,
+        NextFieldId   = ServerFieldId + 1
     };
 
     static const OSG::BitVector FilterFieldMask;
+    static const OSG::BitVector ServerFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -123,7 +126,10 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
     /*! \{                                                                 */
 
            MFDisplayFilterPtr  *getMFFilter         (void);
+           SFString            *getSFServer         (void);
 
+           std::string         &getServer         (void);
+     const std::string         &getServer         (void) const;
            DisplayFilterPtr    &getFilter         (const UInt32 index);
            MFDisplayFilterPtr  &getFilter         (void);
      const MFDisplayFilterPtr  &getFilter         (void) const;
@@ -133,6 +139,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
+     void setServer         ( const std::string &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -176,6 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
     /*! \{                                                                 */
 
     MFDisplayFilterPtr   _mfFilter;
+    SFString            _sfServer;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +261,6 @@ typedef RefPtr<DisplayFilterForegroundPtr> DisplayFilterForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.38 2005/07/08 06:37:35 vossg Exp $"
+#define OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
 
 #endif /* _OSGDISPLAYFILTERFOREGROUNDBASE_H_ */

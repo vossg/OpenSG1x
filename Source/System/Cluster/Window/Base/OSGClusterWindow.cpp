@@ -61,6 +61,12 @@
 #include "OSGRenderOptions.h"
 #include "OSGGroupSockConnection.h"
 
+#include "OSGDisplayFilterForeground.h"
+#include "OSGColorDisplayFilter.h"
+#include "OSGDistortionDisplayFilter.h"
+#include "OSGResolutionDisplayFilter.h"
+
+
 OSG_USING_NAMESPACE
 
 /** \class osg::ClusterWindow
@@ -571,7 +577,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
             if((*sI)->get_attrmap().count("name"))
                 calibPtr->setServer((*sI)->get_attrmap()["name"]);
             
-            // loop over childs
+            // loop over children
             for(nI  = (*sI)->get_nodelist().begin();
                 nI != (*sI)->get_nodelist().end(); 
                 ++nI) 
@@ -715,6 +721,250 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
     return true;
 }
 
+/** load display filter calibration file from xml
+
+displayfilter
+    server a
+        colordisplayfilter
+            colormatrix     mat
+            gamma
+            size    (w,h,d)
+            shadingtable
+                color   (r,g,b)*n
+        resolutiondisplayfilter
+            downScale
+        distortiondisplayfilter
+            rows
+            cols
+            positions
+                point   (x,y)*n
+    server b
+        ...
+**/
+bool ClusterWindow::loadFilter(std::istream &in)
+{
+    ClusterWindowPtr ptr(this);
+    DisplayFilterForegroundPtr filterFgnd;
+    ColorDisplayFilterPtr colorFilter;
+    DistortionDisplayFilterPtr distortionFilter;
+    ResolutionDisplayFilterPtr resolutionFilter;
+    xmlpp::xmlcontextptr ctxptr(new xmlpp::xmlcontext());
+    xmlpp::xmldocument doc(ctxptr);
+    xmlpp::xmlnodelist servers;
+    xmlpp::xmlnodelist colors;
+    xmlpp::xmlnodelist points;
+    xmlpp::xmlnodelist::const_iterator sI;
+    xmlpp::xmlnodelist::const_iterator fI;
+    xmlpp::xmlnodelist::const_iterator nI;
+    xmlpp::xmlnodelist::const_iterator cI;
+    xmlpp::xmlnodelist::const_iterator pI;
+    xmlpp::xmlstring serverTag("server");
+    xmlpp::xmlstring colorTag("color");
+    xmlpp::xmlstring pointTag("point");
+    xmlpp::xmlnodeptr nP;
+    
+    beginEditCP(ptr, FilterFieldMask);
+        getFilter().clear();
+    endEditCP(ptr, FilterFieldMask);
+    
+    try
+    {
+        doc.load(in, ctxptr);
+        servers = doc.select_nodes(serverTag);
+        
+        // loop through servers
+        for(sI = servers.begin(); sI != servers.end(); ++sI)
+        {
+            // create new display filter foreground
+            filterFgnd = DisplayFilterForeground::create();
+            addRefCP(filterFgnd);
+            
+            beginEditCP(ptr, FilterFieldMask);
+                getFilter().push_back(filterFgnd);
+            endEditCP(ptr, FilterFieldMask);
+            
+            beginEditCP(filterFgnd);
+            
+            // server name
+            if((*sI)->get_attrmap().count("name"))
+                filterFgnd->setServer((*sI)->get_attrmap()["name"]);
+            
+            // loop over outer children, i.e. the filters
+            for(fI  = (*sI)->get_nodelist().begin();
+                fI != (*sI)->get_nodelist().end(); ++fI)
+            {
+                if ((*fI)->get_name() == "colordisplayfilter")
+                {
+                    colorFilter = ColorDisplayFilter::create();
+                    addRefCP(colorFilter);
+                    
+                    filterFgnd->getFilter().push_back(colorFilter);
+                    
+                    beginEditCP(colorFilter);
+                    
+                    // loop over inner children, i.e. the params
+                    for(nI  = (*fI)->get_nodelist().begin();
+                        nI != (*fI)->get_nodelist().end(); ++nI) 
+                    {
+                        if((*nI)->get_name() == "colormatrix")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                colorFilter->getMatrix().setValue(nP->get_cdata().c_str());
+                        }
+                        if((*nI)->get_name() == "gamma")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                sscanf(nP->get_cdata().c_str(),"%f",
+                                    &colorFilter->getGamma());
+                        }
+                        if((*nI)->get_name() == "size")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                sscanf(nP->get_cdata().c_str(),"%d %d %d",
+                                    &colorFilter->getWidth(),
+                                    &colorFilter->getHeight(),
+                                    &colorFilter->getDepth());
+                        }
+                        if((*nI)->get_name() == "shadingtable")
+                        {
+                            colors = (*nI)->select_nodes(colorTag);
+                            
+                            for(cI = colors.begin(); cI != colors.end(); ++cI)
+                            {
+                                nP = (*cI);
+                                do
+                                    nP = nP->get_nodelist().front();
+                                while (nP->get_nodelist().size() == 1);
+                                
+                                if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                {
+                                    Color3f col;
+                                    col.setValue(nP->get_cdata().c_str());
+                                    colorFilter->getTable().push_back(col);
+                                }
+                            }
+                        }
+                    }
+                    endEditCP(colorFilter);
+                } // colordisplayfilter
+                
+                if ((*fI)->get_name() == "resolutiondisplayfilter")
+                {
+                    resolutionFilter = ResolutionDisplayFilter::create();
+                    addRefCP(resolutionFilter);
+                    
+                    filterFgnd->getFilter().push_back(resolutionFilter);
+                    
+                    beginEditCP(resolutionFilter);
+                    
+                    for(nI  = (*fI)->get_nodelist().begin();
+                        nI != (*fI)->get_nodelist().end(); ++nI) 
+                    {
+                        if((*nI)->get_name() == "downscale")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                sscanf(nP->get_cdata().c_str(),"%f",
+                                    &resolutionFilter->getDownScale());
+                        }
+                    }
+                    endEditCP(resolutionFilter);
+                } // resolutiondisplayfilter
+                
+                if ((*fI)->get_name() == "distortiondisplayfilter")
+                {
+                    distortionFilter = DistortionDisplayFilter::create();
+                    addRefCP(distortionFilter);
+                    
+                    filterFgnd->getFilter().push_back(distortionFilter);
+                    
+                    beginEditCP(distortionFilter);
+                    
+                    for(nI  = (*fI)->get_nodelist().begin();
+                        nI != (*fI)->get_nodelist().end(); ++nI) 
+                    {
+                        if((*nI)->get_name() == "rows")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                sscanf(nP->get_cdata().c_str(),"%d",
+                                    &distortionFilter->getRows());
+                        }
+                        if((*nI)->get_name() == "cols")
+                        {
+                            nP = (*nI);
+                            do
+                                nP = nP->get_nodelist().front();
+                            while (nP->get_nodelist().size() == 1);
+                            
+                            if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                sscanf(nP->get_cdata().c_str(),"%d",
+                                    &distortionFilter->getColumns());
+                        }
+                        if((*nI)->get_name() == "positions")
+                        {
+                            points = (*nI)->select_nodes(pointTag);
+                            
+                            for(pI = points.begin(); pI != points.end(); ++pI)
+                            {   
+                                nP = (*pI);
+                                do
+                                    nP = nP->get_nodelist().front();
+                                while (nP->get_nodelist().size() == 1);
+                                
+                                if(nP->get_type() == xmlpp::xml_nt_cdata) 
+                                {
+                                    Vec2f pos;
+                                    pos.setValueFromCString(nP->get_cdata().c_str());
+                                    distortionFilter->getPositions().push_back(pos);
+                                }
+                            }
+                        }
+                    }
+                    endEditCP(distortionFilter);
+                } // distortiondisplayfilter
+            }
+            
+            endEditCP(filterFgnd);
+        } // servers
+    }
+    catch (xmlpp::xmlerror e)
+    {
+        // parser error
+        xmlpp::xmllocation where( ctxptr->get_location() );
+        xmlpp::xmlstring errmsg( e.get_strerror() );
+        SFATAL << "XML error line " << where.get_line() << " "
+               << "at position " << where.get_pos()
+               << ": error: " << errmsg.c_str()
+               << std::endl;
+        return false;
+    }
+    return true;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                          exceptions                                     */
 
@@ -767,7 +1017,7 @@ void ClusterWindow::clientRender(RenderActionBase *action)
 /** swap client window
  *  
  * In a derived cluster window this method is called after rendering
- * Default aciton is to swap the local client window.
+ * Default action is to swap the local client window.
  **/
 
 void ClusterWindow::clientSwap( void )
@@ -810,6 +1060,57 @@ void ClusterWindow::serverRender( WindowPtr window,
                                   UInt32 id,
                                   RenderActionBase *action )
 {
+    UInt32 c, p;
+    
+    if (!getFilter().empty())   // TODO; optimize, only set onChange!
+    {
+        ClusterWindowPtr ptr(this);
+        
+        beginEditCP(ptr);
+        
+        // for all viewports
+        for(p=0; p<window->getPort().size(); ++p) 
+        {
+            // search filter foregrounds
+            for(c=0; c<getFilter().size(); ++c)
+            {
+                std::string name = getServers()[id];
+                char portName[64];
+                
+                if(window->getPort().size() > 1)
+                {
+                    sprintf(portName,"[%d]",p);
+                    name = name + portName;
+                }
+                
+                DisplayFilterForegroundPtr filterFgnd = getFilter()[c];
+                
+                if(filterFgnd->getServer() == name)
+                {
+                    beginEditCP(window->getPort()[p], Viewport::ForegroundsFieldMask);
+                    
+                    // first remove old filters, if any
+                    for (Int32 n=window->getPort()[p]->getForegrounds().size(), j=n-1; 
+                            j>=0; j--) 
+                    {
+                        MFForegroundPtr::iterator fgndIt = 
+                            window->getPort()[p]->getForegrounds().begin() + j;
+                        if ( (*fgndIt) == filterFgnd )
+                            window->getPort()[p]->getForegrounds().erase(fgndIt);
+                    }
+                    
+                    // then add new one
+                    window->getPort()[p]->getForegrounds().push_back(filterFgnd);
+                    
+                    endEditCP(window->getPort()[p], Viewport::ForegroundsFieldMask);
+                    break;
+                }
+            }
+        }
+        
+        endEditCP(ptr);
+    }
+
     RenderOptionsPtr ro;
 
     window->activate();
@@ -854,9 +1155,8 @@ void ClusterWindow::serverRender( WindowPtr window,
     }
 
     // do calibration
-    UInt32 c,p;
     DisplayCalibrationPtr calibPtr=NullFC;
-
+    
     // for all viewports
     for(p = 0 ; p<window->getPort().size() ; ++p) 
     {
@@ -951,6 +1251,7 @@ ClusterNetwork *ClusterWindow::getNetwork(void)
 void ClusterWindow::initMethod (void)
 {
 }
+
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

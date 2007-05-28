@@ -67,6 +67,9 @@ OSG_BEGIN_NAMESPACE
 const OSG::BitVector  DisplayFilterForegroundBase::FilterFieldMask = 
     (TypeTraits<BitVector>::One << DisplayFilterForegroundBase::FilterFieldId);
 
+const OSG::BitVector  DisplayFilterForegroundBase::ServerFieldMask = 
+    (TypeTraits<BitVector>::One << DisplayFilterForegroundBase::ServerFieldId);
+
 const OSG::BitVector DisplayFilterForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -77,6 +80,9 @@ const OSG::BitVector DisplayFilterForegroundBase::MTInfluenceMask =
 /*! \var DisplayFilterPtr DisplayFilterForegroundBase::_mfFilter
     
 */
+/*! \var std::string     DisplayFilterForegroundBase::_sfServer
+    Server to be calibrated (if any)
+*/
 
 //! DisplayFilterForeground description
 
@@ -86,7 +92,12 @@ FieldDescription *DisplayFilterForegroundBase::_desc[] =
                      "filter", 
                      FilterFieldId, FilterFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayFilterForegroundBase::getMFFilter)
+                     (FieldAccessMethod) &DisplayFilterForegroundBase::getMFFilter),
+    new FieldDescription(SFString::getClassType(), 
+                     "server", 
+                     ServerFieldId, ServerFieldMask,
+                     false,
+                     (FieldAccessMethod) &DisplayFilterForegroundBase::getSFServer)
 };
 
 
@@ -164,6 +175,7 @@ void DisplayFilterForegroundBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 DisplayFilterForegroundBase::DisplayFilterForegroundBase(void) :
     _mfFilter                 (), 
+    _sfServer                 (), 
     Inherited() 
 {
 }
@@ -174,6 +186,7 @@ DisplayFilterForegroundBase::DisplayFilterForegroundBase(void) :
 
 DisplayFilterForegroundBase::DisplayFilterForegroundBase(const DisplayFilterForegroundBase &source) :
     _mfFilter                 (source._mfFilter                 ), 
+    _sfServer                 (source._sfServer                 ), 
     Inherited                 (source)
 {
 }
@@ -195,6 +208,11 @@ UInt32 DisplayFilterForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _mfFilter.getBinSize();
     }
 
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+    {
+        returnValue += _sfServer.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -207,6 +225,11 @@ void DisplayFilterForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FilterFieldMask & whichField))
     {
         _mfFilter.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+    {
+        _sfServer.copyToBin(pMem);
     }
 
 
@@ -222,6 +245,11 @@ void DisplayFilterForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfFilter.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+    {
+        _sfServer.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -235,6 +263,9 @@ void DisplayFilterForegroundBase::executeSyncImpl(      DisplayFilterForegroundB
     if(FieldBits::NoField != (FilterFieldMask & whichField))
         _mfFilter.syncWith(pOther->_mfFilter);
 
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+        _sfServer.syncWith(pOther->_sfServer);
+
 
 }
 #else
@@ -244,6 +275,9 @@ void DisplayFilterForegroundBase::executeSyncImpl(      DisplayFilterForegroundB
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
+
+    if(FieldBits::NoField != (ServerFieldMask & whichField))
+        _sfServer.syncWith(pOther->_sfServer);
 
 
     if(FieldBits::NoField != (FilterFieldMask & whichField))
@@ -266,10 +300,19 @@ void DisplayFilterForegroundBase::execBeginEditImpl (const BitVector &whichField
 
 
 
+OSG_END_NAMESPACE
+
+#include <OSGSFieldTypeDef.inl>
+#include <OSGMFieldTypeDef.inl>
+
+OSG_BEGIN_NAMESPACE
+
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DisplayFilterForegroundPtr>::_type("DisplayFilterForegroundPtr", "ForegroundPtr");
 #endif
 
+OSG_DLLEXPORT_SFIELD_DEF1(DisplayFilterForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(DisplayFilterForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 
 /*------------------------------------------------------------------------*/
@@ -285,7 +328,7 @@ DataType FieldDataTraits<DisplayFilterForegroundPtr>::_type("DisplayFilterForegr
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYFILTERFOREGROUNDBASE_INLINE_CVSID;
 

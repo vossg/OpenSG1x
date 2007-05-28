@@ -131,6 +131,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     bool loadCalibration(std::istream &in);
     bool saveCalibration(std::ostream &out);
 
+    bool loadFilter(std::istream &in);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Exceptions                                 */
@@ -173,12 +175,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     ClusterWindow(void);
     ClusterWindow(const ClusterWindow &source);
     virtual ~ClusterWindow(void); 
-
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name               unsynced thread variables                      */
     /*! \{                                                                 */
-
+    
     bool               _firstFrame;
     StatCollector     *_statistics;
 

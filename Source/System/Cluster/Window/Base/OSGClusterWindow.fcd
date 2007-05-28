@@ -11,7 +11,7 @@
 	decoratable="false"
 	useLocalIncludes="false"
 >
-The base class for all windows.
+The base class for all cluster windows.
 	<Field
 		name="servers"
 		type="std::string"
@@ -84,7 +84,7 @@ The base class for all windows.
 		visibility="external"
 		access="public"
 	>
-	Ethernet interface to be used for server seach
+	Ethernet interface to be used for server search
 	</Field>
 	<Field
 		name="clientWindow"
@@ -136,5 +136,14 @@ The base class for all windows.
 		visibility="external"
 		access="public"
 	>
+	</Field>
+	<Field
+		name="filter"
+		type="DisplayFilterForegroundPtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	Display filter foregrounds can be used instead of calibration
 	</Field>
 </FieldContainer>

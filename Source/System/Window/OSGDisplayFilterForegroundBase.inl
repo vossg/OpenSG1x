@@ -103,6 +103,34 @@ MFDisplayFilterPtr *DisplayFilterForegroundBase::getMFFilter(void)
     return &_mfFilter;
 }
 
+//! Get the DisplayFilterForeground::_sfServer field.
+inline
+SFString *DisplayFilterForegroundBase::getSFServer(void)
+{
+    return &_sfServer;
+}
+
+
+//! Get the value of the DisplayFilterForeground::_sfServer field.
+inline
+std::string &DisplayFilterForegroundBase::getServer(void)
+{
+    return _sfServer.getValue();
+}
+
+//! Get the value of the DisplayFilterForeground::_sfServer field.
+inline
+const std::string &DisplayFilterForegroundBase::getServer(void) const
+{
+    return _sfServer.getValue();
+}
+
+//! Set the value of the DisplayFilterForeground::_sfServer field.
+inline
+void DisplayFilterForegroundBase::setServer(const std::string &value)
+{
+    _sfServer.setValue(value);
+}
 
 
 //! Get the value of the \a index element the DisplayFilterForeground::_mfFilter field.
@@ -128,5 +156,5 @@ const MFDisplayFilterPtr &DisplayFilterForegroundBase::getFilter(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYFILTERFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: $"
+#define OSGDISPLAYFILTERFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
 

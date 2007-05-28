@@ -306,9 +306,9 @@ void SortLastWindow::clientPreSync( void )
                       SortLastWindow::WidthFieldMask |
                       SortLastWindow::HeightFieldMask);
         }
-        getClientWindow()->activate();
-        getClientWindow()->frameInit();
     }
+    
+    Inherited::clientPreSync();
 
     // rebuild node groups
     buildGroups();

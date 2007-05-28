@@ -106,6 +106,9 @@ const OSG::BitVector  ClusterWindowBase::AutostartFieldMask =
 const OSG::BitVector  ClusterWindowBase::CalibrationFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::CalibrationFieldId);
 
+const OSG::BitVector  ClusterWindowBase::FilterFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::FilterFieldId);
+
 const OSG::BitVector ClusterWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -135,7 +138,7 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
     Broadcast or Multicast address used for server search
 */
 /*! \var std::string     ClusterWindowBase::_sfServiceInterface
-    Ethernet interface to be used for server seach
+    Ethernet interface to be used for server search
 */
 /*! \var WindowPtr       ClusterWindowBase::_sfClientWindow
     Window for client rendering
@@ -154,6 +157,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
 */
 /*! \var DisplayCalibrationPtr ClusterWindowBase::_mfCalibration
     
+*/
+/*! \var DisplayFilterForegroundPtr ClusterWindowBase::_mfFilter
+    Display filter foregrounds can be used instead of calibration
 */
 
 //! ClusterWindow description
@@ -229,7 +235,12 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      "calibration", 
                      CalibrationFieldId, CalibrationFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getMFCalibration)
+                     (FieldAccessMethod) &ClusterWindowBase::getMFCalibration),
+    new FieldDescription(MFDisplayFilterForegroundPtr::getClassType(), 
+                     "filter", 
+                     FilterFieldId, FilterFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getMFFilter)
 };
 
 
@@ -298,6 +309,7 @@ void ClusterWindowBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
     _mfServers.terminateShare(uiAspect, this->getContainerSize());
     _mfAutostart.terminateShare(uiAspect, this->getContainerSize());
     _mfCalibration.terminateShare(uiAspect, this->getContainerSize());
+    _mfFilter.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -322,6 +334,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _sfComposer               (), 
     _mfAutostart              (), 
     _mfCalibration            (), 
+    _mfFilter                 (), 
     Inherited() 
 {
 }
@@ -345,6 +358,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _sfComposer               (source._sfComposer               ), 
     _mfAutostart              (source._mfAutostart              ), 
     _mfCalibration            (source._mfCalibration            ), 
+    _mfFilter                 (source._mfFilter                 ), 
     Inherited                 (source)
 {
 }
@@ -431,6 +445,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _mfCalibration.getBinSize();
     }
 
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+    {
+        returnValue += _mfFilter.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -508,6 +527,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (CalibrationFieldMask & whichField))
     {
         _mfCalibration.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+    {
+        _mfFilter.copyToBin(pMem);
     }
 
 
@@ -588,6 +612,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfCalibration.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+    {
+        _mfFilter.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -639,6 +668,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
     if(FieldBits::NoField != (CalibrationFieldMask & whichField))
         _mfCalibration.syncWith(pOther->_mfCalibration);
+
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+        _mfFilter.syncWith(pOther->_mfFilter);
 
 
 }
@@ -693,6 +725,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (CalibrationFieldMask & whichField))
         _mfCalibration.syncWith(pOther->_mfCalibration, sInfo);
 
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+        _mfFilter.syncWith(pOther->_mfFilter, sInfo);
+
 
 }
 
@@ -710,6 +745,9 @@ void ClusterWindowBase::execBeginEditImpl (const BitVector &whichField,
 
     if(FieldBits::NoField != (CalibrationFieldMask & whichField))
         _mfCalibration.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (FilterFieldMask & whichField))
+        _mfFilter.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif
@@ -744,7 +782,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ClusterWindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCLUSTERWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLUSTERWINDOWBASE_INLINE_CVSID;
 
