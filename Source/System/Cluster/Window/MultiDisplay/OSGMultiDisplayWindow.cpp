@@ -50,6 +50,7 @@
 #include <OSGBaseFunctions.h>
 #include <OSGStereoBufferViewport.h>
 #include <OSGFieldContainerFields.h>
+#include <OSGDisplayFilterForeground.h>
 #include "OSGMultiDisplayWindow.h"
 #include "OSGConnection.h"
 #include "OSGNode.h"
@@ -374,7 +375,7 @@ void MultiDisplayWindow::clientSwap( void )
 void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                                         ViewportPtr &clientPort)
 {
-    bool equal;
+    bool equal, found;
 
     // Compare the pointers.
     if(serverPort == clientPort)
@@ -408,6 +409,7 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             continue;
     
         equal = true;
+        found = false;
 
         if(strstr(dst_ftype.getCName(), "Ptr") == NULL)
         {
@@ -428,16 +430,65 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             }
             else if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
             {
-                if(((MFFieldContainerPtr*)dst_field)->size() !=
-                   ((MFFieldContainerPtr*)src_field)->size()) {
-                    equal = false;
-                }
-                else {
-                    for(UInt32 j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
+                UInt32 j, cn = ((MFFieldContainerPtr*)src_field)->size(),
+                          sn = ((MFFieldContainerPtr*)src_field)->size();
+                          
+                if (strcmp(fdesc->getCName(), "foregrounds") == 0)
+                {
+                    MFForegroundPtr sFgndBag;
+                    MFForegroundPtr::iterator sFgndIt, cFgndIt;
+                    DisplayFilterForegroundPtr filterFgnd = NullFC;
+                    
+                    sFgndIt = serverPort->getForegrounds().begin();
+                    cFgndIt = clientPort->getForegrounds().begin();
+                    
+                    while (sFgndIt != serverPort->getForegrounds().end())
                     {
-                        if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
-                            (*(((MFFieldContainerPtr *)src_field)))[j]))
+                        filterFgnd = DisplayFilterForegroundPtr::dcast(*sFgndIt);
+                        
+                        if (filterFgnd != NullFC && 
+                           !filterFgnd->getServer().empty())
+                            found = true;   // loaded filters found
+                        else
+                            sFgndBag.push_back(*sFgndIt);
+                            
+                        ++sFgndIt;
+                    }
+                    
+                    if (sFgndBag.size() != clientPort->getForegrounds().size())
+                    {
+                        equal = false;
+                    }
+                    else
+                    {
+                        sFgndIt = sFgndBag.begin();
+                        
+                        while (sFgndIt != sFgndBag.end() &&
+                               cFgndIt != clientPort->getForegrounds().end() &&
+                              *sFgndIt == *cFgndIt)
+                        {
+                            ++sFgndIt;
+                            ++cFgndIt;
+                        }
+                        
+                        if (sFgndIt != sFgndBag.end() ||
+                            cFgndIt != clientPort->getForegrounds().end())
                             equal = false;
+                    }
+                }
+                else
+                {
+                    if(((MFFieldContainerPtr*)dst_field)->size() !=
+                    ((MFFieldContainerPtr*)src_field)->size()) {
+                        equal = false;
+                    }
+                    else {
+                        for(j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
+                        {
+                            if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
+                                (*(((MFFieldContainerPtr *)src_field)))[j]))
+                                equal = false;
+                        }
                     }
                 }
             }
@@ -447,6 +498,15 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             beginEditCP(serverPort, mask);
             dst_field->setAbstrValue(*src_field);
             endEditCP(serverPort, mask);
+            
+            if (found)
+            {
+                ClusterWindowPtr ptr(this);
+        
+                beginEditCP(ptr, DirtyFieldMask);
+                    setDirty(true);
+                endEditCP(ptr, DirtyFieldMask);
+            }
         }
     }
 }

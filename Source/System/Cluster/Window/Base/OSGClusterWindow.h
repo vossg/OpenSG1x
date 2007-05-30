@@ -132,6 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     bool saveCalibration(std::ostream &out);
 
     bool loadFilter(std::istream &in);
+    bool updateFilter(WindowPtr window, UInt32 id, RenderActionBase *action);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

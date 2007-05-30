@@ -763,9 +763,10 @@ bool ClusterWindow::loadFilter(std::istream &in)
     xmlpp::xmlstring pointTag("point");
     xmlpp::xmlnodeptr nP;
     
-    beginEditCP(ptr, FilterFieldMask);
+    beginEditCP(ptr, FilterFieldMask | DirtyFieldMask);
         getFilter().clear();
-    endEditCP(ptr, FilterFieldMask);
+        setDirty(true);
+    endEditCP(ptr, FilterFieldMask | DirtyFieldMask);
     
     try
     {
@@ -1027,46 +1028,34 @@ void ClusterWindow::clientSwap( void )
         getClientWindow()->swap( );
         getClientWindow()->frameExit();
     }
+
+    if (getDirty())
+    {
+        ClusterWindowPtr ptr(this);
+        
+        beginEditCP(ptr, DirtyFieldMask);
+            setDirty(false);
+        endEditCP(ptr, DirtyFieldMask);
+    }
 }
 
 /*-------------------------------------------------------------------------*/
 /*                         server methods                                  */
 
-/** initialise the cluster window on the server side
- *  
- * This method is called after the first sync.
- *  
- * \param window     server render window
- * \param id         server id
- **/
-
-void ClusterWindow::serverInit( WindowPtr ,
-                                UInt32 )
+bool ClusterWindow::updateFilter(WindowPtr window, UInt32 id, 
+                                 RenderActionBase *action)
 {
-}
+    bool found = false;
 
-/** render server window
- *  
- * This method is called after synchronisation of all changes with the
- * rendering client. Default action is to render all viewports with the
- * given action
- *  
- * !param window     server render window
- * !param id         server id
- * !param action     action
- **/
-
-void ClusterWindow::serverRender( WindowPtr window,
-                                  UInt32 id,
-                                  RenderActionBase *action )
-{
-    UInt32 c, p;
-    
-    if (!getFilter().empty())   // TODO; optimize, only set onChange!
+    if (!getFilter().empty() && getDirty())
     {
+        UInt32 c, p;
+        
         ClusterWindowPtr ptr(this);
         
-        beginEditCP(ptr);
+        beginEditCP(ptr, DirtyFieldMask);
+            setDirty(false);
+        endEditCP(ptr, DirtyFieldMask);
         
         // for all viewports
         for(p=0; p<window->getPort().size(); ++p) 
@@ -1103,14 +1092,47 @@ void ClusterWindow::serverRender( WindowPtr window,
                     window->getPort()[p]->getForegrounds().push_back(filterFgnd);
                     
                     endEditCP(window->getPort()[p], Viewport::ForegroundsFieldMask);
+
+                    found = true;
                     break;
                 }
             }
         }
-        
-        endEditCP(ptr);
     }
 
+    return found;
+}
+
+/** initialise the cluster window on the server side
+ *  
+ * This method is called after the first sync.
+ *  
+ * \param window     server render window
+ * \param id         server id
+ **/
+
+void ClusterWindow::serverInit( WindowPtr ,
+                                UInt32 )
+{
+}
+
+/** render server window
+ *  
+ * This method is called after synchronisation of all changes with the
+ * rendering client. Default action is to render all viewports with the
+ * given action
+ *  
+ * !param window     server render window
+ * !param id         server id
+ * !param action     action
+ **/
+
+void ClusterWindow::serverRender( WindowPtr window,
+                                  UInt32 id,
+                                  RenderActionBase *action )
+{
+    updateFilter(window, id, action);
+    
     RenderOptionsPtr ro;
 
     window->activate();
@@ -1156,6 +1178,7 @@ void ClusterWindow::serverRender( WindowPtr window,
 
     // do calibration
     DisplayCalibrationPtr calibPtr=NullFC;
+    UInt32 c, p;
     
     // for all viewports
     for(p = 0 ; p<window->getPort().size() ; ++p) 

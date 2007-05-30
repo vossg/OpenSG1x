@@ -201,6 +201,13 @@ MFDisplayFilterForegroundPtr *ClusterWindowBase::getMFFilter(void)
     return &_mfFilter;
 }
 
+//! Get the ClusterWindow::_sfDirty field.
+inline
+SFBool *ClusterWindowBase::getSFDirty(void)
+{
+    return &_sfDirty;
+}
+
 
 //! Get the value of the ClusterWindow::_sfConnectionType field.
 inline
@@ -431,6 +438,27 @@ inline
 void ClusterWindowBase::setComposer(const ImageComposerPtr &value)
 {
     _sfComposer.setValue(value);
+}
+
+//! Get the value of the ClusterWindow::_sfDirty field.
+inline
+bool &ClusterWindowBase::getDirty(void)
+{
+    return _sfDirty.getValue();
+}
+
+//! Get the value of the ClusterWindow::_sfDirty field.
+inline
+const bool &ClusterWindowBase::getDirty(void) const
+{
+    return _sfDirty.getValue();
+}
+
+//! Set the value of the ClusterWindow::_sfDirty field.
+inline
+void ClusterWindowBase::setDirty(const bool &value)
+{
+    _sfDirty.setValue(value);
 }
 
 

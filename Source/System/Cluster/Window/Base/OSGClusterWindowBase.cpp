@@ -109,6 +109,9 @@ const OSG::BitVector  ClusterWindowBase::CalibrationFieldMask =
 const OSG::BitVector  ClusterWindowBase::FilterFieldMask = 
     (TypeTraits<BitVector>::One << ClusterWindowBase::FilterFieldId);
 
+const OSG::BitVector  ClusterWindowBase::DirtyFieldMask = 
+    (TypeTraits<BitVector>::One << ClusterWindowBase::DirtyFieldId);
+
 const OSG::BitVector ClusterWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -160,6 +163,9 @@ const OSG::BitVector ClusterWindowBase::MTInfluenceMask =
 */
 /*! \var DisplayFilterForegroundPtr ClusterWindowBase::_mfFilter
     Display filter foregrounds can be used instead of calibration
+*/
+/*! \var bool            ClusterWindowBase::_sfDirty
+    Internally set for forceing re-initialization of foregrounds
 */
 
 //! ClusterWindow description
@@ -240,7 +246,12 @@ FieldDescription *ClusterWindowBase::_desc[] =
                      "filter", 
                      FilterFieldId, FilterFieldMask,
                      false,
-                     (FieldAccessMethod) &ClusterWindowBase::getMFFilter)
+                     (FieldAccessMethod) &ClusterWindowBase::getMFFilter),
+    new FieldDescription(SFBool::getClassType(), 
+                     "dirty", 
+                     DirtyFieldId, DirtyFieldMask,
+                     false,
+                     (FieldAccessMethod) &ClusterWindowBase::getSFDirty)
 };
 
 
@@ -335,6 +346,7 @@ ClusterWindowBase::ClusterWindowBase(void) :
     _mfAutostart              (), 
     _mfCalibration            (), 
     _mfFilter                 (), 
+    _sfDirty                  (bool(false)), 
     Inherited() 
 {
 }
@@ -359,6 +371,7 @@ ClusterWindowBase::ClusterWindowBase(const ClusterWindowBase &source) :
     _mfAutostart              (source._mfAutostart              ), 
     _mfCalibration            (source._mfCalibration            ), 
     _mfFilter                 (source._mfFilter                 ), 
+    _sfDirty                  (source._sfDirty                  ), 
     Inherited                 (source)
 {
 }
@@ -450,6 +463,11 @@ UInt32 ClusterWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _mfFilter.getBinSize();
     }
 
+    if(FieldBits::NoField != (DirtyFieldMask & whichField))
+    {
+        returnValue += _sfDirty.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -532,6 +550,11 @@ void ClusterWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FilterFieldMask & whichField))
     {
         _mfFilter.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DirtyFieldMask & whichField))
+    {
+        _sfDirty.copyToBin(pMem);
     }
 
 
@@ -617,6 +640,11 @@ void ClusterWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfFilter.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DirtyFieldMask & whichField))
+    {
+        _sfDirty.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -672,6 +700,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
     if(FieldBits::NoField != (FilterFieldMask & whichField))
         _mfFilter.syncWith(pOther->_mfFilter);
 
+    if(FieldBits::NoField != (DirtyFieldMask & whichField))
+        _sfDirty.syncWith(pOther->_sfDirty);
+
 
 }
 #else
@@ -714,6 +745,9 @@ void ClusterWindowBase::executeSyncImpl(      ClusterWindowBase *pOther,
 
     if(FieldBits::NoField != (ComposerFieldMask & whichField))
         _sfComposer.syncWith(pOther->_sfComposer);
+
+    if(FieldBits::NoField != (DirtyFieldMask & whichField))
+        _sfDirty.syncWith(pOther->_sfDirty);
 
 
     if(FieldBits::NoField != (ServersFieldMask & whichField))

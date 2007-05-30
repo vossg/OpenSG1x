@@ -146,4 +146,14 @@ The base class for all cluster windows.
 	>
 	Display filter foregrounds can be used instead of calibration
 	</Field>
+	<Field
+		name="dirty"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="protected"
+	>
+	Internally set for forceing re-initialization of foregrounds
+	</Field>
 </FieldContainer>

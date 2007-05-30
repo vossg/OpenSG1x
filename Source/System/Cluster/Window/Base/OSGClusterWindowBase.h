@@ -82,6 +82,7 @@
 #include <OSGStringFields.h> // Autostart type
 #include <OSGDisplayCalibrationFields.h> // Calibration type
 #include <OSGDisplayFilterForegroundFields.h> // Filter type
+#include <OSGBoolFields.h> // Dirty type
 
 #include <OSGClusterWindowFields.h>
 
@@ -120,7 +121,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
         AutostartFieldId             = ComposerFieldId              + 1,
         CalibrationFieldId           = AutostartFieldId             + 1,
         FilterFieldId                = CalibrationFieldId           + 1,
-        NextFieldId                  = FilterFieldId                + 1
+        DirtyFieldId                 = FilterFieldId                + 1,
+        NextFieldId                  = DirtyFieldId                 + 1
     };
 
     static const OSG::BitVector ServersFieldMask;
@@ -138,6 +140,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     static const OSG::BitVector AutostartFieldMask;
     static const OSG::BitVector CalibrationFieldMask;
     static const OSG::BitVector FilterFieldMask;
+    static const OSG::BitVector DirtyFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -288,6 +291,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     MFString            _mfAutostart;
     MFDisplayCalibrationPtr   _mfCalibration;
     MFDisplayFilterForegroundPtr   _mfFilter;
+    SFBool              _sfDirty;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -303,6 +307,23 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \{                                                                 */
 
     virtual ~ClusterWindowBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFBool              *getSFDirty          (void);
+
+           bool                &getDirty          (void);
+     const bool                &getDirty          (void) const;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setDirty          (const bool &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
