@@ -173,12 +173,14 @@ void Geometry::initMethod(void)
 /*------------- constructors & destructors --------------------------------*/
 
 Geometry::Geometry(void) :
-    Inherited()
+    Inherited(),
+    _numBytesOnGfxCard(0)
 {
 }
 
 Geometry::Geometry(const Geometry &source) :
-    Inherited(source)
+    Inherited(source),
+    _numBytesOnGfxCard(source._numBytesOnGfxCard)
 {
 }
 
@@ -442,6 +444,8 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
     if(mode == Window::initialize || mode == Window::needrefresh ||
        mode == Window::reinitialize)
     {
+        _numBytesOnGfxCard = getCachedGfxMemoryUsage();
+
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
         // vbo is only supported for single index geometry (pump 129)
         bool vbo_supported = getVbo() && (ind == 129) && win->hasExtension(GeoPumpFactory::_arbVBO);
@@ -486,7 +490,7 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
 
             GeoPumpFactory::GeoPump p =
                 GeoPumpFactory::the()->getGeoPump(win, ind);
-    
+
             // call the pump
     
             if(p)
@@ -964,9 +968,152 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
             }
             coll->getElem(Drawable::statNPrimitives)->add(primitiveCount);
         }
+
+        // check amount of memory on gfx card
+        // count only primitives residing on the gfxcard
+        if (vbo_supported || getDlistCache())
+        {
+            StatIntElem *el = coll->getElem(Drawable::statNGeoBytes,false);
+            if (el)
+                coll->getElem(Drawable::statNGeoBytes)->add(_numBytesOnGfxCard);
+        }
     }
 
     return Action::Continue;
+}
+
+UInt32 Geometry::getCachedGfxMemoryUsage(void)
+{
+    int nBytes = 0;
+
+    // Lengths are int32 (4 Bbytes) or int16 (2 Bytes)
+    if (getLengths() != NullFC)
+    {
+        if (GeoPLengthsUI32Ptr::dcast(getLengths()) != NullFC)
+            nBytes += getLengths()->getSize()*4;
+        else
+            nBytes += getLengths()->getSize()*2;
+    }
+
+    // Indices are int32 (4 Bbytes) or int16 (2 Bytes)
+    if (getIndices() != NullFC)
+    {
+        if (GeoIndicesUI32Ptr::dcast(getIndices()) != NullFC)
+            nBytes += getIndices()->getSize()*4;
+        else
+            nBytes += getIndices()->getSize()*2;
+    }
+
+    // Positions are vec3f = 3 * 4 Bytes
+    if (getPositions() != NullFC)
+        nBytes += getPositions()->getSize()*12;
+
+    // Normals are vec3f (3*4 Bytes) or vec3b(3*1 Byte)
+    if (getNormals() != NullFC)
+    {
+        if (GeoNormals3fPtr::dcast(getNormals()) != NullFC)
+            nBytes += getNormals()->getSize()*12;
+        else
+            nBytes += getNormals()->getSize()*3;
+    }
+
+    // Colors are vec4f = 4 * 4 Bytes
+    if (getColors() != NullFC)
+        nBytes += getColors()->getSize()*16;
+
+    // SecondaryColors are vec4f = 4 * 4 Bytes
+    if (getSecondaryColors() != NullFC)
+        nBytes += getSecondaryColors()->getSize()*16;
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords()) != NullFC)
+            nBytes += getTexCoords()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords()) != NullFC)
+            nBytes += getTexCoords()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords()) != NullFC)
+            nBytes += getTexCoords()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords1() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords1()) != NullFC)
+            nBytes += getTexCoords1()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords1()) != NullFC)
+            nBytes += getTexCoords1()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords1()) != NullFC)
+            nBytes += getTexCoords1()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords2() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords2()) != NullFC)
+            nBytes += getTexCoords2()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords2()) != NullFC)
+            nBytes += getTexCoords2()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords2()) != NullFC)
+            nBytes += getTexCoords2()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords3() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords3()) != NullFC)
+            nBytes += getTexCoords3()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords3()) != NullFC)
+            nBytes += getTexCoords3()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords3()) != NullFC)
+            nBytes += getTexCoords3()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords4() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords4()) != NullFC)
+            nBytes += getTexCoords4()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords4()) != NullFC)
+            nBytes += getTexCoords4()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords4()) != NullFC)
+            nBytes += getTexCoords4()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords5() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords5()) != NullFC)
+            nBytes += getTexCoords5()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords5()) != NullFC)
+            nBytes += getTexCoords5()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords5()) != NullFC)
+            nBytes += getTexCoords5()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords6() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords6()) != NullFC)
+            nBytes += getTexCoords6()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords6()) != NullFC)
+            nBytes += getTexCoords6()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords6()) != NullFC)
+            nBytes += getTexCoords6()->getSize()*8;
+    }
+
+    // TexCoords are vec4f (4*4 Bytes) or vec3f(3*4 Bytes) or vec2f (2*4 Bytes)
+    if (getTexCoords7() != NullFC)
+    {
+        if (GeoTexCoords4fPtr::dcast(getTexCoords7()) != NullFC)
+            nBytes += getTexCoords7()->getSize()*16;
+        else if (GeoTexCoords3fPtr::dcast(getTexCoords7()) != NullFC)
+            nBytes += getTexCoords7()->getSize()*12;
+        else if (GeoTexCoords2fPtr::dcast(getTexCoords7()) != NullFC)
+            nBytes += getTexCoords7()->getSize()*8;
+    }
+    
+    return nBytes;
 }
 
 Action::ResultE Geometry::intersect(Action * action)
