@@ -175,7 +175,7 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
         "varying vec2 position;\n"
         "void main(void)\n"
         "{\n"
-        "   gl_TexCoord[0] = gl_MultiTexCoord0;\n"
+        "   gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;\n"
         "   gl_Position    = ftransform();\n"
         "   position       = gl_Vertex.xy;\n"
         "}\n";

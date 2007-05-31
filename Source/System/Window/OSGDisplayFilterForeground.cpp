@@ -159,11 +159,11 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     // create filter
     if(_group.empty())
     {
-        int extension = Window::registerExtension("GL_ARB_texture_non_power_of_two" );
-        if(window->hasExtension(extension))
-            _hasNonPowTwoTex = true;
-        else
-            _hasNonPowTwoTex = false;
+        //int extension = Window::registerExtension("GL_ARB_texture_non_power_of_two" );
+        //if(window->hasExtension(extension))
+        //    _hasNonPowTwoTex = true;
+        //else
+        //    _hasNonPowTwoTex = false;
         _changedState.resize(getFilter().size());
         for(f = 0 ; f < getFilter().size() ; ++f)
         {
@@ -180,6 +180,8 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
         _port[p]->setRight(port->getRight());
         _port[p]->setTop(port->getTop());
     }
+    
+    _hasNonPowTwoTex = true;    // due to changes in TexChunk
     
     // update texture transform
     if(!_hasNonPowTwoTex)
@@ -356,7 +358,8 @@ DisplayFilterForeground::DisplayFilterGroup::DisplayFilterGroup(
         _texture->setMagFilter(GL_LINEAR);
         _texture->setScale(false);
         _texture->setEnvMode(GL_REPLACE);
-        
+        _texture->setNPOTMatrixScale(true);
+        _texture->setScale(false);
         endEditCP(_texture);
         // texture grep background
         TextureGrabBackgroundPtr back = TextureGrabBackground::create();
