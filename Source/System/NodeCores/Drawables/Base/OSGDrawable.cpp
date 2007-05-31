@@ -65,7 +65,7 @@ StatElemDesc<StatIntElem>  Drawable::statNVertices("NVertices",
 "number of transformed vertices");
 StatElemDesc<StatIntElem>  Drawable::statNPrimitives("NPrimitives",
 "number of rendered primitive groups");
-StatElemDesc<StatIntElem>  Drawable::statNGeoBytes("NGeoBytes",
+StatElemDesc<StatIntOnceElem>  Drawable::statNGeoBytes("NGeoBytes",
 "memory usages of geometry on the gfx card");
 
 /*----------------------- constructors & destructors ----------------------*/
@@ -127,7 +127,7 @@ void Drawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.6 2007/05/30 10:59:38 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawable.cpp,v 1.7 2007/05/31 10:48:57 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

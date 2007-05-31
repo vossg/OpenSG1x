@@ -973,9 +973,9 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
         // count only primitives residing on the gfxcard
         if (vbo_supported || getDlistCache())
         {
-            StatIntElem *el = coll->getElem(Drawable::statNGeoBytes,false);
+            StatIntOnceElem *el = coll->getElem(Drawable::statNGeoBytes, false);
             if (el)
-                coll->getElem(Drawable::statNGeoBytes)->add(_numBytesOnGfxCard);
+                coll->getElem(Drawable::statNGeoBytes)->add(getGLId(), _numBytesOnGfxCard);
         }
     }
 

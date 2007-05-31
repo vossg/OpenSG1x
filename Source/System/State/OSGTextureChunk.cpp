@@ -1630,10 +1630,10 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
     FDEBUG(("TextureChunk::activate - %d\n", getGLId()));
 
-    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(idx);
+    action->getStatistics()->getElem(RenderAction::statNTextures)->inc(getGLId());
     action->getStatistics()->getElem(RenderAction::statNTexBytes)->add(
-        idx, getImage()->getSize());
-    
+                                     getGLId(), getImage()->getSize());
+
     glBindTexture(target, win->getGLObjectId(getGLId()));
 
 #ifdef GL_NV_point_sprite

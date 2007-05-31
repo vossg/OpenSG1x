@@ -228,7 +228,7 @@ Action::ResultE DrawActionBase::start(void)
     // this really doesn't belong here, but don't know a better place to put it
     if(getStatistics()->getElem(Drawable::statNTriangles,false))
     {
-        getStatistics()->getElem(Drawable::statNGeoBytes)->set(0);
+        getStatistics()->getElem(Drawable::statNGeoBytes)->reset();
         getStatistics()->getElem(Drawable::statNTriangles)->set(0);
         getStatistics()->getElem(Drawable::statNLines)->set(0);
         getStatistics()->getElem(Drawable::statNPoints)->set(0);
