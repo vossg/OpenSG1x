@@ -173,15 +173,18 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
 
     std::string vp_program =
         "varying vec2 position;\n"
+        "varying mat4 shadingTexMat;\n"
         "void main(void)\n"
         "{\n"
         "   gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;\n"
+        "   shadingTexMat  = gl_TextureMatrix[1];\n"
         "   gl_Position    = ftransform();\n"
         "   position       = gl_Vertex.xy;\n"
         "}\n";
     
     std::string fp_program =
         "varying vec2 position;\n"
+        "varying mat4 shadingTexMat;\n"
         "uniform sampler2D grabTexture;\n"
         "uniform sampler3D shadingTexture;\n"
         "uniform mat4      colorMatrix;\n"
@@ -212,12 +215,17 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
         "   color.rgb += vec3(shadingOffset,shadingOffset,shadingOffset);\n"
         "\n"
         "   // shading\n"
-        "   color.r = texture3D(shadingTexture,\n"
-        "                      vec3(position,color.r)).r;\n"
-        "   color.g = texture3D(shadingTexture,\n"
-        "                      vec3(position,color.g)).g;\n"
-        "   color.b = texture3D(shadingTexture,\n"
-        "                      vec3(position,color.b)).b;\n"
+        "\n"   
+        "   vec4 lutCoordR = vec4(position,color.r,1.0);\n"
+        "   lutCoordR = shadingTexMat * lutCoordR;\n"
+        "   vec4 lutCoordG = vec4(position,color.g,1.0);\n"
+        "   lutCoordG = shadingTexMat * lutCoordG;\n"
+        "   vec4 lutCoordB = vec4(position,color.b,1.0);\n"
+        "   lutCoordB = shadingTexMat * lutCoordB;\n"
+        "\n"   
+        "   color.r = texture3D(shadingTexture,lutCoordR.rgb).r;\n"
+        "   color.g = texture3D(shadingTexture,lutCoordG.rgb).g;\n"
+        "   color.b = texture3D(shadingTexture,lutCoordB.rgb).b;\n"
         "\n"
         "   gl_FragColor = color;\n"
         "}\n";
@@ -238,6 +246,9 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
     shadingTextureChunk->setMagFilter(GL_LINEAR);
     shadingTextureChunk->setWrapS(GL_CLAMP_TO_EDGE);
     shadingTextureChunk->setWrapT(GL_CLAMP_TO_EDGE);
+    shadingTextureChunk->setWrapR(GL_CLAMP_TO_EDGE);
+    shadingTextureChunk->setNPOTMatrixScale(true);
+    shadingTextureChunk->setScale(false);
 //    shadingTextureChunk->setInternalFormat(GL_RGB8);
     endEditCP(shadingTextureChunk);
 
