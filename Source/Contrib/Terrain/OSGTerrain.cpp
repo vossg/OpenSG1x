@@ -1189,8 +1189,8 @@ Real32 Terrain::getHeightAboveGround (const Pnt3f& eye)
    Real32 ulx = getVertex(0)[0];                    // upper left x coord.
    Real32 ulz = getVertex(0)[2];                    // upper left z coord.
    
-   Real32 lrx = getVertex(getNumVertices())[0];      // lower right...
-   Real32 lrz = getVertex(getNumVertices())[2];      // ...
+   Real32 lrx = getVertex(getNumVertices() - 1)[0];      // lower right...
+   Real32 lrz = getVertex(getNumVertices() - 1)[2];      // ...
    
    //--- determine height above ground -------------------------------------
    if      (ex < ulx) {  ex = ulx;  }
@@ -1447,7 +1447,7 @@ void Terrain::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrain.cpp,v 1.2 2005/08/12 15:27:36 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrain.cpp,v 1.3 2007/06/01 13:33:05 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTERRAINBASE_INLINE_CVSID;
 
