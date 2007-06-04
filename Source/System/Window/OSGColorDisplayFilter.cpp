@@ -149,6 +149,8 @@ void ColorDisplayFilter::updateFilterValues()
     beginEditCP(_shlChunk);
     _shlChunk->setUniformParameter("colorMatrix",  getMatrix());
     _shlChunk->setUniformParameter("gamma",        getGamma());
+    _shlChunk->setUniformParameter("shadingWidth", (Int32)width);
+    _shlChunk->setUniformParameter("shadingHeight", (Int32)height);
     _shlChunk->setUniformParameter("shadingDepth", (Int32)depth);
     endEditCP(_shlChunk);
 }
@@ -174,6 +176,7 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
     std::string vp_program =
         "varying vec2 position;\n"
         "varying mat4 shadingTexMat;\n"
+        "\n"
         "void main(void)\n"
         "{\n"
         "   gl_TexCoord[0] = gl_TextureMatrix[0] * gl_MultiTexCoord0;\n"
@@ -185,10 +188,14 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
     std::string fp_program =
         "varying vec2 position;\n"
         "varying mat4 shadingTexMat;\n"
+        "\n"
         "uniform sampler2D grabTexture;\n"
         "uniform sampler3D shadingTexture;\n"
+        "\n"
         "uniform mat4      colorMatrix;\n"
         "uniform float     gamma;\n"
+        "uniform int       shadingWidth;\n"
+        "uniform int       shadingHeight;\n"
         "uniform int       shadingDepth;\n"
         "\n"
         "void main(void)\n"
@@ -212,10 +219,18 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
         "   float shadingScale  = (float(shadingDepth)-1.0)/float(shadingDepth);\n"
         "   float shadingOffset = (1.0 - shadingScale) / 2.0;\n"
         "   color.rgb *= shadingScale;\n"
-        "   color.rgb += vec3(shadingOffset,shadingOffset,shadingOffset);\n"
+        "   color.rgb += vec3(shadingOffset);\n"
         "\n"
-        "   // shading\n"
-        "\n"   
+        "   shadingScale  = (float(shadingWidth)-1.0)/float(shadingWidth);\n"
+        "   shadingOffset = (1.0 - shadingScale) / 2.0;\n"
+        "   position.x *= shadingScale;\n"
+        "   position.x += shadingOffset;\n"
+        "\n"
+        "   shadingScale  = (float(shadingHeight)-1.0)/float(shadingHeight);\n"
+        "   shadingOffset = (1.0 - shadingScale) / 2.0;\n"
+        "   position.y *= shadingScale;\n"
+        "   position.y += shadingOffset;\n"
+        "\n"
         "   vec4 lutCoordR = vec4(position,color.r,1.0);\n"
         "   lutCoordR = shadingTexMat * lutCoordR;\n"
         "   vec4 lutCoordG = vec4(position,color.g,1.0);\n"
@@ -223,6 +238,7 @@ void ColorDisplayFilter::createFilter(DisplayFilterForeground *fg,
         "   vec4 lutCoordB = vec4(position,color.b,1.0);\n"
         "   lutCoordB = shadingTexMat * lutCoordB;\n"
         "\n"   
+        "   // shading\n"
         "   color.r = texture3D(shadingTexture,lutCoordR.rgb).r;\n"
         "   color.g = texture3D(shadingTexture,lutCoordG.rgb).g;\n"
         "   color.b = texture3D(shadingTexture,lutCoordB.rgb).b;\n"
