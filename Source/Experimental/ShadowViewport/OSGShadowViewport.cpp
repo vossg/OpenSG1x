@@ -1015,8 +1015,6 @@ void ShadowViewport::updateLights(void)
             {
                 tmpSpot = SpotLightPtr::dcast(_lights[i].second);
 
-                _lightCameras[i]->setNear(getCamera()->getNear());
-
                 Pnt3f   lightpos = tmpSpot->getPosition();
                 if(tmpSpot->getBeacon() != NullFC)
                 {
@@ -1026,14 +1024,35 @@ void ShadowViewport::updateLights(void)
 
                 Pnt3f   center;
                 getLightRoot(i)->getVolume().getCenter(center);
+                
                 Vec3f   dir = lightpos - center;
-                Real32  dirLength = dir.length();
+                Real64  dirLength = dir.length();
 
                 Vec3f   diff = (getLightRoot(i)->getVolume().getMax() -
                                 getLightRoot(i)->getVolume().getMin());
-                Real32  diffLength = diff.length();
+                Real64  diffLength = diff.length() / 2;
+                
+                Real64  zNearLimit, zCalcNear = 0;
+                Real64  zFar = 1.2 * (dirLength + diffLength);
+                Real64  zNear = getCamera()->getNear();
 
-                _lightCameras[i]->setFar(dirLength + diffLength);
+                if (diffLength) 
+                {
+                    // Camera outside of the scene
+                    if (dirLength > diffLength)      
+                        // Camera outside of the scene
+                        zCalcNear = 0.8 * (dirLength - diffLength);
+                    // else camera inside of the scene
+                    
+                    zNear = zCalcNear;
+                    // calc the zNearLimit for the current z precision
+                    zNearLimit = osgMax( 0.01, zFar / 16777215 );
+                    zNear = osgMax( zNear, zNearLimit );
+                }
+                
+                _lightCameras[i]->setNear( zNear );
+                _lightCameras[i]->setFar( zFar );
+                
                 //Using Spot-angle of Spotlight as FOV for LightCamera
                 PerspectiveCameraPtr::dcast(_lightCameras[i])->
                     setFov(tmpSpot->getSpotCutOffDeg() * 2);
@@ -1057,7 +1076,6 @@ void ShadowViewport::updateLights(void)
                     proMatrix);
                 MatrixCameraPtr::dcast(_lightCameras[i])->setModelviewMatrix(
                     modMatrix);
-
             }
             else
                 // If none of above the Lightsource must be a PointLight
@@ -1115,11 +1133,29 @@ void ShadowViewport::updateLights(void)
                     Pnt3f   sceneMin = getLightRoot(i)->getVolume().getMin();
                     Pnt3f   sceneMax = getLightRoot(i)->getVolume().getMax();
 
-                    Real32  distLength = dist.length();
-                    Real32  diffLength = diff.length();
-
-                    _lightCameras[i]->setNear(getCamera()->getNear());
-                    _lightCameras[i]->setFar(distLength + diffLength);
+                    Real64  distLength = dist.length();
+                    Real64  diffLength = diff.length() / 2;
+                    
+                    Real64  zNearLimit, zCalcNear = 0;
+                    Real64  zFar = 1.2 * (distLength + diffLength);
+                    Real64  zNear = getCamera()->getNear();
+    
+                    if (diffLength) 
+                    {
+                        // Camera outside of the scene
+                        if (distLength > diffLength)      
+                            // Camera outside of the scene
+                            zCalcNear = 0.8 * (distLength - diffLength);
+                        // else camera inside of the scene
+                        
+                        zNear = zCalcNear;
+                        // calc the zNearLimit for the current z precision
+                        zNearLimit = osgMax( 0.01, zFar / 16777215 );
+                        zNear = osgMax( zNear, zNearLimit );
+                    }
+                    
+                    _lightCameras[i]->setNear( zNear );
+                    _lightCameras[i]->setFar( zFar );
 
                     PerspectiveCameraPtr::dcast(_lightCameras[i])->setFov(
                         PLangle);
@@ -1473,7 +1509,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.29 2007/04/03 03:16:54 dirk Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.30 2007/06/04 11:38:35 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
