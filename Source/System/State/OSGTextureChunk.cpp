@@ -667,7 +667,8 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             glTexParameteri(paramtarget, GL_TEXTURE_WRAP_S, getWrapS());
             if(paramtarget == GL_TEXTURE_2D ||
                paramtarget == GL_TEXTURE_3D ||
-               paramtarget == GL_TEXTURE_CUBE_MAP_ARB
+               paramtarget == GL_TEXTURE_CUBE_MAP_ARB ||
+               paramtarget == GL_TEXTURE_RECTANGLE_ARB
               )
                 glTexParameteri(paramtarget, GL_TEXTURE_WRAP_T, getWrapT());
             if(paramtarget == GL_TEXTURE_3D ||
