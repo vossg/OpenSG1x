@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
  */
 static void multFullMatrixPnt4 (Matrix m, Pnt4f &p)
 {
-    Pnt4f tmp;
+    Pnt4f tmp; 
     
     tmp[0] = m[0][0]*p[0] + m[1][0]*p[1] + m[2][0]*p[2] + m[3][0]*p[3];
     tmp[1] = m[0][1]*p[0] + m[1][1]*p[1] + m[2][1]*p[2] + m[3][1]*p[3];
@@ -893,22 +893,36 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
     port.rect[RIGHT]  = osgMin(cright ,right ) - left;
     port.rect[TOP]    = osgMin(ctop   ,top   ) - bottom;
 
-    serverPort = port.serverPort;
-    // create port and deco for visualization
+    // verify if the viewport type has changed
+    if(port.serverPort != NullFC)
+    {
+        if(port.serverPort->getType().getId() != getPort()[port.id]->getType().getId())
+        {
+            // this must not happen very frequently, otherwise, memory leak may occur
+            subRefCP(port.serverPort->getCamera());
+            subRefCP(port.serverPort);
+            port.serverPort = NullFC;
+        }
+
+    }
+
+    // create port and deco for visualization, only if necessary
     if(port.serverPort == NullFC)
     {
-        serverPort = ViewportPtr::dcast(getPort()[port.id]->shallowCopy());
-        port.serverPort = serverPort;
+        port.serverPort = ViewportPtr::dcast(getPort()[port.id]->shallowCopy());
+        addRefCP(port.serverPort);
         deco = TileCameraDecorator::create();
-        serverPort->setCamera(deco);
+        port.serverPort->setCamera(deco);
     }
     else
     {
-        deco = TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+        deco = TileCameraDecoratorPtr::dcast(port.serverPort->getCamera());
     }
     // decorate client camera
     deco->setDecoratee( clientPort->getCamera() );
 
+    serverPort = port.serverPort;
+    
     // duplicate values
     beginEditCP(serverPort);
     serverPort->setSize(Real32(rect[LEFT]),
@@ -1610,7 +1624,6 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
     _foreignPort.id         = portId;
     _foreignPort.serverId   = id;
     _foreignPort.root       = getPort()[portId]->getRoot();
-    _foreignPort.serverPort = NullFC;
     // calculate valid viewport
     calculateServerPort(_foreignPort,rect);
     // add to window
