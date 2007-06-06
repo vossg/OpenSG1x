@@ -220,6 +220,10 @@ void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 */
 void TrackballNavigator::set(Matrix new_matrix)
 {
+    // get distance
+    Vec3f translation( new_matrix[3][0], new_matrix[3][1], new_matrix[3][2] );
+    _rDistance = translation.length();
+
     _pFrom = (Pnt3f) new_matrix[3];
     _pAt   = (Pnt3f)(new_matrix[3] - (_rDistance * new_matrix[2]));
     _vUp   = (Vec3f) new_matrix[1];
