@@ -482,7 +482,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMatrixFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMInt.h"
 					>
 				</File>
@@ -494,7 +494,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMIntFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrix.h"
 					>
 				</File>
@@ -506,7 +506,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrixFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMReal.h"
 					>
 				</File>
@@ -518,7 +518,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMRealFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2f.h"
 					>
 				</File>
@@ -530,7 +530,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2fFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3f.h"
 					>
 				</File>
@@ -542,7 +542,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3fFields.h"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec4f.h"
 					>
 				</File>
@@ -2455,6 +2455,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlane.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneFields.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGComponentTransform.h"
 					>
 				</File>
@@ -2539,6 +2551,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroup.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupFields.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGStateSortingGroup.h"
 					>
 				</File>
@@ -2612,6 +2636,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\State\OSGClipPlaneChunkFields.h"
+					>
+				</File>
+                <File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkFields.h"
 					>
 				</File>
 				<File
@@ -2756,6 +2792,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\State\OSGRegisterCombinersChunkFields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkFields.h"
 					>
 				</File>
 				<File
@@ -3079,6 +3127,18 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterFields.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackground.h"
 					>
 				</File>
@@ -3088,6 +3148,42 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackgroundFields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterFields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForeground.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundFields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterFields.h"
 					>
 				</File>
 				<File
@@ -3304,6 +3400,18 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGProjectionCameraDecoratorFields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterBase.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterFields.h"
 					>
 				</File>
 				<File
@@ -3631,7 +3739,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMatrixBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMInt.inl"
 					>
 				</File>
@@ -3639,7 +3747,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMIntBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrix.inl"
 					>
 				</File>
@@ -3647,7 +3755,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrixBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMReal.inl"
 					>
 				</File>
@@ -3655,7 +3763,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMRealBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2f.inl"
 					>
 				</File>
@@ -3663,7 +3771,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2fBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3f.inl"
 					>
 				</File>
@@ -3671,7 +3779,7 @@
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3fBase.inl"
 					>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec4f.inl"
 					>
 				</File>
@@ -4532,6 +4640,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlane.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneBase.inl"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGComponentTransform.inl"
 					>
 				</File>
@@ -4588,6 +4704,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupBase.inl"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGStateSortingGroup.inl"
 					>
 				</File>
@@ -4641,6 +4761,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\State\OSGClipPlaneChunkBase.inl"
+					>
+				</File>
+                <File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.inl"
 					>
 				</File>
 				<File
@@ -4737,6 +4865,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\State\OSGRegisterCombinersChunkBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.inl"
 					>
 				</File>
 				<File
@@ -4980,11 +5116,43 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilter.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterBase.inl"
+					>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackground.inl"
 					>
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackgroundBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilter.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForeground.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilter.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterBase.inl"
 					>
 				</File>
 				<File
@@ -5121,6 +5289,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\Source\System\Window\OSGProjectionCameraDecoratorBase.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilter.inl"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterBase.inl"
 					>
 				</File>
 				<File
@@ -6490,7 +6666,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMInt.cpp"
 					>
 					<FileConfiguration
@@ -6540,7 +6716,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMMatrix.cpp"
 					>
 					<FileConfiguration
@@ -6590,7 +6766,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMReal.cpp"
 					>
 					<FileConfiguration
@@ -6640,7 +6816,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec2f.cpp"
 					>
 					<FileConfiguration
@@ -6690,7 +6866,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec3f.cpp"
 					>
 					<FileConfiguration
@@ -6740,7 +6916,7 @@
 						/>
 					</FileConfiguration>
 				</File>
-                <File
+				<File
 					RelativePath="..\..\..\Source\Experimental\SHL\OSGShaderParameterMVec4f.cpp"
 					>
 					<FileConfiguration
@@ -14580,6 +14756,56 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlane.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneBase.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGComponentTransform.cpp"
 					>
 					<FileConfiguration
@@ -14908,6 +15134,56 @@
 					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGProxyGroupBase.cpp"
 					>
 					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroup.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+                <File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupBase.cpp"
+					>
+                    <FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -15816,6 +16092,56 @@
 					RelativePath="..\..\..\Source\System\State\OSGRegisterCombinersChunkBase.cpp"
 					>
 					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.cpp"
+					>
+                    <FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -17325,6 +17651,56 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilter.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterBase.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackground.cpp"
 					>
 					<FileConfiguration
@@ -17353,6 +17729,156 @@
 					RelativePath="..\..\..\Source\System\Window\OSGDepthClearBackgroundBase.cpp"
 					>
 					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilter.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterBase.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForeground.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundBase.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilter.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterBase.cpp"
+					>
+                    <FileConfiguration
 						Name="Release|Win32"
 						>
 						<Tool
@@ -18300,6 +18826,56 @@
 					</FileConfiguration>
 				</File>
 				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilter.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterBase.cpp"
+					>
+                    <FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="2"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							Optimization="0"
+							AdditionalIncludeDirectories=""
+							PreprocessorDefinitions="WIN32;_WINDOWS;WINVER=0x0400;_WIN32_WINDOWS=0x0410;_WIN32_WINNT=0x0400;_OSG_HAVE_CONFIGURED_H_;OSG_BUILD_DLL;_DEBUG;OSG_DEBUG;OSG_COMPILESYSTEMLIB;OSG_WITH_GLUT;OSG_WITH_TIF;OSG_WITH_JPG;OSG_WITH_PNG;QT_NO_STL;QT_DLL;QT_THREAD_SUPPORT;QT_ACCESSIBILITY_SUPPORT;QT_NO_DEBUG;$(NoInherit)"
+							BasicRuntimeChecks="3"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
 					RelativePath="..\..\..\Source\System\Window\OSGShearedStereoCameraDecorator.cpp"
 					>
 					<FileConfiguration
@@ -18966,7 +19542,7 @@
 						>
 						<Tool
 							Name="VCCustomBuildTool"
-							CommandLine="..\..\..\dist\win\bin\flex.exe -+ -POSGScanParseSkel_ ../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.lpp&#x0D;&#x0A;type lex.OSGScanParseSkel_.cc | sed -e &quot;s/\(yy\)\(text_ptr\)/OSGScanParseSkel_\2/g&quot; -e &quot;s/\&amp;cin/\&amp;std::cin/g&quot; -e &quot;s/\&amp;cout/\&amp;std::cout/g&quot; -e &quot;s/cerr/std::cerr/g&quot; -e &quot;s/class istream;/#include &lt;iosfwd&gt;/g&quot; -e &quot;s/istream\*/\std::istream\*/g&quot; -e &quot;s/ostream\*/std::ostream\*/g&quot; &gt; OSGScanParseSkel.lex.cpp&#x0D;&#x0A;"
+							CommandLine="..\..\..\dist\win\bin\flex.exe -+ -POSGScanParseSkel_ ../../../Source/System/FileIO/ScanParseSkel/OSGScanParseSkel.lpp&#x0D;&#x0A;type lex.OSGScanParseSkel_.cc | ..\..\..\dist\win\bin\sed.exe -e &quot;s/\(yy\)\(text_ptr\)/OSGScanParseSkel_\2/g&quot; -e &quot;s/\&amp;cin/\&amp;std::cin/g&quot; -e &quot;s/\&amp;cout/\&amp;std::cout/g&quot; -e &quot;s/cerr/std::cerr/g&quot; -e &quot;s/class istream;/#include &lt;iosfwd&gt;/g&quot; -e &quot;s/istream\*/\std::istream\*/g&quot; -e &quot;s/ostream\*/std::ostream\*/g&quot; &gt; OSGScanParseSkel.lex.cpp&#x0D;&#x0A;"
 							Outputs="OSGScanParseSkel.lex.cpp"
 						/>
 					</FileConfiguration>
@@ -21478,12 +22054,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21561,10 +22132,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21642,11 +22210,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21724,11 +22288,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21806,10 +22366,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21887,12 +22444,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -21970,10 +22522,6 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
 			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
@@ -22754,7 +23302,6 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-
 			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
@@ -22807,11 +23354,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -22863,8 +23406,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -22916,8 +23458,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -22969,8 +23510,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -23022,8 +23562,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -23075,8 +23614,7 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            <Filter
+			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
 				<File
@@ -23128,9 +23666,6 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
-            
-            
-            
 			<Filter
 				Name="SourceExperimentalSHL Install"
 				>
@@ -38367,6 +38902,92 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlane.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlane.h &gt; ../include/OpenSG/OSGClipPlane.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlane.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlane.h &gt; ../include/OpenSG/OSGClipPlane.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlane.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneBase.h &gt; ../include/OpenSG/OSGClipPlaneBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneBase.h &gt; ../include/OpenSG/OSGClipPlaneBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneFields.h &gt; ../include/OpenSG/OSGClipPlaneFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneFields.h &gt; ../include/OpenSG/OSGClipPlaneFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
 			<Filter
 				Name="SourceSystemNodeCoresGroupsMisc Install"
 				>
@@ -38991,6 +39612,94 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroup.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroup.h &gt; ../include/OpenSG/OSGScreenGroup.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroup.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroup.h &gt; ../include/OpenSG/OSGScreenGroup.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroup.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupBase.h &gt; ../include/OpenSG/OSGScreenGroupBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupBase.h &gt; ../include/OpenSG/OSGScreenGroupBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupFields.h &gt; ../include/OpenSG/OSGScreenGroupFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupFields.h &gt; ../include/OpenSG/OSGScreenGroupFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
 			<Filter
 				Name="SourceSystemNodeCoresGroupsMisc Install"
 				>
@@ -39199,6 +39908,62 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            <Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlane.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlane.inl &gt; ../include/OpenSG/OSGClipPlane.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlane.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlane.inl &gt; ../include/OpenSG/OSGClipPlane.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlane.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGClipPlaneBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneBase.inl &gt; ../include/OpenSG/OSGClipPlaneBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGClipPlaneBase.inl &gt; ../include/OpenSG/OSGClipPlaneBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
 			<Filter
 				Name="SourceSystemNodeCoresGroupsMisc Install"
 				>
@@ -39615,6 +40380,70 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroup.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroup.inl &gt; ../include/OpenSG/OSGScreenGroup.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroup.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroup.inl &gt; ../include/OpenSG/OSGScreenGroup.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroup.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemNodeCoresGroupsMisc Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\NodeCores\Groups\Misc\OSGScreenGroupBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupBase.inl &gt; ../include/OpenSG/OSGScreenGroupBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/NodeCores/Groups/Misc/OSGScreenGroupBase.inl &gt; ../include/OpenSG/OSGScreenGroupBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGScreenGroupBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
 			<Filter
 				Name="SourceSystemNodeCoresGroupsMisc Install"
 				>
@@ -39975,6 +40804,84 @@
 							Name="VCCustomBuildTool"
 							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGClipPlaneChunkFields.h &gt; ../include/OpenSG/OSGClipPlaneChunkFields.h&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGClipPlaneChunkFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            <Filter
+				Name="SourceSystemState Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGClipPlaneChunk.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGClipPlaneChunk.h &gt; ../include/OpenSG/OSGClipPlaneChunk.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneChunk.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGClipPlaneChunk.h &gt; ../include/OpenSG/OSGClipPlaneChunk.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGClipPlaneChunk.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkBase.h &gt; ../include/OpenSG/OSGSClipPlaneChunkBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkBase.h &gt; ../include/OpenSG/OSGSClipPlaneChunkBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkFields.h &gt; ../include/OpenSG/OSGSClipPlaneChunkFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkFields.h &gt; ../include/OpenSG/OSGSClipPlaneChunkFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkFields.h"
 						/>
 					</FileConfiguration>
 				</File>
@@ -41743,6 +42650,58 @@
 							Name="VCCustomBuildTool"
 							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGClipPlaneChunkBase.inl &gt; ../include/OpenSG/OSGClipPlaneChunkBase.inl&#x0D;&#x0A;"
 							Outputs="../include/OpenSG/OSGClipPlaneChunkBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            <Filter
+				Name="SourceSystemState Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunk.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunk.inl &gt; ../include/OpenSG/OSGSClipPlaneChunk.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunk.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunk.inl &gt; ../include/OpenSG/OSGSClipPlaneChunk.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunk.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemState Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\State\OSGSClipPlaneChunkBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkBase.inl &gt; ../include/OpenSG/OSGSClipPlaneChunkBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/State/OSGSClipPlaneChunkBase.inl &gt; ../include/OpenSG/OSGSClipPlaneChunkBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGSClipPlaneChunkBase.inl"
 						/>
 					</FileConfiguration>
 				</File>
@@ -47363,6 +48322,441 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilter.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilter.h &gt; ../include/OpenSG/OSGColorDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilter.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilter.h &gt; ../include/OpenSG/OSGColorDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilter.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterBase.h &gt; ../include/OpenSG/OSGColorDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterBase.h &gt; ../include/OpenSG/OSGColorDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterFields.h &gt; ../include/OpenSG/OSGColorDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterFields.h &gt; ../include/OpenSG/OSGColorDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilter.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilter.h &gt; ../include/OpenSG/OSGDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilter.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilter.h &gt; ../include/OpenSG/OSGDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilter.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterBase.h &gt; ../include/OpenSG/OSGDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterBase.h &gt; ../include/OpenSG/OSGDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterFields.h &gt; ../include/OpenSG/OSGDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterFields.h &gt; ../include/OpenSG/OSGDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilter.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilter.h &gt; ../include/OpenSG/OSGDistortionDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilter.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilter.h &gt; ../include/OpenSG/OSGDistortionDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilter.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterBase.h &gt; ../include/OpenSG/OSGDistortionDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterBase.h &gt; ../include/OpenSG/OSGDistortionDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterFields.h &gt; ../include/OpenSG/OSGDistortionDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterFields.h &gt; ../include/OpenSG/OSGDistortionDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForeground.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForeground.h &gt; ../include/OpenSG/OSGDisplayFilterForeground.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForeground.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForeground.h &gt; ../include/OpenSG/OSGDisplayFilterForeground.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForeground.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundBase.h &gt; ../include/OpenSG/OSGDisplayFilterForegroundBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundBase.h &gt; ../include/OpenSG/OSGDisplayFilterForegroundBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundFields.h &gt; ../include/OpenSG/OSGDisplayFilterForegroundFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundFields.h &gt; ../include/OpenSG/OSGDisplayFilterForegroundFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilter.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilter.h &gt; ../include/OpenSG/OSGResolutionDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilter.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilter.h &gt; ../include/OpenSG/OSGResolutionDisplayFilter.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilter.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterBase.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterBase.h &gt; ../include/OpenSG/OSGResolutionDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterBase.h &gt; ../include/OpenSG/OSGResolutionDisplayFilterBase.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterBase.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterFields.h"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterFields.h &gt; ../include/OpenSG/OSGResolutionDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterFields.h &gt; ../include/OpenSG/OSGResolutionDisplayFilterFields.h&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterFields.h"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            
 			<Filter
 				Name="SourceSystemWindow Install"
 				>
@@ -49105,6 +50499,316 @@
 					</FileConfiguration>
 				</File>
 			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilter.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilter.inl &gt; ../include/OpenSG/OSGColorDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilter.inl &gt; ../include/OpenSG/OSGColorDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGColorDisplayFilterBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterBase.inl &gt; ../include/OpenSG/OSGColorDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGColorDisplayFilterBase.inl &gt; ../include/OpenSG/OSGColorDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGColorDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilter.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilter.inl &gt; ../include/OpenSG/OSGDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilter.inl &gt; ../include/OpenSG/OSGDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterBase.inl &gt; ../include/OpenSG/OSGDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterBase.inl &gt; ../include/OpenSG/OSGDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilter.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilter.inl &gt; ../include/OpenSG/OSGDistortionDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilter.inl &gt; ../include/OpenSG/OSGDistortionDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDistortionDisplayFilterBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterBase.inl &gt; ../include/OpenSG/OSGDistortionDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDistortionDisplayFilterBase.inl &gt; ../include/OpenSG/OSGDistortionDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDistortionDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForeground.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForeground.inl &gt; ../include/OpenSG/OSGDisplayFilterForeground.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForeground.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForeground.inl &gt; ../include/OpenSG/OSGDisplayFilterForeground.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForeground.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGDisplayFilterForegroundBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundBase.inl &gt; ../include/OpenSG/OSGDisplayFilterForegroundBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGDisplayFilterForegroundBase.inl &gt; ../include/OpenSG/OSGDisplayFilterForegroundBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGDisplayFilterForegroundBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilter.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilter.inl &gt; ../include/OpenSG/OSGResolutionDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilter.inl &gt; ../include/OpenSG/OSGResolutionDisplayFilter.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilter.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="SourceSystemWindow Install"
+				>
+				<File
+					RelativePath="..\..\..\Source\System\Window\OSGResolutionDisplayFilterBase.inl"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterBase.inl &gt; ../include/OpenSG/OSGResolutionDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+							CommandLine="..\..\..\dist\win\bin\sed.exe -e &quot;s/include[ ]*&lt;OSG/include &lt;OpenSG\/OSG/g&quot; -e &quot;s/include[ ]*\&quot;OSG/include \&quot;OpenSG\/OSG/g&quot; ../../../Source/System/Window/OSGResolutionDisplayFilterBase.inl &gt; ../include/OpenSG/OSGResolutionDisplayFilterBase.inl&#x0D;&#x0A;"
+							Outputs="../include/OpenSG/OSGResolutionDisplayFilterBase.inl"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+            
+            
+            
+            
+            
+            
+            
+            
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -49124,7 +50828,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="..\..\..\dist\win\bin\unzip.exe -u ..\..\..\dist\win\supportlibs.zip -d ..\..\..\..\supportlibs"
+						CommandLine="..\..\..\dist\win\bin\unzip.exe -u -o ..\..\..\dist\win\supportlibs.zip -d ..\..\..\..\supportlibs&#x0D;&#x0A;"
 						Outputs="..\..\..\..\supportlibs"
 					/>
 				</FileConfiguration>
@@ -49133,7 +50837,7 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						CommandLine="..\..\..\dist\win\bin\unzip.exe -u ..\..\..\dist\win\supportlibs.zip -d ..\..\..\..\supportlibs"
+						CommandLine="..\..\..\dist\win\bin\unzip.exe -u ..\..\..\dist\win\supportlibs.zip -d ..\..\..\..\supportlibs&#x0D;&#x0A;"
 						Outputs="..\..\..\..\supportlibs"
 					/>
 				</FileConfiguration>
