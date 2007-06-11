@@ -49,8 +49,9 @@
 #include <OSGBaseTypes.h>
 #include <OSGReal16.h>
 
-OSG_USING_NAMESPACE
 using namespace std;
+
+OSG_BEGIN_NAMESPACE
 
 //-------------------------------------------------------------
 // Lookup tables for half-to-float and float-to-half conversion
@@ -16842,6 +16843,8 @@ printBits (char c[35], float f)
     c[34] = 0;
 }
 
+OSG_END_NAMESPACE
+
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */
 
@@ -16855,6 +16858,6 @@ printBits (char c[35], float f)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGREAL16_HEADER_CVSID;
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: $";
+    static OSG::Char8 cvsid_hpp[] = OSGREAL16_HEADER_CVSID;
 }
