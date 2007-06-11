@@ -2067,6 +2067,9 @@ dnl e15
             cygwin*)
                 ac_gdz_imf_lib_e15='IlmImf.lib'
             ;;
+            darwin*)
+                ac_gdz_imf_lib_e15='"-lIlmImf -lIex -lHalf -lImath -lIlmThread"'
+            ;;
             *)
                 ac_gdz_imf_lib_e15='"-lIlmImf -lIex -lHalf -lImath"'
             ;;
@@ -2880,6 +2883,9 @@ dnl e28
         case $build_os in
             cygwin*)
                 ac_gdz_imf_lib_e28='IlmImf.lib'
+            ;;
+            darwin*)
+                ac_gdz_imf_lib_e28='-lIlmImf -lIex -lHalf -lImath -lIlmThread'
             ;;
             *)
                 ac_gdz_imf_lib_e28='-lIlmImf -lIex -lHalf -lImath'
