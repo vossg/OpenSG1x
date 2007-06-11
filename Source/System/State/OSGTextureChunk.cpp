@@ -1775,7 +1775,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         }
     }
     
-    if (!setMatrix)
+    if (!setMatrix && idx < static_cast<UInt32>(ntexcoords))
     {
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
@@ -2098,39 +2098,14 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             }
         }
     }
-#if 0
-    else if(oldused)
-    {
-        NpotMatScale = oldp->getNPOTMatrixScale();
-        
-        if ( idx < static_cast<UInt32>(ntexcoords) && 
-            !oldp->getScale() && NpotMatScale )
-        {
-            if ( ( (NpotMatScale & NPotTexScale_TT) &&
-                    oldp->getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-                    !win->hasExtension(_arbTextureNonPowerOfTwo) )
-                    ||    (NpotMatScale & XFlip_TT)
-                    ||    (NpotMatScale & YFlip_TT)
-                    ||    (NpotMatScale & ZFlip_TT)
-                )
-            {
-                glPushAttrib(GL_TRANSFORM_BIT);
-                glMatrixMode(GL_TEXTURE);
-                glLoadIdentity();
-                glPopAttrib();
-            }
-        }
-    }
-// be consistent with TextureTransform which has to multiply in activate/change
-#else
-    if (!setMatrix)
+
+    if (!setMatrix && idx < static_cast<UInt32>(ntexcoords))
     {
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
         glLoadIdentity();
         glPopAttrib();
     }
-#endif
     
     glErr("TextureChunk::changeFrom");
 }
@@ -2248,30 +2223,16 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
             glDisable(GL_TEXTURE_SHADER_NV);
     }
     
-// be consistent with TextureTransform which has to multiply in activate/change
-#if 0
-    UInt32 NpotMatScale = getNPOTMatrixScale();
+    // be consistent with TextureTransform which has to multiply
+    //UInt32 NpotMatScale = getNPOTMatrixScale();
     
-    if ( idx < static_cast<UInt32>(ntexcoords) &&
-        !getScale() && NpotMatScale )
+    if ( idx < static_cast<UInt32>(ntexcoords) )
     {
-        if ( ( (NpotMatScale & NPotTexScale_TT) &&
-                getTarget() != GL_TEXTURE_RECTANGLE_ARB &&
-                !win->hasExtension(_arbTextureNonPowerOfTwo) )
-                ||    (NpotMatScale & XFlip_TT)
-                ||    (NpotMatScale & YFlip_TT)
-                ||    (NpotMatScale & ZFlip_TT)
-            )
-        {
-#endif
-            glPushAttrib(GL_TRANSFORM_BIT);
-            glMatrixMode(GL_TEXTURE);
-            glLoadIdentity();
-            glPopAttrib();
-#if 0
-        }
+        glPushAttrib(GL_TRANSFORM_BIT);
+        glMatrixMode(GL_TEXTURE);
+        glLoadIdentity();
+        glPopAttrib();
     }
-#endif
     
     glDisable(target);
 
