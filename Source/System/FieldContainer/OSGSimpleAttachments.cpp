@@ -243,7 +243,8 @@ void *getVoidP(AttachmentContainerPtr container)
  */
 
 void setVoidP(AttachmentContainerPtr  container, 
-              void                   *pData    )
+              void                   *pData,
+              bool                   internal )
 {
     if(container == NullFC)
     {
@@ -274,6 +275,7 @@ void setVoidP(AttachmentContainerPtr  container,
         }
     }
   
+    pVoid->setInternal(internal);
     pVoid->getFieldPtr()->setValue(pData);
 }
 

@@ -189,7 +189,8 @@ void *getVoidP(AttachmentContainerPtr  container);
 
 OSG_SYSTEMLIB_DLLMAPPING
 void  setVoidP(AttachmentContainerPtr  container, 
-               void                   *pData    );
+               void                   *pData,
+               bool                   internal = false );
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
