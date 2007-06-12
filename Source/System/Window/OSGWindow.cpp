@@ -1156,6 +1156,22 @@ void OSG::Window::frameInit(void)
         
         _glVersion = (major << 8) + minor;
         
+#ifdef __APPLE__
+
+	const char* glVendor = (const char*) glGetString(GL_VENDOR);
+	const char* glRenderer = (const char*) glGetString(GL_RENDERER);
+
+	// TODO; is there a better way to switch some
+        // extentions for a specific os/vendor/renderer combo
+        FLOG (( "GL Vendor/Renderer: %s/%s\n", glVendor, glRenderer ));
+	
+	if ( strstr(glVendor, "ATI") && strstr(glRenderer,"X1600") ) {
+          FWARNING (("Switch of non_power_of_two for ATI\n"));
+          ignoreExtensions("GL_ARB_texture_non_power_of_two");
+	}
+
+#endif // __APPLE
+
         FDEBUG(("Window %p: GL Version: %4x ('%s')\n", this, 
                 _glVersion, glGetString(GL_VERSION) ));
          
