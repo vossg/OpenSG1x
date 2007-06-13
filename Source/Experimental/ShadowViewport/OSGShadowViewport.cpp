@@ -600,9 +600,6 @@ void ShadowViewport::render(RenderActionBase *action)
 
         // active stereo support.
         activate();
-
-        //glClearStencil(0x0);
-        //glClear(GL_STENCIL_BUFFER_BIT);
         
         _treeRenderer->render(action);
 
@@ -1045,8 +1042,7 @@ void ShadowViewport::updateLights(void)
                     // else camera inside of the scene
                     
                     zNear = zCalcNear;
-                    // calc the zNearLimit for the current z precision
-                    zNearLimit = osgMax( 0.01, zFar / 16777215 );
+                    zNearLimit = osgMax( 0.01, zFar / 20000 );
                     zNear = osgMax( zNear, zNearLimit );
                 }
                 
@@ -1149,8 +1145,7 @@ void ShadowViewport::updateLights(void)
                         // else camera inside of the scene
                         
                         zNear = zCalcNear;
-                        // calc the zNearLimit for the current z precision
-                        zNearLimit = osgMax( 0.01, zFar / 16777215 );
+                        zNearLimit = osgMax( 0.01, zFar / 20000 );
                         zNear = osgMax( zNear, zNearLimit );
                     }
                     
@@ -1509,7 +1504,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.30 2007/06/04 11:38:35 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.31 2007/06/13 16:51:56 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

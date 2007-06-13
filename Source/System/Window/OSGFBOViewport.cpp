@@ -579,7 +579,7 @@ void FBOViewport::render(RenderActionBase* action)
     endEditCP(getPtr(), StorageWidthFieldMask | StorageHeightFieldMask);
 
     // set special render state
-    if(_renderParamsFP != NULL)
+    if (_renderParamsFP != NULL)
         _renderParamsFP(FBO_RP_EFFECTS);
 
     bool depth = getGenDepthmaps();
@@ -672,6 +672,7 @@ void FBOViewport::render(RenderActionBase* action)
                     //SWARNING << "noDim: " << imgWidth << ", " << imgHeight << std::endl;
                 }
                 
+                // TODO; introduce special mode instead of searching for this type
                 for (j=0; j<win->getPort().size(); j++)
                 {
                     shadowVptPtr = ShadowViewportPtr::dcast(win->getPort(j));
@@ -789,6 +790,9 @@ void FBOViewport::render(RenderActionBase* action)
                                         action->apply(rdnode);
                                 }
                             }
+                            
+                            for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+                                getForegrounds(fi)->draw(action, this);
 
                             // deactivate viewport settings
                             deactivate();
@@ -857,6 +861,9 @@ void FBOViewport::render(RenderActionBase* action)
                                     action->apply(rdnode);
                             }
                         }
+                        
+                        for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+                            getForegrounds(fi)->draw(action, this);
                         
                         // deactivate viewport settings
                         deactivate();
@@ -1161,6 +1168,9 @@ void FBOViewport::render(RenderActionBase* action)
                 }
             }
             
+            for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+                getForegrounds(fi)->draw(action, this);
+            
             // deactivate viewport settings
             deactivate();
 
@@ -1184,7 +1194,7 @@ void FBOViewport::render(RenderActionBase* action)
         rAct->setZWriteTrans(zWriteTransSave);
 
     // reset  special render state
-    if(_renderParamsFP != NULL)
+    if (_renderParamsFP != NULL)
         _renderParamsFP(FBO_RP_NONE);
 }
 
@@ -1319,7 +1329,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.6 2007/04/03 03:16:55 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.7 2007/06/13 16:51:57 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
