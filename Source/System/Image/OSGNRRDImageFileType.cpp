@@ -241,6 +241,7 @@ bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::strin
             }
             break;
           case SIZES_HE:
+	std::cerr << "XXXXXX: " << n << std::endl;
             switch (n) {
             case 5:
               channel = atoi(tokenVec[1].c_str());
@@ -267,6 +268,13 @@ bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::strin
               FFATAL (( "Invalid %s/%d in NRRD header\n",
                         tokenVec[0].c_str(), n ));
               break;
+            }
+	    if ((n <= 4) && (width <= 4)) 
+            {
+               channel = width;
+               width = height;
+               height = depth;
+               depth = 1;
             }
             break;
           case ENDIAN_HE:

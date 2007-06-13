@@ -132,6 +132,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DATImageFileType : public ImageFileType
       SLICE_THICKNESS_KT,
       FORMAT_KT,
       FILE_OFFSET_KT,
+      CHANNEL_KT,
       ENDIAN_KT
     };
 
