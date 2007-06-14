@@ -258,7 +258,7 @@ static bool readLayerAndMaskInformation(std::istream &is)
   return true;
 }
 
-static bool readImageData(std::istream &is, const PSDHeader &header, char *colormap, Int16 &transparentIndex, UInt8 *data)
+static bool readImageData(std::istream &is, const PSDHeader &header, UInt16 relevantChannels, char *colormap, Int16 &transparentIndex, UInt8 *data)
 {
   // Read the compression into the buffer
   std::vector<char> buffer;
@@ -271,7 +271,7 @@ static bool readImageData(std::istream &is, const PSDHeader &header, char *color
   // Parse the compression
   UInt16 compression = parseUInt16(ptr);
   if (compression > 1)
-	return false;
+    return false;
 
   // Calculate the bytes per line
   UInt32 bpl = (header.columns * header.depth + 7) / 8;
@@ -279,7 +279,7 @@ static bool readImageData(std::istream &is, const PSDHeader &header, char *color
   if (header.mode == 2) // Indexed color
     dstBpl = header.columns * (transparentIndex != -1 ? 4 : 3);
   else
-    dstBpl = header.columns * header.channels;
+    dstBpl = header.columns * relevantChannels;
 
   // When the image data is compressed, we have to read the
   // lengths of the lines
@@ -331,72 +331,75 @@ static bool readImageData(std::istream &is, const PSDHeader &header, char *color
       if (static_cast<UInt32>(is.gcount()) != size)
         return false;
 
-      // Decompress the line
-      if (compression == 1)
+      if (c < relevantChannels)
       {
-        UInt32 src = 0, dst = 0;
-        while (src < size)
+        // Decompress the line
+        if (compression == 1)
         {
-          UInt8 runCount = buffer[src++];
-          if (runCount & 0x80)
+          UInt32 src = 0, dst = 0;
+          while (src < size)
           {
-            runCount = -runCount + 1;
-            if (dst + runCount > bpl)
-              return false;
-            for (; runCount > 0; --runCount)
-              line[dst++] = buffer[src];
-            ++src;
+            UInt8 runCount = buffer[src++];
+            if (runCount & 0x80)
+            {
+              runCount = -runCount + 1;
+              if (dst + runCount > bpl)
+                return false;
+              for (; runCount > 0; --runCount)
+                line[dst++] = buffer[src];
+              ++src;
+            }
+            else
+            {
+              ++runCount;
+              if (dst + runCount > bpl)
+                return false;
+              for (; runCount > 0; --runCount)
+                line[dst++] = buffer[src++];
+            }
           }
-          else
-          {
-            ++runCount;
-            if (dst + runCount > bpl)
-              return false;
-            for (; runCount > 0; --runCount)
-              line[dst++] = buffer[src++];
-          }
+          if (dst != bpl)
+            return false;
         }
-        if (dst != bpl)
-          return false;
-      }
 
-      // Copy the line into the image
-      UInt8 *lineDstPtr = dstPtr;
-      switch (header.depth)
-      {
-      case 1:
-        for (UInt32 x = 0; x < header.columns; ++x)
+        // Copy the line into the image
+        UInt8 *lineDstPtr = dstPtr;
+        switch (header.depth)
         {
-          UInt8 v = line[x / 8] & (1 << (7 - (x & 7)));
-          *lineDstPtr = v != 0 ? 0 : 255;
-          lineDstPtr += header.channels;
-        }
-        break;
-      case 8:
-        if (header.mode == 2)
+        case 1:
           for (UInt32 x = 0; x < header.columns; ++x)
           {
-            UInt8 index = line[x];
-            *lineDstPtr++ = colormap[index];
-            *lineDstPtr++ = colormap[index + 256];
-            *lineDstPtr++ = colormap[index + 512];
-            if (transparentIndex != -1)
-              *lineDstPtr++ = index == transparentIndex ? 0 : 255;
+            UInt8 v = line[x / 8] & (1 << (7 - (x & 7)));
+            *lineDstPtr = v != 0 ? 0 : 255;
+            lineDstPtr += relevantChannels;
           }
-        else
+          break;
+        case 8:
+          if (header.mode == 2)
+            for (UInt32 x = 0; x < header.columns; ++x)
+            {
+              UInt8 index = line[x];
+              *lineDstPtr++ = colormap[index];
+              *lineDstPtr++ = colormap[index + 256];
+              *lineDstPtr++ = colormap[index + 512];
+              if (transparentIndex != -1)
+                *lineDstPtr++ = index == transparentIndex ? 0 : 255;
+            }
+          else
+            for (UInt32 x = 0; x < header.columns; ++x)
+            {
+              *lineDstPtr = line[x];
+              lineDstPtr += relevantChannels;
+            }
+          break;
+        case 16:
           for (UInt32 x = 0; x < header.columns; ++x)
           {
-            *lineDstPtr = line[x];
-            lineDstPtr += header.channels;
+            *lineDstPtr = line[x * 2];
+            lineDstPtr += relevantChannels;
           }
-        break;
-      case 16:
-        for (UInt32 x = 0; x < header.columns; ++x)
-        {
-          *lineDstPtr = line[x * 2];
-          lineDstPtr += header.channels;
+          break;
         }
-        break;
       }
       dstPtr -= dstBpl;
 
@@ -462,6 +465,7 @@ bool PSDImageFileType::read(ImagePtr &image, std::istream &is,
     }
 
     Image::PixelFormat format = Image::OSG_INVALID_PF;
+    UInt16 relevantChannels = header.channels;
     switch (header.mode)
     {
     case 0: // Bitmap (monochrome)
@@ -492,16 +496,14 @@ bool PSDImageFileType::read(ImagePtr &image, std::istream &is,
     case 3: // RGB color
         if ((header.depth != 8) && (header.depth != 16))
             break;
-        switch (header.channels)
-        {
-        case 3:
+        if (header.channels < 3)
+            break;
+        if (header.channels == 3)
             format = Image::OSG_RGB_PF;
-            break;
-        case 4:
+        else
+        {
             format = Image::OSG_RGBA_PF;
-            break;
-        default:
-            break;
+            relevantChannels = 4;
         }
         break;
     case 4: // CMYK color
@@ -545,7 +547,7 @@ bool PSDImageFileType::read(ImagePtr &image, std::istream &is,
     image->set(format, header.columns, header.rows);
     UChar8 *data = image->getData();
 
-    if (readImageData(is, header, colormap, transparentIndex, data) == false)
+    if (readImageData(is, header, relevantChannels, colormap, transparentIndex, data) == false)
     {
         FWARNING(("PSD file is corrupt!\n"));
         return false;
