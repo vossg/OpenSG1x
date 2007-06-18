@@ -339,6 +339,9 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
 
     if (type)
     {
+	triggerReadBegin(fullFilePath.c_str());
+	updateReadProgress(0);
+
         SINFO << "try to read " << fullFilePath
               << " as "         << type->getName() << std::endl;
 
@@ -350,12 +353,17 @@ NodePtr SceneFileHandler::read(const  Char8  *fileName,
             in.close();
 
             if(scene != NullFC)
+	    {
+                triggerReadEnd(fullFilePath.c_str());
                 return scene;
+	    }
         }
         else
         {
             SWARNING << "Couldn't open input stream for file " << fullFilePath << std::endl;
         }
+
+
 
 #ifndef OSG_DISABLE_DEPRECATED
         // Ok stream interface didn't work try via filename
@@ -537,6 +545,7 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool c
     if (type)
     {
         updateWriteProgress(0);
+	triggerWriteBegin(fileName);
         SINFO << "try to write " << fileName << " as " << type->getName() << std::endl;
 
         std::ofstream out(fileName, std::ios::binary);
@@ -549,7 +558,7 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool c
         {
             SWARNING << "Can not open output stream for file '" << fileName << "'!" << std::endl;
         }
-
+	
 #ifndef OSG_DISABLE_DEPRECATED
         if(!retCode)
             retCode = type->writeFile(node, fileName);
@@ -557,10 +566,11 @@ bool SceneFileHandler::write (const NodePtr &node, const Char8 *fileName, bool c
 
         if(!retCode)
             SWARNING << "Couldn't write " << fileName << std::endl;
+	else
+	    triggerWriteEnd(fileName);
     }
     else
-        SWARNING << "can't write " << fileName << "; unknown scene format"
-                         << std::endl;
+        SWARNING << "can't write " << fileName << "; unknown scene format" << std::endl;
 
     return retCode;
 }
@@ -888,10 +898,14 @@ bool SceneFileHandler::subSceneFileType(SceneFileType &fileType)
 //------------------------------
 SceneFileHandler::SceneFileHandler (void) :
     _readProgressFP(NULL),
+    _readBeginFP(NULL),
+    _readEndFP(NULL),
     _progressData(),
     _readReady(false),
     _useProgressThread(false),
     _writeProgressFP(NULL),
+    _writeBeginFP(NULL),
+    _writeEndFP(NULL),
     _pathHandler(NULL),
     _defaultPathHandler(),
     _readFP(NULL),
@@ -989,6 +1003,38 @@ void SceneFileHandler::setReadProgressCB(progresscbfp fp, bool use_thread)
 SceneFileHandler::progresscbfp SceneFileHandler::getReadProgressCB(void)
 {
     return _readProgressFP;
+}
+
+void SceneFileHandler::setReadBeginCB(SceneFileHandler::filenamecbfp fp)
+{
+    _readBeginFP = fp;
+}
+
+SceneFileHandler::filenamecbfp SceneFileHandler::getReadBeginCB(void)
+{
+    return _readBeginFP;
+}
+
+void SceneFileHandler::setReadEndCB(SceneFileHandler::filenamecbfp fp)
+{
+    _readEndFP = fp;
+}
+
+SceneFileHandler::filenamecbfp SceneFileHandler::getReadEndCB(void)
+{
+    return _readEndFP;
+}
+
+void SceneFileHandler::triggerReadBegin(const Char8 *fname)
+{
+    if(_readBeginFP != NULL)
+      _readBeginFP(fname);
+}
+
+void SceneFileHandler::triggerReadEnd(const Char8 *fname)
+{
+    if(_readEndFP != NULL)
+      _readEndFP(fname);
 }
 
 void SceneFileHandler::initReadProgress(std::istream &is)
@@ -1098,6 +1144,39 @@ SceneFileHandler::progresscbfp SceneFileHandler::getWriteProgressCB(void)
 {
     return _writeProgressFP;
 }
+
+void SceneFileHandler::setWriteBeginCB(SceneFileHandler::filenamecbfp fp)
+{
+    _writeBeginFP = fp;
+}
+
+SceneFileHandler::filenamecbfp SceneFileHandler::getWriteBeginCB(void)
+{
+    return _writeBeginFP;
+}
+
+void SceneFileHandler::setWriteEndCB(SceneFileHandler::filenamecbfp fp)
+{
+    _writeEndFP = fp;
+}
+
+SceneFileHandler::filenamecbfp SceneFileHandler::getWriteEndCB(void)
+{
+    return _writeEndFP;
+}
+
+void SceneFileHandler::triggerWriteBegin(const Char8 *fname)
+{
+    if(_writeBeginFP != NULL)
+      _writeBeginFP(fname);
+}
+
+void SceneFileHandler::triggerWriteEnd(const Char8 *fname)
+{
+    if(_writeEndFP != NULL)
+      _writeEndFP(fname);
+}
+
 
 void SceneFileHandler::updateWriteProgress(UInt32 p)
 {
