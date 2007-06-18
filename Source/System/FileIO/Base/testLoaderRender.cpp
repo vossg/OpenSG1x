@@ -89,6 +89,11 @@ key(unsigned char key, int , int )
     glutPostRedisplay();
 }
 
+static void readBegin(const Char8 *fileName)
+{
+    std::cerr << "starting to read " << fileName << std::endl;
+}
+
 static void readProgress(UInt32 p)
 {
     static UInt32 oldp = 0;
@@ -99,10 +104,26 @@ static void readProgress(UInt32 p)
     }
 }
 
+static void readEnd(const Char8 *fileName)
+{
+    std::cerr << "finished reading " << fileName << std::endl;
+}
+
+static void writeBegin(const Char8 *fileName)
+{
+    std::cerr << "starting to write " << fileName << std::endl;
+}
+
 static void writeProgress(UInt32 p)
 {
     std::cerr << "Writing " << p << "%                                         " << '\r';
 }
+
+static void writeEnd(const Char8 *fileName)
+{
+    std::cerr << "finished writing " << fileName << std::endl;
+}
+
 
 // Initialize GLUT & OpenSG and set up the scene
 int main (int argc, char **argv)
@@ -155,6 +176,12 @@ int main (int argc, char **argv)
     // set a callback for writing progress.
     SceneFileHandler::the().setWriteProgressCB(writeProgress);
 
+    // setup begin/end read/write callbacks
+    SceneFileHandler::the().setReadBeginCB(readBegin);
+    SceneFileHandler::the().setReadEndCB(readEnd);
+    SceneFileHandler::the().setWriteBeginCB(writeBegin);
+    SceneFileHandler::the().setWriteEndCB(writeEnd);
+    
     // Using the stream interface
     // The last parameter is the filetype e.g. "osb", "osg" but it is
     // also possible to use the filename with a extension.
