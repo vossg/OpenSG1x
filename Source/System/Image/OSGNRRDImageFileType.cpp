@@ -232,7 +232,7 @@ bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::strin
           case DIMENSION_HE:
             switch (n) {
             case 2:
-              dimension = atoi(tokenVec[2].c_str());
+              dimension = atoi(tokenVec[1].c_str());
               break;
             default:
               FFATAL (( "Invalid %s/%d in NRRD header\n",
@@ -241,7 +241,6 @@ bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::strin
             }
             break;
           case SIZES_HE:
-	std::cerr << "XXXXXX: " << n << std::endl;
             switch (n) {
             case 5:
               channel = atoi(tokenVec[1].c_str());

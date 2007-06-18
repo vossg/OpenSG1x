@@ -287,7 +287,7 @@ static bool readImageData(std::istream &is, const PSDHeader &header, UInt16 rele
   if (compression == 1)
   {
     UInt32 numLines = header.rows * header.channels;
-    lineLength.reserve(numLines);
+    lineLength.resize(numLines);
     UInt32 size = numLines * 2;
     buffer.resize(size);
     ptr = &(buffer.front());
