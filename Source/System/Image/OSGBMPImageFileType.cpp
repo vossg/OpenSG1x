@@ -242,6 +242,7 @@ static bool readBitmapInfoHeader(std::istream &is, BITMAPINFOHEADER &infoHeader)
             infoHeader.redMask = parseUInt32(ptr);
             infoHeader.greenMask = parseUInt32(ptr);
             infoHeader.blueMask = parseUInt32(ptr);
+            infoHeader.alphaMask = 0;
             infoHeader.biSize += 12;
         }
         else if (infoHeader.biBitCount == 16)
@@ -249,14 +250,15 @@ static bool readBitmapInfoHeader(std::istream &is, BITMAPINFOHEADER &infoHeader)
             infoHeader.redMask = 0x7c00;
             infoHeader.greenMask = 0x03e0;
             infoHeader.blueMask = 0x001f;
+            infoHeader.alphaMask = 0;
         }
         else if (infoHeader.biBitCount == 32)
         {
             infoHeader.redMask = 0x00ff0000;
             infoHeader.greenMask = 0x0000ff00;
             infoHeader.blueMask = 0x000000ff;
+            infoHeader.alphaMask = 0xff000000;
         }
-        infoHeader.alphaMask = 0;
     }
 
 #if 0
@@ -493,11 +495,6 @@ static int calcShift(UInt32 mask)
     if (mask == 0)
         return 0;
     int shift = 0;
-    while ((mask & 1) == 0)
-    {
-        ++shift;
-        mask >>= 1;
-    }
     while (mask > 255)
     {
         ++shift;
