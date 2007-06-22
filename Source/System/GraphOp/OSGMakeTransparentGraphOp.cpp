@@ -42,6 +42,8 @@
 #include <OSGPolygonChunk.h>
 #include <OSGSimpleMaterial.h>
 
+#include <OSGGLEXT.h>
+
 OSG_USING_NAMESPACE
 
 MakeTransparentGraphOp::MakeTransparentGraphOp(const char* name)
