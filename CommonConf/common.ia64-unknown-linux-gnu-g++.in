@@ -47,8 +47,7 @@ SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_    \
 ### Warnings #######################################################
 
 WARNINGS	   	:= -Wall -W   -Wpointer-arith 			        \
-				   -Wcast-align   -Wconversion   	\
-				   -Winline 
+				   -Wcast-align   -Wconversion
 
 #-Wshadow
 #				   -Wmissing-declarations -Wmissing-noreturn    \
