@@ -108,12 +108,19 @@ void keyboard(unsigned char k, int x, int y)
                     mgr->setHighlight(act->getHitObject());
                     
                     // stop the ray on the hit surface
-                    isectPoints->setValue(l.getPosition() + 
-                            l.getDirection() * act->getHitT(), 1);
+                    Pnt3f is = l.getPosition() + 
+                                l.getDirection() * act->getHitT();
+                                
+                    isectPoints->setValue(is, 1);
                     
                     // find the triangle that was hit
                     TriangleIterator it(act->getHitObject());
                     it.seek(act->getHitTriangle());
+
+                    // Draw its normal at the intersection point
+                    isectPoints->setValue(is, 2);
+                    isectPoints->setValue(is + act->getHitNormal() * 5, 3);
+
                     
                     // calculate its vertex positions in world space
                     Matrix m;
@@ -122,13 +129,13 @@ void keyboard(unsigned char k, int x, int y)
                     // and turn them into a triangle
                     Pnt3f p = it.getPosition(0);
                     m.multMatrixPnt(p);
-                    isectPoints->setValue(p, 2);
+                    isectPoints->setValue(p, 4);
                     p = it.getPosition(1);
                     m.multMatrixPnt(p);
-                    isectPoints->setValue(p, 3);
+                    isectPoints->setValue(p, 5);
                     p = it.getPosition(2);
                     m.multMatrixPnt(p);
-                    isectPoints->setValue(p, 4);
+                    isectPoints->setValue(p, 6);
                 }
                 else
                 {
@@ -228,6 +235,8 @@ int main(int argc, char **argv)
         isectPoints->addValue(Pnt3f(0,0,0));
         isectPoints->addValue(Pnt3f(0,0,0));
         isectPoints->addValue(Pnt3f(0,0,0));
+        isectPoints->addValue(Pnt3f(0,0,0));
+        isectPoints->addValue(Pnt3f(0,0,0));
     }
     endEditCP(isectPoints);
 
@@ -239,13 +248,15 @@ int main(int argc, char **argv)
         index->addValue(2);
         index->addValue(3);
         index->addValue(4);
+        index->addValue(5);
+        index->addValue(6);
     }
     endEditCP(index);
 
     GeoPLengthsUI32Ptr lens = GeoPLengthsUI32::create();    
     beginEditCP(lens);
     {
-        lens->addValue(2);
+        lens->addValue(4);
         lens->addValue(3);
     }
     endEditCP(lens);

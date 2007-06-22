@@ -758,8 +758,11 @@ bool Line::intersect(const Pnt3f  &v0,
     t = edge2.dot(qvec) * inv_det;
 
     if(norm != NULL)
+    {
         *norm = edge1.cross(edge2);
-
+        norm->normalize();
+    }
+    
     return true;
 }
 
