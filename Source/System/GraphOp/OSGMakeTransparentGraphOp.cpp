@@ -203,9 +203,9 @@ void MakeTransparentGraphOp::applyTransparency(MaterialPtr m) {
         std::cout << "ChunkMaterial" << std::endl;
         BlendChunkPtr blendChunk = getOrAddChunk<BlendChunk>(cm);
         beginEditCP(blendChunk);
-        blendChunk->setColor(Color4f(1, 1, 1, _transparency));
-        blendChunk->setSrcFactor(GL_SRC_ALPHA);
-        blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+        blendChunk->setColor(Color4f(1, 1, 1, 1.f - _transparency));
+        blendChunk->setSrcFactor(GL_CONSTANT_ALPHA);
+        blendChunk->setDestFactor(GL_ONE_MINUS_CONSTANT_ALPHA);
         endEditCP(blendChunk);
         return;
     }

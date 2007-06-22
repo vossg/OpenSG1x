@@ -310,18 +310,18 @@ class PointInterface : public StorageInterfaceT
 
              PointInterface(      void                  );
 
-    explicit PointInterface(const ValueTypeT     *pVals );
-    explicit PointInterface(      ValueTypeT     *pVals );
+             PointInterface(const ValueTypeT     *pVals );
+             PointInterface(      ValueTypeT     *pVals );
 
     template <class ValueType2T, class StorageInterface2T> 
-    explicit PointInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
+             PointInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
 
     template <class ValueType2T, class StorageInterface2T> 
-    explicit PointInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
+             PointInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
 
     PointInterface(const PointInterface &source);
 
-    explicit PointInterface(const ValueTypeT rVal1);
+             PointInterface(const ValueTypeT rVal1);
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)
@@ -522,18 +522,18 @@ class VectorInterface :
 
              VectorInterface(      void                   );
 
-    explicit VectorInterface(const ValueTypeT      *pVals );
-    explicit VectorInterface(      ValueTypeT      *pVals );
+             VectorInterface(const ValueTypeT      *pVals );
+             VectorInterface(      ValueTypeT      *pVals );
 
     template <class ValueType2T, class StorageInterface2T> 
-    explicit VectorInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
+             VectorInterface(const PointInterface<ValueType2T, StorageInterface2T> &vec);
 
     template <class ValueType2T, class StorageInterface2T> 
-    explicit VectorInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
+             VectorInterface(const VectorInterface<ValueType2T, StorageInterface2T> &vec);
 
     VectorInterface(const VectorInterface &source);
 
-    explicit VectorInterface(const ValueTypeT       rVal1 );
+             VectorInterface(const ValueTypeT       rVal1 );
 
     /* Found so far no way to move these constructors to the memory
        interface :-(. I still find them a little bit wrong placed (GV)

@@ -506,6 +506,11 @@ void FBOViewport::render(RenderActionBase* action)
         
     Window *win = action->getWindow();
 
+    // Let the window handle resizes, to avoid interfering with the
+    // FBOViewports settings
+    
+    win->resizeGL();
+    
     static GLenum targets[6] = {
                           GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
                           GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB,
@@ -1329,7 +1334,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.7 2007/06/13 16:51:57 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.8 2007/06/22 00:13:01 dirk Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
