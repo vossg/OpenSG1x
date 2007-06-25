@@ -307,6 +307,20 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
             }
             else
             {
+                // could be a material and material names a quite usefull ;-)
+                AttachmentContainerPtr pAC = AttachmentContainerPtr::dcast(pNewNode);
+                if(pAC != NullFC)
+                {
+                    NamePtr pNodename = Name::create();
+
+                    beginEditCP(pNodename);
+                    beginEditCP(pAC, AttachmentContainer::AttachmentsFieldMask);
+                        pNodename->getFieldPtr()->getValue().assign(szNodename);
+                        pAC->addAttachment(pNodename);
+                    endEditCP(pAC, AttachmentContainer::AttachmentsFieldMask);
+                    endEditCP(pNodename);
+                }
+
 #ifdef OSG_DEBUG_VRML
                 indentLog(VRMLNodeDesc::getIndent(), PINFO);
                 PINFO << "Fieldcontainer " << szNodeTypename
