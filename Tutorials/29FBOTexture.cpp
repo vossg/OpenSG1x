@@ -35,7 +35,7 @@ GeometryPtr         flagGeo      (NullFC);
 
 // flag parameters
 const float flagHeight   = 8.0f;
-const float flagWidth    = 15.0f;
+const float flagWidth    = 16.0f;
 const int   flagGeoHor   = (int)flagWidth  * 3;
 const int   flagGeoVert  = (int)flagHeight / 2;
 const float flagWaveDamp = 0.06f;
