@@ -262,7 +262,13 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                 NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
 
-                if(mIt == _nameFCMap.end())
+                // amz - I removed the map checks that's more spec conform.
+                // From the spec:
+                // If multiple nodes are given the same name,
+                // each USE statement refers to the closest node with the given name preceding it
+                // in either the VRML file or prototype definition.
+                
+                //if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
 
@@ -294,7 +300,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                 NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
 
-                if(mIt == _nameFCMap.end())
+                //if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
 
@@ -330,7 +336,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
                 NameContainerMap::iterator mIt =
                     _nameFCMap.find(IDStringLink(szNodename));
 
-                if(mIt == _nameFCMap.end())
+                //if(mIt == _nameFCMap.end())
                 {
                     _nameFCMap[IDString(szNodename)] = pNewNode;
 
