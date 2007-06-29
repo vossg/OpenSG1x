@@ -15,7 +15,7 @@ Attachment for storing and handling Volume-Textures for volume rendering. Here i
 		name="image"
 		type="ImagePtr"
 		cardinality="single"
-		visibility="internal"
+		visibility="external"
 		defaultValue="NullFC"
 		access="public"
 	>

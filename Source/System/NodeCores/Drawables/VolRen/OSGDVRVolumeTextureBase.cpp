@@ -62,7 +62,7 @@
 #include "OSGDVRVolumeTexture.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRVolumeTextureBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeTextureBase::ImageFieldId);
@@ -115,7 +115,7 @@ FieldDescription *DVRVolumeTextureBase::_desc[] =
     new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &DVRVolumeTextureBase::getSFImage),
     new FieldDescription(MFReal32::getClassType(), 
                      "histogram", 
@@ -436,14 +436,10 @@ void DVRVolumeTextureBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRVolumeTexturePtr>::_type("DVRVolumeTexturePtr", "AttachmentPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -459,10 +455,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMETEXTUREBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMETEXTUREBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRVOLUMETEXTUREFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

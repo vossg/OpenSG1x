@@ -198,7 +198,8 @@ void DVRVolumeTexture::changed(BitVector whichField, UInt32 origin)
     
     if (whichField & FileNameFieldMask)
     {
-        FINFO(("DVRVolumeTexture::changed - new fileName\n"));
+        FINFO(("DVRVolumeTexture::changed - new fileName '%s'\n", 
+            _sfFileName.getValue().c_str()));
         
         ImagePtr datImage = Image::create();
     
