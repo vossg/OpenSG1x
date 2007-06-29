@@ -879,7 +879,7 @@ case $system in
     mips-sgi-* )
     ;;
     
-    *-pc-linux-gnu )
+    *-linux-gnu )
     # Should we do RPMs?
     if test x$OSG_DIST_NO_RPM = x
     then
