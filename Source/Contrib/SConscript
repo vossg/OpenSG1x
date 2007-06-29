@@ -88,3 +88,12 @@ if len(sources) > 0:
                  updates=[custom, OpenSGLibrary(['OSGBase', 'OSGSystem'])],
                  CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILECONTRIBLIB'],
                  CPPPATH=ExpandCPPPath([Dir('.')] + SystemDirs + BaseDirs + ContribDirs, generated))
+
+if _po.getOption('tests'):
+    # create test programs
+    for testsource in tests:
+        target = testsource.name[:-4] # get leafname and remove .cpp
+        BuildProgram(tc, target, [testsource], tools=[],
+                     updates=[custom, OpenSGLibrary(['OSGWindowGLUT', 'OSGSystem', 'OSGBase', 'OSGContrib'])],
+                     CPPPATH=['.', env['PREFIX'].Dir('include'), env['PREFIX'].Dir('include/OpenSG')],
+                     CPPDEFINES = ['OSG_BUILD_DLL', 'OSG_WITH_GLUT'])
