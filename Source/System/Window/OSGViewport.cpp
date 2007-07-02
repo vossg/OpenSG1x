@@ -221,6 +221,26 @@ bool Viewport::isFullWindow(void) const
             getPixelRight()  == getParent()->getWidth() - 1;
 }
 
+void Viewport::clearForegrounds(void)
+{
+    for(UInt32 i = 0; i < _mfForegrounds.size(); ++i)
+    {
+        subRefCP(_mfForegrounds[i]);
+    }
+
+    _mfForegrounds.clear();
+
+}
+
+void Viewport::addForeground(ForegroundPtr pForeground)
+{
+    addRefCP(pForeground);
+    
+    _mfForegrounds.push_back(pForeground);
+}
+
+
+
 /*-------------------------- your_category---------------------------------*/
 
 void Viewport::activateSize(void)

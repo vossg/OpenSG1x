@@ -131,6 +131,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     void subPort      (const ViewportPtr &portP);
     void subPort      (      UInt32       portIndex);
 
+    void clearPorts   (      void                  );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -78,7 +78,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 
   protected:
 
-    typedef AttachmentContainer Inherited;
+    typedef AttachmentContainer  Inherited;
+
+  public:
+
+    typedef MFNodePtr            ParentField;
+    typedef MFNodePtr           *ParentFieldPtr;
+    typedef MFNodePtr::iterator  ParentFieldIt;
 
     /*==========================  PUBLIC  =================================*/
 

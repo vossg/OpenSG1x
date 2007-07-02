@@ -504,6 +504,20 @@ void OSG::Window::subPort(UInt32  portIndex)
     }
 }
 
+void OSG::Window::clearPorts(void)
+{
+    MFViewportPtr::iterator portIt = _mfPort.begin();
+
+    while(portIt != _mfPort.end())
+    {
+        (*portIt)->setParent(NullFC);
+
+        subRefCP(*portIt);
+    }
+ 
+    _mfPort.clear();
+}
+
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_EXT)
 

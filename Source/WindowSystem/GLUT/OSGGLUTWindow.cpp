@@ -139,6 +139,12 @@ void GLUTWindow::swap(void)
     glutSwapBuffers();
 }
 
+
+void GLUTWindow::setGlutId(Int32 val)
+{
+    this->setId(val);
+}
+
 #endif // OSG_WITH_GLUT
 
 

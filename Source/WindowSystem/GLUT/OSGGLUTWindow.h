@@ -87,6 +87,13 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindow : public GLUTWindowBase
     virtual void swap       ( void );
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Window functions                              */
+    /*! \{                                                                 */
+
+    void setGlutId(Int32 val);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
 

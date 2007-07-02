@@ -831,6 +831,8 @@ std::ostream &operator <<(      std::ostream      &os,
 
 extern OSG_SYSTEMLIB_DLLMAPPING const NullFieldContainerPtr NullFC;
 
+#define OSGNullFC OSG::NullFC
+
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERPTR_HEADER_CVSID "@(#)$Id: $"

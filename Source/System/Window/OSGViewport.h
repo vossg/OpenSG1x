@@ -85,6 +85,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    access                                    */
+    /*! \{                                                                 */
+
+    void clearForegrounds(void                     );
+    void addForeground   (ForegroundPtr pForeground);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    your_category                             */
     /*! \{                                                                 */
 

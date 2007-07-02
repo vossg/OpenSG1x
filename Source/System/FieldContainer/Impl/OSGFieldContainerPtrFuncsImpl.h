@@ -201,6 +201,45 @@ void endEditNotChangedCP(
           BitVector          whichField = FieldBits    ::AllFields,
           UInt32             origin     = ChangedOrigin::External);
 
+
+// 2.x compat
+
+template <class OutPtrT> inline
+OutPtrT dynamic_fcptr_cast(const FieldContainerPtr &pPtr)
+{
+    return OutPtrT::dcast(pPtr);
+}
+
+template <class PtrT> inline
+typename PtrT::StoredObjectType *getCPtr(PtrT &ptr)
+{
+    return ptr.getCPtr();
+}
+
+template <class PtrT> inline
+Int32 getRefCount(const PtrT &ptr)
+{
+    return ptr.getRefCount();
+}
+
+template <class PtrT> inline
+UInt32 getContainerId(const PtrT &objectP)
+{
+    return objectP.getFieldContainerId();
+}
+
+template <class PtrT> inline
+void subRef(const PtrT &ptr)
+{
+    subRefCP(ptr);
+}
+
+template <class PtrT> inline
+void addRef(const PtrT &ptr)
+{
+    subRefCP(ptr);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERFUNDS_HEADER_CVSID "@(#)$Id: $"
