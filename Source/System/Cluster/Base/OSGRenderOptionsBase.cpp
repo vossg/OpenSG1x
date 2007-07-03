@@ -110,6 +110,9 @@ const OSG::BitVector  RenderOptionsBase::AntialiasingScaleFieldMask =
 const OSG::BitVector  RenderOptionsBase::AntialiasingTriggerFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::AntialiasingTriggerFieldId);
 
+const OSG::BitVector  RenderOptionsBase::FrustumCullingFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FrustumCullingFieldId);
+
 const OSG::BitVector  RenderOptionsBase::BackfaceCullingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::BackfaceCullingFieldId);
 
@@ -175,6 +178,9 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
     
 */
 /*! \var UInt32          RenderOptionsBase::_sfAntialiasingTrigger
+    
+*/
+/*! \var bool            RenderOptionsBase::_sfFrustumCulling
     
 */
 /*! \var bool            RenderOptionsBase::_sfBackfaceCulling
@@ -272,6 +278,11 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      AntialiasingTriggerFieldId, AntialiasingTriggerFieldMask,
                      false,
                      (FieldAccessMethod) &RenderOptionsBase::getSFAntialiasingTrigger),
+    new FieldDescription(SFBool::getClassType(), 
+                     "frustumCulling", 
+                     FrustumCullingFieldId, FrustumCullingFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFrustumCulling),
     new FieldDescription(SFBool::getClassType(), 
                      "backfaceCulling", 
                      BackfaceCullingFieldId, BackfaceCullingFieldMask,
@@ -387,6 +398,7 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfAntialiasingDistance   (Real32(0.2)), 
     _sfAntialiasingScale      (Real32(2.0)), 
     _sfAntialiasingTrigger    (UInt32(0)), 
+    _sfFrustumCulling         (bool(false)), 
     _sfBackfaceCulling        (bool(false)), 
     _sfSmallFeatureCulling    (), 
     _sfSmallFeaturePixels     (), 
@@ -416,6 +428,7 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfAntialiasingDistance   (source._sfAntialiasingDistance   ), 
     _sfAntialiasingScale      (source._sfAntialiasingScale      ), 
     _sfAntialiasingTrigger    (source._sfAntialiasingTrigger    ), 
+    _sfFrustumCulling         (source._sfFrustumCulling         ), 
     _sfBackfaceCulling        (source._sfBackfaceCulling        ), 
     _sfSmallFeatureCulling    (source._sfSmallFeatureCulling    ), 
     _sfSmallFeaturePixels     (source._sfSmallFeaturePixels     ), 
@@ -510,6 +523,11 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (AntialiasingTriggerFieldMask & whichField))
     {
         returnValue += _sfAntialiasingTrigger.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FrustumCullingFieldMask & whichField))
+    {
+        returnValue += _sfFrustumCulling.getBinSize();
     }
 
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
@@ -621,6 +639,11 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
         _sfAntialiasingTrigger.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (FrustumCullingFieldMask & whichField))
+    {
+        _sfFrustumCulling.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
     {
         _sfBackfaceCulling.copyToBin(pMem);
@@ -729,6 +752,11 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfAntialiasingTrigger.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FrustumCullingFieldMask & whichField))
+    {
+        _sfFrustumCulling.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
     {
         _sfBackfaceCulling.copyFromBin(pMem);
@@ -809,6 +837,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (AntialiasingTriggerFieldMask & whichField))
         _sfAntialiasingTrigger.syncWith(pOther->_sfAntialiasingTrigger);
 
+    if(FieldBits::NoField != (FrustumCullingFieldMask & whichField))
+        _sfFrustumCulling.syncWith(pOther->_sfFrustumCulling);
+
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
         _sfBackfaceCulling.syncWith(pOther->_sfBackfaceCulling);
 
@@ -879,6 +910,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (AntialiasingTriggerFieldMask & whichField))
         _sfAntialiasingTrigger.syncWith(pOther->_sfAntialiasingTrigger);
 
+    if(FieldBits::NoField != (FrustumCullingFieldMask & whichField))
+        _sfFrustumCulling.syncWith(pOther->_sfFrustumCulling);
+
     if(FieldBits::NoField != (BackfaceCullingFieldMask & whichField))
         _sfBackfaceCulling.syncWith(pOther->_sfBackfaceCulling);
 
@@ -937,7 +971,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.6 2006/09/23 11:26:52 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.7 2007/07/03 09:16:10 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

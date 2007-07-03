@@ -186,6 +186,9 @@ void RenderOptions::activateOptions(RenderAction *action)
 
     if(_changed & SmallFeatureThresholdFieldMask)
         action->setSmallFeatureThreshold(getSmallFeatureThreshold());
+        
+    if(_changed & FrustumCullingFieldMask)
+        action->setFrustumCulling(getFrustumCulling());
 
     // we update the gl stuff each frame.
     glPolygonMode(GL_FRONT_AND_BACK, _polygon_mode);

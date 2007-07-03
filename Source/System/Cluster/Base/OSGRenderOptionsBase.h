@@ -82,6 +82,7 @@
 #include <OSGReal32Fields.h> // AntialiasingDistance type
 #include <OSGReal32Fields.h> // AntialiasingScale type
 #include <OSGUInt32Fields.h> // AntialiasingTrigger type
+#include <OSGBoolFields.h> // FrustumCulling type
 #include <OSGBoolFields.h> // BackfaceCulling type
 #include <OSGBoolFields.h> // SmallFeatureCulling type
 #include <OSGReal32Fields.h> // SmallFeaturePixels type
@@ -125,7 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         AntialiasingDistanceFieldId    = AntialiasingFieldId            + 1,
         AntialiasingScaleFieldId       = AntialiasingDistanceFieldId    + 1,
         AntialiasingTriggerFieldId     = AntialiasingScaleFieldId       + 1,
-        BackfaceCullingFieldId         = AntialiasingTriggerFieldId     + 1,
+        FrustumCullingFieldId          = AntialiasingTriggerFieldId     + 1,
+        BackfaceCullingFieldId         = FrustumCullingFieldId          + 1,
         SmallFeatureCullingFieldId     = BackfaceCullingFieldId         + 1,
         SmallFeaturePixelsFieldId      = SmallFeatureCullingFieldId     + 1,
         SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
@@ -148,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector AntialiasingDistanceFieldMask;
     static const OSG::BitVector AntialiasingScaleFieldMask;
     static const OSG::BitVector AntialiasingTriggerFieldMask;
+    static const OSG::BitVector FrustumCullingFieldMask;
     static const OSG::BitVector BackfaceCullingFieldMask;
     static const OSG::BitVector SmallFeatureCullingFieldMask;
     static const OSG::BitVector SmallFeaturePixelsFieldMask;
@@ -194,6 +197,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFReal32            *getSFAntialiasingDistance(void);
            SFReal32            *getSFAntialiasingScale(void);
            SFUInt32            *getSFAntialiasingTrigger(void);
+           SFBool              *getSFFrustumCulling (void);
            SFBool              *getSFBackfaceCulling(void);
            SFBool              *getSFSmallFeatureCulling(void);
            SFReal32            *getSFSmallFeaturePixels(void);
@@ -230,6 +234,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const Real32              &getAntialiasingScale(void) const;
            UInt32              &getAntialiasingTrigger(void);
      const UInt32              &getAntialiasingTrigger(void) const;
+           bool                &getFrustumCulling (void);
+     const bool                &getFrustumCulling (void) const;
            bool                &getBackfaceCulling(void);
      const bool                &getBackfaceCulling(void) const;
            bool                &getSmallFeatureCulling(void);
@@ -261,6 +267,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setAntialiasingDistance( const Real32 &value );
      void setAntialiasingScale( const Real32 &value );
      void setAntialiasingTrigger( const UInt32 &value );
+     void setFrustumCulling ( const bool &value );
      void setBackfaceCulling( const bool &value );
      void setSmallFeatureCulling( const bool &value );
      void setSmallFeaturePixels( const Real32 &value );
@@ -323,6 +330,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFReal32            _sfAntialiasingDistance;
     SFReal32            _sfAntialiasingScale;
     SFUInt32            _sfAntialiasingTrigger;
+    SFBool              _sfFrustumCulling;
     SFBool              _sfBackfaceCulling;
     SFBool              _sfSmallFeatureCulling;
     SFReal32            _sfSmallFeaturePixels;
@@ -405,6 +413,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.6 2006/09/23 11:26:52 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.7 2007/07/03 09:16:10 yjung Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

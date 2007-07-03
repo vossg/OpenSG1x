@@ -201,6 +201,13 @@ SFUInt32 *RenderOptionsBase::getSFAntialiasingTrigger(void)
     return &_sfAntialiasingTrigger;
 }
 
+//! Get the RenderOptions::_sfFrustumCulling field.
+inline
+SFBool *RenderOptionsBase::getSFFrustumCulling(void)
+{
+    return &_sfFrustumCulling;
+}
+
 //! Get the RenderOptions::_sfBackfaceCulling field.
 inline
 SFBool *RenderOptionsBase::getSFBackfaceCulling(void)
@@ -552,6 +559,27 @@ void RenderOptionsBase::setAntialiasingTrigger(const UInt32 &value)
     _sfAntialiasingTrigger.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfFrustumCulling field.
+inline
+bool &RenderOptionsBase::getFrustumCulling(void)
+{
+    return _sfFrustumCulling.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFrustumCulling field.
+inline
+const bool &RenderOptionsBase::getFrustumCulling(void) const
+{
+    return _sfFrustumCulling.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFrustumCulling field.
+inline
+void RenderOptionsBase::setFrustumCulling(const bool &value)
+{
+    _sfFrustumCulling.setValue(value);
+}
+
 //! Get the value of the RenderOptions::_sfBackfaceCulling field.
 inline
 bool &RenderOptionsBase::getBackfaceCulling(void)
@@ -660,5 +688,5 @@ void RenderOptionsBase::setFirstFrame(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.6 2006/09/23 11:26:52 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.7 2007/07/03 09:16:10 yjung Exp $"
 

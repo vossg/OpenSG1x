@@ -26,7 +26,7 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="GL_FILL"
-		defaultHeader="&lt;OSGGL.h&gt;"
+		defaultHeader="<OSGGL.h>"
 		access="public"
 	>
 	</Field>
@@ -146,6 +146,15 @@
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="frustumCulling"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
 		access="public"
 	>
 	</Field>
