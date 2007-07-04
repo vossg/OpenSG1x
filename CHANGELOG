@@ -2,6 +2,30 @@
 ChangeLog for OpenSG
 ====================
 
+1.8.0 - 2007/07/04
+
+ADDED:
+    geometry shaders
+    hierarchical multiframe occlusion culling
+    realtime shadows (soft, perspective, ...)
+    improved osgSceneViewer supporting shadows and occlusion culling.
+    local clipping planes
+    display filter foregrounds (color correction, distortion effects, ...)
+    frame buffer object viewport
+    support for Cal3D characters
+    physics simulation via ode
+    improved nurbs support
+    new switch material for switching between different materials
+    added render options to distribute render states like wireframe, occlusion culling to the cluster
+    added stream support to all image loaders
+    cgfx 1.4 support.
+    polygon and depth clear backgrounds
+    vertex buffer objects support
+    JPEG2000 and exr image support
+    local scons build system
+    many bug fixes
+
+
 1.6.0 - 2005/08/25
 
 ADDED:
