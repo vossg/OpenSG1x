@@ -237,7 +237,7 @@ void subRef(const PtrT &ptr)
 template <class PtrT> inline
 void addRef(const PtrT &ptr)
 {
-    subRefCP(ptr);
+    addRefCP(ptr);
 }
 
 OSG_END_NAMESPACE
