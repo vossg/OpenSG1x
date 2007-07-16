@@ -553,7 +553,7 @@ static bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHe
             *ptr++ = static_cast<UChar8>(((color & infoHeader.greenMask) >> greenShift) * greenScale);
             *ptr++ = static_cast<UChar8>(((color & infoHeader.blueMask) >> blueShift) * blueScale);
             if (infoHeader.alphaMask != 0)
-                *ptr++ = static_cast<UChar8>(((color & infoHeader.alphaMask) >> alphaShift) * alphaScale);
+                *ptr++ = static_cast<UChar8>(255 - ((color & infoHeader.alphaMask) >> alphaShift) * alphaScale);
             shift += infoHeader.biBitCount;
         }
         data += bytesPerLine;
