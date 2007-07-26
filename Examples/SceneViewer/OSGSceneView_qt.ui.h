@@ -53,7 +53,7 @@ public:
                     _pwin->subPort(vp);
                 }
             OSG::endEditCP(_pwin);
-            OSG::subRefCP(_pwin);
+            subRefCP(_pwin);
         }
     }
 

@@ -76,6 +76,7 @@
 #include <OSGImageFileHandler.h>
 #include <OSGPathHandler.h>
 #include <OSGFileSystem.h>
+#include <OSGImageGenericAtt.h>
 
 #include "OSGEXRImageFileType.h"
 
@@ -331,6 +332,19 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                     Image::OSG_FLOAT16_IMAGEDATA, true, numImg );
         image->clearHalf();
 
+        // cvs - added reading and writing of custom attributes.
+        // now add custom attributes
+        for(Imf::Header::ConstIterator it=header.begin();it!=header.end();++it)
+        {
+            Imf::Attribute *copy = it.attribute().copy();
+            Imf::StringAttribute *sa = dynamic_cast<Imf::StringAttribute *>(copy);
+
+            if(sa != NULL)
+                image->setAttachmentField(it.name(), sa->value());
+
+            delete copy;
+        }
+
         Real16 *data = (Real16*)(image->getData());
 
         for (Int32 side=numImg-1; side >=0; side--)
@@ -407,6 +421,31 @@ bool EXRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
         const char *dummy = "";
         StdOStream file(os, dummy);
         Imf::Header header(width, height);
+
+        // now add custom attributes
+        ImageGenericAttPtr att = ImageGenericAttPtr::dcast(
+            image->findAttachment(ImageGenericAtt::getClassType().getGroupId()));
+
+        if(att != NullFC)
+        {
+            FieldContainerType  &fcType = att->getType();
+            Int32 count = att->getType().getNumFieldDescs();
+
+            for(Int32 i=1;i<=count;++i)
+            {
+                FieldDescription *fDesc = fcType.getFieldDescription(i);
+                Field *field = att->getField(i);
+                if(fDesc != NULL && field != NULL)
+                {
+                    SFString *strField = dynamic_cast<SFString*>(field);
+                    if(strField != NULL)
+                    {
+                        //printf("key: '%s' value: '%s'\n", fDesc->getCName(), strField->getValue().c_str());
+                        header.insert(fDesc->getCName(), Imf::StringAttribute(strField->getValue().c_str()));
+                    }
+                }
+            }
+        }
 
         Imf::RgbaOutputFile stream(file, header, Imf::WRITE_RGBA);
 

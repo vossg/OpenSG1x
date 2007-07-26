@@ -785,8 +785,6 @@ class win32(ToolChain):
             slibs.append('zlib')
         if _po.getOption('jasper'):
             slibs.append('libjasper')
-        if _po.getOption('exr'):
-            slibs.append('IlmImf')
 
         env['OSG_BASE_LIBS'] = []
         env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
@@ -983,6 +981,9 @@ class win32_msvc71(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc71')
         env = self.get_env()
 
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr_vc71']
+
         env.Append(CXXFLAGS=['/GX', '/GR', '/Zm1200'])
 
         # add msvc71 include and lib paths
@@ -997,6 +998,9 @@ class win32_msvc80(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc80')
         env = self.get_env()
+
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr_vc80']
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
