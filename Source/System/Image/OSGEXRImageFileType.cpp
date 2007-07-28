@@ -502,7 +502,8 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                     frame_buffer.insert(name, Imf::Slice(Imf::HALF, data + 3 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
                 }
                 stream.setFrameBuffer(frame_buffer);
-                stream.readPixels(current_scan_line++);
+                stream.readPixels(current_scan_line, current_scan_line);
+                ++current_scan_line;
             }
 
             return true;
