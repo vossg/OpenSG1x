@@ -2761,6 +2761,29 @@ bool Geometry::drawVBO(Window *win, UInt32 id)
     return true;
 }
 
+GeoVBO *Geometry::getVboObject(Window *win)
+{
+    if(win == NULL)
+        return NULL;
+
+    UInt32 id = getGLId();
+
+    win->validateGLObject(id);
+    UInt32 i = win->getGLObjectId(id + 1);
+    if(i == 0)
+    {
+        // couldn't create a vbo in handleGL.
+        return NULL;
+    }
+
+    --i;
+
+    if(i < _vbos.size())
+        return _vbos[i];
+
+    return NULL;
+}
+
 //#undef copyAttrib
 //#undef copyAllAttrib
 

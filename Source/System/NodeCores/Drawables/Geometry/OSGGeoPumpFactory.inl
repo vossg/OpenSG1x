@@ -61,6 +61,84 @@ GeoPumpFactory *GeoPumpFactory::the(void)
     return _the;
 }
 
+inline
+GLuint GeoVBO::getPositions(void) const
+{
+    return _positions;
+}
+
+inline
+GLuint GeoVBO::getNormals(void) const
+{ 
+    return _normals;
+}
+
+inline
+GLuint GeoVBO::getColors(void) const
+{
+    return _colors;
+}
+
+inline
+GLuint GeoVBO::getSecColors(void) const
+{
+    return _secColors;
+}
+
+inline
+GLuint GeoVBO::getTexCoords(void) const
+{
+    return _texCoords;
+}
+
+inline
+GLuint GeoVBO::getTexCoords1(void) const
+{
+    return _texCoords1;
+}
+
+inline
+GLuint GeoVBO::getTexCoords2(void) const
+{
+    return _texCoords2;
+}
+
+inline
+GLuint GeoVBO::getTexCoords3(void) const
+{
+    return _texCoords3;
+}
+
+inline
+GLuint GeoVBO::getTexCoords4(void) const
+{
+    return _texCoords4;
+}
+
+inline
+GLuint GeoVBO::getTexCoords5(void) const
+{
+    return _texCoords5;
+}
+
+inline
+GLuint GeoVBO::getTexCoords6(void) const
+{
+    return _texCoords6;
+}
+
+inline
+GLuint GeoVBO::getTexCoords7(void) const
+{
+    return _texCoords7;
+}
+
+inline
+GLuint GeoVBO::getIndices(void) const
+{
+    return _indices;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGGEOPUMPFACTORY_INLINE_CVSID "@(#)$Id: $"

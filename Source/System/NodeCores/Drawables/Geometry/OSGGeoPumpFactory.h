@@ -249,6 +249,20 @@ public:
     void update(void);
     void draw(void);
 
+    inline GLuint getPositions(void) const;
+    inline GLuint getNormals(void) const;
+    inline GLuint getColors(void) const;
+    inline GLuint getSecColors(void) const;
+    inline GLuint getTexCoords(void) const;
+    inline GLuint getTexCoords1(void) const;
+    inline GLuint getTexCoords2(void) const;
+    inline GLuint getTexCoords3(void) const;
+    inline GLuint getTexCoords4(void) const;
+    inline GLuint getTexCoords5(void) const;
+    inline GLuint getTexCoords6(void) const;
+    inline GLuint getTexCoords7(void) const;
+    inline GLuint getIndices(void) const;
+
 private:
 
     GLuint _positions;

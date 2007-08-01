@@ -195,6 +195,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     // this only calculates a bbox - therefore it is useful and does no harm
     void            adjustVolume     (Volume & volume);
 
+    GeoVBO *getVboObject(Window *win);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
