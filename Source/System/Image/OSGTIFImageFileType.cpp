@@ -333,7 +333,7 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
     }
 
     UInt32 numPixels = w * h;
-    u_long *buffer = new u_long[numPixels];
+    uint32 *buffer = new uint32[numPixels];
     if (TIFFReadRGBAImage(in, w, h, buffer, 1) == 0)
     {
         delete [] buffer;
@@ -349,7 +349,7 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
     image->setResUnit(res_unit);
 
     UChar8 *dst = image->getData();
-    u_long *src = buffer;
+    uint32 *src = buffer;
     switch (bpp)
     {
     case 4:
