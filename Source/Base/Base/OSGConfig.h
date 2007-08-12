@@ -59,13 +59,13 @@
     e.g. "1.3.0pre1"
  */
 
-#define OSG_VERSION_STRING      "1.8.0Alpha1"
+#define OSG_VERSION_STRING      "1.8.1Alpha"
 
 /*! The numeric full version, with two digits per major/minor/release, e.g.
     010300
  */
 
-#define OSG_VERSION             0x010800
+#define OSG_VERSION             0x010801
 
 /*! The numeric major version number, e.g. 1
  */
@@ -80,7 +80,7 @@
 /*! The numeric release version number, e.g. 0
  */
 
-#define OSG_RELEASE_VERSION     0
+#define OSG_RELEASE_VERSION     1
 
 
 /*!}*/
@@ -445,7 +445,8 @@
 /*-------------------------------------------------------------------------*/
 /*                              Windows icc                                */
 
-# if defined(__INTEL_COMPILER) && !defined(__linux)
+// intel compiler with vc6 headers.
+# if defined(__INTEL_COMPILER) && !defined(__linux) && defined(_MSC_VER) && _MSC_VER < 1300
 
 # ifndef __ICL
 #    define __ICL __INTEL_COMPILER
@@ -489,9 +490,10 @@
 # endif // defined(__INTEL_COMPILER) && !defined(__linux)
 
 /*-------------------------------------------------------------------------*/
-/*                              Windows vc7                                */
+/*                              Windows vc7/8                              */
 
-# if defined(_MSC_VER) && !defined(__ICL)
+// vc7/8 and icl9/10 (with vc8 headers)
+# if defined(_MSC_VER) && _MSC_VER >= 1300
 
 # define OSG_SPEZ_IMPL_DLLMAPPING
 // Use windows internal types to define OpenSG base types
