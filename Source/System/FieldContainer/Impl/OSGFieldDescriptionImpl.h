@@ -75,7 +75,7 @@ typedef Field * (FieldContainer::*FieldIndexAccessMethod)(UInt32);
 /*! \ingroup GrpSystemFieldContainer
  */
 
-class OSG_SYSTEMLIB_DLLMAPPING FieldDescription
+class FieldDescription
 {
     /*==========================  PUBLIC  =================================*/
 

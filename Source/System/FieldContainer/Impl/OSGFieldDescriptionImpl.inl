@@ -47,6 +47,82 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+FieldDescription::FieldDescription(const TypeBase          &elementType,
+                                   const Char8             *szName,
+                                   const UInt32             uiFieldId,
+                                   const BitVector          vFieldMask,
+                                   const bool               bInternal,
+                                         FieldAccessMethod  fAccessMethod,
+                                   const Char8             *defaultValue) :
+
+    _szName              (szName       ),
+
+    _fieldType           (elementType  ),
+    _uiFieldId           (uiFieldId    ),
+    _vFieldMask          (vFieldMask   ),
+
+    _bInternal           (bInternal    ),
+
+    _fAccessMethod       (fAccessMethod),
+    _fIndexedAccessMethod(NULL         ),
+    _defaultValue        (defaultValue )
+{
+}
+
+inline
+FieldDescription::FieldDescription(
+    const TypeBase               &elementType,
+    const Char8                  *szName,
+    const UInt32                  uiFieldId,
+    const BitVector               vFieldMask,
+    const bool                    bInternal,
+          FieldIndexAccessMethod  fIndexedAccessMethod,
+    const Char8                  *defaultValue) :
+
+    _szName              (szName              ),
+
+    _fieldType           (elementType         ),
+    _uiFieldId           (uiFieldId           ),
+    _vFieldMask          (vFieldMask          ),
+
+    _bInternal           (bInternal           ),
+
+    _fAccessMethod       (NULL                ),
+    _fIndexedAccessMethod(fIndexedAccessMethod),
+
+    _defaultValue        (defaultValue        )
+{
+}
+
+inline
+FieldDescription::FieldDescription(const FieldDescription &source) :
+
+    _szName              (source._szName              ),
+
+    _fieldType           (source._fieldType           ),
+    _uiFieldId           (source._uiFieldId           ),
+    _vFieldMask          (source._vFieldMask          ),
+
+    _bInternal           (source._bInternal           ),
+
+    _fAccessMethod       (source._fAccessMethod       ),
+    _fIndexedAccessMethod(source._fIndexedAccessMethod),
+
+    _defaultValue        (source._defaultValue        )
+{
+}
+
+/*-------------------------------------------------------------------------*/
+/*                             Destructor                                  */
+
+inline
+FieldDescription::~FieldDescription(void)
+{
+}
+
+
+
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
