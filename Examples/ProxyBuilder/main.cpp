@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
     for(i = 0 ; i < files.size() ; ++i)
     {
         printf("Parsing %s...\n",files[i].c_str());
-        OSG::NodePtr child = SceneFileHandler::the().read(files[i].c_str());
+        OSG::NodePtr child = SceneFileHandler::the().read(files[i].c_str(), NULL);
         root->addChild(child);
     }
     endEditCP(root);
