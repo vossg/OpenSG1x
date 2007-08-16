@@ -810,18 +810,18 @@ bool OSG::blendImage ( ImagePtr canvas,
           alpha = int(calpha * *s++);
           break;
         case osg::Image::OSG_RGB_PF:
-          red   = *s++;
-          green = *s++;
-          blue  = *s++;
+          red   = int(cred   * *s++);
+          green = int(cgreen * *s++);
+          blue  = int(cblue  * *s++);
           grey  = green; // FIXME
           alpha = 255;          
           break;
         case osg::Image::OSG_RGBA_PF:
-          red   = *s++;
-          green = *s++;
-          blue  = *s++;
+          red   = int(cred   * *s++);
+          green = int(cgreen * *s++);
+          blue  = int(cblue  * *s++);
           grey  = green; // FIXME
-          alpha = *s++;
+          alpha = int(calpha * *s++);
           break;
         default:
           FFATAL (("Invalid Brush PixelFormat\n"));
