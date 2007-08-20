@@ -49,8 +49,10 @@ const int   fboHeight    = (int)flagHeight * 32;
 
 // forward declarations
 Matrix showAll(NodePtr root, PerspectiveCameraPtr cam);
-void animateFlag(Real32 t);
-void spinFBOScene(Real32 t);
+
+void animateFlag (Real64 t);
+void spinFBOScene(Real64 t);
+
 SimpleTexturedMaterialPtr createWoodMaterial();
 NodePtr buildFlag(TextureChunkPtr fboTexture, const int &flagHor, const int &flagVert);
 NodePtr buildFBOScene(int argc, char **argv );
@@ -59,48 +61,50 @@ void setupFBO(TextureChunkPtr fboTexture, GLUTWindowPtr gwin, NodePtr fboScene )
 // redraw the window
 void display(void)
 {
-    // get the current time
-    Real32 t = OSG::getTimeStampMsecs(OSG::getTimeStamp()) * 0.001f;
+    static Real64 t0 = OSG::getSystemTime();
 
-	// animate flag
+    // get the current time
+    Real64 t = OSG::getSystemTime() - t0;
+
+    // animate flag
     animateFlag(t);
 
-	// spin the fbo scene
+    // spin the fbo scene
     spinFBOScene(t);
 
-	// get the RenderAction from SimpleSceneManager
-	RenderAction *rAct = static_cast<RenderAction*>(::mgr->getAction());
+    // get the RenderAction from SimpleSceneManager
+    RenderAction *rAct = static_cast<RenderAction*>(::mgr->getAction());
 
     // render fbo scene
-	::fboVP->render(rAct);
+    ::fboVP->render(rAct);
 
-	// render main scene
-	::mgr->redraw();
+    // render main scene
+    ::mgr->redraw();
 }
 
 // react to size changes
 void reshape(int w, int h)
 {
-	::mgr->resize(w,h);
-	glutPostRedisplay();
+    ::mgr->resize(w,h);
+    glutPostRedisplay();
 }
 
 // react to mouse button presses
 void mouse(int button, int state, int x, int y)
 {
-	if (state)
-		::mgr->mouseButtonRelease(button, x, y);
-	else
-		::mgr->mouseButtonPress(button, x, y);
+    if (state)
+        ::mgr->mouseButtonRelease(button, x, y);
+    else
+        ::mgr->mouseButtonPress(button, x, y);
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 // react to mouse motions with pressed buttons
 void motion(int x, int y)
 {
-	::mgr->mouseMove(x, y);
-	glutPostRedisplay();
+    ::mgr->mouseMove(x, y);
+    glutPostRedisplay();
 }
 
 // react to keys
@@ -116,7 +120,7 @@ void keyboard(unsigned char k, int, int)
 
 int main(int argc, char **argv)
 {
-	// OpenSG init
+    // OpenSG init
     osgInit(argc,argv);
 
     // GLUT init
@@ -135,24 +139,24 @@ int main(int argc, char **argv)
     glutKeyboardFunc(keyboard);
 
 
-	// create a GLUTWindow
+    // create a GLUTWindow
     GLUTWindowPtr gwin = GLUTWindow::create();
-	beginEditCP(gwin);
-		gwin->setId(winid);
-		gwin->init();
-	endEditCP(gwin);
+    beginEditCP(gwin);
+        gwin->setId(winid);
+        gwin->init();
+    endEditCP(gwin);
 
-	// create the SimpleSceneManager helper
-	::mgr = new SimpleSceneManager;
-	
-	// create the texture that is used as render target by the sub-scene
-	// and as texture in the main scene
-	TextureChunkPtr fboTexture = TextureChunk::create();
-	beginEditCP(fboTexture);
-	    fboTexture->setEnvMode(GL_MODULATE);
-	endEditCP(fboTexture);
-	 
-	// create the main scene
+    // create the SimpleSceneManager helper
+    ::mgr = new SimpleSceneManager;
+    
+    // create the texture that is used as render target by the sub-scene
+    // and as texture in the main scene
+    TextureChunkPtr fboTexture = TextureChunk::create();
+    beginEditCP(fboTexture);
+        fboTexture->setEnvMode(GL_MODULATE);
+    endEditCP(fboTexture);
+     
+    // create the main scene
     NodePtr mainScene = buildFlag(fboTexture, ::flagGeoHor, ::flagGeoVert);
 
     // create the fbo scene
@@ -160,23 +164,23 @@ int main(int argc, char **argv)
     
     // create and setup the FBO
     setupFBO(fboTexture, gwin, fboScene);
-	
+    
     // create the window and initial camera/viewport
-	::mgr->setWindow(gwin);
+    ::mgr->setWindow(gwin);
 
-	// tell the manager what to manage
-	::mgr->setRoot(mainScene);
+    // tell the manager what to manage
+    ::mgr->setRoot(mainScene);
 
-	// show the whole scene
-	::mgr->showAll();
+    // show the whole scene
+    ::mgr->showAll();
 
-	// set a nicer background
-	GradientBackgroundPtr bkg = GradientBackground::create();
-	beginEditCP(bkg);
-		bkg->addLine(Color3f(0.7, 0.7, 0.8), 0);
-		bkg->addLine(Color3f(0.0, 0.1, 0.3), 1);
-	endEditCP(bkg);
-	gwin->getPort(0)->setBackground(bkg);
+    // set a nicer background
+    GradientBackgroundPtr bkg = GradientBackground::create();
+    beginEditCP(bkg);
+        bkg->addLine(Color3f(0.7, 0.7, 0.8), 0);
+        bkg->addLine(Color3f(0.0, 0.1, 0.3), 1);
+    endEditCP(bkg);
+    gwin->getPort(0)->setBackground(bkg);
         
     // enable logo
     mgr->useOpenSGLogo();
@@ -185,9 +189,9 @@ int main(int argc, char **argv)
     mgr->redraw();
 
     // enter the GLUT main loop
-	glutMainLoop();
+    glutMainLoop();
 
-	return 0;
+    return 0;
 }
 
 // copied from SimpleSceneManager
@@ -225,7 +229,7 @@ Matrix showAll(NodePtr root, PerspectiveCameraPtr cam)
     return m;
 }
 
-void animateFlag( Real32 t )
+void animateFlag( Real64 t )
 {
     // get positions
     GeoPositions3fPtr pos = GeoPositions3fPtr::dcast(::flagGeo->getPositions());
@@ -249,7 +253,7 @@ void animateFlag( Real32 t )
     calcVertexNormals(::flagGeo);
 }
 
-void spinFBOScene( Real32 t )
+void spinFBOScene( Real64 t )
 {
     beginEditCP(::fboSceneTrans, Transform::MatrixFieldMask);
         Matrix m;
@@ -307,7 +311,7 @@ NodePtr buildFlag(TextureChunkPtr fboTexture, const int &flagHor, const int &fla
             beginEditCP(noise);
                 // make noise image darker (as it will be GL_ADDed)
                 for(int i = 0; i < noise->getSize(); ++i)
-		  noise->getData()[i] >>= 2; // *= 0.125
+                    noise->getData()[i] >>= 2; // *= 0.125
             endEditCP(noise);
             TextureChunkPtr gloss = TextureChunk::create();
             beginEditCP(gloss);
