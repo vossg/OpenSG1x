@@ -261,15 +261,24 @@ int main(int argc, char **argv)
     {
         if(stereobuffer)
         {
-            window = new ClusterServerGLWidget(QGLFormat(QGL::DirectRendering | QGL::DoubleBuffer |
-                                            QGL::DepthBuffer | QGL::Rgba | QGL::StereoBuffers),
-                                            NULL, NULL, noborder ? Qt::WStyle_Customize  | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop : 0);
+            window = new ClusterServerGLWidget(
+                QGLFormat(QGL::DirectRendering | QGL::DoubleBuffer |
+                          QGL::DepthBuffer     | QGL::Rgba         |
+                          QGL::StereoBuffers                        ),
+                NULL, NULL,
+                noborder ? (Qt::WStyle_Customize | Qt::WStyle_NoBorder |
+                            Qt::WStyle_StaysOnTop                       )
+                         : Qt::WStyle_NormalBorder                       );
         }
         else
         {
-            window = new ClusterServerGLWidget(QGLFormat(QGL::DirectRendering | QGL::DoubleBuffer |
-                                            QGL::DepthBuffer | QGL::Rgba), NULL, NULL,
-                                            noborder ? Qt::WStyle_Customize  | Qt::WStyle_NoBorder | Qt::WStyle_StaysOnTop : 0);
+            window = new ClusterServerGLWidget(
+                QGLFormat(QGL::DirectRendering | QGL::DoubleBuffer |
+                          QGL::DepthBuffer     | QGL::Rgba          ),
+                NULL, NULL,
+                noborder ? (Qt::WStyle_Customize  | Qt::WStyle_NoBorder |
+                            Qt::WStyle_StaysOnTop                        )
+                         : Qt::WStyle_NormalBorder                        );
         }
     
         if(stereobuffer && !window->format().stereo())
