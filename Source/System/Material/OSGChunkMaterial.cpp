@@ -245,9 +245,9 @@ void ChunkMaterial::clearChunks(void)
     _mfChunks.clear();
 }
 
-bool ChunkMaterial::operator==(const Material& other)
+bool ChunkMaterial::operator==(const Material& other) const
 {
-    Material& thisBase = *this;
+    const Material& thisBase = *this;
     if (!(thisBase == other))
         return false;
 

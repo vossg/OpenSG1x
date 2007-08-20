@@ -114,7 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
                        Int32 slot = State::AutoSlotReplace);
     void          clearChunks(void);
 
-    virtual bool operator == (const Material &other);
+    virtual bool operator == (const Material &other) const;
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
