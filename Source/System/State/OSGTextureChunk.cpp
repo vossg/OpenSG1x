@@ -1435,8 +1435,17 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                 glPixelStorei(GL_UNPACK_SKIP_IMAGES, 0);
            
             if(paramtarget != GL_NONE)
+            {
+                // need to call these here, since switching between GL_NEAREST
+                // and GL_LINEAR only triggers a refresh (which is safe).
+                // (all other parameters will trigger a reinit)
                 glTexParameterf(paramtarget, GL_TEXTURE_PRIORITY,
-                                  getPriority());
+                                getPriority()                      );
+                glTexParameteri(paramtarget, GL_TEXTURE_MIN_FILTER,
+                                getMinFilter()                     );
+                glTexParameteri(paramtarget, GL_TEXTURE_MAG_FILTER,
+                                getMagFilter()                     );
+            }
         }
         else
         {
