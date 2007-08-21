@@ -2126,69 +2126,139 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     } \
     }
 
-#define copyAllAttrib \
-{ \
-    copyAttrib(pos, Positions2f, Positions) \
-    copyAttrib(pos, Positions3f, Positions) \
-    copyAttrib(pos, Positions4f, Positions) \
-    copyAttrib(pos, Positions2d, Positions) \
-    copyAttrib(pos, Positions3d, Positions) \
-    copyAttrib(pos, Positions4d, Positions) \
-    copyAttrib(pos, Positions2s, Positions) \
-    copyAttrib(pos, Positions3s, Positions) \
-    copyAttrib(pos, Positions4s, Positions) \
-    copyAttrib(type, PTypesUI8, Types) \
-    copyAttrib(length, PLengthsUI8, Lengths) \
-    copyAttrib(length, PLengthsUI16, Lengths) \
-    copyAttrib(length, PLengthsUI32, Lengths) \
-    copyAttrib(normal, Normals3f, Normals) \
-    copyAttrib(normal, Normals3s, Normals) \
-    copyAttrib(normal, Normals3b, Normals) \
-    copyAttrib(color, Colors3f, Colors) \
-    copyAttrib(color, Colors4f, Colors) \
-    copyAttrib(color, Colors3ub, Colors) \
-    copyAttrib(color, Colors4ub, Colors) \
-    copyAttrib(seccolor, Colors3f, SecondaryColors) \
-    copyAttrib(seccolor, Colors4f, SecondaryColors) \
-    copyAttrib(seccolor, Colors3ub, SecondaryColors) \
-    copyAttrib(seccolor, Colors4ub, SecondaryColors) \
-    copyAttrib(texcoord, TexCoords1f, TexCoords) \
-    copyAttrib(texcoord, TexCoords2f, TexCoords) \
-    copyAttrib(texcoord, TexCoords3f, TexCoords) \
-    copyAttrib(texcoord, TexCoords4f, TexCoords) \
-    copyAttrib(texcoord1, TexCoords1f, TexCoords1) \
-    copyAttrib(texcoord1, TexCoords2f, TexCoords1) \
-    copyAttrib(texcoord1, TexCoords3f, TexCoords1) \
-    copyAttrib(texcoord1, TexCoords4f, TexCoords1) \
-    copyAttrib(texcoord2, TexCoords1f, TexCoords2) \
-    copyAttrib(texcoord2, TexCoords2f, TexCoords2) \
-    copyAttrib(texcoord2, TexCoords3f, TexCoords2) \
-    copyAttrib(texcoord2, TexCoords4f, TexCoords2) \
-    copyAttrib(texcoord3, TexCoords1f, TexCoords3) \
-    copyAttrib(texcoord3, TexCoords2f, TexCoords3) \
-    copyAttrib(texcoord3, TexCoords3f, TexCoords3) \
-    copyAttrib(texcoord3, TexCoords4f, TexCoords3) \
-    copyAttrib(texcoord4, TexCoords1f, TexCoords4) \
-    copyAttrib(texcoord4, TexCoords2f, TexCoords4) \
-    copyAttrib(texcoord4, TexCoords3f, TexCoords4) \
-    copyAttrib(texcoord4, TexCoords4f, TexCoords4) \
-    copyAttrib(texcoord5, TexCoords1f, TexCoords5) \
-    copyAttrib(texcoord5, TexCoords2f, TexCoords5) \
-    copyAttrib(texcoord5, TexCoords3f, TexCoords5) \
-    copyAttrib(texcoord5, TexCoords4f, TexCoords5) \
-    copyAttrib(texcoord6, TexCoords1f, TexCoords6) \
-    copyAttrib(texcoord6, TexCoords2f, TexCoords6) \
-    copyAttrib(texcoord6, TexCoords3f, TexCoords6) \
-    copyAttrib(texcoord6, TexCoords4f, TexCoords6) \
-    copyAttrib(texcoord7, TexCoords1f, TexCoords7) \
-    copyAttrib(texcoord7, TexCoords2f, TexCoords7) \
-    copyAttrib(texcoord7, TexCoords3f, TexCoords7) \
-    copyAttrib(texcoord7, TexCoords4f, TexCoords7) \
-    beginEditCP((GeometryPtr)this); \
-    setDlistCache(other->getDlistCache()); \
-    setVbo(other->getVbo()); \
-    endEditCP((GeometryPtr)this); \
-}
+#ifndef OSG_NO_INT8_PNT
+
+    #define copyAllAttrib \
+    { \
+        copyAttrib(pos, Positions2f, Positions) \
+        copyAttrib(pos, Positions3f, Positions) \
+        copyAttrib(pos, Positions4f, Positions) \
+        copyAttrib(pos, Positions2d, Positions) \
+        copyAttrib(pos, Positions3d, Positions) \
+        copyAttrib(pos, Positions4d, Positions) \
+        copyAttrib(pos, Positions2s, Positions) \
+        copyAttrib(pos, Positions3s, Positions) \
+        copyAttrib(pos, Positions4s, Positions) \
+        copyAttrib(type, PTypesUI8, Types) \
+        copyAttrib(length, PLengthsUI8, Lengths) \
+        copyAttrib(length, PLengthsUI16, Lengths) \
+        copyAttrib(length, PLengthsUI32, Lengths) \
+        copyAttrib(normal, Normals3f, Normals) \
+        copyAttrib(normal, Normals3s, Normals) \
+        copyAttrib(normal, Normals3b, Normals) \
+        copyAttrib(color, Colors3f, Colors) \
+        copyAttrib(color, Colors4f, Colors) \
+        copyAttrib(color, Colors3ub, Colors) \
+        copyAttrib(color, Colors4ub, Colors) \
+        copyAttrib(seccolor, Colors3f, SecondaryColors) \
+        copyAttrib(seccolor, Colors4f, SecondaryColors) \
+        copyAttrib(seccolor, Colors3ub, SecondaryColors) \
+        copyAttrib(seccolor, Colors4ub, SecondaryColors) \
+        copyAttrib(texcoord, TexCoords1f, TexCoords) \
+        copyAttrib(texcoord, TexCoords2f, TexCoords) \
+        copyAttrib(texcoord, TexCoords3f, TexCoords) \
+        copyAttrib(texcoord, TexCoords4f, TexCoords) \
+        copyAttrib(texcoord1, TexCoords1f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords2f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords3f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords4f, TexCoords1) \
+        copyAttrib(texcoord2, TexCoords1f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords2f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords3f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords4f, TexCoords2) \
+        copyAttrib(texcoord3, TexCoords1f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords2f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords3f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords4f, TexCoords3) \
+        copyAttrib(texcoord4, TexCoords1f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords2f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords3f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords4f, TexCoords4) \
+        copyAttrib(texcoord5, TexCoords1f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords2f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords3f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords4f, TexCoords5) \
+        copyAttrib(texcoord6, TexCoords1f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords2f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords3f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords4f, TexCoords6) \
+        copyAttrib(texcoord7, TexCoords1f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords2f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords3f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords4f, TexCoords7) \
+        GeometryPtr copyAllAttribTempPtr(*this); \
+        beginEditCP(copyAllAttribTempPtr); \
+        setDlistCache(other->getDlistCache()); \
+        setVbo(other->getVbo()); \
+        endEditCP(copyAllAttribTempPtr); \
+    }
+    
+#else
+
+    #define copyAllAttrib \
+    { \
+        copyAttrib(pos, Positions2f, Positions) \
+        copyAttrib(pos, Positions3f, Positions) \
+        copyAttrib(pos, Positions4f, Positions) \
+        copyAttrib(pos, Positions2d, Positions) \
+        copyAttrib(pos, Positions3d, Positions) \
+        copyAttrib(pos, Positions4d, Positions) \
+        copyAttrib(pos, Positions2s, Positions) \
+        copyAttrib(pos, Positions3s, Positions) \
+        copyAttrib(pos, Positions4s, Positions) \
+        copyAttrib(type, PTypesUI8, Types) \
+        copyAttrib(length, PLengthsUI8, Lengths) \
+        copyAttrib(length, PLengthsUI16, Lengths) \
+        copyAttrib(length, PLengthsUI32, Lengths) \
+        copyAttrib(normal, Normals3f, Normals) \
+        copyAttrib(normal, Normals3s, Normals) \
+        copyAttrib(color, Colors3f, Colors) \
+        copyAttrib(color, Colors4f, Colors) \
+        copyAttrib(color, Colors3ub, Colors) \
+        copyAttrib(color, Colors4ub, Colors) \
+        copyAttrib(seccolor, Colors3f, SecondaryColors) \
+        copyAttrib(seccolor, Colors4f, SecondaryColors) \
+        copyAttrib(seccolor, Colors3ub, SecondaryColors) \
+        copyAttrib(seccolor, Colors4ub, SecondaryColors) \
+        copyAttrib(texcoord, TexCoords1f, TexCoords) \
+        copyAttrib(texcoord, TexCoords2f, TexCoords) \
+        copyAttrib(texcoord, TexCoords3f, TexCoords) \
+        copyAttrib(texcoord, TexCoords4f, TexCoords) \
+        copyAttrib(texcoord1, TexCoords1f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords2f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords3f, TexCoords1) \
+        copyAttrib(texcoord1, TexCoords4f, TexCoords1) \
+        copyAttrib(texcoord2, TexCoords1f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords2f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords3f, TexCoords2) \
+        copyAttrib(texcoord2, TexCoords4f, TexCoords2) \
+        copyAttrib(texcoord3, TexCoords1f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords2f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords3f, TexCoords3) \
+        copyAttrib(texcoord3, TexCoords4f, TexCoords3) \
+        copyAttrib(texcoord4, TexCoords1f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords2f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords3f, TexCoords4) \
+        copyAttrib(texcoord4, TexCoords4f, TexCoords4) \
+        copyAttrib(texcoord5, TexCoords1f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords2f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords3f, TexCoords5) \
+        copyAttrib(texcoord5, TexCoords4f, TexCoords5) \
+        copyAttrib(texcoord6, TexCoords1f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords2f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords3f, TexCoords6) \
+        copyAttrib(texcoord6, TexCoords4f, TexCoords6) \
+        copyAttrib(texcoord7, TexCoords1f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords2f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords3f, TexCoords7) \
+        copyAttrib(texcoord7, TexCoords4f, TexCoords7) \
+        GeometryPtr copyAllAttribTempPtr(*this); \
+        beginEditCP(copyAllAttribTempPtr); \
+        setDlistCache(other->getDlistCache()); \
+        setVbo(other->getVbo()); \
+        endEditCP(copyAllAttribTempPtr); \
+    }
+#endif
 
 //merge two identical geometries
 void Geometry::merge0( const GeometryPtr other )
