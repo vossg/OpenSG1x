@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 UInt32 Slices::_arbMultitexture = Window::invalidFunctionID;
 UInt32 Slices::_funcMultiTexCoord3fARB = Window::invalidFunctionID;
 
-typedef void (OSG_APIENTRY * PFNGLMULTITEXCOORD3FARBPROC)(GLenum target,
+typedef void (OSG_APIENTRY * OSGGLMULTITEXCOORD3FARBPROC)(GLenum target,
                                                           GLfloat s,
                                                           GLfloat t,
                                                           GLfloat r);
@@ -465,10 +465,10 @@ void Slices::drawSlices(Window *win, const Vec3f &planeNormal,
 {
     bool has_multitexture = win->hasExtension(_arbMultitexture);
 
-    PFNGLMULTITEXCOORD3FARBPROC multiTexCoord3f = NULL;
+    OSGGLMULTITEXCOORD3FARBPROC multiTexCoord3f = NULL;
     if(has_multitexture)
-        multiTexCoord3f = (PFNGLMULTITEXCOORD3FARBPROC)
-                          win->getFunction(_funcMultiTexCoord3fARB);
+        multiTexCoord3f = (OSGGLMULTITEXCOORD3FARBPROC)
+            win->getFunction(_funcMultiTexCoord3fARB);
 
     Real32 hsx = getSize().x()/2, hsy = getSize().y()/2, hsz = getSize().z()/2;
     Real32 ssx = 1/getSize().x(), ssy = 1/getSize().y(), ssz = 1/getSize().z();

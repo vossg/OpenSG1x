@@ -184,42 +184,42 @@ UInt32 FBOViewport::_funcRenderbufferStorage                 = Window::invalidFu
 
 FBOViewport::renderparamscbfp FBOViewport::_renderParamsFP   = NULL;
 
-typedef void (OSG_APIENTRY * PFNGLDRAWBUFFERSARBPROC)
+typedef void (OSG_APIENTRY * OSGGLDRAWBUFFERSARBPROC)
     (GLsizei n, const GLenum* bufs);
-    
-typedef void (OSG_APIENTRY * PFNGLBINDFRAMEBUFFEREXTPROC)
+
+typedef void (OSG_APIENTRY * OSGGLBINDFRAMEBUFFEREXTPROC)
     (GLenum target, GLuint framebuffer);
-typedef void (OSG_APIENTRY * PFNGLBINDRENDERBUFFEREXTPROC)
+typedef void (OSG_APIENTRY * OSGGLBINDRENDERBUFFEREXTPROC)
     (GLenum target, GLuint renderbuffer);
-typedef GLenum (OSG_APIENTRY * PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)
+typedef GLenum (OSG_APIENTRY * OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)
     (GLenum target);
-typedef void (OSG_APIENTRY * PFNGLDELETEFRAMEBUFFERSEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLDELETEFRAMEBUFFERSEXTPROC)
     (GLsizei n, const GLuint* framebuffers);
-typedef void (OSG_APIENTRY * PFNGLDELETERENDERBUFFERSEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLDELETERENDERBUFFERSEXTPROC)
     (GLsizei n, const GLuint* renderbuffers);
-typedef void (OSG_APIENTRY * PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)
+typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)
     (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
-typedef void (OSG_APIENTRY * PFNGLFRAMEBUFFERTEXTURE1DEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)
     (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (OSG_APIENTRY * PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)
     (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-typedef void (OSG_APIENTRY * PFNGLFRAMEBUFFERTEXTURE3DEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)
     (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level, GLint zoffset);
-typedef void (OSG_APIENTRY * PFNGLGENFRAMEBUFFERSEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLGENFRAMEBUFFERSEXTPROC)
     (GLsizei n, GLuint* framebuffers);
-typedef void (OSG_APIENTRY * PFNGLGENRENDERBUFFERSEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLGENRENDERBUFFERSEXTPROC)
     (GLsizei n, GLuint* renderbuffers);
-typedef void (OSG_APIENTRY * PFNGLGENERATEMIPMAPEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLGENERATEMIPMAPEXTPROC)
     (GLenum target);
-typedef void (OSG_APIENTRY * PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)
     (GLenum target, GLenum attachment, GLenum pname, GLint* params);
-typedef void (OSG_APIENTRY * PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)
     (GLenum target, GLenum pname, GLint* params);
-typedef GLboolean (OSG_APIENTRY * PFNGLISFRAMEBUFFEREXTPROC)
+typedef GLboolean (OSG_APIENTRY * OSGGLISFRAMEBUFFEREXTPROC)
     (GLuint framebuffer);
-typedef GLboolean (OSG_APIENTRY * PFNGLISRENDERBUFFEREXTPROC)
+typedef GLboolean (OSG_APIENTRY * OSGGLISRENDERBUFFEREXTPROC)
     (GLuint renderbuffer);
-typedef void (OSG_APIENTRY * PFNGLRENDERBUFFERSTORAGEEXTPROC)
+typedef void (OSG_APIENTRY * OSGGLRENDERBUFFERSTORAGEEXTPROC)
     (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 
 
@@ -382,20 +382,20 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     
     setDirty(false);    // force re-initialization
 
-    PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (PFNGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
-    PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =
-        (PFNGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
-    PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
-        (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
-    PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =
-        (PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
-    PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT =
-        (PFNGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
-    PFNGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT =
-        (PFNGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
-    PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
-        (PFNGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
+    OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
+        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+    OSGGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =
+        (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
+    OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
+        (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+    OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =
+        (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
+    OSGGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT =
+        (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
+    OSGGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT =
+        (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
+    OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
+        (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
     
     glGenFramebuffersEXT(1, &fbIndex);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbIndex);
@@ -455,12 +455,12 @@ bool FBOViewport::initialize(Window *win, Int32 format)
 
 void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum target)
 {
-    PFNGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
-    PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
-    PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
+    OSGGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
+    OSGGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
+    OSGGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
 
     if (getFrameBufferIndex())
     {
@@ -479,8 +479,8 @@ void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum ta
 
 void FBOViewport::bind(Window *win)
 {
-    PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (PFNGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+    OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
+        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
         
     if (getFrameBufferIndex()) 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, getFrameBufferIndex());
@@ -492,8 +492,8 @@ void FBOViewport::bind(Window *win)
 /// into the fbo targets; '0' means windowing system provided framebuffer
 void FBOViewport::stop(Window *win)
 {
-    PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (PFNGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+    OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
+        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
         
     if (getFrameBufferIndex())
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -972,8 +972,8 @@ void FBOViewport::render(RenderActionBase* action)
     }
     else
     {
-        PFNGLDRAWBUFFERSARBPROC glDrawBuffersARB =
-            (PFNGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);    
+        OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB =
+            (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);    
     
         // get number of render targets
         Int32 numBuffers = getMaxBuffers();
@@ -1231,8 +1231,8 @@ bool FBOViewport::extensionCheck(void)
 /// Checks if FBO status is ok
 bool FBOViewport::checkFrameBufferStatus(Window *win)
 {
-    PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
-        (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+    OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
+        (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     
     switch(status)
@@ -1285,40 +1285,40 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 // all fbo functions - just copy and past them when needed!
 #if 0
-    PFNGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (PFNGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
-    PFNGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =
-        (PFNGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
-    PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
-        (PFNGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
-    PFNGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT =
-        (PFNGLDELETEFRAMEBUFFERSEXTPROC)win->getFunction(_funcDeleteFramebuffers);
-    PFNGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT =
-        (PFNGLDELETERENDERBUFFERSEXTPROC)win->getFunction(_funcDeleteRenderbuffers);
-    PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =
-        (PFNGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
-    PFNGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
-    PFNGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
-    PFNGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
-        (PFNGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
-    PFNGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT =
-        (PFNGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
-    PFNGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT =
-        (PFNGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
-    PFNGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT =
-        (PFNGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap);
-    PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC glGetFramebufferAttachmentParameterivEXT =
-        (PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)win->getFunction(_funcGetFramebufferAttachmentParameteriv);
-    PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC glGetRenderbufferParameterivEXT =
-        (PFNGLGETRENDERBUFFERPARAMETERIVEXTPROC)win->getFunction(_funcGetRenderbufferParameteriv);
-    PFNGLISFRAMEBUFFEREXTPROC glIsFramebufferEXT =
-        (PFNGLISFRAMEBUFFEREXTPROC)win->getFunction(_funcIsFramebuffer);
-    PFNGLISRENDERBUFFEREXTPROC glIsRenderbufferEXT =
-        (PFNGLISRENDERBUFFEREXTPROC)win->getFunction(_funcIsRenderbuffer);
-    PFNGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
-        (PFNGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
+    OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
+        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+    OSGGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =
+        (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
+    OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
+        (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+    OSGGLDELETEFRAMEBUFFERSEXTPROC glDeleteFramebuffersEXT =
+        (OSGGLDELETEFRAMEBUFFERSEXTPROC)win->getFunction(_funcDeleteFramebuffers);
+    OSGGLDELETERENDERBUFFERSEXTPROC glDeleteRenderbuffersEXT =
+        (OSGGLDELETERENDERBUFFERSEXTPROC)win->getFunction(_funcDeleteRenderbuffers);
+    OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =
+        (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
+    OSGGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
+    OSGGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
+    OSGGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
+        (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
+    OSGGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT =
+        (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
+    OSGGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT =
+        (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
+    OSGGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT =
+        (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap);
+    OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC glGetFramebufferAttachmentParameterivEXT =
+        (OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)win->getFunction(_funcGetFramebufferAttachmentParameteriv);
+    OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC glGetRenderbufferParameterivEXT =
+        (OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC)win->getFunction(_funcGetRenderbufferParameteriv);
+    OSGGLISFRAMEBUFFEREXTPROC glIsFramebufferEXT =
+        (OSGGLISFRAMEBUFFEREXTPROC)win->getFunction(_funcIsFramebuffer);
+    OSGGLISRENDERBUFFEREXTPROC glIsRenderbufferEXT =
+        (OSGGLISRENDERBUFFEREXTPROC)win->getFunction(_funcIsRenderbuffer);
+    OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
+        (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
 #endif
 
 /*------------------------------------------------------------------------*/
@@ -1334,7 +1334,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.8 2007/06/22 00:13:01 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.9 2007/08/22 14:13:17 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
