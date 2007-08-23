@@ -333,16 +333,18 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static void updateLight7Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
 
-    std::vector<std::pair<std::pair<parametercbfp, osgparametercbfp>,
-        ShaderParameterPtr> > _osgParametersCallbacks;
-
-    UInt32 _oldParameterSize;
-
+    typedef std::vector<
+        std::pair<std::pair<parametercbfp,
+                            osgparametercbfp>,
+                  ShaderParameterPtr          > > OSGParametersCallbacks;
     typedef std::map<std::string, std::pair<parametercbfp, osgparametercbfp> >
-        userParameterCallbacksMap;
-    userParameterCallbacksMap _userParameterCallbacks;
-
-    static parametercbfp       _userParametersCallback;
+        UserParameterCallbacksMap;
+                          
+    OSGParametersCallbacks     _osgParametersCallbacks;
+    UInt32                     _oldParameterSize;
+    
+    UserParameterCallbacksMap _userParameterCallbacks;
+    static parametercbfp      _userParametersCallback;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -352,6 +354,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.33 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.34 2007/08/23 14:48:45 neumannc Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */

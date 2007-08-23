@@ -1182,7 +1182,7 @@ void SHLChunk::checkOSGParameters(bool force)
             else
             {
                 // check user parameter callbacks.
-                userParameterCallbacksMap::iterator it =
+                UserParameterCallbacksMap::iterator it =
                     _userParameterCallbacks.find(parameter->getName());
                 if(it != _userParameterCallbacks.end())
                 {
@@ -1213,7 +1213,7 @@ void SHLChunk::addParameterCallback(const char *name, parametercbfp fp)
 
     setUniformParameter(name, 0);
     _userParameterCallbacks.insert(
-        std::make_pair(name, std::make_pair(fp, nullfp)));
+        UserParameterCallbacksMap::value_type(name, std::make_pair(fp, nullfp)));
 }
 
 void SHLChunk::addParameterCallback(const char *name, osgparametercbfp fp)
@@ -1227,7 +1227,7 @@ void SHLChunk::addParameterCallback(const char *name, osgparametercbfp fp)
 
     setUniformParameter(name, 0);
     _userParameterCallbacks.insert(
-        std::make_pair(name, std::make_pair(nullfp, fp)));
+        UserParameterCallbacksMap::value_type(name, std::make_pair(nullfp, fp)));
 }
 
 void SHLChunk::setParameterCallback(parametercbfp fp)
@@ -1867,7 +1867,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.59 2007/03/12 19:46:39 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.60 2007/08/23 14:48:45 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
