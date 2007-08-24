@@ -282,12 +282,9 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
         if((getMinFilter() != GL_NEAREST) &&
            (getMinFilter() != GL_LINEAR))
         {
-            if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
-            {
-                Window::reinitializeGLObject(getGLId());
-            }
+            triggerReInit();
         }
-        else
+        else // switching to GL_NEAREST or GL_LINEAR only requires refresh
         {
             imageContentChanged();
         }
@@ -300,17 +297,11 @@ void TextureChunk::changed(BitVector whichField, UInt32 origin)
                              DirtyMinYFieldMask | DirtyMaxYFieldMask |
                              DirtyMinZFieldMask | DirtyMaxZFieldMask)) == 0)
     {
-        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
-        {
-            Window::refreshGLObject(getGLId());
-        }
+        triggerRefresh();
     }
     else // Play it safe, do a reinit
     {
-        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
-        {
-            Window::reinitializeGLObject(getGLId());
-        }
+        triggerReInit();
     }
 
     if(whichField & ImageFieldMask)

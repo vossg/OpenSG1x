@@ -185,7 +185,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                       const UInt8 *data );
     bool flipDepthFrameData (void                              );
 
-
+    void imageContentChanged(Int32 minX = -1, Int32 maxX = -1,
+                             Int32 minY = -1, Int32 maxY = -1,
+                             Int32 minZ = -1, Int32 maxZ = -1 );
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Add Value                                */
@@ -351,7 +354,15 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     UInt32 calcMipmapSumSize  ( UInt32 mipmapNum,
                                      UInt32 w, UInt32 h, UInt32 d) const;
     UInt32 calcMipmapSumSize  ( UInt32 mipmapNum                 ) const;
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                Set / Get Parents                             */
+    /*! \{                                                                 */
 
+    inline void addParent(const FieldContainerPtr &parent);
+    inline void subParent(const FieldContainerPtr &parent);
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:

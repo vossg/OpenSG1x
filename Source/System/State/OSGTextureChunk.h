@@ -183,6 +183,9 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*! \name                         GL                                   */
     /*! \{                                                                 */
 
+    inline void triggerRefresh(void);
+    inline void triggerReInit (void);
+    
     void handleTexture(Window *win, UInt32 id, GLenum bindtarget,
                        GLenum paramtarget,
                        GLenum imgtarget, 

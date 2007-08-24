@@ -100,6 +100,31 @@ inline const UInt8 *Image::getData( UInt32 mipmapNum,
     return data;
 }
 
+/*! Add a field container as a parent of this Image.
+    
+    You should not have to call this method yourself.
+ */
+inline void
+Image::addParent(const FieldContainerPtr &parent)
+{
+    _mfParents.push_back(parent);
+}
+
+/*! Remove a field container as a parent of this Image.
+    
+    You should not have to call this method yourself.
+ */
+inline void
+Image::subParent(const FieldContainerPtr &parent)
+{
+    MFFieldContainerPtr::iterator parentIt = _mfParents.find(parent);
+    
+    if(parentIt != _mfParents.end())
+    {
+        _mfParents.erase(parentIt);
+    }
+}
+
 // Specialization for Image we need this to support VRML PixelTextures.
 template <> inline
 void SFImagePtr::pushValueByStr(const Char8 *str)

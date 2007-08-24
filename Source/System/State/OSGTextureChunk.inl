@@ -41,6 +41,8 @@
 #include "OSGConfig.h"
 #include "OSGBaseFunctions.h"
 
+#include "OSGImage.h"
+
 OSG_BEGIN_NAMESPACE
 
 inline
@@ -55,22 +57,45 @@ const StateChunkClass *TextureChunk::getStaticClass(void)
     return &TextureChunk::_class;
 }
 
+/*! Set the image used as texture by this chunk.
+
+    Images should only ever be set by calling this method, because it ensures
+    that this TextureChunk is registered as a parent of the image and thus
+    can be notified about changes to the image.
+ */
 inline
 void TextureChunk::setImage(ImagePtr &pImage)
 {
-     addRefCP(pImage);
+    if(_sfImage.getValue() != NullFC)
+    {
+        TextureChunkPtr thisPtr(*this);
+    
+        _sfImage.getValue()->subParent(thisPtr);
+    }
 
+     addRefCP(pImage);
      subRefCP(_sfImage.getValue());
 
     _sfImage.setValue(pImage);
+    
+    if(_sfImage.getValue() != NullFC)
+    {
+        TextureChunkPtr thisPtr(*this);
+        
+        _sfImage.getValue()->addParent(thisPtr);
+    }
 }
 
-/*! Utility function to be called whenever the contents of the image change. 
-    Forces efficient update of the texture. Should not be called when the 
-    size of the texture changes, in that case setImage() should be called to 
-    renew the texture.
-*/
+/*! Utility function to be called when a region of the image changed.
+    Calling this function can improve the performance of applications that
+    only modify small regions of a large texture, by defining the a dirty
+    area. On the next refresh of the texture only the dirty area will be
+    updated instead of the whole texture.
 
+    \warning Successive calls to this function will overwrite the previously
+    set dirty area. If an application makes changes to multiple regions
+    they have to accumulated by the user before calling this function.
+*/
 inline 
 void TextureChunk::imageContentChanged( Int32 minx, Int32 maxx, 
                                         Int32 miny, Int32 maxy,
@@ -148,6 +173,23 @@ void TextureChunk::setShaderOffsetMatrix(Real32 m11, Real32 m12,
     getShaderOffsetMatrix()[3] = m22;
 }
 
+inline void
+TextureChunk::triggerRefresh(void)
+{
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        Window::refreshGLObject(getGLId());
+    }
+}
+
+inline void
+TextureChunk::triggerReInit(void)
+{
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        Window::reinitializeGLObject(getGLId());
+    }
+}
 
 OSG_END_NAMESPACE
 

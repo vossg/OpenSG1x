@@ -52,6 +52,7 @@
 #include <OSGImageGenericAtt.h>
 #include <OSGFieldContainerFields.h>
 #include <OSGFileSystem.h>
+#include <OSGTextureChunk.h>
 
 #include "OSGImageFileHandler.h"
 #include "OSGPathHandler.h"
@@ -121,9 +122,21 @@ void Image::changed(BitVector whichField, UInt32 origin)
 
     while(parentsIt != parentsEnd)
     {
-        (*parentsIt)->changed(  TypeTraits<BitVector>::One <<
-                                    parentsIt->getParentFieldPos(),
-                                ChangedOrigin::Child);
+        // for TextureChunks we want to be careful whether a reinit or a
+        // refresh is triggered
+        TextureChunkPtr texParent = TextureChunkPtr::dcast(*parentsIt);
+        
+        if((texParent != NullFC) && ((whichField & ~(PixelFieldMask)) == 0))
+        {
+            texParent->imageContentChanged();
+        }
+        else
+        {
+            // call the generic change method        
+            (*parentsIt)->changed(
+                TypeTraits<BitVector>::One << parentsIt->getParentFieldPos(),
+                ChangedOrigin::Child                                         );
+        }
         ++parentsIt;
     }
     
@@ -442,6 +455,34 @@ bool Image::flipDepthFrameData (void)
   }
 
   return retCode;
+}
+
+/*! Explicitly notfies parents about a change of the image contents. This is
+    not strictly required because they are notified anyways, but can be used
+    for optimization by specifying only the area that has actually changed.
+    
+    \note Currently only TextureChunks are notified.
+    
+    \warning Successive calls to this function will overwrite the previously
+    set dirty area. If an application makes changes to multiple regions
+    they have to accumulated by the user before calling this function.
+ */
+void
+Image::imageContentChanged(
+    Int32 minX, Int32 maxX, Int32 minY, Int32 maxY, Int32 minZ, Int32 maxZ)
+{
+    MFFieldContainerPtr::iterator parentsIt  = _mfParents.begin();
+    MFFieldContainerPtr::iterator parentsEnd = _mfParents.end  ();
+    
+    for(; parentsIt != parentsEnd; ++parentsIt)
+    {
+        TextureChunkPtr texParent = TextureChunkPtr::dcast(*parentsIt);
+        
+        if(texParent != NullFC)
+        {
+            texParent->imageContentChanged(minX, maxX, minY, maxY, minZ, maxZ);
+        }
+    }
 }
 
 /*! This method is used by the parser to fill the image with
