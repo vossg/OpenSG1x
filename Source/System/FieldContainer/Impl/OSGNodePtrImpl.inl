@@ -157,6 +157,14 @@ void NodePtr::operator = (const NullFieldContainerPtr &source)
     *(static_cast<Inherited *>(this)) = source;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                      boost::bind compatibility                          */
+
+inline Node *
+get_pointer(const NodePtr &node)
+{
+    return node.getCPtr();
+}
 
 OSG_END_NAMESPACE
 

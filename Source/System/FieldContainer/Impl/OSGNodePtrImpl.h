@@ -186,6 +186,12 @@ OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream &os,
                           const NodePtr      &fc);
 
+//---------------------------------------------------------------------------
+//  boost::bind compatibility
+//---------------------------------------------------------------------------
+
+inline Node *
+get_pointer(const NodePtr &node);
 
 /*! \ingroup GrpSystemFieldContainerFuncs
  */

@@ -829,6 +829,18 @@ OSG_SYSTEMLIB_DLLMAPPING
 std::ostream &operator <<(      std::ostream      &os,
                           const FieldContainerPtr &fc);
 
+//---------------------------------------------------------------------------
+//  boost::bind compatibility
+//---------------------------------------------------------------------------
+
+template <class FCType, class FCPtrType>
+inline FCType *
+get_pointer(const FCPtr<FCPtrType, FCType>& fc);
+                          
+template <class FCType, class FCPtrType>
+inline const FCType *
+get_pointer(const ConstFCPtr<FCPtrType, FCType>& fc);
+
 extern OSG_SYSTEMLIB_DLLMAPPING const NullFieldContainerPtr NullFC;
 
 #define OSGNullFC OSG::NullFC

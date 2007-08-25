@@ -1195,6 +1195,23 @@ CPEditor::~CPEditor()
         endEditCP(_fc, _mask);
 }
 
+/*-------------------------------------------------------------------------*/
+/*                      boost::bind compatibility                          */
+
+template <class FCType, class FCPtrType>
+inline FCType*
+get_pointer(const FCPtr<FCPtrType, FCType>& fc)
+{
+    return fc.getCPtr();
+}
+
+template <class FCType, class FCPtrType>
+inline const FCType *
+get_pointer(const ConstFCPtr<FCPtrType, FCType>& fc)
+{
+    return fc.getCPtr();
+}
+
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERPTR_INLINE_CVSID "@(#)$Id: $"
