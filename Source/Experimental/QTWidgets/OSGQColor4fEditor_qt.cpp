@@ -294,22 +294,22 @@ void
 QColor4fEditor::initSelf(void)
 {
     _pSpinBoxes[0]->setLowerBound  (0.0  );
-    _pSpinBoxes[0]->setUpperBound  (1.0  );
+    _pSpinBoxes[0]->setUpperBound  (16384.0);
     _pSpinBoxes[0]->setStepSize    (0.001);
     _pSpinBoxes[0]->setPageStepSize(0.1  );
 
     _pSpinBoxes[1]->setLowerBound  (0.0  );
-    _pSpinBoxes[1]->setUpperBound  (1.0  );
+    _pSpinBoxes[1]->setUpperBound  (16384.0);
     _pSpinBoxes[1]->setStepSize    (0.001);
     _pSpinBoxes[1]->setPageStepSize(0.1  );
 
     _pSpinBoxes[2]->setLowerBound  (0.0  );
-    _pSpinBoxes[2]->setUpperBound  (1.0  );
+    _pSpinBoxes[2]->setUpperBound  (16384.0);
     _pSpinBoxes[2]->setStepSize    (0.001);
     _pSpinBoxes[2]->setPageStepSize(0.1  );
 
     _pSpinBoxes[3]->setLowerBound  (0.0  );
-    _pSpinBoxes[3]->setUpperBound  (1.0  );
+    _pSpinBoxes[3]->setUpperBound  (16384.0);
     _pSpinBoxes[3]->setStepSize    (0.001);
     _pSpinBoxes[3]->setPageStepSize(0.1  );
 
@@ -344,7 +344,7 @@ QColor4fEditor::initSelf(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.6 2005/03/18 13:04:27 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGQColor4fEditor_qt.cpp,v 1.7 2007/08/27 14:29:47 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGQCOLOR4FEDITORQT_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGQCOLOR4FEDITORQT_INLINE_CVSID;
 }
