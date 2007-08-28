@@ -51,6 +51,7 @@
 
 #include <OSGNode.h>
 #include <OSGNodeCore.h>
+#include <OSGSimpleAttachments.h>
 #include <OSGGroup.h>
 #include <OSGComponentTransform.h>
 #include <OSGGeometry.h>
@@ -76,18 +77,7 @@
 
 //#define OSG_DEBUG_VRML
 
-#ifndef OSG_DO_DOC
-#    ifdef OSG_DEBUG_VRML
-#        define OSG_VRML_ARG(ARG) ARG
-#    else
-#        define OSG_VRML_ARG(ARG)
-#    endif
-#else
-#    define OSG_VRML_ARG(ARG) ARG
-#endif
-
 OSG_USING_NAMESPACE
-
 
 
 /*! \defgroup GrpSystemFileIOVRML VRML-specific File Input/Output
@@ -2811,6 +2801,60 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                 endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
             }
         }
+        
+        // This works around the problem that MaterialChunks can not have
+        // NameAttachments on them (they are attachments themselves).
+        //
+        // If the ChunkMaterial (which corresponds to the VRML Appearance Node)
+        // has no name of its own, the material's name is set instead.
+        
+        // BEGIN Material name hack
+                
+        AttachmentContainerPtr attCon    = AttachmentContainerPtr::dcast(pFC);
+        bool                   pushNames = false;
+        std::string            optionStr =
+            SceneFileHandler::the().getOptions("wrl");
+        
+        if(optionStr.find("pushNames=true") != std::string::npos)
+            pushNames = true;
+        
+        if((attCon != NullFC) && (pushNames == true))
+        {        
+            FieldContainerPtr att = attCon->findAttachment(
+                Name::getClassType().getGroupId());
+            
+            if(att != NullFC)
+            {
+                // ChunkMaterial (Appearance) already has a NameAttachment
+                NamePtr nameAtt = NamePtr::dcast(att);
+                
+                if(nameAtt != NullFC)
+                {
+                    if(nameAtt->getFieldPtr()->getValue().empty())
+                    {
+                        beginEditCP(nameAtt);
+                            nameAtt->getFieldPtr()->getValue().assign(
+                                _pMaterialDesc->getName());
+                        endEditCP  (nameAtt);
+                    }
+                }
+            }
+            else
+            {
+                // ChunkMaterial (Appearance) has no NameAttachment                
+                NamePtr nameAtt = Name::create();
+                
+                beginEditCP(nameAtt);
+                beginEditCP(pFC, AttachmentContainer::AttachmentsFieldMask);
+                    nameAtt->getFieldPtr()->getValue().assign(
+                        _pMaterialDesc->getName());
+                    attCon ->addAttachment(nameAtt);
+                endEditCP  (pFC, AttachmentContainer::AttachmentsFieldMask);
+                endEditCP  (nameAtt);
+            }
+        }
+        
+        // END Material name hack
     }
 
 #if 0
@@ -2924,7 +2968,9 @@ VRMLMaterialDesc::VRMLMaterialDesc(void) :
     _transparency           (),
 
     _pDefMat                (NullFC),
-    _pMat                   (NullFC)
+    _pMat                   (NullFC),
+    
+    _szName                 ()
 {
 }
 
@@ -2957,6 +3003,8 @@ void VRMLMaterialDesc::reset(void)
     _shininess       .setValue(_defaultShininess);
     _specularColor   .setValue(_defaultSpecularColor);
     _transparency    .setValue(_defaultTransparency);
+    
+    _szName          .erase   ();
 }
 
 MaterialPtr VRMLMaterialDesc::getDefaultMaterial(void)
@@ -3111,13 +3159,14 @@ void VRMLMaterialDesc::getFieldAndDesc(
 
 FieldContainerPtr VRMLMaterialDesc::beginNode(
     const Char8       *,
-    const Char8       *,
-    FieldContainerPtr  )
+    const Char8       *szName,
+    FieldContainerPtr   )
 {
     reset();
 
-    _pMat = MaterialChunk::create();
-
+    _pMat   = MaterialChunk::create();
+    _szName = szName;
+    
     return _pMat;
 }
 
@@ -3161,6 +3210,15 @@ void VRMLMaterialDesc::endNode(FieldContainerPtr)
 
         endEditCP(_pMat);
     }
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Type Specific                                */
+
+const std::string &
+VRMLMaterialDesc::getName(void) const
+{
+    return _szName;
 }
 
 /*-------------------------------------------------------------------------*/

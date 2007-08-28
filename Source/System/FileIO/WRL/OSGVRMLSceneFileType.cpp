@@ -90,9 +90,18 @@ const Char8 *VRMLSceneFileType::getName(void) const
 
 NodePtr VRMLSceneFileType::read(std::istream &is, const Char8 *) const
 {
+    SINFO << "Source/System/FileIO/WRL/VRMLSceneFileType::read" << std::endl;
+
     NodePtr root = NullFC;
 
     VRMLFile *loader = new VRMLFile();
+    
+    // parse options
+    if(_options.find("pushNames=true") != std::string::npos)
+        loader->addOptions(VRMLFile::PushNames);
+    else if(_options.find("pushNames=false") != std::string::npos)
+        loader->subOptions(VRMLFile::PushNames);
+    
     loader->createStandardPrototypes();
     loader->scanStream(is);
     root = loader->getRoot();

@@ -14,6 +14,11 @@ int main(int argc, char **argv)
 
     OSG::Node::create();
 
+    if((argc > 2) && (OSG::stringcmp(argv[2], "pushNames") == 0))
+    {    
+        OSG::SceneFileHandler::the().setOptions("wrl", "pushNames=true");
+    }
+    
     pRoot = OSG::SceneFileHandler::the().read(argv[1]);
 
     std::cerr << "Tree : " << std::endl;

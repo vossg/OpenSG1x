@@ -964,6 +964,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Type Specific                              */
+    /*! \{                                                                 */
+    
+    const std::string &getName(void) const;
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                        Dump                                  */
     /*! \{                                                                 */
 
@@ -994,6 +1001,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLMaterialDesc : public VRMLNodeDesc
     ChunkMaterialPtr _pDefMat;
     MaterialChunkPtr _pMat;
 
+    std::string      _szName;
+    
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
   private:

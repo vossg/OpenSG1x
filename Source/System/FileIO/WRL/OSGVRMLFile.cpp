@@ -86,6 +86,16 @@ OSG_USING_NAMESPACE
 /*! \class osg::VRMLFile
  */
 
+/*! \var osg::VRMLFile::PushNames
+    Option to push the name attachments for entities that can not have a
+    NameAttachment in OpenSG to their respective parent.
+    
+    This is currently only implemented for MaterialChunks and only sets the
+    name on the containing ChunkMaterial if that does not have a name of its
+    own.
+ */
+ 
+ 
 #ifndef __sgi
 template OSG_SYSTEMLIB_DLLMAPPING
 class ScanParseFieldTypeMapper<ScanParseSkel>;
@@ -239,7 +249,7 @@ void VRMLFile::beginNode(const Char8 *szNodeTypename,
     if(szNodename != NULL)
     {
         if(pNewNode != NullFC)
-        {
+        {        
             if(pNewNode->getType().isNode() == true)
             {
 #ifdef OSG_DEBUG_VRML
