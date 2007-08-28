@@ -106,6 +106,9 @@ const OSG::BitVector  FBOViewportBase::DirtyFieldMask =
 const OSG::BitVector  FBOViewportBase::ReadBufferFieldMask = 
     (TypeTraits<BitVector>::One << FBOViewportBase::ReadBufferFieldId);
 
+const OSG::BitVector  FBOViewportBase::IgnoreCameraDecoratorsFieldMask = 
+    (TypeTraits<BitVector>::One << FBOViewportBase::IgnoreCameraDecoratorsFieldId);
+
 const OSG::BitVector FBOViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -154,6 +157,9 @@ const OSG::BitVector FBOViewportBase::MTInfluenceMask =
 */
 /*! \var bool            FBOViewportBase::_sfReadBuffer
     Reads current buffer back into image.
+*/
+/*! \var bool            FBOViewportBase::_sfIgnoreCameraDecorators
+    whether the render method should ignore CameraDecorators or not
 */
 
 //! FBOViewport description
@@ -229,7 +235,12 @@ FieldDescription *FBOViewportBase::_desc[] =
                      "readBuffer", 
                      ReadBufferFieldId, ReadBufferFieldMask,
                      false,
-                     (FieldAccessMethod) &FBOViewportBase::getSFReadBuffer)
+                     (FieldAccessMethod) &FBOViewportBase::getSFReadBuffer),
+    new FieldDescription(SFBool::getClassType(), 
+                     "ignoreCameraDecorators", 
+                     IgnoreCameraDecoratorsFieldId, IgnoreCameraDecoratorsFieldMask,
+                     false,
+                     (FieldAccessMethod) &FBOViewportBase::getSFIgnoreCameraDecorators)
 };
 
 
@@ -322,6 +333,7 @@ FBOViewportBase::FBOViewportBase(void) :
     _sfStencilBufferIndex     (UInt32(0)), 
     _sfDirty                  (bool(true)), 
     _sfReadBuffer             (bool(false)), 
+    _sfIgnoreCameraDecorators (bool(true)), 
     Inherited() 
 {
 }
@@ -345,6 +357,7 @@ FBOViewportBase::FBOViewportBase(const FBOViewportBase &source) :
     _sfStencilBufferIndex     (source._sfStencilBufferIndex     ), 
     _sfDirty                  (source._sfDirty                  ), 
     _sfReadBuffer             (source._sfReadBuffer             ), 
+    _sfIgnoreCameraDecorators (source._sfIgnoreCameraDecorators ), 
     Inherited                 (source)
 {
 }
@@ -431,6 +444,11 @@ UInt32 FBOViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfReadBuffer.getBinSize();
     }
 
+    if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
+    {
+        returnValue += _sfIgnoreCameraDecorators.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -508,6 +526,11 @@ void FBOViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ReadBufferFieldMask & whichField))
     {
         _sfReadBuffer.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
+    {
+        _sfIgnoreCameraDecorators.copyToBin(pMem);
     }
 
 
@@ -588,6 +611,11 @@ void FBOViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfReadBuffer.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
+    {
+        _sfIgnoreCameraDecorators.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -640,6 +668,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
     if(FieldBits::NoField != (ReadBufferFieldMask & whichField))
         _sfReadBuffer.syncWith(pOther->_sfReadBuffer);
 
+    if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
+        _sfIgnoreCameraDecorators.syncWith(pOther->_sfIgnoreCameraDecorators);
+
 
 }
 #else
@@ -682,6 +713,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
 
     if(FieldBits::NoField != (ReadBufferFieldMask & whichField))
         _sfReadBuffer.syncWith(pOther->_sfReadBuffer);
+
+    if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
+        _sfIgnoreCameraDecorators.syncWith(pOther->_sfIgnoreCameraDecorators);
 
 
     if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
@@ -744,7 +778,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FBOViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.1 2007/03/12 15:03:02 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.2 2007/08/28 16:06:59 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

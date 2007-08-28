@@ -81,6 +81,7 @@
 #include <OSGUInt32Fields.h> // StencilBufferIndex type
 #include <OSGBoolFields.h> // Dirty type
 #include <OSGBoolFields.h> // ReadBuffer type
+#include <OSGBoolFields.h> // IgnoreCameraDecorators type
 
 #include <OSGFBOViewportFields.h>
 
@@ -104,21 +105,22 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
 
     enum
     {
-        EnabledFieldId            = Inherited::NextFieldId,
-        ExcludeNodesFieldId       = EnabledFieldId            + 1,
-        RenderNodesFieldId        = ExcludeNodesFieldId       + 1,
-        TexturesFieldId           = RenderNodesFieldId        + 1,
-        FboOnFieldId              = TexturesFieldId           + 1,
-        StorageWidthFieldId       = FboOnFieldId              + 1,
-        StorageHeightFieldId      = StorageWidthFieldId       + 1,
-        GenCubemapsFieldId        = StorageHeightFieldId      + 1,
-        GenDepthmapsFieldId       = GenCubemapsFieldId        + 1,
-        FrameBufferIndexFieldId   = GenDepthmapsFieldId       + 1,
-        DepthBufferIndexFieldId   = FrameBufferIndexFieldId   + 1,
-        StencilBufferIndexFieldId = DepthBufferIndexFieldId   + 1,
-        DirtyFieldId              = StencilBufferIndexFieldId + 1,
-        ReadBufferFieldId         = DirtyFieldId              + 1,
-        NextFieldId               = ReadBufferFieldId         + 1
+        EnabledFieldId                = Inherited::NextFieldId,
+        ExcludeNodesFieldId           = EnabledFieldId                + 1,
+        RenderNodesFieldId            = ExcludeNodesFieldId           + 1,
+        TexturesFieldId               = RenderNodesFieldId            + 1,
+        FboOnFieldId                  = TexturesFieldId               + 1,
+        StorageWidthFieldId           = FboOnFieldId                  + 1,
+        StorageHeightFieldId          = StorageWidthFieldId           + 1,
+        GenCubemapsFieldId            = StorageHeightFieldId          + 1,
+        GenDepthmapsFieldId           = GenCubemapsFieldId            + 1,
+        FrameBufferIndexFieldId       = GenDepthmapsFieldId           + 1,
+        DepthBufferIndexFieldId       = FrameBufferIndexFieldId       + 1,
+        StencilBufferIndexFieldId     = DepthBufferIndexFieldId       + 1,
+        DirtyFieldId                  = StencilBufferIndexFieldId     + 1,
+        ReadBufferFieldId             = DirtyFieldId                  + 1,
+        IgnoreCameraDecoratorsFieldId = ReadBufferFieldId             + 1,
+        NextFieldId                   = IgnoreCameraDecoratorsFieldId + 1
     };
 
     static const OSG::BitVector EnabledFieldMask;
@@ -135,6 +137,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     static const OSG::BitVector StencilBufferIndexFieldMask;
     static const OSG::BitVector DirtyFieldMask;
     static const OSG::BitVector ReadBufferFieldMask;
+    static const OSG::BitVector IgnoreCameraDecoratorsFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -172,6 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
            SFBool              *getSFGenDepthmaps   (void);
            SFBool              *getSFDirty          (void);
            SFBool              *getSFReadBuffer     (void);
+           SFBool              *getSFIgnoreCameraDecorators(void);
 
            bool                &getEnabled        (void);
      const bool                &getEnabled        (void) const;
@@ -189,6 +193,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
      const bool                &getDirty          (void) const;
            bool                &getReadBuffer     (void);
      const bool                &getReadBuffer     (void) const;
+           bool                &getIgnoreCameraDecorators(void);
+     const bool                &getIgnoreCameraDecorators(void) const;
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
      const MFNodePtr           &getExcludeNodes   (void) const;
@@ -212,6 +218,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
      void setGenDepthmaps   ( const bool &value );
      void setDirty          ( const bool &value );
      void setReadBuffer     ( const bool &value );
+     void setIgnoreCameraDecorators( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -268,6 +275,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     SFUInt32            _sfStencilBufferIndex;
     SFBool              _sfDirty;
     SFBool              _sfReadBuffer;
+    SFBool              _sfIgnoreCameraDecorators;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -370,6 +378,6 @@ typedef RefPtr<FBOViewportPtr> FBOViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.1 2007/03/12 15:03:02 a-m-z Exp $"
+#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.2 2007/08/28 16:06:59 neumannc Exp $"
 
 #endif /* _OSGFBOVIEWPORTBASE_H_ */

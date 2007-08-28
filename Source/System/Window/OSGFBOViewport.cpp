@@ -636,24 +636,35 @@ void FBOViewport::render(RenderActionBase* action)
             }
             
             CameraPtr cP = getCamera();
-            CameraDecoratorPtr cdP = CameraDecoratorPtr::dcast(cP);
-
-            // ignore decorators!
-            while (cdP != NullFC)
+             
+            if( getIgnoreCameraDecorators() )
             {
-                cP = cdP->getDecoratee();
-                cdP = CameraDecoratorPtr::dcast(cP);
+                // Ignore decorators passed to the viewport
+                // Motivation:
+                // Ignorance of Decorators is primarily used in order to ignore special 
+                // decorators for stereo views or the tiles for cluster rendering: If e.g. 
+                // you are rendering onto a tiled wall you usually don't want to have your 
+                // FBO-rendered texture tiled.
+
+                CameraDecoratorPtr cdP = CameraDecoratorPtr::dcast(cP);
+
+                // ignore decorators!
+                while (cdP != NullFC)
+                {
+                    cP = cdP->getDecoratee();
+                    cdP = CameraDecoratorPtr::dcast(cP);
+                }
             }
-        
-            //action->setCamera(getCamera().getCPtr());
+                 
+            //action->setCamera    (cp.getCPtr()             );
             action->setBackground(getBackground().getCPtr());
-            action->setViewport(this);
-            action->setTravMask(getTravMask());
+            action->setViewport  (this                     );
+            action->setTravMask  (getTravMask()            );
             
-            Int32 winWidth = getParent()->getWidth();
+            Int32 winWidth  = getParent()->getWidth ();
             Int32 winHeight = getParent()->getHeight();
             
-            Int32 imgWidth = getStorageWidth();
+            Int32 imgWidth  = getStorageWidth ();
             Int32 imgHeight = getStorageHeight();
             
             UInt32 x1, x2, y1, y2, tw, th;
@@ -1142,19 +1153,30 @@ void FBOViewport::render(RenderActionBase* action)
             }
             
             CameraPtr cP = getCamera();
-            CameraDecoratorPtr cdP = CameraDecoratorPtr::dcast(cP);
 
-            // ignore decorators!
-            while (cdP != NullFC)
+            if(getIgnoreCameraDecorators())
             {
-                cP = cdP->getDecoratee();
-                cdP = CameraDecoratorPtr::dcast(cP);
-            }
-            
-            action->setCamera(cP.getCPtr());
+                // Ignore decorators passed to the viewport
+                // Motivation:
+                // Ignorance of Decorators is primarily used in order to ignore special 
+                // decorators for stereo views or the tiles for cluster rendering: If e.g. 
+                // you are rendering onto a tiled wall you usually don't want to have your 
+                // FBO-rendered texture tiled.
+
+                CameraDecoratorPtr cdP = CameraDecoratorPtr::dcast(cP);
+
+                // ignore decorators!
+                while(cdP != NullFC)
+                {
+                    cP  = cdP->getDecoratee();
+                    cdP = CameraDecoratorPtr::dcast(cP);
+                }
+            }     
+
+            action->setCamera    (cP.getCPtr()             );
             action->setBackground(getBackground().getCPtr());
-            action->setViewport(this);
-            action->setTravMask(getTravMask());
+            action->setViewport  (this                     );
+            action->setTravMask  (getTravMask()            );
             
             // activate viewport settings
             activate();
@@ -1334,7 +1356,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.9 2007/08/22 14:13:17 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.10 2007/08/28 16:06:59 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

@@ -194,6 +194,13 @@ SFBool *FBOViewportBase::getSFReadBuffer(void)
     return &_sfReadBuffer;
 }
 
+//! Get the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+SFBool *FBOViewportBase::getSFIgnoreCameraDecorators(void)
+{
+    return &_sfIgnoreCameraDecorators;
+}
+
 
 //! Get the value of the FBOViewport::_sfEnabled field.
 inline
@@ -426,6 +433,27 @@ void FBOViewportBase::setReadBuffer(const bool &value)
     _sfReadBuffer.setValue(value);
 }
 
+//! Get the value of the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+bool &FBOViewportBase::getIgnoreCameraDecorators(void)
+{
+    return _sfIgnoreCameraDecorators.getValue();
+}
+
+//! Get the value of the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+const bool &FBOViewportBase::getIgnoreCameraDecorators(void) const
+{
+    return _sfIgnoreCameraDecorators.getValue();
+}
+
+//! Set the value of the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+void FBOViewportBase::setIgnoreCameraDecorators(const bool &value)
+{
+    _sfIgnoreCameraDecorators.setValue(value);
+}
+
 
 //! Get the value of the \a index element the FBOViewport::_mfExcludeNodes field.
 inline
@@ -492,5 +520,5 @@ const MFTextureChunkPtr &FBOViewportBase::getTextures(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.1 2007/03/12 15:03:02 a-m-z Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.2 2007/08/28 16:06:59 neumannc Exp $"
 

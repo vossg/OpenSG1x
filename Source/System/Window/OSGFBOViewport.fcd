@@ -140,4 +140,14 @@ First Release of FramebufferObjects-Viewport.
 	>
 	Reads current buffer back into image.
 	</Field>
+	<Field
+		name="ignoreCameraDecorators"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	whether the render method should ignore CameraDecorators or not
+	</Field>
 </FieldContainer>
