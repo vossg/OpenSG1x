@@ -55,6 +55,23 @@ class unzip:
 
         zf = zipfile.ZipFile(file)
 
+        # already unzipped supportlibs.zip?
+        if os.path.exists(os.path.join(dir , 'VERSION')):
+            # get current version number.
+            version_file = open(os.path.join(dir , 'VERSION'))
+            current_version = version_file.readline()
+            version_file.close()
+
+            # get version number in zip file.
+            zip_version = zf.read('VERSION')
+
+            # now compare the version numbers.
+            if current_version == zip_version:
+                return
+            print 'detected incompatible win32 supportlibs version, updating supportlibs ...'
+
+        print 'unzipping win32 supportlibs ...'
+
         # create directory structure to house files
         self._createstructure(file, dir)
 
@@ -475,16 +492,12 @@ class PlatformOptions:
             # try to find the supportlibs directory.
             current_dir = Dir('.').abspath
             supportlibs = 'no'
-            if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'include', 'png.h')):
+
+            un = unzip()
+            un.extract(os.path.join(current_dir , 'dist', 'win', 'supportlibs.zip'),
+                       os.path.join(current_dir , '..', 'supportlibs'))
+            if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'VERSION')):
                 supportlibs = 'yes'
-            else:
-                # unzip supportlibs
-                print 'unzipping win32 supportlibs ...'
-                un = unzip()
-                un.extract(os.path.join(current_dir , 'dist', 'win', 'supportlibs.zip'),
-                           os.path.join(current_dir , '..', 'supportlibs'))
-                if os.path.exists(os.path.join(current_dir , '..', 'supportlibs', 'include', 'png.h')):
-                    supportlibs = 'yes'
 
             for option in self.package_options:
                 opts.Add(PackageOption(option, 'Enable ' + option + ' support', supportlibs))
