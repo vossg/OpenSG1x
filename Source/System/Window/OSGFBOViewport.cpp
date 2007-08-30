@@ -1195,9 +1195,37 @@ void FBOViewport::render(RenderActionBase* action)
                 }
             }
             
-            for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+            for (UInt16 fi=0; fi < getForegrounds().size(); fi++)
                 getForegrounds(fi)->draw(action, this);
             
+            if(getReadBuffer() && !colorTextures.empty())
+            {
+                for (i = 0; i < numBuffers; ++i)
+                {
+                    ImagePtr texImg = colorTextures[i]->getImage();
+                    
+                    if((texImg->getWidth () != getStorageWidth ()) ||
+                        (texImg->getHeight() != getStorageHeight()) ||
+                        (texImg->getData  () == NULL              )   )
+                    {
+                        SINFO << "FBOViewport::render: (Re)Allocating image "
+                              << "for read-back."
+                              << endLog;
+                    
+                        texImg->set(texImg->getPixelFormat(),
+                                    getStorageWidth(),
+                                    getStorageHeight()       );
+                    }
+                    
+                    // select GL_COLORATTACHMENTn and read data into image
+                    glReadBuffer(buffers[i]);
+                    glReadPixels(0, 0, getStorageWidth(), getStorageHeight(),
+                        texImg->getPixelFormat(), texImg->getDataType(),
+                        texImg->getData()                                    );
+                    glReadBuffer(GL_NONE);
+                }
+            }
+                
             // deactivate viewport settings
             deactivate();
 
@@ -1356,7 +1384,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.10 2007/08/28 16:06:59 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.11 2007/08/30 16:03:43 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
