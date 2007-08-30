@@ -241,9 +241,9 @@ dostarter:
 	$(MAKE) DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
 	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
+        for i in *.eps; do epstopdf $$i; done; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
-	latex StarterGuide && latex StarterGuide && dvips StarterGuide -o && \
-		ps2pdf StarterGuide.ps
+	latex StarterGuide && latex StarterGuide
 
 userstarter:
 	$(MAKE) DOC_IMAGE_TYPE=latex images2
