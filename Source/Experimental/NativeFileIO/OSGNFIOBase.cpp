@@ -507,8 +507,14 @@ std::string NFIOBase::readFCFields(const FieldContainerPtr &fc,
             _in->skip(size);
             continue;
         }
-        
-        
+
+        // ignore parents field.
+        if(!strcmp(fieldName.c_str(), "parents"))
+        {
+            _in->skip(size);
+            continue;
+        }
+
         if(strstr(fieldType.c_str(), "Ptr") != NULL)
         {
             if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
@@ -620,7 +626,13 @@ void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
             {
                 continue;
             }
-            
+
+            // ignore parents field.
+            if(!strcmp(fDesc->getCName(), "parents"))
+            {
+                continue;
+            }
+
             FDEBUG(("NFIOBase::getFCCount: field: '%s' '%s'\n",
                     fDesc->getCName(), fType.getCName()));
 
@@ -741,12 +753,18 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
             {
                 continue;
             }
-            
+
+            // ignore parents field.
+            if(!strcmp(fDesc->getCName(), "parents"))
+            {
+                continue;
+            }
+
             FDEBUG(("NFIOBase::writeFCPtr: field: '%s' '%s'\n",
                     fDesc->getCName(), fType.getCName()));
             std::string fieldName = fDesc->getCName();
             std::string fieldType = fType.getCName();
-            
+
             if(!exclude.empty() && exclude.find("'" + fieldName + "'") != std::string::npos)
             {
                 FDEBUG(("NFIOBase::writeFields: skipping field: '%s'.\n",
@@ -1196,6 +1214,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.14 2007/03/26 08:47:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.15 2007/08/31 16:03:51 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
