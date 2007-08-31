@@ -749,6 +749,11 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
 
         std::string fieldType = ftype.getName().str();
 
+        // ignore the parents field, would lead to a endless recursion
+        // with the new image parents support!
+        if(strcmp(fdesc->getCName(), "parents") == 0)
+            continue;
+
         // attachements
         if(strcmp(fdesc->getCName(), "attachments") == 0)
         {
