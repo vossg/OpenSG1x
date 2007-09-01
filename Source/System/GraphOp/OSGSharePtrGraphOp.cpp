@@ -251,7 +251,11 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
     
         if(fdesc->isInternal())
             continue;
-        
+
+        // ignore parents field
+        if(strcmp(fdesc->getCName(), "parents") == 0)
+            continue;
+
         // ignore attachments
         if(strcmp(fdesc->getCName(), "attachments") == 0)
             continue;
@@ -444,7 +448,11 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
     
         if(fdesc->isInternal())
             continue;
-    
+
+        // ignore parents field
+        if(strcmp(fdesc->getCName(), "parents") == 0)
+            continue;
+
         // ignore attachments
         if(strcmp(fdesc->getCName(), "attachments") == 0)
             continue;
