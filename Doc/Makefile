@@ -91,7 +91,6 @@ DOC_TUTORIAL_PAGES  := 	        tutorial/main.dox \
 				tutorial/multithreading.dox \
 				tutorial/clustering.dox \
 				tutorial/modelling.dox \
-                tutorial/newaction.dox \
 				tutorial/text.dox \
 				tutorial/solutions.dox \
 				tutorial/qt.dox \
@@ -241,7 +240,7 @@ dostarter:
 	$(MAKE) DOC_LATEX="YES" DOC_DOT="NO" DOC_INTRO="starter.dox" $(DOC_STARTER)doc
 	# link the images
 	cd $(DOCDIR)/$(DOC_STARTER)/latex/ ; \
-        for i in *.eps; do epstopdf $$i; done; \
+        for i in *.eps; do echo $$i ; epstopdf $$i; done; \
 	../../../../Common/refmanToStarter refman.tex StarterGuide.tex ;  \
 	latex StarterGuide && latex StarterGuide
 

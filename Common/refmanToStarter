@@ -1,6 +1,4 @@
-#!/bin/ksh
-# need to start this with a ksh-compatible shell
-# we need the string replacement functions of ksh right now
+#!/bin/bash
 
 refman=$1
 output=$2
@@ -84,7 +82,7 @@ do
         then
             head -1 $page.tex | sed -e "s/subsection/section/g" > $outpage.tex
 
-            tail +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
+            tail -n +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
                 -e "s/{\\\\rm (p\.\\\\,\\\\pageref{[^}]*})}//g" \
                 -e "s/\\\\hyperlink{class[^}]*}//g" \
                 -e "s/\\\\subsection/\\\\section/g" \
@@ -94,7 +92,7 @@ do
         else
             head -1 $page.tex | sed -e "s/section/chapter/g" > $outpage.tex
 
-            tail +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
+            tail -n +2 $page.tex | sed -e "s/Starter:NewChapter//g" \
                 -e "s/{\\\\rm (p\.\\\\,\\\\pageref{[^}]*})}//g" \
                 -e "s/\\\\hyperlink{class[^}]*}//g" \
                 -e "s/\\\\subsection/\\\\section/g" \
