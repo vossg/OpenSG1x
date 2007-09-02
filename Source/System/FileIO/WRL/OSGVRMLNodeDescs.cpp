@@ -3165,8 +3165,10 @@ FieldContainerPtr VRMLMaterialDesc::beginNode(
     reset();
 
     _pMat   = MaterialChunk::create();
-    _szName = szName;
-    
+
+    if(szName != NULL)
+        _szName = szName;
+
     return _pMat;
 }
 
