@@ -2809,22 +2809,24 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
         // has no name of its own, the material's name is set instead.
         
         // BEGIN Material name hack
-                
+        
         AttachmentContainerPtr attCon    = AttachmentContainerPtr::dcast(pFC);
         bool                   pushNames = false;
         std::string            optionStr =
-            SceneFileHandler::the().getOptions("wrl");
+            SceneFileHandler::the().getOptions("wrl") != NULL ?
+            SceneFileHandler::the().getOptions("wrl") : "";
         
         if(optionStr.find("pushNames=true") != std::string::npos)
             pushNames = true;
         
-        if((attCon != NullFC) && (pushNames == true))
+        if((attCon         != NullFC) && (pushNames == true) && 
+           (_pMaterialDesc != NULL  ) && (!_pMaterialDesc->getName().empty()))
         {        
             FieldContainerPtr att = attCon->findAttachment(
                 Name::getClassType().getGroupId());
             
             if(att != NullFC)
-            {
+            {            
                 // ChunkMaterial (Appearance) already has a NameAttachment
                 NamePtr nameAtt = NamePtr::dcast(att);
                 
@@ -2853,7 +2855,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                 endEditCP  (nameAtt);
             }
         }
-        
+                
         // END Material name hack
     }
 
@@ -3165,10 +3167,8 @@ FieldContainerPtr VRMLMaterialDesc::beginNode(
     reset();
 
     _pMat   = MaterialChunk::create();
-
-    if(szName != NULL)
-        _szName = szName;
-
+    _szName = szName != NULL ? szName : "";
+    
     return _pMat;
 }
 
