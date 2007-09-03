@@ -884,22 +884,31 @@ void FBOViewport::render(RenderActionBase* action)
                         // deactivate viewport settings
                         deactivate();
 
-                        win->validateGLObject(getTextures(0)->getGLId());
+                        GLenum target;
+                        // copy ALL attached textures.
+                        // Most likely there's just one texture attached, the
+                        // color buffer or the depth buffer. But in case both
+                        // are attached, copy both!
+                        for(UInt16 nt = 0; nt < getTextures().getSize(); nt++)
+                        {
+                            win->validateGLObject(getTextures(nt)->getGLId());
                         
-                        GLenum target = getTextures(0)->getTarget();
+                            target = getTextures(nt)->getTarget();
                         
-                        // TODO; check if target is valid and allow usage of 3d texture slices
-                        if (target == GL_NONE)
-                            target = GL_TEXTURE_2D;
+                            // TODO: check if target is valid and allow usage
+                            // of 3d texture slices
+                            if (target == GL_NONE)
+                                target = GL_TEXTURE_2D;
                         
-                        glBindTexture(target, 
-                            win->getGLObjectId(getTextures(0)->getGLId()));
+                            glBindTexture(target, 
+                                win->getGLObjectId(getTextures(nt)->getGLId()));
                         
-                        glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
+                            glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
                         
-                        if (glGetError() != GL_NO_ERROR)
-                            SWARNING << "Error in Texture-Creation! " << endLog;    
-                        
+                            if(glGetError() != GL_NO_ERROR)
+                                SWARNING << "Error in Texture-Creation! " << endLog;    
+                        }
+                            
                         glBindTexture(target, 0);
                     }
                 }
@@ -1384,7 +1393,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.11 2007/08/30 16:03:43 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.12 2007/09/03 17:18:28 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
