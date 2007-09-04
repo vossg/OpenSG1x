@@ -906,7 +906,44 @@ void FBOViewport::render(RenderActionBase* action)
                             glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
                         
                             if(glGetError() != GL_NO_ERROR)
-                                SWARNING << "Error in Texture-Creation! " << endLog;    
+                                SWARNING << "Error in Texture-Creation! " << endLog;
+                            
+                            if(getReadBuffer())
+                            {
+                                Int32 format = getTextures(nt)->getInternalFormat();
+                                
+                                if( format == GL_DEPTH_COMPONENT            || 
+                                   (format >= GL_DEPTH_COMPONENT16_ARB &&
+                                    format <= GL_DEPTH_COMPONENT32_ARB    ) ||
+                                    format == GL_STENCIL_INDEX              ||
+                                    format == GL_DEPTH_STENCIL_EXT            )
+                                        continue; // ignore non-color buffers
+
+                                ImagePtr texImg = getTextures(nt)->getImage();
+
+                                if((texImg->getWidth () != getStorageWidth ()) ||
+                                   (texImg->getHeight() != getStorageHeight()) ||
+                                   (texImg->getData  () == NULL              )   )
+                                {
+                                    SINFO << "FBOViewport::render: "
+                                          << "(Re)Allocating image for "
+                                          << "read-back."
+                                          << endLog;
+            
+                                    texImg->set(texImg->getPixelFormat(),
+                                                getStorageWidth(),
+                                                getStorageHeight()       );
+                                }
+            
+                                // select back buffer and read data into image
+                                glReadBuffer(GL_BACK); 
+                                glReadPixels(0, 0, getStorageWidth(),
+                                    getStorageHeight(), 
+                                    texImg->getPixelFormat(),
+                                    texImg->getDataType(),
+                                    texImg->getData()                 );
+                                glReadBuffer(GL_NONE);
+                            }
                         }
                             
                         glBindTexture(target, 0);
@@ -1393,7 +1430,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.12 2007/09/03 17:18:28 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.13 2007/09/04 14:50:34 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
