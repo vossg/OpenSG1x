@@ -77,6 +77,16 @@ class OSG_BASE_DLLMAPPING Line
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                    Operators                                 */
+    /*! \{                                                                 */
+    
+    friend OSG_BASE_DLLMAPPING
+    bool  operator ==(const Line &lhs, const Line &rhs);
+    
+    Line &operator = (const Line &source              );
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Set                                       */
     /*! \{                                                                 */
 
@@ -144,6 +154,14 @@ class OSG_BASE_DLLMAPPING Line
     Vec3f   _dir;
 
 };
+
+OSG_BASE_DLLMAPPING
+bool 
+operator ==(const Line &lhs, const Line &rhs);
+
+inline
+bool
+operator !=(const Line &lhs, const Line &rhs);
 
 OSG_END_NAMESPACE
 

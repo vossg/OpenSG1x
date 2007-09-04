@@ -46,6 +46,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+bool
+operator !=(const CylinderVolume &lhs, const CylinderVolume &rhs)
+{
+    return !(lhs == rhs);
+}
 
 inline
 CylinderVolume::CylinderVolume(void) : 

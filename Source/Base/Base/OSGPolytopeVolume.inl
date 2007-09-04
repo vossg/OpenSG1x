@@ -145,9 +145,9 @@ bool PolytopeVolume::intersect(const PolytopeVolume &volume) const
 
 /// Inequality comparisons
 inline
-bool operator != (const PolytopeVolume &b1, const PolytopeVolume &b2)
+bool operator !=(const PolytopeVolume &lhs, const PolytopeVolume &rhs)
 {
-    return !(b1 == b2);
+    return !(lhs == rhs);
 }
 
 /***************************************************************************\

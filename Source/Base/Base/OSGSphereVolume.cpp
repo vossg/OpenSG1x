@@ -67,6 +67,21 @@ void SphereVolume::circumscribe(const BoxVolume &box)
 }
 #endif
 
+/*---------------------------------------------------------------------------*/
+/* Operators                                                                 */
+
+SphereVolume &
+SphereVolume::operator =(const SphereVolume &source)
+{
+    if(this == &source)
+        return *this;
+
+    _center = source._center;
+    _radius = source._radius;
+    
+    return *this;
+}
+
 /*! Returns the center */
 
 void SphereVolume::getCenter(Pnt3f &center) const
@@ -201,3 +216,13 @@ void SphereVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 {
     PLOG << "Sphere(" << _center << "|" << _radius << ")";
 }
+
+OSG_BEGIN_NAMESPACE
+
+OSG_BASE_DLLMAPPING bool
+operator ==(const SphereVolume &lhs, const SphereVolume &rhs)
+{
+    return (lhs._center == rhs._center) && (lhs._radius == rhs._radius);
+}
+
+OSG_END_NAMESPACE

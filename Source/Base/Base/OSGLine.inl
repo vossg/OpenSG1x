@@ -63,6 +63,12 @@ const Vec3f &Line::getDirection(void) const
     return _dir;
 }
 
+inline
+bool
+operator !=(const Line &lhs, const Line &rhs)
+{
+    return !(lhs == rhs);
+}
 
 OSG_END_NAMESPACE
 

@@ -97,6 +97,21 @@ Line::~Line(void)
 {
 }
 
+/*---------------------------------------------------------------------------*/
+/* Operators                                                                 */
+
+Line &
+Line::operator =(const Line &source)
+{
+    if(this == &source)
+        return *this;
+    
+    _pos = source._pos;
+    _dir = source._dir;
+    
+    return *this;
+}
+
 /*------------------------------ feature ----------------------------------*/
 
 void Line::setValue(const Pnt3f &p0, const Pnt3f &p1)
@@ -802,3 +817,13 @@ return (beta+gamma < 1.0f)
         && (t >= 0.0f) && (t <= 1.0f);
 
 */
+
+OSG_BEGIN_NAMESPACE
+
+OSG_BASE_DLLMAPPING bool
+operator ==(const Line &lhs, const Line &rhs)
+{
+    return (lhs._pos == rhs._pos) && (lhs._dir == rhs._dir);
+}
+
+OSG_END_NAMESPACE

@@ -67,8 +67,26 @@
     
 */
 
-
 OSG_USING_NAMESPACE
+
+/*---------------------------------------------------------------------------*/
+/* Operators                                                                 */
+
+FrustumVolume &
+FrustumVolume::operator =(const FrustumVolume &source)
+{
+    if(this == &source)
+        return *this;
+
+    for(Int32 i = 0; i < 6; ++i)
+    {
+        _planeVec[i] = source._planeVec[i];
+    }
+
+    _state = source._state;
+
+    return *this;
+}
 
 /*-------------------------------- get ------------------------------------*/
 
@@ -360,18 +378,6 @@ void FrustumVolume::transform(const Matrix &m)
     _planeVec[5].transform(m); 
 }
 
-const FrustumVolume &FrustumVolume::operator =(const FrustumVolume &b1)
-{
-    for(Int32 i = 0; i < 5; i++)
-    {
-        _planeVec[i] = b1._planeVec[i];
-    }
-
-    _state = b1._state;
-
-    return *this;
-}
-
 void FrustumVolume::dump(      UInt32    OSG_CHECK_ARG(uiIndent), 
                          const BitVector OSG_CHECK_ARG(bvFlags )) const
 {
@@ -425,16 +431,16 @@ fprintf(stderr,"Frustum:(%f %f %f:%f)(%f %f %f:%f)(%f %f %f:%f)"
 
 OSG_BEGIN_NAMESPACE
 
-OSG_BASE_DLLMAPPING
-bool operator ==(const FrustumVolume &b1, const FrustumVolume &b2)
+OSG_BASE_DLLMAPPING bool
+operator ==(const FrustumVolume &lhs, const FrustumVolume &rhs)
 {
-    return ((static_cast<const Volume &>(b1) == b2 ) &&
-            (b1.getPlanes()[0] == b2.getPlanes()[0]) &&
-            (b1.getPlanes()[1] == b2.getPlanes()[1]) &&
-            (b1.getPlanes()[2] == b2.getPlanes()[2]) &&
-            (b1.getPlanes()[3] == b2.getPlanes()[3]) &&
-            (b1.getPlanes()[4] == b2.getPlanes()[4]) &&
-            (b1.getPlanes()[5] == b2.getPlanes()[5]));
+    return ((static_cast<const Volume &>(lhs) == rhs ) &&
+            (lhs.getPlanes()[0] == rhs.getPlanes()[0]) &&
+            (lhs.getPlanes()[1] == rhs.getPlanes()[1]) &&
+            (lhs.getPlanes()[2] == rhs.getPlanes()[2]) &&
+            (lhs.getPlanes()[3] == rhs.getPlanes()[3]) &&
+            (lhs.getPlanes()[4] == rhs.getPlanes()[4]) &&
+            (lhs.getPlanes()[5] == rhs.getPlanes()[5]));
 }
 
 /*! Check the volume against the frustum, but only against the given planes.

@@ -141,6 +141,24 @@ Plane::~Plane(void)
 {
 }
 
+/*---------------------------------------------------------------------------*/
+/* Assignment                                                                */
+
+Plane &
+Plane::operator =(const Plane &source)
+{
+    if(this == &source)
+        return *this;
+    
+    _normalVec      = source._normalVec;
+    _distance       = source._distance;
+    _directionIndex = source._directionIndex;
+    
+    updateDirectionIndex();
+    
+    return *this;
+}
+
 
 /*! Add offset to distance.
  */
@@ -406,8 +424,8 @@ void Plane::updateDirectionIndex(void)
 OSG_BEGIN_NAMESPACE
 
 
-OSG_BASE_DLLMAPPING
-bool operator ==(const Plane &p1, const Plane &p2)
+OSG_BASE_DLLMAPPING bool
+operator ==(const Plane &p1, const Plane &p2)
 {
     return ((p1._distance  == p2._distance ) &&
             (p1._normalVec == p2._normalVec)   );

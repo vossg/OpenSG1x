@@ -49,6 +49,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+bool
+operator !=(const DynamicVolume &lhs, const DynamicVolume &rhs)
+{
+    return !(lhs == rhs);
+}
 
 inline
 DynamicVolume::~DynamicVolume(void)

@@ -404,7 +404,7 @@ void BoxVolume::transform(const Matrix &m)
 
 //! Assignment operator
 
-const BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
+BoxVolume &BoxVolume::operator =(const BoxVolume &b1)
 {
     if(&b1 == this)
         return *this;

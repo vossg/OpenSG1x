@@ -47,6 +47,16 @@
 
 OSG_BEGIN_NAMESPACE
 
+class DynamicVolume;
+
+OSG_BASE_DLLMAPPING
+bool
+operator ==(const DynamicVolume &lhs, const DynamicVolume &rhs);
+
+inline
+bool
+operator !=(const DynamicVolume &lhs, const DynamicVolume &rhs);
+
 /*! \ingroup GrpBaseBaseVolume  
  */
 
@@ -76,6 +86,17 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
 
     virtual ~DynamicVolume(void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                       Operators                              */
+    /*! \{                                                                 */
+
+    friend OSG_BASE_DLLMAPPING
+    bool           operator ==(const DynamicVolume &lhs,
+                               const DynamicVolume &rhs   );
+    
+    DynamicVolume &operator = (const DynamicVolume &source);
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Specific                            */
@@ -134,15 +155,6 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
 
     virtual void dump(      UInt32    uiIndent = 0,
                       const BitVector bvFlags  = 0) const;
-
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                       Operators                              */
-    /*! \{                                                                 */
-
-    bool           operator ==(const DynamicVolume &other ) const;
-
-    DynamicVolume &operator = (const DynamicVolume &source);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/

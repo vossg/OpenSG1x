@@ -76,6 +76,17 @@ class OSG_BASE_DLLMAPPING SphereVolume : public Volume
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+    
+    friend OSG_BASE_DLLMAPPING
+    bool          operator ==(const SphereVolume &lhs,
+                              const SphereVolume &rhs   );
+    
+    SphereVolume &operator = (const SphereVolume &source);
+    
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Set Values                                */
     /*! \{                                                                 */
 
@@ -145,6 +156,14 @@ class OSG_BASE_DLLMAPPING SphereVolume : public Volume
     Real32 _radius;
 
 };
+
+OSG_BASE_DLLMAPPING
+bool
+operator ==(const SphereVolume &lhs, const SphereVolume &rhs);
+
+inline
+bool
+operator !=(const SphereVolume &lhs, const SphereVolume &rhs);
 
 OSG_END_NAMESPACE
 

@@ -52,6 +52,33 @@
 
 OSG_USING_NAMESPACE
 
+OSG_BEGIN_NAMESPACE
+
+OSG_BASE_DLLMAPPING bool
+operator ==(const CylinderVolume &lhs, const CylinderVolume &rhs)
+{
+    return (lhs._axisPos == rhs._axisPos) &&
+           (lhs._axisDir == rhs._axisDir) &&
+           (lhs._radius  == rhs._radius );
+}
+
+OSG_END_NAMESPACE
+
+/*---------------------------------------------------------------------------*/
+/* Operators                                                                 */
+
+CylinderVolume &
+CylinderVolume::operator =(const CylinderVolume &source)
+{
+    if(this == &source)
+        return *this;
+    
+    _axisPos = source._axisPos;
+    _axisDir = source._axisDir;
+    _radius  = source._radius;
+    
+    return *this;
+}
 
 void CylinderVolume::getCenter(Pnt3f &center) const
 {

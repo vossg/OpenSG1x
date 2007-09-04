@@ -63,9 +63,9 @@ class OSG_BASE_DLLMAPPING PolytopeVolume : public Volume
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
       
-    PolytopeVolume (                                              ); 
-    PolytopeVolume ( const UInt16&                                );
-    PolytopeVolume ( const PolytopeVolume &obj                    );
+    PolytopeVolume(                                             ); 
+    PolytopeVolume(const UInt16&                                );
+    PolytopeVolume(const PolytopeVolume &obj                    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -131,7 +131,7 @@ class OSG_BASE_DLLMAPPING PolytopeVolume : public Volume
     /*! \name                   Assignment                                 */
     /*! \{                                                                 */
     
-    const PolytopeVolume &operator =(const PolytopeVolume &b1);
+    PolytopeVolume &operator =(const PolytopeVolume &b1);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,10 +154,10 @@ class OSG_BASE_DLLMAPPING PolytopeVolume : public Volume
 typedef PolytopeVolume* PolytopeVolumePtr;
 
 OSG_BASE_DLLMAPPING
-bool operator ==(const PolytopeVolume &b1, const PolytopeVolume &b2);
+bool operator ==(const PolytopeVolume &lhs, const PolytopeVolume &rhs);
 
 inline
-bool operator !=(const PolytopeVolume &b1, const PolytopeVolume &b2);
+bool operator !=(const PolytopeVolume &lhs, const PolytopeVolume &rhs);
 
 OSG_END_NAMESPACE
 

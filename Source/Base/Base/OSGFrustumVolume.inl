@@ -190,9 +190,9 @@ bool FrustumVolume::intersect(const FrustumVolume &volume) const
  */
 
 inline
-bool operator !=(const FrustumVolume &b1, const FrustumVolume &b2)
+bool operator !=(const FrustumVolume &lhs, const FrustumVolume &rhs)
 {
-    return !(b1 == b2);
+    return !(lhs == rhs);
 }
 
 /***************************************************************************\

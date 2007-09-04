@@ -48,10 +48,12 @@ OSG_BEGIN_NAMESPACE
 class BoxVolume;
 
 OSG_BASE_DLLMAPPING
-bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
+bool
+operator ==(const BoxVolume &b1, const BoxVolume &b2);
 
 inline
-bool operator !=(const BoxVolume &b1, const BoxVolume &b2);
+bool
+operator !=(const BoxVolume &b1, const BoxVolume &b2);
 
 
 /*! 3D box defined by min and max point.
@@ -168,9 +170,9 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
     /*! \{                                                                 */
 
     friend OSG_BASE_DLLMAPPING
-    bool operator ==(const BoxVolume &b1, const BoxVolume &b2);
+    bool       operator ==(const BoxVolume &b1, const BoxVolume &b2);
   
-    const BoxVolume &operator =(const BoxVolume &b1);
+    BoxVolume &operator = (const BoxVolume &b1                     );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

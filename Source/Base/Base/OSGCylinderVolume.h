@@ -46,6 +46,17 @@
 
 OSG_BEGIN_NAMESPACE
 
+class CylinderVolume;
+
+OSG_BASE_DLLMAPPING
+bool
+operator ==(const CylinderVolume &lhs, const CylinderVolume &rhs);
+
+inline
+bool
+operator !=(const CylinderVolume &lhs, const CylinderVolume &rhs);
+
+
 /*! 3D cylinder in space defined by axis and radius.
 
     \ingroup GrpBaseBaseVolume
@@ -75,6 +86,17 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
 
     ~CylinderVolume(void);
 
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                     Operators                                */
+    /*! \{                                                                 */
+    
+    friend OSG_BASE_DLLMAPPING
+    bool            operator ==(const CylinderVolume &lhs,
+                                const CylinderVolume &rhs   );
+    
+    CylinderVolume &operator = (const CylinderVolume &source);
+        
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                        Get                                   */
@@ -144,7 +166,6 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
     /*==========================  PRIVATE  ================================*/
 
   private:
-
     Pnt3f  _axisPos;
     Vec3f  _axisDir;
     Real32 _radius;

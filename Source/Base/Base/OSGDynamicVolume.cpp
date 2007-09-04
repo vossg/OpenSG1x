@@ -53,6 +53,39 @@
 
 OSG_USING_NAMESPACE
 
+OSG_BEGIN_NAMESPACE
+
+OSG_BASE_DLLMAPPING bool
+operator ==(const DynamicVolume &lhs, const DynamicVolume &rhs)
+{
+    bool retVal = false;
+
+    if(lhs._type == rhs._type)
+    {
+        switch(lhs._type)
+        {
+        case DynamicVolume::BOX_VOLUME:
+        {
+            retVal =
+                (*reinterpret_cast<const BoxVolume *>(lhs._volumeMem)) ==
+                (*reinterpret_cast<const BoxVolume *>(rhs._volumeMem));
+        }
+        break;
+        
+        case DynamicVolume::SPHERE_VOLUME:
+        {
+            retVal =
+                (*reinterpret_cast<const SphereVolume *>(lhs._volumeMem)) ==
+                (*reinterpret_cast<const SphereVolume *>(rhs._volumeMem));
+        }
+        break;
+        }
+    }
+    
+    return retVal;
+}
+
+OSG_END_NAMESPACE
 
 /*-------------------------- constructor ----------------------------------*/
 
@@ -78,6 +111,38 @@ DynamicVolume::DynamicVolume(const DynamicVolume &obj) :
                 SphereVolume(*((OSG::SphereVolume *)(obj._volumeMem)));
             break;
     }
+}
+
+/*---------------------------------------------------------------------------*/
+/* Operators                                                                 */
+
+DynamicVolume &
+DynamicVolume::operator =(const DynamicVolume &source)
+{
+    if(this == &source)
+        return *this;
+    
+    _type = source._type;
+    
+    switch(_type)
+    {
+    case BOX_VOLUME:
+    {
+        new (_volumeMem) BoxVolume(
+            *reinterpret_cast<const BoxVolume *>(source._volumeMem));
+    }
+    break;
+    
+    case SPHERE_VOLUME:
+    {
+        new (_volumeMem) SphereVolume(
+            *reinterpret_cast<const SphereVolume *>(source._volumeMem));
+    }
+    break;
+    
+    }
+    
+    return *this;
 }
 
 void DynamicVolume::setVolumeType(Type type)
@@ -236,36 +301,6 @@ void DynamicVolume::dump(UInt32 uiIndent, const BitVector bvFlags) const
     PLOG << "Dyn:";
     
     getInstance().dump(uiIndent, bvFlags);
-}
-
-
-bool 
-    DynamicVolume::operator ==(const DynamicVolume &OSG_CHECK_ARG(other)) const
-{
-    return false; 
-}
-
-
-DynamicVolume &DynamicVolume::operator =(const DynamicVolume &source)
-{
-    _type = source._type;
-
-    switch(_type)
-    {
-        case BOX_VOLUME:
-            new (_volumeMem)
-                BoxVolume   (*((OSG::BoxVolume    *)(source._volumeMem)));
-            break;
-
-        case SPHERE_VOLUME:
-            new (_volumeMem)
-                SphereVolume(*((OSG::SphereVolume *)(source._volumeMem)));
-            break;
-    }
-
-    instanceChanged();
-
-    return *this;
 }
 
 /***************************************************************************\

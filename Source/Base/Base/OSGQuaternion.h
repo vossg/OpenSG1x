@@ -220,7 +220,7 @@ class QuaternionBase
     /*! \name                   Assignment                                 */
     /*! \{                                                                 */
 
-    const QuaternionBase& operator = (const QuaternionBase &source);
+    QuaternionBase& operator = (const QuaternionBase &source);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
