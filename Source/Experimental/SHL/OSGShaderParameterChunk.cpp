@@ -270,7 +270,9 @@ void ShaderParameterChunk::clearUniformParameters(void)
         subRefCP(parameters[i]);
 
     parameters.clear();
-    _parameter_access->updateMap();
+
+    if(_parameter_access != NULL)
+        _parameter_access->updateMap();
 }
 
 // arrays
@@ -318,7 +320,7 @@ bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.3 2007/09/06 09:45:11 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.4 2007/09/06 11:01:34 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 
