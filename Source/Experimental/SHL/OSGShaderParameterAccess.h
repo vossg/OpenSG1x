@@ -81,7 +81,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
     bool    getParameter(const char *name, ValueType &value);
 
     bool    subParameter(const char *name);
-    
+
+    void updateMap(void);
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -91,7 +93,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const ShaderParameterAccess &source);
-    void updateMap(void);
 
     MFShaderParameterPtr &_parameters;
 
@@ -105,6 +106,6 @@ OSG_END_NAMESPACE
 
 #include <OSGShaderParameterAccess.inl>
 
-#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.5 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.6 2007/09/06 09:45:11 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERACCESS_H_ */

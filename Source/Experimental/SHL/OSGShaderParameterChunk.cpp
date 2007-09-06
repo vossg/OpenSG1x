@@ -128,6 +128,8 @@ void ShaderParameterChunk::onDestroy(void)
 {
     Inherited::onDestroy();
 
+    clearUniformParameters();
+
     if(_parameter_access != NULL)
         delete _parameter_access;
 }
@@ -259,6 +261,18 @@ bool ShaderParameterChunk::subUniformParameter(const char *name)
     return _parameter_access->subParameter(name);
 }
 
+void ShaderParameterChunk::clearUniformParameters(void)
+{
+    MFShaderParameterPtr &parameters = getParameters();
+    UInt32 size = parameters.size();
+
+    for(UInt32 i=0;i<size;++i)
+        subRefCP(parameters[i]);
+
+    parameters.clear();
+    _parameter_access->updateMap();
+}
+
 // arrays
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFInt32 &value)
@@ -304,7 +318,7 @@ bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.2 2007/03/09 18:11:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.3 2007/09/06 09:45:11 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 

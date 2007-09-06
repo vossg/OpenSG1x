@@ -69,6 +69,7 @@ bool ShaderParameterAccess::setParameter(const char *name, const ValueType &valu
     {
         //ParameterType::Ptr p = ParameterType::create();
         FCPtr<ShaderParameterPtr, ParameterType> p = ParameterType::create();
+        addRefCP(p);
         if(p != NullFC)
         {
             beginEditCP(p);
@@ -110,6 +111,7 @@ bool ShaderParameterAccess::setMParameter(const char *name, const ValueType &val
     {
         //ParameterType::Ptr p = ParameterType::create();
         FCPtr<ShaderParameterPtr, ParameterType> p = ParameterType::create();
+        addRefCP(p);
         if(p != NullFC)
         {
             beginEditCP(p);
@@ -155,4 +157,4 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.11 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.12 2007/09/06 09:45:11 a-m-z Exp $"

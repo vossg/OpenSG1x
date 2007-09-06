@@ -86,37 +86,39 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterChunk : public ShaderParameterChun
     /*! \name                 ShaderParameterChunk Access                           */
     /*! \{                                                                 */
 
-            bool    setUniformParameter(const char *name, bool   value       );
-            bool    setUniformParameter(const char *name, Int32  value       );
-            bool    setUniformParameter(const char *name, Real32 value       );
-            bool    setUniformParameter(const char *name, const Vec2f  &value);
-            bool    setUniformParameter(const char *name, const Vec3f  &value);
-            bool    setUniformParameter(const char *name, const Vec4f  &value);
-            bool    setUniformParameter(const char *name, const Matrix &value);
+    bool    setUniformParameter(const char *name, bool   value       );
+    bool    setUniformParameter(const char *name, Int32  value       );
+    bool    setUniformParameter(const char *name, Real32 value       );
+    bool    setUniformParameter(const char *name, const Vec2f  &value);
+    bool    setUniformParameter(const char *name, const Vec3f  &value);
+    bool    setUniformParameter(const char *name, const Vec4f  &value);
+    bool    setUniformParameter(const char *name, const Matrix &value);
 
-            bool    setUniformParameter(const char *name, const MFInt32  &value);
-            bool    setUniformParameter(const char *name, const MFReal32 &value);
-            bool    setUniformParameter(const char *name, const MFVec2f  &value);
-            bool    setUniformParameter(const char *name, const MFVec3f  &value);
-            bool    setUniformParameter(const char *name, const MFVec4f  &value);
-            bool    setUniformParameter(const char *name, const MFMatrix &value);
+    bool    setUniformParameter(const char *name, const MFInt32  &value);
+    bool    setUniformParameter(const char *name, const MFReal32 &value);
+    bool    setUniformParameter(const char *name, const MFVec2f  &value);
+    bool    setUniformParameter(const char *name, const MFVec3f  &value);
+    bool    setUniformParameter(const char *name, const MFVec4f  &value);
+    bool    setUniformParameter(const char *name, const MFMatrix &value);
 
-            bool    getUniformParameter(const char *name, bool   &value);
-            bool    getUniformParameter(const char *name, Int32  &value);
-            bool    getUniformParameter(const char *name, Real32 &value);
-            bool    getUniformParameter(const char *name, Vec2f  &value);
-            bool    getUniformParameter(const char *name, Vec3f  &value);
-            bool    getUniformParameter(const char *name, Vec4f  &value);
-            bool    getUniformParameter(const char *name, Matrix &value);
+    bool    getUniformParameter(const char *name, bool   &value);
+    bool    getUniformParameter(const char *name, Int32  &value);
+    bool    getUniformParameter(const char *name, Real32 &value);
+    bool    getUniformParameter(const char *name, Vec2f  &value);
+    bool    getUniformParameter(const char *name, Vec3f  &value);
+    bool    getUniformParameter(const char *name, Vec4f  &value);
+    bool    getUniformParameter(const char *name, Matrix &value);
 
-            bool    getUniformParameter(const char *name, MFInt32  &value);
-            bool    getUniformParameter(const char *name, MFReal32 &value);
-            bool    getUniformParameter(const char *name, MFVec2f  &value);
-            bool    getUniformParameter(const char *name, MFVec3f  &value);
-            bool    getUniformParameter(const char *name, MFVec4f  &value);
-            bool    getUniformParameter(const char *name, MFMatrix &value);
+    bool    getUniformParameter(const char *name, MFInt32  &value);
+    bool    getUniformParameter(const char *name, MFReal32 &value);
+    bool    getUniformParameter(const char *name, MFVec2f  &value);
+    bool    getUniformParameter(const char *name, MFVec3f  &value);
+    bool    getUniformParameter(const char *name, MFVec4f  &value);
+    bool    getUniformParameter(const char *name, MFMatrix &value);
 
-            bool    subUniformParameter(const char *name);
+    bool    subUniformParameter(const char *name);
+
+    void    clearUniformParameters(void);
 
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
@@ -169,6 +171,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterChunkBase.inl>
 #include <OSGShaderParameterChunk.inl>
 
-#define OSGSHADERPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunk.h,v 1.2 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunk.h,v 1.3 2007/09/06 09:45:11 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERCHUNK_H_ */

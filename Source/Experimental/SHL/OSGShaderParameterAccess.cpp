@@ -85,6 +85,7 @@ bool ShaderParameterAccess::subParameter(const char *name)
     if(it == _parametermap.end())
         return false;
 
+    subRefCP(_parameters[(*it).second]);
     _parameters.erase(_parameters.begin() + (*it).second);
     _parametermap.erase(it);
     updateMap();
