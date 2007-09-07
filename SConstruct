@@ -278,16 +278,18 @@ def CreateConfiguredHeader(env):
         is_linux = 1
 
     filename = os.path.join(path, 'OSGConfigured.h')
-    
-    if not os.path.exists(filename):
 
-        # Create directories if not existent.
-        if not os.path.isdir(path):
-            os.makedirs(path)
-    
-        configured_h = open(filename, 'w')
-        
-        configured_h.write("""
+    # Create directories if not existent.
+    if not os.path.isdir(path):
+        os.makedirs(path)
+
+    current_configured_h = ""
+    if os.path.exists(filename):
+        file = open(filename, 'r')
+        current_configured_h = file.read()
+        file.close()
+
+    new_configured_h = ("""
 /*---------------------------------------------------------------------------*\
  *                                OpenSG                                     *
  *                                                                           *
@@ -380,13 +382,21 @@ def CreateConfiguredHeader(env):
 
 /* #undef OSG_ICC_GNU_COMPAT */
 
-#endif
-        """)
+""")
 
-        #if is_win32:
-        #    configured_h.write('\n')
+    #if is_win32:
+    #    configured_h.write('\n')
 
-        configured_h.write('\n') # add new line
+    if _po.getOption('invalid_pointer_check'):
+        new_configured_h += '#define OSG_INVALID_PTR_CHECK\n'
+
+    new_configured_h += '\n' # add new line
+    new_configured_h += '#endif /* _OSGCONFIGURED_H_ */'
+    new_configured_h += '\n' # add new line
+
+    if current_configured_h != new_configured_h:
+        configured_h = open(filename, 'w')
+        configured_h.write(new_configured_h)
         configured_h.close()
 
     MyInstall(os.path.join(build_dir, 'installed', 'include', 'OpenSG', 'OSGConfigured.h'), filename)
@@ -744,9 +754,6 @@ class ToolChain:
             moveGVBetaFiles()
         else:
             unmoveGVBetaFiles()
-
-        if _po.getOption('invalid_pointer_check'):
-            self.env.Append(CPPDEFINES = ['OSG_INVALID_PTR_CHECK'])
 
         # add include path for OSGConfigured.h file
         self.env.Append(CPPPATH=[Dir(os.path.join('Build', self.name, 'Source', 'Base'))])
