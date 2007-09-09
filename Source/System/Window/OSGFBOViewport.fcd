@@ -150,4 +150,14 @@ First Release of FramebufferObjects-Viewport.
 	>
 	whether the render method should ignore CameraDecorators or not
 	</Field>
+	<Field
+		name="fboOffIgnoreStorageSize"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	whether to ignore storage size in Fbo off mode and just consider window size
+	</Field>
 </FieldContainer>

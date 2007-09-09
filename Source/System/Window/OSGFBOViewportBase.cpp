@@ -109,6 +109,9 @@ const OSG::BitVector  FBOViewportBase::ReadBufferFieldMask =
 const OSG::BitVector  FBOViewportBase::IgnoreCameraDecoratorsFieldMask = 
     (TypeTraits<BitVector>::One << FBOViewportBase::IgnoreCameraDecoratorsFieldId);
 
+const OSG::BitVector  FBOViewportBase::FboOffIgnoreStorageSizeFieldMask = 
+    (TypeTraits<BitVector>::One << FBOViewportBase::FboOffIgnoreStorageSizeFieldId);
+
 const OSG::BitVector FBOViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -160,6 +163,9 @@ const OSG::BitVector FBOViewportBase::MTInfluenceMask =
 */
 /*! \var bool            FBOViewportBase::_sfIgnoreCameraDecorators
     whether the render method should ignore CameraDecorators or not
+*/
+/*! \var bool            FBOViewportBase::_sfFboOffIgnoreStorageSize
+    whether to ignore storage size in Fbo off mode and just consider window size
 */
 
 //! FBOViewport description
@@ -240,7 +246,12 @@ FieldDescription *FBOViewportBase::_desc[] =
                      "ignoreCameraDecorators", 
                      IgnoreCameraDecoratorsFieldId, IgnoreCameraDecoratorsFieldMask,
                      false,
-                     (FieldAccessMethod) &FBOViewportBase::getSFIgnoreCameraDecorators)
+                     (FieldAccessMethod) &FBOViewportBase::getSFIgnoreCameraDecorators),
+    new FieldDescription(SFBool::getClassType(), 
+                     "fboOffIgnoreStorageSize", 
+                     FboOffIgnoreStorageSizeFieldId, FboOffIgnoreStorageSizeFieldMask,
+                     false,
+                     (FieldAccessMethod) &FBOViewportBase::getSFFboOffIgnoreStorageSize)
 };
 
 
@@ -334,6 +345,7 @@ FBOViewportBase::FBOViewportBase(void) :
     _sfDirty                  (bool(true)), 
     _sfReadBuffer             (bool(false)), 
     _sfIgnoreCameraDecorators (bool(true)), 
+    _sfFboOffIgnoreStorageSize(bool(false)), 
     Inherited() 
 {
 }
@@ -358,6 +370,7 @@ FBOViewportBase::FBOViewportBase(const FBOViewportBase &source) :
     _sfDirty                  (source._sfDirty                  ), 
     _sfReadBuffer             (source._sfReadBuffer             ), 
     _sfIgnoreCameraDecorators (source._sfIgnoreCameraDecorators ), 
+    _sfFboOffIgnoreStorageSize(source._sfFboOffIgnoreStorageSize), 
     Inherited                 (source)
 {
 }
@@ -449,6 +462,11 @@ UInt32 FBOViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfIgnoreCameraDecorators.getBinSize();
     }
 
+    if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
+    {
+        returnValue += _sfFboOffIgnoreStorageSize.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -531,6 +549,11 @@ void FBOViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
     {
         _sfIgnoreCameraDecorators.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
+    {
+        _sfFboOffIgnoreStorageSize.copyToBin(pMem);
     }
 
 
@@ -616,6 +639,11 @@ void FBOViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfIgnoreCameraDecorators.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
+    {
+        _sfFboOffIgnoreStorageSize.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -671,6 +699,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
     if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
         _sfIgnoreCameraDecorators.syncWith(pOther->_sfIgnoreCameraDecorators);
 
+    if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
+        _sfFboOffIgnoreStorageSize.syncWith(pOther->_sfFboOffIgnoreStorageSize);
+
 
 }
 #else
@@ -716,6 +747,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
 
     if(FieldBits::NoField != (IgnoreCameraDecoratorsFieldMask & whichField))
         _sfIgnoreCameraDecorators.syncWith(pOther->_sfIgnoreCameraDecorators);
+
+    if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
+        _sfFboOffIgnoreStorageSize.syncWith(pOther->_sfFboOffIgnoreStorageSize);
 
 
     if(FieldBits::NoField != (ExcludeNodesFieldMask & whichField))
@@ -778,7 +812,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FBOViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.2 2007/08/28 16:06:59 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.3 2007/09/09 20:20:42 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

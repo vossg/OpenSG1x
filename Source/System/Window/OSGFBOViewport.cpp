@@ -837,21 +837,35 @@ void FBOViewport::render(RenderActionBase* action)
                 endEditCP(tiledeco);
                 
                 action->setCamera(tiledeco.getCPtr());
-                
-                for (y1=0; y1 < imgHeight; y1 += winHeight)
+               
+                // area stored in the texture, by default this is the size of
+                // the texture
+                int totalWidth  = imgWidth;
+                int totalHeight = imgHeight;
+
+                if(getFboOffIgnoreStorageSize())
                 {
-                    y2 = osgMin((float)(y1+winHeight-1), (float)(imgHeight-1));
+                    // for graphics cards that do not support NPOT textures
+                    // the image (i.e. texture) is larger than the area we are
+                    // interested in, so we use the window size instead.
+                    totalWidth  = winWidth;
+                    totalHeight = winHeight;
+                }
+
+                for (y1=0; y1 < totalHeight; y1 += winHeight)
+                {
+                    y2 = osgMin((float)(y1+winHeight-1), (float)(totalHeight-1));
                     th = y2 - y1 + 1;
                     
-                    for (x1=0; x1 < imgWidth; x1 += winWidth)
+                    for (x1=0; x1 < totalWidth; x1 += winWidth)
                     {
-                        x2 = osgMin((float)(x1+winWidth-1), (float)(imgWidth-1));
+                        x2 = osgMin((float)(x1+winWidth-1), (float)(totalWidth-1));
                         tw = x2 - x1 + 1;
                         
                         // set tile size to maximal renderable size
                         beginEditCP(tiledeco);
-                            tiledeco->setSize(  x1/(float)imgWidth,     y1/(float)imgHeight,
-                                            (x2+1)/(float)imgWidth, (y2+1)/(float)imgHeight);
+                            tiledeco->setSize(  x1/(float)totalWidth,     y1/(float)totalHeight,
+                                            (x2+1)/(float)totalWidth, (y2+1)/(float)totalHeight);
                         endEditCP(tiledeco);
                         
                         beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
@@ -1430,7 +1444,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.13 2007/09/04 14:50:34 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.14 2007/09/09 20:20:43 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

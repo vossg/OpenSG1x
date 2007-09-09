@@ -201,6 +201,13 @@ SFBool *FBOViewportBase::getSFIgnoreCameraDecorators(void)
     return &_sfIgnoreCameraDecorators;
 }
 
+//! Get the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+SFBool *FBOViewportBase::getSFFboOffIgnoreStorageSize(void)
+{
+    return &_sfFboOffIgnoreStorageSize;
+}
+
 
 //! Get the value of the FBOViewport::_sfEnabled field.
 inline
@@ -454,6 +461,27 @@ void FBOViewportBase::setIgnoreCameraDecorators(const bool &value)
     _sfIgnoreCameraDecorators.setValue(value);
 }
 
+//! Get the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+bool &FBOViewportBase::getFboOffIgnoreStorageSize(void)
+{
+    return _sfFboOffIgnoreStorageSize.getValue();
+}
+
+//! Get the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+const bool &FBOViewportBase::getFboOffIgnoreStorageSize(void) const
+{
+    return _sfFboOffIgnoreStorageSize.getValue();
+}
+
+//! Set the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+void FBOViewportBase::setFboOffIgnoreStorageSize(const bool &value)
+{
+    _sfFboOffIgnoreStorageSize.setValue(value);
+}
+
 
 //! Get the value of the \a index element the FBOViewport::_mfExcludeNodes field.
 inline
@@ -520,5 +548,5 @@ const MFTextureChunkPtr &FBOViewportBase::getTextures(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.2 2007/08/28 16:06:59 neumannc Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.3 2007/09/09 20:20:43 neumannc Exp $"
 
