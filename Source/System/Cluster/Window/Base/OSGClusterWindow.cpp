@@ -332,18 +332,40 @@ void ClusterWindow::init( void )
                     SINFO << "send request to:" << 
                         _sfServiceAddress.getValue()
                           << std::endl;
-                    serviceSock.sendTo(
-                        msg,SocketAddress(
-                            _sfServiceAddress.getValue().c_str(),
-                            getServicePort()));
+                    try
+                    {
+                        serviceSock.sendTo(
+                            msg,SocketAddress(
+                                _sfServiceAddress.getValue().c_str(),
+                                getServicePort()));
+                    }
+                    catch(AsyncCancel &)
+                    {
+                        throw;
+                    }
+                    catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+                    {
+                        SINFO << e.what() << std::endl;
+                    }
                 }
                 SINFO << "send request to:" 
                       << SocketAddress(SocketAddress::BROADCAST,
                                        getServicePort()).getHost().c_str()
                       << std::endl;
-                serviceSock.sendTo(
-                    msg,SocketAddress(SocketAddress::BROADCAST,
-                                      getServicePort()));
+                try
+                {
+                    serviceSock.sendTo(
+                        msg,SocketAddress(SocketAddress::BROADCAST,
+                                          getServicePort()));
+                }
+                catch(AsyncCancel &)
+                {
+                    throw;
+                }
+                catch(OSG_STDEXCEPTION_NAMESPACE::exception &e)
+                {
+                    SINFO << e.what() << std::endl;
+                }
                 if(serviceSock.waitReadable(0.1))
                 {
                     SocketAddress from;
