@@ -150,13 +150,15 @@ FieldContainerPtrBase::FieldContainerPtrBase(void) :
     _containerSize(0               ),
     _uiParentEPos(InvalidParentEPos),
     _storeP      (NULL             )
+#ifdef OSG_DEBUG_FCPTR
+    , _typedStoreP(NULL)
+#endif
+#ifdef OSG_INVALID_PTR_CHECK
+    , _id(0)
+#endif
 {
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
-#endif
-
-#ifdef OSG_INVALID_PTR_CHECK
-    _id = 0;
 #endif
 }
 
@@ -167,13 +169,15 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _containerSize(0                ),
     _uiParentEPos (InvalidParentEPos),
     _storeP       (NULL             )
+#ifdef OSG_DEBUG_FCPTR
+    , _typedStoreP(NULL)
+#endif
+#ifdef OSG_INVALID_PTR_CHECK
+    , _id(0)
+#endif
 {
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
-#endif
-
-#ifdef OSG_INVALID_PTR_CHECK
-    _id = 0;
 #endif
 }
 
@@ -184,13 +188,15 @@ FieldContainerPtrBase::FieldContainerPtrBase(
     _containerSize(source._containerSize),
     _uiParentEPos (source._uiParentEPos ),
     _storeP       (source._storeP       )
+#ifdef OSG_DEBUG_FCPTR
+    , _typedStoreP(NULL)
+#endif
+#ifdef OSG_INVALID_PTR_CHECK
+    , _id(source._id)
+#endif
 {
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
-#endif
-
-#ifdef OSG_INVALID_PTR_CHECK
-    _id = source._id;
 #endif
 }
 
