@@ -124,7 +124,9 @@ inline
 void FieldContainerPtrBase::subRef(void) const
 {
 #ifdef OSG_INVALID_PTR_CHECK
-    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    if(_id != 0 &&
+       _id < FieldContainerFactory::the()->getFieldContainerStore()->size() &&
+       FieldContainerFactory::the()->getContainer(_id) == NullFC)
     {
         FFATAL(("FieldContainerPtr::subRef: invalid pointer!\n"));
         FieldContainerFactory::the()->checkThrowInvalidPointerException();
