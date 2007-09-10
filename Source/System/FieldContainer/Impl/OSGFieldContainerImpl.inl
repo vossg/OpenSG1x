@@ -163,7 +163,11 @@ void FieldContainer::newPtr(
 
     *(reinterpret_cast<UInt32 *>(pTmp)) = 
         FieldContainerFactory::the()->registerFieldContainer(result);
-    
+
+#ifdef OSG_INVALID_PTR_CHECK
+    result._id = *(reinterpret_cast<UInt32 *>(pTmp));
+#endif
+
     Thread::getCurrentChangeList()->addCreated(
         *(reinterpret_cast<UInt32 *>(pTmp)));
     
@@ -227,7 +231,11 @@ void FieldContainer::newPtr(ObjectPtrT &result)
 
     *(reinterpret_cast<UInt32 *>(pTmp)) = 
         FieldContainerFactory::the()->registerFieldContainer(result);
-    
+
+#ifdef OSG_INVALID_PTR_CHECK
+    result._id = *(reinterpret_cast<UInt32 *>(pTmp));
+#endif
+
     Thread::getCurrentChangeList()->addCreated(
         *(reinterpret_cast<UInt32 *>(pTmp)));
     

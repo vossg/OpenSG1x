@@ -50,6 +50,10 @@
 
 #include "OSGConfig.h"
 
+#ifdef OSG_INVALID_PTR_CHECK
+#include "OSGFieldContainerFactoryImpl.h"
+#endif
+
 #include <iostream>
 
 OSG_BEGIN_NAMESPACE
@@ -145,10 +149,14 @@ inline
 FieldContainerPtrBase::FieldContainerPtrBase(void) :
     _containerSize(0               ),
     _uiParentEPos(InvalidParentEPos),
-    _storeP      (NULL             ) 
+    _storeP      (NULL             )
 {
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = 0;
 #endif
 }
 
@@ -163,6 +171,10 @@ FieldContainerPtrBase::FieldContainerPtrBase(
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
 #endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = 0;
+#endif
 }
 
 inline
@@ -175,6 +187,10 @@ FieldContainerPtrBase::FieldContainerPtrBase(
 {
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = source._id;
 #endif
 }
 
@@ -190,6 +206,9 @@ FieldContainerPtrBase::~FieldContainerPtrBase(void)
     _uiParentEPos = 65535;
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = NULL;
+#endif
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = 0;
 #endif
 #endif
 }
@@ -224,7 +243,14 @@ Int32 FieldContainerPtrBase::getRefCount(void) const
 inline
 UInt32 FieldContainerPtrBase::getFieldContainerId(void) const
 {
+#ifndef OSG_INVALID_PTR_CHECK
     return (*getIdP());
+#else
+    if(_id != 0)
+        return _id;
+
+    return (*getIdP());
+#endif
 }
 
 inline
@@ -257,6 +283,10 @@ void FieldContainerPtrBase::operator =(const NullFieldContainerPtr &)
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP   = NULL;
 #endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = 0;
+#endif
 }
 
 inline
@@ -271,6 +301,10 @@ void FieldContainerPtrBase::operator =(const FieldContainerPtrBase &source)
 
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP   = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = source._id;
 #endif
 }
 
@@ -358,6 +392,13 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
 #endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_storeP != NULL)
+        _id = *getIdP();
+    else
+        _id = 0;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -379,6 +420,13 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
 
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP     = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_storeP != NULL)
+        _id = *getIdP();
+    else
+        _id = 0;
 #endif
 }
 
@@ -404,6 +452,13 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
 #endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_storeP != NULL)
+        _id = *getIdP();
+    else
+        _id = 0;
+#endif
 }
 
 /*-------------------------------------------------------------------------*/
@@ -412,6 +467,15 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
 inline
 void FieldContainerPtrBase::addRef(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::addRef: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return;
+    }
+#endif
+
     _pRefCountLock->aquire(_storeP);
 
     (*getRefCountP())++;
@@ -431,6 +495,10 @@ void FieldContainerPtrBase::setNull(void)
 
 #ifdef OSG_DEBUG_FCPTR
     _typedStoreP = reinterpret_cast<FieldContainer *>(getFirstElemP());
+#endif
+
+#ifdef OSG_INVALID_PTR_CHECK
+    _id = 0;
 #endif
 }
 
@@ -475,6 +543,15 @@ FieldContainerPtr::~FieldContainerPtr(void)
 inline
 FieldContainer *FieldContainerPtr::operator->(void)
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator->: invalid pointer (%u)!\n", _id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -485,6 +562,15 @@ FieldContainer *FieldContainerPtr::operator->(void)
 inline
 FieldContainer *FieldContainerPtr::operator->(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator->: invalid pointer (%u)!\n", _id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -494,7 +580,16 @@ FieldContainer *FieldContainerPtr::operator->(void) const
 
 inline
 FieldContainer &FieldContainerPtr::operator *(void)
-{ 
+{
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator *: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return *((FieldContainer *) NULL);
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainer *) (getElemP(Thread::getAspect())));
 #else
@@ -505,6 +600,15 @@ FieldContainer &FieldContainerPtr::operator *(void)
 inline
 FieldContainer &FieldContainerPtr::operator *(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator *: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return *((FieldContainer *) NULL);
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return *((FieldContainer *) (getElemP(Thread::getAspect())));
 #else
@@ -515,6 +619,15 @@ FieldContainer &FieldContainerPtr::operator *(void) const
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void)
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::getCPtr: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -525,6 +638,15 @@ FieldContainer *FieldContainerPtr::getCPtr(void)
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::getCPtr: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -564,6 +686,14 @@ inline
 void FieldContainerPtr::beginEdit(BitVector OSG_CHECK_ARG(whichField),
                                   UInt32    OSG_CHECK_ARG(origin)) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::beginEdit: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return;
+    }
+#endif
 }
 #endif
 
@@ -583,6 +713,15 @@ void FieldContainerPtr::changed(BitVector whichField, UInt32 origin) const
 inline
 void FieldContainerPtr::endEdit(BitVector whichField, UInt32 origin) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::endEdit: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return;
+    }
+#endif
+
     endEditNotChanged(whichField, origin);
     changed(whichField, origin);
 }
@@ -661,6 +800,15 @@ ConstFieldContainerPtr::~ConstFieldContainerPtr(void)
 inline
 const FieldContainer *ConstFieldContainerPtr::operator->(void)
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator->: invalid pointer (%u)!\n", _id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -671,6 +819,15 @@ const FieldContainer *ConstFieldContainerPtr::operator->(void)
 inline
 const FieldContainer *ConstFieldContainerPtr::operator->(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator->: invalid pointer (%u)!\n", _id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainer *) (getElemP(Thread::getAspect()));
 #else
@@ -830,6 +987,15 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, 
                            FieldContainerTypeT>::operator ->(void)
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(Self::_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator ->: invalid pointer (%u)!\n", Self::_id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 #else
@@ -841,6 +1007,15 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator ->(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(Self::_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator ->: invalid pointer (%u)!\n", Self::_id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 #else
@@ -996,6 +1171,15 @@ template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(void)
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(Self::_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator ->: invalid pointer (%u)!\n", Self::_id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 #else
@@ -1008,6 +1192,15 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator ->(
                                            void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(Self::_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::operator ->: invalid pointer (%u)!\n", Self::_id));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        //return NULL;
+    }
+#endif
+
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
 #else

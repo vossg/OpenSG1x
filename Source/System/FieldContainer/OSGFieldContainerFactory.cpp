@@ -70,7 +70,12 @@ FieldContainerFactory::TypeMapIterator
 FieldContainerMapper::~FieldContainerMapper()
 {
 }
- 
+
+InvalidPointerException::InvalidPointerException() : Exception()
+{
+    _what += "FieldContainerFactory: invalid pointer access!";
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                The                                      */
 
@@ -451,7 +456,8 @@ FieldContainerFactory::FieldContainerFactory(void) :
     _pFieldContainerStore(NULL ),
     _pStoreLock          (NULL ),
     _pMapLock            (NULL ),
-    _pMapper             (NULL )
+    _pMapper             (NULL ),
+    _throw_invalid_pointer_exception(false)
 {
     addInitFunction      (&FieldContainerPtr::initialize           );
     addInitFunction      (&FieldContainerFactory::initializeFactory);

@@ -51,8 +51,6 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                               Functions                                 */
 
-#ifndef OSG_INVALID_PTR_CHECK
-
 inline
 void addRefCP(const FieldContainerPtrBase &objectP)
 {
@@ -60,52 +58,12 @@ void addRefCP(const FieldContainerPtrBase &objectP)
         objectP.addRef();
 }
 
-#else
-
-inline
-bool safeAddRefCP(const FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-    {
-        UInt32 id = objectP.getFieldContainerId();
-        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-            objectP.addRef();
-        else
-            return false;
-    }
-    return true;
-}
-
-#endif
-
-#ifndef OSG_INVALID_PTR_CHECK
-
 inline
 void subRefCP(const FieldContainerPtrBase &objectP)
 {
     if(objectP != NullFC)
         objectP.subRef();
 }
-
-#else
-
-inline
-bool safeSubRefCP(const FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-    {
-        UInt32 id = objectP.getFieldContainerId();
-        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-            objectP.subRef();
-        else
-            return false;
-    }
-    return true;
-}
-
-#endif
-
-#ifndef OSG_INVALID_PTR_CHECK
 
 inline
 void clearRefCP(FieldContainerPtrBase &objectP)
@@ -115,27 +73,6 @@ void clearRefCP(FieldContainerPtrBase &objectP)
 
     objectP = NullFC;
 }
-
-#else
-
-inline
-bool safeClearRefCP(FieldContainerPtrBase &objectP)
-{
-    if(objectP != NullFC)
-    {
-        UInt32 id = objectP.getFieldContainerId();
-        if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-            objectP.subRef();
-        else
-            return false;
-    }
-    objectP = NullFC;
-    return true;
-}
-
-#endif
-
-#ifndef OSG_INVALID_PTR_CHECK
 
 inline
 void setRefdCP(      FieldContainerPtrBase &objectP,
@@ -152,39 +89,6 @@ void setRefdCP(      FieldContainerPtrBase &objectP,
             objectP.addRef();
     }
 }
-
-#else
-
-inline
-bool safeSetRefdCP(      FieldContainerPtrBase &objectP,
-                   const FieldContainerPtrBase &newObjectP)
-{
-    if(objectP != newObjectP)
-    {
-        if(objectP != NullFC)
-        {
-            UInt32 id = objectP.getFieldContainerId();
-            if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-                objectP.subRef();
-            else
-                return false;
-        }
-
-        objectP = newObjectP;
-
-        if(objectP != NullFC)
-        {
-            UInt32 id = objectP.getFieldContainerId();
-            if(FieldContainerFactory::the()->getContainer(id) != NullFC)
-                objectP.addRef();
-            else
-                return false;
-        }
-    }
-    return true;
-}
-
-#endif
 
 inline
 void beginEditCP(const FieldContainerPtr &objectP,

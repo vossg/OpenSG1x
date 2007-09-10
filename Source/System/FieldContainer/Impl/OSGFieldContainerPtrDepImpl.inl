@@ -123,6 +123,15 @@ void FieldContainerPtrBase::deleteContainers(void) const
 inline
 void FieldContainerPtrBase::subRef(void) const
 {
+#ifdef OSG_INVALID_PTR_CHECK
+    if(_id != 0 && FieldContainerFactory::the()->getContainer(_id) == NullFC)
+    {
+        FFATAL(("FieldContainerPtr::subRef: invalid pointer!\n"));
+        FieldContainerFactory::the()->checkThrowInvalidPointerException();
+        return;
+    }
+#endif
+
 #if !defined(OSG_FIXED_MFIELDSYNC)
     _pRefCountLock->aquire(_storeP);
 

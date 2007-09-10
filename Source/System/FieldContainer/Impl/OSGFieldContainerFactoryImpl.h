@@ -50,6 +50,7 @@
 
 #include <OSGSystemDef.h>
 #include <OSGBaseTypes.h>
+#include <OSGException.h>
 #include <OSGIDStringLink.h>
 #include <map>
 #include <vector>
@@ -58,6 +59,17 @@ OSG_BEGIN_NAMESPACE
 
 class Lock;
 class FieldContainerType;
+
+//---------------------------------------------------------------------------
+//  Class
+//---------------------------------------------------------------------------
+
+class OSG_SYSTEMLIB_DLLMAPPING InvalidPointerException : public Exception 
+{
+    /*==========================  PUBLIC  =================================*/
+public:
+    InvalidPointerException();
+};
 
 //---------------------------------------------------------------------------
 //  Class
@@ -181,6 +193,15 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     const FieldContainerStore *getFieldContainerStore(void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Invalid Pointer                              */
+    /*! \{                                                                 */
+
+    void setThrowInvalidPointerException(bool s);
+    bool getThrowInvalidPointerException(void) const;
+    void checkThrowInvalidPointerException(void) const;
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -213,6 +234,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     Lock                   *_pMapLock;
 
     FieldContainerMapper   *_pMapper;
+
+    bool                    _throw_invalid_pointer_exception;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

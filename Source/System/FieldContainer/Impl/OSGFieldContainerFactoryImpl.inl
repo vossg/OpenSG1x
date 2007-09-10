@@ -155,6 +155,34 @@ bool FieldContainerFactory::unregisterFieldContainer(
     return false;
 }
 
+/*-------------------------------------------------------------------------*/
+/*                            Invalid Pointer                              */
+
+inline
+void FieldContainerFactory::setThrowInvalidPointerException(bool s)
+{
+#ifndef OSG_INVALID_PTR_CHECK
+    FFATAL(("FieldContainerFactory::setThrowInvalidPointerException: invalid pointer check is not enabled, use the 'invalid_pointer_check' option in the scons build system!\n"));
+#else
+    _throw_invalid_pointer_exception = s;
+#endif
+}
+
+inline
+bool FieldContainerFactory::getThrowInvalidPointerException(void) const
+{
+    return _throw_invalid_pointer_exception;
+}
+
+inline
+void FieldContainerFactory::checkThrowInvalidPointerException(void) const
+{
+    if(!_throw_invalid_pointer_exception)
+        return;
+
+    throw InvalidPointerException();
+}
+
 OSG_END_NAMESPACE
 
 #define OSGFIELDCONTAINERFACTORY_INLINE_CVSID "@(#)$Id: $"
