@@ -295,9 +295,12 @@ OSG::Window::Window(const Window &source) :
     _availConstants(),
     _numAvailConstants(0),
     _windowId(0)
-{       
+{
+    // amz - moved this into onCreate(), I got a invalid pointer while 
+    // creating a BalancedMultiWindow via BalancedMultiWindow::create()
+    // is it safe to call WindowPtr(this) in the copy constructor?
     // mark all GL objects as not yet initialized
-    doInitRegisterGLObject(1, _glObjects.size() - 1);
+    //doInitRegisterGLObject(1, _glObjects.size() - 1);
 }
 
 /*! Destructor
@@ -321,7 +324,10 @@ void OSG::Window::onCreate(const Window *)
     // Don't add the prototype instances to the list
     if(GlobalSystemState != Running)
         return;
-        
+
+    // mark all GL objects as not yet initialized
+    doInitRegisterGLObject(1, _glObjects.size() - 1);
+
     _allWindows.push_back(WindowPtr(this)); 
 
     _windowId = ++_currentWindowId;
