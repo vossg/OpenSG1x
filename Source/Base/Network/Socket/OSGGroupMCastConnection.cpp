@@ -89,6 +89,7 @@ GroupMCastConnection::GroupMCastConnection():
     // set window size
     _windowSize = _mcastSocket.getReadBufferSize()/(OSG_DGRAM_LEN) - 1;
     _windowSize = osgMin((UInt32)13,_windowSize);
+    _windowSize = osgMax((UInt32)2,_windowSize);
 }
 
 /*! Destructor
