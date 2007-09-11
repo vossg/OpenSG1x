@@ -54,11 +54,7 @@
 OSG_BEGIN_NAMESPACE
 
 /* Package len */
-#ifdef __APPLE__
-# define OSG_DGRAM_LEN                   9216
-#else
-# define OSG_DGRAM_LEN                   1440*10
-#endif
+#define OSG_DGRAM_LEN                   9216
 
 /* num of Packages in read or write queue */
 #define OSG_DGRAM_QUEUE_LEN             500
