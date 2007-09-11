@@ -1036,9 +1036,12 @@ void SHLChunk::checkOSGParameters(bool force)
 {
     // ok this can go wrong if you sub and add a parameter
     // between one begin/endEditCP ...
-    if(!force &&
+    if(!force && !_cleared_parameters &&
        getParameters().getSize() == _oldParameterSize)
         return;
+
+    // reset clear parameters flag.
+    _cleared_parameters = false;
 
     _oldParameterSize = getParameters().getSize();
 
@@ -1614,8 +1617,10 @@ void SHLChunk::updateLight0Active(const ShaderParameterPtr &parameter,
     // get "glUniform1iARB" function pointer
     OSGGLUNIFORM1IARBPROC uniform1i = (OSGGLUNIFORM1IARBPROC)
         action->getWindow()->getFunction(_funcUniform1i);
+
     if(parameter->getLocation() == -1)
         updateParameterLocation(action->getWindow(), program, parameter);
+
     if(parameter->getLocation() != -1)
         uniform1i(parameter->getLocation(), (GLint) ract->getActiveLightsMask() & 1);
 }
@@ -1867,7 +1872,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.60 2007/08/23 14:48:45 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.61 2007/09/11 13:35:48 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

@@ -149,6 +149,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterChunk : public ShaderParameterChun
 
     ShaderParameterAccess *_parameter_access;
 
+    bool _cleared_parameters;
+
     /*! \}                                                                 */
 
     /*==========================  PRIVATE  ================================*/
@@ -171,6 +173,6 @@ OSG_END_NAMESPACE
 #include <OSGShaderParameterChunkBase.inl>
 #include <OSGShaderParameterChunk.inl>
 
-#define OSGSHADERPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunk.h,v 1.3 2007/09/06 09:45:11 a-m-z Exp $"
+#define OSGSHADERPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunk.h,v 1.4 2007/09/11 13:35:48 a-m-z Exp $"
 
 #endif /* _OSGSHADERPARAMETERCHUNK_H_ */

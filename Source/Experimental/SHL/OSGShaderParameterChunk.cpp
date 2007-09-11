@@ -99,13 +99,15 @@ void ShaderParameterChunk::initMethod (void)
 
 ShaderParameterChunk::ShaderParameterChunk(void) :
     Inherited(),
-    _parameter_access(NULL)
+    _parameter_access(NULL),
+    _cleared_parameters(false)
 {
 }
 
 ShaderParameterChunk::ShaderParameterChunk(const ShaderParameterChunk &source) :
     Inherited(source),
-    _parameter_access(source._parameter_access)
+    _parameter_access(source._parameter_access),
+    _cleared_parameters(source._cleared_parameters)
 {
 }
 
@@ -273,6 +275,8 @@ void ShaderParameterChunk::clearUniformParameters(void)
 
     if(_parameter_access != NULL)
         _parameter_access->updateMap();
+
+    _cleared_parameters = true;
 }
 
 // arrays
@@ -320,7 +324,7 @@ bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.4 2007/09/06 11:01:34 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.5 2007/09/11 13:35:48 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 
