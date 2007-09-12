@@ -139,6 +139,18 @@ GLuint GeoVBO::getIndices(void) const
     return _indices;
 }
 
+inline
+void GeoVBO::setDrawPropertiesMask(const UInt16 draw_properties_mask)
+{
+    _draw_properties_mask = draw_properties_mask;
+}
+
+inline
+UInt16 GeoVBO::getDrawPropertiesMask(void) const
+{
+    return _draw_properties_mask;
+}
+
 OSG_END_NAMESPACE
 
 #define OSGGEOPUMPFACTORY_INLINE_CVSID "@(#)$Id: $"

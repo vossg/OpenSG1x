@@ -263,6 +263,9 @@ public:
     inline GLuint getTexCoords7(void) const;
     inline GLuint getIndices(void) const;
 
+    inline void setDrawPropertiesMask(UInt16 draw_properties_mask);
+    inline UInt16 getDrawPropertiesMask(void) const;
+
 private:
 
     GLuint _positions;
@@ -278,6 +281,8 @@ private:
     GLuint _texCoords6;
     GLuint _texCoords7;
     GLuint _indices;
+
+    UInt16 _draw_properties_mask;
 
     Window   *_win;
     Geometry *_geo;

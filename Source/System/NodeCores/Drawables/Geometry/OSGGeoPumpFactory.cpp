@@ -2258,7 +2258,8 @@ GeoVBO::GeoVBO(Window *win, Geometry *geo) :
     _texCoords5(0),
     _texCoords6(0),
     _texCoords7(0),
-    _indices(0)
+    _indices(0),
+    _draw_properties_mask(0xffff)
 {
     update();
 }
@@ -2651,7 +2652,8 @@ void GeoVBO::draw(void)
     Int16 modified=0;
 
     GeoPositionsPtr PositionsPtr = geo->getPositions();
-    if (PositionsPtr != NullFC)
+    if (PositionsPtr != NullFC &&
+        (_draw_properties_mask & Geometry::MapPosition))
     {
         UInt32 PositionsStride = 0;
         if(!(PositionsStride = PositionsPtr->getStride()))
@@ -2665,7 +2667,8 @@ void GeoVBO::draw(void)
     }
 
     GeoNormalsPtr NormalsPtr = geo->getNormals();
-    if (NormalsPtr != NullFC)
+    if (NormalsPtr != NullFC &&
+        (_draw_properties_mask & Geometry::MapNormal))
     {
         UInt32 NormalsStride = 0;
         if(!(NormalsStride = NormalsPtr->getStride()))
@@ -2678,7 +2681,8 @@ void GeoVBO::draw(void)
     }
 
     GeoColorsPtr ColorsPtr = geo->getColors();
-    if (ColorsPtr != NullFC)
+    if (ColorsPtr != NullFC &&
+        (_draw_properties_mask & Geometry::MapColor))
     {
         UInt32 ColorsStride = 0;
         if(!(ColorsStride = ColorsPtr->getStride()))
@@ -2692,7 +2696,8 @@ void GeoVBO::draw(void)
     }
 
     GeoColorsPtr SecColorsPtr = geo->getSecondaryColors();
-    if (SecColorsPtr != NullFC)
+    if (SecColorsPtr != NullFC &&
+        (_draw_properties_mask & Geometry::MapSecondaryColor))
     {
         if (_win->hasExtension(GeoPumpFactory::_extSecondaryColor))
         {
@@ -2717,7 +2722,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoordsPtr = geo->getTexCoords();
-    if (TexCoordsPtr != NullFC)
+    if (TexCoordsPtr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords))
     {
         UInt32 TexCoordsStride = 0;
         if(!(TexCoordsStride = TexCoordsPtr->getStride()))
@@ -2745,7 +2751,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords1Ptr = geo->getTexCoords1();
-    if (TexCoords1Ptr != NullFC)
+    if (TexCoords1Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords1))
     {
         UInt32 TexCoords1Stride = 0;
         if(!(TexCoords1Stride = TexCoords1Ptr->getStride()))
@@ -2767,7 +2774,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords2Ptr = geo->getTexCoords2();
-    if (TexCoords2Ptr != NullFC)
+    if (TexCoords2Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords2))
     {
         UInt32 TexCoords2Stride = 0;
         if(!(TexCoords2Stride = TexCoords2Ptr->getStride()))
@@ -2790,7 +2798,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords3Ptr = geo->getTexCoords3();
-    if (TexCoords3Ptr != NullFC)
+    if (TexCoords3Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords3))
     {
         UInt32 TexCoords3Stride = 0;
         if(!(TexCoords3Stride = TexCoords3Ptr->getStride()))
@@ -2813,7 +2822,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords4Ptr = geo->getTexCoords4();
-    if (TexCoords4Ptr != NullFC)
+    if (TexCoords4Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords4))
     {
         UInt32 TexCoords4Stride = 0;
         if(!(TexCoords4Stride = TexCoords4Ptr->getStride()))
@@ -2836,7 +2846,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords5Ptr = geo->getTexCoords5();
-    if (TexCoords5Ptr != NullFC)
+    if (TexCoords5Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords5))
     {
         UInt32 TexCoords5Stride = 0;
         if(!(TexCoords5Stride = TexCoords5Ptr->getStride()))
@@ -2859,7 +2870,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords6Ptr = geo->getTexCoords6();
-    if (TexCoords6Ptr != NullFC)
+    if (TexCoords6Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords6))
     {
         UInt32 TexCoords6Stride = 0;
         if(!(TexCoords6Stride = TexCoords6Ptr->getStride()))
@@ -2882,7 +2894,8 @@ void GeoVBO::draw(void)
     }
 
     GeoTexCoordsPtr TexCoords7Ptr = geo->getTexCoords7();
-    if (TexCoords7Ptr != NullFC)
+    if (TexCoords7Ptr != NullFC &&
+        (_draw_properties_mask & Geometry::MapTexCoords7))
     {
         UInt32 TexCoords7Stride = 0;
         if(!(TexCoords7Stride = TexCoords7Ptr->getStride()))
