@@ -150,6 +150,14 @@ VRMLFile::VRMLFile(void) :
 
 VRMLFile::~VRMLFile(void)
 {
+    // delete the factory.
+    for(NodeNameDescHash::iterator it=_mNodeDescHash.begin();it!=_mNodeDescHash.end();++it)
+    {
+        delete [] (*it).first;
+        delete (*it).second;
+    }
+
+    _mNodeDescHash.clear();
 }
 
 /*-------------------------------------------------------------------------*/

@@ -165,6 +165,10 @@ VRMLNodeDesc::VRMLNodeDesc(void) :
 
 VRMLNodeDesc::~VRMLNodeDesc(void)
 {
+    // delete the prototypes.
+    subRefCP(_pGenAtt);
+    subRefCP(_pNodeProto);
+    subRefCP(_pNodeCoreProto);
 }
 
 /*-------------------------------------------------------------------------*/
