@@ -81,6 +81,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Light : public LightBase
     void setDiffuse (const Color4f &col);
     void setSpecular(const Color4f &col);
 
+    void setBeacon(const NodePtr &value);
+
     enum
     {
         CAST_SHADOW_AUTO    = 0,

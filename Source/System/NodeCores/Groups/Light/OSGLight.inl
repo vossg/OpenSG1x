@@ -60,6 +60,12 @@ void Light::setSpecular(const Color4f &col)
     Inherited::setSpecular(col);
 }
 
+inline
+void Light::setBeacon(const NodePtr &value)
+{
+    setRefdCP(_sfBeacon.getValue(), value);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGLIGHT_INLINE_CVSID "@(#)$Id: $"

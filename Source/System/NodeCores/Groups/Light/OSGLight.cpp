@@ -112,6 +112,25 @@ void Light::makeChunk(void)
 
 void Light::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & BeaconFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfBeacon.getValue());
+            }
+            else
+            {
+                NodePtr beacon = _sfBeacon.getValue();
+
+                _sfBeacon.setValue(NullFC);
+
+                setBeacon(beacon);
+            }
+        }
+    }
+
     Inherited::changed(whichField, origin);
 }
 
@@ -145,6 +164,8 @@ Light::Light(const Light &source) :
 
 Light::~Light(void)
 {
+    subRefCP(_sfBeacon.getValue());
+
     if(_pChunk != NullFC)
         subRefCP(_pChunk);
 }
