@@ -2800,7 +2800,13 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
 
                 beginEditCP(pChunkMat, ChunkMaterial::ChunksFieldMask);
                 {
-                    pChunkMat->addChunk(pBlendChunk);
+                    //pChunkMat->addChunk(pBlendChunk);
+                    // HACK but calling addChunk() increases the
+                    // refcount and results in a refcount of three (should be two).
+                    // looks like calling addRefCP in endNode() is not
+                    // a good idea I think this has something to
+                    // with endEditCP ChangedOrigin stuff in VRMLFile::endNode()?
+                    pChunkMat->getChunks().push_back(pBlendChunk);
                 }
                 endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
             }
