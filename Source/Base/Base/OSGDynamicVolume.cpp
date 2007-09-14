@@ -142,6 +142,8 @@ DynamicVolume::operator =(const DynamicVolume &source)
     
     }
     
+    instanceChanged();
+    
     return *this;
 }
 
