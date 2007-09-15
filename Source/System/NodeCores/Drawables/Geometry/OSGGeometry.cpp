@@ -2684,58 +2684,90 @@ bool Geometry::updateLowHighIndices( void )
         return true;
 
     UInt32 primcount = getTypes()->size();
-        
+
     if(getLengths() == NullFC || getLengths()->size() < primcount ||
        getIndices() == NullFC || getIndices()->size() == 0 ||
        getIndexMapping().size() > 1 
       )
         return true;
-        
-    GeoIndicesPtr indP = getIndices();
-    
-    UInt32 low, high, mini, maxi, cur;
-    
+
+    GeoIndicesUI16Ptr ind16P = GeoIndicesUI16Ptr::dcast(getIndices());
+    GeoIndicesUI32Ptr ind32P = GeoIndicesUI32Ptr::dcast(getIndices());
+
     GeometryPtr self(this);
     beginEditCP(self, LowindicesFieldMask |
                       HighindicesFieldMask |
                       MinindexFieldMask |
                       MaxindexFieldMask);
-                      
-    
+
     getLowindices().resize(primcount);
     getHighindices().resize(primcount);
-    mini = 0xffffffffU;
-    maxi = 0;
+    UInt32 mini = 0xffffffffU;
+    UInt32 maxi = 0;
+    UInt32 cur = 0;
 
-    for (UInt32 i = 0, cur = 0; i < primcount; i++)
+    if(ind16P != NullFC)
     {
-        UInt32 l;
-        getLengths()->getValue(l, i);
-        
-        low = 0xffffffffU;
-        high = 0;
-        
-        for (UInt32 j = 0; j < l; ++j, ++cur)
+        MFUInt16 &indices = ind16P->getField();
+        UInt32 isize = indices.size();
+        for (UInt32 i = 0, cur = 0; i < primcount; ++i)
         {
-            if(cur >= indP->size())
-                break;
+            UInt32 l;
+            getLengths()->getValue(l, i);
 
-            UInt32 ind;
-            indP->getValue(ind, cur);
-            
-            if(ind < low ) low  = ind;
-            if(ind > high) high = ind;
-            if(ind < mini) mini = ind;
-            if(ind > maxi) maxi = ind;
+            UInt32 low = 0xffffffffU;
+            UInt32 high = 0;
+
+            for (UInt32 j = 0; j < l; ++j, ++cur)
+            {
+                if(cur >= isize)
+                    break;
+
+                UInt32 ind = indices[cur];
+
+                if(ind < low ) low  = ind;
+                if(ind > high) high = ind;
+                if(ind < mini) mini = ind;
+                if(ind > maxi) maxi = ind;
+            }
+
+            getLowindices()[i]  = low;
+            getHighindices()[i] = high;
         }
-        
-        getLowindices()[i]  = low;
-        getHighindices()[i] = high;
     }
-    
+    else
+    {
+        MFUInt32 &indices = ind32P->getField();
+        UInt32 isize = indices.size();
+        for (UInt32 i = 0, cur = 0; i < primcount; ++i)
+        {
+            UInt32 l;
+            getLengths()->getValue(l, i);
+
+            UInt32 low = 0xffffffffU;
+            UInt32 high = 0;
+
+            for (UInt32 j = 0; j < l; ++j, ++cur)
+            {
+                if(cur >= isize)
+                    break;
+
+                UInt32 ind = indices[cur];
+
+                if(ind < low ) low  = ind;
+                if(ind > high) high = ind;
+                if(ind < mini) mini = ind;
+                if(ind > maxi) maxi = ind;
+            }
+
+            getLowindices()[i]  = low;
+            getHighindices()[i] = high;
+        }
+    }
+
     setMinindex(mini);
     setMaxindex(maxi);
-    
+
     endEditCP(self,   LowindicesFieldMask |
                       HighindicesFieldMask |
                       MinindexFieldMask |
