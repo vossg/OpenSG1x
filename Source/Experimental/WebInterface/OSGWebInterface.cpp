@@ -134,10 +134,17 @@ void WebInterface::flush(void)
 */
 bool WebInterface::waitRequest(double duration)
 {
-    if(_socket.waitReadable(duration))
-        return true;
-    else
-        return true;
+    try
+    {
+        if(!_socket.waitReadable(duration))
+            return false;
+    }
+    catch(SocketException &)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -400,9 +407,17 @@ bool WebInterface::checkRequest(std::string &url)
     char ch;
 
     url = "";
-    
-    if(!_socket.waitReadable(0))
+
+    try
+    {
+        if(!_socket.waitReadable(0))
+            return false;
+    }
+    catch(SocketException &)
+    {
         return false;
+    }
+
     _accepted = _socket.accept();
     if(_accepted.recv(bu,4) && strncmp(bu,"GET ",4) == 0)
         while(_accepted.recv(&ch,1) && ch != ' ') 
