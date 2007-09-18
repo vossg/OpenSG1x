@@ -62,7 +62,7 @@
 #include "OSGBillboard.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  BillboardBase::AxisOfRotationFieldMask = 
     (TypeTraits<BitVector>::One << BillboardBase::AxisOfRotationFieldId);
@@ -109,27 +109,27 @@ FieldDescription *BillboardBase::_desc[] =
     new FieldDescription(SFVec3f::getClassType(), 
                      "axisOfRotation", 
                      AxisOfRotationFieldId, AxisOfRotationFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &BillboardBase::getSFAxisOfRotation),
     new FieldDescription(SFBool::getClassType(), 
                      "focusOnCamera", 
                      FocusOnCameraFieldId, FocusOnCameraFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &BillboardBase::getSFFocusOnCamera),
     new FieldDescription(SFBool::getClassType(), 
                      "alignToScreen", 
                      AlignToScreenFieldId, AlignToScreenFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &BillboardBase::getSFAlignToScreen),
     new FieldDescription(SFReal32::getClassType(), 
                      "minAngle", 
                      MinAngleFieldId, MinAngleFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &BillboardBase::getSFMinAngle),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxAngle", 
                      MaxAngleFieldId, MaxAngleFieldMask,
-                     true,
+                     false,
                      (FieldAccessMethod) &BillboardBase::getSFMaxAngle)
 };
 
@@ -398,6 +398,8 @@ void BillboardBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -409,8 +411,6 @@ DataType FieldDataTraits<BillboardPtr>::_type("BillboardPtr", "GroupPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -426,10 +426,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBILLBOARDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBILLBOARDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBILLBOARDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 
