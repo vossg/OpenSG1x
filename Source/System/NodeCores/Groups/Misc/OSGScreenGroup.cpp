@@ -166,9 +166,7 @@ void ScreenGroup::dump(      UInt32    ,
 
 void ScreenGroup::adjustVolume( Volume & volume )
 {
-    Matrix m;
-    m.setScale(0, 0, 1);
-    volume.transform(m);
+    volume.transform(_camTransform);
 }
 
 void ScreenGroup::accumulateMatrix(Matrix &result)
@@ -176,7 +174,7 @@ void ScreenGroup::accumulateMatrix(Matrix &result)
     result.mult(_camTransform);
 }
 
-void ScreenGroup::calcMatrix(      DrawActionBase *pAction,
+void ScreenGroup::calcMatrix(   DrawActionBase *pAction,
                            const Matrix         &mToWorld,
                                  Matrix         &mResult)
 {
@@ -196,9 +194,15 @@ void ScreenGroup::calcMatrix(      DrawActionBase *pAction,
     mToScreen.multFullMatrixPnt(yAxis);
     Real32 scaleY = 2.f / viewport->getPixelHeight() / (yAxis - origin).length();
 
-    mResult.setScale(scaleX, scaleY, 1.f);
+    mResult.setScale(scaleX+Eps, scaleY+Eps, 1.f);
     mResult.setTranslate(0.375 * scaleX, 0.375 * scaleY, 0.f);
+    
+    bool equal = mResult.equals(_camTransform, 0.001f);
+        
     _camTransform = mResult;
+        
+    if (!equal)
+        invalidateVolume();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -312,7 +316,7 @@ Action::ResultE ScreenGroup::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.1 2007/05/07 11:50:36 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.2 2007/09/18 14:17:36 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 
