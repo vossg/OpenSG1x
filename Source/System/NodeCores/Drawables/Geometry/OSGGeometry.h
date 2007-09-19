@@ -121,6 +121,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     bool               merge            (const GeometryPtr other);
 
     UInt32             getCachedGfxMemoryUsage(void);
+    void               updateCachedGeoStat(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -258,6 +259,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
 
     static std::vector<GeoVBO *> _vbos;
 
+    UInt32 _ntris;
+    UInt32 _nlines;
+    UInt32 _npoints;
+    UInt32 _nvertices;
+    UInt32 _nprimitives;
     UInt32 _numBytesOnGfxCard;
 };
 

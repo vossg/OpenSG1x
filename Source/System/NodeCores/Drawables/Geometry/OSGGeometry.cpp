@@ -174,12 +174,22 @@ void Geometry::initMethod(void)
 
 Geometry::Geometry(void) :
     Inherited(),
+    _ntris(0),
+    _nlines(0),
+    _npoints(0),
+    _nvertices(0),
+    _nprimitives(0),
     _numBytesOnGfxCard(0)
 {
 }
 
 Geometry::Geometry(const Geometry &source) :
     Inherited(source),
+    _ntris(source._ntris),
+    _nlines(source._nlines),
+    _npoints(source._npoints),
+    _nvertices(source._nvertices),
+    _nprimitives(source._nprimitives),
     _numBytesOnGfxCard(source._numBytesOnGfxCard)
 {
 }
@@ -445,6 +455,7 @@ void Geometry::handleGL(Window* win, UInt32 idstatus)
        mode == Window::reinitialize)
     {
         _numBytesOnGfxCard = getCachedGfxMemoryUsage();
+        updateCachedGeoStat();
 
         GeoPumpFactory::Index ind = GeoPumpFactory::the()->getIndex(this);
         // vbo is only supported for single index geometry (pump 129)
@@ -936,37 +947,11 @@ Action::ResultE Geometry::drawPrimitives(DrawActionBase * action)
         StatIntElem *el = coll->getElem(Drawable::statNTriangles,false);
         if(el)
         {
-            GeometryPtr geo(this);
-            UInt32 ntri,nl,np,is;
-
-            calcPrimitiveCount(geo, ntri, nl, np);
-            el->add(ntri);
-            coll->getElem(Drawable::statNLines)->add(nl);
-            coll->getElem(Drawable::statNLines)->add(np);
-
-            if(getIndices() == NullFC)
-            {
-                if(getPositions() != NullFC)
-                {
-                    is = getPositions()->getSize();
-                }
-                else
-                {
-                    is = 0;
-                }
-            }
-            else
-            {
-                is = getIndexMapping().size();
-                is = getIndices()->getSize() /(is ? is : 1);
-            }
-            coll->getElem(Drawable::statNVertices)->add(is);
-
-            UInt32 primitiveCount = 0;
-            if (getTypes() != NullFC) {
-                primitiveCount = getTypes()->getSize();
-            }
-            coll->getElem(Drawable::statNPrimitives)->add(primitiveCount);
+            el->add(_ntris);
+            coll->getElem(Drawable::statNLines)->add(_nlines);
+            coll->getElem(Drawable::statNPoints)->add(_npoints);
+            coll->getElem(Drawable::statNVertices)->add(_nvertices);
+            coll->getElem(Drawable::statNPrimitives)->add(_nprimitives);
         }
 
         // check amount of memory on gfx card
@@ -1114,6 +1099,35 @@ UInt32 Geometry::getCachedGfxMemoryUsage(void)
     }
     
     return nBytes;
+}
+
+void Geometry::updateCachedGeoStat(void)
+{
+    GeometryPtr geo(this);
+
+    calcPrimitiveCount(geo, _ntris, _nlines, _npoints);
+
+    if(getIndices() == NullFC)
+    {
+        if(getPositions() != NullFC)
+        {
+            _nvertices = getPositions()->getSize();
+        }
+        else
+        {
+            _nvertices = 0;
+        }
+    }
+    else
+    {
+        _nvertices = getIndexMapping().size();
+        _nvertices = getIndices()->getSize() /(_nvertices ? _nvertices : 1);
+    }
+
+    if (getTypes() != NullFC)
+    {
+        _nprimitives = getTypes()->getSize();
+    }
 }
 
 Action::ResultE Geometry::intersect(Action * action)
