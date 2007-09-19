@@ -59,6 +59,8 @@
 #include <map>
 #endif
 
+#define OSG_VRML_IMAGETEXTURE_MAP
+
 #include <OSGFieldContainerPtr.h>
 #include <OSGField.h>
 #include <OSGFieldContainer.h>
@@ -1185,6 +1187,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     /*=========================  PROTECTED  ===============================*/
   protected:
 
+    typedef std::map<IDString, ImagePtr> UrlImageMap;
+
     /*---------------------------------------------------------------------*/
     /*! \name                      Member                                  */
     /*! \{                                                                 */
@@ -1196,6 +1200,10 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLImageTextureDesc : public VRMLNodeDesc
     MFString _url;
     SFBool   _repeatS;
     SFBool   _repeatT;
+
+#ifdef OSG_VRML_IMAGETEXTURE_MAP
+    UrlImageMap _urlImageMap;
+#endif
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/

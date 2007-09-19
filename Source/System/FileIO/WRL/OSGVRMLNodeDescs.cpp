@@ -3611,12 +3611,41 @@ void VRMLImageTextureDesc::endNode(FieldContainerPtr pFC)
 
     if(pTexture != NullFC)
     {
+        ImagePtr pImage = NullFC;
+
+        for( unsigned int i = 0; i < _url.size(); ++i )
+        {
 #ifdef OSG_DEBUG_VRML
-        PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture "
-                << _url[0].c_str() << std::endl;
+            PNOTICE << "VRMLImageTextureDesc::endNode : Reading texture "
+                    << _url[i].c_str() << std::endl;
 #endif
 
-        ImagePtr pImage = ImageFileHandler::the().read(_url[0].c_str());
+#ifdef OSG_VRML_IMAGETEXTURE_MAP
+            UrlImageMap::iterator mIt = _urlImageMap.find(IDStringLink(_url[i].c_str()));
+
+            if(mIt != _urlImageMap.end())
+            {
+                pImage = mIt->second;
+                break;
+            }
+            else
+            {
+                pImage = ImageFileHandler::the().read(_url[i].c_str());
+
+                if(pImage != NullFC)
+                {
+                    _urlImageMap[IDString(_url[i].c_str())] = pImage;
+                    break;
+                }
+
+            }
+#else
+            pImage = ImageFileHandler::the().read(_url[i].c_str());
+
+            if(pImage != NullFC)
+                break;
+#endif
+        }
 
         if(pImage != NullFC)
         {
@@ -5175,43 +5204,49 @@ FieldContainerPtr VRMLInlineDesc::beginNode(
 }
 
 void VRMLInlineDesc::endNode(FieldContainerPtr pFC)
-{    
+{
           Field            *pField;
     const FieldDescription *pFieldDesc;
 
     NodePtr pNode = NodePtr::dcast(pFC);
 
-    VRMLNodeDesc::getFieldAndDesc(pFC, 
-                                  "url", 
+    VRMLNodeDesc::getFieldAndDesc(pFC,
+                                  "url",
                                   pField,
                                   pFieldDesc);
 
     MFString *pUrl = dynamic_cast<MFString *>(pField);
 
-    FDEBUG(("Inline : %s\n",  (*pUrl)[0].c_str()));
-
-    std::string filename =
-    SceneFileHandler::the().getPathHandler()->findFile((*pUrl)[0].c_str());
-
-    // could be a real url with a relative inline path.
-    if(filename.empty())
-        filename = (*pUrl)[0];
-
-    std::string path = SceneFileHandler::the().getPathHandler()->
-                           extractPath(filename.c_str());
-    SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
-    ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
-    NodePtr pFile = SceneFileHandler::the().read(filename.c_str());
-    ImageFileHandler::the().getPathHandler()->subPath(path.c_str());
-    SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
-
-    if(pFile != NullFC)
+    for( unsigned int i = 0; i < pUrl->size(); ++i )
     {
-        beginEditCP(pNode, Node::ChildrenFieldMask);
+        FDEBUG(("Inline : %s\n",  (*pUrl)[i].c_str()));
+
+        std::string filename =
+        SceneFileHandler::the().getPathHandler()->findFile((*pUrl)[i].c_str());
+
+        // could be a real url with a relative inline path.
+        if(filename.empty())
+            filename = (*pUrl)[i];
+
+        std::string path = SceneFileHandler::the().getPathHandler()->
+                            extractPath(filename.c_str());
+        SceneFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+        ImageFileHandler::the().getPathHandler()->push_backPath(path.c_str());
+        NodePtr pFile = SceneFileHandler::the().read(filename.c_str());
+        ImageFileHandler::the().getPathHandler()->subPath(path.c_str());
+        SceneFileHandler::the().getPathHandler()->subPath(path.c_str());
+
+        if(pFile != NullFC)
         {
-            pNode->addChild(pFile);
+            beginEditCP(pNode, Node::ChildrenFieldMask);
+            {
+                pNode->addChild(pFile);
+            }
+            endEditCP  (pNode, Node::ChildrenFieldMask);
+
+            break;
         }
-        endEditCP  (pNode, Node::ChildrenFieldMask);
+
     }
 
 #ifdef OSG_DEBUG_VRML
