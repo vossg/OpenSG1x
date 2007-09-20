@@ -194,7 +194,7 @@ void ScreenGroup::calcMatrix(   DrawActionBase *pAction,
     mToScreen.multFullMatrixPnt(yAxis);
     Real32 scaleY = 2.f / viewport->getPixelHeight() / (yAxis - origin).length();
 
-    mResult.setScale(scaleX+Eps, scaleY+Eps, 1.f);
+    mResult.setScale(scaleX, scaleY, 1.f);
     mResult.setTranslate(0.375 * scaleX, 0.375 * scaleY, 0.f);
     
     bool equal = mResult.equals(_camTransform, 0.001f);
@@ -316,7 +316,7 @@ Action::ResultE ScreenGroup::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.2 2007/09/18 14:17:36 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.3 2007/09/20 12:16:45 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 
