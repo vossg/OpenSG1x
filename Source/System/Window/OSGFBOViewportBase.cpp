@@ -112,6 +112,9 @@ const OSG::BitVector  FBOViewportBase::IgnoreCameraDecoratorsFieldMask =
 const OSG::BitVector  FBOViewportBase::FboOffIgnoreStorageSizeFieldMask = 
     (TypeTraits<BitVector>::One << FBOViewportBase::FboOffIgnoreStorageSizeFieldId);
 
+const OSG::BitVector  FBOViewportBase::ZOffsetFieldMask = 
+    (TypeTraits<BitVector>::One << FBOViewportBase::ZOffsetFieldId);
+
 const OSG::BitVector FBOViewportBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -166,6 +169,9 @@ const OSG::BitVector FBOViewportBase::MTInfluenceMask =
 */
 /*! \var bool            FBOViewportBase::_sfFboOffIgnoreStorageSize
     whether to ignore storage size in Fbo off mode and just consider window size
+*/
+/*! \var Int32           FBOViewportBase::_mfZOffset
+    The zOffset specifies the z-offset of one (or more) 2-dimensional images within a 3-dimensional texture.
 */
 
 //! FBOViewport description
@@ -251,7 +257,12 @@ FieldDescription *FBOViewportBase::_desc[] =
                      "fboOffIgnoreStorageSize", 
                      FboOffIgnoreStorageSizeFieldId, FboOffIgnoreStorageSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &FBOViewportBase::getSFFboOffIgnoreStorageSize)
+                     (FieldAccessMethod) &FBOViewportBase::getSFFboOffIgnoreStorageSize),
+    new FieldDescription(MFInt32::getClassType(), 
+                     "zOffset", 
+                     ZOffsetFieldId, ZOffsetFieldMask,
+                     false,
+                     (FieldAccessMethod) &FBOViewportBase::getMFZOffset)
 };
 
 
@@ -320,6 +331,7 @@ void FBOViewportBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
     _mfExcludeNodes.terminateShare(uiAspect, this->getContainerSize());
     _mfRenderNodes.terminateShare(uiAspect, this->getContainerSize());
     _mfTextures.terminateShare(uiAspect, this->getContainerSize());
+    _mfZOffset.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -346,6 +358,7 @@ FBOViewportBase::FBOViewportBase(void) :
     _sfReadBuffer             (bool(false)), 
     _sfIgnoreCameraDecorators (bool(true)), 
     _sfFboOffIgnoreStorageSize(bool(false)), 
+    _mfZOffset                (), 
     Inherited() 
 {
 }
@@ -371,6 +384,7 @@ FBOViewportBase::FBOViewportBase(const FBOViewportBase &source) :
     _sfReadBuffer             (source._sfReadBuffer             ), 
     _sfIgnoreCameraDecorators (source._sfIgnoreCameraDecorators ), 
     _sfFboOffIgnoreStorageSize(source._sfFboOffIgnoreStorageSize), 
+    _mfZOffset                (source._mfZOffset                ), 
     Inherited                 (source)
 {
 }
@@ -467,6 +481,11 @@ UInt32 FBOViewportBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFboOffIgnoreStorageSize.getBinSize();
     }
 
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+    {
+        returnValue += _mfZOffset.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -554,6 +573,11 @@ void FBOViewportBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
     {
         _sfFboOffIgnoreStorageSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+    {
+        _mfZOffset.copyToBin(pMem);
     }
 
 
@@ -644,6 +668,11 @@ void FBOViewportBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFboOffIgnoreStorageSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+    {
+        _mfZOffset.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -701,6 +730,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
 
     if(FieldBits::NoField != (FboOffIgnoreStorageSizeFieldMask & whichField))
         _sfFboOffIgnoreStorageSize.syncWith(pOther->_sfFboOffIgnoreStorageSize);
+
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+        _mfZOffset.syncWith(pOther->_mfZOffset);
 
 
 }
@@ -761,6 +793,9 @@ void FBOViewportBase::executeSyncImpl(      FBOViewportBase *pOther,
     if(FieldBits::NoField != (TexturesFieldMask & whichField))
         _mfTextures.syncWith(pOther->_mfTextures, sInfo);
 
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+        _mfZOffset.syncWith(pOther->_mfZOffset, sInfo);
+
 
 }
 
@@ -778,6 +813,9 @@ void FBOViewportBase::execBeginEditImpl (const BitVector &whichField,
 
     if(FieldBits::NoField != (TexturesFieldMask & whichField))
         _mfTextures.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (ZOffsetFieldMask & whichField))
+        _mfZOffset.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif
@@ -812,7 +850,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FBOViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.3 2007/09/09 20:20:42 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewportBase.cpp,v 1.4 2007/09/21 16:09:57 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

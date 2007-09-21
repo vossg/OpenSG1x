@@ -208,6 +208,13 @@ SFBool *FBOViewportBase::getSFFboOffIgnoreStorageSize(void)
     return &_sfFboOffIgnoreStorageSize;
 }
 
+//! Get the FBOViewport::_mfZOffset field.
+inline
+MFInt32 *FBOViewportBase::getMFZOffset(void)
+{
+    return &_mfZOffset;
+}
+
 
 //! Get the value of the FBOViewport::_sfEnabled field.
 inline
@@ -546,7 +553,28 @@ const MFTextureChunkPtr &FBOViewportBase::getTextures(void) const
     return _mfTextures;
 }
 
+//! Get the value of the \a index element the FBOViewport::_mfZOffset field.
+inline
+Int32 &FBOViewportBase::getZOffset(const UInt32 index)
+{
+    return _mfZOffset[index];
+}
+
+//! Get the FBOViewport::_mfZOffset field.
+inline
+MFInt32 &FBOViewportBase::getZOffset(void)
+{
+    return _mfZOffset;
+}
+
+//! Get the FBOViewport::_mfZOffset field.
+inline
+const MFInt32 &FBOViewportBase::getZOffset(void) const
+{
+    return _mfZOffset;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.3 2007/09/09 20:20:43 neumannc Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.4 2007/09/21 16:09:57 yjung Exp $"
 

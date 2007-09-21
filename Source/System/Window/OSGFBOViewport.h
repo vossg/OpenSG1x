@@ -97,7 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewport : public FBOViewportBase
     /*! \{                                                                 */
 
      bool initialize(Window *win, Int32 format = NONE);
-     void setTarget(Window *win, UInt32 id, GLenum attachment, GLenum target);
+     void setTarget(Window *win, UInt32 id, GLenum attachment, 
+                    GLenum target, GLint zoffset);
      void bind(Window *win);
      void stop(Window *win);
      bool checkFrameBufferStatus(Window *win);
@@ -170,6 +171,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewport : public FBOViewportBase
     /*! \name            OpenGL Extension Handling                         */
     /*! \{                                                                 */
 
+    static UInt32 _tex3D_extension;
     static UInt32 _framebuffer_object_extension;
     static UInt32 _draw_buffers_extension;
 
@@ -191,6 +193,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewport : public FBOViewportBase
     static UInt32 _funcIsFramebuffer;
     static UInt32 _funcIsRenderbuffer;
     static UInt32 _funcRenderbufferStorage;
+    static UInt32 _funcCopyTexSubImage3D;
 
     static renderparamscbfp _renderParamsFP;
     /*! \}                                                                 */
@@ -209,6 +212,6 @@ OSG_END_NAMESPACE
 #include "OSGFBOViewportBase.inl"
 #include "OSGFBOViewport.inl"
 
-#define OSGFBOVIEWPORT_HEADER_CVSID "@(#)$Id: OSGFBOViewport.h,v 1.1 2007/03/12 15:03:01 a-m-z Exp $"
+#define OSGFBOVIEWPORT_HEADER_CVSID "@(#)$Id: OSGFBOViewport.h,v 1.2 2007/09/21 16:09:57 yjung Exp $"
 
 #endif /* _OSGFBOVIEWPORT_H_ */

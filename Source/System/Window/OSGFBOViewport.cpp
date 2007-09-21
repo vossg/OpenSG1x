@@ -159,6 +159,7 @@ First Release of FramebufferObjects-Viewport.
  *                           Class variables                               *
 \***************************************************************************/
 
+UInt32 FBOViewport::_tex3D_extension;
 UInt32 FBOViewport::_framebuffer_object_extension;
 UInt32 FBOViewport::_draw_buffers_extension;
 
@@ -181,8 +182,12 @@ UInt32 FBOViewport::_funcGetRenderbufferParameteriv          = Window::invalidFu
 UInt32 FBOViewport::_funcIsFramebuffer                       = Window::invalidFunctionID;
 UInt32 FBOViewport::_funcIsRenderbuffer                      = Window::invalidFunctionID;
 UInt32 FBOViewport::_funcRenderbufferStorage                 = Window::invalidFunctionID;
+UInt32 FBOViewport::_funcCopyTexSubImage3D                   = Window::invalidFunctionID;
 
 FBOViewport::renderparamscbfp FBOViewport::_renderParamsFP   = NULL;
+
+typedef void (OSG_APIENTRY * OSGGLCOPYTEXSUBIMAGE3DPROC)
+    (GLenum, GLint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei);
 
 typedef void (OSG_APIENTRY * OSGGLDRAWBUFFERSARBPROC)
     (GLsizei n, const GLenum* bufs);
@@ -269,6 +274,8 @@ FBOViewport::FBOViewport(void) :
 FBOViewport::FBOViewport(const FBOViewport &source) :
     Inherited(source)
 {
+    _tex3D_extension = Window::registerExtension("GL_EXT_texture3D");
+    
     _framebuffer_object_extension = Window::registerExtension("GL_EXT_framebuffer_object");
 
     _draw_buffers_extension = Window::registerExtension("GL_ARB_draw_buffers");
@@ -328,7 +335,12 @@ FBOViewport::FBOViewport(const FBOViewport &source) :
     _funcRenderbufferStorage =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glRenderbufferStorageEXT", 
                                   _framebuffer_object_extension);
+                                  
+    _funcCopyTexSubImage3D =
+        Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCopyTexSubImage3D", 
+                                  _tex3D_extension);
 }
+    
 
 FBOViewport::~FBOViewport(void)
 {
@@ -453,7 +465,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     return result;
 }
 
-void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum target)
+void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum target, GLint zoffset)
 {
     OSGGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
         (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
@@ -464,8 +476,13 @@ void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum ta
 
     if (getFrameBufferIndex())
     {
-        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, attachment, target, id, 0);
-
+        if (target == GL_TEXTURE_3D) {
+            glFramebufferTexture3DEXT(GL_FRAMEBUFFER_EXT, attachment, target, id, 0, zoffset);
+        }
+        else {
+            glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, attachment, target, id, 0);
+        }
+        
         if (!checkGLError("setTarget post"))
         {
             SWARNING << "Error with attachment: " << attachment
@@ -909,15 +926,36 @@ void FBOViewport::render(RenderActionBase* action)
                         
                             target = getTextures(nt)->getTarget();
                         
-                            // TODO: check if target is valid and allow usage
-                            // of 3d texture slices
-                            if (target == GL_NONE)
-                                target = GL_TEXTURE_2D;
+                            if (target == GL_NONE) {
+                                if (getTextures(nt)->getImage()->getDepth() > 1)
+                                    target = GL_TEXTURE_3D;
+                                else
+                                    target = GL_TEXTURE_2D;
+                            }
                         
                             glBindTexture(target, 
                                 win->getGLObjectId(getTextures(nt)->getGLId()));
                         
-                            glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
+                            if (target == GL_TEXTURE_3D) 
+                            {
+                                OSGGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D = 
+                                    (OSGGLCOPYTEXSUBIMAGE3DPROC)win->getFunction(_funcCopyTexSubImage3D);
+                                    
+                                if (glCopyTexSubImage3D) 
+                                {
+                                    UInt32 iZ, numZ = getZOffset().size();
+                                    
+                                    for (iZ=0; iZ<numZ; iZ++) 
+                                    {
+                                        GLint zoffset = getZOffset(iZ);
+                                        glCopyTexSubImage3D(target, 0, x1, y1, zoffset, 0, 0, tw, th);
+                                    }
+                                }
+                                else
+                                    SFATAL << "No func: glCopyTexSubImage3D" << endLog;
+                            }
+                            else
+                                glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
                         
                             if(glGetError() != GL_NO_ERROR)
                                 SWARNING << "Error in Texture-Creation! " << endLog;
@@ -974,13 +1012,36 @@ void FBOViewport::render(RenderActionBase* action)
                 
                 GLenum target = getTextures(0)->getTarget();
                 
-                if (target == GL_NONE)
-                    target = GL_TEXTURE_2D;
+                if (target == GL_NONE) {
+                    if (getTextures(0)->getImage()->getDepth() > 1)
+                        target = GL_TEXTURE_3D;
+                    else
+                        target = GL_TEXTURE_2D;
+                }
                 
                 glBindTexture(target, 
                     win->getGLObjectId(getTextures(0)->getGLId()));
                 
-                glCopyTexSubImage2D(target, 0, 0, 0, 0, 0, imgWidth, imgHeight);
+                if (target == GL_TEXTURE_3D) 
+                {
+                    OSGGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D = 
+                        (OSGGLCOPYTEXSUBIMAGE3DPROC)win->getFunction(_funcCopyTexSubImage3D);
+                        
+                    if (glCopyTexSubImage3D) 
+                    {
+                        UInt32 iZ, numZ = getZOffset().size();
+                        
+                        for (iZ=0; iZ<numZ; iZ++) 
+                        {
+                            GLint zoffset = getZOffset(iZ);
+                            glCopyTexSubImage3D(target, 0, 0, 0, zoffset, 0, 0, imgWidth, imgHeight);
+                        }
+                    }
+                    else
+                        SFATAL << "No func: glCopyTexSubImage3D" << endLog;
+                }
+                else
+                    glCopyTexSubImage2D(target, 0, 0, 0, 0, 0, imgWidth, imgHeight);           
                 
                 if (glGetError() != GL_NO_ERROR)
                     SWARNING << "Error in Texture-Creation of special mode! " << endLog;    
@@ -1101,6 +1162,9 @@ void FBOViewport::render(RenderActionBase* action)
             checkGLError("FBO render pre\n");
             
             bind(win);
+            
+            // TODO; allow whole range and all at once, combine with buffers
+            GLint zoffset = getZOffset().size() ? getZOffset(0) : 0;
 
             buffers = new GLenum[numBuffers];
 
@@ -1116,11 +1180,15 @@ void FBOViewport::render(RenderActionBase* action)
 					
                     target = depthTex->getTarget();
                     
-                    if (target == GL_NONE)
-                        target = GL_TEXTURE_2D;
+                    if (target == GL_NONE) {
+                        if (depthTex->getImage()->getDepth() > 1)
+                            target = GL_TEXTURE_3D;
+                        else
+                            target = GL_TEXTURE_2D;
+                    }
                     
                     setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
-								GL_DEPTH_ATTACHMENT_EXT, target);                
+								GL_DEPTH_ATTACHMENT_EXT, target, zoffset);                
                 }
                 else if (stencilTex) 
                 {
@@ -1128,11 +1196,15 @@ void FBOViewport::render(RenderActionBase* action)
 					
                     target = stencilTex->getTarget();
                     
-                    if (target == GL_NONE)
-                        target = GL_TEXTURE_2D;
+                    if (target == GL_NONE) {
+                        if (stencilTex->getImage()->getDepth() > 1)
+                            target = GL_TEXTURE_3D;
+                        else
+                            target = GL_TEXTURE_2D;
+                    }
                         
                     setTarget(win, win->getGLObjectId(stencilTex->getGLId()), 
-								GL_STENCIL_ATTACHMENT_EXT, target);                
+								GL_STENCIL_ATTACHMENT_EXT, target, zoffset);                
                 }
 
                 for (i=0; i<numBuffers; i++)
@@ -1143,13 +1215,16 @@ void FBOViewport::render(RenderActionBase* action)
     
                     target = colorTextures[i]->getTarget();
     
-                    // TODO; check if target is valid and allow usage of 3d texture slices
-                    if (target == GL_NONE)
-                        target = GL_TEXTURE_2D;
+                    if (target == GL_NONE) {
+                        if (colorTextures[i]->getImage()->getDepth() > 1)
+                            target = GL_TEXTURE_3D;
+                        else
+                            target = GL_TEXTURE_2D;
+                    }
     
                     // bind this texture to the current fbo as color_attachment_i
                     setTarget(win, win->getGLObjectId(colorTextures[i]->getGLId()), 
-								buffers[i], target);
+								buffers[i], target, zoffset);
                 }
 
                 checkFrameBufferStatus(win);
@@ -1174,10 +1249,15 @@ void FBOViewport::render(RenderActionBase* action)
 
                 target = depthTex->getTarget();
                 
-                if (target == GL_NONE)
-                    target = GL_TEXTURE_2D;
+                if (target == GL_NONE) {
+                    if (depthTex->getImage()->getDepth() > 1)
+                        target = GL_TEXTURE_3D;
+                    else
+                        target = GL_TEXTURE_2D;
+                }
                 
-                setTarget(win, win->getGLObjectId(depthTex->getGLId()), buffers[0], target);
+                setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
+                            buffers[0], target, zoffset);
 
                 glDrawBuffer (GL_NONE);
                 glReadBuffer (GL_NONE);
@@ -1193,10 +1273,15 @@ void FBOViewport::render(RenderActionBase* action)
 
                 target = stencilTex->getTarget();
                 
-                if (target == GL_NONE)
-                    target = GL_TEXTURE_2D;
+                if (target == GL_NONE) {
+                    if (stencilTex->getImage()->getDepth() > 1)
+                        target = GL_TEXTURE_3D;
+                    else
+                        target = GL_TEXTURE_2D;
+                }
 				
-                setTarget(win, win->getGLObjectId(stencilTex->getGLId()), buffers[0], target);
+                setTarget(win, win->getGLObjectId(stencilTex->getGLId()), 
+                            buffers[0], target, zoffset);
 
                 glDrawBuffer (GL_NONE);
                 glReadBuffer (GL_NONE);
@@ -1444,7 +1529,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.14 2007/09/09 20:20:43 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.15 2007/09/21 16:09:57 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

@@ -83,6 +83,7 @@
 #include <OSGBoolFields.h> // ReadBuffer type
 #include <OSGBoolFields.h> // IgnoreCameraDecorators type
 #include <OSGBoolFields.h> // FboOffIgnoreStorageSize type
+#include <OSGInt32Fields.h> // ZOffset type
 
 #include <OSGFBOViewportFields.h>
 
@@ -122,7 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
         ReadBufferFieldId              = DirtyFieldId                   + 1,
         IgnoreCameraDecoratorsFieldId  = ReadBufferFieldId              + 1,
         FboOffIgnoreStorageSizeFieldId = IgnoreCameraDecoratorsFieldId  + 1,
-        NextFieldId                    = FboOffIgnoreStorageSizeFieldId + 1
+        ZOffsetFieldId                 = FboOffIgnoreStorageSizeFieldId + 1,
+        NextFieldId                    = ZOffsetFieldId                 + 1
     };
 
     static const OSG::BitVector EnabledFieldMask;
@@ -141,6 +143,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     static const OSG::BitVector ReadBufferFieldMask;
     static const OSG::BitVector IgnoreCameraDecoratorsFieldMask;
     static const OSG::BitVector FboOffIgnoreStorageSizeFieldMask;
+    static const OSG::BitVector ZOffsetFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -180,6 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
            SFBool              *getSFReadBuffer     (void);
            SFBool              *getSFIgnoreCameraDecorators(void);
            SFBool              *getSFFboOffIgnoreStorageSize(void);
+           MFInt32             *getMFZOffset        (void);
 
            bool                &getEnabled        (void);
      const bool                &getEnabled        (void) const;
@@ -210,6 +214,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
            TextureChunkPtr     &getTextures       (const UInt32 index);
            MFTextureChunkPtr   &getTextures       (void);
      const MFTextureChunkPtr   &getTextures       (void) const;
+           Int32               &getZOffset        (const UInt32 index);
+           MFInt32             &getZOffset        (void);
+     const MFInt32             &getZOffset        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -284,6 +291,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     SFBool              _sfReadBuffer;
     SFBool              _sfIgnoreCameraDecorators;
     SFBool              _sfFboOffIgnoreStorageSize;
+    MFInt32             _mfZOffset;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -386,6 +394,6 @@ typedef RefPtr<FBOViewportPtr> FBOViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.3 2007/09/09 20:20:43 neumannc Exp $"
+#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.4 2007/09/21 16:09:57 yjung Exp $"
 
 #endif /* _OSGFBOVIEWPORTBASE_H_ */

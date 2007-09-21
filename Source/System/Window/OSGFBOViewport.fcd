@@ -160,4 +160,13 @@ First Release of FramebufferObjects-Viewport.
 	>
 	whether to ignore storage size in Fbo off mode and just consider window size
 	</Field>
+	<Field
+		name="zOffset"
+		type="Int32"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+    The zOffset specifies the z-offset of one (or more) 2-dimensional images within a 3-dimensional texture.
+	</Field>
 </FieldContainer>
