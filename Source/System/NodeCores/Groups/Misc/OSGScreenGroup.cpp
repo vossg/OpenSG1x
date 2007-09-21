@@ -197,7 +197,7 @@ void ScreenGroup::calcMatrix(   DrawActionBase *pAction,
     mResult.setScale(scaleX, scaleY, 1.f);
     mResult.setTranslate(0.375 * scaleX, 0.375 * scaleY, 0.f);
     
-    bool equal = mResult.equals(_camTransform, 0.001f);
+    bool equal = mResult.equals(_camTransform, 0.00001f);
         
     _camTransform = mResult;
         
@@ -316,7 +316,7 @@ Action::ResultE ScreenGroup::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.3 2007/09/20 12:16:45 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.4 2007/09/21 09:13:07 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 
