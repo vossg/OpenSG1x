@@ -531,6 +531,8 @@ class PlatformOptions:
 
         opts.Add(BoolOption('invalid_pointer_check', 'enable invalid pointer check', 0))
 
+        opts.Add(BoolOption('force_inline', 'enable force inline, msvc compiler only', 0))
+
         # contrib
         opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))
         opts.Add(BoolOption('contrib_cgfxmaterial', 'enable contrib CGFXMaterial', 0))
@@ -938,6 +940,9 @@ class win32_msvc_base(win32):
         env.AppendENVPath('PATH', tools_exe)
 
         env.Append(CPPDEFINES=win32_defines)
+
+        if _po.getOption('force_inline'):
+            env.Append(CPPDEFINES=['inline=__forceinline'])
 
         env.Append(LINKFLAGS=['/FORCE:MULTIPLE', '/NODEFAULTLIB', '/incremental:no'],
                    LIBS = ['user32', 'kernel32', 'winmm', 'wsock32', 'oldnames'])
