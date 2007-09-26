@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="OffsetCameraDecorator"
+	parent="CameraDecorator"
+	library="System"
+	pointerfieldtypes="both"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+The decorator to select a rectangular part of the image.
+	<Field
+		name="offsetX"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="offsetY"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
+	<Field
+		name="fullWidth"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	The width of the full image this is a tile of.
+	</Field>
+	<Field
+		name="fullHeight"
+		type="UInt32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="public"
+	>
+	The height of the full image this is a tile of.
+	</Field>
+</FieldContainer>
