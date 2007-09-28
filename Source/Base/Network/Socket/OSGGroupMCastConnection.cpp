@@ -106,8 +106,12 @@ GroupMCastConnection::~GroupMCastConnection(void)
     _queue.put(dgram);
     _lock->release();
     // wait for stop
-    if(_sendQueueThread)
-        BaseThread::join(_sendQueueThread);    
+    if(_sendQueueThread) {
+        BaseThread::join(_sendQueueThread);
+        //delete _sendQueueThread;
+        _sendQueueThread->subRef();
+        _sendQueueThread = NULL;
+    }
     // close socket
     _mcastSocket.close();
     // free queues
