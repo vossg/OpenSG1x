@@ -1105,7 +1105,9 @@ void FBOViewport::render(RenderActionBase* action)
     else
     {
         OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB =
-            (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);    
+            (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);   
+        OSGGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT =
+            (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap); 
     
         // get number of render targets
         Int32 numBuffers = getMaxBuffers();
@@ -1165,6 +1167,7 @@ void FBOViewport::render(RenderActionBase* action)
             
             // TODO; allow whole range and all at once, combine with buffers
             GLint zoffset = getZOffset().size() ? getZOffset(0) : 0;
+            bool needMipmaps = false;
 
             buffers = new GLenum[numBuffers];
 
@@ -1185,6 +1188,18 @@ void FBOViewport::render(RenderActionBase* action)
                             target = GL_TEXTURE_3D;
                         else
                             target = GL_TEXTURE_2D;
+                    }
+                    
+                    // next TODO: clean up this mess!
+                    needMipmaps = depthTex->getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+                                  depthTex->getMinFilter() == GL_LINEAR_MIPMAP_NEAREST  ||
+                                  depthTex->getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
+                                  depthTex->getMinFilter() == GL_LINEAR_MIPMAP_LINEAR;
+                                  
+                    if (needMipmaps && glGenerateMipmapEXT) {
+                        glBindTexture(target, win->getGLObjectId(depthTex->getGLId()));
+                        glGenerateMipmapEXT(target);
+                        glBindTexture(target, 0);
                     }
                     
                     setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
@@ -1221,6 +1236,17 @@ void FBOViewport::render(RenderActionBase* action)
                         else
                             target = GL_TEXTURE_2D;
                     }
+                    
+                    needMipmaps = colorTextures[i]->getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+                                  colorTextures[i]->getMinFilter() == GL_LINEAR_MIPMAP_NEAREST  ||
+                                  colorTextures[i]->getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
+                                  colorTextures[i]->getMinFilter() == GL_LINEAR_MIPMAP_LINEAR;
+                    
+                    if (needMipmaps && glGenerateMipmapEXT) {
+                        glBindTexture(target, win->getGLObjectId(colorTextures[i]->getGLId()));
+                        glGenerateMipmapEXT(target);
+                        glBindTexture(target, 0);
+                    }
     
                     // bind this texture to the current fbo as color_attachment_i
                     setTarget(win, win->getGLObjectId(colorTextures[i]->getGLId()), 
@@ -1254,6 +1280,17 @@ void FBOViewport::render(RenderActionBase* action)
                         target = GL_TEXTURE_3D;
                     else
                         target = GL_TEXTURE_2D;
+                }
+                
+                needMipmaps = depthTex->getMinFilter() == GL_NEAREST_MIPMAP_NEAREST ||
+                              depthTex->getMinFilter() == GL_LINEAR_MIPMAP_NEAREST  ||
+                              depthTex->getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
+                              depthTex->getMinFilter() == GL_LINEAR_MIPMAP_LINEAR;
+                
+                if (needMipmaps && glGenerateMipmapEXT) {
+                    glBindTexture(target, win->getGLObjectId(depthTex->getGLId()));
+                    glGenerateMipmapEXT(target);
+                    glBindTexture(target, 0);
                 }
                 
                 setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
@@ -1529,7 +1566,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.15 2007/09/21 16:09:57 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.16 2007/10/01 12:45:14 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
