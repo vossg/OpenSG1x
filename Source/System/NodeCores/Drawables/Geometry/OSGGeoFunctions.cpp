@@ -3006,14 +3006,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
 {
   FINFO(("Entering createConvexPrimitives()\n"));
 
-	GLenum windingRule = GLU_TESS_WINDING_ODD;
-
-  OSG::GeoIndicesUI32Ptr       indexPtr;
-  OSG::GeoIndicesUI32Ptr       newIndexPtr = GeoIndicesUI32::create();
-  OSG::GeoPTypesPtr            newTypesPtr = GeoPTypesUI8::create();
-  OSG::GeoPLengthsPtr          newLengthsPtr  = GeoPLengthsUI32::create();
-
-  bool indexed = true;
+  GLenum windingRule = GLU_TESS_WINDING_ODD;
 
   std::vector< UInt32 >    inIndexV;
   std::vector< UInt32 >    outIndexV;
@@ -3050,8 +3043,8 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   }
 
   // determine whether the geometry is indexed
-  indexPtr =  GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
-  indexed = (indexPtr == NullFC) ?  false : true;
+  OSG::GeoIndicesUI32Ptr indexPtr = GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
+  bool indexed = (indexPtr == NullFC) ?  false : true;
   FDEBUG(("Indexed: %d\n",indexed));
 
   // skip geometry if it is empty or not indexed
@@ -3122,6 +3115,10 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   FDEBUG(("gluTessCallback(%p, GLU_TESS_END, %p)\n",
           tess, gluTessEndCBPtr));
   gluTessCallback(tess, GLU_TESS_END, gluTessEndCBPtr);
+
+  OSG::GeoIndicesUI32Ptr       newIndexPtr = GeoIndicesUI32::create();
+  OSG::GeoPTypesPtr            newTypesPtr = GeoPTypesUI8::create();
+  OSG::GeoPLengthsPtr          newLengthsPtr  = GeoPLengthsUI32::create();
 
   beginEditCP(newTypesPtr);
   beginEditCP(newIndexPtr);
