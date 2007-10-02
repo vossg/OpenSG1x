@@ -138,6 +138,10 @@ UInt32 TextureChunk::_funcCompressedTexSubImage3D = Window::invalidFunctionID;
 //#warning GL_FUNC_TEXIMAGE3D
 
 
+UInt32 TextureChunk::_numTexCreate        = 0;
+Time   TextureChunk::_summedTexCreateTime = 0;
+
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -1474,6 +1478,9 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
     else if(mode == Window::initialize || mode == Window::reinitialize ||
             mode == Window::needrefresh )
     {
+        Time t0 = OSG::getSystemTime();
+        _numTexCreate++;
+        
         if(mode == Window::initialize)
         {
             glGenTextures(1, &id);
@@ -1547,6 +1554,9 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 
             }
         }
+        
+        Time t1 = OSG::getSystemTime();
+        _summedTexCreateTime += (t1 - t0);
     }
     else
     {

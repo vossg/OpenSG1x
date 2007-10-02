@@ -62,8 +62,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     /*==========================  PUBLIC  =================================*/
   public:
 
-	  /// Flags can be OR-ed, e.g. NPotTexScale for old gpu and YFlip for videos.
-	  enum NPOTMatrixScaleE 
+	/// Flags can be OR-ed, e.g. NPotTexScale for old gpu and YFlip for videos.
+	enum NPOTMatrixScaleE 
     { 
         None_TT = 0, 
         NPotTexScale_TT = 1, 
@@ -153,6 +153,15 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     /*! \}                                                                 */
 
+    /*---------------------------------------------------------------------*/
+    /*! \name             some statistics stuff                            */
+    /*! \{                                                                 */
+
+    static UInt32 getNumTexCreate(void) { return _numTexCreate; }
+    static Time getSummedTexCreateTime(void) { return _summedTexCreateTime; }
+
+    /*! \}                                                                 */
+    
     /*=========================  PROTECTED  ===============================*/
   protected:
 
@@ -228,6 +237,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     // protected to give CubeTextureChunk access
     static void initMethod(void);
+    
+    
+    /*---------------------------------------------------------------------*/
+    // number of texture objects created
+    static UInt32 _numTexCreate;
+
+    // summed texture object creation time
+    static Time _summedTexCreateTime;
 
     /*==========================  PRIVATE  ================================*/
   private:
