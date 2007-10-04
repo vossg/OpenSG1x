@@ -221,6 +221,9 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     }
     
     Real32  vcos1,vsin1,vcos2,vsin2;
+    
+    // better set a defined color...
+    glColor3f(1, 1, 1);
         
     if(_mfSkyAngle.size() > 0)
     {
