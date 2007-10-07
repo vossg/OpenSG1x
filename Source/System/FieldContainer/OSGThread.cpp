@@ -71,6 +71,25 @@ OSG_USING_NAMESPACE
 const UInt32 ThreadCommonBase::InvalidAspect = 
     TypeTraits<UInt32>::BitsSet;
 
+Int32 ThreadCommonBase::_force_aspect = -1;
+
+/*-------------------------------------------------------------------------*/
+/*                          Force Aspect                                   */
+
+void ThreadCommonBase::setForceAspect(Int32 aspect)
+{
+#ifdef OSG_FORCE_ASPECT
+    _force_aspect = aspect;
+#else
+    SFATAL << "ThreadCommonBase::setForceAspect: not supported, please enable it in scons build system via 'force_aspect=1'" << std::endl;
+#endif
+}
+
+Int32 ThreadCommonBase::getForceAspect(void)
+{
+    return _force_aspect;
+}
+
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
@@ -132,6 +151,11 @@ pthread_key_t PThreadBase::_changeListKey;
 
 UInt32 PThreadBase::getAspect(void)
 {
+#ifdef OSG_FORCE_ASPECT
+    if(_force_aspect != -1)
+        return _force_aspect;
+#endif
+
 #if defined(OSG_PTHREAD_ELF_TLS)
     return _uiTLSAspectId;
 #else
@@ -296,6 +320,11 @@ void PThreadBase::setupChangeList(void)
 
 UInt32 SprocBase::getAspect(void)
 {
+#ifdef OSG_FORCE_ASPECT
+    if(_force_aspect != -1)
+        return _force_aspect;
+#endif
+
     return ((OSGProcessData *) PRDA->usr_prda.fill)->_uiAspectId;
 }
 
@@ -408,6 +437,11 @@ __declspec (thread) ChangeList *WinThreadBase::_pChangeListLocal = NULL;
 
 UInt32 WinThreadBase::getAspect(void)
 {
+#ifdef OSG_FORCE_ASPECT
+    if(_force_aspect != -1)
+        return _force_aspect;
+#endif
+
 #ifdef OSG_ASPECT_USE_LOCALSTORAGE
     UInt32 *pUint;
 

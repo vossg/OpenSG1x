@@ -533,6 +533,8 @@ class PlatformOptions:
 
         opts.Add(BoolOption('force_inline', 'enable force inline, msvc compiler only', 0))
 
+        opts.Add(BoolOption('force_aspect', 'enable force aspect, allows running external threads (read only) without initializing them, quite usefull for the Intel Threading Building Blocks library.', 0))
+
         # contrib
         opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))
         opts.Add(BoolOption('contrib_cgfxmaterial', 'enable contrib CGFXMaterial', 0))
@@ -749,6 +751,9 @@ class ToolChain:
                         self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL', 'CgFXGL']
                     else:
                         self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL']
+
+        if _po.getOption('force_aspect'):
+            self.env.Append(CPPDEFINES=['OSG_FORCE_ASPECT'])
 
         if _po.getOption('gv_beta'):
             print 'Compiling with gv beta enabled!'

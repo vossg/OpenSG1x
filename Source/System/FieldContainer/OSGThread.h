@@ -96,6 +96,14 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
     static const UInt32 InvalidAspect;
 
     /*---------------------------------------------------------------------*/
+    /*! \name                    Force Aspect                              */
+    /*! \{                                                                 */
+
+    static void setForceAspect(Int32 aspect);
+    static Int32 getForceAspect(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                      Get                                     */
     /*! \{                                                                 */
 
@@ -114,6 +122,12 @@ class OSG_SYSTEMLIB_DLLMAPPING ThreadCommonBase : public BaseThread
 
     UInt32      _uiAspectId;
     ChangeList *_pChangeList;
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                      Class                                   */
+    /*! \{                                                                 */
+
+    static Int32 _force_aspect;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
