@@ -71,6 +71,8 @@
 #include <OSGInt32Fields.h> // ClearStencilBit type
 #include <OSGReal32Fields.h> // Alpha type
 #include <OSGReal32Fields.h> // Depth type
+#include <OSGBoolFields.h> // ClearDepth type
+#include <OSGBoolFields.h> // ClearColor type
 
 #include <OSGSolidBackgroundFields.h>
 
@@ -98,13 +100,17 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
         ClearStencilBitFieldId = ColorFieldId           + 1,
         AlphaFieldId           = ClearStencilBitFieldId + 1,
         DepthFieldId           = AlphaFieldId           + 1,
-        NextFieldId            = DepthFieldId           + 1
+        ClearDepthFieldId      = DepthFieldId           + 1,
+        ClearColorFieldId      = ClearDepthFieldId      + 1,
+        NextFieldId            = ClearColorFieldId      + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
     static const OSG::BitVector AlphaFieldMask;
     static const OSG::BitVector DepthFieldMask;
+    static const OSG::BitVector ClearDepthFieldMask;
+    static const OSG::BitVector ClearColorFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -135,6 +141,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
            SFInt32             *getSFClearStencilBit(void);
            SFReal32            *getSFAlpha          (void);
            SFReal32            *getSFDepth          (void);
+           SFBool              *getSFClearDepth     (void);
+           SFBool              *getSFClearColor     (void);
 
            Color3f             &getColor          (void);
      const Color3f             &getColor          (void) const;
@@ -144,6 +152,10 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
      const Real32              &getAlpha          (void) const;
            Real32              &getDepth          (void);
      const Real32              &getDepth          (void) const;
+           bool                &getClearDepth     (void);
+     const bool                &getClearDepth     (void) const;
+           bool                &getClearColor     (void);
+     const bool                &getClearColor     (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -154,6 +166,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
      void setClearStencilBit( const Int32 &value );
      void setAlpha          ( const Real32 &value );
      void setDepth          ( const Real32 &value );
+     void setClearDepth     ( const bool &value );
+     void setClearColor     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -200,6 +214,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     SFInt32             _sfClearStencilBit;
     SFReal32            _sfAlpha;
     SFReal32            _sfDepth;
+    SFBool              _sfClearDepth;
+    SFBool              _sfClearColor;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

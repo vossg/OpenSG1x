@@ -109,21 +109,33 @@ void SolidBackground::changed(BitVector whichField, UInt32 origin)
 
 void SolidBackground::clear(DrawActionBase *, Viewport *)
 {
-    Color3f &col = getColor();
-    glClearColor(col[0], col[1], col[2], getAlpha());
-    glClearDepth(getDepth());
+    Int32      stencilBit = getClearStencilBit();   // 0x0
+    GLbitfield clearMask  = 0;
     
-    Int32 bit = getClearStencilBit();   // 0x0
+    if(getClearColor() == true)
+    {
+        clearMask |= GL_COLOR_BUFFER_BIT;
     
-    if (bit >= 0)
-    {
-        glClearStencil(bit);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        Color3f &col = getColor();
+        glClearColor(col[0], col[1], col[2], getAlpha());
     }
-    else
+    
+    if(getClearDepth() == true)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        clearMask |= GL_DEPTH_BUFFER_BIT;
+        
+        glClearDepth(getDepth());
     }
+    
+    if(stencilBit >= 0)
+    {
+        clearMask |= GL_STENCIL_BUFFER_BIT;
+        
+        glClearStencil(stencilBit);
+    }
+    
+    if(clearMask != 0)
+        glClear(clearMask);
 }
 
 /*------------------------------- dump ----------------------------------*/

@@ -124,6 +124,20 @@ SFReal32 *SolidBackgroundBase::getSFDepth(void)
     return &_sfDepth;
 }
 
+//! Get the SolidBackground::_sfClearDepth field.
+inline
+SFBool *SolidBackgroundBase::getSFClearDepth(void)
+{
+    return &_sfClearDepth;
+}
+
+//! Get the SolidBackground::_sfClearColor field.
+inline
+SFBool *SolidBackgroundBase::getSFClearColor(void)
+{
+    return &_sfClearColor;
+}
+
 
 //! Get the value of the SolidBackground::_sfColor field.
 inline
@@ -207,6 +221,48 @@ inline
 void SolidBackgroundBase::setDepth(const Real32 &value)
 {
     _sfDepth.setValue(value);
+}
+
+//! Get the value of the SolidBackground::_sfClearDepth field.
+inline
+bool &SolidBackgroundBase::getClearDepth(void)
+{
+    return _sfClearDepth.getValue();
+}
+
+//! Get the value of the SolidBackground::_sfClearDepth field.
+inline
+const bool &SolidBackgroundBase::getClearDepth(void) const
+{
+    return _sfClearDepth.getValue();
+}
+
+//! Set the value of the SolidBackground::_sfClearDepth field.
+inline
+void SolidBackgroundBase::setClearDepth(const bool &value)
+{
+    _sfClearDepth.setValue(value);
+}
+
+//! Get the value of the SolidBackground::_sfClearColor field.
+inline
+bool &SolidBackgroundBase::getClearColor(void)
+{
+    return _sfClearColor.getValue();
+}
+
+//! Get the value of the SolidBackground::_sfClearColor field.
+inline
+const bool &SolidBackgroundBase::getClearColor(void) const
+{
+    return _sfClearColor.getValue();
+}
+
+//! Set the value of the SolidBackground::_sfClearColor field.
+inline
+void SolidBackgroundBase::setClearColor(const bool &value)
+{
+    _sfClearColor.setValue(value);
 }
 
 
