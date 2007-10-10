@@ -126,8 +126,11 @@ std::string MakeTransparentGraphOp::usage(void)
 
 Action::ResultE MakeTransparentGraphOp::traverseEnter(NodePtr& node)
 {
+    if(isInExcludeList(node))
+        return Action::Continue;
+
     GeometryPtr geo = GeometryPtr::dcast(node->getCore());
-    if (geo != NullFC)
+    if(geo != NullFC)
     {
         addObject(MaterialObject(geo));
         return Action::Continue;
