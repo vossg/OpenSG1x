@@ -73,6 +73,7 @@
 #include <OSGUInt32Fields.h> // ProgramParameterValues type
 #include <OSGUInt32Fields.h> // GLId type
 #include <OSGInt32Fields.h> // IgnoreGLForAspect type
+#include <OSGBoolFields.h> // UnknownParameterWarning type
 
 #include <OSGSHLChunkFields.h>
 
@@ -96,13 +97,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 
     enum
     {
-        CgFrontEndFieldId             = Inherited::NextFieldId,
-        PointSizeFieldId              = CgFrontEndFieldId             + 1,
-        ProgramParameterNamesFieldId  = PointSizeFieldId              + 1,
-        ProgramParameterValuesFieldId = ProgramParameterNamesFieldId  + 1,
-        GLIdFieldId                   = ProgramParameterValuesFieldId + 1,
-        IgnoreGLForAspectFieldId      = GLIdFieldId                   + 1,
-        NextFieldId                   = IgnoreGLForAspectFieldId      + 1
+        CgFrontEndFieldId              = Inherited::NextFieldId,
+        PointSizeFieldId               = CgFrontEndFieldId              + 1,
+        ProgramParameterNamesFieldId   = PointSizeFieldId               + 1,
+        ProgramParameterValuesFieldId  = ProgramParameterNamesFieldId   + 1,
+        GLIdFieldId                    = ProgramParameterValuesFieldId  + 1,
+        IgnoreGLForAspectFieldId       = GLIdFieldId                    + 1,
+        UnknownParameterWarningFieldId = IgnoreGLForAspectFieldId       + 1,
+        NextFieldId                    = UnknownParameterWarningFieldId + 1
     };
 
     static const OSG::BitVector CgFrontEndFieldMask;
@@ -111,6 +113,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     static const OSG::BitVector ProgramParameterValuesFieldMask;
     static const OSG::BitVector GLIdFieldMask;
     static const OSG::BitVector IgnoreGLForAspectFieldMask;
+    static const OSG::BitVector UnknownParameterWarningFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -143,6 +146,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
            MFUInt32            *getMFProgramParameterValues(void);
            SFUInt32            *getSFGLId           (void);
            SFInt32             *getSFIgnoreGLForAspect(void);
+           SFBool              *getSFUnknownParameterWarning(void);
 
            bool                &getCgFrontEnd     (void);
      const bool                &getCgFrontEnd     (void) const;
@@ -152,6 +156,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
      const UInt32              &getGLId           (void) const;
            Int32               &getIgnoreGLForAspect(void);
      const Int32               &getIgnoreGLForAspect(void) const;
+           bool                &getUnknownParameterWarning(void);
+     const bool                &getUnknownParameterWarning(void) const;
            GLenum              &getProgramParameterNames(const UInt32 index);
            MFGLenum            &getProgramParameterNames(void);
      const MFGLenum            &getProgramParameterNames(void) const;
@@ -168,6 +174,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
      void setPointSize      ( const bool &value );
      void setGLId           ( const UInt32 &value );
      void setIgnoreGLForAspect( const Int32 &value );
+     void setUnknownParameterWarning( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -216,6 +223,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     MFUInt32            _mfProgramParameterValues;
     SFUInt32            _sfGLId;
     SFInt32             _sfIgnoreGLForAspect;
+    SFBool              _sfUnknownParameterWarning;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -293,6 +301,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.14 2006/11/17 17:16:04 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.15 2007/10/10 16:00:12 neumannc Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

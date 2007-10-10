@@ -138,6 +138,13 @@ SFInt32 *SHLChunkBase::getSFIgnoreGLForAspect(void)
     return &_sfIgnoreGLForAspect;
 }
 
+//! Get the SHLChunk::_sfUnknownParameterWarning field.
+inline
+SFBool *SHLChunkBase::getSFUnknownParameterWarning(void)
+{
+    return &_sfUnknownParameterWarning;
+}
+
 
 //! Get the value of the SHLChunk::_sfCgFrontEnd field.
 inline
@@ -223,6 +230,27 @@ void SHLChunkBase::setIgnoreGLForAspect(const Int32 &value)
     _sfIgnoreGLForAspect.setValue(value);
 }
 
+//! Get the value of the SHLChunk::_sfUnknownParameterWarning field.
+inline
+bool &SHLChunkBase::getUnknownParameterWarning(void)
+{
+    return _sfUnknownParameterWarning.getValue();
+}
+
+//! Get the value of the SHLChunk::_sfUnknownParameterWarning field.
+inline
+const bool &SHLChunkBase::getUnknownParameterWarning(void) const
+{
+    return _sfUnknownParameterWarning.getValue();
+}
+
+//! Set the value of the SHLChunk::_sfUnknownParameterWarning field.
+inline
+void SHLChunkBase::setUnknownParameterWarning(const bool &value)
+{
+    _sfUnknownParameterWarning.setValue(value);
+}
+
 
 //! Get the value of the \a index element the SHLChunk::_mfProgramParameterNames field.
 inline
@@ -268,5 +296,5 @@ const MFUInt32 &SHLChunkBase::getProgramParameterValues(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.13 2006/11/17 17:16:04 a-m-z Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.14 2007/10/10 16:00:12 neumannc Exp $"
 

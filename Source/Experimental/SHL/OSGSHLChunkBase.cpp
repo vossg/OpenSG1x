@@ -83,6 +83,9 @@ const OSG::BitVector  SHLChunkBase::GLIdFieldMask =
 const OSG::BitVector  SHLChunkBase::IgnoreGLForAspectFieldMask = 
     (TypeTraits<BitVector>::One << SHLChunkBase::IgnoreGLForAspectFieldId);
 
+const OSG::BitVector  SHLChunkBase::UnknownParameterWarningFieldMask = 
+    (TypeTraits<BitVector>::One << SHLChunkBase::UnknownParameterWarningFieldId);
+
 const OSG::BitVector SHLChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -107,6 +110,9 @@ const OSG::BitVector SHLChunkBase::MTInfluenceMask =
 */
 /*! \var Int32           SHLChunkBase::_sfIgnoreGLForAspect
     
+*/
+/*! \var bool            SHLChunkBase::_sfUnknownParameterWarning
+    Whether to warn about unknown/unused paramters.
 */
 
 //! SHLChunk description
@@ -142,7 +148,12 @@ FieldDescription *SHLChunkBase::_desc[] =
                      "IgnoreGLForAspect", 
                      IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
                      true,
-                     (FieldAccessMethod) &SHLChunkBase::getSFIgnoreGLForAspect)
+                     (FieldAccessMethod) &SHLChunkBase::getSFIgnoreGLForAspect),
+    new FieldDescription(SFBool::getClassType(), 
+                     "UnknownParameterWarning", 
+                     UnknownParameterWarningFieldId, UnknownParameterWarningFieldMask,
+                     false,
+                     (FieldAccessMethod) &SHLChunkBase::getSFUnknownParameterWarning)
 };
 
 
@@ -226,6 +237,7 @@ SHLChunkBase::SHLChunkBase(void) :
     _mfProgramParameterValues (), 
     _sfGLId                   (), 
     _sfIgnoreGLForAspect      (Int32(-1)), 
+    _sfUnknownParameterWarning(bool(true)), 
     Inherited() 
 {
 }
@@ -241,6 +253,7 @@ SHLChunkBase::SHLChunkBase(const SHLChunkBase &source) :
     _mfProgramParameterValues (source._mfProgramParameterValues ), 
     _sfGLId                   (source._sfGLId                   ), 
     _sfIgnoreGLForAspect      (source._sfIgnoreGLForAspect      ), 
+    _sfUnknownParameterWarning(source._sfUnknownParameterWarning), 
     Inherited                 (source)
 {
 }
@@ -287,6 +300,11 @@ UInt32 SHLChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfIgnoreGLForAspect.getBinSize();
     }
 
+    if(FieldBits::NoField != (UnknownParameterWarningFieldMask & whichField))
+    {
+        returnValue += _sfUnknownParameterWarning.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -324,6 +342,11 @@ void SHLChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
     {
         _sfIgnoreGLForAspect.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (UnknownParameterWarningFieldMask & whichField))
+    {
+        _sfUnknownParameterWarning.copyToBin(pMem);
     }
 
 
@@ -364,6 +387,11 @@ void SHLChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfIgnoreGLForAspect.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (UnknownParameterWarningFieldMask & whichField))
+    {
+        _sfUnknownParameterWarning.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -392,6 +420,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
         _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
 
+    if(FieldBits::NoField != (UnknownParameterWarningFieldMask & whichField))
+        _sfUnknownParameterWarning.syncWith(pOther->_sfUnknownParameterWarning);
+
 
 }
 #else
@@ -413,6 +444,9 @@ void SHLChunkBase::executeSyncImpl(      SHLChunkBase *pOther,
 
     if(FieldBits::NoField != (IgnoreGLForAspectFieldMask & whichField))
         _sfIgnoreGLForAspect.syncWith(pOther->_sfIgnoreGLForAspect);
+
+    if(FieldBits::NoField != (UnknownParameterWarningFieldMask & whichField))
+        _sfUnknownParameterWarning.syncWith(pOther->_sfUnknownParameterWarning);
 
 
     if(FieldBits::NoField != (ProgramParameterNamesFieldMask & whichField))
@@ -469,7 +503,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.14 2006/11/17 17:16:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.15 2007/10/10 16:00:12 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
