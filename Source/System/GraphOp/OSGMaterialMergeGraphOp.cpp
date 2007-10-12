@@ -105,6 +105,10 @@ bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
         if(strcmp(fdesc->getCName(), "attachments") == 0)
             continue;
     
+        // ignore parents
+        if(strcmp(fdesc->getCName(), "parents") == 0)
+            continue;
+            
         Field *a_field = a->getField(i);
         Field *b_field = b->getField(i);
     
