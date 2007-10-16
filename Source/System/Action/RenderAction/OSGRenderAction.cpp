@@ -66,6 +66,7 @@
 #include <OSGMaterial.h>
 #include <OSGMultiPassMaterial.h>
 #include <OSGSwitchMaterial.h>
+#include <OSGSimpleMaterial.h>
 
 #include <OSGGeometry.h>
 #include <OSGSwitch.h>
@@ -261,6 +262,9 @@ RenderAction::RenderAction(void) :
     _uiActiveMatrix      (0),
     _pActiveState        (NULL),
 
+    _depthPassMaterial   (NullFC),
+    _depthPassState      (NULL),
+
     _uiNumMaterialChanges(0),
     _uiNumMatrixChanges  (0),
     _uiNumLightChanges   (0),
@@ -288,6 +292,7 @@ RenderAction::RenderAction(void) :
     _worldToScreenMatrix    (),
 
     _useGLFinish            (true),
+    _depth_only_pass        (false),
 
     _vLights(),
     _lightsMap(),
@@ -366,6 +371,13 @@ RenderAction::RenderAction(void) :
         _shlChunkId = shlChunk->getClass()->getId();
         subRefCP(shlChunk);
     }
+
+    SimpleMaterialPtr depthPassMaterial = SimpleMaterial::create();
+    beginEditCP(depthPassMaterial);
+        depthPassMaterial->setLit(false);
+    endEditCP(depthPassMaterial);
+    _depthPassMaterial = depthPassMaterial;
+    _depthPassState = _depthPassMaterial->getState().getCPtr();
 }
 
 
@@ -391,6 +403,9 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _uiActiveMatrix      (source._uiActiveMatrix),
     _pActiveState        (source._pActiveState),
+
+    _depthPassMaterial   (source._depthPassMaterial),
+    _depthPassState      (source._depthPassState),
 
     _uiNumMaterialChanges(source._uiNumMaterialChanges),
     _uiNumMatrixChanges  (source._uiNumMatrixChanges),
@@ -419,6 +434,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _worldToScreenMatrix    (source._worldToScreenMatrix),
 
     _useGLFinish            (source._useGLFinish),
+    _depth_only_pass        (source._depth_only_pass),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -495,6 +511,8 @@ RenderAction::~RenderAction(void)
     if(_occlusionQuery != 0)
         _glDeleteQueriesARB(1, &_occlusionQuery);
     deleteOcclusionQueriesPool();
+
+    subRefCP(_depthPassMaterial);
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -2043,7 +2061,7 @@ void RenderAction::updateShader(State *state)
         shlChunk->update(this);
 }
 
-void RenderAction::draw(DrawTreeNode *pRoot)
+void RenderAction::draw(DrawTreeNode *pRoot, bool depthPass)
 {
     while(pRoot != NULL)
     {
@@ -2090,14 +2108,20 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         setActNode(pRoot->getNode());
 
-        if(!isOccluded(pRoot))
+        if(!isOccluded(pRoot) || depthPass)
         {
-            if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
+            if(_bLocalLights && _activeLightsState != pRoot->getLightsState() &&
+               !depthPass)
                 activateLocalLights(pRoot);
 
             activateLocalClipPlanes(pRoot);
 
-            State *pNewState = pRoot->getState();
+            State *pNewState = NULL;
+
+            if(!depthPass)
+                pNewState = pRoot->getState();
+            else
+                pNewState = _depthPassState;
     
             if(pNewState != NULL)
             {
@@ -2158,7 +2182,7 @@ void RenderAction::draw(DrawTreeNode *pRoot)
 
         if(pRoot->getFirstChild() != NULL)
         {
-            draw(pRoot->getFirstChild());
+            draw(pRoot->getFirstChild(), depthPass);
         }
 
         pRoot = pRoot->getBrother();
@@ -2291,6 +2315,16 @@ void RenderAction::setUseGLFinish(bool s)
 bool RenderAction::getUseGLFinish(void) const
 {
     return _useGLFinish;
+}
+
+void RenderAction::setDepthOnlyPass(bool s)
+{
+    _depth_only_pass = s;
+}
+
+bool RenderAction::getDepthOnlyPass(void) const
+{
+    return _depth_only_pass;
 }
 
 
@@ -2471,6 +2505,24 @@ Action::ResultE RenderAction::stop(ResultE res)
     // disable all clipping planes.
     for(i = 0;i < 6;++i)
         glDisable(GL_CLIP_PLANE0 + i);
+
+
+    // do a depth only render pass.
+    if(_depth_only_pass)
+    {
+        glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
+        glShadeModel(GL_FLAT);
+        glDisable(GL_ALPHA_TEST);
+        glDepthMask(GL_TRUE);
+
+        for(SortKeyMap::iterator it = _pMatRoots.begin();it != _pMatRoots.end();++it)
+        {
+            draw((*it).second->getFirstChild(), true);
+        }
+    
+        glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+        glShadeModel(GL_SMOOTH);
+    }
 
     glDepthMask(GL_TRUE);
 

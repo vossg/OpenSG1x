@@ -224,6 +224,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setUseGLFinish(bool s);
     bool getUseGLFinish(void) const;
 
+    void setDepthOnlyPass(bool s);
+    bool getDepthOnlyPass(void) const;
+
     /*------------------------- comparison ----------------------------------*/
 
     bool isSmallFeature(const NodePtr &node);
@@ -310,6 +313,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _uiActiveMatrix;
     State                    *_pActiveState;
 
+    MaterialPtr               _depthPassMaterial;
+    State                    *_depthPassState;
+
     UInt32                    _uiNumMaterialChanges;
     UInt32                    _uiNumMatrixChanges;
     UInt32                    _uiNumLightChanges;
@@ -336,6 +342,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _smallFeaturesThreshold;
     Matrix                    _worldToScreenMatrix;
     bool                      _useGLFinish;
+    bool                      _depth_only_pass;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
@@ -399,7 +406,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
             void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
 
             void updateShader(State *state);
-    virtual void draw(DrawTreeNode *pRoot);
+    virtual void draw(DrawTreeNode *pRoot, bool depthPass = false);
 
     inline  void updateTopMatrix(void);
             void activateLocalLights(DrawTreeNode *pRoot);
