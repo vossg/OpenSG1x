@@ -2805,7 +2805,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     // calc the level count
     if(level < 0)
     {
-        level = calcMipmapLevelCount() - 1;
+        level = calcMipmapLevelCount();
     }
 
     // create destination image
@@ -3752,4 +3752,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-
