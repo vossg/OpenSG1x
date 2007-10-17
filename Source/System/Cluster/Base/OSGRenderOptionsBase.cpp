@@ -128,6 +128,9 @@ const OSG::BitVector  RenderOptionsBase::SmallFeatureThresholdFieldMask =
 const OSG::BitVector  RenderOptionsBase::FirstFrameFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::FirstFrameFieldId);
 
+const OSG::BitVector  RenderOptionsBase::DepthOnlyPassFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::DepthOnlyPassFieldId);
+
 const OSG::BitVector RenderOptionsBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -196,6 +199,9 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
     
 */
 /*! \var bool            RenderOptionsBase::_sfFirstFrame
+    
+*/
+/*! \var bool            RenderOptionsBase::_sfDepthOnlyPass
     
 */
 
@@ -307,7 +313,12 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      "firstFrame", 
                      FirstFrameFieldId, FirstFrameFieldMask,
                      false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFFirstFrame)
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFirstFrame),
+    new FieldDescription(SFBool::getClassType(), 
+                     "depthOnlyPass", 
+                     DepthOnlyPassFieldId, DepthOnlyPassFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFDepthOnlyPass)
 };
 
 
@@ -404,6 +415,7 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfSmallFeaturePixels     (), 
     _sfSmallFeatureThreshold  (), 
     _sfFirstFrame             (bool(true)), 
+    _sfDepthOnlyPass          (bool(false)), 
     Inherited() 
 {
 }
@@ -434,6 +446,7 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfSmallFeaturePixels     (source._sfSmallFeaturePixels     ), 
     _sfSmallFeatureThreshold  (source._sfSmallFeatureThreshold  ), 
     _sfFirstFrame             (source._sfFirstFrame             ), 
+    _sfDepthOnlyPass          (source._sfDepthOnlyPass          ), 
     Inherited                 (source)
 {
 }
@@ -555,6 +568,11 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFirstFrame.getBinSize();
     }
 
+    if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
+    {
+        returnValue += _sfDepthOnlyPass.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -667,6 +685,11 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
     {
         _sfFirstFrame.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
+    {
+        _sfDepthOnlyPass.copyToBin(pMem);
     }
 
 
@@ -782,6 +805,11 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFirstFrame.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
+    {
+        _sfDepthOnlyPass.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -854,6 +882,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
         _sfFirstFrame.syncWith(pOther->_sfFirstFrame);
+
+    if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
+        _sfDepthOnlyPass.syncWith(pOther->_sfDepthOnlyPass);
 
 
 }
@@ -928,6 +959,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (FirstFrameFieldMask & whichField))
         _sfFirstFrame.syncWith(pOther->_sfFirstFrame);
 
+    if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
+        _sfDepthOnlyPass.syncWith(pOther->_sfDepthOnlyPass);
+
 
 
 }
@@ -971,7 +1005,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.7 2007/07/03 09:16:10 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.8 2007/10/17 10:36:18 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

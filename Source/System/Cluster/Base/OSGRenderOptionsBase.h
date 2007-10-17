@@ -88,6 +88,7 @@
 #include <OSGReal32Fields.h> // SmallFeaturePixels type
 #include <OSGUInt32Fields.h> // SmallFeatureThreshold type
 #include <OSGBoolFields.h> // FirstFrame type
+#include <OSGBoolFields.h> // DepthOnlyPass type
 
 #include <OSGRenderOptionsFields.h>
 
@@ -132,7 +133,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         SmallFeaturePixelsFieldId      = SmallFeatureCullingFieldId     + 1,
         SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
         FirstFrameFieldId              = SmallFeatureThresholdFieldId   + 1,
-        NextFieldId                    = FirstFrameFieldId              + 1
+        DepthOnlyPassFieldId           = FirstFrameFieldId              + 1,
+        NextFieldId                    = DepthOnlyPassFieldId           + 1
     };
 
     static const OSG::BitVector StatisticFieldMask;
@@ -156,6 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector SmallFeaturePixelsFieldMask;
     static const OSG::BitVector SmallFeatureThresholdFieldMask;
     static const OSG::BitVector FirstFrameFieldMask;
+    static const OSG::BitVector DepthOnlyPassFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -203,6 +206,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFReal32            *getSFSmallFeaturePixels(void);
            SFUInt32            *getSFSmallFeatureThreshold(void);
            SFBool              *getSFFirstFrame     (void);
+           SFBool              *getSFDepthOnlyPass  (void);
 
            bool                &getStatistic      (void);
      const bool                &getStatistic      (void) const;
@@ -246,6 +250,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const UInt32              &getSmallFeatureThreshold(void) const;
            bool                &getFirstFrame     (void);
      const bool                &getFirstFrame     (void) const;
+           bool                &getDepthOnlyPass  (void);
+     const bool                &getDepthOnlyPass  (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -273,6 +279,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setSmallFeaturePixels( const Real32 &value );
      void setSmallFeatureThreshold( const UInt32 &value );
      void setFirstFrame     ( const bool &value );
+     void setDepthOnlyPass  ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -336,6 +343,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFReal32            _sfSmallFeaturePixels;
     SFUInt32            _sfSmallFeatureThreshold;
     SFBool              _sfFirstFrame;
+    SFBool              _sfDepthOnlyPass;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -413,6 +421,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.7 2007/07/03 09:16:10 yjung Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.8 2007/10/17 10:36:18 a-m-z Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

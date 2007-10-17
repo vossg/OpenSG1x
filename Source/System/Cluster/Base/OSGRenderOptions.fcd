@@ -200,4 +200,13 @@
 		access="public"
 	>
 	</Field>
+    <Field
+		name="depthOnlyPass"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

@@ -243,6 +243,13 @@ SFBool *RenderOptionsBase::getSFFirstFrame(void)
     return &_sfFirstFrame;
 }
 
+//! Get the RenderOptions::_sfDepthOnlyPass field.
+inline
+SFBool *RenderOptionsBase::getSFDepthOnlyPass(void)
+{
+    return &_sfDepthOnlyPass;
+}
+
 
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
@@ -685,8 +692,29 @@ void RenderOptionsBase::setFirstFrame(const bool &value)
     _sfFirstFrame.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfDepthOnlyPass field.
+inline
+bool &RenderOptionsBase::getDepthOnlyPass(void)
+{
+    return _sfDepthOnlyPass.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfDepthOnlyPass field.
+inline
+const bool &RenderOptionsBase::getDepthOnlyPass(void) const
+{
+    return _sfDepthOnlyPass.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfDepthOnlyPass field.
+inline
+void RenderOptionsBase::setDepthOnlyPass(const bool &value)
+{
+    _sfDepthOnlyPass.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.7 2007/07/03 09:16:10 yjung Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.8 2007/10/17 10:36:18 a-m-z Exp $"
 
