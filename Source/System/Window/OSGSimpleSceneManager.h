@@ -188,7 +188,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleSceneManager
     StatisticsForegroundPtr      _statforeground;
     bool                         _statstate;
 
-    NodePtr                      _highlight;
+    NodeRefPtr                   _highlight;
     NodePtr                      _highlightNode;
     GeoPositions3fPtr            _highlightPoints;
      
