@@ -124,6 +124,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindow : public ClusterWindowBase
     void           setStatistics(StatCollector * stat  );
 
     /*! \}                                                                 */
+
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+ 
+    static StatElemDesc<StatTimeElem> statActivateTime;
+    static StatElemDesc<StatTimeElem> statFrameInitTime;
+    static StatElemDesc<StatTimeElem> statRAVTime;
+    static StatElemDesc<StatTimeElem> statSwapTime;
+    static StatElemDesc<StatTimeElem> statFrameExitTime;
+
+    /*! \}                                                                 */
+
     /*---------------------------------------------------------------------*/
     /*! \name                   Calibration                                */
     /*! \{                                                                 */

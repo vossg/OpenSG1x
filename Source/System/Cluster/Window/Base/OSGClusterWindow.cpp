@@ -81,6 +81,21 @@ OSG_USING_NAMESPACE
  *
  **/
 
+StatElemDesc<StatTimeElem> ClusterWindow::statActivateTime
+  ("statActivateTime", "time to activate remote window");
+
+StatElemDesc<StatTimeElem> ClusterWindow::statFrameInitTime
+  ("statFrameInitTime", "time to frameInit remote window");
+
+StatElemDesc<StatTimeElem> ClusterWindow::statRAVTime
+  ("statRAVTime", "time to RAV remote window");
+
+StatElemDesc<StatTimeElem> ClusterWindow::statSwapTime
+  ("statSwapTime", "time to swap remote window");
+
+StatElemDesc<StatTimeElem> ClusterWindow::statFrameExitTime
+  ("statFrameExitTime", "time to frameExit remote window");
+
 /*-------------------------------------------------------------------------*/
 /*                          window functions                               */
 
@@ -465,11 +480,41 @@ void ClusterWindow::setConnectionCB(connectioncbfp fp)
 
 void ClusterWindow::render(RenderActionBase *action)
 {
-    activate();
-    frameInit();
-    renderAllViewports(action);
-    swap();
-    frameExit();
+  // activate
+  if (_statistics)
+    _statistics->getElem(statActivateTime)->start();
+  activate();
+  if (_statistics)
+    _statistics->getElem(statActivateTime)->stop();
+
+  // frameInit
+  if (_statistics)
+    _statistics->getElem(statFrameInitTime)->start();  
+  frameInit();
+  if (_statistics)
+    _statistics->getElem(statFrameInitTime)->stop();  
+
+  // RenderAllViewports
+  if (_statistics)
+    _statistics->getElem(statRAVTime)->start();
+  renderAllViewports(action);
+  if (_statistics)
+    _statistics->getElem(statRAVTime)->stop();
+
+  // swap
+  if (_statistics)
+    _statistics->getElem(statSwapTime)->start();
+  swap();
+  if (_statistics)
+    _statistics->getElem(statSwapTime)->stop();
+
+  // frameExit
+  if (_statistics)
+    _statistics->getElem(statFrameExitTime)->start();  
+  frameExit();
+  if (_statistics)
+    _statistics->getElem(statFrameExitTime)->stop();  
+
 }
 
 void ClusterWindow::activate( void )
