@@ -139,6 +139,14 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
 
     /*! \}                                                                 */
 
+    /*---------------------------------------------------------------------*/
+    /*! \name                  static stat elem                            */
+    /*! \{                                                                 */
+ 
+    static StatElemDesc<StatTimeElem> statSyncTime;
+
+    /*! \}                                                                 */
+
     /*=========================  PROTECTED  ===============================*/
   protected:
     /*---------------------------------------------------------------------*/
@@ -215,7 +223,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     static bool _defaultChangedFunction  (FieldContainerPtr& fcp,
                                           RemoteAspect * aspect);
 
-    static StatElemDesc<StatTimeElem> statSyncTime;
     /*! \}                                                                 */
 
     friend class RemoteAspectFieldContainerMapper;
