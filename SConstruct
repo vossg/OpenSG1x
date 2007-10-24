@@ -1035,6 +1035,9 @@ class win32_msvc80(win32_msvc_base):
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
 
+        # disables extra checks in the STL.
+        env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
         # add msvc80 include and lib paths
@@ -1067,6 +1070,9 @@ class win32_msvc80x64(win32_msvc_base):
         env = self.get_env()
 
         env.Append(CPPDEFINES =['WIN64'])
+        # disables extra checks in the STL.
+        env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
 
