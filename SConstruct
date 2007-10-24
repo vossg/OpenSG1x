@@ -532,6 +532,7 @@ class PlatformOptions:
         opts.Add(BoolOption('invalid_pointer_check', 'enable invalid pointer check', 0))
 
         opts.Add(BoolOption('force_inline', 'enable force inline, msvc compiler only', 0))
+        opts.Add(BoolOption('no_secure_stl', 'disables secure stl for msvc 80 compiler', 0))
 
         opts.Add(BoolOption('force_aspect', 'enable force aspect, allows running external threads (read only) without initializing them, quite usefull for the Intel Threading Building Blocks library.', 0))
 
@@ -1036,7 +1037,8 @@ class win32_msvc80(win32_msvc_base):
                              '/Zm1200', '/Zc:forScope'])
 
         # disables extra checks in the STL.
-        env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+        if _po.getOption('no_secure_stl'):
+            env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
 
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
@@ -1071,7 +1073,8 @@ class win32_msvc80x64(win32_msvc_base):
 
         env.Append(CPPDEFINES =['WIN64'])
         # disables extra checks in the STL.
-        env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+        if _po.getOption('no_secure_stl'):
+            env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
