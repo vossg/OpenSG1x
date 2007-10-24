@@ -153,7 +153,8 @@ void Image::changed(BitVector whichField, UInt32 origin)
     setComponentSize( typeFormat );
     setSideSize ( calcMipmapSumSize(getMipMapCount()) );
     setFrameSize( getSideSize() * getSideCount() );
-   
+    calcMipmapOffsets();
+
     Inherited::changed(whichField, origin);
 }
 
@@ -333,6 +334,8 @@ bool Image::set(UInt32 pF,
               FrameCountFieldMask |
               FrameDelayFieldMask |
               DataTypeFieldMask);
+
+    calcMipmapOffsets();
 
     return createData(da, allocMem);
 }
@@ -3204,7 +3207,8 @@ UInt64 Image::restore(const UChar8 *mem, Int32 memSize)
 /*! Default Constructor. Creates a invalid Image of the size 0x0x0
  */
 Image::Image(void) :
-    Inherited()
+    Inherited(),
+    _mipmapOffset()
 {
     setPixelFormat(OSG_INVALID_PF);
     return;
@@ -3213,7 +3217,8 @@ Image::Image(void) :
 /*! Copy Constructor. Creates a copy of the given image
  */
 Image::Image(const Image &obj) :
-    Inherited(obj)
+    Inherited(obj),
+    _mipmapOffset(obj._mipmapOffset)
 {
 }
 
@@ -3525,6 +3530,38 @@ UInt32 Image::calcMipmapSumSize ( UInt32 mipmapNum,
 UInt32 Image::calcMipmapSumSize (UInt32 mipmapNum) const
 {
     return calcMipmapSumSize(mipmapNum,getWidth(),getHeight(),getDepth());
+}
+
+void Image::calcMipmapOffsets(void)
+{
+    UInt32 mipMapCount = getMipMapCount();
+    
+    if(mipMapCount == 0)
+        mipMapCount = 1;
+
+    _mipmapOffset.resize(mipMapCount);
+
+    /*
+    for(UInt32 i=0;i<mipMapCount;++i)
+        _mipmapOffset[i] = calcMipmapSumSize[i];
+    */
+
+    Int32 sum = 0;
+
+    UInt32 w = getWidth();
+    UInt32 h = getHeight();
+    UInt32 d = getDepth();
+
+    _mipmapOffset[0] = 0;
+    for(UInt32 i=1;i<mipMapCount;++i)
+    {
+        sum += calcMipmapLevelSize(i,w,h,d);
+        _mipmapOffset[i] = sum;
+
+        w >>= 1;
+        h >>= 1;
+        d >>= 1;
+    }
 }
 
 /*-------------------------------------------------------------------------*/

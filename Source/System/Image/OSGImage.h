@@ -307,6 +307,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                                   UInt32 frameNum = 0,
                                   UInt32 sideNum = 0 );
 
+    inline const UInt8 *getDataFast ( UInt32 mipmapNum = 0,
+                                      UInt32 frameNum = 0,
+                                      UInt32 sideNum = 0 ) const;
+    inline       UInt8 *getDataFast ( UInt32 mipmapNum = 0,
+                                      UInt32 frameNum = 0,
+                                      UInt32 sideNum = 0 );
+
     UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
 
     /*! \}                                                                 */
@@ -407,10 +414,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
                       UInt8* destData,
                       Int32 destW, Int32 destH, Int32 destD );
 
+    void calcMipmapOffsets(void);
+
     /*! \}                                                                 */
 
     friend class FieldContainer;
     friend class ImageBase;
+
+    std::vector<Int32> _mipmapOffset;
 
     static void initMethod(void);
 };

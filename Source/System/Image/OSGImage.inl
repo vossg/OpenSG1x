@@ -100,6 +100,34 @@ inline const UInt8 *Image::getData( UInt32 mipmapNum,
     return data;
 }
 
+/*! returns a data pointer for a single frame/mipmap chunk
+ */
+inline UInt8 *Image::getDataFast( UInt32 mipmapNum, 
+                                  UInt32 frameNum,
+                                  UInt32 sideNum )
+{
+    UInt8 *data = (&getPixel()[0]) +  (sideNum * getSideSize()) +
+                  (frameNum * getFrameSize());
+
+    data += _mipmapOffset[mipmapNum];
+
+    return data;
+}
+
+/*! returns a data pointer for a single frame/mipmap chunk
+ */
+inline const UInt8 *Image::getDataFast( UInt32 mipmapNum,
+                                        UInt32 frameNum,
+                                        UInt32 sideNum ) const
+{
+    const UInt8 *data = (&getPixel()[0]) + (sideNum * getSideSize()) +
+                        (frameNum * getFrameSize());
+
+    data += _mipmapOffset[mipmapNum];
+
+    return data;
+}
+
 /*! Add a field container as a parent of this Image.
     
     You should not have to call this method yourself.
