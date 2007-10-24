@@ -1038,7 +1038,7 @@ class win32_msvc80(win32_msvc_base):
 
         # disables extra checks in the STL.
         if _po.getOption('no_secure_stl'):
-            env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+            env.Append(CPPDEFINES=['_SECURE_SCL=0'])
 
         #env.Append(LINKFLAGS=['/MANIFEST:NO'])
 
@@ -1074,7 +1074,7 @@ class win32_msvc80x64(win32_msvc_base):
         env.Append(CPPDEFINES =['WIN64'])
         # disables extra checks in the STL.
         if _po.getOption('no_secure_stl'):
-            env.Append(CPPDEFINES=['_HAS_ITERATOR_DEBUGGING=0', '_SECURE_SCL=0'])
+            env.Append(CPPDEFINES=['_SECURE_SCL=0'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
