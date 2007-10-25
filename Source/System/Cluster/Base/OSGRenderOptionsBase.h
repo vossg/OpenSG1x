@@ -89,6 +89,11 @@
 #include <OSGUInt32Fields.h> // SmallFeatureThreshold type
 #include <OSGBoolFields.h> // FirstFrame type
 #include <OSGBoolFields.h> // DepthOnlyPass type
+#include <OSGColor4fFields.h> // LightModelAmbient type
+#include <OSGColor4fFields.h> // FogColor type
+#include <OSGVec2fFields.h> // FogRange type
+#include <OSGReal32Fields.h> // FogDensity type
+#include <OSGInt32Fields.h> // FogMode type
 
 #include <OSGRenderOptionsFields.h>
 
@@ -134,7 +139,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
         FirstFrameFieldId              = SmallFeatureThresholdFieldId   + 1,
         DepthOnlyPassFieldId           = FirstFrameFieldId              + 1,
-        NextFieldId                    = DepthOnlyPassFieldId           + 1
+        LightModelAmbientFieldId       = DepthOnlyPassFieldId           + 1,
+        FogColorFieldId                = LightModelAmbientFieldId       + 1,
+        FogRangeFieldId                = FogColorFieldId                + 1,
+        FogDensityFieldId              = FogRangeFieldId                + 1,
+        FogModeFieldId                 = FogDensityFieldId              + 1,
+        NextFieldId                    = FogModeFieldId                 + 1
     };
 
     static const OSG::BitVector StatisticFieldMask;
@@ -159,6 +169,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector SmallFeatureThresholdFieldMask;
     static const OSG::BitVector FirstFrameFieldMask;
     static const OSG::BitVector DepthOnlyPassFieldMask;
+    static const OSG::BitVector LightModelAmbientFieldMask;
+    static const OSG::BitVector FogColorFieldMask;
+    static const OSG::BitVector FogRangeFieldMask;
+    static const OSG::BitVector FogDensityFieldMask;
+    static const OSG::BitVector FogModeFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -207,6 +222,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            SFUInt32            *getSFSmallFeatureThreshold(void);
            SFBool              *getSFFirstFrame     (void);
            SFBool              *getSFDepthOnlyPass  (void);
+           SFColor4f           *getSFLightModelAmbient(void);
+           SFColor4f           *getSFFogColor       (void);
+           SFVec2f             *getSFFogRange       (void);
+           SFReal32            *getSFFogDensity     (void);
+           SFInt32             *getSFFogMode        (void);
 
            bool                &getStatistic      (void);
      const bool                &getStatistic      (void) const;
@@ -252,6 +272,16 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const bool                &getFirstFrame     (void) const;
            bool                &getDepthOnlyPass  (void);
      const bool                &getDepthOnlyPass  (void) const;
+           Color4f             &getLightModelAmbient(void);
+     const Color4f             &getLightModelAmbient(void) const;
+           Color4f             &getFogColor       (void);
+     const Color4f             &getFogColor       (void) const;
+           Vec2f               &getFogRange       (void);
+     const Vec2f               &getFogRange       (void) const;
+           Real32              &getFogDensity     (void);
+     const Real32              &getFogDensity     (void) const;
+           Int32               &getFogMode        (void);
+     const Int32               &getFogMode        (void) const;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +310,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setSmallFeatureThreshold( const UInt32 &value );
      void setFirstFrame     ( const bool &value );
      void setDepthOnlyPass  ( const bool &value );
+     void setLightModelAmbient( const Color4f &value );
+     void setFogColor       ( const Color4f &value );
+     void setFogRange       ( const Vec2f &value );
+     void setFogDensity     ( const Real32 &value );
+     void setFogMode        ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -344,6 +379,11 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFUInt32            _sfSmallFeatureThreshold;
     SFBool              _sfFirstFrame;
     SFBool              _sfDepthOnlyPass;
+    SFColor4f           _sfLightModelAmbient;
+    SFColor4f           _sfFogColor;
+    SFVec2f             _sfFogRange;
+    SFReal32            _sfFogDensity;
+    SFInt32             _sfFogMode;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -421,6 +461,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.8 2007/10/17 10:36:18 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.9 2007/10/25 14:31:27 yjung Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

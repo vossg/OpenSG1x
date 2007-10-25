@@ -218,7 +218,21 @@ void RenderOptions::activateOptions(RenderAction *action)
             glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
         else
             glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SINGLE_COLOR);
-    } 
+    }
+    
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, getLightModelAmbient().getValuesRGBA());
+
+    if ( getFogMode() ) {
+        glEnable(GL_FOG);
+        glFogi(GL_FOG_MODE, getFogMode());
+        glFogf(GL_FOG_DENSITY, getFogDensity());
+        glFogf(GL_FOG_START, getFogRange().x());
+        glFogf(GL_FOG_END, getFogRange().y());
+        glFogfv(GL_FOG_COLOR, getFogColor().getValuesRGBA());
+    }
+	else {
+		glDisable(GL_FOG);
+	}
 
     _last_changed = _changed;
     _changed = 0;

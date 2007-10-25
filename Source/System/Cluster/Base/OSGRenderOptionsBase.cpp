@@ -131,6 +131,21 @@ const OSG::BitVector  RenderOptionsBase::FirstFrameFieldMask =
 const OSG::BitVector  RenderOptionsBase::DepthOnlyPassFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::DepthOnlyPassFieldId);
 
+const OSG::BitVector  RenderOptionsBase::LightModelAmbientFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::LightModelAmbientFieldId);
+
+const OSG::BitVector  RenderOptionsBase::FogColorFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FogColorFieldId);
+
+const OSG::BitVector  RenderOptionsBase::FogRangeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FogRangeFieldId);
+
+const OSG::BitVector  RenderOptionsBase::FogDensityFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FogDensityFieldId);
+
+const OSG::BitVector  RenderOptionsBase::FogModeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::FogModeFieldId);
+
 const OSG::BitVector RenderOptionsBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -202,6 +217,21 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
     
 */
 /*! \var bool            RenderOptionsBase::_sfDepthOnlyPass
+    
+*/
+/*! \var Color4f         RenderOptionsBase::_sfLightModelAmbient
+    
+*/
+/*! \var Color4f         RenderOptionsBase::_sfFogColor
+    
+*/
+/*! \var Vec2f           RenderOptionsBase::_sfFogRange
+    
+*/
+/*! \var Real32          RenderOptionsBase::_sfFogDensity
+    
+*/
+/*! \var Int32           RenderOptionsBase::_sfFogMode
     
 */
 
@@ -318,7 +348,32 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      "depthOnlyPass", 
                      DepthOnlyPassFieldId, DepthOnlyPassFieldMask,
                      false,
-                     (FieldAccessMethod) &RenderOptionsBase::getSFDepthOnlyPass)
+                     (FieldAccessMethod) &RenderOptionsBase::getSFDepthOnlyPass),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "lightModelAmbient", 
+                     LightModelAmbientFieldId, LightModelAmbientFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFLightModelAmbient),
+    new FieldDescription(SFColor4f::getClassType(), 
+                     "fogColor", 
+                     FogColorFieldId, FogColorFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFogColor),
+    new FieldDescription(SFVec2f::getClassType(), 
+                     "fogRange", 
+                     FogRangeFieldId, FogRangeFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFogRange),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "fogDensity", 
+                     FogDensityFieldId, FogDensityFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFogDensity),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "fogMode", 
+                     FogModeFieldId, FogModeFieldMask,
+                     false,
+                     (FieldAccessMethod) &RenderOptionsBase::getSFFogMode)
 };
 
 
@@ -416,6 +471,11 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfSmallFeatureThreshold  (), 
     _sfFirstFrame             (bool(true)), 
     _sfDepthOnlyPass          (bool(false)), 
+    _sfLightModelAmbient      (Color4f(0.2,0.2,0.2,1.0)), 
+    _sfFogColor               (Color4f(0,0,0,0)), 
+    _sfFogRange               (Vec2f(0,1)), 
+    _sfFogDensity             (Real32(1)), 
+    _sfFogMode                (Int32(0)), 
     Inherited() 
 {
 }
@@ -447,6 +507,11 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfSmallFeatureThreshold  (source._sfSmallFeatureThreshold  ), 
     _sfFirstFrame             (source._sfFirstFrame             ), 
     _sfDepthOnlyPass          (source._sfDepthOnlyPass          ), 
+    _sfLightModelAmbient      (source._sfLightModelAmbient      ), 
+    _sfFogColor               (source._sfFogColor               ), 
+    _sfFogRange               (source._sfFogRange               ), 
+    _sfFogDensity             (source._sfFogDensity             ), 
+    _sfFogMode                (source._sfFogMode                ), 
     Inherited                 (source)
 {
 }
@@ -573,6 +638,31 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
         returnValue += _sfDepthOnlyPass.getBinSize();
     }
 
+    if(FieldBits::NoField != (LightModelAmbientFieldMask & whichField))
+    {
+        returnValue += _sfLightModelAmbient.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FogColorFieldMask & whichField))
+    {
+        returnValue += _sfFogColor.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FogRangeFieldMask & whichField))
+    {
+        returnValue += _sfFogRange.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FogDensityFieldMask & whichField))
+    {
+        returnValue += _sfFogDensity.getBinSize();
+    }
+
+    if(FieldBits::NoField != (FogModeFieldMask & whichField))
+    {
+        returnValue += _sfFogMode.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -690,6 +780,31 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
     {
         _sfDepthOnlyPass.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (LightModelAmbientFieldMask & whichField))
+    {
+        _sfLightModelAmbient.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogColorFieldMask & whichField))
+    {
+        _sfFogColor.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogRangeFieldMask & whichField))
+    {
+        _sfFogRange.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogDensityFieldMask & whichField))
+    {
+        _sfFogDensity.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogModeFieldMask & whichField))
+    {
+        _sfFogMode.copyToBin(pMem);
     }
 
 
@@ -810,6 +925,31 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfDepthOnlyPass.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (LightModelAmbientFieldMask & whichField))
+    {
+        _sfLightModelAmbient.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogColorFieldMask & whichField))
+    {
+        _sfFogColor.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogRangeFieldMask & whichField))
+    {
+        _sfFogRange.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogDensityFieldMask & whichField))
+    {
+        _sfFogDensity.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FogModeFieldMask & whichField))
+    {
+        _sfFogMode.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -885,6 +1025,21 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
         _sfDepthOnlyPass.syncWith(pOther->_sfDepthOnlyPass);
+
+    if(FieldBits::NoField != (LightModelAmbientFieldMask & whichField))
+        _sfLightModelAmbient.syncWith(pOther->_sfLightModelAmbient);
+
+    if(FieldBits::NoField != (FogColorFieldMask & whichField))
+        _sfFogColor.syncWith(pOther->_sfFogColor);
+
+    if(FieldBits::NoField != (FogRangeFieldMask & whichField))
+        _sfFogRange.syncWith(pOther->_sfFogRange);
+
+    if(FieldBits::NoField != (FogDensityFieldMask & whichField))
+        _sfFogDensity.syncWith(pOther->_sfFogDensity);
+
+    if(FieldBits::NoField != (FogModeFieldMask & whichField))
+        _sfFogMode.syncWith(pOther->_sfFogMode);
 
 
 }
@@ -962,6 +1117,21 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (DepthOnlyPassFieldMask & whichField))
         _sfDepthOnlyPass.syncWith(pOther->_sfDepthOnlyPass);
 
+    if(FieldBits::NoField != (LightModelAmbientFieldMask & whichField))
+        _sfLightModelAmbient.syncWith(pOther->_sfLightModelAmbient);
+
+    if(FieldBits::NoField != (FogColorFieldMask & whichField))
+        _sfFogColor.syncWith(pOther->_sfFogColor);
+
+    if(FieldBits::NoField != (FogRangeFieldMask & whichField))
+        _sfFogRange.syncWith(pOther->_sfFogRange);
+
+    if(FieldBits::NoField != (FogDensityFieldMask & whichField))
+        _sfFogDensity.syncWith(pOther->_sfFogDensity);
+
+    if(FieldBits::NoField != (FogModeFieldMask & whichField))
+        _sfFogMode.syncWith(pOther->_sfFogMode);
+
 
 
 }
@@ -1005,7 +1175,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.8 2007/10/17 10:36:18 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.9 2007/10/25 14:31:27 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

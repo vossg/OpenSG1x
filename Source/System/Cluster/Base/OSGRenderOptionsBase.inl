@@ -250,6 +250,41 @@ SFBool *RenderOptionsBase::getSFDepthOnlyPass(void)
     return &_sfDepthOnlyPass;
 }
 
+//! Get the RenderOptions::_sfLightModelAmbient field.
+inline
+SFColor4f *RenderOptionsBase::getSFLightModelAmbient(void)
+{
+    return &_sfLightModelAmbient;
+}
+
+//! Get the RenderOptions::_sfFogColor field.
+inline
+SFColor4f *RenderOptionsBase::getSFFogColor(void)
+{
+    return &_sfFogColor;
+}
+
+//! Get the RenderOptions::_sfFogRange field.
+inline
+SFVec2f *RenderOptionsBase::getSFFogRange(void)
+{
+    return &_sfFogRange;
+}
+
+//! Get the RenderOptions::_sfFogDensity field.
+inline
+SFReal32 *RenderOptionsBase::getSFFogDensity(void)
+{
+    return &_sfFogDensity;
+}
+
+//! Get the RenderOptions::_sfFogMode field.
+inline
+SFInt32 *RenderOptionsBase::getSFFogMode(void)
+{
+    return &_sfFogMode;
+}
+
 
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
@@ -713,8 +748,113 @@ void RenderOptionsBase::setDepthOnlyPass(const bool &value)
     _sfDepthOnlyPass.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfLightModelAmbient field.
+inline
+Color4f &RenderOptionsBase::getLightModelAmbient(void)
+{
+    return _sfLightModelAmbient.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfLightModelAmbient field.
+inline
+const Color4f &RenderOptionsBase::getLightModelAmbient(void) const
+{
+    return _sfLightModelAmbient.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfLightModelAmbient field.
+inline
+void RenderOptionsBase::setLightModelAmbient(const Color4f &value)
+{
+    _sfLightModelAmbient.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfFogColor field.
+inline
+Color4f &RenderOptionsBase::getFogColor(void)
+{
+    return _sfFogColor.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFogColor field.
+inline
+const Color4f &RenderOptionsBase::getFogColor(void) const
+{
+    return _sfFogColor.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFogColor field.
+inline
+void RenderOptionsBase::setFogColor(const Color4f &value)
+{
+    _sfFogColor.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfFogRange field.
+inline
+Vec2f &RenderOptionsBase::getFogRange(void)
+{
+    return _sfFogRange.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFogRange field.
+inline
+const Vec2f &RenderOptionsBase::getFogRange(void) const
+{
+    return _sfFogRange.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFogRange field.
+inline
+void RenderOptionsBase::setFogRange(const Vec2f &value)
+{
+    _sfFogRange.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfFogDensity field.
+inline
+Real32 &RenderOptionsBase::getFogDensity(void)
+{
+    return _sfFogDensity.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFogDensity field.
+inline
+const Real32 &RenderOptionsBase::getFogDensity(void) const
+{
+    return _sfFogDensity.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFogDensity field.
+inline
+void RenderOptionsBase::setFogDensity(const Real32 &value)
+{
+    _sfFogDensity.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfFogMode field.
+inline
+Int32 &RenderOptionsBase::getFogMode(void)
+{
+    return _sfFogMode.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfFogMode field.
+inline
+const Int32 &RenderOptionsBase::getFogMode(void) const
+{
+    return _sfFogMode.getValue();
+}
+
+//! Set the value of the RenderOptions::_sfFogMode field.
+inline
+void RenderOptionsBase::setFogMode(const Int32 &value)
+{
+    _sfFogMode.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.8 2007/10/17 10:36:18 a-m-z Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.9 2007/10/25 14:31:27 yjung Exp $"
 
