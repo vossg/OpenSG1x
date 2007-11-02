@@ -83,6 +83,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunk : public SHLParameterChunkBase
                       const BitVector  bvFlags  = 0) const;
 
     /*! \}                                                                 */
+    /*! \name                       Set                                    */
+    /*! \{                                                                 */
+
+    void setSHLChunk(const SHLChunkPtr &value);
+
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                       State                                  */
     /*! \{                                                                 */
@@ -161,6 +167,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLParameterChunkBase.inl>
 #include <OSGSHLParameterChunk.inl>
 
-#define OSGSHLPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunk.h,v 1.2 2004/08/27 12:50:51 a-m-z Exp $"
+#define OSGSHLPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunk.h,v 1.3 2007/11/02 15:32:24 a-m-z Exp $"
 
 #endif /* _OSGSHLPARAMETERCHUNK_H_ */

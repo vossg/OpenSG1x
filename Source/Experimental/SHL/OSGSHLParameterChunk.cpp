@@ -101,6 +101,7 @@ SHLParameterChunk::SHLParameterChunk(const SHLParameterChunk &source) :
 
 SHLParameterChunk::~SHLParameterChunk(void)
 {
+    subRefCP(_sfSHLChunk.getValue());
 }
 
 const StateChunkClass *SHLParameterChunk::getClass(void) const
@@ -112,6 +113,25 @@ const StateChunkClass *SHLParameterChunk::getClass(void) const
 
 void SHLParameterChunk::changed(BitVector whichField, UInt32 origin)
 {
+    if(whichField & SHLChunkFieldMask)
+    {
+        if(origin & ChangedOrigin::Abstract)
+        {
+            if(origin & ChangedOrigin::AbstrIncRefCount)
+            {
+                addRefCP(_sfSHLChunk.getValue());
+            }
+            else
+            {
+                SHLChunkPtr shl = _sfSHLChunk.getValue();
+
+                _sfSHLChunk.setValue(NullFC);
+
+                setSHLChunk(shl);
+            }
+        }
+    }
+
     Inherited::changed(whichField, origin);
 }
 
@@ -205,7 +225,7 @@ bool SHLParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.4 2006/09/01 16:39:42 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.5 2007/11/02 15:32:24 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

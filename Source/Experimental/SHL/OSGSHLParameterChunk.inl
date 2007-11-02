@@ -43,6 +43,12 @@
 OSG_BEGIN_NAMESPACE
 
 inline
+void SHLParameterChunk::setSHLChunk(const SHLChunkPtr &value)
+{
+    setRefdCP(_sfSHLChunk.getValue(), value);
+}
+
+inline
 void SHLParameterChunk::updateParameters(Window *win)
 {
     SHLChunkPtr shl = getSHLChunk();
@@ -58,4 +64,4 @@ void SHLParameterChunk::updateParameters(Window *win)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.4 2005/03/28 21:23:43 dirk Exp $"
+#define OSGSHLPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunk.inl,v 1.5 2007/11/02 15:32:24 a-m-z Exp $"
