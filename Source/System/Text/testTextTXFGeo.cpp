@@ -633,11 +633,20 @@ void updateScene()
     }
     endEditCP(matChunk);
 
+    BlendChunkPtr blendChunk = BlendChunk::create();
+    beginEditCP(blendChunk);
+    {
+        blendChunk->setSrcFactor(GL_SRC_ALPHA);
+        blendChunk->setDestFactor(GL_ONE_MINUS_SRC_ALPHA);
+    }
+    endEditCP(blendChunk);
+
     ChunkMaterialPtr m = ChunkMaterial::create();
     beginEditCP(m);
     {
         m->addChunk(texChunk);
         m->addChunk(matChunk);
+        m->addChunk(blendChunk);
     }
     endEditCP(m);
 
@@ -739,8 +748,6 @@ int main(int argc, char **argv)
 // redraw the window
 void display( void )
 {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mgr->redraw();
 }
 
