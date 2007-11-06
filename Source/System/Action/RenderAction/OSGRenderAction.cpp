@@ -293,6 +293,7 @@ RenderAction::RenderAction(void) :
 
     _useGLFinish            (true),
     _depth_only_pass        (false),
+    _noDepthPathMatTypes    (),
 
     _vLights(),
     _lightsMap(),
@@ -435,6 +436,7 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _useGLFinish            (source._useGLFinish),
     _depth_only_pass        (source._depth_only_pass),
+    _noDepthPathMatTypes    (source._noDepthPathMatTypes),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -566,6 +568,31 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
     }
 }
 
+void RenderAction::setNoDepthPassMatTypes(const std::vector<FieldContainerType *> &matTypes)
+{
+    _noDepthPathMatTypes = matTypes;
+}
+
+std::vector<FieldContainerType *> RenderAction::getNoDepthPassMatTypes(void)
+{
+    return _noDepthPathMatTypes;
+}
+
+bool RenderAction::isNoDepthPassMat(Material *mat)
+{
+    if(!_depth_only_pass)
+        return false;
+
+    for(std::vector<FieldContainerType *>::iterator it = 
+        _noDepthPathMatTypes.begin();it != _noDepthPathMatTypes.end();++it)
+    {
+        if(mat->getType().isDerivedFrom(*(*it)))
+            return true;
+    }
+
+    return false;
+}
+
 
 // rendering state handling
 
@@ -592,6 +619,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
         return;
     }
 
+    bool noDepthPass = isNoDepthPassMat(pMat);
+
     std::vector<State *> states;
     getMaterialStates(pMat, states);
 
@@ -616,6 +645,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState(pState);
+            if(noDepthPass)
+                pNewElem->setNoDepthPass();
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
         
@@ -677,6 +708,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+            if(noDepthPass)
+                pNewElem->setNoDepthPass();
 
             if(isMultiPass)
             {
@@ -717,6 +750,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewElem->setNoDepthPass();
     
                 if(isMultiPass)
                 {
@@ -740,6 +775,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewMatElem->setNoDepthPass();
 
                 if(_pMatRoots.find(sortKey) == _pMatRoots.end())
                     _pMatRoots.insert(std::make_pair(sortKey, _pNodeFactory->create()));
@@ -753,6 +790,8 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewElem->setNoDepthPass();
     
                 if(isMultiPass)
                 {
@@ -788,6 +827,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
         return;
     }
 
+    bool noDepthPass = isNoDepthPassMat(pMat);
+
     std::vector<State *> states;
     getMaterialStates(pMat, states);
 
@@ -811,6 +852,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState      (pState);
+            if(noDepthPass)
+                pNewElem->setNoDepthPass();
+
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
 
@@ -913,6 +957,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
             pNewElem->setState(pState);
+            if(noDepthPass)
+                pNewElem->setNoDepthPass();
+
             if(sortKey == Material::NoStateSorting)
                 pNewElem->setNoStateSorting();
 
@@ -975,6 +1022,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+            if(noDepthPass)
+                pNewElem->setNoDepthPass();
 
             if(isMultiPass)
             {
@@ -1016,6 +1065,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewMatElem->setNoDepthPass();
 
                 DrawTreeNode *pNewElem = _pNodeFactory->create();
                 pNewElem->setNode       (getActNode());
@@ -1023,6 +1074,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewElem->setNoDepthPass();
 
                 pNewMatElem->addChild(pNewElem);
 
@@ -1036,6 +1089,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewMatElem->setNoDepthPass();
 
                 for(UInt32 mpi=0;mpi<mpMatPasses;++mpi)
                 {
@@ -1046,6 +1101,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewPassElem->setNode(getActNode());
                     pNewPassElem->setLightsState(_lightsState);
                     pNewPassElem->setClipPlanesState(_clipPlanesState);
+                    if(noDepthPass)
+                        pNewPassElem->setNoDepthPass();
                     pNewMatElem->addChild(pNewPassElem);
 
                     DrawTreeNode *pNewElem = _pNodeFactory->create();
@@ -1054,6 +1111,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
                     pNewElem->setClipPlanesState(_clipPlanesState);
+                    if(noDepthPass)
+                        pNewElem->setNoDepthPass();
 
                     if(isMultiPass)
                     {
@@ -1082,6 +1141,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+                if(noDepthPass)
+                    pNewElem->setNoDepthPass();
                 it->second->addChild(pNewElem);
             }
             else
@@ -1102,6 +1163,8 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
                     pNewElem->setClipPlanesState(_clipPlanesState);
+                    if(noDepthPass)
+                        pNewElem->setNoDepthPass();
 
                     if(isMultiPass)
                     {
@@ -2061,7 +2124,55 @@ void RenderAction::updateShader(State *state)
         shlChunk->update(this);
 }
 
-void RenderAction::draw(DrawTreeNode *pRoot, bool depthPass)
+void RenderAction::drawDepth(DrawTreeNode *pRoot)
+{
+    while(pRoot != NULL)
+    {
+        UInt32 uiNextMatrix = pRoot->getMatrixStore().first;
+
+        if(uiNextMatrix != 0 && uiNextMatrix != _uiActiveMatrix)
+        {
+            glLoadMatrixf(pRoot->getMatrixStore().second.getValues());
+
+            _uiActiveMatrix = uiNextMatrix;
+
+            _uiNumMatrixChanges++;
+
+            _currMatrix.second = pRoot->getMatrixStore().second;
+            updateTopMatrix();
+        }
+
+        setActNode(pRoot->getNode());
+
+        activateLocalClipPlanes(pRoot);
+
+        if(pRoot->getGeometry() != NULL)
+        {
+            if(!pRoot->isNoDepthPass())
+            {
+                pRoot->getGeometry()->drawPrimitives(this);
+                _uiNumGeometries++;
+            }
+        }
+        else if(pRoot->hasFunctor())
+        {
+            if(!pRoot->isNoDepthPass())
+            {
+                pRoot->getFunctor().call(this);
+                _uiNumGeometries++;
+            }
+        }
+
+        if(pRoot->getFirstChild() != NULL)
+        {
+            drawDepth(pRoot->getFirstChild());
+        }
+
+        pRoot = pRoot->getBrother();
+    }
+}
+
+void RenderAction::draw(DrawTreeNode *pRoot)
 {
     while(pRoot != NULL)
     {
@@ -2108,21 +2219,17 @@ void RenderAction::draw(DrawTreeNode *pRoot, bool depthPass)
 
         setActNode(pRoot->getNode());
 
-        if(!isOccluded(pRoot) || depthPass)
+        if(!isOccluded(pRoot))
         {
-            if(_bLocalLights && _activeLightsState != pRoot->getLightsState() &&
-               !depthPass)
+            if(_bLocalLights && _activeLightsState != pRoot->getLightsState())
                 activateLocalLights(pRoot);
 
             activateLocalClipPlanes(pRoot);
 
             State *pNewState = NULL;
 
-            if(!depthPass)
-                pNewState = pRoot->getState();
-            else
-                pNewState = _depthPassState;
-    
+            pNewState = pRoot->getState();
+
             if(pNewState != NULL)
             {
                 if(_pActiveState != NULL)
@@ -2182,7 +2289,7 @@ void RenderAction::draw(DrawTreeNode *pRoot, bool depthPass)
 
         if(pRoot->getFirstChild() != NULL)
         {
-            draw(pRoot->getFirstChild(), depthPass);
+            draw(pRoot->getFirstChild());
         }
 
         pRoot = pRoot->getBrother();
@@ -2515,10 +2622,12 @@ Action::ResultE RenderAction::stop(ResultE res)
         glDisable(GL_ALPHA_TEST);
         glDepthMask(GL_TRUE);
 
+        _depthPassState->activate(this);
         for(SortKeyMap::iterator it = _pMatRoots.begin();it != _pMatRoots.end();++it)
         {
-            draw((*it).second->getFirstChild(), true);
+            drawDepth((*it).second->getFirstChild());
         }
+        _depthPassState->deactivate(this);
     
         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
         glShadeModel(GL_SMOOTH);

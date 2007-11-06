@@ -78,6 +78,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     static const UInt8 MultiPass;
     static const UInt8 LastMultiPass;
     static const UInt8 NoStateSorting;
+    static const UInt8 NoDepthPass;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -125,8 +126,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
     bool          isMultiPass     (void                           );
     bool          isLastMultiPass (void                           );
 
-    void          setNoStateSorting(void                           );
-    bool          isNoStateSorting (void                           );
+    void          setNoStateSorting(void                          );
+    bool          isNoStateSorting (void                          );
+
+    void          setNoDepthPass(void                             );
+    bool          isNoDepthPass (void                             );
 
     void          reset           (void                           );
 

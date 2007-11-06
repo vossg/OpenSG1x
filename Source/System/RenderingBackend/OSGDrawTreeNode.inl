@@ -256,6 +256,18 @@ bool DrawTreeNode::isNoStateSorting(void)
 }
 
 inline
+void DrawTreeNode::setNoDepthPass(void)
+{
+    _flags |= DrawTreeNode::NoDepthPass;
+}
+
+inline
+bool DrawTreeNode::isNoDepthPass(void)
+{
+    return (_flags & DrawTreeNode::NoDepthPass);
+}
+
+inline
 void DrawTreeNode::reset(void)
 {
     _pFirstChild = NULL;

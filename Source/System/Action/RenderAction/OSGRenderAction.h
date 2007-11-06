@@ -227,6 +227,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setDepthOnlyPass(bool s);
     bool getDepthOnlyPass(void) const;
 
+    void setNoDepthPassMatTypes(const std::vector<FieldContainerType *> &matTypes);
+    std::vector<FieldContainerType *> getNoDepthPassMatTypes(void);
+
     /*------------------------- comparison ----------------------------------*/
 
     bool isSmallFeature(const NodePtr &node);
@@ -343,6 +346,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     Matrix                    _worldToScreenMatrix;
     bool                      _useGLFinish;
     bool                      _depth_only_pass;
+    std::vector<FieldContainerType *> _noDepthPathMatTypes;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
@@ -406,13 +410,17 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
             void dump(DrawTreeNode *pRoot, UInt32 uiIndent);
 
             void updateShader(State *state);
-    virtual void draw(DrawTreeNode *pRoot, bool depthPass = false);
+
+    virtual void drawDepth(DrawTreeNode *pRoot);
+    virtual void draw(DrawTreeNode *pRoot);
 
     inline  void updateTopMatrix(void);
             void activateLocalLights(DrawTreeNode *pRoot);
             void activateLocalClipPlanes(DrawTreeNode *pRoot);
 
     void getMaterialStates(Material *mat, std::vector<State *> &states);
+
+    bool isNoDepthPassMat(Material *mat);
 
   private:
 

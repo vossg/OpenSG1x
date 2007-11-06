@@ -66,6 +66,7 @@ Int32 DrawTreeNode::_iDeleteCount = 0;
 const UInt8 DrawTreeNode::MultiPass = 1;
 const UInt8 DrawTreeNode::LastMultiPass = 2;
 const UInt8 DrawTreeNode::NoStateSorting = 4;
+const UInt8 DrawTreeNode::NoDepthPass = 8;
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
