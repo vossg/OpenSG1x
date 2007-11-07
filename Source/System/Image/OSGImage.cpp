@@ -132,10 +132,13 @@ void Image::changed(BitVector whichField, UInt32 origin)
         }
         else
         {
-            // call the generic change method        
-            (*parentsIt)->changed(
-                TypeTraits<BitVector>::One << parentsIt->getParentFieldPos(),
-                ChangedOrigin::Child                                         );
+            // call the generic change method
+            if((*parentsIt) != NullFC)
+            {
+                (*parentsIt)->changed(
+                    TypeTraits<BitVector>::One << parentsIt->getParentFieldPos(),
+                    ChangedOrigin::Child                                         );
+            }
         }
         ++parentsIt;
     }
