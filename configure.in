@@ -1393,6 +1393,7 @@ AC_CANONICAL_SYSTEM()
 
 case "$build_os" in
     darwin*)
+        build_os_version=`echo "${build_os:6}" | cut -d'.' -f 1`
         build_os="darwin"
     ;;
 esac
@@ -1514,7 +1515,11 @@ else
         ;;
 
        darwin*)
+            if ((${build_os_version}<8)); then
 		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0 -Wl,-single_module -flat_namespace'
+            else
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0'
+            fi
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
@@ -1565,7 +1570,11 @@ dnl a symlink from gmake to make
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         darwin*)
-            ac_gdz_compiler_exe_exe='$(CC) -flat_namespace'
+            if ((${build_os_version}<8)); then
+                ac_gdz_compiler_exe_exe='$(CC) -flat_namespace'
+            else
+                ac_gdz_compiler_exe_exe='$(CC)'
+            fi
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'

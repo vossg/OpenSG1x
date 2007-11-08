@@ -600,7 +600,7 @@ OSG_FIX_LEXER := 1
 endif
 
 ifeq ($(OS_BASE), darwin)
-OSG_FIX_LEXER := 1
+OSG_FIX_LEXER := $(shell echo $$(($(DARWINVERSION)<9)))
 endif
 
 ifeq ($(OS_BUILD_BASE), ia64-unknown-linux-gnu)

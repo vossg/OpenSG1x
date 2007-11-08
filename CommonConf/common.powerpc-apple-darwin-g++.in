@@ -20,6 +20,10 @@ DIR_SEP              := /
 
 II_FILESDIR          := 
 
+### Darwin Version ##############################################
+
+DARWINVERSION := $(shell uname -r | cut -d'.' -f 1)
+
 ### Compiler Version ##############################################
 
 COMPILER := $(shell $(CC) -v 2>&1 | fgrep version  | cut -d' ' -f 3)
@@ -44,7 +48,7 @@ SOURCE_DEFINES   = -D_GNU_SOURCE -DQT_CLEAN_NAMESPACE \
 #-DMNG_LIB -DPNG_LIB
 #-D__STL_USE_NEW_IOSTREAMS
 
-SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_
+SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_ -DOSG_DARWIN_VERSION=$(DARWINVERSION)
 
 ### Warnings #######################################################
 
@@ -138,5 +142,6 @@ else
 endif
 
 
-LD_FLAGS += -L/usr/X11R6/lib $(LINK_OPTIMIZE) $(LINK_DEBUG)
+LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG)
 
+ADD_OS_LIB := -framework ApplicationServices

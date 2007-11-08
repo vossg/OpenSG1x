@@ -562,7 +562,13 @@
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS
 # define SIZE_T_NEQ_UINT32
-# define OSG_GLENUM_NEQ_UINT32
+# if defined(OSG_DARWIN_VERSION)
+#  if OSG_DARWIN_VERSION<9
+#   define OSG_GLENUM_NEQ_UINT32
+#  endif
+# else
+#  define OSG_GLENUM_NEQ_UINT32
+# endif
 
 # define OSG_USE_PTHREADS
 

@@ -2679,7 +2679,9 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
 
     touch confdefs.h
 
-    AC_OUTPUT($ac_gdz_flexlexer_fix_out_e21:$ac_gdz_flexlexer_fix_in_e21)
+    if ((${build_os_version}<9)); then
+        AC_OUTPUT($ac_gdz_flexlexer_fix_out_e21:$ac_gdz_flexlexer_fix_in_e21)
+    fi
 ])
 
 AC_DEFUN(AC_GDZ_FIX_IA64_INCLUDES,

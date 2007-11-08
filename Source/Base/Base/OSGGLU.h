@@ -66,7 +66,15 @@ typedef void (APIENTRY *OSGGLUfuncptr)();
 typedef void (*OSGGLUfuncptr)();
 #  endif
 #elif defined(__APPLE__)
-typedef GLvoid (*OSGGLUfuncptr)(...);
+# if defined(OSG_DARWIN_VERSION)
+#  if OSG_DARWIN_VERSION<9
+    typedef GLvoid (*OSGGLUfuncptr)(...);
+#  else
+    typedef GLvoid (*OSGGLUfuncptr)();
+#  endif
+# else
+   typedef GLvoid (*OSGGLUfuncptr)(...);
+# endif
 #else
 typedef void (*OSGGLUfuncptr)();
 #endif

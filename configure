@@ -2781,6 +2781,7 @@ test "$host_alias" != "$target_alias" &&
 
 case "$build_os" in
     darwin*)
+        build_os_version=`echo "${build_os:6}" | cut -d'.' -f 1`
         build_os="darwin"
     ;;
 esac
@@ -4154,7 +4155,11 @@ else
         ;;
 
        darwin*)
+            if ((${build_os_version}<8)); then
 		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0 -Wl,-single_module -flat_namespace'
+            else
+		ac_gdz_compiler_exe_shared='$(CC) -dynamiclib -compatibility_version 1.2 -current_version 1.2.0'
+            fi
         ac_gdz_compiler_exe_ranlib=ranlib
         ;;
 
@@ -4203,7 +4208,11 @@ else
 			ac_gdz_base_system_libs=$ac_gdz_base_system_libs' -lpthread -lresolv -lsocket  -lnsl '
         ;;
         darwin*)
-            ac_gdz_compiler_exe_exe='$(CC) -flat_namespace'
+            if ((${build_os_version}<8)); then
+                ac_gdz_compiler_exe_exe='$(CC) -flat_namespace'
+            else
+                ac_gdz_compiler_exe_exe='$(CC)'
+            fi
         ;;
         *)
             ac_gdz_compiler_exe_exe='$(CC)'
@@ -13182,6 +13191,8 @@ test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
     touch confdefs.h
 
+    if ((${build_os_version}<9)); then
+
     trap '' 1 2 15
 
 trap 'rm -fr conftest* confdefs* core core.* *.core $ac_clean_files; exit 1' 1 2 15
@@ -13459,6 +13470,7 @@ chmod +x $CONFIG_STATUS
 rm -fr confdefs* $ac_clean_files
 test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
+    fi
 
     ;;
 esac
