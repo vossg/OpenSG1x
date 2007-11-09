@@ -518,10 +518,10 @@ void FBOViewport::stop(Window *win)
 
 void FBOViewport::render(RenderActionBase* action)
 {
-    if (!getEnabled())
+	Window *win = action->getWindow();
+	
+    if (!getEnabled() || !win)
         return;
-        
-    Window *win = action->getWindow();
 
     // Let the window handle resizes, to avoid interfering with the
     // FBOViewports settings
@@ -568,12 +568,7 @@ void FBOViewport::render(RenderActionBase* action)
                                      1, 0, 0, 0,
                                      0, 0, 0, 1 ),
                            };
-
-    if (win == NULL)
-    {
-        SWARNING << "FBOViewport::render: no window!" << std::endl;
-        return;
-    }
+	
     if (getCamera() == NullFC)
     {
         SWARNING << "FBOViewport::render: no camera!" << std::endl;
@@ -1566,7 +1561,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.16 2007/10/01 12:45:14 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.17 2007/11/09 14:44:47 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

@@ -163,7 +163,6 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
 
 void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
-
     glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
                  GL_LIGHTING_BIT);
 
@@ -176,7 +175,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
     Matrix m,t;
     action->getCamera()->getViewing(m, viewport->getPixelWidth(),
-                                        viewport->getPixelHeight());
+                                       viewport->getPixelHeight());
     action->getCamera()->getProjectionTranslation(t, 
                                         viewport->getPixelWidth(),
                                         viewport->getPixelHeight());
@@ -196,7 +195,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
     glLoadIdentity();
     glTranslatef(0.f, 0.f, 0.5);
-    glScalef(1.f, 1.f, 0.f);    
+    glScalef(1.f, 1.f, 0.f);
     
     action->getCamera()->getProjection( m, 
                                         viewport->getPixelWidth(),
@@ -222,9 +221,20 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     
     Real32  vcos1,vsin1,vcos2,vsin2;
     
-    // better set a defined color...
+    // better always clear and set a defined color...
     glColor3f(1, 1, 1);
-        
+	
+	if(_mfSkyColor.size() > 0)
+	{
+		glClearColor(_mfSkyColor[0][0], _mfSkyColor[0][1], 
+					 _mfSkyColor[0][2], _mfSkyColor[0][2]);
+	}
+	else
+	{
+		glClearColor(0, 0, 0, 1);
+	}
+	glClear(GL_COLOR_BUFFER_BIT);
+	
     if(_mfSkyAngle.size() > 0)
     {
         vcos1 = osgcos(_mfSkyAngle[0]);
@@ -241,7 +251,6 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         }
 
         glEnd();
-
 
         for(j = 0; j < _mfSkyAngle.size() - 1; ++j)
         {
@@ -267,7 +276,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
             glEnd();
         }
 
-        if(osgabs(_mfSkyAngle[j] - Pi) > Eps)
+        //if(osgabs(_mfSkyAngle[j] - Pi) > Eps)
         {
             glBegin(GL_TRIANGLE_FAN);
             glColor4fv((GLfloat*) _mfSkyColor[j+1].getValuesRGBA());
@@ -283,25 +292,11 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
             glEnd();
         }
     }
-    else // no angles, just fill single color
-    {
-        if(_mfSkyColor.size() > 0)
-        {
-            glClearColor(_mfSkyColor[0][0], _mfSkyColor[0][1], 
-                         _mfSkyColor[0][2], 0);
-        }
-        else
-        {
-            glClearColor(0, 0, 0, 0);
-        }
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
     
     // Draw the ground.
     // It's possible to be smarter about this, but for now just overdraw.
-
     if(_mfGroundAngle.size() > 0)
-    {    
+    {
         vcos1 = -osgcos(_mfGroundAngle[0]);
         vsin1 =  osgsin(_mfGroundAngle[0]);
 
@@ -321,7 +316,6 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         }
 
         glEnd();
-
 
         for(j = 0; j < _mfGroundAngle.size() - 1; ++j)
         {
@@ -364,7 +358,7 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
      { Vec3f( 1,-1, 1), Vec3f(-1,-1, 1), Vec3f(-1,-1,-1), Vec3f( 1,-1,-1) },
      { Vec3f( 1, 1,-1), Vec3f( 1, 1, 1), Vec3f( 1,-1, 1), Vec3f( 1,-1,-1) },        
      { Vec3f(-1, 1, 1), Vec3f(-1, 1,-1), Vec3f(-1,-1,-1), Vec3f(-1,-1, 1) },
-     };
+	};
     
     #undef tfac
     #define tfac(t,c)  \
@@ -430,6 +424,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         tchunk->deactivate(action);
     
     Int32 bit = getClearStencilBit();
+	
+	glClearDepth(1.f);
     
     if (bit >= 0)
     {

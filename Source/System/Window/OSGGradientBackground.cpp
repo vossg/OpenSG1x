@@ -123,6 +123,8 @@ void GradientBackground::changed(BitVector whichField, UInt32 origin)
 void GradientBackground::clear(DrawActionBase *act, Viewport *port)
 {
     Int32 bit = getClearStencilBit();
+	
+	glClearDepth(1.f);
     
     if(_mfPosition.size() < 2)
     {
