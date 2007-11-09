@@ -562,11 +562,7 @@
 # define OSG_LINUX_TYPES
 # define OSG_NO_CONCEPT_CHECKS
 # define SIZE_T_NEQ_UINT32
-# if defined(OSG_DARWIN_VERSION)
-#  if OSG_DARWIN_VERSION<9
-#   define OSG_GLENUM_NEQ_UINT32
-#  endif
-# else
+#if (__APPLE_CC__ <= 5370)
 #  define OSG_GLENUM_NEQ_UINT32
 # endif
 
