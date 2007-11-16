@@ -254,9 +254,9 @@ void Camera::getDecoration(Matrix &result, UInt32 width, UInt32 height)
 
 /*! Calculate a ray that starts at the camera position and goes through the
 pixel \a x, \a y in the viewport \a port. \a x and \a y are relative to the
-parent window's upper left corner. 
+parent window's upper left corner. \a t is the length of the viewing ray.
 */
-bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
+bool Camera::calcViewRay(Line &line, Int32 x, Int32 y, const Viewport& port, Real32 *t)
 {
     if(port.getPixelWidth() <= 0 || port.getPixelHeight() <= 0)
     {
@@ -288,8 +288,15 @@ bool Camera::calcViewRay(Line & line, Int32 x, Int32 y, const Viewport& port)
     Pnt3f from, at;
     cctowc.multFullMatrixPnt(Pnt3f(rx, ry, -1), from);
     cctowc.multFullMatrixPnt(Pnt3f(rx, ry,  1), at);
+	
+	Vec3f dir = at - from;
+	
+	if (t)
+	{
+		*t = dir.length();
+	}
     
-    line.setValue(from, at-from);
+    line.setValue(from, dir);
 
     return true;
 }
