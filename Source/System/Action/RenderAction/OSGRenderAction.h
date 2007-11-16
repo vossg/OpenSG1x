@@ -316,9 +316,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _uiActiveMatrix;
     State                    *_pActiveState;
 
-    MaterialPtr               _depthPassMaterial;
-    State                    *_depthPassState;
-
     UInt32                    _uiNumMaterialChanges;
     UInt32                    _uiNumMatrixChanges;
     UInt32                    _uiNumLightChanges;

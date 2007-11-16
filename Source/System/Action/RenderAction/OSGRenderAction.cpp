@@ -69,6 +69,7 @@
 #include <OSGSimpleMaterial.h>
 
 #include <OSGGeometry.h>
+#include <OSGGeoPumpFactory.h>
 #include <OSGSwitch.h>
 #include <OSGLog.h>
 
@@ -76,6 +77,8 @@
 #include <OSGLightEnv.h>
 
 #include <OSGClipPlane.h>
+
+#include <OSGSHLChunk.h>
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
@@ -262,9 +265,6 @@ RenderAction::RenderAction(void) :
     _uiActiveMatrix      (0),
     _pActiveState        (NULL),
 
-    _depthPassMaterial   (NullFC),
-    _depthPassState      (NULL),
-
     _uiNumMaterialChanges(0),
     _uiNumMatrixChanges  (0),
     _uiNumLightChanges   (0),
@@ -372,13 +372,6 @@ RenderAction::RenderAction(void) :
         _shlChunkId = shlChunk->getClass()->getId();
         subRefCP(shlChunk);
     }
-
-    SimpleMaterialPtr depthPassMaterial = SimpleMaterial::create();
-    beginEditCP(depthPassMaterial);
-        depthPassMaterial->setLit(false);
-    endEditCP(depthPassMaterial);
-    _depthPassMaterial = depthPassMaterial;
-    _depthPassState = _depthPassMaterial->getState().getCPtr();
 }
 
 
@@ -404,9 +397,6 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _uiActiveMatrix      (source._uiActiveMatrix),
     _pActiveState        (source._pActiveState),
-
-    _depthPassMaterial   (source._depthPassMaterial),
-    _depthPassState      (source._depthPassState),
 
     _uiNumMaterialChanges(source._uiNumMaterialChanges),
     _uiNumMatrixChanges  (source._uiNumMatrixChanges),
@@ -513,8 +503,6 @@ RenderAction::~RenderAction(void)
     if(_occlusionQuery != 0)
         _glDeleteQueriesARB(1, &_occlusionQuery);
     deleteOcclusionQueriesPool();
-
-    subRefCP(_depthPassMaterial);
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -2158,7 +2146,22 @@ void RenderAction::drawDepth(DrawTreeNode *pRoot)
         {
             if(!pRoot->isNoDepthPass())
             {
-                pRoot->getFunctor().call(this);
+                GeometryPtr geo = GeometryPtr::dcast(pRoot->getNode()->getCore());
+                if(geo != NullFC)
+                {
+                    GeoVBO *vbo = geo->getVboObject(getWindow());
+                    if(vbo != NULL)
+                    {
+                        UInt16 mask = vbo->getDrawPropertiesMask();
+                        vbo->setDrawPropertiesMask(Geometry::MapPosition);
+                        pRoot->getFunctor().call(this);
+                        vbo->setDrawPropertiesMask(mask);
+                    }
+                }
+                else
+                {
+                    pRoot->getFunctor().call(this);
+                }
                 _uiNumGeometries++;
             }
         }
@@ -2618,19 +2621,16 @@ Action::ResultE RenderAction::stop(ResultE res)
     if(_depth_only_pass)
     {
         glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
-        glShadeModel(GL_FLAT);
         glDisable(GL_ALPHA_TEST);
         glDepthMask(GL_TRUE);
+        glDisable(GL_LIGHTING);
 
-        _depthPassState->activate(this);
         for(SortKeyMap::iterator it = _pMatRoots.begin();it != _pMatRoots.end();++it)
         {
             drawDepth((*it).second->getFirstChild());
         }
-        _depthPassState->deactivate(this);
-    
+
         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
-        glShadeModel(GL_SMOOTH);
     }
 
     glDepthMask(GL_TRUE);
