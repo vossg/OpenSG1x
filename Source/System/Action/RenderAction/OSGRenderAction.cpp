@@ -78,8 +78,6 @@
 
 #include <OSGClipPlane.h>
 
-#include <OSGSHLChunk.h>
-
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
 #include <OSGSimpleAttachments.h>
