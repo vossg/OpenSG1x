@@ -770,6 +770,28 @@ void RemoteAspect::subFieldFilter( UInt32 typeId,BitVector mask)
     _fieldFilter[typeId] &= ~mask;
 }
 
+RemoteAspect::FieldFilterT const &
+RemoteAspect::getFieldFilter(void)
+{
+    return _fieldFilter;
+}
+
+BitVector
+RemoteAspect::getFieldFilter(UInt32 typeId)
+{
+    FieldFilterT::const_iterator fI = _fieldFilter.find(typeId);
+
+    if(fI != _fieldFilter.end())
+    {
+        return fI->second;
+    }
+    else
+    {
+        return TypeTraits<BitVector>::BitsClear;
+    }
+}
+
+
 /*! creates a changelist from the store and merges this to the changelist. 
  */
 void RemoteAspect::restoreChangeList(ChangeList *tocl)

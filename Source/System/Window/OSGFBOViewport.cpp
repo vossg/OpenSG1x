@@ -50,6 +50,7 @@
 #include <OSGTileCameraDecorator.h>
 #include <OSGRenderAction.h>
 #include <OSGSimpleAttachments.h>
+#include <OSGRemoteAspect.h>
 
 #include "OSGFBOViewport.h"
 
@@ -366,6 +367,13 @@ void FBOViewport::onCreate(const FBOViewport *source)
         return;
 
     // TODO; get maxBuffers - but window is needed
+    
+    // we need this for clustering. Without it FBO's are continuously allocated
+    RemoteAspect::addFieldFilter(FBOViewport::getClassType().getId(), 
+                                 FBOViewport::FrameBufferIndexFieldMask   |
+                                 FBOViewport::DirtyFieldMask              |
+                                 FBOViewport::StencilBufferIndexFieldMask |
+                                 FBOViewport::DepthBufferIndexFieldMask );   
 }
 
 void FBOViewport::onDestroy(void)
@@ -379,12 +387,13 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     
     Int32 width  = getStorageWidth();
     Int32 height = getStorageHeight();
-    
+
     if (width <= 0 || height <= 0)
         return false;
 
     checkGLError("FBO initalize pre");
 
+    
     if (getFrameBufferIndex() && !getDirty())
         return true;
     
@@ -409,8 +418,10 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
         (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
     
+
     glGenFramebuffersEXT(1, &fbIndex);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fbIndex);
+
     setFrameBufferIndex(fbIndex);
 
     glDrawBuffer (GL_FALSE);
@@ -518,15 +529,11 @@ void FBOViewport::stop(Window *win)
 
 void FBOViewport::render(RenderActionBase* action)
 {
-	Window *win = action->getWindow();
-	
-    if (!getEnabled() || !win)
+    if (!getEnabled())
         return;
+        
+    Window *win = action->getWindow();
 
-    // Let the window handle resizes, to avoid interfering with the
-    // FBOViewports settings
-    
-    win->resizeGL();
     
     static GLenum targets[6] = {
                           GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
@@ -568,7 +575,12 @@ void FBOViewport::render(RenderActionBase* action)
                                      1, 0, 0, 0,
                                      0, 0, 0, 1 ),
                            };
-	
+
+    if (win == NULL)
+    {
+        SWARNING << "FBOViewport::render: no window!" << std::endl;
+        return;
+    }
     if (getCamera() == NullFC)
     {
         SWARNING << "FBOViewport::render: no camera!" << std::endl;
@@ -584,6 +596,10 @@ void FBOViewport::render(RenderActionBase* action)
         SWARNING << "FBOViewport::render: no root(s)!" << std::endl;
         return;
     }
+
+    // Let the window handle resizes, to avoid interfering with the
+    // FBOViewports settings
+    win->resizeGL();
 
     GLint maxTexSize = 0;
     glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexSize);
@@ -606,7 +622,7 @@ void FBOViewport::render(RenderActionBase* action)
     if (depth)
         rAct->setZWriteTrans(true);
             
-    if (!getFboOn() || !extensionCheck())
+    if (!getFboOn()  && extensionCheck())
     {
         UInt32 i, numBuffers = (getTextures().getSize()) ? 1 : 0;
         
@@ -1146,10 +1162,10 @@ void FBOViewport::render(RenderActionBase* action)
                 format = FBO_DEPTH_24;
             // TODO; define DEPTH_STENCIL if depth is used as well
             if (stencilTex && depthTex) 
-			{
-				// format |= FBO_STENCIL_8;
-				FWARNING((	"Rendering to separate depth and stencil textures "
-							"is not possible. Disabling stencil texture.\n" ));         
+            {
+                // format |= FBO_STENCIL_8;
+                FWARNING((    "Rendering to separate depth and stencil textures "
+                            "is not possible. Disabling stencil texture.\n" ));         
                 stencilTex = NullFC;
             }
 
@@ -1171,11 +1187,11 @@ void FBOViewport::render(RenderActionBase* action)
             {
                 if (colorTextures.getSize() < numBuffers)
                     numBuffers = colorTextures.getSize();
-				
+                
                 if (depthTex) 
                 {
                     win->validateGLObject(depthTex->getGLId());
-					
+                    
                     target = depthTex->getTarget();
                     
                     if (target == GL_NONE) {
@@ -1198,12 +1214,12 @@ void FBOViewport::render(RenderActionBase* action)
                     }
                     
                     setTarget(win, win->getGLObjectId(depthTex->getGLId()), 
-								GL_DEPTH_ATTACHMENT_EXT, target, zoffset);                
+                                GL_DEPTH_ATTACHMENT_EXT, target, zoffset);                
                 }
                 else if (stencilTex) 
                 {
                     win->validateGLObject(stencilTex->getGLId());
-					
+                    
                     target = stencilTex->getTarget();
                     
                     if (target == GL_NONE) {
@@ -1214,7 +1230,7 @@ void FBOViewport::render(RenderActionBase* action)
                     }
                         
                     setTarget(win, win->getGLObjectId(stencilTex->getGLId()), 
-								GL_STENCIL_ATTACHMENT_EXT, target, zoffset);                
+                                GL_STENCIL_ATTACHMENT_EXT, target, zoffset);                
                 }
 
                 for (i=0; i<numBuffers; i++)
@@ -1245,21 +1261,23 @@ void FBOViewport::render(RenderActionBase* action)
     
                     // bind this texture to the current fbo as color_attachment_i
                     setTarget(win, win->getGLObjectId(colorTextures[i]->getGLId()), 
-								buffers[i], target, zoffset);
+                                buffers[i], target, zoffset);
                 }
 
                 checkFrameBufferStatus(win);
             
                 // draw scene, the results are being written into the associated textures
                 if (glDrawBuffersARB)
-					glDrawBuffersARB (numBuffers, buffers);
-                else {
-					if (numBuffers > 1) {
-						FWARNING((	"glDrawBuffersARB not supported, "
-									"can't render to more than 1 buffer.\n" ));
-					}
-					glDrawBuffer ( *buffers );
-				}
+                    glDrawBuffersARB (numBuffers, buffers);
+                else
+                {
+                    if (numBuffers > 1)
+                    {
+                        FWARNING(("glDrawBuffersARB not supported, "
+                                  "can't render to more than 1 buffer.\n" ));
+                    }
+                    glDrawBuffer ( *buffers );
+                }
             }
             else if (depthTex)
             {
@@ -1282,7 +1300,8 @@ void FBOViewport::render(RenderActionBase* action)
                               depthTex->getMinFilter() == GL_NEAREST_MIPMAP_LINEAR  ||
                               depthTex->getMinFilter() == GL_LINEAR_MIPMAP_LINEAR;
                 
-                if (needMipmaps && glGenerateMipmapEXT) {
+                if (needMipmaps && glGenerateMipmapEXT)
+                {
                     glBindTexture(target, win->getGLObjectId(depthTex->getGLId()));
                     glGenerateMipmapEXT(target);
                     glBindTexture(target, 0);
@@ -1311,7 +1330,7 @@ void FBOViewport::render(RenderActionBase* action)
                     else
                         target = GL_TEXTURE_2D;
                 }
-				
+                
                 setTarget(win, win->getGLObjectId(stencilTex->getGLId()), 
                             buffers[0], target, zoffset);
 
@@ -1561,7 +1580,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.17 2007/11/09 14:44:47 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.18 2007/11/20 17:56:47 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

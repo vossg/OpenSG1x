@@ -46,11 +46,13 @@
 #include <OSGGL.h>
 #include <OSGNodePtr.h>
 #include <OSGViewport.h>
+#include <OSGFBOViewport.h>
 #include <OSGTileCameraDecorator.h>
 #include <OSGBaseFunctions.h>
 #include <OSGStereoBufferViewport.h>
 #include <OSGFieldContainerFields.h>
 #include <OSGDisplayFilterForeground.h>
+#include <OSGRemoteAspect.h>
 #include "OSGMultiDisplayWindow.h"
 #include "OSGConnection.h"
 #include "OSGNode.h"
@@ -137,6 +139,8 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 l,r,t,b;
     Int32 cleft,cright,ctop,cbottom;
 
+    // sync, otherwise viewports will be out of date
+
     if(!getHServers())
     {
         setHServers(getServers().size());
@@ -162,95 +166,134 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 bottom = row    * height - row    * getYOverlap();
     Int32 right  = left   + width  - 1;
     Int32 top    = bottom + height - 1;
-    Real64 scaleCWidth  = ((width - getXOverlap()) * (getHServers() - 1) + width) / (float)getWidth();
-    Real64 scaleCHeight = ((height - getYOverlap())* (getVServers() - 1) + height)/ (float)getHeight();
+    Real64 scaleCWidth   = ((width - getXOverlap()) * (getHServers() - 1) + width) / (float)getWidth();
+    Real64 scaleCHeight  = ((height - getYOverlap())* (getVServers() - 1) + height)/ (float)getHeight();
+    bool   isVirtualPort = false;
 
     // duplicate viewports
-    for(cv=0,sv=0;cv<getPort().size();cv++)
+    for(cv = 0, sv = 0; cv < getPort().size(); ++cv)
     {
-        clientPort = getPort()[cv];
-        clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
-        cleft   = (Int32)(clientPort->getPixelLeft()      * scaleCWidth)   ;
-        cbottom = (Int32)(clientPort->getPixelBottom()    * scaleCHeight)  ;
-        cright  = (Int32)((clientPort->getPixelRight()+1) * scaleCWidth) -1;
-        ctop    = (Int32)((clientPort->getPixelTop()+1)   * scaleCHeight)-1;
-        if(cright  < left   ||
-           cleft   > right  ||
-           ctop    < bottom ||
-           cbottom > top      )
+        clientPort    = getPort()[cv];
+        isVirtualPort = clientPort->getType().isDerivedFrom(FBOViewport::getClassType());
+        
+        if(isVirtualPort)
         {
-            // invisible on this server screen
-            continue;
-        }
-        // calculate overlapping viewport
-        l = osgMax(cleft  ,left  ) - left;
-        b = osgMax(cbottom,bottom) - bottom;
-        r = osgMin(cright ,right ) - left;
-        t = osgMin(ctop   ,top   ) - bottom;
-        if(serverWindow->getPort().size() <= sv)
-        {
-            serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
-            beginEditCP(serverPort);
-            deco=TileCameraDecorator::create();
-            beginEditCP(serverWindow);
-            serverWindow->addPort(serverPort);
-            serverPort->setCamera(deco);
-            endEditCP(serverWindow);
-            endEditCP(serverPort);
-        }
-        else
-        {
-            serverPort = serverWindow->getPort()[sv];
-            deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
-            if(serverWindow->getPort()[sv]->getType() != 
-               clientPort->getType())
+            // TODO -- seems wrong to render this on all servers, though rendering
+            // then transmitting the texture doesn't seem like a good idea either.
+            if(serverWindow->getPort().size() <= sv)
             {
-                // there is a viewport with the wrong type
-                subRefCP(serverWindow->getPort()[sv]);
                 serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
                 beginEditCP(serverWindow);
-                serverWindow->getPort()[sv] = serverPort;
-                serverPort->setCamera(deco);
+                serverWindow->addPort(serverPort);
                 endEditCP(serverWindow);
             }
             else
             {
-                deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+                serverPort = serverWindow->getPort()[sv];
+                if(serverWindow->getPort()[sv]->getType() !=
+                        clientPort->getType())
+                {
+                    // there is a viewport with the wrong type
+                    subRefCP(serverWindow->getPort()[sv]);
+                    serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+                    beginEditCP(serverWindow);
+                    {
+                        serverWindow->getPort()[sv] = serverPort;
+                    }
+                    endEditCP(serverWindow);
+                }
             }
+            // update changed viewport fields
+            updateViewport(serverPort,clientPort);
         }
-        // update changed viewport fields
-        updateViewport(serverPort,clientPort);
-        // set viewport size
-        beginEditCP(serverPort,
-                    Viewport::LeftFieldMask|
-                    Viewport::BottomFieldMask|
-                    Viewport::RightFieldMask|
-                    Viewport::TopFieldMask);
-        serverPort->setSize(Real32(l),Real32(b),Real32(r),Real32(t));
-        // use pixel even if pixel = 1
-        if(serverPort->getLeft() == 1.0)
-            serverPort->setLeft(1.0001);
-        if(serverPort->getRight() == 1.0)
-            serverPort->setRight(1.0001);
-        if(serverPort->getTop() == 1.0)
-            serverPort->setTop(1.0001);
-        if(serverPort->getBottom() == 1.0)
-            serverPort->setBottom(1.0001);
-        endEditCP(serverPort,
-                  Viewport::LeftFieldMask|
-                  Viewport::BottomFieldMask|
-                  Viewport::RightFieldMask|
-                  Viewport::TopFieldMask);
-        // calculate tile parameters
-        beginEditCP(deco);
-        deco->setFullWidth ( cright-cleft );
-        deco->setFullHeight( ctop-cbottom );
-        deco->setSize( ( l+left-cleft     ) / (float)( cright-cleft ),
+        else
+        {
+            clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
+            cleft   = (Int32)(clientPort->getPixelLeft()      * scaleCWidth)   ;
+            cbottom = (Int32)(clientPort->getPixelBottom()    * scaleCHeight)  ;
+            cright  = (Int32)((clientPort->getPixelRight()+1) * scaleCWidth) -1;
+            ctop    = (Int32)((clientPort->getPixelTop()+1)   * scaleCHeight)-1;
+
+            if( cright  < left   ||
+                cleft   > right  ||
+                ctop    < bottom ||
+                cbottom > top       )
+            {
+                // invisible on this server screen
+                continue;
+            }
+            // calculate overlapping viewport
+            l = osgMax(cleft  ,left  ) - left;
+            b = osgMax(cbottom,bottom) - bottom;
+            r = osgMin(cright ,right ) - left;
+            t = osgMin(ctop   ,top   ) - bottom;
+            if(serverWindow->getPort().size() <= sv)
+            {
+                serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+                beginEditCP(serverPort);
+                deco=TileCameraDecorator::create();
+                beginEditCP(serverWindow);
+                serverWindow->addPort(serverPort);
+                serverPort->setCamera(deco);
+                endEditCP(serverWindow);
+                endEditCP(serverPort);
+            }
+            else
+            {
+                serverPort = serverWindow->getPort()[sv];
+                deco = TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+                if(serverWindow->getPort()[sv]->getType() != 
+                        clientPort->getType())
+                {
+                    // there is a viewport with the wrong type
+                    subRefCP(serverWindow->getPort()[sv]);
+                    serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
+                    beginEditCP(serverWindow);
+                    serverWindow->getPort()[sv] = serverPort;
+                    serverPort->setCamera(deco);
+                    endEditCP(serverWindow);
+                }
+                else
+                {
+                    deco=TileCameraDecoratorPtr::dcast(serverPort->getCamera());
+                }
+            }
+
+            // update changed viewport fields
+            updateViewport(serverPort,clientPort);
+
+            // set viewport size
+            beginEditCP(serverPort,
+                        Viewport::LeftFieldMask|
+                        Viewport::BottomFieldMask|
+                        Viewport::RightFieldMask|
+                        Viewport::TopFieldMask);
+            serverPort->setSize(Real32(l),Real32(b),Real32(r),Real32(t));
+            // use pixel even if pixel = 1
+            if(serverPort->getLeft() == 1.0)
+                serverPort->setLeft(1.0001);
+            if(serverPort->getRight() == 1.0)
+                serverPort->setRight(1.0001);
+            if(serverPort->getTop() == 1.0)
+                serverPort->setTop(1.0001);
+            if(serverPort->getBottom() == 1.0)
+                serverPort->setBottom(1.0001);
+            endEditCP(serverPort,
+                      Viewport::LeftFieldMask|
+                      Viewport::BottomFieldMask|
+                      Viewport::RightFieldMask|
+                      Viewport::TopFieldMask);
+            // calculate tile parameters
+            beginEditCP(deco);
+            deco->setFullWidth ( cright-cleft );
+            deco->setFullHeight( ctop-cbottom );
+            deco->setSize( ( l+left-cleft     ) / (float)( cright-cleft ),
                        ( b+bottom-cbottom ) / (float)( ctop-cbottom ),
                        ( r+left-cleft     ) / (float)( cright-cleft ),
                        ( t+bottom-cbottom ) / (float)( ctop-cbottom ) );
-        deco->setDecoratee( clientPort->getCamera() );
-        endEditCP(deco);
+            deco->setDecoratee( clientPort->getCamera() );
+            endEditCP(deco);
+        }
         sv++;
     }
     // remove unused ports
@@ -389,7 +432,9 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
     UInt32 fcount = osgMin(serverPort->getType().getNumFieldDescs(),
                            clientPort->getType().getNumFieldDescs());
     
-    for(UInt32 i=1;i <= fcount;++i)
+    BitVector ffilter = RemoteAspect::getFieldFilter(type.getId());
+    
+    for(UInt32 i = 1; i <= fcount; ++i)
     {
         const FieldDescription* fdesc = type.getFieldDescription(i);
         // ignore attachments
@@ -398,7 +443,11 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             continue;
 
         BitVector mask = fdesc->getFieldMask();
-   
+
+        // don't update filtered fields
+        if(ffilter & mask)
+            continue;
+
         Field *dst_field = serverPort->getField(i);
         Field *src_field = clientPort->getField(i);
     

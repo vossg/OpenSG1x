@@ -119,6 +119,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     static void addFieldFilter   ( UInt32 typeId,BitVector mask   );
     static void subFieldFilter   ( UInt32 typeId,BitVector mask   );
     
+    static FieldFilterT const &getFieldFilter(void         );
+    static BitVector           getFieldFilter(UInt32 typeId);
+    
     static void restoreChangeList   (ChangeList *tocl);
     static void storeChangeList     (ChangeList *cl  );
     static UInt32 getStoreSize      (void            );
