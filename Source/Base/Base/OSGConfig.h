@@ -517,7 +517,10 @@
 
 // it's there, it's just called something else
 # define OSG_HAS_VSNPRINTF
+// vc 9.0 finally supports vsnprintf!
+# if _MSC_VER < 1500
 # define vsnprintf _vsnprintf
+# endif
 
 # define OSG_HAS_NILBUF
 # define OSG_STREAM_RDBUF_HAS_PARAM
