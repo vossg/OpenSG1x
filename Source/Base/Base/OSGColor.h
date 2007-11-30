@@ -147,10 +147,10 @@ class Color3
     /*! \name                        Operators                             */
     /*! \{                                                                 */
 
-          Color3     operator * (const ValueType  val      );
-          Color3     operator / (const ValueType  val      );
-          Color3     operator + (const ValueType  val      );
-          Color3     operator - (const ValueType  val      );
+          Color3     operator * (const ValueType  val      ) const;
+          Color3     operator / (const ValueType  val      ) const;
+          Color3     operator + (const ValueType  val      ) const;
+          Color3     operator - (const ValueType  val      ) const;
 
           void       operator *= (const ValueType  val      );
           void       operator /= (const ValueType  val      );
@@ -271,10 +271,10 @@ class Color4
     /*! \name                       Operators                              */
     /*! \{                                                                 */
 
-          Color4     operator * (const ValueType  val      );
-          Color4     operator / (const ValueType  val      );
-          Color4     operator + (const ValueType  val      );
-          Color4     operator - (const ValueType  val      );
+          Color4     operator * (const ValueType  val      ) const;
+          Color4     operator / (const ValueType  val      ) const;
+          Color4     operator + (const ValueType  val      ) const;
+          Color4     operator - (const ValueType  val      ) const;
 
           void       operator *= (const ValueType  val      );
           void       operator /= (const ValueType  val      );

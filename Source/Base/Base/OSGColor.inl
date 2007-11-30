@@ -427,7 +427,7 @@ const typename Color3<ValueTypeT>::ValueType *
 
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val)
+Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val) const
 {
     Color3<ValueTypeT> returnValue;
 
@@ -439,7 +439,7 @@ Color3<ValueTypeT> Color3<ValueTypeT>::operator *(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT> Color3<ValueTypeT>::operator /(const ValueType val)
+Color3<ValueTypeT> Color3<ValueTypeT>::operator /(const ValueType val) const
 {
     Color3<ValueTypeT> returnValue;
 
@@ -451,7 +451,7 @@ Color3<ValueTypeT> Color3<ValueTypeT>::operator /(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT> Color3<ValueTypeT>::operator +(const ValueType val)
+Color3<ValueTypeT> Color3<ValueTypeT>::operator +(const ValueType val) const
 {
     Color3<ValueTypeT> returnValue;
 
@@ -463,7 +463,7 @@ Color3<ValueTypeT> Color3<ValueTypeT>::operator +(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color3<ValueTypeT> Color3<ValueTypeT>::operator -(const ValueType val)
+Color3<ValueTypeT> Color3<ValueTypeT>::operator -(const ValueType val) const
 {
     Color3<ValueTypeT> returnValue;
 
@@ -895,7 +895,7 @@ const typename Color4<ValueTypeT>::ValueType *
 
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val)
+Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val) const
 {
     Color4<ValueTypeT> returnValue;
 
@@ -908,7 +908,7 @@ Color4<ValueTypeT> Color4<ValueTypeT>::operator *(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT> Color4<ValueTypeT>::operator /(const ValueType val)
+Color4<ValueTypeT> Color4<ValueTypeT>::operator /(const ValueType val) const
 {
     Color4<ValueTypeT> returnValue;
 
@@ -921,7 +921,7 @@ Color4<ValueTypeT> Color4<ValueTypeT>::operator /(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT> Color4<ValueTypeT>::operator +(const ValueType val)
+Color4<ValueTypeT> Color4<ValueTypeT>::operator +(const ValueType val) const
 {
     Color4<ValueTypeT> returnValue;
 
@@ -934,7 +934,7 @@ Color4<ValueTypeT> Color4<ValueTypeT>::operator +(const ValueType val)
 }
 
 template <class ValueTypeT> inline
-Color4<ValueTypeT> Color4<ValueTypeT>::operator -(const ValueType val)
+Color4<ValueTypeT> Color4<ValueTypeT>::operator -(const ValueType val) const
 {
     Color4<ValueTypeT> returnValue;
 
