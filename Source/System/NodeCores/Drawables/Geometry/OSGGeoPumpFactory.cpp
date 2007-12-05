@@ -2244,8 +2244,6 @@ bool GeoPumpFactory::glextInitFunction(void)
     }
 
 GeoVBO::GeoVBO(Window *win, Geometry *geo) :
-    _win(win),
-    _geo(geo),
     _positions(0),
     _normals(0),
     _colors(0),
@@ -2259,16 +2257,23 @@ GeoVBO::GeoVBO(Window *win, Geometry *geo) :
     _texCoords6(0),
     _texCoords7(0),
     _indices(0),
-    _draw_properties_mask(0xffff)
+    _draw_properties_mask(0xffff),
+    _win(win),
+    _geo(geo),
+    _cleared(true)
 {
     update();
 }
 
 GeoVBO::~GeoVBO()
 {
+    clear();
+}
+
+void GeoVBO::clear(void)
+{
     // well ATI supports the GL_ARB_vertex_buffer_object extension but
     // not the ARB functions ...
-
     void (OSG_APIENTRY*_glDeleteBuffersARB)
                   (GLsizei, const GLuint *)=
             (void (OSG_APIENTRY*)(GLsizei, const GLuint *))
@@ -2281,43 +2286,84 @@ GeoVBO::~GeoVBO()
     }
 
     if(_positions != 0)
+    {
         _glDeleteBuffersARB(1, &_positions);
+        _positions = 0;
+    }
 
     if(_normals != 0)
+    {
         _glDeleteBuffersARB(1, &_normals);
+        _normals = 0;
+    }
 
     if(_colors != 0)
+    {
         _glDeleteBuffersARB(1, &_colors);
+        _colors = 0;
+    }
 
     if(_secColors != 0)
+    {
         _glDeleteBuffersARB(1, &_secColors);
+        _secColors = 0;
+    }
 
     if(_texCoords != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords);
+        _texCoords = 0;
+    }
 
     if(_texCoords1 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords1);
+        _texCoords1 = 0;
+    }
 
     if(_texCoords2 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords2);
+        _texCoords2 = 0;
+    }
 
     if(_texCoords3 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords3);
+        _texCoords3 = 0;
+    }
 
     if(_texCoords4 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords4);
+        _texCoords4 = 0;
+    }
 
     if(_texCoords5 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords5);
+        _texCoords5 = 0;
+    }
 
     if(_texCoords6 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords6);
+        _texCoords6 = 0;
+    }
 
     if(_texCoords7 != 0)
+    {
         _glDeleteBuffersARB(1, &_texCoords7);
+        _texCoords7 = 0;
+    }
 
     if(_indices != 0)
+    {
         _glDeleteBuffersARB(1, &_indices);
+        _indices = 0;
+    }
+
+    _cleared = true;
 }
 
 void GeoVBO::update(void)
@@ -2633,10 +2679,15 @@ void GeoVBO::update(void)
 
     _glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
     _glBindBufferARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0);
+
+    _cleared = false;
 }
 
 void GeoVBO::draw(void)
 {
+    if(_cleared)
+        return;
+
     void (OSG_APIENTRY*_glBindBufferARB)
                   (GLenum, GLuint)=
             (void (OSG_APIENTRY*)(GLenum, GLuint))

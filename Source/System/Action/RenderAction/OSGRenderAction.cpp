@@ -1553,8 +1553,12 @@ void RenderAction::activateLocalLights(DrawTreeNode *pRoot)
         //printf("%u,", i);
         _activeLightsMask &= ~(1 << i);
         // reset diffuse color to black that's quite usefull for shaders.
+        glLightfv(GL_LIGHT0 + i, GL_AMBIENT,
+                    black.getValuesRGBA());
         glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
-                  black.getValuesRGBA());
+                    black.getValuesRGBA());
+        glLightfv(GL_LIGHT0 + i, GL_SPECULAR,
+                    black.getValuesRGBA());
         glDisable(GL_LIGHT0 + i);
         ++_uiNumLightChanges;
     }
@@ -2604,7 +2608,11 @@ Action::ResultE RenderAction::stop(ResultE res)
         const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
         for(i = 0;i < 8;++i)
         {
+            glLightfv(GL_LIGHT0 + i, GL_AMBIENT,
+                      black.getValuesRGBA());
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
+                      black.getValuesRGBA());
+            glLightfv(GL_LIGHT0 + i, GL_SPECULAR,
                       black.getValuesRGBA());
             glDisable(GL_LIGHT0 + i);
         }
@@ -2750,7 +2758,11 @@ Action::ResultE RenderAction::stop(ResultE res)
         const Color4f black(0.0f, 0.0f, 0.0f, 1.0f);
         for(i = 0;i < _activeLightsCount;++i)
         {
+            glLightfv(GL_LIGHT0 + i, GL_AMBIENT,
+                      black.getValuesRGBA());
             glLightfv(GL_LIGHT0 + i, GL_DIFFUSE,
+                      black.getValuesRGBA());
+            glLightfv(GL_LIGHT0 + i, GL_SPECULAR,
                       black.getValuesRGBA());
             glDisable(GL_LIGHT0 + i);
         }

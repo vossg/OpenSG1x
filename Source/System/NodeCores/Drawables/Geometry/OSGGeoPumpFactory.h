@@ -246,6 +246,7 @@ public:
     GeoVBO(Window *win, Geometry *geo);
     ~GeoVBO();
 
+    void clear(void);
     void update(void);
     void draw(void);
 
@@ -286,6 +287,7 @@ private:
 
     Window   *_win;
     Geometry *_geo;
+    bool      _cleared;
 };
 
 OSG_END_NAMESPACE
