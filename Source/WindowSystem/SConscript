@@ -5,5 +5,7 @@ Import('*')
 SConscript(dirs = ['GLUT', 'QT', 'QT4'])
 if tc.is_win32():
     SConscript(dirs = ['WIN32'])
+elif env['PLATFORM'] == 'darwin':
+    SConscript(dirs = ['Carbon'])
 else:
     SConscript(dirs = ['X'])

@@ -523,6 +523,14 @@ class PlatformOptions:
                         enable = 'no'
                     opts.Add(PackageOption(option, 'Enable ' + option + ' support', enable))
 
+            if sys.platform == 'darwin':
+                for option in self.package_options:
+                    enable = 'yes'
+                    # on darwin as default we disable exr support.
+                    if option == 'exr' or option == 'zlib':
+                        enable = 'no'
+                    opts.Add(PackageOption(option, 'Enable ' + option + ' support', enable))
+
         # add common options
         opts.Add(EnumOption('type', 'Compile dbg, opt or both', 'opt',
                             allowed_values=('dbg', 'opt', 'both', 'dbgopt')))
@@ -659,11 +667,15 @@ class ToolChain:
         # only OSGWindowGLUT need the glut lib.
         for option in _po.getPackageOptions():
             if isinstance(_po.getOption(option), str):
-                self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include')])
+                newpath = os.path.join(_po.getOption(option), 'include')
+                if self.env.get('CPPPATH') == None or newpath not in self.env.get('CPPPATH'):
+                    self.env.Append(CPPPATH = [newpath])
                 # HACK but the OpenEXR headers are broken.
                 if option == 'exr':
                     self.env.Append(CPPPATH = [os.path.join(_po.getOption(option), 'include', 'OpenEXR')])
-                self.env.Append(LIBPATH = [os.path.join(_po.getOption(option), 'lib')])
+                newpath = os.path.join(_po.getOption(option), 'lib')
+                if self.env.get('LIBPATH') == None or newpath not in self.env.get('LIBPATH'):
+                    self.env.Append(LIBPATH = [newpath])
 
         # add OSG_WITH defines
         if _po.getOption('glut'):
@@ -1220,6 +1232,74 @@ class linux_gcc(ToolChain):
 
         return envs
 
+class darwin_gcc(ToolChain):
+    def __init__(self):
+        ToolChain.__init__(self, 'darwin-gcc')
+
+    def get_env_list(self):
+        env = self.get_env()
+
+        slibs = []
+        if _po.getOption('jpg'):
+            slibs.append('libjpeg')
+        if _po.getOption('tif'):
+            slibs.append('libtiff')
+        if _po.getOption('png'):
+            slibs.append('libpng')
+            slibs.append('libz')
+        if _po.getOption('jasper'):
+            slibs.append('jasper')
+        if _po.getOption('exr'):
+            slibs.append('IlmImf')
+
+        env = env.Copy()
+        
+        env.Append(CXXFLAGS=Split('-Wall -W -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion -Wsign-compare -Winline -Wno-unused -Wno-long-long -Wno-reorder -fno-common -fPIC -ftemplate-depth-100 -use_readonly_const'),
+                   CPPDEFINES=['_GNU_SOURCE', '_OSG_HAVE_CONFIGURED_H_'],
+                   CPPPATH=['/sw/include'],
+                   LIBPATH=['/sw/lib'],
+                   LINKFLAGS = ['-framework', 'OpenGL', '-framework', 'AGL', '-framework', 'GLUT', '-framework', 'Carbon'])
+
+        # get gcc version
+        #import commands
+        #dummy, gccversionstr = commands.getstatusoutput('gcc -dumpversion')
+        #gccversion = float(gccversionstr[0:3])
+        # doesn't work on 64bit machines :-( compiler bug ...
+        #if gccversion >= 4.0:
+        #    env.Append(CXXFLAGS=['-fvisibility-inlines-hidden'])
+        
+        env['OSG_BASE_LIBS'] = ['pthread', 'dl']
+        env['OSG_SYSTEM_LIBS'] = slibs
+        # env['OSG_WINDOW_GLUT_LIBS'] = ['glut', 'GL']
+        env['OSG_WINDOW_X_LIBS'] = []
+        
+        env['OSG_OBJDIR'] = 'obj'
+        
+        envs = []
+        
+        if _po.buildDbg():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['-g'],
+                       LINKFLAGS=[''],
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBDIR']  = 'dbg'
+            dbg['OSG_PROGDIR'] = 'dbg'
+            envs.append(dbg)
+
+        if _po.buildOpt():
+            opt = env.Copy()
+            opt.Append(CXXFLAGS=['-O2'],
+                       LINKFLAGS=[],
+                       CPPDEFINES=[])
+            opt['OSG_OBJDIR']  = 'opt'
+            opt['OSG_LIBDIR']  = 'opt'
+            opt['OSG_PROGDIR'] = 'opt'
+            envs.append(opt)
+
+        return envs
+
+
 class unknown(ToolChain):
     "Specific build type is not known.  Try defaults."
     def __init__(self):
@@ -1258,6 +1338,8 @@ def SelectToolChain():
     else:
         if sys.platform == 'linux2':
             return linux_gcc()
+        elif sys.platform == 'darwin':
+            return darwin_gcc()
         else:
             print "WARNING: Build toolchain not autodetected.  Trying defaults."
             return unknown()
@@ -1323,4 +1405,3 @@ Export('env')
 SConscript(dirs=map(
     lambda n: env['BUILD_DIR'].Dir(n),
     ['Source', 'Examples', 'Tools', 'Tutorials']))
-

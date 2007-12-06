@@ -20,5 +20,5 @@ InstallHeaders(env, headers)
 BuildLibrary(tc, 'OSGWindowCarbon', sources,
              CPPPATH=ExpandCPPPath([Dir('.')] + BaseDirs + SystemDirs),
              CPPDEFINES=['OSG_BUILD_DLL', 'OSG_COMPILEWINDOWCARBONLIB'],
-             LIBPATH=['../../Base', '../../System'],
+             LIBPATH=['../../Base/${OSG_LIBDIR}', '../../System/${OSG_LIBDIR}'],
              LIBS=['OSGSystem${OSG_LIBSUF}', 'OSGBase${OSG_LIBSUF}'])

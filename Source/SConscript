@@ -164,4 +164,3 @@ if _po.getOption('gv_beta'):
 Export('BaseDirs SystemDirs')
 
 SConscript(dirs=['Base', 'System', 'WindowSystem', 'Contrib'])
-
