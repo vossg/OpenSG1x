@@ -46,8 +46,6 @@
 #include <OSGConfig.h>
 #include <OSGTextureChunk.h>
 #include <OSGImage.h>
-#include <OSGMatrixCameraDecorator.h>
-#include <OSGTileCameraDecorator.h>
 #include <OSGRenderAction.h>
 #include <OSGSimpleAttachments.h>
 #include <OSGRemoteAspect.h>
@@ -268,12 +266,16 @@ void FBOViewport::setRenderParamsCB(renderparamscbfp fp)
 /*----------------------- constructors & destructors ----------------------*/
 
 FBOViewport::FBOViewport(void) :
-    Inherited()
+    Inherited(),
+	_tiledeco(NullFC),
+	_deco(NullFC)
 {
 }
 
 FBOViewport::FBOViewport(const FBOViewport &source) :
-    Inherited(source)
+    Inherited(source),
+	_tiledeco(source._tiledeco),
+	_deco(source._deco)
 {
     _tex3D_extension = Window::registerExtension("GL_EXT_texture3D");
     
@@ -341,7 +343,6 @@ FBOViewport::FBOViewport(const FBOViewport &source) :
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glCopyTexSubImage3D", 
                                   _tex3D_extension);
 }
-    
 
 FBOViewport::~FBOViewport(void)
 {
@@ -373,12 +374,24 @@ void FBOViewport::onCreate(const FBOViewport *source)
                                  FBOViewport::FrameBufferIndexFieldMask   |
                                  FBOViewport::DirtyFieldMask              |
                                  FBOViewport::StencilBufferIndexFieldMask |
-                                 FBOViewport::DepthBufferIndexFieldMask );   
+                                 FBOViewport::DepthBufferIndexFieldMask );
+	
+	_tiledeco = TileCameraDecorator::create();
+	addRefCP(_tiledeco);
+	
+	_deco = MatrixCameraDecorator::create();
+	addRefCP(_deco);
 }
 
 void FBOViewport::onDestroy(void)
 {
     // TODO; delete buffers - but window is needed
+	
+    subRefCP(_tiledeco);
+	_tiledeco = NullFC;
+	
+    subRefCP(_deco);
+	_deco = NullFC;
 }
 
 bool FBOViewport::initialize(Window *win, Int32 format)
@@ -771,29 +784,25 @@ void FBOViewport::render(RenderActionBase* action)
                 }
             }
             
-            TileCameraDecoratorPtr tiledeco = TileCameraDecorator::create();
-            
-            beginEditCP(tiledeco);
-                tiledeco->setFullSize(imgWidth, imgHeight);
-            endEditCP(tiledeco);
+            beginEditCP(_tiledeco);
+                _tiledeco->setFullSize(imgWidth, imgHeight);
+            endEditCP(_tiledeco);
             
             // render cubemaps
             if (sides == 6)
             {
-                MatrixCameraDecoratorPtr deco = MatrixCameraDecorator::create();
-                
                 for (j=0; j<sides; j++)
                 {
-                    beginEditCP(deco);
-                        deco->setDecoratee(cP);
-                        deco->setPreProjection(transforms[j]);
-                    endEditCP(deco);
+                    beginEditCP(_deco);
+                        _deco->setDecoratee(cP);
+                        _deco->setPreProjection(transforms[j]);
+                    endEditCP(_deco);
                     
-                    beginEditCP(tiledeco);
-                        tiledeco->setDecoratee(deco);
-                    endEditCP(tiledeco);
+                    beginEditCP(_tiledeco);
+                        _tiledeco->setDecoratee(_deco);
+                    endEditCP(_tiledeco);
                     
-                    action->setCamera(tiledeco.getCPtr());
+                    action->setCamera(_tiledeco.getCPtr());
                     
                     for (y1=0; y1 < imgHeight; y1 += winHeight)
                     {
@@ -806,10 +815,10 @@ void FBOViewport::render(RenderActionBase* action)
                             tw = x2 - x1 + 1;
                             
                             // set tile size to maximal renderable size
-                            beginEditCP(tiledeco);
-                                tiledeco->setSize(  x1/(float)imgWidth,     y1/(float)imgHeight,
+                            beginEditCP(_tiledeco);
+                                _tiledeco->setSize(  x1/(float)imgWidth,     y1/(float)imgHeight,
                                                 (x2+1)/(float)imgWidth, (y2+1)/(float)imgHeight);
-                            endEditCP(tiledeco);
+                            endEditCP(_tiledeco);
                             
                             beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                                                   BottomFieldMask | TopFieldMask);
@@ -849,22 +858,20 @@ void FBOViewport::render(RenderActionBase* action)
                             glCopyTexSubImage2D(targets[j], 0, x1, y1, 0, 0, tw, th);
                             
                             if (glGetError() != GL_NO_ERROR)
-                                SWARNING << "Error in Cube-Texture-Creation!" << endLog;    
+                                SWARNING << "Error in Cube-Texture-Creation!" << endLog;  
                             
                             glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, 0);
                         }
                     }
                 }
-                
-                subRefCP(deco);
             }
             else if (sides == 1)
             {
-                beginEditCP(tiledeco);
-                    tiledeco->setDecoratee(cP);
-                endEditCP(tiledeco);
+                beginEditCP(_tiledeco);
+                    _tiledeco->setDecoratee(cP);
+                endEditCP(_tiledeco);
                 
-                action->setCamera(tiledeco.getCPtr());
+                action->setCamera(_tiledeco.getCPtr());
                
                 // area stored in the texture, by default this is the size of
                 // the texture
@@ -891,10 +898,10 @@ void FBOViewport::render(RenderActionBase* action)
                         tw = x2 - x1 + 1;
                         
                         // set tile size to maximal renderable size
-                        beginEditCP(tiledeco);
-                            tiledeco->setSize(  x1/(float)totalWidth,     y1/(float)totalHeight,
+                        beginEditCP(_tiledeco);
+                            _tiledeco->setSize(  x1/(float)totalWidth,     y1/(float)totalHeight,
                                             (x2+1)/(float)totalWidth, (y2+1)/(float)totalHeight);
-                        endEditCP(tiledeco);
+                        endEditCP(_tiledeco);
                         
                         beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
                                               BottomFieldMask | TopFieldMask);
@@ -1089,8 +1096,6 @@ void FBOViewport::render(RenderActionBase* action)
                 
                 check++;
             }
-            
-            subRefCP(tiledeco);
             
             beginEditCP(getPtr(), LeftFieldMask | RightFieldMask | 
                                   BottomFieldMask | TopFieldMask |
@@ -1580,7 +1585,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.18 2007/11/20 17:56:47 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.19 2007/12/06 13:22:47 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

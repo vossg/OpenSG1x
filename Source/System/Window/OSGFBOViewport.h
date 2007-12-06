@@ -48,6 +48,8 @@
 #include <OSGWindow.h>
 #include <OSGAction.h>
 #include <OSGRenderAction.h>
+#include <OSGMatrixCameraDecorator.h>
+#include <OSGTileCameraDecorator.h>
 
 #include "OSGFBOViewportBase.h"
 
@@ -196,6 +198,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewport : public FBOViewportBase
     static UInt32 _funcCopyTexSubImage3D;
 
     static renderparamscbfp _renderParamsFP;
+	
+	TileCameraDecoratorPtr		_tiledeco;
+	MatrixCameraDecoratorPtr	_deco;
+	
     /*! \}                                                                 */
     
     static void initMethod(void);
@@ -212,6 +218,6 @@ OSG_END_NAMESPACE
 #include "OSGFBOViewportBase.inl"
 #include "OSGFBOViewport.inl"
 
-#define OSGFBOVIEWPORT_HEADER_CVSID "@(#)$Id: OSGFBOViewport.h,v 1.2 2007/09/21 16:09:57 yjung Exp $"
+#define OSGFBOVIEWPORT_HEADER_CVSID "@(#)$Id: OSGFBOViewport.h,v 1.3 2007/12/06 13:22:47 yjung Exp $"
 
 #endif /* _OSGFBOVIEWPORT_H_ */
