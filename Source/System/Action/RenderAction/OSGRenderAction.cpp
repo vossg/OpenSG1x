@@ -2461,6 +2461,14 @@ Action::ResultE RenderAction::start(void)
         _glBeginQueryARB          = (void (OSG_APIENTRY*)(GLenum, GLuint)) _window->getFunction(_funcBeginQueryARB);
         _glEndQueryARB            = (void (OSG_APIENTRY*)(GLenum)) _window->getFunction(_funcEndQueryARB);
         _glGetQueryObjectuivARB   = (void (OSG_APIENTRY*)(GLuint, GLenum, GLuint*)) _window->getFunction(_funcGetQueryObjectuivARB);
+		
+		if (!_glGenQueriesARB || !_glDeleteQueriesARB || 
+			!_glBeginQueryARB || !_glEndQueryARB ||
+			!_glGetQueryObjectuivARB)
+		{
+			_glGenQueriesARB = NULL;
+			_window->ignoreExtensions("GL_ARB_occlusion_query");
+		}
     }
 
     _uiMatrixId = 1;
