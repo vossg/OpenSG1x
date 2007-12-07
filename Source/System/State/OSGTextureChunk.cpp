@@ -52,7 +52,7 @@
 
 #include "OSGDrawActionBase.h"
 #include "OSGRenderAction.h"
-
+#include "OSGTextureTransformChunk.h"
 #include "OSGTextureChunk.h"
 
 OSG_USING_NAMESPACE
@@ -141,6 +141,8 @@ UInt32 TextureChunk::_funcCompressedTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_numTexCreate        = 0;
 Time   TextureChunk::_summedTexCreateTime = 0;
 
+bool   TextureChunk::_needTexMat = false;
+Matrix TextureChunk::_lastTexMat;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -152,6 +154,12 @@ Time   TextureChunk::_summedTexCreateTime = 0;
 
 void TextureChunk::initMethod (void)
 {
+}
+
+bool TextureChunk::activeMatrix(Matrix &texMat)
+{
+	texMat = _lastTexMat;
+	return _needTexMat;
 }
 
 /***************************************************************************\
@@ -1716,6 +1724,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     // Use texture matrix for scaling
     UInt32 NpotMatScale = getNPOTMatrixScale();
     bool setMatrix = false;
+	Matrix texMat;
     
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
@@ -1779,8 +1788,16 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 
                 glPushAttrib(GL_TRANSFORM_BIT);
                 glMatrixMode(GL_TEXTURE);
-                glLoadMatrixf(m.getValues());
+				
+				glLoadMatrixf(m.getValues());
+				
+				if (TextureTransformChunk::activeMatrix(texMat))
+					glMultMatrixf(texMat.getValues());
+                
                 glPopAttrib();
+				
+				_needTexMat = true;
+				_lastTexMat = m;
             }
         }
     }
@@ -1789,8 +1806,16 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
     {
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glPopAttrib();
+		
+		if (TextureTransformChunk::activeMatrix(texMat))
+			glLoadMatrixf(texMat.getValues());
+		else
+			glLoadIdentity();
+        
+		glPopAttrib();
+		
+		_needTexMat = false;
+		_lastTexMat.setIdentity();
     }
     
     glErr("TextureChunk::activate");
@@ -2040,6 +2065,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     // Use texture matrix for scaling
     UInt32 NpotMatScale = getNPOTMatrixScale();
     bool setMatrix = false;
+	Matrix texMat;
     
     if ( idx < static_cast<UInt32>(ntexcoords) &&
         !getScale() && NpotMatScale )
@@ -2103,8 +2129,16 @@ void TextureChunk::changeFrom(DrawActionBase *action,
                 
                 glPushAttrib(GL_TRANSFORM_BIT);
                 glMatrixMode(GL_TEXTURE);
+				
                 glLoadMatrixf(m.getValues());
-                glPopAttrib();
+                
+				if (TextureTransformChunk::activeMatrix(texMat))
+					glMultMatrixf(texMat.getValues());
+				
+				glPopAttrib();
+				
+				_needTexMat = true;
+				_lastTexMat = m;
             }
         }
     }
@@ -2113,8 +2147,16 @@ void TextureChunk::changeFrom(DrawActionBase *action,
     {
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glPopAttrib();
+		
+        if (TextureTransformChunk::activeMatrix(texMat))
+			glLoadMatrixf(texMat.getValues());
+		else
+			glLoadIdentity();
+        
+		glPopAttrib();
+		
+		_needTexMat = false;
+		_lastTexMat.setIdentity();
     }
     
     glErr("TextureChunk::changeFrom");
@@ -2235,13 +2277,22 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
     
     // be consistent with TextureTransform which has to multiply
     //UInt32 NpotMatScale = getNPOTMatrixScale();
+	Matrix texMat;
     
     if ( idx < static_cast<UInt32>(ntexcoords) )
     {
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glPopAttrib();
+		
+        if (TextureTransformChunk::activeMatrix(texMat))
+			glLoadMatrixf(texMat.getValues());
+		else
+			glLoadIdentity();
+        
+		glPopAttrib();
+		
+		_needTexMat = false;
+		_lastTexMat.setIdentity();
     }
     
     glDisable(target);

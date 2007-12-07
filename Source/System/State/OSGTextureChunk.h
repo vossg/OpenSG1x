@@ -46,6 +46,7 @@
 #include <OSGConfig.h>
 #include <OSGGLEXT.h>
 #include <OSGWindow.h>
+#include <OSGMatrix.h>
 #include <OSGTextureChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -141,6 +142,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
 
     inline void setShaderOffsetMatrix(Real32 m11, Real32 m12, 
                                       Real32 m21, Real32 m22);
+	
+	static bool activeMatrix(Matrix &texMat);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -240,6 +243,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     
     
     /*---------------------------------------------------------------------*/
+	
+	// defined by NpotMatScale
+	static bool _needTexMat;
+	
+	// the matrix for NpotMatScale
+	static Matrix _lastTexMat;
+	
+	
     // number of texture objects created
     static UInt32 _numTexCreate;
 

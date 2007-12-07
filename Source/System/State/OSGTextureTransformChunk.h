@@ -43,7 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
-
+#include <OSGMatrix.h>
 #include <OSGTextureTransformChunkBase.h>
 
 OSG_BEGIN_NAMESPACE
@@ -104,6 +104,13 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     virtual bool operator != (const StateChunk &other) const;
 
     /*! \}                                                                 */
+	/*---------------------------------------------------------------------*/
+    /*! \name                TextureTransform specific                     */
+    /*! \{                                                                 */
+	
+	static bool activeMatrix(Matrix &texMat);
+	
+    /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
@@ -132,6 +139,14 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     virtual ~TextureTransformChunk(void); 
 
     /*! \}                                                                 */
+  
+	/*---------------------------------------------------------------------*/
+    
+  	// defined by NpotMatScale
+	static bool _needTexMat;
+	
+	// the matrix for NpotMatScale
+	static Matrix _lastTexMat;
     
     /*==========================  PRIVATE  ================================*/
   private:

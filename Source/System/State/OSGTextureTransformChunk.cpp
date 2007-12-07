@@ -78,6 +78,9 @@ from the osg::TransformChunk and uses its matrix.
 StateChunkClass TextureTransformChunk::_class("TextureTransform",
                                               osgMaxTexCoords);
 
+bool   TextureTransformChunk::_needTexMat = false;
+Matrix TextureTransformChunk::_lastTexMat;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -102,6 +105,12 @@ bool TextureTransformChunk::checkTexChunkOrder(void)
     }
 
     return true;
+}
+
+bool TextureTransformChunk::activeMatrix(Matrix &texMat)
+{
+	texMat = _lastTexMat;
+	return _needTexMat;
 }
 
 /***************************************************************************\
@@ -178,28 +187,40 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     TextureChunk::activateTexture(win, idx);
   
     glMatrixMode(GL_TEXTURE);
-    //glPushMatrix();
     
     if(getUseCameraBeacon())
     {
         if(action->getCamera() != NULL && action->getViewport() != NULL)
         {
-            Matrix m;
+            Matrix m, texMat;
             action->getCamera()->getViewing(m,
                                         action->getViewport()->getPixelWidth(),
                                         action->getViewport()->getPixelHeight());
             m.invert();
             m[3].setValues(0, 0, 0, 1);
             
-            glMultMatrixf(m.getValues());
-            //glLoadMatrixf(m.getValues());
+			if (TextureChunk::activeMatrix(texMat))
+				glMultMatrixf(m.getValues());
+			else
+				glLoadMatrixf(m.getValues());
+			
+			_needTexMat = true;
+			_lastTexMat = m;
         }
     }
     else
     {
-        glMultMatrixf(getMatrix().getValues());
-        //glLoadMatrixf(getMatrix().getValues());
+		Matrix texMat;
+		
+		if (TextureChunk::activeMatrix(texMat))
+			glMultMatrixf(getMatrix().getValues());
+		else
+			glLoadMatrixf(getMatrix().getValues());
+		
+		_needTexMat = true;
+		_lastTexMat = getMatrix();
     }
+	
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -236,29 +257,40 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
-    //glPopMatrix();
-    //glPushMatrix();
-    
+	
     if(getUseCameraBeacon())
     {
         if(action->getCamera() != NULL && action->getViewport() != NULL)
         {
-            Matrix m;
+            Matrix m, texMat;
             action->getCamera()->getViewing(m,
                                         action->getViewport()->getPixelWidth(),
                                         action->getViewport()->getPixelHeight());
             m.invert();
             m[3].setValues(0, 0, 0, 1);
             
-            glMultMatrixf(m.getValues());
-            //glLoadMatrixf(m.getValues());
+			if (TextureChunk::activeMatrix(texMat))
+				glMultMatrixf(m.getValues());
+			else
+				glLoadMatrixf(m.getValues());
+			
+			_needTexMat = true;
+			_lastTexMat = m;
         }
     }
     else
     {
-        glMultMatrixf(getMatrix().getValues());
-        //glLoadMatrixf(getMatrix().getValues());
+		Matrix texMat;
+		
+		if (TextureChunk::activeMatrix(texMat))
+			glMultMatrixf(getMatrix().getValues());
+		else
+			glLoadMatrixf(getMatrix().getValues());
+		
+		_needTexMat = true;
+		_lastTexMat = getMatrix();
     }
+	
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -290,9 +322,18 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
     TextureChunk::activateTexture(win, idx);
 
     glMatrixMode(GL_TEXTURE);
-    //glPopMatrix();
-    glLoadIdentity();
+	
+	Matrix texMat;
+	
+	if (TextureChunk::activeMatrix(texMat))
+		glLoadMatrixf(texMat.getValues());
+	else
+		glLoadIdentity();
+	
     glMatrixMode(GL_MODELVIEW);
+	
+	_needTexMat = false;
+	_lastTexMat.setIdentity();
 }
 
 
