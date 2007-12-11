@@ -1791,8 +1791,10 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				
 				glLoadMatrixf(m.getValues());
 				
+#if TMHACK
 				if (TextureTransformChunk::activeMatrix(texMat))
 					glMultMatrixf(texMat.getValues());
+#endif
                 
                 glPopAttrib();
 				
@@ -1807,9 +1809,11 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
 		
+#if TMHACK
 		if (TextureTransformChunk::activeMatrix(texMat))
 			glLoadMatrixf(texMat.getValues());
 		else
+#endif
 			glLoadIdentity();
         
 		glPopAttrib();
@@ -2132,8 +2136,10 @@ void TextureChunk::changeFrom(DrawActionBase *action,
 				
                 glLoadMatrixf(m.getValues());
                 
+#if TMHACK
 				if (TextureTransformChunk::activeMatrix(texMat))
 					glMultMatrixf(texMat.getValues());
+#endif
 				
 				glPopAttrib();
 				
@@ -2148,9 +2154,11 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
 		
+#if TMHACK
         if (TextureTransformChunk::activeMatrix(texMat))
 			glLoadMatrixf(texMat.getValues());
 		else
+#endif
 			glLoadIdentity();
         
 		glPopAttrib();
@@ -2284,9 +2292,12 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         glPushAttrib(GL_TRANSFORM_BIT);
         glMatrixMode(GL_TEXTURE);
 		
+#if TMHACK
         if (TextureTransformChunk::activeMatrix(texMat))
 			glLoadMatrixf(texMat.getValues());
 		else
+#endif
+
 			glLoadIdentity();
         
 		glPopAttrib();

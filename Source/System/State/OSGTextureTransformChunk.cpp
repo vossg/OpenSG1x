@@ -199,9 +199,11 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
             m.invert();
             m[3].setValues(0, 0, 0, 1);
             
+#if TMHACK
 			if (TextureChunk::activeMatrix(texMat))
 				glMultMatrixf(m.getValues());
 			else
+#endif
 				glLoadMatrixf(m.getValues());
 			
 			_needTexMat = true;
@@ -212,9 +214,11 @@ void TextureTransformChunk::activate ( DrawActionBase * action, UInt32 idx )
     {
 		Matrix texMat;
 		
+#if TMHACK
 		if (TextureChunk::activeMatrix(texMat))
 			glMultMatrixf(getMatrix().getValues());
 		else
+#endif
 			glLoadMatrixf(getMatrix().getValues());
 		
 		_needTexMat = true;
@@ -269,9 +273,11 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
             m.invert();
             m[3].setValues(0, 0, 0, 1);
             
+#if TMHACK
 			if (TextureChunk::activeMatrix(texMat))
 				glMultMatrixf(m.getValues());
 			else
+#endif
 				glLoadMatrixf(m.getValues());
 			
 			_needTexMat = true;
@@ -282,9 +288,11 @@ void TextureTransformChunk::changeFrom( DrawActionBase * action, StateChunk * ol
     {
 		Matrix texMat;
 		
+#if TMHACK
 		if (TextureChunk::activeMatrix(texMat))
 			glMultMatrixf(getMatrix().getValues());
 		else
+#endif
 			glLoadMatrixf(getMatrix().getValues());
 		
 		_needTexMat = true;
@@ -325,9 +333,12 @@ void TextureTransformChunk::deactivate ( DrawActionBase * action, UInt32 idx )
 	
 	Matrix texMat;
 	
+#if TMHACK
 	if (TextureChunk::activeMatrix(texMat))
 		glLoadMatrixf(texMat.getValues());
 	else
+#endif
+
 		glLoadIdentity();
 	
     glMatrixMode(GL_MODELVIEW);
