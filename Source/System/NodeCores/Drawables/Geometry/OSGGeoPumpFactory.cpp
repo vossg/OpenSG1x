@@ -1123,8 +1123,8 @@ void GeoPump129(Window   *win,
             if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
             {
                 osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd], 
-                                          geo->getHighindices()[LengthsInd], 
+                                          geo->getLowindices() [LengthsInd],
+                                          geo->getHighindices()[LengthsInd],
                                           count,
                                           IndicesPtr->getFormat(), 
                                           vind);
@@ -1155,8 +1155,8 @@ void GeoPump129(Window   *win,
             if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
             {
                 osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          0, 
-                                          IndicesSize, 
+                                          geo->getLowindices() [LengthsInd],
+                                          geo->getHighindices()[LengthsInd],
                                           count,
                                           IndicesPtr->getFormat(), 
                                           vind);
@@ -2699,6 +2699,10 @@ void GeoVBO::draw(void)
              _win->getFunction(GeoPumpFactory::_funcglBindBufferARB);
     }
 
+    // removed the hasExtension(GeoPumpFactory::_extDrawRangeElements) and
+    // hasExtension(GeoPumpFactory::_extMultitexture) calls with VBO support
+    // this extensions are also supported!
+
     Geometry *geo = _geo;
     Int16 modified=0;
 
@@ -2706,13 +2710,9 @@ void GeoVBO::draw(void)
     if (PositionsPtr != NullFC &&
         (_draw_properties_mask & Geometry::MapPosition))
     {
-        UInt32 PositionsStride = 0;
-        if(!(PositionsStride = PositionsPtr->getStride()))
-            PositionsStride = PositionsPtr->getFormatSize() * PositionsPtr->getDimension();
-
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _positions);
         glVertexPointer(PositionsPtr->getDimension(), PositionsPtr->getFormat(),
-                        PositionsStride, NULL);
+                        0, NULL);
         glEnableClientState(GL_VERTEX_ARRAY);
         modified|=(1<<0);
     }
@@ -2721,12 +2721,8 @@ void GeoVBO::draw(void)
     if (NormalsPtr != NullFC &&
         (_draw_properties_mask & Geometry::MapNormal))
     {
-        UInt32 NormalsStride = 0;
-        if(!(NormalsStride = NormalsPtr->getStride()))
-            NormalsStride = NormalsPtr->getFormatSize() * NormalsPtr->getDimension();
-
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _normals);
-        glNormalPointer(NormalsPtr->getFormat(), NormalsStride, NULL);
+        glNormalPointer(NormalsPtr->getFormat(), 0, NULL);
         glEnableClientState(GL_NORMAL_ARRAY);
         modified|=(1<<3);
     }
@@ -2735,13 +2731,9 @@ void GeoVBO::draw(void)
     if (ColorsPtr != NullFC &&
         (_draw_properties_mask & Geometry::MapColor))
     {
-        UInt32 ColorsStride = 0;
-        if(!(ColorsStride = ColorsPtr->getStride()))
-            ColorsStride = ColorsPtr->getFormatSize() * ColorsPtr->getDimension();
-
         _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _colors);
-        glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(),
-                       ColorsStride, NULL);
+        glColorPointer(ColorsPtr->getDimension(), ColorsPtr->getFormat(), 0,
+                       NULL);
         glEnableClientState(GL_COLOR_ARRAY);
         modified|=(1<<1);
     }
@@ -2750,54 +2742,31 @@ void GeoVBO::draw(void)
     if (SecColorsPtr != NullFC &&
         (_draw_properties_mask & Geometry::MapSecondaryColor))
     {
-        if (_win->hasExtension(GeoPumpFactory::_extSecondaryColor))
-        {
-            UInt32 SecColorsStride = 0;
-            if(!(SecColorsStride = SecColorsPtr->getStride()))
-                SecColorsStride = SecColorsPtr->getFormatSize() * SecColorsPtr->getDimension();
+        void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
+              (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
+        (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
+         _win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
 
-            void (OSG_APIENTRY*_glSecondaryColorPointerEXT)
-                  (GLint size,GLenum type,GLsizei stride,const GLvoid *pointer)=
-            (void (OSG_APIENTRY*)(GLint size,GLenum type,GLsizei stride,const GLvoid *pointer))
-             _win->getFunction(GeoPumpFactory::_funcglSecondaryColorPointer);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _secColors);
-            _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
-                                       SecColorsPtr->getFormat(),
-                                       SecColorsStride, NULL);
-            glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
-            modified|=(1<<2);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no Secondary Color extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _secColors);
+        _glSecondaryColorPointerEXT(SecColorsPtr->getDimension(),
+                                   SecColorsPtr->getFormat(),
+                                   0, NULL);
+        glEnableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
+        modified|=(1<<2);
     }
 
     GeoTexCoordsPtr TexCoordsPtr = geo->getTexCoords();
     if (TexCoordsPtr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords))
     {
-        UInt32 TexCoordsStride = 0;
-        if(!(TexCoordsStride = TexCoordsPtr->getStride()))
-            TexCoordsStride = TexCoordsPtr->getFormatSize() * TexCoordsPtr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE0_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
-            glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
-                               TexCoordsStride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-        else
-        {
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
-            glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
-                               TexCoordsStride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords);
+        glTexCoordPointer (TexCoordsPtr->getDimension(), TexCoordsPtr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         modified|=(1<<4);
     }
 
@@ -2805,167 +2774,104 @@ void GeoVBO::draw(void)
     if (TexCoords1Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords1))
     {
-        UInt32 TexCoords1Stride = 0;
-        if(!(TexCoords1Stride = TexCoords1Ptr->getStride()))
-            TexCoords1Stride = TexCoords1Ptr->getFormatSize() * TexCoords1Ptr->getDimension();
-
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE1_ARB);
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords1);
-            glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
-                               TexCoords1Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<5);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE1_ARB);
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords1);
+        glTexCoordPointer (TexCoords1Ptr->getDimension(), TexCoords1Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<5);
     }
 
     GeoTexCoordsPtr TexCoords2Ptr = geo->getTexCoords2();
     if (TexCoords2Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords2))
     {
-        UInt32 TexCoords2Stride = 0;
-        if(!(TexCoords2Stride = TexCoords2Ptr->getStride()))
-            TexCoords2Stride = TexCoords2Ptr->getFormatSize() * TexCoords2Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE2_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE2_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords2);
-            glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
-                               TexCoords2Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<6);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords2);
+        glTexCoordPointer (TexCoords2Ptr->getDimension(), TexCoords2Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<6);
     }
 
     GeoTexCoordsPtr TexCoords3Ptr = geo->getTexCoords3();
     if (TexCoords3Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords3))
     {
-        UInt32 TexCoords3Stride = 0;
-        if(!(TexCoords3Stride = TexCoords3Ptr->getStride()))
-            TexCoords3Stride = TexCoords3Ptr->getFormatSize() * TexCoords3Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE3_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE3_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords3);
-            glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
-                               TexCoords3Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<7);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords3);
+        glTexCoordPointer (TexCoords3Ptr->getDimension(), TexCoords3Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<7);
     }
 
     GeoTexCoordsPtr TexCoords4Ptr = geo->getTexCoords4();
     if (TexCoords4Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords4))
     {
-        UInt32 TexCoords4Stride = 0;
-        if(!(TexCoords4Stride = TexCoords4Ptr->getStride()))
-            TexCoords4Stride = TexCoords4Ptr->getFormatSize() * TexCoords4Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE4_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords4);
-            glTexCoordPointer (TexCoords4Ptr->getDimension(), TexCoords4Ptr->getFormat(),
-                               TexCoords4Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<8);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords4);
+        glTexCoordPointer (TexCoords4Ptr->getDimension(), TexCoords4Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<8);
     }
 
     GeoTexCoordsPtr TexCoords5Ptr = geo->getTexCoords5();
     if (TexCoords5Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords5))
     {
-        UInt32 TexCoords5Stride = 0;
-        if(!(TexCoords5Stride = TexCoords5Ptr->getStride()))
-            TexCoords5Stride = TexCoords5Ptr->getFormatSize() * TexCoords5Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE5_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords5);
-            glTexCoordPointer (TexCoords5Ptr->getDimension(), TexCoords5Ptr->getFormat(),
-                               TexCoords5Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<9);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords5);
+        glTexCoordPointer (TexCoords5Ptr->getDimension(), TexCoords5Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<9);
     }
 
     GeoTexCoordsPtr TexCoords6Ptr = geo->getTexCoords6();
     if (TexCoords6Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords6))
     {
-        UInt32 TexCoords6Stride = 0;
-        if(!(TexCoords6Stride = TexCoords6Ptr->getStride()))
-                TexCoords6Stride = TexCoords6Ptr->getFormatSize() * TexCoords6Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE6_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords6);
-            glTexCoordPointer (TexCoords6Ptr->getDimension(), TexCoords6Ptr->getFormat(),
-                               TexCoords6Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<10);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords6);
+        glTexCoordPointer (TexCoords6Ptr->getDimension(), TexCoords6Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<10);
     }
 
     GeoTexCoordsPtr TexCoords7Ptr = geo->getTexCoords7();
     if (TexCoords7Ptr != NullFC &&
         (_draw_properties_mask & Geometry::MapTexCoords7))
     {
-        UInt32 TexCoords7Stride = 0;
-        if(!(TexCoords7Stride = TexCoords7Ptr->getStride()))
-                TexCoords7Stride = TexCoords7Ptr->getFormatSize() * TexCoords7Ptr->getDimension();
+        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+        _glClientActiveTextureARB(GL_TEXTURE7_ARB);
 
-        if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
-        {
-            void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-            (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
-
-            _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords7);
-            glTexCoordPointer (TexCoords7Ptr->getDimension(), TexCoords7Ptr->getFormat(),
-                               TexCoords7Stride, NULL);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            modified|=(1<<11);
-        }
-        else
-            FWARNING(("VBO::draw: Window has no MultitextureARB extension\n"));
+        _glBindBufferARB(GL_ARRAY_BUFFER_ARB, _texCoords7);
+        glTexCoordPointer (TexCoords7Ptr->getDimension(), TexCoords7Ptr->getFormat(),
+                           0, NULL);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        modified|=(1<<11);
     }
 
     pumpSetup(Lengths    , GeoPLengthsPtr  , getLengths    );
@@ -3009,23 +2915,12 @@ void GeoVBO::draw(void)
             UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
             IndicesInd += count;
 
-            if(_win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
-            {
-                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd], 
-                                          geo->getHighindices()[LengthsInd], 
-                                          count,
-                                          IndicesPtr->getFormat(), 
-                                          vind);
-            }
-            else
-            {
-                // hope this still works
-                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
-                               count,
-                               IndicesPtr->getFormat(),
-                               vind);
-            }
+            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                      geo->getLowindices() [LengthsInd],
+                                      geo->getHighindices()[LengthsInd],
+                                      count,
+                                      IndicesPtr->getFormat(), 
+                                      vind);
         }
     }
     else if(len16 == true)
@@ -3037,23 +2932,12 @@ void GeoVBO::draw(void)
             UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
             IndicesInd += count;
 
-            if(_win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
-            {
-                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          0, 
-                                          IndicesSize, 
-                                          count,
-                                          IndicesPtr->getFormat(), 
-                                          vind);
-            }
-            else
-            {
-                // hope this still works
-                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
-                               count,
-                               IndicesPtr->getFormat(),
-                               vind);
-            }
+            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                      geo->getLowindices() [LengthsInd],
+                                      geo->getHighindices()[LengthsInd],
+                                      count,
+                                      IndicesPtr->getFormat(),
+                                      vind);
         }
     }
     else
@@ -3066,62 +2950,55 @@ void GeoVBO::draw(void)
     if(modified&(1<<2)) glDisableClientState(GL_SECONDARY_COLOR_ARRAY_EXT);
     if(modified&(1<<3)) glDisableClientState(GL_NORMAL_ARRAY);
 
-    if (_win->hasExtension(GeoPumpFactory::_extMultitexture))
+    void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
+    (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
+
+    if(modified&(1<<4))
     {
-        void (OSG_APIENTRY*_glClientActiveTextureARB) (GLenum type)=
-        (void (OSG_APIENTRY*) (GLenum type))_win->getFunction(GeoPumpFactory::_funcglClientActiveTextureARB);
-
-        if(modified&(1<<4))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE0_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-        
-        if(modified&(1<<5))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE1_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-        
-        if(modified&(1<<6))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE2_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-        
-        if(modified&(1<<7))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE3_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-
-        if(modified&(1<<8))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE4_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-
-        if(modified&(1<<9))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE5_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-
-        if(modified&(1<<10))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE6_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
-
-        if(modified&(1<<11))
-        {
-            _glClientActiveTextureARB(GL_TEXTURE7_ARB);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        }
+        _glClientActiveTextureARB(GL_TEXTURE0_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     }
-    else
+    
+    if(modified&(1<<5))
     {
-        if(modified&(1<<4)) glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        _glClientActiveTextureARB(GL_TEXTURE1_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    
+    if(modified&(1<<6))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE2_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    
+    if(modified&(1<<7))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE3_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    if(modified&(1<<8))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE4_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    if(modified&(1<<9))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE5_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    if(modified&(1<<10))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE6_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+
+    if(modified&(1<<11))
+    {
+        _glClientActiveTextureARB(GL_TEXTURE7_ARB);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     }
 
     _glBindBufferARB(GL_ARRAY_BUFFER_ARB, 0);
