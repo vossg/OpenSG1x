@@ -108,7 +108,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
     /*! \name                TextureTransform specific                     */
     /*! \{                                                                 */
 	
-	static bool activeMatrix(Matrix &texMat);
+	static bool activeMatrix(Matrix &texMat, UInt16 texture);
 	
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -143,10 +143,10 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunk : public TextureTransformCh
 	/*---------------------------------------------------------------------*/
     
   	// defined by NpotMatScale
-	static bool _needTexMat;
+	static std::vector<bool> _needTexMat;
 	
 	// the matrix for NpotMatScale
-	static Matrix _lastTexMat;
+	static std::vector<Matrix> _lastTexMat;
     
     /*==========================  PRIVATE  ================================*/
   private:

@@ -467,6 +467,13 @@ SFUInt32 *TextureChunkBase::getSFNPOTMatrixScale(void)
     return &_sfNPOTMatrixScale;
 }
 
+//! Get the TextureChunk::_sfSkipMipMapLevels field.
+inline
+SFReal32 *TextureChunkBase::getSFSkipMipMapLevels(void)
+{
+    return &_sfSkipMipMapLevels;
+}
+
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
@@ -1558,6 +1565,27 @@ inline
 void TextureChunkBase::setNPOTMatrixScale(const UInt32 &value)
 {
     _sfNPOTMatrixScale.setValue(value);
+}
+
+//! Get the value of the TextureChunk::_sfSkipMipMapLevels field.
+inline
+Real32 &TextureChunkBase::getSkipMipMapLevels(void)
+{
+    return _sfSkipMipMapLevels.getValue();
+}
+
+//! Get the value of the TextureChunk::_sfSkipMipMapLevels field.
+inline
+const Real32 &TextureChunkBase::getSkipMipMapLevels(void) const
+{
+    return _sfSkipMipMapLevels.getValue();
+}
+
+//! Set the value of the TextureChunk::_sfSkipMipMapLevels field.
+inline
+void TextureChunkBase::setSkipMipMapLevels(const Real32 &value)
+{
+    _sfSkipMipMapLevels.setValue(value);
 }
 
 

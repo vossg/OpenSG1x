@@ -55,6 +55,10 @@
 #include "OSGTextureTransformChunk.h"
 #include "OSGTextureChunk.h"
 
+#ifndef TMHACK
+  #define TMHACK 1	// hehe :)
+#endif
+
 OSG_USING_NAMESPACE
 
 
@@ -141,8 +145,8 @@ UInt32 TextureChunk::_funcCompressedTexSubImage3D = Window::invalidFunctionID;
 UInt32 TextureChunk::_numTexCreate        = 0;
 Time   TextureChunk::_summedTexCreateTime = 0;
 
-bool   TextureChunk::_needTexMat = false;
-Matrix TextureChunk::_lastTexMat;
+std::vector<bool>   TextureChunk::_needTexMat;
+std::vector<Matrix> TextureChunk::_lastTexMat;
 
 /***************************************************************************\
  *                           Class methods                                 *
@@ -154,12 +158,19 @@ Matrix TextureChunk::_lastTexMat;
 
 void TextureChunk::initMethod (void)
 {
+	_needTexMat.resize(4, false);
+	_lastTexMat.resize(4, Matrix::identity());
 }
 
-bool TextureChunk::activeMatrix(Matrix &texMat)
+bool TextureChunk::activeMatrix(Matrix &texMat, UInt16 texture)
 {
-	texMat = _lastTexMat;
-	return _needTexMat;
+	if (texture < _needTexMat.size())
+	{
+		texMat = _lastTexMat[texture];
+		return _needTexMat[texture];
+	}
+	else
+		return false;
 }
 
 /***************************************************************************\
@@ -762,12 +773,17 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
         if(needMipmaps)
         {
             // do we have usable mipmaps ?
-            if(img->getMipMapCount() == img->calcMipmapLevelCount() &&
+            if ( img->getMipMapCount() == img->calcMipmapLevelCount() &&
                  osgispower2(width) && osgispower2(height) &&
-                 osgispower2(depth)
-              )
+                 osgispower2(depth) )
             {
-                for(UInt16 i = 0; i < img->getMipMapCount(); i++)
+                UInt16 baseLevel = 0;
+				Real32 skipLevels = osgClamp(0.f, getSkipMipMapLevels(), 1.f);
+                
+                if (img->getMipMapCount())
+					baseLevel = skipLevels * (img->getMipMapCount() - 1); 
+				
+                for(UInt16 i = baseLevel; i < img->getMipMapCount(); i++)
                 {
                     UInt32 w, h, d;
                     img->calcMipmapGeometry(i, w, h, d);
@@ -777,13 +793,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         switch (imgtarget)
                         {
                         case GL_TEXTURE_1D:
-                            CompressedTexImage1D(GL_TEXTURE_1D, i, internalFormat,
+                            CompressedTexImage1D(GL_TEXTURE_1D, i-baseLevel, internalFormat,
                                             w, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_2D:
-                            CompressedTexImage2D(imgtarget, i, internalFormat,
+                            CompressedTexImage2D(imgtarget, i-baseLevel, internalFormat,
                                             w, h, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
@@ -794,13 +810,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:
                         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
-                            CompressedTexImage2D(imgtarget, i, internalFormat,
+                            CompressedTexImage2D(imgtarget, i-baseLevel, internalFormat,
                                             w, h, getBorderWidth(),
                                             img->calcMipmapLevelSize(i), 
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_3D:
-                            CompressedTexImage3D(GL_TEXTURE_3D, i, internalFormat,
+                            CompressedTexImage3D(GL_TEXTURE_3D, i-baseLevel, internalFormat,
                                             w, h, d, getBorderWidth(),
                                             img->calcMipmapLevelSize(i),
                                             img->getData(i, frame, side));
@@ -816,7 +832,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         switch (imgtarget)
                         {
                         case GL_TEXTURE_1D:
-                            glTexImage1D(GL_TEXTURE_1D, i, internalFormat,
+                            glTexImage1D(GL_TEXTURE_1D, i-baseLevel, internalFormat,
                                             w, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
@@ -828,13 +844,13 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y_ARB:
                         case GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB:
                         case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB:
-                            glTexImage2D(imgtarget, i, internalFormat,
+                            glTexImage2D(imgtarget, i-baseLevel, internalFormat,
                                             w, h, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
                             break;
                         case GL_TEXTURE_3D:
-                              TexImage3D(GL_TEXTURE_3D, i, internalFormat,
+                              TexImage3D(GL_TEXTURE_3D, i-baseLevel, internalFormat,
                                             w, h, d, getBorderWidth(),
                                             externalFormat, type,
                                             img->getData(i, frame, side));
@@ -1575,7 +1591,7 @@ void TextureChunk::handleGL(Window *win, UInt32 idstatus)
 }
 
 void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
-{    
+{
     Window *win = action->getWindow();
     
     Real32 nteximages, ntexcoords;
@@ -1792,14 +1808,19 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
 				glLoadMatrixf(m.getValues());
 				
 #if TMHACK
-				if (TextureTransformChunk::activeMatrix(texMat))
+				if (TextureTransformChunk::activeMatrix(texMat, idx))
 					glMultMatrixf(texMat.getValues());
 #endif
                 
                 glPopAttrib();
 				
-				_needTexMat = true;
-				_lastTexMat = m;
+				if (idx >= _needTexMat.size())
+				{
+					_needTexMat.resize(idx+1, false);
+					_lastTexMat.resize(idx+1, Matrix::identity());
+				}
+				_needTexMat[idx] = true;
+				_lastTexMat[idx] = m;
             }
         }
     }
@@ -1810,7 +1831,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glMatrixMode(GL_TEXTURE);
 		
 #if TMHACK
-		if (TextureTransformChunk::activeMatrix(texMat))
+		if (TextureTransformChunk::activeMatrix(texMat, idx))
 			glLoadMatrixf(texMat.getValues());
 		else
 #endif
@@ -1818,8 +1839,13 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         
 		glPopAttrib();
 		
-		_needTexMat = false;
-		_lastTexMat.setIdentity();
+		if (idx >= _needTexMat.size())
+		{
+			_needTexMat.resize(idx+1, false);
+			_lastTexMat.resize(idx+1, Matrix::identity());
+		}
+		_needTexMat[idx] = false;
+		_lastTexMat[idx].setIdentity();
     }
     
     glErr("TextureChunk::activate");
@@ -2137,14 +2163,19 @@ void TextureChunk::changeFrom(DrawActionBase *action,
                 glLoadMatrixf(m.getValues());
                 
 #if TMHACK
-				if (TextureTransformChunk::activeMatrix(texMat))
+				if (TextureTransformChunk::activeMatrix(texMat, idx))
 					glMultMatrixf(texMat.getValues());
 #endif
 				
 				glPopAttrib();
 				
-				_needTexMat = true;
-				_lastTexMat = m;
+				if (idx >= _needTexMat.size())
+				{
+					_needTexMat.resize(idx+1, false);
+					_lastTexMat.resize(idx+1, Matrix::identity());
+				}
+				_needTexMat[idx] = true;
+				_lastTexMat[idx] = m;
             }
         }
     }
@@ -2155,7 +2186,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         glMatrixMode(GL_TEXTURE);
 		
 #if TMHACK
-        if (TextureTransformChunk::activeMatrix(texMat))
+        if (TextureTransformChunk::activeMatrix(texMat, idx))
 			glLoadMatrixf(texMat.getValues());
 		else
 #endif
@@ -2163,8 +2194,13 @@ void TextureChunk::changeFrom(DrawActionBase *action,
         
 		glPopAttrib();
 		
-		_needTexMat = false;
-		_lastTexMat.setIdentity();
+		if (idx >= _needTexMat.size())
+		{
+			_needTexMat.resize(idx+1, false);
+			_lastTexMat.resize(idx+1, Matrix::identity());
+		}
+		_needTexMat[idx] = false;
+		_lastTexMat[idx].setIdentity();
     }
     
     glErr("TextureChunk::changeFrom");
@@ -2293,17 +2329,21 @@ void TextureChunk::deactivate(DrawActionBase *action, UInt32 idx)
         glMatrixMode(GL_TEXTURE);
 		
 #if TMHACK
-        if (TextureTransformChunk::activeMatrix(texMat))
+        if (TextureTransformChunk::activeMatrix(texMat, idx))
 			glLoadMatrixf(texMat.getValues());
 		else
 #endif
-
 			glLoadIdentity();
         
 		glPopAttrib();
 		
-		_needTexMat = false;
-		_lastTexMat.setIdentity();
+		if (idx >= _needTexMat.size())
+		{
+			_needTexMat.resize(idx+1, false);
+			_lastTexMat.resize(idx+1, Matrix::identity());
+		}
+		_needTexMat[idx] = false;
+		_lastTexMat[idx].setIdentity();
     }
     
     glDisable(target);

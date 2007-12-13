@@ -120,6 +120,7 @@
 #include <OSGColor4fFields.h> // BorderColor type
 #include <OSGUInt32Fields.h> // BorderWidth type
 #include <OSGUInt32Fields.h> // NPOTMatrixScale type
+#include <OSGReal32Fields.h> // SkipMipMapLevels type
 
 #include <OSGTextureChunkFields.h>
 
@@ -196,7 +197,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
         BorderColorFieldId          = AnisotropyFieldId           + 1,
         BorderWidthFieldId          = BorderColorFieldId          + 1,
         NPOTMatrixScaleFieldId      = BorderWidthFieldId          + 1,
-        NextFieldId                 = NPOTMatrixScaleFieldId      + 1
+        SkipMipMapLevelsFieldId     = NPOTMatrixScaleFieldId      + 1,
+        NextFieldId                 = SkipMipMapLevelsFieldId     + 1
     };
 
     static const OSG::BitVector ImageFieldMask;
@@ -252,6 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     static const OSG::BitVector BorderColorFieldMask;
     static const OSG::BitVector BorderWidthFieldMask;
     static const OSG::BitVector NPOTMatrixScaleFieldMask;
+    static const OSG::BitVector SkipMipMapLevelsFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -331,6 +334,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
            SFColor4f           *getSFBorderColor    (void);
            SFUInt32            *getSFBorderWidth    (void);
            SFUInt32            *getSFNPOTMatrixScale(void);
+           SFReal32            *getSFSkipMipMapLevels(void);
 
            ImagePtr            &getImage          (void);
      const ImagePtr            &getImage          (void) const;
@@ -436,6 +440,8 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      const UInt32              &getBorderWidth    (void) const;
            UInt32              &getNPOTMatrixScale(void);
      const UInt32              &getNPOTMatrixScale(void) const;
+           Real32              &getSkipMipMapLevels(void);
+     const Real32              &getSkipMipMapLevels(void) const;
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
      const MFReal32            &getShaderOffsetMatrix(void) const;
@@ -497,6 +503,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
      void setBorderColor    ( const Color4f &value );
      void setBorderWidth    ( const UInt32 &value );
      void setNPOTMatrixScale( const UInt32 &value );
+     void setSkipMipMapLevels( const Real32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -592,6 +599,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     SFColor4f           _sfBorderColor;
     SFUInt32            _sfBorderWidth;
     SFUInt32            _sfNPOTMatrixScale;
+    SFReal32            _sfSkipMipMapLevels;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

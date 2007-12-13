@@ -62,7 +62,7 @@
 #include "OSGCubeTextureChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CubeTextureChunkBase::PosZImageFieldMask = 
     (TypeTraits<BitVector>::One << CubeTextureChunkBase::PosZImageFieldId);
@@ -78,9 +78,6 @@ const OSG::BitVector  CubeTextureChunkBase::PosYImageFieldMask =
 
 const OSG::BitVector  CubeTextureChunkBase::NegYImageFieldMask = 
     (TypeTraits<BitVector>::One << CubeTextureChunkBase::NegYImageFieldId);
-
-const OSG::BitVector  CubeTextureChunkBase::IsReflectionMapFieldMask = 
-    (TypeTraits<BitVector>::One << CubeTextureChunkBase::IsReflectionMapFieldId);
 
 const OSG::BitVector CubeTextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -103,9 +100,6 @@ const OSG::BitVector CubeTextureChunkBase::MTInfluenceMask =
 */
 /*! \var ImagePtr        CubeTextureChunkBase::_sfNegYImage
     The image for the negative Y direction for the cube tetxure.
-*/
-/*! \var bool            CubeTextureChunkBase::_sfIsReflectionMap
-    
 */
 
 //! CubeTextureChunk description
@@ -136,12 +130,7 @@ FieldDescription *CubeTextureChunkBase::_desc[] =
                      "negYImage", 
                      NegYImageFieldId, NegYImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFNegYImage),
-    new FieldDescription(SFBool::getClassType(), 
-                     "isReflectionMap", 
-                     IsReflectionMapFieldId, IsReflectionMapFieldMask,
-                     false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFIsReflectionMap)
+                     (FieldAccessMethod) &CubeTextureChunkBase::getSFNegYImage)
 };
 
 
@@ -222,7 +211,6 @@ CubeTextureChunkBase::CubeTextureChunkBase(void) :
     _sfNegXImage              (), 
     _sfPosYImage              (), 
     _sfNegYImage              (), 
-    _sfIsReflectionMap        (bool(true)), 
     Inherited() 
 {
 }
@@ -237,7 +225,6 @@ CubeTextureChunkBase::CubeTextureChunkBase(const CubeTextureChunkBase &source) :
     _sfNegXImage              (source._sfNegXImage              ), 
     _sfPosYImage              (source._sfPosYImage              ), 
     _sfNegYImage              (source._sfNegYImage              ), 
-    _sfIsReflectionMap        (source._sfIsReflectionMap        ), 
     Inherited                 (source)
 {
 }
@@ -279,11 +266,6 @@ UInt32 CubeTextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfNegYImage.getBinSize();
     }
 
-    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
-    {
-        returnValue += _sfIsReflectionMap.getBinSize();
-    }
-
 
     return returnValue;
 }
@@ -316,11 +298,6 @@ void CubeTextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (NegYImageFieldMask & whichField))
     {
         _sfNegYImage.copyToBin(pMem);
-    }
-
-    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
-    {
-        _sfIsReflectionMap.copyToBin(pMem);
     }
 
 
@@ -356,11 +333,6 @@ void CubeTextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfNegYImage.copyFromBin(pMem);
     }
 
-    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
-    {
-        _sfIsReflectionMap.copyFromBin(pMem);
-    }
-
 
 }
 
@@ -385,9 +357,6 @@ void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
 
     if(FieldBits::NoField != (NegYImageFieldMask & whichField))
         _sfNegYImage.syncWith(pOther->_sfNegYImage);
-
-    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
-        _sfIsReflectionMap.syncWith(pOther->_sfIsReflectionMap);
 
 
 }
@@ -414,9 +383,6 @@ void CubeTextureChunkBase::executeSyncImpl(      CubeTextureChunkBase *pOther,
     if(FieldBits::NoField != (NegYImageFieldMask & whichField))
         _sfNegYImage.syncWith(pOther->_sfNegYImage);
 
-    if(FieldBits::NoField != (IsReflectionMapFieldMask & whichField))
-        _sfIsReflectionMap.syncWith(pOther->_sfIsReflectionMap);
-
 
 
 }
@@ -432,6 +398,8 @@ void CubeTextureChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -443,8 +411,6 @@ DataType FieldDataTraits<CubeTextureChunkPtr>::_type("CubeTextureChunkPtr", "Tex
 
 OSG_DLLEXPORT_SFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -460,10 +426,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBETEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBETEXTURECHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCUBETEXTURECHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -250,6 +250,9 @@ const OSG::BitVector  TextureChunkBase::BorderWidthFieldMask =
 const OSG::BitVector  TextureChunkBase::NPOTMatrixScaleFieldMask = 
     (TypeTraits<BitVector>::One << TextureChunkBase::NPOTMatrixScaleFieldId);
 
+const OSG::BitVector  TextureChunkBase::SkipMipMapLevelsFieldMask = 
+    (TypeTraits<BitVector>::One << TextureChunkBase::SkipMipMapLevelsFieldId);
+
 const OSG::BitVector TextureChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -415,6 +418,9 @@ const OSG::BitVector TextureChunkBase::MTInfluenceMask =
 */
 /*! \var UInt32          TextureChunkBase::_sfNPOTMatrixScale
     Use the texture matrix to scale the texture coordinates for NPOT images. Only used if neither rectangular nor NPOT textures are supported. If set to false, the image is scaled to the next power of two before being used as a texture. For convenience xFlip/ yFlip can also be set. Note that this will interfere with other TextureTransform and TexGen chunks. Do not use it if you need to use those chunks!
+*/
+/*! \var Real32          TextureChunkBase::_sfSkipMipMapLevels
+    Percentage of mipmap levels to be skipped. Especially useful in combination with image formats that already hold all levels and GPUs with only low mem.
 */
 
 //! TextureChunk description
@@ -685,7 +691,12 @@ FieldDescription *TextureChunkBase::_desc[] =
                      "NPOTMatrixScale", 
                      NPOTMatrixScaleFieldId, NPOTMatrixScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureChunkBase::getSFNPOTMatrixScale)
+                     (FieldAccessMethod) &TextureChunkBase::getSFNPOTMatrixScale),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "skipMipMapLevels", 
+                     SkipMipMapLevelsFieldId, SkipMipMapLevelsFieldMask,
+                     false,
+                     (FieldAccessMethod) &TextureChunkBase::getSFSkipMipMapLevels)
 };
 
 
@@ -815,6 +826,7 @@ TextureChunkBase::TextureChunkBase(void) :
     _sfBorderColor            (Color4f(0,0,0,0)), 
     _sfBorderWidth            (UInt32(0)), 
     _sfNPOTMatrixScale        (UInt32(0)), 
+    _sfSkipMipMapLevels       (Real32(0)), 
     Inherited() 
 {
 }
@@ -877,6 +889,7 @@ TextureChunkBase::TextureChunkBase(const TextureChunkBase &source) :
     _sfBorderColor            (source._sfBorderColor            ), 
     _sfBorderWidth            (source._sfBorderWidth            ), 
     _sfNPOTMatrixScale        (source._sfNPOTMatrixScale        ), 
+    _sfSkipMipMapLevels       (source._sfSkipMipMapLevels       ), 
     Inherited                 (source)
 {
 }
@@ -1158,6 +1171,11 @@ UInt32 TextureChunkBase::getBinSize(const BitVector &whichField)
         returnValue += _sfNPOTMatrixScale.getBinSize();
     }
 
+    if(FieldBits::NoField != (SkipMipMapLevelsFieldMask & whichField))
+    {
+        returnValue += _sfSkipMipMapLevels.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -1430,6 +1448,11 @@ void TextureChunkBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
     {
         _sfNPOTMatrixScale.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (SkipMipMapLevelsFieldMask & whichField))
+    {
+        _sfSkipMipMapLevels.copyToBin(pMem);
     }
 
 
@@ -1705,6 +1728,11 @@ void TextureChunkBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfNPOTMatrixScale.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SkipMipMapLevelsFieldMask & whichField))
+    {
+        _sfSkipMipMapLevels.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -1874,6 +1902,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
     if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
         _sfNPOTMatrixScale.syncWith(pOther->_sfNPOTMatrixScale);
 
+    if(FieldBits::NoField != (SkipMipMapLevelsFieldMask & whichField))
+        _sfSkipMipMapLevels.syncWith(pOther->_sfSkipMipMapLevels);
+
 
 }
 #else
@@ -2039,6 +2070,9 @@ void TextureChunkBase::executeSyncImpl(      TextureChunkBase *pOther,
 
     if(FieldBits::NoField != (NPOTMatrixScaleFieldMask & whichField))
         _sfNPOTMatrixScale.syncWith(pOther->_sfNPOTMatrixScale);
+
+    if(FieldBits::NoField != (SkipMipMapLevelsFieldMask & whichField))
+        _sfSkipMipMapLevels.syncWith(pOther->_sfSkipMipMapLevels);
 
 
     if(FieldBits::NoField != (ShaderOffsetMatrixFieldMask & whichField))

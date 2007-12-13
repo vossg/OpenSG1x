@@ -143,7 +143,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     inline void setShaderOffsetMatrix(Real32 m11, Real32 m12, 
                                       Real32 m21, Real32 m22);
 	
-	static bool activeMatrix(Matrix &texMat);
+	static bool activeMatrix(Matrix &texMat, UInt16 texture);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -244,11 +244,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
     
     /*---------------------------------------------------------------------*/
 	
-	// defined by NpotMatScale
-	static bool _needTexMat;
+  	// defined by NpotMatScale
+	static std::vector<bool> _needTexMat;
 	
 	// the matrix for NpotMatScale
-	static Matrix _lastTexMat;
+	static std::vector<Matrix> _lastTexMat;
 	
 	
     // number of texture objects created
