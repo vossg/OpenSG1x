@@ -1045,6 +1045,8 @@ class win32_msvc80(win32_msvc_base):
         if _po.getOption('exr'):
             env['OSG_SYSTEM_LIBS'] += ['openexr_vc80']
 
+        env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
+
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
 
@@ -1078,6 +1080,46 @@ class win32_msvc80(win32_msvc_base):
         env.PrependENVPath('LIB', lib_path)
         env.PrependENVPath('PATH', exe_path)
 
+    def get_env_list(self):
+        env = self.get_env()
+
+        envs = []
+
+        if _po.buildDbg():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/RTC1'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = 'D'
+            dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
+            envs.append(dbg)
+
+        if _po.buildDbgOpt():
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/Z7', '/MD', '/Ox', '/Ob2'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['NDEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'opt'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(dbgopt)
+
+        if _po.buildOpt():
+            opt = env.Copy()
+            opt.Append(CXXFLAGS=['/MD', '/Ox', '/Ob2'],
+                       LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
+                       CPPDEFINES=['NDEBUG'])
+            opt['OSG_OBJDIR']  = 'opt'
+            opt['OSG_LIBSUF']  = ''
+            opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(opt)
+
+        return envs
+
 class win32_msvc80x64(win32_msvc_base):
     def __init__(self):
         win32_msvc_base.__init__(self, 'win32-msvc80x64')
@@ -1087,6 +1129,8 @@ class win32_msvc80x64(win32_msvc_base):
         # disables extra checks in the STL.
         if _po.getOption('no_secure_stl'):
             env.Append(CPPDEFINES=['_SECURE_SCL=0'])
+
+        env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
@@ -1120,6 +1164,45 @@ class win32_msvc80x64(win32_msvc_base):
         env.PrependENVPath('PATH', exe_path)
 
         env.Append(LIBS = ['bufferoverflowu'])
+
+    def get_env_list(self):
+        env = self.get_env()
+
+        envs = []
+
+        if _po.buildDbg():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/RTC1'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = 'D'
+            dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
+            envs.append(dbg)
+
+        if _po.buildDbgOpt():
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/Z7', '/MD', '/Ox', '/Ob2'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['NDEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'opt'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(dbgopt)
+
+        if _po.buildOpt():
+            opt = env.Copy()
+            opt.Append(CXXFLAGS=['/MD', '/Ox', '/Ob2'],
+                       LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
+                       CPPDEFINES=['NDEBUG'])
+            opt['OSG_OBJDIR']  = 'opt'
+            opt['OSG_LIBSUF']  = ''
+            opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(opt)
+
 
 class win32_mspsdkx64(win32_msvc_base):
     def __init__(self):
