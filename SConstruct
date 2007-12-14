@@ -1130,7 +1130,7 @@ class win32_msvc80x64(win32_msvc_base):
         if _po.getOption('no_secure_stl'):
             env.Append(CPPDEFINES=['_SECURE_SCL=0'])
 
-        env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
+        env.Append(CXXFLAGS=['/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
@@ -1203,6 +1203,7 @@ class win32_msvc80x64(win32_msvc_base):
             opt.Append(LIBS = ['msvcprt', 'msvcrt'])
             envs.append(opt)
 
+        return envs
 
 class win32_mspsdkx64(win32_msvc_base):
     def __init__(self):
