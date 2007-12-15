@@ -50,6 +50,7 @@
 #include <OSGGeometryBase.h>
 #include <OSGGeoPropPtrs.h>
 #include <OSGMaterial.h>
+#include <OSGDynamicVolume.h>
 
 #include <OSGActorBase.h>
 
@@ -265,6 +266,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     UInt32 _nvertices;
     UInt32 _nprimitives;
     UInt32 _numBytesOnGfxCard;
+
+    DynamicVolume   _volume;
 };
 
 typedef Geometry *GeometryP;
