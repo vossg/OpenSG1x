@@ -405,7 +405,6 @@ bool FBOViewport::initialize(Window *win, Int32 format)
         return false;
 
     checkGLError("FBO initalize pre");
-
     
     if (getFrameBufferIndex() && !getDirty())
         return true;
@@ -544,10 +543,7 @@ void FBOViewport::render(RenderActionBase* action)
 {
     if (!getEnabled())
         return;
-        
-    Window *win = action->getWindow();
-
-    
+	
     static GLenum targets[6] = {
                           GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
                           GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB,
@@ -557,7 +553,7 @@ void FBOViewport::render(RenderActionBase* action)
                           GL_TEXTURE_CUBE_MAP_NEGATIVE_X_ARB,
                         };
 
-    static Matrix transforms[6] = { 
+    static Matrix transforms[6] = {
                              Matrix( 1, 0, 0, 0,
                                      0,-1, 0, 0,
                                      0, 0,-1, 0,
@@ -587,8 +583,10 @@ void FBOViewport::render(RenderActionBase* action)
                                      0,-1, 0, 0,
                                      1, 0, 0, 0,
                                      0, 0, 0, 1 ),
-                           };
+                        };
 
+	Window *win = action->getWindow();
+	
     if (win == NULL)
     {
         SWARNING << "FBOViewport::render: no window!" << std::endl;
@@ -635,7 +633,7 @@ void FBOViewport::render(RenderActionBase* action)
     if (depth)
         rAct->setZWriteTrans(true);
             
-    if (!getFboOn()  && extensionCheck())
+    if (!getFboOn() || !extensionCheck())
     {
         UInt32 i, numBuffers = (getTextures().getSize()) ? 1 : 0;
         
@@ -726,7 +724,6 @@ void FBOViewport::render(RenderActionBase* action)
                 {
                     imgWidth = winWidth;
                     imgHeight = winHeight;
-                    //SWARNING << "noDim: " << imgWidth << ", " << imgHeight << std::endl;
                 }
                 
                 // TODO; introduce special mode instead of searching for this type
@@ -857,8 +854,7 @@ void FBOViewport::render(RenderActionBase* action)
                             
                             glCopyTexSubImage2D(targets[j], 0, x1, y1, 0, 0, tw, th);
                             
-                            if (glGetError() != GL_NO_ERROR)
-                                SWARNING << "Error in Cube-Texture-Creation!" << endLog;  
+                            checkGLError("Cube-Texture-Creation");
                             
                             glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, 0);
                         }
@@ -974,9 +970,8 @@ void FBOViewport::render(RenderActionBase* action)
                             }
                             else
                                 glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
-                        
-                            if(glGetError() != GL_NO_ERROR)
-                                SWARNING << "Error in Texture-Creation! " << endLog;
+							
+                            checkGLError("Texture-Creation");
                             
                             if(getReadBuffer())
                             {
@@ -1061,8 +1056,7 @@ void FBOViewport::render(RenderActionBase* action)
                 else
                     glCopyTexSubImage2D(target, 0, 0, 0, 0, 0, imgWidth, imgHeight);           
                 
-                if (glGetError() != GL_NO_ERROR)
-                    SWARNING << "Error in Texture-Creation of special mode! " << endLog;    
+                checkGLError("Texture-Creation special mode");
                 
                 glBindTexture(target, 0);
             }
@@ -1585,7 +1579,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.19 2007/12/06 13:22:47 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.20 2007/12/17 15:43:49 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
