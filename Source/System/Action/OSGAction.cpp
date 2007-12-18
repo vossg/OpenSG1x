@@ -328,9 +328,10 @@ Action::ResultE Action::recurse( NodePtr node  )
     }
     else if ( ! _useNewList ) // new list is empty, but not used?
     {
-        std::vector<NodePtr>::iterator it;
+        std::vector<NodePtr>::iterator it = node->getMFChildren()->begin();
+        std::vector<NodePtr>::iterator en = node->getMFChildren()->end();
 
-        for ( it = node->getMFChildren()->begin(); it != node->getMFChildren()->end(); it ++ )
+        for ( ; it != en; ++it )
         {
             result = recurse( *it );
             
@@ -361,11 +362,12 @@ Action::ResultE Action::callNewList(void)
     std::vector<NodePtr> nodeList;
     nodeList.swap(_newList);
 
-    std::vector<NodePtr>::iterator it;
+    std::vector<NodePtr>::iterator it = nodeList.begin();
+    std::vector<NodePtr>::iterator en = nodeList.end();
 
     _actList = &nodeList;
 
-    for(it = nodeList.begin(); it != nodeList.end(); ++it)
+    for ( ; it != en; ++it )
     {
         result = recurse(*it);
 

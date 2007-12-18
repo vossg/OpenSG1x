@@ -428,8 +428,8 @@ UInt32 WinThreadBase::_changeListKey = 0;
 #endif
 
 #if defined(OSG_ASPECT_USE_DECLSPEC)
-__declspec (thread) UInt32      WinThreadBase::_uiAspectLocal    = 0;
-__declspec (thread) ChangeList *WinThreadBase::_pChangeListLocal = NULL;
+static __declspec (thread) UInt32      _uiAspectLocal    = 0;
+static __declspec (thread) ChangeList *_pChangeListLocal = NULL;
 #endif
 
 /*-------------------------------------------------------------------------*/

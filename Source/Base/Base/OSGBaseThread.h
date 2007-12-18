@@ -426,9 +426,6 @@ class OSG_BASE_DLLMAPPING BaseWinThreadBase : public BaseThreadCommonBase
 #if defined(OSG_ASPECT_USE_LOCALSTORAGE)
     static UInt32 _threadKey;
 #endif
-#if defined(OSG_ASPECT_USE_DECLSPEC)
-    static __declspec (thread) BaseThread *_pThreadLocal;
-#endif
 
     /*---------------------------------------------------------------------*/
     /*! \name                   Class Specific                             */

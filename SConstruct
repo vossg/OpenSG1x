@@ -394,6 +394,9 @@ def CreateConfiguredHeader(env):
     new_configured_h += '#endif /* _OSGCONFIGURED_H_ */'
     new_configured_h += '\n' # add new line
 
+    if _po.getOption('enable_win_declspec_localstorage'):
+        new_configured_h = new_configured_h.replace('#define OSG_ASPECT_USE_LOCALSTORAGE', '#define OSG_ASPECT_USE_DECLSPEC')
+
     if current_configured_h != new_configured_h:
         configured_h = open(filename, 'w')
         configured_h.write(new_configured_h)
@@ -543,6 +546,8 @@ class PlatformOptions:
         opts.Add(BoolOption('no_secure_stl', 'disables secure stl for msvc 80 compiler', 0))
 
         opts.Add(BoolOption('force_aspect', 'enable force aspect, allows running external threads (read only) without initializing them, quite usefull for the Intel Threading Building Blocks library.', 0))
+
+        opts.Add(BoolOption('enable_win_declspec_localstorage', 'use __declspec for thread local storage on windows platform.', 0))
 
         # contrib
         opts.Add(BoolOption('contrib_cgchunk', 'enable contrib CGChunk', 0))

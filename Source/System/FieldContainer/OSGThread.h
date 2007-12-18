@@ -411,10 +411,6 @@ class OSG_SYSTEMLIB_DLLMAPPING WinThreadBase : public ThreadCommonBase
     static UInt32 _aspectKey;
     static UInt32 _changeListKey;
 #endif
-#if defined(OSG_ASPECT_USE_DECLSPEC)
-    static __declspec (thread) UInt32      _uiAspectLocal;
-    static __declspec (thread) ChangeList *_pChangeListLocal;
-#endif
 
 #ifdef OSG_ASPECT_USE_LOCALSTORAGE
     /*! \}                                                                 */

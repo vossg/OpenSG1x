@@ -500,7 +500,7 @@ UInt32 BaseWinThreadBase::_threadKey = 0;
 #endif
 
 #if defined(OSG_ASPECT_USE_DECLSPEC)
-__declspec (thread) BaseThread *BaseWinThreadBase::_pThreadLocal     = NULL;
+static __declspec (thread) BaseThread *_pThreadLocal     = NULL;
 #endif
 
 /*------------------------------ Helper -----------------------------------*/
