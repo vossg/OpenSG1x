@@ -352,7 +352,7 @@ def get_msvc_default_paths(version=None, use_mfc_dirs=0):
 # amz backported the code from the current scons cvs version for
 # the visual studio 2005 stuff.
 
-def get_visualstudio8_suites():
+def get_visualstudio8_suites(version = '8.0'):
     """
     Returns a sorted list of all installed Visual Studio 2005 suites found
     in the registry. The highest version should be the first entry in the list.
@@ -363,14 +363,14 @@ def get_visualstudio8_suites():
     # Detect Standard, Professional and Team edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            r'Software\Microsoft\VisualStudio\8.0')
+            r'Software\Microsoft\VisualStudio\\' + version)
         id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         editions = { 'PRO': r'Setup\VS\Pro' }       # ToDo: add standard and team editions
         edition_name = 'STD'
         for name, key_suffix in editions.items():
             try:
                 idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-                    r'Software\Microsoft\VisualStudio\8.0' + '\\' + key_suffix )
+                    r'Software\Microsoft\VisualStudio\\' + version + '\\' + key_suffix )
                 edition_name = name
             except SCons.Util.RegError:
                 pass
@@ -381,7 +381,7 @@ def get_visualstudio8_suites():
     # Detect Express edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            r'Software\Microsoft\VCExpress\8.0')
+            r'Software\Microsoft\VCExpress\\' + version)
         id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         suites.append('EXPRESS')
     except SCons.Util.RegError:
@@ -425,7 +425,8 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
         if vs8suite == None:
             # We've been given no guidance about which Visual Studio 8
             # suite to use, so attempt to autodetect.
-            suites = get_visualstudio8_suites()
+            suites = get_visualstudio8_suites(version)
+
             if suites:
                 vs8suite = suites[0]
                 rv['VS8SUITE'] = vs8suite
@@ -438,6 +439,7 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
         key = K + r'\Setup\Microsoft Visual C++\ProductDir'
     else:
         key = K + r'\Setup\VC\ProductDir'
+
     try:
         (rv['VCINSTALLDIR'], t) = SCons.Util.RegGetValue(SCons.Util.HKEY_LOCAL_MACHINE, key)
     except SCons.Util.RegError:
@@ -577,6 +579,15 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
             rv['PLATFORMSDK_MODULES'] = vers
         except SCons.Util.RegError:
             pass
+
+
+    # MS Platform SDKs dir for Visual Studio 2008
+    try:
+        (rv['PLATFORMSDKSDIR'], t) = SCons.Util.RegGetValue(SCons.Util.HKEY_LOCAL_MACHINE,
+            r'Software\Microsoft\Microsoft SDKs\Windows\CurrentInstallFolder')
+    except SCons.Util.RegError:
+        pass
+
     return rv
 
 
@@ -681,6 +692,55 @@ def _get_mspsdk_x64_default_paths(version = None, vs8suite = None):
         exe_path += 'C:/WINDOWS/system32;C:/WINDOWS;C:/WINDOWS/System32/Wbem'
     else:
         print "Couldn't find platform sdk install directory!"
+
+    return (include_path, lib_path, exe_path)
+
+
+def _get_msvc9_default_paths(version = None, vs8suite = None):
+
+    rv = get_msvs8_install_dirs(version, vs8suite)
+    include_path = ""
+    include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
+
+    if rv.has_key('PLATFORMSDKSDIR'):
+        PlatformSdkDir = rv['PLATFORMSDKSDIR']
+    else:
+        PlatformSdkDir = os.path.join(MVSVCdir, 'PlatformSDK')
+
+    include_path += os.path.join(PlatformSdkDir, 'include') + ';'
+    include_path += os.path.join(PlatformSdkDir, 'include', 'atl')
+
+    # In the express edition there is no PlatformSDK.
+    #if rv['VS8SUITE'] == 'EXPRESS':
+    #    if rv.has_key('PLATFORMSDKDIR'):
+    #        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
+    #        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
+    #    else:
+    #        print "Couldn't find platform sdk install directory!"
+    #else:
+    #    include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include') + ';'
+    #    include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include', 'atl')
+
+    lib_path = ""
+    lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib') + ';'
+    lib_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'lib') + ';'
+
+    lib_path += os.path.join(PlatformSdkDir, 'lib')
+    #if rv['VS8SUITE'] == 'EXPRESS':
+    #    if rv.has_key('PLATFORMSDKDIR'):
+    #        lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib')
+    #    else:
+    #        print "Couldn't find platform sdk install directory!"
+    #else:
+    #    lib_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'lib')
+
+    exe_path = ""
+    exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'IDE') + ';'
+    exe_path += os.path.join(rv['VCINSTALLDIR'], 'bin') + ';'
+    exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'Tools') + ';'
+    exe_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'bin') + ';'
+    exe_path += os.path.join(rv['FRAMEWORKDIR'], rv['FRAMEWORKVERSION']) + ';'
+    exe_path += os.path.join(rv['VCINSTALLDIR'], 'VCPackages')
 
     return (include_path, lib_path, exe_path)
 

@@ -149,7 +149,6 @@ SystemDirs = [Dir('System').Dir(n) for n in Split("""
     ../Experimental/NewAction
     ../Experimental/NewAction/ActorCodeGen
     ../Experimental/NewAction/Actors
-    ../Experimental/Text
     ../Experimental/ShadowMapViewport
     ../Experimental/ShadowViewport
     ../Experimental/SHL
