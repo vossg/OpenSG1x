@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
     OpenSG NodeCore for direct volume rendering
 */
 
-UInt32 DVRVolume::_extTex3D = Window::registerExtension( "GL_EXT_texture3D" );
+UInt32 DVRVolume::_extTex3D = Window::invalidExtensionID;
 
 /*----------------------- constructors & destructors ----------------------*/
 
@@ -85,6 +85,8 @@ DVRVolume::DVRVolume(void) :
     shadingInitialized(false)
 {
     SINFO << "DVRVolume::DVRVolume(void) this: " << this << std::endl;
+
+    _extTex3D = Window::registerExtension( "GL_EXT_texture3D" );
 
     commonConstructor();
 }

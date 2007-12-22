@@ -431,7 +431,7 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
                 vs8suite = suites[0]
                 rv['VS8SUITE'] = vs8suite
 
-        if vs8suite == 'EXPRESS':
+        if vs8suite == 'EXPRESS' or not suites:
             K = 'Software\\Microsoft\\VCExpress\\' + str(version_num)
 
     # vc++ install dir
@@ -443,6 +443,7 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
     try:
         (rv['VCINSTALLDIR'], t) = SCons.Util.RegGetValue(SCons.Util.HKEY_LOCAL_MACHINE, key)
     except SCons.Util.RegError:
+        print "Couldn't find msvc 9.0 compiler installation directory!"
         pass
 
     # visual studio install dir

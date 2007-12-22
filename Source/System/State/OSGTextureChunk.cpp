@@ -158,19 +158,21 @@ std::vector<Matrix> TextureChunk::_lastTexMat;
 
 void TextureChunk::initMethod (void)
 {
-	_needTexMat.resize(4, false);
-	_lastTexMat.resize(4, Matrix::identity());
+    // leads to a crash with msvc 9.0, looks like _needTexMat and
+    // _lastTexMat are not yet initialized at the call time of initMethod()!
+    //_needTexMat.resize(4, false);
+    //_lastTexMat.resize(4, Matrix::identity());
 }
 
 bool TextureChunk::activeMatrix(Matrix &texMat, UInt16 texture)
 {
-	if (texture < _needTexMat.size())
-	{
-		texMat = _lastTexMat[texture];
-		return _needTexMat[texture];
-	}
-	else
-		return false;
+    if (texture < _needTexMat.size())
+    {
+        texMat = _lastTexMat[texture];
+        return _needTexMat[texture];
+    }
+    else
+        return false;
 }
 
 /***************************************************************************\
@@ -187,6 +189,12 @@ bool TextureChunk::activeMatrix(Matrix &texMat, UInt16 texture)
 TextureChunk::TextureChunk(void) :
     Inherited()
 {
+    if(_needTexMat.empty())
+        _needTexMat.resize(4, false);
+
+    if(_lastTexMat.empty())
+        _lastTexMat.resize(4, Matrix::identity());
+
     _extTex3D               =
         Window::registerExtension("GL_EXT_texture3D"                );
     _arbMultiTex            =
