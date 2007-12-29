@@ -494,6 +494,8 @@ class PlatformOptions:
 
         opts.Add(PackageOption('cg', 'Enable cg support', 'no'))
 
+        opts.Add(PackageOption('text', 'Enable text support', 'no'))
+
         opts.Add(BoolOption('gif', 'Enable gif support', 1))
 
         self.package_options = ['tif', 'jpg', 'png', 'jasper', 'exr', 'glut', 'zlib']
@@ -772,6 +774,17 @@ class ToolChain:
                     else:
                         self.env['OSG_CG_LIBS'] = ['Cg', 'CgGL']
 
+
+        if _po.getOption('text') and self.env.get('PLATFORM') != 'win32':
+            if isinstance(_po.getOption('text'), str):
+                self.env.Append(CPPPATH = [os.path.join(_po.getOption('text'), 'include', 'freetype2')])
+                self.env.Append(LIBPATH = [os.path.join(_po.getOption('text'), 'lib')])
+            else:
+                self.env.Append(CPPPATH = ['/usr/include/freetype2'])
+                self.env.Append(LIBPATH = ['/usr/lib'])
+            self.env.Append(CPPDEFINES = ['FT2_LIB', 'FONTCONFIG_LIB'])
+            self.env.Append(LIBS = ['freetype', 'fontconfig'])
+            
         if _po.getOption('force_aspect'):
             self.env.Append(CPPDEFINES=['OSG_FORCE_ASPECT'])
 
