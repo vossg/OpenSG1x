@@ -363,14 +363,14 @@ def get_visualstudio8_suites(version = '8.0'):
     # Detect Standard, Professional and Team edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            r'Software\Microsoft\VisualStudio\\' + version)
+            r'Software\\Microsoft\\VisualStudio\\' + version)
         id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         editions = { 'PRO': r'Setup\VS\Pro' }       # ToDo: add standard and team editions
         edition_name = 'STD'
         for name, key_suffix in editions.items():
             try:
                 idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-                    r'Software\Microsoft\VisualStudio\\' + version + '\\' + key_suffix )
+                    r'Software\\Microsoft\\VisualStudio\\' + version + '\\' + key_suffix )
                 edition_name = name
             except SCons.Util.RegError:
                 pass
@@ -381,7 +381,7 @@ def get_visualstudio8_suites(version = '8.0'):
     # Detect Express edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            r'Software\Microsoft\VCExpress\\' + version)
+            r'Software\\Microsoft\\VCExpress\\' + version)
         id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         suites.append('EXPRESS')
     except SCons.Util.RegError:
