@@ -429,6 +429,16 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
 
             if suites:
                 vs8suite = suites[0]
+                key = K + r'\Setup\VC\ProductDir'
+                # is this really a existing key?
+                try:
+                    SCons.Util.RegGetValue(SCons.Util.HKEY_LOCAL_MACHINE, key)
+                except SCons.Util.RegError:
+                    # couldn't find the key so we use the next suite.
+                    if len(suites) > 1:
+                        vs8suite = suites[1]
+                    pass
+
                 rv['VS8SUITE'] = vs8suite
 
         if vs8suite == 'EXPRESS' or not suites:
