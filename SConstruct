@@ -1266,8 +1266,8 @@ class win32_msvc90(win32_msvc_base):
         env = self.get_env()
 
         # need to add openexr_vc90 lib.
-        #if _po.getOption('exr'):
-        #    env['OSG_SYSTEM_LIBS'] += ['openexr_vc80']
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr_vc90']
 
         env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
 
