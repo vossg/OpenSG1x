@@ -135,11 +135,22 @@ bool HDRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
         return false;
     }
 
-    image->set (Image::OSG_RGB_PF, width, height, 1, 1, 1, 0.0, 0, Image::OSG_FLOAT32_IMAGEDATA);
+    bool use16BitFloat = (_options.find("use16BitFloat=true") != std::string::npos);
+
+    image->set (Image::OSG_RGB_PF, width, height, 1, 1, 1, 0.0, 0, use16BitFloat ? Image::OSG_FLOAT16_IMAGEDATA : Image::OSG_FLOAT32_IMAGEDATA);
+
+    if(!image->isValid())
+        return false;
+
     image->clear();
 
-    Real32 *data = ((Real32 *)(image->getData()));
+    if(use16BitFloat)
+    {
+        Real16 *data = ((Real16 *)(image->getData()));
+        return radiance2fp(is, data, width, height);
+    }
 
+    Real32 *data = ((Real32 *)(image->getData()));
     return radiance2fp(is, data, width, height);
 }
 
@@ -230,13 +241,30 @@ bool HDRImageFileType::read (      ImagePtr &image,
         return false;
     }
 
-    image->set (Image::OSG_RGB_PF, width, height, 1, 1, 1, 0.0, 0, Image::OSG_FLOAT32_IMAGEDATA);
+    bool use16BitFloat = (_options.find("use16BitFloat=true") != std::string::npos);
+
+    image->set (Image::OSG_RGB_PF, width, height, 1, 1, 1, 0.0, 0, use16BitFloat ? Image::OSG_FLOAT16_IMAGEDATA : Image::OSG_FLOAT32_IMAGEDATA);
+
+    if(!image->isValid())
+        return false;
+
     image->clear();
 
-    Real32 *data = ((Real32 *)(image->getData()));
+    bool ok = false;
 
-    bool ok = radiance2fp(file, data, width, height);
+    if(use16BitFloat)
+    {
+        Real16 *data = ((Real16 *)(image->getData()));
+        ok = radiance2fp(file, data, width, height);
+    }
+    else
+    {
+        Real32 *data = ((Real32 *)(image->getData()));
+        ok = radiance2fp(file, data, width, height);
+    }
+
     fclose(file);
+
     return ok;
 }
 
@@ -466,6 +494,54 @@ bool HDRImageFileType::radiance2fp(std::istream &is, Real32 *data, int width, in
     }
     delete[] sline;
     
+    return true;
+}
+
+// convert radiance hdr to float image
+bool HDRImageFileType::radiance2fp(FILE *file, Real16 *data, int width, int height)
+{
+    int x,y,yx;
+    RGBE *sline = new RGBE[width];
+
+    for(y=height-1;y>=0;y--)
+    {
+        yx = y*width;
+        if (!freadcolrs(file, sline, width))
+            return false;
+        Real16 *fcol = &data[yx * 3];
+        for (x=0;x<width;x++)
+        {
+            RGBE2Half(sline[x], fcol);
+            fcol += 3;
+        }
+    }
+    delete[] sline;
+    return true;
+}
+
+// convert radiance hdr to float image (streaming type)
+bool HDRImageFileType::radiance2fp(std::istream &is, Real16 *data, int width, int height)
+{
+    int x,y,yx;
+    RGBE *sline = new RGBE[width];
+
+    if (!sline)
+        return false;
+
+    for(y=height-1;y>=0;y--)
+    {
+        yx = y*width;
+        if (!freadcolrs(is, sline, width))
+            return false;
+        Real16 *fcol = &data[yx * 3];
+        for (x=0;x<width;x++)
+        {
+            RGBE2Half(sline[x], fcol);
+            fcol += 3;
+        }
+    }
+    delete[] sline;
+
     return true;
 }
 

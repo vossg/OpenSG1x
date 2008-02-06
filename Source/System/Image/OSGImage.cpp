@@ -2366,7 +2366,8 @@ bool Image::convertDataTypeTo (Int32 destDataType)
 */
 void Image::clear(UChar8 pixelValue)
 {
-    memset(getData(),pixelValue,getSize());
+    if(getData() != NULL)
+        memset(getData(),pixelValue,getSize());
 }
 
 void Image::clearFloat(Real32 pixelValue)
@@ -3165,6 +3166,45 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
 
     return true;
 }
+
+bool Image::removeMipmap(void)
+{
+    if(getMipMapCount() == 1) // no mipmaps nothing to do.
+        return true;
+
+    // create destination image
+    ImagePtr destImage = Image::create();
+    destImage->set(getPixelFormat(),
+                   getWidth(), getHeight(), getDepth(),
+                   1, getFrameCount(),
+                   getFrameDelay(), 0, getDataType(),
+                   true,
+                   getSideCount() );
+
+    if(!destImage->isValid())
+    {
+        subRefCP(destImage);
+        return false;
+    }
+
+    // copy the data;
+    for(Int32 frame = 0; frame < getFrameCount(); frame++)
+    {
+        for(Int32 side = 0; side < getSideCount(); side++) 
+        {
+            UChar8 *src = this->getData(0, frame, side);
+            UChar8 *dest = destImage->getData(0, frame, side);
+            Int32 size = getWidth() * getHeight() * getDepth() * getBpp();
+            memcpy(dest,src, size);
+        }
+    }
+
+    this->set(destImage);
+    subRefCP(destImage);
+
+    return true;
+}
+
 
 /*! Write the image to the a file. The mimetype will be set automatically
     from the fileName suffix. Returns true on success.

@@ -246,6 +246,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
 
     bool createMipmap ( Int32 level = -1, ImagePtr destination = NullFC);
 
+    bool removeMipmap (void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */

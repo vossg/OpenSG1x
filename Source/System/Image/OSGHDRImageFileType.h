@@ -120,10 +120,13 @@ class OSG_SYSTEMLIB_DLLMAPPING HDRImageFileType : public ImageFileType
 
     bool checkHDR(FILE *file, int &width, int &height);
     bool checkHDR(std::istream &is, int &width, int &height);
-    
+
     bool radiance2fp(FILE *file, Real32 *data, int width, int height);
     bool radiance2fp(std::istream &is, Real32 *data, int width, int height);
-    
+
+    bool radiance2fp(FILE *file, Real16 *data, int width, int height);
+    bool radiance2fp(std::istream &is, Real16 *data, int width, int height);
+
     bool freadcolrs(FILE *file, RGBE *scan, int width);
     bool freadcolrs(std::istream &is, RGBE *scan, int width);
     
