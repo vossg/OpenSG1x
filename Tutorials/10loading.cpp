@@ -45,9 +45,9 @@ class NamedNodeFinder
   
     NamedNodeFinder(void) : _name(), _found() {}
 
-    NodePtr operator() (NodePtr root, std::string name)
+    NodePtr operator() (NodePtr root, std::string const &name)
     {
-        _name=&name;
+        _name=name;
         _found=NullFC;
         
         traverse(root, osgTypedMethodFunctor1ObjPtrCPtrRef(
@@ -57,7 +57,7 @@ class NamedNodeFinder
         return _found;
     }
  
-    static NodePtr find(NodePtr root, std::string name)
+    static NodePtr find(NodePtr root, std::string const &name)
     {
         NamedNodeFinder f;      
         
@@ -68,7 +68,7 @@ class NamedNodeFinder
      
     Action::ResultE check(NodePtr& node)
     {
-        if(getName(node) && *_name == getName(node))
+        if(getName(node) && _name == getName(node))
         {
             _found = node;
             return Action::Quit;
@@ -77,8 +77,8 @@ class NamedNodeFinder
         return Action::Continue;        
     }
  
-    NodePtr  _found;
-    std::string  *_name;
+    NodePtr     _found;
+    std::string _name;
 };
 
 // Initialize GLUT & OpenSG and set up the scene
