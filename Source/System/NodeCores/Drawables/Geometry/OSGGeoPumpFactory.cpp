@@ -1122,20 +1122,26 @@ void GeoPump129(Window   *win,
 #else
             if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
             {
-                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd],
-                                          geo->getHighindices()[LengthsInd],
-                                          count,
-                                          IndicesPtr->getFormat(), 
-                                          vind);
+                if(count != 0)
+                {
+                    osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                              geo->getLowindices() [LengthsInd],
+                                              geo->getHighindices()[LengthsInd],
+                                              count,
+                                              IndicesPtr->getFormat(), 
+                                              vind);
+                }
             }
             else
             {
                 // hope this still works
-                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
-                               count,
-                               IndicesPtr->getFormat(),
-                               vind);
+                if(count != 0)
+                {
+                    glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                                   count,
+                                   IndicesPtr->getFormat(),
+                                   vind);
+                }
             }
 #endif                        
         }
@@ -1154,20 +1160,26 @@ void GeoPump129(Window   *win,
 #else
             if(win->hasExtension(GeoPumpFactory::_extDrawRangeElements))
             {
-                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd],
-                                          geo->getHighindices()[LengthsInd],
-                                          count,
-                                          IndicesPtr->getFormat(), 
-                                          vind);
+                if(count != 0)
+                {
+                    osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                              geo->getLowindices() [LengthsInd],
+                                              geo->getHighindices()[LengthsInd],
+                                              count,
+                                              IndicesPtr->getFormat(), 
+                                              vind);
+                }
             }
             else
             {
-                // hope this still works
-                glDrawElements(*(TypesData + TypesInd++ * TypesStride),
-                               count,
-                               IndicesPtr->getFormat(),
-                               vind);
+                if(count != 0)
+                {
+                    // hope this still works
+                    glDrawElements(*(TypesData + TypesInd++ * TypesStride),
+                                   count,
+                                   IndicesPtr->getFormat(),
+                                   vind);
+                }
             }
 #endif                        
         }
@@ -2915,12 +2927,15 @@ void GeoVBO::draw(void)
             UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
             IndicesInd += count;
 
-            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                      geo->getLowindices() [LengthsInd],
-                                      geo->getHighindices()[LengthsInd],
-                                      count,
-                                      IndicesPtr->getFormat(), 
-                                      vind);
+            if(count != 0)
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          geo->getLowindices() [LengthsInd],
+                                          geo->getHighindices()[LengthsInd],
+                                          count,
+                                          IndicesPtr->getFormat(), 
+                                          vind);
+            }
         }
     }
     else if(len16 == true)
@@ -2932,12 +2947,15 @@ void GeoVBO::draw(void)
             UInt8 *vind = ((UInt8 *) NULL) + IndicesStride * IndicesInd;
             IndicesInd += count;
 
-            osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                      geo->getLowindices() [LengthsInd],
-                                      geo->getHighindices()[LengthsInd],
-                                      count,
-                                      IndicesPtr->getFormat(),
-                                      vind);
+            if(count != 0)
+            {
+                osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
+                                          geo->getLowindices() [LengthsInd],
+                                          geo->getHighindices()[LengthsInd],
+                                          count,
+                                          IndicesPtr->getFormat(),
+                                          vind);
+            }
         }
     }
     else
