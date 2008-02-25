@@ -217,6 +217,11 @@ void TrackballNavigator::set(Pnt3f new_from, Pnt3f new_at, Vec3f new_up)
 }
 
 /*! Set all viewer parameters of the navigator with a single matrix.
+
+    \note The matrix does not contain all information needed for
+    the TrackballNavigator, it is therefore preferable to use
+    TrackballNavigator::set(Pnt3f,Pnt3f,Vec3f) to set the values, especially
+    when copying from one TrackballNavigator to another one.
 */
 void TrackballNavigator::set(Matrix new_matrix)
 {
