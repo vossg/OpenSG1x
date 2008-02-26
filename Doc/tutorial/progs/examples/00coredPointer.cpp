@@ -14,9 +14,6 @@ NodePtr scene;
 
 int setupGLUT( int *argc, char *argv[] );
 
-typedef CoredNodePtr<Group> GroupNodePtr;
-typedef CoredNodePtr<Geometry> GeometryNodePtr;
-
 NodePtr createScenegraph(){
     //create the torus geometry (core and geometry)
     GeometryNodePtr torus = GeometryNodePtr::create();

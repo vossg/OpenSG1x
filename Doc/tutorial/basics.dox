@@ -1340,14 +1340,21 @@ CPEdit relieves you from even that little chore:
 CPEditor takes care of the begin/endEditCP, but you still need to handle two separate classes, the Node and the Core. However, you will rarely have a node without a core or a core without a node, in most cases they appear together, thus it is logical to have a wrapper class 
 that takes care of both. As the possibilities of C++ are not unlimited this is only possible to some extend, but the following concept can reduce the code length somewhat.
 
-The class that may help you out is osg::CoredNodePtr. This class provides a node as well as a core for you. osg::CoredNodePtr is a templated class, so you
-need to define the type of core you want to use. This is how you would define a cored node pointer that will manages a geometry core
+The class that may help you out is osg::CoredNodePtr. For all FieldContainers derived from NodeCore there are already CoredNodePtr declared, they follow the naming scheme
 
 \code
-	CoredNodePtr<Geometry> cnpGeo = CoredNodePtr<Geometry>::create();
+	typedef CoredNodePtr<SomeContainer> SomeContainerNodePtr;
 \endcode
 
-<i>If you use a specific type of CNP more than once, it makes sense to typedef it.</i>
+You can work with the CoredNodePtr<> template directly, if you prefer, but when you use your own typedefs for them be careful to either use a different naming scheme or declare them
+in namespace OSG, otherwise if the OSG namespace is active (i.e. through a OSG_USING_NAMESPACE) the two declarations may clash. Therefore it is recommended to use the typedefs
+supplied by OpenSG.
+
+NOTE: Previous versions of OpenSG lacked these typedefs and this tutorial recommended using your own, this may cause the above mentioned name clashes.
+
+\code
+	GeometryNodePtr cnpGeo = GeometryNodePtr::create();
+\endcode
 
 If you are working with cored pointers you have to keep in mind, that this object behave similar to a core, but it does have a node 'around it'. That means the
 -> operaror, as well as the = operator refer to the core. The following example shows how you can assign a geometry core to the cnpGeo object we created above
