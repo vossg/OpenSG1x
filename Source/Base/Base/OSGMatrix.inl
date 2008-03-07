@@ -819,6 +819,7 @@ void TransformationMatrix<ValueTypeT>::getTransform(
     TransformationMatrix proj;
 
     this->decompose(translation, flip, rotation, scaleOrientation, scaleFactor);
+    scaleFactor *= flip;
 }
 
 /*! \brief Factors a matrix m into 5 pieces: m = r s rt u t, where rt

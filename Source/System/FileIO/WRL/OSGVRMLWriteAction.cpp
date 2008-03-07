@@ -646,15 +646,7 @@ Action::ResultE VRMLWriteAction::writeTransformEnter(CNodePtr &pGroup,
         Matrix m = pTrans->getSFMatrix()->getValue();
         Vec3f translation, scale, center;
         Quaternion rotation, scaleOrientation;
-        // amz - reactivated the old getTransform() the new one doesn't work with negative scales.
-        //m.getTransform(translation, rotation, scale, scaleOrientation);
-        Matrix so;
-        Matrix rot;
-        Matrix proj;
-        m.factor(so, scale, rot, translation, proj);
-        so.transpose();
-        scaleOrientation.setValue(so);
-        rotation.setValue(rot);
+        m.getTransform(translation, rotation, scale, scaleOrientation);
 
         pWriter->printIndent();
         fprintf(pFile, "center %f %f %f\n",
