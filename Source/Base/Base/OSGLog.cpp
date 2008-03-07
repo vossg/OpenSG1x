@@ -773,48 +773,31 @@ void Log::setLogFile(const Char8 *fileName, bool force)
 
 void Log::doLog(const Char8 * format, ...)
 {
-    static Char8   *buffer = NULL;
-    static int      buffer_size = 0;
-    va_list args;
+    UInt32 const  buffer_size = 4096;
+    Char8         buffer[buffer_size];
+    std::ostream& os          = *this; // VC71 work around by Chad Austin.
+    va_list       args;
     
-    va_start( args, format );
+    va_start(args, format);
 
 #if defined(OSG_HAS_VSNPRINTF) && !defined(__sgi)
     int count;
-    
-    if(!buffer)
-    {
-        buffer_size = 8;
-        buffer = new Char8[buffer_size];
-    }
     
     // on windows it returns -1 if the output
     // was truncated due to the buffer size limit.
     // on irix this returns always buffer_size-1 ????
     count = vsnprintf(buffer, buffer_size, format, args);
     
-    while(count >= buffer_size || count == -1)
+    if(count >= buffer_size || count == -1)
     {
-        buffer_size = osgMax(buffer_size * 2, count + 1);
-        if(buffer) delete [] buffer;
-        buffer = new Char8[buffer_size];
-        va_start( args, format );
-        count = vsnprintf(buffer, buffer_size, format, args);
+        os << "Log::doLog: Message length exceeds buffer, "
+           << "truncated message follows:\n";
+    
     }
 #else
-    if(buffer_size < 8192)
-    {
-        buffer_size = 8192;
-        if(buffer) delete [] buffer;
-        buffer = new Char8[buffer_size];
-    }
     vsprintf(buffer, format, args);
 #endif
-
-    //*this << buffer;
-    //*this << std::flush;
-    // Work around VC71. Patch by Chad Austin.
-    std::ostream& os = *this;
+    
     os << buffer;
     os << std::flush;
  
