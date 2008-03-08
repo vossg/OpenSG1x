@@ -1065,7 +1065,7 @@ class win32_msvc80(win32_msvc_base):
         if _po.getOption('exr'):
             env['OSG_SYSTEM_LIBS'] += ['openexr_vc80']
 
-        env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
+        env.Append(CXXFLAGS=['/arch:SSE', '/Oi', '/Ot', '/GS-', '/Gy'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/Zm1200', '/Zc:forScope'])
@@ -1150,7 +1150,7 @@ class win32_msvc80x64(win32_msvc_base):
         if _po.getOption('no_secure_stl'):
             env.Append(CPPDEFINES=['_SECURE_SCL=0'])
 
-        env.Append(CXXFLAGS=['/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
+        env.Append(CXXFLAGS=['/Oi', '/Ot', '/GS-', '/Gy'])
 
         env.Append(CXXFLAGS=['/Wp64', '/w44258', '/w44996', '/EHsc', '/GR',
                              '/bigobj', '/Zm1200', '/Zc:forScope'])
@@ -1269,7 +1269,7 @@ class win32_msvc90(win32_msvc_base):
         if _po.getOption('exr'):
             env['OSG_SYSTEM_LIBS'] += ['openexr_vc90']
 
-        env.Append(CXXFLAGS=['/arch:SSE', '/fp:fast', '/Oi', '/Ot', '/GS-', '/Gy'])
+        env.Append(CXXFLAGS=['/arch:SSE', '/Oi', '/Ot', '/GS-', '/Gy'])
 
         # warning C4910: '__declspec(dllexport)' and 'extern' are incompatible on
         # an explicit instantiation
