@@ -37,7 +37,6 @@ NodePtr                        scene        = NullFC;
 // vertex shader program.
 static std::string _vp_program =
 "\n"
-"varying vec2 Texcoord;\n"
 "varying vec3 ViewDirection;\n"
 "varying vec3 fvObjectPosition;\n"
 "varying vec3 Normal;\n"
@@ -45,21 +44,20 @@ static std::string _vp_program =
 "void main( void )\n"
 "{\n"
 "   gl_Position = ftransform();\n"
-"   Texcoord    = gl_MultiTexCoord0.xy;\n"
 "    \n"
-"   vec4 fvObjectPosition = gl_ModelViewMatrix * gl_Vertex;\n"
+"   fvObjectPosition = vec3(gl_ModelViewMatrix * gl_Vertex);\n"
 "   \n"
 "   ViewDirection  = - fvObjectPosition.xyz;\n"
 "   Normal         = gl_NormalMatrix * gl_Normal;\n"
-"    gl_FrontColor  = gl_FrontMaterial.diffuse;\n"
+"   gl_FrontColor  = gl_FrontMaterial.diffuse;\n"
 "   \n"
 "}\n";
 
 // fragment shader program for bump mapping in surface local coordinates
 static std::string _fp_program =
-"vec4 fvAmbient = vec4(0.36, 0.36, 0.36, 1.0);\n"
-"vec4 fvSpecular = vec4(0.7, 0.7, 0.7, 1.0);\n"
-"vec4 fvDiffuse = vec4(0.5, 0.5, 0.5, 1.0);\n"
+"vec4 fvAmbient  = vec4(0.36, 0.36, 0.36, 1.0);\n"
+"vec4 fvSpecular = vec4(0.7,  0.7,  0.7,  1.0);\n"
+"vec4 fvDiffuse  = vec4(0.5,  0.5,  0.5,  1.0);\n"
 "float fSpecularPower = 25.0;\n"
 "\n"
 "uniform sampler2D baseMap;\n"
@@ -80,7 +78,7 @@ static std::string _fp_program =
 "   vec3  fvViewDirection  = normalize( ViewDirection );\n"
 "   float fRDotV           = max( 0.0, dot( fvReflection, fvViewDirection ) );\n"
 "   \n"
-"    vec4  fvBaseColor    = gl_Color;\n"
+"   vec4  fvBaseColor      = gl_Color;\n"
 "   \n"
 "   vec4  fvTotalAmbient   = fvAmbient * fvBaseColor; \n"
 "   vec4  fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; \n"
