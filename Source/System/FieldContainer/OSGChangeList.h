@@ -164,6 +164,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
            void setReadOnly        (      bool bReadOnly           );
     static void setReadWriteDefault(      bool bReadWrite = true   );
 
+    static void setMaxChangedSize   (      UInt32 size              );
+    static UInt32 getMaxChangedSize (      void                     );
+            void compactChanged     (      void                     );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Apply                                   */
@@ -221,6 +225,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ChangeList : public MemoryObject
     
     std::vector<IdRefEntry>  _vCreatedFieldContainers;
     std::vector<IdRefEntry>  _vDestroyedFieldContainers;
+
+    static UInt32            _max_changed_size;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -60,6 +60,7 @@
 OSG_USING_NAMESPACE
 
 bool ChangeList::_bReadWriteDefault = false;
+UInt32 ChangeList::_max_changed_size = 0;
 
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
@@ -176,6 +177,12 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
 
     ChangeEntry tmpEntry     (uiContainerId, bvWhichField);
 
+    if(_max_changed_size > 0)
+    {
+        if(_vChangedFieldContainers.size() > _max_changed_size)
+            compactChanged();
+    }
+
     try
     {
         _vChangedFieldContainers.push_back(tmpEntry);
@@ -189,10 +196,7 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
         // to save some memory we recreate a more compact changelist.
         std::vector<ChangeEntry>::size_type oldSize = _vChangedFieldContainers.size();
         SWARNING << "Compacting ChangeList ..." << std::endl;
-        // should move store/restore in this class, better wait for release 1.5.0
-        RemoteAspect::storeChangeList(this);
-        clearAll();
-        RemoteAspect::restoreChangeList(this);
+        compactChanged();
         SWARNING << "Compacted ChangeList from " << oldSize
                  << " to " << _vChangedFieldContainers.size() << " entries." << std::endl;
         _vChangedFieldContainers.push_back(tmpEntry);
@@ -334,6 +338,25 @@ void ChangeList::setReadWriteDefault(bool bReadWrite)
         
     _bReadWriteDefault = bReadWrite;
 }
+
+
+void ChangeList::setMaxChangedSize(UInt32 size)
+{
+    _max_changed_size = size;
+}
+
+UInt32 ChangeList::getMaxChangedSize(void)
+{
+    return _max_changed_size;
+}
+
+void ChangeList::compactChanged(void)
+{
+    RemoteAspect::storeChangeList(this);
+    clearAll();
+    RemoteAspect::restoreChangeList(this);
+}
+
 
 /*-------------------------------------------------------------------------*/
 /*                               Apply                                     */
