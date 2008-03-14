@@ -55,7 +55,6 @@
 #include "OSGLog.h"
 #include "OSGFieldContainerFactory.h"
 #include <OSGFieldContainerPtr.h>
-#include "OSGRemoteAspect.h"
 
 OSG_USING_NAMESPACE
 
@@ -335,7 +334,7 @@ void ChangeList::setReadWriteDefault(bool bReadWrite)
 {
     if(GlobalSystemState != Startup)
         FWARNING(("setReadWriteDefault: called after startup!\n"));
-        
+
     _bReadWriteDefault = bReadWrite;
 }
 
@@ -352,9 +351,58 @@ UInt32 ChangeList::getMaxChangedSize(void)
 
 void ChangeList::compactChanged(void)
 {
-    RemoteAspect::storeChangeList(this);
+    std::map<UInt32, UInt32> clStore;
+
+    // created
+    for(ChangeList::idrefd_const_iterator i = beginCreated(); i != endCreated(); ++i)
+    {
+        std::map<UInt32, UInt32>::iterator ci = clStore.find(*i);
+        if(ci == clStore.end())
+            clStore.insert(std::pair<UInt32, UInt32>(*i, 0));
+    }
+
+    // addRef
+    for(ChangeList::idrefd_const_iterator i = beginAddRefd(); i != endAddRefd(); ++i)
+    {
+        std::map<UInt32, UInt32>::iterator ci = clStore.find(*i);
+        if(ci != clStore.end())
+            (*ci).second++;
+        //else
+        //    FWARNING(("Called addRef on a not created fieldcontainer!\n"));
+    }
+
+    // subRef
+    for(ChangeList::idrefd_const_iterator i = beginSubRefd(); i != endSubRefd(); ++i)
+    {
+        std::map<UInt32, UInt32>::iterator ci = clStore.find(*i);
+        if(ci != clStore.end())
+            (*ci).second--;
+        //else
+        //    FWARNING(("Called subRef on a not created fieldcontainer!\n"));
+    }
+
+    // destroyed
+    for(ChangeList::idrefd_const_iterator i = beginDestroyed(); i != endDestroyed(); ++i)
+    {
+        std::map<UInt32, UInt32>::iterator ci = clStore.find(*i);
+        if(ci != clStore.end())
+            clStore.erase(ci);
+    }
+
     clearAll();
-    RemoteAspect::restoreChangeList(this);
+
+    for(std::map<UInt32, UInt32>::iterator i = clStore.begin();i != clStore.end(); ++i)
+    {
+        UInt32 id = (*i).first;
+        FieldContainerPtr fc = FieldContainerFactory::the()->getContainer(id);
+        if(fc != NullFC)
+        {
+            addCreated(id);
+            for(UInt32 j=0;j<(*i).second;++j)
+                addAddRefd(fc);
+            addChanged(fc, FieldBits::AllFields);
+        }
+    }
 }
 
 
