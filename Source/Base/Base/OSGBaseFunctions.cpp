@@ -515,6 +515,8 @@ bool osgExit(void)
         }
     }
 
+    Log::terminate();
+    
     return returnValue;
 }
 

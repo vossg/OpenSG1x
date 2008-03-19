@@ -112,6 +112,20 @@ void LogBuf::setEnabled(bool value)
 //  Log
 //---------------------------------------------------------------------------
 
+inline
+void Log::lock(void)
+{
+    if(_pLogLock != NULL)
+        _pLogLock->aquire();
+}
+
+inline
+void Log::unlock(void)
+{
+    if(_pLogLock != NULL)
+        _pLogLock->release();
+}
+
 inline 
 bool Log::checkLevel(LogLevel level)
 {
@@ -168,8 +182,9 @@ std::ostream &Log::doHeader(      LogLevel  level,
                             const Char8    *file, 
                                   UInt32    line)
 {
-    LogOStream &sout = *(_streamVec[level]);
+    LogOStream &sout  = *(_streamVec[level]);
     const char *sep   = ( (_headerElem & LOG_TAB_HEADER) ? "\t" : ": " );
+
     const char *color = ( (_headerElem & LOG_COLOR_HEADER) ?
                            _levelColor[level] : 0 );
     const char *resetColor = "\x1b[0m";
@@ -206,7 +221,7 @@ std::ostream &Log::doHeader(      LogLevel  level,
             if(_headerElem & LOG_LINE_HEADER)
                 sout << ":" << line;
 
-						sout << sep;
+            sout << sep;
         }
 
         if(_headerElem & LOG_END_NEWLINE_HEADER)

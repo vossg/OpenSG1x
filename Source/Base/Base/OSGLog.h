@@ -44,6 +44,7 @@
 
 #include <OSGBaseTypes.h>
 #include <OSGTime.h>
+#include <OSGLock.h>
 
 #include <fstream>
 #include <list>
@@ -93,8 +94,8 @@ enum LogHeaderElem
     LOG_LINE_HEADER          = 32,
     LOG_END_NEWLINE_HEADER   = 64,
 
-		LOG_COLOR_HEADER         = 8192,
-		LOG_TAB_HEADER           = 16384,
+    LOG_COLOR_HEADER         = 8192,
+    LOG_TAB_HEADER           = 16384,
     LOG_ALL_HEADER           = 32767
 };
 
@@ -249,8 +250,10 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-    void lock  (void) {;} // TODO: implement
-    void unlock(void) {;} // TODO: implement
+    static bool initLock(void);
+    
+           void lock    (void);
+           void unlock  (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -329,6 +332,8 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     void connect(void );
   
     bool colorHeader(LogLevel level, const char *sep);
+    
+    static void terminate(void);
 
     /*! \}                                                                 */
     /*===========================  PRIVATE  ===============================*/
@@ -338,6 +343,7 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     typedef std::ostream Inherited;
 
     friend OSG_BASE_DLLMAPPING void doInitLog(void);
+    friend OSG_BASE_DLLMAPPING bool osgExit  (void);
  
     /*---------------------------------------------------------------------*/
     /*! \name                         Helper                               */
@@ -362,12 +368,18 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     /*! \name                    Static Fields                             */
     /*! \{                                                                 */
 
-    static       nilbuf       *_nilbufP;
-    static       std::ostream *_nilstreamP;
+    static       nilbuf          *_nilbufP;
+    static       std::ostream    *_nilstreamP;
 
-    static const Char8        *_levelName[];
-    static const Char8        *_levelColor[];
+    static const Char8           *_levelName[];
+    static const Char8           *_levelColor[];
 
+    static       Char8           *_buffer;
+    static       int              _bufferSize;
+    
+    static       Lock            *_pLogLock;
+    static       InitFuncWrapper  _lockInit;
+    
     /*! \{                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Static Fields                             */
