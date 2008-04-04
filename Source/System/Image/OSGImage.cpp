@@ -723,7 +723,8 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
          (destination != NullFC || (pixelFormat != getPixelFormat()) ) )
     {
 
-        dest->set(pixelFormat, getWidth(), getHeight(), getDepth() );
+        dest->set(pixelFormat, getWidth(), getHeight(), getDepth(), getMipMapCount(),
+                  getFrameCount(), getFrameDelay(), NULL, getDataType(), true, getSideCount());
         sourceData = getData();
         data = dest->getData();
         destSize = dest->getSize();
