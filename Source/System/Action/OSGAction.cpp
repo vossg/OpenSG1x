@@ -562,9 +562,12 @@ Action::ResultE OSG::traverse( NodePtr              node,
                                TraverseEnterFunctor func )
 {
     Action::ResultE res = Action::Continue;
-    
+
     res = doCallEnter(node, func);
-    
+
+    if(node == NullFC)
+        return Action::Continue;
+
     switch(res)
     {
     case Action::Skip:      return Action::Continue;
@@ -572,7 +575,7 @@ Action::ResultE OSG::traverse( NodePtr              node,
                                              func );
     default:                break;
     }
-                 
+
     return res;
 }
                             

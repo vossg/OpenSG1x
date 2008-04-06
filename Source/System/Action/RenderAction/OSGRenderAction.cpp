@@ -1362,6 +1362,9 @@ void RenderAction::undropClipPlane(ClipPlane *pClipPlane)
 
 bool RenderAction::isVisible( Node* node )
 {
+    if(node == NULL)
+        return false;
+
     if ( getFrustumCulling() == false )
         return true;
 
